@@ -4593,7 +4593,6 @@ $(document).ready(function () {
 
                 }
 
-
             }
 
             if (v === 'front' && target_name === 'Left Sleeve Insert' ) {
@@ -5828,6 +5827,18 @@ $(document).ready(function () {
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
 
+                  var $imgThumbs = $('img.tview');
+                    
+                    $imgThumbs.unbind('click');
+                    $imgThumbs.on('click', function () {
+
+                        var _file = $(this).data('file');
+                        var _str = "<img src ='" + _file + "' />";
+                        
+                        ub.showModalTool(_str);
+
+                    });
+
                   $('span.action-button.view').on('click', function () {
 
                         var _savedDesignID = $(this).data('saved-design-id');
@@ -5879,6 +5890,38 @@ $(document).ready(function () {
 
     /// End My Saved Designs
 
+        ub.funcs.deleteSavedOrder = function (id, code) {
+
+            var txt;
+            
+            var r = confirm("Are you sure you want to delete saved order [" + code + "]?");
+            
+            if (r !== true) { return; }
+
+            data = {
+                id: id,
+            }
+
+            $.ajax({
+
+                url: ub.config.api_host + '/api/order/delete/',
+                data: JSON.stringify(data),
+                type: "POST", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    $.smkAlert({text: 'Saved Order [' + code + '] Deleted.', type:'success', time: 3, marginTop: '80px'});
+                    $('tr.saved-order-row[data-id="' + id + '"]').fadeOut();
+
+                }
+                
+            });
+   
+        }
+
         ub.funcs.displayMyOrders = function () {
 
             $.ajax({
@@ -5904,12 +5947,37 @@ $(document).ready(function () {
                     var markup                  = Mustache.render(template, dataSubmitted);
                     $containerSubmitted.html(markup);
 
-                    $('span.action-button').on('click', function () {
+                    $('div.order-list.submitted').find('span.action-button.delete').hide();
+
+                    var $imgThumbs = $('img.thumbs');
+                    
+                    $imgThumbs.unbind('click');
+                    $imgThumbs.on('click', function () {
+
+                        var _file = $(this).data('file');
+                        var _str = "<img src ='" + _file + "' />";
+
+                        ub.showModalTool(_str);
+
+                    });
+
+                    $('span.action-button.edit').unbind('click');
+                    $('span.action-button.edit').on('click', function () {
 
                         var _dataID = $(this).data('order-id');
                         var _ID     = $(this).data('id');
 
                         window.location.href =  '/order/' + _dataID;
+
+                    });
+
+                    $('span.action-button.delete').unbind('click');
+                    $('span.action-button.delete').on('click', function () {
+
+                        var _dataID = $(this).data('order-id');
+                        var _ID     = $(this).data('id');
+
+                        ub.funcs.deleteSavedOrder(_ID, _dataID);
 
                     });
 
@@ -5924,9 +5992,11 @@ $(document).ready(function () {
                         $('span.tab').removeClass('active');
                         $(this).addClass('active');
 
-                        $('span.orders.header').html('My Orders - ' + _type);
+                        $('span.orders.header').html('My ' + _type + ' Orders');
 
                     });
+
+
 
                     // Init 
 
@@ -6872,6 +6942,8 @@ $(document).ready(function () {
     // lrest
 
     ub.funcs.lRest = function (e, p, fromMiddleScreen) {
+
+        if (e.trim().length === 0 || p.trim().length === 0) { return; }
 
         $.ajaxSetup({
             headers: {

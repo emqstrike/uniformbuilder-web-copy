@@ -1382,6 +1382,31 @@ $(document).ready(function() {
 
         $rosterTable.append(markup);
         ub.funcs.hideColumns();
+
+        $('span.clear-row[data-size="' + _size + '"]').unbind('click');
+        $('span.clear-row[data-size="' + _size + '"]').on('click', function () {
+
+            var _index          = $(this).data('index');
+            var _size           = $(this).data('size');
+            var $table          = $('table.roster-table[data-size="' + _size + '"] > tbody');
+            var $row            = $('tr[data-size="' + _size + '"][data-index="' + _index + '"]');
+            var _number = $row.find('input[name="number"]').val();
+
+            // ub.funcs.setNumberStatus(_number, 'free');
+
+            $row.remove();
+
+            $('table.roster-table[data-size="' + _size + '"] > tbody').find('tr.roster-row').each(function (indexVar){
+
+                var index = indexVar + 1;
+
+                $(this).find('td').first().html(index);
+                $(this).find('span.clear-row').attr('data-index', index);
+                $(this).attr('data-index', index)
+
+            });
+
+        });
         
         // var _returnValue = [];
 
@@ -1497,22 +1522,24 @@ $(document).ready(function() {
 
         _.each(_roster, function (player) {
 
-            var _size = player.Size;
-            var _status = $('span.size[data-size="' + _size + '"]').attr('data-status');
+            var _size       = player.Size;
+            var $spanSize   = $('span.size[data-size="' + _size + '"]');
+            var _status     = $spanSize.attr('data-status');
 
-            if (_status === "off") {
-
-                ub.funcs.addSizesTabs(_size, true);    
-
-            }
+            if (_status === "off") { ub.funcs.addSizesTabs(_size, true); } 
+            
+            $spanSize.addClass('active');
 
             ub.funcs.addPlayerToRoster(player);
             _lastSize = player.Size;
 
-            var _numberObject = _.find(ub.data.playerNumbers, {number: player.Number})
-            _numberObject.status = "used";
+            if (ub.current_material.settings.uniform_category === "Football") {
 
-            
+                var _numberObject = _.find(ub.data.playerNumbers, {number: player.Number})
+                _numberObject.status = "used";
+
+            }
+
         });
 
         // Activate last tab
@@ -1583,6 +1610,8 @@ $(document).ready(function() {
                 ub.funcs.AddRosterRow(_size);
 
             }
+
+
 
         });
 

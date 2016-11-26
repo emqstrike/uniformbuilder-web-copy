@@ -990,38 +990,48 @@
         <table>
            
             <tr class="header">
+
                 <td>Date</td>
                 <td>Order ID</td>
-                <td>Order Info</td>
+                <td>Thumbnails</td>
                 <td>Client</td>
                 <td>Status</td>
                 <td>Submitted</td>
                 <td>&nbsp;</td>
+
             </tr>
 
             @{{#orders}}
 
-                <tr>
+                <tr class="saved-order-row" data-id="@{{id}}"> 
                     <td>@{{created_at}}</td>
-                    <td><strong> @{{order_id}}</strong></td>
+                    <td>
+                        <strong> @{{order_id}}</strong> <br />
+                    </td>
                     <td class="order-info">
 
                         @{{#items}}
 
-                            <img class="thumbs" src="@{{thumbnails.front_view}}"/><img class="thumbs" src="@{{thumbnails.left_view}}"/><img class="thumbs" src="@{{thumbnails.right_view}}"/><img class="thumbs" src="@{{thumbnails.back_view}}"/><br />
-                            <strong> @{{description}}</strong>, <a href="@{{design_sheet}}" target="_new">View PDF</a> <br />
+                            <strong> @{{description}}</strong> / <a href="@{{design_sheet}}" target="_new">View PDF</a> <br /><br />
+                            
+                            <img class="thumbs" src="@{{thumbnails.front_view}}" data-file="@{{thumbnails.front_view}}" />
+                            <img class="thumbs" src="@{{thumbnails.left_view}}"  data-file="@{{thumbnails.left_view}}"  />
+                            <img class="thumbs" src="@{{thumbnails.right_view}}" data-file="@{{thumbnails.right_view}}" />
+                            <img class="thumbs" src="@{{thumbnails.back_view}}"  data-file="@{{thumbnails.back_view}}"  />
+
+                            <br />
 
                         @{{/items}}
 
-
                     </td>
                     <td>@{{client}}</td>
-                    <td>@{{status}}</td> 
-                    <td>@{{submitted}}</td> 
+                    <td>@{{status}}</td>
+                    <td>@{{submitted}}</td>
                     
                     <td class="action">
 
-                        <span class="action-button" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span>
+                        <span class="action-button edit" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span> <br />
+                        <span class="action-button delete" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-remove" aria-hidden="true"></i> Delete Order </span>
                         
                     </td>
 
@@ -1207,7 +1217,7 @@
                 
                 <div class="col-md-12">
                     
-                    <strong class="feedback-message">This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
+                    <strong class="feedback-message">This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
@@ -1240,7 +1250,7 @@
                 
                 <div class="col-md-12">
                     
-                    <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
+                    <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
@@ -1251,7 +1261,7 @@
                 
                 <div class="col-md-12 ok-footer">
                     
-                    <span class="cancel-btn">CANCEL</span> <span class="ok-btn">OK</span>
+                     <span class="ok-btn">OK</span> <span class="cancel-btn">CANCEL</span>
 
                 </div>
                 
@@ -1291,10 +1301,10 @@
                     
                     <td>
                     
-                        <img class = "tview" src="@{{front_thumbnail}}" />
-                        <img class = "tview" src="@{{back_thumbnail}}" />
-                        <img class = "tview" src="@{{right_thumbnail}}" />
-                        <img class = "tview" src="@{{left_thumbnail}}" />
+                        <img class="tview" src="@{{front_thumbnail}}" data-file="@{{front_thumbnail}}" />
+                        <img class="tview" src="@{{back_thumbnail}}"  data-file="@{{back_thumbnail}}"  />
+                        <img class="tview" src="@{{right_thumbnail}}" data-file="@{{right_thumbnail}}" />
+                        <img class="tview" src="@{{left_thumbnail}}"  data-file="@{{left_thumbnail}}"  />
                     
                     </td>
                     

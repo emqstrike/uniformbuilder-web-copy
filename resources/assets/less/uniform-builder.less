@@ -50,7 +50,7 @@
 
 .pagePanelHeader() {
 
-    span.header {
+    div.header, span.header {
 
         font-size: 2em;
         text-align: center;
@@ -63,6 +63,12 @@
         margin-bottom: 40px;
         border-bottom: dashed 1px #acacac;
 
+    }
+
+    div.header {
+
+        margin-bottom: 20px;
+        
     }
 
 }
@@ -1757,9 +1763,18 @@ input.fe_input, select.fe_input {
 /* Sign In, Sign Up Area */
 
 .user-profile.pull-right > div > button.btn {
-    background-color: @text_color !important;
-    color: #f2f2f2;
+    background-color: #e7e7e7;
+    color: #3d3d3d;
 }
+
+.btn-group.open .dropdown-toggle {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+
+    background-color: #3d3d3d !important;
+    color: white !important;
+}
+
 .user-profile.pull-right > div > button.btn:hover {
 
     background-color: @text_color !important;
@@ -1774,14 +1789,14 @@ input.fe_input, select.fe_input {
 
 .dropdown-menu {
 
-    background-color: #acacac !important;
+    background-color: #fff !important;
     border-radius: 0px !important;
 
 }
 
 .dropdown-menu>li>a {
 
-    color: #ffffff;
+    color: #3d3d3d;
     margin-left: 1px;
 
 }
@@ -1804,7 +1819,7 @@ input.fe_input, select.fe_input {
 
 div.help-block > a  {
 
-    color: @main_highlight_off !important;
+    color: #3d3d3d !important;
 
 }
 
@@ -3194,8 +3209,8 @@ div.header-container.main {
             display: none;
             position: absolute;
 
-            width: 930px;
-            height: 550px;
+            width: 1000px;
+            height: 700px;
             top: 300px;
             left: 300px;
             z-index: 3100;
@@ -3216,7 +3231,7 @@ div.header-container.main {
                 padding-right: 0px;
                 display: none;
                 width: 100%;
-                height: 430px;
+                height: 580px;
                 background-color: #acacac;
 
                 z-index: 100;
@@ -3278,19 +3293,19 @@ div.header-container.main {
 
                         width: 100%;
                         text-align: right;
-                        margin-top: 150px;
+                        margin-top: 330px;
                         padding-right: 30px;
 
                         span.ok_btn, span.cancel_btn {
                             display: inline-block;
                             width: 150px;
-                            background-color: #acacac;
-                            color: #3d3d3d;
                             cursor: pointer;
                             padding: 7px;
                             border: 1px solid #3d3d3d;
                             font-weight: bold;
                             text-align: center;
+
+                            .smallButton;
                         }
 
                         span.ok_btn {
@@ -3306,8 +3321,9 @@ div.header-container.main {
                         }
 
                         span.ok_btn:hover, span.cancel_btn:hover {
-                            background-color: #3d3d3d !important;
-                            color: white !important;
+                            
+                            .smallButtonHover;
+
                         }
 
                     }
@@ -3402,7 +3418,7 @@ div.header-container.main {
             div.main-content {
 
                 width: 100%;
-                height: 430px;
+                height: 580px;
                 overflow-y: scroll;
                 padding: 20px;
                 padding-top: 0px;
@@ -3435,14 +3451,14 @@ div.header-container.main {
 
                     span.groups_category_item:hover {
 
-                        background-color: @forecolor;
+                        background-color: #3d3d3d;
                         color: white;
 
                     }
 
                     span.groups_active_category {
                         
-                        background-color: @customizer_main_area;
+                        background-color: #3d3d3d;
                         color: white;
                         border-bottom: dashed 1px black;
 
@@ -3475,14 +3491,14 @@ div.header-container.main {
 
                     span.category_item:hover {
 
-                        background-color: @forecolor;
+                        background-color: #3d3d3d;
                         color: white;
 
                     }
 
                     span.active_category {
                         
-                        background-color: @customizer_main_area;
+                        background-color: #3d3d3d;
                         color: white;
                         border-bottom: dashed 1px black;
 
@@ -3492,7 +3508,7 @@ div.header-container.main {
 
                 div.patternPopupResults {
 
-                    width: 66%;
+                    width: 73%;
 
                     div.item {
 
@@ -3503,18 +3519,28 @@ div.header-container.main {
                         background-size: cover;
                         cursor: pointer;
                         margin-bottom: 30px;
+                        margin-top: 20px;
                         
                         div.name {
                             
                             width: 100%;
-                            height: 50px;
                             margin-top: 160px;
                             color: black;
                             transition: all 0.1s ease-in-out;
                             text-align: center;
-                            font-weight: bold;
+                            font-weight: normal;
+                            font-size: 0.8em;
+                            padding: 3px;
 
                         }
+
+                        div.name.pullUp {
+                            
+                            background-color: #3d3d3d;
+                            color: white;
+
+                        }
+
 
                     }
 
@@ -3636,12 +3662,12 @@ div.header-container.main {
             display: none;
             position: absolute;
 
-            width: 950px;
-            height: 550px;
+            width: 1000px;
+            height: 700px;
             top: 300px;
             left: 300px;
             z-index: 3100;
-            background-color: @customizer_bg;
+            background-color: #fff;
 
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
@@ -3660,33 +3686,26 @@ div.header-container.main {
 
             }
 
-            div.header {
-                    
-                text-align: center;
-                font-size: 1.3em;
-                padding: 30px;
-
-            }
+            .pagePanelHeader;
 
             div.main-content {
 
                 width: 100%;
-                height: 450px;
+                height: 550px;
                 overflow-y: scroll;
                 padding: 20px;
                 padding-top: 0px;
                 padding-bottom: 50px;
 
-                border-top: solid 1px @customizer_forecolor;
-
                 div.accentPopupResults {
 
                     div.item {
 
+                        color: #3d3d3d;
                         float: left;
-                        width: 180px;
-                        height: 180px;
-                        background-color: white;
+                        width: 190px;
+                        height: 190px;
+                        background-color: #e7e7e7;
                         margin: 10px;
                         background-size: cover;
                         cursor: pointer;
@@ -3694,6 +3713,7 @@ div.header-container.main {
                         box-shadow: 3px 9px 24px -5px rgba(0, 0, 0, 0.75);
                         margin-right: 20px;
                         margin-left: 17px;
+                        background-position-y: -5px;
 
                         -webkit-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
                         -moz-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
@@ -3703,13 +3723,20 @@ div.header-container.main {
                             
                             width: 100%;
                             height: 30px;
-                            margin-top: 160px;
-                            opacity: 0.7;
-                            color: #3d3d3d;
+                            margin-top: 170px;
+                            background-color: #acacac;
+                            color: white;
                             transition: all 0.1s ease-in-out;
                             text-align: center;
                             font-weight: bold;
                             font-size: 0.9em;
+                            padding-top: 7px;
+
+                        }
+
+                        div.name.pullUp {
+
+                            background-color: #3d3d3d;
 
                         }
 
@@ -3721,11 +3748,7 @@ div.header-container.main {
 
         }
 
-        .pullUp {
 
-
-
-        }
 
     /* End Accent Popup */
 
@@ -4457,12 +4480,12 @@ div.header-container.main {
             display: none;
             position: absolute;
 
-            width: 940px;
-            height: 550px;
+            width: 1000px;
+            height: 700px;
             top: 300px;
             left: 300px;
             
-            background-color: @customizer_bg;
+            background-color: #fff;
 
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
@@ -4481,24 +4504,16 @@ div.header-container.main {
 
             }
 
-            div.header {
-                    
-                text-align: center;
-                font-size: 1.3em;
-                padding: 30px;
-
-            }
+            .pagePanelHeader;
 
             div.main-content {
 
                 width: 100%;
-                height: 450px;
+                height: 550px;
                 overflow-y: scroll;
                 padding: 20px;
                 padding-top: 0px;
                 padding-bottom: 50px;
-
-                border-top: solid 1px @customizer_forecolor;
 
                 div.fontPopupResults {
 
@@ -4507,7 +4522,7 @@ div.header-container.main {
                         float: left;
                         width: 260px;
                         height: 150px;
-                        background-color: white;
+                        background-color: #e7e7e7;
                         margin: 10px;
                         background-size: cover;
                         overflow: hidden; 
@@ -4532,14 +4547,21 @@ div.header-container.main {
                             width: 100%;
                             height: 150px;
                             margin-top: 0px;
-                            opacity: 0.7;
-                            color: white;
-                            background-color: black;
+                            opacity: 1;
+                            color: #3d3d3d;
+                            background-color: #acacac;
                             transition: all 0.1s ease-in-out;
                             text-align: center;
                             padding-top: 40px;
                             font-weight: bold;
                             font-size: 1.9em;
+
+                        }
+
+                         div.name.pullUp {
+                            
+                            background-color: #3d3d3d;
+                            color: #fff;
 
                         }
 
@@ -4566,7 +4588,7 @@ div.header-container.main {
             top: 300px;
             left: 300px;
             
-            background-color: @customizer_bg;
+            background-color: #ffffff;
 
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
@@ -4664,11 +4686,13 @@ div.header-container.main {
                     display: inline-block;
                     text-align: center;
 
+                    .smallButton;
+
                 }
 
                 span.next:hover {
 
-                    background-color: #3d3d3d;
+                    .smallButtonHover;
 
                 }
 
@@ -5112,7 +5136,7 @@ div.header-container.main {
         span.save-order:hover, span.submit-confirmed-order:hover {
 
             background-color: #3d3d3d;
-            .smallButton;
+            .smallButtonHover;
 
         }
 
@@ -5149,11 +5173,14 @@ div.header-container.main {
                     padding-right: 15px;
                     cursor: pointer;
 
+                    .smallButton;
+
                 }
 
                 div.order-tab-button.active-tab, div.order-tab-button:hover {
 
                     background-color: #3d3d3d;
+                    .smallButtonHover;
 
                 }
 
@@ -5584,11 +5611,14 @@ div.header-container.main {
                         cursor: pointer;
                         color: white;
 
+                        .smallButton;
+
                     }
 
                     span.add-player:hover {
 
                         background-color: @text_color;
+                        .smallButtonHover;
                        
                     }
 
@@ -5919,7 +5949,7 @@ div.header-container.main {
 
     .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
         color: white;
-        background-color: #acacac;
+        background-color: #3d3d3d;
         box-shadow: none;
         background-image: none;
     }
@@ -5962,8 +5992,8 @@ div.header-container.main {
 
     .navbar-default .navbar-nav>li>a {
 
-        color: white;
-        background-color: #acacac;
+        color: #3d3d3d;
+        background-color: #e7e7e7;
         min-width: 170px;
         text-align: center;
 
@@ -6158,7 +6188,13 @@ div.header-container.main {
             }
 
             input.btn.register {
-                color: white;
+                .smallButton;
+            }
+
+            input.btn.register:hover {
+
+                .smallButtonHover;
+
             }
 
         }
@@ -6168,12 +6204,15 @@ div.header-container.main {
             color: white;
             background-color: buttonface;
 
+            .smallButton;
+
         }
 
         button#forgot-password-submit:hover {
 
             color: white;
             background-color: #3d3d3d;
+            .smallButtonHover;
 
         }
 
@@ -6317,8 +6356,8 @@ div.header-container.main {
 
                         text-transform: uppercase;
                         font-weight: bold;
-                        background-color: #acacac;
-                        color: white;
+                        background-color: #e7e7e7;
+                        color: #3d3d3d;
 
                         td {
 
@@ -6676,7 +6715,7 @@ div.header-container.main {
                     cursor: pointer;
 
                     display: inline-block;
-                    width: 100px;
+                    width: 150px;
                     height: 40px;
                     background-color: #acacac;
                     color: white;
@@ -6685,18 +6724,24 @@ div.header-container.main {
                     font-weight: bold;
                     text-transform: uppercase;
 
+                    .smallButton;
+
                 }
 
                 span.tab:hover {
 
                     background-color: #3d3d3d;
+                    .smallButtonHover;
 
                 }
 
                 span.tab.active {
 
+                    font-family:"Avenir Next LT W04 Bold";
+
                     background-color: #3d3d3d;
                     padding-bottom: 7px;
+                    .smallButtonHover;
 
                 }
 
@@ -6713,8 +6758,8 @@ div.header-container.main {
 
                         text-transform: uppercase;
                         font-weight: bold;
-                        background-color: #acacac;
-                        color: white;
+                        background-color: #e7e7e7;
+                        color: #3d3d3d;
 
                         td {
 
@@ -6736,8 +6781,8 @@ div.header-container.main {
 
                         td.order-info {
 
-                            padding: 30px;
-
+                            padding: 20px;
+                            padding-bottom: 0px;
                             text-align: center;
                             label {
 
@@ -6748,6 +6793,7 @@ div.header-container.main {
                             img.thumbs {
 
                                 width: 100px;
+                                cursor: pointer;
 
                             }
 
@@ -6760,15 +6806,13 @@ div.header-container.main {
                             span.action-button {
 
                                 padding: 7px;
-                                background-color: #acacac;
-                                color: white;
+                                
+                                color: #3d3d3d;
                                 width: 120px;
                                 margin: 7px;
                                 display: inline-block;
                                 cursor: pointer;
                                 font-size: 0.8em;
-
-                                .smallButton;
 
 
                             }
@@ -6818,8 +6862,8 @@ div.header-container.main {
 
                         text-transform: uppercase;
                         font-weight: bold;
-                        background-color: #acacac;
-                        color: white;
+                        background-color: #e7e7e7;
+                        color: #3d3d3d;
 
                         td {
 
@@ -6850,6 +6894,8 @@ div.header-container.main {
                             width: 70px;
                             margin-top: 30px;
 
+                            cursor: pointer;
+
                         }
 
                         td.saved-design-info {
@@ -6879,7 +6925,7 @@ div.header-container.main {
 
                                 padding: 7px;
                                 background-color: white;
-                                color: #acacac;
+                                color: #3d3d3d;
                                 width: 120px;
                                 margin: 7px;
                                 cursor: pointer;
@@ -6891,7 +6937,7 @@ div.header-container.main {
 
                             span.action-button:hover {
 
-                                background-color: #acacac;
+                                background-color: #3d3d3d;
                                 color: white;
 
                             }
@@ -7606,6 +7652,12 @@ button#firstname:hover {
     background-color: #acacac;
     border-color: #acacac;
     color: #fff;
+
+}
+
+button.loginRest {
+
+    background-color: #e7e7e7;
 
 }
 
