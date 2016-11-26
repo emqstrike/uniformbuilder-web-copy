@@ -332,7 +332,12 @@ class MascotsController extends Controller
         $artworkRequestID = $request->input('artwork_request_id');
         $artworkIndex = $request->input('artwork_index');
         $artwork_request = $this->artworksClient->getArtwork($artworkRequestID);
-dd($artwork_request);
+        $ar_json = json_decode($artwork_request->artworks, 1);
+        // array_push($ar_json[$artworkIndex]['history'], $ar_json[$artworkIndex]['file']);
+        // $ar_json[$artworkIndex]['updated'] = 1;
+
+// dd($ar_json);
+
         $data = [
             'name' => $mascotName,
             'code' => $code,
@@ -364,6 +369,10 @@ dd($artwork_request);
                                                             "materials",
                                                             "{$materialFolder}/{$filename}.png"
                                                         );
+                    // update artwork data
+                    array_push($ar_json[$artworkIndex]['history'], $ar_json[$artworkIndex]['file']);
+                    $ar_json[$artworkIndex]['updated'] = 1;
+                    $ar_json[$artworkIndex]['file'] = $data['icon'];
                 }
             }
         }
@@ -440,13 +449,18 @@ dd($artwork_request);
         if (!empty($id))
         {
             Log::info('Attempts to update Mascot#' . $id);
-            $response = $this->client->updateMascot($data);
+            // $response = $this->client->updateMascot($data);
         }
         else
         {
             Log::info('Attempts to create a new Mascot ' . json_encode($data));
 
-            $response = $this->client->createMascot($data);
+            $response = $this->client->createArtwork($data);
+            $ar_json[$artworkIndex]['mascot_id'] = $response->art_id;
+            // dd($ar_json);
+            $artwork_request->artworks = json_encode($ar_json);
+
+            $this->artworksClient->updateArtwork($artwork_request);
         }
 
         if ($response->success)
