@@ -6943,6 +6943,8 @@ $(document).ready(function () {
 
     ub.funcs.lRest = function (e, p, fromMiddleScreen) {
 
+        if (e.trim.length === 0 || p.trim.length === 0) { return; }
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
