@@ -5184,9 +5184,9 @@ $(document).ready(function() {
           $('div.accentPopupResults > div.item').hover(
 
           function() {
-            // $( this ).find('div.name').addClass('pullUp');
+            $( this ).find('div.name').addClass('pullUp');
           }, function() {
-            // $( this ).find('div.name').removeClass('pullUp');
+            $( this ).find('div.name').removeClass('pullUp');
           }
 
         );
@@ -5500,6 +5500,16 @@ $(document).ready(function() {
         $popup = $('div#primaryMascotPopup');
         $popup.fadeIn();
 
+        $('div.patternPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
         /// Type Ahead
 
         var _mascotNames = _.pluck(ub.data.mascots, "name");
@@ -5558,21 +5568,33 @@ $(document).ready(function() {
             $('span.category_item').removeClass('active_category');
             $(this).addClass('active_category');
 
+            $('div.patternPopupResults > div.item').hover(
+
+                function() {
+                  $( this ).find('div.name').addClass('pullUp');
+                }, function() {
+                  $( this ).find('div.name').removeClass('pullUp');
+                }
+
+            );
+
         });
 
         /// End Type Ahead
 
-          $('div.patternPopupResults > div.item').hover(
+            $('div.patternPopupResults > div.item').hover(
 
-          function() {
-            $( this ).find('div.name').addClass('pullUp');
-          }, function() {
-            $( this ).find('div.name').removeClass('pullUp');
-          }
+                function() {
+                  $( this ).find('div.name').addClass('pullUp');
+                }, function() {
+                  $( this ).find('div.name').removeClass('pullUp');
+                }
 
-        );
+            );
 
         $('span.groups_category_item').on('click', function () {
+
+
 
             var _groups_category_id = ($(this).data('category')).toString();
             var _groups_category_name = $(this).data('category-name');
@@ -5596,6 +5618,16 @@ $(document).ready(function() {
             $('div.categories').html(markup);
             $('div.groups_categories').hide();
             $('div.categories').fadeIn();
+
+            $('div.patternPopupResults > div.item').hover(
+
+                function() {
+                  $( this ).find('div.name').addClass('pullUp');
+                }, function() {
+                  $( this ).find('div.name').removeClass('pullUp');
+                }
+
+            );
 
             $('span.category_item').on('click', function () {
 
@@ -5630,6 +5662,16 @@ $(document).ready(function() {
                 $('div.main-content').scrollTo(0);
 
                 $('div.patternPopupResults').html(markup);
+
+                $('div.patternPopupResults > div.item').hover(
+
+                    function() {
+                      $( this ).find('div.name').addClass('pullUp');
+                    }, function() {
+                      $( this ).find('div.name').removeClass('pullUp');
+                    }
+
+                );
 
                 $('div.patternPopupResults > div.item').on('click', function () {
 
@@ -9854,11 +9896,8 @@ $(document).ready(function() {
                     }
 
                     $('em.unsupported-file').html('Uploaded File is ok! (' + _extension + ')');
-                    $('span.ok_btn').css('background-color', '#acacac');
                     $('span.ok_btn').html('Submit Logo (' + _extension + ')');
                     $('span.ok_btn').attr('data-status','ok');
-                    $('span.ok_btn').css('border', '1px solid #3d3d3d');
-                    $('span.ok_btn:hover').css({'background-color': '#3d3d3d', 'color': 'white'});
                     $('span.ok_btn').css('display', 'inline-block');
                     
                 }
