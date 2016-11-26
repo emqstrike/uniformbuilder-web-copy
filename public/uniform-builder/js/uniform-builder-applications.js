@@ -3472,10 +3472,10 @@ $(document).ready(function() {
 
                 var _originalName = _.first(results).name;
 
-                if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
-                if(_originalName.indexOf('Back') > -1) { $('a.change-view[data-view="back"]').trigger('click'); }
-                if(_originalName.indexOf('Left') > -1) { $('a.change-view[data-view="left"]').trigger('click'); }
-                if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
+                // if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
+                // if(_originalName.indexOf('Back') > -1) { $('a.change-view[data-view="back"]').trigger('click'); }
+                // if(_originalName.indexOf('Left') > -1) { $('a.change-view[data-view="left"]').trigger('click'); }
+                // if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
 
                 var _match  = _.first(results).name.toCodeCase();
                 var _result = _match.replace('right_','left_');
@@ -3490,8 +3490,6 @@ $(document).ready(function() {
                 ub.funcs.clickOutside();
 
             }
-
-            return;
 
         });
 
@@ -3808,7 +3806,6 @@ $(document).ready(function() {
         var _calledCtr = 0;
 
         $('div.pd-dropdown-links').on('click', function () {
-
 
             var _group_id         = $(this).data('group-id');
             var _fullname         = $(this).data('fullname');
