@@ -3493,32 +3493,6 @@ $(document).ready(function() {
 
             return;
 
-            if ( typeof ub.active_part === 'undefined' || results.length === 0 ) {
-
-                ub.funcs.resetHighlights();
-                ub.active_lock = false;
-
-            }
-            else {
-
-                if (results.length > 0) {
-
-                    var _match = _.first(results).name.toCodeCase();
-                    var _result = _match.replace('right_','left_');
-                    var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
-                    var _index = ub.funcs.getIndexByName(_result);
-                    
-                    ub.funcs.activatePartByIndex(_index);   
-             
-                }
-                else {
-
-                    ub.funcs.resetHighlights();
-
-                }
-
-            }
-
         });
 
         ub.stage.on('mousemove', function (mousedata) {
