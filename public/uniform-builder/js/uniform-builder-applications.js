@@ -5350,8 +5350,14 @@ $(document).ready(function() {
         ub.funcs.removeApplicationByID(_id);
 
         var _layer = _.find(settingsObj.mascot.layers_properties, {layer_number: layer_no.toString()});
-        _layer.default_color = colorObj.color_code;
+        
+        if (typeof _laye !== "undefined") {
+            
+            _layer.default_color = colorObj.color_code;
 
+
+        }
+    
         settingsObj.color_array[layer_no - 1] = colorObj;
 
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
