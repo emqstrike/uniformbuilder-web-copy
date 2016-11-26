@@ -7065,15 +7065,15 @@ $(document).ready(function() {
 
         var _id = parseInt(applicationID);
 
-        var _frontResult    = _.contains(_front, _id);
-        var _backResult     = _.contains(_back, _id);
-        var _leftResult     = _.contains(_left, _id);
-        var _rightResult    = _.contains(_right, _id);
+        // var _frontResult    = _.contains(_front, _id);
+        // var _backResult     = _.contains(_back, _id);
+        // var _leftResult     = _.contains(_left, _id);
+        // var _rightResult    = _.contains(_right, _id);
 
-        if(_frontResult) { $('a.change-view[data-view="front"]').trigger('click'); }
-        if(_backResult) { $('a.change-view[data-view="back"]').trigger('click'); }
-        if(_leftResult) { $('a.change-view[data-view="left"]').trigger('click'); }
-        if(_rightResult) { $('a.change-view[data-view="right"]').trigger('click'); }
+        // if(_frontResult) { $('a.change-view[data-view="front"]').trigger('click'); }
+        // if(_backResult) { $('a.change-view[data-view="back"]').trigger('click'); }
+        // if(_leftResult) { $('a.change-view[data-view="left"]').trigger('click'); }
+        // if(_rightResult) { $('a.change-view[data-view="right"]').trigger('click'); }
 
     }
 
@@ -9392,7 +9392,7 @@ $(document).ready(function() {
     ub.funcs.activateLayer = function (_appID) {
 
         var _view = ub.funcs.getPrimaryView(ub.current_material.settings.applications[_appID].application);
-        $('a.change-view[data-view="' + _view + '"]').trigger('click');
+        //$('a.change-view[data-view="' + _view + '"]').trigger('click');
 
         if (!ub.funcs.isLayersPanelVisible()) { return; }
 
