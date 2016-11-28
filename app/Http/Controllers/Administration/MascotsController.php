@@ -104,7 +104,9 @@ class MascotsController extends Controller
         $colors = $this->colorsClient->getColors();
         $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
         $mascots_categories = array();
-
+        $artwork_request = $this->artworksClient->getArtwork($artwork_request_id);
+        $team_colors = $this->artworksClient->getOrderTeamColors($artwork_request->order_code);
+// dd($team_colors);
         foreach($raw_mascots_categories as $mascot_category){
             if($mascot_category->active == 1){
                 $mascots_categories[] = $mascot_category->name;
@@ -120,7 +122,8 @@ class MascotsController extends Controller
             'colors' => $colors,
             'mascots_categories' => $mascots_categories,
             'artwork_request_id' => $artwork_request_id,
-            'artwork_index' => $artwork_index
+            'artwork_index' => $artwork_index,
+            'team_colors' => $team_colors
 
         ]);
 
@@ -333,11 +336,15 @@ class MascotsController extends Controller
         $artworkIndex = $request->input('artwork_index');
         $artwork_request = $this->artworksClient->getArtwork($artworkRequestID);
         $ar_json = json_decode($artwork_request->artworks, 1);
-        // array_push($ar_json[$artworkIndex]['history'], $ar_json[$artworkIndex]['file']);
-        // $ar_json[$artworkIndex]['updated'] = 1;
+        $team_colors = array();
 
-// dd($ar_json);
-
+        /* Build colors, save to artwork json */
+        $lpx = json_decode($layersProperties, 1);
+        foreach($lpx as $layer)
+        {
+            array_push($team_colors, $layer);
+        }
+// dd($team_colors);
         $data = [
             'name' => $mascotName,
             'code' => $code,
@@ -373,6 +380,7 @@ class MascotsController extends Controller
                     array_push($ar_json[$artworkIndex]['history'], $ar_json[$artworkIndex]['file']);
                     $ar_json[$artworkIndex]['updated'] = 1;
                     $ar_json[$artworkIndex]['file'] = $data['icon'];
+                    $ar_json[$artworkIndex]['colors'] = $team_colors;
                 }
             }
         }

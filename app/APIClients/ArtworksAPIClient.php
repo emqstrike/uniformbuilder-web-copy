@@ -19,6 +19,19 @@ class ArtworksAPIClient extends APIClient
         return null;
     }
 
+    public function getOrderTeamColors($order_id)
+    {
+        $response = $this->get('artwork_request/getOrderTeamColors/' . $order_id);
+        $result = $this->decoder->decode($response->getBody());
+
+        if($result){
+            return $result;
+        }
+
+        return null;
+
+    }
+
     public function getArtworks($status = null)
     {
         $endpoint = 'artwork_requests';
