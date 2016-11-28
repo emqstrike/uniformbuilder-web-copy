@@ -6453,7 +6453,7 @@ $(document).ready(function() {
 
         if (_settingsObject.mascot.name === 'Custom Logo') {
 
-            _htmlBuilder        +=                  '<a class="view-file" href="' + _settingsObject.customFilename + '" target="_new">View File</a>';
+            _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
             _htmlBuilder        +=                  '<br />';
 
         }
@@ -6526,6 +6526,18 @@ $(document).ready(function() {
         _htmlBuilder        +=  '</div>';
         
         $('.modifier_main_container').append(_htmlBuilder);
+
+        $('a.view-file').unbind('click');
+        $('a.view-file').on('click', function () {
+
+            var _file = $(this).data('file');
+            
+            var _str = "<img src ='" + _file + "' /> <br />";
+            _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
+
+            ub.showModalTool(_str);
+
+        })
 
         // Generate Thumbnails
 
