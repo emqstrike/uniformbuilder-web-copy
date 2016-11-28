@@ -5394,7 +5394,6 @@ $(document).ready(function() {
         $popup.remove();
         ub.funcs.activateMascots(settingsObj.code);
 
-
         /// Uploaded Artwork
         var _customLogo = false;
         var _customFilename = '';
@@ -5419,6 +5418,8 @@ $(document).ready(function() {
             _matchingSettingsObject.customLogo = _customLogo;
             _matchingSettingsObject.customFilename = _customFilename;
 
+             ub.funcs.activateMascots(_matchingSettingsObject.code);
+
         }
 
         if (settingsObj.code === "10") {
@@ -5428,6 +5429,8 @@ $(document).ready(function() {
 
             _matchingSettingsObject.customLogo = _customLogo;
             _matchingSettingsObject.customFilename = _customFilename;
+
+            ub.funcs.activateMascots(_matchingSettingsObject.code);
 
         }
 
@@ -5439,6 +5442,8 @@ $(document).ready(function() {
             _matchingSettingsObject.customLogo = _customLogo;
             _matchingSettingsObject.customFilename = _customFilename;
 
+            ub.funcs.activateMascots(_matchingSettingsObject.code);
+
         }
 
         if (settingsObj.code === "33") {
@@ -5448,8 +5453,12 @@ $(document).ready(function() {
 
             _matchingSettingsObject.customLogo = _customLogo;
             _matchingSettingsObject.customFilename = _customFilename;
-            
+
+            ub.funcs.activateMascots(_matchingSettingsObject.code);
+
         }
+
+        ub.funcs.activateMascots(settingsObj.code);
 
     }
 
