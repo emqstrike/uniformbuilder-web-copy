@@ -4365,18 +4365,19 @@ div.header-container.main {
                 a.view-file {
 
                     font-size: 0.8em;
-                    background-color: #3d3d3d;
-                    color: white;
                     padding: 3px;
                     padding-left: 10px;
                     padding-right: 10px;
                     text-decoration: none;
+                    cursor: pointer;
+
+                    .smallButton;
                     
                 }
 
                 a.view-file:hover {
 
-                    background-color: #acacac;
+                    .smallButtonHover;
                     
                 }
 
@@ -4613,7 +4614,7 @@ div.header-container.main {
                 padding-top: 0px;
                 padding-bottom: 50px;
 
-                border-top: solid 1px @customizer_forecolor;
+                border-top: dashed 1px @customizer_forecolor;
 
                 input.quickRegistrationEmail, input.quickRegistrationPassword {
                     
@@ -5488,7 +5489,7 @@ div.header-container.main {
                     padding: 30px;
                     text-align: left;
                     vertical-align: middle;
-                    border-left: solid 1px #3d3d3d;
+                    border-left: dashed 1px #3d3d3d;
                     margin-left: 30px;
 
                     button.change-all {
@@ -7664,3 +7665,13 @@ button.loginRest {
 
 /* end smkalert overrides */
 
+/* Message Modal */
+
+    div#messageModal {
+
+        text-align: center;
+        padding: 30px;
+
+    }
+
+/* End Message Modal */
