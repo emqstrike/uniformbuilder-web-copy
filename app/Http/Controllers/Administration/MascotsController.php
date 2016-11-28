@@ -458,8 +458,8 @@ class MascotsController extends Controller
             $response = $this->client->createArtwork($data);
             $ar_json[$artworkIndex]['mascot_id'] = $response->art_id;
 
-            $artwork_request->artworks = json_encode($ar_json);
-// dd(json_encode($artwork_request));
+            $artwork_request->artworks = $ar_json;
+
             $this->artworksClient->updateArtwork($artwork_request);
         }
 
