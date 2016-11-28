@@ -29,6 +29,19 @@ select:hover {
                         <input type="hidden" name="layers_properties" id="layers-properties">
                         <input type="hidden" name="artwork_request_id" value="{{ $artwork_request_id }}">
                         <input type="hidden" name="artwork_index" value="{{ $artwork_index }}">
+                        <div>
+                            <h3>Order Team Color(s):</h3>
+                            <table class="table table-bordered table-striped">
+                            @foreach ($team_colors as $color)
+                                <tr style="width: 100px;">
+                                    <td style="width: 30px; height: 30px; background-color: #{{ $color->hex_code }};"></td>
+                                    <td>{{ $color->name }}</td>
+                                </tr>
+                            @endforeach
+                            </table>
+                        </div>
+                        <hr>
+                        <h3>Upload mascot details:</h3>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Mascot Name</label>
                             <div class="col-md-6">
@@ -49,6 +62,7 @@ select:hover {
                                 <input type="file" class="form-control icon" name="icon" accept="image/*">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">File</label>
                             <div class="col-md-6 front-view">
