@@ -6698,4 +6698,33 @@ ub.funcs.fontOffSets = [
 
     /// All data loaded before scripts are processed is in window.ub.config
 
+    ub.data.notificationMessage = [
+
+        {
+            type: 'unread',
+            description: 'UNREAD',
+        },
+        {
+            type: 'prolook',
+            description: 'This is a place for PROLOOK announcements such as promos, new features released for the customizer and other similar things.',
+        },
+        {
+            type: 'orders',
+            description: 'Notifications regarding the order you submitted goes here, such as custom artwork status and overall progress, where your order is now',
+        },
+        {
+            type: 'pm',
+            description: "PM's from other users goes here",
+        },
+        {
+            type: 'feedback',
+            description: 'Your feedback is important to us, our replies to the feedback you send us goes here.',
+        },
+        {
+            type: 'sent',
+            description: '',
+        }
+
+    ];
+
 });
