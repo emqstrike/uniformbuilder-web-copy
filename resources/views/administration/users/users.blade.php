@@ -31,6 +31,7 @@
                                 <th>Account Type</th>
                                 <th>Date registered</th>
                                 <th>Email</th>
+                                <th>Last Login</th>
                                 <th>Active Status</th>
                                 <th></th>
                             </tr>
@@ -54,6 +55,9 @@
                                 </td>
                                 <td>
                                     <span class="label label-primary">{{ $user->email }}</span>
+                                </td>
+                                <td>
+                                    {{ $user->last_login }}
                                 </td>
                                 <td>
                                     <a href="#" class="btn btn-default btn-xs disable-user" data-user-id="{{ $user->id }}" role="button" {{ ($user->active) ? : 'disabled="disabled"' }}>
