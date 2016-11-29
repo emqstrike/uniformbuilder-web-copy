@@ -280,26 +280,17 @@ class MascotsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
 
-
-
-
-
-
-
-
         $response = null;
 
         if (!empty($id))
         {
-         // dd($data);
 
             Log::info('Attempts to update Mascot#' . $id);
             $response = $this->client->updateMascot($data);
 
-                  }
+        }
         else
         {
-
 
             Log::info('Attempts to create a new Mascot ' . json_encode($data));
 
@@ -310,11 +301,9 @@ class MascotsController extends Controller
         if ($response->success)
         {
 
-
             Log::info('Success');
             return Redirect::to('administration/mascots')
                             ->with('message', 'Successfully saved changes');
-
 
         }
         else
@@ -344,7 +333,7 @@ class MascotsController extends Controller
         {
             array_push($team_colors, $layer);
         }
-// dd($team_colors);
+
         $data = [
             'name' => $mascotName,
             'code' => $code,
@@ -457,7 +446,6 @@ class MascotsController extends Controller
         if (!empty($id))
         {
             Log::info('Attempts to update Mascot#' . $id);
-            // $response = $this->client->updateMascot($data);
         }
         else
         {
