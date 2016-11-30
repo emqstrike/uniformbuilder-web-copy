@@ -17,7 +17,6 @@
 ### Geeks
 
 * [**CIO / CTO**, Chief Geek Jared Blanchard - https://github.com/jaredean](https://github.com/jaredean)
-
 * [**PM**, Jester Taguibao - https://github.com/taguibaojester](https://github.com/taguibaojester)
 * [**IOS Dev**, Robert Ordiz - https://github.com/ordizrobert2011](https://github.com/ordizrobert2011)  
 * [**Backend and API**, Jethro Del Rosario - https://github.com/jethqx](https://github.com/jethqx)
