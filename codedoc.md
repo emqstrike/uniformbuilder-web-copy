@@ -63,7 +63,7 @@
 
     - Main Render Proc for creating Applications and Mascots
 
-**ubj@ub.funcs.stageMouseMove()**
+**ubj@ub.funcs.stageMouseMove**
 
     - Handles all the global mousemove events
 
