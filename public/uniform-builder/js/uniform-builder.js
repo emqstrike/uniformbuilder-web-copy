@@ -3586,7 +3586,7 @@ $(document).ready(function () {
 
                 }
 
-                if(typeof input_object.applicationObj === 'object'){
+                if (typeof input_object.applicationObj === 'object') {
 
                     if(typeof input_object.applicationObj.gradient_obj === 'object') {
 

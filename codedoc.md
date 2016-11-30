@@ -1,12 +1,18 @@
 Code Documentation
 ===
 
-*ubj@ub.funcs.coordinateAdjustments()*
+Pattern Handling
 
-- Adjustment to pattern coordinates
+    *ubj@ub.funcs.coordinateAdjustments()*
 
-*ubj@ub.generate_pattern()*
-- Generates pattern for material options 
+        - Adjustment to pattern coordinates
+        - theres also a pattern coordinate adjustment code for stripe on ubj@ub.generate_pattern, refactor this
+
+    *ubj@ub.generate_pattern()*
+    - Generates pattern for material options
+
+    *ubj@$.ub.mvChangePattern()*
+    - Generates pattern for applications
 
 *ubj@ub.funcs.renderApplication()*
 - Main Render Proc for creating Applications and Mascots
@@ -16,6 +22,8 @@ Code Documentation
 
 *uba@ub.funcs.drawPartsDrop*
 - Handles the rendering of the dropdown, and moving next and prev between material options
+
+
 
 
 
