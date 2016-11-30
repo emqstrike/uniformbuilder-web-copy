@@ -2510,6 +2510,14 @@
 
             _.each(clone.layers, function (layer, index) {
 
+                var team_color = ub.funcs.getColorUsedByIndex(layer.team_color_id);
+
+                if (typeof team_color !== 'undefined') {
+
+                    layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
+
+                }
+
                 var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
                 container.sprites[index] = ub.pixi.new_sprite(layer.filename);
 
@@ -2517,39 +2525,26 @@
 
                 sprite.zIndex = layer.layer_number * -1;
                 sprite.tint = parseInt(layer.default_color,16);
-                sprite.anchor.set(0.5, 0.5);
-
-                var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
-                var val = '';
-
-                /// if loading from existing saved design, else from text box TODO: save value to custom object and read from that, instead from text boxes
+                
                 if (typeof sprite_collection === 'object') {
                 
                     val = ub.current_material.settings.applications[application.id].pattern_obj.layers[0].default_color;
                 
                 }
-                else {
 
-                    val = $inputbox.val();
-                
-                    if (val.length === 7) {
-                        val = val.substr(1, 6);
-                    }
-
-                }
-
-                sprite.tint = parseInt(val, 16);
+                sprite.anchor.set(0.5, 0.5);
+                //sprite.tint = parseInt(val, 16);
                 container.addChild(sprite);
 
-                var opacity_value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
-                container.alpha = opacity_value / 100;
+                // var opacity_value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
+                // container.alpha = opacity_value / 100;
 
-                var x_value = $('#' + 'position_x_slider_' + target).limitslider("values")[0];
-                var y_value = $('#' + 'position_y_slider_' + target).limitslider("values")[0];
-                var x = ub.dimensions.width * (x_value / 100);
-                var y = ub.dimensions.height * (y_value / 100);
+                // var x_value = $('#' + 'position_x_slider_' + target).limitslider("values")[0];
+                // var y_value = $('#' + 'position_y_slider_' + target).limitslider("values")[0];
+                // var x = ub.dimensions.width * (x_value / 100);
+                // var y = ub.dimensions.height * (y_value / 100);
 
-                container.position = new PIXI.Point(x,y);
+                // container.position = new PIXI.Point(x,y);
 
             });
 

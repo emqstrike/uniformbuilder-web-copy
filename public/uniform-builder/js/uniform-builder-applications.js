@@ -4268,6 +4268,22 @@ $(document).ready(function() {
 
     }
 
+
+    ub.funcs.getColorUsedByIndex = function (index) {
+
+        var _index      = parseInt(index);
+        var _colorObj   = _.find(ub.data.colorsUsed, {teamColorID: _index});
+
+        if (typeof _colorObj === "undefined") {
+
+            _colorObj = undefined;
+
+        }
+
+        return _colorObj;
+
+    };
+
     ub.funcs.getTeamColorObjByIndex = function (index) {
 
         var _index      = parseInt(index);
