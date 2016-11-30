@@ -2,6 +2,13 @@ $( document ).ready(function() {
 
     window.util = {
 
+        getExtension: function (filename) {
+            var _extension = filename.split('.').pop();
+
+            return _extension.toLowerCase();
+
+        },
+
         decimalToHex: function(d, padding) {
             var hex = Number(d).toString(16);
             padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
