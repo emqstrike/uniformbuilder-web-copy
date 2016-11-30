@@ -6,7 +6,7 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
-            ub.funcs.beforeLoad();
+            ub.funcs.beforeLoad(); 
             ub.config.print_version();
 
             /// Initialize Assets
@@ -3586,7 +3586,7 @@ $(document).ready(function () {
 
                 }
 
-                if(typeof input_object.applicationObj === 'object'){
+                if (typeof input_object.applicationObj === 'object') {
 
                     if(typeof input_object.applicationObj.gradient_obj === 'object') {
 
@@ -6144,6 +6144,13 @@ $(document).ready(function () {
         }
 
         ub.funcs.filterMessages = function (type) {
+
+            if (type !== "unread") {
+
+                var _message = _.find(ub.data.notificationMessage, {type: type});
+                $('div.notification-description').html(_message.description);
+
+            }
 
             $('div#messages > span.header').html(type);
 

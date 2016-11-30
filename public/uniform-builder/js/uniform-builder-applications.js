@@ -4655,7 +4655,6 @@ $(document).ready(function() {
             }
             else {
 
-
                 ub.funcs.createPatternUI(patternObject, firstMaterialOption); 
 
                 if (patternObject.pattern_id === "blank" || patternObject.pattern_id === "none") { return false; }
@@ -6531,12 +6530,23 @@ $(document).ready(function() {
         $('a.view-file').on('click', function () {
 
             var _file = $(this).data('file');
-            
-            var _str = "<img src ='" + _file + "' /> <br />";
-            _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
+            var _extension = util.getExtension(_file);
+            var _str = "";
+
+            if (_extension === "pdf" || _extension === "ai" ) {
+
+                _str     += "Open File (" + _extension + ") on a new window<br />";
+                _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
+
+            } else {
+
+                _str     += "<img src ='" + _file + "' /> <br />";
+                _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
+
+            }
 
             ub.showModalTool(_str);
-
+            
         })
 
         // Generate Thumbnails

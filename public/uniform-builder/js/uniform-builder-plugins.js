@@ -2501,7 +2501,7 @@
 
                 text_sprite.pattern_layer.removeChildren();
                 text_sprite.removeChild(text_sprite.pattern_layer);
-                
+
             }
 
             var container = application_settings.pattern[index];
