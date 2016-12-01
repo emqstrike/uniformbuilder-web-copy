@@ -4356,6 +4356,8 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.centerPatternPopup();
+
         $popup = $('div#primaryPatternPopup');
         $popup.fadeIn();
 
@@ -4377,8 +4379,6 @@ $(document).ready(function() {
             $popup.remove();
 
         });
-
-        ub.funcs.centerPatternPopup();
 
         $('div.close-popup').on('click', function (){
 
