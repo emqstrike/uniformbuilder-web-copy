@@ -272,6 +272,8 @@ $(document).ready(function () {
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
 
+//            _.each(ub.data.patterns.items, function (item) { console.log(item.name)});
+
             if (ub.data.afterLoadCalled > 0) {return;}
 
             ub.funcs.activatePartByIndex(0);
@@ -3600,9 +3602,13 @@ $(document).ready(function () {
 
                     }
 
-                    // var _patternObj = 
 
-                    // if(typeof input_object.applicationObj.pattern_obj === 'object') {
+                    // Does not work or disable, crossing_sword, line fade body (use line fade sleeve instead)
+
+                    // var _patternObj = _.find(ub.data.patterns.items, {code: "referee_stripes"});
+                    // input_object.applicationObj.pattern_obj = _patternObj;
+
+                    // if (typeof input_object.applicationObj.pattern_obj === 'object') {
 
                     //     $.ub.mvChangePattern(input_object.applicationObj.application, input_object.applicationObj.id, _patternObj, sprite_collection);
 
@@ -4768,14 +4774,12 @@ $(document).ready(function () {
                 var _paddedHex = util.padHex(_hexCode, 6);
 
                 if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
-                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tine, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
+                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
                 }
                 ///
 
                 sprite.anchor.set(0.5,0.5);
-
-                sprite.tint = clone.layers[index].color
-
+                sprite.tint = clone.layers[index].color;
                 container.addChild(sprite);
 
                 var _positionAdjusted = {

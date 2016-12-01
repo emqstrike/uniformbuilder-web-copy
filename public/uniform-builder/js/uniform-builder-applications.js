@@ -4268,6 +4268,22 @@ $(document).ready(function() {
 
     }
 
+
+    ub.funcs.getColorUsedByIndex = function (index) {
+
+        var _index      = parseInt(index);
+        var _colorObj   = _.find(ub.data.colorsUsed, {teamColorID: _index});
+
+        if (typeof _colorObj === "undefined") {
+
+            _colorObj = undefined;
+
+        }
+
+        return _colorObj;
+
+    };
+
     ub.funcs.getTeamColorObjByIndex = function (index) {
 
         var _index      = parseInt(index);
@@ -4340,6 +4356,8 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.centerPatternPopup();
+
         $popup = $('div#primaryPatternPopup');
         $popup.fadeIn();
 
@@ -4361,8 +4379,6 @@ $(document).ready(function() {
             $popup.remove();
 
         });
-
-        ub.funcs.centerPatternPopup();
 
         $('div.close-popup').on('click', function (){
 
