@@ -4821,12 +4821,30 @@ $(document).ready(function () {
 
         });
 
-        if (clone.code === 'stripe') {
+        // For Initial Load Only
+        if (clone.code === 'stripe' || clone.code === 'tiger2' || clone.code === 'checkered' || clone.code === 'arrow') {
 
-            if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined') {  ub.objects['back_view']['pattern_' + target].position.y -= 70; }
-            if (typeof ub.objects['left_view']['pattern_' + target] !== 'undefined') {  ub.objects['left_view']['pattern_' + target].position.y -= 70; }
-            if (typeof ub.objects['right_view']['pattern_' + target] !== 'undefined') {  ub.objects['right_view']['pattern_' + target].position.y -= 70; }
-                
+            // if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined')  { ub.objects['back_view']['pattern_' + target].position.y  -= 70; }
+            // if (typeof ub.objects['left_view']['pattern_' + target] !== 'undefined')  { ub.objects['left_view']['pattern_' + target].position.y  -= 70; }
+            // if (typeof ub.objects['right_view']['pattern_' + target] !== 'undefined') { ub.objects['right_view']['pattern_' + target].position.y -= 70; }
+
+            if (window.screen.height > 1100) {
+
+                if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined')  { ub.objects['front_view']['pattern_' + target].position.y = 532; }
+                if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined')  { ub.objects['back_view']['pattern_' + target].position.y  = 532; }
+                if (typeof ub.objects['left_view']['pattern_' + target] !== 'undefined')  { ub.objects['left_view']['pattern_' + target].position.y  = 532; }
+                if (typeof ub.objects['right_view']['pattern_' + target] !== 'undefined') { ub.objects['right_view']['pattern_' + target].position.y = 532; }
+
+                if (typeof ub.objects['back_view']['pattern_left_shoulder_cowl_insert'] !== 'undefined') { ub.objects['back_view']['pattern_left_shoulder_cowl_insert'].position.y = 232; }
+   
+            }
+
+            if (window.screen.height < 1100) {
+
+                if (typeof ub.objects['back_view']['pattern_body'] !== 'undefined') { ub.objects['back_view']['pattern_body'].position.y = 532; }
+   
+            }
+
         }
 
     }
