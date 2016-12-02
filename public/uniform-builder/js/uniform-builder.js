@@ -76,7 +76,19 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.priceOverride = function (material) {
+
+            if (material.id === "110") {
+
+                material.msrp = "92.00";
+
+            }
+
+        } 
+
         ub.funcs.getPrice = function (material) {
+
+            ub.funcs.priceOverride(material);
 
             var _web_price_sale = parseFloat(material.web_price_sale);
             var _msrp           = parseFloat(material.msrp);
@@ -932,13 +944,12 @@ $(document).ready(function () {
 
             _.each (ub.materials, function (material) {
 
+                ub.funcs.priceOverride(material);
                 material.calculatedPrice = ub.funcs.getPrice(material);
 
             });
 
-
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
-
             ub.prepareTypeAhead();
 
         }
