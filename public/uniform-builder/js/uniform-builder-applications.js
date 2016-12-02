@@ -7731,8 +7731,14 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
+        _htmlBuilder        +=          '<div class="color-pattern-tabs">';
+        _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span><span class="tab" data-item="patterns">Patterns</span>';
+        _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1">'
+        _htmlBuilder        +=              '<div class="column1 applications patterns">';
+        _htmlBuilder        +=                  '<h1>Patterns</h1>';
+        _htmlBuilder        +=              '</div>';
+        _htmlBuilder        +=              '<div class="column1 applications colors">'
         _htmlBuilder        +=                 '<div class="sub1">';
         _htmlBuilder        +=                    '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                                                             
         _htmlBuilder        +=                    '<span class="accent">' + _accentName + '</span>';
@@ -7838,6 +7844,20 @@ $(document).ready(function() {
         $('.modifier_main_container').append(_htmlBuilder);
 
         //// Events
+
+            /// color pattern tab
+
+            $('div.color-pattern-tabs > span.tab').unbind('click');
+            $('div.color-pattern-tabs > span.tab').on('click', function () {
+
+                var _item = $(this).data('item');
+
+                $('div.color-pattern-tabs > span.tab').removeClass('active');
+                $(this).addClass('active');
+                $('div.column1').hide();
+                $('div.column1.' + _item).fadeIn();
+
+            });
 
             /// Vertical Text
 

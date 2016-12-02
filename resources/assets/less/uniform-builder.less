@@ -3802,7 +3802,7 @@ div.header-container.main {
         div#changeApplicationUI {
 
             position: absolute;
-            margin-top: -420px;
+            margin-top: -400px;
             background-color: @customizer_main_area; 
             width: 500px;
             height: 330px;
@@ -3872,7 +3872,7 @@ div.header-container.main {
         div#applicationUI {
 
             display: none;
-            margin: 30px;
+            margin: 20px;
             width: 520px;            
 
             -moz-transition: all .2s;
@@ -3899,7 +3899,7 @@ div.header-container.main {
 
                 padding: 30px;
                 font-size: 1.2em;
-                padding-top: 30px;
+                padding-top: 10px;
                 padding-left: 10px;
 
                 div.optionButton {
@@ -3950,6 +3950,39 @@ div.header-container.main {
 
                 }
 
+                div.color-pattern-tabs {
+
+                    margin-top: 20px;
+
+                    span.tab {
+
+                        color: #3d3d3d;
+                        background-color: #e7e7e7;
+                        width: 35%;
+                        height: 30px;
+                        cursor: pointer;
+                        padding: 5px;
+                        display: inline-block;
+                        text-align: center;
+                        font-size: 0.8em;
+                        
+                    }
+
+                    span.tab:hover, span.tab.active {
+
+                        color: white;
+                        background-color: #3d3d3d;
+
+                    }
+
+                    span.tab.active {
+
+                        font-weight: bold;
+
+                    }
+
+                }
+
                 .ui-row {
 
                     margin-bottom: 10px;
@@ -3962,8 +3995,7 @@ div.header-container.main {
 
                     .column1, .column2 {
 
-                        margin-top: 10px;
-                        border-top: dashed 1px #3d3d3d;
+                        border-top: solid 1px #3d3d3d;
 
                         div.sub1 {
 
@@ -4048,6 +4080,12 @@ div.header-container.main {
                             }
 
                         }
+
+                    }
+
+                    div.column1.patterns {
+
+                        display: none;
 
                     }
 
