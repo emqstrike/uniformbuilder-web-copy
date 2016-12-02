@@ -4299,6 +4299,72 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.changePatternFromPopupApplications = function (settingsObj, patternID) {
+
+        var _patternID                  = patternID.toString();
+        var _patternObject              = _.find(ub.data.patterns.items, {id: _patternID.toString()});
+        var _uniform_type               = ub.current_material.material.type;
+        var app_containers              = ub.current_material.containers[_uniform_type].application_containers;
+
+        var _spriteCollection           = ub.objects.front_view['objects_' + settingsObj.code].children;
+
+        _.each (_patternObject.layers, function (layer)  {
+
+            var team_color = ub.funcs.getTeamColorObjByIndex(layer.team_color_id);
+
+            if (typeof team_color !== 'undefined') {
+
+                layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
+
+            }
+            
+        });
+
+
+        // Does not work or disable, crossing_sword, line fade body (use line fade sleeve instead)
+
+        console.log('Pattern ID: ');
+        console.log(patternID);
+
+        var _patternObj = _.find(ub.data.patterns.items, {id: patternID.toString()});
+
+        console.log('Pattern Object: ');
+        console.log(_patternObj);
+
+        console.log('Settings Object:');
+        console.log(settingsObj);
+
+        settingsObj.applicationObj = { pattern_obj: _patternObj} ;
+
+        if (typeof settingsObj.applicationObj.pattern_obj === 'object') {
+
+            $.ub.mvChangePattern(settingsObj.application, settingsObj.application.id, _patternObj, _spriteCollection);
+
+        }
+
+        // var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
+        // var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
+        // var titleNameFirstMaterial      = _names[0].toTitleCase();
+
+        // _.each(_names, function (name) {
+
+        //     var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(name.toTitleCase());
+        //     var _materialOptions            = ub.funcs.getMaterialOptions(name.toTitleCase());
+
+        //     materialOption = _materialOptions[0];
+        //     outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
+        //     _settingsObject.pattern     = outputPatternObject;
+        //     e = _settingsObject;
+
+        //     ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
+
+        // });
+
+        // ub.funcs.clearPatternUI();
+        // ub.funcs.activatePatterns();
+
+    }
+
     ub.funcs.changePatternFromPopup = function (currentPart, patternID) {
 
         var _patternID                  = patternID.toString();
@@ -4339,6 +4405,74 @@ $(document).ready(function() {
         ub.funcs.activatePatterns();
 
     }
+
+     ub.funcs.createPatternPopupApplications = function (settingsObj) {
+
+        console.log('Settings Object: ');
+        console.log(settingsObj);
+
+        if ($('div#primaryPatternPopup').length === 0) {
+
+            var data = {
+                label: 'Choose Patterns: ',
+                patterns: _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'),
+            };
+
+            var template = $('#m-pattern-popup').html();
+            var markup = Mustache.render(template, data);
+
+            $('body').append(markup);
+
+        }
+
+        ub.funcs.centerPatternPopup();
+
+        $popup = $('div#primaryPatternPopup');
+        $popup.fadeIn();
+
+        $('div.patternPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
+        $('div.patternPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('pattern-id');
+
+            ub.funcs.changePatternFromPopupApplications(settingsObj, _id);
+            $popup.remove();
+
+        });
+
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+
+        });
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+
+        });
+
+    };
 
     ub.funcs.createPatternPopup = function () {
 
@@ -7736,7 +7870,13 @@ $(document).ready(function() {
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
         _htmlBuilder        +=              '<div class="column1 applications patterns">';
-        _htmlBuilder        +=                  '<h1>Patterns</h1>';
+        _htmlBuilder        +=                 '<div class="sub1 patternThumb">';
+        _htmlBuilder        +=                    '<span class="patternThumb"><img src="/images/patterns/Blank/1.png"/></span><br />';                                                             
+        _htmlBuilder        +=                    '<span class="pattern">Blank</span>';
+        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
+        _htmlBuilder        +=                 '</div>';
+        _htmlBuilder        +=                 '<div class="colorContainer">';
+        _htmlBuilder        +=                 '</div>';
         _htmlBuilder        +=              '</div>';
         _htmlBuilder        +=              '<div class="column1 applications colors">'
         _htmlBuilder        +=                 '<div class="sub1">';
@@ -7774,7 +7914,7 @@ $(document).ready(function() {
 
                 var _matchingCode = undefined;
                 var _matchingSettingsObject = undefined;
-    
+
                 ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject); // Force rerendering when a color is added
                 ub.funcs.activateApplications(application_id);
 
@@ -8225,6 +8365,12 @@ $(document).ready(function() {
             $('span.accentThumb, span.accent').on('click', function () {
 
                 ub.funcs.createAccentPopup(_settingsObject);
+
+            });
+
+            $('span.patternThumb, span.pattern').on('click', function () {
+
+                ub.funcs.createPatternPopupApplications(_settingsObject);
 
             });
 

@@ -3592,10 +3592,14 @@ $(document).ready(function () {
 
                 if (typeof app_containers[application_obj.id] === 'undefined') {
     
-                    app_containers[application_obj.id] = {};
+                    app_containers[application_obj.code] = {};
 
-                    app_containers[application_obj.id].object = {};
-                    app_containers[application_obj.id].object.sprite = sprite_collection;
+                    app_containers[application_obj.code].object = {};
+                    app_containers[application_obj.code].object.sprite = sprite_collection;
+
+                    console.log('Application OBJ');
+                    console.log(application_obj);
+                    console.log(app_containers);
 
                 }
 
