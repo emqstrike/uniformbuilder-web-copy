@@ -5320,7 +5320,7 @@ $(document).ready(function() {
 
             if (activeColorCode === _color.color_code) {
                 _checkMark  = '<i class="fa fa-check" aria-hidden="true"></i>';
-                _style      = "30px";
+                _style      = "40px";
                 _class      = 'activeColorItem';
             }
 
@@ -6952,7 +6952,7 @@ $(document).ready(function() {
         $smallPickerContainer.find('span.colorItem').removeClass('activeColorItem');
 
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');
-        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','30px');
+        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
 
     },
