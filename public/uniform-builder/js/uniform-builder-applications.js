@@ -5315,12 +5315,12 @@ $(document).ready(function() {
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
             var _checkMark  = '&nbsp;';
-            var _style      = "30px";
+            var _style      = "25px";
             var _class      = '';
 
             if (activeColorCode === _color.color_code) {
                 _checkMark  = '<i class="fa fa-check" aria-hidden="true"></i>';
-                _style      = "40px";
+                _style      = "30px";
                 _class      = 'activeColorItem';
             }
 
@@ -6948,11 +6948,11 @@ $(document).ready(function() {
         var _checkMark              = '<i class="fa fa-check" aria-hidden="true"></i>';
 
         $smallPickerContainer.find('span.colorItem').html('&nbsp;');
-        $smallPickerContainer.find('span.colorItem').css('width','30px');
+        $smallPickerContainer.find('span.colorItem').css('width','25px');
         $smallPickerContainer.find('span.colorItem').removeClass('activeColorItem');
 
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');
-        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
+        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','30px');
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
 
     },

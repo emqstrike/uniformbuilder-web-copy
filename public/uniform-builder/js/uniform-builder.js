@@ -78,11 +78,11 @@ $(document).ready(function () {
 
         ub.funcs.priceOverride = function (material) {
 
-            if (material.id === "110") {
+            // if (material.id === "110") {
 
-                material.msrp = "92.00";
+            //     material.msrp = "92.00";
 
-            }
+            // }
 
         } 
 

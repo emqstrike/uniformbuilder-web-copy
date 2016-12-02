@@ -74,6 +74,10 @@
 
     - Handles the rendering of the dropdown, and moving next and prev between material options
 
+**uba@ub.funcs.createSmallColorPickers**
+
+    - Drawing of the small color pickers for Mascots and Applications 
+    - uba@ub.funcs.changeActiveColorSmallColorPicker
 
 
 
