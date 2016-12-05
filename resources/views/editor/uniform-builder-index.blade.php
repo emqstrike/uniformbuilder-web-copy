@@ -234,6 +234,11 @@
                 <br /><span>Applications</span>
             </a>
 
+            <a class="footer-buttons change-view disabled" data-view="pipings">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+                <br /><span>Pipings</span>
+            </a>
+
             <a class="footer-buttons change-view" data-view="locations" style="display: none;">
 
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -251,10 +256,12 @@
                 <br /><span>Save Design</span>
             </a>
 
+            <!-- 
             <a class="footer-buttons change-view disabled" data-view="open-design">
                 <i class="fa fa-folder-open-o" aria-hidden="true"></i>
                 <br /><span>Open Design</span>
             </a>
+            -->
 
             <!--
             <a class="footer-buttons change-view" data-view="start-over">

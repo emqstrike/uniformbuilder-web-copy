@@ -177,6 +177,94 @@ $(document).ready(function() {
     ub.data.materials               = undefined;
     ub.data.colors                  = {};
     ub.data.fonts                   = undefined;
+    ub.data.pipings                 = undefined;
+
+    // Mock Object for Pipings 
+    ub.data.pipings                 = [
+        
+        {
+            
+            name: 'Sleeve Piping 1/8',
+            size: '1/8',
+            set: 'Sleeve',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: '/public/images/piping/sleeve/front/18/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: '/public/images/piping/sleeve/front/18/2.png',
+                        }
+                        {
+                            position: 3,
+                            filename: '/public/images/piping/sleeve/front/18/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: '/public/images/piping/sleeve/back/18/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: '/public/images/piping/sleeve/back/18/2.png',
+                        }
+                        {
+                            position: 3,
+                            filename: '/public/images/piping/sleeve/back/18/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: '/public/images/piping/sleeve/left/18/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: '/public/images/piping/sleeve/left/18/2.png',
+                        }
+                        {
+                            position: 3,
+                            filename: '/public/images/piping/sleeve/left/18/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: '/public/images/piping/sleeve/right/18/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: '/public/images/piping/sleeve/right/18/2.png',
+                        }
+                        {
+                            position: 3,
+                            filename: '/public/images/piping/sleeve/right/18/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+
+    ]
+
 
     ub.data.searchSource            = {};
     

@@ -19,6 +19,8 @@ $(document).ready(function () {
             ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
             ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
 
+            // ub.current_material.pipings_url = window.ub.config.api_host + '/api/pipings/';
+
             ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
             ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
             ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
@@ -27,6 +29,7 @@ $(document).ready(function () {
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
+            // ub.loader(ub.current_material.pipings_url, 'pipings', ub.callback);
 
             ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
             ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
@@ -281,6 +284,26 @@ $(document).ready(function () {
 
         };
 
+        ub.funcs.prepareBottomTabs = function () {
+
+
+            if(typeof (window.ub.user.id) === "undefined") {
+
+                $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
+                $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
+                
+            } else {
+
+                $('a.change-view[data-view="save"]').removeClass('disabled');
+                $('a.change-view[data-view="open-design"]').removeClass('disabled');
+
+            }
+
+            if (ub.current_material.material.id === '386') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
+            $('a.change-view[data-view="team-info"]').removeClass('disabled');
+
+        }
+
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
 
@@ -314,18 +337,6 @@ $(document).ready(function () {
             ub.hideFontGuides();
             ub.data.afterLoadCalled = 1;
 
-            if(typeof (window.ub.user.id) === "undefined") {
-
-                $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
-                $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
-                
-            } else {
-
-                $('a.change-view[data-view="save"]').removeClass('disabled');
-                $('a.change-view[data-view="open-design"]').removeClass('disabled');
-
-            }
-
             ub.funcs.initToolBars();
             ub.data.undoHistory = [];
             ub.funcs.initUndo();
@@ -335,7 +346,7 @@ $(document).ready(function () {
                 ub.funcs.colorArrayFix();
             }
             
-            $('a.change-view[data-view="team-info"]').removeClass('disabled');
+            ub.funcs.prepareBottomTabs();
 
             ub.funcs.loadOtherFonts();
 
@@ -4372,6 +4383,16 @@ $(document).ready(function () {
                     if (ub.current_part === 0) { return; }
 
                     ub.funcs.activatePatterns();
+                    return;
+                    
+                }
+
+                if (view === 'pipings') {
+
+                    if (ub.current_part === 0) { return; }
+
+                    console.log('Pipings... ');
+                    
                     return;
                     
                 }
