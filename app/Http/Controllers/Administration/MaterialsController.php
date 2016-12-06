@@ -207,8 +207,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['f_position_1_18'] = FileUploader::upload(
                                                     $f_position_1_18,
-                                                    $f_position_1_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -223,8 +223,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['b_position_1_18'] = FileUploader::upload(
                                                     $b_position_1_18,
-                                                    $b_position_1_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -240,8 +240,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['l_position_1_18'] = FileUploader::upload(
                                                     $l_position_1_18,
-                                                    $l_position_1_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -257,8 +257,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['r_position_1_18'] = FileUploader::upload(
                                                     $r_position_1_18,
-                                                    $r_position_1_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -274,8 +274,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['f_position_2_18'] = FileUploader::upload(
                                                     $f_position_2_18,
-                                                    $f_position_2_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -290,8 +290,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['b_position_2_18'] = FileUploader::upload(
                                                     $b_position_2_18,
-                                                    $b_position_2_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -307,8 +307,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['l_position_2_18'] = FileUploader::upload(
                                                     $l_position_2_18,
-                                                    $l_position_2_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -324,8 +324,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['r_position_2_18'] = FileUploader::upload(
                                                     $r_position_2_18,
-                                                    $r_position_2_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -341,8 +341,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['f_position_3_18'] = FileUploader::upload(
                                                     $f_position_3_18,
-                                                    $f_position_3_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -357,8 +357,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['b_position_3_18'] = FileUploader::upload(
                                                     $b_position_3_18,
-                                                    $b_position_3_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -374,8 +374,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['l_position_3_18'] = FileUploader::upload(
                                                     $l_position_3_18,
-                                                    $l_position_3_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -391,8 +391,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['r_position_3_18'] = FileUploader::upload(
                                                     $r_position_3_18,
-                                                    $r_position_3_18.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -409,8 +409,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['f_position_1_14'] = FileUploader::upload(
                                                     $f_position_1_14,
-                                                    $f_position_1_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -425,8 +425,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['b_position_1_14'] = FileUploader::upload(
                                                     $b_position_1_14,
-                                                    $b_position_1_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -442,8 +442,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['l_position_1_14'] = FileUploader::upload(
                                                     $l_position_1_14,
-                                                    $l_position_1_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -459,8 +459,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['r_position_1_14'] = FileUploader::upload(
                                                     $r_position_1_14,
-                                                    $r_position_1_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -476,8 +476,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['f_position_2_14'] = FileUploader::upload(
                                                     $f_position_2_14,
-                                                    $f_position_2_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -492,8 +492,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['b_position_2_14'] = FileUploader::upload(
                                                     $b_position_2_14,
-                                                    $b_position_2_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -509,8 +509,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['l_position_2_14'] = FileUploader::upload(
                                                     $l_position_2_14,
-                                                    $l_position_2_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -526,8 +526,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['r_position_2_14'] = FileUploader::upload(
                                                     $r_position_2_14,
-                                                    $r_position_2_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -543,8 +543,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['f_position_3_14'] = FileUploader::upload(
                                                     $f_position_3_14,
-                                                    $f_position_3_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -559,8 +559,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['b_position_3_14'] = FileUploader::upload(
                                                     $b_position_3_14,
-                                                    $b_position_3_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -576,8 +576,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['l_position_3_14'] = FileUploader::upload(
                                                     $l_position_3_14,
-                                                    $l_position_3_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -593,8 +593,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['r_position_3_14'] = FileUploader::upload(
                                                     $r_position_3_14,
-                                                    $r_position_3_14.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -611,8 +611,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['f_position_1_12'] = FileUploader::upload(
                                                     $f_position_1_12,
-                                                    $f_position_1_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -627,8 +627,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['b_position_1_12'] = FileUploader::upload(
                                                     $b_position_1_12,
-                                                    $b_position_1_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -644,8 +644,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['l_position_1_12'] = FileUploader::upload(
                                                     $l_position_1_12,
-                                                    $l_position_1_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -661,8 +661,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['r_position_1_12'] = FileUploader::upload(
                                                     $r_position_1_12,
-                                                    $r_position_1_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -678,8 +678,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['f_position_2_12'] = FileUploader::upload(
                                                     $f_position_2_12,
-                                                    $f_position_2_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -694,8 +694,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['b_position_2_12'] = FileUploader::upload(
                                                     $b_position_2_12,
-                                                    $b_position_2_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -711,8 +711,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['l_position_2_12'] = FileUploader::upload(
                                                     $l_position_2_12,
-                                                    $l_position_2_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -728,8 +728,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['r_position_2_12'] = FileUploader::upload(
                                                     $r_position_2_12,
-                                                    $r_position_2_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -745,8 +745,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['f_position_3_12'] = FileUploader::upload(
                                                     $f_position_3_12,
-                                                    $f_position_3_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -761,8 +761,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['b_position_3_12'] = FileUploader::upload(
                                                     $b_position_3_12,
-                                                    $b_position_3_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -778,8 +778,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['l_position_3_12'] = FileUploader::upload(
                                                     $l_position_3_12,
-                                                    $l_position_3_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
@@ -795,8 +795,8 @@ class MaterialsController extends Controller
                     $randstr = Random::randomize(12);
                     $data['r_position_3_12'] = FileUploader::upload(
                                                     $r_position_3_12,
-                                                    $r_position_3_12.'_'.$randstr,
-                                                    'material',
+                                                    $randstr,
+                                                    'material_option',
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
