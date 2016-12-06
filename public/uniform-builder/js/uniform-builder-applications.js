@@ -7744,12 +7744,19 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.changePipingColor = function () {
+    ub.funcs.changePipingColor = function (colorObj, pipingSet) {
 
         // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
         // put in logic to change piping color here ...
 
     };
+
+    ub.funcs.togglePiping = function (pipingSet, status) {
+
+        // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
+        // put in logic to change piping status here ...
+
+    } 
 
     ub.funcs.changeActiveColorSmallColorPickerPiping = function () {
 
@@ -7855,40 +7862,30 @@ $(document).ready(function() {
 
             });
 
-            ub.funcs.useRotated(_status);
+            // ub.funcs.useRotated(_status);
 
         // End Small Color Pickers
 
         // End Events
 
-        $('div#applicationUI').fadeIn();
-        ub.funcs.activateMoveTool(application_id);
-        ub.funcs.activateLayer(application_id);
-
+        $('div#pipingUI').fadeIn();
+        
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
 
             var _currentStatus = $('div.toggle').data('status');
-            var s;
+            var _status;
 
             if(_currentStatus === "on") {
-                s = 'off';
+                _status = 'off';
             }
             else {
-                s = 'on';
+                _status = 'on';
             }
 
-            ub.funcs.toggleApplication(_id,s);    
-
-            if(_id === "9") { ub.funcs.toggleApplication('10', s); }
-            if(_id === "10") { ub.funcs.toggleApplication('9', s); }
-
-            if(_id === "32") { ub.funcs.toggleApplication('33', s); }
-            if(_id === "33") { ub.funcs.toggleApplication('32', s); }
-
+            ub.funcs.togglePiping(_pipingSet,status);    
+ 
         });
-
-        ub.funcs.toggleApplication(_id, _status);
 
     }
 
