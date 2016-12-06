@@ -717,7 +717,7 @@ class MaterialsController extends Controller
         $structured_data['1/8']['right_pos_3'] = $data['r_position_3_18'];
 
         structured_data['1/4'] = [];
-        $structured_data['1/4']['front_pos_1'] = $fdata['_position_1_14'];
+        $structured_data['1/4']['front_pos_1'] = $data['_position_1_14'];
         $structured_data['1/4']['back_pos_1'] = $data['b_position_1_14'];
         $structured_data['1/4']['left_pos_1'] = $data['l_position_1_14'];
         $structured_data['1/4']['right_pos_1'] = $data['r_position_1_14'];
