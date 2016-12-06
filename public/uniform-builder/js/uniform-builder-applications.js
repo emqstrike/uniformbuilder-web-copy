@@ -4268,6 +4268,22 @@ $(document).ready(function() {
 
     }
 
+
+    ub.funcs.getColorUsedByIndex = function (index) {
+
+        var _index      = parseInt(index);
+        var _colorObj   = _.find(ub.data.colorsUsed, {teamColorID: _index});
+
+        if (typeof _colorObj === "undefined") {
+
+            _colorObj = undefined;
+
+        }
+
+        return _colorObj;
+
+    };
+
     ub.funcs.getTeamColorObjByIndex = function (index) {
 
         var _index      = parseInt(index);
@@ -4340,6 +4356,8 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.centerPatternPopup();
+
         $popup = $('div#primaryPatternPopup');
         $popup.fadeIn();
 
@@ -4361,8 +4379,6 @@ $(document).ready(function() {
             $popup.remove();
 
         });
-
-        ub.funcs.centerPatternPopup();
 
         $('div.close-popup').on('click', function (){
 
@@ -4654,7 +4670,6 @@ $(document).ready(function() {
 
             }
             else {
-
 
                 ub.funcs.createPatternUI(patternObject, firstMaterialOption); 
 
@@ -5300,7 +5315,7 @@ $(document).ready(function() {
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
             var _checkMark  = '&nbsp;';
-            var _style      = "30px";
+            var _style      = "25px";
             var _class      = '';
 
             if (activeColorCode === _color.color_code) {
@@ -6531,12 +6546,23 @@ $(document).ready(function() {
         $('a.view-file').on('click', function () {
 
             var _file = $(this).data('file');
-            
-            var _str = "<img src ='" + _file + "' /> <br />";
-            _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
+            var _extension = util.getExtension(_file);
+            var _str = "";
+
+            if (_extension === "pdf" || _extension === "ai" ) {
+
+                _str     += "Open File (" + _extension + ") on a new window<br />";
+                _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
+
+            } else {
+
+                _str     += "<img src ='" + _file + "' /> <br />";
+                _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
+
+            }
 
             ub.showModalTool(_str);
-
+            
         })
 
         // Generate Thumbnails
@@ -6922,7 +6948,7 @@ $(document).ready(function() {
         var _checkMark              = '<i class="fa fa-check" aria-hidden="true"></i>';
 
         $smallPickerContainer.find('span.colorItem').html('&nbsp;');
-        $smallPickerContainer.find('span.colorItem').css('width','30px');
+        $smallPickerContainer.find('span.colorItem').css('width','25px');
         $smallPickerContainer.find('span.colorItem').removeClass('activeColorItem');
 
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');

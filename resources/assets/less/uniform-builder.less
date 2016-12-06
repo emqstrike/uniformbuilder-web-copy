@@ -624,7 +624,7 @@ div.options_panel  {
 
         label {
 
-            color: @text_color;
+            color: #e7e7e7;
             width: 20%;
             font-weight: normal;
             padding-left: 10px;
@@ -3567,12 +3567,14 @@ div.header-container.main {
             display: none;
             position: absolute;
 
-            width: 930px;
-            height: 550px;
-            top: 300px;
-            left: 300px;
+            width: 1000px;
+            height: 700px;
             z-index: 3100;
             background-color: white;
+
+            -moz-transition: all .2s;
+            -webkit-transition: all .2s;
+            transition: all .2s;
 
             -webkit-box-shadow: 10px 10px 45px 5px rgba(0,0,0,0.7);
             -moz-box-shadow: 10px 10px 45px 5px rgba(0,0,0,0.7);
@@ -3593,23 +3595,27 @@ div.header-container.main {
 
             div.header {
                     
+                font-size: 2em;
                 text-align: center;
-                font-size: 1.3em;
-                padding: 20px;
-                margin-top: 20px;
+                width: 100%;
+                display: block;
+                text-transform: uppercase;
+                font-weight: bold;
 
+                padding: 30px;
+                margin-bottom: 40px;
+                border-bottom: dashed 1px #acacac;
+     
             }
 
             div.main-content {
 
                 width: 100%;
-                height: 430px;
+                height: 500px;
                 overflow-y: scroll;
                 padding: 20px;
                 padding-top: 0px;
                 padding-bottom: 50px;
-
-                border-top: solid 1px @customizer_forecolor;
 
                 div.patternPopupResults {
 
@@ -3618,22 +3624,40 @@ div.header-container.main {
                     div.item {
 
                         float: left;
-                        width: 150px;
-                        height: 150px;
+                        width: 190px;
+                        height: 190px;
                         margin: 10px;
                         background-size: cover;
                         cursor: pointer;
                         margin-bottom: 30px;
+
+                        -webkit-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
+                        -moz-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
+                        box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
                         
                         div.name {
                             
                             width: 100%;
-                            height: 50px;
-                            margin-top: 160px;
-                            color: black;
+                            height: 30px;
+                            margin-top: 170px;
+                            background-color: #e7e7e7;
+                            color: #3d3d3d;
                             transition: all 0.1s ease-in-out;
                             text-align: center;
                             font-weight: bold;
+                            font-size: 0.9em;
+                            padding-top: 7px;
+
+                            -moz-transition: all .2s;
+                            -webkit-transition: all .2s;
+                            transition: all .2s;
+
+                        }
+
+                        div.name.pullUp {
+
+                            background-color: #3d3d3d;
+                            color: white;
 
                         }
 
@@ -3975,20 +3999,20 @@ div.header-container.main {
                             .smallPickerContainer {
 
                                 width: 100%;
-                                margin-bottom: 7px;
+                                margin-bottom: 1px;
 
                             }
 
                             span.colorItem {
 
                                 display: inline-block;
-                                width: 30px;
-                                height: 30px;
+                                width: 25px;
+                                height: 25px;
                                 background-color: white;
                                 margin-bottom: 1px;
                                 font-size: 0.8em;
                                 font-size: 0.7em;
-                                padding-top: 7px;
+                                padding-top: 4px;
                                 font-weight: normal;
                                 cursor: pointer;
                                 margin-right: 0px;
@@ -4000,6 +4024,12 @@ div.header-container.main {
                                 -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
                                 -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
                                 box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+                                i.fa.fa-check {
+
+                                    font-size: 0.8em;
+
+                                }
 
                             }
 
@@ -6151,22 +6181,14 @@ div.header-container.main {
         div#signup {
 
             width: 90%;
-            height: 600px;
+            height: 700px;
             background-color: white;
             padding: 30px;
+            padding-top: 0px;
             margin: 0 auto;
             margin-top: 30px;
 
-            span.header {
-        
-                font-size: 2em;
-                text-align: center;
-                width: 100%;
-                display: block;
-                text-transform: uppercase;
-                font-weight: bold;
-
-            }
+            .pagePanelHeader;
 
             div.g-recaptcha {
 
@@ -6343,6 +6365,14 @@ div.header-container.main {
                 margin-bottom: 40px;
                 border-bottom: dashed 1px #acacac;
                 margin-bottom: 0px;
+
+            }
+
+            div.notification-description {
+
+                padding: 10px;
+                text-align: center;
+                margin-top: 10px;
 
             }
 

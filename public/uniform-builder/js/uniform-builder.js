@@ -6,7 +6,7 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
-            ub.funcs.beforeLoad();
+            ub.funcs.beforeLoad(); 
             ub.config.print_version();
 
             /// Initialize Assets
@@ -76,7 +76,19 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.priceOverride = function (material) {
+
+            // if (material.id === "110") {
+
+            //     material.msrp = "92.00";
+
+            // }
+
+        } 
+
         ub.funcs.getPrice = function (material) {
+
+            ub.funcs.priceOverride(material);
 
             var _web_price_sale = parseFloat(material.web_price_sale);
             var _msrp           = parseFloat(material.msrp);
@@ -271,6 +283,8 @@ $(document).ready(function () {
 
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
+
+//            _.each(ub.data.patterns.items, function (item) { console.log(item.name)});
 
             if (ub.data.afterLoadCalled > 0) {return;}
 
@@ -930,13 +944,12 @@ $(document).ready(function () {
 
             _.each (ub.materials, function (material) {
 
+                ub.funcs.priceOverride(material);
                 material.calculatedPrice = ub.funcs.getPrice(material);
 
             });
 
-
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
-
             ub.prepareTypeAhead();
 
         }
@@ -3586,7 +3599,7 @@ $(document).ready(function () {
 
                 }
 
-                if(typeof input_object.applicationObj === 'object'){
+                if (typeof input_object.applicationObj === 'object') {
 
                     if(typeof input_object.applicationObj.gradient_obj === 'object') {
 
@@ -3599,6 +3612,18 @@ $(document).ready(function () {
                         $.ub.mvChangePattern(input_object.applicationObj.application, input_object.applicationObj.id, input_object.applicationObj.pattern_obj, sprite_collection);
 
                     }
+
+
+                    // Does not work or disable, crossing_sword, line fade body (use line fade sleeve instead)
+
+                    // var _patternObj = _.find(ub.data.patterns.items, {code: "referee_stripes"});
+                    // input_object.applicationObj.pattern_obj = _patternObj;
+
+                    // if (typeof input_object.applicationObj.pattern_obj === 'object') {
+
+                    //     $.ub.mvChangePattern(input_object.applicationObj.application, input_object.applicationObj.id, _patternObj, sprite_collection);
+
+                    // }
 
                 }
 
@@ -4760,14 +4785,12 @@ $(document).ready(function () {
                 var _paddedHex = util.padHex(_hexCode, 6);
 
                 if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
-                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tine, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
+                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
                 }
                 ///
 
                 sprite.anchor.set(0.5,0.5);
-
-                sprite.tint = clone.layers[index].color
-
+                sprite.tint = clone.layers[index].color;
                 container.addChild(sprite);
 
                 var _positionAdjusted = {
@@ -4809,12 +4832,30 @@ $(document).ready(function () {
 
         });
 
-        if (clone.code === 'stripe') {
+        // For Initial Load Only
+        if (clone.code === 'stripe' || clone.code === 'tiger2' || clone.code === 'checkered' || clone.code === 'arrow') {
 
-            if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined') {  ub.objects['back_view']['pattern_' + target].position.y -= 70; }
-            if (typeof ub.objects['left_view']['pattern_' + target] !== 'undefined') {  ub.objects['left_view']['pattern_' + target].position.y -= 70; }
-            if (typeof ub.objects['right_view']['pattern_' + target] !== 'undefined') {  ub.objects['right_view']['pattern_' + target].position.y -= 70; }
-                
+            // if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined')  { ub.objects['back_view']['pattern_' + target].position.y  -= 70; }
+            // if (typeof ub.objects['left_view']['pattern_' + target] !== 'undefined')  { ub.objects['left_view']['pattern_' + target].position.y  -= 70; }
+            // if (typeof ub.objects['right_view']['pattern_' + target] !== 'undefined') { ub.objects['right_view']['pattern_' + target].position.y -= 70; }
+
+            if (window.screen.height > 1100) {
+
+                if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined')  { ub.objects['front_view']['pattern_' + target].position.y = 532; }
+                if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined')  { ub.objects['back_view']['pattern_' + target].position.y  = 532; }
+                if (typeof ub.objects['left_view']['pattern_' + target] !== 'undefined')  { ub.objects['left_view']['pattern_' + target].position.y  = 532; }
+                if (typeof ub.objects['right_view']['pattern_' + target] !== 'undefined') { ub.objects['right_view']['pattern_' + target].position.y = 532; }
+
+                if (typeof ub.objects['back_view']['pattern_left_shoulder_cowl_insert'] !== 'undefined') { ub.objects['back_view']['pattern_left_shoulder_cowl_insert'].position.y = 232; }
+   
+            }
+
+            if (window.screen.height < 1100) {
+
+                if (typeof ub.objects['back_view']['pattern_body'] !== 'undefined') { ub.objects['back_view']['pattern_body'].position.y = 532; }
+   
+            }
+
         }
 
     }
@@ -6144,6 +6185,13 @@ $(document).ready(function () {
         }
 
         ub.funcs.filterMessages = function (type) {
+
+            if (type !== "unread") {
+
+                var _message = _.find(ub.data.notificationMessage, {type: type});
+                $('div.notification-description').html(_message.description);
+
+            }
 
             $('div#messages > span.header').html(type);
 
