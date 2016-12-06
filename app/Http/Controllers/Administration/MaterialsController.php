@@ -189,8 +189,13 @@ class MaterialsController extends Controller
 
         $set = "Piping";
 
-        $data = [];
+        $data = [
+        '1/8' => null,
+        '1/4' => null,
+        '1/2' => null
+        ];
 
+        // Upload images
         try {
             // 1/8 SIZES
             /* POSITION 1 */
@@ -700,6 +705,49 @@ class MaterialsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
 
+        // data['1/8'] = [];
+        $data['1/8']['front_pos_1'] = $f_position_1_18;
+        $data['1/8']['back_pos_1'] = $b_position_1_18;
+        $data['1/8']['left_pos_1'] = $l_position_1_18;
+        $data['1/8']['right_pos_1'] = $r_position_1_18;
+        $data['1/8']['front_pos_2'] = $f_position_2_18;
+        $data['1/8']['back_pos_2'] = $b_position_2_18;
+        $data['1/8']['left_pos_2'] = $l_position_2_18;
+        $data['1/8']['right_pos_2'] = $r_position_2_18;
+        $data['1/8']['front_pos_3'] = $f_position_3_18;
+        $data['1/8']['back_pos_3'] = $b_position_3_18;
+        $data['1/8']['left_pos_3'] = $l_position_3_18;
+        $data['1/8']['right_pos_3'] = $r_position_3_18;
+
+        // data['1/4'] = [];
+        $data['1/4']['front_pos_1'] = $f_position_1_14;
+        $data['1/4']['back_pos_1'] = $b_position_1_14;
+        $data['1/4']['left_pos_1'] = $l_position_1_14;
+        $data['1/4']['right_pos_1'] = $r_position_1_14;
+        $data['1/4']['front_pos_2'] = $f_position_2_14;
+        $data['1/4']['back_pos_2'] = $b_position_2_14;
+        $data['1/4']['left_pos_2'] = $l_position_2_14;
+        $data['1/4']['right_pos_2'] = $r_position_2_14;
+        $data['1/4']['front_pos_3'] = $f_position_3_14;
+        $data['1/4']['back_pos_3'] = $b_position_3_14;
+        $data['1/4']['left_pos_3'] = $l_position_3_14;
+        $data['1/4']['right_pos_3'] = $r_position_3_14;
+
+        // data['1/2'] = [];
+        $data['1/2']['front_pos_1'] = $f_position_1_12;
+        $data['1/2']['back_pos_1'] = $b_position_1_12;
+        $data['1/2']['left_pos_1'] = $l_position_1_12;
+        $data['1/2']['right_pos_1'] = $r_position_1_12;
+        $data['1/2']['front_pos_2'] = $f_position_2_12;
+        $data['1/2']['back_pos_2'] = $b_position_2_12;
+        $data['1/2']['left_pos_2'] = $l_position_2_12;
+        $data['1/2']['right_pos_2'] = $r_position_2_12;
+        $data['1/2']['front_pos_3'] = $f_position_3_12;
+        $data['1/2']['back_pos_3'] = $b_position_3_12;
+        $data['1/2']['left_pos_3'] = $l_position_3_12;
+        $data['1/2']['right_pos_3'] = $r_position_3_12;
+
+        dd($data);
     }
 
     public function store(Request $request)
