@@ -180,31 +180,34 @@ $(document).ready(function() {
     ub.data.pipings                 = undefined;
 
     // Mock Object for Pipings 
+
+    ub.folders                      = { pipings: '/images/pipings/' } ;
+    
     ub.data.pipings                 = [
         
         {
             
-            name: 'Sleeve Piping 1/8',
-            size: '1/8',
-            set: 'Sleeve',
+            name: 'Yoke Piping 1/4',
+            size: '1/4',
+            set: 'Yoke',
             color_1: true,
-            color_2: true,
-            color_3: true,
+            color_2: false,
+            color_3: false,
             perspectives: [
                 {
                     perspective: 'front',
                     layers: [
                         {
                             position: 1,
-                            filename: '/public/images/piping/sleeve/front/18/1.png',
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Front/1.png',
                         },
                         {
                             position: 2,
-                            filename: '/public/images/piping/sleeve/front/18/2.png',
-                        }
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Front/2.png',
+                        },
                         {
                             position: 3,
-                            filename: '/public/images/piping/sleeve/front/18/3.png',
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Front/3.png',
                         }
                     ]
                 },
@@ -213,15 +216,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: '/public/images/piping/sleeve/back/18/1.png',
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Back/1.png',
                         },
                         {
                             position: 2,
-                            filename: '/public/images/piping/sleeve/back/18/2.png',
-                        }
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Back/2.png',
+                        },
                         {
                             position: 3,
-                            filename: '/public/images/piping/sleeve/back/18/3.png',
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Back/3.png',
                         }
                     ]
                 },
@@ -230,15 +233,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: '/public/images/piping/sleeve/left/18/1.png',
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Left/1.png',
                         },
                         {
                             position: 2,
-                            filename: '/public/images/piping/sleeve/left/18/2.png',
-                        }
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Left/2.png',
+                        },
                         {
                             position: 3,
-                            filename: '/public/images/piping/sleeve/left/18/3.png',
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Left/3.png',
                         }
                     ]
                 },
@@ -247,15 +250,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: '/public/images/piping/sleeve/right/18/1.png',
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Right/1.png',
                         },
                         {
                             position: 2,
-                            filename: '/public/images/piping/sleeve/right/18/2.png',
-                        }
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Right/2.png',
+                        },
                         {
                             position: 3,
-                            filename: '/public/images/piping/sleeve/right/18/3.png',
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Right/3.png',
                         }
                     ]
                 },
@@ -263,7 +266,7 @@ $(document).ready(function() {
 
         }, 
 
-    ]
+    ];
 
 
     ub.data.searchSource            = {};

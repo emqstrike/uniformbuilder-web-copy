@@ -6455,13 +6455,8 @@ $(document).ready(function() {
 
     ub.funcs.activateMascots = function (application_id) {
 
-        if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { 
-
-            return;
-
-        }
-
-        if (!ub.funcs.okToStart()) { return; }
+        if (ub.funcs.popupsVisible()) { return; }
+        if (!ub.funcs.okToStart())    { return; }
 
         ub.funcs.activatePanelGuard();
 
@@ -6519,10 +6514,7 @@ $(document).ready(function() {
         var _appActive          = 'checked';
         var _maxLength          = 12;
 
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateColorPickers();
-        ub.funcs.deActivatePatterns();
-        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
         
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
@@ -7723,10 +7715,187 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.deactivatePipings = function () {
+
+        $('div#pipingsUI').remove();
+
+    }
+
+    ub.funcs.deactivatePanels = function  () {
+
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateColorPickers();
+        ub.funcs.deActivatePatterns();
+        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePipings();
+
+    }
+
+    ub.funcs.popupsVisible = function () {
+
+        return ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible'));
+
+    }
+
+    ub.funcs.changePipingSize = function (selectedSize, pipingSet) {
+
+        // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
+        // put in logic to change piping size here ...
+
+    }
+
+    ub.funcs.changePipingColor = function () {
+
+        // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
+        // put in logic to change piping color here ...
+
+    };
+
+    ub.funcs.changeActiveColorSmallColorPickerPiping = function () {
+
+        // Use ub.funcs.changeActiveColorSmallColorPicker as a refenrence 
+
+    }
+
+    ub.funcs.activatePipings = function (pipingSet) {
+
+        if (ub.funcs.popupsVisible()) { return; }
+        if (!ub.funcs.okToStart())    { return; }
+
+        ub.funcs.activatePanelGuard();
+        ub.funcs.activateMoveTool(application_id);
+
+        if (ub.funcs.isBitFieldOn()) { 
+
+            var _marker = _.find(ub.data.markerBitField, {value: true});
+
+            if (_marker.code.toString() !== application_id.toString()) {
+                return;     
+            }
+
+        }
+
+        ub.funcs.deactivatePanels();
+
+        var _status     = 'on';
+        var _pipingSet  = pipingSet; 
+
+        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
+
+        _htmlBuilder        =  '<div id="pipingsUI">';
+        _htmlBuilder        +=      '<div class="header">';
+        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
+        _htmlBuilder        +=      '<div class="body">';
+        _htmlBuilder        +=          '<div class="cover"></div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">Pipings</label>';
+
+        _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
+        _htmlBuilder        +=              ub.funcs.getPipingSizes(_pipingSet);
+
+        _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=          '<div class="clearfix"></div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+        _htmlBuilder        +=              '<div class="column1">'
+
+        _htmlBuilder        +=              '<div class="sub1">';
+        _htmlBuilder        +=              '</div>';
+        _htmlBuilder        +=                  '<div class="colorContainer"><br />';
+        _htmlBuilder        +=                  '</div>';
+        _htmlBuilder        +=              '</div>';
+        _htmlBuilder        +=          '</div>';
+        _htmlBuilder        +=      '</div>';
+        _htmlBuilder        +=  '</div>';
+        
+        $('.modifier_main_container').append(_htmlBuilder);
+
+            $('span.piping_size').on('click', function () {
+
+                var _selectedSize = $(this).data('size');
+                $('.piping_size').removeClass('active');
+                $(this).addClass('active');
+
+                ub.funcs.changePipingSize(_selectedSize, _pipingSet);
+
+            });
+
+            $('span.colorItem').on('click', function () {
+
+                var _layer_no   = $(this).data('layer-no');
+                var _color_code = $(this).data('color-code');
+                var _layer_name = $(this).data('layer-name');
+                var _temp       = $(this).data('temp');
+
+                var _colorObj   = ub.funcs.getColorByColorCode(_color_code);
+
+                var _oldVal = {
+
+                    layerNo: _layer_no,
+                    color: _settingsObject.color_array[_layer_no - 1],
+                    applicationCode: _settingsObject.code,
+
+                }
+
+                if (_temp !== 'undo') {
+
+                    ub.funcs.pushOldState('color change', 'application', _settingsObject, _oldVal);
+                    
+                }
+
+                ub.funcs.changePipingColorColor(_colorObj, _layer_no, _pipingSet); 
+                ub.funcs.changeActiveColorSmallColorPickerPiping(_layer_no, _color_code, _colorObj);
+
+            });
+
+            ub.funcs.useRotated(_status);
+
+        // End Small Color Pickers
+
+        // End Events
+
+        $('div#applicationUI').fadeIn();
+        ub.funcs.activateMoveTool(application_id);
+        ub.funcs.activateLayer(application_id);
+
+        $("div.toggleOption").unbind('click');
+        $("div.toggleOption").on("click", function () {
+
+            var _currentStatus = $('div.toggle').data('status');
+            var s;
+
+            if(_currentStatus === "on") {
+                s = 'off';
+            }
+            else {
+                s = 'on';
+            }
+
+            ub.funcs.toggleApplication(_id,s);    
+
+            if(_id === "9") { ub.funcs.toggleApplication('10', s); }
+            if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+
+            if(_id === "32") { ub.funcs.toggleApplication('33', s); }
+            if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+
+        });
+
+        ub.funcs.toggleApplication(_id, _status);
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
-        if ($('div#primaryMascotPopup').is(':visible')) { return; }
+        if ($('div#primaryMascotPopup').is(':visible'))  { return; }
 
         // Remove Change Application UI
         $('div#changeApplicationUI').remove();
@@ -7750,10 +7919,7 @@ $(document).ready(function() {
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateColorPickers();
-        ub.funcs.deActivatePatterns();
-        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
 
         var _sampleText       = _settingsObject.text;
@@ -9834,10 +10000,8 @@ $(document).ready(function() {
 
     ub.funcs.activateFreeApplication = function (application_id) {
 
-        if ($('div#primaryPatternPopup').is(':visible')) { return; }
-        if ($('div#primaryMascotPopup').is(':visible')) { return; }
-
-        if (!ub.funcs.okToStart()) { return; }
+        if (ub.funcs.popupsVisible())   { return true; }
+        if (!ub.funcs.okToStart())      { return; }
 
         ub.funcs.activatePanelGuard();
         
@@ -9847,10 +10011,7 @@ $(document).ready(function() {
 
         var _htmlBuilder;
 
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateColorPickers();
-        ub.funcs.deActivatePatterns();
-        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';

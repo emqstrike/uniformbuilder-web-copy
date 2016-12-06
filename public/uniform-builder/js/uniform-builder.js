@@ -19,8 +19,6 @@ $(document).ready(function () {
             ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
             ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
 
-            // ub.current_material.pipings_url = window.ub.config.api_host + '/api/pipings/';
-
             ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
             ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
             ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
@@ -29,8 +27,7 @@ $(document).ready(function () {
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-            // ub.loader(ub.current_material.pipings_url, 'pipings', ub.callback);
-
+            
             ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
             ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 
@@ -67,11 +64,13 @@ $(document).ready(function () {
             
             $('div.backlink').addClass('back-link-on');
 
-            ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
+            ub.current_material.material_url         = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
             ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
+            ub.current_material.pipings_url          = window.ub.config.api_host + '/api/pipings/' + ub.current_material.id;
 
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
+            ub.loader(ub.current_material.pipings_url, 'pipings', ub.callback);
 
             $('#main_view').parent().fadeIn();
             $('div.header-container').fadeIn(); 
@@ -3608,10 +3607,7 @@ $(document).ready(function () {
                     app_containers[application_obj.code].object = {};
                     app_containers[application_obj.code].object.sprite = sprite_collection;
 
-                    console.log('Application OBJ');
-                    console.log(application_obj);
-                    console.log(app_containers);
-
+                    
                 }
 
                 if (typeof input_object.applicationObj === 'object') {
@@ -4392,9 +4388,9 @@ $(document).ready(function () {
                     if (ub.current_part === 0) { return; }
 
                     console.log('Pipings... ');
-                    
+
                     return;
-                    
+
                 }
 
                 if (view === 'start-over') {
