@@ -159,6 +159,14 @@ class MaterialsController extends Controller
         ]);
     }
 
+    public function editPipingForm($id)
+    {
+        $material = $this->client->getMaterial($id);
+        return view('administration.materials.material-piping', [
+            'material' => $material
+        ]);
+    }
+
     public function addMaterialForm()
     {
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
@@ -171,6 +179,575 @@ class MaterialsController extends Controller
             'factories' => $factories,
             'block_patterns' => $block_patterns
         ]);
+    }
+
+    public function updatePiping(Request $request)
+    {
+        $name_oe = $request->input('name_oe');
+        $name_of = $request->input('name_of');
+        $name_oh = $request->input('name_oh');
+
+        $set = "Piping";
+
+        $data = [
+        '1/8' => null,
+        '1/4' => null,
+        '1/2' => null
+        ];
+
+        // Upload images
+        try {
+            // 1/8 SIZES
+            /* POSITION 1 */
+            $f_position_1_18 = $request->file('f_position_1_18');
+            if (isset($f_position_1_18))
+            {
+                if ($f_position_1_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_1_18'] = FileUploader::upload(
+                                                    $f_position_1_18,
+                                                    $f_position_1_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            $b_position_1_18 = $request->file('b_position_1_18');
+            if (isset($b_position_1_18))
+            {
+                if ($b_position_1_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_1_18'] = FileUploader::upload(
+                                                    $b_position_1_18,
+                                                    $b_position_1_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            
+            $l_position_1_18 = $request->file('l_position_1_18');
+            if (isset($l_position_1_18))
+            {
+                if ($l_position_1_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_1_18'] = FileUploader::upload(
+                                                    $l_position_1_18,
+                                                    $l_position_1_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+
+            $r_position_1_18 = $request->file('r_position_1_18');
+            if (isset($r_position_1_18))
+            {
+                if ($r_position_1_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_1_18'] = FileUploader::upload(
+                                                    $r_position_1_18,
+                                                    $r_position_1_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            /* POSITION 2 */
+            $f_position_2_18 = $request->file('f_position_2_18');
+            if (isset($f_position_2_18))
+            {
+                if ($f_position_2_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_2_18'] = FileUploader::upload(
+                                                    $f_position_2_18,
+                                                    $f_position_2_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            $b_position_2_18 = $request->file('b_position_2_18');
+            if (isset($b_position_2_18))
+            {
+                if ($b_position_2_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_2_18'] = FileUploader::upload(
+                                                    $b_position_2_18,
+                                                    $b_position_2_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            
+            $l_position_2_18 = $request->file('l_position_2_18');
+            if (isset($l_position_2_18))
+            {
+                if ($l_position_2_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_2_18'] = FileUploader::upload(
+                                                    $l_position_2_18,
+                                                    $l_position_2_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+
+            $r_position_2_18 = $request->file('r_position_2_18');
+            if (isset($r_position_2_18))
+            {
+                if ($r_position_2_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_2_18'] = FileUploader::upload(
+                                                    $r_position_2_18,
+                                                    $r_position_2_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            /* POSITION 3 */
+            $f_position_3_18 = $request->file('f_position_3_18');
+            if (isset($f_position_3_18))
+            {
+                if ($f_position_3_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_3_18'] = FileUploader::upload(
+                                                    $f_position_3_18,
+                                                    $f_position_3_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            $b_position_3_18 = $request->file('b_position_3_18');
+            if (isset($b_position_3_18))
+            {
+                if ($b_position_3_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_3_18'] = FileUploader::upload(
+                                                    $b_position_3_18,
+                                                    $b_position_3_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            
+            $l_position_3_18 = $request->file('l_position_3_18');
+            if (isset($l_position_3_18))
+            {
+                if ($l_position_3_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_3_18'] = FileUploader::upload(
+                                                    $l_position_3_18,
+                                                    $l_position_3_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+
+            $r_position_3_18 = $request->file('r_position_3_18');
+            if (isset($r_position_3_18))
+            {
+                if ($r_position_3_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_3_18'] = FileUploader::upload(
+                                                    $r_position_3_18,
+                                                    $r_position_3_18.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            // 1/4 SIZES
+            /* POSITION 1 */
+            $f_position_1_14 = $request->file('f_position_1_14');
+            if (isset($f_position_1_14))
+            {
+                if ($f_position_1_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_1_14'] = FileUploader::upload(
+                                                    $f_position_1_14,
+                                                    $f_position_1_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            $b_position_1_14 = $request->file('b_position_1_14');
+            if (isset($b_position_1_14))
+            {
+                if ($b_position_1_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_1_14'] = FileUploader::upload(
+                                                    $b_position_1_14,
+                                                    $b_position_1_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            
+            $l_position_1_14 = $request->file('l_position_1_14');
+            if (isset($l_position_1_14))
+            {
+                if ($l_position_1_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_1_14'] = FileUploader::upload(
+                                                    $l_position_1_14,
+                                                    $l_position_1_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+
+            $r_position_1_14 = $request->file('r_position_1_14');
+            if (isset($r_position_1_14))
+            {
+                if ($r_position_1_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_1_14'] = FileUploader::upload(
+                                                    $r_position_1_14,
+                                                    $r_position_1_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            /* POSITION 2 */
+            $f_position_2_14 = $request->file('f_position_2_14');
+            if (isset($f_position_2_14))
+            {
+                if ($f_position_2_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_2_14'] = FileUploader::upload(
+                                                    $f_position_2_14,
+                                                    $f_position_2_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            $b_position_2_14 = $request->file('b_position_2_14');
+            if (isset($b_position_2_14))
+            {
+                if ($b_position_2_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_2_14'] = FileUploader::upload(
+                                                    $b_position_2_14,
+                                                    $b_position_2_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            
+            $l_position_2_14 = $request->file('l_position_2_14');
+            if (isset($l_position_2_14))
+            {
+                if ($l_position_2_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_2_14'] = FileUploader::upload(
+                                                    $l_position_2_14,
+                                                    $l_position_2_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+
+            $r_position_2_14 = $request->file('r_position_2_14');
+            if (isset($r_position_2_14))
+            {
+                if ($r_position_2_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_2_14'] = FileUploader::upload(
+                                                    $r_position_2_14,
+                                                    $r_position_2_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            /* POSITION 3 */
+            $f_position_3_14 = $request->file('f_position_3_14');
+            if (isset($f_position_3_14))
+            {
+                if ($f_position_3_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_3_14'] = FileUploader::upload(
+                                                    $f_position_3_14,
+                                                    $f_position_3_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            $b_position_3_14 = $request->file('b_position_3_14');
+            if (isset($b_position_3_14))
+            {
+                if ($b_position_3_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_3_14'] = FileUploader::upload(
+                                                    $b_position_3_14,
+                                                    $b_position_3_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            
+            $l_position_3_14 = $request->file('l_position_3_14');
+            if (isset($l_position_3_14))
+            {
+                if ($l_position_3_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_3_14'] = FileUploader::upload(
+                                                    $l_position_3_14,
+                                                    $l_position_3_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+
+            $r_position_3_14 = $request->file('r_position_3_14');
+            if (isset($r_position_3_14))
+            {
+                if ($r_position_3_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_3_14'] = FileUploader::upload(
+                                                    $r_position_3_14,
+                                                    $r_position_3_14.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            // 1/2 SIZES
+            /* POSITION 1 */
+            $f_position_1_12 = $request->file('f_position_1_12');
+            if (isset($f_position_1_12))
+            {
+                if ($f_position_1_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_1_12'] = FileUploader::upload(
+                                                    $f_position_1_12,
+                                                    $f_position_1_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            $b_position_1_12 = $request->file('b_position_1_12');
+            if (isset($b_position_1_12))
+            {
+                if ($b_position_1_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_1_12'] = FileUploader::upload(
+                                                    $b_position_1_12,
+                                                    $b_position_1_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            
+            $l_position_1_12 = $request->file('l_position_1_12');
+            if (isset($l_position_1_12))
+            {
+                if ($l_position_1_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_1_12'] = FileUploader::upload(
+                                                    $l_position_1_12,
+                                                    $l_position_1_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+
+            $r_position_1_12 = $request->file('r_position_1_12');
+            if (isset($r_position_1_12))
+            {
+                if ($r_position_1_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_1_12'] = FileUploader::upload(
+                                                    $r_position_1_12,
+                                                    $r_position_1_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            /* POSITION 2 */
+            $f_position_2_12 = $request->file('f_position_2_12');
+            if (isset($f_position_2_12))
+            {
+                if ($f_position_2_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_2_12'] = FileUploader::upload(
+                                                    $f_position_2_12,
+                                                    $f_position_2_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            $b_position_2_12 = $request->file('b_position_2_12');
+            if (isset($b_position_2_12))
+            {
+                if ($b_position_2_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_2_12'] = FileUploader::upload(
+                                                    $b_position_2_12,
+                                                    $b_position_2_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            
+            $l_position_2_12 = $request->file('l_position_2_12');
+            if (isset($l_position_2_12))
+            {
+                if ($l_position_2_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_2_12'] = FileUploader::upload(
+                                                    $l_position_2_12,
+                                                    $l_position_2_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+
+            $r_position_2_12 = $request->file('r_position_2_12');
+            if (isset($r_position_2_12))
+            {
+                if ($r_position_2_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_2_12'] = FileUploader::upload(
+                                                    $r_position_2_12,
+                                                    $r_position_2_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            /* POSITION 3 */
+            $f_position_3_12 = $request->file('f_position_3_12');
+            if (isset($f_position_3_12))
+            {
+                if ($f_position_3_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_3_12'] = FileUploader::upload(
+                                                    $f_position_3_12,
+                                                    $f_position_3_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            $b_position_3_12 = $request->file('b_position_3_12');
+            if (isset($b_position_3_12))
+            {
+                if ($b_position_3_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_3_12'] = FileUploader::upload(
+                                                    $b_position_3_12,
+                                                    $b_position_3_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+            
+            $l_position_3_12 = $request->file('l_position_3_12');
+            if (isset($l_position_3_12))
+            {
+                if ($l_position_3_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_3_12'] = FileUploader::upload(
+                                                    $l_position_3_12,
+                                                    $l_position_3_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+
+            $r_position_3_12 = $request->file('r_position_3_12');
+            if (isset($r_position_3_12))
+            {
+                if ($r_position_3_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_3_12'] = FileUploader::upload(
+                                                    $r_position_3_12,
+                                                    $r_position_3_12.'_'.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+
+            dd($data);
+        }
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/materials')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+
+        // data['1/8'] = [];
+        $data['1/8']['front_pos_1'] = $f_position_1_18;
+        $data['1/8']['back_pos_1'] = $b_position_1_18;
+        $data['1/8']['left_pos_1'] = $l_position_1_18;
+        $data['1/8']['right_pos_1'] = $r_position_1_18;
+        $data['1/8']['front_pos_2'] = $f_position_2_18;
+        $data['1/8']['back_pos_2'] = $b_position_2_18;
+        $data['1/8']['left_pos_2'] = $l_position_2_18;
+        $data['1/8']['right_pos_2'] = $r_position_2_18;
+        $data['1/8']['front_pos_3'] = $f_position_3_18;
+        $data['1/8']['back_pos_3'] = $b_position_3_18;
+        $data['1/8']['left_pos_3'] = $l_position_3_18;
+        $data['1/8']['right_pos_3'] = $r_position_3_18;
+
+        // data['1/4'] = [];
+        $data['1/4']['front_pos_1'] = $f_position_1_14;
+        $data['1/4']['back_pos_1'] = $b_position_1_14;
+        $data['1/4']['left_pos_1'] = $l_position_1_14;
+        $data['1/4']['right_pos_1'] = $r_position_1_14;
+        $data['1/4']['front_pos_2'] = $f_position_2_14;
+        $data['1/4']['back_pos_2'] = $b_position_2_14;
+        $data['1/4']['left_pos_2'] = $l_position_2_14;
+        $data['1/4']['right_pos_2'] = $r_position_2_14;
+        $data['1/4']['front_pos_3'] = $f_position_3_14;
+        $data['1/4']['back_pos_3'] = $b_position_3_14;
+        $data['1/4']['left_pos_3'] = $l_position_3_14;
+        $data['1/4']['right_pos_3'] = $r_position_3_14;
+
+        // data['1/2'] = [];
+        $data['1/2']['front_pos_1'] = $f_position_1_12;
+        $data['1/2']['back_pos_1'] = $b_position_1_12;
+        $data['1/2']['left_pos_1'] = $l_position_1_12;
+        $data['1/2']['right_pos_1'] = $r_position_1_12;
+        $data['1/2']['front_pos_2'] = $f_position_2_12;
+        $data['1/2']['back_pos_2'] = $b_position_2_12;
+        $data['1/2']['left_pos_2'] = $l_position_2_12;
+        $data['1/2']['right_pos_2'] = $r_position_2_12;
+        $data['1/2']['front_pos_3'] = $f_position_3_12;
+        $data['1/2']['back_pos_3'] = $b_position_3_12;
+        $data['1/2']['left_pos_3'] = $l_position_3_12;
+        $data['1/2']['right_pos_3'] = $r_position_3_12;
+
+        dd($data);
     }
 
     public function store(Request $request)
