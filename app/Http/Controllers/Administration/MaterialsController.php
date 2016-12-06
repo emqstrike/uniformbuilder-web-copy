@@ -702,7 +702,7 @@ class MaterialsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
 
-        structured_data['1/8'] = [];
+        $structured_data['1/8'] = [];
         $structured_data['1/8']['front_pos_1'] = $f_position_1_18;
         $structured_data['1/8']['back_pos_1'] = $b_position_1_18;
         $structured_data['1/8']['left_pos_1'] = $l_position_1_18;
