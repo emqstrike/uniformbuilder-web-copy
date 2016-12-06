@@ -66,11 +66,11 @@ $(document).ready(function () {
 
             ub.current_material.material_url         = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
             ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
-            ub.current_material.pipings_url          = window.ub.config.api_host + '/api/pipings/' + ub.current_material.id;
+            // ub.current_material.pipings_url          = window.ub.config.api_host + '/api/pipings/' + ub.current_material.id;
 
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
-            ub.loader(ub.current_material.pipings_url, 'pipings', ub.callback);
+            // ub.loader(ub.current_material.pipings_url, 'pipings', ub.callback);
 
             $('#main_view').parent().fadeIn();
             $('div.header-container').fadeIn(); 
@@ -298,7 +298,7 @@ $(document).ready(function () {
 
             }
 
-            if (ub.current_material.material.id === '386') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
+            if (ub.current_material.material.id === '648') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
         }
@@ -4385,10 +4385,7 @@ $(document).ready(function () {
 
                 if (view === 'pipings') {
 
-                    if (ub.current_part === 0) { return; }
-
-                    console.log('Pipings... ');
-
+                    ub.funcs.activatePipings();
                     return;
 
                 }

@@ -7770,18 +7770,6 @@ $(document).ready(function() {
         if (!ub.funcs.okToStart())    { return; }
 
         ub.funcs.activatePanelGuard();
-        ub.funcs.activateMoveTool(application_id);
-
-        if (ub.funcs.isBitFieldOn()) { 
-
-            var _marker = _.find(ub.data.markerBitField, {value: true});
-
-            if (_marker.code.toString() !== application_id.toString()) {
-                return;     
-            }
-
-        }
-
         ub.funcs.deactivatePanels();
 
         var _status     = 'on';
