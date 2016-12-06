@@ -305,16 +305,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('feedback/reply/{id}', 'Administration\FeedbacksController@reply');
     Route::get('feedback/thread/{id}', 'Administration\FeedbacksController@viewThread');
 
-
-  // Mockup set
-     Route::get('mockup_sets', 'Administration\MockupSetsController@index');
-     Route::get('mockup_set/{id}', 'Administration\MockupSetsController@show');
-//     Route::get('mockup_sets', function()
-// {
-//     return 'Hello World';
-// });
-
-
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
