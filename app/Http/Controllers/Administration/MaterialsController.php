@@ -692,8 +692,6 @@ class MaterialsController extends Controller
                                                 );
                 }
             }
-
-            dd($data);
         }
         catch (S3Exception $e)
         {
