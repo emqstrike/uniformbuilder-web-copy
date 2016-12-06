@@ -208,7 +208,9 @@ class MaterialsController extends Controller
                     $data['f_position_1_18'] = FileUploader::upload(
                                                     $f_position_1_18,
                                                     $f_position_1_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['front_pos_1'] = $data['f_position_1_18'];
                 }
@@ -222,7 +224,9 @@ class MaterialsController extends Controller
                     $data['b_position_1_18'] = FileUploader::upload(
                                                     $b_position_1_18,
                                                     $b_position_1_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['back_pos_1'] = $data['b_position_1_18'];
                 }
@@ -237,7 +241,9 @@ class MaterialsController extends Controller
                     $data['l_position_1_18'] = FileUploader::upload(
                                                     $l_position_1_18,
                                                     $l_position_1_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['left_pos_1'] = $data['l_position_1_18'];
                 }
@@ -252,7 +258,9 @@ class MaterialsController extends Controller
                     $data['r_position_1_18'] = FileUploader::upload(
                                                     $r_position_1_18,
                                                     $r_position_1_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['right_pos_1'] = $data['r_position_1_18'];
                 }
@@ -267,7 +275,9 @@ class MaterialsController extends Controller
                     $data['f_position_2_18'] = FileUploader::upload(
                                                     $f_position_2_18,
                                                     $f_position_2_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['front_pos_2'] = $data['f_position_2_18'];
                 }
@@ -281,7 +291,9 @@ class MaterialsController extends Controller
                     $data['b_position_2_18'] = FileUploader::upload(
                                                     $b_position_2_18,
                                                     $b_position_2_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['back_pos_2'] = $data['b_position_2_18'];
                 }
@@ -296,7 +308,9 @@ class MaterialsController extends Controller
                     $data['l_position_2_18'] = FileUploader::upload(
                                                     $l_position_2_18,
                                                     $l_position_2_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['left_pos_2'] = $data['l_position_2_18'];
                 }
@@ -311,7 +325,9 @@ class MaterialsController extends Controller
                     $data['r_position_2_18'] = FileUploader::upload(
                                                     $r_position_2_18,
                                                     $r_position_2_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['right_pos_2'] = $data['r_position_2_18'];
                 }
@@ -326,7 +342,9 @@ class MaterialsController extends Controller
                     $data['f_position_3_18'] = FileUploader::upload(
                                                     $f_position_3_18,
                                                     $f_position_3_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['front_pos_3'] = $data['f_position_3_18'];
                 }
@@ -340,7 +358,9 @@ class MaterialsController extends Controller
                     $data['b_position_3_18'] = FileUploader::upload(
                                                     $b_position_3_18,
                                                     $b_position_3_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['back_pos_3'] = $data['b_position_3_18'];
                 }
@@ -355,7 +375,9 @@ class MaterialsController extends Controller
                     $data['l_position_3_18'] = FileUploader::upload(
                                                     $l_position_3_18,
                                                     $l_position_3_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['left_pos_3'] = $data['l_position_3_18'];
                 }
@@ -370,7 +392,9 @@ class MaterialsController extends Controller
                     $data['r_position_3_18'] = FileUploader::upload(
                                                     $r_position_3_18,
                                                     $r_position_3_18.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/8']['right_pos_3'] = $data['r_position_3_18'];
                 }
@@ -386,7 +410,9 @@ class MaterialsController extends Controller
                     $data['f_position_1_14'] = FileUploader::upload(
                                                     $f_position_1_14,
                                                     $f_position_1_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['front_pos_1'] = $data['_position_1_14'];
                 }
@@ -400,7 +426,9 @@ class MaterialsController extends Controller
                     $data['b_position_1_14'] = FileUploader::upload(
                                                     $b_position_1_14,
                                                     $b_position_1_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['back_pos_1'] = $data['b_position_1_14'];
                 }
@@ -415,7 +443,9 @@ class MaterialsController extends Controller
                     $data['l_position_1_14'] = FileUploader::upload(
                                                     $l_position_1_14,
                                                     $l_position_1_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['left_pos_1'] = $data['l_position_1_14'];
                 }
@@ -430,7 +460,9 @@ class MaterialsController extends Controller
                     $data['r_position_1_14'] = FileUploader::upload(
                                                     $r_position_1_14,
                                                     $r_position_1_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['right_pos_1'] = $data['r_position_1_14'];
                 }
@@ -445,7 +477,9 @@ class MaterialsController extends Controller
                     $data['f_position_2_14'] = FileUploader::upload(
                                                     $f_position_2_14,
                                                     $f_position_2_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['front_pos_2'] = $data['f_position_2_14'];
                 }
@@ -459,7 +493,9 @@ class MaterialsController extends Controller
                     $data['b_position_2_14'] = FileUploader::upload(
                                                     $b_position_2_14,
                                                     $b_position_2_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['back_pos_2'] = $data['b_position_2_14'];
                 }
@@ -474,7 +510,9 @@ class MaterialsController extends Controller
                     $data['l_position_2_14'] = FileUploader::upload(
                                                     $l_position_2_14,
                                                     $l_position_2_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['left_pos_2'] = $data['l_position_2_14'];
                 }
@@ -489,7 +527,9 @@ class MaterialsController extends Controller
                     $data['r_position_2_14'] = FileUploader::upload(
                                                     $r_position_2_14,
                                                     $r_position_2_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['right_pos_2'] = $data['r_position_2_14'];
                 }
@@ -504,7 +544,9 @@ class MaterialsController extends Controller
                     $data['f_position_3_14'] = FileUploader::upload(
                                                     $f_position_3_14,
                                                     $f_position_3_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['front_pos_3'] = $data['f_position_3_14'];
                 }
@@ -518,7 +560,9 @@ class MaterialsController extends Controller
                     $data['b_position_3_14'] = FileUploader::upload(
                                                     $b_position_3_14,
                                                     $b_position_3_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['back_pos_3'] = $data['b_position_3_14'];
                 }
@@ -533,7 +577,9 @@ class MaterialsController extends Controller
                     $data['l_position_3_14'] = FileUploader::upload(
                                                     $l_position_3_14,
                                                     $l_position_3_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['left_pos_3'] = $data['l_position_3_14'];
                 }
@@ -548,7 +594,9 @@ class MaterialsController extends Controller
                     $data['r_position_3_14'] = FileUploader::upload(
                                                     $r_position_3_14,
                                                     $r_position_3_14.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/4']['right_pos_3'] = $data['r_position_3_14'];
                 }
@@ -564,7 +612,9 @@ class MaterialsController extends Controller
                     $data['f_position_1_12'] = FileUploader::upload(
                                                     $f_position_1_12,
                                                     $f_position_1_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['front_pos_1'] = $data['f_position_1_12'];
                 }
@@ -578,7 +628,9 @@ class MaterialsController extends Controller
                     $data['b_position_1_12'] = FileUploader::upload(
                                                     $b_position_1_12,
                                                     $b_position_1_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['back_pos_1'] = $data['b_position_1_12'];
                 }
@@ -593,7 +645,9 @@ class MaterialsController extends Controller
                     $data['l_position_1_12'] = FileUploader::upload(
                                                     $l_position_1_12,
                                                     $l_position_1_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['left_pos_1'] = $data['l_position_1_12'];
                 }
@@ -608,7 +662,9 @@ class MaterialsController extends Controller
                     $data['r_position_1_12'] = FileUploader::upload(
                                                     $r_position_1_12,
                                                     $r_position_1_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['right_pos_1'] = $data['r_position_1_12'];
                 }
@@ -623,7 +679,9 @@ class MaterialsController extends Controller
                     $data['f_position_2_12'] = FileUploader::upload(
                                                     $f_position_2_12,
                                                     $f_position_2_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['front_pos_2'] = $data['f_position_2_12'];
                 }
@@ -637,7 +695,9 @@ class MaterialsController extends Controller
                     $data['b_position_2_12'] = FileUploader::upload(
                                                     $b_position_2_12,
                                                     $b_position_2_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['back_pos_2'] = $data['b_position_2_12'];
                 }
@@ -652,7 +712,9 @@ class MaterialsController extends Controller
                     $data['l_position_2_12'] = FileUploader::upload(
                                                     $l_position_2_12,
                                                     $l_position_2_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['left_pos_2'] = $data['l_position_2_12'];
                 }
@@ -667,7 +729,9 @@ class MaterialsController extends Controller
                     $data['r_position_2_12'] = FileUploader::upload(
                                                     $r_position_2_12,
                                                     $r_position_2_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['right_pos_2'] = $data['r_position_2_12'];
                 }
@@ -682,7 +746,9 @@ class MaterialsController extends Controller
                     $data['f_position_3_12'] = FileUploader::upload(
                                                     $f_position_3_12,
                                                     $f_position_3_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['front_pos_3'] = $data['f_position_3_12'];
                 }
@@ -696,12 +762,14 @@ class MaterialsController extends Controller
                     $data['b_position_3_12'] = FileUploader::upload(
                                                     $b_position_3_12,
                                                     $b_position_3_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['back_pos_3'] = $data['b_position_3_12'];
                 }
             }
-            
+
             $l_position_3_12 = $request->file('l_position_3_12');
             if (isset($l_position_3_12))
             {
@@ -711,7 +779,9 @@ class MaterialsController extends Controller
                     $data['l_position_3_12'] = FileUploader::upload(
                                                     $l_position_3_12,
                                                     $l_position_3_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['left_pos_3'] = $data['l_position_3_12'];
                 }
@@ -726,7 +796,9 @@ class MaterialsController extends Controller
                     $data['r_position_3_12'] = FileUploader::upload(
                                                     $r_position_3_12,
                                                     $r_position_3_12.'_'.$randstr,
-                                                    'thumbnail'
+                                                    'material',
+                                                    'material_pipings',
+                                                    $randstr.".png"
                                                 );
                     $structured_data['1/2']['right_pos_3'] = $data['r_position_3_12'];
                 }
