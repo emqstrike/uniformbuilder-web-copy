@@ -191,6 +191,9 @@ class MaterialsController extends Controller
 
         $data = [];
         $structured_data = [];
+        $structured_data['1/8'] = [];
+        $structured_data['1/4'] = [];
+        $structured_data['1/2'] = [];
 
         // Upload images
         try {
@@ -207,6 +210,7 @@ class MaterialsController extends Controller
                                                     $f_position_1_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['front_pos_1'] = $data['f_position_1_18'];
                 }
             }
             $b_position_1_18 = $request->file('b_position_1_18');
@@ -220,6 +224,7 @@ class MaterialsController extends Controller
                                                     $b_position_1_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['back_pos_1'] = $data['b_position_1_18'];
                 }
             }
             
@@ -234,6 +239,7 @@ class MaterialsController extends Controller
                                                     $l_position_1_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['left_pos_1'] = $data['l_position_1_18'];
                 }
             }
 
@@ -248,6 +254,7 @@ class MaterialsController extends Controller
                                                     $r_position_1_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['right_pos_1'] = $data['r_position_1_18'];
                 }
             }
             /* POSITION 2 */
@@ -262,6 +269,7 @@ class MaterialsController extends Controller
                                                     $f_position_2_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['front_pos_2'] = $data['f_position_2_18'];
                 }
             }
             $b_position_2_18 = $request->file('b_position_2_18');
@@ -275,6 +283,7 @@ class MaterialsController extends Controller
                                                     $b_position_2_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['back_pos_2'] = $data['b_position_2_18'];
                 }
             }
             
@@ -289,6 +298,7 @@ class MaterialsController extends Controller
                                                     $l_position_2_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['left_pos_2'] = $data['l_position_2_18'];
                 }
             }
 
@@ -303,6 +313,7 @@ class MaterialsController extends Controller
                                                     $r_position_2_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['right_pos_2'] = $data['r_position_2_18'];
                 }
             }
             /* POSITION 3 */
@@ -317,6 +328,7 @@ class MaterialsController extends Controller
                                                     $f_position_3_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['front_pos_3'] = $data['f_position_3_18'];
                 }
             }
             $b_position_3_18 = $request->file('b_position_3_18');
@@ -330,6 +342,7 @@ class MaterialsController extends Controller
                                                     $b_position_3_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['back_pos_3'] = $data['b_position_3_18'];
                 }
             }
             
@@ -344,6 +357,7 @@ class MaterialsController extends Controller
                                                     $l_position_3_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['left_pos_3'] = $data['l_position_3_18'];
                 }
             }
 
@@ -358,6 +372,7 @@ class MaterialsController extends Controller
                                                     $r_position_3_18.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/8']['right_pos_3'] = $data['r_position_3_18'];
                 }
             }
             // 1/4 SIZES
@@ -373,6 +388,7 @@ class MaterialsController extends Controller
                                                     $f_position_1_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['front_pos_1'] = $data['_position_1_14'];
                 }
             }
             $b_position_1_14 = $request->file('b_position_1_14');
@@ -386,6 +402,7 @@ class MaterialsController extends Controller
                                                     $b_position_1_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['back_pos_1'] = $data['b_position_1_14'];
                 }
             }
             
@@ -400,6 +417,7 @@ class MaterialsController extends Controller
                                                     $l_position_1_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['left_pos_1'] = $data['l_position_1_14'];
                 }
             }
 
@@ -414,6 +432,7 @@ class MaterialsController extends Controller
                                                     $r_position_1_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['right_pos_1'] = $data['r_position_1_14'];
                 }
             }
             /* POSITION 2 */
@@ -428,6 +447,7 @@ class MaterialsController extends Controller
                                                     $f_position_2_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['front_pos_2'] = $data['f_position_2_14'];
                 }
             }
             $b_position_2_14 = $request->file('b_position_2_14');
@@ -441,6 +461,7 @@ class MaterialsController extends Controller
                                                     $b_position_2_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['back_pos_2'] = $data['b_position_2_14'];
                 }
             }
             
@@ -455,6 +476,7 @@ class MaterialsController extends Controller
                                                     $l_position_2_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['left_pos_2'] = $data['l_position_2_14'];
                 }
             }
 
@@ -469,6 +491,7 @@ class MaterialsController extends Controller
                                                     $r_position_2_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['right_pos_2'] = $data['r_position_2_14'];
                 }
             }
             /* POSITION 3 */
@@ -483,6 +506,7 @@ class MaterialsController extends Controller
                                                     $f_position_3_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['front_pos_3'] = $data['f_position_3_14'];
                 }
             }
             $b_position_3_14 = $request->file('b_position_3_14');
@@ -496,6 +520,7 @@ class MaterialsController extends Controller
                                                     $b_position_3_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['back_pos_3'] = $data['b_position_3_14'];
                 }
             }
             
@@ -510,6 +535,7 @@ class MaterialsController extends Controller
                                                     $l_position_3_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['left_pos_3'] = $data['l_position_3_14'];
                 }
             }
 
@@ -524,6 +550,7 @@ class MaterialsController extends Controller
                                                     $r_position_3_14.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/4']['right_pos_3'] = $data['r_position_3_14'];
                 }
             }
             // 1/2 SIZES
@@ -539,6 +566,7 @@ class MaterialsController extends Controller
                                                     $f_position_1_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['front_pos_1'] = $data['f_position_1_12'];
                 }
             }
             $b_position_1_12 = $request->file('b_position_1_12');
@@ -552,6 +580,7 @@ class MaterialsController extends Controller
                                                     $b_position_1_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['back_pos_1'] = $data['b_position_1_12'];
                 }
             }
             
@@ -566,6 +595,7 @@ class MaterialsController extends Controller
                                                     $l_position_1_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['left_pos_1'] = $data['l_position_1_12'];
                 }
             }
 
@@ -580,6 +610,7 @@ class MaterialsController extends Controller
                                                     $r_position_1_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['right_pos_1'] = $data['r_position_1_12'];
                 }
             }
             /* POSITION 2 */
@@ -594,6 +625,7 @@ class MaterialsController extends Controller
                                                     $f_position_2_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['front_pos_2'] = $data['f_position_2_12'];
                 }
             }
             $b_position_2_12 = $request->file('b_position_2_12');
@@ -607,6 +639,7 @@ class MaterialsController extends Controller
                                                     $b_position_2_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['back_pos_2'] = $data['b_position_2_12'];
                 }
             }
             
@@ -621,6 +654,7 @@ class MaterialsController extends Controller
                                                     $l_position_2_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['left_pos_2'] = $data['l_position_2_12'];
                 }
             }
 
@@ -635,6 +669,7 @@ class MaterialsController extends Controller
                                                     $r_position_2_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['right_pos_2'] = $data['r_position_2_12'];
                 }
             }
             /* POSITION 3 */
@@ -649,6 +684,7 @@ class MaterialsController extends Controller
                                                     $f_position_3_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['front_pos_3'] = $data['f_position_3_12'];
                 }
             }
             $b_position_3_12 = $request->file('b_position_3_12');
@@ -662,6 +698,7 @@ class MaterialsController extends Controller
                                                     $b_position_3_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['back_pos_3'] = $data['b_position_3_12'];
                 }
             }
             
@@ -676,6 +713,7 @@ class MaterialsController extends Controller
                                                     $l_position_3_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['left_pos_3'] = $data['l_position_3_12'];
                 }
             }
 
@@ -690,6 +728,7 @@ class MaterialsController extends Controller
                                                     $r_position_3_12.'_'.$randstr,
                                                     'thumbnail'
                                                 );
+                    $structured_data['1/2']['right_pos_3'] = $data['r_position_3_12'];
                 }
             }
         }
@@ -701,54 +740,54 @@ class MaterialsController extends Controller
             //                 ->with('message', 'There was a problem uploading your files');
         }
 
-        try {
-            $structured_data['1/8'] = [];
-            $structured_data['1/8']['front_pos_1'] = $data['f_position_1_18'];
-            $structured_data['1/8']['back_pos_1'] = $data['b_position_1_18'];
-            $structured_data['1/8']['left_pos_1'] = $data['l_position_1_18'];
-            $structured_data['1/8']['right_pos_1'] = $data['r_position_1_18'];
-            $structured_data['1/8']['front_pos_2'] = $data['f_position_2_18'];
-            $structured_data['1/8']['back_pos_2'] = $data['b_position_2_18'];
-            $structured_data['1/8']['left_pos_2'] = $data['l_position_2_18'];
-            $structured_data['1/8']['right_pos_2'] = $data['r_position_2_18'];
-            $structured_data['1/8']['front_pos_3'] = $data['f_position_3_18'];
-            $structured_data['1/8']['back_pos_3'] = $data['b_position_3_18'];
-            $structured_data['1/8']['left_pos_3'] = $data['l_position_3_18'];
-            $structured_data['1/8']['right_pos_3'] = $data['r_position_3_18'];
+        // try {
+            // $structured_data['1/8'] = [];
+            // $structured_data['1/8']['front_pos_1'] = $data['f_position_1_18'];
+            // $structured_data['1/8']['back_pos_1'] = $data['b_position_1_18'];
+            // $structured_data['1/8']['left_pos_1'] = $data['l_position_1_18'];
+            // $structured_data['1/8']['right_pos_1'] = $data['r_position_1_18'];
+            // $structured_data['1/8']['front_pos_2'] = $data['f_position_2_18'];
+            // $structured_data['1/8']['back_pos_2'] = $data['b_position_2_18'];
+            // $structured_data['1/8']['left_pos_2'] = $data['l_position_2_18'];
+            // $structured_data['1/8']['right_pos_2'] = $data['r_position_2_18'];
+            // $structured_data['1/8']['front_pos_3'] = $data['f_position_3_18'];
+            // $structured_data['1/8']['back_pos_3'] = $data['b_position_3_18'];
+            // $structured_data['1/8']['left_pos_3'] = $data['l_position_3_18'];
+            // $structured_data['1/8']['right_pos_3'] = $data['r_position_3_18'];
 
-            $structured_data['1/4'] = [];
-            $structured_data['1/4']['front_pos_1'] = $data['_position_1_14'];
-            $structured_data['1/4']['back_pos_1'] = $data['b_position_1_14'];
-            $structured_data['1/4']['left_pos_1'] = $data['l_position_1_14'];
-            $structured_data['1/4']['right_pos_1'] = $data['r_position_1_14'];
-            $structured_data['1/4']['front_pos_2'] = $data['f_position_2_14'];
-            $structured_data['1/4']['back_pos_2'] = $data['b_position_2_14'];
-            $structured_data['1/4']['left_pos_2'] = $data['l_position_2_14'];
-            $structured_data['1/4']['right_pos_2'] = $data['r_position_2_14'];
-            $structured_data['1/4']['front_pos_3'] = $data['f_position_3_14'];
-            $structured_data['1/4']['back_pos_3'] = $data['b_position_3_14'];
-            $structured_data['1/4']['left_pos_3'] = $data['l_position_3_14'];
-            $structured_data['1/4']['right_pos_3'] = $data['r_position_3_14'];
+            // $structured_data['1/4'] = [];
+            // $structured_data['1/4']['front_pos_1'] = $data['_position_1_14'];
+            // $structured_data['1/4']['back_pos_1'] = $data['b_position_1_14'];
+            // $structured_data['1/4']['left_pos_1'] = $data['l_position_1_14'];
+            // $structured_data['1/4']['right_pos_1'] = $data['r_position_1_14'];
+            // $structured_data['1/4']['front_pos_2'] = $data['f_position_2_14'];
+            // $structured_data['1/4']['back_pos_2'] = $data['b_position_2_14'];
+            // $structured_data['1/4']['left_pos_2'] = $data['l_position_2_14'];
+            // $structured_data['1/4']['right_pos_2'] = $data['r_position_2_14'];
+            // $structured_data['1/4']['front_pos_3'] = $data['f_position_3_14'];
+            // $structured_data['1/4']['back_pos_3'] = $data['b_position_3_14'];
+            // $structured_data['1/4']['left_pos_3'] = $data['l_position_3_14'];
+            // $structured_data['1/4']['right_pos_3'] = $data['r_position_3_14'];
 
-            $structured_data['1/2'] = [];
-            $structured_data['1/2']['front_pos_1'] = $data['f_position_1_12'];
-            $structured_data['1/2']['back_pos_1'] = $data['b_position_1_12'];
-            $structured_data['1/2']['left_pos_1'] = $data['l_position_1_12'];
-            $structured_data['1/2']['right_pos_1'] = $data['r_position_1_12'];
-            $structured_data['1/2']['front_pos_2'] = $data['f_position_2_12'];
-            $structured_data['1/2']['back_pos_2'] = $data['b_position_2_12'];
-            $structured_data['1/2']['left_pos_2'] = $data['l_position_2_12'];
-            $structured_data['1/2']['right_pos_2'] = $data['r_position_2_12'];
-            $structured_data['1/2']['front_pos_3'] = $data['f_position_3_12'];
-            $structured_data['1/2']['back_pos_3'] = $data['b_position_3_12'];
-            $structured_data['1/2']['left_pos_3'] = $data['l_position_3_12'];
-            $structured_data['1/2']['right_pos_3'] = $data['r_position_3_12'];
-        }
-        catch (S3Exception $e)
-        {
-            $message = $e->getMessage();
-            dd($message);
-        }
+            // $structured_data['1/2'] = [];
+            // $structured_data['1/2']['front_pos_1'] = $data['f_position_1_12'];
+            // $structured_data['1/2']['back_pos_1'] = $data['b_position_1_12'];
+            // $structured_data['1/2']['left_pos_1'] = $data['l_position_1_12'];
+            // $structured_data['1/2']['right_pos_1'] = $data['r_position_1_12'];
+            // $structured_data['1/2']['front_pos_2'] = $data['f_position_2_12'];
+            // $structured_data['1/2']['back_pos_2'] = $data['b_position_2_12'];
+            // $structured_data['1/2']['left_pos_2'] = $data['l_position_2_12'];
+            // $structured_data['1/2']['right_pos_2'] = $data['r_position_2_12'];
+            // $structured_data['1/2']['front_pos_3'] = $data['f_position_3_12'];
+            // $structured_data['1/2']['back_pos_3'] = $data['b_position_3_12'];
+            // $structured_data['1/2']['left_pos_3'] = $data['l_position_3_12'];
+            // $structured_data['1/2']['right_pos_3'] = $data['r_position_3_12'];
+        // }
+        // catch (S3Exception $e)
+        // {
+        //     $message = $e->getMessage();
+        //     dd($message);
+        // }
 
         dd($structured_data);
     }
