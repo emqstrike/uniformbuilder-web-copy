@@ -7758,6 +7758,12 @@ $(document).ready(function() {
 
     } 
 
+    ub.funcs.getPipingSizes = function () {
+
+        
+        
+    }
+
     ub.funcs.changeActiveColorSmallColorPickerPiping = function () {
 
         // Use ub.funcs.changeActiveColorSmallColorPicker as a refenrence 
@@ -7775,14 +7781,23 @@ $(document).ready(function() {
         var _status     = 'on';
         var _pipingSet  = pipingSet; 
 
-        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
+        if (typeof _pipingSet !== "undefined") {
+
+            if (typeof _pipingSet.status !== 'undefined') { var _status = _pipingSet.status; }
+
+        }
+        else {
+
+            _status = "on";
+
+        }
+        
 
         _htmlBuilder        =  '<div id="pipingsUI">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
-
         _htmlBuilder        +=          '<div class="ui-row">';
 
         _htmlBuilder        +=              '<label class="applicationLabels font_name">Pipings</label>';
@@ -7800,9 +7815,8 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '<div class="ui-row">';
         _htmlBuilder        +=              '<div class="column1">'
-
-        _htmlBuilder        +=              '<div class="sub1">';
-        _htmlBuilder        +=              '</div>';
+        _htmlBuilder        +=                  '<div class="sub1">';
+        _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=                  '<div class="colorContainer"><br />';
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
@@ -7831,17 +7845,17 @@ $(document).ready(function() {
 
                 var _colorObj   = ub.funcs.getColorByColorCode(_color_code);
 
-                var _oldVal = {
+                var _oldVal     = {
 
                     layerNo: _layer_no,
-                    color: _settingsObject.color_array[_layer_no - 1],
-                    applicationCode: _settingsObject.code,
+                    color: _pipingSet.color_array[_layer_no - 1],
+                    applicationCode: _pipingSet.code,
 
                 }
 
                 if (_temp !== 'undo') {
 
-                    ub.funcs.pushOldState('color change', 'application', _settingsObject, _oldVal);
+                    ub.funcs.pushOldState('color change', 'pipings', _pipingSet, _oldVal);
                     
                 }
 
@@ -7856,7 +7870,7 @@ $(document).ready(function() {
 
         // End Events
 
-        $('div#pipingUI').fadeIn();
+        $('div#pipingsUI').fadeIn();
         
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
@@ -7871,7 +7885,7 @@ $(document).ready(function() {
                 _status = 'on';
             }
 
-            ub.funcs.togglePiping(_pipingSet,status);    
+            ub.funcs.togglePiping(_pipingSet, status);    
  
         });
 
