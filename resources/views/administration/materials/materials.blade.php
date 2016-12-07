@@ -71,7 +71,7 @@
                 </div><hr>
                 <div class="div-inline"><span class="label label-default fs-11">{{ $material->price_item_code }}</span></div>
                 <div class="div-inline"><span class="label label-default fs-11">{{ $material->uniform_category }}</span></div>
-                <div class="div-inline"><span class="label label-default fs-11">{{ ucfirst($material->type) }}</span></div>
+                <!-- <div class="div-inline"><span class="label label-default fs-11">{{ ucfirst($material->type) }}</span></div> -->
                 <div class="div-inline"><span class="label label-default fs-11">{{ ucfirst($material->neck_option) }}</span></div>
                 <div class="material-name-div col-md-12"><center><h4 class="transform-1-3">{{ $material->name }}</h4></center></div>
                 <div class="material-buttons">
@@ -84,18 +84,26 @@
                         data-material-id="{{ $material->id }}"
                         data-material-thumbnail="{{ $material->thumbnail_path }}"
                         {{ ($material->active) ? '' : 'disabled' }}>
-                        View / Edit Material Options
+                        View Material Options
                     </a>
                     <a href="/administration/material/materials_options_setup/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
+                    <a href="/administration/material/piping/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
+                        <span>P</span>
+                    </a>
+                    <a href="#" class='1pxb btn btn-xs btn-default'>
+                        <span>Y</span>
+                    </a>
+                    <a href="#" class='1pxb btn btn-xs btn-default'>
+                        <span>S</span>
+                    </a>
                     <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
-                    <a href="#" class="btn btn-default mr-10 pull-right btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
+                    <!-- <a href="#" class="btn btn-default mr-10 pull-right btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-copy"></i>
-                    </a>
-
+                    </a> -->
                 </div>
             </div>
         @empty
