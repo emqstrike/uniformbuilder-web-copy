@@ -253,7 +253,6 @@ class MaterialsController extends Controller
         } else {
             $structured_data = json_decode($request->input('piping_properties_json'), 1);
         }
-// dd($structured_data);
         // Upload images
         try {
             // 1/8 SIZES
@@ -868,8 +867,6 @@ class MaterialsController extends Controller
             $message = $e->getMessage();
             dd($message);
         }
-
-        // dd(json_encode($structured_data));
 
         $response = null;
         if (!empty($material_id))
