@@ -253,7 +253,7 @@ class MaterialsController extends Controller
         } else {
             $structured_data = json_decode($request->input('piping_properties_json'), 1);
         }
-dd($structured_data);
+// dd($structured_data);
         // Upload images
         try {
             // 1/8 SIZES
@@ -876,6 +876,19 @@ dd($structured_data);
         {
             Log::info('Attempts to update piping_properties of Material#' . $material_id);
             $response = $this->client->updatePiping($structured_data);
+        }
+
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('administration/materials')
+                            ->with('message', 'Successfully saved changes');
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('administration/materials')
+                            ->with('message', $response->message);
         }
 
     }
