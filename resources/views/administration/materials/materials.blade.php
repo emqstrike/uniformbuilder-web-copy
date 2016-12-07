@@ -90,12 +90,12 @@
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
 
-                    <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
+                    <!-- <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
                     <a href="#" class="btn btn-default mr-10 pull-right btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-copy"></i>
-                    </a>
+                    </a> -->
 
                     <a href="#" class="btn btn-default mr-10 btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-copy"></i>
