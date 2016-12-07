@@ -22,7 +22,8 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/material/piping/update" enctype="multipart/form-data" id='edit-piping-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="material_id" value="{{ $material->id }}">
-                        <input type="hidden" name="set" value="Piping">
+                        <input type="hidden" name="case" value="{{ $case }}">
+                        <input type="hidden" name="piping_properties_json" value="{{ $piping_properties_json }}">
 
                         <table class="table table-bordered table-striped">
                             <tbody>
@@ -50,27 +51,27 @@
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                 </tr>
                                 <tr>
-                                    <td><span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span><input type="file" name="f_position_1_18" accept="image/*"></td>
-                                    <td><input type="file" name="b_position_1_18" accept="image/*"></td>
-                                    <td><input type="file" name="l_position_1_18" accept="image/*"></td>
-                                    <td><input type="file" name="r_position_1_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['front_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_1_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['back_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_1_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['left_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_1_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['right_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_1_18" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" name="f_position_2_18" accept="image/*"></td>
-                                    <td><input type="file" name="b_position_2_18" accept="image/*"></td>
-                                    <td><input type="file" name="l_position_2_18" accept="image/*"></td>
-                                    <td><input type="file" name="r_position_2_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['front_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_2_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['back_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_2_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['leftt_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_2_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['right_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_2_18" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" name="f_position_3_18" accept="image/*"></td>
-                                    <td><input type="file" name="b_position_3_18" accept="image/*"></td>
-                                    <td><input type="file" name="l_position_3_18" accept="image/*"></td>
-                                    <td><input type="file" name="r_position_3_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['front_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_3_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['back_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_3_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['left_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_3_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['right_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_3_18" accept="image/*"></td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped">
                             <tbody>
                                 <tr>
                                     <td colspan="4" class="alert alert-info"><h4>Size: 1/4</h4></td>
@@ -96,27 +97,27 @@
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" name="f_position_1_14" accept="image/*"></td>
-                                    <td><input type="file" name="b_position_1_14" accept="image/*"></td>
-                                    <td><input type="file" name="l_position_1_14" accept="image/*"></td>
-                                    <td><input type="file" name="r_position_1_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['front_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_1_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['back_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_1_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['left_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_1_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['right_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_1_14" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" name="f_position_2_14" accept="image/*"></td>
-                                    <td><input type="file" name="b_position_2_14" accept="image/*"></td>
-                                    <td><input type="file" name="l_position_2_14" accept="image/*"></td>
-                                    <td><input type="file" name="r_position_2_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['front_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_2_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['back_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_2_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['left_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_2_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['right_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_2_14" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" name="f_position_3_14" accept="image/*"></td>
-                                    <td><input type="file" name="b_position_3_14" accept="image/*"></td>
-                                    <td><input type="file" name="l_position_3_14" accept="image/*"></td>
-                                    <td><input type="file" name="r_position_3_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['front_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_3_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['back_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_3_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['left_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_3_14" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/4']['right_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_3_14" accept="image/*"></td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped">
                             <tbody>
                                 <tr>
                                     <td colspan="4" class="alert alert-warning"><h4>Size: 1/2</h4></td>
@@ -142,22 +143,22 @@
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" name="f_position_1_12" accept="image/*"></td>
-                                    <td><input type="file" name="b_position_1_12" accept="image/*"></td>
-                                    <td><input type="file" name="l_position_1_12" accept="image/*"></td>
-                                    <td><input type="file" name="r_position_1_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['front_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_1_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['back_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_1_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['left_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_1_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['right_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_1_12" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" name="f_position_2_12" accept="image/*"></td>
-                                    <td><input type="file" name="b_position_2_12" accept="image/*"></td>
-                                    <td><input type="file" name="l_position_2_12" accept="image/*"></td>
-                                    <td><input type="file" name="r_position_2_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['front_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_2_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['back_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_2_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['left_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_2_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['right_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_2_12" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" name="f_position_3_12" accept="image/*"></td>
-                                    <td><input type="file" name="b_position_3_12" accept="image/*"></td>
-                                    <td><input type="file" name="l_position_3_12" accept="image/*"></td>
-                                    <td><input type="file" name="r_position_3_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['front_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_3_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['back_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_3_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['left_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_3_12" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/2']['right_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_3_12" accept="image/*"></td>
                                 </tr>
                             </tbody>
                         </table>
