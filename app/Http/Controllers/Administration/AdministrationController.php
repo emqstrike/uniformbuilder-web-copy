@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Exception\ClientException;
 use App\APIClients\OrdersAPIClient;
-use Illuminate\Support\Facades\Redis;
+// use Illuminate\Support\Facades\Redis;
 
 
 
@@ -57,7 +57,11 @@ class AdministrationController extends Controller
             {
                 // return view('administration.lte-dashboard');
                 // $users =  Redis::get('users');
+<<<<<<< HEAD
+                $users = json_decode($users);
+=======
                 // $users = json_decode($users);
+>>>>>>> cb9b9e16beadc29309e353ec83b512e69b4e2c51
 
                 return view('administration.lte-dashboard', [
                     // 'users' => $users
