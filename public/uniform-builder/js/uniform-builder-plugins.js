@@ -1451,6 +1451,8 @@
                     var _paddedHex = util.padHex(_hexCode, 6);
                     
                     if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
+
+                        console.log('here...')
                         ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(child.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1 };
                     }
                     ///

@@ -306,7 +306,7 @@ $(document).ready(function () {
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
 
-//            _.each(ub.data.patterns.items, function (item) { console.log(item.name)});
+//          _.each(ub.data.patterns.items, function (item) { console.log(item.name)});
 
             if (ub.data.afterLoadCalled > 0) {return;}
 
@@ -332,7 +332,11 @@ $(document).ready(function () {
             $('div.header-container').css('display','none !important');
 
             // TODO: Enable This
+
+
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
+
+
             ub.hideFontGuides();
             ub.data.afterLoadCalled = 1;
 
@@ -1444,6 +1448,11 @@ $(document).ready(function () {
 
                 ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};
 
+                console.log(_hexCode);
+                console.log(_paddedHex);
+                console.log(ub.data.colorsUsed);
+
+
             }
             
             if(typeof e.gradient !== 'undefined') {
@@ -1469,7 +1478,6 @@ $(document).ready(function () {
         });
 
         /// Transform Applications
-
 
         if (typeof ub.temp === "undefined") {
 
@@ -4803,6 +4811,7 @@ $(document).ready(function () {
                 var _paddedHex = util.padHex(_hexCode, 6);
 
                 if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
+
                     ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
                 }
                 ///

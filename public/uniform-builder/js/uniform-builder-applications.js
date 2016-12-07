@@ -881,7 +881,6 @@ $(document).ready(function() {
                 application.estimatedMeasure = application.estimatedMeasure / 2 + 1;
 
             }
-
            
         });
 
@@ -7756,11 +7755,21 @@ $(document).ready(function() {
         // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
         // put in logic to change piping status here ...
 
-    } 
+    }
 
-    ub.funcs.getPipingSizes = function () {
+    
+    
+    ub.funcs.getPipingSizes = function (pipingSet) {
 
-        
+        var _result = _.filter(ub.data.pipings, {set: 'Yoke Piping'});
+        var _template = $('m-piping-sizes').html();
+
+        var _data = { items: _result };            
+        var _markup = Mustache.render(_template, _data);
+
+        console.log(_markup);
+
+        return _markup;
         
     }
 
@@ -7800,7 +7809,8 @@ $(document).ready(function() {
         _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label class="applicationLabels font_name">Pipings</label>';
+        _htmlBuilder        +=              '<label class="applicationLabels">Type</label>';
+        _htmlBuilder        +=              '<span class="piping-type">Yoke Piping</span>';                       
 
         _htmlBuilder        +=          '</div>';
 

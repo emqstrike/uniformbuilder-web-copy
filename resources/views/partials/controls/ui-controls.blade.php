@@ -1531,6 +1531,22 @@
      </script>
 
 <!-- End Logged In Nav -->
+
+<!-- Piping Sizes -->
+
+    <script type="text/mustache" id="m-piping-sizes">
+
+        @{{#items}}
+
+            <span class="piping-sizes-buttons">
+                @{{size}}
+            </span> 
+
+        @{{/items}}
+
+    </script>
+
+<!-- End Piping Sizes -->
             
 
 
