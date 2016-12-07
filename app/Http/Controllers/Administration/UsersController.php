@@ -25,6 +25,9 @@ class UsersController extends Controller
         foreach($users as $user)
         {
             $user->created_at = date('M-d-Y', strtotime($user->created_at));
+            if(isset($user->last_login)){
+                $user->last_login = date('M-d-Y', strtotime($user->last_login));
+            }
         }
 
         return view('administration.users.users', [
@@ -158,6 +161,8 @@ class UsersController extends Controller
                 if (Session::get('userId') == $data['id'])
                 {
                     Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
+                    Session::put('firstName', $data["first_name"]);
+                    Session::put('lastName', $data["last_name"]);
                 }
             }
             return redirect()->back()

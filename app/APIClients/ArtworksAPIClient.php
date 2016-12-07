@@ -19,6 +19,19 @@ class ArtworksAPIClient extends APIClient
         return null;
     }
 
+    public function getOrderTeamColors($order_id)
+    {
+        $response = $this->get('artwork_request/getOrderTeamColors/' . $order_id);
+        $result = $this->decoder->decode($response->getBody());
+
+        if($result){
+            return $result;
+        }
+
+        return null;
+
+    }
+
     public function getArtworks($status = null)
     {
         $endpoint = 'artwork_requests';
@@ -37,9 +50,14 @@ class ArtworksAPIClient extends APIClient
         return $artwork_requests;
     }
 
-    public function countFinishedOrders()
+    public function updateArtwork($data)
     {
-        return $this->countOrdersByStatus('finished');
+
+        $response = $this->post('artwork_request/update', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
     }
 
 }

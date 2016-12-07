@@ -71,7 +71,7 @@
                             </td>
                             <td>
                                 {{-- @if ( !isset($order->factory_order_id) ) --}}
-                                @if ( !isset($order->artwork_status) )
+                                @if ( $order->artwork_status == 'pending' )
                                 <a href="#"
                                    class="btn btn-primary btn-xs assign-artwork"
                                    data-order-id="{{ $order->id }}"

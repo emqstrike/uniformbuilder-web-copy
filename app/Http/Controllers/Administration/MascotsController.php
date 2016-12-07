@@ -104,7 +104,9 @@ class MascotsController extends Controller
         $colors = $this->colorsClient->getColors();
         $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
         $mascots_categories = array();
-
+        $artwork_request = $this->artworksClient->getArtwork($artwork_request_id);
+        $team_colors = $this->artworksClient->getOrderTeamColors($artwork_request->order_code);
+// dd($team_colors);
         foreach($raw_mascots_categories as $mascot_category){
             if($mascot_category->active == 1){
                 $mascots_categories[] = $mascot_category->name;
@@ -120,7 +122,8 @@ class MascotsController extends Controller
             'colors' => $colors,
             'mascots_categories' => $mascots_categories,
             'artwork_request_id' => $artwork_request_id,
-            'artwork_index' => $artwork_index
+            'artwork_index' => $artwork_index,
+            'team_colors' => $team_colors
 
         ]);
 
@@ -210,9 +213,7 @@ class MascotsController extends Controller
             return Redirect::to('/administration/mascots')
                             ->with('message', 'There was a problem uploading your files');
         }
-     
 
-      
         try
         {
             $mascotLayerFiles = $request->file('ma_image');
@@ -277,26 +278,17 @@ class MascotsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
 
-
-
-
-
-
-
-
         $response = null;
 
         if (!empty($id))
         {
-         // dd($data);
 
             Log::info('Attempts to update Mascot#' . $id);
             $response = $this->client->updateMascot($data);
 
-                  }
+        }
         else
         {
-
 
             Log::info('Attempts to create a new Mascot ' . json_encode($data));
 
@@ -307,11 +299,9 @@ class MascotsController extends Controller
         if ($response->success)
         {
 
-
             Log::info('Success');
             return Redirect::to('administration/mascots')
                             ->with('message', 'Successfully saved changes');
-
 
         }
         else
@@ -332,7 +322,16 @@ class MascotsController extends Controller
         $artworkRequestID = $request->input('artwork_request_id');
         $artworkIndex = $request->input('artwork_index');
         $artwork_request = $this->artworksClient->getArtwork($artworkRequestID);
-dd($artwork_request);
+        $ar_json = json_decode($artwork_request->artworks, 1);
+        $team_colors = array();
+
+        /* Build colors, save to artwork json */
+        $lpx = json_decode($layersProperties, 1);
+        foreach($lpx as $layer)
+        {
+            array_push($team_colors, $layer);
+        }
+
         $data = [
             'name' => $mascotName,
             'code' => $code,
@@ -364,6 +363,11 @@ dd($artwork_request);
                                                             "materials",
                                                             "{$materialFolder}/{$filename}.png"
                                                         );
+                    // update artwork data
+                    array_push($ar_json[$artworkIndex]['history'], $ar_json[$artworkIndex]['file']);
+                    $ar_json[$artworkIndex]['updated'] = 1;
+                    $ar_json[$artworkIndex]['file'] = $data['icon'];
+                    $ar_json[$artworkIndex]['colors'] = $team_colors;
                 }
             }
         }
@@ -440,13 +444,17 @@ dd($artwork_request);
         if (!empty($id))
         {
             Log::info('Attempts to update Mascot#' . $id);
-            $response = $this->client->updateMascot($data);
         }
         else
         {
             Log::info('Attempts to create a new Mascot ' . json_encode($data));
 
-            $response = $this->client->createMascot($data);
+            $response = $this->client->createArtwork($data);
+            $ar_json[$artworkIndex]['mascot_id'] = $response->art_id;
+
+            $artwork_request->artworks = $ar_json;
+
+            $this->artworksClient->updateArtwork($artwork_request);
         }
 
         if ($response->success)

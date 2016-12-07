@@ -159,6 +159,25 @@ class MaterialsController extends Controller
         ]);
     }
 
+    public function editPipingForm($id)
+    {
+        $material = $this->client->getMaterial($id);
+        $piping_properties = null;
+        $case = 'new';
+        if(isset($material->piping_properties))
+        {
+            $piping_properties = json_decode($material->piping_properties, 1);
+            $case = 'update';
+        }
+
+        return view('administration.materials.material-piping', [
+            'material' => $material,
+            'piping_properties' => $piping_properties,
+            'case' => $case,
+            'piping_properties_json' => stripslashes($material->piping_properties)
+        ]);
+    }
+
     public function addMaterialForm()
     {
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
@@ -171,6 +190,704 @@ class MaterialsController extends Controller
             'factories' => $factories,
             'block_patterns' => $block_patterns
         ]);
+    }
+
+    public function updatePiping(Request $request)
+    {
+        $material_id = $request->input('material_id');
+        $name_oe = $request->input('name_oe');
+        $name_of = $request->input('name_of');
+        $name_oh = $request->input('name_oh');
+        $case = $request->input('case');
+
+        $set = "Piping";
+
+        $data = [];
+        $structured_data = [
+            'material_id' => $material_id
+        ];
+        
+        if($case === 'new')
+        {
+            $structured_data['1/8'] = [];
+            // $structured_data['1/8']['front_pos_1'] = null;
+            // $structured_data['1/8']['back_pos_1'] = null;
+            // $structured_data['1/8']['left_pos_1'] = null;
+            // $structured_data['1/8']['right_pos_1'] = null;
+            // $structured_data['1/8']['front_pos_2'] = null;
+            // $structured_data['1/8']['back_pos_2'] = null;
+            // $structured_data['1/8']['left_pos_2'] = null;
+            // $structured_data['1/8']['right_pos_2'] = null;
+            // $structured_data['1/8']['front_pos_3'] = null;
+            // $structured_data['1/8']['back_pos_3'] = null;
+            // $structured_data['1/8']['left_pos_3'] = null;
+            // $structured_data['1/8']['right_pos_3'] = null;
+
+            $structured_data['1/4'] = [];
+            // $structured_data['1/4']['front_pos_1'] = null;
+            // $structured_data['1/4']['back_pos_1'] = null;
+            // $structured_data['1/4']['left_pos_1'] = null;
+            // $structured_data['1/4']['right_pos_1'] = null;
+            // $structured_data['1/4']['front_pos_2'] = null;
+            // $structured_data['1/4']['back_pos_2'] = null;
+            // $structured_data['1/4']['left_pos_2'] = null;
+            // $structured_data['1/4']['right_pos_2'] = null;
+            // $structured_data['1/4']['front_pos_3'] = null;
+            // $structured_data['1/4']['back_pos_3'] = null;
+            // $structured_data['1/4']['left_pos_3'] = null;
+            // $structured_data['1/4']['right_pos_3'] = null;
+
+            $structured_data['1/2'] = [];
+            // $structured_data['1/2']['front_pos_1'] = null;
+            // $structured_data['1/2']['back_pos_1'] = null;
+            // $structured_data['1/2']['left_pos_1'] = null;
+            // $structured_data['1/2']['right_pos_1'] = null;
+            // $structured_data['1/2']['front_pos_2'] = null;
+            // $structured_data['1/2']['back_pos_2'] = null;
+            // $structured_data['1/2']['left_pos_2'] = null;
+            // $structured_data['1/2']['right_pos_2'] = null;
+            // $structured_data['1/2']['front_pos_3'] = null;
+            // $structured_data['1/2']['back_pos_3'] = null;
+            // $structured_data['1/2']['left_pos_3'] = null;
+            // $structured_data['1/2']['right_pos_3'] = null;
+        } else {
+            $structured_data = json_decode($request->input('piping_properties_json'), 1);
+        }
+        // Upload images
+        try {
+            // 1/8 SIZES
+            /* POSITION 1 */
+            $f_position_1_18 = $request->file('f_position_1_18');
+            if (isset($f_position_1_18))
+            {
+                if ($f_position_1_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_1_18'] = FileUploader::upload(
+                                                    $f_position_1_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['front_pos_1'] = $data['f_position_1_18'];
+                }
+            }
+            $b_position_1_18 = $request->file('b_position_1_18');
+            if (isset($b_position_1_18))
+            {
+                if ($b_position_1_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_1_18'] = FileUploader::upload(
+                                                    $b_position_1_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['back_pos_1'] = $data['b_position_1_18'];
+                }
+            }
+
+            $l_position_1_18 = $request->file('l_position_1_18');
+            if (isset($l_position_1_18))
+            {
+                if ($l_position_1_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_1_18'] = FileUploader::upload(
+                                                    $l_position_1_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['left_pos_1'] = $data['l_position_1_18'];
+                }
+            }
+
+            $r_position_1_18 = $request->file('r_position_1_18');
+            if (isset($r_position_1_18))
+            {
+                if ($r_position_1_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_1_18'] = FileUploader::upload(
+                                                    $r_position_1_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['right_pos_1'] = $data['r_position_1_18'];
+                }
+            }
+            /* POSITION 2 */
+            $f_position_2_18 = $request->file('f_position_2_18');
+            if (isset($f_position_2_18))
+            {
+                if ($f_position_2_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_2_18'] = FileUploader::upload(
+                                                    $f_position_2_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['front_pos_2'] = $data['f_position_2_18'];
+                }
+            }
+            $b_position_2_18 = $request->file('b_position_2_18');
+            if (isset($b_position_2_18))
+            {
+                if ($b_position_2_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_2_18'] = FileUploader::upload(
+                                                    $b_position_2_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['back_pos_2'] = $data['b_position_2_18'];
+                }
+            }
+            
+            $l_position_2_18 = $request->file('l_position_2_18');
+            if (isset($l_position_2_18))
+            {
+                if ($l_position_2_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_2_18'] = FileUploader::upload(
+                                                    $l_position_2_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['left_pos_2'] = $data['l_position_2_18'];
+                }
+            }
+
+            $r_position_2_18 = $request->file('r_position_2_18');
+            if (isset($r_position_2_18))
+            {
+                if ($r_position_2_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_2_18'] = FileUploader::upload(
+                                                    $r_position_2_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['right_pos_2'] = $data['r_position_2_18'];
+                }
+            }
+            /* POSITION 3 */
+            $f_position_3_18 = $request->file('f_position_3_18');
+            if (isset($f_position_3_18))
+            {
+                if ($f_position_3_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_3_18'] = FileUploader::upload(
+                                                    $f_position_3_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['front_pos_3'] = $data['f_position_3_18'];
+                }
+            }
+            $b_position_3_18 = $request->file('b_position_3_18');
+            if (isset($b_position_3_18))
+            {
+                if ($b_position_3_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_3_18'] = FileUploader::upload(
+                                                    $b_position_3_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['back_pos_3'] = $data['b_position_3_18'];
+                }
+            }
+            
+            $l_position_3_18 = $request->file('l_position_3_18');
+            if (isset($l_position_3_18))
+            {
+                if ($l_position_3_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_3_18'] = FileUploader::upload(
+                                                    $l_position_3_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['left_pos_3'] = $data['l_position_3_18'];
+                }
+            }
+
+            $r_position_3_18 = $request->file('r_position_3_18');
+            if (isset($r_position_3_18))
+            {
+                if ($r_position_3_18->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_3_18'] = FileUploader::upload(
+                                                    $r_position_3_18,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/8']['right_pos_3'] = $data['r_position_3_18'];
+                }
+            }
+            // 1/4 SIZES
+            /* POSITION 1 */
+            $f_position_1_14 = $request->file('f_position_1_14');
+            if (isset($f_position_1_14))
+            {
+                if ($f_position_1_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_1_14'] = FileUploader::upload(
+                                                    $f_position_1_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['front_pos_1'] = $data['_position_1_14'];
+                }
+            }
+            $b_position_1_14 = $request->file('b_position_1_14');
+            if (isset($b_position_1_14))
+            {
+                if ($b_position_1_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_1_14'] = FileUploader::upload(
+                                                    $b_position_1_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['back_pos_1'] = $data['b_position_1_14'];
+                }
+            }
+            
+            $l_position_1_14 = $request->file('l_position_1_14');
+            if (isset($l_position_1_14))
+            {
+                if ($l_position_1_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_1_14'] = FileUploader::upload(
+                                                    $l_position_1_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['left_pos_1'] = $data['l_position_1_14'];
+                }
+            }
+
+            $r_position_1_14 = $request->file('r_position_1_14');
+            if (isset($r_position_1_14))
+            {
+                if ($r_position_1_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_1_14'] = FileUploader::upload(
+                                                    $r_position_1_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['right_pos_1'] = $data['r_position_1_14'];
+                }
+            }
+            /* POSITION 2 */
+            $f_position_2_14 = $request->file('f_position_2_14');
+            if (isset($f_position_2_14))
+            {
+                if ($f_position_2_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_2_14'] = FileUploader::upload(
+                                                    $f_position_2_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['front_pos_2'] = $data['f_position_2_14'];
+                }
+            }
+            $b_position_2_14 = $request->file('b_position_2_14');
+            if (isset($b_position_2_14))
+            {
+                if ($b_position_2_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_2_14'] = FileUploader::upload(
+                                                    $b_position_2_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['back_pos_2'] = $data['b_position_2_14'];
+                }
+            }
+            
+            $l_position_2_14 = $request->file('l_position_2_14');
+            if (isset($l_position_2_14))
+            {
+                if ($l_position_2_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_2_14'] = FileUploader::upload(
+                                                    $l_position_2_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['left_pos_2'] = $data['l_position_2_14'];
+                }
+            }
+
+            $r_position_2_14 = $request->file('r_position_2_14');
+            if (isset($r_position_2_14))
+            {
+                if ($r_position_2_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_2_14'] = FileUploader::upload(
+                                                    $r_position_2_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['right_pos_2'] = $data['r_position_2_14'];
+                }
+            }
+            /* POSITION 3 */
+            $f_position_3_14 = $request->file('f_position_3_14');
+            if (isset($f_position_3_14))
+            {
+                if ($f_position_3_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_3_14'] = FileUploader::upload(
+                                                    $f_position_3_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['front_pos_3'] = $data['f_position_3_14'];
+                }
+            }
+            $b_position_3_14 = $request->file('b_position_3_14');
+            if (isset($b_position_3_14))
+            {
+                if ($b_position_3_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_3_14'] = FileUploader::upload(
+                                                    $b_position_3_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['back_pos_3'] = $data['b_position_3_14'];
+                }
+            }
+            
+            $l_position_3_14 = $request->file('l_position_3_14');
+            if (isset($l_position_3_14))
+            {
+                if ($l_position_3_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_3_14'] = FileUploader::upload(
+                                                    $l_position_3_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['left_pos_3'] = $data['l_position_3_14'];
+                }
+            }
+
+            $r_position_3_14 = $request->file('r_position_3_14');
+            if (isset($r_position_3_14))
+            {
+                if ($r_position_3_14->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_3_14'] = FileUploader::upload(
+                                                    $r_position_3_14,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/4']['right_pos_3'] = $data['r_position_3_14'];
+                }
+            }
+            // 1/2 SIZES
+            /* POSITION 1 */
+            $f_position_1_12 = $request->file('f_position_1_12');
+            if (isset($f_position_1_12))
+            {
+                if ($f_position_1_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_1_12'] = FileUploader::upload(
+                                                    $f_position_1_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['front_pos_1'] = $data['f_position_1_12'];
+                }
+            }
+            $b_position_1_12 = $request->file('b_position_1_12');
+            if (isset($b_position_1_12))
+            {
+                if ($b_position_1_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_1_12'] = FileUploader::upload(
+                                                    $b_position_1_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['back_pos_1'] = $data['b_position_1_12'];
+                }
+            }
+            
+            $l_position_1_12 = $request->file('l_position_1_12');
+            if (isset($l_position_1_12))
+            {
+                if ($l_position_1_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_1_12'] = FileUploader::upload(
+                                                    $l_position_1_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['left_pos_1'] = $data['l_position_1_12'];
+                }
+            }
+
+            $r_position_1_12 = $request->file('r_position_1_12');
+            if (isset($r_position_1_12))
+            {
+                if ($r_position_1_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_1_12'] = FileUploader::upload(
+                                                    $r_position_1_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['right_pos_1'] = $data['r_position_1_12'];
+                }
+            }
+            /* POSITION 2 */
+            $f_position_2_12 = $request->file('f_position_2_12');
+            if (isset($f_position_2_12))
+            {
+                if ($f_position_2_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_2_12'] = FileUploader::upload(
+                                                    $f_position_2_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['front_pos_2'] = $data['f_position_2_12'];
+                }
+            }
+            $b_position_2_12 = $request->file('b_position_2_12');
+            if (isset($b_position_2_12))
+            {
+                if ($b_position_2_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_2_12'] = FileUploader::upload(
+                                                    $b_position_2_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['back_pos_2'] = $data['b_position_2_12'];
+                }
+            }
+            
+            $l_position_2_12 = $request->file('l_position_2_12');
+            if (isset($l_position_2_12))
+            {
+                if ($l_position_2_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_2_12'] = FileUploader::upload(
+                                                    $l_position_2_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['left_pos_2'] = $data['l_position_2_12'];
+                }
+            }
+
+            $r_position_2_12 = $request->file('r_position_2_12');
+            if (isset($r_position_2_12))
+            {
+                if ($r_position_2_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_2_12'] = FileUploader::upload(
+                                                    $r_position_2_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['right_pos_2'] = $data['r_position_2_12'];
+                }
+            }
+            /* POSITION 3 */
+            $f_position_3_12 = $request->file('f_position_3_12');
+            if (isset($f_position_3_12))
+            {
+                if ($f_position_3_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['f_position_3_12'] = FileUploader::upload(
+                                                    $f_position_3_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['front_pos_3'] = $data['f_position_3_12'];
+                }
+            }
+            $b_position_3_12 = $request->file('b_position_3_12');
+            if (isset($b_position_3_12))
+            {
+                if ($b_position_3_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['b_position_3_12'] = FileUploader::upload(
+                                                    $b_position_3_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['back_pos_3'] = $data['b_position_3_12'];
+                }
+            }
+
+            $l_position_3_12 = $request->file('l_position_3_12');
+            if (isset($l_position_3_12))
+            {
+                if ($l_position_3_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['l_position_3_12'] = FileUploader::upload(
+                                                    $l_position_3_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['left_pos_3'] = $data['l_position_3_12'];
+                }
+            }
+
+            $r_position_3_12 = $request->file('r_position_3_12');
+            if (isset($r_position_3_12))
+            {
+                if ($r_position_3_12->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['r_position_3_12'] = FileUploader::upload(
+                                                    $r_position_3_12,
+                                                    $randstr,
+                                                    'material_option',
+                                                    'material_pipings',
+                                                    $randstr.".png"
+                                                );
+                    $structured_data['1/2']['right_pos_3'] = $data['r_position_3_12'];
+                }
+            }
+        }
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            dd($message);
+        }
+
+        $response = null;
+        if (!empty($material_id))
+        {
+            Log::info('Attempts to update piping_properties of Material#' . $material_id);
+            $response = $this->client->updatePiping($structured_data);
+        }
+
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('administration/materials')
+                            ->with('message', 'Successfully saved changes');
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('administration/materials')
+                            ->with('message', $response->message);
+        }
+
     }
 
     public function store(Request $request)
