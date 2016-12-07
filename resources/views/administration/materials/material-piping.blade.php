@@ -24,7 +24,7 @@
                         <input type="hidden" name="material_id" value="{{ $material->id }}">
                         <input type="hidden" name="set" value="Piping">
 
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped">
                             <tbody>
                                 <tr>
                                     <td colspan="4" class="alert alert-success"><h4>Size: 1/8</h4></td>
@@ -50,22 +50,22 @@
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" class="form-control" name="f_position_1_18" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="b_position_1_18" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="l_position_1_18" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="r_position_1_18" accept="image/*"></td>
+                                    <td><span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span><input type="file" name="f_position_1_18" accept="image/*"></td>
+                                    <td><input type="file" name="b_position_1_18" accept="image/*"></td>
+                                    <td><input type="file" name="l_position_1_18" accept="image/*"></td>
+                                    <td><input type="file" name="r_position_1_18" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" class="form-control" name="f_position_2_18" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="b_position_2_18" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="l_position_2_18" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="r_position_2_18" accept="image/*"></td>
+                                    <td><input type="file" name="f_position_2_18" accept="image/*"></td>
+                                    <td><input type="file" name="b_position_2_18" accept="image/*"></td>
+                                    <td><input type="file" name="l_position_2_18" accept="image/*"></td>
+                                    <td><input type="file" name="r_position_2_18" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" class="form-control" name="f_position_3_18" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="b_position_3_18" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="l_position_3_18" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="r_position_3_18" accept="image/*"></td>
+                                    <td><input type="file" name="f_position_3_18" accept="image/*"></td>
+                                    <td><input type="file" name="b_position_3_18" accept="image/*"></td>
+                                    <td><input type="file" name="l_position_3_18" accept="image/*"></td>
+                                    <td><input type="file" name="r_position_3_18" accept="image/*"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -96,22 +96,22 @@
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" class="form-control" name="f_position_1_14" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="b_position_1_14" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="l_position_1_14" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="r_position_1_14" accept="image/*"></td>
+                                    <td><input type="file" name="f_position_1_14" accept="image/*"></td>
+                                    <td><input type="file" name="b_position_1_14" accept="image/*"></td>
+                                    <td><input type="file" name="l_position_1_14" accept="image/*"></td>
+                                    <td><input type="file" name="r_position_1_14" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" class="form-control" name="f_position_2_14" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="b_position_2_14" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="l_position_2_14" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="r_position_2_14" accept="image/*"></td>
+                                    <td><input type="file" name="f_position_2_14" accept="image/*"></td>
+                                    <td><input type="file" name="b_position_2_14" accept="image/*"></td>
+                                    <td><input type="file" name="l_position_2_14" accept="image/*"></td>
+                                    <td><input type="file" name="r_position_2_14" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" class="form-control" name="f_position_3_14" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="b_position_3_14" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="l_position_3_14" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="r_position_3_14" accept="image/*"></td>
+                                    <td><input type="file" name="f_position_3_14" accept="image/*"></td>
+                                    <td><input type="file" name="b_position_3_14" accept="image/*"></td>
+                                    <td><input type="file" name="l_position_3_14" accept="image/*"></td>
+                                    <td><input type="file" name="r_position_3_14" accept="image/*"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -142,22 +142,22 @@
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" class="form-control" name="f_position_1_12" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="b_position_1_12" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="l_position_1_12" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="r_position_1_12" accept="image/*"></td>
+                                    <td><input type="file" name="f_position_1_12" accept="image/*"></td>
+                                    <td><input type="file" name="b_position_1_12" accept="image/*"></td>
+                                    <td><input type="file" name="l_position_1_12" accept="image/*"></td>
+                                    <td><input type="file" name="r_position_1_12" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" class="form-control" name="f_position_2_12" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="b_position_2_12" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="l_position_2_12" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="r_position_2_12" accept="image/*"></td>
+                                    <td><input type="file" name="f_position_2_12" accept="image/*"></td>
+                                    <td><input type="file" name="b_position_2_12" accept="image/*"></td>
+                                    <td><input type="file" name="l_position_2_12" accept="image/*"></td>
+                                    <td><input type="file" name="r_position_2_12" accept="image/*"></td>
                                 </tr>
                                 <tr>
-                                    <td><input type="file" class="form-control" name="f_position_3_12" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="b_position_3_12" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="l_position_3_12" accept="image/*"></td>
-                                    <td><input type="file" class="form-control" name="r_position_3_12" accept="image/*"></td>
+                                    <td><input type="file" name="f_position_3_12" accept="image/*"></td>
+                                    <td><input type="file" name="b_position_3_12" accept="image/*"></td>
+                                    <td><input type="file" name="l_position_3_12" accept="image/*"></td>
+                                    <td><input type="file" name="r_position_3_12" accept="image/*"></td>
                                 </tr>
                             </tbody>
                         </table>

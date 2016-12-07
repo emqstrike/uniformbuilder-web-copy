@@ -84,11 +84,12 @@
                         data-material-id="{{ $material->id }}"
                         data-material-thumbnail="{{ $material->thumbnail_path }}"
                         {{ ($material->active) ? '' : 'disabled' }}>
-                        View / Edit Material Options
+
                     </a>
                     <a href="/administration/material/materials_options_setup/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
+
                     <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
@@ -96,6 +97,23 @@
                         <i class="glyphicon glyphicon-copy"></i>
                     </a>
 
+                    <a href="#" class="btn btn-default mr-10 btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
+                        <i class="glyphicon glyphicon-copy"></i>
+                    </a>
+                    <a href="/administration/material/piping/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
+                        <span>P</span>
+                    </a>
+                    <!-- <a href="#" class='1pxb btn btn-xs btn-default'>
+                        <span>Y</span>
+                    </a>
+                    <a href="#" class='1pxb btn btn-xs btn-default'>
+                        <span>S</span>
+                    </a> -->
+                    <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                    
+>>>>>>> 81b299f34f191683d3e2e104d3ca2512b71ffcae
                 </div>
             </div>
         @empty
