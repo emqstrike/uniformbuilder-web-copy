@@ -820,7 +820,7 @@ class MaterialsController extends Controller
             dd($message);
         }
 
-        dd(json_encode($structured_data));
+        // dd(json_encode($structured_data));
 
         $response = null;
         if (!empty($material_id))
