@@ -159,6 +159,7 @@ class MaterialsController extends Controller
         ]);
     }
 
+
     public function editPipingForm($id)
     {
         $material = $this->client->getMaterial($id);
@@ -174,6 +175,7 @@ class MaterialsController extends Controller
         ]);
     }
 
+
     public function addMaterialForm()
     {
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
@@ -187,6 +189,7 @@ class MaterialsController extends Controller
             'block_patterns' => $block_patterns
         ]);
     }
+
 
     public function updatePiping(Request $request)
     {
