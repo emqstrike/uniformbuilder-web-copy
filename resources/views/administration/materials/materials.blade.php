@@ -113,7 +113,7 @@
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
                     
->>>>>>> 81b299f34f191683d3e2e104d3ca2512b71ffcae
+
                 </div>
             </div>
         @empty
