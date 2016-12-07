@@ -57,11 +57,8 @@ class AdministrationController extends Controller
             {
                 // return view('administration.lte-dashboard');
                 // $users =  Redis::get('users');
-<<<<<<< HEAD
-                $users = json_decode($users);
-=======
-                // $users = json_decode($users);
->>>>>>> cb9b9e16beadc29309e353ec83b512e69b4e2c51
+                  $users = json_decode($users);
+
 
                 return view('administration.lte-dashboard', [
                     // 'users' => $users
