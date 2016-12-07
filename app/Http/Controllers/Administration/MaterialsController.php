@@ -162,8 +162,11 @@ class MaterialsController extends Controller
     public function editPipingForm($id)
     {
         $material = $this->client->getMaterial($id);
-        $piping_properties = json_decode($material->piping_properties, 1);
-
+        $piping_properties = null;
+        if(isset($material->piping_properties))
+        {
+            $piping_properties = json_decode($material->piping_properties, 1);
+        }
         // dd($piping_properties);
         return view('administration.materials.material-piping', [
             'material' => $material,
