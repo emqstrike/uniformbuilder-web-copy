@@ -55,19 +55,18 @@ class AdministrationController extends Controller
         {
             if (Session::get('isLoggedIn') == true)
             {
-                 return view('administration.lte-dashboard');
+                // return view('administration.lte-dashboard');
                 // $users =  Redis::get('users');
-                  // $users = json_decode($users);
+                $users = json_decode($users);
 
+                return view('administration.lte-dashboard', [
+                    'users' => $users
+                    // 'newOrdersCount' => $newOrdersCount,
+                    // 'pendingOrdersCount' => $pendingOrdersCount
+                    // 'newOrdersCount' => $newOrdersCount,
+                    // 'pendingOrdersCount' => $pendingOrdersCount
 
-                // return view('administration.lte-dashboard', [
-                //     // 'users' => $users
-                //     // 'newOrdersCount' => $newOrdersCount,
-                //     // 'pendingOrdersCount' => $pendingOrdersCount
-                //     // 'newOrdersCount' => $newOrdersCount,
-                //     // 'pendingOrdersCount' => $pendingOrdersCount
-
-                // ]);
+                ]);
             }
         }
         return redirect('administration/login');
