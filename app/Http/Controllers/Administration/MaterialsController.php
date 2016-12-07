@@ -162,8 +162,12 @@ class MaterialsController extends Controller
     public function editPipingForm($id)
     {
         $material = $this->client->getMaterial($id);
+        $piping_properties = json_decode($material->piping_properties, 1);
+
+        // dd($piping_properties);
         return view('administration.materials.material-piping', [
-            'material' => $material
+            'material' => $material,
+            'piping_properties' => $piping_properties
         ]);
     }
 
@@ -813,6 +817,8 @@ class MaterialsController extends Controller
             dd($message);
         }
 
+        // dd($structured_data);
+
         $response = null;
         if (!empty($material_id))
         {
@@ -820,7 +826,6 @@ class MaterialsController extends Controller
             $response = $this->client->updatePiping($structured_data);
         }
 
-        dd($structured_data);
     }
 
     public function store(Request $request)
