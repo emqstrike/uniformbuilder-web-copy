@@ -206,7 +206,7 @@ class MaterialsController extends Controller
         $structured_data = [
             'material_id' => $material_id
         ];
-        
+
         if($case === 'new')
         {
             $structured_data['1/8'] = [];
