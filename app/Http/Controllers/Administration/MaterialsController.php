@@ -194,7 +194,6 @@ class MaterialsController extends Controller
         ]);
     }
 
-
     public function updatePiping(Request $request)
     {
         $material_id = $request->input('material_id');
