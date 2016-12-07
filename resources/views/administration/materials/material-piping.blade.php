@@ -22,7 +22,8 @@
                     <form class="form-horizontal" role="form" method="POST" action="/administration/material/piping/update" enctype="multipart/form-data" id='edit-piping-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="material_id" value="{{ $material->id }}">
-                        <input type="hidden" name="set" value="Piping">
+                        <input type="hidden" name="case" value="{{ $case }}">
+                        <input type="hidden" name="piping_properties_json" value="{{ $piping_properties_json }}">
 
                         <table class="table table-bordered table-striped">
                             <tbody>
