@@ -183,6 +183,7 @@ class MaterialsController extends Controller
 
     public function updatePiping(Request $request)
     {
+        $material_id = $request->input('material_id');
         $name_oe = $request->input('name_oe');
         $name_of = $request->input('name_of');
         $name_oh = $request->input('name_oh');
@@ -190,7 +191,9 @@ class MaterialsController extends Controller
         $set = "Piping";
 
         $data = [];
-        $structured_data = [];
+        $structured_data = [
+            'material_id' => $material_id
+        ];
         $structured_data['1/8'] = [];
         $structured_data['1/4'] = [];
         $structured_data['1/2'] = [];
@@ -231,7 +234,7 @@ class MaterialsController extends Controller
                     $structured_data['1/8']['back_pos_1'] = $data['b_position_1_18'];
                 }
             }
-            
+
             $l_position_1_18 = $request->file('l_position_1_18');
             if (isset($l_position_1_18))
             {
@@ -808,58 +811,14 @@ class MaterialsController extends Controller
         {
             $message = $e->getMessage();
             dd($message);
-            // return Redirect::to('/administration/materials')
-            //                 ->with('message', 'There was a problem uploading your files');
         }
 
-        // try {
-            // $structured_data['1/8'] = [];
-            // $structured_data['1/8']['front_pos_1'] = $data['f_position_1_18'];
-            // $structured_data['1/8']['back_pos_1'] = $data['b_position_1_18'];
-            // $structured_data['1/8']['left_pos_1'] = $data['l_position_1_18'];
-            // $structured_data['1/8']['right_pos_1'] = $data['r_position_1_18'];
-            // $structured_data['1/8']['front_pos_2'] = $data['f_position_2_18'];
-            // $structured_data['1/8']['back_pos_2'] = $data['b_position_2_18'];
-            // $structured_data['1/8']['left_pos_2'] = $data['l_position_2_18'];
-            // $structured_data['1/8']['right_pos_2'] = $data['r_position_2_18'];
-            // $structured_data['1/8']['front_pos_3'] = $data['f_position_3_18'];
-            // $structured_data['1/8']['back_pos_3'] = $data['b_position_3_18'];
-            // $structured_data['1/8']['left_pos_3'] = $data['l_position_3_18'];
-            // $structured_data['1/8']['right_pos_3'] = $data['r_position_3_18'];
-
-            // $structured_data['1/4'] = [];
-            // $structured_data['1/4']['front_pos_1'] = $data['_position_1_14'];
-            // $structured_data['1/4']['back_pos_1'] = $data['b_position_1_14'];
-            // $structured_data['1/4']['left_pos_1'] = $data['l_position_1_14'];
-            // $structured_data['1/4']['right_pos_1'] = $data['r_position_1_14'];
-            // $structured_data['1/4']['front_pos_2'] = $data['f_position_2_14'];
-            // $structured_data['1/4']['back_pos_2'] = $data['b_position_2_14'];
-            // $structured_data['1/4']['left_pos_2'] = $data['l_position_2_14'];
-            // $structured_data['1/4']['right_pos_2'] = $data['r_position_2_14'];
-            // $structured_data['1/4']['front_pos_3'] = $data['f_position_3_14'];
-            // $structured_data['1/4']['back_pos_3'] = $data['b_position_3_14'];
-            // $structured_data['1/4']['left_pos_3'] = $data['l_position_3_14'];
-            // $structured_data['1/4']['right_pos_3'] = $data['r_position_3_14'];
-
-            // $structured_data['1/2'] = [];
-            // $structured_data['1/2']['front_pos_1'] = $data['f_position_1_12'];
-            // $structured_data['1/2']['back_pos_1'] = $data['b_position_1_12'];
-            // $structured_data['1/2']['left_pos_1'] = $data['l_position_1_12'];
-            // $structured_data['1/2']['right_pos_1'] = $data['r_position_1_12'];
-            // $structured_data['1/2']['front_pos_2'] = $data['f_position_2_12'];
-            // $structured_data['1/2']['back_pos_2'] = $data['b_position_2_12'];
-            // $structured_data['1/2']['left_pos_2'] = $data['l_position_2_12'];
-            // $structured_data['1/2']['right_pos_2'] = $data['r_position_2_12'];
-            // $structured_data['1/2']['front_pos_3'] = $data['f_position_3_12'];
-            // $structured_data['1/2']['back_pos_3'] = $data['b_position_3_12'];
-            // $structured_data['1/2']['left_pos_3'] = $data['l_position_3_12'];
-            // $structured_data['1/2']['right_pos_3'] = $data['r_position_3_12'];
-        // }
-        // catch (S3Exception $e)
-        // {
-        //     $message = $e->getMessage();
-        //     dd($message);
-        // }
+        $response = null;
+        if (!empty($material_id))
+        {
+            Log::info('Attempts to update piping_properties of Material#' . $material_id);
+            $response = $this->client->updatePiping($structured_data);
+        }
 
         dd($structured_data);
     }

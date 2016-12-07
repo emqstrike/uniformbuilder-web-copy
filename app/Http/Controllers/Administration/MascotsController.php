@@ -213,9 +213,7 @@ class MascotsController extends Controller
             return Redirect::to('/administration/mascots')
                             ->with('message', 'There was a problem uploading your files');
         }
-     
 
-      
         try
         {
             $mascotLayerFiles = $request->file('ma_image');
