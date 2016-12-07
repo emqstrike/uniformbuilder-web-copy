@@ -84,7 +84,7 @@
                         data-material-id="{{ $material->id }}"
                         data-material-thumbnail="{{ $material->thumbnail_path }}"
                         {{ ($material->active) ? '' : 'disabled' }}>
-
+                        Material Options
                     </a>
                     <a href="/administration/material/materials_options_setup/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
                         <span class="glyphicon glyphicon-cog"></span>
