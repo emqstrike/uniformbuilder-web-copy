@@ -1450,6 +1450,7 @@ $(document).ready(function () {
 
                 if (typeof e.pattern.pattern_obj !== 'undefined') {
 
+                    if (e.pattern.pattern_obj.name === "Blank") { return; }
                     ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
          
                 }    
