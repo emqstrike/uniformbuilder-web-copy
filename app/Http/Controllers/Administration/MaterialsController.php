@@ -183,6 +183,7 @@ class MaterialsController extends Controller
 
     public function updatePiping(Request $request)
     {
+        $material_id = $request->input('material_id');
         $name_oe = $request->input('name_oe');
         $name_of = $request->input('name_of');
         $name_oh = $request->input('name_oh');
@@ -190,7 +191,9 @@ class MaterialsController extends Controller
         $set = "Piping";
 
         $data = [];
-        $structured_data = [];
+        $structured_data = [
+            'material_id' => $material_id
+        ];
         $structured_data['1/8'] = [];
         $structured_data['1/4'] = [];
         $structured_data['1/2'] = [];
@@ -231,7 +234,7 @@ class MaterialsController extends Controller
                     $structured_data['1/8']['back_pos_1'] = $data['b_position_1_18'];
                 }
             }
-            
+
             $l_position_1_18 = $request->file('l_position_1_18');
             if (isset($l_position_1_18))
             {
@@ -808,6 +811,13 @@ class MaterialsController extends Controller
         {
             $message = $e->getMessage();
             dd($message);
+        }
+
+        $response = null;
+        if (!empty($material_id))
+        {
+            Log::info('Attempts to update piping_properties of Material#' . $material_id);
+            $response = $this->client->updatePiping($structured_data);
         }
 
         dd($structured_data);
