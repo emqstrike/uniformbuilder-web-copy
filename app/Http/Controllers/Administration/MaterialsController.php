@@ -202,8 +202,46 @@ class MaterialsController extends Controller
             'material_id' => $material_id
         ];
         $structured_data['1/8'] = [];
+        $structured_data['1/8']['front_pos_1'] = null;
+        $structured_data['1/8']['back_pos_1'] = null;
+        $structured_data['1/8']['left_pos_1'] = null;
+        $structured_data['1/8']['right_pos_1'] = null;
+        $structured_data['1/8']['front_pos_2'] = null;
+        $structured_data['1/8']['back_pos_2'] = null;
+        $structured_data['1/8']['left_pos_2'] = null;
+        $structured_data['1/8']['right_pos_2'] = null;
+        $structured_data['1/8']['front_pos_3'] = null;
+        $structured_data['1/8']['back_pos_3'] = null;
+        $structured_data['1/8']['left_pos_3'] = null;
+        $structured_data['1/8']['right_pos_3'] = null;
+
         $structured_data['1/4'] = [];
+        $structured_data['1/4']['front_pos_1'] = null;
+        $structured_data['1/4']['back_pos_1'] = null;
+        $structured_data['1/4']['left_pos_1'] = null;
+        $structured_data['1/4']['right_pos_1'] = null;
+        $structured_data['1/4']['front_pos_2'] = null;
+        $structured_data['1/4']['back_pos_2'] = null;
+        $structured_data['1/4']['left_pos_2'] = null;
+        $structured_data['1/4']['right_pos_2'] = null;
+        $structured_data['1/4']['front_pos_3'] = null;
+        $structured_data['1/4']['back_pos_3'] = null;
+        $structured_data['1/4']['left_pos_3'] = null;
+        $structured_data['1/4']['right_pos_3'] = null;
+
         $structured_data['1/2'] = [];
+        $structured_data['1/2']['front_pos_1'] = null;
+        $structured_data['1/2']['back_pos_1'] = null;
+        $structured_data['1/2']['left_pos_1'] = null;
+        $structured_data['1/2']['right_pos_1'] = null;
+        $structured_data['1/2']['front_pos_2'] = null;
+        $structured_data['1/2']['back_pos_2'] = null;
+        $structured_data['1/2']['left_pos_2'] = null;
+        $structured_data['1/2']['right_pos_2'] = null;
+        $structured_data['1/2']['front_pos_3'] = null;
+        $structured_data['1/2']['back_pos_3'] = null;
+        $structured_data['1/2']['left_pos_3'] = null;
+        $structured_data['1/2']['right_pos_3'] = null;
 
         // Upload images
         try {
