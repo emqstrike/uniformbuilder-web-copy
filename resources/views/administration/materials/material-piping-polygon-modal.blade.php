@@ -1,5 +1,5 @@
 <!-- Edit Boundary Modal -->
-<div class="modal fade" id="save-material-option-boundary-modal" data-backdrop="static" aria-hidden="false">
+<div class="modal fade" id="material-piping-polygon-modal" data-backdrop="static" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="/administration/material_option/saveBoundary" role="form" method="POST" enctype="multipart/form-data">

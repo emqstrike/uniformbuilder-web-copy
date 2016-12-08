@@ -1,5 +1,11 @@
 @extends('administration.lte-main')
- 
+
+@section('styles')
+
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+
+@endsection
+
 @section('content')
 
 <div class="container-fluid main-content">
@@ -39,10 +45,42 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>FRONT</td>
-                                    <td>BACK</td>
-                                    <td>LEFT</td>
-                                    <td>RIGHT</td>
+                                    <td>FRONT
+                                        <a href="#" class="btn btn-default btn-xs 1-8-front polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/8']['front_pos_1']) ? $piping_properties['1/8']['front_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/8']['front_pos_2']) ? $piping_properties['1/8']['front_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/8']['front_pos_3']) ? $piping_properties['1/8']['front_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
+                                    <td>BACK
+                                        <a href="#" class="btn btn-default btn-xs 1-8-back polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/8']['back_pos_1']) ? $piping_properties['1/8']['back_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/8']['back_pos_2']) ? $piping_properties['1/8']['back_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/8']['back_pos_3']) ? $piping_properties['1/8']['back_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
+                                    <td>LEFT
+                                        <a href="#" class="btn btn-default btn-xs 1-8-left polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/8']['left_pos_1']) ? $piping_properties['1/8']['left_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/8']['left_pos_2']) ? $piping_properties['1/8']['left_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/8']['left_pos_3']) ? $piping_properties['1/8']['left_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
+                                    <td>RIGHT
+                                        <a href="#" class="btn btn-default btn-xs 1-8-right polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/8']['right_pos_1']) ? $piping_properties['1/8']['right_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/8']['right_pos_2']) ? $piping_properties['1/8']['right_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/8']['right_pos_3']) ? $piping_properties['1/8']['right_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
@@ -85,10 +123,42 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>FRONT</td>
-                                    <td>BACK</td>
-                                    <td>LEFT</td>
-                                    <td>RIGHT</td>
+                                    <td>FRONT
+                                        <a href="#" class="btn btn-default btn-xs 1-4-front polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/4']['front_pos_1']) ? $piping_properties['1/4']['front_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/4']['front_pos_2']) ? $piping_properties['1/4']['front_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/4']['front_pos_3']) ? $piping_properties['1/4']['front_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
+                                    <td>BACK
+                                        <a href="#" class="btn btn-default btn-xs 1-4-back polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/4']['back_pos_1']) ? $piping_properties['1/4']['back_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/4']['back_pos_2']) ? $piping_properties['1/4']['back_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/4']['back_pos_3']) ? $piping_properties['1/4']['back_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
+                                    <td>LEFT
+                                        <a href="#" class="btn btn-default btn-xs 1-4-left polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/4']['left_pos_1']) ? $piping_properties['1/4']['left_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/4']['left_pos_2']) ? $piping_properties['1/4']['left_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/4']['left_pos_3']) ? $piping_properties['1/4']['left_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
+                                    <td>RIGHT
+                                        <a href="#" class="btn btn-default btn-xs 1-4-right polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/4']['right_pos_1']) ? $piping_properties['1/4']['right_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/4']['right_pos_2']) ? $piping_properties['1/4']['right_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/4']['right_pos_3']) ? $piping_properties['1/4']['right_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
@@ -131,10 +201,42 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>FRONT</td>
-                                    <td>BACK</td>
-                                    <td>LEFT</td>
-                                    <td>RIGHT</td>
+                                    <td>FRONT
+                                        <a href="#" class="btn btn-default btn-xs 1-2-front polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/2']['front_pos_1']) ? $piping_properties['1/2']['front_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/2']['front_pos_2']) ? $piping_properties['1/2']['front_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/2']['front_pos_3']) ? $piping_properties['1/2']['front_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
+                                    <td>BACK
+                                        <a href="#" class="btn btn-default btn-xs 1-2-back polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/2']['back_pos_1']) ? $piping_properties['1/2']['back_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/2']['back_pos_2']) ? $piping_properties['1/2']['back_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/2']['back_pos_3']) ? $piping_properties['1/2']['back_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
+                                    <td>LEFT
+                                        <a href="#" class="btn btn-default btn-xs 1-2-left polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/2']['left_pos_1']) ? $piping_properties['1/2']['left_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/2']['left_pos_2']) ? $piping_properties['1/2']['left_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/2']['left_pos_3']) ? $piping_properties['1/2']['left_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
+                                    <td>RIGHT
+                                        <a href="#" class="btn btn-default btn-xs 1-2-right polygon-button"
+                                        data-postion1-image="{{ ( ! empty($piping_properties['1/2']['right_pos_1']) ? $piping_properties['1/2']['right_pos_1'] : '') }}"
+                                        data-postion2-image="{{ ( ! empty($piping_properties['1/2']['right_pos_2']) ? $piping_properties['1/2']['right_pos_2'] : '') }}"
+                                        data-postion3-image="{{ ( ! empty($piping_properties['1/2']['right_pos_3']) ? $piping_properties['1/2']['right_pos_3'] : '') }}"
+                                        >
+                                            <i class="glyphicon glyphicon-screenshot"></i>
+                                        </a>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
@@ -187,206 +289,25 @@
         </div>
     </div>
 </div>
+
+@include('administration.materials.material-piping-polygon-modal')
+
 @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
 
 @endsection
 
 @section('scripts')
-<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+<script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
+<script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/administration/polygon.js"></script>
 <script>
 $( document ).ready(function() {
 
-    window.price_items = null;
-    getPriceItems(function(price_items){ window.price_items = price_items; });
-    function getPriceItems(callback){
-        var price_items;
-        var url = "//api-dev.qstrike.com/api/price_items";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                price_items = data['price_items'];
-                if(typeof callback === "function") callback(price_items);
-            }
-        });
-    }
-
-    var price_items_dd = '<option value=""> - - - </option>';
-    window.price_items.forEach(function(entry) {
-        price_items_dd += '<option value="' + entry.price_item + '" data-msrp="' + entry.msrp + '" data-wsp="' + entry.web_price_sale + '">' + entry.price_item + '</option>';
-    });
-
-    $(".pi-dd").each(function(i) {
-        $(this).append(price_items_dd);
-    });
-    if( $('#sizes').val() != "" ){
-        var size_obj = JSON.parse($('#sizes').val().slice(1, -1));
-        console.log(size_obj);
-        size_obj['adult'].forEach(function(entry) {
-            // console.log(entry.size);
-            $(".pi-dd").each(function(i) {
-                var elem = $(this);
-                if( elem.data('size') == entry.size ){
-                    // elem.append('<option selected>HERE!</option');
-                    elem.find('option').each(function(index,element){
-                        if( element.value == entry.price_item ){
-                            // console.log('Match!');
-                            $(this).prop("selected", "selected");
-                        }
-                    });
-                }
-            });
-        });
-
-        size_obj['youth'].forEach(function(entry) {
-            // console.log(entry.size);
-            $(".pi-dd").each(function(i) {
-                var elem = $(this);
-                if( elem.data('size') == entry.size ){
-                    // elem.append('<option selected>HERE!</option');
-                    elem.find('option').each(function(index,element){
-                        if( element.value == entry.price_item ){
-                            // console.log('Match!');
-                            $(this).prop("selected", "selected");
-                        }
-                    });
-                }
-            });
-        });
-    }
-    
-
-    $(".pi-dd").change(function() {
-        buildPIxSizes();
-    });
-
-    // $(document).on('click', '.check-data', function() {
-    //     buildPIxSizes();
-    // });
-// var sizes = [];
-    function buildPIxSizes(){
-        sizes = {};
-        sizes['adult'] = [];
-        sizes['youth'] = [];
-        $(".a-size").each(function(i) {
-            if( $(this).val() != "" ){
-                data = {
-                    "size" : $(this).data('size'),
-                    "msrp" : parseInt($(this).find(':selected').data('msrp')),
-                    "web_sale_price" : parseInt($(this).find(':selected').data('wsp')),
-                    "price_item" : $(this).val()
-                };
-                sizes['adult'].push(data);
-            }
-        });
-        $(".y-size").each(function(i) {
-            if( $(this).val() != "" ){
-                data = {
-                    "size" : $(this).data('size'),
-                    "msrp" : parseInt($(this).find(':selected').data('msrp')),
-                    "web_sale_price" : parseInt($(this).find(':selected').data('wsp')),
-                    "price_item" : $(this).val()
-                };
-                sizes['youth'].push(data);
-            }
-        });
-        strResult = JSON.stringify(sizes);
-        console.log( strResult );
-        $('#sizes').val( '"' + strResult + '"' );
-    }
-
-    // console.log(window.price_items);
-
-    tinymce.init({ 
-        selector:'textarea.material-description'
-    });
-
-    loadEditor();
-    function loadEditor(){
-        setTimeout(function(){
-            window.mce = $('#description').val();
-            tinymce.editors[0].setContent(window.mce);
-            $('#description').val('');
-        }, 1000);
-    }
-
-    $('.edit-material').on('click', function(){
-        saveEditor();
-        // console.log('SAVE');
-    });
-
-    function saveEditor(){
-        window.mce = tinyMCE.activeEditor.getContent();
-        console.log('MCE: ' + window.mce);
-        $('#description').val(window.mce);
-    }
-
-    window.block_patterns = null;
-    getBlockPatterns(function(block_patterns){
-        window.block_patterns = block_patterns;
-    });
-
-    function getBlockPatterns(callback){
-        var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
-        // var url = "//localhost:8888/api/block_patterns";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                block_patterns = data['block_patterns'];
-                // console.log("Mascots: "+items);
-                if(typeof callback === "function") callback(block_patterns);
-            }
-        });
-    }
-
-    // console.log( window.block_patterns );
-
-    var block_pattern_id = $('#block_pattern_id').val();
-    var existing_neck_option = $('#existing_neck_option').val();
-
-    // console.log(existing_neck_option);
-
-    $.each(window.block_patterns, function(i, item) {
-        if( item.id === block_pattern_id ){
-            window.neck_options = JSON.parse(item.neck_options);
-            $.each(window.neck_options, function(i, item) {
-                if( existing_neck_option == item.name ){
-                    console.log(' IF ');
-                    $( '#neck_option' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
-                } else {
-                    console.log(' IF ');
-                    $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-                }
-            });
-        }
-    });
-
-    $(document).on('change', '#block_pattern_id', function() {
-
-        var id = $(this).val();
-
-        $( '#neck_option' ).html('');
-
-        $.each(window.block_patterns, function(i, item) {
-            if( item.id === id ){
-                window.neck_options = JSON.parse(item.neck_options);
-                $.each(window.neck_options, function(i, item) {
-                    $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-                });
-            }
-        });
-
-    });
+$(".polygon-button").click(function(e){
+    e.preventDefault();
+    $('#material-piping-polygon-modal').modal('show');
+});
 
 });
 </script>
