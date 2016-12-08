@@ -1547,3 +1547,19 @@
     </script>
 
 <!-- End Piping Sizes -->
+
+<!-- Piping Colors -->
+
+    <script type="text/mustache" id="m-piping-colors">
+
+        @{{#items}}
+
+            <span class="piping-colors-buttons" data-type="@{{name}}" data-value="@{{val}}">
+                @{{val}}
+            </span> 
+
+        @{{/items}}
+
+    </script>
+
+<!-- End Piping Colors -->

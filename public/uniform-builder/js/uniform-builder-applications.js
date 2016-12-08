@@ -7759,20 +7759,59 @@ $(document).ready(function() {
 
     }
 
-    
+    ub.funcs.getPipingSet = function (activePipingSet) {
+
+        var _result = _.filter(ub.data.pipings, {set: activePipingSet});
+        return _result;
+        
+    }
     
     ub.funcs.getPipingSizes = function (pipingSet) {
 
-        var _result = _.filter(ub.data.pipings, {set: 'Yoke Piping'});
         var _template = $('#m-piping-sizes').html();
-
-        console.log(_result);
-        console.log(_template);
-
-        var _data = { items: _result };            
+        var _data = { items: pipingSet};            
         var _markup = Mustache.render(_template, _data);
 
-        console.log(_markup);
+        return _markup;
+        
+    }
+
+    ub.funcs.getPipingColorArray = function (activePipingSet) {
+
+        var _result = [];
+
+        if (typeof activePipingSet !== "undefined") {
+
+            if (activePipingSet.color_1) {
+
+                _result.push({name: 'color 1', val: 1});
+
+            }
+
+            if (activePipingSet.color_2) {
+
+                _result.push({name: 'color 2', val: 2});
+
+            }
+
+            if (activePipingSet.color_3) {
+
+                _result.push({name: 'color 3', val: 3});
+
+            }
+
+        }
+
+        return _result;
+
+    }
+
+    ub.funcs.getPipingColors = function (activePipingSet) {
+
+        var _template   = $('#m-piping-colors').html();
+        var _colorArray = ub.funcs.getPipingColorArray(activePipingSet);
+        var _data = { items: _colorArray };            
+        var _markup = Mustache.render(_template, _data);
 
         return _markup;
         
@@ -7793,7 +7832,7 @@ $(document).ready(function() {
         ub.funcs.deactivatePanels();
 
         var _status     = 'on';
-        var _pipingSet  = pipingSet; 
+        var _pipingSet  = pipingSet;
 
         if (typeof _pipingSet !== "undefined") {
 
@@ -7805,7 +7844,21 @@ $(document).ready(function() {
             _status = "on";
 
         }
-        
+
+        var _activePipingSet = _pipingSet;
+
+        if (typeof _activePipingSet === "undefined") {
+
+            _pipingSet       = ub.funcs.getPipingSet('Yoke Piping');
+            _activePipingSet = _.first(_pipingSet);
+
+            console.log('Piping Set');
+            console.log(_pipingSet);
+
+            console.log('Active Piping Set');
+            console.log(_activePipingSet);
+
+        }
 
         _htmlBuilder        =  '<div id="pipingsUI">';
         _htmlBuilder        +=      '<div class="header">';
@@ -7821,10 +7874,18 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label class="applicationLabels font_size">Size</label>'; 
-        _htmlBuilder        +=              ub.funcs.getPipingSizes(_pipingSet);
+        _htmlBuilder        +=              '<label class="applicationLabels size">Size</label>'; 
+        _htmlBuilder        +=              ub.funcs.getPipingSizes(_pipingSet, _activePipingSet);
 
         _htmlBuilder        +=          '</div>';
+
+        _htmlBuilder        +=          '<div class="ui-row">';
+
+        _htmlBuilder        +=              '<label class="applicationLabels colors"># of Colors</label>'; 
+        _htmlBuilder        +=              ub.funcs.getPipingColors(_activePipingSet);
+
+        _htmlBuilder        +=          '</div>';
+
 
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
@@ -7841,6 +7902,16 @@ $(document).ready(function() {
         
         $('.modifier_main_container').append(_htmlBuilder);
 
+        // Set Initial States 
+        var _firstColor = _.first(ub.funcs.getPipingColorArray(_activePipingSet));
+
+        console.log('First Color: ');
+        console.log(_firstColor);
+
+        $('span.piping-sizes-buttons[data-type="' + _activePipingSet.name + '"]').addClass('active');
+        $('span.piping-colors-buttons[data-type="' + _firstColor.name + '"]').addClass('active');
+
+
         // Events
 
             // piping-sizes-buttons
@@ -7848,20 +7919,14 @@ $(document).ready(function() {
             var $pipingSizesButtons = $('span.piping-sizes-buttons');
             $pipingSizesButtons.on('click', function () {
 
-                var _type = $(this).data('type');
-                var _size = $(this).data('size');
-
-                $pipingSizesButtons.removeClass('active');
-
-                $(this).addClass('active');
-
-                console.log(_type);
-                console.log(_size);
-
-                var _pipingObject = _.find(ub.data.pipings, {name: _type});
-                console.log(_pipingObject);
+                var _type           = $(this).data('type');
+                var _size           = $(this).data('size');
+                var _pipingObject   = _.find(ub.data.pipings, {name: _type});
 
                 ub.funcs.changePipingSize(_pipingObject);
+
+                $pipingSizesButtons.removeClass('active');
+                $(this).addClass('active');
 
             });
 
