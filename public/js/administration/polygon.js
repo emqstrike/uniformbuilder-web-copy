@@ -7,6 +7,11 @@ $(document).ready(function() {
 	$(".polygon-button").click(function(e){
 	    e.preventDefault();
 	    $('#material-piping-polygon-modal').modal('show');
+	    var polyData = $("#polygon_prop").val();
+	    polyData = JSON.parse(polyData);
+	    loadPolygon(polyData);
+        updateCoordinates();
+        canvasFront.clear();
 	});
 
 	/*
@@ -36,50 +41,51 @@ $(document).ready(function() {
 	    var data = {
 	        "x" : a,
 	        "y" : b
-
 	    };
 
-	    var myData = $(".b-prop").val();
-	    myData = myData.slice(1, -1);
-	    var detect = myData.slice(1,2);
-	    if(detect == "{"){
+	    console.log('DATA> '+JSON.stringify(data));
+
+	    var myData = $("#polygon_prop").val();
+	    console.log('myData 1> '+myData);
+	    // myData = myData.slice(1, -1);
+	    // console.log('myData 2> '+myData);
+	    // var detect = myData.slice(1,2);
+	    // if(detect == "{"){
 	    
-	        myData = "["+myData+"]";
-	    }
+	    //     myData = "["+myData+"]";
+	    // }
 	    myData = JSON.parse(myData);
-	    // console.log(myData);
+	    console.log(myData);
 
 	    myData[focusPointIndex].push(data);
 
 	    // console.log("mydata:-----"+ JSON.stringify(myData));
 	 
-	    $(".b-prop").val('"' + JSON.stringify(myData) + '"');
+	    $("#polygon_prop").val(JSON.stringify(myData));
 
 	    loadPolygon(myData);
     // console.log(JSON.stringify(myData));
 
     });
 
-
-
 	$('.add-polygon').on('click', function(){
 
-	    data = [{"x":100,"y":100},{"x":150,"y":100},{"x":150,"y":150},{"x":100,"y":150}];
+	    var data = [{"x":100,"y":100},{"x":150,"y":100},{"x":150,"y":150},{"x":100,"y":150}];
 	    var letter=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 	  
 	    var mydata = $("#polygon_prop").val();
 	    console.log('My Data> ' + mydata);
-	    // mydata = mydata.slice(1, -1);
-	    // var detect = mydata.slice(1,2);
+	    mydata = mydata.slice(1, -1);
+	    var detect = mydata.slice(1,2);
 
-	    // if(detect == "{"){
+	    if(detect == "{"){
 	    
-	    //     mydata = "["+mydata+"]";
-	    // }
+	        mydata = "["+mydata+"]";
+	    }
 	  
 	    mydata = JSON.parse(mydata); 
 	    mydata.push(data);
-	    $(".b-prop").val('"' + JSON.stringify(mydata) + '"');
+	    $("#polygon_prop").val(JSON.stringify(mydata));
 
 	    $("#selectpoint").append("<option data-letter-index="+ ($("#selectpoint option").length) +">"+ (letter[$("#selectpoint option").length]) +"</option>");
 	    loadPolygon(mydata);
@@ -384,17 +390,14 @@ $(document).ready(function() {
 		        coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
 		        x++;
 		    });
-		    // coords.forEach(function(entry) {
-		    //     console.log('Entry: '+entry['x']+', '+entry['y']);
-		    // });
-		    // console.log(JSON.stringify(coords));
+
 		    updateCoordinates();
 		}); //canvas.observe();
-		}
-		catch(err) { console.log(err.message); }
+	}
+		catch(err) { console.log(err.message); 
+	}
 
 	function loadPolygon(data){
-	    // console.log("PolyData >> "+JSON.stringify(data));
 
 	    var angle;
 	    canvas.clear();
@@ -419,7 +422,7 @@ $(document).ready(function() {
 	    console.log("datae to:"+JSON.stringify(data));
 	    data.forEach(function(entry) {
 		    console.log("loopnumber:" + ii);
-	        // var lastCircleLength = null;
+
 	        var z = 0;
 	        var letter=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 	        $.each(entry, function(i, item) {
@@ -446,30 +449,23 @@ $(document).ready(function() {
 
 	    lineIdx = 0;
 	    var circles = canvas.getObjects('circle');
-	    // if(lastCircleLength != null){
-	    //         circles - lastCircleLength;
-	    // }
+
 	    var x = 0;
 	    var a = circles.length - 1; // circles.length = length of every circles, count all a, count all b, and so on
 	    var lastLetter="";
 	    var lastName="";
-	  
 	    var letterNum=0;
 	    var ind=0;
+
 	    circles.forEach(function(entry) {
 	        var myString = entry.name;
 	        myString = myString.replace(/[^A-Za-z]+/g, '');
-	        
-	        //    if(myString != lastLetter){
-	        //    x = 0; 
-	        // }
+
 	        if(x != 0){
 	            if(lastLetter == myString){
 	        
 	                addLine(window[lastName], window[entry.name], lineIdx);
 	                lineIdx++;
-
-
 
 	            }else{
 
@@ -482,14 +478,6 @@ $(document).ready(function() {
 	             }
 	        }
 
-	        // var y = x + 1;
-	        // if( x < a ){
-	        //     addLine(window[myString+x], window[myString+y], lineIdx);
-	        //     lineIdx++;
-	        // } else {
-	        //     addLine(window[myString+x], window[myString+'0'], lineIdx);  
-	        // }
-
 	        lastName = entry.name;
 	        lastLetter = myString;
 
@@ -498,13 +486,10 @@ $(document).ready(function() {
 	        
 	        letterNum++;
 
-	       
 	    });
 	    // lastCircleLength = circles;
 	    // console.log('Line Index: ' + lineIdx);
 	    loadCase = 1;
-	        
-
 
 	    try {
 	        $('#pattern_angle').val(parseFloat(angle.toFixed(2)));
@@ -516,8 +501,6 @@ $(document).ready(function() {
 	        window.px = 453;
 	        window.py = 362;
 	    }
-
-	    // console.log('WIN PX' + window.px);
 
 	    var rect = new fabric.Rect({
 	        left: window.px,
@@ -543,16 +526,72 @@ $(document).ready(function() {
 
 	    var group = new fabric.Group([ rect, triangle, text ], { left: window.px, top: window.py, angle: angle });
 
-
 	    canvas.add(group);
 	    canvas.renderAll();
 	    // fixLoadPolygon();
 
 	     bringingPointToFront();
 
-
-	 
 	}
+
+	function bringingPointToFront(){
+
+         canvas.forEachObject(function(key,obj){  
+
+            var subjectName = ""+ canvas.item(obj).name +"";
+
+           // subjectName = jQuery.parseJSON( subjectName);
+           subjectName = subjectName.substring(0,4);
+
+            if ( subjectName == "Line" ) {
+
+            // canvas.sendToBack(canvas.item(obj));
+
+             canvas.item(obj).evented = false;
+             canvas.item(obj).selectable = false;
+            } else if(subjectName != "unde") { 
+        
+               // canvas.sendToFront(canvas.item(obj));
+               canvas.item(obj).evented = true;
+             canvas.item(obj).selectable = true;
+            }
+
+           // canvas.item(obj).visible = false;
+
+      });
+            canvas.renderAll();
+    }
+
+    function updateCoordinates(cs) {
+
+        applicationProperties = {}
+        var circles = canvas.getObjects('circle');
+        var x = 0;
+        circles.forEach(function(entry) {
+            var getCenterPoint = entry.getCenterPoint();
+            console.log("X: ["+getCenterPoint.x.toFixed(2)+"] Y: ["+getCenterPoint.y.toFixed(2)+"]");
+            coords[x] = {};
+            var groups = canvas.getObjects('group');
+            if( x == 0 ){
+                coords[x]['angle'] = parseFloat(groups[0].getAngle());
+                var pivot = groups[0].getCenterPoint();
+                coords[x]['px'] = pivot.x * 2;
+                coords[x]['py'] = pivot.y * 2;
+            }
+
+            coords[x]['x'] = parseFloat(getCenterPoint.x.toFixed(2)) * 2;
+            coords[x]['y'] = parseFloat(getCenterPoint.y.toFixed(2)) * 2;
+            x++;
+        });
+
+        canvas.renderAll();
+        var boundaryProperties = JSON.stringify(coords);
+        // boundaryProperties = '"'+boundaryProperties+'"';
+        $('#polygon_prop').prop('value', boundaryProperties);
+        console.log('BPROPxs: '+boundaryProperties);
+
+        // APP ROTATION EACH HERE )))))))))))))))))))))))))))))))))))) --------- updateApplicationsJSON();
+    }
 
 
 
