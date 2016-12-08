@@ -447,8 +447,8 @@
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
-                    <img src='/images/main-ui/shadow.png' />
                     <strong class="uniform-name">@{{name}}</strong> <br />
+                    <span class="callForTeamPricing">Call for Team Pricing</span>
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                     <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong> <!-- <strong class="type">@{{block_pattern}}</strong> -->
                 </span> 
@@ -1538,7 +1538,7 @@
 
         @{{#items}}
 
-            <span class="piping-sizes-buttons">
+            <span class="piping-sizes-buttons" data-type="@{{name}}" data-size="@{{size}}">
                 @{{size}}
             </span> 
 
@@ -1547,6 +1547,3 @@
     </script>
 
 <!-- End Piping Sizes -->
-            
-
-

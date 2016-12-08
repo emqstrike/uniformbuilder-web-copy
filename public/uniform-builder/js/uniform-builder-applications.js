@@ -7736,10 +7736,13 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.changePipingSize = function (selectedSize, pipingSet) {
+    ub.funcs.changePipingSize = function (_pipingObject) {
 
-        // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
-        // put in logic to change piping size here ...
+        _.each(_pipingObject.perspectives, function (perspective) {
+
+            
+
+        });
 
     }
 
@@ -7762,7 +7765,10 @@ $(document).ready(function() {
     ub.funcs.getPipingSizes = function (pipingSet) {
 
         var _result = _.filter(ub.data.pipings, {set: 'Yoke Piping'});
-        var _template = $('m-piping-sizes').html();
+        var _template = $('#m-piping-sizes').html();
+
+        console.log(_result);
+        console.log(_template);
 
         var _data = { items: _result };            
         var _markup = Mustache.render(_template, _data);
@@ -7836,15 +7842,30 @@ $(document).ready(function() {
         
         $('.modifier_main_container').append(_htmlBuilder);
 
-            $('span.piping_size').on('click', function () {
+        // Events
 
-                var _selectedSize = $(this).data('size');
-                $('.piping_size').removeClass('active');
+            // piping-sizes-buttons
+
+            var $pipingSizesButtons = $('span.piping-sizes-buttons');
+            $pipingSizesButtons.on('click', function () {
+
+                var _type = $(this).data('type');
+                var _size = $(this).data('size');
+
+                $pipingSizesButtons.removeClass('active');
+
                 $(this).addClass('active');
 
-                ub.funcs.changePipingSize(_selectedSize, _pipingSet);
+                console.log(_type);
+                console.log(_size);
+
+                var _pipingObject = _.find(ub.data.pipings, {name: _type});
+                console.log(_pipingObject);
+
+                ub.funcs.changePipingSize(_pipingObject);
 
             });
+
 
             $('span.colorItem').on('click', function () {
 
@@ -7873,10 +7894,6 @@ $(document).ready(function() {
                 ub.funcs.changeActiveColorSmallColorPickerPiping(_layer_no, _color_code, _colorObj);
 
             });
-
-            // ub.funcs.useRotated(_status);
-
-        // End Small Color Pickers
 
         // End Events
 

@@ -92,14 +92,14 @@ $(document).ready(function () {
 
             ub.funcs.priceOverride(material);
 
-            var _web_price_sale = parseFloat(material.web_price_sale);
-            var _msrp           = parseFloat(material.msrp);
+            var _web_price_sale = parseFloat(material.web_price_sale).toFixed(2);;
+            var _msrp           = parseFloat(material.msrp).toFixed(2);;
             var _price          = 0;
 
             if (_web_price_sale < _msrp && _web_price_sale > 1) {
-                _price          = "Sale Price: $" + _web_price_sale + " / Call for Team Pricing";
+                _price          = "Sale Price: $" + _web_price_sale;
             } else {
-                _price          = "MSRP $" + _msrp + " / Call for Team Pricing";
+                _price          = "MSRP $" + _msrp;
             }
 
             if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { 
@@ -326,8 +326,16 @@ $(document).ready(function () {
 
             }
 
+            var _getPrice = ub.funcs.getPrice(ub.current_material.material);
+
+            if (_getPrice !== "Call for Pricing") {
+
+                _getPrice += " / Call for Team Pricing";
+
+            }
+
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
-            $('div#uniform_price').html(ub.funcs.getPrice(ub.current_material.material) + '<br /><em class="notice">*pricing may vary depending on size</em>');
+            $('div#uniform_price').html(_getPrice + '<br /><em class="notice">*pricing may vary depending on size</em>');
 
             $('div.header-container').css('display','none !important');
 
@@ -1447,11 +1455,6 @@ $(document).ready(function () {
                 var _paddedHex = util.padHex(_hexCode, 6);
 
                 ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};
-
-                console.log(_hexCode);
-                console.log(_paddedHex);
-                console.log(ub.data.colorsUsed);
-
 
             }
             
@@ -5332,7 +5335,21 @@ $(document).ready(function () {
             }
 
             var markup = Mustache.render(template, data);
-            $scrollerElement.html(markup);
+            $.when($scrollerElement.html(markup)).then(
+
+                $('.main-picker-items').each(function(item) {
+
+                    var _resultPrice = $(this).find('span.calculatedPrice').html();
+
+                    if (_resultPrice === "Call for Pricing") {
+
+                        $(this).find('span.callForTeamPricing').html('');
+
+                    }
+
+                })
+
+            );
 
             ub.funcs.hideIpadUniforms();
 

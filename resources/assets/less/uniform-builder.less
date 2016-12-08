@@ -103,7 +103,6 @@ strong, h1, h2, h3, h4, h5, h6 {
 html, body {
     
     width: 100%;
-    background-color: #eeeeee;
     background-attachment:fixed;
     
 }
@@ -149,9 +148,9 @@ div.navbar-header {
 .navbar-default {
 
     box-shadow: none;
-    background-color: #f2f2f2;
     height: @navbar-height;
     border-bottom: 1px solid #f2f2f2 !important;
+    background-color: #f8f8f8;
 
 }
 
@@ -2193,6 +2192,7 @@ div#main-picker-container {
         font-size: 1.4em;
         padding-top: 10px;
         color: @text_color;
+        border-bottom: solid 1px #e7e7e7;
 
         span.slink {
 
@@ -2417,12 +2417,13 @@ div#main-picker-container {
             width: 224px;
             float: left;
             cursor: pointer;
-            margin-bottom: 130px;
+            margin-bottom: 90px;
             margin-right: 20px;
             margin-left: 25px;
 
             img {
                 width: 100%;
+                margin-bottom: 30px;
             }
 
             span.main-picker-item-caption {
@@ -2434,7 +2435,7 @@ div#main-picker-container {
                 opacity: 0.7;
                 transition: all 0.2s ease-in-out;
                 text-align: center;
-                font-size: 1em;
+                font-size: 0.9em;
                 font-family: 'Avenir Next LT W04 Bold';
                 margin-top: -10px !important;
                 text-transform: uppercase;
@@ -3994,6 +3995,36 @@ div.header-container.main {
                         font-size: 1em;
 
                     }
+
+                    span.piping-sizes-buttons {
+
+                        background-color: #e7e7e7;
+                        color: #3d3d3d;
+                        cursor: pointer;
+
+                        margin-right: 3px;
+                        width: 80px;
+                        display: inline-block;
+                        text-align: center;
+
+                    }
+
+                    span.piping-sizes-buttons:hover, span.piping-sizes-buttons.active {
+
+                        background-color: #3d3d3d;
+                        color: white;
+
+                        -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                        -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                        box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                        
+                    }
+
+                    span.piping-sizes-buttons.active {
+
+                        font-weight: bold;
+                        
+                    }
                 
                     label {
 
@@ -4481,7 +4512,6 @@ div.header-container.main {
                 span.font_name:hover {
 
                     color: @forecolor;
-
 
                 }
 
@@ -6334,10 +6364,17 @@ div.header-container.main {
 
     }
 
+    .callForTeamPricing {
+
+        font-family: "Avenir Next LT W04 Thin";
+
+    }
+
     .calculatedPrice {
 
-        font-size: 0.7em;
+        font-size: 1em;
         display: block;
+        margin-top: 10px;
 
     }
 
