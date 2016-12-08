@@ -5302,8 +5302,8 @@ $(document).ready(function () {
 
             ub.tempItems = _.sortBy(items, function(item) { 
 
-                if(item.type === 'upper') { 
-                    return 1; 
+                if (item.type === 'upper') { 
+                    return 1;
                 } 
                 else {
                     return 2;
