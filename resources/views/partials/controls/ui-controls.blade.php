@@ -1536,6 +1536,8 @@
 
     <script type="text/mustache" id="m-piping-sizes">
 
+        <label class="applicationLabels size">Size</label> 
+
         @{{#items}}
 
             <span class="piping-sizes-buttons" data-type="@{{name}}" data-size="@{{size}}">
@@ -1552,6 +1554,8 @@
 
     <script type="text/mustache" id="m-piping-colors">
 
+        <label class="applicationLabels colors"># of Colors</label> 
+
         @{{#items}}
 
             <span class="piping-colors-buttons" data-type="@{{name}}" data-value="@{{val}}">
@@ -1563,3 +1567,47 @@
     </script>
 
 <!-- End Piping Colors -->
+
+<!-- Main Piping Sidebar -->
+
+    <script type="text/mustache" id="m-piping-sidebar">
+
+        <div id="pipingsUI">
+          <div class="header">
+          <div class="toggle" data-status="@{{status}}"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>
+          <div class="body">
+              <div class="cover"></div>
+              <div class="ui-row">
+
+                  <label class="applicationLabels">Type</label>
+                  <span class="piping-type">Yoke Piping</span>                       
+
+              </div>
+
+              <div class="ui-row size-row">
+
+                  
+              </div>
+
+              <div class="ui-row colors-row">
+
+                  
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="ui-row">
+                  <div class="column1">'
+                      <div class="sub1">
+                      </div>
+                      <div class="colorContainer"><br />
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        
+    </script>
+
+
+<!-- End Main Piping Sidebar -->

@@ -7852,65 +7852,29 @@ $(document).ready(function() {
             _pipingSet       = ub.funcs.getPipingSet('Yoke Piping');
             _activePipingSet = _.first(_pipingSet);
 
-            console.log('Piping Set');
-            console.log(_pipingSet);
-
-            console.log('Active Piping Set');
-            console.log(_activePipingSet);
-
         }
 
-        _htmlBuilder        =  '<div id="pipingsUI">';
-        _htmlBuilder        +=      '<div class="header">';
-        _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="body">';
-        _htmlBuilder        +=          '<div class="cover"></div>';
-        _htmlBuilder        +=          '<div class="ui-row">';
+        var _template = $('#m-piping-sidebar').html();
+        var _data     = {
+                            status: _status,
+                        };
 
-        _htmlBuilder        +=              '<label class="applicationLabels">Type</label>';
-        _htmlBuilder        +=              '<span class="piping-type">Yoke Piping</span>';                       
+        var _htmlBuilder    = Mustache.render(_template, _data);            
 
-        _htmlBuilder        +=          '</div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
-
-        _htmlBuilder        +=              '<label class="applicationLabels size">Size</label>'; 
-        _htmlBuilder        +=              ub.funcs.getPipingSizes(_pipingSet, _activePipingSet);
-
-        _htmlBuilder        +=          '</div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
-
-        _htmlBuilder        +=              '<label class="applicationLabels colors"># of Colors</label>'; 
-        _htmlBuilder        +=              ub.funcs.getPipingColors(_activePipingSet);
-
-        _htmlBuilder        +=          '</div>';
-
-
-        _htmlBuilder        +=          '<div class="clearfix"></div>';
-
-        _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1">'
-        _htmlBuilder        +=                  '<div class="sub1">';
-        _htmlBuilder        +=                  '</div>';
-        _htmlBuilder        +=                  '<div class="colorContainer"><br />';
-        _htmlBuilder        +=                  '</div>';
-        _htmlBuilder        +=              '</div>';
-        _htmlBuilder        +=          '</div>';
-        _htmlBuilder        +=      '</div>';
-        _htmlBuilder        +=  '</div>';
-        
         $('.modifier_main_container').append(_htmlBuilder);
 
-        // Set Initial States 
-        var _firstColor = _.first(ub.funcs.getPipingColorArray(_activePipingSet));
+        var _sizesMarkup     = ub.funcs.getPipingSizes(_pipingSet, _activePipingSet);
+        var _colorsMarkup    =  ub.funcs.getPipingColors(_activePipingSet);
 
-        console.log('First Color: ');
-        console.log(_firstColor);
+        // Set Initial States 
+
+        $('div.ui-row.size-row').html(_sizesMarkup);
+        $('div.ui-row.colors-row').html(_colorsMarkup);
+
+        var _firstColor = _.first(ub.funcs.getPipingColorArray(_activePipingSet));
 
         $('span.piping-sizes-buttons[data-type="' + _activePipingSet.name + '"]').addClass('active');
         $('span.piping-colors-buttons[data-type="' + _firstColor.name + '"]').addClass('active');
-
 
         // Events
 
