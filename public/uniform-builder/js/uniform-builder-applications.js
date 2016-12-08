@@ -7855,9 +7855,7 @@ $(document).ready(function() {
         }
 
         var _template = $('#m-piping-sidebar').html();
-        var _data     = {
-                            status: _status,
-                        };
+        var _data     = { status: _status };
 
         var _htmlBuilder    = Mustache.render(_template, _data);            
 
@@ -7886,9 +7884,8 @@ $(document).ready(function() {
                 var _type           = $(this).data('type');
                 var _size           = $(this).data('size');
                 var _pipingObject   = _.find(ub.data.pipings, {name: _type});
-
-                var _colorsMarkup    =  ub.funcs.getPipingColors(_pipingObject);
-                var _firstColor = _.first(ub.funcs.getPipingColorArray(_pipingObject));
+                var _colorsMarkup   =  ub.funcs.getPipingColors(_pipingObject);
+                var _firstColor     = _.first(ub.funcs.getPipingColorArray(_pipingObject));
         
                 ub.funcs.changePipingSize(_pipingObject);
                 $('div.ui-row.colors-row').html(_colorsMarkup);
