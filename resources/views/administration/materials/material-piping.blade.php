@@ -185,7 +185,7 @@
                 </div>
             </div>
         </div>
-    </div>f_
+    </div>
 </div>
 @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
 
