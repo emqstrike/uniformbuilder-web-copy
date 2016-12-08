@@ -1536,7 +1536,7 @@
 
     <script type="text/mustache" id="m-piping-sizes">
 
-        <label class="applicationLabels size">Size</label> 
+        <label class="applicationLabels size">Size</label>
 
         @{{#items}}
 

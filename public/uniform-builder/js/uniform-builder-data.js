@@ -271,7 +271,7 @@ $(document).ready(function() {
             size: '1/8',
             set: 'Yoke Piping',
             color_1: true,
-            color_2: false,
+            color_2: true,
             color_3: false,
             perspectives: [
                 {

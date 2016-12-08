@@ -7737,11 +7737,11 @@ $(document).ready(function() {
 
     ub.funcs.changePipingSize = function (_pipingObject) {
 
-        _.each(_pipingObject.perspectives, function (perspective) {
+        // _.each(_pipingObject.perspectives, function (perspective) {
 
 
 
-        });
+        // });
 
     }
 
@@ -7887,8 +7887,13 @@ $(document).ready(function() {
                 var _size           = $(this).data('size');
                 var _pipingObject   = _.find(ub.data.pipings, {name: _type});
 
+                var _colorsMarkup    =  ub.funcs.getPipingColors(_pipingObject);
+                var _firstColor = _.first(ub.funcs.getPipingColorArray(_pipingObject));
+        
                 ub.funcs.changePipingSize(_pipingObject);
-
+                $('div.ui-row.colors-row').html(_colorsMarkup);
+                $('span.piping-colors-buttons[data-type="' + _firstColor.name + '"]').addClass('active');
+     
                 $pipingSizesButtons.removeClass('active');
                 $(this).addClass('active');
 
