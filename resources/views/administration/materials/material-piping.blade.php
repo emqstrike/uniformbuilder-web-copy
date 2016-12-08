@@ -301,14 +301,4 @@
 <script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/polygon.js"></script>
-<script>
-$( document ).ready(function() {
-
-$(".polygon-button").click(function(e){
-    e.preventDefault();
-    $('#material-piping-polygon-modal').modal('show');
-});
-
-});
-</script>
 @endsection
