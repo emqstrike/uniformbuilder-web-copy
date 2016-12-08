@@ -13,7 +13,13 @@ $(document).ready(function () {
 
             ub.current_material.id = window.ub.config.material_id;
             ub.current_material.code = window.ub.config.code;
-            
+
+            if (ub.current_material.id !== -1) {
+
+                ub.funcs.initCanvas();
+
+            }
+
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
             ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
             ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
@@ -53,12 +59,14 @@ $(document).ready(function () {
                 ub.funcs.loadHomePickers();  
 
             }
-            else {
 
-
-            }
-           
         };
+
+        ub.funcs.initCanvas = function () {
+
+            $('body').addClass('generic-canvas');
+
+        }
 
         ub.funcs.loadHomePickers = function () {
             
@@ -284,7 +292,6 @@ $(document).ready(function () {
         };
 
         ub.funcs.prepareBottomTabs = function () {
-
 
             if(typeof (window.ub.user.id) === "undefined") {
 

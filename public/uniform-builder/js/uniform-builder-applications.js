@@ -3889,9 +3889,8 @@ $(document).ready(function() {
     ub.funcs.moveToNextMaterialOption = function () {
 
         var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
-        var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
  
-        if (_sizeOfTeamColors < _sizeOfColorsUsed) { 
+        if (_sizeOfTeamColors > 8) {
             ub.startModal();
             return; 
         }
@@ -7740,7 +7739,7 @@ $(document).ready(function() {
 
         _.each(_pipingObject.perspectives, function (perspective) {
 
-            
+
 
         });
 
