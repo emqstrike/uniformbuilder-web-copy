@@ -75,13 +75,13 @@ $(document).ready(function() {
 	  
 	    var mydata = $("#polygon_prop").val();
 	    console.log('My Data> ' + mydata);
-	    mydata = mydata.slice(1, -1);
-	    var detect = mydata.slice(1,2);
+	    // mydata = mydata.slice(1, -1);
+	    // var detect = mydata.slice(1,2);
 
-	    if(detect == "{"){
+	    // if(detect == "{"){
 	    
-	        mydata = "["+mydata+"]";
-	    }
+	    //     mydata = "["+mydata+"]";
+	    // }
 	  
 	    mydata = JSON.parse(mydata); 
 	    mydata.push(data);
@@ -90,8 +90,6 @@ $(document).ready(function() {
 	    $("#selectpoint").append("<option data-letter-index="+ ($("#selectpoint option").length) +">"+ (letter[$("#selectpoint option").length]) +"</option>");
 	    loadPolygon(mydata);
 	});
-
-
 
 	$('.material-option-boundary').on('click', function(){
         application_number = 0;
@@ -412,12 +410,12 @@ $(document).ready(function() {
 
 	    console.log("loopnumber:" + ii);
 	    // Detect if array within array if so added bracket
-	    var detect = JSON.stringify(data).slice(1,2);
-	    if(detect == "{"){
-	        var stringData = JSON.stringify(data);
-	        stringData = "["+stringData+"]";
-	       data = JSON.parse(stringData);
-	    }
+	    // var detect = JSON.stringify(data).slice(1,2);
+	    // if(detect == "{"){
+	    //     var stringData = JSON.stringify(data);
+	    //     stringData = "["+stringData+"]";
+	       // data = JSON.parse(stringData);
+	    // }
    
 	    console.log("datae to:"+JSON.stringify(data));
 	    data.forEach(function(entry) {

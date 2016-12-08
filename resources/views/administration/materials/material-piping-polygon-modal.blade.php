@@ -38,6 +38,13 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>
+                                        <label for="sel1">Select point:</label>
+                                        <select class="form-control" id="selectpoint">
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td class="col-md-6">Pattern Angle: <input type="text" id="pattern_angle" placeholder="Angle..."></td>
                                 </tr>
                                 <tr>
