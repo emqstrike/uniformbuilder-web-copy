@@ -505,7 +505,7 @@ class MaterialsController extends Controller
                     $structured_data['1/4']['back_pos_1'] = $data['b_position_1_14'];
                 }
             }
-            
+
             $l_position_1_14 = $request->file('l_position_1_14');
             if (isset($l_position_1_14))
             {

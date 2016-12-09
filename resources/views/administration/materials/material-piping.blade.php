@@ -97,7 +97,7 @@
                                 <tr>
                                     <td>@if(isset($piping_properties['1/8']['front_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_2_18" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/8']['back_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_2_18" accept="image/*"></td>
-                                    <td>@if(isset($piping_properties['1/8']['leftt_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_2_18" accept="image/*"></td>
+                                    <td>@if(isset($piping_properties['1/8']['left_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_2_18" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/8']['right_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_2_18" accept="image/*"></td>
                                 </tr>
                                 <tr>
