@@ -1,5 +1,5 @@
 <!-- Edit Boundary Modal -->
-<div class="modal fade" id="save-material-option-boundary-modal" data-backdrop="static" aria-hidden="false">
+<div class="modal fade" id="material-piping-polygon-modal" data-backdrop="static" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="/administration/material_option/saveBoundary" role="form" method="POST" enctype="multipart/form-data">
@@ -10,6 +10,7 @@
             <input type="hidden" name="boundary_properties" id="boundary-properties" class="b-prop" value="">
             <input type="hidden" id="app-saved-perspective" value="">
             <input type="hidden" id="app-material-option-name" value="">
+            <input type="hidden" id="polygon_prop" value='[{"x":100,"y":100},{"x":150,"y":100},{"x":150,"y":150},{"x":100,"y":150}]'>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
@@ -37,11 +38,19 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>
+                                        <label for="sel1">Select point:</label>
+                                        <select class="form-control" id="selectpoint">
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td class="col-md-6">Pattern Angle: <input type="text" id="pattern_angle" placeholder="Angle..."></td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <a href="#" class="btn btn-success btn-xs add-point" style="margin-top: -3px;">Add point</a>
+                                        <a href="#" class="btn btn-success btn-xs add-polygon" style="margin-top: -3px;">Add polygon</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -50,7 +59,7 @@
                     <hr>
                     <div id="material-option-bounding-box" style="border: 1px solid black;"></div>
                     <div id="material-option-bounding-box-top" style=" z-index: 2; position: relative; float: left; margin-top: -555px; opacity: 0.45;">
-                        <canvas id="bounding-box-canvas"></canvas>
+                        <canvas id="bounding-polygon-canvas"></canvas>
                     </div>
                     <div class="col-md-12">
                         <table>
