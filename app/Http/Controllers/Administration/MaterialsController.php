@@ -212,48 +212,60 @@ class MaterialsController extends Controller
         if($case === 'new')
         {
             $structured_data['1/8'] = [];
-            // $structured_data['1/8']['front_pos_1'] = null;
-            // $structured_data['1/8']['back_pos_1'] = null;
-            // $structured_data['1/8']['left_pos_1'] = null;
-            // $structured_data['1/8']['right_pos_1'] = null;
-            // $structured_data['1/8']['front_pos_2'] = null;
-            // $structured_data['1/8']['back_pos_2'] = null;
-            // $structured_data['1/8']['left_pos_2'] = null;
-            // $structured_data['1/8']['right_pos_2'] = null;
-            // $structured_data['1/8']['front_pos_3'] = null;
-            // $structured_data['1/8']['back_pos_3'] = null;
-            // $structured_data['1/8']['left_pos_3'] = null;
-            // $structured_data['1/8']['right_pos_3'] = null;
+            $structured_data['1/8']['name'] = $name_oe;
+            $structured_data['1/8']['set'] = $set;
+            $structured_data['1/8']['front_pos_1'] = null;
+            $structured_data['1/8']['back_pos_1'] = null;
+            $structured_data['1/8']['left_pos_1'] = null;
+            $structured_data['1/8']['right_pos_1'] = null;
+            $structured_data['1/8']['front_pos_2'] = null;
+            $structured_data['1/8']['back_pos_2'] = null;
+            $structured_data['1/8']['left_pos_2'] = null;
+            $structured_data['1/8']['right_pos_2'] = null;
+            $structured_data['1/8']['front_pos_3'] = null;
+            $structured_data['1/8']['back_pos_3'] = null;
+            $structured_data['1/8']['left_pos_3'] = null;
+            $structured_data['1/8']['right_pos_3'] = null;
 
             $structured_data['1/4'] = [];
-            // $structured_data['1/4']['front_pos_1'] = null;
-            // $structured_data['1/4']['back_pos_1'] = null;
-            // $structured_data['1/4']['left_pos_1'] = null;
-            // $structured_data['1/4']['right_pos_1'] = null;
-            // $structured_data['1/4']['front_pos_2'] = null;
-            // $structured_data['1/4']['back_pos_2'] = null;
-            // $structured_data['1/4']['left_pos_2'] = null;
-            // $structured_data['1/4']['right_pos_2'] = null;
-            // $structured_data['1/4']['front_pos_3'] = null;
-            // $structured_data['1/4']['back_pos_3'] = null;
-            // $structured_data['1/4']['left_pos_3'] = null;
-            // $structured_data['1/4']['right_pos_3'] = null;
+            $structured_data['1/4']['name'] = $name_of;
+            $structured_data['1/4']['set'] = $set;
+            $structured_data['1/4']['front_pos_1'] = null;
+            $structured_data['1/4']['back_pos_1'] = null;
+            $structured_data['1/4']['left_pos_1'] = null;
+            $structured_data['1/4']['right_pos_1'] = null;
+            $structured_data['1/4']['front_pos_2'] = null;
+            $structured_data['1/4']['back_pos_2'] = null;
+            $structured_data['1/4']['left_pos_2'] = null;
+            $structured_data['1/4']['right_pos_2'] = null;
+            $structured_data['1/4']['front_pos_3'] = null;
+            $structured_data['1/4']['back_pos_3'] = null;
+            $structured_data['1/4']['left_pos_3'] = null;
+            $structured_data['1/4']['right_pos_3'] = null;
 
             $structured_data['1/2'] = [];
-            // $structured_data['1/2']['front_pos_1'] = null;
-            // $structured_data['1/2']['back_pos_1'] = null;
-            // $structured_data['1/2']['left_pos_1'] = null;
-            // $structured_data['1/2']['right_pos_1'] = null;
-            // $structured_data['1/2']['front_pos_2'] = null;
-            // $structured_data['1/2']['back_pos_2'] = null;
-            // $structured_data['1/2']['left_pos_2'] = null;
-            // $structured_data['1/2']['right_pos_2'] = null;
-            // $structured_data['1/2']['front_pos_3'] = null;
-            // $structured_data['1/2']['back_pos_3'] = null;
-            // $structured_data['1/2']['left_pos_3'] = null;
-            // $structured_data['1/2']['right_pos_3'] = null;
+            $structured_data['1/2']['name'] = $name_oh;
+            $structured_data['1/2']['set'] = $set;
+            $structured_data['1/2']['front_pos_1'] = null;
+            $structured_data['1/2']['back_pos_1'] = null;
+            $structured_data['1/2']['left_pos_1'] = null;
+            $structured_data['1/2']['right_pos_1'] = null;
+            $structured_data['1/2']['front_pos_2'] = null;
+            $structured_data['1/2']['back_pos_2'] = null;
+            $structured_data['1/2']['left_pos_2'] = null;
+            $structured_data['1/2']['right_pos_2'] = null;
+            $structured_data['1/2']['front_pos_3'] = null;
+            $structured_data['1/2']['back_pos_3'] = null;
+            $structured_data['1/2']['left_pos_3'] = null;
+            $structured_data['1/2']['right_pos_3'] = null;
         } else {
             $structured_data = json_decode($request->input('piping_properties_json'), 1);
+            $structured_data['1/8']['name'] = $name_oe;
+            $structured_data['1/8']['set'] = $set;
+            $structured_data['1/4']['name'] = $name_of;
+            $structured_data['1/4']['set'] = $set;
+            $structured_data['1/2']['name'] = $name_oh;
+            $structured_data['1/2']['set'] = $set;
         }
         // Upload images
         try {
@@ -474,7 +486,7 @@ class MaterialsController extends Controller
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
-                    $structured_data['1/4']['front_pos_1'] = $data['_position_1_14'];
+                    $structured_data['1/4']['front_pos_1'] = $data['f_position_1_14'];
                 }
             }
             $b_position_1_14 = $request->file('b_position_1_14');

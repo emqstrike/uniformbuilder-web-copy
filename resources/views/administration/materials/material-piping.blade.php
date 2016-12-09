@@ -40,7 +40,7 @@
                                     <td colspan="4">
                                         <label class="col-md-5 control-label">Name</label>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control material-name" name="name_oe" value="">
+                                            <input type="text" class="form-control material-name" name="name_oe" value="{{ ( ! empty($piping_properties['1/8']['name']) ? $piping_properties['1/8']['name'] : '') }}">
                                         </div>
                                     </td>
                                 </tr>
@@ -118,7 +118,7 @@
                                     <td colspan="4">
                                         <label class="col-md-5 control-label">Name</label>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control material-name" name="name_of" value="">
+                                            <input type="text" class="form-control material-name" name="name_of" value="{{ ( ! empty($piping_properties['1/4']['name']) ? $piping_properties['1/4']['name'] : '') }}">
                                         </div>
                                     </td>
                                 </tr>
@@ -196,7 +196,7 @@
                                     <td colspan="4">
                                         <label class="col-md-5 control-label">Name</label>
                                         <div class="col-md-2">
-                                            <input type="text" class="form-control material-name" name="name_oh" value="">
+                                            <input type="text" class="form-control material-name" name="name_oh" value="{{ ( ! empty($piping_properties['1/2']['name']) ? $piping_properties['1/2']['name'] : '') }}">
                                         </div>
                                     </td>
                                 </tr>
