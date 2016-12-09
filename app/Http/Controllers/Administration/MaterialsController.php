@@ -370,7 +370,7 @@ class MaterialsController extends Controller
                     $structured_data['1/8']['back_pos_2'] = $data['b_position_2_18'];
                 }
             }
-            
+
             $l_position_2_18 = $request->file('l_position_2_18');
             if (isset($l_position_2_18))
             {
@@ -437,7 +437,7 @@ class MaterialsController extends Controller
                     $structured_data['1/8']['back_pos_3'] = $data['b_position_3_18'];
                 }
             }
-            
+
             $l_position_3_18 = $request->file('l_position_3_18');
             if (isset($l_position_3_18))
             {
@@ -572,7 +572,7 @@ class MaterialsController extends Controller
                     $structured_data['1/4']['back_pos_2'] = $data['b_position_2_14'];
                 }
             }
-            
+
             $l_position_2_14 = $request->file('l_position_2_14');
             if (isset($l_position_2_14))
             {
@@ -707,7 +707,7 @@ class MaterialsController extends Controller
                     $structured_data['1/2']['back_pos_1'] = $data['b_position_1_12'];
                 }
             }
-            
+
             $l_position_1_12 = $request->file('l_position_1_12');
             if (isset($l_position_1_12))
             {
@@ -774,7 +774,7 @@ class MaterialsController extends Controller
                     $structured_data['1/2']['back_pos_2'] = $data['b_position_2_12'];
                 }
             }
-            
+
             $l_position_2_12 = $request->file('l_position_2_12');
             if (isset($l_position_2_12))
             {
