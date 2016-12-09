@@ -3,16 +3,7 @@ $(document).ready(function() {
 
 
 	var IN = 20;
-
-	$(".polygon-button").click(function(e){
-	    e.preventDefault();
-	    $('#material-piping-polygon-modal').modal('show');
-	    var polyData = $("#polygon_prop").val();
-	    polyData = JSON.parse(polyData);
-	    loadPolygon(polyData);
-        updateCoordinates();
-        canvasFront.clear();
-	});
+	var coords = [];
 
 	/*
         Initialize CANVAS for Bounding Polygon
@@ -27,6 +18,16 @@ $(document).ready(function() {
     catch(err) {
         console.log(err.message);
     }
+
+    $(".polygon-button").click(function(e){
+	    e.preventDefault();
+	    $('#material-piping-polygon-modal').modal('show');
+	    var polyData = $("#polygon_prop").val();
+	    polyData = JSON.parse(polyData);
+	    loadPolygon(polyData);
+        updateCoordinates();
+        canvas.clear();
+	});
 
 	$('.add-point').on('click', function(){
 	    var focusPoint = $("#selectpoint").val();
@@ -72,17 +73,17 @@ $(document).ready(function() {
 
 	    var data = [{"x":100,"y":100},{"x":150,"y":100},{"x":150,"y":150},{"x":100,"y":150}];
 	    var letter=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
-	  
+
 	    var mydata = $("#polygon_prop").val();
 	    console.log('My Data> ' + mydata);
 	    // mydata = mydata.slice(1, -1);
 	    // var detect = mydata.slice(1,2);
 
 	    // if(detect == "{"){
-	    
+
 	    //     mydata = "["+mydata+"]";
 	    // }
-	  
+
 	    mydata = JSON.parse(mydata); 
 	    mydata.push(data);
 	    $("#polygon_prop").val(JSON.stringify(mydata));
@@ -91,106 +92,106 @@ $(document).ready(function() {
 	    loadPolygon(mydata);
 	});
 
-	$('.material-option-boundary').on('click', function(){
-        application_number = 0;
-        material = {
-            id: $(this).data('material-id'),
-            name: $(this).data('material-name'),
-            front_shape: ($(this).data('material-front-shape')),
-            back_shape: ($(this).data('material-back-shape')),
-            left_shape: ($(this).data('material-left-shape')),
-            right_shape: ($(this).data('material-right-shape')),
-            option: {
-                material_id: $(this).data('material-id'),
-                id: $(this).data('material-option-id'),
-                name: $(this).data('material-option-name'),
-                type: $(this).data('material-option-setting-type'),
-                code: $(this).data('material-option-setting-code'),
-                path: $(this).data('material-option-path'),
-                perspective: $(this).data('material-option-perspective'),
-                boundary_properties: ($(this).data('material-option-boundary-properties')),
-                highlights: ($(this).data('material-highlights-path'))
-            }
-        };
+	// $('.material-option-boundary').on('click', function(){
+ //        application_number = 0;
+ //        material = {
+ //            id: $(this).data('material-id'),
+ //            name: $(this).data('material-name'),
+ //            front_shape: ($(this).data('material-front-shape')),
+ //            back_shape: ($(this).data('material-back-shape')),
+ //            left_shape: ($(this).data('material-left-shape')),
+ //            right_shape: ($(this).data('material-right-shape')),
+ //            option: {
+ //                material_id: $(this).data('material-id'),
+ //                id: $(this).data('material-option-id'),
+ //                name: $(this).data('material-option-name'),
+ //                type: $(this).data('material-option-setting-type'),
+ //                code: $(this).data('material-option-setting-code'),
+ //                path: $(this).data('material-option-path'),
+ //                perspective: $(this).data('material-option-perspective'),
+ //                boundary_properties: ($(this).data('material-option-boundary-properties')),
+ //                highlights: ($(this).data('material-highlights-path'))
+ //            }
+ //        };
 
-        $('.b-prop').val(material.option.boundary_properties);
-        $('.material-option-id').val(material.option.id);
-        $('.material-id').val(material.id);
+ //        $('.b-prop').val(material.option.boundary_properties);
+ //        $('.material-option-id').val(material.option.id);
+ //        $('.material-id').val(material.id);
 
-        console.log('MO ID: '+material.option.id);
-        console.log('MAT ID: '+material.option.material_id);
+ //        console.log('MO ID: '+material.option.id);
+ //        console.log('MAT ID: '+material.option.material_id);
 
-        var perspective = material.option.perspective;
-        var material_option_shape = material.option.path;
+ //        var perspective = material.option.perspective;
+ //        var material_option_shape = material.option.path;
 
-        $('#app-saved-perspective').val(material.option.perspective);
-        $('#app-material-option-name').val(material.option.name);
-        $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
-        $("#material-option-bounding-box").css("background-image", "url("+material.option.highlights+")");
+ //        $('#app-saved-perspective').val(material.option.perspective);
+ //        $('#app-material-option-name').val(material.option.name);
+ //        $("#material-option-bounding-box-top").css("background-image", "url("+material.option.path+")");
+ //        $("#material-option-bounding-box").css("background-image", "url("+material.option.highlights+")");
 
-        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
+ //        $( ".front-applications" ).html(''); // prevents continuous appending of applications points
 
-        canvasFront.clear();
+ //        canvasFront.clear();
 
-        $("#file-src").prop("src", material.option.path);
-        $("#layer-level").prop("value", material.option.layer_level);
+ //        $("#file-src").prop("src", material.option.path);
+ //        $("#layer-level").prop("value", material.option.layer_level);
 
-        if (material.option.blend) {
-            $('#is-blend').attr('checked', 'checked');
-        } else {
-            $('#is-blend').attr('checked', 'unchecked');
-        }
+ //        if (material.option.blend) {
+ //            $('#is-blend').attr('checked', 'checked');
+ //        } else {
+ //            $('#is-blend').attr('checked', 'unchecked');
+ //        }
 
-        console.log('B prop val >>'+$('.b-prop').val());
+ //        console.log('B prop val >>'+$('.b-prop').val());
 
 
-        if($('.b-prop').val != "" || $('.b-prop').val != "\"{}\""){
-            canvas.clear();
-            var jason = $('.b-prop').val();
-            var output = jason.substring(1, jason.length-1);
-            polyData = JSON.parse(output);
+ //        if($('.b-prop').val != "" || $('.b-prop').val != "\"{}\""){
+ //            canvas.clear();
+ //            var jason = $('.b-prop').val();
+ //            var output = jason.substring(1, jason.length-1);
+ //            polyData = JSON.parse(output);
 
-            loadPolygon(polyData);
-            updateCoordinates();
-            canvasFront.clear();
+ //            loadPolygon(polyData);
+ //            updateCoordinates();
+ //            canvasFront.clear();
 
-            var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
-            $('.b-prop').prop('value', boundaryProperties);
-        }
+ //            var boundaryProperties = '"'+JSON.stringify(polyData)+'"';
+ //            $('.b-prop').prop('value', boundaryProperties);
+ //        }
 
-        $('#saved-setting-type').attr('selected',true);
-        $('#saved-perspective').attr('selected',true);
-        $('#edit-material-option-boundary-modal .material-option-path').attr('src', material.option.path);
-        $('#save-material-option-boundary-modal .material-id').val(material.id);
-        $('#save-material-option-boundary-modal .modal-title span').html("Edit: " + material.option.name);
-        $('#save-material-option-boundary-modal').modal('show');
+ //        $('#saved-setting-type').attr('selected',true);
+ //        $('#saved-perspective').attr('selected',true);
+ //        $('#edit-material-option-boundary-modal .material-option-path').attr('src', material.option.path);
+ //        $('#save-material-option-boundary-modal .material-id').val(material.id);
+ //        $('#save-material-option-boundary-modal .modal-title span').html("Edit: " + material.option.name);
+ //        $('#save-material-option-boundary-modal').modal('show');
 
-        var circles = canvas.getObjects('circle');
-        var ctrX=0;
-        var aa = circles.length - 1;
-        var lastLetter="";
-        var i=0;
-        $("#selectpoint").html("");
-        circles.forEach(function(entry) {
-            var myString = entry.name;
-            myString = myString.replace(/[^A-Za-z]+/g, '');
-            console.log("loaded:"+myString);
+ //        var circles = canvas.getObjects('circle');
+ //        var ctrX=0;
+ //        var aa = circles.length - 1;
+ //        var lastLetter="";
+ //        var i=0;
+ //        $("#selectpoint").html("");
+ //        circles.forEach(function(entry) {
+ //            var myString = entry.name;
+ //            myString = myString.replace(/[^A-Za-z]+/g, '');
+ //            console.log("loaded:"+myString);
 
-            if(lastLetter != "" && lastLetter != myString){
-            $("#selectpoint").append("<option data-letter-index="+i+" >"+ lastLetter +"</option>");
-                i++;
-            }
-            if(ctrX == aa){
-                $("#selectpoint").append("<option data-letter-index="+i+">"+ lastLetter +"</option>");
+ //            if(lastLetter != "" && lastLetter != myString){
+ //            $("#selectpoint").append("<option data-letter-index="+i+" >"+ lastLetter +"</option>");
+ //                i++;
+ //            }
+ //            if(ctrX == aa){
+ //                $("#selectpoint").append("<option data-letter-index="+i+">"+ lastLetter +"</option>");
 
-            }
-             lastLetter = myString;
-             ctrX++;
-        });
+ //            }
+ //             lastLetter = myString;
+ //             ctrX++;
+ //        });
         
-        bringingPointToFront();
+ //        bringingPointToFront();
 
-    });
+ //    });
 
 
 
@@ -406,9 +407,9 @@ $(document).ready(function() {
 
 	    var ii = 0;
 
-	    console.log("datae to old:"+JSON.stringify(data));
+	    // console.log("datae to old:"+JSON.stringify(data));
 
-	    console.log("loopnumber:" + ii);
+	    // console.log("loopnumber:" + ii);
 	    // Detect if array within array if so added bracket
 	    // var detect = JSON.stringify(data).slice(1,2);
 	    // if(detect == "{"){
@@ -417,17 +418,19 @@ $(document).ready(function() {
 	       // data = JSON.parse(stringData);
 	    // }
    
-	    console.log("datae to:"+JSON.stringify(data));
+	    // console.log("datae to:"+JSON.stringify(data));
 	    data.forEach(function(entry) {
-		    console.log("loopnumber:" + ii);
+		    
 
 	        var z = 0;
 	        var letter=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 	        $.each(entry, function(i, item) {
 	            console.log(letter[ii]);
-
+	            console.log("Item>_" + item);
 	            var xcoord = item.x / 2;
 	            var ycoord = item.y / 2;
+	            // var xcoord = item.x;
+	            // var ycoord = item.y;
 
 	            if( z == 0 && item.angle != undefined ){
 	                // console.log('ITEM ANGLE: '+item.angle);
@@ -436,7 +439,7 @@ $(document).ready(function() {
 	                    window.px = item.px / 2;
 	                    window.py = item.py / 2;
 	                }
-	                // console.log('PX > '+ window.px + 'PY > ' + window.py);
+	                console.log('PX > '+ window.px + 'PY > ' + window.py);
 	            }
 	            window[letter[ii]+z] = addPoint(letter[ii]+z, xcoord, ycoord, 'knot');
 	            z++;
@@ -444,7 +447,7 @@ $(document).ready(function() {
 	        ii++;
 
 	    });
-
+// return true;
 	    lineIdx = 0;
 	    var circles = canvas.getObjects('circle');
 
@@ -470,16 +473,15 @@ $(document).ready(function() {
 	                addLine(window[lastName], window[lastLetter + "0" ], lineIdx);
 
 	            }
-	             if(x == a){
+	            if(x == a){
 	                addLine(window[entry.name], window[lastLetter + "0" ], lineIdx);
 	           
-	             }
+	            }
 	        }
 
 	        lastName = entry.name;
 	        lastLetter = myString;
 
-	        // console.log(lastName+"::lasterr");
 	        x++;
 	        
 	        letterNum++;
