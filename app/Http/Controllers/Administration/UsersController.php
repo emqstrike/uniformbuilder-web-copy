@@ -161,8 +161,6 @@ class UsersController extends Controller
                 if (Session::get('userId') == $data['id'])
                 {
                     Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
-                    Session::put('firstName', $data["first_name"]);
-                    Session::put('lastName', $data["last_name"]);
                 }
             }
             return redirect()->back()
