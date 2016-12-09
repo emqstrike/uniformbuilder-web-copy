@@ -486,7 +486,7 @@ class MaterialsController extends Controller
                                                     'material_pipings',
                                                     $randstr.".png"
                                                 );
-                    $structured_data['1/4']['front_pos_1'] = $data['_position_1_14'];
+                    $structured_data['1/4']['front_pos_1'] = $data['f_position_1_14'];
                 }
             }
             $b_position_1_14 = $request->file('b_position_1_14');
