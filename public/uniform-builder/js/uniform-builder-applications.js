@@ -7737,11 +7737,7 @@ $(document).ready(function() {
 
     ub.funcs.changePipingSize = function (_pipingObject) {
 
-        // _.each(_pipingObject.perspectives, function (perspective) {
 
-
-
-        // });
 
     }
 
@@ -7836,10 +7832,9 @@ $(document).ready(function() {
 
         if (typeof _pipingSet !== "undefined") {
 
-            if (typeof _pipingSet.status !== 'undefined') { var _status = _pipingSet.status; }
+            if (typeof _pipingSet.status !== 'undefined') { _status = _pipingSet.status; }
 
-        }
-        else {
+        } else {
 
             _status = "on";
 
@@ -7854,9 +7849,8 @@ $(document).ready(function() {
 
         }
 
-        var _template = $('#m-piping-sidebar').html();
-        var _data     = { status: _status };
-
+        var _template       = $('#m-piping-sidebar').html();
+        var _data           = { status: _status };
         var _htmlBuilder    = Mustache.render(_template, _data);            
 
         $('.modifier_main_container').append(_htmlBuilder);
@@ -7864,15 +7858,8 @@ $(document).ready(function() {
         var _sizesMarkup     = ub.funcs.getPipingSizes(_pipingSet, _activePipingSet);
         var _colorsMarkup    =  ub.funcs.getPipingColors(_activePipingSet);
 
-        // Set Initial States 
-
         $('div.ui-row.size-row').html(_sizesMarkup);
         $('div.ui-row.colors-row').html(_colorsMarkup);
-
-        var _firstColor = _.first(ub.funcs.getPipingColorArray(_activePipingSet));
-
-        $('span.piping-sizes-buttons[data-type="' + _activePipingSet.name + '"]').addClass('active');
-        $('span.piping-colors-buttons[data-type="' + _firstColor.name + '"]').addClass('active');
 
         // Events
 
@@ -7895,7 +7882,6 @@ $(document).ready(function() {
                 $(this).addClass('active');
 
             });
-
 
             $('span.colorItem').on('click', function () {
 
@@ -7924,10 +7910,6 @@ $(document).ready(function() {
                 ub.funcs.changeActiveColorSmallColorPickerPiping(_layer_no, _color_code, _colorObj);
 
             });
-
-        // End Events
-
-        $('div#pipingsUI').fadeIn();
         
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
@@ -7945,6 +7927,17 @@ $(document).ready(function() {
             ub.funcs.togglePiping(_pipingSet, status);    
  
         });
+        
+        // End Events
+
+        // Set Initial States 
+
+        $('div#pipingsUI').fadeIn();
+
+        var _firstColor     = _.first(ub.funcs.getPipingColorArray(_activePipingSet));
+        var $activePiping   = $('span.piping-sizes-buttons[data-type="' + _activePipingSet.name + '"]');
+
+        $activePiping.trigger('click');
 
     }
 
