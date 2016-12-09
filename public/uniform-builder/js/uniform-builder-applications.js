@@ -7827,8 +7827,9 @@ $(document).ready(function() {
         ub.funcs.activatePanelGuard();
         ub.funcs.deactivatePanels();
 
-        var _status     = 'on';
-        var _pipingSet  = pipingSet;
+        var _status             = 'on';
+        var _pipingSet          = pipingSet;
+        var _activePipingSet    = _pipingSet;
 
         if (typeof _pipingSet !== "undefined") {
 
@@ -7840,30 +7841,28 @@ $(document).ready(function() {
 
         }
 
-        var _activePipingSet = _pipingSet;
-
         if (typeof _activePipingSet === "undefined") {
 
-            _pipingSet       = ub.funcs.getPipingSet('Yoke Piping');
-            _activePipingSet = _.first(_pipingSet);
+            _pipingSet          = ub.funcs.getPipingSet('Yoke Piping');
+            _activePipingSet    = _.first(_pipingSet);
 
         }
 
-        var _template       = $('#m-piping-sidebar').html();
-        var _data           = { status: _status };
-        var _htmlBuilder    = Mustache.render(_template, _data);            
+        // Main Template
+        var _template           = $('#m-piping-sidebar').html();
+        var _data               = { status: _status };
+        var _htmlBuilder        = Mustache.render(_template, _data);            
 
         $('.modifier_main_container').append(_htmlBuilder);
 
-        var _sizesMarkup     = ub.funcs.getPipingSizes(_pipingSet, _activePipingSet);
-        var _colorsMarkup    =  ub.funcs.getPipingColors(_activePipingSet);
+        // Inner Templates
+        var _sizesMarkup        = ub.funcs.getPipingSizes(_pipingSet, _activePipingSet);
+        var _colorsMarkup       = ub.funcs.getPipingColors(_activePipingSet);
 
         $('div.ui-row.size-row').html(_sizesMarkup);
         $('div.ui-row.colors-row').html(_colorsMarkup);
 
         // Events
-
-            // piping-sizes-buttons
 
             var $pipingSizesButtons = $('span.piping-sizes-buttons');
             $pipingSizesButtons.on('click', function () {
@@ -7876,10 +7875,22 @@ $(document).ready(function() {
         
                 ub.funcs.changePipingSize(_pipingObject);
                 $('div.ui-row.colors-row').html(_colorsMarkup);
-                $('span.piping-colors-buttons[data-type="' + _firstColor.name + '"]').addClass('active');
-     
+
+                var $pipingColorsButtons = $('span.piping-colors-buttons');
+                $pipingColorsButtons.unbind('click');
+                $pipingColorsButtons.on('click', function () {
+
+                    var _type   = $(this).data('type');
+                    var _value  = $(this).data('value');
+                    
+                    $pipingColorsButtons.removeClass('active');
+                    $(this).addClass('active');
+
+                });
+
                 $pipingSizesButtons.removeClass('active');
                 $(this).addClass('active');
+                $('span.piping-colors-buttons[data-type="' + _firstColor.name + '"]').trigger('click');
 
             });
 
@@ -7911,22 +7922,22 @@ $(document).ready(function() {
 
             });
         
-        $("div.toggleOption").unbind('click');
-        $("div.toggleOption").on("click", function () {
+            $("div.toggleOption").unbind('click');
+            $("div.toggleOption").on("click", function () {
 
-            var _currentStatus = $('div.toggle').data('status');
-            var _status;
+                var _currentStatus = $('div.toggle').data('status');
+                var _status;
 
-            if(_currentStatus === "on") {
-                _status = 'off';
-            }
-            else {
-                _status = 'on';
-            }
+                if(_currentStatus === "on") {
+                    _status = 'off';
+                }
+                else {
+                    _status = 'on';
+                }
 
-            ub.funcs.togglePiping(_pipingSet, status);    
- 
-        });
+                ub.funcs.togglePiping(_pipingSet, status);    
+     
+            });
         
         // End Events
 
