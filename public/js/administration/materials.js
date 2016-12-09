@@ -3063,7 +3063,7 @@ function loadPolygon(data){
     canvas.add(group);
     canvas.renderAll();
     // fixLoadPolygon();
-}$(".app-rotation").click(function(){
+}
 
 $(".app-rotation").click(function(){
 

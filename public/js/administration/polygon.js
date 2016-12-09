@@ -417,16 +417,15 @@ $(document).ready(function() {
 	    //     stringData = "["+stringData+"]";
 	       // data = JSON.parse(stringData);
 	    // }
-   
+   console.log('LoadPolygon');
 	    // console.log("datae to:"+JSON.stringify(data));
 	    data.forEach(function(entry) {
-		    
 
 	        var z = 0;
 	        var letter=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 	        $.each(entry, function(i, item) {
-	            console.log(letter[ii]);
-	            console.log("Item>_" + item);
+	            // console.log(letter[ii]);
+	            // console.log("Item>_" + item);
 	            var xcoord = item.x / 2;
 	            var ycoord = item.y / 2;
 	            // var xcoord = item.x;
@@ -438,8 +437,10 @@ $(document).ready(function() {
 	                if(item.px){
 	                    window.px = item.px / 2;
 	                    window.py = item.py / 2;
+	                    // window.px = item.px;
+	                    // window.py = item.py;
 	                }
-	                console.log('PX > '+ window.px + 'PY > ' + window.py);
+	                // console.log('PX > '+ window.px + 'PY > ' + window.py);
 	            }
 	            window[letter[ii]+z] = addPoint(letter[ii]+z, xcoord, ycoord, 'knot');
 	            z++;
