@@ -7740,10 +7740,14 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.changePipingColorColor = function (colorObj, pipingSet) {
+    ub.funcs.changePipingColor = function (_colorObj, _layer_no, _pipingSet) {
 
         // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
         // put in logic to change piping color here ...
+
+        var _objectReference = ub.objects.front_view[_pipingSet.set];
+        var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + _layer_no});
+        _childLayer.tint = parseInt(_colorObj.hex_code, 16);
 
     };
 
@@ -7847,7 +7851,7 @@ $(document).ready(function() {
             var _temp       = $(this).data('temp');
             var _colorObj = ub.funcs.getColorByColorCode(_color_code);
             
-            ub.funcs.changePipingColorColor(_colorObj, _layer_no, _pipingSet); 
+            ub.funcs.changePipingColor(_colorObj, _layer_no, _pipingSet); 
             ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
         });
@@ -7944,7 +7948,7 @@ $(document).ready(function() {
                     ub.funcs.renderPipings(_pipingObject, selectedColorArray, _value);
                     
                     $('div.colorContainer').html(_colorPickerHtml);
-                    ub.funcs.setupSmallColorPickerEvents(_pipingSet);
+                    ub.funcs.setupSmallColorPickerEvents(_pipingObject);
 
                     $pipingColorsButtons.removeClass('active');
                     $(this).addClass('active');

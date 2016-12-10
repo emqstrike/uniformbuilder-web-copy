@@ -1091,6 +1091,8 @@
 
             var pipingLayer = ub.pixi.new_sprite(layer.filename);
 
+            pipingLayer.ubName = 'Layer ' + (index + 1);
+
             pipingLayer.tint = parseInt(initialColor.hex_code, 16);
             container.addChild(pipingLayer);
 
