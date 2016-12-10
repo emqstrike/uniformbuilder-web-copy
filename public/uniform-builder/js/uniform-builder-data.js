@@ -181,7 +181,7 @@ $(document).ready(function() {
 
     // Mock Object for Pipings 
 
-    ub.folders                      = { pipings: '/images/pipings/' } ;
+    ub.folders                      = { piping: '/images/pipings' } ;
     
     ub.data.pipings                 = [
         
@@ -272,7 +272,7 @@ $(document).ready(function() {
             set: 'Yoke Piping',
             color_1: true,
             color_2: true,
-            color_3: false,
+            color_3: true,
             perspectives: [
                 {
                     perspective: 'front',

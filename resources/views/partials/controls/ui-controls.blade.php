@@ -1591,6 +1591,7 @@
 
               <div class="ui-row colors-row">
 
+
                   
               </div>
 
@@ -1599,6 +1600,7 @@
               <div class="ui-row">
                   <div class="column1">'
                       <div class="sub1">
+                        <span class="accentThumb"><img src="/images/pipings/thumbnails/placeholder.png"></span><br><span class="accent">Yoke</span><span class="flipButton" style="display: none;">Vertical</span>
                       </div>
                       <div class="colorContainer"><br />
                       </div>

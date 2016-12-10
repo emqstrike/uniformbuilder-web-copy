@@ -7738,13 +7738,28 @@ $(document).ready(function() {
     ub.funcs.changePipingSize = function (_pipingObject) {
 
 
-
     }
 
-    ub.funcs.changePipingColor = function (colorObj, pipingSet) {
+    ub.funcs.changePipingColorColor = function (colorObj, pipingSet) {
 
         // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
         // put in logic to change piping color here ...
+
+    };
+
+    ub.funcs.drawPipingColorPickers = function (activePiping, numberOfColors) {
+
+        var _html = '';
+
+        // Draw Color Pickers 
+
+        var _tempColor = ub.current_material.settings.team_colors[0];
+
+        for (var i = 1; i <= numberOfColors; i++) {
+            _html += ub.funcs.createSmallColorPickers(_tempColor.color_code, i, 'Color ' + i, _tempColor);
+        }
+
+        return _html;
 
     };
 
@@ -7819,6 +7834,47 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.setupSmallColorPickerEvents = function (pipingSet) {
+
+        var _pipingSet = pipingSet;
+
+        $('span.colorItem').unbind('click');
+        $('span.colorItem').on('click', function () {
+
+            var _layer_no   = $(this).data('layer-no');
+            var _color_code = $(this).data('color-code');
+            var _layer_name = $(this).data('layer-name');
+            var _temp       = $(this).data('temp');
+            var _colorObj = ub.funcs.getColorByColorCode(_color_code);
+            
+            ub.funcs.changePipingColorColor(_colorObj, _layer_no, _pipingSet); 
+            ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
+
+        });
+        
+
+    }
+
+    ub.funcs.renderPipings = function (pipingObject, colorArray, colorCount) {
+
+        var _firstColor = colorArray[1];
+        var _sprites = $.ub.create_piping(pipingObject, _firstColor);
+
+        if (typeof ub.objects.front_view !== "undefined") {
+
+            if (typeof ub.objects.front_view[pipingObject.set] !== "undefined") {
+
+                ub.front_view.removeChild(ub.objects.front_view[pipingObject.set]);
+
+            }
+        
+        }
+
+        ub.front_view.addChild(_sprites);
+        ub.objects.front_view[pipingObject.set] = _sprites;
+
+    };
+
     ub.funcs.activatePipings = function (pipingSet) {
 
         if (ub.funcs.popupsVisible()) { return; }
@@ -7882,7 +7938,14 @@ $(document).ready(function() {
 
                     var _type   = $(this).data('type');
                     var _value  = $(this).data('value');
+                    var _colorPickerHtml = ub.funcs.drawPipingColorPickers(_pipingObject, _value);
+                    var selectedColorArray = ub.current_material.settings.team_colors;
+
+                    ub.funcs.renderPipings(_pipingObject, selectedColorArray, _value);
                     
+                    $('div.colorContainer').html(_colorPickerHtml);
+                    ub.funcs.setupSmallColorPickerEvents(_pipingSet);
+
                     $pipingColorsButtons.removeClass('active');
                     $(this).addClass('active');
 
@@ -7894,34 +7957,7 @@ $(document).ready(function() {
 
             });
 
-            $('span.colorItem').on('click', function () {
-
-                var _layer_no   = $(this).data('layer-no');
-                var _color_code = $(this).data('color-code');
-                var _layer_name = $(this).data('layer-name');
-                var _temp       = $(this).data('temp');
-
-                var _colorObj   = ub.funcs.getColorByColorCode(_color_code);
-
-                var _oldVal     = {
-
-                    layerNo: _layer_no,
-                    color: _pipingSet.color_array[_layer_no - 1],
-                    applicationCode: _pipingSet.code,
-
-                }
-
-                if (_temp !== 'undo') {
-
-                    ub.funcs.pushOldState('color change', 'pipings', _pipingSet, _oldVal);
-                    
-                }
-
-                ub.funcs.changePipingColorColor(_colorObj, _layer_no, _pipingSet); 
-                ub.funcs.changeActiveColorSmallColorPickerPiping(_layer_no, _color_code, _colorObj);
-
-            });
-        
+            
             $("div.toggleOption").unbind('click');
             $("div.toggleOption").on("click", function () {
 
