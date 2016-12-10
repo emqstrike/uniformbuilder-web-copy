@@ -7858,7 +7858,7 @@ $(document).ready(function() {
     ub.funcs.renderPipings = function (pipingObject, colorArray, colorCount) {
 
         var _firstColor = colorArray[1];
-        var _sprites = $.ub.create_piping(pipingObject, _firstColor);
+        var _sprites = $.ub.create_piping(pipingObject, _firstColor, colorCount);
 
         if (typeof ub.objects.front_view !== "undefined") {
 

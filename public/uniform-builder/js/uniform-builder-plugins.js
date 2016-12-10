@@ -1070,7 +1070,7 @@
 
     $.ub = {};
 
-    $.ub.create_piping = function (pipingObject, firstColor) {
+    $.ub.create_piping = function (pipingObject, firstColor, colorCount) {
 
         var sprite; 
         var pipingObject = pipingObject;
@@ -1087,15 +1087,12 @@
 
         _.each(_frontObject.layers, function(layer, index) {
 
+            if (index + 1 > colorCount) { return; }
+
             var pipingLayer = ub.pixi.new_sprite(layer.filename);
 
             pipingLayer.tint = parseInt(initialColor.hex_code, 16);
-            //pipingLayer.anchor.set(0.5, 0.5);
             container.addChild(pipingLayer);
-
-            // var val = layer.default_color;
-            // var col = layer.default_color;
-            // var filename = layer.filename;
 
         });
         
@@ -1110,43 +1107,6 @@
 
         sprite.originalZIndex       = layer_order * (-1);
         sprite.zIndex               = layer_order * (-1);
-        //settings_obj.layer_order    = layer_order;
-
-        // /// Set Colors
-
-        //     var children = container.children;
-
-        //     if(typeof settings.applications[application.id] !== 'undefined') { color_array = settings.applications[application.id].color_array; }    
-
-        //     children.reverse();
-
-        //     _.each(children, function (child, index) {
-
-        //         if(color_array !== ''){
-
-        //             var array = ub.current_material.settings.applications[application.id].color_array;
-        //             var color_array_size = _.size(array);
-        //             var code = ub.current_material.settings.applications[application.id].color_array[index];
-
-        //             if (typeof code !== 'undefined') { 
-        //                 child.tint = parseInt(code.hex_code, 16); 
-
-        //                 ///
-        //                 var _hexCode = (child.tint).toString(16);
-        //                 var _paddedHex = util.padHex(_hexCode, 6);
-        //                 if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
-        //                     ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(child.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};    
-        //                 }
-                        
-        //                 ///
-
-        //             }
-
-        //         }
-
-        //     });
-     
-        // /// End Set Colors
 
         return sprite;
 
