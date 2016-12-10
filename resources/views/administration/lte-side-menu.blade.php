@@ -10,10 +10,29 @@
       <i class="glyphicon glyphicon-list-alt"></i> <span>Orders</span>
     </a>
   </li>
-  <li data-step="2" data-intro="Will proceed to the price items dashboard." data-position='right'>
+  <!-- <li data-step="2" data-intro="Will proceed to the price items dashboard." data-position='right'>
     <a href="/administration/price_items" >
         <i class="fa fa-money"></i> <span>Price Items Dashboard</span>
     </a>
+  </li> -->
+  <li class="treeview" data-step="2" data-intro="Manage price items" data-position='right'>
+    <a href="#" >
+      <i class="fa fa-money"></i>
+      <span>Price Items</span>
+      <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu">
+      <li data-step="4" data-intro="Configure features." data-position='right'>
+        <a href="/administration/price_items">
+          <i class="fa fa-money"></i> <span>Dashboard</span>
+        </a>
+      </li>
+      <li  data-step="5" data-intro="Helper information">
+        <a href="/administration/price_item_templates">
+          <i class="fa fa-cube"></i> <span>Templates</span>
+        </a>
+      </li>
+    </ul>
   </li>
   <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
     <a href="#" >

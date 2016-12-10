@@ -201,6 +201,15 @@ class MaterialsController extends Controller
         $name_of = $request->input('name_of');
         $name_oh = $request->input('name_oh');
         $case = $request->input('case');
+        $oe1 = is_null($request->input('oe1')) ? false : true;
+        $oe2 = is_null($request->input('oe2')) ? false : true;
+        $oe3 = is_null($request->input('oe3')) ? false : true;
+        $of1 = is_null($request->input('of1')) ? false : true;
+        $of2 = is_null($request->input('of2')) ? false : true;
+        $of3 = is_null($request->input('of3')) ? false : true;
+        $oh1 = is_null($request->input('oh1')) ? false : true;
+        $oh2 = is_null($request->input('oh2')) ? false : true;
+        $oh3 = is_null($request->input('oh3')) ? false : true;
 
         $set = "Piping";
 

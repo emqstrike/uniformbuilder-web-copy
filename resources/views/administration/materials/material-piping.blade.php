@@ -34,10 +34,10 @@
                         <table class="table table-bordered table-striped">
                             <tbody>
                                 <tr>
-                                    <td colspan="4" class="alert alert-success"><h4>Size: 1/8</h4></td>
+                                    <td colspan="5" class="alert alert-success"><h4>Size: 1/8</h4></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4">
+                                    <td colspan="5">
                                         <label class="col-md-5 control-label">Name</label>
                                         <div class="col-md-2">
                                             <input type="text" class="form-control material-name" name="name_oe" value="{{ ( ! empty($piping_properties['1/8']['name']) ? $piping_properties['1/8']['name'] : '') }}">
@@ -45,6 +45,7 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td></td>
                                     <td>FRONT
                                         <a href="#" class="btn btn-default btn-xs 1-8-front polygon-button"
                                         data-postion1-image="{{ ( ! empty($piping_properties['1/8']['front_pos_1']) ? $piping_properties['1/8']['front_pos_1'] : '') }}"
@@ -83,24 +84,28 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                 </tr>
                                 <tr>
+                                    <td><label><input type="checkbox" name="oe1" value="1">Layer 1</label></td>
                                     <td>@if(isset($piping_properties['1/8']['front_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_1_18" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/8']['back_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_1_18" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/8']['left_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_1_18" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/8']['right_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_1_18" accept="image/*"></td>
                                 </tr>
                                 <tr>
+                                    <td><label><input type="checkbox" name="oe2" value="1">Layer 2</label></td>
                                     <td>@if(isset($piping_properties['1/8']['front_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_2_18" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/8']['back_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_2_18" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/8']['left_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_2_18" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/8']['right_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_2_18" accept="image/*"></td>
                                 </tr>
                                 <tr>
+                                    <td><label><input type="checkbox" name="oe3" value="1">Layer 3</label></td>
                                     <td>@if(isset($piping_properties['1/8']['front_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_3_18" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/8']['back_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_3_18" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/8']['left_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_3_18" accept="image/*"></td>
@@ -112,10 +117,10 @@
                         <table class="table table-bordered table-striped">
                             <tbody>
                                 <tr>
-                                    <td colspan="4" class="alert alert-info"><h4>Size: 1/4</h4></td>
+                                    <td colspan="5" class="alert alert-info"><h4>Size: 1/4</h4></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4">
+                                    <td colspan="5">
                                         <label class="col-md-5 control-label">Name</label>
                                         <div class="col-md-2">
                                             <input type="text" class="form-control material-name" name="name_of" value="{{ ( ! empty($piping_properties['1/4']['name']) ? $piping_properties['1/4']['name'] : '') }}">
@@ -123,6 +128,7 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td></td>
                                     <td>FRONT
                                         <a href="#" class="btn btn-default btn-xs 1-4-front polygon-button"
                                         data-postion1-image="{{ ( ! empty($piping_properties['1/4']['front_pos_1']) ? $piping_properties['1/4']['front_pos_1'] : '') }}"
@@ -161,24 +167,28 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                 </tr>
                                 <tr>
+                                    <td><label><input type="checkbox" name="of1" value="1">Layer 1</label></td>
                                     <td>@if(isset($piping_properties['1/4']['front_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_1_14" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/4']['back_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_1_14" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/4']['left_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_1_14" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/4']['right_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_1_14" accept="image/*"></td>
                                 </tr>
                                 <tr>
+                                    <td><label><input type="checkbox" name="of2" value="1">Layer 2</label></td>
                                     <td>@if(isset($piping_properties['1/4']['front_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_2_14" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/4']['back_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_2_14" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/4']['left_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_2_14" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/4']['right_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_2_14" accept="image/*"></td>
                                 </tr>
                                 <tr>
+                                    <td><label><input type="checkbox" name="of3" value="1">Layer 3</label></td>
                                     <td>@if(isset($piping_properties['1/4']['front_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_3_14" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/4']['back_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_3_14" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/4']['left_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_3_14" accept="image/*"></td>
@@ -190,10 +200,10 @@
                         <table class="table table-bordered table-striped">
                             <tbody>
                                 <tr>
-                                    <td colspan="4" class="alert alert-warning"><h4>Size: 1/2</h4></td>
+                                    <td colspan="5" class="alert alert-warning"><h4>Size: 1/2</h4></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4">
+                                    <td colspan="5">
                                         <label class="col-md-5 control-label">Name</label>
                                         <div class="col-md-2">
                                             <input type="text" class="form-control material-name" name="name_oh" value="{{ ( ! empty($piping_properties['1/2']['name']) ? $piping_properties['1/2']['name'] : '') }}">
@@ -201,6 +211,7 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td></td>
                                     <td>FRONT
                                         <a href="#" class="btn btn-default btn-xs 1-2-front polygon-button"
                                         data-postion1-image="{{ ( ! empty($piping_properties['1/2']['front_pos_1']) ? $piping_properties['1/2']['front_pos_1'] : '') }}"
@@ -239,24 +250,28 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                     <td><center><img src="#" width="200px" height="200px"></center></td>
                                 </tr>
                                 <tr>
+                                    <td><label><input type="checkbox" name="oh1" value="1">Layer 1</label></td>
                                     <td>@if(isset($piping_properties['1/2']['front_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_1_12" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/2']['back_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_1_12" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/2']['left_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_1_12" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/2']['right_pos_1']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_1_12" accept="image/*"></td>
                                 </tr>
                                 <tr>
+                                    <td><label><input type="checkbox" name="oh2" value="1">Layer 2</label></td>
                                     <td>@if(isset($piping_properties['1/2']['front_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_2_12" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/2']['back_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_2_12" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/2']['left_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_2_12" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/2']['right_pos_2']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="r_position_2_12" accept="image/*"></td>
                                 </tr>
                                 <tr>
+                                    <td><label><input type="checkbox" name="oh3" value="1">Layer 3</label></td>
                                     <td>@if(isset($piping_properties['1/2']['front_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="f_position_3_12" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/2']['back_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="b_position_3_12" accept="image/*"></td>
                                     <td>@if(isset($piping_properties['1/2']['left_pos_3']))<span class="glyphicon glyphicon-ok pull-right" aria-hidden="true"></span>@endif<input type="file" name="l_position_3_12" accept="image/*"></td>

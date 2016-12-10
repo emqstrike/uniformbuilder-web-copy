@@ -23,8 +23,8 @@ $(document).ready(function() {
 	    e.preventDefault();
 	    $('#material-piping-polygon-modal').modal('show');
 	    var polyData = $("#polygon_prop").val();
-	    polyData = JSON.parse(polyData);
-	    loadPolygon(polyData);
+	    var x = JSON.parse(polyData);
+	    loadPolygon(x);
         updateCoordinates();
         canvas.clear();
 	});
@@ -52,7 +52,7 @@ $(document).ready(function() {
 	    // console.log('myData 2> '+myData);
 	    // var detect = myData.slice(1,2);
 	    // if(detect == "{"){
-	    
+
 	    //     myData = "["+myData+"]";
 	    // }
 	    myData = JSON.parse(myData);
@@ -61,7 +61,7 @@ $(document).ready(function() {
 	    myData[focusPointIndex].push(data);
 
 	    // console.log("mydata:-----"+ JSON.stringify(myData));
-	 
+
 	    $("#polygon_prop").val(JSON.stringify(myData));
 
 	    loadPolygon(myData);
@@ -192,8 +192,6 @@ $(document).ready(function() {
  //        bringingPointToFront();
 
  //    });
-
-
 
 	function fixLoadPolygon(){
         var va_prop_val = $('.load-boundaries-template').val();
@@ -417,7 +415,7 @@ $(document).ready(function() {
 	    //     stringData = "["+stringData+"]";
 	       // data = JSON.parse(stringData);
 	    // }
-   console.log('LoadPolygon');
+   console.log('LoadPolygon data' + data);
 	    // console.log("datae to:"+JSON.stringify(data));
 	    data.forEach(function(entry) {
 
@@ -426,10 +424,11 @@ $(document).ready(function() {
 	        $.each(entry, function(i, item) {
 	            // console.log(letter[ii]);
 	            // console.log("Item>_" + item);
-	            var xcoord = item.x / 2;
-	            var ycoord = item.y / 2;
-	            // var xcoord = item.x;
-	            // var ycoord = item.y;
+	            // var xcoord = item.x / 2;
+	            // var ycoord = item.y / 2;
+	            var xcoord = item.x;
+	            var ycoord = item.y;
+	            console.log("TYPE OF>_" + typeof item.x);
 
 	            if( z == 0 && item.angle != undefined ){
 	                // console.log('ITEM ANGLE: '+item.angle);

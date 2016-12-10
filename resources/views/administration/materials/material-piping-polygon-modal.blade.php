@@ -10,7 +10,7 @@
             <input type="hidden" name="boundary_properties" id="boundary-properties" class="b-prop" value="">
             <input type="hidden" id="app-saved-perspective" value="">
             <input type="hidden" id="app-material-option-name" value="">
-            <input type="hidden" id="polygon_prop" value='[{"x":100,"y":100},{"x":150,"y":100},{"x":150,"y":150},{"x":100,"y":150}]'>
+            <input type="hidden" id="polygon_prop" value='[[{"x":100,"y":100,"angle":0},{"x":150,"y":100},{"x":150,"y":150},{"x":100,"y":150}]]'>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 class="modal-title"><span style='color: blue'></span></h4>
