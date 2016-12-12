@@ -1070,13 +1070,11 @@
 
     $.ub = {};
 
-    $.ub.create_piping = function (pipingObject, firstColor, colorCount) {
+    $.ub.create_piping = function (pipingObject, firstColor, colorCount, perspective) {
 
         var sprite; 
         var pipingObject = pipingObject;
         var settings = ub.current_material.settings;
-        var perspective = 'front';
-
         var initialColor = firstColor;
 
         var view = ub[perspective + '_view'];

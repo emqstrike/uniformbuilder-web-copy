@@ -7746,9 +7746,13 @@ $(document).ready(function() {
         // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
         // put in logic to change piping color here ...
 
-        var _objectReference = ub.objects.front_view[_pipingSet.set];
-        var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + _layer_no});
-        _childLayer.tint = parseInt(_colorObj.hex_code, 16);
+        _.each (ub.views, function (perspective) {
+
+            var _objectReference = ub.objects[perspective + '_view'][_pipingSet.set];
+            var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + _layer_no});
+            _childLayer.tint = parseInt(_colorObj.hex_code, 16);
+
+        })
 
     };
 
@@ -7863,22 +7867,29 @@ $(document).ready(function() {
     ub.funcs.renderPipings = function (pipingObject, colorArray, colorCount) {
 
         var _firstColor = colorArray[1];
-        var _sprites = $.ub.create_piping(pipingObject, _firstColor, colorCount);
 
-        if (typeof ub.objects.front_view !== "undefined") {
+        _.each (ub.views, function (perspective) {
 
-            if (typeof ub.objects.front_view[pipingObject.set] !== "undefined") {
+            var _perspectiveString = perspective + '_view';
 
-                ub.front_view.removeChild(ub.objects.front_view[pipingObject.set]);
+            var _sprites = $.ub.create_piping(pipingObject, _firstColor, colorCount, perspective);
 
+            if (typeof ub.objects[_perspectiveString] !== "undefined") {
+
+                if (typeof ub.objects[_perspectiveString][pipingObject.set] !== "undefined") {
+
+                    ub[_perspectiveString].removeChild(ub.objects[_perspectiveString][pipingObject.set]);
+
+                }
+            
             }
-        
-        }
 
-        ub.front_view.addChild(_sprites);
-        ub.objects.front_view[pipingObject.set] = _sprites;
+            ub[_perspectiveString].addChild(_sprites);
+            ub.objects[_perspectiveString][pipingObject.set] = _sprites;
 
-        ub.updateLayersOrder(ub['front_view']);
+            ub.updateLayersOrder(ub[_perspectiveString]);
+
+        });
 
     };
 
