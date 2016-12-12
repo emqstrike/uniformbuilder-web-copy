@@ -82,8 +82,6 @@ $(document).ready(function () {
          $('div#messageModal').html(message);
          $('button#modalButton').trigger('click');
 
-        
-
     };
 
     ub.zoom_off = function () {
