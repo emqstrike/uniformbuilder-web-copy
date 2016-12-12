@@ -280,7 +280,6 @@
 
         @else
 
-
             window.ub.user = false;
             $('.register').on('click', function() {
 
