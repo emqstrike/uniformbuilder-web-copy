@@ -24,7 +24,7 @@ class PriceItemTemplatesAPIClient extends APIClient
     }
 
     public function create($data)
-    {
+    {//dd(json_encode($data));
         $response = $this->post('price_item_template', [
             'json' => $data
         ]);

@@ -21,7 +21,10 @@ class PriceItemTemplatesController extends Controller
     public function index()
     {
         $price_item_templates = $this->client->getAll();
-
+        foreach ($price_item_templates as $template) {
+            $template->properties = json_decode($template->properties);
+        }
+// dd($price_item_templates);
         return view('administration.price-items.templates', [
             'price_item_templates' => $price_item_templates
         ]);
@@ -46,7 +49,7 @@ class PriceItemTemplatesController extends Controller
         $data = [
             'name' => $name,
             'description' => $description,
-            'properties' => $size_properties
+            'properties' => json_decode($size_properties)
         ];
 
         $response = null;
@@ -62,7 +65,7 @@ class PriceItemTemplatesController extends Controller
             $response = $this->client->create($data);
         }
 
-        dd($data);
+        // dd($data);
         if ($response->success)
         {
             Log::info('Success');

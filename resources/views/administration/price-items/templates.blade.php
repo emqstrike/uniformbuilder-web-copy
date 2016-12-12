@@ -29,30 +29,25 @@
                             <th>Name</th>
                             <th>Description</th>
                             <th>Preview</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                    {{-- @forelse ($price_item_templates as $template)
+                    @forelse ($price_item_templates as $template)
 
                         <tr class='template-{{ $template->id }}'>
                             <td>
-                                {{ $template->template }}
+                                {{ $template->name }}
                             </td>
                             <td>
-                                Pro Look Sports
+                                {{ $template->description }}
                             </td>
                             <td>
-                                $ <input type="text" value="{{ $template->msrp }}" class="row-msrp">
+
                             </td>
                             <td>
-                                $ <input type="text" value="{{ $template->web_price_sale }}" class="row-web-price-sale">
-                            </td>
-                            <td>
-                                <a href="#" class="save-price-item btn btn-primary btn-xs" data-id="{{ $template->id }}">Edit</a>
-                            </td>
-                            <td>
-                                <a href="#" class="delete-price-item btn btn-danger btn-xs">Remove</a>
+
                             </td>
                         </tr>
 
@@ -64,7 +59,7 @@
                             </td>
                         </tr>
 
-                    @endforelse --}}
+                    @endforelse
 
                     </tbody>
                     </table>
