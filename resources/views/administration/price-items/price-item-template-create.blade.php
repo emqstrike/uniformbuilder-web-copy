@@ -179,9 +179,14 @@ function refreshProperty(){
     size_properties = [];
     $(".prop-row").each(function(i) {
         var x = $(this).find('.sizes').val();
+        var price_item = $(this).find('.price-items').val();
+        var prices = _.find(window.price_items, function(e){ return e.price_item === price_item; });
+        // console.log(prices);
         var data = {
             "size" : $(this).find('.sizes').val(),
-            "price_item" : $(this).find('.price-items').val(),
+            "price_item" : price_item,
+            "msrp" : parseFloat(prices.msrp),
+            "web_price_sale" : parseFloat(prices.web_price_sale)
         }
         size_properties.push(data);
     });
