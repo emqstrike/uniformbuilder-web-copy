@@ -7878,6 +7878,8 @@ $(document).ready(function() {
         ub.front_view.addChild(_sprites);
         ub.objects.front_view[pipingObject.set] = _sprites;
 
+        ub.updateLayersOrder(ub['front_view']);
+
     };
 
     ub.funcs.activatePipings = function (pipingSet) {
