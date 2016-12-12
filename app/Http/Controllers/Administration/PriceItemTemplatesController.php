@@ -18,9 +18,6 @@ class PriceItemTemplatesController extends Controller
         $this->client = $apiClient;
     }
 
-    /**
-     * Price Item Templates
-     */
     public function index()
     {
         $price_item_templates = $this->client->getAll();
@@ -28,5 +25,17 @@ class PriceItemTemplatesController extends Controller
         return view('administration.price-items.templates', [
             'price_item_templates' => $price_item_templates
         ]);
+    }
+
+    public function addForm()
+    {
+        return view('administration.price-items.price-item-template-create');
+    }
+
+    public function store(Request $request)
+    {
+        $name = $request->input('name');
+        $description = $request->input('description');
+        $size_properties = $request->input('size_props');
     }
 }

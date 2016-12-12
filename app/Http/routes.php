@@ -309,6 +309,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Price Item Templates
     Route::get('price_item_templates', 'Administration\PriceItemTemplatesController@index');
+    Route::get('price_item_template/add', 'Administration\PriceItemTemplatesController@addForm');
     Route::get('price_item_template/{id}', 'Administration\PriceItemTemplatesController@show');
 
 });
