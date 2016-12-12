@@ -4404,6 +4404,12 @@ $(document).ready(function () {
 
                 if (view === 'pipings') {
 
+                    if($(this).hasClass('disabled')) {
+
+                        return;
+
+                    }
+
                     ub.funcs.activatePipings();
                     return;
 

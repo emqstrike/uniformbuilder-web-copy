@@ -4318,27 +4318,28 @@ $(document).ready(function() {
             
         });
 
+        ub.showModalTool('This feature is still being tested, and will be available soon. Thank you!')        
 
         // Does not work or disable, crossing_sword, line fade body (use line fade sleeve instead)
 
-        console.log('Pattern ID: ');
-        console.log(patternID);
+        // console.log('Pattern ID: ');
+        // console.log(patternID);
 
-        var _patternObj = _.find(ub.data.patterns.items, {id: patternID.toString()});
+        // var _patternObj = _.find(ub.data.patterns.items, {id: patternID.toString()});
 
-        console.log('Pattern Object: ');
-        console.log(_patternObj);
+        // console.log('Pattern Object: ');
+        // console.log(_patternObj);
 
-        console.log('Settings Object:');
-        console.log(settingsObj);
+        // console.log('Settings Object:');
+        // console.log(settingsObj);
 
-        settingsObj.applicationObj = { pattern_obj: _patternObj} ;
+        // settingsObj.applicationObj = { pattern_obj: _patternObj} ;
 
-        if (typeof settingsObj.applicationObj.pattern_obj === 'object') {
+        // if (typeof settingsObj.applicationObj.pattern_obj === 'object') {
 
-            $.ub.mvChangePattern(settingsObj.application, settingsObj.application.id, _patternObj, _spriteCollection);
+        //     // $.ub.mvChangePattern(settingsObj.application, settingsObj.application.id, _patternObj, _spriteCollection);
 
-        }
+        // }
 
         // var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
         // var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
