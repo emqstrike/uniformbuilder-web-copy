@@ -25,7 +25,7 @@
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/price_item_template" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="size_props" class="size-props-input">
+                        <input type="hidden" name="size_props" id="size_property">
 
                         @if (Session::has('flash_message'))
                         <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
@@ -107,7 +107,9 @@
 $(document).ready(function(){
 
 var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','YS','YM','YL','YXL','Y2XL','Y3XL'];
-var size_properties = [];
+var adult_sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
+var youth_sizes = ['YS','YM','YL','YXL','Y2XL','Y3XL'];
+var size_properties = {};
 
 $('.autosized').autosize({append: "\n"});
 
@@ -176,22 +178,49 @@ function initSizesAndPI(){
 }
 
 function refreshProperty(){
-    size_properties = [];
+    size_properties = {};
+    var properties = {};
+    var adult = [];
+    var youth = [];
+
     $(".prop-row").each(function(i) {
         var x = $(this).find('.sizes').val();
         var price_item = $(this).find('.price-items').val();
         var prices = _.find(window.price_items, function(e){ return e.price_item === price_item; });
-        // console.log(prices);
+
         var data = {
             "size" : $(this).find('.sizes').val(),
             "price_item" : price_item,
             "msrp" : parseFloat(prices.msrp),
             "web_price_sale" : parseFloat(prices.web_price_sale)
         }
-        size_properties.push(data);
+
+        if( _.contains(adult_sizes, data.size) ){
+            adult.push(data);
+        }
+
+        if( _.contains(youth_sizes, data.size) ){
+            youth.push(data);
+        }
+
+        // properties.push(data);
     });
-    console.log(size_properties);
-    $('.size-props-input').val(JSON.stringify(size_properties));
+
+    if( adult.length > 0 ){
+        properties.adult = adult;
+        var adult_min = _.min(adult, function(o){return o.msrp;});
+        size_properties.adult_min = adult_min.msrp;
+    }
+
+    if( youth.length > 0 ){
+        properties.youth = youth;
+        var youth_min = _.min(youth, function(o){return o.msrp;});
+        size_properties.youth_min = youth_min.msrp;
+    }
+
+    size_properties.properties = properties;
+
+    $('#size_property').val(JSON.stringify(size_properties));
 }
 
 
