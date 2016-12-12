@@ -191,8 +191,8 @@ $(document).ready(function() {
             size: '1/4',
             set: 'Yoke Piping',
             color_1: true,
-            color_2: false,
-            color_3: false,
+            color_2: true,
+            color_3: true,
             perspectives: [
                 {
                     perspective: 'front',
