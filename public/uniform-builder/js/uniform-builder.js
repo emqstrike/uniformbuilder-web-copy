@@ -2164,7 +2164,7 @@ $(document).ready(function () {
                     if(_.has(objects_in_view, material_option)){
 
                         objects_in_view[material_option].tint = parsed_color;
-    
+
                     }
                     
                 });
