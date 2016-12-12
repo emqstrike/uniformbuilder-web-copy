@@ -26,6 +26,10 @@
 
     - General Utility Functions
 
+**ubpip**
+
+    - Piping Code
+
 ** util
 
 ## Pattern Handling
