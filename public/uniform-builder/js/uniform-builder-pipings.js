@@ -6,10 +6,35 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.getPipingSettingsObject = function (set) {
+
+
+        // Pipings Settings Object Structure 
+        // 
+        // e.g.
+        // {
+        //      size: '1/8',
+        //      numberofColors: 3,
+        //      colorArray: [G,B,W],
+        //      layerStatus: [true, false, false],
+        // } 
+        //
+        
+        if (typeof ub.current_material.settings.pipings[set]) {
+
+            ub.current_material.settings[set] = {};
+
+        }
+
+        return ub.current_material.settings[set];
+
+    };
+
     ub.funcs.changePipingSize = function (_pipingObject) {
 
 
-    }
+
+    };
 
     ub.funcs.changePipingColor = function (_colorObj, _layer_no, _pipingSet) {
 
@@ -211,11 +236,14 @@ $(document).ready(function () {
             var $pipingSizesButtons = $('span.piping-sizes-buttons');
             $pipingSizesButtons.on('click', function () {
 
-                var _type           = $(this).data('type');
-                var _size           = $(this).data('size');
-                var _pipingObject   = _.find(ub.data.pipings, {name: _type});
-                var _colorsMarkup   =  ub.funcs.getPipingColors(_pipingObject);
-                var _firstColor     = _.first(ub.funcs.getPipingColorArray(_pipingObject));
+                var _type                   = $(this).data('type');
+                var _size                   = $(this).data('size');
+                var _pipingObject           = _.find(ub.data.pipings, {name: _type});
+                var _colorsMarkup           =  ub.funcs.getPipingColors(_pipingObject);
+                var _firstColor             = _.first(ub.funcs.getPipingColorArray(_pipingObject));
+                var _pipingSettingsObject   = ub.funcs.getPipingSettingsObject(_activePipingSet.set)
+
+                // var _pipingSettingsObject   = ub.funcs.getPipingObject('Set')
         
                 ub.funcs.changePipingSize(_pipingObject);
                 $('div.ui-row.colors-row').html(_colorsMarkup);
