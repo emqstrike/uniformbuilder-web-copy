@@ -23,7 +23,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/#" enctype="multipart/form-data" id='create-color-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/price_item_template" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="size_props" class="size-props-input">
 
@@ -42,7 +42,7 @@
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-6">
                                 <!-- <input type="name" class="form-control color-code" name="color_code" value="{{ old('name') }}"> -->
-                                <textarea name="description" class="form-control"></textarea>
+                                <textarea name="description" class="form-control autosized"></textarea>
                             </div>
                         </div>
 
@@ -99,6 +99,7 @@
 
 @section('scripts')
 <script type="text/javascript" src="/underscore/underscore.js"></script>
+<script type="text/javascript" src="/js/libs/autosize.js"></script>
 @endsection
 
 @section('custom-scripts')
@@ -107,6 +108,8 @@ $(document).ready(function(){
 
 var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','YS','YM','YL','YXL','Y2XL','Y3XL'];
 var size_properties = [];
+
+$('.autosized').autosize({append: "\n"});
 
 getPriceItems(function(price_items){ window.price_items = price_items; });
 

@@ -22,4 +22,12 @@ class PriceItemTemplatesAPIClient extends APIClient
         return $price_item_templates;
 
     }
+
+    public function create($data)
+    {
+        $response = $this->post('price_item_template', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
 }
