@@ -1,0 +1,132 @@
+[1mdiff --git a/app/Http/Controllers/Administration/MaterialsController.php b/app/Http/Controllers/Administration/MaterialsController.php[m
+[1mindex b49fc17..2d2d963 100755[m
+[1m--- a/app/Http/Controllers/Administration/MaterialsController.php[m
+[1m+++ b/app/Http/Controllers/Administration/MaterialsController.php[m
+[36m@@ -212,48 +212,60 @@[m [mclass MaterialsController extends Controller[m
+         if($case === 'new')[m
+         {[m
+             $structured_data['1/8'] = [];[m
+[31m-            // $structured_data['1/8']['front_pos_1'] = null;[m
+[31m-            // $structured_data['1/8']['back_pos_1'] = null;[m
+[31m-            // $structured_data['1/8']['left_pos_1'] = null;[m
+[31m-            // $structured_data['1/8']['right_pos_1'] = null;[m
+[31m-            // $structured_data['1/8']['front_pos_2'] = null;[m
+[31m-            // $structured_data['1/8']['back_pos_2'] = null;[m
+[31m-            // $structured_data['1/8']['left_pos_2'] = null;[m
+[31m-            // $structured_data['1/8']['right_pos_2'] = null;[m
+[31m-            // $structured_data['1/8']['front_pos_3'] = null;[m
+[31m-            // $structured_data['1/8']['back_pos_3'] = null;[m
+[31m-            // $structured_data['1/8']['left_pos_3'] = null;[m
+[31m-            // $structured_data['1/8']['right_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['name'] = $name_oe;[m
+[32m+[m[32m            $structured_data['1/8']['set'] = $set;[m
+[32m+[m[32m            $structured_data['1/8']['front_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['back_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['left_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['right_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['front_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['back_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['left_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['right_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['front_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['back_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['left_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/8']['right_pos_3'] = null;[m
+ [m
+             $structured_data['1/4'] = [];[m
+[31m-            // $structured_data['1/4']['front_pos_1'] = null;[m
+[31m-            // $structured_data['1/4']['back_pos_1'] = null;[m
+[31m-            // $structured_data['1/4']['left_pos_1'] = null;[m
+[31m-            // $structured_data['1/4']['right_pos_1'] = null;[m
+[31m-            // $structured_data['1/4']['front_pos_2'] = null;[m
+[31m-            // $structured_data['1/4']['back_pos_2'] = null;[m
+[31m-            // $structured_data['1/4']['left_pos_2'] = null;[m
+[31m-            // $structured_data['1/4']['right_pos_2'] = null;[m
+[31m-            // $structured_data['1/4']['front_pos_3'] = null;[m
+[31m-            // $structured_data['1/4']['back_pos_3'] = null;[m
+[31m-            // $structured_data['1/4']['left_pos_3'] = null;[m
+[31m-            // $structured_data['1/4']['right_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['name'] = $name_of;[m
+[32m+[m[32m            $structured_data['1/4']['set'] = $set;[m
+[32m+[m[32m            $structured_data['1/4']['front_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['back_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['left_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['right_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['front_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['back_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['left_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['right_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['front_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['back_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['left_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/4']['right_pos_3'] = null;[m
+ [m
+             $structured_data['1/2'] = [];[m
+[31m-            // $structured_data['1/2']['front_pos_1'] = null;[m
+[31m-            // $structured_data['1/2']['back_pos_1'] = null;[m
+[31m-            // $structured_data['1/2']['left_pos_1'] = null;[m
+[31m-            // $structured_data['1/2']['right_pos_1'] = null;[m
+[31m-            // $structured_data['1/2']['front_pos_2'] = null;[m
+[31m-            // $structured_data['1/2']['back_pos_2'] = null;[m
+[31m-            // $structured_data['1/2']['left_pos_2'] = null;[m
+[31m-            // $structured_data['1/2']['right_pos_2'] = null;[m
+[31m-            // $structured_data['1/2']['front_pos_3'] = null;[m
+[31m-            // $structured_data['1/2']['back_pos_3'] = null;[m
+[31m-            // $structured_data['1/2']['left_pos_3'] = null;[m
+[31m-            // $structured_data['1/2']['right_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['name'] = $name_oh;[m
+[32m+[m[32m            $structured_data['1/2']['set'] = $set;[m
+[32m+[m[32m            $structured_data['1/2']['front_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['back_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['left_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['right_pos_1'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['front_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['back_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['left_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['right_pos_2'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['front_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['back_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['left_pos_3'] = null;[m
+[32m+[m[32m            $structured_data['1/2']['right_pos_3'] = null;[m
+         } else {[m
+             $structured_data = json_decode($request->input('piping_properties_json'), 1);[m
+[32m+[m[32m            $structured_data['1/8']['name'] = $name_oe;[m
+[32m+[m[32m            $structured_data['1/8']['set'] = $set;[m
+[32m+[m[32m            $structured_data['1/4']['name'] = $name_of;[m
+[32m+[m[32m            $structured_data['1/4']['set'] = $set;[m
+[32m+[m[32m            $structured_data['1/2']['name'] = $name_oh;[m
+[32m+[m[32m            $structured_data['1/2']['set'] = $set;[m
+         }[m
+         // Upload images[m
+         try {[m
+[1mdiff --git a/resources/views/administration/materials/material-piping.blade.php b/resources/views/administration/materials/material-piping.blade.php[m
+[1mindex 6011c2c..90734ac 100644[m
+[1m--- a/resources/views/administration/materials/material-piping.blade.php[m
+[1m+++ b/resources/views/administration/materials/material-piping.blade.php[m
+[36m@@ -40,7 +40,7 @@[m
+                                     <td colspan="4">[m
+                                         <label class="col-md-5 control-label">Name</label>[m
+                                         <div class="col-md-2">[m
+[31m-                                            <input type="text" class="form-control material-name" name="name_oe" value="">[m
+[32m+[m[32m                                            <input type="text" class="form-control material-name" name="name_oe" value="{{ ( ! empty($piping_properties['1/8']['name']) ? $piping_properties['1/8']['name'] : '') }}">[m
+                                         </div>[m
+                                     </td>[m
+                                 </tr>[m
+[36m@@ -118,7 +118,7 @@[m
+                                     <td colspan="4">[m
+                                         <label class="col-md-5 control-label">Name</label>[m
+                                         <div class="col-md-2">[m
+[31m-                                            <input type="text" class="form-control material-name" name="name_of" value="">[m
+[32m+[m[32m                                            <input type="text" class="form-control material-name" name="name_of" value="{{ ( ! empty($piping_properties['1/4']['name']) ? $piping_properties['1/4']['name'] : '') }}">[m
+                                         </div>[m
+                                     </td>[m
+                                 </tr>[m
+[36m@@ -196,7 +196,7 @@[m
+                                     <td colspan="4">[m
+                                         <label class="col-md-5 control-label">Name</label>[m
+                                         <div class="col-md-2">[m
+[31m-                                            <input type="text" class="form-control material-name" name="name_oh" value="">[m
+[32m+[m[32m                                            <input type="text" class="form-control material-name" name="name_oh" value="{{ ( ! empty($piping_properties['1/2']['name']) ? $piping_properties['1/2']['name'] : '') }}">[m
+                                         </div>[m
+                                     </td>[m
+                                 </tr>[m

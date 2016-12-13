@@ -7,9 +7,11 @@ $('.assign-artwork').on('click', function(e){
     var data = {};
     data.artworks = $(this).data('artwork-json');
     data.ga_id = $(this).data('user-id');
+    data.order_id = $(this).data('order-id');
     data.order_code = $(this).data('order-code');
     data.approve = false;
     data.item = "Uniform name";
+    data.status = "processing";
     console.log(data);
     insertAR(data);
 });
@@ -25,6 +27,7 @@ $('.upload-mascot').on('click', function(e){
 });
 
 function insertAR(data){
+    bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
     $.ajax({
         url: '//' + api_host + '/api/artwork_request',
         type: "POST",
@@ -32,6 +35,7 @@ function insertAR(data){
         contentType: 'application/json;',
         success: function (data) {
             alert('Artwork Request Inserted!');
+            window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
         }

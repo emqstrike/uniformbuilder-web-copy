@@ -280,9 +280,18 @@
 
         @else
 
-
             window.ub.user = false;
-            $('.register').on('click', function(){
+            $('.register').on('click', function() {
+
+                var _emailLength       = $('div.signup-container').find('input[name="email"]').val().trim().length;
+                var _passwordLength    = $('div.signup-container').find('input[name="password"]').val().trim().length;
+
+                if (_emailLength === 0 || _passwordLength === 0) {
+
+                    $.smkAlert({text: 'Please enter a valid email or password', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+                    return false;
+
+                }
 
                 var captcha_response = $('.g-recaptcha-response').val();
 
@@ -415,6 +424,9 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-placeholder-applications.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-process.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js{{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-pipings.js{{$asset_version}}"></script>
+
+
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-transformers.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-settings.js{{$asset_version}}"></script>

@@ -8,28 +8,27 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\APIClients\ArtworksAPIClient;
 use App\APIClients\OrdersAPIClient as APIClient;
 
 class ArtworksController extends Controller
 {
     protected $client;
+    protected $artworksClient;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct(
+        APIClient $apiClient,
+        ArtworksAPIClient $artworksClient
+    )
     {
         $this->client = $apiClient;
+        $this->artworksClient = $artworksClient;
     }
 
     public function index(Request $request)
     {
-        $status = $request->get('status');
-        if (is_null($status))
-        {
-            $orders = $this->client->getOrdersArtwork();
-        }
-        else
-        {
-            $orders = $this->client->getOrdersArtwork($status);
-        }
+        $orders = $this->client->getOrdersArtwork();
+
         $ctr = 0;
         foreach($orders as $order)
         {
@@ -40,7 +39,6 @@ class ArtworksController extends Controller
                 {
                     $order->artworks = $data;
                 } else {
-                    // $order->artworks = null;
                     unset($orders[$ctr]);
                 }
             } catch (Exception $e) {
@@ -48,12 +46,32 @@ class ArtworksController extends Controller
             }
             $ctr++;
         }
-        // dd($orders);
+
         $account_type = Session::get('accountType');
         $user_id = Session::get('userId');
 
         return view('administration.artworks.artwork_requests', [
             'orders' => $orders,
+            'account_type' => $account_type,
+            'user_id' => $user_id
+        ]);
+    }
+
+    public function processing(Request $request)
+    {
+        $artworks = $this->artworksClient->getArtworks('processing');
+
+        $ctr = 0;
+        foreach($artworks as $artwork)
+        {
+            $data = json_decode($artwork->artworks, 1);
+            $artwork->artworks = $data;
+        }
+        $account_type = Session::get('accountType');
+        $user_id = Session::get('userId');
+
+        return view('administration.artworks.on-process-artwork-requests', [
+            'artworks' => $artworks,
             'account_type' => $account_type,
             'user_id' => $user_id
         ]);

@@ -154,6 +154,7 @@ $(document).ready(function() {
     ub.current_material.settings.roster         = [];
     ub.current_material.settings.order_info     = {};
     ub.current_material.settings.size_breakdown = {};
+    ub.current_material.settings.pipings        = {};
 
     ub.current_material.settings.thumbnails     = {
         front_view: "",
@@ -177,6 +178,177 @@ $(document).ready(function() {
     ub.data.materials               = undefined;
     ub.data.colors                  = {};
     ub.data.fonts                   = undefined;
+    ub.data.pipings                 = undefined;
+
+    // Mock Object for Pipings 
+
+    ub.folders                      = { piping: '/images/pipings' } ;
+    
+    ub.data.pipings                 = [
+        
+        {
+            
+            name: 'Yoke Piping 1/4',
+            size: '1/4',
+            set: 'Yoke Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+        {
+            
+            name: 'Yoke Piping 1/8',
+            size: '1/8',
+            set: 'Yoke Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+
+    ];
+
 
     ub.data.searchSource            = {};
     
@@ -6697,5 +6869,34 @@ ub.funcs.fontOffSets = [
     /// End Messages 
 
     /// All data loaded before scripts are processed is in window.ub.config
+
+    ub.data.notificationMessage = [
+
+        {
+            type: 'unread',
+            description: 'UNREAD',
+        },
+        {
+            type: 'prolook',
+            description: 'This is a place for PROLOOK announcements such as promos, new features released for the customizer and other similar things.',
+        },
+        {
+            type: 'orders',
+            description: 'Notifications regarding the order you submitted goes here, such as custom artwork status and overall progress, where your order is now',
+        },
+        {
+            type: 'pm',
+            description: "PM's from other users goes here",
+        },
+        {
+            type: 'feedback',
+            description: 'Your feedback is important to us, our replies to the feedback you send us goes here.',
+        },
+        {
+            type: 'sent',
+            description: '',
+        }
+
+    ];
 
 });

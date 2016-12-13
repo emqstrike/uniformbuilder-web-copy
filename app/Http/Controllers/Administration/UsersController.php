@@ -25,6 +25,9 @@ class UsersController extends Controller
         foreach($users as $user)
         {
             $user->created_at = date('M-d-Y', strtotime($user->created_at));
+            if(isset($user->last_login)){
+                $user->last_login = date('M-d-Y', strtotime($user->last_login));
+            }
         }
 
         return view('administration.users.users', [
@@ -161,7 +164,7 @@ class UsersController extends Controller
                 }
             }
             return redirect()->back()
-                            ->with('message', 'Successfully updated user information');  
+                            ->with('message', 'Successfully updated user information');
         }
         else
         {

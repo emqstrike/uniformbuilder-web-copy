@@ -50,7 +50,7 @@
 
 .pagePanelHeader() {
 
-    span.header {
+    div.header, span.header {
 
         font-size: 2em;
         text-align: center;
@@ -63,6 +63,12 @@
         margin-bottom: 40px;
         border-bottom: dashed 1px #acacac;
 
+    }
+
+    div.header {
+
+        margin-bottom: 20px;
+        
     }
 
 }
@@ -97,9 +103,18 @@ strong, h1, h2, h3, h4, h5, h6 {
 html, body {
     
     width: 100%;
-    background-color: #eeeeee;
     background-attachment:fixed;
+
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    transition: all .2s;
     
+}
+
+.generic-canvas {
+
+    background-color: #61605e;
+
 }
 
 /* Navbar */
@@ -143,9 +158,9 @@ div.navbar-header {
 .navbar-default {
 
     box-shadow: none;
-    background-color: #f2f2f2;
     height: @navbar-height;
     border-bottom: 1px solid #f2f2f2 !important;
+    background-color: #f8f8f8;
 
 }
 
@@ -618,7 +633,7 @@ div.options_panel  {
 
         label {
 
-            color: @text_color;
+            color: #e7e7e7;
             width: 20%;
             font-weight: normal;
             padding-left: 10px;
@@ -1757,9 +1772,18 @@ input.fe_input, select.fe_input {
 /* Sign In, Sign Up Area */
 
 .user-profile.pull-right > div > button.btn {
-    background-color: @text_color !important;
-    color: #f2f2f2;
+    background-color: #e7e7e7;
+    color: #3d3d3d;
 }
+
+.btn-group.open .dropdown-toggle {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+
+    background-color: #3d3d3d !important;
+    color: white !important;
+}
+
 .user-profile.pull-right > div > button.btn:hover {
 
     background-color: @text_color !important;
@@ -1774,14 +1798,14 @@ input.fe_input, select.fe_input {
 
 .dropdown-menu {
 
-    background-color: #acacac !important;
+    background-color: #fff !important;
     border-radius: 0px !important;
 
 }
 
 .dropdown-menu>li>a {
 
-    color: #ffffff;
+    color: #3d3d3d;
     margin-left: 1px;
 
 }
@@ -1804,7 +1828,7 @@ input.fe_input, select.fe_input {
 
 div.help-block > a  {
 
-    color: @main_highlight_off !important;
+    color: #3d3d3d !important;
 
 }
 
@@ -2178,6 +2202,7 @@ div#main-picker-container {
         font-size: 1.4em;
         padding-top: 10px;
         color: @text_color;
+        border-bottom: solid 1px #e7e7e7;
 
         span.slink {
 
@@ -2390,8 +2415,43 @@ div#main-picker-container {
 
         div.main-picker-items.grow:hover {
 
+            opacity: 1;
+            transform: scale(1.1);
+
+            img {
+
+                -webkit-filter: drop-shadow(0px 5px 5px rgba(172,172,172, 0.9)) brightness(113%);
+                filter: drop-shadow(0px 5px 5px rgba(172,172,172, 0.9)) brightness(113%);
+
+            }
+
             span.main-picker-item-caption {
+                
                 color: black;
+                opacity: 1;
+
+                margin-top: -20px !important;
+                margin-bottom: 10px !important;
+
+                strong.uniform-name {
+
+                    border-bottom: dashed 1px #3d3d3d;
+
+                }
+
+                strong.type {
+
+                    background-color: #3d3d3d;
+                    color: white;
+                    font-family:"Avenir Next LT W04 Bold";
+                    font-size: 0.8em;
+
+                    -webkit-box-shadow: 3px 7px 9px -5px rgba(0,0,0,0.7);
+                    -moz-box-shadow: 3px 7px 9px -5px rgba(0,0,0,0.7);
+                    box-shadow: 3px 7px 9px -5px rgba(0,0,0,0.7);
+            
+                }
+
             }
 
         }
@@ -2402,12 +2462,13 @@ div#main-picker-container {
             width: 224px;
             float: left;
             cursor: pointer;
-            margin-bottom: 130px;
+            margin-bottom: 90px;
             margin-right: 20px;
             margin-left: 25px;
 
             img {
                 width: 100%;
+                margin-bottom: 30px;
             }
 
             span.main-picker-item-caption {
@@ -2416,10 +2477,10 @@ div#main-picker-container {
                 width: 100%;
                 height: 30px;
                 display: block;
-                opacity: 0.7;
+                opacity: 0.8;
                 transition: all 0.2s ease-in-out;
                 text-align: center;
-                font-size: 1em;
+                font-size: 0.9em;
                 font-family: 'Avenir Next LT W04 Bold';
                 margin-top: -10px !important;
                 text-transform: uppercase;
@@ -2433,14 +2494,14 @@ div#main-picker-container {
 
                 strong.type {
 
-                    background-color: black;
-                    color: white;
+                    background-color: #e7e7e7;
+                    color: #3d3d3d;
                     padding: 5px;
                     display: inline-block;
-                    width: 35%;
+                    width: 50%;
                     margin: 0 auto;
                     margin-top: 10px;
-                    font-size: 0.6em;
+                    font-size: 0.9em;
                     text-transform: uppercase;
 
                     font-family: 'Avenir Next LT W04 Thin';
@@ -3194,8 +3255,8 @@ div.header-container.main {
             display: none;
             position: absolute;
 
-            width: 930px;
-            height: 550px;
+            width: 1000px;
+            height: 700px;
             top: 300px;
             left: 300px;
             z-index: 3100;
@@ -3216,7 +3277,7 @@ div.header-container.main {
                 padding-right: 0px;
                 display: none;
                 width: 100%;
-                height: 430px;
+                height: 580px;
                 background-color: #acacac;
 
                 z-index: 100;
@@ -3278,19 +3339,19 @@ div.header-container.main {
 
                         width: 100%;
                         text-align: right;
-                        margin-top: 150px;
+                        margin-top: 330px;
                         padding-right: 30px;
 
                         span.ok_btn, span.cancel_btn {
                             display: inline-block;
                             width: 150px;
-                            background-color: #acacac;
-                            color: #3d3d3d;
                             cursor: pointer;
                             padding: 7px;
                             border: 1px solid #3d3d3d;
                             font-weight: bold;
                             text-align: center;
+
+                            .smallButton;
                         }
 
                         span.ok_btn {
@@ -3306,8 +3367,9 @@ div.header-container.main {
                         }
 
                         span.ok_btn:hover, span.cancel_btn:hover {
-                            background-color: #3d3d3d !important;
-                            color: white !important;
+                            
+                            .smallButtonHover;
+
                         }
 
                     }
@@ -3402,7 +3464,7 @@ div.header-container.main {
             div.main-content {
 
                 width: 100%;
-                height: 430px;
+                height: 580px;
                 overflow-y: scroll;
                 padding: 20px;
                 padding-top: 0px;
@@ -3435,14 +3497,14 @@ div.header-container.main {
 
                     span.groups_category_item:hover {
 
-                        background-color: @forecolor;
+                        background-color: #3d3d3d;
                         color: white;
 
                     }
 
                     span.groups_active_category {
                         
-                        background-color: @customizer_main_area;
+                        background-color: #3d3d3d;
                         color: white;
                         border-bottom: dashed 1px black;
 
@@ -3475,14 +3537,14 @@ div.header-container.main {
 
                     span.category_item:hover {
 
-                        background-color: @forecolor;
+                        background-color: #3d3d3d;
                         color: white;
 
                     }
 
                     span.active_category {
                         
-                        background-color: @customizer_main_area;
+                        background-color: #3d3d3d;
                         color: white;
                         border-bottom: dashed 1px black;
 
@@ -3492,7 +3554,7 @@ div.header-container.main {
 
                 div.patternPopupResults {
 
-                    width: 66%;
+                    width: 73%;
 
                     div.item {
 
@@ -3503,18 +3565,28 @@ div.header-container.main {
                         background-size: cover;
                         cursor: pointer;
                         margin-bottom: 30px;
+                        margin-top: 20px;
                         
                         div.name {
                             
                             width: 100%;
-                            height: 50px;
                             margin-top: 160px;
                             color: black;
                             transition: all 0.1s ease-in-out;
                             text-align: center;
-                            font-weight: bold;
+                            font-weight: normal;
+                            font-size: 0.8em;
+                            padding: 3px;
 
                         }
+
+                        div.name.pullUp {
+                            
+                            background-color: #3d3d3d;
+                            color: white;
+
+                        }
+
 
                     }
 
@@ -3541,12 +3613,14 @@ div.header-container.main {
             display: none;
             position: absolute;
 
-            width: 930px;
-            height: 550px;
-            top: 300px;
-            left: 300px;
+            width: 1000px;
+            height: 700px;
             z-index: 3100;
             background-color: white;
+
+            -moz-transition: all .2s;
+            -webkit-transition: all .2s;
+            transition: all .2s;
 
             -webkit-box-shadow: 10px 10px 45px 5px rgba(0,0,0,0.7);
             -moz-box-shadow: 10px 10px 45px 5px rgba(0,0,0,0.7);
@@ -3567,23 +3641,27 @@ div.header-container.main {
 
             div.header {
                     
+                font-size: 2em;
                 text-align: center;
-                font-size: 1.3em;
-                padding: 20px;
-                margin-top: 20px;
+                width: 100%;
+                display: block;
+                text-transform: uppercase;
+                font-weight: bold;
 
+                padding: 30px;
+                margin-bottom: 40px;
+                border-bottom: dashed 1px #acacac;
+     
             }
 
             div.main-content {
 
                 width: 100%;
-                height: 430px;
+                height: 500px;
                 overflow-y: scroll;
                 padding: 20px;
                 padding-top: 0px;
                 padding-bottom: 50px;
-
-                border-top: solid 1px @customizer_forecolor;
 
                 div.patternPopupResults {
 
@@ -3592,22 +3670,40 @@ div.header-container.main {
                     div.item {
 
                         float: left;
-                        width: 150px;
-                        height: 150px;
+                        width: 190px;
+                        height: 190px;
                         margin: 10px;
                         background-size: cover;
                         cursor: pointer;
                         margin-bottom: 30px;
+
+                        -webkit-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
+                        -moz-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
+                        box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
                         
                         div.name {
                             
                             width: 100%;
-                            height: 50px;
-                            margin-top: 160px;
-                            color: black;
+                            height: 30px;
+                            margin-top: 170px;
+                            background-color: #e7e7e7;
+                            color: #3d3d3d;
                             transition: all 0.1s ease-in-out;
                             text-align: center;
                             font-weight: bold;
+                            font-size: 0.9em;
+                            padding-top: 7px;
+
+                            -moz-transition: all .2s;
+                            -webkit-transition: all .2s;
+                            transition: all .2s;
+
+                        }
+
+                        div.name.pullUp {
+
+                            background-color: #3d3d3d;
+                            color: white;
 
                         }
 
@@ -3636,12 +3732,12 @@ div.header-container.main {
             display: none;
             position: absolute;
 
-            width: 950px;
-            height: 550px;
+            width: 1000px;
+            height: 700px;
             top: 300px;
             left: 300px;
             z-index: 3100;
-            background-color: @customizer_bg;
+            background-color: #fff;
 
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
@@ -3660,33 +3756,26 @@ div.header-container.main {
 
             }
 
-            div.header {
-                    
-                text-align: center;
-                font-size: 1.3em;
-                padding: 30px;
-
-            }
+            .pagePanelHeader;
 
             div.main-content {
 
                 width: 100%;
-                height: 450px;
+                height: 550px;
                 overflow-y: scroll;
                 padding: 20px;
                 padding-top: 0px;
                 padding-bottom: 50px;
 
-                border-top: solid 1px @customizer_forecolor;
-
                 div.accentPopupResults {
 
                     div.item {
 
+                        color: #3d3d3d;
                         float: left;
-                        width: 180px;
-                        height: 180px;
-                        background-color: white;
+                        width: 190px;
+                        height: 190px;
+                        background-color: #e7e7e7;
                         margin: 10px;
                         background-size: cover;
                         cursor: pointer;
@@ -3694,6 +3783,7 @@ div.header-container.main {
                         box-shadow: 3px 9px 24px -5px rgba(0, 0, 0, 0.75);
                         margin-right: 20px;
                         margin-left: 17px;
+                        background-position-y: -5px;
 
                         -webkit-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
                         -moz-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
@@ -3703,13 +3793,20 @@ div.header-container.main {
                             
                             width: 100%;
                             height: 30px;
-                            margin-top: 160px;
-                            opacity: 0.7;
-                            color: #3d3d3d;
+                            margin-top: 170px;
+                            background-color: #acacac;
+                            color: white;
                             transition: all 0.1s ease-in-out;
                             text-align: center;
                             font-weight: bold;
                             font-size: 0.9em;
+                            padding-top: 7px;
+
+                        }
+
+                        div.name.pullUp {
+
+                            background-color: #3d3d3d;
 
                         }
 
@@ -3721,11 +3818,7 @@ div.header-container.main {
 
         }
 
-        .pullUp {
 
-
-
-        }
 
     /* End Accent Popup */
 
@@ -3755,7 +3848,7 @@ div.header-container.main {
         div#changeApplicationUI {
 
             position: absolute;
-            margin-top: -420px;
+            margin-top: -400px;
             background-color: @customizer_main_area; 
             width: 500px;
             height: 330px;
@@ -3822,10 +3915,377 @@ div.header-container.main {
 
         }
 
+        /* Pipings UI */ 
+
+    div#pipingsUI {
+
+            display: none;
+            margin: 20px;
+            width: 520px;            
+
+            -moz-transition: all .2s;
+            -webkit-transition: all .2s;
+            transition: all .2s;
+
+            div.header {
+
+                font-size: 1.5em;
+                color: @text_color;
+                text-transform: uppercase;
+
+                span.cog {
+
+                    float: right;
+                    cursor: pointer;
+                    margin-right: 30px;
+
+                }
+
+            }
+
+            div.body {
+
+                padding: 30px;
+                font-size: 1em;
+                padding-top: 10px;
+                padding-left: 10px;
+
+                div.optionButton {
+
+                    display: inline-block;
+                    width: 40%;
+                    font-size: 1.5em;
+                    text-align: center;
+                    border: 1px solid #3d3d3d;
+                    margin-left: 30px;
+                    margin-bottom: 30px;
+                    padding: 10px;
+                    cursor: pointer;
+
+                    -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+                    -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+                    box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    
+                    div.icon { }
+
+                    div.caption {
+
+                        font-size: 0.4em;
+
+                    }
+
+                }
+
+                div.optionButton:hover {
+
+                    border: 1px solid #ffffff;
+
+                }
+
+                div.cover {
+
+                    position: absolute;
+                    display: none;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #3d3d3d;
+                    z-index: 1000;
+                    opacity: 0.9;
+                    margin-left: -40px;
+                    margin-top: -20px;
+                    height: 372px;
+
+                }
+
+                span.accentThumb img {
+                    cursor: pointer;
+                    width: 125px;
+                }
+
+                div.color-pattern-tabs {
+
+                    margin-top: 20px;
+
+                    span.tab {
+
+                        color: #3d3d3d;
+                        background-color: #e7e7e7;
+                        width: 35%;
+                        height: 30px;
+                        cursor: pointer;
+                        padding: 5px;
+                        display: inline-block;
+                        text-align: center;
+                        font-size: 0.8em;
+                        margin-right: 5px;
+                        
+                    }
+
+                    span.tab:hover, span.tab.active {
+
+                        color: white;
+                        background-color: #3d3d3d;
+
+                    }
+
+                    span.tab.active {
+
+                        font-weight: bold;
+
+                    }
+
+                }
+
+                .ui-row {
+
+                    margin-bottom: 10px;
+
+                    span.piping-type {
+
+                        font-size: 1em;
+
+                    }
+
+                    span.piping-sizes-buttons, span.piping-colors-buttons {
+
+                        background-color: #e7e7e7;
+                        color: #3d3d3d;
+                        cursor: pointer;
+
+                        margin-right: 3px;
+                        width: 80px;
+                        display: inline-block;
+                        text-align: center;
+
+                    }
+
+                    span.piping-sizes-buttons:hover, span.piping-sizes-buttons.active, span.piping-colors-buttons:hover, span.piping-colors-buttons.active {
+
+                        background-color: #3d3d3d;
+                        color: white;
+
+                        -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                        -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                        box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                        
+                    }
+
+                    span.piping-sizes-buttons.active, span.piping-colors-buttons.active {
+
+                        font-family: 'Avenir Next LT W04 Bold', sans-serif;
+                        
+                    }
+
+                    span.piping-colors-buttons {
+
+                        font-size: 0.8em;
+
+                    }
+                
+                    label {
+
+                        padding-left: 0px !important;
+
+                    }
+
+                    .column1, .column2 {
+
+                        border-top: solid 1px #3d3d3d;
+
+                        div.sub1 {
+
+                            display: table-cell;
+                            width: 30%;
+
+                        }
+
+                        display: inline-block;
+                        text-align: center;
+                        width: 100%;
+
+                        label {
+
+                            width: 100%;
+
+                        }
+
+                        div.colorContainer {
+
+                            display: table-cell;
+                            vertical-align: top;
+                            width: 70%;
+
+                            padding-top: 23px;
+
+                            .smallColorPickerLabel {
+
+                                width: 20%;
+                                text-align: right;
+                                margin-right: 10px;
+                                font-size: 0.6em;
+
+                            }
+
+                            .smallPickerContainer {
+
+                                width: 100%;
+                                margin-bottom: 1px;
+
+                            }
+
+                            span.colorItem {
+
+                                display: inline-block;
+                                width: 25px;
+                                height: 25px;
+                                background-color: white;
+                                margin-bottom: 1px;
+                                font-size: 0.8em;
+                                font-size: 0.7em;
+                                padding-top: 4px;
+                                font-weight: normal;
+                                cursor: pointer;
+                                margin-right: 0px;
+
+                                -moz-transition: all .2s;
+                                -webkit-transition: all .2s;
+                                transition: all .2s;
+
+                                -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+                                i.fa.fa-check {
+
+                                    font-size: 0.8em;
+
+                                }
+
+                            }
+
+                            span.colorItem.activeColorItem {
+
+                                -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+                            }
+
+                            span.colorItem:hover {
+
+                                font-weight: bold;
+
+                            }
+
+                        }
+
+                    }
+
+                    div.column1.patterns {
+
+                        display: none;
+
+                    }
+
+                }
+
+                span.font_name:hover {
+
+                    color: @forecolor;
+
+                }
+
+                span.piping_size {
+
+                    cursor: pointer;
+                    padding-bottom: 3px;
+                    font-weight: bold;
+                    font-size: 1em;
+                    width: 8%;
+                    background-color: white;
+                    margin-right: 10px;
+                    display: inline-block;
+                    padding: 3px;
+                    text-align: center;
+
+                    -moz-transition: all .2s;
+                    -webkit-transition: all .2s;
+                    transition: all .2s;
+
+                }
+
+                span.piping_size:hover {
+
+                    background-color: @main_highlight;
+                    color: white;
+                    
+                }
+
+                span.piping_size.active {
+
+                    background-color: @text_color;
+                    color: white;
+
+                    -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                    -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                    box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                    
+                }
+
+                em {
+
+                    font-size: 0.8em;
+
+                }
+
+                span.color-string {
+
+                    cursor: pointer;
+                    text-shadow: 2px 2px #333333;
+                    margin-left: 3px;
+                    border-bottom: 1px dashed;
+                    font-weight: bold;
+
+                }
+
+                span.color-string:hover {
+
+                    color: white !important;   
+
+                }
+
+                label.applicationLabels {
+
+                    display: inline-block;
+                    font-size: 0.8em;
+                    color: white;
+                    width: 25%;
+
+                }
+
+                label.piping_size {
+
+                    width: 32%;
+
+                }
+
+                label.piping_size.custom {
+
+                    width: 26.7%;
+
+                }
+
+
+            }
+
+        }
+
+    /* End Pipings UI */
+
         div#applicationUI {
 
             display: none;
-            margin: 30px;
+            margin: 20px;
             width: 520px;            
 
             -moz-transition: all .2s;
@@ -3852,7 +4312,7 @@ div.header-container.main {
 
                 padding: 30px;
                 font-size: 1.2em;
-                padding-top: 30px;
+                padding-top: 10px;
                 padding-left: 10px;
 
                 div.optionButton {
@@ -3903,6 +4363,40 @@ div.header-container.main {
 
                 }
 
+                div.color-pattern-tabs {
+
+                    margin-top: 20px;
+
+                    span.tab {
+
+                        color: #3d3d3d;
+                        background-color: #e7e7e7;
+                        width: 35%;
+                        height: 30px;
+                        cursor: pointer;
+                        padding: 5px;
+                        display: inline-block;
+                        text-align: center;
+                        font-size: 0.8em;
+                        margin-right: 5px;
+                        
+                    }
+
+                    span.tab:hover, span.tab.active {
+
+                        color: white;
+                        background-color: #3d3d3d;
+
+                    }
+
+                    span.tab.active {
+
+                        font-weight: bold;
+
+                    }
+
+                }
+
                 .ui-row {
 
                     margin-bottom: 10px;
@@ -3915,13 +4409,20 @@ div.header-container.main {
 
                     .column1, .column2 {
 
-                        margin-top: 10px;
-                        border-top: dashed 1px #3d3d3d;
+                        border-top: solid 1px #3d3d3d;
+
+
 
                         div.sub1 {
 
                             display: table-cell;
-                            width: 20%;
+                            width: 30%;
+
+                        }
+
+                        div.sub1.patternThumb {
+
+                            padding: 30px;
 
                         }
 
@@ -3939,6 +4440,9 @@ div.header-container.main {
 
                             width: 70%;
                             display: table-cell;
+                            vertical-align: top;
+
+                            padding-top: 23px;
 
                             .smallColorPickerLabel {
 
@@ -3952,20 +4456,20 @@ div.header-container.main {
                             .smallPickerContainer {
 
                                 width: 100%;
-                                margin-bottom: 7px;
+                                margin-bottom: 1px;
 
                             }
 
                             span.colorItem {
 
                                 display: inline-block;
-                                width: 30px;
-                                height: 30px;
+                                width: 25px;
+                                height: 25px;
                                 background-color: white;
                                 margin-bottom: 1px;
                                 font-size: 0.8em;
                                 font-size: 0.7em;
-                                padding-top: 7px;
+                                padding-top: 4px;
                                 font-weight: normal;
                                 cursor: pointer;
                                 margin-right: 0px;
@@ -3977,6 +4481,12 @@ div.header-container.main {
                                 -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
                                 -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
                                 box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+                                i.fa.fa-check {
+
+                                    font-size: 0.8em;
+
+                                }
 
                             }
 
@@ -3995,6 +4505,12 @@ div.header-container.main {
                             }
 
                         }
+
+                    }
+
+                    div.column1.patterns {
+
+                        display: none;
 
                     }
 
@@ -4052,7 +4568,6 @@ div.header-container.main {
                 span.font_name:hover {
 
                     color: @forecolor;
-
 
                 }
 
@@ -4342,22 +4857,23 @@ div.header-container.main {
                 a.view-file {
 
                     font-size: 0.8em;
-                    background-color: #3d3d3d;
-                    color: white;
                     padding: 3px;
                     padding-left: 10px;
                     padding-right: 10px;
                     text-decoration: none;
+                    cursor: pointer;
+
+                    .smallButton;
                     
                 }
 
                 a.view-file:hover {
 
-                    background-color: #acacac;
+                    .smallButtonHover;
                     
                 }
 
-                span.accentThumb {
+                span.accentThumb, span.patternThumb {
 
                     cursor: pointer;
 
@@ -4374,10 +4890,10 @@ div.header-container.main {
 
                 span.pattern {
 
+                    padding-bottom: 3px;
                     cursor: pointer;
                     border-bottom: 1px dashed;
-                    padding-bottom: 3px;
-                    font-weight: bold;
+                    font-size: 0.7em;
 
                 }
 
@@ -4457,12 +4973,12 @@ div.header-container.main {
             display: none;
             position: absolute;
 
-            width: 940px;
-            height: 550px;
+            width: 1000px;
+            height: 700px;
             top: 300px;
             left: 300px;
             
-            background-color: @customizer_bg;
+            background-color: #fff;
 
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
@@ -4481,24 +4997,16 @@ div.header-container.main {
 
             }
 
-            div.header {
-                    
-                text-align: center;
-                font-size: 1.3em;
-                padding: 30px;
-
-            }
+            .pagePanelHeader;
 
             div.main-content {
 
                 width: 100%;
-                height: 450px;
+                height: 550px;
                 overflow-y: scroll;
                 padding: 20px;
                 padding-top: 0px;
                 padding-bottom: 50px;
-
-                border-top: solid 1px @customizer_forecolor;
 
                 div.fontPopupResults {
 
@@ -4507,7 +5015,7 @@ div.header-container.main {
                         float: left;
                         width: 260px;
                         height: 150px;
-                        background-color: white;
+                        background-color: #e7e7e7;
                         margin: 10px;
                         background-size: cover;
                         overflow: hidden; 
@@ -4532,14 +5040,21 @@ div.header-container.main {
                             width: 100%;
                             height: 150px;
                             margin-top: 0px;
-                            opacity: 0.7;
-                            color: white;
-                            background-color: black;
+                            opacity: 1;
+                            color: #3d3d3d;
+                            background-color: #acacac;
                             transition: all 0.1s ease-in-out;
                             text-align: center;
                             padding-top: 40px;
                             font-weight: bold;
                             font-size: 1.9em;
+
+                        }
+
+                         div.name.pullUp {
+                            
+                            background-color: #3d3d3d;
+                            color: #fff;
 
                         }
 
@@ -4566,7 +5081,7 @@ div.header-container.main {
             top: 300px;
             left: 300px;
             
-            background-color: @customizer_bg;
+            background-color: #ffffff;
 
             -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
             -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
@@ -4591,7 +5106,7 @@ div.header-container.main {
                 padding-top: 0px;
                 padding-bottom: 50px;
 
-                border-top: solid 1px @customizer_forecolor;
+                border-top: dashed 1px @customizer_forecolor;
 
                 input.quickRegistrationEmail, input.quickRegistrationPassword {
                     
@@ -4664,11 +5179,13 @@ div.header-container.main {
                     display: inline-block;
                     text-align: center;
 
+                    .smallButton;
+
                 }
 
                 span.next:hover {
 
-                    background-color: #3d3d3d;
+                    .smallButtonHover;
 
                 }
 
@@ -5099,6 +5616,8 @@ div.header-container.main {
             margin-bottom: 10px;
             margin-left: 10px;
 
+            .smallButton;
+
             em {
 
                 font-size: 0.8em;
@@ -5110,6 +5629,7 @@ div.header-container.main {
         span.save-order:hover, span.submit-confirmed-order:hover {
 
             background-color: #3d3d3d;
+            .smallButtonHover;
 
         }
 
@@ -5146,11 +5666,14 @@ div.header-container.main {
                     padding-right: 15px;
                     cursor: pointer;
 
+                    .smallButton;
+
                 }
 
                 div.order-tab-button.active-tab, div.order-tab-button:hover {
 
                     background-color: #3d3d3d;
+                    .smallButtonHover;
 
                 }
 
@@ -5303,11 +5826,14 @@ div.header-container.main {
                 color: white;
                 font-size: 1.3em;
 
+                .smallButton;
+
             }
 
             span.submit-order:hover {
 
                 background-color: @text_color;
+                .smallButtonHover;
 
             }
 
@@ -5455,7 +5981,7 @@ div.header-container.main {
                     padding: 30px;
                     text-align: left;
                     vertical-align: middle;
-                    border-left: solid 1px #3d3d3d;
+                    border-left: dashed 1px #3d3d3d;
                     margin-left: 30px;
 
                     button.change-all {
@@ -5466,6 +5992,7 @@ div.header-container.main {
                         padding: 7px;
                         padding-left: 14px;
                         padding-right: 14px;
+                        .smallButton;
 
                     }
 
@@ -5473,6 +6000,8 @@ div.header-container.main {
 
                         background-color: #3d3d3d;
                         color: white;
+
+                        .smallButtonHover;
 
                     }
 
@@ -5543,11 +6072,14 @@ div.header-container.main {
                 color: white;
                 font-size: 1.3em;
 
+                .smallButton;
+
             }
 
             span.add-item-to-order:hover {
 
                 background-color: @text_color;
+                .smallButtonHover;
                
             }
 
@@ -5572,11 +6104,14 @@ div.header-container.main {
                         cursor: pointer;
                         color: white;
 
+                        .smallButton;
+
                     }
 
                     span.add-player:hover {
 
                         background-color: @text_color;
+                        .smallButtonHover;
                        
                     }
 
@@ -5885,10 +6420,17 @@ div.header-container.main {
 
     }
 
+    .callForTeamPricing {
+
+        font-family: "Avenir Next LT W04 Thin";
+
+    }
+
     .calculatedPrice {
 
-        font-size: 0.7em;
+        font-size: 1em;
         display: block;
+        margin-top: 10px;
 
     }
 
@@ -5907,7 +6449,7 @@ div.header-container.main {
 
     .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
         color: white;
-        background-color: #acacac;
+        background-color: #3d3d3d;
         box-shadow: none;
         background-image: none;
     }
@@ -5950,8 +6492,8 @@ div.header-container.main {
 
     .navbar-default .navbar-nav>li>a {
 
-        color: white;
-        background-color: #acacac;
+        color: #3d3d3d;
+        background-color: #e7e7e7;
         min-width: 170px;
         text-align: center;
 
@@ -6108,22 +6650,14 @@ div.header-container.main {
         div#signup {
 
             width: 90%;
-            height: 600px;
+            height: 700px;
             background-color: white;
             padding: 30px;
+            padding-top: 0px;
             margin: 0 auto;
             margin-top: 30px;
 
-            span.header {
-        
-                font-size: 2em;
-                text-align: center;
-                width: 100%;
-                display: block;
-                text-transform: uppercase;
-                font-weight: bold;
-
-            }
+            .pagePanelHeader;
 
             div.g-recaptcha {
 
@@ -6146,7 +6680,13 @@ div.header-container.main {
             }
 
             input.btn.register {
-                color: white;
+                .smallButton;
+            }
+
+            input.btn.register:hover {
+
+                .smallButtonHover;
+
             }
 
         }
@@ -6156,12 +6696,15 @@ div.header-container.main {
             color: white;
             background-color: buttonface;
 
+            .smallButton;
+
         }
 
         button#forgot-password-submit:hover {
 
             color: white;
             background-color: #3d3d3d;
+            .smallButtonHover;
 
         }
 
@@ -6294,6 +6837,14 @@ div.header-container.main {
 
             }
 
+            div.notification-description {
+
+                padding: 10px;
+                text-align: center;
+                margin-top: 10px;
+
+            }
+
             div.message-list {
 
                 table {
@@ -6305,8 +6856,8 @@ div.header-container.main {
 
                         text-transform: uppercase;
                         font-weight: bold;
-                        background-color: #acacac;
-                        color: white;
+                        background-color: #e7e7e7;
+                        color: #3d3d3d;
 
                         td {
 
@@ -6664,7 +7215,7 @@ div.header-container.main {
                     cursor: pointer;
 
                     display: inline-block;
-                    width: 100px;
+                    width: 150px;
                     height: 40px;
                     background-color: #acacac;
                     color: white;
@@ -6673,18 +7224,24 @@ div.header-container.main {
                     font-weight: bold;
                     text-transform: uppercase;
 
+                    .smallButton;
+
                 }
 
                 span.tab:hover {
 
                     background-color: #3d3d3d;
+                    .smallButtonHover;
 
                 }
 
                 span.tab.active {
 
+                    font-family:"Avenir Next LT W04 Bold";
+
                     background-color: #3d3d3d;
                     padding-bottom: 7px;
+                    .smallButtonHover;
 
                 }
 
@@ -6701,8 +7258,8 @@ div.header-container.main {
 
                         text-transform: uppercase;
                         font-weight: bold;
-                        background-color: #acacac;
-                        color: white;
+                        background-color: #e7e7e7;
+                        color: #3d3d3d;
 
                         td {
 
@@ -6724,8 +7281,8 @@ div.header-container.main {
 
                         td.order-info {
 
-                            padding: 30px;
-
+                            padding: 20px;
+                            padding-bottom: 0px;
                             text-align: center;
                             label {
 
@@ -6736,6 +7293,7 @@ div.header-container.main {
                             img.thumbs {
 
                                 width: 100px;
+                                cursor: pointer;
 
                             }
 
@@ -6748,15 +7306,13 @@ div.header-container.main {
                             span.action-button {
 
                                 padding: 7px;
-                                background-color: #acacac;
-                                color: white;
+                                
+                                color: #3d3d3d;
                                 width: 120px;
                                 margin: 7px;
                                 display: inline-block;
                                 cursor: pointer;
                                 font-size: 0.8em;
-
-                                .smallButton;
 
 
                             }
@@ -6788,21 +7344,12 @@ div.header-container.main {
             height: auto;
             background-color: white;
             padding: 30px;
+            padding-top: 0px;
             margin: 0 auto;
             margin-top: 30px;
 
             .pagePanelShadow;
-
-            span.header {
-        
-                font-size: 2em;
-                text-align: center;
-                width: 100%;
-                display: block;
-                text-transform: uppercase;
-                font-weight: bold;
-
-            }
+            .pagePanelHeader;
 
             div.saved-designs-list {
 
@@ -6815,8 +7362,8 @@ div.header-container.main {
 
                         text-transform: uppercase;
                         font-weight: bold;
-                        background-color: #acacac;
-                        color: white;
+                        background-color: #e7e7e7;
+                        color: #3d3d3d;
 
                         td {
 
@@ -6847,6 +7394,8 @@ div.header-container.main {
                             width: 70px;
                             margin-top: 30px;
 
+                            cursor: pointer;
+
                         }
 
                         td.saved-design-info {
@@ -6876,7 +7425,7 @@ div.header-container.main {
 
                                 padding: 7px;
                                 background-color: white;
-                                color: #acacac;
+                                color: #3d3d3d;
                                 width: 120px;
                                 margin: 7px;
                                 cursor: pointer;
@@ -6888,7 +7437,7 @@ div.header-container.main {
 
                             span.action-button:hover {
 
-                                background-color: #acacac;
+                                background-color: #3d3d3d;
                                 color: white;
 
                             }
@@ -6958,8 +7507,6 @@ div.header-container.main {
 
                 span.ok-btn {
 
-                    background-color: #acacac;
-                    color: white;
                     width: 150px;
                     padding: 10px;
                     cursor: pointer;
@@ -6968,12 +7515,13 @@ div.header-container.main {
                     margin-top: 10px;
                     display: inline-block;
 
+                    .smallButton;
+
                 }
 
                 span.ok-btn:hover {
 
-                    background-color: #3d3d3d;
-                    color: white;
+                    .smallButtonHover;
 
                 }
 
@@ -7280,112 +7828,28 @@ strong.hello {
 
 /* Layers Order */
 
+    div#layers-order {
 
-/* End Layers Order */
+        cursor: grab;
+        position: absolute;
+        display: none;
+        width: 270px;
+        height: 661px;
+        background-color: #acacac;
+        margin-left: -280px;
+        padding: 10px;
 
-div#layers-order {
-
-    cursor: grab;
-    position: absolute;
-    display: none;
-    width: 270px;
-    height: 661px;
-    background-color: #acacac;
-    margin-left: -280px;
-    padding: 10px;
-
-    -moz-transition: all .2s;
-    -webkit-transition: all .2s;
-    transition: all .2s;
-    text-align: center;
-    z-index: 3000;
-
-    -webkit-user-select: none; /* Chrome/Safari */        
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+ */
-
-    em.dragMessage {
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+        text-align: center;
+        z-index: 3000;
 
         -webkit-user-select: none; /* Chrome/Safari */        
         -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* IE10+ */
 
-    }
-
-    div.tools {
-
-        span.add-application, span.show-locations {
-
-        display: table-cell;
-        background-color: #888888;
-        color: white;
-        width: 100px;
-        height: 70px;
-        font-size: 0.8em;
-        padding: 9px;
-        vertical-align: bottom;
-        border: 3px solid #acacac;
-        cursor: pointer;
-        float: right;
-        vertical-align: bottom;
-
-        }
-
-        span.show-locations {
-
-            background-color: #acacac;
-            float: left;
-            color: #3d3d3d;
-            width: 150px;
-            margin-top: 50px;
-            height: 10px;
-            text-align: left;
-            padding: 0px;
-
-        }
-
-        span.add-application.inactive {
-
-            cursor: not-allowed;
-            background-color: #888888;
-            opacity: 0.2;
-
-        } 
-
-        span.show-locations.active {
-
-            color: white;
-
-        }
-
-        span.add-application:hover {
-
-            background-color: #3d3d3d;
-
-        }
-
-        span.show-locations:hover {
-
-            color: white;
-
-        }
-
-    }
-    
-
-    div.layers-header {
-
-        text-transform: uppercase;
-        display: block;
-        margin-bottom: 10px;
-        font-family: 'Avenir Next LT W04 Bold';
-        font-size: 0.9em;
-        width: 100%;
-
-        span.header-text {
-
-            float: left;
-            font-size: 1.2em;
+        em.dragMessage {
 
             -webkit-user-select: none; /* Chrome/Safari */        
             -moz-user-select: none; /* Firefox */
@@ -7393,144 +7857,480 @@ div#layers-order {
 
         }
 
-        span.close {
+        div.tools {
 
-            cursor: pointer;
-            color: #3d3d3d;
-            float: right;
+            span.add-application, span.show-locations {
 
-        }
-
-        span.close:hover {
-
-            color: #3d3d3d;
-            float: right;
-
-        }
-
-    }
-
-    div.layers-container {
-
-        height: 460px;
-        width: 100%;
-        display: block;
-        overflow-y: auto;
-        margin-top: 20px;
-
-        span.layer {
-
-            padding: 5px;
-            display: block;
+            display: table-cell;
             background-color: #888888;
-            margin: 3px;
-            cursor: move;
-            font-family: 'Avenir Next LT W04 Bold';
+            color: white;
+            width: 100px;
+            height: 70px;
             font-size: 0.8em;
-            text-align: left;
-            border: 1px solid #888888;
-            
+            padding: 9px;
+            vertical-align: bottom;
+            border: 3px solid #acacac;
+            cursor: pointer;
+            float: right;
+            vertical-align: bottom;
+
+            }
+
+            span.show-locations {
+
+                background-color: #acacac;
+                float: left;
+                color: #3d3d3d;
+                width: 150px;
+                margin-top: 50px;
+                height: 10px;
+                text-align: left;
+                padding: 0px;
+
+            }
+
+            span.add-application.inactive {
+
+                cursor: not-allowed;
+                background-color: #888888;
+                opacity: 0.2;
+
+            } 
+
+            span.show-locations.active {
+
+                color: white;
+
+            }
+
+            span.add-application:hover {
+
+                background-color: #3d3d3d;
+
+            }
+
+            span.show-locations:hover {
+
+                color: white;
+
+            }
+
+        }
+        
+
+        div.layers-header {
+
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Avenir Next LT W04 Bold';
+            font-size: 0.9em;
+            width: 100%;
+
+            span.header-text {
+
+                float: left;
+                font-size: 1.2em;
+
+                -webkit-user-select: none; /* Chrome/Safari */        
+                -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* IE10+ */
+
+            }
+
+            span.close {
+
+                cursor: pointer;
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+            span.close:hover {
+
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+        }
+
+        div.layers-container {
+
+            height: 460px;
+            width: 100%;
+            display: block;
+            overflow-y: auto;
+            margin-top: 20px;
+
+            span.layer {
+
+                padding: 5px;
+                display: block;
+                background-color: #888888;
+                margin: 3px;
+                cursor: move;
+                font-family: 'Avenir Next LT W04 Bold';
+                font-size: 0.8em;
+                text-align: left;
+                border: 1px solid #888888;
+                
+                span.code {
+
+                    display: inline-block;
+                    width: 30px;
+                    text-align: center;
+                    background-color: #3d3d3d;
+                    color: #acacac;
+                    margin-right: 7px;
+                    font-size: 0.8em;
+                    
+                }
+
+                span.caption {
+
+                    display: inline-block;
+                    min-width: 90px;
+                    color: white;
+
+                }
+
+                span.perspective, span.application_type {
+
+                    font-size: 0.8em;
+                    color: #acacac;
+                    float: right;
+                    margin-right: 7px;
+                    margin-top: 2px;
+
+                }
+
+                span.perspective {
+
+                    color: white;
+
+                }
+
+            }
+
+            span.layer:hover {
+
+                border: 1px solid white;
+
+            }
+
+        }
+
+        div.layers-container.notSublimated {
+
+            height: 520px;
+
+        }
+
+        span.layer.active {
+
+            background-color: #3d3d3d !important;
+            color: white;
+            border: 1px solid #3d3d3d;
+
             span.code {
 
-                display: inline-block;
-                width: 30px;
-                text-align: center;
-                background-color: #3d3d3d;
-                color: #acacac;
-                margin-right: 7px;
-                font-size: 0.8em;
+                color: white;
                 
             }
 
-            span.caption {
+        }
 
-                display: inline-block;
-                min-width: 90px;
-                color: white;
+        span.layers-close {
 
-            }
-
-            span.perspective, span.application_type {
-
-                font-size: 0.8em;
-                color: #acacac;
-                float: right;
-                margin-right: 7px;
-                margin-top: 2px;
-
-            }
-
-            span.perspective {
-
-                color: white;
-
-            }
+            background-color: #888888;
+            color: #acacac;
+            width: 100%;
+            padding: 3px;
+            font-size: 1em;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
 
         }
 
-        span.layer:hover {
+        span.layers-close:hover {
 
-            border: 1px solid white;
-
-        }
-
-    }
-
-    div.layers-container.notSublimated {
-
-        height: 520px;
-
-    }
-
-    span.layer.active {
-
-        background-color: #3d3d3d !important;
-        color: white;
-        border: 1px solid #3d3d3d;
-
-        span.code {
-
+            background-color: #3d3d3d;
             color: white;
-            
+
         }
 
     }
 
-    span.layers-close {
+    div#layers-order.on {
 
-        background-color: #888888;
-        color: #acacac;
-        width: 100%;
-        padding: 3px;
-        font-size: 1em;
-        cursor: pointer;
-        display: inline-block;
-        margin-top: 10px;
+        display: block;
+        top: 0px;
+        
+    }
+
+    div#layers-order.off {
+
+        display: none;
+        top: -200px;
+        
+    }
+
+/* End Layers Order */
+
+/* Pipings Panel */
+
+    div#pipings-panel {
+
+        cursor: grab;
+        position: absolute;
+        display: none;
+        width: 270px;
+        height: 661px;
+        background-color: #acacac;
+        margin-left: -280px;
+        padding: 10px;
+
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+        text-align: center;
+        z-index: 3000;
+
+        -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+
+        em.dragMessage {
+
+            -webkit-user-select: none; /* Chrome/Safari */        
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+ */
+
+        }
+
+        div.tools {
+
+            span.add-application, span.show-locations {
+
+            display: table-cell;
+            background-color: #888888;
+            color: white;
+            width: 100px;
+            height: 70px;
+            font-size: 0.8em;
+            padding: 9px;
+            vertical-align: bottom;
+            border: 3px solid #acacac;
+            cursor: pointer;
+            float: right;
+            vertical-align: bottom;
+
+            }
+
+            span.show-locations {
+
+                background-color: #acacac;
+                float: left;
+                color: #3d3d3d;
+                width: 150px;
+                margin-top: 50px;
+                height: 10px;
+                text-align: left;
+                padding: 0px;
+
+            }
+
+            span.add-application.inactive {
+
+                cursor: not-allowed;
+                background-color: #888888;
+                opacity: 0.2;
+
+            } 
+
+            span.show-locations.active {
+
+                color: white;
+
+            }
+
+            span.add-application:hover {
+
+                background-color: #3d3d3d;
+
+            }
+
+            span.show-locations:hover {
+
+                color: white;
+
+            }
+
+        }
+        
+        div.pipings-header {
+
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Avenir Next LT W04 Bold';
+            font-size: 0.9em;
+            width: 100%;
+
+            span.header-text {
+
+                float: left;
+                font-size: 1.2em;
+
+                -webkit-user-select: none; /* Chrome/Safari */        
+                -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* IE10+ */
+
+            }
+
+            span.close {
+
+                cursor: pointer;
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+            span.close:hover {
+
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+        }
+
+        div.pipings-container {
+
+            height: 460px;
+            width: 100%;
+            display: block;
+            overflow-y: auto;
+            margin-top: 20px;
+
+            span.layer {
+
+                padding: 5px;
+                display: block;
+                background-color: #888888;
+                margin: 3px;
+                cursor: move;
+                font-family: 'Avenir Next LT W04 Bold';
+                font-size: 0.8em;
+                text-align: left;
+                border: 1px solid #888888;
+                
+                span.code {
+
+                    display: inline-block;
+                    width: 30px;
+                    text-align: center;
+                    background-color: #3d3d3d;
+                    color: #acacac;
+                    margin-right: 7px;
+                    font-size: 0.8em;
+                    
+                }
+
+                span.caption {
+
+                    display: inline-block;
+                    min-width: 90px;
+                    color: white;
+
+                }
+
+                span.perspective, span.application_type {
+
+                    font-size: 0.8em;
+                    color: #acacac;
+                    float: right;
+                    margin-right: 7px;
+                    margin-top: 2px;
+
+                }
+
+                span.perspective {
+
+                    color: white;
+
+                }
+
+            }
+
+            span.layer:hover {
+
+                border: 1px solid white;
+
+            }
+
+        }
+
+        div.pipings-container.notSublimated {
+
+            height: 520px;
+
+        }
+
+        span.layer.active {
+
+            background-color: #3d3d3d !important;
+            color: white;
+            border: 1px solid #3d3d3d;
+
+            span.code {
+
+                color: white;
+                
+            }
+
+        }
+
+        span.pipings-close {
+
+            background-color: #888888;
+            color: #acacac;
+            width: 100%;
+            padding: 3px;
+            font-size: 1em;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+
+        }
+
+        span.pipings-close:hover {
+
+            background-color: #3d3d3d;
+            color: white;
+
+        }
 
     }
 
-    span.layers-close:hover {
+    div#pipings-order.on {
 
-        background-color: #3d3d3d;
-        color: white;
-
+        display: block;
+        top: 0px;
+        
     }
 
-}
+    div#pipings-order.off {
 
-div#layers-order.on {
+        display: none;
+        top: -200px;
+        
+    }
 
-    display: block;
-    top: 0px;
-    
-}
+/* End Pipings Panel */
 
-div#layers-order.off {
-
-    display: none;
-    top: -200px;
-    
-}
 
 .active-change-view {
     background-color: white !important;
@@ -7561,6 +8361,20 @@ button.btn.btn-primary {
     color: white !important;
 }
 
+button#firstname {
+
+    background-color: #e7e7e7 !important;
+    color: #3d3d3d !important;
+    cursor: default;
+   
+}
+
+button#firstname:hover {
+
+    border-color: #e7e7e7;
+
+}
+
 /* smkalert overrides */
 
 .alert-info, .alert-success, .alert-warning {
@@ -7573,9 +8387,9 @@ button.btn.btn-primary {
 
 .alert-info, .alert-success, .alert-warning {
 
-    color: #fff;
-    background-color: #3d3d3d;
-    border-color: #3d3d3d;
+    color: #3d3d3d;
+    background-color: #e7e7e7;
+    border-color: #e7e7e7;
     border-radius: 0px;
     border: none;
 
@@ -7587,11 +8401,28 @@ button.btn.btn-primary {
 
 .alert-success {
 
-    background-color: #acacac;
-    border-color: #acacac;
+    background-color: #3d3d3d;
+    border-color: #3d3d3d;
     color: #fff;
 
 }
 
+button.loginRest {
+
+    background-color: #e7e7e7;
+
+}
+
+
 /* end smkalert overrides */
 
+/* Message Modal */
+
+    div#messageModal {
+
+        text-align: center;
+        padding: 30px;
+
+    }
+
+/* End Message Modal */

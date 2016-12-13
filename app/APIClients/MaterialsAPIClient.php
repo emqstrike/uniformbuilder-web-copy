@@ -47,6 +47,14 @@ class MaterialsAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
+    public function updatePiping($data)
+    {
+        $response = $this->post('material/updatePiping', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
+
     public function getMaterial($id)
     {
         $response = $this->get('material/' . $id);

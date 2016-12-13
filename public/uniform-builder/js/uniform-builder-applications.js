@@ -881,7 +881,6 @@ $(document).ready(function() {
                 application.estimatedMeasure = application.estimatedMeasure / 2 + 1;
 
             }
-
            
         });
 
@@ -3026,9 +3025,13 @@ $(document).ready(function() {
                if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1) {
 
                     if (object.name.indexOf(_match) !== -1) {
+
+                        if (_match === 'body' && object.name === 'pattern_back_body') {  ub.funcs.setAlphaOff(object); return; }
+
                         ub.funcs.setAlphaOn(object);
 
                         return;
+
                     }
 
                     if(object.name.indexOf('objects_') !== -1 && _.size(ub.current_material.settings.applications) !== 0 ) {
@@ -3200,7 +3203,7 @@ $(document).ready(function() {
 
         if (typeof _object === 'undefined') { return; }
 
-        _object.alpha = ub.ALPHA_ON;
+        _object.alpha = ub.ALPHA_ON; 
 
         var _other_views = _.without(ub.views, ub.active_view);
 
@@ -3251,7 +3254,7 @@ $(document).ready(function() {
 
             ub.interacted = {
 
-                previous: { 
+                previous: {
 
                     name: ub.interacted.current.name,
 
@@ -3468,10 +3471,10 @@ $(document).ready(function() {
 
                 var _originalName = _.first(results).name;
 
-                if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
-                if(_originalName.indexOf('Back') > -1) { $('a.change-view[data-view="back"]').trigger('click'); }
-                if(_originalName.indexOf('Left') > -1) { $('a.change-view[data-view="left"]').trigger('click'); }
-                if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
+                // if(_originalName.indexOf('Front') > -1) { $('a.change-view[data-view="front"]').trigger('click'); }
+                // if(_originalName.indexOf('Back') > -1) { $('a.change-view[data-view="back"]').trigger('click'); }
+                // if(_originalName.indexOf('Left') > -1) { $('a.change-view[data-view="left"]').trigger('click'); }
+                // if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
 
                 var _match  = _.first(results).name.toCodeCase();
                 var _result = _match.replace('right_','left_');
@@ -3484,34 +3487,6 @@ $(document).ready(function() {
             else {
 
                 ub.funcs.clickOutside();
-
-            }
-
-            return;
-
-            if ( typeof ub.active_part === 'undefined' || results.length === 0 ) {
-
-                ub.funcs.resetHighlights();
-                ub.active_lock = false;
-
-            }
-            else {
-
-                if (results.length > 0) {
-
-                    var _match = _.first(results).name.toCodeCase();
-                    var _result = _match.replace('right_','left_');
-                    var _obj = _.find(ub.data.modifierLabels, {fullname: _result});
-                    var _index = ub.funcs.getIndexByName(_result);
-                    
-                    ub.funcs.activatePartByIndex(_index);   
-             
-                }
-                else {
-
-                    ub.funcs.resetHighlights();
-
-                }
 
             }
 
@@ -3528,9 +3503,9 @@ $(document).ready(function() {
     ub.funcs.stageMouseMove = function (mousedata) {
 
         if (ub.data.rosterInitialized) { 
-        
+
             ub.funcs.resetHighlights(); 
-            return; 
+            return;
 
         }
 
@@ -3831,7 +3806,6 @@ $(document).ready(function() {
 
         $('div.pd-dropdown-links').on('click', function () {
 
-
             var _group_id         = $(this).data('group-id');
             var _fullname         = $(this).data('fullname');
             var _name             = $(this).data('name');
@@ -3915,9 +3889,8 @@ $(document).ready(function() {
     ub.funcs.moveToNextMaterialOption = function () {
 
         var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
-        var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
  
-        if (_sizeOfTeamColors < _sizeOfColorsUsed) { 
+        if (_sizeOfTeamColors > 8) {
             ub.startModal();
             return; 
         }
@@ -4293,6 +4266,22 @@ $(document).ready(function() {
 
     }
 
+
+    ub.funcs.getColorUsedByIndex = function (index) {
+
+        var _index      = parseInt(index);
+        var _colorObj   = _.find(ub.data.colorsUsed, {teamColorID: _index});
+
+        if (typeof _colorObj === "undefined") {
+
+            _colorObj = undefined;
+
+        }
+
+        return _colorObj;
+
+    };
+
     ub.funcs.getTeamColorObjByIndex = function (index) {
 
         var _index      = parseInt(index);
@@ -4307,6 +4296,73 @@ $(document).ready(function() {
         return _colorObj;
 
     };
+
+    ub.funcs.changePatternFromPopupApplications = function (settingsObj, patternID) {
+
+        var _patternID                  = patternID.toString();
+        var _patternObject              = _.find(ub.data.patterns.items, {id: _patternID.toString()});
+        var _uniform_type               = ub.current_material.material.type;
+        var app_containers              = ub.current_material.containers[_uniform_type].application_containers;
+
+        var _spriteCollection           = ub.objects.front_view['objects_' + settingsObj.code].children;
+
+        _.each (_patternObject.layers, function (layer)  {
+
+            var team_color = ub.funcs.getTeamColorObjByIndex(layer.team_color_id);
+
+            if (typeof team_color !== 'undefined') {
+
+                layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
+
+            }
+            
+        });
+
+        ub.showModalTool('This feature is still being tested, and will be available soon. Thank you!')        
+
+        // Does not work or disable, crossing_sword, line fade body (use line fade sleeve instead)
+
+        // console.log('Pattern ID: ');
+        // console.log(patternID);
+
+        // var _patternObj = _.find(ub.data.patterns.items, {id: patternID.toString()});
+
+        // console.log('Pattern Object: ');
+        // console.log(_patternObj);
+
+        // console.log('Settings Object:');
+        // console.log(settingsObj);
+
+        // settingsObj.applicationObj = { pattern_obj: _patternObj} ;
+
+        // if (typeof settingsObj.applicationObj.pattern_obj === 'object') {
+
+        //     // $.ub.mvChangePattern(settingsObj.application, settingsObj.application.id, _patternObj, _spriteCollection);
+
+        // }
+
+        // var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
+        // var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
+        // var titleNameFirstMaterial      = _names[0].toTitleCase();
+
+        // _.each(_names, function (name) {
+
+        //     var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(name.toTitleCase());
+        //     var _materialOptions            = ub.funcs.getMaterialOptions(name.toTitleCase());
+
+        //     materialOption = _materialOptions[0];
+        //     outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
+        //     _settingsObject.pattern     = outputPatternObject;
+        //     e = _settingsObject;
+
+        //     ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
+
+        // });
+
+        // ub.funcs.clearPatternUI();
+        // ub.funcs.activatePatterns();
+
+    }
 
     ub.funcs.changePatternFromPopup = function (currentPart, patternID) {
 
@@ -4349,6 +4405,74 @@ $(document).ready(function() {
 
     }
 
+     ub.funcs.createPatternPopupApplications = function (settingsObj) {
+
+        console.log('Settings Object: ');
+        console.log(settingsObj);
+
+        if ($('div#primaryPatternPopup').length === 0) {
+
+            var data = {
+                label: 'Choose Patterns: ',
+                patterns: _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'),
+            };
+
+            var template = $('#m-pattern-popup').html();
+            var markup = Mustache.render(template, data);
+
+            $('body').append(markup);
+
+        }
+
+        ub.funcs.centerPatternPopup();
+
+        $popup = $('div#primaryPatternPopup');
+        $popup.fadeIn();
+
+        $('div.patternPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
+        $('div.patternPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('pattern-id');
+
+            ub.funcs.changePatternFromPopupApplications(settingsObj, _id);
+            $popup.remove();
+
+        });
+
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+
+        });
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+
+        });
+
+    };
+
     ub.funcs.createPatternPopup = function () {
 
         if ($('div#primaryPatternPopup').length === 0) {
@@ -4364,6 +4488,8 @@ $(document).ready(function() {
             $('body').append(markup);
 
         }
+
+        ub.funcs.centerPatternPopup();
 
         $popup = $('div#primaryPatternPopup');
         $popup.fadeIn();
@@ -4386,8 +4512,6 @@ $(document).ready(function() {
             $popup.remove();
 
         });
-
-        ub.funcs.centerPatternPopup();
 
         $('div.close-popup').on('click', function (){
 
@@ -4679,7 +4803,6 @@ $(document).ready(function() {
 
             }
             else {
-
 
                 ub.funcs.createPatternUI(patternObject, firstMaterialOption); 
 
@@ -5180,9 +5303,9 @@ $(document).ready(function() {
           $('div.accentPopupResults > div.item').hover(
 
           function() {
-            // $( this ).find('div.name').addClass('pullUp');
+            $( this ).find('div.name').addClass('pullUp');
           }, function() {
-            // $( this ).find('div.name').removeClass('pullUp');
+            $( this ).find('div.name').removeClass('pullUp');
           }
 
         );
@@ -5325,7 +5448,7 @@ $(document).ready(function() {
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
             var _checkMark  = '&nbsp;';
-            var _style      = "30px";
+            var _style      = "25px";
             var _class      = '';
 
             if (activeColorCode === _color.color_code) {
@@ -5375,8 +5498,14 @@ $(document).ready(function() {
         ub.funcs.removeApplicationByID(_id);
 
         var _layer = _.find(settingsObj.mascot.layers_properties, {layer_number: layer_no.toString()});
-        _layer.default_color = colorObj.color_code;
+        
+        if (typeof _laye !== "undefined") {
+            
+            _layer.default_color = colorObj.color_code;
 
+
+        }
+    
         settingsObj.color_array[layer_no - 1] = colorObj;
 
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
@@ -5413,7 +5542,6 @@ $(document).ready(function() {
         $popup.remove();
         ub.funcs.activateMascots(settingsObj.code);
 
-
         /// Uploaded Artwork
         var _customLogo = false;
         var _customFilename = '';
@@ -5438,6 +5566,8 @@ $(document).ready(function() {
             _matchingSettingsObject.customLogo = _customLogo;
             _matchingSettingsObject.customFilename = _customFilename;
 
+             ub.funcs.activateMascots(_matchingSettingsObject.code);
+
         }
 
         if (settingsObj.code === "10") {
@@ -5447,6 +5577,8 @@ $(document).ready(function() {
 
             _matchingSettingsObject.customLogo = _customLogo;
             _matchingSettingsObject.customFilename = _customFilename;
+
+            ub.funcs.activateMascots(_matchingSettingsObject.code);
 
         }
 
@@ -5458,6 +5590,8 @@ $(document).ready(function() {
             _matchingSettingsObject.customLogo = _customLogo;
             _matchingSettingsObject.customFilename = _customFilename;
 
+            ub.funcs.activateMascots(_matchingSettingsObject.code);
+
         }
 
         if (settingsObj.code === "33") {
@@ -5467,8 +5601,12 @@ $(document).ready(function() {
 
             _matchingSettingsObject.customLogo = _customLogo;
             _matchingSettingsObject.customFilename = _customFilename;
-            
+
+            ub.funcs.activateMascots(_matchingSettingsObject.code);
+
         }
+
+        ub.funcs.activateMascots(settingsObj.code);
 
     }
 
@@ -5495,6 +5633,16 @@ $(document).ready(function() {
 
         $popup = $('div#primaryMascotPopup');
         $popup.fadeIn();
+
+        $('div.patternPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
 
         /// Type Ahead
 
@@ -5554,21 +5702,33 @@ $(document).ready(function() {
             $('span.category_item').removeClass('active_category');
             $(this).addClass('active_category');
 
+            $('div.patternPopupResults > div.item').hover(
+
+                function() {
+                  $( this ).find('div.name').addClass('pullUp');
+                }, function() {
+                  $( this ).find('div.name').removeClass('pullUp');
+                }
+
+            );
+
         });
 
         /// End Type Ahead
 
-          $('div.patternPopupResults > div.item').hover(
+            $('div.patternPopupResults > div.item').hover(
 
-          function() {
-            $( this ).find('div.name').addClass('pullUp');
-          }, function() {
-            $( this ).find('div.name').removeClass('pullUp');
-          }
+                function() {
+                  $( this ).find('div.name').addClass('pullUp');
+                }, function() {
+                  $( this ).find('div.name').removeClass('pullUp');
+                }
 
-        );
+            );
 
         $('span.groups_category_item').on('click', function () {
+
+
 
             var _groups_category_id = ($(this).data('category')).toString();
             var _groups_category_name = $(this).data('category-name');
@@ -5592,6 +5752,16 @@ $(document).ready(function() {
             $('div.categories').html(markup);
             $('div.groups_categories').hide();
             $('div.categories').fadeIn();
+
+            $('div.patternPopupResults > div.item').hover(
+
+                function() {
+                  $( this ).find('div.name').addClass('pullUp');
+                }, function() {
+                  $( this ).find('div.name').removeClass('pullUp');
+                }
+
+            );
 
             $('span.category_item').on('click', function () {
 
@@ -5626,6 +5796,16 @@ $(document).ready(function() {
                 $('div.main-content').scrollTo(0);
 
                 $('div.patternPopupResults').html(markup);
+
+                $('div.patternPopupResults > div.item').hover(
+
+                    function() {
+                      $( this ).find('div.name').addClass('pullUp');
+                    }, function() {
+                      $( this ).find('div.name').removeClass('pullUp');
+                    }
+
+                );
 
                 $('div.patternPopupResults > div.item').on('click', function () {
 
@@ -6274,13 +6454,8 @@ $(document).ready(function() {
 
     ub.funcs.activateMascots = function (application_id) {
 
-        if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { 
-
-            return;
-
-        }
-
-        if (!ub.funcs.okToStart()) { return; }
+        if (ub.funcs.popupsVisible()) { return; }
+        if (!ub.funcs.okToStart())    { return; }
 
         ub.funcs.activatePanelGuard();
 
@@ -6338,10 +6513,7 @@ $(document).ready(function() {
         var _appActive          = 'checked';
         var _maxLength          = 12;
 
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateColorPickers();
-        ub.funcs.deActivatePatterns();
-        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
         
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
@@ -6421,7 +6593,7 @@ $(document).ready(function() {
 
         if (_settingsObject.mascot.name === 'Custom Logo') {
 
-            _htmlBuilder        +=                  '<a class="view-file" href="' + _settingsObject.customFilename + '" target="_new">View File</a>';
+            _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
             _htmlBuilder        +=                  '<br />';
 
         }
@@ -6494,6 +6666,29 @@ $(document).ready(function() {
         _htmlBuilder        +=  '</div>';
         
         $('.modifier_main_container').append(_htmlBuilder);
+
+        $('a.view-file').unbind('click');
+        $('a.view-file').on('click', function () {
+
+            var _file = $(this).data('file');
+            var _extension = util.getExtension(_file);
+            var _str = "";
+
+            if (_extension === "pdf" || _extension === "ai" ) {
+
+                _str     += "Open File (" + _extension + ") on a new window<br />";
+                _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
+
+            } else {
+
+                _str     += "<img src ='" + _file + "' /> <br />";
+                _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
+
+            }
+
+            ub.showModalTool(_str);
+            
+        })
 
         // Generate Thumbnails
 
@@ -6878,7 +7073,7 @@ $(document).ready(function() {
         var _checkMark              = '<i class="fa fa-check" aria-hidden="true"></i>';
 
         $smallPickerContainer.find('span.colorItem').html('&nbsp;');
-        $smallPickerContainer.find('span.colorItem').css('width','30px');
+        $smallPickerContainer.find('span.colorItem').css('width','25px');
         $smallPickerContainer.find('span.colorItem').removeClass('activeColorItem');
 
         $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');
@@ -7048,15 +7243,15 @@ $(document).ready(function() {
 
         var _id = parseInt(applicationID);
 
-        var _frontResult    = _.contains(_front, _id);
-        var _backResult     = _.contains(_back, _id);
-        var _leftResult     = _.contains(_left, _id);
-        var _rightResult    = _.contains(_right, _id);
+        // var _frontResult    = _.contains(_front, _id);
+        // var _backResult     = _.contains(_back, _id);
+        // var _leftResult     = _.contains(_left, _id);
+        // var _rightResult    = _.contains(_right, _id);
 
-        if(_frontResult) { $('a.change-view[data-view="front"]').trigger('click'); }
-        if(_backResult) { $('a.change-view[data-view="back"]').trigger('click'); }
-        if(_leftResult) { $('a.change-view[data-view="left"]').trigger('click'); }
-        if(_rightResult) { $('a.change-view[data-view="right"]').trigger('click'); }
+        // if(_frontResult) { $('a.change-view[data-view="front"]').trigger('click'); }
+        // if(_backResult) { $('a.change-view[data-view="back"]').trigger('click'); }
+        // if(_leftResult) { $('a.change-view[data-view="left"]').trigger('click'); }
+        // if(_rightResult) { $('a.change-view[data-view="right"]').trigger('click'); }
 
     }
 
@@ -7519,10 +7714,32 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.deactivatePipings = function () {
+
+        $('div#pipingsUI').remove();
+
+    }
+
+    ub.funcs.deactivatePanels = function  () {
+
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateColorPickers();
+        ub.funcs.deActivatePatterns();
+        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePipings();
+
+    }
+
+    ub.funcs.popupsVisible = function () {
+
+        return ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible'));
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
-        if ($('div#primaryMascotPopup').is(':visible')) { return; }
+        if ($('div#primaryMascotPopup').is(':visible'))  { return; }
 
         // Remove Change Application UI
         $('div#changeApplicationUI').remove();
@@ -7546,10 +7763,7 @@ $(document).ready(function() {
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateColorPickers();
-        ub.funcs.deActivatePatterns();
-        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
 
         var _sampleText       = _settingsObject.text;
@@ -7661,8 +7875,20 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
+        _htmlBuilder        +=          '<div class="color-pattern-tabs">';
+        _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span><span class="tab" data-item="patterns">Patterns</span>';
+        _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1">'
+        _htmlBuilder        +=              '<div class="column1 applications patterns">';
+        _htmlBuilder        +=                 '<div class="sub1 patternThumb">';
+        _htmlBuilder        +=                    '<span class="patternThumb"><img src="/images/patterns/Blank/1.png"/></span><br />';                                                             
+        _htmlBuilder        +=                    '<span class="pattern">Blank</span>';
+        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
+        _htmlBuilder        +=                 '</div>';
+        _htmlBuilder        +=                 '<div class="colorContainer">';
+        _htmlBuilder        +=                 '</div>';
+        _htmlBuilder        +=              '</div>';
+        _htmlBuilder        +=              '<div class="column1 applications colors">'
         _htmlBuilder        +=                 '<div class="sub1">';
         _htmlBuilder        +=                    '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                                                             
         _htmlBuilder        +=                    '<span class="accent">' + _accentName + '</span>';
@@ -7698,7 +7924,7 @@ $(document).ready(function() {
 
                 var _matchingCode = undefined;
                 var _matchingSettingsObject = undefined;
-    
+
                 ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject); // Force rerendering when a color is added
                 ub.funcs.activateApplications(application_id);
 
@@ -7768,6 +7994,20 @@ $(document).ready(function() {
         $('.modifier_main_container').append(_htmlBuilder);
 
         //// Events
+
+            /// color pattern tab
+
+            $('div.color-pattern-tabs > span.tab').unbind('click');
+            $('div.color-pattern-tabs > span.tab').on('click', function () {
+
+                var _item = $(this).data('item');
+
+                $('div.color-pattern-tabs > span.tab').removeClass('active');
+                $(this).addClass('active');
+                $('div.column1').hide();
+                $('div.column1.' + _item).fadeIn();
+
+            });
 
             /// Vertical Text
 
@@ -8135,6 +8375,12 @@ $(document).ready(function() {
             $('span.accentThumb, span.accent').on('click', function () {
 
                 ub.funcs.createAccentPopup(_settingsObject);
+
+            });
+
+            $('span.patternThumb, span.pattern').on('click', function () {
+
+                ub.funcs.createPatternPopupApplications(_settingsObject);
 
             });
 
@@ -9375,7 +9621,7 @@ $(document).ready(function() {
     ub.funcs.activateLayer = function (_appID) {
 
         var _view = ub.funcs.getPrimaryView(ub.current_material.settings.applications[_appID].application);
-        $('a.change-view[data-view="' + _view + '"]').trigger('click');
+        //$('a.change-view[data-view="' + _view + '"]').trigger('click');
 
         if (!ub.funcs.isLayersPanelVisible()) { return; }
 
@@ -9516,9 +9762,10 @@ $(document).ready(function() {
 
     }
 
+
     ub.funcs.showLayerTool = function () {
 
-        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
+        ub.funcs.activateBody();
 
         if ($('div#layers-order').is(':visible')) {
 
@@ -9598,10 +9845,8 @@ $(document).ready(function() {
 
     ub.funcs.activateFreeApplication = function (application_id) {
 
-        if ($('div#primaryPatternPopup').is(':visible')) { return; }
-        if ($('div#primaryMascotPopup').is(':visible')) { return; }
-
-        if (!ub.funcs.okToStart()) { return; }
+        if (ub.funcs.popupsVisible())   { return true; }
+        if (!ub.funcs.okToStart())      { return; }
 
         ub.funcs.activatePanelGuard();
         
@@ -9611,10 +9856,7 @@ $(document).ready(function() {
 
         var _htmlBuilder;
 
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateColorPickers();
-        ub.funcs.deActivatePatterns();
-        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
@@ -9850,11 +10092,8 @@ $(document).ready(function() {
                     }
 
                     $('em.unsupported-file').html('Uploaded File is ok! (' + _extension + ')');
-                    $('span.ok_btn').css('background-color', '#acacac');
                     $('span.ok_btn').html('Submit Logo (' + _extension + ')');
                     $('span.ok_btn').attr('data-status','ok');
-                    $('span.ok_btn').css('border', '1px solid #3d3d3d');
-                    $('span.ok_btn:hover').css({'background-color': '#3d3d3d', 'color': 'white'});
                     $('span.ok_btn').css('display', 'inline-block');
                     
                 }

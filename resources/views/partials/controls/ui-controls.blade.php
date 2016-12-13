@@ -447,8 +447,8 @@
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
-                    <img src='/images/main-ui/shadow.png' />
                     <strong class="uniform-name">@{{name}}</strong> <br />
+                    <span class="callForTeamPricing">Call for Team Pricing</span>
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                     <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong> <!-- <strong class="type">@{{block_pattern}}</strong> -->
                 </span> 
@@ -990,38 +990,48 @@
         <table>
            
             <tr class="header">
+
                 <td>Date</td>
                 <td>Order ID</td>
-                <td>Order Info</td>
+                <td>Thumbnails</td>
                 <td>Client</td>
                 <td>Status</td>
                 <td>Submitted</td>
                 <td>&nbsp;</td>
+
             </tr>
 
             @{{#orders}}
 
-                <tr>
+                <tr class="saved-order-row" data-id="@{{id}}"> 
                     <td>@{{created_at}}</td>
-                    <td><strong> @{{order_id}}</strong></td>
+                    <td>
+                        <strong> @{{order_id}}</strong> <br />
+                    </td>
                     <td class="order-info">
 
                         @{{#items}}
 
-                            <img class="thumbs" src="@{{thumbnails.front_view}}"/><img class="thumbs" src="@{{thumbnails.left_view}}"/><img class="thumbs" src="@{{thumbnails.right_view}}"/><img class="thumbs" src="@{{thumbnails.back_view}}"/><br />
-                            <strong> @{{description}}</strong>, <a href="@{{design_sheet}}" target="_new">View PDF</a> <br />
+                            <strong> @{{description}}</strong> / <a href="@{{design_sheet}}" target="_new">View PDF</a> <br /><br />
+                            
+                            <img class="thumbs" src="@{{thumbnails.front_view}}" data-file="@{{thumbnails.front_view}}" />
+                            <img class="thumbs" src="@{{thumbnails.left_view}}"  data-file="@{{thumbnails.left_view}}"  />
+                            <img class="thumbs" src="@{{thumbnails.right_view}}" data-file="@{{thumbnails.right_view}}" />
+                            <img class="thumbs" src="@{{thumbnails.back_view}}"  data-file="@{{thumbnails.back_view}}"  />
+
+                            <br />
 
                         @{{/items}}
 
-
                     </td>
                     <td>@{{client}}</td>
-                    <td>@{{status}}</td> 
-                    <td>@{{submitted}}</td> 
+                    <td>@{{status}}</td>
+                    <td>@{{submitted}}</td>
                     
                     <td class="action">
 
-                        <span class="action-button" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span>
+                        <span class="action-button edit" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span> <br />
+                        <span class="action-button delete" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-remove" aria-hidden="true"></i> Delete Order </span>
                         
                     </td>
 
@@ -1207,7 +1217,7 @@
                 
                 <div class="col-md-12">
                     
-                    <strong class="feedback-message">This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
+                    <strong class="feedback-message">This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
@@ -1240,7 +1250,7 @@
                 
                 <div class="col-md-12">
                     
-                    <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is significant so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
+                    <strong>This Prolook Uniform Customizer is still in the development and testing phase.  If you want to report any errors, or if you have any feedback regarding your experience, please use the form below. Your feedback is important so that we can improve this product for you and for other users as well. Thank you!</strong> <br/ ><br />
                     <textarea id="feedback-message" placeholder="Please enter your message here! :)"></textarea>
 
                 </div>
@@ -1251,7 +1261,7 @@
                 
                 <div class="col-md-12 ok-footer">
                     
-                    <span class="cancel-btn">CANCEL</span> <span class="ok-btn">OK</span>
+                     <span class="ok-btn">OK</span> <span class="cancel-btn">CANCEL</span>
 
                 </div>
                 
@@ -1291,10 +1301,10 @@
                     
                     <td>
                     
-                        <img class = "tview" src="@{{front_thumbnail}}" />
-                        <img class = "tview" src="@{{back_thumbnail}}" />
-                        <img class = "tview" src="@{{right_thumbnail}}" />
-                        <img class = "tview" src="@{{left_thumbnail}}" />
+                        <img class="tview" src="@{{front_thumbnail}}" data-file="@{{front_thumbnail}}" />
+                        <img class="tview" src="@{{back_thumbnail}}"  data-file="@{{back_thumbnail}}"  />
+                        <img class="tview" src="@{{right_thumbnail}}" data-file="@{{right_thumbnail}}" />
+                        <img class="tview" src="@{{left_thumbnail}}"  data-file="@{{left_thumbnail}}"  />
                     
                     </td>
                     
@@ -1489,7 +1499,7 @@
 
          <div class = "btn-group">
 
-            <button type = "button" class = "btn">
+            <button type="button" id="firstname" class="btn">
 
                 <i class="fa fa-user" aria-hidden="true"></i> <strong class="hello">Hello @{{firstName}}!</strong>
 
@@ -1521,6 +1531,82 @@
      </script>
 
 <!-- End Logged In Nav -->
-            
+
+<!-- Piping Sizes -->
+
+    <script type="text/mustache" id="m-piping-sizes">
+
+        <label class="applicationLabels size">Size</label>
+
+        @{{#items}}
+
+            <span class="piping-sizes-buttons" data-type="@{{name}}" data-size="@{{size}}">
+                @{{size}}
+            </span> 
+
+        @{{/items}}
+
+    </script>
+
+<!-- End Piping Sizes -->
+
+<!-- Piping Colors -->
+
+    <script type="text/mustache" id="m-piping-colors">
+
+        <label class="applicationLabels colors"># of Colors</label> 
+
+        @{{#items}}
+
+            <span class="piping-colors-buttons" data-type="@{{name}}" data-value="@{{val}}">
+                @{{val}}
+            </span> 
+
+        @{{/items}}
+
+    </script>
+
+<!-- End Piping Colors -->
+
+<!-- Main Piping Sidebar -->
+
+    <script type="text/mustache" id="m-piping-sidebar">
+
+        <div id="pipingsUI">
+          <div class="header">
+          <div class="toggle" data-status="@{{status}}"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>
+          <div class="body">
+              <div class="cover"></div>
+              <div class="ui-row">
+
+                  <label class="applicationLabels">Type</label>
+                  <span class="piping-type">Yoke Piping</span>                       
+
+              </div>
+
+              <div class="ui-row size-row">
+
+              </div>
+
+              <div class="ui-row colors-row">
+                  
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="ui-row">
+                  <div class="column1"> &nbsp;
+                      <div class="sub1">
+                        <span class="accentThumb"><img src="/images/pipings/thumbnails/placeholder.png"></span><br><span class="accent">Yoke</span><span class="flipButton" style="display: none;">Vertical</span>
+                      </div>
+                      <div class="colorContainer"><br />
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        
+    </script>
 
 
+<!-- End Main Piping Sidebar -->

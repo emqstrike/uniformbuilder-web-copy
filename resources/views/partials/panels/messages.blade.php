@@ -26,6 +26,12 @@
 
     </div>
 
+    <div class="notification-description">
+
+        
+
+    </div>
+
     <div class="message-list right-pane">
         
     </div>

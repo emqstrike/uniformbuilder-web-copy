@@ -117,8 +117,7 @@
 
                 if (colorStatus === 'unselected') {
 
-                    if (ub.current_material.settings.team_colors.length + 1 > 8) {
-
+                    if (ub.current_material.settings.team_colors.length + 1 > 9) {
                         ub.startModal('Maximum # of Team Colors is 8');
                         return;
 
@@ -1069,6 +1068,48 @@
     };
 
     $.ub = {};
+
+    $.ub.create_piping = function (pipingObject, firstColor, colorCount, perspective) {
+
+        var sprite; 
+        var pipingObject = pipingObject;
+        var settings = ub.current_material.settings;
+        var initialColor = firstColor;
+
+        var view = ub[perspective + '_view'];
+        var view_objects = ub.objects[perspective + '_view'];
+        var container = new PIXI.Container();
+        var elements = "";
+        var _frontObject = _.find(pipingObject.perspectives, {perspective: perspective});
+
+        _.each(_frontObject.layers, function(layer, index) {
+
+            if (index + 1 > colorCount) { return; }
+
+            var pipingLayer = ub.pixi.new_sprite(layer.filename);
+
+            pipingLayer.ubName = 'Layer ' + (index + 1);
+
+            pipingLayer.tint = parseInt(initialColor.hex_code, 16);
+            container.addChild(pipingLayer);
+
+        });
+        
+        
+        sprite = container;
+
+        ub.current_material.containers[pipingObject.name] = {};
+        ub.current_material.containers[pipingObject.name].pipingObject = sprite;
+
+        var temp                    = {}
+        var layer_order             = ( 70 );
+
+        sprite.originalZIndex       = layer_order * (-1);
+        sprite.zIndex               = layer_order * (-1);
+
+        return sprite;
+
+    };
 
     $.ub.create_mascot = function (input_object) {
 
@@ -2501,7 +2542,7 @@
 
                 text_sprite.pattern_layer.removeChildren();
                 text_sprite.removeChild(text_sprite.pattern_layer);
-                
+
             }
 
             var container = application_settings.pattern[index];
@@ -2510,6 +2551,14 @@
 
             _.each(clone.layers, function (layer, index) {
 
+                var team_color = ub.funcs.getColorUsedByIndex(layer.team_color_id);
+
+                if (typeof team_color !== 'undefined') {
+
+                    layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
+
+                }
+
                 var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
                 container.sprites[index] = ub.pixi.new_sprite(layer.filename);
 
@@ -2517,39 +2566,26 @@
 
                 sprite.zIndex = layer.layer_number * -1;
                 sprite.tint = parseInt(layer.default_color,16);
-                sprite.anchor.set(0.5, 0.5);
-
-                var $inputbox = $('input.pattern_' + target + '[data-index="' + index + '"]');
-                var val = '';
-
-                /// if loading from existing saved design, else from text box TODO: save value to custom object and read from that, instead from text boxes
+                
                 if (typeof sprite_collection === 'object') {
                 
                     val = ub.current_material.settings.applications[application.id].pattern_obj.layers[0].default_color;
                 
                 }
-                else {
 
-                    val = $inputbox.val();
-                
-                    if (val.length === 7) {
-                        val = val.substr(1, 6);
-                    }
-
-                }
-
-                sprite.tint = parseInt(val, 16);
+                sprite.anchor.set(0.5, 0.5);
+                //sprite.tint = parseInt(val, 16);
                 container.addChild(sprite);
 
-                var opacity_value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
-                container.alpha = opacity_value / 100;
+                // var opacity_value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
+                // container.alpha = opacity_value / 100;
 
-                var x_value = $('#' + 'position_x_slider_' + target).limitslider("values")[0];
-                var y_value = $('#' + 'position_y_slider_' + target).limitslider("values")[0];
-                var x = ub.dimensions.width * (x_value / 100);
-                var y = ub.dimensions.height * (y_value / 100);
+                // var x_value = $('#' + 'position_x_slider_' + target).limitslider("values")[0];
+                // var y_value = $('#' + 'position_y_slider_' + target).limitslider("values")[0];
+                // var x = ub.dimensions.width * (x_value / 100);
+                // var y = ub.dimensions.height * (y_value / 100);
 
-                container.position = new PIXI.Point(x,y);
+                // container.position = new PIXI.Point(x,y);
 
             });
 

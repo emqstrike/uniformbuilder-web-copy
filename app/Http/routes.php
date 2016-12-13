@@ -137,6 +137,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('mascots_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@store']);
     Route::get('mascots_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@editMascotsCategoriesForm']);
     Route::get('mascots_groups_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@editMascotsGroupsCategoriesForm']);
+    Route::get('upload_artwork/{artwork_request_id}/{artwork_index}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addArtworkForm']);
+    Route::post('artwork/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeArtwork']);
 
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);
@@ -147,6 +149,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editMaterialForm']);
     Route::get('material/view_material_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@getMaterialOptions']);
     Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@materialsOptionsSetup']);
+    Route::get('material/piping/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editPipingForm']);
+    Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePiping']);
 
     // Materials Options
     Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);
@@ -296,6 +300,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Artworks
     Route::get('artwork_requests', 'Administration\ArtworksController@index');
+    Route::get('artwork_requests/processing', 'Administration\ArtworksController@processing');
 
     // Feedbacks
     Route::get('feedbacks', 'Administration\FeedbacksController@index');
