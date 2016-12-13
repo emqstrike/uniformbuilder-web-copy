@@ -392,13 +392,15 @@ $(document).ready(function(){
         });
     });
 
-     $(document).on('click', '.clone-pattern', function(e) {
-        e.preventDefault();
+     $(document).on('click', '.clone-pattern', function() {
+ 
          var id = $(this).data('pattern-id');
+
        var url = "//" + api_host + "/api/pattern/duplicate/";
 
 
        // var url = "//localhost:8888/api/pattern/duplicate/";
+
       
 
         $.ajax({
@@ -417,10 +419,12 @@ $(document).ready(function(){
                         type: 'success',
                         hide: true
                     });
+
                      $( ".box-body" ).load( location+" .patterns" ); 
                      $('html, body').scrollTop( $(document).height() );
            
              
+                    
 
                 }
             }
