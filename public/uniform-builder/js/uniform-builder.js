@@ -4410,7 +4410,9 @@ $(document).ready(function () {
 
                     }
 
+                    ub.funcs.showPipingsPanel();
                     ub.funcs.activatePipings();
+
                     return;
 
                 }

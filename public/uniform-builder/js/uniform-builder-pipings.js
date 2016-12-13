@@ -24,8 +24,8 @@ $(document).ready(function () {
                 $('div#pipings-panel').removeClass('on').addClass('off');
                 $('a.change-view[data-view="pipings"]').removeClass('active-change-view');
 
-               $('a.change-view[data-view="locations"]').click();
-                
+                $('a.change-view[data-view="locations"]').click();
+
             } else {
 
                 $('div#pipings-panel').removeClass('off').addClass('on');
@@ -33,12 +33,11 @@ $(document).ready(function () {
 
             }
 
-            var $PipingsPanel = $('div#pipings-panel');
-            $PipingsPanel.unbind('mousedown');
-            $PipingsPanel.mousedown(ub.funcs.handle_mousedown);
+            var $pipingsPanel = $('div#pipings-panel');
+            $pipingsPanel.unbind('mousedown');
+            $pipingsPanel.mousedown(ub.funcs.handle_mousedown);
 
-            
-            // End Populate Layer Tool
+            ub.funcs.updatePipingsPanel();
 
             $('div.pipings-header > span.close').on('click', function () {
 
@@ -108,113 +107,99 @@ $(document).ready(function () {
 
         ub.funcs.updatePipingsPanel = function () {
 
-        var _htmlStr = '';
-        var _applicationCollection = _.sortBy(ub.current_material.settings.applications, 'zIndex').reverse();
+            var _htmlStr        = '';
+            var _pipingSet      = ub.funcs.getPipingSets();
+            var _captionPart    = '';
 
-        _.each(_applicationCollection, function (app) {
+            _.each(_pipingSet, function (piping) {
 
-            var _zIndex             = app.zIndex;
-            var _applicationType    = app.application_type.toUpperCase().replace('_',' ');
+                _captionPart        = '<span class="caption">' + piping + '</span>';
+                _htmlStr            += '<span class="piping unselectable" data-piping-name="' + piping + '">' + _captionPart + '</span>';
 
-            if (_applicationType === "SLEEVE NUMBER") {
-                _applicationType = "NUMBER";
-            }
+            });
 
-            var _applicationCode    = app.code;
-            var _caption = ub.funcs.getSampleCaption(app);
+            $('div.pipings-container').html('');
+            $('div.pipings-container').html(_htmlStr);
 
-            var _primaryView = ub.funcs.getPrimaryView(app.application);
+            $('span.piping').unbind('click');
+            $('span.piping').on('click', function () {
 
-            var _perspectivePart = '<span class="perspective">(' + _primaryView.substring(0,1).toUpperCase() + ')</span>';
-            var _applicationTypePart = ' <span class="application_type">' + _applicationType + '</span>';
-            var _captionPart = '<span class="caption">' + _caption + '</span>';
-            var _codePart = '<span class="code"> #' + app.code + '</span>';
+                // if ($(this).hasClass('active')) {
 
-            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + _codePart + _captionPart + _perspectivePart + _applicationTypePart + '</span>';
-
-        });
-
-        $('div.pipings-container').html('');
-        $('div.pipings-container').html(_htmlStr);
-
-        $('span.layer').unbind('click');
-        $('span.layer').on('click', function () {
-
-            if ($(this).hasClass('active')) {
-
-                ub.funcs.deactivateMoveTool();
-                ub.funcs.activateBody();
-                
-                return;
-
-            }
-
-            var _appCode = $(this).data('location-id');
-            ub.funcs.activateManipulator(_appCode);
-
-        });
-
-        if (!ub.is.wrestling()) { return; } // Cancel Draggable if not Wrestling, in the future make switch for sublimated 
-
-        ub.data.sorting = false;
-
-        ub.sort = $("div.pipings-container").sortable({
-
-          handle: '.layer',
-          animation: 150,
-          onStart: function (evt) {
-
-            ub.data.sorting = true;
-            ub.data.justSorted = true;
-
-          },
-          onEnd: function (evt) {
-
-            ub.data.sorting = false;
-            ub.data.justSorted = true;
-
-          },
-          onUpdate: function (evt) { 
-            
-            $.each($('span.layer'), function(key, value) {
-               
-               var _length = _.size(ub.current_material.settings.applications);
-
-               var _index   = _length - (key + 1);
-               var _locID   = $(value).data('location-id');
-               var _app     = ub.current_material.settings.applications[_locID];
-               
-               _app.zIndex  = _index;
-
-               $(this).find('span.zIndex').html(_index + 1);
-
-               if (_app.application_type === "free") { return; }
-
-               _.each(_app.application.views, function (view) {
-
-                    var _obj = ub.objects[view.perspective + '_view']['objects_' + _locID];
-                    _obj.zIndex = -(50 + _index);
-
+                //     ub.funcs.deactivateMoveTool();
+                //     ub.funcs.activateBody();
                     
-               });
+                //     return;
+
+                // }
+
+                var _piping = $(this).data('piping-name');
+                console.log('Inside Piping Event: ');
+                console.log(_piping);
+                ub.funcs.activatePipings(_piping);
+
 
 
             });
 
-            ub.updateLayersOrder(ub.front_view);
-            ub.updateLayersOrder(ub.back_view);
-            ub.updateLayersOrder(ub.left_view);
-            ub.updateLayersOrder(ub.right_view);
+            // if (!ub.is.wrestling()) { return; } // Cancel Draggable if not Wrestling, in the future make switch for sublimated 
 
-            var _locationID = $(evt.item).data('location-id');
-            ub.funcs.activateManipulator(_locationID);
+            // ub.data.sorting = false;
 
-          }
+            // ub.sort = $("div.pipings-container").sortable({
 
-        });
+            //   handle: '.layer',
+            //   animation: 150,
+            //   onStart: function (evt) {
 
-    }
+            //     ub.data.sorting = true;
+            //     ub.data.justSorted = true;
 
+            //   },
+            //   onEnd: function (evt) {
+
+            //     ub.data.sorting = false;
+            //     ub.data.justSorted = true;
+
+            //   },
+            //   onUpdate: function (evt) { 
+                
+            //     $.each($('span.layer'), function(key, value) {
+                   
+            //        var _length = _.size(ub.current_material.settings.applications);
+
+            //        var _index   = _length - (key + 1);
+            //        var _locID   = $(value).data('location-id');
+            //        var _piping     = ub.current_material.settings.applications[_locID];
+                   
+            //        _piping.zIndex  = _index;
+
+            //        $(this).find('span.zIndex').html(_index + 1);
+
+            //        if (_piping.application_type === "free") { return; }
+
+            //        _.each(_piping.application.views, function (view) {
+
+            //             var _obj = ub.objects[view.perspective + '_view']['objects_' + _locID];
+            //             _obj.zIndex = -(50 + _index);
+
+            //        });
+
+            //     });
+
+            //     ub.updateLayersOrder(ub.front_view);
+            //     ub.updateLayersOrder(ub.back_view);
+            //     ub.updateLayersOrder(ub.left_view);
+            //     ub.updateLayersOrder(ub.right_view);
+
+            //     var _locationID = $(evt.item).data('location-id');
+            //     ub.funcs.activateManipulator(_locationID);
+
+            //   }
+
+            // });
+
+        }
 
     /// End GUI 
 
@@ -292,16 +277,13 @@ $(document).ready(function () {
         // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
         // put in logic to change piping color here ...
 
-
-
         _.each (ub.views, function (perspective) {
 
             var _objectReference = ub.objects[perspective + '_view'][_pipingSet.set];
             var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + _layer_no});
             _childLayer.tint = parseInt(_colorObj.hex_code, 16);
 
-
-        })
+        });
 
     };
 
@@ -479,17 +461,29 @@ $(document).ready(function () {
 
         if (typeof _activePipingSet === "undefined") {
 
-            _pipingSet          = ub.funcs.getPipingSet('Yoke Piping');
+            var initialPipingSet = 'Yoke Piping';
+
+            _pipingSet          = ub.funcs.getPipingSet(initialPipingSet);
+            pipingSet           = initialPipingSet;
             _activePipingSet    = _.first(_pipingSet);
 
-        }
+        } else {
 
-        
+
+            console.log('Searching for input: ');
+            _pipingSet          = ub.funcs.getPipingSet(pipingSet);
+            _activePipingSet    = _.first(_pipingSet);
+
+            console.log('Found: ');
+            console.log(_pipingSet);
+            console.log(_activePipingSet);
+
+        }
 
         // Main Template
 
         var _template           = $('#m-piping-sidebar').html();
-        var _data               = { status: _status };
+        var _data               = { status: _status, type: pipingSet };
         var _htmlBuilder        = Mustache.render(_template, _data);            
 
         $('.modifier_main_container').append(_htmlBuilder);

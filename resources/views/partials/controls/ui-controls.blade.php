@@ -1580,7 +1580,7 @@
               <div class="ui-row">
 
                   <label class="applicationLabels">Type</label>
-                  <span class="piping-type">Yoke Piping</span>                       
+                  <span class="piping-type">@{{type}}</span>                       
 
               </div>
 
@@ -1608,5 +1608,6 @@
         
     </script>
 
-
 <!-- End Main Piping Sidebar -->
+
+
