@@ -29,7 +29,9 @@ class PatternsController extends Controller
 
     public function index()
     {
+    
         $patterns = $this->client->getPatterns();
+
         return view('administration.patterns.patterns', [
             'patterns' => $patterns
         ]);
