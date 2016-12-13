@@ -17,6 +17,7 @@ use App\APIClients\BoundariesAPIClient;
 use App\APIClients\FontsAPIClient;
 use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
+use App\APIClients\PriceItemTemplatesAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 
 class MaterialsController extends Controller
@@ -30,6 +31,7 @@ class MaterialsController extends Controller
     protected $boundaryClient;
     protected $fontClient;
     protected $blockPatternClient;
+    protected $priceItemTemplateClient;
 
     public function __construct(
         APIClient $apiClient,
@@ -40,7 +42,8 @@ class MaterialsController extends Controller
         ApplicationsAPIClient $applicationsAPIClient,
         BoundariesAPIClient $boundariesAPIClient,
         FontsAPIClient $fontsAPIClient,
-        BlockPatternsAPIClient $blockPatternsAPIClient
+        BlockPatternsAPIClient $blockPatternsAPIClient,
+        PriceItemTemplatesAPIClient $priceItemTemplatesClient
     )
     {
         $this->client = $apiClient;
@@ -52,6 +55,7 @@ class MaterialsController extends Controller
         $this->boundaryClient = $boundariesAPIClient;
         $this->fontClient = $fontsAPIClient;
         $this->blockPatternClient = $blockPatternsAPIClient;
+        $this->priceItemTemplateClient = $priceItemTemplatesClient;
     }
 
     /**
