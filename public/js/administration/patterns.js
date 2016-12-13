@@ -401,7 +401,7 @@ $(document).ready(function(){
        var url = "//" + api_host + "/api/pattern/duplicate/";
 
 
-       //var url = "//localhost:8888/api/pattern/duplicate/";
+       ////var url = "//localhost:8888/api/pattern/duplicate/";
 
       
 
