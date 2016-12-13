@@ -178,6 +178,7 @@ function initSizesAndPI(){
 }
 
 function refreshProperty(){
+    console.log('refreshProperty');
     size_properties = {};
     var properties = {};
     var adult = [];
@@ -191,8 +192,10 @@ function refreshProperty(){
         var data = {
             "size" : $(this).find('.sizes').val(),
             "price_item" : price_item,
-            "msrp" : parseFloat(prices.msrp),
-            "web_price_sale" : parseFloat(prices.web_price_sale)
+            // "msrp" : (parseFloat(prices.msrp).toFixed(2))/1,
+            // "web_price_sale" : (parseFloat(prices.web_price_sale).toFixed(2))/1
+            "msrp" : parseFloat(prices.msrp).toFixed(2),
+            "web_price_sale" : parseFloat(prices.web_price_sale).toFixed(2)
         }
 
         if( _.contains(adult_sizes, data.size) ){
@@ -209,16 +212,31 @@ function refreshProperty(){
     if( adult.length > 0 ){
         properties.adult = adult;
         var adult_min = _.min(adult, function(o){return o.msrp;});
+        // size_properties.adult_min = parseFloat(adult_min.msrp);
         size_properties.adult_min = adult_min.msrp;
+
+        // $.each(adult, function(i,v) {
+        //     adult[i].msrp = parseFloat(adult[i].msrp);
+        //     adult[i].web_price_sale = parseFloat(adult[i].web_price_sale);
+        //     console.log(typeof adult[i].msrp);
+        // });
     }
 
     if( youth.length > 0 ){
         properties.youth = youth;
         var youth_min = _.min(youth, function(o){return o.msrp;});
+        // size_properties.youth_min = parseFloat(youth_min.msrp);
         size_properties.youth_min = youth_min.msrp;
+
+        // $.each(youth, function(i,v) {
+        //     youth[i].msrp = parseFloat(youth[i].msrp);
+        //     youth[i].web_price_sale = parseFloat(youth[i].web_price_sale);
+        //     console.log(typeof youth[i].msrp);
+        // });
     }
 
     size_properties.properties = properties;
+    console.log(JSON.stringify(size_properties));
 
     $('#size_property').val(JSON.stringify(size_properties));
 }
