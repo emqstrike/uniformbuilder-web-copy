@@ -190,24 +190,15 @@
 $(document).ready(function(){
  
 
-        //  var $container = $('.isotope').isotope({
-        //     itemSelector: '.pattern-row',
-        //     getSortData: {
-        //       category: '[data-category]'
-        //     }
-        // });
-
-
       $(document).on('click', '.filter', function() {
         $(".filter").removeClass('btn-primary');
         $(this).addClass('btn-primary').show;
         $(".all").fadeOut( "slow" );
         $($(this).val()).fadeIn( "slow" );
 
-        // console.log($(this).val());      
-
-        // $container.isotope({ filter: $(this).val() });
+    
     });
+
 
 });
 </script>
