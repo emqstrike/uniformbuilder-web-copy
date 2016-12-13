@@ -392,14 +392,16 @@ $(document).ready(function(){
         });
     });
 
-     $(document).on('click', '.clone-pattern', function() {
+     $(document).on('click', '.clone-pattern', function(e) {
+
+        e.preventDefault();
  
-         var id = $(this).data('pattern-id');
+        var id = $(this).data('pattern-id');
 
        var url = "//" + api_host + "/api/pattern/duplicate/";
 
 
-       // var url = "//localhost:8888/api/pattern/duplicate/";
+       //var url = "//localhost:8888/api/pattern/duplicate/";
 
       
 
@@ -420,8 +422,11 @@ $(document).ready(function(){
                         hide: true
                     });
 
-                     $( ".box-body" ).load( location+" .patterns" ); 
-                     $('html, body').scrollTop( $(document).height() );
+                   
+                     $( ".box-body" ).load(  location+" .patterns" , function() {
+                           $('html, body').scrollTop( $(document).height());
+                        });
+                   
            
              
                     
