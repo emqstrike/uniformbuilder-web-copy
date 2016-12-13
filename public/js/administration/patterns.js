@@ -395,10 +395,10 @@ $(document).ready(function(){
      $(document).on('click', '.clone-pattern', function(e) {
         e.preventDefault();
          var id = $(this).data('pattern-id');
-       var url = "//" + api_host + "/api/pattern/clone/";
+       var url = "//" + api_host + "/api/pattern/duplicate/";
 
 
-       // var url = "//localhost:8888/api/pattern/clone/";
+       // var url = "//localhost:8888/api/pattern/duplicate/";
       
 
         $.ajax({
