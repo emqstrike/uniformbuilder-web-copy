@@ -15,26 +15,98 @@ $(document).ready(function () {
 
     /// GUI 
 
-        ub.funcs.showPipingListPanel = function () {
+        ub.funcs.showPipingsPanel = function () {
 
             ub.funcs.activateBody();
-
-
-
-        };
-
-        ub.funcs.hidePipingListPanel = function () {
 
             if ($('div#pipings-panel').is(':visible')) {
 
                 $('div#pipings-panel').removeClass('on').addClass('off');
-                $('a.change-view[data-view="layers"]').removeClass('active-change-view');
+                $('a.change-view[data-view="pipings"]').removeClass('active-change-view');
+
+               $('a.change-view[data-view="locations"]').click();
+                
+            } else {
+
+                $('div#pipings-panel').removeClass('off').addClass('on');
+                $('a.change-view[data-view="pipings"]').addClass('active-change-view');
+
+            }
+
+            var $PipingsPanel = $('div#pipings-panel');
+            $PipingsPanel.unbind('mousedown');
+            $PipingsPanel.mousedown(ub.funcs.handle_mousedown);
+
+            
+            // End Populate Layer Tool
+
+            $('div.pipings-header > span.close').on('click', function () {
+
+                ub.funcs.hidePipingsPanel();
+
+               if (ub.showLocation) {
+
+                    ub.funcs.removeLocations();
+                    $('span.show-locations').find('span.caption').html("Show Location Markers");
+                    $('span.show-locations').removeClass('active');
+
+               }
+
+            });
+
+            if (!ub.is.wrestling()) {
+
+                $('span.add-application').addClass('inactive');
+                $('em.dragMessage').remove();
+                $('div.pipings-container').addClass('notSublimated');
+
+            }
+
+            $('span.add-application').unbind('click');
+            $('span.add-application').on('click', function () {
+
+                $('a.change-view[data-view="locations-add"]').click();
+
+            });
+
+            $('span.show-locations').unbind('click');
+            $('span.show-locations').on('click', function () {
+
+               if ($(this).find('span.caption').html() === "Show Location Markers") {
+
+                    $(this).find('span.caption').html("Hide Location Markers");
+                    $(this).addClass('active');
+                    ub.funcs.showLocations();
+                    
+               } else {
+
+                    $(this).find('span.caption').html("Show Location Markers");
+                    $(this).removeClass('active');
+                    ub.funcs.removeLocations();
+
+               }
+
+            })
+
+            $('div#pipings-panel > span.close').unbind('click');
+            $('div#pipings-panel > span.pipings-close').on('click', function (){
+                ub.funcs.showPipingsPanel();   
+            });
+
+        };
+
+        ub.funcs.hidePipingsPanel = function () {
+
+            if ($('div#pipings-panel').is(':visible')) {
+
+                $('div#pipings-panel').removeClass('on').addClass('off');
+                $('a.change-view[data-view="pipings"]').removeClass('active-change-view');
                 
             }
 
         }
 
-        ub.funcs.updatePipingListPanel = function () {
+        ub.funcs.updatePipingsPanel = function () {
 
         var _htmlStr = '';
         var _applicationCollection = _.sortBy(ub.current_material.settings.applications, 'zIndex').reverse();
@@ -62,8 +134,8 @@ $(document).ready(function () {
 
         });
 
-        $('div.layers-container').html('');
-        $('div.layers-container').html(_htmlStr);
+        $('div.pipings-container').html('');
+        $('div.pipings-container').html(_htmlStr);
 
         $('span.layer').unbind('click');
         $('span.layer').on('click', function () {
@@ -86,7 +158,7 @@ $(document).ready(function () {
 
         ub.data.sorting = false;
 
-        ub.sort = $("div.layers-container").sortable({
+        ub.sort = $("div.pipings-container").sortable({
 
           handle: '.layer',
           animation: 150,
