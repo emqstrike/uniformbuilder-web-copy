@@ -1,10 +1,152 @@
 $(document).ready(function () {
 
-    ub.funcs.getPipingSets = function () {
 
-        return _.chain(ub.data.pipings).pluck('set').uniq().value();
+    /// Utilities 
 
-    };
+        ub.funcs.getPipingSets = function () {
+
+            return _.chain(ub.data.pipings).pluck('set').uniq().value();
+
+        };
+
+
+    /// End Utilities 
+
+
+    /// GUI 
+
+        ub.funcs.showPipingListPanel = function () {
+
+            ub.funcs.activateBody();
+
+
+
+        };
+
+        ub.funcs.hidePipingListPanel = function () {
+
+            if ($('div#pipings-panel').is(':visible')) {
+
+                $('div#pipings-panel').removeClass('on').addClass('off');
+                $('a.change-view[data-view="layers"]').removeClass('active-change-view');
+                
+            }
+
+        }
+
+        ub.funcs.updatePipingListPanel = function () {
+
+        var _htmlStr = '';
+        var _applicationCollection = _.sortBy(ub.current_material.settings.applications, 'zIndex').reverse();
+
+        _.each(_applicationCollection, function (app) {
+
+            var _zIndex             = app.zIndex;
+            var _applicationType    = app.application_type.toUpperCase().replace('_',' ');
+
+            if (_applicationType === "SLEEVE NUMBER") {
+                _applicationType = "NUMBER";
+            }
+
+            var _applicationCode    = app.code;
+            var _caption = ub.funcs.getSampleCaption(app);
+
+            var _primaryView = ub.funcs.getPrimaryView(app.application);
+
+            var _perspectivePart = '<span class="perspective">(' + _primaryView.substring(0,1).toUpperCase() + ')</span>';
+            var _applicationTypePart = ' <span class="application_type">' + _applicationType + '</span>';
+            var _captionPart = '<span class="caption">' + _caption + '</span>';
+            var _codePart = '<span class="code"> #' + app.code + '</span>';
+
+            _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + _codePart + _captionPart + _perspectivePart + _applicationTypePart + '</span>';
+
+        });
+
+        $('div.layers-container').html('');
+        $('div.layers-container').html(_htmlStr);
+
+        $('span.layer').unbind('click');
+        $('span.layer').on('click', function () {
+
+            if ($(this).hasClass('active')) {
+
+                ub.funcs.deactivateMoveTool();
+                ub.funcs.activateBody();
+                
+                return;
+
+            }
+
+            var _appCode = $(this).data('location-id');
+            ub.funcs.activateManipulator(_appCode);
+
+        });
+
+        if (!ub.is.wrestling()) { return; } // Cancel Draggable if not Wrestling, in the future make switch for sublimated 
+
+        ub.data.sorting = false;
+
+        ub.sort = $("div.layers-container").sortable({
+
+          handle: '.layer',
+          animation: 150,
+          onStart: function (evt) {
+
+            ub.data.sorting = true;
+            ub.data.justSorted = true;
+
+          },
+          onEnd: function (evt) {
+
+            ub.data.sorting = false;
+            ub.data.justSorted = true;
+
+          },
+          onUpdate: function (evt) { 
+            
+            $.each($('span.layer'), function(key, value) {
+               
+               var _length = _.size(ub.current_material.settings.applications);
+
+               var _index   = _length - (key + 1);
+               var _locID   = $(value).data('location-id');
+               var _app     = ub.current_material.settings.applications[_locID];
+               
+               _app.zIndex  = _index;
+
+               $(this).find('span.zIndex').html(_index + 1);
+
+               if (_app.application_type === "free") { return; }
+
+               _.each(_app.application.views, function (view) {
+
+                    var _obj = ub.objects[view.perspective + '_view']['objects_' + _locID];
+                    _obj.zIndex = -(50 + _index);
+
+                    
+               });
+
+
+            });
+
+            ub.updateLayersOrder(ub.front_view);
+            ub.updateLayersOrder(ub.back_view);
+            ub.updateLayersOrder(ub.left_view);
+            ub.updateLayersOrder(ub.right_view);
+
+            var _locationID = $(evt.item).data('location-id');
+            ub.funcs.activateManipulator(_locationID);
+
+          }
+
+        });
+
+    }
+
+
+    /// End GUI 
+
+
 
     ub.funcs.getPipingSettingsObject = function (set) {
 

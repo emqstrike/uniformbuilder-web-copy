@@ -215,6 +215,8 @@
 
             @include('partials.panels.layers')
 
+            @include('partials.panels.pipings')
+
         </div>
 
         <div id="right-main-window" class="pane-main-window save-pane special_modifiers footer_buttons_container">        

@@ -9762,9 +9762,10 @@ $(document).ready(function() {
 
     }
 
+
     ub.funcs.showLayerTool = function () {
 
-        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
+        ub.funcs.activateBody();
 
         if ($('div#layers-order').is(':visible')) {
 

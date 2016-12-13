@@ -7828,112 +7828,28 @@ strong.hello {
 
 /* Layers Order */
 
+    div#layers-order {
 
-/* End Layers Order */
+        cursor: grab;
+        position: absolute;
+        display: none;
+        width: 270px;
+        height: 661px;
+        background-color: #acacac;
+        margin-left: -280px;
+        padding: 10px;
 
-div#layers-order {
-
-    cursor: grab;
-    position: absolute;
-    display: none;
-    width: 270px;
-    height: 661px;
-    background-color: #acacac;
-    margin-left: -280px;
-    padding: 10px;
-
-    -moz-transition: all .2s;
-    -webkit-transition: all .2s;
-    transition: all .2s;
-    text-align: center;
-    z-index: 3000;
-
-    -webkit-user-select: none; /* Chrome/Safari */        
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+ */
-
-    em.dragMessage {
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+        text-align: center;
+        z-index: 3000;
 
         -webkit-user-select: none; /* Chrome/Safari */        
         -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* IE10+ */
 
-    }
-
-    div.tools {
-
-        span.add-application, span.show-locations {
-
-        display: table-cell;
-        background-color: #888888;
-        color: white;
-        width: 100px;
-        height: 70px;
-        font-size: 0.8em;
-        padding: 9px;
-        vertical-align: bottom;
-        border: 3px solid #acacac;
-        cursor: pointer;
-        float: right;
-        vertical-align: bottom;
-
-        }
-
-        span.show-locations {
-
-            background-color: #acacac;
-            float: left;
-            color: #3d3d3d;
-            width: 150px;
-            margin-top: 50px;
-            height: 10px;
-            text-align: left;
-            padding: 0px;
-
-        }
-
-        span.add-application.inactive {
-
-            cursor: not-allowed;
-            background-color: #888888;
-            opacity: 0.2;
-
-        } 
-
-        span.show-locations.active {
-
-            color: white;
-
-        }
-
-        span.add-application:hover {
-
-            background-color: #3d3d3d;
-
-        }
-
-        span.show-locations:hover {
-
-            color: white;
-
-        }
-
-    }
-    
-
-    div.layers-header {
-
-        text-transform: uppercase;
-        display: block;
-        margin-bottom: 10px;
-        font-family: 'Avenir Next LT W04 Bold';
-        font-size: 0.9em;
-        width: 100%;
-
-        span.header-text {
-
-            float: left;
-            font-size: 1.2em;
+        em.dragMessage {
 
             -webkit-user-select: none; /* Chrome/Safari */        
             -moz-user-select: none; /* Firefox */
@@ -7941,144 +7857,480 @@ div#layers-order {
 
         }
 
-        span.close {
+        div.tools {
 
-            cursor: pointer;
-            color: #3d3d3d;
-            float: right;
+            span.add-application, span.show-locations {
 
-        }
-
-        span.close:hover {
-
-            color: #3d3d3d;
-            float: right;
-
-        }
-
-    }
-
-    div.layers-container {
-
-        height: 460px;
-        width: 100%;
-        display: block;
-        overflow-y: auto;
-        margin-top: 20px;
-
-        span.layer {
-
-            padding: 5px;
-            display: block;
+            display: table-cell;
             background-color: #888888;
-            margin: 3px;
-            cursor: move;
-            font-family: 'Avenir Next LT W04 Bold';
+            color: white;
+            width: 100px;
+            height: 70px;
             font-size: 0.8em;
-            text-align: left;
-            border: 1px solid #888888;
-            
+            padding: 9px;
+            vertical-align: bottom;
+            border: 3px solid #acacac;
+            cursor: pointer;
+            float: right;
+            vertical-align: bottom;
+
+            }
+
+            span.show-locations {
+
+                background-color: #acacac;
+                float: left;
+                color: #3d3d3d;
+                width: 150px;
+                margin-top: 50px;
+                height: 10px;
+                text-align: left;
+                padding: 0px;
+
+            }
+
+            span.add-application.inactive {
+
+                cursor: not-allowed;
+                background-color: #888888;
+                opacity: 0.2;
+
+            } 
+
+            span.show-locations.active {
+
+                color: white;
+
+            }
+
+            span.add-application:hover {
+
+                background-color: #3d3d3d;
+
+            }
+
+            span.show-locations:hover {
+
+                color: white;
+
+            }
+
+        }
+        
+
+        div.layers-header {
+
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Avenir Next LT W04 Bold';
+            font-size: 0.9em;
+            width: 100%;
+
+            span.header-text {
+
+                float: left;
+                font-size: 1.2em;
+
+                -webkit-user-select: none; /* Chrome/Safari */        
+                -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* IE10+ */
+
+            }
+
+            span.close {
+
+                cursor: pointer;
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+            span.close:hover {
+
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+        }
+
+        div.layers-container {
+
+            height: 460px;
+            width: 100%;
+            display: block;
+            overflow-y: auto;
+            margin-top: 20px;
+
+            span.layer {
+
+                padding: 5px;
+                display: block;
+                background-color: #888888;
+                margin: 3px;
+                cursor: move;
+                font-family: 'Avenir Next LT W04 Bold';
+                font-size: 0.8em;
+                text-align: left;
+                border: 1px solid #888888;
+                
+                span.code {
+
+                    display: inline-block;
+                    width: 30px;
+                    text-align: center;
+                    background-color: #3d3d3d;
+                    color: #acacac;
+                    margin-right: 7px;
+                    font-size: 0.8em;
+                    
+                }
+
+                span.caption {
+
+                    display: inline-block;
+                    min-width: 90px;
+                    color: white;
+
+                }
+
+                span.perspective, span.application_type {
+
+                    font-size: 0.8em;
+                    color: #acacac;
+                    float: right;
+                    margin-right: 7px;
+                    margin-top: 2px;
+
+                }
+
+                span.perspective {
+
+                    color: white;
+
+                }
+
+            }
+
+            span.layer:hover {
+
+                border: 1px solid white;
+
+            }
+
+        }
+
+        div.layers-container.notSublimated {
+
+            height: 520px;
+
+        }
+
+        span.layer.active {
+
+            background-color: #3d3d3d !important;
+            color: white;
+            border: 1px solid #3d3d3d;
+
             span.code {
 
-                display: inline-block;
-                width: 30px;
-                text-align: center;
-                background-color: #3d3d3d;
-                color: #acacac;
-                margin-right: 7px;
-                font-size: 0.8em;
+                color: white;
                 
             }
 
-            span.caption {
+        }
 
-                display: inline-block;
-                min-width: 90px;
-                color: white;
+        span.layers-close {
 
-            }
-
-            span.perspective, span.application_type {
-
-                font-size: 0.8em;
-                color: #acacac;
-                float: right;
-                margin-right: 7px;
-                margin-top: 2px;
-
-            }
-
-            span.perspective {
-
-                color: white;
-
-            }
+            background-color: #888888;
+            color: #acacac;
+            width: 100%;
+            padding: 3px;
+            font-size: 1em;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
 
         }
 
-        span.layer:hover {
+        span.layers-close:hover {
 
-            border: 1px solid white;
-
-        }
-
-    }
-
-    div.layers-container.notSublimated {
-
-        height: 520px;
-
-    }
-
-    span.layer.active {
-
-        background-color: #3d3d3d !important;
-        color: white;
-        border: 1px solid #3d3d3d;
-
-        span.code {
-
+            background-color: #3d3d3d;
             color: white;
-            
+
         }
 
     }
 
-    span.layers-close {
+    div#layers-order.on {
 
-        background-color: #888888;
-        color: #acacac;
-        width: 100%;
-        padding: 3px;
-        font-size: 1em;
-        cursor: pointer;
-        display: inline-block;
-        margin-top: 10px;
+        display: block;
+        top: 0px;
+        
+    }
+
+    div#layers-order.off {
+
+        display: none;
+        top: -200px;
+        
+    }
+
+/* End Layers Order */
+
+/* Pipings Panel */
+
+    div#pipings-panel {
+
+        cursor: grab;
+        position: absolute;
+        display: none;
+        width: 270px;
+        height: 661px;
+        background-color: #acacac;
+        margin-left: -280px;
+        padding: 10px;
+
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+        text-align: center;
+        z-index: 3000;
+
+        -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+
+        em.dragMessage {
+
+            -webkit-user-select: none; /* Chrome/Safari */        
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+ */
+
+        }
+
+        div.tools {
+
+            span.add-application, span.show-locations {
+
+            display: table-cell;
+            background-color: #888888;
+            color: white;
+            width: 100px;
+            height: 70px;
+            font-size: 0.8em;
+            padding: 9px;
+            vertical-align: bottom;
+            border: 3px solid #acacac;
+            cursor: pointer;
+            float: right;
+            vertical-align: bottom;
+
+            }
+
+            span.show-locations {
+
+                background-color: #acacac;
+                float: left;
+                color: #3d3d3d;
+                width: 150px;
+                margin-top: 50px;
+                height: 10px;
+                text-align: left;
+                padding: 0px;
+
+            }
+
+            span.add-application.inactive {
+
+                cursor: not-allowed;
+                background-color: #888888;
+                opacity: 0.2;
+
+            } 
+
+            span.show-locations.active {
+
+                color: white;
+
+            }
+
+            span.add-application:hover {
+
+                background-color: #3d3d3d;
+
+            }
+
+            span.show-locations:hover {
+
+                color: white;
+
+            }
+
+        }
+        
+        div.pipings-header {
+
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Avenir Next LT W04 Bold';
+            font-size: 0.9em;
+            width: 100%;
+
+            span.header-text {
+
+                float: left;
+                font-size: 1.2em;
+
+                -webkit-user-select: none; /* Chrome/Safari */        
+                -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* IE10+ */
+
+            }
+
+            span.close {
+
+                cursor: pointer;
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+            span.close:hover {
+
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+        }
+
+        div.pipings-container {
+
+            height: 460px;
+            width: 100%;
+            display: block;
+            overflow-y: auto;
+            margin-top: 20px;
+
+            span.layer {
+
+                padding: 5px;
+                display: block;
+                background-color: #888888;
+                margin: 3px;
+                cursor: move;
+                font-family: 'Avenir Next LT W04 Bold';
+                font-size: 0.8em;
+                text-align: left;
+                border: 1px solid #888888;
+                
+                span.code {
+
+                    display: inline-block;
+                    width: 30px;
+                    text-align: center;
+                    background-color: #3d3d3d;
+                    color: #acacac;
+                    margin-right: 7px;
+                    font-size: 0.8em;
+                    
+                }
+
+                span.caption {
+
+                    display: inline-block;
+                    min-width: 90px;
+                    color: white;
+
+                }
+
+                span.perspective, span.application_type {
+
+                    font-size: 0.8em;
+                    color: #acacac;
+                    float: right;
+                    margin-right: 7px;
+                    margin-top: 2px;
+
+                }
+
+                span.perspective {
+
+                    color: white;
+
+                }
+
+            }
+
+            span.layer:hover {
+
+                border: 1px solid white;
+
+            }
+
+        }
+
+        div.pipings-container.notSublimated {
+
+            height: 520px;
+
+        }
+
+        span.layer.active {
+
+            background-color: #3d3d3d !important;
+            color: white;
+            border: 1px solid #3d3d3d;
+
+            span.code {
+
+                color: white;
+                
+            }
+
+        }
+
+        span.pipings-close {
+
+            background-color: #888888;
+            color: #acacac;
+            width: 100%;
+            padding: 3px;
+            font-size: 1em;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+
+        }
+
+        span.pipings-close:hover {
+
+            background-color: #3d3d3d;
+            color: white;
+
+        }
 
     }
 
-    span.layers-close:hover {
+    div#pipings-order.on {
 
-        background-color: #3d3d3d;
-        color: white;
-
+        display: block;
+        top: 0px;
+        
     }
 
-}
+    div#pipings-order.off {
 
-div#layers-order.on {
+        display: none;
+        top: -200px;
+        
+    }
 
-    display: block;
-    top: 0px;
-    
-}
+/* End Pipings Panel */
 
-div#layers-order.off {
-
-    display: none;
-    top: -200px;
-    
-}
 
 .active-change-view {
     background-color: white !important;
