@@ -68,7 +68,15 @@
                             </a>
                         </small>
                     </h1>
+                    <button class="button btn-primary filter" value=".all">All</button>
+                    <button class="button filter" value=".web">Web</button>
+                    <button class="button filter" value=".ipad">Ipad</button>
+
+
+
+       
                 </div>
+
                 <div class="box-body">
                     <table data-toggle='table' class='data-table table table-bordered patterns'>
                         <thead>
@@ -87,16 +95,17 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="isotope">
 
                 @forelse ($patterns as $pattern)
 
-                    <tr class='pattern-{{ $pattern->id }} {{ (!$pattern->active) ? ' inactive' : '' }}'>
+                    <tr class='pattern-{{ $pattern->id }} {{ (!$pattern->active) ? ' inactive' : '' }}{{ $pattern->asset_target }} all' >
                         <td>
                             <div class="checkbox">
                               <input type="checkbox" id="multipleDelete" name="remove[]" data-pattern-id="{{ $pattern->id }}" value="">
                             </div>
                         </td>
+                        
                         <td>
                             @if ($pattern->thumbnail_path)
                             <img src="{{ $pattern->thumbnail_path }}" width="100px" height="100px">
@@ -136,6 +145,10 @@
                                 <i class="glyphicon glyphicon-trash"></i>
                                 Remove
                             </a>
+                            <a href="#" class="btn btn-default btn-xs clone-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                Clone
+                            </a>
                         </td>
                         
                     </tr>
@@ -168,9 +181,21 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/patterns.js"></script>
+<!-- <script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script> -->
 <script type="text/javascript">
 $(document).ready(function(){
+ 
+
+      $(document).on('click', '.filter', function() {
+        $(".filter").removeClass('btn-primary');
+        $(this).addClass('btn-primary').show;
+        $(".all").fadeOut( "slow" );
+        $($(this).val()).fadeIn( "slow" );
+
     
+    });
+
+
 });
 </script>
 @endsection

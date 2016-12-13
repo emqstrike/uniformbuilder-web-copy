@@ -59,7 +59,7 @@ $(document).ready(function(){
 
     updater();
     function updater(edit){
-        console.log('Updater: ' + edit);
+        
         $('.neck-option-name').keyup(function(){
 
             console.log($(this).val());
@@ -392,6 +392,46 @@ $(document).ready(function(){
         });
     });
 
+     $(document).on('click', '.clone-pattern', function() {
+ 
+         var id = $(this).data('pattern-id');
+        var url = "//" + api_host + "/api/pattern/clone/";
+
+
+        //var url = "//localhost:8888/api/pattern/clone/";
+      
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+
+                     $( ".box-body" ).load( location+" .patterns" ); 
+                     $('html, body').scrollTop( $(document).height() );
+           
+             
+                    
+
+                }
+            }
+        });
+    });
+
+
+
+
     // Edit Pattern Scripts
     $('#edit-pattern-form').submit(function(){
         new PNotify({
@@ -442,7 +482,7 @@ $(document).ready(function(){
         buildLayers();
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     function buildLayers(){
