@@ -392,7 +392,7 @@ $(document).ready(function(){
         });
     });
 
-<<<<<<< HEAD
+
      $(document).on('click', '.clone-pattern', function(e) {
         e.preventDefault();
         var id = $(this).data('pattern-id');
