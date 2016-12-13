@@ -124,80 +124,14 @@ $(document).ready(function () {
             $('span.piping').unbind('click');
             $('span.piping').on('click', function () {
 
-                // if ($(this).hasClass('active')) {
-
-                //     ub.funcs.deactivateMoveTool();
-                //     ub.funcs.activateBody();
-                    
-                //     return;
-
-                // }
-
                 var _piping = $(this).data('piping-name');
-                console.log('Inside Piping Event: ');
-                console.log(_piping);
+
+                $('span.piping').removeClass('active');
+                $(this).addClass('active');
+
                 ub.funcs.activatePipings(_piping);
 
-
-
             });
-
-            // if (!ub.is.wrestling()) { return; } // Cancel Draggable if not Wrestling, in the future make switch for sublimated 
-
-            // ub.data.sorting = false;
-
-            // ub.sort = $("div.pipings-container").sortable({
-
-            //   handle: '.layer',
-            //   animation: 150,
-            //   onStart: function (evt) {
-
-            //     ub.data.sorting = true;
-            //     ub.data.justSorted = true;
-
-            //   },
-            //   onEnd: function (evt) {
-
-            //     ub.data.sorting = false;
-            //     ub.data.justSorted = true;
-
-            //   },
-            //   onUpdate: function (evt) { 
-                
-            //     $.each($('span.layer'), function(key, value) {
-                   
-            //        var _length = _.size(ub.current_material.settings.applications);
-
-            //        var _index   = _length - (key + 1);
-            //        var _locID   = $(value).data('location-id');
-            //        var _piping     = ub.current_material.settings.applications[_locID];
-                   
-            //        _piping.zIndex  = _index;
-
-            //        $(this).find('span.zIndex').html(_index + 1);
-
-            //        if (_piping.application_type === "free") { return; }
-
-            //        _.each(_piping.application.views, function (view) {
-
-            //             var _obj = ub.objects[view.perspective + '_view']['objects_' + _locID];
-            //             _obj.zIndex = -(50 + _index);
-
-            //        });
-
-            //     });
-
-            //     ub.updateLayersOrder(ub.front_view);
-            //     ub.updateLayersOrder(ub.back_view);
-            //     ub.updateLayersOrder(ub.left_view);
-            //     ub.updateLayersOrder(ub.right_view);
-
-            //     var _locationID = $(evt.item).data('location-id');
-            //     ub.funcs.activateManipulator(_locationID);
-
-            //   }
-
-            // });
 
         }
 
