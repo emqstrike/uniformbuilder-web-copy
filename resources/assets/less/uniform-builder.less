@@ -8219,32 +8219,21 @@ strong.hello {
 
                 padding: 5px;
                 display: block;
-                background-color: #888888;
+                background-color: #e7e7e7;
                 margin: 3px;
-                cursor: move;
-                font-family: 'Avenir Next LT W04 Bold';
+                cursor: pointer;
                 font-size: 0.8em;
                 text-align: left;
-                border: 1px solid #888888;
+                font-family: 'Avenir Next LT W04 Thin';
+                color: #3d3d3d;
+
                 
-                span.code {
-
-                    display: inline-block;
-                    width: 30px;
-                    text-align: center;
-                    background-color: #3d3d3d;
-                    color: #acacac;
-                    margin-right: 7px;
-                    font-size: 0.8em;
-                    
-                }
-
                 span.caption {
 
                     display: inline-block;
                     min-width: 90px;
-                    color: white;
-
+                    padding-left: 30px;
+                    
                 }
 
                 span.perspective, span.application_type {
@@ -8265,9 +8254,10 @@ strong.hello {
 
             }
 
-            span.layer:hover {
+            span.piping:hover {
 
-                border: 1px solid white;
+                background-color: #3d3d3d;
+                color: white;
 
             }
 
@@ -8282,13 +8272,17 @@ strong.hello {
         span.piping.active {
 
             background-color: #3d3d3d !important;
-            color: white;
-            border: 1px solid #3d3d3d;
+            color: white !important;
+            font-family: 'Avenir Next LT W04 Bold' !important;
 
-            span.code {
+            -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
 
-                color: white;
-                
+            span.caption {
+
+                color: white !important;
+
             }
 
         }

@@ -141,7 +141,6 @@ $(document).ready(function () {
 
     ub.funcs.getPipingSettingsObject = function (set) {
 
-
         // Pipings Settings Object Structure 
         // 
         // e.g.
@@ -403,16 +402,11 @@ $(document).ready(function () {
 
         } else {
 
-
-            console.log('Searching for input: ');
             _pipingSet          = ub.funcs.getPipingSet(pipingSet);
             _activePipingSet    = _.first(_pipingSet);
 
-            console.log('Found: ');
-            console.log(_pipingSet);
-            console.log(_activePipingSet);
-
         }
+        
 
         // Main Template
 
