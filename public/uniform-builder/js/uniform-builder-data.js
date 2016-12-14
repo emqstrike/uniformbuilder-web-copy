@@ -154,6 +154,7 @@ $(document).ready(function() {
     ub.current_material.settings.roster         = [];
     ub.current_material.settings.order_info     = {};
     ub.current_material.settings.size_breakdown = {};
+    ub.current_material.settings.pipings        = {};
 
     ub.current_material.settings.thumbnails     = {
         front_view: "",
@@ -177,11 +178,1258 @@ $(document).ready(function() {
     ub.data.materials               = undefined;
     ub.data.colors                  = {};
     ub.data.fonts                   = undefined;
+    ub.data.pipings                 = undefined;
+
+    // Mock Object for Pipings 
+
+    ub.folders                      = { piping: '/images/pipings' } ;
+    
+    ub.data.pipings                 = [
+        
+        /// Yoke Piping
+        {
+            
+            name: 'Yoke Piping 1/4',
+            size: '1/4',
+            set: 'Yoke Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/fourth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+        {
+            
+            name: 'Yoke Piping 1/8',
+            size: '1/8',
+            set: 'Yoke Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke Piping/eighth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        },
+        /// End Yoke Piping 
+
+        /// Center Piping
+        {
+            
+            name: 'Center Piping 1/4',
+            size: '1/4',
+            set: 'Center Piping',
+            color_1: true,
+            color_2: false,
+            color_3: false,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Center Piping/fourth/Front/1.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Center Piping/fourth/Back/1.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Center Piping/fourth/Left/1.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Center Piping/fourth/Right/1.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+        {
+            
+            name: 'Center Piping 1/8',
+            size: '1/8',
+            set: 'Center Piping',
+            color_1: true,
+            color_2: false,
+            color_3: false,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Center Piping/eighth/Front/1.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Center Piping/eighth/Back/1.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Center Piping/eighth/Left/1.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Center Piping/eighth/Right/1.png',
+                        },
+                    ]
+                },
+            ]
+
+        },
+        /// End Center Piping
+
+        /// Left Arm Trim
+        {
+            
+            name: 'Left Arm Trim 1/2',
+            size: '1/2',
+            set: 'Left Arm Trim',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/half/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+        {
+            
+            name: 'Left Arm Trim 1/4',
+            size: '1/4',
+            set: 'Left Arm Trim',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+        {
+            
+            name: 'Left Arm Trim 1/8',
+            size: '1/8',
+            set: 'Left Arm Trim',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        },
+        /// End Left Arm Trim
+
+        /// Right Arm Trim
+        {
+            
+            name: 'Right Arm Trim 1/4',
+            size: '1/2',
+            set: 'Right Arm Trim',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/half/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+        {
+            
+            name: 'Right Arm Trim 1/4',
+            size: '1/4',
+            set: 'Right Arm Trim',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+        {
+            
+            name: 'Right Arm Trim 1/8',
+            size: '1/8',
+            set: 'Right Arm Trim',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        },
+        /// End Right Arm Trim
+
+        /// Left Sleeve Piping
+ {
+            
+            name: 'Left Sleeve Piping 1/2',
+            size: '1/2',
+            set: 'Left Sleeve Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/half/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+
+        {
+            
+            name: 'Left Sleeve Piping 1/4',
+            size: '1/4',
+            set: 'Left Sleeve Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/fourth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+        {
+            
+            name: 'Left Sleeve Piping 1/8',
+            size: '1/8',
+            set: 'Left Sleeve Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Sleeve Piping/eighth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        },
+        /// End Left Sleeve Piping
+
+        /// Right Sleeve Piping
+        {
+            
+            name: 'Right Sleeve Piping 1/2',
+            size: '1/2',
+            set: 'Right Sleeve Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        },
+
+        {
+            
+            name: 'Right Sleeve Piping 1/4',
+            size: '1/4',
+            set: 'Right Sleeve Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+        {
+            
+            name: 'Right Sleeve Piping 1/8',
+            size: '1/8',
+            set: 'Right Sleeve Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        },
+        /// End Left Arm Trim
+
+
+    ];
+
 
     ub.data.searchSource            = {};
     
     ub.data.colorsUsed              = {};
-    // This will contain default uniform settings when loading a uniform style, 
+    // This will contain default uniform settings when loading a uniform style,
     // when loading a uniform that is not from a customized order
 
     ub.data.defaultUniformStyle     = {};
@@ -192,7 +1440,7 @@ $(document).ready(function() {
         back:  [],
         right: [],
         left:  [],
-        
+
     };
 
     ub.data.boundaries_transformed  = {};

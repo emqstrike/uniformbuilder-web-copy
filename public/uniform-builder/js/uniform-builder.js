@@ -13,7 +13,13 @@ $(document).ready(function () {
 
             ub.current_material.id = window.ub.config.material_id;
             ub.current_material.code = window.ub.config.code;
-            
+
+            if (ub.current_material.id !== -1) {
+
+                ub.funcs.initCanvas();
+
+            }
+
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
             ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
             ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
@@ -27,7 +33,7 @@ $(document).ready(function () {
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-
+            
             ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
             ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 
@@ -53,22 +59,26 @@ $(document).ready(function () {
                 ub.funcs.loadHomePickers();  
 
             }
-            else {
 
-
-            }
-           
         };
+
+        ub.funcs.initCanvas = function () {
+
+            $('body').addClass('generic-canvas');
+
+        }
 
         ub.funcs.loadHomePickers = function () {
             
             $('div.backlink').addClass('back-link-on');
 
-            ub.current_material.material_url = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
+            ub.current_material.material_url         = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
             ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
+            // ub.current_material.pipings_url          = window.ub.config.api_host + '/api/pipings/' + ub.current_material.id;
 
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
+            // ub.loader(ub.current_material.pipings_url, 'pipings', ub.callback);
 
             $('#main_view').parent().fadeIn();
             $('div.header-container').fadeIn(); 
@@ -90,14 +100,14 @@ $(document).ready(function () {
 
             ub.funcs.priceOverride(material);
 
-            var _web_price_sale = parseFloat(material.web_price_sale);
-            var _msrp           = parseFloat(material.msrp);
+            var _web_price_sale = parseFloat(material.web_price_sale).toFixed(2);;
+            var _msrp           = parseFloat(material.msrp).toFixed(2);;
             var _price          = 0;
 
             if (_web_price_sale < _msrp && _web_price_sale > 1) {
-                _price          = "Sale Price: $" + _web_price_sale + " / Call for Team Pricing";
+                _price          = "Sale Price: $" + _web_price_sale;
             } else {
-                _price          = "MSRP $" + _msrp + " / Call for Team Pricing";
+                _price          = "MSRP $" + _msrp;
             }
 
             if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { 
@@ -281,10 +291,29 @@ $(document).ready(function () {
 
         };
 
+        ub.funcs.prepareBottomTabs = function () {
+
+            if(typeof (window.ub.user.id) === "undefined") {
+
+                $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
+                $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
+                
+            } else {
+
+                $('a.change-view[data-view="save"]').removeClass('disabled');
+                $('a.change-view[data-view="open-design"]').removeClass('disabled');
+
+            }
+
+            if (ub.current_material.material.id === '648') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
+            $('a.change-view[data-view="team-info"]').removeClass('disabled');
+
+        }
+
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
 
-//            _.each(ub.data.patterns.items, function (item) { console.log(item.name)});
+//          _.each(ub.data.patterns.items, function (item) { console.log(item.name)});
 
             if (ub.data.afterLoadCalled > 0) {return;}
 
@@ -304,27 +333,27 @@ $(document).ready(function () {
 
             }
 
+            var _getPrice = ub.funcs.getPrice(ub.current_material.material);
+
+            if (_getPrice !== "Call for Pricing") {
+
+                _getPrice += " / Call for Team Pricing";
+
+            }
+
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
-            $('div#uniform_price').html(ub.funcs.getPrice(ub.current_material.material) + '<br /><em class="notice">*pricing may vary depending on size</em>');
+            $('div#uniform_price').html(_getPrice + '<br /><em class="notice">*pricing may vary depending on size</em>');
 
             $('div.header-container').css('display','none !important');
 
             // TODO: Enable This
+
+
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
+
+
             ub.hideFontGuides();
             ub.data.afterLoadCalled = 1;
-
-            if(typeof (window.ub.user.id) === "undefined") {
-
-                $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
-                $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
-                
-            } else {
-
-                $('a.change-view[data-view="save"]').removeClass('disabled');
-                $('a.change-view[data-view="open-design"]').removeClass('disabled');
-
-            }
 
             ub.funcs.initToolBars();
             ub.data.undoHistory = [];
@@ -335,7 +364,7 @@ $(document).ready(function () {
                 ub.funcs.colorArrayFix();
             }
             
-            $('a.change-view[data-view="team-info"]').removeClass('disabled');
+            ub.funcs.prepareBottomTabs();
 
             ub.funcs.loadOtherFonts();
 
@@ -1461,7 +1490,6 @@ $(document).ready(function () {
 
         /// Transform Applications
 
-
         if (typeof ub.temp === "undefined") {
 
             ub.data.convertDefaultApplications();
@@ -2136,7 +2164,7 @@ $(document).ready(function () {
                     if(_.has(objects_in_view, material_option)){
 
                         objects_in_view[material_option].tint = parsed_color;
-    
+
                     }
                     
                 });
@@ -3593,11 +3621,12 @@ $(document).ready(function () {
 
                 if (typeof app_containers[application_obj.id] === 'undefined') {
     
-                    app_containers[application_obj.id] = {};
+                    app_containers[application_obj.code] = {};
 
-                    app_containers[application_obj.id].object = {};
-                    app_containers[application_obj.id].object.sprite = sprite_collection;
+                    app_containers[application_obj.code].object = {};
+                    app_containers[application_obj.code].object.sprite = sprite_collection;
 
+                    
                 }
 
                 if (typeof input_object.applicationObj === 'object') {
@@ -4373,6 +4402,21 @@ $(document).ready(function () {
                     
                 }
 
+                if (view === 'pipings') {
+
+                    if($(this).hasClass('disabled')) {
+
+                        return;
+
+                    }
+
+                    ub.funcs.showPipingsPanel();
+                    ub.funcs.activatePipings();
+
+                    return;
+
+                }
+
                 if (view === 'start-over') {
 
                     window.location.href = window.ub.config.host + '/builder/0/' + ub.current_material.material.id;
@@ -4786,6 +4830,7 @@ $(document).ready(function () {
                 var _paddedHex = util.padHex(_hexCode, 6);
 
                 if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
+
                     ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
                 }
                 ///
@@ -5265,8 +5310,8 @@ $(document).ready(function () {
 
             ub.tempItems = _.sortBy(items, function(item) { 
 
-                if(item.type === 'upper') { 
-                    return 1; 
+                if (item.type === 'upper') { 
+                    return 1;
                 } 
                 else {
                     return 2;
@@ -5305,7 +5350,21 @@ $(document).ready(function () {
             }
 
             var markup = Mustache.render(template, data);
-            $scrollerElement.html(markup);
+            $.when($scrollerElement.html(markup)).then(
+
+                $('.main-picker-items').each(function(item) {
+
+                    var _resultPrice = $(this).find('span.calculatedPrice').html();
+
+                    if (_resultPrice === "Call for Pricing") {
+
+                        $(this).find('span.callForTeamPricing').html('');
+
+                    }
+
+                })
+
+            );
 
             ub.funcs.hideIpadUniforms();
 

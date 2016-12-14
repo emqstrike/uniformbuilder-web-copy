@@ -117,8 +117,7 @@
 
                 if (colorStatus === 'unselected') {
 
-                    if (ub.current_material.settings.team_colors.length + 1 > 8) {
-
+                    if (ub.current_material.settings.team_colors.length + 1 > 9) {
                         ub.startModal('Maximum # of Team Colors is 8');
                         return;
 
@@ -1069,6 +1068,48 @@
     };
 
     $.ub = {};
+
+    $.ub.create_piping = function (pipingObject, firstColor, colorCount, perspective) {
+
+        var sprite; 
+        var pipingObject = pipingObject;
+        var settings = ub.current_material.settings;
+        var initialColor = firstColor;
+
+        var view = ub[perspective + '_view'];
+        var view_objects = ub.objects[perspective + '_view'];
+        var container = new PIXI.Container();
+        var elements = "";
+        var _frontObject = _.find(pipingObject.perspectives, {perspective: perspective});
+
+        _.each(_frontObject.layers, function(layer, index) {
+
+            if (index + 1 > colorCount) { return; }
+
+            var pipingLayer = ub.pixi.new_sprite(layer.filename);
+
+            pipingLayer.ubName = 'Layer ' + (index + 1);
+
+            pipingLayer.tint = parseInt(initialColor.hex_code, 16);
+            container.addChild(pipingLayer);
+
+        });
+        
+        
+        sprite = container;
+
+        ub.current_material.containers[pipingObject.name] = {};
+        ub.current_material.containers[pipingObject.name].pipingObject = sprite;
+
+        var temp                    = {}
+        var layer_order             = ( 70 );
+
+        sprite.originalZIndex       = layer_order * (-1);
+        sprite.zIndex               = layer_order * (-1);
+
+        return sprite;
+
+    };
 
     $.ub.create_mascot = function (input_object) {
 

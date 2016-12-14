@@ -9,6 +9,7 @@
 **uba**
 
     - Handles the create of applications and handling of mouse events
+
 **ubp**
 
     - Handles the ordering process
@@ -17,9 +18,17 @@
 
     - Helper functions for creating the color pickers, and the text and mascot sprites for the applications
 
+**ubtcj**
+
+    - Team Color Functions and Other Color Management Functions
+
 **ubutilities**
 
     - General Utility Functions
+
+**ubpip**
+
+    - Piping Code
 
 ** util
 
