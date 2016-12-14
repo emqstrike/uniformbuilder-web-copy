@@ -500,6 +500,10 @@
                             <label class="col-md-4 control-label">Price Item Template</label>
                             <div class="col-md-6">
                                 <select class="form-control material-price-item-template-id" name="price_item_template_id" id="price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'@if($material->price_item_template_id == $template->id) selected="selected"@endif>{{ $template->name }}</option>
+                                @endforeach
                                 </select>
                             </div>
                         </div>

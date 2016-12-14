@@ -152,6 +152,7 @@ class MaterialsController extends Controller
         $colors = $colorsAPIClient->getColors();
         $factories = $this->factoriesClient->getFactories();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
+        $price_item_templates = $this->priceItemTemplateClient->getAll();
 
         $material = $this->client->getMaterial($id);
         return view('administration.materials.material-edit', [
@@ -159,10 +160,10 @@ class MaterialsController extends Controller
             'uniform_categories' => $uniformCategories,
             'colors' => $colors,
             'factories' => $factories,
-            'block_patterns' => $block_patterns
+            'block_patterns' => $block_patterns,
+            'price_item_templates' => $price_item_templates
         ]);
     }
-
 
     public function editPipingForm($id)
     {
@@ -951,6 +952,8 @@ class MaterialsController extends Controller
 
         $design_type = $request->input('design_type');
 
+        $priceItemTemplateID = $request->input('price_item_template_id');
+
         $materialId = null;
         if (!empty($request->input('material_id')))
         {
@@ -991,9 +994,10 @@ class MaterialsController extends Controller
             'uniform_application_type' => $uniformApplicationType,
             'sizes' => $sizes,
             'debug_mode' => $debugMode,
-            'asset_target' => $assetTarget
+            'asset_target' => $assetTarget,
+            'price_item_template_id' => $priceItemTemplateID
         ];
-// dd($data);
+
         try {
             // Thumbnail Files
             $thumbnailFile = $request->file('thumbnail_path');
