@@ -504,7 +504,6 @@ $(document).ready(function () {
                 pipingSet           = initialPipingSet;
                 _activePipingSet    = _.first(_pipingSet);
 
-
             } else {
 
                 _pipingSet          = ub.funcs.getPipingSet(pipingSet);

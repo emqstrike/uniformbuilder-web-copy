@@ -185,6 +185,170 @@ $(document).ready(function() {
     ub.folders                      = { piping: '/images/pipings' } ;
     
     ub.data.pipings                 = [
+
+        /// Neck Piping
+            {
+            
+            name: 'Neck Piping 1/8',
+            size: '1/8',
+            set: 'Neck Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Neck Piping/eighth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        },
+        {
+            
+            name: 'Neck Piping 1/4',
+            size: '1/4',
+            set: 'Neck Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Neck Piping/fourth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+
+        /// End Neck Piping 
         
         /// Yoke Piping
                 {
@@ -1424,6 +1588,335 @@ $(document).ready(function() {
             ]
 
         },
+        /// End Left Arm Trim
+
+        //////////////
+
+        /// Left Set-in Piping
+        {
+            
+            name: 'Left Set-in Piping 1/8',
+            size: '1/8',
+            set: 'Left Set-in Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Set-in Piping/eighth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        },
+        {
+            
+            name: 'Left Set-in Piping 1/4',
+            size: '1/4',
+            set: 'Left Set-in Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Left Set-in Piping/fourth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+    
+        /// End Left Set-in Piping
+
+        /// Right Set-in Piping
+        {   
+            name: 'Right Set-in Piping 1/8',
+            size: '1/8',
+            set: 'Right Set-in Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Set-in Piping/eighth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        },
+        {
+            
+            name: 'Right Set-in Piping 1/4',
+            size: '1/4',
+            set: 'Right Set-in Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Right Set-in Piping/fourth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        }, 
+       
         /// End Left Arm Trim
 
 
