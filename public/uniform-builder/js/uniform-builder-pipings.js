@@ -472,9 +472,6 @@ $(document).ready(function () {
 
         if (typeof _activePipingSet !== "undefined") {
 
-            console.log('Typeof activepipingset')
-            console.log(typeof _activePipingSet);
-
             if (_activePipingSet.size !== "") {
                 _status = "on"
             } else {
@@ -489,7 +486,7 @@ $(document).ready(function () {
 
         }
 
-        if (typeof _activePipingSet === "undefined") {
+        if (typeof pipingSet === "undefined") {
 
             var initialPipingSet = 'Yoke Piping';
 
@@ -499,12 +496,27 @@ $(document).ready(function () {
 
         } else {
 
-            _pipingSet          = ub.funcs.getPipingSet(pipingSet);
-            _activePipingSet    = _.first(_pipingSet);
+            if (_activePipingSet === "undefined") {
+
+                var initialPipingSet = pipingSet;
+
+                _pipingSet          = ub.funcs.getPipingSet(initialPipingSet);
+                pipingSet           = initialPipingSet;
+                _activePipingSet    = _.first(_pipingSet);
+
+
+            } else {
+
+                _pipingSet          = ub.funcs.getPipingSet(pipingSet);
+                _activePipingSet    = _.first(_pipingSet);
+
+            }
 
         }
 
         // Main Template
+
+        $('div#pipingsUI').remove();
 
         var _template           = $('#m-piping-sidebar').html();
         var _data               = { status: _status, type: pipingSet };
