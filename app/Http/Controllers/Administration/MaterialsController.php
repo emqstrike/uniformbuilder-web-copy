@@ -17,6 +17,7 @@ use App\APIClients\BoundariesAPIClient;
 use App\APIClients\FontsAPIClient;
 use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
+use App\APIClients\PriceItemTemplatesAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 
 class MaterialsController extends Controller
@@ -30,6 +31,7 @@ class MaterialsController extends Controller
     protected $boundaryClient;
     protected $fontClient;
     protected $blockPatternClient;
+    protected $priceItemTemplateClient;
 
     public function __construct(
         APIClient $apiClient,
@@ -40,7 +42,8 @@ class MaterialsController extends Controller
         ApplicationsAPIClient $applicationsAPIClient,
         BoundariesAPIClient $boundariesAPIClient,
         FontsAPIClient $fontsAPIClient,
-        BlockPatternsAPIClient $blockPatternsAPIClient
+        BlockPatternsAPIClient $blockPatternsAPIClient,
+        PriceItemTemplatesAPIClient $priceItemTemplatesClient
     )
     {
         $this->client = $apiClient;
@@ -52,6 +55,7 @@ class MaterialsController extends Controller
         $this->boundaryClient = $boundariesAPIClient;
         $this->fontClient = $fontsAPIClient;
         $this->blockPatternClient = $blockPatternsAPIClient;
+        $this->priceItemTemplateClient = $priceItemTemplatesClient;
     }
 
     /**
@@ -148,6 +152,7 @@ class MaterialsController extends Controller
         $colors = $colorsAPIClient->getColors();
         $factories = $this->factoriesClient->getFactories();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
+        $price_item_templates = $this->priceItemTemplateClient->getAll();
 
         $material = $this->client->getMaterial($id);
         return view('administration.materials.material-edit', [
@@ -155,10 +160,10 @@ class MaterialsController extends Controller
             'uniform_categories' => $uniformCategories,
             'colors' => $colors,
             'factories' => $factories,
-            'block_patterns' => $block_patterns
+            'block_patterns' => $block_patterns,
+            'price_item_templates' => $price_item_templates
         ]);
     }
-
 
     public function editPipingForm($id)
     {
@@ -201,6 +206,15 @@ class MaterialsController extends Controller
         $name_of = $request->input('name_of');
         $name_oh = $request->input('name_oh');
         $case = $request->input('case');
+        $oe1 = is_null($request->input('oe1')) ? false : true;
+        $oe2 = is_null($request->input('oe2')) ? false : true;
+        $oe3 = is_null($request->input('oe3')) ? false : true;
+        $of1 = is_null($request->input('of1')) ? false : true;
+        $of2 = is_null($request->input('of2')) ? false : true;
+        $of3 = is_null($request->input('of3')) ? false : true;
+        $oh1 = is_null($request->input('oh1')) ? false : true;
+        $oh2 = is_null($request->input('oh2')) ? false : true;
+        $oh3 = is_null($request->input('oh3')) ? false : true;
 
         $set = "Piping";
 
@@ -938,6 +952,8 @@ class MaterialsController extends Controller
 
         $design_type = $request->input('design_type');
 
+        $priceItemTemplateID = $request->input('price_item_template_id');
+
         $materialId = null;
         if (!empty($request->input('material_id')))
         {
@@ -978,9 +994,10 @@ class MaterialsController extends Controller
             'uniform_application_type' => $uniformApplicationType,
             'sizes' => $sizes,
             'debug_mode' => $debugMode,
-            'asset_target' => $assetTarget
+            'asset_target' => $assetTarget,
+            'price_item_template_id' => $priceItemTemplateID
         ];
-// dd($data);
+
         try {
             // Thumbnail Files
             $thumbnailFile = $request->file('thumbnail_path');

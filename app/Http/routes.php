@@ -307,6 +307,12 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('feedback/reply/{id}', 'Administration\FeedbacksController@reply');
     Route::get('feedback/thread/{id}', 'Administration\FeedbacksController@viewThread');
 
+    // Price Item Templates
+    Route::get('price_item_templates', 'Administration\PriceItemTemplatesController@index');
+    Route::get('price_item_template/add', 'Administration\PriceItemTemplatesController@addForm');
+    Route::post('price_item_template', 'Administration\PriceItemTemplatesController@store');
+    Route::get('price_item_template/{id}', 'Administration\PriceItemTemplatesController@show');
+
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
