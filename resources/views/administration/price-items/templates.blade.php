@@ -26,6 +26,7 @@
                     <table data-toggle='table' class='table table-bordered fonts'>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Description</th>
                             <th>Preview</th>
@@ -37,6 +38,9 @@
                     @forelse ($price_item_templates as $template)
 
                         <tr class='template-{{ $template->id }}'>
+                            <td>
+                                {{ $template->id }}
+                            </td>
                             <td>
                                 {{ $template->name }}
                             </td>
