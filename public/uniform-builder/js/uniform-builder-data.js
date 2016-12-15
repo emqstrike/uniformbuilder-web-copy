@@ -185,6 +185,87 @@ $(document).ready(function() {
     ub.folders                      = { piping: '/images/pipings' } ;
     
     ub.data.pipings                 = [
+     /// Neck Piping
+            {
+            
+            name: 'Yoke and Neck Piping 1/8',
+            size: '1/8',
+            set: 'Yoke and Neck Piping',
+            color_1: true,
+            color_2: true,
+            color_3: true,
+            perspectives: [
+                {
+                    perspective: 'front',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Front/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Front/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Front/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'back',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Back/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Back/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Back/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'left',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Left/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Left/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Left/3.png',
+                        }
+                    ]
+                },
+                {
+                    perspective: 'right',
+                    layers: [
+                        {
+                            position: 1,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Right/1.png',
+                        },
+                        {
+                            position: 2,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Right/2.png',
+                        },
+                        {
+                            position: 3,
+                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Right/3.png',
+                        }
+                    ]
+                },
+            ]
+
+        },
 
         /// Neck Piping
             {
@@ -614,12 +695,12 @@ $(document).ready(function() {
 
         /// End Center Piping
 
-        /// Left Arm Trim
+        /// Left End of Sleeve Piping
         {
             
-            name: 'Left Arm Trim 1/8',
+            name: 'Left End of Sleeve Piping 1/8',
             size: '1/8',
-            set: 'Left Arm Trim',
+            set: 'Left End of Sleeve Piping',
             color_1: true,
             color_2: true,
             color_3: true,
@@ -629,15 +710,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Front/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Front/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Front/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Front/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Front/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Front/3.png',
                         }
                     ]
                 },
@@ -646,15 +727,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Back/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Back/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Back/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Back/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Back/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Back/3.png',
                         }
                     ]
                 },
@@ -663,15 +744,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Left/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Left/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Left/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Left/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Left/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Left/3.png',
                         }
                     ]
                 },
@@ -680,15 +761,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Right/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Right/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Right/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Right/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/eighth/Right/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/eighth/Right/3.png',
                         }
                     ]
                 },
@@ -698,9 +779,9 @@ $(document).ready(function() {
         
         {
             
-            name: 'Left Arm Trim 1/4',
+            name: 'Left End of Sleeve Piping 1/4',
             size: '1/4',
-            set: 'Left Arm Trim',
+            set: 'Left End of Sleeve Piping',
             color_1: true,
             color_2: true,
             color_3: true,
@@ -710,15 +791,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Front/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Front/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Front/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Front/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Front/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Front/3.png',
                         }
                     ]
                 },
@@ -727,15 +808,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Back/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Back/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Back/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Back/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Back/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Back/3.png',
                         }
                     ]
                 },
@@ -744,15 +825,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Left/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Left/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Left/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Left/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Left/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Left/3.png',
                         }
                     ]
                 },
@@ -761,15 +842,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Right/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Right/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Right/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Right/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/fourth/Right/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/fourth/Right/3.png',
                         }
                     ]
                 },
@@ -778,9 +859,9 @@ $(document).ready(function() {
         }, 
         {
             
-            name: 'Left Arm Trim 1/2',
+            name: 'Left End of Sleeve Piping 1/2',
             size: '1/2',
-            set: 'Left Arm Trim',
+            set: 'Left End of Sleeve Piping',
             color_1: true,
             color_2: true,
             color_3: true,
@@ -790,15 +871,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Front/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Front/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Front/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Front/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Front/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Front/3.png',
                         }
                     ]
                 },
@@ -807,15 +888,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Back/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Back/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Back/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Back/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Back/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Back/3.png',
                         }
                     ]
                 },
@@ -824,15 +905,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Left/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Left/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Left/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Left/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Left/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Left/3.png',
                         }
                     ]
                 },
@@ -841,15 +922,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Right/1.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Right/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Right/2.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Right/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Left Arm Trim/half/Right/3.png',
+                            filename: ub.folders.piping + '/Left End of Sleeve Piping/half/Right/3.png',
                         }
                     ]
                 },
@@ -857,14 +938,14 @@ $(document).ready(function() {
 
         }, 
         
-        /// End Left Arm Trim
+        /// End Left End of Sleeve Piping
 
-        /// Right Arm Trim
+        /// Right End of Sleeve Piping
         {
             
-            name: 'Right Arm Trim 1/8',
+            name: 'Right End of Sleeve Piping 1/8',
             size: '1/8',
-            set: 'Right Arm Trim',
+            set: 'Right End of Sleeve Piping',
             color_1: true,
             color_2: true,
             color_3: true,
@@ -874,15 +955,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Front/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Front/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Front/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Front/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Front/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Front/3.png',
                         }
                     ]
                 },
@@ -891,15 +972,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Back/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Back/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Back/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Back/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Back/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Back/3.png',
                         }
                     ]
                 },
@@ -908,15 +989,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Left/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Left/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Left/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Left/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Left/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Left/3.png',
                         }
                     ]
                 },
@@ -925,15 +1006,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Right/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Right/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Right/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Right/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/eighth/Right/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/eighth/Right/3.png',
                         }
                     ]
                 },
@@ -943,9 +1024,9 @@ $(document).ready(function() {
         
         {
             
-            name: 'Right Arm Trim 1/4',
+            name: 'Right End of Sleeve Piping 1/4',
             size: '1/4',
-            set: 'Right Arm Trim',
+            set: 'Right End of Sleeve Piping',
             color_1: true,
             color_2: true,
             color_3: true,
@@ -955,15 +1036,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Front/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Front/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Front/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Front/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Front/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Front/3.png',
                         }
                     ]
                 },
@@ -972,15 +1053,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Back/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Back/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Back/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Back/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Back/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Back/3.png',
                         }
                     ]
                 },
@@ -989,15 +1070,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Left/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Left/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Left/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Left/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Left/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Left/3.png',
                         }
                     ]
                 },
@@ -1006,15 +1087,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Right/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Right/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Right/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Right/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/fourth/Right/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/fourth/Right/3.png',
                         }
                     ]
                 },
@@ -1023,9 +1104,9 @@ $(document).ready(function() {
         }, 
         {
             
-            name: 'Right Arm Trim 1/2',
+            name: 'Right End of Sleeve Piping 1/2',
             size: '1/2',
-            set: 'Right Arm Trim',
+            set: 'Right End of Sleeve Piping',
             color_1: true,
             color_2: true,
             color_3: true,
@@ -1035,15 +1116,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Front/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Front/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Front/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Front/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Front/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Front/3.png',
                         }
                     ]
                 },
@@ -1052,15 +1133,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Back/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Back/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Back/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Back/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Back/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Back/3.png',
                         }
                     ]
                 },
@@ -1069,15 +1150,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Left/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Left/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Left/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Left/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Left/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Left/3.png',
                         }
                     ]
                 },
@@ -1086,15 +1167,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Right/1.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Right/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Right/2.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Right/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Arm Trim/half/Right/3.png',
+                            filename: ub.folders.piping + '/Right End of Sleeve Piping/half/Right/3.png',
                         }
                     ]
                 },
@@ -1102,7 +1183,7 @@ $(document).ready(function() {
 
         }, 
         
-        /// End Right Arm Trim
+        /// End Right End of Sleeve Piping
 
         /// Left Sleeve Piping
           {
@@ -1350,9 +1431,9 @@ $(document).ready(function() {
 
         /// Right Sleeve Piping
         {   
-            name: 'Right Sleeve Piping 1/8',
+            name: 'Right Sleeve Piping 1-inch Up 1/8',
             size: '1/8',
-            set: 'Right Sleeve Piping',
+            set: 'Right Sleeve Piping 1-inch Up',
             color_1: true,
             color_2: true,
             color_3: true,
@@ -1362,15 +1443,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Front/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Front/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Front/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Front/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Front/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Front/3.png',
                         }
                     ]
                 },
@@ -1379,15 +1460,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Back/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Back/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Back/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Back/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Back/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Back/3.png',
                         }
                     ]
                 },
@@ -1396,15 +1477,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Left/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Left/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Left/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Left/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Left/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Left/3.png',
                         }
                     ]
                 },
@@ -1413,15 +1494,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Right/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Right/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Right/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Right/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/eighth/Right/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/eighth/Right/3.png',
                         }
                     ]
                 },
@@ -1430,9 +1511,9 @@ $(document).ready(function() {
         },
         {
             
-            name: 'Right Sleeve Piping 1/4',
+            name: 'Right Sleeve Piping 1-inch Up 1/4',
             size: '1/4',
-            set: 'Right Sleeve Piping',
+            set: 'Right Sleeve Piping 1-inch Up',
             color_1: true,
             color_2: true,
             color_3: true,
@@ -1442,15 +1523,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Front/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Front/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Front/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Front/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Front/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Front/3.png',
                         }
                     ]
                 },
@@ -1459,15 +1540,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Back/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Back/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Back/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Back/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Back/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Back/3.png',
                         }
                     ]
                 },
@@ -1476,15 +1557,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Left/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Left/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Left/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Left/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Left/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Left/3.png',
                         }
                     ]
                 },
@@ -1493,15 +1574,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Right/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Right/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Right/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Right/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/fourth/Right/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/fourth/Right/3.png',
                         }
                     ]
                 },
@@ -1510,9 +1591,9 @@ $(document).ready(function() {
         }, 
         {
             
-            name: 'Right Sleeve Piping 1/2',
+            name: 'Right Sleeve Piping 1-inch Up 1/2',
             size: '1/2',
-            set: 'Right Sleeve Piping',
+            set: 'Right Sleeve Piping 1-inch Up',
             color_1: true,
             color_2: true,
             color_3: true,
@@ -1522,15 +1603,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Front/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Front/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Front/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Front/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Front/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Front/3.png',
                         }
                     ]
                 },
@@ -1539,15 +1620,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Back/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Back/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Back/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Back/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Back/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Back/3.png',
                         }
                     ]
                 },
@@ -1556,15 +1637,15 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Left/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Left/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Left/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Left/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Left/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Left/3.png',
                         }
                     ]
                 },
@@ -1573,22 +1654,22 @@ $(document).ready(function() {
                     layers: [
                         {
                             position: 1,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Right/1.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Right/1.png',
                         },
                         {
                             position: 2,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Right/2.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Right/2.png',
                         },
                         {
                             position: 3,
-                            filename: ub.folders.piping + '/Right Sleeve Piping/half/Right/3.png',
+                            filename: ub.folders.piping + '/Right Sleeve Piping 1-inch Up/half/Right/3.png',
                         }
                     ]
                 },
             ]
 
         },
-        /// End Left Arm Trim
+        /// End Left End of Sleeve Piping
 
         //////////////
 
@@ -1917,7 +1998,7 @@ $(document).ready(function() {
 
         }, 
        
-        /// End Left Arm Trim
+        /// End Left End of Sleeve Piping
 
 
     ];
