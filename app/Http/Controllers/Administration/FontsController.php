@@ -51,7 +51,7 @@ class FontsController extends Controller
         $fonts = $this->client->getDefaultFonts();
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
-
+        
         return view('administration.fonts.font-edit', [
             'fonts' => $fonts,
             'font' => $font,
