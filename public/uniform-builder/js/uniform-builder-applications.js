@@ -7727,6 +7727,7 @@ $(document).ready(function() {
         ub.funcs.deActivatePatterns();
         ub.funcs.deActivateLocations();
         ub.funcs.deactivatePipings();
+        ub.funcs.deactivatePipings();
 
     }
 
