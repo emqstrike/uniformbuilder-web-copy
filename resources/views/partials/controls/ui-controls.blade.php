@@ -447,8 +447,8 @@
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
-                    <img src='/images/main-ui/shadow.png' />
                     <strong class="uniform-name">@{{name}}</strong> <br />
+                    <span class="callForTeamPricing">Call for Team Pricing</span>
                     <span class="calculatedPrice">@{{calculatedPrice}}</span>
                     <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong> <!-- <strong class="type">@{{block_pattern}}</strong> -->
                 </span> 
@@ -1531,6 +1531,83 @@
      </script>
 
 <!-- End Logged In Nav -->
-            
+
+<!-- Piping Sizes -->
+
+    <script type="text/mustache" id="m-piping-sizes">
+
+        <label class="applicationLabels size">Size</label>
+
+        @{{#items}}
+
+            <span class="piping-sizes-buttons" data-type="@{{name}}" data-size="@{{size}}">
+                @{{size}}
+            </span> 
+
+        @{{/items}}
+
+    </script>
+
+<!-- End Piping Sizes -->
+
+<!-- Piping Colors -->
+
+    <script type="text/mustache" id="m-piping-colors">
+
+        <label class="applicationLabels colors"># of Colors</label> 
+
+        @{{#items}}
+
+            <span class="piping-colors-buttons" data-type="@{{name}}" data-value="@{{val}}">
+                @{{val}}
+            </span> 
+
+        @{{/items}}
+
+    </script>
+
+<!-- End Piping Colors -->
+
+<!-- Main Piping Sidebar -->
+
+    <script type="text/mustache" id="m-piping-sidebar">
+
+        <div id="pipingsUI">
+          <div class="header">
+          <div class="toggle" data-status="@{{status}}"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>
+          <div class="body">
+              <div class="cover"></div>
+              <div class="ui-row">
+
+                  <label class="applicationLabels">Type</label>
+                  <span class="piping-type">@{{type}}</span>                       
+
+              </div>
+
+              <div class="ui-row size-row">
+
+              </div>
+
+              <div class="ui-row colors-row">
+                  
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="ui-row">
+                  <div class="column1"> &nbsp;
+                      <div class="sub1">
+                        <span class="accentThumb"><img src="/images/pipings/thumbnails/placeholder.png"></span><br><span class="accent">Yoke</span><span class="flipButton" style="display: none;">Vertical</span>
+                      </div>
+                      <div class="colorContainer"><br />
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        
+    </script>
+
+<!-- End Main Piping Sidebar -->
 
 

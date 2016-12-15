@@ -881,7 +881,6 @@ $(document).ready(function() {
                 application.estimatedMeasure = application.estimatedMeasure / 2 + 1;
 
             }
-
            
         });
 
@@ -3890,9 +3889,8 @@ $(document).ready(function() {
     ub.funcs.moveToNextMaterialOption = function () {
 
         var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
-        var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
  
-        if (_sizeOfTeamColors < _sizeOfColorsUsed) { 
+        if (_sizeOfTeamColors > 8) {
             ub.startModal();
             return; 
         }
@@ -4299,6 +4297,73 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.changePatternFromPopupApplications = function (settingsObj, patternID) {
+
+        var _patternID                  = patternID.toString();
+        var _patternObject              = _.find(ub.data.patterns.items, {id: _patternID.toString()});
+        var _uniform_type               = ub.current_material.material.type;
+        var app_containers              = ub.current_material.containers[_uniform_type].application_containers;
+
+        var _spriteCollection           = ub.objects.front_view['objects_' + settingsObj.code].children;
+
+        _.each (_patternObject.layers, function (layer)  {
+
+            var team_color = ub.funcs.getTeamColorObjByIndex(layer.team_color_id);
+
+            if (typeof team_color !== 'undefined') {
+
+                layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
+
+            }
+            
+        });
+
+        ub.showModalTool('This feature is still being tested, and will be available soon. Thank you!')        
+
+        // Does not work or disable, crossing_sword, line fade body (use line fade sleeve instead)
+
+        // console.log('Pattern ID: ');
+        // console.log(patternID);
+
+        // var _patternObj = _.find(ub.data.patterns.items, {id: patternID.toString()});
+
+        // console.log('Pattern Object: ');
+        // console.log(_patternObj);
+
+        // console.log('Settings Object:');
+        // console.log(settingsObj);
+
+        // settingsObj.applicationObj = { pattern_obj: _patternObj} ;
+
+        // if (typeof settingsObj.applicationObj.pattern_obj === 'object') {
+
+        //     // $.ub.mvChangePattern(settingsObj.application, settingsObj.application.id, _patternObj, _spriteCollection);
+
+        // }
+
+        // var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
+        // var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
+        // var titleNameFirstMaterial      = _names[0].toTitleCase();
+
+        // _.each(_names, function (name) {
+
+        //     var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(name.toTitleCase());
+        //     var _materialOptions            = ub.funcs.getMaterialOptions(name.toTitleCase());
+
+        //     materialOption = _materialOptions[0];
+        //     outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
+        //     _settingsObject.pattern     = outputPatternObject;
+        //     e = _settingsObject;
+
+        //     ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
+
+        // });
+
+        // ub.funcs.clearPatternUI();
+        // ub.funcs.activatePatterns();
+
+    }
+
     ub.funcs.changePatternFromPopup = function (currentPart, patternID) {
 
         var _patternID                  = patternID.toString();
@@ -4339,6 +4404,74 @@ $(document).ready(function() {
         ub.funcs.activatePatterns();
 
     }
+
+     ub.funcs.createPatternPopupApplications = function (settingsObj) {
+
+        console.log('Settings Object: ');
+        console.log(settingsObj);
+
+        if ($('div#primaryPatternPopup').length === 0) {
+
+            var data = {
+                label: 'Choose Patterns: ',
+                patterns: _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'),
+            };
+
+            var template = $('#m-pattern-popup').html();
+            var markup = Mustache.render(template, data);
+
+            $('body').append(markup);
+
+        }
+
+        ub.funcs.centerPatternPopup();
+
+        $popup = $('div#primaryPatternPopup');
+        $popup.fadeIn();
+
+        $('div.patternPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
+        $('div.patternPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('pattern-id');
+
+            ub.funcs.changePatternFromPopupApplications(settingsObj, _id);
+            $popup.remove();
+
+        });
+
+        $('div.close-popup').on('click', function (){
+
+            $popup.remove();
+
+        });
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+
+        });
+
+    };
 
     ub.funcs.createPatternPopup = function () {
 
@@ -6321,13 +6454,8 @@ $(document).ready(function() {
 
     ub.funcs.activateMascots = function (application_id) {
 
-        if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { 
-
-            return;
-
-        }
-
-        if (!ub.funcs.okToStart()) { return; }
+        if (ub.funcs.popupsVisible()) { return; }
+        if (!ub.funcs.okToStart())    { return; }
 
         ub.funcs.activatePanelGuard();
 
@@ -6385,10 +6513,7 @@ $(document).ready(function() {
         var _appActive          = 'checked';
         var _maxLength          = 12;
 
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateColorPickers();
-        ub.funcs.deActivatePatterns();
-        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
         
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
@@ -7589,10 +7714,32 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.deactivatePipings = function () {
+
+        $('div#pipingsUI').remove();
+
+    }
+
+    ub.funcs.deactivatePanels = function  () {
+
+        ub.funcs.deActivateApplications();
+        ub.funcs.deActivateColorPickers();
+        ub.funcs.deActivatePatterns();
+        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePipings();
+
+    }
+
+    ub.funcs.popupsVisible = function () {
+
+        return ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible'));
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
-        if ($('div#primaryMascotPopup').is(':visible')) { return; }
+        if ($('div#primaryMascotPopup').is(':visible'))  { return; }
 
         // Remove Change Application UI
         $('div#changeApplicationUI').remove();
@@ -7616,10 +7763,7 @@ $(document).ready(function() {
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateColorPickers();
-        ub.funcs.deActivatePatterns();
-        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
 
         var _sampleText       = _settingsObject.text;
@@ -7731,8 +7875,20 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
+        _htmlBuilder        +=          '<div class="color-pattern-tabs">';
+        _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span><span class="tab" data-item="patterns">Patterns</span>';
+        _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1">'
+        _htmlBuilder        +=              '<div class="column1 applications patterns">';
+        _htmlBuilder        +=                 '<div class="sub1 patternThumb">';
+        _htmlBuilder        +=                    '<span class="patternThumb"><img src="/images/patterns/Blank/1.png"/></span><br />';                                                             
+        _htmlBuilder        +=                    '<span class="pattern">Blank</span>';
+        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
+        _htmlBuilder        +=                 '</div>';
+        _htmlBuilder        +=                 '<div class="colorContainer">';
+        _htmlBuilder        +=                 '</div>';
+        _htmlBuilder        +=              '</div>';
+        _htmlBuilder        +=              '<div class="column1 applications colors">'
         _htmlBuilder        +=                 '<div class="sub1">';
         _htmlBuilder        +=                    '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                                                             
         _htmlBuilder        +=                    '<span class="accent">' + _accentName + '</span>';
@@ -7768,7 +7924,7 @@ $(document).ready(function() {
 
                 var _matchingCode = undefined;
                 var _matchingSettingsObject = undefined;
-    
+
                 ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject); // Force rerendering when a color is added
                 ub.funcs.activateApplications(application_id);
 
@@ -7838,6 +7994,20 @@ $(document).ready(function() {
         $('.modifier_main_container').append(_htmlBuilder);
 
         //// Events
+
+            /// color pattern tab
+
+            $('div.color-pattern-tabs > span.tab').unbind('click');
+            $('div.color-pattern-tabs > span.tab').on('click', function () {
+
+                var _item = $(this).data('item');
+
+                $('div.color-pattern-tabs > span.tab').removeClass('active');
+                $(this).addClass('active');
+                $('div.column1').hide();
+                $('div.column1.' + _item).fadeIn();
+
+            });
 
             /// Vertical Text
 
@@ -8205,6 +8375,12 @@ $(document).ready(function() {
             $('span.accentThumb, span.accent').on('click', function () {
 
                 ub.funcs.createAccentPopup(_settingsObject);
+
+            });
+
+            $('span.patternThumb, span.pattern').on('click', function () {
+
+                ub.funcs.createPatternPopupApplications(_settingsObject);
 
             });
 
@@ -9586,9 +9762,10 @@ $(document).ready(function() {
 
     }
 
+
     ub.funcs.showLayerTool = function () {
 
-        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
+        ub.funcs.activateBody();
 
         if ($('div#layers-order').is(':visible')) {
 
@@ -9668,10 +9845,8 @@ $(document).ready(function() {
 
     ub.funcs.activateFreeApplication = function (application_id) {
 
-        if ($('div#primaryPatternPopup').is(':visible')) { return; }
-        if ($('div#primaryMascotPopup').is(':visible')) { return; }
-
-        if (!ub.funcs.okToStart()) { return; }
+        if (ub.funcs.popupsVisible())   { return true; }
+        if (!ub.funcs.okToStart())      { return; }
 
         ub.funcs.activatePanelGuard();
         
@@ -9681,10 +9856,7 @@ $(document).ready(function() {
 
         var _htmlBuilder;
 
-        ub.funcs.deActivateApplications();
-        ub.funcs.deActivateColorPickers();
-        ub.funcs.deActivatePatterns();
-        ub.funcs.deActivateLocations();
+        ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';

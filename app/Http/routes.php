@@ -149,6 +149,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editMaterialForm']);
     Route::get('material/view_material_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@getMaterialOptions']);
     Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@materialsOptionsSetup']);
+    Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editPipingForm']);
+    Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePiping']);
 
     // Materials Options
     Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);
@@ -305,15 +307,11 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('feedback/reply/{id}', 'Administration\FeedbacksController@reply');
     Route::get('feedback/thread/{id}', 'Administration\FeedbacksController@viewThread');
 
-
-  // Mockup set
-     Route::get('mockup_sets', 'Administration\MockupSetsController@index');
-     Route::get('mockup_set/{id}', 'Administration\MockupSetsController@show');
-//     Route::get('mockup_sets', function()
-// {
-//     return 'Hello World';
-// });
-
+    // Price Item Templates
+    Route::get('price_item_templates', 'Administration\PriceItemTemplatesController@index');
+    Route::get('price_item_template/add', 'Administration\PriceItemTemplatesController@addForm');
+    Route::post('price_item_template', 'Administration\PriceItemTemplatesController@store');
+    Route::get('price_item_template/{id}', 'Administration\PriceItemTemplatesController@show');
 
 });
 

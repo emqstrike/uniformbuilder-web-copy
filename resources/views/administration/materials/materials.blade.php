@@ -77,31 +77,40 @@
                 <div class="material-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="1pxb btn btn-default btn-xs edit-material" role="button"
                     {{ ($material->active) ? '' : 'disabled' }}>
-                        Edit Material
+                        Edit
                     </a>
                     <a href="/administration/material/view_material_options/{{ $material->id }}" class='1pxb btn btn-xs btn-default'
                         data-material-name="{{ $material->name }}"
                         data-material-id="{{ $material->id }}"
                         data-material-thumbnail="{{ $material->thumbnail_path }}"
                         {{ ($material->active) ? '' : 'disabled' }}>
-
+                        Material Options
                     </a>
                     <a href="/administration/material/materials_options_setup/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
 
-                    <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
+                    <!-- <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
                     <a href="#" class="btn btn-default mr-10 pull-right btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-copy"></i>
-                    </a>
+                    </a> -->
 
                     <a href="#" class="btn btn-default mr-10 btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-copy"></i>
                     </a>
-                    <a href="/administration/material/piping/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
+                    <a href="/administration/material/piping/{{ $material->id }}/1" class='1pxb btn btn-xs btn-default'>
                         <span>P</span>
+                    </a>
+                    <a href="/administration/material/piping/{{ $material->id }}/2" class='1pxb btn btn-xs btn-default'>
+                        <span>P2</span>
+                    </a>
+                    <a href="/administration/material/piping/{{ $material->id }}/3" class='1pxb btn btn-xs btn-default'>
+                        <span>P3</span>
+                    </a>
+                    <a href="/administration/material/piping/{{ $material->id }}/4" class='1pxb btn btn-xs btn-default'>
+                        <span>P4</span>
                     </a>
                     <!-- <a href="#" class='1pxb btn btn-xs btn-default'>
                         <span>Y</span>

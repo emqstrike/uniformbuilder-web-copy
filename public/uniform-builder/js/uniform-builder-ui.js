@@ -50,6 +50,8 @@ $(document).ready(function () {
 
     ub.startModal = function (type) {
 
+        console.trace();
+
         if (type === 1) {
 
             var _sizeOfColorsUsed = _.size(ub.data.colorsUsed);
@@ -81,8 +83,6 @@ $(document).ready(function () {
 
          $('div#messageModal').html(message);
          $('button#modalButton').trigger('click');
-
-        
 
     };
 
