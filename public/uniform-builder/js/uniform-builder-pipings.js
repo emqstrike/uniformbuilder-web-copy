@@ -5,7 +5,7 @@ $(document).ready(function () {
 
         ub.funcs.getPipingSets = function () {
 
-            return _.chain(ub.data.pipings).pluck('set').uniq().value();
+            return _.chain(ub.data.pipings).pluck('set').uniq().reject(function(set){ return set.indexOf('Right') === 0}).value();
 
         };
 
@@ -131,6 +131,18 @@ $(document).ready(function () {
 
                 ub.funcs.activatePipings(_piping);
 
+            });
+
+            // Remove 'Left' from caption
+            $('span.piping > span.caption').each(function (index) {
+                var text= $(this).context.innerHTML;
+
+                if (text.indexOf('Left') > -1) {
+
+                    $('span.piping[data-piping-name="' + text + '"]').find('span.caption').html(text.replace('Left ', ''));
+
+                }
+                
             });
 
         }
