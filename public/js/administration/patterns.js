@@ -327,10 +327,11 @@ $(document).ready(function(){
         $('#confirmation-modal-delete-thumbnail').modal();
     });
 
-    $('#confirmation-modal-delete-thumbnail .confirm-yes').on('click', function(){
+    
+    $(document).on('click', '#confirmation-modal-delete-thumbnail .confirm-yes', function() {
         var id = $(this).data('value');
          var url = "//" + api_host + "/api/pattern/delete/";
-      //  var url = "//localhost:8888/api/pattern/deleteThumbnail/";
+    // var url = "//localhost:8888/api/pattern/deleteThumbnail/";
         $.ajax({
             url: url,
             type: "POST",
