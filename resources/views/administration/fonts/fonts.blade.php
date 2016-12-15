@@ -36,6 +36,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Font Name</th>
+                            <th>Tail Sweep</th>
                             <th>Sports</th>
                             <th>Sample</th>
                             <th>Active Status</th>
@@ -60,6 +61,14 @@
                                     {{ $font->type }}
                                 </span>
                             </td>
+                             <td>
+                                @if ($font->tail_sweep)
+                                    Yes
+                                @else
+                                    No
+                                @endif
+                            </td>
+
                             <td>
                                 {{ $font->sports }}
                             </td>
