@@ -47,9 +47,27 @@ class MaterialsAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
-    public function updatePiping($data)
+    public function updatePiping($data, $page_number)
     {
-        $response = $this->post('material/updatePiping', [
+
+        if($page_number == 1)
+        {
+            $url = 'material/updatePiping';
+        }
+        elseif($page_number == 2)
+        {
+            $url = 'material/updatePiping2';
+        }
+        elseif($page_number == 3)
+        {
+            $url = 'material/updatePiping3';
+        }
+        elseif($page_number == 4)
+        {
+            $url = 'material/updatePiping4';
+        }
+
+        $response = $this->post($url, [
             'json' => $data
         ]);
         return $this->decoder->decode($response->getBody());

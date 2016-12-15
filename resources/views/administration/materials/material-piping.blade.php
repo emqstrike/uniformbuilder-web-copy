@@ -30,9 +30,27 @@
                         <input type="hidden" name="material_id" value="{{ $material->id }}">
                         <input type="hidden" name="case" value="{{ $case }}">
                         <input type="hidden" name="piping_properties_json" value="{{ $piping_properties_json }}">
+                        <input type="hidden" name="page_number" value="{{ $page_number }}">
 
                         <table class="table table-bordered table-striped">
                             <tbody>
+                                <tr>
+                                    <td colspan="5">
+                                        <label class="col-md-5 control-label">SET</label>
+                                        <div class="col-md-2">
+                                            <select class="form-control" name="set_name">
+                                                <option value="Undefined">Undefined</option>
+                                                <option value="CENTER_PIPING" @if(isset($piping_properties['set']) && $piping_properties['set'] == 'CENTER_PIPING') selected="selected"@endif>CENTER_PIPING</option>
+                                                <option value="SLEEVE_PIPING_1" @if(isset($piping_properties['set']) && $piping_properties['set'] == 'SLEEVE_PIPING_1') selected="selected"@endif>SLEEVE_PIPING_1</option>
+                                                <option value="NECK_PIPING" @if(isset($piping_properties['set']) && $piping_properties['set'] == 'NECK_PIPING') selected="selected"@endif>NECK_PIPING</option>
+                                                <option value="END_OF_SLEEVE_PIPING" @if(isset($piping_properties['set']) && $piping_properties['set'] == 'END_OF_SLEEVE_PIPING') selected="selected"@endif>END_OF_SLEEVE_PIPING</option>
+                                                <option value="END_OF_SLEEVE_PIPING_SLEEVELESS" @if(isset($piping_properties['set']) && $piping_properties['set'] == 'END_OF_SLEEVE_PIPING_SLEEVELESS') selected="selected"@endif>END_OF_SLEEVE_PIPING_SLEEVELESS</option>
+                                                <option value="YOKE_PIPING" @if(isset($piping_properties['set']) && $piping_properties['set'] == 'YOKE_PIPING') selected="selected"@endif>YOKE_PIPING</option>
+                                                <option value="YOKE_AND_NECK_PIPING" @if(isset($piping_properties['set']) && $piping_properties['set'] == 'YOKE_AND_NECK_PIPING') selected="selected"@endif>YOKE_AND_NECK_PIPING</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td colspan="5" class="alert alert-success"><h4>Size: 1/8</h4></td>
                                 </tr>

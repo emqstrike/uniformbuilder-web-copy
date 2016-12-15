@@ -77,7 +77,7 @@
                 <div class="material-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="1pxb btn btn-default btn-xs edit-material" role="button"
                     {{ ($material->active) ? '' : 'disabled' }}>
-                        Edit Material
+                        Edit
                     </a>
                     <a href="/administration/material/view_material_options/{{ $material->id }}" class='1pxb btn btn-xs btn-default'
                         data-material-name="{{ $material->name }}"
@@ -100,8 +100,17 @@
                     <a href="#" class="btn btn-default mr-10 btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-copy"></i>
                     </a>
-                    <a href="/administration/material/piping/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
+                    <a href="/administration/material/piping/{{ $material->id }}/1" class='1pxb btn btn-xs btn-default'>
                         <span>P</span>
+                    </a>
+                    <a href="/administration/material/piping/{{ $material->id }}/2" class='1pxb btn btn-xs btn-default'>
+                        <span>P2</span>
+                    </a>
+                    <a href="/administration/material/piping/{{ $material->id }}/3" class='1pxb btn btn-xs btn-default'>
+                        <span>P3</span>
+                    </a>
+                    <a href="/administration/material/piping/{{ $material->id }}/4" class='1pxb btn btn-xs btn-default'>
+                        <span>P4</span>
                     </a>
                     <!-- <a href="#" class='1pxb btn btn-xs btn-default'>
                         <span>Y</span>
