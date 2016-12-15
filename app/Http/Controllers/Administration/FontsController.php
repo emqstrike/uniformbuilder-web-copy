@@ -61,7 +61,14 @@ class FontsController extends Controller
 
     public function store(Request $request)
     {
+
         $fontName = $request->input('name');
+        $tailSweep = $request->input('tail_sweep');
+        if($tailSweep){
+            $tailSweep = 1;
+        }else{
+            $tailSweep = 0;
+        }
         $fontType = (empty($request->input('type'))) ? 'default' : $request->input('type');
         $fontParent = $request->input('parent_id');
         $fontProperties = $request->input('font_properties');
@@ -86,6 +93,7 @@ class FontsController extends Controller
 
         $data = [
             'name' => $fontName,
+            'tail_sweep' => $tailSweep,
             'font_size_table' => $fontSizeTable,
             'sports' => $sports
         ];
