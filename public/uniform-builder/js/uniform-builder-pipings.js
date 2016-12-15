@@ -141,7 +141,6 @@ $(document).ready(function () {
 
     ub.funcs.getPipingSettingsObject = function (set) {
 
-
         // Pipings Settings Object Structure 
         // 
         // e.g.
@@ -241,6 +240,67 @@ $(document).ready(function () {
 
         // Note of sleeves matching side here ... e.g. left arm trim => right arm trim 
         // put in logic to change piping status here ...
+
+        // var _settingsObj = ub.funcs.getApplicationSettings(parseInt(id));
+        // var _views       = _settingsObj.application.views;
+
+        ////
+
+        var _state = status;
+
+        if (_state === "off") {
+
+            // if (ub.activeApplication === id) {
+
+            //     return;
+
+            // }
+            
+            $('div.toggle').data('status', "off");
+
+            $('div.valueContainer').css('margin-left', '-100px');
+            $('div.cover').fadeIn('fast');
+            $('div.toggle').removeClass('defaultShadow');
+           // $('div.applicationType').css({ 'color': '#acacac', 'text-decoration': 'line-through', 'opacity': '0.2'});
+            $('span.cog').hide();
+
+        } else {
+
+            $('div.toggle').data('status', "on");
+
+            $('div.valueContainer').css('margin-left', '0px');
+            $('div.cover').hide();
+            $('div.toggle').addClass('defaultShadow');
+            //$('div.applicationType').css({ 'color': '#3d3d3d', 'text-decoration': 'initial', 'opacity': '1'});
+            $('span.cog').fadeIn();
+
+            //ub.funcs.hideGAFontTool();
+
+        }
+
+        ////
+
+        // _.each (_views, function (view) {
+
+        //     var _view = view.perspective + '_view';
+        //     var _obj  = ub.objects[_view]['objects_' + id];
+
+        //     if (_state === "on") {
+
+        //         _obj.zIndex = -(50 + _settingsObj.zIndex);
+        //         ub.updateLayersOrder(ub[_view]);
+        //         _settingsObj.status = "on";
+                
+        //     } else {
+
+        //         _obj.oldZIndex = _obj.zIndex;
+        //         _obj.zIndex = 0;
+        //         ub.updateLayersOrder(ub[_view]);
+        //         _settingsObj.status = "off";
+
+        //     }
+
+        // });
 
     }
 
@@ -371,6 +431,30 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.removePiping = function (pipingSet) {
+
+        // delete from settings object 
+        // delete from stage 
+        // cleanup UI
+
+        _.each(ub.views, function (view) {
+
+            var _viewStr = view + '_view';
+
+            if (typeof ub.objects[_viewStr][pipingSet] !== 'undefined'){ 
+
+                ub[_viewStr].removeChild(ub.objects[_viewStr][pipingSet]);
+
+            }
+
+            delete ub.objects[_viewStr][pipingSet];
+
+        });
+
+        delete ub.current_material.settings.pipings[pipingSet];
+
+    }
+
     ub.funcs.activatePipings = function (pipingSet) {
 
         if (ub.funcs.popupsVisible()) { return; }
@@ -379,21 +463,30 @@ $(document).ready(function () {
         ub.funcs.activatePanelGuard();
         ub.funcs.deactivatePanels();
 
-        var _status             = 'on';
+        var _status             = 'off';
         var _pipingSet          = pipingSet;
         var _activePipingSet    = _pipingSet;
 
-        if (typeof _pipingSet !== "undefined") {
+        _activePipingSet        = ub.current_material.settings.pipings[pipingSet];
 
-            if (typeof _pipingSet.status !== 'undefined') { _status = _pipingSet.status; }
+
+        if (typeof _activePipingSet !== "undefined") {
+
+            if (_activePipingSet.size !== "") {
+                _status = "on"
+            } else {
+                _status = "off";
+            }
+
+            // if (typeof _pipingSet.status !== 'undefined') { _status = _pipingSet.status; }
 
         } else {
 
-            _status = "on";
+            _status = "off";
 
         }
 
-        if (typeof _activePipingSet === "undefined") {
+        if (typeof pipingSet === "undefined") {
 
             var initialPipingSet = 'Yoke Piping';
 
@@ -403,18 +496,26 @@ $(document).ready(function () {
 
         } else {
 
+            if (_activePipingSet === "undefined") {
 
-            console.log('Searching for input: ');
-            _pipingSet          = ub.funcs.getPipingSet(pipingSet);
-            _activePipingSet    = _.first(_pipingSet);
+                var initialPipingSet = pipingSet;
 
-            console.log('Found: ');
-            console.log(_pipingSet);
-            console.log(_activePipingSet);
+                _pipingSet          = ub.funcs.getPipingSet(initialPipingSet);
+                pipingSet           = initialPipingSet;
+                _activePipingSet    = _.first(_pipingSet);
+
+            } else {
+
+                _pipingSet          = ub.funcs.getPipingSet(pipingSet);
+                _activePipingSet    = _.first(_pipingSet);
+
+            }
 
         }
 
         // Main Template
+
+        $('div#pipingsUI').remove();
 
         var _template           = $('#m-piping-sidebar').html();
         var _data               = { status: _status, type: pipingSet };
@@ -484,26 +585,35 @@ $(document).ready(function () {
                     $('span.piping-colors-buttons[data-value="' + _pipingSettingsObject.numberOfColors + '"]').trigger('click');
 
                 }
-                
+
             });
-            
+
             $("div.toggleOption").unbind('click');
             $("div.toggleOption").on("click", function () {
 
                 var _currentStatus = $('div.toggle').data('status');
                 var _status;
-
+                
                 if(_currentStatus === "on") {
+
                     _status = 'off';
-                }
-                else {
+                    ub.funcs.removePiping(pipingSet);
+
+                } else {
+
                     _status = 'on';
+
+                    var _firstColor     = _.first(ub.funcs.getPipingColorArray(_activePipingSet));
+                    var $activePiping   = $('span.piping-sizes-buttons[data-type="' + _activePipingSet.name + '"]');
+
+                    $activePiping.trigger('click');
+
                 }
 
-                ub.funcs.togglePiping(_pipingSet, status);    
+                ub.funcs.togglePiping(_pipingSet, _status);    
      
             });
-        
+
         // End Events
 
         
@@ -515,19 +625,13 @@ $(document).ready(function () {
             var _pipingSettingsObject   = ub.funcs.getPipingSettingsObject(_activePipingSet.set)
             var _size                   = _pipingSettingsObject.size;
 
-            if (_size === ""){
-
-                var _firstColor     = _.first(ub.funcs.getPipingColorArray(_activePipingSet));
-                var $activePiping   = $('span.piping-sizes-buttons[data-type="' + _activePipingSet.name + '"]');
-
-                $activePiping.trigger('click');
-
-            }
-            else {
+            if (_size !== ""){
 
                 $('span.piping-sizes-buttons[data-size="' + _size + '"]').trigger('click');
 
             }
+
+            ub.funcs.togglePiping(_pipingSet, _status);    
 
         // End Initial States
         
