@@ -198,7 +198,7 @@ class MaterialsController extends Controller
             $piping_properties_json = $material->piping_properties_4;
         }
         // $piping_properties = json_decode($material->piping_properties, 1);
-        
+
         // }
 
         return view('administration.materials.material-piping', [
@@ -919,7 +919,6 @@ class MaterialsController extends Controller
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
-            // dd($message);
         }
 
         $response = null;
