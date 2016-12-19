@@ -4240,7 +4240,7 @@ $(document).ready(function() {
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup, div#primaryTailSweepPopup');
         $popup.fadeIn();
 
         if ($popup.length === 0) { return; } 
@@ -5457,10 +5457,9 @@ $(document).ready(function() {
             }
             
 
-
         });
 
-        ub.funcs.centerAccentPopup();
+        ub.funcs.centerPatternPopup();
 
         $('div.close-popup').on('click', function () {
 
