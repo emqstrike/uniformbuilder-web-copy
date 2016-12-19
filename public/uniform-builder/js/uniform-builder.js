@@ -5949,12 +5949,10 @@ $(document).ready(function () {
 
                   $('span.action-button.share').on('click', function () {
 
-                        // var _shareDesignID = $(this).data('saved-design-id');
-                        // var _name = $(this).data('name');
-                        
-                        // ub.funcs.shareSavedDesign(_shareDesignID, _name);
-
-                        // $('.share-uniform-design')
+                        var order_id = $(this).data('saved-design-id');
+                        $('#open-design-modal').modal('hide');
+                        $('#share-design-modal .share-uniform-design-by-email').data('order-id', order_id);
+                        $('#share-design-modal').modal('show');
 
                   });
 
@@ -5967,8 +5965,6 @@ $(document).ready(function () {
 
                   });
 
-                  bindShareDesigns();
-            
                 }
                 
             });
@@ -6743,8 +6739,9 @@ $(document).ready(function () {
                     $('#orders-list [data-toggle="tooltip"]').tooltip();
                     $('#open-design-modal').modal('show');
                 }
-                bindShareDesigns();
+                
                 bindDeleteUniformDesign();
+
             }
         });
     }
@@ -6953,15 +6950,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    function bindShareDesigns() {
-        $('.share-uniform-design').on('click', function(){
-            var order_id = $(this).data('saved-design-id');
-            $('#open-design-modal').modal('hide');
-            $('#share-design-modal .share-uniform-design-by-email').data('order-id', order_id);
-            $('#share-design-modal').modal('show');
-        });
-    }
 
     function bindRemoveButtonBehavior() {
         $('.remove-roster-record').on('click', function () {
