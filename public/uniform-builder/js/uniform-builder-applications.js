@@ -5379,6 +5379,116 @@ $(document).ready(function() {
 
     }
 
+
+
+    ub.status.tailsweepPopupVisible = false;
+    ub.funcs.createTailSweepPopup = function (settingsObj) {
+
+        var data = {
+           tailsweeps: ub.data.tailsweeps.items,
+       }
+
+       // if (ub.current_material.material.price_item_code === "FBBJ" || ub.current_material.material.price_item_code === "FBDJ") {
+
+       //      data.accents = _.filter(data.accents, function (accent) {
+
+       //          return accent.title !== 'Three Color with Drop Shadow' && accent.title !== 'Three Color';
+
+       //      });
+
+       // }
+
+       // if (ub.current_material.material.price_item_code === "") {}
+
+       ub.status.tailsweepPopupVisible = true;
+
+        var template = $('#m-tailsweep-popup').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+
+        $popup = $('div#primaryTailSweepPopup');
+        $popup.fadeIn();
+
+          $('div.tailsweepPopupResults > div.item').hover(
+
+          function() {
+            $( this ).find('div.name').addClass('pullUp');
+          }, function() {
+            $( this ).find('div.name').removeClass('pullUp');
+          }
+
+        );
+
+        $('div.tailsweepPopupResults > div.item').on('click', function () {
+
+            var _id = $(this).data('accent-id');
+
+            ub.funcs.changeTailSweepFromPopup(_id, settingsObj);
+            $popup.remove();
+            ub.funcs.activateApplications(settingsObj.code);
+
+            if (settingsObj.code === "32") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "33") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "9") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+
+            if (settingsObj.code === "10") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
+
+            }
+            
+
+
+        });
+
+        ub.funcs.centerAccentPopup();
+
+        $('div.close-popup').on('click', function () {
+
+            $popup.remove();
+            ub.status.tailsweepPopupVisible = false;
+
+        });
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+            ub.status.tailSweepPopupVisible = false;
+
+        });
+
+    }
+
     ub.funcs.createAssistants = function (applicationObj, modifier) {
 
 

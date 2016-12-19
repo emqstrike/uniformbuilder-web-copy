@@ -3660,6 +3660,88 @@ $(document).ready(function() {
         ],
     }
 
+    ub.data.tailsweeps = {
+        items: [
+            {   // Astros
+                id: 0,
+                name: 'Astros',
+                code: 'astros',
+                title: 'Astros',
+                thumbnail: 'astros.png',
+            },  // End Astros
+            {   // Brewers
+                id: 0,
+                name: 'Brewers',
+                code: 'brewers',
+                title: 'Brewers',
+                thumbnail: 'brewers.png',
+            },  // End Brewers
+            {   // Dodgers
+                id: 0,
+                name: 'Dodgers',
+                code: 'dodgers',
+                title: 'Dodgers',
+                thumbnail: 'dodgers.png',
+            },  // End Dodgers
+            {   // Expos
+                id: 0,
+                name: 'Expos',
+                code: 'expos',
+                title: 'Expos',
+                thumbnail: 'expos.png',
+            },  // End Expos
+            {   // Indians
+                id: 0,
+                name: 'Indians',
+                code: 'indians',
+                title: 'Indians',
+                thumbnail: 'indians.png',
+            },  // End Indians
+            {   // Oaklands
+                id: 0,
+                name: "Oakland A's",
+                code: 'oaklands",
+                title: "Oakland A's",
+                thumbnail: 'oakland.png',
+            },  // End Oakland A's
+            {   // Orioles
+                id: 0,
+                name: "Orioles",
+                code: 'orioles",
+                title: "Orioles",
+                thumbnail: 'orioles.png',
+            },  // End Orioles
+            {   // Royals
+                id: 0,
+                name: "Royals",
+                code: 'royals",
+                title: "Royals",
+                thumbnail: 'royals.png',
+            },  // End Royals
+            {   // San Francisco Giants
+                id: 0,
+                name: "San Francisco Giants",
+                code: 'san francisco giants",
+                title: "San Francisco Giants",
+                thumbnail: 'sanfranciscogiants.png',
+            },  // End San Francisco Giants
+            {   // Twins
+                id: 0,
+                name: "Twins",
+                code: 'twins",
+                title: "Twins",
+                thumbnail: 'twins.png',
+            },  // End Twins
+            {   // Yankees
+                id: 0,
+                name: "Yankees",
+                code: 'yankees",
+                title: "Yankees",
+                thumbnail: 'yankees.png',
+            },  // End Yankees
+        ],
+    }
+
     ub.uniformSizes = {
         'YXS': {
             name: 'Youth Extra Small',
