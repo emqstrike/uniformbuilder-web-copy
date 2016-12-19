@@ -5410,7 +5410,7 @@ $(document).ready(function() {
         $popup = $('div#primaryTailSweepPopup');
         $popup.fadeIn();
 
-          $('div.tailsweepPopupResults > div.item').hover(
+          $('div.tailSweepPopupResults > div.item').hover(
 
           function() {
             $( this ).find('div.name').addClass('pullUp');
