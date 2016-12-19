@@ -901,6 +901,52 @@
 
 <!-- End New Mascot Picker -->
 
+<!-- Tail Sweep Picker -->
+    
+    <script type="text/mustache" id="m-tailsweep-popup">
+
+        <div id="primaryTailSweepPopup" data-status="hidden">
+
+            <div class="header">
+
+                ACCENTS
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+            
+            <div class="main-content">
+                
+                <div class="accentPopupResults">
+
+                    @{{#accents}}
+
+                        <div class="item grow" style="background-image: url(/images/sidebar/@{{thumbnail}})" data-accent-id="@{{id}}">
+                            <div class="name" style="">@{{title}}</div>
+                        </div>
+
+                    @{{/accents}}
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+
+    </script>
+
+<!-- End Tail Sweep Picker -->
+
 <!-- Roster Table -->
     
     <script type="text/mustache" id="m-roster-table">

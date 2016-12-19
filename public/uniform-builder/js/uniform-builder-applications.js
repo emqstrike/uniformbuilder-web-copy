@@ -8000,8 +8000,8 @@ $(document).ready(function() {
         _htmlBuilder        +=                 '</div>';
         _htmlBuilder        +=              '</div>';
         _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
-        _htmlBuilder        +=                 '<div class="sub1 patternThumb">';
-        _htmlBuilder        +=                    '<span class="patternThumb"><img src="/images/patterns/Blank/1.png"/></span><br />';                                                             
+        _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb">';
+        _htmlBuilder        +=                    '<span class="tailSweepThumb"><img src="/images/patterns/Blank/1.png"/></span><br />';                                                             
         _htmlBuilder        +=                    '<span class="pattern">Tail Sweeps</span>';
         _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
         _htmlBuilder        +=                 '</div>';
@@ -8501,6 +8501,12 @@ $(document).ready(function() {
             $('span.patternThumb, span.pattern').on('click', function () {
 
                 ub.funcs.createPatternPopupApplications(_settingsObject);
+
+            });
+
+            $('span.tailSweepThumb, span.pattern').on('click', function () {
+
+                ub.funcs.createTailSweepPopup(_settingsObject);
 
             });
 
