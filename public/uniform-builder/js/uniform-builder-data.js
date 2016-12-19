@@ -3700,7 +3700,7 @@ $(document).ready(function() {
             {   // Oaklands
                 id: 0,
                 name: "Oakland A's",
-                code: 'oaklands",
+                code: "oaklands",
                 title: "Oakland A's",
                 thumbnail: 'oakland.png',
             },  // End Oakland A's
