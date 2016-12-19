@@ -3707,35 +3707,35 @@ $(document).ready(function() {
             {   // Orioles
                 id: 0,
                 name: "Orioles",
-                code: 'orioles",
+                code: 'orioles',
                 title: "Orioles",
                 thumbnail: 'orioles.png',
             },  // End Orioles
             {   // Royals
                 id: 0,
                 name: "Royals",
-                code: 'royals",
+                code: 'royals',
                 title: "Royals",
                 thumbnail: 'royals.png',
             },  // End Royals
             {   // San Francisco Giants
                 id: 0,
                 name: "San Francisco Giants",
-                code: 'san francisco giants",
+                code: 'san francisco giants',
                 title: "San Francisco Giants",
                 thumbnail: 'sanfranciscogiants.png',
             },  // End San Francisco Giants
             {   // Twins
                 id: 0,
                 name: "Twins",
-                code: 'twins",
+                code: 'twins',
                 title: "Twins",
                 thumbnail: 'twins.png',
             },  // End Twins
             {   // Yankees
                 id: 0,
                 name: "Yankees",
-                code: 'yankees",
+                code: 'yankees',
                 title: "Yankees",
                 thumbnail: 'yankees.png',
             },  // End Yankees
