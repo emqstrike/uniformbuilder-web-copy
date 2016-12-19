@@ -909,7 +909,7 @@
 
             <div class="header">
 
-                ACCENTS
+                Tail Sweeps
 
                 <div class="close-popup">
                         
@@ -921,15 +921,15 @@
             
             <div class="main-content">
                 
-                <div class="accentPopupResults">
+                <div class="tailSweepPopupResults">
 
-                    @{{#accents}}
+                    @{{#tailsweeps}}
 
-                        <div class="item grow" style="background-image: url(/images/sidebar/@{{thumbnail}})" data-accent-id="@{{id}}">
+                        <div class="item grow" style="background-image: url(/images/tailsweeps/thumbnails/@{{thumbnail}})" data-accent-id="@{{id}}">
                             <div class="name" style="">@{{title}}</div>
                         </div>
 
-                    @{{/accents}}
+                    @{{/tailsweeps}}
 
                 </div>
 
