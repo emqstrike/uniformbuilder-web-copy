@@ -55,14 +55,14 @@
                                 <tr>
                                     <td colspan="5" class="alert alert-success"><h4>Size: 1/8</h4></td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td colspan="5">
                                         <label class="col-md-5 control-label">Name</label>
                                         <div class="col-md-2">
                                             <input type="text" class="form-control material-name" name="name_oe" value="{{ ( ! empty($piping_properties['1/8']['name']) ? $piping_properties['1/8']['name'] : '') }}">
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td></td>
                                     <td>FRONT
@@ -138,14 +138,14 @@
                                 <tr>
                                     <td colspan="5" class="alert alert-info"><h4>Size: 1/4</h4></td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td colspan="5">
                                         <label class="col-md-5 control-label">Name</label>
                                         <div class="col-md-2">
                                             <input type="text" class="form-control material-name" name="name_of" value="{{ ( ! empty($piping_properties['1/4']['name']) ? $piping_properties['1/4']['name'] : '') }}">
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td></td>
                                     <td>FRONT
@@ -221,14 +221,14 @@
                                 <tr>
                                     <td colspan="5" class="alert alert-warning"><h4>Size: 1/2</h4></td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td colspan="5">
                                         <label class="col-md-5 control-label">Name</label>
                                         <div class="col-md-2">
                                             <input type="text" class="form-control material-name" name="name_oh" value="{{ ( ! empty($piping_properties['1/2']['name']) ? $piping_properties['1/2']['name'] : '') }}">
                                         </div>
                                     </td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td></td>
                                     <td>FRONT
