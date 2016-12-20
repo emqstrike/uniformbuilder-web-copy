@@ -55,13 +55,6 @@
                                 <tr>
                                     <td colspan="5" class="alert alert-success"><h4>Size: 1/8</h4></td>
                                 </tr>
-                                <!-- <tr>
-                                    <td colspan="5">
-                                        <label class="col-md-5 control-label">Name</label>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control material-name" name="name_oe" value="{{ ( ! empty($piping_properties['1/8']['name']) ? $piping_properties['1/8']['name'] : '') }}">
-                                        </div>
-                                    </td>
                                 </tr> -->
                                 <tr>
                                     <td></td>
@@ -138,14 +131,6 @@
                                 <tr>
                                     <td colspan="5" class="alert alert-info"><h4>Size: 1/4</h4></td>
                                 </tr>
-                                <!-- <tr>
-                                    <td colspan="5">
-                                        <label class="col-md-5 control-label">Name</label>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control material-name" name="name_of" value="{{ ( ! empty($piping_properties['1/4']['name']) ? $piping_properties['1/4']['name'] : '') }}">
-                                        </div>
-                                    </td>
-                                </tr> -->
                                 <tr>
                                     <td></td>
                                     <td>FRONT
@@ -221,14 +206,6 @@
                                 <tr>
                                     <td colspan="5" class="alert alert-warning"><h4>Size: 1/2</h4></td>
                                 </tr>
-                                <!-- <tr>
-                                    <td colspan="5">
-                                        <label class="col-md-5 control-label">Name</label>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control material-name" name="name_oh" value="{{ ( ! empty($piping_properties['1/2']['name']) ? $piping_properties['1/2']['name'] : '') }}">
-                                        </div>
-                                    </td>
-                                </tr> -->
                                 <tr>
                                     <td></td>
                                     <td>FRONT
@@ -300,22 +277,16 @@
                         </table>
 
                         <div class="form-group col-md-12">
-                            <!-- <div class="col-md-4 col-md-offset-4"> -->
-                                <center>
-                                    <button type="submit" class="btn btn-primary edit-material">
-                                        <span class="glyphicon glyphicon-floppy-disk"></span>
-                                        Update Piping
-                                    </button>
-                                    <!-- <a href="#" class="btn btn-success edit-material">
-                                        <span class="glyphicon glyphicon-floppy-disk"></span>
-                                        Update Material
-                                    </a> -->
-                                    <a href="/administration/materials" class="btn btn-danger" style="margin-right: 15px;">
-                                        <span class="glyphicon glyphicon-arrow-left"></span>
-                                        Cancel
-                                    </a>
-                                </center>
-                            <!-- </div> -->
+                            <center>
+                                <button type="submit" class="btn btn-primary edit-material">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                    Update Piping
+                                </button>
+                                <a href="/administration/materials" class="btn btn-danger" style="margin-right: 15px;">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>
+                                    Cancel
+                                </a>
+                            </center>
                         </div>
                     </form>
                 </div>
