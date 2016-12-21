@@ -89,14 +89,6 @@
                     <a href="/administration/material/materials_options_setup/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
-
-                    <!-- <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
-                        <i class="glyphicon glyphicon-trash"></i>
-                    </a>
-                    <a href="#" class="btn btn-default mr-10 pull-right btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
-                        <i class="glyphicon glyphicon-copy"></i>
-                    </a> -->
-
                     <a href="#" class="btn btn-default mr-10 btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-copy"></i>
                     </a>
@@ -112,12 +104,6 @@
                     <a href="/administration/material/piping/{{ $material->id }}/4" class='1pxb btn btn-xs btn-default'>
                         <span>P4</span>
                     </a>
-                    <!-- <a href="#" class='1pxb btn btn-xs btn-default'>
-                        <span>Y</span>
-                    </a>
-                    <a href="#" class='1pxb btn btn-xs btn-default'>
-                        <span>S</span>
-                    </a> -->
                     <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
@@ -141,11 +127,8 @@
 @endsection
 
 @section('scripts')
-<!-- <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
-<!-- <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script> -->
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
 <script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script>
 <script type="text/javascript" src="/js/administration/materials-main.js"></script>
-<!-- <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script> -->
 @endsection

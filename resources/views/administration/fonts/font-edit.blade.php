@@ -7,6 +7,12 @@
 li.select2-selection__choice {
     color: black !important;
 }
+
+.animated {
+    -webkit-transition: height 0.2s;
+    -moz-transition: height 0.2s;
+    transition: height 0.2s;
+}
 </style>
 @endsection
 
@@ -123,6 +129,13 @@ li.select2-selection__choice {
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Tail Sweep Properties</label>
+                            <div class="col-md-4">
+                                <textarea class="form-control tail-sweep-properties animated" name="tail_sweep_properties"><?php echo substr(stripslashes($font->tail_sweep_properties), 1, -1); ?></textarea>
+                            </div>
+                        </div>
+
                         <div class="form-group" style="border: 1px solid black; padding: 10px;">
                             <center>
                             <div style="max-width: 800px; max-height: 800px;">
@@ -232,9 +245,12 @@ li.select2-selection__choice {
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/fonts.js"></script>
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+<script type="text/javascript" src="/js/libs/autosize.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $( "#static_row" ).hide();
+
+    $('.animated').autosize({append: "\n"});
 
     var sports = JSON.parse($('#sports_value').val());
 

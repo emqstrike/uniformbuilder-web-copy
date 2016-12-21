@@ -171,8 +171,7 @@ class MaterialsController extends Controller
         $piping_properties = null;
         $piping_properties_json = null;
         $case = 'new';
-        // if(isset($material->piping_properties))
-        // {
+
         if($page_number == 1 && isset($material->piping_properties))
         {
             $piping_properties = json_decode($material->piping_properties, 1);
@@ -197,9 +196,6 @@ class MaterialsController extends Controller
             $case = 'update';
             $piping_properties_json = $material->piping_properties_4;
         }
-        // $piping_properties = json_decode($material->piping_properties, 1);
-
-        // }
 
         return view('administration.materials.material-piping', [
             'material' => $material,
@@ -269,7 +265,6 @@ class MaterialsController extends Controller
 
             $structured_data['1/4'] = [];
             $structured_data['1/4']['name'] = $name_of;
-            // $structured_data['1/4']['set'] = $set;
             $structured_data['1/4']['front_pos_1'] = null;
             $structured_data['1/4']['back_pos_1'] = null;
             $structured_data['1/4']['left_pos_1'] = null;
@@ -285,7 +280,6 @@ class MaterialsController extends Controller
 
             $structured_data['1/2'] = [];
             $structured_data['1/2']['name'] = $name_oh;
-            // $structured_data['1/2']['set'] = $set;
             $structured_data['1/2']['front_pos_1'] = null;
             $structured_data['1/2']['back_pos_1'] = null;
             $structured_data['1/2']['left_pos_1'] = null;
@@ -300,12 +294,10 @@ class MaterialsController extends Controller
             $structured_data['1/2']['right_pos_3'] = null;
         } else {
             $structured_data = json_decode($request->input('piping_properties_json'), 1);
-            $structured_data['1/8']['name'] = $name_oe;
             $structured_data['set'] = $set;
+            $structured_data['1/8']['name'] = $name_oe;
             $structured_data['1/4']['name'] = $name_of;
-            // $structured_data['1/4']['set'] = $set;
             $structured_data['1/2']['name'] = $name_oh;
-            // $structured_data['1/2']['set'] = $set;
         }
         // Upload images
         try {

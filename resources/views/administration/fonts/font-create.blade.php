@@ -7,6 +7,12 @@
 li.select2-selection__choice {
     color: black !important;
 }
+
+.animated {
+    -webkit-transition: height 0.2s;
+    -moz-transition: height 0.2s;
+    transition: height 0.2s;
+}
 </style>
 @endsection
 
@@ -97,6 +103,12 @@ li.select2-selection__choice {
                                         @endif
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Tail Sweep Properties</label>
+                            <div class="col-md-4">
+                                <textarea class="form-control tail-sweep-properties animated" name="tail_sweep_properties">{{-- {{ $material->builder_customizations }} --}}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -195,8 +207,11 @@ li.select2-selection__choice {
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/fonts.js"></script>
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+<script type="text/javascript" src="/js/libs/autosize.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
+    $( "#static_row" ).hide();
 
     $('.sports').select2({
         placeholder: "Select Sports",
