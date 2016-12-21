@@ -68,6 +68,7 @@ class FontsController extends Controller
         $oldFontPath = $request->input('old_font_path');
         $fontSizeTable = $request->input('font_size_table');
         $sports = explode(",", $request->input('sports_value'));
+        $tailSweepProperties = $request->input('tail_sweep_properties');
 
         $myJson = json_decode($fontProperties, true);
 
@@ -87,7 +88,8 @@ class FontsController extends Controller
         $data = [
             'name' => $fontName,
             'font_size_table' => $fontSizeTable,
-            'sports' => $sports
+            'sports' => $sports,
+            'tail_sweep_properties' => $tailSweepProperties
         ];
 
         if ($fontType != 'default')
