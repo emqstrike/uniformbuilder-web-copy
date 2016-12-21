@@ -38,9 +38,11 @@ class FontsAPIClient extends APIClient
 
     public function createFont($data)
     {
+     
         $response = $this->post('font', [
             'json' => $data
         ]);
+
         return $this->decoder->decode($response->getBody());
     }
 
