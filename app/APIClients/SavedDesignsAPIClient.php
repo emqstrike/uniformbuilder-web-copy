@@ -8,6 +8,19 @@ class SavedDesignsAPIClient extends APIClient
         parent::__construct();
     }
 
+    public function getAll()
+    {
+        $response = $this->get('saved_designs');
+        $result = $this->decoder->decode($response->getBody());
+
+        $saved_designs = [];
+        if ($result->success)
+        {
+            $saved_designs = $result->saved_designs;
+        }
+        return $saved_designs;
+    }
+
     public function getSavedDesign($id)
     {
 

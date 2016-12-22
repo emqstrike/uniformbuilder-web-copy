@@ -26,10 +26,10 @@ class SavedDesignsController extends Controller
 
     public function index()
     {
-        $feedbacks = $this->client->getAll();
+        $saved_designs = $this->client->getAll();
 
-        return view('administration.feedbacks.feedbacks', [
-            'feedbacks' => $feedbacks
+        return view('administration.saved-designs.saved-designs', [
+            'saved_designs' => $saved_designs
         ]);
     }
 
