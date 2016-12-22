@@ -187,4 +187,9 @@
       <i class="glyphicon glyphicon-envelope"></i> <span>Feedbacks</span>
     </a>
   </li>
+  <li data-position='right'>
+    <a href="/administration/saved_designs" >
+      <i class="glyphicon glyphicon-blackboard"></i> <span>Saved Designs</span>
+    </a>
+  </li>
 </ul>
