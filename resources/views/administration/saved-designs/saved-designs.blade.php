@@ -84,7 +84,7 @@ $(document).ready(function(){
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
-        "searching": false,
+        "searching": true,
         "ordering": true,
         "info": true,
         "autoWidth": false
