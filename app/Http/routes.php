@@ -313,6 +313,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('price_item_template', 'Administration\PriceItemTemplatesController@store');
     Route::get('price_item_template/{id}', 'Administration\PriceItemTemplatesController@show');
 
+    // Saved Designs
+    Route::get('saved_designs', 'Administration\SavedDesignsController@index');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
