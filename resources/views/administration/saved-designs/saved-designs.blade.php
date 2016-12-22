@@ -28,6 +28,9 @@
                             <th>Back</th>
                             <th>Left</th>
                             <th>Right</th>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +53,15 @@
                             </td>
                             <td>
                                 <img src="{{ $design->right_thumbnail }}" height="100px" width="80px">
+                            </td>
+                            <td>
+                                {{ $design->first_name }} {{ $design->last_name }}
+                            </td>
+                            <td>
+                                {{ $design->email }}
+                            </td>
+                            <td>
+                                <a href="http://customizer.prolook.com/my-saved-design/{{ $design->id }}" class="btn btn-primary btn-xs">View in Customizer</a>
                             </td>
                         </tr>
 
