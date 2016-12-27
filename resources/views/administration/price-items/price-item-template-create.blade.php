@@ -41,7 +41,6 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-6">
-                                <!-- <input type="name" class="form-control color-code" name="color_code" value="{{ old('name') }}"> -->
                                 <textarea name="description" class="form-control autosized"></textarea>
                             </div>
                         </div>
