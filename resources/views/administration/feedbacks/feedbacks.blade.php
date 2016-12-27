@@ -29,11 +29,12 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='data-table table table-bordered patterns'>
+                    <table data-toggle='table' class='data-table table table-bordered feedbacks'>
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Subject</th>
+                                <!-- <th>Subject</th> -->
+                                <th>Date</th>
                                 <th>Content</th>
                                 <th>Type</th>
                                 <th>Email</th>
@@ -48,8 +49,11 @@
                         <td>
                             {{ $feedback->id }}
                         </td>
-                        <td>
+                        <!-- <td>
                             {{ $feedback->subject }}
+                        </td> -->
+                        <td>
+                            {{ $feedback->created_at }}
                         </td>
                         <td>
                             {{ $feedback->content }}
@@ -105,7 +109,7 @@ $(document).ready(function(){
         "paging": true,
         "lengthChange": false,
         "searching": true,
-        "ordering": true,
+        "ordering": false,
         "info": true,
         "autoWidth": false
     });

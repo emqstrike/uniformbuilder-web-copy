@@ -27,6 +27,10 @@ class FeedbacksController extends Controller
     public function index()
     {
         $feedbacks = $this->client->getAll();
+        foreach($feedbacks as $feedback)
+        {
+            $feedback->created_at = date('M-d-Y', strtotime($feedback->created_at));
+        }
 
         return view('administration.feedbacks.feedbacks', [
             'feedbacks' => $feedbacks
