@@ -34,7 +34,7 @@
                             <tr>
                                 <th>ID</th>
                                 <!-- <th>Subject</th> -->
-                                <th>Date</th>
+                                <th style="width: 100px;">Date</th>
                                 <th>Content</th>
                                 <th>Type</th>
                                 <th>Email</th>
