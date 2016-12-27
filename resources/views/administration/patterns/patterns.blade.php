@@ -185,7 +185,6 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/patterns.js"></script>
-<!-- <script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script> -->
 <script type="text/javascript">
 $(document).ready(function(){
 
