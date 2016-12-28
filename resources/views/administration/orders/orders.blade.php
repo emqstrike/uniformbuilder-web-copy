@@ -40,7 +40,7 @@
                                 {{ $order->id }}
                             </td>
                             <td>
-                                <p style="font-size: 17px">{{ $order->order_id }}</p>
+                                {{ $order->order_id }}
                             </td>
                             <td>
                                 <div>
@@ -181,7 +181,7 @@ $(document).ready(function(){
         "paging": true,
         "lengthChange": false,
         "searching": true,
-        "ordering": true,
+        "ordering": false,
         "info": true,
         "autoWidth": false
     });
