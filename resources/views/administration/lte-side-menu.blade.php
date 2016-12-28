@@ -105,9 +105,9 @@
           <i class="fa fa-cubes"></i> <span>Materials Fabrics</span>
         </a>
       </li>
-      <li data-step="9" data-intro="For Materials Fabric settings.">
+      <li data-step="9" data-intro="For Mockup Sets.">
         <a href="/administration/mockup_sets">
-          <i class="fa fa-cubes"></i> <span>Mackup Sets</span>
+          <i class="fa fa-cubes"></i> <span>Mockup Sets</span>
         </a>
       </li>
       <li data-step="9" data-intro="For Materials settings.">
