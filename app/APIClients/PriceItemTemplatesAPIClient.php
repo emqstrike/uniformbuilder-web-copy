@@ -30,4 +30,15 @@ class PriceItemTemplatesAPIClient extends APIClient
         ]);
         return $this->decoder->decode($response->getBody());
     }
+
+    public function getTemplate($id)
+    {
+        $response = $this->get('price_item_template/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->template;
+        }
+        return null;
+    }
 }

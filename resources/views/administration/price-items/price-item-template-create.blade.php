@@ -81,7 +81,7 @@
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add Template
                                 </button>
-                                <a href="/administration/colors" class="btn btn-danger">
+                                <a href="/administration/price_item_templates" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
@@ -210,7 +210,6 @@ function refreshProperty(){
         size_properties.adult_min_msrp = adult_min_msrp.msrp;
         var adult_min_web_price_sale = _.min(adult, function(o){return o.web_price_sale;});
         size_properties.adult_min_web_price_sale = adult_min_web_price_sale.web_price_sale;
-
     }
 
     if( youth.length > 0 ){
@@ -219,7 +218,6 @@ function refreshProperty(){
         size_properties.youth_min_msrp = youth_min_msrp.msrp;
         var youth_min_web_price_sale = _.min(youth, function(o){return o.web_price_sale;});
         size_properties.youth_min_web_price_sale = youth_min_web_price_sale.web_price_sale;
-
     }
 
     size_properties.properties = properties;

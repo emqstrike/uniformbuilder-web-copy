@@ -24,7 +24,7 @@ class PriceItemTemplatesController extends Controller
         foreach ($price_item_templates as $template) {
             $template->properties = json_decode($template->properties);
         }
-// dd($price_item_templates);
+
         return view('administration.price-items.templates', [
             'price_item_templates' => $price_item_templates
         ]);
@@ -33,6 +33,14 @@ class PriceItemTemplatesController extends Controller
     public function addForm()
     {
         return view('administration.price-items.price-item-template-create');
+    }
+
+    public function editForm($id)
+    {
+        $template = $this->client->getTemplate($id);
+        return view('administration.price-items.price-item-template-edit', [
+            'template' => $template
+        ]);
     }
 
     public function store(Request $request)
