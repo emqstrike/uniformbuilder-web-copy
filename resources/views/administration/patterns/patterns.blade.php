@@ -85,7 +85,7 @@
                                 <th>
                                     <a href="#" class="btn btn-danger btn-xs multiple-delete-pattern" role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
-                                        Remove
+                                        Remove Checked
                                     </a>
                                 </th>
                                 <th>Thumbnail</th>
@@ -145,13 +145,13 @@
                                 <i class="glyphicon glyphicon-edit"></i>
                                 Edit
                             </a>
+                            <a href="#" class="btn btn-default btn-xs clone-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
+                                <i class="glyphicon glyphicon-copy"></i>
+                                Clone
+                            </a>
                             <a href="#" class="btn btn-danger btn-xs delete-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
                                 <i class="glyphicon glyphicon-trash"></i>
                                 Remove
-                            </a>
-                            <a href="#" class="btn btn-default btn-xs clone-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
-                                <i class="glyphicon glyphicon-trash"></i>
-                                Clone
                             </a>
                         </td>
                         
