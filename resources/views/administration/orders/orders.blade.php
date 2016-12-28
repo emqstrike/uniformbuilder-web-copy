@@ -27,8 +27,8 @@
                             <th>Items</th>
                             <th>Artwork Status</th>
                             <th>Order Status</th>
-                            <th>Actions</th>
                             <th>FOID</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,6 +107,9 @@
                                 </select>
                             </td>
                             <td>
+                                {{ $order->factory_order_id }}
+                            </td>
+                            <td>
                                 @if ( $order->artwork_status != "rejected" )
                                 {{-- @if ( !isset($order->factory_order_id) ) --}}
                                 <a href="#"
@@ -134,9 +137,6 @@
                                         Remove
                                     </a>
                                 {{-- @endif --}}
-                            </td>
-                            <td>
-                                {{ $order->factory_order_id }}
                             </td>
                         </tr>
 
