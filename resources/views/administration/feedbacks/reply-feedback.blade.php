@@ -39,6 +39,7 @@ li.select2-selection__choice {
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" class="feedback-id" value="{{ $feedback->id }}">
                         <input type="hidden" class="user-id" value="{{ $feedback->user_id }}">
+                        <input type="hidden" class="admin-id" value="<?php echo Session::get('userId'); ?>">
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-2">
@@ -94,6 +95,35 @@ $(document).ready(function(){
 
 $('.animated').autosize({append: "\n"});
 
+function linkUser(admin_id, message_id){ // records the admin id that replied to the feedback
+    var url = "//api-dev.qstrike.com/api/linkAdmin";
+    var data = {
+        admin_id: admin_id,
+        message: message
+    };
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(data),
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(response){
+            console.log(response);
+            if (response.success) {
+                new PNotify({
+                    title: 'Success',
+                    text: response.message,
+                    type: 'success',
+                    hide: true
+                });
+                window.location.reload();
+            }
+        }
+    });
+}
+
 $('.reply-feedback').on('click', function(){
 
     var feedback_id = $('.feedback-id').val();
@@ -101,6 +131,7 @@ $('.reply-feedback').on('click', function(){
     var user_id = $('.user-id').val();
     var subject = $('.subject').val();
     var url = "//api-dev.qstrike.com/api/message";
+    var admin_id = $('.admin-id').val();
 
     var data = {
         subject: subject,
