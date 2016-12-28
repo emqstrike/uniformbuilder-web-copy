@@ -282,10 +282,7 @@ Route::group(array('prefix' => 'administration'), function() {
     // NewsLetters
     Route::get('news_letters', 'Administration\NewsLettersController@index');
 
-    // Route::get('newsletters/{from}/{to}', 'NewsLettersController@dateRange');
-    // Route::post('newsletter', 'NewsLettersController@store');
-    // Route::post('newsletter/delete', 'NewsLettersController@delete');
-
+    // Test
     Route::get('test/create', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@uploadFileForm']);
     Route::post('test/uploadFile', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@store']);
 

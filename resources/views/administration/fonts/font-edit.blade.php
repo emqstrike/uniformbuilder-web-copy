@@ -155,8 +155,6 @@ li.select2-selection__choice {
                                     </tr>
                                     <tr class="output-size-row">
                                     </tr>
-                                    <!-- <tr class="output-preview-row">
-                                    </tr> -->
                                 </table>
                                 <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>
@@ -261,7 +259,6 @@ $(document).ready(function(){
     });
 
     $(".sports").change(function() {
-        // console.log($(this).val());
         $('#sports_value').val($(this).val());
     });
 
@@ -302,7 +299,6 @@ $(document).ready(function(){
             console.log('ELSE');
             try{
                 $( "#static_row" ).show();
-                // var elemx = $( "#static_row" );
                 var elemX = $( "#static_row" ).clone()
                 elemX.addClass('layers-row').removeAttr('id').clone().appendTo( "#layers-row-container" );
                 $( "#static_row" ).remove();
@@ -333,9 +329,7 @@ $(document).ready(function(){
         var myJson = JSON.parse(existing_fonts_properties);
         var length = Object.keys(myJson).length;
 
-        // console.log(myJson[0].name);
         var length = Object.keys(myJson).length - 1;
-        // console.log(length);
 
         window.fonts = null;
         getFonts(function(fonts){
@@ -359,14 +353,11 @@ $(document).ready(function(){
             });
         }
 
-        // console.log(window.fonts[0]);
-
         while(length > 0) {
             $(document).on('change', function() {
                 var length = $('.layers-row').length;
                 renumberRows(length);
             });
-            // console.log("LENGTH: "+length);
             var open = "<tr class=\"layers-row\">";
             var layer = "<td><select class=\"fo-layer layer"+length+"\"  name=\"fo_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
             

@@ -14,16 +14,17 @@
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        <span class="fa fa-th"></span>
+                        <i class="glyphicon glyphicon-blackboard"></i>
                         Saved Designs
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table class='data-table table table-bordered'>
+                    <table class='data-table table table-bordered table-striped'>
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Sport</th>
                             <th>Front</th>
                             <th>Back</th>
                             <th>Left</th>
@@ -41,6 +42,9 @@
                             </td>
                             <td>
                                 {{ $design->name }}
+                            </td>
+                            <td>
+                                {{ $design->sport }}
                             </td>
                             <td>
                                 <img src="{{ $design->front_thumbnail }}" height="100px" width="80px">
