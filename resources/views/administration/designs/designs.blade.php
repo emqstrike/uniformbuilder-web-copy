@@ -1,5 +1,11 @@
 @extends('administration.lte-main')
 
+@section('styles')
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
+
+@endsection
+
 @section('content')
 
 <section class="content">
@@ -22,15 +28,13 @@
                     <table class='data-table table table-bordered'>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Thumbnail</th>
                             <th>Design Sets</th>
                             <th>Gender</th>
                             <th>Category</th>
                             <th>Upper Body</th>
                             <th>Lower Body</th>
-<!--                             <th>Color</th>
-                            <th>Fabric</th>
-                            <th>Lining</th> -->
                             <th>Active Status</th>
                             <th>Actions</th>
                         </tr>
@@ -39,6 +43,9 @@
                     @forelse ($designs as $design)
 
                         <tr class='design-{{ $design->id }} {{ (!$design->active) ? ' inactive' : '' }}'>
+                            <td>
+                                {{ $design->id }}
+                            </td>
                             <td>
                                 @if ($design->thumbnail_path)
                                 <img src="{{ $design->thumbnail_path }}" width="100px" height="100px" />
@@ -117,12 +124,13 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/designs.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
-        "searching": false,
+        "searching": true,
         "ordering": true,
         "info": true,
         "autoWidth": false
