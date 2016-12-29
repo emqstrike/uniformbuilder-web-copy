@@ -108,13 +108,14 @@ $(document).ready(function(){
     $('.autosized').autosize({append: "\n"});
     getPriceItems(function(price_items){ window.price_items = price_items; });
     loadAdultYouth();
+    selectChange();
 
     function loadAdultYouth(){
 
         _.each(template_props.properties.adult, function(i){
             var size = i.size;
             var price_item = i.price_item;
-            var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + '"></select></td><td><select class="form-control  price-item-' + ctr + '"></select></td></tr>';
+            var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + ' sizes"></select></td><td><select class="form-control  price-item-' + ctr + ' price-items"></select></td></tr>';
             z = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
 
             $('.property-body').append(x);
@@ -131,7 +132,7 @@ $(document).ready(function(){
         _.each(template_props.properties.youth, function(i){
             var size = i.size;
             var price_item = i.price_item;
-            var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + '"></select></td><td><select class="form-control  price-item-' + ctr + '"></select></td></tr>';
+            var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + ' sizes"></select></td><td><select class="form-control  price-item-' + ctr + ' price-items"></select></td></tr>';
             z = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
 
             $('.property-body').append(x);
@@ -164,6 +165,18 @@ $(document).ready(function(){
             $(f).append(elem);
         });
     }
+
+    $('.add-property').on('click', function(e){
+        e.preventDefault();
+        var x  = $( ".prop-row:first" ).clone();
+        y = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
+
+        $('.property-body').append(x);
+        $(x).append(y);
+        deleteButton();
+        selectChange();
+        refreshProperty();
+    });
 
     function selectChange(){
         $( "select" ).change(function() {
@@ -206,6 +219,7 @@ $(document).ready(function(){
         $(".prop-row").each(function(i) {
             var x = $(this).find('.sizes').val();
             var price_item = $(this).find('.price-items').val();
+            console.log('price_item'+price_item);
             var prices = _.find(window.price_items, function(e){ return e.price_item === price_item; });
 
             var data = {
@@ -230,7 +244,6 @@ $(document).ready(function(){
             size_properties.adult_min_msrp = adult_min_msrp.msrp;
             var adult_min_web_price_sale = _.min(adult, function(o){return o.web_price_sale;});
             size_properties.adult_min_web_price_sale = adult_min_web_price_sale.web_price_sale;
-
         }
 
         if( youth.length > 0 ){
@@ -245,7 +258,7 @@ $(document).ready(function(){
         }
 
         size_properties.properties = properties;
-        // console.log(JSON.stringify(size_properties));
+        console.log(JSON.stringify(size_properties));
 
         // $('#size_property').val(JSON.stringify(size_properties));
     }
