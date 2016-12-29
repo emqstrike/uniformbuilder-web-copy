@@ -310,6 +310,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('price_item_template', 'Administration\PriceItemTemplatesController@store');
     Route::get('price_item_template/{id}', 'Administration\PriceItemTemplatesController@show');
     Route::get('price_item_template/edit/{id}', 'Administration\PriceItemTemplatesController@editForm');
+    Route::post('price_item_template/update', 'Administration\PriceItemTemplatesController@store');
 
     // Saved Designs
     Route::get('saved_designs', 'Administration\SavedDesignsController@index');

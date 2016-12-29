@@ -23,7 +23,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="template_id" value="{{ $template->id }}">
                         <input type="hidden" class="template-prop" value="{{ $template->properties }}">
-                        <input type="hidden" name="size_props" id="size_property">
+                        <input type="hidden" name="size_props" id="size_property" value="{{ $template->properties }}">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
