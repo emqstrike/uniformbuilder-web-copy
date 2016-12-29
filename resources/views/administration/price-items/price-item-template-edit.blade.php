@@ -107,24 +107,44 @@ $(document).ready(function(){
 
     $('.autosized').autosize({append: "\n"});
     getPriceItems(function(price_items){ window.price_items = price_items; });
+    loadAdultYouth();
 
-    _.each(template_props.properties.adult, function(i){
+    function loadAdultYouth(){
 
-        var size = i.size;
-        var price_item = i.price_item;
-        var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + '"></select></td><td><select class="form-control  price-item-' + ctr + '"></select></td></tr>';
-        z = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
+        _.each(template_props.properties.adult, function(i){
+            var size = i.size;
+            var price_item = i.price_item;
+            var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + '"></select></td><td><select class="form-control  price-item-' + ctr + '"></select></td></tr>';
+            z = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
 
-        $('.property-body').append(x);
-        $(x).append(z);
+            $('.property-body').append(x);
+            $(x).append(z);
 
-        var e = '.sizes-'+ctr;
-        var f = '.price-item-'+ctr;
+            var e = '.sizes-'+ctr;
+            var f = '.price-item-'+ctr;
 
-        selectedValues(e, f, size, price_item);
+            selectedValues(e, f, size, price_item);
 
-        ctr++;
-    });
+            ctr++;
+        });
+
+        _.each(template_props.properties.youth, function(i){
+            var size = i.size;
+            var price_item = i.price_item;
+            var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + '"></select></td><td><select class="form-control  price-item-' + ctr + '"></select></td></tr>';
+            z = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
+
+            $('.property-body').append(x);
+            $(x).append(z);
+
+            var e = '.sizes-'+ctr;
+            var f = '.price-item-'+ctr;
+
+            selectedValues(e, f, size, price_item);
+
+            ctr++;
+        });
+    }
 
     function selectedValues(e, f, size, price_item){
         _.each(sizes, function(i){
