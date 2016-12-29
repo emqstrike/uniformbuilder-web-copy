@@ -215,8 +215,6 @@ function refreshProperty(){
 
     if( youth.length > 0 ){
         properties.youth = youth;
-        // var youth_min = _.min(youth, function(o){return o.msrp;});
-        // size_properties.youth_min = youth_min.msrp;
         var youth_min_msrp = _.min(youth, function(o){return o.msrp;});
         size_properties.youth_min_msrp = youth_min_msrp.msrp;
         var youth_min_web_price_sale = _.min(youth, function(o){return o.web_price_sale;});

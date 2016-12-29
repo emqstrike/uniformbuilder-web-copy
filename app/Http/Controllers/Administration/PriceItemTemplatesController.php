@@ -63,9 +63,9 @@ class PriceItemTemplatesController extends Controller
         $response = null;
         if (!empty($template_id))
         {
-            // Log::info('Attempts to update Color#' . $colorId);
-            // $data['id'] = $colorId;
-            // $response = $this->client->updateColor($data);
+            Log::info('Attempts to update Price Item Template');
+            $data['id'] = $template_id;
+            $response = $this->client->updateTemplate($data);
         }
         else
         {
@@ -73,7 +73,6 @@ class PriceItemTemplatesController extends Controller
             $response = $this->client->create($data);
         }
 
-        // dd($data);
         if ($response->success)
         {
             Log::info('Success');

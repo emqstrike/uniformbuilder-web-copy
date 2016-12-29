@@ -24,7 +24,7 @@ class PriceItemTemplatesAPIClient extends APIClient
     }
 
     public function create($data)
-    {//dd(json_encode($data));
+    {
         $response = $this->post('price_item_template', [
             'json' => $data
         ]);
@@ -40,5 +40,14 @@ class PriceItemTemplatesAPIClient extends APIClient
             return $result->template;
         }
         return null;
+    }
+
+    public function updateTemplate($data)
+    {
+        $response = $this->post('price_item_template/update', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
     }
 }
