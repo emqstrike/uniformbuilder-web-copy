@@ -111,18 +111,40 @@ $(document).ready(function(){
 
     var template_props = JSON.parse($('.template-prop').val());
     // console.log(template_props);
+    var ctr = 0;
     _.each(template_props.properties.adult, function(i){
         console.log(i);
-        var x = '<tr class="prop-row"><td><select class="form-control sizes"></select></td><td><select class="form-control price-items"></select></td></tr>';
-        y = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
+        var size = i.size;
+        var price_item = i.price_item;
+        var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + '"></select></td><td><select class="form-control  price-item-' + ctr + '"></select></td></tr>';
+        z = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
 
         $('.property-body').append(x);
-        $(x).append(y);
-        // var elem = '<option value="' + i + '">' + i + '</option>';
-        // $('.sizes').append(elem);
+        $(x).append(z);
+
+        var e = '.sizes-'+ctr;
+        var f = '.price-item-'+ctr;
+
+        _.each(sizes, function(i){
+            var elem = '<option value="' + i + '">' + i + '</option>';
+            if(size === i){
+                elem = '<option value="' + i + '" selected>' + i + '</option>';
+            }
+            $(e).append(elem);
+        });
+
+        _.each(window.price_items, function(i){
+            var j = i.price_item;
+            var elem = '<option value="' + j + '">' + j + '</option>';
+            if(price_item === j){
+                elem = '<option value="' + j + '" selected>' + j + '</option>';
+            }
+            $(f).append(elem);
+        });
+        ctr++;
     });
 
-    initSizesAndPI();
+    // initSizesAndPI();
 
     // _.each(template_props.properties.adult, function(i){
     //     console.log(i);
@@ -135,19 +157,19 @@ $(document).ready(function(){
     //     // $('.sizes').append(elem);
     // });
 
-    function initSizesAndPI(){
-        _.each(sizes, function(i){
-            var elem = '<option value="' + i + '">' + i + '</option>';
-            $('.sizes').append(elem);
-        });
+    // function initSizesAndPI(){
+    //     _.each(sizes, function(i){
+    //         var elem = '<option value="' + i + '">' + i + '</option>';
+    //         $('.sizes').append(elem);
+    //     });
 
 
-        _.each(window.price_items, function(i){
-            var pi = i.price_item;
-            var elem = '<option value="' + pi + '">' + pi + '</option>';
-            $('.price-items').append(elem);
-        });
-    }
+    //     _.each(window.price_items, function(i){
+    //         var pi = i.price_item;
+    //         var elem = '<option value="' + pi + '">' + pi + '</option>';
+    //         $('.price-items').append(elem);
+    //     });
+    // }
 
     function selectChange(){
         $( "select" ).change(function() {
