@@ -23,6 +23,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="template_id" value="{{ $template->id }}">
                         <input type="hidden" class="template-prop" value="{{ $template->properties }}">
+                        <input type="hidden" name="size_props" id="size_property">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
@@ -115,11 +116,9 @@ $(document).ready(function(){
         _.each(template_props.properties.adult, function(i){
             var size = i.size;
             var price_item = i.price_item;
-            var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + ' sizes"></select></td><td><select class="form-control  price-item-' + ctr + ' price-items"></select></td></tr>';
-            z = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
-
+            var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + ' sizes"></select></td><td><select class="form-control  price-item-' + ctr + ' price-items"></select></td>';
+            x += "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td></tr>";
             $('.property-body').append(x);
-            $(x).append(z);
 
             var e = '.sizes-'+ctr;
             var f = '.price-item-'+ctr;
@@ -132,11 +131,9 @@ $(document).ready(function(){
         _.each(template_props.properties.youth, function(i){
             var size = i.size;
             var price_item = i.price_item;
-            var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + ' sizes"></select></td><td><select class="form-control  price-item-' + ctr + ' price-items"></select></td></tr>';
-            z = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
-
+            var x = '<tr class="prop-row"><td><select class="form-control sizes-' + ctr + ' sizes"></select></td><td><select class="form-control  price-item-' + ctr + ' price-items"></select></td>';
+            x += "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td></tr>";
             $('.property-body').append(x);
-            $(x).append(z);
 
             var e = '.sizes-'+ctr;
             var f = '.price-item-'+ctr;
@@ -164,6 +161,7 @@ $(document).ready(function(){
             }
             $(f).append(elem);
         });
+        deleteButton();
     }
 
     $('.add-property').on('click', function(e){
@@ -248,8 +246,6 @@ $(document).ready(function(){
 
         if( youth.length > 0 ){
             properties.youth = youth;
-            // var youth_min = _.min(youth, function(o){return o.msrp;});
-            // size_properties.youth_min = youth_min.msrp;
             var youth_min_msrp = _.min(youth, function(o){return o.msrp;});
             size_properties.youth_min_msrp = youth_min_msrp.msrp;
             var youth_min_web_price_sale = _.min(youth, function(o){return o.web_price_sale;});
@@ -260,7 +256,7 @@ $(document).ready(function(){
         size_properties.properties = properties;
         console.log(JSON.stringify(size_properties));
 
-        // $('#size_property').val(JSON.stringify(size_properties));
+        $('#size_property').val(JSON.stringify(size_properties));
     }
 
 });
