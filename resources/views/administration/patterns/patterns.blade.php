@@ -90,6 +90,7 @@
                                 </th>
                                 <th>Thumbnail</th>
                                 <th>Pattern</th>
+                                 <th>Sports</th>
                                 <th>Asset Target</th>
                                 <th>Active</th>
                                 <th>Actions</th>
@@ -109,7 +110,7 @@
                               <input type="checkbox" id="multipleDelete" name="remove[]" data-pattern-id="{{ $pattern->id }}" value="">
                             </div>
                         </td>
-                        
+
                         <td>
                             @if ($pattern->thumbnail_path)
                             <img src="{{ $pattern->thumbnail_path }}" width="100px" height="100px">
@@ -120,6 +121,10 @@
                         <td>
                             {{ $pattern->name }}
                         </td>
+                         <td>
+                            {{ $pattern->uniform_category_id }}
+                        </td>
+                        
                         <td>
                             {{ $pattern->asset_target }}
                         </td>

@@ -73,7 +73,7 @@ li.select2-selection__choice {
                             <label class="col-md-5 control-label">Tail Sweep</label>
                             <div class="col-md-4">
 
-                                <input type="checkbox"  name="tail_sweep" @if($font->tail_sweep == 1)value="1" checked @endif>
+                                <input type="checkbox"  name="tail_sweep" @if($font->tail_sweep == 1)value="1" checked n@endif>
   
                             </div>
                         </div>
