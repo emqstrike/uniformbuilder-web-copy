@@ -2936,6 +2936,7 @@ canvas.observe('object:moving', function (e) {
     });
     console.log(JSON.stringify(coords));
     updateCoordinates();
+    });
 }
 catch(err) { console.log(err.message); }
 
