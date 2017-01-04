@@ -7169,13 +7169,17 @@ $(document).ready(function() {
         var $smallPickerContainer   = $('div.smallPickerContainer[data-layer-no="' + _layer_no + '"]');
         var _checkMark              = '<i class="fa fa-check" aria-hidden="true"></i>';
 
-        $smallPickerContainer.find('span.colorItem').html('&nbsp;');
-        $smallPickerContainer.find('span.colorItem').css('width','25px');
-        $smallPickerContainer.find('span.colorItem').removeClass('activeColorItem');
+        var $colorItems = $smallPickerContainer.find('span.colorItem').not('.turnOff');
 
-        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');
-        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
-        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
+        $colorItems.html('&nbsp;');
+        $colorItems.css('width','25px');
+        $colorItems.removeClass('activeColorItem');
+
+        var $activeColorItem = $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').not('.turnOff');
+
+        $activeColorItem.addClass('activeColorItem');
+        $activeColorItem.css('width','40px');
+        $activeColorItem.html(_checkMark);
 
     },
 
