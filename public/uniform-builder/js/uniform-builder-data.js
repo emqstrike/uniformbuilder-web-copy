@@ -185,88 +185,7 @@ $(document).ready(function() {
     ub.folders                      = { piping: '/images/pipings' } ;
     
     ub.data.pipings                 = [
-     /// Neck Piping
-            {
             
-            name: 'Yoke and Neck Piping 1/8',
-            size: '1/8',
-            set: 'Yoke and Neck Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
-            perspectives: [
-                {
-                    perspective: 'front',
-                    layers: [
-                        {
-                            position: 1,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Front/1.png',
-                        },
-                        {
-                            position: 2,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Front/2.png',
-                        },
-                        {
-                            position: 3,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Front/3.png',
-                        }
-                    ]
-                },
-                {
-                    perspective: 'back',
-                    layers: [
-                        {
-                            position: 1,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Back/1.png',
-                        },
-                        {
-                            position: 2,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Back/2.png',
-                        },
-                        {
-                            position: 3,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Back/3.png',
-                        }
-                    ]
-                },
-                {
-                    perspective: 'left',
-                    layers: [
-                        {
-                            position: 1,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Left/1.png',
-                        },
-                        {
-                            position: 2,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Left/2.png',
-                        },
-                        {
-                            position: 3,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Left/3.png',
-                        }
-                    ]
-                },
-                {
-                    perspective: 'right',
-                    layers: [
-                        {
-                            position: 1,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Right/1.png',
-                        },
-                        {
-                            position: 2,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Right/2.png',
-                        },
-                        {
-                            position: 3,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Right/3.png',
-                        }
-                    ]
-                },
-            ]
-
-        },
-
         /// Neck Piping
             {
             
@@ -275,7 +194,7 @@ $(document).ready(function() {
             set: 'Neck Piping',
             color_1: true,
             color_2: true,
-            color_3: true,
+            color_3: false,
             perspectives: [
                 {
                     perspective: 'front',
@@ -354,8 +273,8 @@ $(document).ready(function() {
             size: '1/4',
             set: 'Neck Piping',
             color_1: true,
-            color_2: true,
-            color_3: true,
+            color_2: false,
+            color_3: false,
             perspectives: [
                 {
                     perspective: 'front',
@@ -3657,6 +3576,95 @@ $(document).ready(function() {
             //     ], 
             // },  // End Outlined with Drop Shadow
 
+        ],
+    }
+
+    ub.data.tailsweeps = {
+        items: [
+            {   // None
+                id: 0,
+                name: 'None',
+                code: 'none',
+                title: 'None',
+                thumbnail: 'none.png',
+            },  // End None
+            {   // Astros
+                id: 0,
+                name: 'Astros',
+                code: 'astros',
+                title: 'Astros',
+                thumbnail: 'astros.png',
+            },  // End Astros
+            {   // Brewers
+                id: 1,
+                name: 'Brewers',
+                code: 'brewers',
+                title: 'Brewers',
+                thumbnail: 'brewers.png',
+            },  // End Brewers
+            {   // Dodgers
+                id: 2,
+                name: 'Dodgers',
+                code: 'dodgers',
+                title: 'Dodgers',
+                thumbnail: 'dodgers.png',
+            },  // End Dodgers
+            {   // Expos
+                id: 3,
+                name: 'Expos',
+                code: 'expos',
+                title: 'Expos',
+                thumbnail: 'expos.png',
+            },  // End Expos
+            {   // Indians
+                id: 4,
+                name: 'Indians',
+                code: 'indians',
+                title: 'Indians',
+                thumbnail: 'indians.png',
+            },  // End Indians
+            {   // Oaklands
+                id: 5,
+                name: "Oakland A's",
+                code: "oaklands",
+                title: "Oakland A's",
+                thumbnail: 'oakland.png',
+            },  // End Oakland A's
+            {   // Orioles
+                id: 6,
+                name: "Orioles",
+                code: 'orioles',
+                title: "Orioles",
+                thumbnail: 'orioles.png',
+            },  // End Orioles
+            {   // Royals
+                id: 7,
+                name: "Royals",
+                code: 'royals',
+                title: "Royals",
+                thumbnail: 'royals.png',
+            },  // End Royals
+            {   // San Francisco Giants
+                id: 8,
+                name: "San Francisco Giants",
+                code: 'san francisco giants',
+                title: "San Francisco Giants",
+                thumbnail: 'sanfranciscogiants.png',
+            },  // End San Francisco Giants
+            {   // Twins
+                id: 9,
+                name: "Twins",
+                code: 'twins',
+                title: "Twins",
+                thumbnail: 'twins.png',
+            },  // End Twins
+            {   // Yankees
+                id: 10,
+                name: "Yankees",
+                code: 'yankees',
+                title: "Yankees",
+                thumbnail: 'yankees.png',
+            },  // End Yankees
         ],
     }
 
@@ -8243,9 +8251,12 @@ ub.funcs.fontOffSets = [
 
         });
 
-        font_builder = "<style type=\"text/css\">" + font_builder + "</style>";
-        $("head").prepend(font_builder);
+        var _tfFileName = ub.config.host + '/Fonts/tailsweeptrial_2.otf';
 
+        font_builder += "@font-face { \n\tfont-family: 'Tail Sweep Trial 2'; \n\tsrc: url('" + _tfFileName + "'); \n\tformat('opentype');\n}\n";
+        font_builder = "<style type=\"text/css\">" + font_builder + "</style>";
+        
+        $("head").prepend(font_builder);
 
         // Preload first font
         if ( ub.data.fonts.length > 0 ) {
@@ -8253,7 +8264,7 @@ ub.funcs.fontOffSets = [
             WebFont.load({
 
                 custom: {
-                  families: [ub.data.fonts[0].name],
+                  families: [ub.data.fonts[0].name, 'Tail Sweep Trial 2'],
                 },
 
             });

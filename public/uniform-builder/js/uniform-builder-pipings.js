@@ -425,7 +425,7 @@ $(document).ready(function () {
 
     ub.funcs.renderPipings = function (pipingObject, colorArray, colorCount) {
 
-        var _firstColor = colorArray[1];
+        var _firstColor = colorArray[0];
 
         _.each (ub.views, function (perspective) {
 
@@ -476,6 +476,19 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.getMatchingSide = function (name) {
+
+        var _result = "";
+
+        if (name.indexOf('Left') === 0)  { _result = name.replace('Left', 'Right'); }
+        if (name.indexOf('Right') === 0) { _result = name.replace('Right', 'Left'); }
+
+        if (_result === "") { console.warn("Result for Matching Side is Blank.") }
+
+        return _result;
+
+    }
+
     ub.funcs.activatePipings = function (pipingSet) {
 
         if (ub.funcs.popupsVisible()) { return; }
@@ -489,7 +502,6 @@ $(document).ready(function () {
         var _activePipingSet    = _pipingSet;
 
         _activePipingSet        = ub.current_material.settings.pipings[pipingSet];
-
 
         if (typeof _activePipingSet !== "undefined") {
 
@@ -544,6 +556,15 @@ $(document).ready(function () {
 
         $('.modifier_main_container').append(_htmlBuilder);
 
+        var s = $('span.piping-type').html();
+
+        if (s.indexOf('Left') === 0) {
+            
+            s = s.replace('Left', '');
+            $('span.piping-type').html(s);
+
+        }
+
         // End Main Template
 
         
@@ -583,14 +604,14 @@ $(document).ready(function () {
 
                     if (_name.indexOf('Left') > -1) {
 
-                        _matchingName = _name.replace('Left', 'Right');
+                        _matchingName = ub.funcs.getMatchingSide(_name);
                         _matchingPipingObject = _.find(ub.data.pipings, {name: _matchingName});
 
                     }
 
                     if (_name.indexOf('Right') > -1) {
 
-                        _matchingName = _name.replace('Right', 'Left');
+                        _matchingName = ub.funcs.getMatchingSide(_name);
                         _matchingPipingObject = _.find(ub.data.pipings, {name: _matchingName});
 
                     }
@@ -661,6 +682,13 @@ $(document).ready(function () {
                     _status = 'off';
                     ub.funcs.removePiping(pipingSet);
 
+                    if (pipingSet.indexOf('Left') === 0) {
+
+                        var matchingSide = ub.funcs.getMatchingSide(pipingSet);
+                        ub.funcs.removePiping(matchingSide);
+
+                    }
+                    
                 } else {
 
                     _status = 'on';
