@@ -185,88 +185,7 @@ $(document).ready(function() {
     ub.folders                      = { piping: '/images/pipings' } ;
     
     ub.data.pipings                 = [
-     /// Neck Piping
-            {
             
-            name: 'Yoke and Neck Piping 1/8',
-            size: '1/8',
-            set: 'Yoke and Neck Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
-            perspectives: [
-                {
-                    perspective: 'front',
-                    layers: [
-                        {
-                            position: 1,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Front/1.png',
-                        },
-                        {
-                            position: 2,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Front/2.png',
-                        },
-                        {
-                            position: 3,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Front/3.png',
-                        }
-                    ]
-                },
-                {
-                    perspective: 'back',
-                    layers: [
-                        {
-                            position: 1,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Back/1.png',
-                        },
-                        {
-                            position: 2,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Back/2.png',
-                        },
-                        {
-                            position: 3,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Back/3.png',
-                        }
-                    ]
-                },
-                {
-                    perspective: 'left',
-                    layers: [
-                        {
-                            position: 1,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Left/1.png',
-                        },
-                        {
-                            position: 2,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Left/2.png',
-                        },
-                        {
-                            position: 3,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Left/3.png',
-                        }
-                    ]
-                },
-                {
-                    perspective: 'right',
-                    layers: [
-                        {
-                            position: 1,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Right/1.png',
-                        },
-                        {
-                            position: 2,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Right/2.png',
-                        },
-                        {
-                            position: 3,
-                            filename: ub.folders.piping + '/Yoke and Neck Piping/eighth/Right/3.png',
-                        }
-                    ]
-                },
-            ]
-
-        },
-
         /// Neck Piping
             {
             
@@ -275,7 +194,7 @@ $(document).ready(function() {
             set: 'Neck Piping',
             color_1: true,
             color_2: true,
-            color_3: true,
+            color_3: false,
             perspectives: [
                 {
                     perspective: 'front',
@@ -354,8 +273,8 @@ $(document).ready(function() {
             size: '1/4',
             set: 'Neck Piping',
             color_1: true,
-            color_2: true,
-            color_3: true,
+            color_2: false,
+            color_3: false,
             perspectives: [
                 {
                     perspective: 'front',
