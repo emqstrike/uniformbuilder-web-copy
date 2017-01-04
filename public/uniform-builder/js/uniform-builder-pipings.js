@@ -425,7 +425,7 @@ $(document).ready(function () {
 
     ub.funcs.renderPipings = function (pipingObject, colorArray, colorCount) {
 
-        var _firstColor = colorArray[1];
+        var _firstColor = colorArray[0];
 
         _.each (ub.views, function (perspective) {
 
@@ -489,7 +489,6 @@ $(document).ready(function () {
         var _activePipingSet    = _pipingSet;
 
         _activePipingSet        = ub.current_material.settings.pipings[pipingSet];
-
 
         if (typeof _activePipingSet !== "undefined") {
 
