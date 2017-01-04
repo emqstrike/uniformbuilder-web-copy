@@ -122,7 +122,9 @@
                             {{ $pattern->name }}
                         </td>
                          <td>
-                            {{ $pattern->uniform_category_id }}
+                            @foreach ($pattern->sports as $sport)
+                            [ {{ $sport->name }} ]
+                            @endforeach
                         </td>
                         
                         <td>
