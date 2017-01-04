@@ -3077,7 +3077,7 @@ function updateApplicationsJSON(){
         console.log('ACCENT >>>>>>' + applicationAccents);
         console.log('MASCOT >>>>>>' + applicationMascot);
         fontData = window.fontData;
-        
+
         if(isPrimary.prop( "checked" )){
             isPrimary = 1;
         } else {
