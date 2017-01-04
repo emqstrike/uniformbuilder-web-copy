@@ -5073,16 +5073,16 @@ $(document).ready(function() {
 
     ub.funcs.changeFontFromPopup = function (fontId, settingsObj) {
 
-        var _fontObj    = _.find(ub.data.fonts, {id: fontId.toString()});
-        var _id         = settingsObj.id;
+        var _fontObj                = _.find(ub.data.fonts, {id: fontId.toString()});
+        var _id                     = settingsObj.id;
 
         ub.funcs.removeApplicationByID(_id);
-        settingsObj.font_obj = _fontObj;
+        settingsObj.font_obj        = _fontObj;
         ub.create_application(settingsObj, undefined);
 
-        $popup = $('div#primaryFontPopup');
+        $popup                      = $('div#primaryFontPopup');
         $popup.remove();
-        ub.status.fontPopupVisible = false;
+        ub.status.fontPopupVisible  = false;
 
     }
 
@@ -5379,7 +5379,16 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.changeTailSweepFromPopup = function (id, settingsObj) {
 
+        ub.funcs.removeApplicationByID(id);
+        ub.create_application(settingsObj, undefined);
+
+        $popup                              = $('div#primaryTailSweepPopup');
+        $popup.remove();
+        ub.status.tailSweepPopupVisible     = false;
+
+    }
 
     ub.status.tailsweepPopupVisible = false;
     ub.funcs.createTailSweepPopup = function (settingsObj) {
@@ -5420,42 +5429,21 @@ $(document).ready(function() {
 
         );
 
-        $('div.tailsweepPopupResults > div.item').on('click', function () {
+        $('div.tailSweepPopupResults > div.item').on('click', function () {
 
-            var _id = $(this).data('accent-id');
+            var _id         = $(this).data('tailsweep-id');
+            var _code       = $(this).data('tailsweep-code');
+
+            settingsObj.tailsweep = {
+
+                id: _id,
+                code: _code,
+
+            };
 
             ub.funcs.changeTailSweepFromPopup(_id, settingsObj);
             $popup.remove();
             ub.funcs.activateApplications(settingsObj.code);
-
-            if (settingsObj.code === "32") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "33") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "9") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "10") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
-
-            }
-            
 
         });
 
@@ -8859,7 +8847,18 @@ $(document).ready(function() {
 
         });
 
-        ub.funcs.toggleApplication(_id, _status);
+        /// Initialize 
+
+            ub.funcs.toggleApplication(_id, _status);
+
+            if (ub.current_material.material.uniform_category !== "Baseball") {
+
+                $('span.tab[data-item="tailsweeps"]').hide();
+                $('span.tab[data-item="patterns"]').hide();
+
+            }
+
+        /// End Initialize
 
     }
 

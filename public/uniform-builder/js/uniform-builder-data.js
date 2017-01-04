@@ -3662,6 +3662,13 @@ $(document).ready(function() {
 
     ub.data.tailsweeps = {
         items: [
+            {   // None
+                id: 0,
+                name: 'None',
+                code: 'none',
+                title: 'None',
+                thumbnail: 'none.png',
+            },  // End None
             {   // Astros
                 id: 0,
                 name: 'Astros',
@@ -3670,70 +3677,70 @@ $(document).ready(function() {
                 thumbnail: 'astros.png',
             },  // End Astros
             {   // Brewers
-                id: 0,
+                id: 1,
                 name: 'Brewers',
                 code: 'brewers',
                 title: 'Brewers',
                 thumbnail: 'brewers.png',
             },  // End Brewers
             {   // Dodgers
-                id: 0,
+                id: 2,
                 name: 'Dodgers',
                 code: 'dodgers',
                 title: 'Dodgers',
                 thumbnail: 'dodgers.png',
             },  // End Dodgers
             {   // Expos
-                id: 0,
+                id: 3,
                 name: 'Expos',
                 code: 'expos',
                 title: 'Expos',
                 thumbnail: 'expos.png',
             },  // End Expos
             {   // Indians
-                id: 0,
+                id: 4,
                 name: 'Indians',
                 code: 'indians',
                 title: 'Indians',
                 thumbnail: 'indians.png',
             },  // End Indians
             {   // Oaklands
-                id: 0,
+                id: 5,
                 name: "Oakland A's",
                 code: "oaklands",
                 title: "Oakland A's",
                 thumbnail: 'oakland.png',
             },  // End Oakland A's
             {   // Orioles
-                id: 0,
+                id: 6,
                 name: "Orioles",
                 code: 'orioles',
                 title: "Orioles",
                 thumbnail: 'orioles.png',
             },  // End Orioles
             {   // Royals
-                id: 0,
+                id: 7,
                 name: "Royals",
                 code: 'royals',
                 title: "Royals",
                 thumbnail: 'royals.png',
             },  // End Royals
             {   // San Francisco Giants
-                id: 0,
+                id: 8,
                 name: "San Francisco Giants",
                 code: 'san francisco giants',
                 title: "San Francisco Giants",
                 thumbnail: 'sanfranciscogiants.png',
             },  // End San Francisco Giants
             {   // Twins
-                id: 0,
+                id: 9,
                 name: "Twins",
                 code: 'twins',
                 title: "Twins",
                 thumbnail: 'twins.png',
             },  // End Twins
             {   // Yankees
-                id: 0,
+                id: 10,
                 name: "Yankees",
                 code: 'yankees',
                 title: "Yankees",
@@ -8325,9 +8332,12 @@ ub.funcs.fontOffSets = [
 
         });
 
-        font_builder = "<style type=\"text/css\">" + font_builder + "</style>";
-        $("head").prepend(font_builder);
+        var _tfFileName = ub.config.host + '/Fonts/tailsweeptrial_2.otf';
 
+        font_builder += "@font-face { \n\tfont-family: 'Tail Sweep Trial 2'; \n\tsrc: url('" + _tfFileName + "'); \n\tformat('opentype');\n}\n";
+        font_builder = "<style type=\"text/css\">" + font_builder + "</style>";
+        
+        $("head").prepend(font_builder);
 
         // Preload first font
         if ( ub.data.fonts.length > 0 ) {
@@ -8335,7 +8345,7 @@ ub.funcs.fontOffSets = [
             WebFont.load({
 
                 custom: {
-                  families: [ub.data.fonts[0].name],
+                  families: [ub.data.fonts[0].name, 'Tail Sweep Trial 2'],
                 },
 
             });

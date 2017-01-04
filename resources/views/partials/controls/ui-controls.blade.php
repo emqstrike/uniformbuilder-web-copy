@@ -909,7 +909,7 @@
 
             <div class="header">
 
-                Tail Sweeps
+                Tailsweeps
 
                 <div class="close-popup">
                         
@@ -925,7 +925,7 @@
 
                     @{{#tailsweeps}}
 
-                        <div class="item grow" style="background-image: url(/images/tailsweeps/thumbnails/@{{thumbnail}})" data-accent-id="@{{id}}">
+                        <div class="item grow" style="background-image: url(/images/tailsweeps/thumbnails/@{{thumbnail}})" data-tailsweep-code="@{{code}}" data-tailsweep-id="@{{id}}">
                             <div class="name" style="">@{{title}}</div>
                         </div>
 

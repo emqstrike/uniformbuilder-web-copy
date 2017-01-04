@@ -1231,10 +1231,35 @@
 
     $.ub.create_text = function (input_object) {
 
+        if (typeof input_object.applicationObj.tailsweep !== "undefined") {
+
+            var _tf = ub.config.host + '/Fonts/tailsweeptrial_2.otf';
+
+            input_object.font_obj = {
+
+                active:"1",
+                font_path: _tf,
+                font_properties: "[{'name':'Tail Sweep Trial 2','font_path':'" + _tf + "','type':'default','parent_id':'0'}]",
+                font_size_table: '[{"inputSize":"1","outputSize":"35","xOffset":"-4","yOffset":"12","xScale":"1","yScale":"1"},{"inputSize":"2","outputSize":"53","xOffset":"-4","yOffset":"12","xScale":"1","yScale":"1"},{"inputSize":"2.5","outputSize":"66","xOffset":"2","yOffset":"5","xScale":"1","yScale":"1"},{"inputSize":"3","outputSize":"75","xOffset":"-4","yOffset":"12","xScale":".9","yScale":"1"},{"inputSize":"4","outputSize":"100","xOffset":"0","yOffset":"0","xScale":".8","yScale":"1"},{"inputSize":"5","outputSize":"140","xOffset":"0","yOffset":"0","xScale":"1","yScale":"1"},{"inputSize":"6","outputSize":"160","xOffset":"0","yOffset":"0","xScale":"1","yScale":"1"},{"inputSize":"7","outputSize":"180","xOffset":"0","yOffset":"0","xScale":"1","yScale":"1"},{"inputSize":"8","outputSize":"345","xOffset":"-1","yOffset":"3","xScale":".88","yScale":"1"},{"inputSize":"9","outputSize":"440","xOffset":"0","yOffset":"0","xScale":"1","yScale":"1"},{"inputSize":"10","outputSize":"375","xOffset":"-2","yOffset":"15","xScale":".88","yScale":"1"},{"inputSize":"11","outputSize":"480","xOffset":"0","yOffset":"0","xScale":"1","yScale":"1"},{"inputSize":"12","outputSize":"405","xOffset":"-7","yOffset":"30","xScale":".82","yScale":"1"}]',
+                id: "59",
+                name: "Tail Sweep Trial 2",
+                parent_id: 0,
+                sports: "[]",
+                type: 'default',
+            }
+
+            input_object.applicationObj.font_obj = input_object.font_obj;
+
+            input_object.text_input = input_object.text_input + 'À';
+            input_object.applicationObj.text = input_object.text_input;
+            input_object.font_name = "Tail Sweep Trial 2";
+
+        }
+
         var _strokeInner = 11;
         var _strokeOuter = 14;
 
-        if(input_object.fontSize < 5) {
+        if (input_object.fontSize < 5) {
             _strokeInner = 7;
             _strokeOuter = 14;
         }
