@@ -173,7 +173,7 @@
 $(document).ready(function(){
    
 
-    console.log("asdasdasdasdasdasdssss");
+
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,

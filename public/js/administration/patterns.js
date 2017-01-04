@@ -59,7 +59,7 @@ $(document).ready(function(){
 
     updater();
     function updater(edit){
-        console.log('Updater: ' + edit);
+        
         $('.neck-option-name').keyup(function(){
 
             console.log($(this).val());
@@ -327,10 +327,11 @@ $(document).ready(function(){
         $('#confirmation-modal-delete-thumbnail').modal();
     });
 
-    $('#confirmation-modal-delete-thumbnail .confirm-yes').on('click', function(){
+    
+    $(document).on('click', '#confirmation-modal-delete-thumbnail .confirm-yes', function() {
         var id = $(this).data('value');
          var url = "//" + api_host + "/api/pattern/delete/";
-      //  var url = "//localhost:8888/api/pattern/deleteThumbnail/";
+    // var url = "//localhost:8888/api/pattern/deleteThumbnail/";
         $.ajax({
             url: url,
             type: "POST",
@@ -392,6 +393,46 @@ $(document).ready(function(){
         });
     });
 
+
+     $(document).on('click', '.clone-pattern', function(e) {
+        e.preventDefault();
+        var id = $(this).data('pattern-id');
+        var url = "//" + api_host + "/api/pattern/duplicate/";
+
+
+       // var url = "//localhost:8888/api/pattern/duplicate/";
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+
+                     $( ".box-body" ).load( location+" .patterns" ); 
+                     $('html, body').scrollTop( $(document).height() );
+           
+             
+                    
+
+                }
+            }
+        });
+    });
+
+
+
+
     // Edit Pattern Scripts
     $('#edit-pattern-form').submit(function(){
         new PNotify({
@@ -442,7 +483,7 @@ $(document).ready(function(){
         buildLayers();
     }
     catch(err) {
-        console.log(err.message);
+        // console.log(err.message);
     }
 
     function buildLayers(){

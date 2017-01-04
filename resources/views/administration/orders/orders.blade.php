@@ -15,7 +15,7 @@
                 <div class="box-header">
                 </div>
                 <div class="box-body">
-                    <table class='data-table table table-bordered table-striped table-hover'>
+                    <table class='table table-bordered table-striped table-hover'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -27,8 +27,8 @@
                             <th>Items</th>
                             <th>Artwork Status</th>
                             <th>Order Status</th>
-                            <th>Actions</th>
                             <th>FOID</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,10 +39,7 @@
                                 {{ $order->id }}
                             </td>
                             <td>
-                                <!-- <img src="{{ $order->upper_front_thumbnail_path }}" height="70em" />
-                                <img src="{{ $order->upper_back_thumbnail_path }}" height="70em" /> -->
-                                <!-- <br /> -->
-                                <p style="font-size: 17px">{{ $order->order_id }}</p>
+                                {{ $order->order_id }}
                             </td>
                             <td>
                                 <div>
@@ -110,6 +107,9 @@
                                 </select>
                             </td>
                             <td>
+                                {{ $order->factory_order_id }}
+                            </td>
+                            <td>
                                 @if ( $order->artwork_status != "rejected" )
                                 {{-- @if ( !isset($order->factory_order_id) ) --}}
                                 <a href="#"
@@ -137,9 +137,6 @@
                                         Remove
                                     </a>
                                 {{-- @endif --}}
-                            </td>
-                            <td>
-                                {{ $order->factory_order_id }}
                             </td>
                         </tr>
 
@@ -178,14 +175,14 @@
 <script type="text/javascript" src="/js/administration/orders.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
-    });
+    // $('.data-table').DataTable({
+    //     "paging": true,
+    //     "lengthChange": false,
+    //     "searching": true,
+    //     "ordering": false,
+    //     "info": true,
+    //     "autoWidth": false
+    // });
 });
 </script>
 @endsection

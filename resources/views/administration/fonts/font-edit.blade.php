@@ -7,6 +7,12 @@
 li.select2-selection__choice {
     color: black !important;
 }
+
+.animated {
+    -webkit-transition: height 0.2s;
+    -moz-transition: height 0.2s;
+    transition: height 0.2s;
+}
 </style>
 @endsection
 
@@ -63,6 +69,14 @@ li.select2-selection__choice {
                                 <input type="name" class="form-control base-font-name" name="name" value="{{ $font->name }}">
                             </div>
                         </div>
+                         <div class="form-group">
+                            <label class="col-md-5 control-label">Tail Sweep</label>
+                            <div class="col-md-4">
+
+                                <input type="checkbox"  name="tail_sweep" @if($font->tail_sweep == 1)value="1" checked @endif>
+
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-5 control-label">
@@ -115,6 +129,13 @@ li.select2-selection__choice {
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Tail Sweep Properties</label>
+                            <div class="col-md-4">
+                                <textarea class="form-control tail-sweep-properties animated" name="tail_sweep_properties"><?php echo substr(stripslashes($font->tail_sweep_properties), 1, -1); ?></textarea>
+                            </div>
+                        </div>
+
                         <div class="form-group" style="border: 1px solid black; padding: 10px;">
                             <center>
                             <div style="max-width: 800px; max-height: 800px;">
@@ -134,8 +155,6 @@ li.select2-selection__choice {
                                     </tr>
                                     <tr class="output-size-row">
                                     </tr>
-                                    <!-- <tr class="output-preview-row">
-                                    </tr> -->
                                 </table>
                                 <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>
@@ -224,9 +243,12 @@ li.select2-selection__choice {
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/fonts.js"></script>
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+<script type="text/javascript" src="/js/libs/autosize.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $( "#static_row" ).hide();
+
+    $('.animated').autosize({append: "\n"});
 
     var sports = JSON.parse($('#sports_value').val());
 
@@ -237,7 +259,6 @@ $(document).ready(function(){
     });
 
     $(".sports").change(function() {
-        // console.log($(this).val());
         $('#sports_value').val($(this).val());
     });
 
@@ -278,7 +299,6 @@ $(document).ready(function(){
             console.log('ELSE');
             try{
                 $( "#static_row" ).show();
-                // var elemx = $( "#static_row" );
                 var elemX = $( "#static_row" ).clone()
                 elemX.addClass('layers-row').removeAttr('id').clone().appendTo( "#layers-row-container" );
                 $( "#static_row" ).remove();
@@ -309,9 +329,7 @@ $(document).ready(function(){
         var myJson = JSON.parse(existing_fonts_properties);
         var length = Object.keys(myJson).length;
 
-        // console.log(myJson[0].name);
         var length = Object.keys(myJson).length - 1;
-        // console.log(length);
 
         window.fonts = null;
         getFonts(function(fonts){
@@ -335,14 +353,11 @@ $(document).ready(function(){
             });
         }
 
-        // console.log(window.fonts[0]);
-
         while(length > 0) {
             $(document).on('change', function() {
                 var length = $('.layers-row').length;
                 renumberRows(length);
             });
-            // console.log("LENGTH: "+length);
             var open = "<tr class=\"layers-row\">";
             var layer = "<td><select class=\"fo-layer layer"+length+"\"  name=\"fo_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
             

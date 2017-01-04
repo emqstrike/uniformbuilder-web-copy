@@ -149,7 +149,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editMaterialForm']);
     Route::get('material/view_material_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@getMaterialOptions']);
     Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@materialsOptionsSetup']);
-    Route::get('material/piping/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editPipingForm']);
+    Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editPipingForm']);
     Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePiping']);
 
     // Materials Options
@@ -282,10 +282,7 @@ Route::group(array('prefix' => 'administration'), function() {
     // NewsLetters
     Route::get('news_letters', 'Administration\NewsLettersController@index');
 
-    // Route::get('newsletters/{from}/{to}', 'NewsLettersController@dateRange');
-    // Route::post('newsletter', 'NewsLettersController@store');
-    // Route::post('newsletter/delete', 'NewsLettersController@delete');
-
+    // Test
     Route::get('test/create', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@uploadFileForm']);
     Route::post('test/uploadFile', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@store']);
 
@@ -307,6 +304,24 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('feedback/reply/{id}', 'Administration\FeedbacksController@reply');
     Route::get('feedback/thread/{id}', 'Administration\FeedbacksController@viewThread');
 
+      // Mockup set
+     Route::get('mockup_sets', 'Administration\MockupSetsController@index');
+     Route::get('mockup_set/{id}', 'Administration\MockupSetsController@show');
+//     Route::get('mockup_sets', function()
+// {
+//     return 'Hello World';
+// });
+
+    // Price Item Templates
+    Route::get('price_item_templates', 'Administration\PriceItemTemplatesController@index');
+    Route::get('price_item_template/add', 'Administration\PriceItemTemplatesController@addForm');
+    Route::post('price_item_template', 'Administration\PriceItemTemplatesController@store');
+    Route::get('price_item_template/{id}', 'Administration\PriceItemTemplatesController@show');
+    Route::get('price_item_template/edit/{id}', 'Administration\PriceItemTemplatesController@editForm');
+    Route::post('price_item_template/update', 'Administration\PriceItemTemplatesController@store');
+
+    // Saved Designs
+    Route::get('saved_designs', 'Administration\SavedDesignsController@index');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

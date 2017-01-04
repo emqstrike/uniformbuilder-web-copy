@@ -433,9 +433,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <input type="hidden" name="sizes" id="sizes" value="{{ $material->sizes }}">
-                        <!-- <a href="#" class="check-data btn btn-xs btn-primary">Check Data</a> -->
                             <table class="Table table-bordered col-md-12">
                                 <tbody>
                                     <tr style="font-weight: bold;">
@@ -487,13 +486,25 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-8">
                                 <input type="hidden" name="description" id="description" value="{{ $material->description }}">
-                                <textarea class="form-control material-description">{{ $material->description }}</textarea>
+                                <textarea class="form-control material-description autosized">{{ $material->description }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Price Item Template</label>
+                            <div class="col-md-6">
+                                <select class="form-control material-price-item-template-id" name="price_item_template_id" id="price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'@if($material->price_item_template_id == $template->id) selected="selected"@endif>{{ $template->name }}</option>
+                                @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -524,9 +535,12 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="/js/libs/autosize.js"></script>
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <script>
 $( document ).ready(function() {
+
+    $('.autosized').autosize({append: "\n"});
 
     window.price_items = null;
     getPriceItems(function(price_items){ window.price_items = price_items; });
@@ -553,47 +567,47 @@ $( document ).ready(function() {
     });
 
     $(".pi-dd").each(function(i) {
-        $(this).append(price_items_dd);
+        // $(this).append(price_items_dd);
     });
-    if( $('#sizes').val() != "" ){
-        var size_obj = JSON.parse($('#sizes').val().slice(1, -1));
-        console.log(size_obj);
-        size_obj['adult'].forEach(function(entry) {
-            // console.log(entry.size);
-            $(".pi-dd").each(function(i) {
-                var elem = $(this);
-                if( elem.data('size') == entry.size ){
-                    // elem.append('<option selected>HERE!</option');
-                    elem.find('option').each(function(index,element){
-                        if( element.value == entry.price_item ){
-                            // console.log('Match!');
-                            $(this).prop("selected", "selected");
-                        }
-                    });
-                }
-            });
-        });
+    // if( $('#sizes').val() != "" ){
+    //     var size_obj = JSON.parse($('#sizes').val().slice(1, -1));
+    //     console.log(size_obj);
+    //     size_obj['adult'].forEach(function(entry) {
+    //         // console.log(entry.size);
+    //         $(".pi-dd").each(function(i) {
+    //             var elem = $(this);
+    //             if( elem.data('size') == entry.size ){
+    //                 // elem.append('<option selected>HERE!</option');
+    //                 elem.find('option').each(function(index,element){
+    //                     if( element.value == entry.price_item ){
+    //                         // console.log('Match!');
+    //                         $(this).prop("selected", "selected");
+    //                     }
+    //                 });
+    //             }
+    //         });
+    //     });
 
-        size_obj['youth'].forEach(function(entry) {
-            // console.log(entry.size);
-            $(".pi-dd").each(function(i) {
-                var elem = $(this);
-                if( elem.data('size') == entry.size ){
-                    // elem.append('<option selected>HERE!</option');
-                    elem.find('option').each(function(index,element){
-                        if( element.value == entry.price_item ){
-                            // console.log('Match!');
-                            $(this).prop("selected", "selected");
-                        }
-                    });
-                }
-            });
-        });
-    }
+    //     size_obj['youth'].forEach(function(entry) {
+    //         // console.log(entry.size);
+    //         $(".pi-dd").each(function(i) {
+    //             var elem = $(this);
+    //             if( elem.data('size') == entry.size ){
+    //                 // elem.append('<option selected>HERE!</option');
+    //                 elem.find('option').each(function(index,element){
+    //                     if( element.value == entry.price_item ){
+    //                         // console.log('Match!');
+    //                         $(this).prop("selected", "selected");
+    //                     }
+    //                 });
+    //             }
+    //         });
+    //     });
+    // }
     
 
     $(".pi-dd").change(function() {
-        buildPIxSizes();
+        // buildPIxSizes(); // REMOVE COMMENT ***
     });
 
     // $(document).on('click', '.check-data', function() {

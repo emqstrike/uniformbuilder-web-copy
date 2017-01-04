@@ -166,6 +166,7 @@ $(document).ready(function() {
 
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/mascot/delete/";
+       
         $.ajax({
             url: url,
             type: "POST",
@@ -184,10 +185,11 @@ $(document).ready(function() {
                     });
                     $('#confirmation-modal').modal('hide');
                     $('.mascot-' + id).fadeOut();
+                    location.reload();
                 }
             }
         });
- window.location.reload(true);
+
  
     });
 

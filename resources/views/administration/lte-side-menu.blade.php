@@ -10,10 +10,29 @@
       <i class="glyphicon glyphicon-list-alt"></i> <span>Orders</span>
     </a>
   </li>
-  <li data-step="2" data-intro="Will proceed to the price items dashboard." data-position='right'>
+  <!-- <li data-step="2" data-intro="Will proceed to the price items dashboard." data-position='right'>
     <a href="/administration/price_items" >
         <i class="fa fa-money"></i> <span>Price Items Dashboard</span>
     </a>
+  </li> -->
+  <li class="treeview" data-step="2" data-intro="Manage price items" data-position='right'>
+    <a href="#" >
+      <i class="fa fa-money"></i>
+      <span>Price Items</span>
+      <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu">
+      <li data-step="4" data-intro="Configure features." data-position='right'>
+        <a href="/administration/price_items">
+          <i class="fa fa-money"></i> <span>Dashboard</span>
+        </a>
+      </li>
+      <li  data-step="5" data-intro="Helper information">
+        <a href="/administration/price_item_templates">
+          <i class="fa fa-cube"></i> <span>Templates</span>
+        </a>
+      </li>
+    </ul>
   </li>
   <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
     <a href="#" >
@@ -86,9 +105,9 @@
           <i class="fa fa-cubes"></i> <span>Materials Fabrics</span>
         </a>
       </li>
-      <li data-step="9" data-intro="For Materials Fabric settings.">
+      <li data-step="9" data-intro="For Mockup Sets.">
         <a href="/administration/mockup_sets">
-          <i class="fa fa-cubes"></i> <span>Mackup Sets</span>
+          <i class="fa fa-cubes"></i> <span>Mockup Sets</span>
         </a>
       </li>
       <li data-step="9" data-intro="For Materials settings.">
@@ -166,6 +185,11 @@
   <li data-position='right'>
     <a href="/administration/feedbacks" >
       <i class="glyphicon glyphicon-envelope"></i> <span>Feedbacks</span>
+    </a>
+  </li>
+  <li data-position='right'>
+    <a href="/administration/saved_designs" >
+      <i class="glyphicon glyphicon-blackboard"></i> <span>Saved Designs</span>
     </a>
   </li>
 </ul>

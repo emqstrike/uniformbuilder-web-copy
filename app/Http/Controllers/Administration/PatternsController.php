@@ -39,7 +39,7 @@ class PatternsController extends Controller
     {
         $colors = $this->colorsClient->getColors();
         $pattern = $this->client->getPattern($id);
-
+        
         return view('administration.patterns.pattern-edit', [
             'pattern' => $pattern,
             'color' => $colors

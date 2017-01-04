@@ -68,7 +68,15 @@
                             </a>
                         </small>
                     </h1>
+                    <button class="button btn-primary filter" value=".all">All</button>
+                    <button class="button filter" value=".web">Web</button>
+                    <button class="button filter" value=".ipad">Ipad</button>
+
+
+
+       
                 </div>
+
                 <div class="box-body">
                     <table data-toggle='table' class='data-table table table-bordered patterns'>
                         <thead>
@@ -77,22 +85,23 @@
                                 <th>
                                     <a href="#" class="btn btn-danger btn-xs multiple-delete-pattern" role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
-                                        Remove
+                                        Remove Checked
                                     </a>
                                 </th>
                                 <th>Thumbnail</th>
                                 <th>Pattern</th>
+                                 <th>Sports</th>
                                 <th>Asset Target</th>
                                 <th>Active</th>
                                 <th>Actions</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="isotope">
 
                 @forelse ($patterns as $pattern)
 
-                    <tr class='pattern-{{ $pattern->id }} {{ (!$pattern->active) ? ' inactive' : '' }}'>
+                    <tr class='pattern-{{ $pattern->id }} {{ (!$pattern->active) ? ' inactive' : '' }}{{ $pattern->asset_target }} all' >
                         <td>
                             {{ $pattern->id }}
                         </td>
@@ -101,6 +110,7 @@
                               <input type="checkbox" id="multipleDelete" name="remove[]" data-pattern-id="{{ $pattern->id }}" value="">
                             </div>
                         </td>
+
                         <td>
                             @if ($pattern->thumbnail_path)
                             <img src="{{ $pattern->thumbnail_path }}" width="100px" height="100px">
@@ -111,6 +121,10 @@
                         <td>
                             {{ $pattern->name }}
                         </td>
+                         <td>
+                            {{ $pattern->uniform_category_id }}
+                        </td>
+                        
                         <td>
                             {{ $pattern->asset_target }}
                         </td>
@@ -135,6 +149,10 @@
                             <a href="/administration/pattern/edit/{{ $pattern->id }}" class="btn btn-primary btn-xs edit-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
                                 <i class="glyphicon glyphicon-edit"></i>
                                 Edit
+                            </a>
+                            <a href="#" class="btn btn-default btn-xs clone-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
+                                <i class="glyphicon glyphicon-copy"></i>
+                                Clone
                             </a>
                             <a href="#" class="btn btn-danger btn-xs delete-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
                                 <i class="glyphicon glyphicon-trash"></i>
@@ -174,7 +192,14 @@
 <script type="text/javascript" src="/js/administration/patterns.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    
+
+    $(document).on('click', '.filter', function() {
+        $(".filter").removeClass('btn-primary');
+        $(this).addClass('btn-primary').show;
+        $(".all").fadeOut( "slow" );
+        $($(this).val()).fadeIn( "slow" );
+    });
+
 });
 </script>
 @endsection

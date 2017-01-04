@@ -17,6 +17,7 @@ use App\APIClients\BoundariesAPIClient;
 use App\APIClients\FontsAPIClient;
 use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
+use App\APIClients\PriceItemTemplatesAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 
 class MaterialsController extends Controller
@@ -30,6 +31,7 @@ class MaterialsController extends Controller
     protected $boundaryClient;
     protected $fontClient;
     protected $blockPatternClient;
+    protected $priceItemTemplateClient;
 
     public function __construct(
         APIClient $apiClient,
@@ -40,7 +42,8 @@ class MaterialsController extends Controller
         ApplicationsAPIClient $applicationsAPIClient,
         BoundariesAPIClient $boundariesAPIClient,
         FontsAPIClient $fontsAPIClient,
-        BlockPatternsAPIClient $blockPatternsAPIClient
+        BlockPatternsAPIClient $blockPatternsAPIClient,
+        PriceItemTemplatesAPIClient $priceItemTemplatesClient
     )
     {
         $this->client = $apiClient;
@@ -52,6 +55,7 @@ class MaterialsController extends Controller
         $this->boundaryClient = $boundariesAPIClient;
         $this->fontClient = $fontsAPIClient;
         $this->blockPatternClient = $blockPatternsAPIClient;
+        $this->priceItemTemplateClient = $priceItemTemplatesClient;
     }
 
     /**
@@ -148,6 +152,7 @@ class MaterialsController extends Controller
         $colors = $colorsAPIClient->getColors();
         $factories = $this->factoriesClient->getFactories();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
+        $price_item_templates = $this->priceItemTemplateClient->getAll();
 
         $material = $this->client->getMaterial($id);
         return view('administration.materials.material-edit', [
@@ -155,30 +160,51 @@ class MaterialsController extends Controller
             'uniform_categories' => $uniformCategories,
             'colors' => $colors,
             'factories' => $factories,
-            'block_patterns' => $block_patterns
+            'block_patterns' => $block_patterns,
+            'price_item_templates' => $price_item_templates
         ]);
     }
 
-
-    public function editPipingForm($id)
+    public function editPipingForm($id, $page_number)
     {
         $material = $this->client->getMaterial($id);
         $piping_properties = null;
+        $piping_properties_json = null;
         $case = 'new';
-        if(isset($material->piping_properties))
+
+        if($page_number == 1 && isset($material->piping_properties))
         {
             $piping_properties = json_decode($material->piping_properties, 1);
             $case = 'update';
+            $piping_properties_json = $material->piping_properties;
+        }
+        elseif($page_number == 2 && isset($material->piping_properties_2))
+        {
+            $piping_properties = json_decode($material->piping_properties_2, 1);
+            $case = 'update';
+            $piping_properties_json = $material->piping_properties_2;
+        }
+        elseif($page_number == 3 && isset($material->piping_properties_3))
+        {
+            $piping_properties = json_decode($material->piping_properties_3, 1);
+            $case = 'update';
+            $piping_properties_json = $material->piping_properties_3;
+        }
+        elseif($page_number == 4 && isset($material->piping_properties_4))
+        {
+            $piping_properties = json_decode($material->piping_properties_4, 1);
+            $case = 'update';
+            $piping_properties_json = $material->piping_properties_4;
         }
 
         return view('administration.materials.material-piping', [
             'material' => $material,
             'piping_properties' => $piping_properties,
             'case' => $case,
-            'piping_properties_json' => stripslashes($material->piping_properties)
+            'piping_properties_json' => stripslashes($piping_properties_json),
+            'page_number' => $page_number
         ]);
     }
-
 
     public function addMaterialForm()
     {
@@ -201,8 +227,18 @@ class MaterialsController extends Controller
         $name_of = $request->input('name_of');
         $name_oh = $request->input('name_oh');
         $case = $request->input('case');
+        $oe1 = is_null($request->input('oe1')) ? false : true;
+        $oe2 = is_null($request->input('oe2')) ? false : true;
+        $oe3 = is_null($request->input('oe3')) ? false : true;
+        $of1 = is_null($request->input('of1')) ? false : true;
+        $of2 = is_null($request->input('of2')) ? false : true;
+        $of3 = is_null($request->input('of3')) ? false : true;
+        $oh1 = is_null($request->input('oh1')) ? false : true;
+        $oh2 = is_null($request->input('oh2')) ? false : true;
+        $oh3 = is_null($request->input('oh3')) ? false : true;
 
-        $set = "Piping";
+        $set = $request->input('set_name');
+        $page_number = $request->input('page_number');
 
         $data = [];
         $structured_data = [
@@ -213,7 +249,7 @@ class MaterialsController extends Controller
         {
             $structured_data['1/8'] = [];
             $structured_data['1/8']['name'] = $name_oe;
-            $structured_data['1/8']['set'] = $set;
+            $structured_data['set'] = $set;
             $structured_data['1/8']['front_pos_1'] = null;
             $structured_data['1/8']['back_pos_1'] = null;
             $structured_data['1/8']['left_pos_1'] = null;
@@ -229,7 +265,6 @@ class MaterialsController extends Controller
 
             $structured_data['1/4'] = [];
             $structured_data['1/4']['name'] = $name_of;
-            $structured_data['1/4']['set'] = $set;
             $structured_data['1/4']['front_pos_1'] = null;
             $structured_data['1/4']['back_pos_1'] = null;
             $structured_data['1/4']['left_pos_1'] = null;
@@ -245,7 +280,6 @@ class MaterialsController extends Controller
 
             $structured_data['1/2'] = [];
             $structured_data['1/2']['name'] = $name_oh;
-            $structured_data['1/2']['set'] = $set;
             $structured_data['1/2']['front_pos_1'] = null;
             $structured_data['1/2']['back_pos_1'] = null;
             $structured_data['1/2']['left_pos_1'] = null;
@@ -260,12 +294,10 @@ class MaterialsController extends Controller
             $structured_data['1/2']['right_pos_3'] = null;
         } else {
             $structured_data = json_decode($request->input('piping_properties_json'), 1);
+            $structured_data['set'] = $set;
             $structured_data['1/8']['name'] = $name_oe;
-            $structured_data['1/8']['set'] = $set;
             $structured_data['1/4']['name'] = $name_of;
-            $structured_data['1/4']['set'] = $set;
             $structured_data['1/2']['name'] = $name_oh;
-            $structured_data['1/2']['set'] = $set;
         }
         // Upload images
         try {
@@ -879,14 +911,13 @@ class MaterialsController extends Controller
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
-            dd($message);
         }
 
         $response = null;
         if (!empty($material_id))
         {
             Log::info('Attempts to update piping_properties of Material#' . $material_id);
-            $response = $this->client->updatePiping($structured_data);
+            $response = $this->client->updatePiping($structured_data, $page_number);
         }
 
         if ($response->success)
@@ -938,6 +969,8 @@ class MaterialsController extends Controller
 
         $design_type = $request->input('design_type');
 
+        $priceItemTemplateID = $request->input('price_item_template_id');
+
         $materialId = null;
         if (!empty($request->input('material_id')))
         {
@@ -978,9 +1011,10 @@ class MaterialsController extends Controller
             'uniform_application_type' => $uniformApplicationType,
             'sizes' => $sizes,
             'debug_mode' => $debugMode,
-            'asset_target' => $assetTarget
+            'asset_target' => $assetTarget,
+            'price_item_template_id' => $priceItemTemplateID
         ];
-// dd($data);
+
         try {
             // Thumbnail Files
             $thumbnailFile = $request->file('thumbnail_path');
