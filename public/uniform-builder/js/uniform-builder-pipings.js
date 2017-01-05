@@ -246,7 +246,6 @@ $(document).ready(function () {
         //     var _checkMark  = '&nbsp;';
         //     var _style      = "25px";
         //     var _class      = '';
-
         //     if (activeColorCode === _cObj.color_code) {
         //         _label      = 'Off';
         //         _style      = "40px";
