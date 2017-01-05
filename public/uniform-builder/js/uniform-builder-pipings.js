@@ -241,22 +241,22 @@ $(document).ready(function () {
 
         _html += '<label class="smallColorPickerLabel" >' + layer_name + ' </label>';
 
-        /// Off Button
+        // /// Off Button
 
-            var _checkMark  = '&nbsp;';
-            var _style      = "25px";
-            var _class      = '';
+        //     var _checkMark  = '&nbsp;';
+        //     var _style      = "25px";
+        //     var _class      = '';
 
-            if (activeColorCode === _cObj.color_code) {
-                _label      = 'Off';
-                _style      = "40px";
-                _class      = 'activeColorItem';
-            }
+        //     if (activeColorCode === _cObj.color_code) {
+        //         _label      = 'Off';
+        //         _style      = "40px";
+        //         _class      = 'activeColorItem';
+        //     }
 
-            var _colorObj = ub.funcs.getColorByColorCode(_cObj.color_code);
-            _html += '<span style="margin-right: 30px; width: ' + _style + ';background-color: #' + _cObj.hex_code + '; color: #' + _cObj.forecolor + ';" class="turnOff colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _cObj.color_code + '" data-layer-no="' + layer_no + '">' + _label + '</span>';
+        //     var _colorObj = ub.funcs.getColorByColorCode(_cObj.color_code);
+        //     _html += '<span style="margin-right: 30px; width: ' + _style + ';background-color: #' + _cObj.hex_code + '; color: #' + _cObj.forecolor + ';" class="turnOff colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _cObj.color_code + '" data-layer-no="' + layer_no + '">' + _label + '</span>';
 
-        /// End Off Button
+        // /// End Off Button
 
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
@@ -379,7 +379,7 @@ $(document).ready(function () {
         var _markup = Mustache.render(_template, _data);
 
         return _markup;
-        
+                
     }
 
     ub.funcs.getPipingColorArray = function (activePipingSet) {
