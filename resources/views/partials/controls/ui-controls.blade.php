@@ -901,6 +901,52 @@
 
 <!-- End New Mascot Picker -->
 
+<!-- Tail Sweep Picker -->
+    
+    <script type="text/mustache" id="m-tailsweep-popup">
+
+        <div id="primaryTailSweepPopup" data-status="hidden">
+
+            <div class="header">
+
+                Tailsweeps
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+            
+            <div class="main-content">
+                
+                <div class="tailSweepPopupResults">
+
+                    @{{#tailsweeps}}
+
+                        <div class="item grow" style="background-image: url(/images/tailsweeps/thumbnails/@{{thumbnail}})" data-tailsweep-code="@{{code}}" data-tailsweep-id="@{{id}}">
+                            <div class="name" style="">@{{title}}</div>
+                        </div>
+
+                    @{{/tailsweeps}}
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+
+    </script>
+
+<!-- End Tail Sweep Picker -->
+
 <!-- Roster Table -->
     
     <script type="text/mustache" id="m-roster-table">
@@ -1596,9 +1642,6 @@
 
               <div class="ui-row">
                   <div class="column1"> &nbsp;
-                      <div class="sub1">
-                        <span class="accentThumb"><img src="/images/pipings/thumbnails/placeholder.png"></span><br><span class="accent">Yoke</span><span class="flipButton" style="display: none;">Vertical</span>
-                      </div>
                       <div class="colorContainer"><br />
                       </div>
                   </div>

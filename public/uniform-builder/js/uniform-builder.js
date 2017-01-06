@@ -1152,7 +1152,27 @@ $(document).ready(function () {
 
     ub.data.getPixelFontSize = function (fontID, fontSize) {
 
+
         var _fontObj        = _.find(ub.data.fonts, {id: fontID});
+
+        if (typeof _fontObj === "undefined") {
+
+            var _tf = ub.config.host + '/Fonts/tailsweeptrial_2.otf';
+
+            _fontObj = {
+
+                active:"1",
+                font_path: _tf,
+                font_properties: "[{'name':'Tail Sweep Trial 2','font_path':'" + _tf + "','type':'default','parent_id':'0'}]",
+                font_size_table: null,
+                id: "59",
+                name: "Tail Sweep Trial 2",
+                parent_id: 0,
+                sports: "[]",
+                type: 'default',
+            };
+
+        }
         var _fontSizeTable  = _fontObj.font_size_table;
         var _fontSizeData;
         var _fontProperties;
@@ -5836,8 +5856,6 @@ $(document).ready(function () {
         /// My Saved Designs
 
         ub.funcs.shareSavedDesign = function (id, name) {
-
-
 
             // var txt;
             
