@@ -2147,6 +2147,7 @@ $(document).ready(function() {
 
         ub.funcs.fixAlignments = function () {
 
+            if (ub.current_material.material.uniform_category === "Baseball") { return; }
             if (ub.data.rosterInitialized) { return; }
 
             if (typeof ub.objects.back_view.objects_10 !== 'undefined' && ub.objects.back_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_10 !== 'undefined') {
