@@ -24,7 +24,7 @@
                             </ul>
                         </div>
                     @endif
-
+ 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/material/piping/update" enctype="multipart/form-data" id='edit-piping-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="material_id" value="{{ $material->id }}">
