@@ -150,7 +150,9 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/view_material_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@getMaterialOptions']);
     Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@materialsOptionsSetup']);
     Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editPipingForm']);
+    Route::get('material/{id}/pipings', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@pipings']);
     Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePiping']);
+    Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePipings']);
 
     // Materials Options
     Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);
