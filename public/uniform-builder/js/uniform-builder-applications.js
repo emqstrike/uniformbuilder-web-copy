@@ -7358,7 +7358,7 @@ $(document).ready(function() {
 
     ub.funcs.getMascotObj = function () {
 
-
+        
 
     }
 
@@ -7933,7 +7933,7 @@ $(document).ready(function() {
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
         var _status = 'on';
-        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
+        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; }
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
@@ -8159,6 +8159,15 @@ $(document).ready(function() {
 
             $('div.applicationType').on('click', function () {
 
+                var _status = $('div.toggle').data('status');
+
+                if (_status === 'off') {
+
+                    // Don't create change application UI is status is off
+                    return;
+
+                }
+                
                 if ($('div#changeApplicationUI').length > 1) {
 
                     var _status = $('div#changeApplicationUI').data('status');
@@ -8836,6 +8845,7 @@ $(document).ready(function() {
             var s;
             if(_currentStatus === "on") {
                 s = 'off';
+                $('div#changeApplicationUI').remove();
             }
             else {
                 s = 'on';
