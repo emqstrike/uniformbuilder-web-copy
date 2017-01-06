@@ -7169,13 +7169,17 @@ $(document).ready(function() {
         var $smallPickerContainer   = $('div.smallPickerContainer[data-layer-no="' + _layer_no + '"]');
         var _checkMark              = '<i class="fa fa-check" aria-hidden="true"></i>';
 
-        $smallPickerContainer.find('span.colorItem').html('&nbsp;');
-        $smallPickerContainer.find('span.colorItem').css('width','25px');
-        $smallPickerContainer.find('span.colorItem').removeClass('activeColorItem');
+        var $colorItems = $smallPickerContainer.find('span.colorItem').not('.turnOff');
 
-        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').addClass('activeColorItem');
-        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').css('width','40px');
-        $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').html(_checkMark);
+        $colorItems.html('&nbsp;');
+        $colorItems.css('width','25px');
+        $colorItems.removeClass('activeColorItem');
+
+        var $activeColorItem = $smallPickerContainer.find('span.colorItem[data-color-code="' + _color_code + '"]').not('.turnOff');
+
+        $activeColorItem.addClass('activeColorItem');
+        $activeColorItem.css('width','40px');
+        $activeColorItem.html(_checkMark);
 
     },
 
@@ -7354,7 +7358,7 @@ $(document).ready(function() {
 
     ub.funcs.getMascotObj = function () {
 
-
+        
 
     }
 
@@ -7929,7 +7933,7 @@ $(document).ready(function() {
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
 
         var _status = 'on';
-        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
+        if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; }
 
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
@@ -8155,6 +8159,15 @@ $(document).ready(function() {
 
             $('div.applicationType').on('click', function () {
 
+                var _status = $('div.toggle').data('status');
+
+                if (_status === 'off') {
+
+                    // Don't create change application UI is status is off
+                    return;
+
+                }
+                
                 if ($('div#changeApplicationUI').length > 1) {
 
                     var _status = $('div#changeApplicationUI').data('status');
@@ -8832,6 +8845,7 @@ $(document).ready(function() {
             var s;
             if(_currentStatus === "on") {
                 s = 'off';
+                $('div#changeApplicationUI').remove();
             }
             else {
                 s = 'on';
