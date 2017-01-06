@@ -117,7 +117,7 @@
 
                 if (colorStatus === 'unselected') {
 
-                    if (ub.current_material.settings.team_colors.length + 1 > 9) {
+                    if (ub.current_material.settings.team_colors.length + 1 >= 9) {
                         ub.startModal('Maximum # of Team Colors is 8');
                         return;
 
