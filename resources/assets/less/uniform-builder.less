@@ -2462,7 +2462,7 @@ div#main-picker-container {
             width: 224px;
             float: left;
             cursor: pointer;
-            margin-bottom: 90px;
+            margin-bottom: 130px;
             margin-right: 20px;
             margin-left: 25px;
 
@@ -6603,6 +6603,60 @@ div.header-container.main {
         font-size: 1em;
         display: block;
         margin-top: 10px;
+
+        display: none;
+
+    }
+
+    .youthPrice, .youthPriceSale {
+
+        font-size: 1em;
+        font-weight: normal;
+        display: block;
+        margin-top: 10px;
+        text-transform: none;
+
+        font-family: 'Avenir Next LT W04 Thin';
+
+        strong {
+            font-family: 'Avenir Next LT W04 Bold';
+        }
+
+    }
+
+    .youthPrice.sale {
+        text-decoration: line-through;
+    }
+
+    .youthPriceSale.nosale {
+        display: none;
+    }
+
+    .adultPrice, .adultPriceSale {
+
+        font-weight: normal;
+        font-size: 1em;
+        display: block;
+        text-transform: none;
+        font-family: 'Avenir Next LT W04 Thin';
+
+        strong {
+            font-family: 'Avenir Next LT W04 Bold';
+        }
+
+    }
+
+    .adultPrice.sale {
+        text-decoration: line-through;
+    }
+
+    .adultPriceSale.nosale {
+        display: none;
+    }
+
+    .adultPriceSale, .youthPriceSale {
+
+        color: red;
 
     }
 
