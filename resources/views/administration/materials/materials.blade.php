@@ -92,6 +92,9 @@
                     <a href="#" class="btn btn-default mr-10 btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
                         <i class="glyphicon glyphicon-copy"></i>
                     </a>
+                    <a href="/administration/material/{{ $material->id }}/pipings" class='1pxb btn btn-xs btn-default'>
+                        <span class="glyphicon glyphicon-stats"></span>
+                    </a>
                     <a href="/administration/material/piping/{{ $material->id }}/1" class='1pxb btn btn-xs btn-default'>
                         <span>P</span>
                     </a>
