@@ -1,7 +1,7 @@
 @extends('administration.lte-main')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/datatables/media/css/dataTables.bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 @endsection
 
 @section('content')
@@ -113,7 +113,7 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/datatables/media/js/dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/users.js"></script>
 <script type="text/javascript">
@@ -121,7 +121,7 @@ $(document).ready(function(){
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
-        "searching": false,
+        "searching": true,
         "ordering": true,
         "info": true,
         "autoWidth": false
