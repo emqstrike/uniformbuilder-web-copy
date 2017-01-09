@@ -128,6 +128,7 @@ $(document).ready(function() {
  //    function bindImages(data){
 
  //    }
+ 
  	function deletePiping(){
  		$('.delete-piping').on('click', function(e){
 	 		$(this).parent().parent().parent().parent().remove();
