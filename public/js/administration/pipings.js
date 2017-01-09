@@ -2,11 +2,13 @@ $(document).ready(function() {
 
 	var pipings_data = $('#pipings_data').val();
 
-	if(pipings_data != null && pipings_data != '""'){
-		console.log('Has value');
-		loadPipings();
-	} else {
-		console.log('None');
+	if(pipings_data){
+		if(pipings_data != null && pipings_data != '""'){
+			console.log('Has value');
+			loadPipings();
+		} else {
+			console.log('None');
+		}
 	}
 
 	// String.prototype.stripSlashes = function(){
