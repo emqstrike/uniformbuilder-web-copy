@@ -250,7 +250,10 @@ $(document).ready(function(){
 
     $('.animated').autosize({append: "\n"});
 
-    var sports = JSON.parse($('#sports_value').val());
+    if($('#sports_value').val()){
+        var sports = JSON.parse($('#sports_value').val());   
+    }
+    // var sports = JSON.parse($('#sports_value').val());
 
     $('.sports').select2({
         placeholder: "Select sports",
