@@ -971,11 +971,55 @@ $(document).ready(function () {
             ub.materials = {};
             ub.materials = _.filter(obj, {debug_mode: '0'});
 
+            console.log(_.size(ub.materials));
+
             _.each (ub.materials, function (material) {
 
                 ub.funcs.priceOverride(material);
                 material.calculatedPrice = ub.funcs.getPrice(material);
 
+                if (material.uniform_category === "Football" || material.uniform_category === "Wrestling") {
+
+                    var _pricingTable = JSON.parse(material.pricing);
+                    material.parsedPricingTable = _pricingTable;
+                    
+                    if (material.pricing === null) {
+
+                        material.parsedPricingTable = {
+
+                            youth_min_msrp: ' (Call for Pricing)',
+                            adult_min_msrp: ' (Call for Pricing)',
+                            youth_sale: 'nosale',
+                            adult_sale: 'nosale',
+
+                        }
+                        
+                    } else {
+    
+                        if (_pricingTable.youth_min_web_price_sale === "0.00") {
+
+                            _pricingTable.youth_sale = "nosale";    
+
+                        } else {
+
+                            _pricingTable.youth_sale = "sale";    
+
+                        }
+
+                        if (_pricingTable.adult_min_web_price_sale === "0.00") {
+
+                            _pricingTable.adult_sale = "nosale";    
+
+                        } else {
+
+                            _pricingTable.adult_sale = "sale";    
+
+                        }
+
+                    }
+                    
+                }
+                
             });
 
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
@@ -5338,6 +5382,8 @@ $(document).ready(function () {
                 }
 
             });
+
+            console.log(ub.tempItems);
 
             var data = {
 
