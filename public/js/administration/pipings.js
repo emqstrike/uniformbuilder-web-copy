@@ -25,6 +25,7 @@ $(document).ready(function() {
 		// console.log( pipings[0] );
 		pipings.forEach(function(entry) {
 			console.log(entry);
+			var size = entry.size;
 		
 
 		// var array = $.map(pipings, function(value, index) {
@@ -37,6 +38,17 @@ $(document).ready(function() {
 
 		// console.log(array);
 
+		var selectbox = '<select class="form-control piping-size">';
+		var piping_sizes = ["1/8", "1/4", "1/2"];
+		piping_sizes.forEach(function(entry) {
+			if(entry == size){
+				selectbox += '<option value="'+entry+'" selected>'+entry+'</option>';
+			} else {
+				selectbox += '<option value="'+entry+'">'+entry+'</option>';
+			}
+		});
+		selectbox += '</select>';
+
 		var template = `<table class="table table-striped table-bordered table-hover piping-table">
         <tr>
         	<td colspan="5"><a href="#" class="btn btn-danger pull-right delete-piping">Remove</a></td>
@@ -44,13 +56,7 @@ $(document).ready(function() {
         <tr>
     		<td><b>PIPING DETAILS</b></td>
     		<td>
-    			<b>SIZE</b>
-    			<select class="form-control piping-size">
-    				<option value="1/8">1/8</option>
-    				<option value="1/4">1/4</option>
-    				<option value="1/2">1/2</option>
-    			</select>
-    		</td>
+    			<b>SIZE</b>`+selectbox+`</td>
     		<td>
     			<b>NAME</b>
     			<input type="text" class="form-control piping-name" value="`+entry.name+`">
