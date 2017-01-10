@@ -86,22 +86,10 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.priceOverride = function (material) {
-
-            // if (material.id === "110") {
-
-            //     material.msrp = "92.00";
-
-            // }
-
-        } 
-
         ub.funcs.getPrice = function (material) {
 
-            ub.funcs.priceOverride(material);
-
-            var _web_price_sale = parseFloat(material.web_price_sale).toFixed(2);;
-            var _msrp           = parseFloat(material.msrp).toFixed(2);;
+            var _web_price_sale = parseFloat(material.web_price_sale).toFixed(2);
+            var _msrp           = parseFloat(material.msrp).toFixed(2);
             var _price          = 0;
 
             if (_web_price_sale < _msrp && _web_price_sale > 1) {
@@ -114,7 +102,32 @@ $(document).ready(function () {
                 _price = "Call for Pricing";
             } 
 
+            ub.funcs.processMaterialPrice(material);
+
             return _price;
+
+        }
+
+        // Returns Adult, Youth price modified with sale, also call for team pricing, or just call for pricing elements
+        ub.funcs.getPriceElements = function (material) {
+
+            // var _web_price_sale = parseFloat(material.web_price_sale).toFixed(2);
+            // var _msrp           = parseFloat(material.msrp).toFixed(2);
+            // var _price          = 0;
+
+            // if (_web_price_sale < _msrp && _web_price_sale > 1) {
+            //     _price          = "Sale Price: $" + _web_price_sale;
+            // } else {
+            //     _price          = "MSRP $" + _msrp;
+            // }
+
+            // if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { 
+            //     _price = "Call for Pricing";
+            // } 
+
+            ub.funcs.processMaterialPrice(material);
+
+            return material.parsedPricingTable;
 
         }
 
@@ -333,24 +346,29 @@ $(document).ready(function () {
 
             }
 
-            var _getPrice = ub.funcs.getPrice(ub.current_material.material);
+            var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
 
-            if (_getPrice !== "Call for Pricing") {
+            // if (_getPrice !== "Call for Pricing") {
 
-                _getPrice += " / Call for Team Pricing";
+            //     _getPrice += " / Call for Team Pricing";
 
-            }
+            // }
+
+            console.log('Get Price: ');
+            console.log(_getPrice);
 
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
-            $('div#uniform_price').html(_getPrice + '<br /><em class="notice">*pricing may vary depending on size</em>');
+            $('div#uniform-price-youth').html("Youth MSRP <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
+            $('div#uniform-price-adult').html("Adult &nbsp;MSRP <span class='adultPriceCustomizer " + _getPrice.adult_sale + "'> from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
+            $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
+
+            //$('div#uniform_price').html(_getPrice + '<br /><em class="notice">*pricing may vary depending on size</em>');
 
             $('div.header-container').css('display','none !important');
 
             // TODO: Enable This
 
-
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
-
 
             ub.hideFontGuides();
             ub.data.afterLoadCalled = 1;
@@ -588,6 +606,8 @@ $(document).ready(function () {
                 ub.init_settings_object();
                 ub.init_style();
                 ub.funcs.initFonts();
+
+                
 
             }
             
@@ -1003,17 +1023,9 @@ $(document).ready(function () {
 
         }
 
-        ub.load_materials = function (obj, object_name){
+        ub.funcs.processMaterialPrice = function (material) {
 
-            ub.materials = {};
-            ub.materials = _.filter(obj, {debug_mode: '0'});
-
-            _.each (ub.materials, function (material) {
-
-                ub.funcs.priceOverride(material);
-                material.calculatedPrice = ub.funcs.getPrice(material);
-
-                if (material.uniform_category === "Football" || material.uniform_category === "Wrestling") {
+            if (material.uniform_category === "Football" || material.uniform_category === "Wrestling" || "Baseball") {
 
                     var _pricingTable = JSON.parse(material.pricing);
                     material.parsedPricingTable = _pricingTable;
@@ -1026,10 +1038,13 @@ $(document).ready(function () {
                             adult_min_msrp: ' (Call for Pricing)',
                             youth_sale: 'nosale',
                             adult_sale: 'nosale',
+                            callForPricing: 'callForPricingOff'
 
                         }
                         
                     } else {
+
+                        callForPricing: 'callForPricingOn'
     
                         if (_pricingTable.youth_min_web_price_sale === "0.00") {
 
@@ -1055,6 +1070,19 @@ $(document).ready(function () {
                     
                 }
                 
+
+        }
+
+        ub.load_materials = function (obj, object_name){
+
+            ub.materials = {};
+            ub.materials = _.filter(obj, {debug_mode: '0'});
+
+            _.each (ub.materials, function (material) {
+
+                material.calculatedPrice = ub.funcs.getPrice(material);
+                ub.funcs.processMaterialPrice(material);
+
             });
 
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
