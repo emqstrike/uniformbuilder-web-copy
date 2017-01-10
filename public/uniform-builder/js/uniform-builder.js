@@ -15,7 +15,7 @@ $(document).ready(function () {
             ub.current_material.code = window.ub.config.code;
 
             if (ub.current_material.id !== -1) {
-
+ 
                 ub.funcs.initCanvas();
 
             }
@@ -508,6 +508,42 @@ $(document).ready(function () {
             }
 
         }
+
+        ub.funcs.initFonts = function () {
+
+            ub.data.fonts = _.filter(ub.data.fonts, function (font) {
+
+                var sports = JSON.parse(font.sports);
+
+                console.warn(font.name);
+
+                if (sports === null) {
+
+                    console.warn('Returning True for nulled');
+                    return true;
+
+                } else {
+
+                    if (sports[0] === "" || sports[0] === "All") {
+
+                        console.warn('Returning True for Blank and "All"');
+                        return true;
+
+                    } else { 
+
+                        var _result = _.contains(sports,ub.current_material.material.uniform_category);
+
+                        console.warn('(specific) Returning ' + _result);
+                        console.warn(sports);
+                        return _result;
+
+                    }
+
+                }
+
+            });
+
+        };
  
         ub.callback = function (obj, object_name) {
 
@@ -551,6 +587,7 @@ $(document).ready(function () {
                 ub.funcs.get_modifier_labels();
                 ub.init_settings_object();
                 ub.init_style();
+                ub.funcs.initFonts();
 
             }
             
@@ -970,8 +1007,6 @@ $(document).ready(function () {
 
             ub.materials = {};
             ub.materials = _.filter(obj, {debug_mode: '0'});
-
-            console.log(_.size(ub.materials));
 
             _.each (ub.materials, function (material) {
 
@@ -5382,8 +5417,6 @@ $(document).ready(function () {
                 }
 
             });
-
-            console.log(ub.tempItems);
 
             var data = {
 
