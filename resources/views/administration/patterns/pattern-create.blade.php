@@ -6,6 +6,22 @@ select:hover {
 }
 @endsection
 
+@section('styles')
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<style type="text/css">
+    
+li.select2-selection__choice {
+    color: black !important;
+}
+
+.animated {
+    -webkit-transition: height 0.2s;
+    -moz-transition: height 0.2s;
+    transition: height 0.2s;
+}
+</style>
+@endsection
+
 @section('content')
 <div class="container-fluid main-content">
     <div class="row">
@@ -32,6 +48,25 @@ select:hover {
                             <label class="col-md-4 control-label">Pattern Name</label>
                             <div class="col-md-6">
                                 <input type="name" class="form-control pattern-name" name="name" value="{{ old('name') }}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sports</label>
+                            <div class="col-md-6">
+
+                                <input type="hidden" class="sports-val" id="sports_value" name="sports_value" >
+                                <select name="sports[]" class="form-control sports" multiple="multiple">
+                                    @foreach ($categories as $category)
+                                        @if ($category->active)
+                                        <option value='{{ $category->name }}'>
+                                            {{ $category->name }}
+                                        </option>
+                                        @endif
+                                    @endforeach
+                                    <option value="All">All</option>
+                                </select>
+
                             </div>
                         </div>
 
@@ -194,6 +229,7 @@ select:hover {
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/patterns.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $('select:not(:has(option))').attr('visible', false);
@@ -204,6 +240,25 @@ $(document).ready(function(){
         $(this).css('color', '#fff');
         $(this).css('text-shadow', '1px 1px #000');
     });
+
+        if($('#sports_value').val()){
+        var sports = JSON.parse($('#sports_value').val());   
+    }
+    // var sports = JSON.parse($('#sports_value').val());
+
+    $('.sports').select2({
+        placeholder: "Select sports",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".sports").change(function() {
+        $('#sports_value').val($(this).val());
+    });
+
+    $('.sports').select2('val', sports);
+
+
 });
 </script>
 @endsection

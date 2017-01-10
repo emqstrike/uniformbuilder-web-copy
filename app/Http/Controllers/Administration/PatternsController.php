@@ -39,19 +39,28 @@ class PatternsController extends Controller
     {
         $colors = $this->colorsClient->getColors();
         $pattern = $this->client->getPattern($id);
-        
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $uniformCategories = $categoriesAPIClient->getUniformCategories();
+
+
+
         return view('administration.patterns.pattern-edit', [
             'pattern' => $pattern,
-            'color' => $colors
+            'color' => $colors,
+            'categories' => $uniformCategories
         ]);
     }
 
     public function addPatternForm()
     {
         $colors = $this->colorsClient->getColors();
+           $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $uniformCategories = $categoriesAPIClient->getUniformCategories();
+      
 
         return view('administration.patterns.pattern-create', [
-            'color' => $colors
+            'color' => $colors,
+            'categories' => $uniformCategories
         ]);
     }
 
@@ -60,6 +69,7 @@ class PatternsController extends Controller
         $patternName = $request->input('name');
         $assetTarget = $request->input('asset_target');
         $patternProperties = $request->input('pattern_properties');
+        $sports = explode(",", $request->input('sports_value'));
         // $team_color_id = $request->input('team_color_id');
         // $layer_1_color = $request->input('layer_1_color');
         // $layer_2_color = $request->input('layer_2_color');
@@ -69,6 +79,7 @@ class PatternsController extends Controller
         $data = [
             'name' => $patternName,
             'pattern_properties' => $patternProperties,
+            'sports' => $sports,
             'asset_target' => $assetTarget
             // 'layer_1_default_color' => $layer_1_color,
             // 'layer_2_default_color' => $layer_2_color,
@@ -76,7 +87,7 @@ class PatternsController extends Controller
             // 'layer_4_default_color' => $layer_4_color,
             // 'team_color_id' => $team_color_id
         ];
-// dd($data);
+
         $patternId = null;
         if (!empty($request->input('base_pattern_id')))
         {
@@ -174,6 +185,7 @@ class PatternsController extends Controller
         if (!empty($patternId))
         {
             Log::info('Attempts to update Pattern#' . $patternId);
+
             $response = $this->client->updatePattern($data);
         }
         else
