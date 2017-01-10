@@ -165,6 +165,14 @@ class MaterialsController extends Controller
         ]);
     }
 
+    public function pipings($id)
+    {
+        $material = $this->client->getMaterial($id);
+        return view('administration.materials.material-piping-dynamic', [
+            'material' => $material
+        ]);
+    }
+
     public function editPipingForm($id, $page_number)
     {
         $material = $this->client->getMaterial($id);
@@ -218,6 +226,32 @@ class MaterialsController extends Controller
             'factories' => $factories,
             'block_patterns' => $block_patterns
         ]);
+    }
+
+    public function updatePipings(Request $request)
+    {
+        $material_id = $request->input('material_id');
+        $pipings = $request->input('pipings');
+
+        $data = [
+            'id' => $material_id,
+            'pipings' => $pipings
+        ];
+
+        $response = $this->client->updatePipings($data);
+
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('administration/materials')
+                            ->with('message', 'Successfully saved changes');
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('administration/materials')
+                            ->with('message', $response->message);
+        }
     }
 
     public function updatePiping(Request $request)

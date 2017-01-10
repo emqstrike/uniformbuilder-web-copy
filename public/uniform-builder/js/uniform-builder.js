@@ -15,7 +15,7 @@ $(document).ready(function () {
             ub.current_material.code = window.ub.config.code;
 
             if (ub.current_material.id !== -1) {
-
+ 
                 ub.funcs.initCanvas();
 
             }
@@ -86,22 +86,10 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.priceOverride = function (material) {
-
-            // if (material.id === "110") {
-
-            //     material.msrp = "92.00";
-
-            // }
-
-        } 
-
         ub.funcs.getPrice = function (material) {
 
-            ub.funcs.priceOverride(material);
-
-            var _web_price_sale = parseFloat(material.web_price_sale).toFixed(2);;
-            var _msrp           = parseFloat(material.msrp).toFixed(2);;
+            var _web_price_sale = parseFloat(material.web_price_sale).toFixed(2);
+            var _msrp           = parseFloat(material.msrp).toFixed(2);
             var _price          = 0;
 
             if (_web_price_sale < _msrp && _web_price_sale > 1) {
@@ -114,7 +102,32 @@ $(document).ready(function () {
                 _price = "Call for Pricing";
             } 
 
+            ub.funcs.processMaterialPrice(material);
+
             return _price;
+
+        }
+
+        // Returns Adult, Youth price modified with sale, also call for team pricing, or just call for pricing elements
+        ub.funcs.getPriceElements = function (material) {
+
+            // var _web_price_sale = parseFloat(material.web_price_sale).toFixed(2);
+            // var _msrp           = parseFloat(material.msrp).toFixed(2);
+            // var _price          = 0;
+
+            // if (_web_price_sale < _msrp && _web_price_sale > 1) {
+            //     _price          = "Sale Price: $" + _web_price_sale;
+            // } else {
+            //     _price          = "MSRP $" + _msrp;
+            // }
+
+            // if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { 
+            //     _price = "Call for Pricing";
+            // } 
+
+            ub.funcs.processMaterialPrice(material);
+
+            return material.parsedPricingTable;
 
         }
 
@@ -333,24 +346,29 @@ $(document).ready(function () {
 
             }
 
-            var _getPrice = ub.funcs.getPrice(ub.current_material.material);
+            var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
 
-            if (_getPrice !== "Call for Pricing") {
+            // if (_getPrice !== "Call for Pricing") {
 
-                _getPrice += " / Call for Team Pricing";
+            //     _getPrice += " / Call for Team Pricing";
 
-            }
+            // }
+
+            console.log('Get Price: ');
+            console.log(_getPrice);
 
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
-            $('div#uniform_price').html(_getPrice + '<br /><em class="notice">*pricing may vary depending on size</em>');
+            $('div#uniform-price-youth').html("Youth MSRP <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
+            $('div#uniform-price-adult').html("Adult &nbsp;MSRP <span class='adultPriceCustomizer " + _getPrice.adult_sale + "'> from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
+            $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
+
+            //$('div#uniform_price').html(_getPrice + '<br /><em class="notice">*pricing may vary depending on size</em>');
 
             $('div.header-container').css('display','none !important');
 
             // TODO: Enable This
 
-
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
-
 
             ub.hideFontGuides();
             ub.data.afterLoadCalled = 1;
@@ -508,6 +526,42 @@ $(document).ready(function () {
             }
 
         }
+
+        ub.funcs.initFonts = function () {
+
+            ub.data.fonts = _.filter(ub.data.fonts, function (font) {
+
+                var sports = JSON.parse(font.sports);
+
+                console.warn(font.name);
+
+                if (sports === null) {
+
+                    console.warn('Returning True for nulled');
+                    return true;
+
+                } else {
+
+                    if (sports[0] === "" || sports[0] === "All") {
+
+                        console.warn('Returning True for Blank and "All"');
+                        return true;
+
+                    } else { 
+
+                        var _result = _.contains(sports,ub.current_material.material.uniform_category);
+
+                        console.warn('(specific) Returning ' + _result);
+                        console.warn(sports);
+                        return _result;
+
+                    }
+
+                }
+
+            });
+
+        };
  
         ub.callback = function (obj, object_name) {
 
@@ -551,6 +605,9 @@ $(document).ready(function () {
                 ub.funcs.get_modifier_labels();
                 ub.init_settings_object();
                 ub.init_style();
+                ub.funcs.initFonts();
+
+                
 
             }
             
@@ -966,6 +1023,56 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.processMaterialPrice = function (material) {
+
+            if (material.uniform_category === "Football" || material.uniform_category === "Wrestling" || "Baseball") {
+
+                    var _pricingTable = JSON.parse(material.pricing);
+                    material.parsedPricingTable = _pricingTable;
+                    
+                    if (material.pricing === null) {
+
+                        material.parsedPricingTable = {
+
+                            youth_min_msrp: ' (Call for Pricing)',
+                            adult_min_msrp: ' (Call for Pricing)',
+                            youth_sale: 'nosale',
+                            adult_sale: 'nosale',
+                            callForPricing: 'callForPricingOff'
+
+                        }
+                        
+                    } else {
+
+                        callForPricing: 'callForPricingOn'
+    
+                        if (_pricingTable.youth_min_web_price_sale === "0.00") {
+
+                            _pricingTable.youth_sale = "nosale";    
+
+                        } else {
+
+                            _pricingTable.youth_sale = "sale";    
+
+                        }
+
+                        if (_pricingTable.adult_min_web_price_sale === "0.00") {
+
+                            _pricingTable.adult_sale = "nosale";    
+
+                        } else {
+
+                            _pricingTable.adult_sale = "sale";    
+
+                        }
+
+                    }
+                    
+                }
+                
+
+        }
+
         ub.load_materials = function (obj, object_name){
 
             ub.materials = {};
@@ -973,8 +1080,8 @@ $(document).ready(function () {
 
             _.each (ub.materials, function (material) {
 
-                ub.funcs.priceOverride(material);
                 material.calculatedPrice = ub.funcs.getPrice(material);
+                ub.funcs.processMaterialPrice(material);
 
             });
 
@@ -1152,7 +1259,27 @@ $(document).ready(function () {
 
     ub.data.getPixelFontSize = function (fontID, fontSize) {
 
+
         var _fontObj        = _.find(ub.data.fonts, {id: fontID});
+
+        if (typeof _fontObj === "undefined") {
+
+            var _tf = ub.config.host + '/Fonts/tailsweeptrial_2.otf';
+
+            _fontObj = {
+
+                active:"1",
+                font_path: _tf,
+                font_properties: "[{'name':'Tail Sweep Trial 2','font_path':'" + _tf + "','type':'default','parent_id':'0'}]",
+                font_size_table: null,
+                id: "59",
+                name: "Tail Sweep Trial 2",
+                parent_id: 0,
+                sports: "[]",
+                type: 'default',
+            };
+
+        }
         var _fontSizeTable  = _fontObj.font_size_table;
         var _fontSizeData;
         var _fontProperties;
@@ -5836,8 +5963,6 @@ $(document).ready(function () {
         /// My Saved Designs
 
         ub.funcs.shareSavedDesign = function (id, name) {
-
-
 
             // var txt;
             

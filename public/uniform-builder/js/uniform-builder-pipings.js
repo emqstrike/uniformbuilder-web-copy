@@ -232,6 +232,54 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.createSmallColorPickersPiping = function (activeColorCode, layer_no, layer_name, active_color) {
+
+        var _html       = "";
+        var _cObj       = ub.funcs.getColorByColorCode(activeColorCode);
+
+        _html = '<div class="smallPickerContainer" data-layer-no="' + layer_no + '">';
+
+        _html += '<label class="smallColorPickerLabel" >' + layer_name + ' </label>';
+
+        // /// Off Button
+
+        //     var _checkMark  = '&nbsp;';
+        //     var _style      = "25px";
+        //     var _class      = '';
+        //     if (activeColorCode === _cObj.color_code) {
+        //         _label      = 'Off';
+        //         _style      = "40px";
+        //         _class      = 'activeColorItem';
+        //     }
+
+        //     var _colorObj = ub.funcs.getColorByColorCode(_cObj.color_code);
+        //     _html += '<span style="margin-right: 30px; width: ' + _style + ';background-color: #' + _cObj.hex_code + '; color: #' + _cObj.forecolor + ';" class="turnOff colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _cObj.color_code + '" data-layer-no="' + layer_no + '">' + _label + '</span>';
+
+        // /// End Off Button
+
+        _.each(ub.current_material.settings.team_colors, function (_color) {
+
+            var _checkMark  = '&nbsp;';
+            var _style      = "25px";
+            var _class      = '';
+
+            if (activeColorCode === _color.color_code) {
+                _checkMark  = '<i class="fa fa-check" aria-hidden="true"></i>';
+                _style      = "40px";
+                _class      = 'activeColorItem';
+            }
+
+            var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
+            _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _checkMark + '</span>';
+
+        });
+
+        _html += '</div>';
+
+        return _html;
+
+    }
+
     ub.funcs.drawPipingColorPickers = function (activePiping, numberOfColors, pipingSettingsObject) {
 
         var _html = '';
@@ -241,7 +289,7 @@ $(document).ready(function () {
         _pipingSettingsObject.numberOfColors = numberOfColors;
 
         for (var i = 1; i <= numberOfColors; i++) {
-            _html += ub.funcs.createSmallColorPickers(_tempColor.color_code, i, 'Color ' + i, _tempColor);
+            _html += ub.funcs.createSmallColorPickersPiping(_tempColor.color_code, i, 'Color ' + i, _tempColor);
         }
 
         return _html;
@@ -330,7 +378,7 @@ $(document).ready(function () {
         var _markup = Mustache.render(_template, _data);
 
         return _markup;
-        
+                
     }
 
     ub.funcs.getPipingColorArray = function (activePipingSet) {
@@ -388,6 +436,13 @@ $(document).ready(function () {
         $('span.colorItem').unbind('click');
         $('span.colorItem').on('click', function () {
 
+            if ($(this).hasClass('turnOff')) {
+
+                /// insert code here...
+                return;
+
+            }
+
             var _layer_no   = $(this).data('layer-no');
             var _color_code = $(this).data('color-code');
             var _layer_name = $(this).data('layer-name');
@@ -425,7 +480,7 @@ $(document).ready(function () {
 
     ub.funcs.renderPipings = function (pipingObject, colorArray, colorCount) {
 
-        var _firstColor = colorArray[1];
+        var _firstColor = colorArray[0];
 
         _.each (ub.views, function (perspective) {
 
@@ -476,6 +531,19 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.getMatchingSide = function (name) {
+
+        var _result = "";
+
+        if (name.indexOf('Left') === 0)  { _result = name.replace('Left', 'Right'); }
+        if (name.indexOf('Right') === 0) { _result = name.replace('Right', 'Left'); }
+
+        if (_result === "") { console.warn("Result for Matching Side is Blank.") }
+
+        return _result;
+
+    }
+
     ub.funcs.activatePipings = function (pipingSet) {
 
         if (ub.funcs.popupsVisible()) { return; }
@@ -489,7 +557,6 @@ $(document).ready(function () {
         var _activePipingSet    = _pipingSet;
 
         _activePipingSet        = ub.current_material.settings.pipings[pipingSet];
-
 
         if (typeof _activePipingSet !== "undefined") {
 
@@ -544,6 +611,15 @@ $(document).ready(function () {
 
         $('.modifier_main_container').append(_htmlBuilder);
 
+        var s = $('span.piping-type').html();
+
+        if (s.indexOf('Left') === 0) {
+            
+            s = s.replace('Left', '');
+            $('span.piping-type').html(s);
+
+        }
+
         // End Main Template
 
         
@@ -583,14 +659,14 @@ $(document).ready(function () {
 
                     if (_name.indexOf('Left') > -1) {
 
-                        _matchingName = _name.replace('Left', 'Right');
+                        _matchingName = ub.funcs.getMatchingSide(_name);
                         _matchingPipingObject = _.find(ub.data.pipings, {name: _matchingName});
 
                     }
 
                     if (_name.indexOf('Right') > -1) {
 
-                        _matchingName = _name.replace('Right', 'Left');
+                        _matchingName = ub.funcs.getMatchingSide(_name);
                         _matchingPipingObject = _.find(ub.data.pipings, {name: _matchingName});
 
                     }
@@ -661,6 +737,13 @@ $(document).ready(function () {
                     _status = 'off';
                     ub.funcs.removePiping(pipingSet);
 
+                    if (pipingSet.indexOf('Left') === 0) {
+
+                        var matchingSide = ub.funcs.getMatchingSide(pipingSet);
+                        ub.funcs.removePiping(matchingSide);
+
+                    }
+                    
                 } else {
 
                     _status = 'on';
