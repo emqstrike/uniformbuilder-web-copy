@@ -40,7 +40,9 @@
         <div id="left-main-window" class="pane-main-window">
 
             <div id="uniform_name"></div>
-            <div id="uniform_price"></div>
+            <div id="uniform-price-youth"></div>
+            <div id="uniform-price-adult"></div>
+            <div id="uniform-price-call-for-team-pricing">(Call for Team Pricing)</div>
 
             <div class="canvas-views" id="main_view">
             </div>
