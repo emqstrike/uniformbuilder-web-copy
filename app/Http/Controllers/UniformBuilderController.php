@@ -1180,7 +1180,7 @@ class UniformBuilderController extends Controller
 
         Slack::send($message);
         return $transformedPath;
-
+        
     }
 
     public function generateOrderForm(Request $request){
