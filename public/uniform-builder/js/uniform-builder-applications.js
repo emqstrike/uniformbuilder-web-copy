@@ -4,12 +4,12 @@ $(document).ready(function() {
 
         return ub.current_material.material.uniform_category === sport;
 
-    }
+    };
 
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
-            
+    
         var $mascot_container = $('div.mascot-container');
         var mascots = ub.data.mascots.items;
 
@@ -87,7 +87,7 @@ $(document).ready(function() {
 
         return _container;
 
-    }
+    };
 
     ub.funcs.update_mascots_picker = function(application_id, mascot) {
 
