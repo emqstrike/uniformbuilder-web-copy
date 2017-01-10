@@ -454,7 +454,7 @@
                         Youth from <strong>$@{{parsedPricingTable.youth_min_msrp}}</strong>
                     </span>
                     <span class="youthPriceSale @{{parsedPricingTable.youth_sale}}">
-                        Youth from <strong>$@{{parsedPricingTable.youth_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
+                        Youth sizes now from <strong>$@{{parsedPricingTable.youth_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
                     </span>
                     
                     <span class="adultPrice @{{parsedPricingTable.adult_sale}}">
@@ -462,7 +462,7 @@
                     </span>
 
                     <span class="adultPriceSale @{{parsedPricingTable.adult_sale}}">
-                        Adult from <strong>$@{{parsedPricingTable.adult_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
+                        Adult sizes now from <strong>$@{{parsedPricingTable.adult_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
                     </span>
 
                     <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong> <!-- <strong class="type">@{{block_pattern}}</strong> -->
