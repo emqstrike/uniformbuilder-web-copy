@@ -41,7 +41,11 @@ class PatternsController extends Controller
         $pattern = $this->client->getPattern($id);
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
+<<<<<<< Updated upstream
       
+=======
+        
+>>>>>>> Stashed changes
         return view('administration.patterns.pattern-edit', [
             'pattern' => $pattern,
             'color' => $colors,

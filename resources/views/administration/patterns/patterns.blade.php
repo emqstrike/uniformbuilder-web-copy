@@ -122,7 +122,11 @@
                             {{ $pattern->name }}
                         </td>
                          <td>
+<<<<<<< Updated upstream
                            {{ $pattern->sports }}
+=======
+                           {{ $pattern->uniform_category_id }}
+>>>>>>> Stashed changes
                          
                         </td>
                         

@@ -1,5 +1,6 @@
 @extends('administration.lte-main')
 @section('styles')
+<<<<<<< Updated upstream
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
     
@@ -13,6 +14,10 @@ li.select2-selection__choice {
     transition: height 0.2s;
 }
 </style>
+=======
+<link rel="stylesheet" type="text/css" href="/css/libs/select2/selectize.css">
+
+>>>>>>> Stashed changes
 @endsection
 @section('content')
 
@@ -50,6 +55,7 @@ li.select2-selection__choice {
                          <div class="form-group">
                             <label class="col-md-4 control-label">Sports</label>
                             <div class="col-md-6">
+<<<<<<< Updated upstream
 
                                 <input type="hidden" class="sports-val" id="sports_value" name="sports_value" value="{{ $pattern->sports }}">
                                 <select name="sports[]" class="form-control sports" multiple="multiple">
@@ -62,6 +68,20 @@ li.select2-selection__choice {
                                     @endforeach
                                     <option value="All">All</option>
                                 </select>
+=======
+                                 <input type="text" id="input-tags" class="input-tags demo-default" value="{{ $pattern->uniform_category_id }}">
+    <select id="select-gear" class="demo-default" multiple placeholder="Select gear..." value="{{ $pattern->uniform_category_id }}">
+                        <option value="">Select gear...</option>
+
+                            <option value="pitons">Pitons</option>
+                            <option value="cams">Cams</option>
+                            <option value="nuts">Nuts</option>
+                            <option value="bolts">Bolts</option>
+                            <option value="stoppers">Stoppers</option>
+                            <option value="sling">Sling</option>
+
+                    </select>
+>>>>>>> Stashed changes
 
                             </div>
                         </div>
@@ -143,7 +163,11 @@ li.select2-selection__choice {
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/patterns.js"></script>
+<<<<<<< Updated upstream
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+=======
+<script type="text/javascript" src="/js/libs/select2/selectize.js"></script>
+>>>>>>> Stashed changes
 
 @endsection
 @section('custom-scripts')
@@ -167,6 +191,7 @@ $(document).ready(function(){
         value: 2
     }
 ];
+<<<<<<< Updated upstream
 
  
     if($('#sports_value').val()){
@@ -204,6 +229,39 @@ $(document).ready(function(){
     //                 //     return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
     //                 // }
     //             });
+=======
+var options=[
+    {value:0, text:"option 0"},
+    {value:1, text:"option 1"},
+    {value:2, text:"option 2"},
+    {value:3, text:"option 3"},
+];
+var $select = $('#select-gear').selectize({
+                    sortField: 'text',
+                    plugins: ['remove_button'],
+                    items: [{ id: 1, name: 'test' }, { id: 2, name: 'test2' }],
+                    "options":options
+                });
+
+
+
+    $('.input-tags').selectize({
+                    plugins: ['remove_button'],
+                    persist: false,
+                    create: true,
+                    items: [{ id: 1, name: 'test' }, { id: 2, name: 'test2' }],
+                    render: {
+                        item: function(data, escape) {
+                            return '<div>"' + escape(data.text) + '"</div>';
+                        }
+                    },
+                     
+
+                    // onDelete: function(values) {
+                    //     return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
+                    // }
+                });
+>>>>>>> Stashed changes
 
 
     
