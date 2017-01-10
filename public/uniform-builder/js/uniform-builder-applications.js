@@ -8868,8 +8868,11 @@ $(document).ready(function() {
 
             if (ub.current_material.material.uniform_category !== "Baseball") {
 
+<<<<<<< Updated upstream
                 $('div.column1.tailsweeps').hide();
                 $('div.column1.patterns').hide();
+=======
+>>>>>>> Stashed changes
                 $('span.tab[data-item="tailsweeps"]').hide();
                 $('span.tab[data-item="patterns"]').hide();
 

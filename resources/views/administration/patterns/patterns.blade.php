@@ -122,9 +122,8 @@
                             {{ $pattern->name }}
                         </td>
                          <td>
-                            @foreach ($pattern->sports as $sport)
-                            [ {{ $sport->name }} ]
-                            @endforeach
+                           {{ $pattern->sports }}
+                         
                         </td>
                         
                         <td>

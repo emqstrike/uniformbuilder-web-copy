@@ -76,7 +76,7 @@ class FontsController extends Controller
         $fontSizeTable = $request->input('font_size_table');
         $sports = explode(",", $request->input('sports_value'));
         $tailSweepProperties = $request->input('tail_sweep_properties');
-
+        
         $myJson = json_decode($fontProperties, true);
 
         $fontId = null;
