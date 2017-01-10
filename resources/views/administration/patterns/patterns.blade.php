@@ -122,7 +122,9 @@
                             {{ $pattern->name }}
                         </td>
                          <td>
-                            {{ $pattern->uniform_category_id }}
+
+                           {{ $pattern->sports }}
+
                         </td>
                         
                         <td>
