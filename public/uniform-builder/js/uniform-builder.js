@@ -306,7 +306,7 @@ $(document).ready(function () {
 
         ub.funcs.prepareBottomTabs = function () {
 
-            if(typeof (window.ub.user.id) === "undefined") {
+            if (typeof (window.ub.user.id) === "undefined") {
 
                 $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
                 $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
@@ -318,7 +318,7 @@ $(document).ready(function () {
 
             }
 
-            if (ub.current_material.material.id === '648') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
+            if (ub.current_material.material.id === '648' || '731') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
         }

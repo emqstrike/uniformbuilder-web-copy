@@ -2292,6 +2292,23 @@ $(document).ready(function() {
                                 },
                             ],
                 },
+                {
+                    name: 'text_baseball',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
 
             ],
     }
@@ -8563,5 +8580,51 @@ ub.funcs.fontOffSets = [
         }
 
     ];
+
+    ub.data.tailsweepCharacters = {
+
+        items: [
+           {
+               code: 'astros',
+               short: "À",   // 'U+00C0'
+               medium: "Á",  // 'U+00C1'
+               long: "Â",    // 'U+00C2'
+           },
+           {
+               code: 'brewers',
+               short: "Ã",   // 'U+00C3',
+               medium: "Ä",  // 'U+00C4'
+               long: "Å",    // 'U+00C5'
+           },
+           {
+               code: 'orioles',
+               short: "É",   // 'U+00C9'
+               medium: "Ê",  // 'U+00CA'
+               long: "Ë",    // 'U+00CB'
+           },
+           {
+               code: 'yankees',
+               short: "Ì",   // 'U+00CC'
+               medium: "Í",  // 'U+00CD'
+               long: "Î",    // 'U+00CE'
+           },
+        ],
+
+        getCharacter: function (code, length) {
+            
+            var _match = _.find(this.items, {code: code});
+
+            if(typeof _match !== "undefined") {
+
+                return _match[length];
+
+            } else {
+
+                return _match;
+
+            }
+
+        },
+    }
 
 });
