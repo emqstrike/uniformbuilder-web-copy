@@ -8008,7 +8008,7 @@ $(document).ready(function() {
 
   
         _htmlBuilder        +=              '<div class="column1 applications colors">'
-        _htmlBuilder        +=                 '<div class="sub1">';
+        _htmlBuilder        +=                 '<div class="sub1"><br />';
         _htmlBuilder        +=                    '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                                                             
         _htmlBuilder        +=                    '<span class="accent">' + _accentName + '</span>';
         _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
@@ -8104,11 +8104,6 @@ $(document).ready(function() {
 
         });
 
-
-        console.log('Settings Object: ');
-        console.log(_settingsObject);
-        console.log(_settingsObject.tailsweep);
-
         var _tailSweepObject = _settingsObject.tailsweep;
 
         if (typeof _tailSweepObject === "undefined" || _tailSweepObject.code === "none") {
@@ -8131,7 +8126,7 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
         _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
-        _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb">';
+        _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb"><br />';
         _htmlBuilder        +=                    '<span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/' + _tailSweepObject.code + '.png"/></span><br />';                                                             
         _htmlBuilder        +=                    '<span class="tailsweep">' + _tailSweepObject.code + '</span>';
         _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
