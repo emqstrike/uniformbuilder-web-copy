@@ -29,12 +29,21 @@ $(document).ready(function() {
                             .draw();
                     } );
 
-                // column.data().unique().sort().each( function ( d, j ) {
-                //     select.append( '<option value="'+d+'">'+d+'</option>' )
-                //     // var val = $('<div/>').html(d).text();
-                //     // select.append( '<option value="' + val + '">' + val + '</option>' );
-                // } );
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                    // var val = $('<div/>').html(d).text();
+                    // select.append( '<option value="' + val + '">' + val + '</option>' );
+                } );
             } );
+        }
+    });
+
+    $('img[data-toggle=popover]').popover({
+        html: true,
+        trigger: 'hover',
+        placement: 'right',
+        content: function(){
+            return '<img src="'+$(this).attr('src') + '" style="width: 220px; height: 300px; background-color: #525252;"/>';
         }
     });
 

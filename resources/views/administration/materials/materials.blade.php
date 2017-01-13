@@ -25,6 +25,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Preview</th>
                                 <th>Name</th>
                                 <th>Sport</th>
                                 <th>Block Pattern</th>
@@ -38,6 +39,9 @@
             <tr>
                 <td>
                     {{ $material->id }}
+                </td>
+                <td>
+                    <center><img src="{{ $material->thumbnail_path }}" style="height: 45px; width: 35px;" data-toggle="popover"></center>
                 </td>
                 <td>
                     {{ $material->name }}
@@ -66,7 +70,17 @@
         @break
         @endforelse
         </tbody>
-        <tfoot></tfoot>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
         </table>
         </div>
         </div>
