@@ -8123,7 +8123,12 @@ $(document).ready(function() {
         _htmlBuilder        +=                    '<span class="tailsweep">' + _tailSweepObject.code + '</span>';
         _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
         _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=                 '<div class="colorContainer">';
+        _htmlBuilder        +=                 '<div class="sizeContainer">';
+
+        _htmlBuilder        +=                 '<span class="sizeItem" data-size="short">Short</span>';        
+        _htmlBuilder        +=                 '<span class="sizeItem" data-size="medium">Medium</span>';        
+        _htmlBuilder        +=                 '<span class="sizeItem" data-size="long">Long</span>';        
+
         _htmlBuilder        +=                 '</div>';
         _htmlBuilder        +=              '</div>';
 

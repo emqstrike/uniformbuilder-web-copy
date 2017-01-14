@@ -4313,7 +4313,7 @@ div.header-container.main {
 
                         }
 
-                        div.colorContainer {
+                        div.colorContainer,   {
 
                             display: table-cell;
                             vertical-align: top;
@@ -4635,7 +4635,7 @@ div.header-container.main {
 
                         }
 
-                        div.colorContainer {
+                        div.colorContainer, div.sizeContainer  {
 
                             width: 70%;
                             display: table-cell;
@@ -4656,6 +4656,42 @@ div.header-container.main {
 
                                 width: 100%;
                                 margin-bottom: 1px;
+
+                            }
+
+                            span.sizeItem {
+
+                                display: inline-block;
+                                width: 70px;
+                                height: 25px;
+                                background-color: white;
+                                margin-bottom: 1px;
+                                font-size: 0.7em;
+                                padding-top: 4px;
+                                font-weight: normal;
+                                cursor: pointer;
+                                margin-right: 7px;
+
+                                -moz-transition: all .2s;
+                                -webkit-transition: all .2s;
+                                transition: all .2s;
+
+                                -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+                                i.fa.fa-check {
+
+                                    font-size: 0.8em;
+
+                                }
+
+                            }
+
+                            span.sizeItem.active {
+
+                                color: white;
+                                background-color: #3d3d3d;
 
                             }
 
