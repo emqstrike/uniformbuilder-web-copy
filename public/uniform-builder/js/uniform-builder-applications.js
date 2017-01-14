@@ -5396,21 +5396,9 @@ $(document).ready(function() {
 
         var data = {
            tailsweeps: ub.data.tailsweeps.items,
-       }
+        }
 
-       // if (ub.current_material.material.price_item_code === "FBBJ" || ub.current_material.material.price_item_code === "FBDJ") {
-
-       //      data.accents = _.filter(data.accents, function (accent) {
-
-       //          return accent.title !== 'Three Color with Drop Shadow' && accent.title !== 'Three Color';
-
-       //      });
-
-       // }
-
-       // if (ub.current_material.material.price_item_code === "") {}
-
-       ub.status.tailsweepPopupVisible = true;
+        ub.status.tailsweepPopupVisible = true;
 
         var template = $('#m-tailsweep-popup').html();
         var markup = Mustache.render(template, data);
@@ -5420,13 +5408,13 @@ $(document).ready(function() {
         $popup = $('div#primaryTailSweepPopup');
         $popup.fadeIn();
 
-          $('div.tailSweepPopupResults > div.item').hover(
+        $('div.tailSweepPopupResults > div.item').hover(
 
-          function() {
-            $( this ).find('div.name').addClass('pullUp');
-          }, function() {
-            $( this ).find('div.name').removeClass('pullUp');
-          }
+            function() {
+                $( this ).find('div.name').addClass('pullUp');
+            }, function() {
+                $( this ).find('div.name').removeClass('pullUp');
+            }
 
         );
 
@@ -5439,12 +5427,16 @@ $(document).ready(function() {
 
                 id: _id,
                 code: _code,
+                length: "medium",
+                thumbnail: _code + '.png',
 
             };
 
             ub.funcs.changeTailSweepFromPopup(_id, settingsObj);
             $popup.remove();
             ub.funcs.activateApplications(settingsObj.code);
+
+            $('span.tab[data-item="tailsweeps"]').click(); // Activate Tailsweep Tab
 
         });
 
@@ -7839,13 +7831,32 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.beforeActivateApplication = function () {
+
+        // Remove Change Application UI
+        $('div#changeApplicationUI').remove();
+
+    }
+
+    ub.funcs.afterActivateApplication = function () {
+
+        if (ub.funcs.isCurrentSport('Baseball')) {
+
+            // Remove force uppercase requirement on Team Name input
+            $('input.sampleText').addClass('disableUpperCaseRequirement');
+
+        }
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
+
+        ub.funcs.beforeActivateApplication();
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible'))  { return; }
 
-        // Remove Change Application UI
-        $('div#changeApplicationUI').remove();
+        ub.funcs.beforeActivateApplication();
 
         if (!ub.funcs.okToStart()) { return; }
 
@@ -7879,7 +7890,10 @@ $(document).ready(function() {
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
         } else if (ub.current_material.material.uniform_category === "Wrestling") {
             _sizes        = ub.funcs.getApplicationSizes('text_wrestling');    
+        } else if (ub.current_material.material.uniform_category === "Baseball") {
+            _sizes        = ub.funcs.getApplicationSizes('text_baseball');    
         }
+        
         else {
 
             console.warn('no sizes setting defaulting to generic');
@@ -7979,29 +7993,25 @@ $(document).ready(function() {
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
         _htmlBuilder        +=          '<div class="color-pattern-tabs">';
-        _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span><span class="tab" data-item="patterns">Patterns</span><span class="tab" data-item="tailsweeps">Tail Sweeps</span>';
+        _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span>';
+        // _htmlBuilder        +=              '<span class="tab" data-item="patterns">Patterns</span>';
+        _htmlBuilder        +=              '<span class="tab" data-item="tailsweeps">Tail Sweeps</span>';
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1 applications patterns">';
-        _htmlBuilder        +=                 '<div class="sub1 patternThumb">';
-        _htmlBuilder        +=                    '<span class="patternThumb"><img src="/images/patterns/Blank/1.png"/></span><br />';                                                             
-        _htmlBuilder        +=                    '<span class="pattern">Blank</span>';
-        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=                 '<div class="colorContainer">';
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=              '</div>';
-        _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
-        _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb">';
-        _htmlBuilder        +=                    '<span class="tailSweepThumb"><img src="/images/patterns/Blank/1.png"/></span><br />';                                                             
-        _htmlBuilder        +=                    '<span class="tailsweep">Tail Sweeps</span>';
-        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=                 '<div class="colorContainer">';
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=              '</div>';
+
+        // _htmlBuilder        +=              '<div class="column1 applications patterns">';
+        // _htmlBuilder        +=                 '<div class="sub1 patternThumb">';
+        // _htmlBuilder        +=                    '<span class="patternThumb"><img src="/images/patterns/Blank/1.png"/></span><br />';                                                             
+        // _htmlBuilder        +=                    '<span class="pattern">Blank</span>';
+        // _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
+        // _htmlBuilder        +=                 '</div>';
+        // _htmlBuilder        +=                 '<div class="colorContainer">';
+        // _htmlBuilder        +=                 '</div>';
+        // _htmlBuilder        +=              '</div>';
+
+  
         _htmlBuilder        +=              '<div class="column1 applications colors">'
-        _htmlBuilder        +=                 '<div class="sub1">';
+        _htmlBuilder        +=                 '<div class="sub1"><br />';
         _htmlBuilder        +=                    '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                                                             
         _htmlBuilder        +=                    '<span class="accent">' + _accentName + '</span>';
         _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
@@ -8097,8 +8107,26 @@ $(document).ready(function() {
 
         });
 
+        var _tailSweepObject = _settingsObject.tailsweep;
+
+        if (typeof _tailSweepObject === "undefined" || _tailSweepObject.code === "none") {
+
+            _tailSweepObject = { code: 'none', thumbnail: 'none.png' };
+
+        }
+
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
+        _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
+        _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb"><br />';
+        _htmlBuilder        +=                    '<span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/' + _tailSweepObject.thumbnail + '"/></span><br />';                                                             
+        _htmlBuilder        +=                    '<span class="tailsweep">' + _tailSweepObject.code + '</span>';
+        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
+        _htmlBuilder        +=                 '</div>';
+        _htmlBuilder        +=                 '<div class="colorContainer">';
+        _htmlBuilder        +=                 '</div>';
+        _htmlBuilder        +=              '</div>';
+
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
         _htmlBuilder        += "</div>";
@@ -8131,7 +8159,7 @@ $(document).ready(function() {
 
                 ub.funcs.updateCoordinates(_settingsObject);
 
-                var s       =  ub.funcs.getPrimaryView(_settingsObject.application);
+                var s       = ub.funcs.getPrimaryView(_settingsObject.application);
                 var sObj    = ub.funcs.getPrimaryViewObject(_settingsObject.application);
 
                 if (typeof _settingsObject.verticalText !== "undefined" && _settingsObject.verticalText !== 0) {
@@ -8275,7 +8303,7 @@ $(document).ready(function() {
 
             });
 
-            if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
+            if(_id === "9")  { ub.funcs.toggleApplication('10', _status); }
             if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
 
             if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
@@ -8862,7 +8890,7 @@ $(document).ready(function() {
 
         });
 
-        /// Initialize 
+        /// Initialize
 
             ub.funcs.toggleApplication(_id, _status);
 
@@ -8877,7 +8905,11 @@ $(document).ready(function() {
 
         /// End Initialize
 
+        ub.funcs.afterActivateApplication();
+
     }
+
+
 
     ub.funcs.activateMoveTool = function (application_id) {
 
@@ -9260,6 +9292,11 @@ $(document).ready(function() {
         if (applicationType === "text_wrestling") {
             _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_wrestling'});            
         }
+
+        if (applicationType === "text_baseball") {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_baseball'});            
+        }
+        
         
         return _sizes;
 
