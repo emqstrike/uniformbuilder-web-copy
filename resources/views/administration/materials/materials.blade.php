@@ -2,7 +2,7 @@
 
 @section('styles')
 
-<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 
@@ -10,118 +10,139 @@
 
 @section('content')
 
-<div class="col-md-12">
-    <h1>
-        <small>
-            <a href="/administration/material/add" class='btn btn-md btn-default materials-add'>
-                <span class="glyphicon glyphicon-plus"></span>
-            </a>
-        </small>
-        <p class="materials-header">Materials</p>
-    </h1>
+<!-- Confirmation Modal -->
+<div class="modal confirmation-modal" @if (isset($confirmation_modal_id)) id="{{ $confirmation_modal_id }}" @else id="confirmation-modal" @endif aria-hidden="false">
+    <div class="modal-dialog"> 
+        <div class="modal-content"> 
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal">×</button> 
+                <h4 class="modal-title">Title</h4> 
+            </div> 
+            <div class="modal-body">Message</div> 
+            <div class="modal-footer">
+                <button class="btn btn-danger @if (isset($yes_class_name)) {{ $yes_class_name }} @else confirm-yes @endif" data-value=''
+                @if (isset($attributes))
+                    @if (count($attributes) > 0)
+                        @foreach ($attributes as $attribute)
+                            data-{{ $attribute }}=""
+                        @endforeach
+                    @endif
+                @endif
+                >
+                    <li class="glyphicon glyphicon-ok"></li>
+                    Yes
+                </button>
+                <button class="btn btn-default confirm-no" data-dismiss="modal">
+                    <li class="glyphicon glyphicon-remove"></li>
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
-<div id="filtersFlatforms" class="col-md-12 button-group" style="margin-top: 10px;">
-<button class="button btn-primary" data-filter="">All</button>
 
-<button class="button" data-filter=".web" >Web</button>
-<button class="button" data-filter=".ipad" >Ipad</button>
-
-
-
-</div>
-
-<div id="filtersCategory" class="col-md-12 button-group" style="margin-top: 10px;">
-<button class="button btn-primary" data-filter="">All</button>
-
-<?php $lCategory = ""; ?>
-@foreach ($block_patterns as $block_pattern)
-    @if ($lCategory != $block_pattern->uniform_category)
-    <button class="button" data-filter=".{{ $block_pattern->uniform_category }}" >{{ $block_pattern->uniform_category }}</button>
-    @endif
-
-    <?php $lCategory = $block_pattern->uniform_category; ?>
-    
-@endforeach
-</div>
-<div id="filters" class="col-md-12 button-group" style="margin-top: 10px;">
-<button class="button btn-primary" data-filter="">All</button>
-@foreach ($block_patterns as $block_pattern)
-    <button class="button" data-filter=".{{ $block_pattern->id }}" data-category="{{ $block_pattern->uniform_category }}">{{ $block_pattern->name }}</button>
-@endforeach
-</div>
-<div class="container-fluid main-content isotope" style="margin-top: 300px;">
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h1>
+                        <i class="fa fa-bookmark"></i>
+                        Materials
+                    </h1>
+                </div>
+                <div class="box-body">
+                    <table data-toggle='table' class='data-table table table-bordered materials display'>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Preview</th>
+                                <th>Name</th>
+                                <th>Sport</th>
+                                <th>Block Pattern</th>
+                                <th>Neck</th>
+                                <th>Price Item</th>
+                                <th>Type</th>
+                                <th>Asset Target</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
         @forelse ($materials as $material)
-            <div class='material-{{ $material->id }} {{ (!$material->active) ? ' inactive' : '' }} material-div col-md-3 {{ $material->block_pattern_id }} {{ $material->uniform_category }} {{ $material-> asset_target }}' data-category="{{ $material->block_pattern_id }}">
-                <div class="material-id-div">
-                    <span class="label material-label">{{ $material->id }}</span>
-                </div>
-                <div class="top-right-corner">
-                    <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-material" id="switch-{{ $material->id }}" data-material-id="{{ $material->id }}" {{ ($material->active) ? 'checked' : '' }}>
-                        <label class="onoffswitch-label" for="switch-{{ $material->id }}">
-                            <span class="onoffswitch-inner"></span>
-                            <span class="onoffswitch-switch"></span>
-                        </label>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <center>
-                        <img src="{{ $material->thumbnail_path }}" alt="{{ $material->slug }}" class="material-thumbnail">
-                    </center>
-                </div><hr>
-                <div class="div-inline"><span class="label label-default fs-11">{{ $material->price_item_code }}</span></div>
-                <div class="div-inline"><span class="label label-default fs-11">{{ $material->uniform_category }}</span></div>
-                <div class="div-inline"><span class="label label-default fs-11">{{ ucfirst($material->type) }}</span></div>
-                <div class="div-inline"><span class="label label-default fs-11">{{ ucfirst($material->neck_option) }}</span></div>
-                <div class="material-name-div col-md-12"><center><h4 class="transform-1-3">{{ $material->name }}</h4></center></div>
-                <div class="material-buttons">
-                    <a href="/administration/material/edit/{{ $material->id }}" class="1pxb btn btn-default btn-xs edit-material" role="button"
-                    {{ ($material->active) ? '' : 'disabled' }}>
-                        Edit
-                    </a>
-                    <a href="/administration/material/view_material_options/{{ $material->id }}" class='1pxb btn btn-xs btn-default'
-                        data-material-name="{{ $material->name }}"
-                        data-material-id="{{ $material->id }}"
-                        data-material-thumbnail="{{ $material->thumbnail_path }}"
-                        {{ ($material->active) ? '' : 'disabled' }}>
-                        Material Options
-                    </a>
-                    <a href="/administration/material/materials_options_setup/{{ $material->id }}" class='1pxb btn btn-xs btn-default'>
+            <tr>
+                <td>
+                    {{ $material->id }}
+                </td>
+                <td>
+                    <center><img src="{{ $material->thumbnail_path }}" style="height: 45px; width: 35px;" data-toggle="popover"></center>
+                </td>
+                <td>
+                    {{ $material->name }}
+                </td>
+                <td>
+                    {{ $material->uniform_category }}
+                </td>
+                <td>
+                    {{ $material->block_pattern }}
+                </td>
+                <td>
+                    {{ $material->neck_option }}
+                </td>
+                <td>
+                    {{ $material->price_item_code }}
+                </td>
+                <td>
+                    {{ $material->type }}
+                </td>
+                <td>
+                    {{ $material->asset_target }}
+                </td>
+                <td>
+                    <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-xs btn-primary">Edit</a>
+                    <a href="/administration/material/view_material_options/{{ $material->id }}" class="btn btn-xs btn-default">Material Options</a>
+                    <a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-xs btn-default" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
-                    <a href="#" class="btn btn-default mr-10 btn-xs duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
+                    <a href="#" class="btn btn-xs btn-default duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                         <i class="glyphicon glyphicon-copy"></i>
                     </a>
-                    <a href="/administration/material/{{ $material->id }}/pipings" class='1pxb btn btn-xs btn-default'>
+                    <a href="/administration/material/{{ $material->id }}/pipings" class="btn btn-xs btn-warning">
                         <span class="glyphicon glyphicon-stats"></span>
                     </a>
-                    <a href="/administration/material/piping/{{ $material->id }}/1" class='1pxb btn btn-xs btn-default'>
-                        <span>P</span>
-                    </a>
-                    <a href="/administration/material/piping/{{ $material->id }}/2" class='1pxb btn btn-xs btn-default'>
-                        <span>P2</span>
-                    </a>
-                    <a href="/administration/material/piping/{{ $material->id }}/3" class='1pxb btn btn-xs btn-default'>
-                        <span>P3</span>
-                    </a>
-                    <a href="/administration/material/piping/{{ $material->id }}/4" class='1pxb btn btn-xs btn-default'>
-                        <span>P4</span>
-                    </a>
-                    <a href="#" class="btn btn-default pull-right btn-xs delete-material" data-material-id="{{ $material->id }}" role="button" {{ ($material->active) ? '' : 'disabled' }}>
+                    <a href="#" class="btn btn-xs btn-danger delete-material" data-material-id="{{ $material->id }}">
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
-                    
-
-                </div>
-            </div>
+                </td>
+            </tr>
+            
         @empty
             <p>No Materials</p>
         @break
         @endforelse
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
+        </table>
+        </div>
+        </div>
+        </div>
+        </div>
+        </section>
 
 </div>
 
-@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
+{{-- @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal']) --}}
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
 
@@ -133,5 +154,7 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
 <script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/administration/materials-main.js"></script>
 @endsection

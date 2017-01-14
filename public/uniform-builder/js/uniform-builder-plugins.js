@@ -1231,7 +1231,6 @@
 
     $.ub.create_text = function (input_object) {
 
-
         var _strokeInner = 11;
         var _strokeOuter = 14;
 
@@ -1371,6 +1370,13 @@
             else {
 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
+
+                if(input_object.font_name !== "Tailsweep Test") {
+                    style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
+                } else {
+                    style = {font: font_size + "px " + font_name, fill: "white", padding: 30, lineJoin: 'miter', miterLimit: 2};
+                }
+            
 
             }
 

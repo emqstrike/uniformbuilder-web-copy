@@ -102,6 +102,7 @@ li.select2-selection__choice {
                                         </option>
                                         @endif
                                     @endforeach
+                                    <option value="All" selected>All</option>
                                 </select>
                             </div>
                         </div>
