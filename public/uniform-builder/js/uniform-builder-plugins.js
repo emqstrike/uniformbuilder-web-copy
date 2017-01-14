@@ -1371,7 +1371,7 @@
 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
 
-                if(input_object.font_name !== "Tailsweep Test") {
+                if(input_object.font_name !== "Brush Script" && input_object.font_name !== "Cracker jack") {
                     style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
                 } else {
                     style = {font: font_size + "px " + font_name, fill: "white", padding: 30, lineJoin: 'miter', miterLimit: 2};
@@ -1432,7 +1432,7 @@
 
             if (typeof input_object.applicationObj.tailsweep !== "undefined") {
 
-                _appendage = ub.data.tailsweepCharacters.getCharacter(input_object.applicationObj.tailsweep.code, 'medium');
+                _appendage = ub.data.tailsweepCharacters.getCharacter(input_object.applicationObj.tailsweep.code, 'short');
 
             }
 
