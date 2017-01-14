@@ -5427,13 +5427,16 @@ $(document).ready(function() {
 
                 id: _id,
                 code: _code,
-                length: "short",
+                length: "medium",
+                thumbnail: _code + '.png',
 
             };
 
             ub.funcs.changeTailSweepFromPopup(_id, settingsObj);
             $popup.remove();
             ub.funcs.activateApplications(settingsObj.code);
+
+            $('span.tab[data-item="tailsweeps"]').click(); // Activate Tailsweep Tab
 
         });
 
@@ -8108,18 +8111,7 @@ $(document).ready(function() {
 
         if (typeof _tailSweepObject === "undefined" || _tailSweepObject.code === "none") {
 
-            console.log('Here!')
-
-            _tailSweepObject = {
-
-                code: 'blank',
-
-            }
-
-        }else {
-
-            console.log('Tail Sweep Object Contains: ');
-            console.log(_tailSweepObject);
+            _tailSweepObject = { code: 'none', thumbnail: 'none.png' };
 
         }
 
@@ -8127,7 +8119,7 @@ $(document).ready(function() {
         _htmlBuilder        +=              '</div>';
         _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
         _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb"><br />';
-        _htmlBuilder        +=                    '<span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/' + _tailSweepObject.code + '.png"/></span><br />';                                                             
+        _htmlBuilder        +=                    '<span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/' + _tailSweepObject.thumbnail + '"/></span><br />';                                                             
         _htmlBuilder        +=                    '<span class="tailsweep">' + _tailSweepObject.code + '</span>';
         _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
         _htmlBuilder        +=                 '</div>';

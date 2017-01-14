@@ -3603,7 +3603,7 @@ $(document).ready(function() {
                 name: 'None',
                 code: 'none',
                 title: 'None',
-                thumbnail: 'none.png',
+                thumbnail: 'blank.png',
             },  // End None
             {   // Astros
                 id: 0,
@@ -3645,7 +3645,7 @@ $(document).ready(function() {
                 name: "Oakland A's",
                 code: "oaklands",
                 title: "Oakland A's",
-                thumbnail: 'oakland.png',
+                thumbnail: 'oaklands.png',
             },  // End Oakland A's
             {   // Orioles
                 id: 6,
@@ -3664,7 +3664,7 @@ $(document).ready(function() {
             {   // San Francisco Giants
                 id: 8,
                 name: "San Francisco Giants",
-                code: 'san francisco giants',
+                code: 'sanfranciscogiants',
                 title: "San Francisco Giants",
                 thumbnail: 'sanfranciscogiants.png',
             },  // End San Francisco Giants
@@ -8584,30 +8584,72 @@ ub.funcs.fontOffSets = [
     ub.data.tailsweepCharacters = {
 
         items: [
-           {
+            {
                code: 'astros',
                short: "À",   // 'U+00C0'
                medium: "Á",  // 'U+00C1'
                long: "Â",    // 'U+00C2'
-           },
-           {
+            },
+            {
                code: 'brewers',
                short: "Ã",   // 'U+00C3',
                medium: "Ä",  // 'U+00C4'
                long: "Å",    // 'U+00C5'
-           },
-           {
+            },
+            {
                code: 'orioles',
                short: "É",   // 'U+00C9'
                medium: "Ê",  // 'U+00CA'
                long: "Ë",    // 'U+00CB'
-           },
-           {
+            },
+            {
+               code: 'dodgers',
+               short: "Æ",   // 'U+00C6'
+               medium: "Ç",  // 'U+00C7'
+               long: "È",    // 'U+00C8'
+            },
+            {
                code: 'yankees',
                short: "Ì",   // 'U+00CC'
                medium: "Í",  // 'U+00CD'
                long: "Î",    // 'U+00CE'
-           },
+            },
+            {
+               code: 'sanfranciscogiants',
+               short: "Ï",   // 'U+00CF'
+               medium: "Ð",  // 'U+00D0'
+               long: "Ñ",    // 'U+00D1'
+            },
+            {
+               code: 'expos',
+               short: "Ô",   // 'U+00D2'
+               medium: "Ó",  // 'U+00D3'
+               long: "Ô",    // 'U+00D4'
+            },
+            {
+               code: 'oaklands',
+               short: "Õ",   // 'U+00D5'
+               medium: "Ö",  // 'U+00D6'
+               long: "×",    // 'U+00D7'
+            },
+            {
+               code: 'indians',
+               short: "Ø",   // 'U+00D8'
+               medium: "Ù",  // 'U+00D9'
+               long: "Ú",    // 'U+00DA'
+            },
+            {
+               code: 'royals',
+               short: "Û",   // 'U+00DB'
+               medium: "Ü",  // 'U+00DC'
+               long: "Ý",    // 'U+00DD'
+            },
+            {
+               code: 'twins',
+               short: "Û",   // 'U+00DE'
+               medium: "Ü",  // 'U+00DF'
+               long: "Ý",    // 'U+00E0'
+            },
         ],
 
         getCharacter: function (code, length) {

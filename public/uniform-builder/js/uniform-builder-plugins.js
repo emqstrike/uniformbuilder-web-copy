@@ -1426,7 +1426,7 @@
 
             if (typeof input_object.applicationObj.tailsweep !== "undefined") {
 
-                _appendage = ub.data.tailsweepCharacters.getCharacter(input_object.applicationObj.tailsweep.code, 'short');
+                _appendage = ub.data.tailsweepCharacters.getCharacter(input_object.applicationObj.tailsweep.code, 'medium');
 
             }
 
