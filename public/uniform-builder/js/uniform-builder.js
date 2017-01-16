@@ -567,6 +567,13 @@ $(document).ready(function () {
 
             }
 
+            if (object_name === 'colors') { 
+
+                ub.data.colors = _.filter(ub.data.colors, {active: "1"});
+                ub.data.colors = _.sortBy(ub.data.colors, "name");
+
+            }
+
             if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
 
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
