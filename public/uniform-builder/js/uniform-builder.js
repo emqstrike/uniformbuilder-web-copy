@@ -518,26 +518,26 @@ $(document).ready(function () {
 
                 var sports = JSON.parse(font.sports);
 
-                console.warn(font.name);
+//                console.warn(font.name);
 
                 if (sports === null) {
 
-                    console.warn('Returning True for nulled');
+                    //console.warn('Returning True for nulled');
                     return true;
 
                 } else {
 
                     if (sports[0] === "" || sports[0] === "All") {
 
-                        console.warn('Returning True for Blank and "All"');
+                        //console.warn('Returning True for Blank and "All"');
                         return true;
 
                     } else { 
 
                         var _result = _.contains(sports,ub.current_material.material.uniform_category);
 
-                        console.warn('(specific) Returning ' + _result);
-                        console.warn(sports);
+                        //console.warn('(specific) Returning ' + _result);
+                        //console.warn(sports);
                         return _result;
 
                     }
@@ -1594,6 +1594,19 @@ $(document).ready(function () {
         }
 
         ub.funcs.showLocations();
+
+        if (ub.config.material_id === 731) {
+
+            ub.current_material.settings.applications[1].tailsweep = {
+
+                id: 0,
+                code: 'astros',
+                thumbnail: 'astros.png',
+                length: 'short',
+
+            };
+
+        }
 
         /// End Transform Applications
 

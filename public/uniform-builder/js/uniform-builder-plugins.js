@@ -118,7 +118,8 @@
                 if (colorStatus === 'unselected') {
 
                     if (ub.current_material.settings.team_colors.length + 1 >= 9) {
-                        ub.startModal('Maximum # of Team Colors is 8');
+                        
+                        //ub.startModal('Maximum # of Team Colors is 8');
                         return;
 
                     }
@@ -1371,15 +1372,13 @@
 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
 
-                if(input_object.font_name !== "Brush Script" && input_object.font_name !== "Cracker jack") {
+                if(input_object.font_name !== "Brush Script" && input_object.font_name !== "Cracker jack" && input_object.font_name !== "Block Test") {
                     style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
                 } else {
-                    style = {font: font_size + "px " + font_name, fill: "white", padding: 30, lineJoin: 'miter', miterLimit: 2};
+                    style = {font: font_size + "px " + font_name, fill: "white", padding: 45, lineJoin: 'miter', miterLimit: 2};
                 }
-            
 
             }
-
 
             if (layer.outline === 1) {
 
@@ -1432,7 +1431,7 @@
 
             if (typeof input_object.applicationObj.tailsweep !== "undefined") {
 
-                _appendage = ub.data.tailsweepCharacters.getCharacter(input_object.applicationObj.tailsweep.code, 'short');
+                _appendage = ub.data.tailsweepCharacters.getCharacter(input_object.applicationObj.tailsweep.code, input_object.applicationObj.tailsweep.length);
 
             }
 
@@ -1445,7 +1444,7 @@
             if (verticalText === 1) {
                 text_layer.text_sprite = new PIXI.Text(text_input, style);
             } else {
-                text_layer.text_sprite = new PIXI.Text("  " + text_input + _appendage + "  ", style);
+                text_layer.text_sprite = new PIXI.Text("        " + text_input + _appendage + "        ", style);
             }
 
             /// Custom Properties]
