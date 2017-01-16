@@ -4665,7 +4665,7 @@ $(document).ready(function () {
 
                 ub.zoom_off();
 
-                var w = window.innerWidth * 2;
+                var w = window.innerWidth * 5;
                 var _newX  = w;
 
                 ub.left_view.position.x     = _newX;
