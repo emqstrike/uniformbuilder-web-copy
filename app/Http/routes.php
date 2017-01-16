@@ -324,6 +324,17 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Saved Designs
     Route::get('saved_designs', 'Administration\SavedDesignsController@index');
+
+    // tailsweep
+    Route::get('tailsweeps', 'Administration\TailsweepsController@index');
+    Route::get('tailsweep/add', 'Administration\TailsweepsController@create');
+    Route::post('tailsweep/add', 'Administration\TailsweepsController@store');
+    Route::get('tailsweep/edit/{id}', 'Administration\TailsweepsController@editTailsweepForm');
+    Route::post('tailsweep/update', 'Administration\TailsweepsController@store');
+
+    // Route::get('price_item_template/edit/{id}', 'Administration\PriceItemTemplatesController@editForm');
+    // Route::post('price_item_template/update', 'Administration\PriceItemTemplatesController@store');
+
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

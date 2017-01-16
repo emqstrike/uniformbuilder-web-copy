@@ -192,4 +192,23 @@
       <i class="glyphicon glyphicon-blackboard"></i> <span>Saved Designs</span>
     </a>
   </li>
+    <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
+    <a href="#" >
+      <i class="fa fa-font"></i>
+      <span>Fonts</span>
+      <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu">
+      <li  data-step="17" data-intro="For Fonts settings.">
+        <a href="/administration/fonts">
+          <i class="fa fa-font"></i> <span>Fonts</span>
+        </a>
+      </li>
+      <li  data-step="17" data-intro="For Fonts settings.">
+        <a href="/administration/tailsweeps">
+          <i class="fa fa-font"></i> <span>Tailsweeps</span>
+        </a>
+      </li>
+    </ul>
+  </li>
 </ul>
