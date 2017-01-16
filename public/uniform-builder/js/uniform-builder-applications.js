@@ -5074,8 +5074,9 @@ $(document).ready(function() {
 
     ub.funcs.changeFontFromPopup = function (fontId, settingsObj) {
 
-        var _fontObj                = _.find(ub.data.fonts, {id: fontId.toString()});
-        var _id                     = settingsObj.id;
+        var _fontObj    = _.find(ub.data.fonts, {id: fontId.toString()});
+        var _id         = settingsObj.id;
+        var _length     = 'short';
 
         ub.funcs.removeApplicationByID(_id);
         settingsObj.font_obj        = _fontObj;
@@ -5380,7 +5381,9 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.changeTailSweepFromPopup = function (id, settingsObj) {
+    ub.funcs.changeTailSweepFromPopup = function (id, settingsObj, length) {
+
+        settingsObj.tailsweep.length = length;
 
         ub.funcs.removeApplicationByID(id);
         ub.create_application(settingsObj, undefined);
@@ -5423,20 +5426,29 @@ $(document).ready(function() {
             var _id         = $(this).data('tailsweep-id');
             var _code       = $(this).data('tailsweep-code');
 
+            var _length     = "short";
+
+            if (settingsObj.text.length <= 5) { _length = 'short'; } 
+            if (settingsObj.text.length >= 6 && settingsObj.text.length <= 7 ) { _length = 'medium'; } 
+            if (settingsObj.text.length > 7) { _length = 'long'; } 
+
             settingsObj.tailsweep = {
 
                 id: _id,
                 code: _code,
-                length: "medium",
                 thumbnail: _code + '.png',
+                length: _length,
 
             };
 
-            ub.funcs.changeTailSweepFromPopup(_id, settingsObj);
+            ub.funcs.changeTailSweepFromPopup(_id, settingsObj, _length);
             $popup.remove();
             ub.funcs.activateApplications(settingsObj.code);
 
             $('span.tab[data-item="tailsweeps"]').click(); // Activate Tailsweep Tab
+
+            $('span.sizeItem').removeClass('active');
+            $('span.sizeItem[data-size="' + settingsObj.tailsweep.length + '"]').addClass('active');
 
         });
 
@@ -8098,8 +8110,7 @@ $(document).ready(function() {
 
                 _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name, layer.default_color);
 
-            }
-            else {
+            } else {
 
                 util.error('Hex Code: ' + _hexCode + ' not found!');
 
@@ -8123,7 +8134,12 @@ $(document).ready(function() {
         _htmlBuilder        +=                    '<span class="tailsweep">' + _tailSweepObject.code + '</span>';
         _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
         _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=                 '<div class="colorContainer">';
+        _htmlBuilder        +=                 '<div class="sizeContainer">';
+
+        _htmlBuilder        +=                 '<span class="sizeItem" data-size="short">Short</span>';        
+        _htmlBuilder        +=                 '<span class="sizeItem" data-size="medium">Medium</span>';        
+        _htmlBuilder        +=                 '<span class="sizeItem" data-size="long">Long</span>';        
+
         _htmlBuilder        +=                 '</div>';
         _htmlBuilder        +=              '</div>';
 
@@ -8134,6 +8150,20 @@ $(document).ready(function() {
         $('.modifier_main_container').append(_htmlBuilder);
 
         //// Events
+
+            /// Tail sweep size Event 
+
+            $('span.sizeItem').unbind('click');
+            $('span.sizeItem').on('click', function () {
+
+                var _size = $(this).data('size');
+                $('span.sizeItem').removeClass('active');
+
+                ub.funcs.changeTailSweepFromPopup(_id, _settingsObject, _size);
+
+                $(this).addClass('active');
+
+            });
 
             /// color pattern tab
 
@@ -8146,6 +8176,16 @@ $(document).ready(function() {
                 $(this).addClass('active');
                 $('div.column1').hide();
                 $('div.column1.' + _item).fadeIn();
+
+                if ($(this).data('item') === "tailsweeps") {
+
+                   if (typeof _settingsObject.tailsweep !== "undefined") {
+
+                        $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
+
+                    }
+
+                }
 
             });
 
@@ -8600,6 +8640,20 @@ $(document).ready(function() {
                 if (e.keyCode === 13) {
 
                     _settingsObject.text = _val;
+
+                    if (typeof _settingsObject.tailsweep !== "undefined") {
+
+                        if (_settingsObject.text.length <= 5) { _length = 'short'; } 
+                        if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; } 
+                        if (_settingsObject.text.length > 7) { _length = 'long'; } 
+
+                        _settingsObject.tailsweep.length = _length;
+
+                        $('span.sizeItem').removeClass('active');
+                        $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
+
+                    }
+
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
 
                     // cancel automatic changing of application (e.g. all team names changes)

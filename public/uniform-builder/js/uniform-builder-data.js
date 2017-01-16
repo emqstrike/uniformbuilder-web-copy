@@ -3599,7 +3599,7 @@ $(document).ready(function() {
     ub.data.tailsweeps = {
         items: [
             {   // None
-                id: 0,
+                id: -1,
                 name: 'None',
                 code: 'none',
                 title: 'None',
@@ -8646,9 +8646,9 @@ ub.funcs.fontOffSets = [
             },
             {
                code: 'twins',
-               short: "Û",   // 'U+00DE'
-               medium: "Ü",  // 'U+00DF'
-               long: "Ý",    // 'U+00E0'
+               short: "Þ",   // 'U+00DE'
+               medium: "ß",  // 'U+00DF'
+               long: "à",    // 'U+00E0'
             },
         ],
 
