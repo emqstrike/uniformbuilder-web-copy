@@ -1602,7 +1602,7 @@ $(document).ready(function () {
                 id: 0,
                 code: 'sanfranciscogiants',
                 thumbnail: 'sanfranciscogiants.png',
-                length: 'medium',
+                length: 'long',
 
             };
 
