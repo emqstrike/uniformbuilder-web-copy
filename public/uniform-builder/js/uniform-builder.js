@@ -1600,13 +1600,14 @@ $(document).ready(function () {
             ub.current_material.settings.applications[1].tailsweep = {
 
                 id: 0,
-                code: 'astros',
-                thumbnail: 'astros.png',
-                length: 'short',
+                code: 'sanfranciscogiants',
+                thumbnail: 'sanfranciscogiants.png',
+                length: 'medium',
 
             };
 
         }
+
 
         /// End Transform Applications
 
@@ -1657,6 +1658,64 @@ $(document).ready(function () {
         // Initialize Transformed Applications
         // ub.funcs.transformedApplications();
         // $('.app_btn').click();
+
+        if (ub.config.material_id === 731) {
+
+            ub.current_material.settings.pipings['Center Piping'] = {
+
+                numberOfColors: 1,
+                size: "1/8",
+                layers: [
+
+                    {
+
+                        colorCode: "B",
+                        layer: 1,
+                        status: false,
+
+                    },
+                    {
+
+                        colorCode: "",
+                        layer: 1,
+                        status: false,
+
+                    },
+                    {
+
+                        colorCode: "",
+                        layer: 1,
+                        status: false,
+
+                    }
+
+                ]                                
+
+            };
+
+            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
+                    ub.funcs.getColorByColorCode('B'),
+                    ub.funcs.getColorByColorCode('RB'),
+                    ub.funcs.getColorByColorCode('W'),
+
+                ], 1);
+
+            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Left End of Sleeve Piping 1/2"}), [
+                    ub.funcs.getColorByColorCode('B'),
+                    ub.funcs.getColorByColorCode('RB'),
+                    ub.funcs.getColorByColorCode('W'),
+
+                ], 1);
+
+            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Right End of Sleeve Piping 1/2"}), [
+                    ub.funcs.getColorByColorCode('B'),
+                    ub.funcs.getColorByColorCode('RB'),
+                    ub.funcs.getColorByColorCode('W'),
+
+                ], 1);
+
+
+        }
 
     };
 
