@@ -468,7 +468,6 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
-
 <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
 <script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
