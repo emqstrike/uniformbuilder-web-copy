@@ -64,6 +64,7 @@ class TailsweepsController extends Controller
             'name' => $tailsweepName,
             'code' => $tailsweepCode,
             'title' => $tailsweepTitle,
+            'thumbnail' => $tailsweepThumbnail,
             'short' => $tailsweepShort,
             'medium' => $tailsweepMedium,
             'long' => $tailsweepLong
@@ -81,19 +82,16 @@ class TailsweepsController extends Controller
                 {
                     $filename = Random::randomize(12);
                     // $data['thumbnail_path'] = "qx";
-
+     
                     $data['thumbnail'] = FileUploader::upload(
                                                     $tailsweepThumbnailPath,
                                                     $tailsweepName,
-                                                    'tailsweep_option',
+                                                    'tailsweep',
                                                     "tailsweeps",
                                                     "{$tailsweepName}/{$filename}.png"
                                                 );
                 }
-            }else{
-                $data['thumbnail'] =  $tailsweepThumbnail;
             }
-           
 
         }
         catch (S3Exception $e)
