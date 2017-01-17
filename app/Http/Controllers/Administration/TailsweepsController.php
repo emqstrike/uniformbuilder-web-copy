@@ -93,6 +93,7 @@ class TailsweepsController extends Controller
             }else{
                 $data['thumbnail'] =  $tailsweepThumbnail;
             }
+           
 
         }
         catch (S3Exception $e)
