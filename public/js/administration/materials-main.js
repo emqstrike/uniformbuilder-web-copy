@@ -23,7 +23,7 @@ $(document).ready(function() {
                         var val = $.fn.dataTable.util.escapeRegex(
                             $(this).val()
                         );
- 
+
                         column
                             .search( val ? '^'+val+'$' : '', true, false )
                             .draw();
@@ -67,10 +67,10 @@ $(document).ready(function() {
         materials_button_filters();
     });
 
- function materials_button_filters(){
+    function materials_button_filters(){
         console.log(filtersFlatforms + "" + filtersCategory + "" + filters);
         $container.isotope({ filter: filtersFlatforms + "" + filtersCategory + "" + filters});
- }
+    }
 
 	$('.button-group').each( function( i, buttonGroup ) {
 	    var $buttonGroup = $( buttonGroup );
@@ -105,39 +105,72 @@ $(document).ready(function() {
         });
     });
 
-    $('.delete-material').on('click', function(){
+    // refreshDeleteButtons();
+
+    $("#materials_table").on("click", ".delete-material", function(e){
         var id = $(this).data('material-id');
-        modalConfirm(
-            'Remove Material',
-            'Are you sure you want to delete the Material?',
-            id
-        );
+        e.preventDefault();
+        console.log('try to delete');
+        if(!confirm('Do you want to delete this item?')){
+            console.log('no');
+        } else {
+            console.log('delete');
+            var url = "//" + api_host + "/api/material/delete/";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({id: id}),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                        $('.material-' + id).fadeOut();
+                        window.location.reload(true);
+                    }
+                }
+            });
+        }
     });
 
-    $('#confirmation-modal .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/material/delete/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $('#confirmation-modal').modal('hide');
-                    $('.material-' + id).fadeOut();
+    $("#materials_table").on("click", ".duplicate-material", function(e){
+        var id = $(this).data('material-id');
+        e.preventDefault();
+        console.log('try to duplicate');
+        if(!confirm('Do you want to duplicate this item?')){
+            console.log('no');
+        } else {
+            console.log('duplicate');
+            var url = "//" + api_host + "/api/material/duplicate/"+id;
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({id: id}),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                        $('#confirmation-modal').modal('hide');
+                        window.location.reload(true);
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 
     $('.duplicate-material').on('click', function(){
@@ -177,8 +210,6 @@ $(document).ready(function() {
             }
         });
     });
-
-
 
     $(document).on('click', '#filtersCategory button', function() {
         $("#filters button[data-category]").hide().removeClass("btn-primary");

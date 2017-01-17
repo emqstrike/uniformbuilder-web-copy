@@ -1882,7 +1882,7 @@ $(document).ready(function() {
         console.log(applications_properties);
         console.log("data"+data);
         if($(this).attr('disabled') != 'disabled'){
-      
+
             console.log('SAVE TEMPLATE!');
             console.log('myData: '+JSON.stringify(myData));
 
