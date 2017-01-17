@@ -118,7 +118,8 @@
                 if (colorStatus === 'unselected') {
 
                     if (ub.current_material.settings.team_colors.length + 1 >= 9) {
-                        ub.startModal('Maximum # of Team Colors is 8');
+                        
+                        //ub.startModal('Maximum # of Team Colors is 8');
                         return;
 
                     }
@@ -1231,31 +1232,6 @@
 
     $.ub.create_text = function (input_object) {
 
-        // if (typeof input_object.applicationObj.tailsweep !== "undefined") {
-
-        //     var _tf = ub.config.host + '/Fonts/tailsweeptrial_2.otf';
-
-        //     input_object.font_obj = {
-
-        //         active:"1",
-        //         font_path: _tf,
-        //         font_properties: "[{'name':'Tail Sweep Trial 2','font_path':'" + _tf + "','type':'default','parent_id':'0'}]",
-        //         font_size_table: '[{"inputSize":"1","outputSize":"35","xOffset":"-4","yOffset":"12","xScale":"1","yScale":"1"},{"inputSize":"2","outputSize":"53","xOffset":"-4","yOffset":"12","xScale":"1","yScale":"1"},{"inputSize":"2.5","outputSize":"66","xOffset":"2","yOffset":"5","xScale":"1","yScale":"1"},{"inputSize":"3","outputSize":"75","xOffset":"-4","yOffset":"12","xScale":".9","yScale":"1"},{"inputSize":"4","outputSize":"100","xOffset":"0","yOffset":"0","xScale":".8","yScale":"1"},{"inputSize":"5","outputSize":"140","xOffset":"0","yOffset":"0","xScale":"1","yScale":"1"},{"inputSize":"6","outputSize":"160","xOffset":"0","yOffset":"0","xScale":"1","yScale":"1"},{"inputSize":"7","outputSize":"180","xOffset":"0","yOffset":"0","xScale":"1","yScale":"1"},{"inputSize":"8","outputSize":"345","xOffset":"-1","yOffset":"3","xScale":".88","yScale":"1"},{"inputSize":"9","outputSize":"440","xOffset":"0","yOffset":"0","xScale":"1","yScale":"1"},{"inputSize":"10","outputSize":"375","xOffset":"-2","yOffset":"15","xScale":".88","yScale":"1"},{"inputSize":"11","outputSize":"480","xOffset":"0","yOffset":"0","xScale":"1","yScale":"1"},{"inputSize":"12","outputSize":"405","xOffset":"-7","yOffset":"30","xScale":".82","yScale":"1"}]',
-        //         id: "59",
-        //         name: "Tail Sweep Trial 2",
-        //         parent_id: 0,
-        //         sports: "[]",
-        //         type: 'default',
-        //     }
-
-        //     input_object.applicationObj.font_obj = input_object.font_obj;
-
-        //     input_object.text_input = input_object.text_input + 'À';
-        //     input_object.applicationObj.text = input_object.text_input;
-        //     input_object.font_name = "Tail Sweep Trial 2";
-
-        // }
-
         var _strokeInner = 11;
         var _strokeOuter = 14;
 
@@ -1303,18 +1279,20 @@
         // var text_input = input_object.text_input.toUpperCase();
 
         if (verticalText === 1) {
-            text_input = vertical_text(input_object.text_input.toUpperCase());    
-        }
-        else {
 
-            console.log(input_object.font_name);
+            text_input = vertical_text(input_object.text_input.toUpperCase());
 
-            if(input_object.font_name !== "Tailsweep Test") {
-                text_input = input_object.text_input.toUpperCase();    
+        } else {
+
+            if (ub.funcs.isCurrentSport('Baseball')) {
+
+                text_input = input_object.text_input;
+
             } else {
-                text_input = input_object.text_input;    
+
+                text_input = input_object.text_input.toUpperCase();
+                
             }
-            
 
         }
         
@@ -1382,7 +1360,9 @@
                 var lineHeight = font_size;
 
                 if (layer.name === "Base Color" || layer.name === "Mask") {
+
                     lineHeight -= lineHeight * 0.005;
+
                 }
                 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 0, lineJoin: 'miter', miterLimit: 2, lineHeight: lineHeight, align: 'center'};
@@ -1392,15 +1372,13 @@
 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
 
-                if(input_object.font_name !== "Tailsweep Test") {
+                if(input_object.font_name !== "Brush Script" && input_object.font_name !== "Cracker jack" && input_object.font_name !== "Block Test") {
                     style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
                 } else {
-                    style = {font: font_size + "px " + font_name, fill: "white", padding: 30, lineJoin: 'miter', miterLimit: 2};
+                    style = {font: font_size + "px " + font_name, fill: "white", padding: 45, lineJoin: 'miter', miterLimit: 2};
                 }
-            
 
             }
-
 
             if (layer.outline === 1) {
 
@@ -1443,16 +1421,46 @@
             }
 
             if (layer.type === 'shadow' && layer.outline > 0) {
+
                 style.fill = '#ffffff';
                 style.stroke = '#ffffff';
+
+            }
+
+            var _appendage;
+
+            if (typeof input_object.applicationObj.tailsweep !== "undefined") {
+
+                _appendage = ub.data.tailsweepCharacters.getCharacter(input_object.applicationObj.tailsweep.code, input_object.applicationObj.tailsweep.length);
+
+            }
+
+            if (typeof _appendage === "undefined") {
+
+                _appendage = "";
+
             }
 
             if (verticalText === 1) {
                 text_layer.text_sprite = new PIXI.Text(text_input, style);
             } else {
-                text_layer.text_sprite = new PIXI.Text(" " + text_input + " ", style);
+
+                text_layer.text_sprite = new PIXI.Text("        " + text_input + _appendage + "        ", style);
+
+
+                if (typeof input_object.applicationObj.tailsweep !== "undefined") {
+
+                    text_layer.text_sprite = new PIXI.Text("        " + text_input + _appendage + "        ", style);
+
+                } else {
+
+                    text_layer.text_sprite = new PIXI.Text(" " + text_input + _appendage + " ", style);
+
+                }
+                
+
             }
-            
+
             /// Custom Properties]
 
             text_layer.text_sprite.ubName = layer.name;

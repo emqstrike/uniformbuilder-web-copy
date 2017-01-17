@@ -54,6 +54,10 @@ $(document).ready(function() {
     getMascots(function(mascots){ window.mascots = mascots; });
     getPatterns(function(patterns){ window.patterns = patterns; });
     getAccents(function(accents){ window.accents = accents; });
+    getTailsweeps(function(tailsweeps){ window.tailsweeps = tailsweeps; });
+
+    console.log(window.tailsweeps);
+
 
     var accentObject= [];
     jQuery.each(accents, function(index, item) {  
@@ -480,6 +484,7 @@ $(document).ready(function() {
         var colors                  = '<input type="text" style="' + style + '" class="app-colors" value=""><div class="colorSelection"></div>' ;
         var default_mascot          = '<input type="textbox" class="mascotFilter"><select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
         var accents                 = '<select style=' + style + ' class="app-default-accent" data-id="' + group.id + '"></select><input type="hidden" class="app-accent-value amv' + group.id + '" id="amv' + group.id + '">';
+        var tailsweep               = '<select style=' + style + ' class="app-default-tailsweep" data-id="' + group.id + '"></select><input type="hidden" class="app-tailsweep-value amv' + group.id + '" id="amv' + group.id + '">';
         var default_font            = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
         var vertical_text           = '<input type="checkbox" style="' + style + '" class="app-vertical-text" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
@@ -515,6 +520,7 @@ $(document).ready(function() {
                     colors,
                     accents,
                     default_mascot,
+                    tailsweep,
                     default_font,
                     default_text,
                     vertical_text,
@@ -575,7 +581,6 @@ $(document).ready(function() {
         var accent_class = '.app-default-accent';
    
         $(accent_class).ddslick({
-
             data: accentsData,
             width: 250,
             height: 300,
@@ -593,6 +598,23 @@ $(document).ready(function() {
                 }
             },
 
+        });
+
+        $.each(window.tailsweeps, function(i, item) {
+            item['text'] = item.name;
+            item['value'] = item.id;
+            item['selected'] = false;
+        });
+        var tailsweepsData = window.tailsweeps;
+        var tailsweep_class = '.app-default-tailsweep';
+        $(tailsweep_class).ddslick({                   
+            data: tailsweepsData,
+            width: 250,
+            height: 300,
+            imagePosition: "left",
+            selectText: "Select Tailsweep",
+            onSelected: function (data) {
+            },
         });
 
         $(document).on("change",".accentLayerColors",function(){         
@@ -1358,7 +1380,9 @@ $(document).ready(function() {
                 var app_colors          = '<input type="text" style="'      + style + '" class="app-colors" value="'     + app_properties[l].colors    + '" ><div class="colorSelection"></div>';
                 var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '" >';
                 var default_mascot      = '<input type="textbox" class="mascotFilter"><select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '" data-id="' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
-             var app_font = "";
+                var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '" >';
+                var default_tailsweep            = '<select style=' + style + ' id="default_tailsweep_' + c + '" class="app-default-tailsweep" data-id="' + c + '"></select><input type="hidden" class="app-tailsweep-value amv' + c + '" id="amv' + c + '" >';
+                var app_font = "";
                 if(app_properties[l].hasOwnProperty('defaultFont')){
                     app_font = app_properties[l].defaultFont;
                 }
@@ -1425,6 +1449,7 @@ $(document).ready(function() {
                     app_colors,
                     app_accents,
                     default_mascot,
+                    default_tailsweep,
                     default_font,
                     default_text,
                     vertical_text,
@@ -1457,7 +1482,6 @@ $(document).ready(function() {
                 });
 
                 var mascotsData = window.mascots;
-
                 var mascot_class = '.default_mascot_'+c;
                 var mascot_id = '#default_mascot_'+c;
                 var amv_class = '.amv'+c;
@@ -1505,7 +1529,7 @@ $(document).ready(function() {
                     imagePosition: "left",
                     selectText: "Select Accent",
                     onSelected: function (data) {
-                        console.log(data);
+                
                     var rowIndex = data.original[0].outerHTML;
                     rowIndex = $.parseHTML(rowIndex);
                     rowIndex = $(rowIndex).data("id");
@@ -1517,6 +1541,51 @@ $(document).ready(function() {
 
                     },
                 });
+
+
+                   $.each(window.mascots, function(i, item) {
+                    item['text'] = item.name;
+                    item['value'] = item.id;
+                    if( app_properties[l].defaultMascot == item.id ){
+                        item['selected'] = true;
+                    } else {
+                        item['selected'] = false;
+                    }
+                    var c = 0;
+                    var xdata = JSON.parse(item.layers_properties);
+                    $.each(xdata, function(i, item) {
+                        c++;
+                    });
+                    item['description'] = item.category + ' [ ' + c + ' ]';
+                    item['imageSrc'] = item.icon;
+                    item['layers'] = c ;
+
+                });
+
+                $.each(window.tailsweeps, function(i, item) {
+                    item['text'] = item.name;
+                    item['value'] = item.id;
+                    if( app_properties[l].tailsweeps == item.id ){
+                        item['selected'] = true;
+                    } else {
+                        item['selected'] = false;
+                    }
+                
+                });
+                var tailsweepsData = window.tailsweeps;
+                var tailsweep_class = '.app-default-tailsweep';
+                $(tailsweep_class).ddslick({                   
+                    data: tailsweepsData,
+                    width: 250,
+                    height: 300,
+                    imagePosition: "left",
+                    selectText: "Select Tailsweep",
+                    onSelected: function (data) {
+
+
+                    },
+                });
+
 
                     $(document).on("change",".accentLayerColors",function(){         
                         updateColorField(this);
@@ -2049,6 +2118,25 @@ $(document).ready(function() {
             }
         });
     }
+    function getTailsweeps(callback){
+        var tailsweep;
+       var url = "//api-dev.qstrike.com/api/tailsweeps";
+     //var url = "//localhost:8888/api/tailsweeps";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                   tailsweeps = data['tailsweeps'];
+                if(typeof callback === "function") callback(tailsweeps);
+
+               
+            }
+        });
+    }
 
     function getFonts(callback){
         var mascots;
@@ -2183,7 +2271,9 @@ $(document).ready(function() {
         fields.forEach(function(entry) {
             if( c === 15 ){
                 tr += '<td class="msc">' + entry + '</td>';
-            } else {
+            } else if(c === 16){
+                tr += '<td class="tsc">' + entry + '</td>';
+            }else {
                 tr += '<td>' + entry + '</td>';
             }
             c++;
@@ -3074,8 +3164,11 @@ function updateApplicationsJSON(){
         applicationColors = $(this).parent().siblings('td').find("input[class=app-colors]").val();
         applicationAccents = $(this).parent().siblings('td').find(".dd-selected-value").val();
         applicationMascot = $(this).parent().siblings('td.msc').find(".dd-selected-value").val();
+        applicationTailsweep = $(this).parent().siblings('td.tsc').find(".dd-selected-value").val();
+
         console.log('ACCENT >>>>>>' + applicationAccents);
         console.log('MASCOT >>>>>>' + applicationMascot);
+        console.log('TAILSWEEP >>>>>>' + applicationTailsweep);
         fontData = window.fontData;
 
         if(isPrimary.prop( "checked" )){
@@ -3163,6 +3256,8 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['center'] = {};
         applicationProperties[itemIdx]['colors'] = {};
         applicationProperties[itemIdx]['accents'] = {};
+        applicationProperties[itemIdx]['tailsweeps'] = {};
+
 
         applicationProperties[itemIdx].type = applicationType;
         applicationProperties[itemIdx].name = applicationName;
@@ -3193,6 +3288,7 @@ function updateApplicationsJSON(){
 
         applicationProperties[itemIdx].colors = applicationColors;
         applicationProperties[itemIdx].accents = applicationAccents;
+        applicationProperties[itemIdx].tailsweeps = applicationTailsweep;
 
         applicationProperties[itemIdx].topLeft.xp = ((topLeftX / canvasFront.width) * 100) * multiplier;
         applicationProperties[itemIdx].topLeft.yp = ((topLeftY / canvasFront.height) * 100) * multiplier;
@@ -3237,7 +3333,7 @@ function updateApplicationsJSON(){
     });
 
     var appProperties = JSON.stringify(applicationProperties);
-    console.log(appProperties);
+    // console.log(appProperties);
     appProperties = '"'+appProperties+'"';
     $('#a-application-properties').val(appProperties);
     window.ap = appProperties;
