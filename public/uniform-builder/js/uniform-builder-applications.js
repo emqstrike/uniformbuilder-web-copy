@@ -5074,8 +5074,9 @@ $(document).ready(function() {
 
     ub.funcs.changeFontFromPopup = function (fontId, settingsObj) {
 
-        var _fontObj                = _.find(ub.data.fonts, {id: fontId.toString()});
-        var _id                     = settingsObj.id;
+        var _fontObj    = _.find(ub.data.fonts, {id: fontId.toString()});
+        var _id         = settingsObj.id;
+        var _length     = 'short';
 
         ub.funcs.removeApplicationByID(_id);
         settingsObj.font_obj        = _fontObj;
@@ -5380,7 +5381,9 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.changeTailSweepFromPopup = function (id, settingsObj) {
+    ub.funcs.changeTailSweepFromPopup = function (id, settingsObj, length) {
+
+        settingsObj.tailsweep.length = length;
 
         ub.funcs.removeApplicationByID(id);
         ub.create_application(settingsObj, undefined);
@@ -5396,21 +5399,9 @@ $(document).ready(function() {
 
         var data = {
            tailsweeps: ub.data.tailsweeps.items,
-       }
+        }
 
-       // if (ub.current_material.material.price_item_code === "FBBJ" || ub.current_material.material.price_item_code === "FBDJ") {
-
-       //      data.accents = _.filter(data.accents, function (accent) {
-
-       //          return accent.title !== 'Three Color with Drop Shadow' && accent.title !== 'Three Color';
-
-       //      });
-
-       // }
-
-       // if (ub.current_material.material.price_item_code === "") {}
-
-       ub.status.tailsweepPopupVisible = true;
+        ub.status.tailsweepPopupVisible = true;
 
         var template = $('#m-tailsweep-popup').html();
         var markup = Mustache.render(template, data);
@@ -5420,13 +5411,13 @@ $(document).ready(function() {
         $popup = $('div#primaryTailSweepPopup');
         $popup.fadeIn();
 
-          $('div.tailSweepPopupResults > div.item').hover(
+        $('div.tailSweepPopupResults > div.item').hover(
 
-          function() {
-            $( this ).find('div.name').addClass('pullUp');
-          }, function() {
-            $( this ).find('div.name').removeClass('pullUp');
-          }
+            function() {
+                $( this ).find('div.name').addClass('pullUp');
+            }, function() {
+                $( this ).find('div.name').removeClass('pullUp');
+            }
 
         );
 
@@ -5435,16 +5426,29 @@ $(document).ready(function() {
             var _id         = $(this).data('tailsweep-id');
             var _code       = $(this).data('tailsweep-code');
 
+            var _length     = "short";
+
+            if (settingsObj.text.length <= 5) { _length = 'short'; } 
+            if (settingsObj.text.length >= 6 && settingsObj.text.length <= 7 ) { _length = 'medium'; } 
+            if (settingsObj.text.length > 7) { _length = 'long'; } 
+
             settingsObj.tailsweep = {
 
                 id: _id,
                 code: _code,
+                thumbnail: _code + '.png',
+                length: _length,
 
             };
 
-            ub.funcs.changeTailSweepFromPopup(_id, settingsObj);
+            ub.funcs.changeTailSweepFromPopup(_id, settingsObj, _length);
             $popup.remove();
             ub.funcs.activateApplications(settingsObj.code);
+
+            $('span.tab[data-item="tailsweeps"]').click(); // Activate Tailsweep Tab
+
+            $('span.sizeItem').removeClass('active');
+            $('span.sizeItem[data-size="' + settingsObj.tailsweep.length + '"]').addClass('active');
 
         });
 
@@ -7839,13 +7843,32 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.beforeActivateApplication = function () {
+
+        // Remove Change Application UI
+        $('div#changeApplicationUI').remove();
+
+    }
+
+    ub.funcs.afterActivateApplication = function () {
+
+        if (ub.funcs.isCurrentSport('Baseball')) {
+
+            // Remove force uppercase requirement on Team Name input
+            $('input.sampleText').addClass('disableUpperCaseRequirement');
+
+        }
+
+    }
+
     ub.funcs.activateApplications = function (application_id) {
+
+        ub.funcs.beforeActivateApplication();
 
         if ($('div#primaryPatternPopup').is(':visible')) { return; }
         if ($('div#primaryMascotPopup').is(':visible'))  { return; }
 
-        // Remove Change Application UI
-        $('div#changeApplicationUI').remove();
+        ub.funcs.beforeActivateApplication();
 
         if (!ub.funcs.okToStart()) { return; }
 
@@ -7879,7 +7902,10 @@ $(document).ready(function() {
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
         } else if (ub.current_material.material.uniform_category === "Wrestling") {
             _sizes        = ub.funcs.getApplicationSizes('text_wrestling');    
+        } else if (ub.current_material.material.uniform_category === "Baseball") {
+            _sizes        = ub.funcs.getApplicationSizes('text_baseball');    
         }
+        
         else {
 
             console.warn('no sizes setting defaulting to generic');
@@ -7979,29 +8005,25 @@ $(document).ready(function() {
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="clearfix"></div>';
         _htmlBuilder        +=          '<div class="color-pattern-tabs">';
-        _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span><span class="tab" data-item="patterns">Patterns</span><span class="tab" data-item="tailsweeps">Tail Sweeps</span>';
+        _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span>';
+        // _htmlBuilder        +=              '<span class="tab" data-item="patterns">Patterns</span>';
+        _htmlBuilder        +=              '<span class="tab" data-item="tailsweeps">Tail Sweeps</span>';
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1 applications patterns">';
-        _htmlBuilder        +=                 '<div class="sub1 patternThumb">';
-        _htmlBuilder        +=                    '<span class="patternThumb"><img src="/images/patterns/Blank/1.png"/></span><br />';                                                             
-        _htmlBuilder        +=                    '<span class="pattern">Blank</span>';
-        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=                 '<div class="colorContainer">';
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=              '</div>';
-        _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
-        _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb">';
-        _htmlBuilder        +=                    '<span class="tailSweepThumb"><img src="/images/patterns/Blank/1.png"/></span><br />';                                                             
-        _htmlBuilder        +=                    '<span class="tailsweep">Tail Sweeps</span>';
-        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=                 '<div class="colorContainer">';
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=              '</div>';
+
+        // _htmlBuilder        +=              '<div class="column1 applications patterns">';
+        // _htmlBuilder        +=                 '<div class="sub1 patternThumb">';
+        // _htmlBuilder        +=                    '<span class="patternThumb"><img src="/images/patterns/Blank/1.png"/></span><br />';                                                             
+        // _htmlBuilder        +=                    '<span class="pattern">Blank</span>';
+        // _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
+        // _htmlBuilder        +=                 '</div>';
+        // _htmlBuilder        +=                 '<div class="colorContainer">';
+        // _htmlBuilder        +=                 '</div>';
+        // _htmlBuilder        +=              '</div>';
+
+  
         _htmlBuilder        +=              '<div class="column1 applications colors">'
-        _htmlBuilder        +=                 '<div class="sub1">';
+        _htmlBuilder        +=                 '<div class="sub1"><br />';
         _htmlBuilder        +=                    '<span class="accentThumb"><img src="/images/sidebar/' + _accentFilename + '"/></span><br />';                                                             
         _htmlBuilder        +=                    '<span class="accent">' + _accentName + '</span>';
         _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
@@ -8088,8 +8110,7 @@ $(document).ready(function() {
 
                 _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_no, layer.name, layer.default_color);
 
-            }
-            else {
+            } else {
 
                 util.error('Hex Code: ' + _hexCode + ' not found!');
 
@@ -8097,8 +8118,31 @@ $(document).ready(function() {
 
         });
 
+        var _tailSweepObject = _settingsObject.tailsweep;
+
+        if (typeof _tailSweepObject === "undefined" || _tailSweepObject.code === "none") {
+
+            _tailSweepObject = { code: 'none', thumbnail: 'none.png' };
+
+        }
+
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
+        _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
+        _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb"><br />';
+        _htmlBuilder        +=                    '<span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/' + _tailSweepObject.thumbnail + '"/></span><br />';                                                             
+        _htmlBuilder        +=                    '<span class="tailsweep">' + _tailSweepObject.code + '</span>';
+        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
+        _htmlBuilder        +=                 '</div>';
+        _htmlBuilder        +=                 '<div class="sizeContainer">';
+
+        _htmlBuilder        +=                 '<span class="sizeItem" data-size="short">Short</span>';        
+        _htmlBuilder        +=                 '<span class="sizeItem" data-size="medium">Medium</span>';        
+        _htmlBuilder        +=                 '<span class="sizeItem" data-size="long">Long</span>';        
+
+        _htmlBuilder        +=                 '</div>';
+        _htmlBuilder        +=              '</div>';
+
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
         _htmlBuilder        += "</div>";
@@ -8106,6 +8150,20 @@ $(document).ready(function() {
         $('.modifier_main_container').append(_htmlBuilder);
 
         //// Events
+
+            /// Tail sweep size Event 
+
+            $('span.sizeItem').unbind('click');
+            $('span.sizeItem').on('click', function () {
+
+                var _size = $(this).data('size');
+                $('span.sizeItem').removeClass('active');
+
+                ub.funcs.changeTailSweepFromPopup(_id, _settingsObject, _size);
+
+                $(this).addClass('active');
+
+            });
 
             /// color pattern tab
 
@@ -8119,6 +8177,16 @@ $(document).ready(function() {
                 $('div.column1').hide();
                 $('div.column1.' + _item).fadeIn();
 
+                if ($(this).data('item') === "tailsweeps") {
+
+                   if (typeof _settingsObject.tailsweep !== "undefined") {
+
+                        $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
+
+                    }
+
+                }
+
             });
 
             /// Vertical Text
@@ -8131,7 +8199,7 @@ $(document).ready(function() {
 
                 ub.funcs.updateCoordinates(_settingsObject);
 
-                var s       =  ub.funcs.getPrimaryView(_settingsObject.application);
+                var s       = ub.funcs.getPrimaryView(_settingsObject.application);
                 var sObj    = ub.funcs.getPrimaryViewObject(_settingsObject.application);
 
                 if (typeof _settingsObject.verticalText !== "undefined" && _settingsObject.verticalText !== 0) {
@@ -8275,7 +8343,7 @@ $(document).ready(function() {
 
             });
 
-            if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
+            if(_id === "9")  { ub.funcs.toggleApplication('10', _status); }
             if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
 
             if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
@@ -8572,6 +8640,20 @@ $(document).ready(function() {
                 if (e.keyCode === 13) {
 
                     _settingsObject.text = _val;
+
+                    if (typeof _settingsObject.tailsweep !== "undefined") {
+
+                        if (_settingsObject.text.length <= 5) { _length = 'short'; } 
+                        if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; } 
+                        if (_settingsObject.text.length > 7) { _length = 'long'; } 
+
+                        _settingsObject.tailsweep.length = _length;
+
+                        $('span.sizeItem').removeClass('active');
+                        $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
+
+                    }
+
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
 
                     // cancel automatic changing of application (e.g. all team names changes)
@@ -8862,7 +8944,7 @@ $(document).ready(function() {
 
         });
 
-        /// Initialize 
+        /// Initialize
 
             ub.funcs.toggleApplication(_id, _status);
 
@@ -8877,7 +8959,11 @@ $(document).ready(function() {
 
         /// End Initialize
 
+        ub.funcs.afterActivateApplication();
+
     }
+
+
 
     ub.funcs.activateMoveTool = function (application_id) {
 
@@ -9260,6 +9346,11 @@ $(document).ready(function() {
         if (applicationType === "text_wrestling") {
             _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_wrestling'});            
         }
+
+        if (applicationType === "text_baseball") {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_baseball'});            
+        }
+        
         
         return _sizes;
 

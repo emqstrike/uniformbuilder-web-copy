@@ -306,7 +306,7 @@ $(document).ready(function () {
 
         ub.funcs.prepareBottomTabs = function () {
 
-            if(typeof (window.ub.user.id) === "undefined") {
+            if (typeof (window.ub.user.id) === "undefined") {
 
                 $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
                 $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
@@ -318,15 +318,13 @@ $(document).ready(function () {
 
             }
 
-            if (ub.current_material.material.id === '648') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
+            if (ub.current_material.material.id === '648' || '731') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
         }
 
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
-
-//          _.each(ub.data.patterns.items, function (item) { console.log(item.name)});
 
             if (ub.data.afterLoadCalled > 0) {return;}
 
@@ -348,25 +346,12 @@ $(document).ready(function () {
 
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
 
-            // if (_getPrice !== "Call for Pricing") {
-
-            //     _getPrice += " / Call for Team Pricing";
-
-            // }
-
-            console.log('Get Price: ');
-            console.log(_getPrice);
-
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             $('div#uniform-price-adult').html("Adult &nbsp;<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
 
-            //$('div#uniform_price').html(_getPrice + '<br /><em class="notice">*pricing may vary depending on size</em>');
-
             $('div.header-container').css('display','none !important');
-
-            // TODO: Enable This
 
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
 
@@ -533,26 +518,26 @@ $(document).ready(function () {
 
                 var sports = JSON.parse(font.sports);
 
-                console.warn(font.name);
+//                console.warn(font.name);
 
                 if (sports === null) {
 
-                    console.warn('Returning True for nulled');
+                    //console.warn('Returning True for nulled');
                     return true;
 
                 } else {
 
                     if (sports[0] === "" || sports[0] === "All") {
 
-                        console.warn('Returning True for Blank and "All"');
+                        //console.warn('Returning True for Blank and "All"');
                         return true;
 
                     } else { 
 
                         var _result = _.contains(sports,ub.current_material.material.uniform_category);
 
-                        console.warn('(specific) Returning ' + _result);
-                        console.warn(sports);
+                        //console.warn('(specific) Returning ' + _result);
+                        //console.warn(sports);
                         return _result;
 
                     }
@@ -1418,19 +1403,6 @@ $(document).ready(function () {
 
                     };
 
-
-                    // if (_application.id === "13") {
-                    //     console.log('Application: ');
-                    //     console.log(_application);
-                    //     console.log('Source Color Array: ');
-                    //     console.log(_colorArray);
-                    //     console.log('Output Color Array: ');
-                    //     console.log(_outputColorArray);
-                    //     console.log('Output Color Array 2: ');
-                    //     console.log(_outputColorArray2);
-
-                    // }
-
                 } 
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
@@ -1447,8 +1419,6 @@ $(document).ready(function () {
                         var _resultColorObj = ub.funcs.getColorByColorCode(_colorArray[index - 1]);
                         var _color = _resultColorObj.hex_code;
                         layer.default_color = _colorArray[index - 1];
-
-                        //_outputColorArrayM.push(_resultColorObj);
 
                     });
 
@@ -1624,6 +1594,19 @@ $(document).ready(function () {
         }
 
         ub.funcs.showLocations();
+
+        if (ub.config.material_id === 731) {
+
+            ub.current_material.settings.applications[1].tailsweep = {
+
+                id: 0,
+                code: 'astros',
+                thumbnail: 'astros.png',
+                length: 'short',
+
+            };
+
+        }
 
         /// End Transform Applications
 
@@ -5540,8 +5523,6 @@ $(document).ready(function () {
                     $('span.slink-small').on('click', function () {
 
                         var _dataItem = $(this).data('item');
-
-                        console.log(_dataItem);
 
                         if (_dataItem === "All") {
 
