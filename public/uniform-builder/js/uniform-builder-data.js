@@ -8622,7 +8622,7 @@ ub.funcs.fontOffSets = [
             },
             {
                code: 'expos',
-               short: "Ò",   // 'U+00D2'
+               short: "Ô",   // 'U+00D2'
                medium: "Ó",  // 'U+00D3'
                long: "Ô",    // 'U+00D4'
             },

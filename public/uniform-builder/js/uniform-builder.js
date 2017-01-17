@@ -1607,6 +1607,9 @@ $(document).ready(function () {
             ub.current_material.settings.applications[1].tailsweep = {
 
                 id: 0,
+                code: 'astros',
+                thumbnail: 'astros.png',
+                length: 'short',
                 code: 'sanfranciscogiants',
                 thumbnail: 'sanfranciscogiants.png',
                 length: 'long',
