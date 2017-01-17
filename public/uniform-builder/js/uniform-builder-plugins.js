@@ -1373,9 +1373,9 @@
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
 
                 if(input_object.font_name !== "Brush Script" && input_object.font_name !== "Cracker jack" && input_object.font_name !== "Block Test") {
-                    style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
+                    style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 1};
                 } else {
-                    style = {font: font_size + "px " + font_name, fill: "white", padding: 45, lineJoin: 'miter', miterLimit: 2};
+                    style = {font: font_size + "px " + font_name, fill: "white", padding: 45, lineJoin: 'miter', miterLimit: 1};
                 }
 
             }
@@ -1408,11 +1408,11 @@
             if (layer.type === 'outer_stroke' && layer.outline === 2) {
 
                 style.stroke = '#ffffff';
-
+                
                 if(input_object.fontSize > 5) {
                     style.strokeThickness = _strokeOuter + 14;
                 }
-                
+
             }
 
             if (layer.type === 'outer_stroke' && layer.outline === 1) {

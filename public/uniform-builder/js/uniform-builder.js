@@ -1522,21 +1522,27 @@ $(document).ready(function () {
 
     ub.loadSettings = function (settings) {
 
+        // Process Pipings Here
+
+        // pipings = ub.current_material.material.pipings.replace(new RegExp("\\\\", "g"), "");
+        // pipings = pipings.slice(1, -1);
+        // pipings = JSON.parse(pipings);
+
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
 
-        _.each(ub.current_material.settings[uniform_type], function (e) {  
+        _.each(ub.current_material.settings[uniform_type], function (e) {
 
             if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') { return; }
 
             if (typeof e.code !== 'undefined') {
 
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
-                var _team_color_id =  parseInt(_materialOption.team_color_id);
+                var _team_color_id  =  parseInt(_materialOption.team_color_id);
                 
-                e.team_color_id = _team_color_id;
+                e.team_color_id     = _team_color_id;
 
-                var _allowPattern =  parseInt(_materialOption.allow_pattern);
+                var _allowPattern   =  parseInt(_materialOption.allow_pattern);
                 e.has_pattern = _allowPattern;
 
                 if (e.has_pattern === 1) {
@@ -1606,9 +1612,9 @@ $(document).ready(function () {
 
             ub.current_material.settings.applications[1].tailsweep = {
 
-                id: 0,
-                code: 'sanfranciscogiants',
-                thumbnail: 'sanfranciscogiants.png',
+                id: 10,
+                code: 'yankees',
+                thumbnail: 'yankees.png',
                 length: 'long',
 
             };
@@ -1720,7 +1726,6 @@ $(document).ready(function () {
                     ub.funcs.getColorByColorCode('W'),
 
                 ], 1);
-
 
         }
 
