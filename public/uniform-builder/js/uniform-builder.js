@@ -567,6 +567,13 @@ $(document).ready(function () {
 
             }
 
+            if (object_name === 'colors') { 
+
+                ub.data.colors = _.filter(ub.data.colors, {active: "1"});
+                ub.data.colors = _.sortBy(ub.data.colors, "name");
+
+            }
+
             if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
 
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
@@ -1603,10 +1610,14 @@ $(document).ready(function () {
                 code: 'astros',
                 thumbnail: 'astros.png',
                 length: 'short',
+                code: 'sanfranciscogiants',
+                thumbnail: 'sanfranciscogiants.png',
+                length: 'long',
 
             };
 
         }
+
 
         /// End Transform Applications
 
@@ -1657,6 +1668,64 @@ $(document).ready(function () {
         // Initialize Transformed Applications
         // ub.funcs.transformedApplications();
         // $('.app_btn').click();
+
+        if (ub.config.material_id === 731) {
+
+            ub.current_material.settings.pipings['Center Piping'] = {
+
+                numberOfColors: 1,
+                size: "1/8",
+                layers: [
+
+                    {
+
+                        colorCode: "B",
+                        layer: 1,
+                        status: false,
+
+                    },
+                    {
+
+                        colorCode: "",
+                        layer: 1,
+                        status: false,
+
+                    },
+                    {
+
+                        colorCode: "",
+                        layer: 1,
+                        status: false,
+
+                    }
+
+                ]                                
+
+            };
+
+            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
+                    ub.funcs.getColorByColorCode('B'),
+                    ub.funcs.getColorByColorCode('RB'),
+                    ub.funcs.getColorByColorCode('W'),
+
+                ], 1);
+
+            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Left End of Sleeve Piping 1/2"}), [
+                    ub.funcs.getColorByColorCode('B'),
+                    ub.funcs.getColorByColorCode('RB'),
+                    ub.funcs.getColorByColorCode('W'),
+
+                ], 1);
+
+            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Right End of Sleeve Piping 1/2"}), [
+                    ub.funcs.getColorByColorCode('B'),
+                    ub.funcs.getColorByColorCode('RB'),
+                    ub.funcs.getColorByColorCode('W'),
+
+                ], 1);
+
+
+        }
 
     };
 
@@ -4665,7 +4734,7 @@ $(document).ready(function () {
 
                 ub.zoom_off();
 
-                var w = window.innerWidth * 2;
+                var w = window.innerWidth * 5;
                 var _newX  = w;
 
                 ub.left_view.position.x     = _newX;
