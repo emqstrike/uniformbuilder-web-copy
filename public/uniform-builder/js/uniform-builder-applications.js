@@ -5390,28 +5390,67 @@ $(document).ready(function() {
         ub.funcs.removeApplicationByID(id);
         ub.create_application(settingsObj, undefined);
 
-        $popup                              = $('div#primaryTailSweepPopup');
+        $popup = $('div#primaryTailSweepPopup');
         $popup.remove();
-        ub.status.tailSweepPopupVisible     = false;
+        ub.status.tailSweepPopupVisible = false;
 
     }
 
     ub.status.tailsweepPopupVisible = false;
     ub.funcs.createTailSweepPopup = function (settingsObj) {
 
+        var _sampleText = $('input[name="sampleText"]').val();
+        var _length     = "short";
+
+        if (_sampleText.length <= 5)                             { _length = 'short';  }
+        if (_sampleText.length >= 6 && _sampleText.length <= 7 ) { _length = 'medium'; } 
+        if (_sampleText.length > 7)                              { _length = 'long';   } 
+
         var data = {
+
            tailsweeps: ub.data.tailsweeps.items,
+           sampleText: _sampleText,
+
         }
 
         ub.status.tailsweepPopupVisible = true;
 
-        var template = $('#m-tailsweep-popup').html();
+        // var template = $('#m-tailsweep-popup').html();
+
+        var template = $('#m-tailsweep-popup-with-preview').html();
         var markup = Mustache.render(template, data);
 
         $('body').append(markup);
 
         $popup = $('div#primaryTailSweepPopup');
         $popup.fadeIn();
+
+        var _fontFamily = $('span.font_name').text();
+        $('div.text-preview').css('font-family', _fontFamily);
+
+        var $sizeButton = $('span.sizeButton');
+
+        $sizeButton.unbind('click');
+        $sizeButton.on('click', function () {
+
+            var _size = $(this).data('size');
+
+            $sizeButton.removeClass('active defaultShadow');
+            $(this).addClass('active defaultShadow');
+
+            var $textPreview = $('div.text-preview');
+
+            $.each($textPreview, function (index, value) {
+
+                var $element            = $(value)
+                var _tailsweepCharacter = $element.data(_size);
+                var _sampleText         = $element.data('sampleText');
+
+                $element.html(_sampleText + _tailsweepCharacter);
+
+            });
+
+        });
 
         $('div.tailSweepPopupResults > div.item').hover(
 
@@ -5427,12 +5466,13 @@ $(document).ready(function() {
 
             var _id         = $(this).data('tailsweep-id');
             var _code       = $(this).data('tailsweep-code');
-
             var _length     = "short";
 
-            if (settingsObj.text.length <= 5) { _length = 'short'; } 
-            if (settingsObj.text.length >= 6 && settingsObj.text.length <= 7 ) { _length = 'medium'; } 
+            if (settingsObj.text.length <= 5) { _length = 'short'; }
+            if (settingsObj.text.length >= 6 && settingsObj.text.length <= 7 ) { _length = 'medium'; }
             if (settingsObj.text.length > 7) { _length = 'long'; } 
+
+            _length = $('span.sizeButton.active').data('size');
 
             settingsObj.tailsweep = {
 
@@ -5448,9 +5488,8 @@ $(document).ready(function() {
             ub.funcs.activateApplications(settingsObj.code);
 
             $('span.tab[data-item="tailsweeps"]').click(); // Activate Tailsweep Tab
-
-            $('span.sizeItem').removeClass('active');
-            $('span.sizeItem[data-size="' + settingsObj.tailsweep.length + '"]').addClass('active');
+            $('span.sizeItem').removeClass('active defaultShadow');
+            $('span.sizeItem[data-size="' + settingsObj.tailsweep.length + '"]').addClass('active defaultShadow');
 
         });
 
@@ -7671,7 +7710,6 @@ $(document).ready(function() {
             }
 
             _settingsObject.text             = ub.funcs.getSampleTeamName();
-            
             _settingsObject.accent_obj       = ub.funcs.getSampleAccent();
             _settingsObject.application_type = _applicationType;
             _settingsObject.type             = _applicationType;
@@ -8137,23 +8175,6 @@ $(document).ready(function() {
 
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
-
-        _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
-        _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb"><br />';
-        _htmlBuilder        +=                    '<span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/' + _tailSweepObject.thumbnail + '"/></span><br />';                                                             
-        _htmlBuilder        +=                    '<span class="tailsweep">' + _tailSweepObject.code + '</span>';
-        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=                 '<div class="sizeContainer">';
-
-        _htmlBuilder        +=                 '<span class="sizeItem" data-size="short">Short</span>';        
-        _htmlBuilder        +=                 '<span class="sizeItem" data-size="medium">Medium</span>';        
-        _htmlBuilder        +=                 '<span class="sizeItem" data-size="long">Long</span>';        
-
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=              '</div>';
-
-
 
         if(ub.funcs.isCurrentSport('Baseball')) {
 
