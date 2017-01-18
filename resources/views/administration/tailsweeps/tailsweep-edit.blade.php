@@ -11,14 +11,14 @@
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/administration/tailsweep/update" enctype="multipart/form-data" id='create-tailsweep-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="layers_properties" id="layers-properties">
+                        <input type="hidden" name="tailsweep_id" value="{{ $tailsweep->id }}">
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Tailsweep Name</label>
                             <div class="col-md-6">
                                 <input type="name" class="form-control tailsweep-name" name="name" value="{{ $tailsweep->name }}">
                             </div>
                         </div>
-
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Code</label>
