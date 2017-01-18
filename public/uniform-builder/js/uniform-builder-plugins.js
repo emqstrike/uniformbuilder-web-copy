@@ -1445,6 +1445,9 @@
                 text_layer.text_sprite = new PIXI.Text(text_input, style);
             } else {
 
+                text_layer.text_sprite = new PIXI.Text("        " + text_input + _appendage + "        ", style);
+
+
                 if (typeof input_object.applicationObj.tailsweep !== "undefined") {
 
                     text_layer.text_sprite = new PIXI.Text("        " + text_input + _appendage + "        ", style);
@@ -1455,6 +1458,7 @@
 
                 }
                 
+
             }
 
             /// Custom Properties]

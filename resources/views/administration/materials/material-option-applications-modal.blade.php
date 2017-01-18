@@ -115,6 +115,7 @@
                                 <th>Colors</th>
                                 <th>Accent</th>
                                 <th>Default Macot</th>
+                                <th>Tailsweep</th>
                                 <th>Default Font</th>
                                 <th>Default Text</th>
                                 <th>Vertical Text</th>

@@ -77,6 +77,22 @@ li.select2-selection__choice {
 
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Script</label>
+                            <div class="col-md-4">
+
+                                <input type="checkbox"  name="script" @if($font->script == 1)value="1" checked @endif>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Block Font</label>
+                            <div class="col-md-4">
+
+                                <input type="checkbox"  name="block_font" @if($font->block_font == 1)value="1" checked @endif>
+
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-5 control-label">
