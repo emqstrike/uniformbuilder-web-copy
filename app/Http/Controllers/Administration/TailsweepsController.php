@@ -59,7 +59,7 @@ class TailsweepsController extends Controller
         {
             $tailsweepId = $request->input('tailsweep_id');
         }
-
+     
         $data = [
             'name' => $tailsweepName,
             'code' => $tailsweepCode,
@@ -101,7 +101,6 @@ class TailsweepsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
 
-
         
            $response = null;
 
@@ -110,8 +109,9 @@ class TailsweepsController extends Controller
             Log::info('Attempts to update tailsweep#' . $tailsweepId);
 
             $data['id'] = $tailsweepId;
-       
+
             $response = $this->client->updateTailsweep($data);
+
             return Redirect::to('administration/tailsweep/edit/' . $data['id'])
                             ->with('message', $response->message);
         }
