@@ -962,6 +962,68 @@
 
 <!-- End Tail Sweep Picker -->
 
+<!-- Tail Sweep Picker w/ Preview -->
+    
+    <script type="text/mustache" id="m-tailsweep-popup-with-preview">
+
+        <div id="primaryTailSweepPopup" data-status="hidden">
+
+            <div class="header">
+
+                Tailsweeps
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+
+                  <div class="size-container">
+
+                    <span class="container-label">Select Tailsweep Size: </span>
+                        
+                    <span class="sizeButton" data-size="short">Short</span>
+                    <span class="sizeButton active defaultShadow" data-size="medium">Medium</span>
+                    <span class="sizeButton" data-size="long">Long</span>
+
+                </div>
+             
+            </div>
+
+            <div class="main-content">
+
+                
+                
+                <div class="tailSweepPopupResults">
+
+                    @{{#tailsweeps}}
+
+                        <div class="item grow" data-tailsweep-code="@{{code}}" data-tailsweep-id="@{{id}}">
+
+                            <div class="text-preview" data-short="@{{short}}" data-medium="@{{medium}}" data-long="@{{long}}" data-tailsweep-code="@{{code}}" data-sample-text="@{{sampleText}}">@{{sampleText}}@{{medium}}</div>
+
+                            <div class="name" style="">@{{title}}</div>
+                            
+                        </div>
+
+                    @{{/tailsweeps}}
+
+                </div>
+
+            </div>
+
+            <div class="footer">
+                
+              
+
+            </div>
+
+        </div>
+
+    </script>
+
+<!-- End Tail Sweep Picker w/ Preview -->
+
 <!-- Roster Table -->
     
     <script type="text/mustache" id="m-roster-table">
