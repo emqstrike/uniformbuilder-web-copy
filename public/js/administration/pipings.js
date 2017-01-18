@@ -26,7 +26,6 @@ $(document).ready(function() {
 		pipings.forEach(function(entry) {
 			console.log(entry);
 			var size = entry.size;
-		
 
 		// var array = $.map(pipings, function(value, index) {
 		//     return [value];
@@ -37,6 +36,10 @@ $(document).ready(function() {
 		// }
 
 		// console.log(array);
+		var ischecked = '';
+		if(entry.enabled == "1"){
+			ischecked = 'checked';
+		}
 
 		var selectbox = '<select class="form-control piping-size">';
 		var piping_sizes = ["1/8", "1/4", "1/2"];
@@ -65,7 +68,12 @@ $(document).ready(function() {
     			<b>SET</b>
     			<input type="text" class="form-control piping-set" value="`+entry.set+`">
     		</td>
-    		<td></td>
+    		<td>
+				<div class="alert alert-info">
+    				<i style="font-size: 30px;">Enable Piping</i>
+    				<input type="checkbox" class="piping-toggler big-checkbox" value="1" `+ischecked+`>
+    			</div>
+    		</td>
     	</tr>
         <tr><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
         <tbody>
@@ -161,7 +169,12 @@ $(document).ready(function() {
     			<b>SET</b>
     			<input type="text" class="form-control piping-set">
     		</td>
-    		<td></td>
+    		<td>
+    			<div class="alert alert-info">
+    				<i style="font-size: 30px;">Enable Piping</i>
+    				<input type="checkbox" class="piping-toggler big-checkbox" value="1">
+    			</div>
+    		</td>
     	</tr>
         <tr><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
         <tbody>
@@ -188,7 +201,7 @@ $(document).ready(function() {
         	</tr>
         </tbody>
         </table>`;
-    	$('.pipings-content').append(elem);
+    	$('.pipings-content').prepend(elem);
     	deletePiping();
     	changeImage();
     	changeEvent();
@@ -213,6 +226,9 @@ $(document).ready(function() {
     	$("select").on('change', function() {
     		refreshJSON();
     	});
+    	$("input").on('change', function() {
+    		refreshJSON();
+    	});
     	$("input").keyup(function() {
     		refreshJSON();
     	});
@@ -226,6 +242,12 @@ $(document).ready(function() {
 				"size" : $(this).find('.piping-size').val(),
 				"set" : $(this).find('.piping-set').val()
 			};
+			var cbx = $(this).find('.piping-toggler');
+			if(cbx.is(":checked")){
+				info.enabled = 1;
+			} else {
+				info.enabled = 0;
+			}
 			console.log( 'front file 1: '+ $(this).find('.file-f-1').attr('data-img-url') );
 			var perspectives = [];
 
