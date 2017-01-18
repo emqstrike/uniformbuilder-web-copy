@@ -57,7 +57,7 @@
                                 {{ $tailsweep->title }}
                             </td>
                             <td>
-                            <img src="{{ $tailsweep->thumbnail }}">
+                            <img src="{{ $tailsweep->thumbnail }}" height="45" width="35">
                                 
                             </td>
                             <td>
