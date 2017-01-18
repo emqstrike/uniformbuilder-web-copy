@@ -15,17 +15,17 @@ class TailsweepsAPIClient extends APIClient
         ]);
         return $this->decoder->decode($response->getBody());
     }
-    //  public function updateTailsweep($data)
-    // {  
-    //     // dd($data);
-    //     $response = $this->post('tailsweep/update', [
+     public function updateTailsweep($data)
+    {  
+        // dd($data);
+        $response = $this->post('tailsweep/update', [
 
-    //         'json' => $data
-    //    ]);
+            'json' => $data
+       ]);
        
 
-    //     return $this->decoder->decode($response->getBody());
-    // }
+        return $this->decoder->decode($response->getBody());
+    }
        public function getAllTailsweeps()
     {
         $response = $this->get('tailsweeps');

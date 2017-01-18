@@ -37,7 +37,9 @@
                             <th>ID</th>
                             <th>Font Name</th>
                             <th>Tail Sweep</th>
-                            <th>Sports</th>
+                            <th>Script</th>
+                            <th>Block Font</th>
+                            <th>Sports</th>  
                             <th>Sample</th>
                             <th>Active Status</th>
                             <th>Actions</th>
@@ -63,6 +65,20 @@
                             </td>
                              <td>
                                 @if ($font->tail_sweep)
+                                    Yes
+                                @else
+                                    No
+                                @endif
+                            </td>
+                            <td>
+                                @if ($font->script)
+                                    Yes
+                                @else
+                                    No
+                                @endif
+                            </td>
+                            <td>
+                                @if ($font->block_font)
                                     Yes
                                 @else
                                     No

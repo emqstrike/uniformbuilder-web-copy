@@ -63,12 +63,17 @@ class FontsController extends Controller
     {
 
         $fontName = $request->input('name');
+        $tailSweep = 0;
+        $script = 0;
+         $blockFont = 0;
         $tailSweep = $request->input('tail_sweep');
-        if($tailSweep){
-            $tailSweep = 1;
-        }else{
-            $tailSweep = 0;
-        }
+            if($tailSweep){$tailSweep = 1;}
+        $script = $request->input('script');
+            if($script){$script = 1;}
+        $blockFont = $request->input('block_font');
+            if($blockFont){$blockFont = 1;}
+
+
         $fontType = (empty($request->input('type'))) ? 'default' : $request->input('type');
         $fontParent = $request->input('parent_id');
         $fontProperties = $request->input('font_properties');
@@ -95,6 +100,8 @@ class FontsController extends Controller
         $data = [
             'name' => $fontName,
             'tail_sweep' => $tailSweep,
+            'script' => $script,
+            'block_font' => $blockFont,
             'font_size_table' => $fontSizeTable,
             'sports' => $sports,
             'tail_sweep_properties' => $tailSweepProperties
