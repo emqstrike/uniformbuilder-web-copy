@@ -8176,23 +8176,6 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
-        _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
-        _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb"><br />';
-        _htmlBuilder        +=                    '<span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/' + _tailSweepObject.thumbnail + '"/></span><br />';                                                             
-        _htmlBuilder        +=                    '<span class="tailsweep">' + _tailSweepObject.code + '</span>';
-        _htmlBuilder        +=                  '<span class="flipButton">Vertical</span>';        
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=                 '<div class="sizeContainer">';
-
-        _htmlBuilder        +=                 '<span class="sizeItem" data-size="short">Short</span>';        
-        _htmlBuilder        +=                 '<span class="sizeItem" data-size="medium">Medium</span>';        
-        _htmlBuilder        +=                 '<span class="sizeItem" data-size="long">Long</span>';        
-
-        _htmlBuilder        +=                 '</div>';
-        _htmlBuilder        +=              '</div>';
-
-
-
         if(ub.funcs.isCurrentSport('Baseball')) {
 
             _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
