@@ -387,23 +387,29 @@ $(document).ready(function () {
 
         if (typeof activePipingSet !== "undefined") {
 
-            if (activePipingSet.color_1) {
+            if (activePipingSet.color1) {
 
                 _result.push({name: 'color 1', val: 1});
 
             }
 
-            if (activePipingSet.color_2) {
+            if (activePipingSet.color2) {
 
                 _result.push({name: 'color 2', val: 2});
 
             }
 
-            if (activePipingSet.color_3) {
+            if (activePipingSet.color3) {
 
                 _result.push({name: 'color 3', val: 3});
 
             }
+
+        }
+
+        if (!activePipingSet.color1 && !activePipingSet.color2 && !activePipingSet.color3) {
+
+            console.warn('No Color Enabled for ' + activePipingSet.name);
 
         }
 
@@ -646,6 +652,9 @@ $(document).ready(function () {
                 var _pipingObject                   = _.find(ub.data.pipings, {name: _type});
                 var _colorsMarkup                   =  ub.funcs.getPipingColors(_pipingObject);
                 var _firstColor                     = _.first(ub.funcs.getPipingColorArray(_pipingObject));
+
+
+
                 var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(_activePipingSet.set);
                 var _matchingPipingObject           = undefined;
                 var _matchingPipingSettingsObject   = undefined;

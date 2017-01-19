@@ -1594,6 +1594,21 @@ $(document).ready(function () {
 
             ub.data.pipings = _pipings;
 
+            _.each(ub.data.pipings, function (piping) {
+
+
+                if (piping.enabled === 1) {
+
+                    ub.funcs.renderPipings(piping, [
+                        ub.funcs.getColorByColorCode('B'),
+                        ub.funcs.getColorByColorCode('RB'),
+                        ub.funcs.getColorByColorCode('W'),
+                    ], 1);
+
+                }
+                
+            });
+
         } else {
 
             console.warn('Pipings Null || Undefined');
@@ -1603,8 +1618,6 @@ $(document).ready(function () {
     }
 
     ub.loadSettings = function (settings) {
-
-
 
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
