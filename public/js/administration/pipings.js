@@ -41,6 +41,21 @@ $(document).ready(function() {
 			ischecked = 'checked';
 		}
 
+		var pos1checked = '';
+		if(entry.color1 == true){
+			pos1checked = 'checked';
+		}
+
+		var pos2checked = '';
+		if(entry.color2 == true){
+			pos2checked = 'checked';
+		}
+
+		var pos3checked = '';
+		if(entry.color3 == true){
+			pos3checked = 'checked';
+		}
+
 		var selectbox = '<select class="form-control piping-size">';
 		var piping_sizes = ["1/8", "1/4", "1/2"];
 		piping_sizes.forEach(function(entry) {
@@ -78,21 +93,21 @@ $(document).ready(function() {
         <tr><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
         <tbody>
         	<tr>
-        		<td>Position 1</td>
+        		<td>Position 1 <input type="checkbox" class="position-1" value="1" `+pos1checked+`></td>
         		<td><input type="file" class="file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
         		<td><input type="file" class="file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
         		<td><input type="file" class="file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
         		<td><input type="file" class="file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"></td>
         	</tr>
         	<tr>
-        		<td>Position 2</td>
+        		<td>Position 2 <input type="checkbox" class="position-2" value="1" `+pos2checked+`></td>
         		<td><input type="file" class="file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
         		<td><input type="file" class="file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
         		<td><input type="file" class="file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
         		<td><input type="file" class="file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"></td>
         	</tr>
         	<tr>
-        		<td>Position 3</td>
+        		<td>Position 3 <input type="checkbox" class="position-3" value="1" `+pos3checked+`></td>
         		<td><input type="file" class="file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
         		<td><input type="file" class="file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
         		<td><input type="file" class="file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
@@ -179,21 +194,21 @@ $(document).ready(function() {
         <tr><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
         <tbody>
         	<tr>
-        		<td>Position 1</td>
+        		<td>Position 1 <input type="checkbox" class="position-1" value="1"></td>
         		<td><input type="file" class="file-f-1 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-1 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-1 image" data-img-url=""></td>
         		<td><input type="file" class="file-r-1 image" data-img-url=""></td>
         	</tr>
         	<tr>
-        		<td>Position 2</td>
+        		<td>Position 2 <input type="checkbox" class="position-2" value="1"></td>
         		<td><input type="file" class="file-f-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-r-2 image" data-img-url=""></td>
         	</tr>
         	<tr>
-        		<td>Position 3</td>
+        		<td>Position 3 <input type="checkbox" class="position-3" value="1"></td>
         		<td><input type="file" class="file-f-3 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-3 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-3 image" data-img-url=""></td>
@@ -248,6 +263,28 @@ $(document).ready(function() {
 			} else {
 				info.enabled = 0;
 			}
+
+			var pos_1 = $(this).find('.position-1');
+			if(pos_1.is(":checked")){
+				info.color1 = true;
+			} else {
+				info.color1 = false;
+			}
+
+			var pos_2 = $(this).find('.position-2');
+			if(pos_2.is(":checked")){
+				info.color2 = true;
+			} else {
+				info.color2 = false;
+			}
+
+			var pos_3 = $(this).find('.position-3');
+			if(pos_3.is(":checked")){
+				info.color3 = true;
+			} else {
+				info.color3 = false;
+			}
+
 			console.log( 'front file 1: '+ $(this).find('.file-f-1').attr('data-img-url') );
 			var perspectives = [];
 
