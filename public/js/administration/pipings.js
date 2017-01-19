@@ -1,4 +1,7 @@
 $(document).ready(function() {
+colors = getColors().colors;
+// select colors
+// window.selectColors = getSelectColorTemplate(colors);
 
 	var pipings_data = $('#pipings_data').val();
 
@@ -26,7 +29,6 @@ $(document).ready(function() {
 		pipings.forEach(function(entry) {
 			console.log(entry);
 			var size = entry.size;
-		
 
 		// var array = $.map(pipings, function(value, index) {
 		//     return [value];
@@ -37,6 +39,28 @@ $(document).ready(function() {
 		// }
 
 		// console.log(array);
+		var ischecked = '';
+		if(entry.enabled == "1"){
+			ischecked = 'checked';
+		}
+
+		var pos1checked = '';
+		if(entry.color1 == true){
+			pos1checked = 'checked';
+		}
+
+		var pos2checked = '';
+		if(entry.color2 == true){
+			pos2checked = 'checked';
+		}
+
+		var pos3checked = '';
+		if(entry.color3 == true){
+			pos3checked = 'checked';
+		}
+	
+
+
 
 		var selectbox = '<select class="form-control piping-size">';
 		var piping_sizes = ["1/8", "1/4", "1/2"];
@@ -65,26 +89,40 @@ $(document).ready(function() {
     			<b>SET</b>
     			<input type="text" class="form-control piping-set" value="`+entry.set+`">
     		</td>
-    		<td></td>
+    		<td>
+				<div class="alert alert-info">
+    				<i style="font-size: 30px;">Enable Piping</i>
+    				<input type="checkbox" class="piping-toggler big-checkbox" value="1" `+ischecked+`>
+    			</div>
+    		</td>
     	</tr>
         <tr><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
         <tbody>
         	<tr>
-        		<td>Position 1</td>
+        		<td>
+        			Position 1 <input type="checkbox" class="position-1" value="1" `+pos1checked+`>
+  					`+ getSelectColorTemplate(colors,entry.colors_array[0])  +`
+        		</td>
         		<td><input type="file" class="file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
         		<td><input type="file" class="file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
         		<td><input type="file" class="file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
         		<td><input type="file" class="file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"></td>
         	</tr>
         	<tr>
-        		<td>Position 2</td>
+        		<td>
+        			Position 2 <input type="checkbox" class="position-2" value="1" `+pos2checked+`>
+        			`+ getSelectColorTemplate(colors,entry.colors_array[1])  +`
+        		</td>
         		<td><input type="file" class="file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
         		<td><input type="file" class="file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
         		<td><input type="file" class="file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
         		<td><input type="file" class="file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"></td>
         	</tr>
         	<tr>
-        		<td>Position 3</td>
+        		<td>
+        			Position 3 <input type="checkbox" class="position-3" value="1" `+pos3checked+`>
+        			`+ getSelectColorTemplate(colors,entry.colors_array[2])  +`
+        		</td>
         		<td><input type="file" class="file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
         		<td><input type="file" class="file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
         		<td><input type="file" class="file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
@@ -161,26 +199,40 @@ $(document).ready(function() {
     			<b>SET</b>
     			<input type="text" class="form-control piping-set">
     		</td>
-    		<td></td>
+    		<td>
+    			<div class="alert alert-info">
+    				<i style="font-size: 30px;">Enable Piping</i>
+    				<input type="checkbox" class="piping-toggler big-checkbox" value="1">
+    			</div>
+    		</td>
     	</tr>
         <tr><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
         <tbody>
         	<tr>
-        		<td>Position 1</td>
+        		<td>
+        			Position 1 <input type="checkbox" class="position-1" value="1">
+        			`+ getSelectColorTemplate(colors)  +`
+        		</td>
         		<td><input type="file" class="file-f-1 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-1 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-1 image" data-img-url=""></td>
         		<td><input type="file" class="file-r-1 image" data-img-url=""></td>
         	</tr>
         	<tr>
-        		<td>Position 2</td>
+        		<td>
+        			Position 2 <input type="checkbox" class="position-2" value="1">
+        			`+ getSelectColorTemplate(colors)  +`
+        		</td>
         		<td><input type="file" class="file-f-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-r-2 image" data-img-url=""></td>
         	</tr>
         	<tr>
-        		<td>Position 3</td>
+        		<td>
+        			Position 3 <input type="checkbox" class="position-3" value="1">
+        			`+ getSelectColorTemplate(colors)  +`
+        		</td>
         		<td><input type="file" class="file-f-3 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-3 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-3 image" data-img-url=""></td>
@@ -188,7 +240,7 @@ $(document).ready(function() {
         	</tr>
         </tbody>
         </table>`;
-    	$('.pipings-content').append(elem);
+    	$('.pipings-content').prepend(elem);
     	deletePiping();
     	changeImage();
     	changeEvent();
@@ -213,6 +265,9 @@ $(document).ready(function() {
     	$("select").on('change', function() {
     		refreshJSON();
     	});
+    	$("input").on('change', function() {
+    		refreshJSON();
+    	});
     	$("input").keyup(function() {
     		refreshJSON();
     	});
@@ -226,7 +281,41 @@ $(document).ready(function() {
 				"size" : $(this).find('.piping-size').val(),
 				"set" : $(this).find('.piping-set').val()
 			};
-			console.log( 'front file 1: '+ $(this).find('.file-f-1').attr('data-img-url') );
+			var cbx = $(this).find('.piping-toggler');
+			if(cbx.is(":checked")){
+				info.enabled = 1;
+			} else {
+				info.enabled = 0;
+			}
+
+			var pos_1 = $(this).find('.position-1');
+			if(pos_1.is(":checked")){
+				info.color1 = true;
+			} else {
+				info.color1 = false;
+			}
+
+			var pos_2 = $(this).find('.position-2');
+			if(pos_2.is(":checked")){
+				info.color2 = true;
+			} else {
+				info.color2 = false;
+			}
+
+			var pos_3 = $(this).find('.position-3');
+			if(pos_3.is(":checked")){
+				info.color3 = true;
+			} else {
+				info.color3 = false;
+			}
+			var colors_array = [];
+			$( $(this).find(".piping-colors option:selected") ).each(function( index ) {
+			   colors_array.push($( this ).val());
+
+			});
+	
+			info.colors_array = colors_array;
+//perspectives
 			var perspectives = [];
 
 			var front_perspective = [{
@@ -410,5 +499,43 @@ $(document).ready(function() {
         });
 
     }
+ 
+    function getColors(){
+		return $.ajax({
+		    type: 'GET',
+		    url: "http://api-dev.qstrike.com/api/colors",
+		    async: false,
+		    dataType: 'json',
+		    data: { action : 'getHotelsList' },
+		    done: function(results) {
+		        // uhm, maybe I don't even need this?
+		        // return  results.colors.colors;
+		    },
+		    fail: function( jqXHR, textStatus, errorThrown ) {
+		        console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+		    }
+		}).responseJSON; // <-- this instead of .responseText
+	}
 
+	function getSelectColorTemplate(result,c_code){
+		
+	   
+     	var template;
+    	 result.forEach(function(entry) {
+	      	if(entry.color_code == c_code){
+				template += '<option value="'+ entry.color_code +'" selected>' + entry.name + '</option>';
+			} else {
+				template += '<option value='+ entry.color_code +'>' + entry.name + '</option>';
+			}
+
+		});
+	    return template = `<select class='form-control piping-colors'>` + template + `</select>`;
+		    
+		
+				
+	}
+
+
+
+	
 });
