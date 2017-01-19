@@ -653,8 +653,6 @@ $(document).ready(function () {
                 var _colorsMarkup                   =  ub.funcs.getPipingColors(_pipingObject);
                 var _firstColor                     = _.first(ub.funcs.getPipingColorArray(_pipingObject));
 
-
-
                 var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(_activePipingSet.set);
                 var _matchingPipingObject           = undefined;
                 var _matchingPipingSettingsObject   = undefined;

@@ -1592,6 +1592,15 @@ $(document).ready(function () {
 
     ub.funcs.processPipings = function () {
 
+        console.log(ub.current_material.settings);
+        console.log(ub.current_material.settings.team_colors[0]);
+
+        // _.each(ub.current_material.settings.team_colors, function (color) {
+        //     console.log('Colors')
+        //     console.log(color);
+
+        // });
+
         ub.funcs.setupTempPiping();
 
         if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
@@ -1605,14 +1614,61 @@ $(document).ready(function () {
 
             _.each(ub.data.pipings, function (piping) {
 
-
                 if (piping.enabled === 1) {
 
-                    ub.funcs.renderPipings(piping, [
-                        ub.funcs.getColorByColorCode('B'),
-                        ub.funcs.getColorByColorCode('RB'),
-                        ub.funcs.getColorByColorCode('W'),
-                    ], 1);
+                    // ub.funcs.renderPipings(piping, [
+                    //     ub.funcs.getColorByColorCode('B'),
+                    //     ub.funcs.getColorByColorCode('RB'),
+                    //     ub.funcs.getColorByColorCode('W'),
+                    // ], 1);
+
+                    ub.funcs.renderPipings(piping, ub.current_material.settings.team_colors, 1);
+
+                    var _colorCount = 0;
+
+                    // if (piping.color1) { _colorCount +=1 }; 
+                    // if (piping.color2) { _colorCount +=1 }; 
+                    // if (piping.color3) { _colorCount +=1 }; 
+
+                    // ub.current_material.settings.pipings[piping.set]                = piping;
+                    // ub.current_material.settings.pipings[piping.set].size           = piping.size;
+                    // ub.current_material.settings.pipings[piping.set].numberOfColors = _colorCount;
+
+                    var _pipingObject                   = piping;
+                    var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
+                    var _matchingPipingObject           = undefined;
+                    var _matchingPipingSettingsObject   = undefined;
+
+                    var _name                           = _pipingObject.name;
+                    var _matchingName                   = '';
+                    
+
+                    ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, _pipingObject.size);
+
+                    /// Process Matching Object
+
+                        if (_name.indexOf('Left') > -1) {
+
+                            _matchingName           = ub.funcs.getMatchingSide(_name);
+                            _matchingPipingObject   = _.find(ub.data.pipings, {name: _matchingName});
+
+                        }
+
+                        if (_name.indexOf('Right') > -1) {
+
+                            _matchingName           = ub.funcs.getMatchingSide(_name);
+                            _matchingPipingObject   = _.find(ub.data.pipings, {name: _matchingName});
+
+                        }
+
+                        if (typeof _matchingPipingObject !== 'undefined') {
+
+                            _matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(_matchingPipingObject.set);
+                            ub.funcs.changePipingSize(_matchingPipingSettingsObject, _matchingPipingObject, _pipingObject.size);
+
+                        }
+
+                    /// End Process Matching Object
 
                 }
                 
