@@ -1628,6 +1628,12 @@ $(document).ready(function () {
 
     ub.loadSettings = function (settings) {
 
+        // Process Pipings Here
+
+        // pipings = ub.current_material.material.pipings.replace(new RegExp("\\\\", "g"), "");
+        // pipings = pipings.slice(1, -1);
+        // pipings = JSON.parse(pipings);
+
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
 
@@ -1780,8 +1786,11 @@ $(document).ready(function () {
 
         } else {
 
+<<<<<<< HEAD
+=======
             ub.funcs.processPipings(ub.current_material.material.pipings);
 
+>>>>>>> 87ff84bfe34ce7613131fef53cf1487093c508f3
         }
 
         
