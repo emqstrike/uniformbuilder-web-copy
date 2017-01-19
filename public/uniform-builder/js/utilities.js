@@ -2,9 +2,15 @@ $( document ).ready(function() {
 
     window.util = {
 
-        getExtension: function (filename) {
-            var _extension = filename.split('.').pop();
+        isNullOrUndefined: function (val) {
 
+            return typeof(val) === "undefined" || val === null 
+
+        },
+
+        getExtension: function (filename) {
+            
+            var _extension = filename.split('.').pop();
             return _extension.toLowerCase();
 
         },

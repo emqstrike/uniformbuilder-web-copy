@@ -317,9 +317,18 @@ $(document).ready(function () {
                 $('a.change-view[data-view="open-design"]').removeClass('disabled');
 
             }
+            
+            //if (ub.current_material.material.id === '648' || '731') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
 
-            if (ub.current_material.material.id === '648' || '731') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
+            if(ub.funcs.isCurrentSport('Baseball')) {
+                $('a.change-view[data-view="pipings"]').removeClass('disabled');                                
+            } else {
+
+                $('a.change-view[data-view="pipings"]').addClass('disabled');                
+            }
+
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
+
 
         }
 
@@ -1520,13 +1529,104 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.setupTempPiping = function () {
+
+        if (ub.config.material_id === 731) {
+
+            ub.current_material.settings.pipings['Center Piping'] = {
+
+                numberOfColors: 1,
+                size: "1/8",
+                layers: [
+
+                    {
+
+                        colorCode: "B",
+                        layer: 1,
+                        status: false,
+
+                    },
+                    {
+
+                        colorCode: "",
+                        layer: 1,
+                        status: false,
+
+                    },
+                    {
+
+                        colorCode: "",
+                        layer: 1,
+                        status: false,
+
+                    }
+
+                ]                                
+
+            };
+
+            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
+                    ub.funcs.getColorByColorCode('B'),
+                    ub.funcs.getColorByColorCode('RB'),
+                    ub.funcs.getColorByColorCode('W'),
+
+                ], 1);
+
+            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Left End of Sleeve Piping 1/2"}), [
+                    ub.funcs.getColorByColorCode('B'),
+                    ub.funcs.getColorByColorCode('RB'),
+                    ub.funcs.getColorByColorCode('W'),
+
+                ], 1);
+
+            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Right End of Sleeve Piping 1/2"}), [
+                    ub.funcs.getColorByColorCode('B'),
+                    ub.funcs.getColorByColorCode('RB'),
+                    ub.funcs.getColorByColorCode('W'),
+
+                ], 1);
+
+        }
+
+    }
+
+    ub.funcs.processPipings = function () {
+
+        ub.funcs.setupTempPiping();
+
+        if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
+
+            var _pipings = ub.current_material.material.pipings.replace(new RegExp("\\\\", "g"), "");
+
+            _pipings = _pipings.slice(1, -1);
+            _pipings = JSON.parse(_pipings);
+
+            ub.data.pipings = _pipings;
+
+            _.each(ub.data.pipings, function (piping) {
+
+
+                if (piping.enabled === 1) {
+
+                    ub.funcs.renderPipings(piping, [
+                        ub.funcs.getColorByColorCode('B'),
+                        ub.funcs.getColorByColorCode('RB'),
+                        ub.funcs.getColorByColorCode('W'),
+                    ], 1);
+
+                }
+                
+            });
+
+        } else {
+
+            console.warn('Pipings Null || Undefined');
+
+        }
+
+    }
+
     ub.loadSettings = function (settings) {
-
-        // Process Pipings Here
-
-        // pipings = ub.current_material.material.pipings.replace(new RegExp("\\\\", "g"), "");
-        // pipings = pipings.slice(1, -1);
-        // pipings = JSON.parse(pipings);
 
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
@@ -1672,62 +1772,19 @@ $(document).ready(function () {
         // ub.funcs.transformedApplications();
         // $('.app_btn').click();
 
-        if (ub.config.material_id === 731) {
+        // Process Pipings Here
 
-            ub.current_material.settings.pipings['Center Piping'] = {
+        if (ub.current_material.pipings === null) {
 
-                numberOfColors: 1,
-                size: "1/8",
-                layers: [
+            console.log("Pipings is null!");
 
-                    {
+        } else {
 
-                        colorCode: "B",
-                        layer: 1,
-                        status: false,
-
-                    },
-                    {
-
-                        colorCode: "",
-                        layer: 1,
-                        status: false,
-
-                    },
-                    {
-
-                        colorCode: "",
-                        layer: 1,
-                        status: false,
-
-                    }
-
-                ]                                
-
-            };
-
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-
-                ], 1);
-
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Left End of Sleeve Piping 1/2"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-
-                ], 1);
-
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Right End of Sleeve Piping 1/2"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-
-                ], 1);
+            ub.funcs.processPipings(ub.current_material.material.pipings);
 
         }
+
+        
 
     };
 
