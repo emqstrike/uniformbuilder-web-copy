@@ -317,9 +317,18 @@ $(document).ready(function () {
                 $('a.change-view[data-view="open-design"]').removeClass('disabled');
 
             }
+            
+            //if (ub.current_material.material.id === '648' || '731') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
 
-            if (ub.current_material.material.id === '648' || '731') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
+            if(ub.funcs.isCurrentSport('Baseball')) {
+                $('a.change-view[data-view="pipings"]').removeClass('disabled');                                
+            } else {
+
+                $('a.change-view[data-view="pipings"]').addClass('disabled');                
+            }
+
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
+
 
         }
 
