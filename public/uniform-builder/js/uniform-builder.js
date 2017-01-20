@@ -1533,37 +1533,7 @@ $(document).ready(function () {
 
         if (ub.config.material_id === 731) {
 
-            ub.current_material.settings.pipings['Center Piping'] = {
-
-                numberOfColors: 1,
-                size: "1/8",
-                layers: [
-
-                    {
-
-                        colorCode: "B",
-                        layer: 1,
-                        status: false,
-
-                    },
-                    {
-
-                        colorCode: "",
-                        layer: 1,
-                        status: false,
-
-                    },
-                    {
-
-                        colorCode: "",
-                        layer: 1,
-                        status: false,
-
-                    }
-
-                ]                                
-
-            };
+            ub.current_material.settings.pipings['Center Piping'] = ub.data.mock.piping731;
 
             ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
                     ub.funcs.getColorByColorCode('B'),
@@ -1591,15 +1561,6 @@ $(document).ready(function () {
     }
 
     ub.funcs.processPipings = function () {
-
-        console.log(ub.current_material.settings);
-        console.log(ub.current_material.settings.team_colors[0]);
-
-        // _.each(ub.current_material.settings.team_colors, function (color) {
-        //     console.log('Colors')
-        //     console.log(color);
-
-        // });
 
         ub.funcs.setupTempPiping();
 
