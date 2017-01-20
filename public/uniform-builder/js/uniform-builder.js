@@ -1786,11 +1786,9 @@ $(document).ready(function () {
 
         } else {
 
-<<<<<<< HEAD
-=======
+
             ub.funcs.processPipings(ub.current_material.material.pipings);
 
->>>>>>> 87ff84bfe34ce7613131fef53cf1487093c508f3
         }
 
         
