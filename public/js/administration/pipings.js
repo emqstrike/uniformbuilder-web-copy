@@ -99,7 +99,11 @@ colors = getColors().colors;
         	<tr>
         		<td>
         			Position 1 <input type="checkbox" class="position-1" value="1" `+pos1checked+`>
-  					`+ getSelectColorTemplate(colors,entry.colors_array[0])  +`
+  					
+  					`+ 
+  					if(entry.colors_array[0])
+  					getSelectColorTemplate(colors,entry.colors_array[0])  
+  					+`
         		</td>
         		<td><input type="file" class="file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
         		<td><input type="file" class="file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
@@ -110,7 +114,10 @@ colors = getColors().colors;
 
         		<td>
         			Position 2 <input type="checkbox" class="position-2" value="1" `+pos2checked+`>
-        			`+ getSelectColorTemplate(colors,entry.colors_array[1])  +`
+        			`+ 
+  					if(entry.colors_array[1])
+  					getSelectColorTemplate(colors,entry.colors_array[1])  
+  					+`
         		</td>
 
         		<td><input type="file" class="file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
@@ -121,7 +128,10 @@ colors = getColors().colors;
         	<tr>
         		<td>
         			Position 3 <input type="checkbox" class="position-3" value="1" `+pos3checked+`>
-        			`+ getSelectColorTemplate(colors,entry.colors_array[2])  +`
+        			`+ 
+  					if(entry.colors_array[2])
+  					getSelectColorTemplate(colors,entry.colors_array[2])  
+  					+`
         		</td>
         		<td><input type="file" class="file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
         		<td><input type="file" class="file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
