@@ -59,6 +59,7 @@ colors = getColors().colors;
 			pos3checked = 'checked';
 		}
 
+
 		var selectbox = '<select class="form-control piping-size">';
 		var piping_sizes = ["1/8", "1/4", "1/2"];
 		piping_sizes.forEach(function(entry) {
@@ -100,7 +101,6 @@ colors = getColors().colors;
         			Position 1 <input type="checkbox" class="position-1" value="1" `+pos1checked+`>
   					`+ getSelectColorTemplate(colors,entry.colors_array[0])  +`
         		</td>
-
         		<td><input type="file" class="file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
         		<td><input type="file" class="file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
         		<td><input type="file" class="file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
@@ -225,7 +225,6 @@ colors = getColors().colors;
         			Position 2 <input type="checkbox" class="position-2" value="1">
         			`+ getSelectColorTemplate(colors)  +`
         		</td>
-
         		<td><input type="file" class="file-f-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-2 image" data-img-url=""></td>

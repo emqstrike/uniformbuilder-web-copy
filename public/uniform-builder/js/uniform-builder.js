@@ -1786,8 +1786,9 @@ $(document).ready(function () {
 
         } else {
 
-            ub.funcs.processPipings(ub.current_material.material.pipings);
 
+
+            ub.funcs.processPipings(ub.current_material.material.pipings);
 
         }
 
