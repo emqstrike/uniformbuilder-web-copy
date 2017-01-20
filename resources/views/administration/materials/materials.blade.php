@@ -5,7 +5,18 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
-
+<style>
+.table td, 
+.table th {
+    white-space: nowrap;
+    width: 1%;
+}
+.zoomed-out {
+    zoom: 0.9;
+    -moz-transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+}
+</style>
 @endsection
 
 @section('content')
@@ -52,7 +63,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' id='materials_table' class='data-table table table-bordered materials display'>
+                    <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered materials display'>
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -63,6 +74,7 @@
                                 <th>Neck</th>
                                 <th>Price Item</th>
                                 <th>Type</th>
+                                <th>Active</th>
                                 <th>Asset Target</th>
                                 <th>Actions</th>
                             </tr>
@@ -93,6 +105,13 @@
                 </td>
                 <td>
                     {{ $material->type }}
+                </td>
+                <td>
+                    @if($material->active)
+                    YES
+                    @else
+                    NO
+                    @endif
                 </td>
                 <td>
                     {{ $material->asset_target }}
@@ -131,6 +150,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
             </tr>
         </tfoot>
         </table>
@@ -154,7 +174,7 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
 <script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script>
-<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<!-- <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script> -->
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <!-- <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script> -->
