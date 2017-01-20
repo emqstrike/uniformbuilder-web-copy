@@ -72,7 +72,7 @@ colors = getColors().colors;
 		selectbox += '</select>';
 
 		if(!entry.colors_array){
-			entry.colors_array[] = ["","","",];
+			entry.colors_array = ["","","",];
 		}
 
 		var template = `<table class="table table-striped table-bordered table-hover piping-table">
