@@ -5880,6 +5880,8 @@ $(document).ready(function () {
 
     ub.funcs.initGenderPicker = function () {
 
+        $('body').removeClass('generic-canvas');
+
         $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash.png)');
         $('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
 
