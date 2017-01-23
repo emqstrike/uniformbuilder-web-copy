@@ -1531,35 +1531,35 @@ $(document).ready(function () {
 
     ub.funcs.setupTempPiping = function () {
 
-        if (ub.config.material_id === 731) {
+        // if (ub.config.material_id === 731) {
 
-            ub.current_material.settings.pipings['Center Piping'] = ub.data.mock.piping731;
+        //     ub.current_material.settings.pipings['Center Piping'] = ub.data.mock.piping731;
 
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-                ], 1);
+        //     ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
+        //             ub.funcs.getColorByColorCode('B'),
+        //             ub.funcs.getColorByColorCode('RB'),
+        //             ub.funcs.getColorByColorCode('W'),
+        //         ], 1);
 
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Left End of Sleeve Piping 1/2"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-                ], 1);
+        //     ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Left End of Sleeve Piping 1/2"}), [
+        //             ub.funcs.getColorByColorCode('B'),
+        //             ub.funcs.getColorByColorCode('RB'),
+        //             ub.funcs.getColorByColorCode('W'),
+        //         ], 1);
 
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Right End of Sleeve Piping 1/2"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-                ], 1);
+        //     ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Right End of Sleeve Piping 1/2"}), [
+        //             ub.funcs.getColorByColorCode('B'),
+        //             ub.funcs.getColorByColorCode('RB'),
+        //             ub.funcs.getColorByColorCode('W'),
+        //         ], 1);
 
-        }
+        // }
 
     }
 
     ub.funcs.processPipings = function () {
 
-        ub.funcs.setupTempPiping();
+        // ub.funcs.setupTempPiping();
 
         if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
 
@@ -1592,6 +1592,8 @@ $(document).ready(function () {
 
                             });
 
+                            ub.funcs.addColorToTeamColors(_color, true);
+                            
                         });
 
                     } else {
