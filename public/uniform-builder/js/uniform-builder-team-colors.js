@@ -509,7 +509,6 @@ $(document).ready(function () {
 
         _teamColorObj.push(colorObj); 
 
-
         if (typeof cancelColorPickerUpdate === "undefined") {
 
             ub.funcs.drawColorPickers();
@@ -533,8 +532,6 @@ $(document).ready(function () {
     };
 
     ub.funcs.drawColorPickers = function () {
-
-        console.trace();
 
         var _teamColorObj           = ub.current_material.settings.team_colors;
         var _strBuilder             = '';
