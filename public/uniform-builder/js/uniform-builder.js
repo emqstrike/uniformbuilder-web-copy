@@ -1533,57 +1533,24 @@ $(document).ready(function () {
 
         if (ub.config.material_id === 731) {
 
-            ub.current_material.settings.pipings['Center Piping'] = {
-
-                numberOfColors: 1,
-                size: "1/8",
-                layers: [
-
-                    {
-
-                        colorCode: "B",
-                        layer: 1,
-                        status: false,
-
-                    },
-                    {
-
-                        colorCode: "",
-                        layer: 1,
-                        status: false,
-
-                    },
-                    {
-
-                        colorCode: "",
-                        layer: 1,
-                        status: false,
-
-                    }
-
-                ]                                
-
-            };
+            ub.current_material.settings.pipings['Center Piping'] = ub.data.mock.piping731;
 
             ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
                     ub.funcs.getColorByColorCode('B'),
                     ub.funcs.getColorByColorCode('RB'),
                     ub.funcs.getColorByColorCode('W'),
-
                 ], 1);
 
             ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Left End of Sleeve Piping 1/2"}), [
                     ub.funcs.getColorByColorCode('B'),
                     ub.funcs.getColorByColorCode('RB'),
                     ub.funcs.getColorByColorCode('W'),
-
                 ], 1);
 
             ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Right End of Sleeve Piping 1/2"}), [
                     ub.funcs.getColorByColorCode('B'),
                     ub.funcs.getColorByColorCode('RB'),
                     ub.funcs.getColorByColorCode('W'),
-
                 ], 1);
 
         }
@@ -1605,14 +1572,61 @@ $(document).ready(function () {
 
             _.each(ub.data.pipings, function (piping) {
 
-
                 if (piping.enabled === 1) {
 
-                    ub.funcs.renderPipings(piping, [
-                        ub.funcs.getColorByColorCode('B'),
-                        ub.funcs.getColorByColorCode('RB'),
-                        ub.funcs.getColorByColorCode('W'),
-                    ], 1);
+                    var _colorArray = [];
+                    var _layers = [];
+
+                    if (typeof piping.colors_array !== "undefined") {
+
+                        _.each(piping.colors_array, function (color, index) {
+
+                            var _color = ub.funcs.getColorByColorCode(color);
+                            _colorArray.push(_color);
+                            _layers.push({
+
+                                colorCode: color,
+                                colorObj: _color,
+                                layer: index,
+                                status: false,
+
+                            });
+
+                        });
+
+                    } else {
+
+                        console.warning('No Color Array for ' + piping.name);
+
+                    }
+
+                    var _colorCount = 0;
+
+                    if (piping.color1) { _colorCount +=1 }; 
+                    if (piping.color2) { _colorCount +=1 }; 
+                    if (piping.color3) { _colorCount +=1 }; 
+
+                    ub.current_material.settings.pipings[piping.set] = {
+
+                        layers: _layers,
+                        numberOfColors: _colorCount,
+                        size: piping.size,
+                        
+                    }
+
+                    ub.current_material.settings.pipings[piping.set].size           = piping.size;
+                    ub.current_material.settings.pipings[piping.set].numberOfColors = _colorCount;
+
+                    var _pipingObject                   = piping;
+                    var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
+                    var _matchingPipingObject           = undefined;
+                    var _matchingPipingSettingsObject   = undefined;
+
+                    var _name                           = _pipingObject.name;
+                    var _matchingName                   = '';
+
+                    ub.funcs.renderPipings(piping, _colorArray, _colorCount);
+                    ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, _pipingObject.size);
 
                 }
                 
@@ -1627,12 +1641,6 @@ $(document).ready(function () {
     }
 
     ub.loadSettings = function (settings) {
-
-        // Process Pipings Here
-
-        // pipings = ub.current_material.material.pipings.replace(new RegExp("\\\\", "g"), "");
-        // pipings = pipings.slice(1, -1);
-        // pipings = JSON.parse(pipings);
 
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
@@ -4656,7 +4664,6 @@ $(document).ready(function () {
                     }
 
                     ub.funcs.showPipingsPanel();
-                    ub.funcs.activatePipings();
 
                     return;
 
@@ -5830,6 +5837,8 @@ $(document).ready(function () {
     };
 
     ub.funcs.initGenderPicker = function () {
+
+        $('body').removeClass('generic-canvas');
 
         $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash.png)');
         $('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
