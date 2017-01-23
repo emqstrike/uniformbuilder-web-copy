@@ -458,9 +458,6 @@ $(document).ready(function () {
             ub.funcs.changePipingColor(_colorObj, _layer_no, _pipingSet);
             ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
-            console.log('Looking For: ');
-            console.log(_layer_no);
-
             var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(_layer_no - 1)});
             _layer.colorCode = _color_code;
 
@@ -579,40 +576,27 @@ $(document).ready(function () {
                 _status = "off";
             }
 
-            // if (typeof _pipingSet.status !== 'undefined') { _status = _pipingSet.status; }
-
         } else {
 
             _status = "off";
 
         }
 
-        // if (typeof pipingSet === "undefined") {
+    
+        if (_activePipingSet === "undefined") {
 
-        //     var initialPipingSet = 'Yoke Piping';
+            var initialPipingSet = pipingSet;
 
-        //     _pipingSet          = ub.funcs.getPipingSet(initialPipingSet);
-        //     pipingSet           = initialPipingSet;
-        //     _activePipingSet    = _.first(_pipingSet);
+            _pipingSet          = ub.funcs.getPipingSet(initialPipingSet);
+            pipingSet           = initialPipingSet;
+            _activePipingSet    = _.first(_pipingSet);
 
-        // } else {
+        } else {
 
-            if (_activePipingSet === "undefined") {
+            _pipingSet          = ub.funcs.getPipingSet(pipingSet);
+            _activePipingSet    = _.first(_pipingSet);
 
-                var initialPipingSet = pipingSet;
-
-                _pipingSet          = ub.funcs.getPipingSet(initialPipingSet);
-                pipingSet           = initialPipingSet;
-                _activePipingSet    = _.first(_pipingSet);
-
-            } else {
-
-                _pipingSet          = ub.funcs.getPipingSet(pipingSet);
-                _activePipingSet    = _.first(_pipingSet);
-
-            }
-
-        // }
+        }
 
         // Main Template
 
@@ -634,8 +618,6 @@ $(document).ready(function () {
         }
 
         // End Main Template
-
-        
 
         // Inner Templates
 

@@ -1628,31 +1628,6 @@ $(document).ready(function () {
                     ub.funcs.renderPipings(piping, _colorArray, _colorCount);
                     ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, _pipingObject.size);
 
-                    // /// Process Matching Object
-
-                    //     if (_name.indexOf('Left') > -1) {
-
-                    //         _matchingName           = ub.funcs.getMatchingSide(_name);
-                    //         _matchingPipingObject   = _.find(ub.data.pipings, {name: _matchingName});
-
-                    //     }
-
-                    //     if (_name.indexOf('Right') > -1) {
-
-                    //         _matchingName           = ub.funcs.getMatchingSide(_name);
-                    //         _matchingPipingObject   = _.find(ub.data.pipings, {name: _matchingName});
-
-                    //     }
-
-                    //     if (typeof _matchingPipingObject !== 'undefined') {
-
-                    //         _matchingPipingSettingsObject = ub.funcs.getPipingSettingsObject(_matchingPipingObject.set);
-                    //         ub.funcs.changePipingSize(_matchingPipingSettingsObject, _matchingPipingObject, _pipingObject.size);
-
-                    //     }
-
-                    // /// End Process Matching Object
-
                 }
                 
             });
@@ -1666,12 +1641,6 @@ $(document).ready(function () {
     }
 
     ub.loadSettings = function (settings) {
-
-        // Process Pipings Here
-
-        // pipings = ub.current_material.material.pipings.replace(new RegExp("\\\\", "g"), "");
-        // pipings = pipings.slice(1, -1);
-        // pipings = JSON.parse(pipings);
 
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
