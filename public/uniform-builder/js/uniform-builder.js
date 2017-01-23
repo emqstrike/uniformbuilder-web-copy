@@ -1572,8 +1572,6 @@ $(document).ready(function () {
 
             _.each(ub.data.pipings, function (piping) {
 
-                if (piping.enabled === 1) {
-
                     var _colorArray = [];
                     var _layers = [];
 
@@ -1592,7 +1590,11 @@ $(document).ready(function () {
 
                             });
 
-                            ub.funcs.addColorToTeamColors(_color, true);
+                            if (piping.enabled === 1) {
+
+                                ub.funcs.addColorToTeamColors(_color, true);
+
+                            }
                             
                         });
 
@@ -1621,17 +1623,14 @@ $(document).ready(function () {
 
                     var _pipingObject                   = piping;
                     var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
-                    var _matchingPipingObject           = undefined;
-                    var _matchingPipingSettingsObject   = undefined;
 
-                    var _name                           = _pipingObject.name;
-                    var _matchingName                   = '';
+                    if (piping.enabled === 1) {
 
-                    ub.funcs.renderPipings(piping, _colorArray, _colorCount);
-                    ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, _pipingObject.size);
+                        ub.funcs.renderPipings(piping, _colorArray, _colorCount);
+                        ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, _pipingObject.size);
 
-                }
-                
+                    }
+
             });
 
         } else {

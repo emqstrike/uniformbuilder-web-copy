@@ -92,6 +92,12 @@ $(document).ready(function () {
                 ub.funcs.showPipingsPanel();   
             });
 
+            // Activate First Piping Set
+
+               $('span.piping').first().trigger('click')
+
+            // End Activate First Piping Set 
+
         };
 
         ub.funcs.hidePipingsPanel = function () {
