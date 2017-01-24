@@ -3,7 +3,9 @@
 @section('styles')
 
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
-
+<style type="text/css">
+    .big-checkbox {width: 30px; height: 30px; padding-top: 20px;}
+</style>
 @endsection
 
 @section('content')

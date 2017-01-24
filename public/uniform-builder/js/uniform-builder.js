@@ -317,9 +317,18 @@ $(document).ready(function () {
                 $('a.change-view[data-view="open-design"]').removeClass('disabled');
 
             }
+            
+            //if (ub.current_material.material.id === '648' || '731') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
 
-            if (ub.current_material.material.id === '648' || '731') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
+            if(ub.funcs.isCurrentSport('Baseball')) {
+                $('a.change-view[data-view="pipings"]').removeClass('disabled');                                
+            } else {
+
+                $('a.change-view[data-view="pipings"]').addClass('disabled');                
+            }
+
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
+
 
         }
 
@@ -1520,23 +1529,135 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.setupTempPiping = function () {
+
+        // if (ub.config.material_id === 731) {
+
+        //     ub.current_material.settings.pipings['Center Piping'] = ub.data.mock.piping731;
+
+        //     ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
+        //             ub.funcs.getColorByColorCode('B'),
+        //             ub.funcs.getColorByColorCode('RB'),
+        //             ub.funcs.getColorByColorCode('W'),
+        //         ], 1);
+
+        //     ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Left End of Sleeve Piping 1/2"}), [
+        //             ub.funcs.getColorByColorCode('B'),
+        //             ub.funcs.getColorByColorCode('RB'),
+        //             ub.funcs.getColorByColorCode('W'),
+        //         ], 1);
+
+        //     ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Right End of Sleeve Piping 1/2"}), [
+        //             ub.funcs.getColorByColorCode('B'),
+        //             ub.funcs.getColorByColorCode('RB'),
+        //             ub.funcs.getColorByColorCode('W'),
+        //         ], 1);
+
+        // }
+
+    }
+
+    ub.funcs.processPipings = function () {
+
+        // ub.funcs.setupTempPiping();
+
+        if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
+
+            var _pipings = ub.current_material.material.pipings.replace(new RegExp("\\\\", "g"), "");
+
+            _pipings = _pipings.slice(1, -1);
+            _pipings = JSON.parse(_pipings);
+
+            ub.data.pipings = _pipings;
+
+            _.each(ub.data.pipings, function (piping) {
+
+                    var _colorArray = [];
+                    var _layers = [];
+
+                    if (typeof piping.colors_array !== "undefined") {
+
+                        _.each(piping.colors_array, function (color, index) {
+
+                            var _color = ub.funcs.getColorByColorCode(color);
+                            _colorArray.push(_color);
+                            _layers.push({
+
+                                colorCode: color,
+                                colorObj: _color,
+                                layer: index,
+                                status: false,
+
+                            });
+
+                            if (piping.enabled === 1) {
+
+                                ub.funcs.addColorToTeamColors(_color, true);
+
+                            }
+                            
+                        });
+
+                    } else {
+
+                        console.warning('No Color Array for ' + piping.name);
+
+                    }
+
+                    var _colorCount = 0;
+
+                    if (piping.color1) { _colorCount +=1 }; 
+                    if (piping.color2) { _colorCount +=1 }; 
+                    if (piping.color3) { _colorCount +=1 }; 
+
+                    ub.current_material.settings.pipings[piping.set] = {
+
+                        layers: _layers,
+                        numberOfColors: _colorCount,
+                        size: piping.size,
+                        
+                    }
+
+                    ub.current_material.settings.pipings[piping.set].size           = piping.size;
+                    ub.current_material.settings.pipings[piping.set].numberOfColors = _colorCount;
+
+                    var _pipingObject                   = piping;
+                    var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
+
+                    if (piping.enabled === 1) {
+
+                        ub.funcs.renderPipings(piping, _colorArray, _colorCount);
+                        ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, _pipingObject.size);
+
+                    }
+
+            });
+
+        } else {
+
+            console.warn('Pipings Null || Undefined');
+
+        }
+
+    }
+
     ub.loadSettings = function (settings) {
 
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
 
-        _.each(ub.current_material.settings[uniform_type], function (e) {  
+        _.each(ub.current_material.settings[uniform_type], function (e) {
 
             if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') { return; }
 
             if (typeof e.code !== 'undefined') {
 
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
-                var _team_color_id =  parseInt(_materialOption.team_color_id);
+                var _team_color_id  =  parseInt(_materialOption.team_color_id);
                 
-                e.team_color_id = _team_color_id;
+                e.team_color_id     = _team_color_id;
 
-                var _allowPattern =  parseInt(_materialOption.allow_pattern);
+                var _allowPattern   =  parseInt(_materialOption.allow_pattern);
                 e.has_pattern = _allowPattern;
 
                 if (e.has_pattern === 1) {
@@ -1606,12 +1727,9 @@ $(document).ready(function () {
 
             ub.current_material.settings.applications[1].tailsweep = {
 
-                id: 0,
-                code: 'astros',
-                thumbnail: 'astros.png',
-                length: 'short',
-                code: 'sanfranciscogiants',
-                thumbnail: 'sanfranciscogiants.png',
+                id: 10,
+                code: 'yankees',
+                thumbnail: 'yankees.png',
                 length: 'long',
 
             };
@@ -1669,63 +1787,20 @@ $(document).ready(function () {
         // ub.funcs.transformedApplications();
         // $('.app_btn').click();
 
-        if (ub.config.material_id === 731) {
+        // Process Pipings Here
 
-            ub.current_material.settings.pipings['Center Piping'] = {
+        if (ub.current_material.pipings === null) {
 
-                numberOfColors: 1,
-                size: "1/8",
-                layers: [
+            console.log("Pipings is null!");
 
-                    {
+        } else {
 
-                        colorCode: "B",
-                        layer: 1,
-                        status: false,
 
-                    },
-                    {
-
-                        colorCode: "",
-                        layer: 1,
-                        status: false,
-
-                    },
-                    {
-
-                        colorCode: "",
-                        layer: 1,
-                        status: false,
-
-                    }
-
-                ]                                
-
-            };
-
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-
-                ], 1);
-
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Left End of Sleeve Piping 1/2"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-
-                ], 1);
-
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Right End of Sleeve Piping 1/2"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-
-                ], 1);
-
+            ub.funcs.processPipings(ub.current_material.material.pipings);
 
         }
+
+        
 
     };
 
@@ -4590,7 +4665,6 @@ $(document).ready(function () {
                     }
 
                     ub.funcs.showPipingsPanel();
-                    ub.funcs.activatePipings();
 
                     return;
 
@@ -5764,6 +5838,8 @@ $(document).ready(function () {
     };
 
     ub.funcs.initGenderPicker = function () {
+
+        $('body').removeClass('generic-canvas');
 
         $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash.png)');
         $('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");

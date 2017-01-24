@@ -1070,9 +1070,9 @@
 
     $.ub = {};
 
-    $.ub.create_piping = function (pipingObject, firstColor, colorCount, perspective) {
+    $.ub.create_piping = function (pipingObject, firstColor, colorCount, perspective, pipingSettingsObject) {
 
-        var sprite; 
+        var sprite;
         var pipingObject = pipingObject;
         var settings = ub.current_material.settings;
         var initialColor = firstColor;
@@ -1083,26 +1083,25 @@
         var elements = "";
         var _frontObject = _.find(pipingObject.perspectives, {perspective: perspective});
 
-        _.each(_frontObject.layers, function(layer, index) {
+        _.each(_frontObject.layers, function (layer, index) {
 
             if (index + 1 > colorCount) { return; }
 
+            var _layerSettings = pipingSettingsObject.layers[index];
+
             var pipingLayer = ub.pixi.new_sprite(layer.filename);
-
             pipingLayer.ubName = 'Layer ' + (index + 1);
-
-            pipingLayer.tint = parseInt(initialColor.hex_code, 16);
+            pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
             container.addChild(pipingLayer);
 
         });
-        
-        
+
         sprite = container;
 
         ub.current_material.containers[pipingObject.name] = {};
         ub.current_material.containers[pipingObject.name].pipingObject = sprite;
 
-        var temp                    = {}
+        var temp                    = {};
         var layer_order             = ( 70 );
 
         sprite.originalZIndex       = layer_order * (-1);
@@ -1114,7 +1113,7 @@
 
     $.ub.create_mascot = function (input_object) {
 
-        var sprite; 
+        var sprite;
         var application = input_object.application;
         var mascot = input_object.mascot;
         var settings = ub.current_material.settings;
@@ -1373,9 +1372,9 @@
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
 
                 if(input_object.font_name !== "Brush Script" && input_object.font_name !== "Cracker jack" && input_object.font_name !== "Block Test") {
-                    style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
+                    style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 1};
                 } else {
-                    style = {font: font_size + "px " + font_name, fill: "white", padding: 45, lineJoin: 'miter', miterLimit: 2};
+                    style = {font: font_size + "px " + font_name, fill: "white", padding: 45, lineJoin: 'miter', miterLimit: 1};
                 }
 
             }
@@ -1408,11 +1407,11 @@
             if (layer.type === 'outer_stroke' && layer.outline === 2) {
 
                 style.stroke = '#ffffff';
-
+                
                 if(input_object.fontSize > 5) {
                     style.strokeThickness = _strokeOuter + 14;
                 }
-                
+
             }
 
             if (layer.type === 'outer_stroke' && layer.outline === 1) {
