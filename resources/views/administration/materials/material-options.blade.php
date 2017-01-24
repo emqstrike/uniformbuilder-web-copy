@@ -180,6 +180,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-perspective="{{ $option->perspective }}"
                                 data-material-option-id="{{ $option->id }}"
                                 data-material-option-colors='{{ $option->colors }}'
+                                data-material-option-asset-target='{{ $option->asset_target }}'
                                 data-material-option-gradients='{{ $option->gradients }}'
                                 data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
@@ -260,6 +261,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-perspective="{{ $option->perspective }}"
                                 data-material-option-id="{{ $option->id }}"
                                 data-material-option-colors='{{ $option->colors }}'
+                                data-material-option-asset-target='{{ $option->asset_target }}'
                                 data-material-option-gradients='{{ $option->gradients }}'
                                 data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
@@ -340,6 +342,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-perspective="{{ $option->perspective }}"
                                 data-material-option-id="{{ $option->id }}"
                                 data-material-option-colors='{{ $option->colors }}'
+                                data-material-option-asset-target='{{ $option->asset_target }}'
                                 data-material-option-gradients='{{ $option->gradients }}'
                                 data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
@@ -420,6 +423,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-perspective="{{ $option->perspective }}"
                                 data-material-option-id="{{ $option->id }}"
                                 data-material-option-colors='{{ $option->colors }}'
+                                data-material-option-asset-target='{{ $option->asset_target }}'
                                 data-material-option-gradients='{{ $option->gradients }}'
                                 data-material-option-blend='{{ ($option->is_blend) ? "yes" : "no" }}'
                                 data-material-option-allow-pattern='{{ ($option->allow_pattern) ? "yes" : "no" }}'
