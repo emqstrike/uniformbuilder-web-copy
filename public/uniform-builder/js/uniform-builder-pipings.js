@@ -92,6 +92,12 @@ $(document).ready(function () {
                 ub.funcs.showPipingsPanel();   
             });
 
+            // Activate First Piping Set
+
+               $('span.piping').first().trigger('click')
+
+            // End Activate First Piping Set 
+
         };
 
         ub.funcs.hidePipingsPanel = function () {
@@ -453,30 +459,32 @@ $(document).ready(function () {
             var _color_code = $(this).data('color-code');
             var _layer_name = $(this).data('layer-name');
             var _temp       = $(this).data('temp');
-            var _colorObj = ub.funcs.getColorByColorCode(_color_code);
+            var _colorObj   = ub.funcs.getColorByColorCode(_color_code);
             
             ub.funcs.changePipingColor(_colorObj, _layer_no, _pipingSet);
             ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
-            var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(_layer_no)});
+            var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(_layer_no - 1)});
             _layer.colorCode = _color_code;
 
             if (typeof matchingPipingSet !== "undefined") {
 
                 ub.funcs.changePipingColor(_colorObj, _layer_no, matchingPipingSet);
 
-                var _matchingLayer         = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(_layer_no)});
+                var _matchingLayer         = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(_layer_no - 1)});
                 _matchingLayer.colorCode   = _color_code;
 
             }
 
         });
 
+        console.log(_pipingSettingsObject);
+
         _.each(_pipingSettingsObject.layers, function (layer) {
 
             if (layer.colorCode !== "") {
 
-                $('span.colorItem[data-layer-no="' + layer.layer + '"][data-color-code="' + layer.colorCode + '"]').trigger('click');
+                $('span.colorItem[data-layer-no="' + (layer.layer + 1) + '"][data-color-code="' + layer.colorCode + '"]').trigger('click');
 
             }
 
@@ -486,13 +494,13 @@ $(document).ready(function () {
 
     ub.funcs.renderPipings = function (pipingObject, colorArray, colorCount) {
 
+        var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(pipingObject.set);
         var _firstColor = colorArray[0];
 
         _.each (ub.views, function (perspective) {
 
             var _perspectiveString = perspective + '_view';
-
-            var _sprites = $.ub.create_piping(pipingObject, _firstColor, colorCount, perspective);
+            var _sprites = $.ub.create_piping(pipingObject, _firstColor, colorCount, perspective, _pipingSettingsObject);
 
             if (typeof ub.objects[_perspectiveString] !== "undefined") {
 
@@ -550,6 +558,8 @@ $(document).ready(function () {
 
     }
 
+    // Activate Pipings 
+
     ub.funcs.activatePipings = function (pipingSet) {
 
         if (ub.funcs.popupsVisible()) { return; }
@@ -572,17 +582,16 @@ $(document).ready(function () {
                 _status = "off";
             }
 
-            // if (typeof _pipingSet.status !== 'undefined') { _status = _pipingSet.status; }
-
         } else {
 
             _status = "off";
 
         }
 
-        if (typeof pipingSet === "undefined") {
+    
+        if (_activePipingSet === "undefined") {
 
-            var initialPipingSet = 'Yoke Piping';
+            var initialPipingSet = pipingSet;
 
             _pipingSet          = ub.funcs.getPipingSet(initialPipingSet);
             pipingSet           = initialPipingSet;
@@ -590,20 +599,8 @@ $(document).ready(function () {
 
         } else {
 
-            if (_activePipingSet === "undefined") {
-
-                var initialPipingSet = pipingSet;
-
-                _pipingSet          = ub.funcs.getPipingSet(initialPipingSet);
-                pipingSet           = initialPipingSet;
-                _activePipingSet    = _.first(_pipingSet);
-
-            } else {
-
-                _pipingSet          = ub.funcs.getPipingSet(pipingSet);
-                _activePipingSet    = _.first(_pipingSet);
-
-            }
+            _pipingSet          = ub.funcs.getPipingSet(pipingSet);
+            _activePipingSet    = _.first(_pipingSet);
 
         }
 
@@ -628,8 +625,6 @@ $(document).ready(function () {
 
         // End Main Template
 
-        
-
         // Inner Templates
 
             var _sizesMarkup        = ub.funcs.getPipingSizes(_pipingSet, _activePipingSet);
@@ -652,8 +647,6 @@ $(document).ready(function () {
                 var _pipingObject                   = _.find(ub.data.pipings, {name: _type});
                 var _colorsMarkup                   =  ub.funcs.getPipingColors(_pipingObject);
                 var _firstColor                     = _.first(ub.funcs.getPipingColorArray(_pipingObject));
-
-
 
                 var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(_activePipingSet.set);
                 var _matchingPipingObject           = undefined;
@@ -726,6 +719,7 @@ $(document).ready(function () {
                 if (_pipingSettingsObject.numberOfColors === 0) {
 
                     $('span.piping-colors-buttons[data-type="' + _firstColor.name + '"]').trigger('click');
+                    
 
                 } else {
 

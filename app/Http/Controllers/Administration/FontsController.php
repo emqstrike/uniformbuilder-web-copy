@@ -65,13 +65,12 @@ class FontsController extends Controller
         $fontName = $request->input('name');
         $tailSweep = 0;
         $script = 0;
-         $blockFont = 0;
-        $tailSweep = $request->input('tail_sweep');
-            if($tailSweep){$tailSweep = 1;}
-        $script = $request->input('script');
-            if($script){$script = 1;}
-        $blockFont = $request->input('block_font');
-            if($blockFont){$blockFont = 1;}
+        $blockFont = 0;
+
+      
+        if($request->input('tail_sweep')){$tailSweep = 1;}
+        if($request->input('script')){$script = 1;}
+        if($request->input('block_font')){$blockFont = 1;}
 
 
         $fontType = (empty($request->input('type'))) ? 'default' : $request->input('type');
@@ -180,6 +179,7 @@ class FontsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['font_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
+
 
         $response = null;
         if (!empty($fontId))

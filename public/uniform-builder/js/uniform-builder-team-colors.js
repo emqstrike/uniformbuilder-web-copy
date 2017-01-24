@@ -500,7 +500,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.addColorToTeamColors = function (colorObj) {
+    ub.funcs.addColorToTeamColors = function (colorObj, cancelColorPickerUpdate) {
 
         var _teamColorObj = ub.current_material.settings.team_colors;
         var _result       = _.find(_teamColorObj, {color_code: colorObj.color_code});
@@ -509,9 +509,13 @@ $(document).ready(function () {
 
         _teamColorObj.push(colorObj); 
 
-        ub.funcs.drawColorPickers();
-        ub.funcs.updatePatterns();
+        if (typeof cancelColorPickerUpdate === "undefined") {
 
+            ub.funcs.drawColorPickers();
+            ub.funcs.updatePatterns();
+        
+        }
+        
     };
 
     ub.funcs.removeColorFromTeamColors = function (colorObj) {

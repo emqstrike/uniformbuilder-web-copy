@@ -183,7 +183,7 @@ $(document).ready(function() {
     // Mock Object for Pipings 
 
     ub.folders                      = { piping: '/images/pipings' } ;
-    
+ 
     ub.data.pipings                 = [
             
         /// Neck Piping
@@ -192,9 +192,9 @@ $(document).ready(function() {
             name: 'Neck Piping 1/8',
             size: '1/8',
             set: 'Neck Piping',
-            color_1: true,
-            color_2: true,
-            color_3: false,
+            color1: true,
+            color2: true,
+            color3: false,
             perspectives: [
                 {
                     perspective: 'front',
@@ -272,9 +272,9 @@ $(document).ready(function() {
             name: 'Neck Piping 1/4',
             size: '1/4',
             set: 'Neck Piping',
-            color_1: true,
-            color_2: false,
-            color_3: false,
+            color1: true,
+            color2: false,
+            color3: false,
             perspectives: [
                 {
                     perspective: 'front',
@@ -356,9 +356,9 @@ $(document).ready(function() {
             name: 'Yoke Piping 1/8',
             size: '1/8',
             set: 'Yoke Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -436,9 +436,9 @@ $(document).ready(function() {
             name: 'Yoke Piping 1/4',
             size: '1/4',
             set: 'Yoke Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -520,9 +520,9 @@ $(document).ready(function() {
             name: 'Center Piping 1/8',
             size: '1/8',
             set: 'Center Piping',
-            color_1: true,
-            color_2: false,
-            color_3: false,
+            color1: true,
+            color2: false,
+            color3: false,
             perspectives: [
                 {
                     perspective: 'front',
@@ -568,9 +568,9 @@ $(document).ready(function() {
             name: 'Center Piping 1/4',
             size: '1/4',
             set: 'Center Piping',
-            color_1: true,
-            color_2: false,
-            color_3: false,
+            color1: true,
+            color2: false,
+            color3: false,
             perspectives: [
                 {
                     perspective: 'front',
@@ -620,9 +620,9 @@ $(document).ready(function() {
             name: 'Left End of Sleeve Piping 1/8',
             size: '1/8',
             set: 'Left End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -701,9 +701,9 @@ $(document).ready(function() {
             name: 'Left End of Sleeve Piping 1/4',
             size: '1/4',
             set: 'Left End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -781,9 +781,9 @@ $(document).ready(function() {
             name: 'Left End of Sleeve Piping 1/2',
             size: '1/2',
             set: 'Left End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -865,9 +865,9 @@ $(document).ready(function() {
             name: 'Right End of Sleeve Piping 1/8',
             size: '1/8',
             set: 'Right End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -946,9 +946,9 @@ $(document).ready(function() {
             name: 'Right End of Sleeve Piping 1/4',
             size: '1/4',
             set: 'Right End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1026,9 +1026,9 @@ $(document).ready(function() {
             name: 'Right End of Sleeve Piping 1/2',
             size: '1/2',
             set: 'Right End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1110,9 +1110,9 @@ $(document).ready(function() {
             name: 'Left Sleeve Piping 1-inch Up 1/8',
             size: '1/8',
             set: 'Left Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1190,9 +1190,9 @@ $(document).ready(function() {
             name: 'Left Sleeve Piping 1-inch Up 1/4',
             size: '1/4',
             set: 'Left Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1270,9 +1270,9 @@ $(document).ready(function() {
             name: 'Left Sleeve Piping 1-inch Up 1/2',
             size: '1/2',
             set: 'Left Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1353,9 +1353,9 @@ $(document).ready(function() {
             name: 'Right Sleeve Piping 1-inch Up 1/8',
             size: '1/8',
             set: 'Right Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1433,9 +1433,9 @@ $(document).ready(function() {
             name: 'Right Sleeve Piping 1-inch Up 1/4',
             size: '1/4',
             set: 'Right Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1513,9 +1513,9 @@ $(document).ready(function() {
             name: 'Right Sleeve Piping 1-inch Up 1/2',
             size: '1/2',
             set: 'Right Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1598,9 +1598,9 @@ $(document).ready(function() {
             name: 'Left Set-in Piping 1/8',
             size: '1/8',
             set: 'Left Set-in Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1678,9 +1678,9 @@ $(document).ready(function() {
             name: 'Left Set-in Piping 1/4',
             size: '1/4',
             set: 'Left Set-in Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1761,9 +1761,9 @@ $(document).ready(function() {
             name: 'Right Set-in Piping 1/8',
             size: '1/8',
             set: 'Right Set-in Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1841,9 +1841,9 @@ $(document).ready(function() {
             name: 'Right Set-in Piping 1/4',
             size: '1/4',
             set: 'Right Set-in Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
