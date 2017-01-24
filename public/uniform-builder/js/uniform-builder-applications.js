@@ -7943,7 +7943,7 @@ $(document).ready(function() {
         } else if (ub.current_material.material.uniform_category === "Wrestling") {
             _sizes        = ub.funcs.getApplicationSizes('text_wrestling');    
         } else if (ub.current_material.material.uniform_category === "Baseball") {
-            _sizes        = ub.funcs.getApplicationSizes('text_baseball');    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
         }
         
         else {
@@ -9400,10 +9400,9 @@ $(document).ready(function() {
             _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_wrestling'});            
         }
 
-        if (applicationType === "text_baseball") {
-            _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_baseball'});            
+        if (ub.funcs.isCurrentSport('Baseball')) {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: 'baseball'});            
         }
-        
         
         return _sizes;
 

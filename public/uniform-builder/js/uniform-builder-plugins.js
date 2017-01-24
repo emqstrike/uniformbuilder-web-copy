@@ -2712,8 +2712,7 @@
 
             sizes = [100, 200];
 
-        }
-        else {
+        } else {
 
             sizes = _applicationSize.sizes;
 

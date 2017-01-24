@@ -24,6 +24,7 @@ $(document).ready(function () {
             ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
             ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
             ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
+            ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
 
             ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
             ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
@@ -33,6 +34,8 @@ $(document).ready(function () {
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
+
+            ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
             
             ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
             ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
@@ -559,9 +562,16 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
-            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories') {
+            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
 
                 ub.data[object_name] = obj;
+
+                if (object_name === "tailSweeps") {
+
+                    console.log('Tailsweeps Loaded: ');
+                    console.log(obj);
+
+                }
 
             } else {
 
@@ -608,8 +618,6 @@ $(document).ready(function () {
                 ub.init_style();
                 ub.funcs.initFonts();
 
-                
-
             }
             
         };
@@ -625,7 +633,17 @@ $(document).ready(function () {
                 contentType: 'application/json',
             
                 success: function (response){
-                    cb(response[object_name], object_name);
+
+                    if (object_name === "tailSweeps") {
+
+                        cb(response['tailsweeps'], object_name);
+
+                    } else {
+
+                        cb(response[object_name], object_name);
+
+                    }
+
                 }
             
             });
@@ -1260,7 +1278,6 @@ $(document).ready(function () {
 
     ub.data.getPixelFontSize = function (fontID, fontSize) {
 
-
         var _fontObj        = _.find(ub.data.fonts, {id: fontID});
 
         if (typeof _fontObj === "undefined") {
@@ -1418,6 +1435,8 @@ $(document).ready(function () {
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
+
+                    console.log(view.application);
 
                 } 
 
@@ -1600,7 +1619,7 @@ $(document).ready(function () {
 
                     } else {
 
-                        console.warning('No Color Array for ' + piping.name);
+                        console.warn('No Color Array for ' + piping.name);
 
                     }
 
@@ -1612,6 +1631,7 @@ $(document).ready(function () {
 
                     ub.current_material.settings.pipings[piping.set] = {
 
+                        set: piping.set,
                         layers: _layers,
                         numberOfColors: _colorCount,
                         size: piping.size,

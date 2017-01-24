@@ -465,20 +465,30 @@ $(document).ready(function () {
             ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
             var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(_layer_no - 1)});
-            _layer.colorCode = _color_code;
 
+            if (typeof _layer !== "undefined") {
+
+                _layer.colorCode = _color_code;
+                _layer.colorObj = _colorObj;
+            
+            }
+            
             if (typeof matchingPipingSet !== "undefined") {
 
                 ub.funcs.changePipingColor(_colorObj, _layer_no, matchingPipingSet);
 
                 var _matchingLayer         = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(_layer_no - 1)});
-                _matchingLayer.colorCode   = _color_code;
 
+                if (typeof _matchingLayer !== "undefined") {
+
+                    _matchingLayer.colorCode   = _color_code;
+                    _matchingLayer.colorObj    = _colorObj;
+
+                }
+                
             }
 
         });
-
-        console.log(_pipingSettingsObject);
 
         _.each(_pipingSettingsObject.layers, function (layer) {
 
@@ -500,6 +510,18 @@ $(document).ready(function () {
         _.each (ub.views, function (perspective) {
 
             var _perspectiveString = perspective + '_view';
+
+            _.each(_pipingSettingsObject.layers, function (layer) {
+
+                if (typeof layer.colorObj === "undefined") {
+
+                    layer.colorCode = _firstColor.color_code;
+                    layer.colorObj = _firstColor;
+
+                }
+
+            });
+
             var _sprites = $.ub.create_piping(pipingObject, _firstColor, colorCount, perspective, _pipingSettingsObject);
 
             if (typeof ub.objects[_perspectiveString] !== "undefined") {
