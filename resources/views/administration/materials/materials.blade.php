@@ -15,6 +15,7 @@
     zoom: 0.9;
     -moz-transform: scale(0.9);
     -webkit-transform: scale(0.9);
+    margin-left: -60px;
 }
 </style>
 @endsection
@@ -119,6 +120,7 @@
                 <td class="td-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-xs btn-primary">Edit</a>
                     <a href="/administration/material/view_material_options/{{ $material->id }}" class="btn btn-xs btn-default">Material Options</a>
+                    <a href="#" class="btn btn-xs btn-primary toggle-material" data-material-id="{{ $material->id }}">Toggle</a>
                     <a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-xs btn-default" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
@@ -133,7 +135,7 @@
                     </a>
                 </td>
             </tr>
-            
+
         @empty
             <p>No Materials</p>
         @break
