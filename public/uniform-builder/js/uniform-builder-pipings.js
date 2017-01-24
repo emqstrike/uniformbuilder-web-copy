@@ -466,6 +466,7 @@ $(document).ready(function () {
 
             var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(_layer_no - 1)});
             _layer.colorCode = _color_code;
+            _layer.colorObj = _colorObj;
 
             if (typeof matchingPipingSet !== "undefined") {
 
@@ -500,6 +501,18 @@ $(document).ready(function () {
         _.each (ub.views, function (perspective) {
 
             var _perspectiveString = perspective + '_view';
+
+            _.each(_pipingSettingsObject.layers, function (layer) {
+
+                if (typeof layer.colorObj === "undefined") {
+
+                    layer.colorCode = _firstColor.color_code;
+                    layer.colorObj = _firstColor;
+
+                }
+
+            });
+
             var _sprites = $.ub.create_piping(pipingObject, _firstColor, colorCount, perspective, _pipingSettingsObject);
 
             if (typeof ub.objects[_perspectiveString] !== "undefined") {
