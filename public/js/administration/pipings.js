@@ -603,8 +603,9 @@ $(".global-color").append(globalColorSelector(colors));
 	 $(document).on('change', '.global-color-selector', function(){
   		var selectedColorValue = $(this).find("option:selected").attr("style");
   		$(this).attr("style",selectedColorValue);
+
   		$(".piping-colors").val($(this).val()).attr("style",selectedColorValue);
-  		
+  		refreshJSON();
 
   	});
 
