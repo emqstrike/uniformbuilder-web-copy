@@ -1,5 +1,6 @@
 $(document).ready(function() {
 colors = getColors().colors;
+$(".global-color").append(globalColorSelector(colors));
 // select colors
 // window.selectColors = getSelectColorTemplate(colors);
 
@@ -80,7 +81,7 @@ colors = getColors().colors;
         	<td colspan="5"><a href="#" class="btn btn-danger pull-right delete-piping">Remove</a></td>
         </tr>
         <tr>
-    		<td><b>PIPING DETAILS</b></td>
+    		<td><b>PIPING DETAILS </td>
     		<td>
     			<b>SIZE</b>`+selectbox+`</td>
     		<td>
@@ -137,12 +138,16 @@ colors = getColors().colors;
         </table>`;
 
         $('.pipings-content').append(template);
+        
+        
     	}); // loop closing
     	deletePiping();
     	changeImage();
     	changeEvent();
     	refreshJSON();
     	detectImages();
+
+		
 	}
 
 	// http://localhost:81/administration/material/92/pipings
@@ -254,6 +259,7 @@ colors = getColors().colors;
     	changeEvent();
     	refreshJSON();
     	detectImages();
+
     });
 
     function detectImages(){
@@ -533,30 +539,76 @@ colors = getColors().colors;
 	function getSelectColorTemplate(result,c_code){
 		
 	   
-     	var template = '<option value="none" style="background:white"selected>None</option>';
+     	var template = '<option value="none" style="background:#fff;color:black"selected>None</option>';
      	var selectedColor = "";
+     	var fontColor = "black";
      	
     	 result.forEach(function(entry) {
+    	 	if(entry.color_code == "W" || entry.color_code == "none" ){
+	      			fontColor = "black";
+	      			entry.hex_code = "fff";
+	      	}else{
+	      			fontColor = "white";
+	      	}
+
+	      	console.log(fontColor);
 	      	if(entry.color_code == c_code){
-				template += '<option value="'+ entry.color_code +'" style="background:#'+ entry.hex_code + '" selected>' + entry.name + '</option>';
+
+				template += '<option value="'+ entry.color_code +'" style="background:#'+ entry.hex_code + ';color:'+ fontColor + '" selected>' + entry.name + '</option>';
 				selectedColor = entry.hex_code;
 			} else {
-				template += '<option value='+ entry.color_code +' style="background:#'+ entry.hex_code + '">' + entry.name + '</option>';
+				template += '<option value='+ entry.color_code +' style="background:#'+ entry.hex_code + ';color:'+ fontColor + '">' + entry.name + '</option>';
 			}
 
 		});
-	    return template = `<select class='form-control piping-colors' style="background:#` + selectedColor + `">` + template + `</select>`;
+    	if(c_code == "W" || c_code == "none" || !c_code){
+    		fontColor = "black";
+    	}
+	    return template = `<select class='form-control piping-colors' style="background:#` + selectedColor + `;color:` + fontColor + `">` + template + `</select>`;
 		    
 		
 				
+	}
+
+	function globalColorSelector(result){
+		var template = '<option value="none" style="background:#fff;color:black"selected>None</option>';
+     	var selectedColor = "";
+     	var fontColor = "black";
+		result.forEach(function(entry) {
+
+			if(entry.color_code == "W" || entry.color_code == "none"){
+	      			fontColor = "black";
+	      			entry.hex_code = "fff";
+	      	}else{
+	      			fontColor = "white";
+	      	}
+			template += '<option value='+ entry.color_code +' style="background:#'+ entry.hex_code + ';color:'+ fontColor + '">' + entry.name + '</option>';
+			
+			
+		});
+
+		return template = `<select class='form-control global-color-selector' ">` + template + `</select>`;
+		
+// console.log(template);
+// 			$(".global-color").append("asdasd");
 	}
 
 
 	 $(document).on('change', '.piping-colors', function(){
      
   		var selectedColorValue = $(this).find("option:selected").attr("style");
-  		console.log(selectedColorValue);
   		$(this).attr("style",selectedColorValue);
   	});
+
+	 $(document).on('change', '.global-color-selector', function(){
+  		var selectedColorValue = $(this).find("option:selected").attr("style");
+  		$(this).attr("style",selectedColorValue);
+
+  		$(".piping-colors").val($(this).val()).attr("style",selectedColorValue);
+  		refreshJSON();
+
+  	});
+
+	 
 	
 });
