@@ -218,7 +218,6 @@ $(document).ready(function () {
     ub.funcs.changePipingSize = function (pipingSettingsObject, pipingObject, size) {
 
         var _pipingSettingsObject = pipingSettingsObject;
-
         _pipingSettingsObject.size = size;
 
     };
@@ -233,6 +232,16 @@ $(document).ready(function () {
             var _objectReference = ub.objects[perspective + '_view'][_pipingSet.set];
             var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + _layer_no});
             _childLayer.tint = parseInt(_colorObj.hex_code, 16);
+
+            if (_colorObj.color_code === "none") {
+
+                _childLayer.alpha = 0;
+
+            } else {
+
+                _childLayer.alpha = 1;
+
+            }
 
         });
 
@@ -262,6 +271,24 @@ $(document).ready(function () {
         //     _html += '<span style="margin-right: 30px; width: ' + _style + ';background-color: #' + _cObj.hex_code + '; color: #' + _cObj.forecolor + ';" class="turnOff colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _cObj.color_code + '" data-layer-no="' + layer_no + '">' + _label + '</span>';
 
         // /// End Off Button
+
+        var _checkMark  = '&nbsp;';
+        var _style      = "25px";
+        var _class      = '';
+
+        if (activeColorCode === 'none') {
+            
+            _checkMark  = '<i class="fa fa-ban" aria-hidden="true"></i>';
+            _style      = "40px";
+            _class      = 'activeColorItem';
+
+        } else {
+
+            _checkMark  = '<i class="fa fa-ban" aria-hidden="true"></i>';
+
+        }
+
+        _html += '<span style="margin-right: 10px; width: ' + _style + ';background-color: #fff; color: #eee;" class="colorItem" data-layer-name="' + layer_name + '" data-color-code="none" data-layer-no="' + layer_no + '">' + _checkMark + '</span>';
 
         _.each(ub.current_material.settings.team_colors, function (_color) {
 
