@@ -5,6 +5,10 @@
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 <style type="text/css">
     .big-checkbox {width: 30px; height: 30px; padding-top: 20px;}
+
+    .piping-colors {
+    color: white;
+    }
 </style>
 @endsection
 

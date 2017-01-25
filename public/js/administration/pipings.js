@@ -533,22 +533,30 @@ colors = getColors().colors;
 	function getSelectColorTemplate(result,c_code){
 		
 	   
-     	var template;
+     	var template = '<option value="none" style="background:white"selected>None</option>';
+     	var selectedColor = "";
+     	
     	 result.forEach(function(entry) {
 	      	if(entry.color_code == c_code){
-				template += '<option value="'+ entry.color_code +'" selected>' + entry.name + '</option>';
+				template += '<option value="'+ entry.color_code +'" style="background:#'+ entry.hex_code + '" selected>' + entry.name + '</option>';
+				selectedColor = entry.hex_code;
 			} else {
-				template += '<option value='+ entry.color_code +'>' + entry.name + '</option>';
+				template += '<option value='+ entry.color_code +' style="background:#'+ entry.hex_code + '">' + entry.name + '</option>';
 			}
 
 		});
-	    return template = `<select class='form-control piping-colors'>` + template + `</select>`;
+	    return template = `<select class='form-control piping-colors' style="background:#` + selectedColor + `">` + template + `</select>`;
 		    
 		
 				
 	}
 
 
-
+	 $(document).on('change', '.piping-colors', function(){
+     
+  		var selectedColorValue = $(this).find("option:selected").attr("style");
+  		console.log(selectedColorValue);
+  		$(this).attr("style",selectedColorValue);
+  	});
 	
 });
