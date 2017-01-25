@@ -1112,6 +1112,7 @@ $(document).ready(function() {
                 team_color_id: $(this).data('material-option-team-color-id'),
                 group_id: $(this).data('material-option-group-id'),
                 code: $(this).data('material-option-setting-code'),
+                asset_target: $(this).data('material-option-asset-target'),
                 path: $(this).data('material-option-path'),
                 perspective: $(this).data('material-option-perspective'),
                 colors: $(this).data('material-option-colors'),
@@ -1129,6 +1130,7 @@ $(document).ready(function() {
             }
         };
         console.log('TESTER' + material.option.pattern_properties);
+        console.log('asset target' + material.option.asset_target);
         $('#pattern_properties').val(material.option.pattern_properties);
 
         if( $('#pattern_properties').val() != "" || $('#pattern_properties').val() != null || $('#pattern_properties').val()!= undefined ){
@@ -1229,10 +1231,12 @@ $(document).ready(function() {
         try{
             $.each(window.patterns, function(i, item) {
 
-                if( material.option.pattern_id == item.id ){
-                    patterns_dropdown += '<option value="' + item.id + '" selected>' + item.name + '</option>';
-                } else {
-                    patterns_dropdown += '<option value="' + item.id + '">' + item.name + '</option>';
+                if(item.asset_target == material.option.asset_target){
+                    if( material.option.pattern_id == item.id ){
+                        patterns_dropdown += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
+                    } else {
+                        patterns_dropdown += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
+                    }
                 }
             });
             console.log('Material Option Pattern ID: '+material.option.pattern_id);
