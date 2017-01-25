@@ -55,11 +55,11 @@ class AdministrationController extends Controller
         {
             if (Session::get('isLoggedIn') == true)
             {
-                if(Session::get('adminFullAccess')){
+                // if(Session::get('adminFullAccess')){
                     return view('administration.lte-dashboard');
-                } else {
-                    return redirect('administration/saved_designs');
-                }
+                // } else {
+                //     return redirect('administration/saved_designs');
+                // }
                 // $users =  Redis::get('users');
                 // $users = json_decode($users);
 
