@@ -533,7 +533,7 @@ colors = getColors().colors;
 	function getSelectColorTemplate(result,c_code){
 		
 	   
-     	var template = '<option value="none" selected>None</option>';
+     	var template = '<option value="none" style="background:white"selected>None</option>';
      	var selectedColor = "";
      	
     	 result.forEach(function(entry) {
