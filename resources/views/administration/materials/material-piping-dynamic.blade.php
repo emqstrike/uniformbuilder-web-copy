@@ -42,7 +42,7 @@
                             </a>
                         </div>
                         <div class="col-md-1">
-                            Global Colors Selector
+                            Change All
                             <div class="global-color">
                      
                             </div>
