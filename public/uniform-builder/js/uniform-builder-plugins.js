@@ -1089,11 +1089,22 @@
 
             var _layerSettings = pipingSettingsObject.layers[index];
 
+
             var pipingLayer = ub.pixi.new_sprite(layer.filename);
             pipingLayer.ubName = 'Layer ' + (index + 1);
             pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
-            container.addChild(pipingLayer);
 
+             if (_layerSettings.colorCode === "none") {
+
+                pipingLayer.alpha = 0;
+
+            } else {
+
+                pipingLayer.alpha = 1;                
+                
+            }
+
+            container.addChild(pipingLayer);
             pipingLayer.zIndex = layer.position;
 
         });

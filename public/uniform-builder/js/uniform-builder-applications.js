@@ -7214,8 +7214,9 @@ $(document).ready(function() {
 
         var $smallPickerContainer   = $('div.smallPickerContainer[data-layer-no="' + _layer_no + '"]');
         var _checkMark              = '<i class="fa fa-check" aria-hidden="true"></i>';
+        var _checkMarkNone          = '<i class="fa fa-ban" aria-hidden="true"></i>';
 
-        var $colorItems = $smallPickerContainer.find('span.colorItem').not('.turnOff');
+        var $colorItems = $smallPickerContainer.find('span.colorItem').not('.turnOff').not('[data-color-code="none"]');
 
         $colorItems.html('&nbsp;');
         $colorItems.css('width','25px');
@@ -7225,7 +7226,20 @@ $(document).ready(function() {
 
         $activeColorItem.addClass('activeColorItem');
         $activeColorItem.css('width','40px');
-        $activeColorItem.html(_checkMark);
+        
+        if (_color_code === "none") {
+
+            $activeColorItem.html(_checkMarkNone);
+            $activeColorItem.css('color', '#000');
+
+        } else {
+            
+            $activeColorItem.css('color', '#fff');
+            $activeColorItem.html(_checkMark);
+
+            $smallPickerContainer.find('span.colorItem[data-color-code="none"]').css('color', '#eee').css('width','25px');
+
+        }
 
     },
 

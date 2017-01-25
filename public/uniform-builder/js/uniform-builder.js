@@ -1609,7 +1609,7 @@ $(document).ready(function () {
 
                         });
 
-                        if (piping.enabled === 1) {
+                        if (piping.enabled === 1 && _color.color_code !== "none") {
 
                             ub.funcs.addColorToTeamColors(_color, true);
 
