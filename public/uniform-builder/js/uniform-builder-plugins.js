@@ -1094,9 +1094,13 @@
             pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
             container.addChild(pipingLayer);
 
+            pipingLayer.zIndex = layer.position;
+
         });
 
         sprite = container;
+
+        ub.updateLayersOrder(sprite);
 
         ub.current_material.containers[pipingObject.name] = {};
         ub.current_material.containers[pipingObject.name].pipingObject = sprite;
