@@ -78,6 +78,7 @@ class MaterialsController extends Controller
         Log::info('Get Material Options');
 
         $options = $this->optionsClient->getByMaterialId($id);
+        
         $colors = $this->colorsClient->getColors();
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();

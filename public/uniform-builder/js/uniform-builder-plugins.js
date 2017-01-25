@@ -1089,14 +1089,29 @@
 
             var _layerSettings = pipingSettingsObject.layers[index];
 
+
             var pipingLayer = ub.pixi.new_sprite(layer.filename);
             pipingLayer.ubName = 'Layer ' + (index + 1);
             pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
+
+             if (_layerSettings.colorCode === "none") {
+
+                pipingLayer.alpha = 0;
+
+            } else {
+
+                pipingLayer.alpha = 1;                
+                
+            }
+
             container.addChild(pipingLayer);
+            pipingLayer.zIndex = layer.position;
 
         });
 
         sprite = container;
+
+        ub.updateLayersOrder(sprite);
 
         ub.current_material.containers[pipingObject.name] = {};
         ub.current_material.containers[pipingObject.name].pipingObject = sprite;
@@ -2712,8 +2727,7 @@
 
             sizes = [100, 200];
 
-        }
-        else {
+        } else {
 
             sizes = _applicationSize.sizes;
 

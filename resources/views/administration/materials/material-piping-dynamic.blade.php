@@ -5,6 +5,8 @@
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 <style type="text/css">
     .big-checkbox {width: 30px; height: 30px; padding-top: 20px;}
+
+
 </style>
 @endsection
 
@@ -39,7 +41,12 @@
                             Add Piping
                             </a>
                         </div>
-
+                        <div class="col-md-1">
+                            Change All
+                            <div class="global-color">
+                     
+                            </div>
+                        </div>
                         <div class="col-md-12 pipings-content">
                         </div>
 
