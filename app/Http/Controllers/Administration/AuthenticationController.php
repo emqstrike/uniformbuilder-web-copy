@@ -24,8 +24,18 @@ class AuthenticationController extends Controller
      */
     public function administrationLogin(Request $request)
     {
+        $rep_emails_raw = env('REP_EMAILS');
+        $rep_emails = explode(",", $rep_emails_raw);
+        // dd($rep_emails);
+
         $email = $request->input('email');
         $password = $request->input('password');
+
+        if (in_array($email, $rep_emails)) {
+            Session::put('adminFullAccess', false);
+        } else {
+            Session::put('adminFullAccess', true);
+        }
 
         try
         {
@@ -52,7 +62,12 @@ class AuthenticationController extends Controller
                 Session::flash('flash_message', 'Welcome to ' . env('BUILDER_NAME'));
 
                 Log::info('Successful User Login');
-                return redirect('administration');
+                if (Session::get('adminFullAccess')) {
+                    return redirect('administration');
+                } else {
+                    return redirect('administration/saved_designs');
+                }
+                // return redirect('administration');
             }
             else
             {
