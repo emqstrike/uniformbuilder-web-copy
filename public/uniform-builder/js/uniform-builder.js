@@ -1599,6 +1599,7 @@ $(document).ready(function () {
                     _.each(piping.colors_array, function (color, index) {
 
                         var _color = ub.funcs.getColorByColorCode(color);
+                        
                         _colorArray.push(_color);
                         _layers.push({
 
@@ -1629,26 +1630,26 @@ $(document).ready(function () {
                 if (piping.color2) { _colorCount +=1 }; 
                 if (piping.color3) { _colorCount +=1 }; 
 
-                ub.current_material.settings.pipings[piping.set] = {
-
-                    set: piping.set,
-                    layers: _layers,
-                    numberOfColors: _colorCount,
-                    size: piping.size,
-                    status: piping.enabled,
-                    
-                }
-
-                ub.current_material.settings.pipings[piping.set].size           = piping.size;
-                ub.current_material.settings.pipings[piping.set].numberOfColors = _colorCount;
-
-                var _pipingObject                   = piping;
-                var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
-
                 if (piping.enabled === 1) {
 
+                    ub.current_material.settings.pipings[piping.set] = {
+
+                        set: piping.set,
+                        layers: _layers,
+                        numberOfColors: _colorCount,
+                        size: piping.size,
+                        
+                    };
+
+                    ub.current_material.settings.pipings[piping.set].enabled        = 1;
+                    ub.current_material.settings.pipings[piping.set].size           = piping.size;
+                    ub.current_material.settings.pipings[piping.set].numberOfColors = _colorCount;
+
+                    var _pipingObject                   = piping;
+                    var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
+
                     ub.funcs.renderPipings(piping, _colorArray, _colorCount);
-                    ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, _pipingObject.size);
+                    ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, piping.size);
 
                 }
 
@@ -1675,7 +1676,7 @@ $(document).ready(function () {
 
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
                 var _team_color_id  =  parseInt(_materialOption.team_color_id);
-                
+
                 e.team_color_id     = _team_color_id;
 
                 var _allowPattern   =  parseInt(_materialOption.allow_pattern);
