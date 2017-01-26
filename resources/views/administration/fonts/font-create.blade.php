@@ -182,6 +182,7 @@ li.select2-selection__choice {
                                             <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                         </tr>
                                     </thead>
                                     <tbody class="front-fst-body">
@@ -202,6 +203,7 @@ li.select2-selection__choice {
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
+                                            <th>Application #</th>
                                         </tr>
                                     </thead>
                                     <tbody class="back-fst-body">
@@ -222,6 +224,7 @@ li.select2-selection__choice {
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
+                                            <th>Application #</th>
                                         </tr>
                                     </thead>
                                     <tbody class="left-fst-body">
@@ -242,6 +245,7 @@ li.select2-selection__choice {
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
+                                            <th>Application #</th>
                                         </tr>
                                     </thead>
                                     <tbody class="right-fst-body">
