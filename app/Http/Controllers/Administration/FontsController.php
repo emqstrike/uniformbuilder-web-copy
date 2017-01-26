@@ -80,6 +80,7 @@ class FontsController extends Controller
         $fontSizeTable = $request->input('font_size_table');
         $sports = explode(",", $request->input('sports_value'));
         $tailSweepProperties = $request->input('tail_sweep_properties');
+        $fontSizeTables = $request->input('font_size_tables');
         
         $myJson = json_decode($fontProperties, true);
 
@@ -103,7 +104,8 @@ class FontsController extends Controller
             'block_font' => $blockFont,
             'font_size_table' => $fontSizeTable,
             'sports' => $sports,
-            'tail_sweep_properties' => $tailSweepProperties
+            'tail_sweep_properties' => $tailSweepProperties,
+            'font_size_tables' => $fontSizeTables
         ];
 
         if ($fontType != 'default')
@@ -171,7 +173,6 @@ class FontsController extends Controller
                 }
             }
         }
-
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
@@ -179,7 +180,7 @@ class FontsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['font_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-
+// dd(json_encode($data));
 
         $response = null;
         if (!empty($fontId))
