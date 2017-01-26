@@ -13,6 +13,9 @@ li.select2-selection__choice {
     -moz-transition: height 0.2s;
     transition: height 0.2s;
 }
+.inputs {
+    width: 45px;
+}
 </style>
 @endsection
 
@@ -190,6 +193,7 @@ li.select2-selection__choice {
                                             <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                         </tr>
                                     </thead>
                                     <tbody class="front-fst-body">
@@ -210,6 +214,7 @@ li.select2-selection__choice {
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
+                                            <th>Application Number</th>
                                         </tr>
                                     </thead>
                                     <tbody class="back-fst-body">
@@ -230,6 +235,7 @@ li.select2-selection__choice {
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
+                                            <th>Application Number</th>
                                         </tr>
                                     </thead>
                                     <tbody class="left-fst-body">
@@ -250,6 +256,7 @@ li.select2-selection__choice {
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
+                                            <th>Application Number</th>
                                         </tr>
                                     </thead>
                                     <tbody class="right-fst-body">
@@ -360,7 +367,7 @@ $(document).ready(function(){
             var tbl_class = '.'+entry.perspective+'-fst-body';
             entry.sizes.forEach(function(item) {
                 console.log(item.inputSize);
-                var elem = '<tr><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                var elem = '<tr><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                 $(tbl_class).append(elem);
             });
             // var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
@@ -395,7 +402,8 @@ $(document).ready(function(){
                     "x_offset" : $(this).find('.x-offset').val(),
                     "y_offset" : $(this).find('.y-offset').val(),
                     "x_scale" : $(this).find('.x-scale').val(),
-                    "y_scale" : $(this).find('.y-scale').val()
+                    "y_scale" : $(this).find('.y-scale').val(),
+                    "application_number" : $(this).find('.application-number').val()
                 };
 
                 temp.push(x);

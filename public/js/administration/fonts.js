@@ -285,7 +285,7 @@ $(document).ready(function(){
         var perspective = $(this).data('perspective');
         var tbl_class = '.'+perspective+'-fst-body';
         e.preventDefault();
-        var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
+        var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><input type="number" step="any" class="inputs application-number"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
         // $('.front-fst-body').prepend(elem);
         $(tbl_class).prepend(elem);
         refreshMultipleFST();
@@ -317,7 +317,8 @@ $(document).ready(function(){
                     "x_offset" : $(this).find('.x-offset').val(),
                     "y_offset" : $(this).find('.y-offset').val(),
                     "x_scale" : $(this).find('.x-scale').val(),
-                    "y_scale" : $(this).find('.y-scale').val()
+                    "y_scale" : $(this).find('.y-scale').val(),
+                    "application_number" : $(this).find('.application-number').val()
                 };
 
                 temp.push(x);
