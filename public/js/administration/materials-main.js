@@ -86,6 +86,8 @@ $(document).ready(function() {
         console.log('toggle');
         var id = $(this).data('material-id');
         var url = "//" + api_host + "/api/material/toggle/";
+
+       // var url = "//localhost:8888/api/material/toggle/";
         $.ajax({
             url: url,
             type: "POST",
@@ -104,7 +106,8 @@ $(document).ready(function() {
                         hide: true
                     });
                     console.log('toggle success');
-                    window.location.reload(true);
+             
+                 window.location.reload(true);
                 } else {
                     console.log('toggle fail');
                 }
