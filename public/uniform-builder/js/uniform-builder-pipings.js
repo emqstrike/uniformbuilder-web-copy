@@ -189,6 +189,7 @@ $(document).ready(function () {
 
             ub.current_material.settings.pipings[set] = {
                 size: '',
+                enabled: 0,
                 numberOfColors: 0,
                 layers: [
                             {
@@ -219,6 +220,7 @@ $(document).ready(function () {
 
         var _pipingSettingsObject = pipingSettingsObject;
         _pipingSettingsObject.size = size;
+        _pipingSettingsObject.enabled = 1;
 
     };
 
@@ -603,14 +605,14 @@ $(document).ready(function () {
 
         if (typeof _activePipingSet !== "undefined") {
 
-            if (_activePipingSet.status === 1) {
+            if (_activePipingSet.enabled === 1) {
 
                 _status = "on";
 
             } else {
 
                 _status = "off";
-                
+
             }
 
         } else {
@@ -618,14 +620,15 @@ $(document).ready(function () {
             _status = "off";
 
         }
-    
+
         if (_activePipingSet === "undefined") {
 
             var initialPipingSet = pipingSet;
 
-            _pipingSet          = ub.funcs.getPipingSet(initialPipingSet);
-            pipingSet           = initialPipingSet;
-            _activePipingSet    = _.first(_pipingSet);
+            _pipingSet           = ub.funcs.getPipingSet(initialPipingSet);
+            pipingSet            = initialPipingSet;
+            _activePipingSet     = _.first(_pipingSet);
+
 
         } else {
 
@@ -647,7 +650,7 @@ $(document).ready(function () {
         var s = $('span.piping-type').html();
 
         if (s.indexOf('Left') === 0) {
-            
+
             s = s.replace('Left', '');
             $('span.piping-type').html(s);
 
@@ -664,8 +667,6 @@ $(document).ready(function () {
             $('div.ui-row.colors-row').html(_colorsMarkup);
 
         // End Inner Templates
-
- 
 
         // Events
 
@@ -793,28 +794,31 @@ $(document).ready(function () {
 
         // End Events
 
-        // Set Initial States 
+        // Set Initial States
 
             $('div#pipingsUI').fadeIn();
 
-            var _pipingSettingsObject   = ub.funcs.getPipingSettingsObject(_activePipingSet.set)
-            var _size                   = _pipingSettingsObject.size;
+            var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(_activePipingSet.set);
+            var _size                 = _pipingSettingsObject.size;
 
-            if (typeof _activePipingSet !== "undefined") {
+            if (typeof _pipingSettingsObject !== "undefined") {
 
-                if (_activePipingSet.status === 1) {
+                if (_pipingSettingsObject.enabled === 1 && _pipingSettingsObject.size !== "") {
 
                     $('span.piping-sizes-buttons[data-size="' + _size + '"]').trigger('click');
 
                 }
 
-            } else {
-
-                _status = "off";
-
             }
 
+            // } else {
+
+            //     _status = "off";
+
+            // }
+
             ub.funcs.togglePiping(_pipingSet, _status);    
+
 
         // End Initial States
         
