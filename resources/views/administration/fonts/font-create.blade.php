@@ -13,6 +13,37 @@ li.select2-selection__choice {
     -moz-transition: height 0.2s;
     transition: height 0.2s;
 }
+.inputs {
+    width: 45px;
+}
+.table td, 
+.table th {
+    white-space: nowrap;
+    width: 1%;
+}
+.test + .tooltip > .tooltip-inner {
+      background-color: #73AD21; 
+      color: #FFFFFF; 
+      border: 1px solid green; 
+      padding: 15px;
+      font-size: 20px;
+  }
+  /* Tooltip on top */
+  .test + .tooltip.top > .tooltip-arrow {
+      border-top: 5px solid green;
+  }
+  /* Tooltip on bottom */
+  .test + .tooltip.bottom > .tooltip-arrow {
+      border-bottom: 5px solid blue;
+  }
+  /* Tooltip on left */
+  .test + .tooltip.left > .tooltip-arrow {
+      border-left: 5px solid red;
+  }
+  /* Tooltip on right */
+  .test + .tooltip.right > .tooltip-arrow {
+      border-right: 5px solid black;
+  }
 </style>
 @endsection
 
@@ -46,6 +77,7 @@ li.select2-selection__choice {
                     <form class="form-horizontal" role="form" method="POST" action="/administration/font/add" enctype="multipart/form-data" id='create-font-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="font_properties" id="font_properties" value="">
+                        <input type="hidden" name="font_size_tables" id="font_size_tables">
                         <div class="form-group">
                             <label class="col-md-5 control-label">Font Name</label>
                             <div class="col-md-4">
@@ -135,6 +167,86 @@ li.select2-selection__choice {
                                     <tr colspan="12"><center><h4><i>Upload Font first to see preview</i></h4></center></tr>
                                 </table>
                                 <input type="hidden" name="font_size_table" id="font_size_table">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Input Size <a href="#" data-toggle="tooltip" data-message="Actual size (inches)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Output Size <a href="#" data-toggle="tooltip" data-message="Override - Size that will appear in customizer (used to correct display ratio)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>X Offset <a href="#" data-toggle="tooltip" data-message="Horizontal Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="front-fst-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Back</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Input Size</th>
+                                            <th>Output Size</th>
+                                            <th>X Offset</th>
+                                            <th>Y Offset</th>
+                                            <th>X Scale</th>
+                                            <th>Y Scale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="back-fst-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Left</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Input Size</th>
+                                            <th>Output Size</th>
+                                            <th>X Offset</th>
+                                            <th>Y Offset</th>
+                                            <th>X Scale</th>
+                                            <th>Y Scale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="left-fst-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Right</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Input Size</th>
+                                            <th>Output Size</th>
+                                            <th>X Offset</th>
+                                            <th>Y Offset</th>
+                                            <th>X Scale</th>
+                                            <th>Y Scale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="right-fst-body">
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <hr>
