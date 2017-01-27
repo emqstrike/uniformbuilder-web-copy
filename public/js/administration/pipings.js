@@ -75,8 +75,8 @@ $(".global-color").append(globalColorSelector(colors));
 		if(!entry.colors_array){
 			entry.colors_array = ["","","",];
 		}
-		if(!entry.team_color_id){
-			entry.team_color_id = ["","","",];
+		if(!entry.team_color_id_array){
+			entry.team_color_id_array = ["","","",];
 		}
 
 		var template = `<table class="table table-striped table-bordered table-hover piping-table">
@@ -113,7 +113,7 @@ $(".global-color").append(globalColorSelector(colors));
   					
   					`+ getSelectColorTemplate(colors,entry.colors_array[0])  +`
         		</td>
-        		<td><br><input class="team_color_id" type="number" value="`+ entry.team_color_id[0] +`"></td>
+        		<td><br><input class="team_color_id_array" type="number" value="`+ entry.team_color_id_array[0] +`"></td>
         		<td><input type="file" class="file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
         		<td><input type="file" class="file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
         		<td><input type="file" class="file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
@@ -125,7 +125,7 @@ $(".global-color").append(globalColorSelector(colors));
         			Position 2 <input type="checkbox" class="position-2" value="1" `+pos2checked+`>
         			`+ getSelectColorTemplate(colors,entry.colors_array[1])  +`
         		</td>
-        		<td><br><input class="team_color_id" type="number" value="`+ entry.team_color_id[1] +`"></td>
+        		<td><br><input class="team_color_id_array" type="number" value="`+ entry.team_color_id_array[1] +`"></td>
         		<td><input type="file" class="file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
         		<td><input type="file" class="file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
         		<td><input type="file" class="file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
@@ -136,7 +136,7 @@ $(".global-color").append(globalColorSelector(colors));
         			Position 3 <input type="checkbox" class="position-3" value="1" `+pos3checked+`>
         			`+ getSelectColorTemplate(colors,entry.colors_array[2])  +`
         		</td>
-        		<td><br><input class="team_color_id" type="number" value="`+ entry.team_color_id[2] +`"></td>
+        		<td><br><input class="team_color_id_array" type="number" value="`+ entry.team_color_id_array[2] +`"></td>
         		<td><input type="file" class="file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
         		<td><input type="file" class="file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
         		<td><input type="file" class="file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
@@ -235,7 +235,7 @@ $(".global-color").append(globalColorSelector(colors));
         			Position 1 <input type="checkbox" class="position-1" value="1">
         			`+ getSelectColorTemplate(colors)  +`
         		</td>
-        		<td><br><input class="team_color_id" type="number"></td>
+        		<td><br><input class="team_color_id_array" type="number"></td>
         		<td><input type="file" class="file-f-1 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-1 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-1 image" data-img-url=""></td>
@@ -247,7 +247,7 @@ $(".global-color").append(globalColorSelector(colors));
         			Position 2 <input type="checkbox" class="position-2" value="1">
         			`+ getSelectColorTemplate(colors)  +`
         		</td>
-        		<td><br><input class="team_color_id" type="number"></td>
+        		<td><br><input class="team_color_id_array" type="number"></td>
         		<td><input type="file" class="file-f-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-2 image" data-img-url=""></td>
@@ -258,7 +258,7 @@ $(".global-color").append(globalColorSelector(colors));
         			Position 3 <input type="checkbox" class="position-3" value="1">
         			`+ getSelectColorTemplate(colors)  +`
         		</td>
-        		<td><br><input class="team_color_id" type="number"></td>
+        		<td><br><input class="team_color_id_array" type="number"></td>
         		<td><input type="file" class="file-f-3 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-3 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-3 image" data-img-url=""></td>
@@ -344,12 +344,12 @@ $(".global-color").append(globalColorSelector(colors));
 	
 			info.colors_array = colors_array;
 
-			var team_color_id = [];
-			$( $(this).find(".team_color_id") ).each(function( index ) {
-			    team_color_id.push($( this ).val());
+			var team_color_id_array = [];
+			$( $(this).find(".team_color_id_array") ).each(function( index ) {
+			    team_color_id_array.push($( this ).val());
 			});
 	
-			info.team_color_id = team_color_id;
+			info.team_color_id_array = team_color_id_array;
 
 
 
