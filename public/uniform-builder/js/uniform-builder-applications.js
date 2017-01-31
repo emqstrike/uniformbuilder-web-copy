@@ -2136,6 +2136,8 @@ $(document).ready(function() {
 
             _.each(views, function(view) {
 
+                args.perspective = view.perspective;
+
                 var point = sprite_function(args);
                 point.position = new PIXI.Point(view.application.center.x, view.application.center.y);
 
@@ -2356,179 +2358,23 @@ $(document).ready(function() {
                 // End Lower Uniform Application Scales
 
 
+                if (!ub.funcs.isCurrentSport('Baseball')) {
 
-                /// Font Overrides
+                    /// Font Overrides
 
-                if (( app_id === "10" || app_id === "32") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
+                    if (( app_id === "10" || app_id === "32") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
 
-                    var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
-
-                    _xOffset = parseFloat(_fontSizeData.xOffset);
-                    _yOffset = parseFloat(_fontSizeData.yOffset);
-
-                    point.position.x += _fontOffsets.offsetX;
-                    point.position.y += _fontOffsets.offsetY;
-
-                    point.position.x -= _xOffset;
-                    point.position.y -= _yOffset;
-
-                    if (_fontOffsets.scaleX !== 1) {
-                        point.scale.x = _fontOffsets.scaleX;    
-                    }
-                    
-                    if (_fontOffsets.scaleY !== 1) {
-                        point.scale.y = _fontOffsets.scaleY;
-                    }
-
-                }
-
-                if (_.includes(ub.data.leftSideOverrides, args.font_name) && ( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
-
-                    var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
-
-                    _xOffset = parseFloat(_fontSizeData.xOffset);
-                    _yOffset = parseFloat(_fontSizeData.yOffset);
-
-                    point.position.x += _fontOffsets.offsetX;
-                    point.position.y += _fontOffsets.offsetY;
-
-                    point.position.x -= _xOffset;
-                    point.position.y -= _yOffset;
-
-                    if (_fontOffsets.scaleX !== 1) {
-                        point.scale.x = _fontOffsets.scaleX;    
-                    }
-                    
-                    if (_fontOffsets.scaleY !== 1) {
-                        point.scale.y = _fontOffsets.scaleY;
-                    }
-
-                } else {
-
-                    /// Proxy for 9 and 33, Invert given values (if positive convert to negative and vice versa)
-                    if (( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
+                        var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
 
                         _xOffset = parseFloat(_fontSizeData.xOffset);
                         _yOffset = parseFloat(_fontSizeData.yOffset);
 
-                        var _proxyId;
-                        var _proxyPerspective; 
-
-                        if (app_id === "9") {
-                            _proxyId = 10;
-                            if (view.perspective === "right") {
-                                _proxyPerspective = "left";
-                            } else {
-                                _proxyPerspective = view.perspective;
-                            }
-                        }
-
-                        if (app_id === "33") {
-                            _proxyId = 32;
-                            if (view.perspective === "right") {
-                                _proxyPerspective = "left";
-                            }
-                            else {
-                                _proxyPerspective = view.perspective;
-                            }
-                        }
-
-                        //if (ub.current_material.material.block_pattern === "INFUSED 14") {
-
-                            // if (app_id === "33" && view.perspective === "front")
-                            // {
-
-                            //     if (typeof ub.objects.front_view.objects_32 !== "undefined") {
-
-                            //         point.rotation = ub.objects.front_view.objects_32.rotation * -1;
-                            //         point.position.y = ub.objects.front_view.objects_32.position.y;
-                            //         point.position.x = 1000 - ub.objects.front_view.objects_32.position.x;
-
-                            //     }
-
-                            // }
-
-                            // if (app_id === "33" && view.perspective === "back")
-                            // {
-
-                            //     if (typeof ub.objects.back_view.objects_32 !== "undefined") {
-
-                            //         point.rotation = ub.objects.back_view.objects_32.rotation * -1;
-                            //         point.position.y = ub.objects.back_view.objects_32.position.y;
-                            //         point.position.x = 1000 - ub.objects.back_view.objects_32.position.x;
-
-                            //     }
-
-                            // }
-
-                            // if (app_id === "9" && view.perspective === "front")
-                            // {
-
-                            //     if (typeof ub.objects.front_view.objects_10 !== "undefined") {
-
-                            //         point.rotation = ub.objects.front_view.objects_10.rotation * -1;
-                            //         point.position.y = ub.objects.front_view.objects_10.position.y;
-                            //         point.position.x = 1000 - ub.objects.front_view.objects_10.position.x;
-
-                            //     }
-
-                            // }
-
-                            // if (app_id === "9" && view.perspective === "back")
-                            // {
-
-                            //     if (typeof ub.objects.back_view.objects_10 !== "undefined") {
-
-                            //         point.rotation = ub.objects.back_view.objects_10.rotation * -1;
-                            //         point.position.y = ub.objects.back_view.objects_10.position.y;
-                            //         point.position.x = 1000 - ub.objects.back_view.objects_10.position.x;
-
-                            //     }
-
-                            // }
-
-//                        }
-
-                        var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, _proxyPerspective, _proxyId);
-
-                        if (_fontOffsets.offsetX > 0) {
-
-                            point.position.x += (_fontOffsets.offsetX * -1);
-
-                        } else if (_fontOffsets.offsetX < 0) {
-
-                            point.position.x += (_fontOffsets.offsetX * _fontOffsets.offsetX);
-
-                        }
-
-                        // if (_fontOffsets.offsetY > 0) {
-
-                        //     point.position.y += (_fontOffsets.offsetY * -1);
-
-                        // } else if (_fontOffsets.offsetY < 0) {
-
-                        //     point.position.y += (_fontOffsets.offsetY * _fontOffsets.offsetY);
-
-                        // }
-
+                        point.position.x += _fontOffsets.offsetX;
                         point.position.y += _fontOffsets.offsetY;
 
-                        // if ((view.perspective === "front") && (_proxyId === 32)) {
-                        //     point.position.y += 12;    
-                        // }
+                        point.position.x -= _xOffset;
+                        point.position.y -= _yOffset;
 
-                        // if ((view.perspective === "back") && (_proxyId === 32)) {
-                        //     point.position.y -= 4;    
-                        // }
-
-                        // if ((view.perspective === "front") && (_proxyId === 10)) {
-                        //     point.position.x += 12;    
-                        // }
-
-                        // if ((view.perspective === "back") && (_proxyId === 10)) {
-                        //     point.position.x += 12;    
-                        // }
-                        
                         if (_fontOffsets.scaleX !== 1) {
                             point.scale.x = _fontOffsets.scaleX;    
                         }
@@ -2537,10 +2383,87 @@ $(document).ready(function() {
                             point.scale.y = _fontOffsets.scaleY;
                         }
 
+                    }
+                
+                    if (_.includes(ub.data.leftSideOverrides, args.font_name) && ( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
+
+                        var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
+
+                        _xOffset = parseFloat(_fontSizeData.xOffset);
+                        _yOffset = parseFloat(_fontSizeData.yOffset);
+
+                        point.position.x += _fontOffsets.offsetX;
+                        point.position.y += _fontOffsets.offsetY;
+
                         point.position.x -= _xOffset;
                         point.position.y -= _yOffset;
 
-                        /// Calculated Mirror and Override
+                        if (_fontOffsets.scaleX !== 1) {
+                            point.scale.x = _fontOffsets.scaleX;    
+                        }
+                        
+                        if (_fontOffsets.scaleY !== 1) {
+                            point.scale.y = _fontOffsets.scaleY;
+                        }
+
+                    } else {
+
+                        /// Proxy for 9 and 33, Invert given values (if positive convert to negative and vice versa)
+                        if (( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
+
+                            _xOffset = parseFloat(_fontSizeData.xOffset);
+                            _yOffset = parseFloat(_fontSizeData.yOffset);
+
+                            var _proxyId;
+                            var _proxyPerspective; 
+
+                            if (app_id === "9") {
+                                _proxyId = 10;
+                                if (view.perspective === "right") {
+                                    _proxyPerspective = "left";
+                                } else {
+                                    _proxyPerspective = view.perspective;
+                                }
+                            }
+
+                            if (app_id === "33") {
+                                _proxyId = 32;
+                                if (view.perspective === "right") {
+                                    _proxyPerspective = "left";
+                                }
+                                else {
+                                    _proxyPerspective = view.perspective;
+                                }
+                            }
+
+                            var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, _proxyPerspective, _proxyId);
+
+                            if (_fontOffsets.offsetX > 0) {
+
+                                point.position.x += (_fontOffsets.offsetX * -1);
+
+                            } else if (_fontOffsets.offsetX < 0) {
+
+                                point.position.x += (_fontOffsets.offsetX * _fontOffsets.offsetX);
+
+                            }
+
+                            point.position.y += _fontOffsets.offsetY;
+                            
+                            if (_fontOffsets.scaleX !== 1) {
+                                point.scale.x = _fontOffsets.scaleX;    
+                            }
+                            
+                            if (_fontOffsets.scaleY !== 1) {
+                                point.scale.y = _fontOffsets.scaleY;
+                            }
+
+                            point.position.x -= _xOffset;
+                            point.position.y -= _yOffset;
+
+                            /// Calculated Mirror and Override
+
+                        }
 
                     }
 
@@ -8628,7 +8551,7 @@ $(document).ready(function() {
 
                 var _fontID         = _settingsObject.font_obj.id;
                 var _size           = _settingsObject.font_size;
-                var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size);
+                var _fontSizeData   = ub.data.getPixelFontSize(_settingsObject.font_obj.id, _size, ub.active_view, {id: _settingsObject.code});
                 var _pixelFontSize  = _fontSizeData.pixelFontSize;
 
                 var _origSizes       = {
