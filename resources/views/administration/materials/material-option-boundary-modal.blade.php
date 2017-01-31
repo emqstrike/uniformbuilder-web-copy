@@ -23,7 +23,7 @@
                                     <td class="col-md-12">
                                         Load Template: <select name="load_boundaries_template" class="load-boundaries-template" style="width: 100px; display: inline;">
                                             <option value='"{}"'>None</option>
-                                            {{-- @foreach ($boundaries as $boundary)
+                                            @foreach ($boundaries as $boundary)
                                                 <option value='{{ $boundary->boundary_properties }}'>
                                                     {{ $boundary->block_pattern }}-
                                                     {{ $boundary->neck_option }}-
@@ -31,7 +31,7 @@
                                                     {{ $boundary->part }}-
                                                     {{ $boundary->name }}
                                                 </option>
-                                            @endforeach --}}
+                                            @endforeach
                                         </select>
                                         Filter: <input type="text" id="filter_boundary">
                                     </td>
