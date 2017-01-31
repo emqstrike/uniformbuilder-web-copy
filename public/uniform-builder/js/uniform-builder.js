@@ -6199,17 +6199,20 @@ $(document).ready(function () {
 
                   }
 
-
+       
                   //created_at change format into date string
+
                 data.savedDesigns.forEach(function (value, i) {
-                    var date = new Date(value.created_at);
+                    var date = new Date(value.created_at + " UTC");
                     date = date.toDateString();
+
+                    // console.log(date.toUTCString());
                     var time = moment(value.created_at).format('h:mm a');
                    data.savedDesigns[i].created_at = date + " " + time;
                 });
                                             
 
-
+console.log(data);
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
 
