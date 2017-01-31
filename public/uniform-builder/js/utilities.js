@@ -2,6 +2,12 @@ $( document ).ready(function() {
 
     window.util = {
 
+        jsonParseWithSlice: function (jsonString) {
+
+            return JSON.parse(jsonString.slice(1,-1));
+
+        },
+
         isNullOrUndefined: function (val) {
 
             return typeof(val) === "undefined" || val === null 

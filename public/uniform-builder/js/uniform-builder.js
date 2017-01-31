@@ -568,8 +568,7 @@ $(document).ready(function () {
 
                 if (object_name === "tailSweeps") {
 
-                    console.log('Tailsweeps Loaded: ');
-                    console.log(obj);
+                    // To Do: Process Tailsweeps Here...
 
                 }
 
@@ -581,8 +580,7 @@ $(document).ready(function () {
 
             if (object_name === 'fonts') { 
 
-                ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
-                ub.data.fonts = _.sortBy(ub.data.fonts, "name");
+                ub.funcs.processFonts();
 
             }
 
@@ -1280,24 +1278,6 @@ $(document).ready(function () {
 
         var _fontObj        = _.find(ub.data.fonts, {id: fontID});
 
-        if (typeof _fontObj === "undefined") {
-
-            var _tf = ub.config.host + '/Fonts/tailsweeptrial_2.otf';
-
-            _fontObj = {
-
-                active:"1",
-                font_path: _tf,
-                font_properties: "[{'name':'Tail Sweep Trial 2','font_path':'" + _tf + "','type':'default','parent_id':'0'}]",
-                font_size_table: null,
-                id: "59",
-                name: "Tail Sweep Trial 2",
-                parent_id: 0,
-                sports: "[]",
-                type: 'default',
-            };
-
-        }
         var _fontSizeTable  = _fontObj.font_size_table;
         var _fontSizeData;
         var _fontProperties;
@@ -1435,8 +1415,6 @@ $(document).ready(function () {
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
-
-                    console.log(view.application);
 
                 } 
 
