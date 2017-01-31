@@ -6202,14 +6202,14 @@ $(document).ready(function () {
        
                   //created_at change format into date string
 console.log(data);
-                data.savedDesigns.forEach(function (value, i) {
-                    var date = new Date(value.created_at + " UTC");
-                    date = date.toDateString();
+                // data.savedDesigns.forEach(function (value, i) {
+                //     var date = new Date(value.created_at + " UTC");
+                //     date = date.toDateString();
 
-                 console.log(date);
-                    var time = moment(value.created_at + " UTC").format('h:mm a');
-                   data.savedDesigns[i].created_at = date + " " + time;
-                });
+                //  console.log(date);
+                //     var time = moment(value.created_at + " UTC").format('h:mm a');
+                //    data.savedDesigns[i].created_at = date + " " + time;
+                // });
                                             
 
 
