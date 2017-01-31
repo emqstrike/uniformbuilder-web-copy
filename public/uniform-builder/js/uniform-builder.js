@@ -6206,8 +6206,8 @@ $(document).ready(function () {
                     var date = new Date(value.created_at + " UTC");
                     date = date.toDateString();
 
-                    // console.log(date.toUTCString());
-                    var time = moment(value.created_at).format('h:mm a');
+                 console.log(date);
+                    var time = moment(value.created_at + " UTC").format('h:mm a');
                    data.savedDesigns[i].created_at = date + " " + time;
                 });
                                             
