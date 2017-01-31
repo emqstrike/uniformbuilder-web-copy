@@ -6201,7 +6201,7 @@ $(document).ready(function () {
 
        
                   //created_at change format into date string
-
+console.log(data);
                 data.savedDesigns.forEach(function (value, i) {
                     var date = new Date(value.created_at + " UTC");
                     date = date.toDateString();
@@ -6212,7 +6212,7 @@ $(document).ready(function () {
                 });
                                             
 
-console.log(data);
+
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
 
