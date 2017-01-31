@@ -124,7 +124,9 @@
 
     <aside class="main-sidebar">
         <section class="sidebar">
-          @include('administration.lte-side-menu')
+          @if (Session::get('adminFullAccess'))
+            @include('administration.lte-side-menu')
+          @endif
         </section>
     </aside>
 
@@ -180,8 +182,8 @@
 <script src="/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <script src="/plugins/fastclick/fastclick.min.js"></script>
 <script type="text/javascript" src="/js/libs/pnotify/pnotify.js"></script>
-<script src="/dist/js/app.min.js"></script>
-<!-- <script src="/dist/js/app.js"></script> -->
+<!-- <script src="/dist/js/app.min.js"></script> -->
+<script src="/dist/js/app.js"></script>
 <script src="/js/administration/jquery-confirm.js"></script>
 <script src="/intro-js/intro.js"></script>
 

@@ -5,7 +5,19 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
-
+<style>
+.table td, 
+.table th {
+    white-space: nowrap;
+    width: 1%;
+}
+.zoomed-out {
+    zoom: 0.9;
+    -moz-transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+    margin-left: -60px;
+}
+</style>
 @endsection
 
 @section('content')
@@ -52,7 +64,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' id='materials_table' class='data-table table table-bordered materials display'>
+                    <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered materials display'>
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -63,6 +75,7 @@
                                 <th>Neck</th>
                                 <th>Price Item</th>
                                 <th>Type</th>
+                                <th>Active</th>
                                 <th>Asset Target</th>
                                 <th>Actions</th>
                             </tr>
@@ -95,11 +108,19 @@
                     {{ $material->type }}
                 </td>
                 <td>
+                    @if($material->active)
+                    YES
+                    @else
+                    NO
+                    @endif
+                </td>
+                <td>
                     {{ $material->asset_target }}
                 </td>
                 <td class="td-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-xs btn-primary">Edit</a>
                     <a href="/administration/material/view_material_options/{{ $material->id }}" class="btn btn-xs btn-default">Material Options</a>
+         <!--            <a href="#" class="btn btn-xs btn-primary toggle-material" data-material-id="{{ $material->id }}">Toggle</a>-->               
                     <a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-xs btn-default" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
@@ -112,9 +133,17 @@
                     <a href="#" class="btn btn-xs btn-danger delete-material" data-material-id="{{ $material->id }}">
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
+ 
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-material" id="switch-{{ $material->id }}" data-material-id="{{ $material->id }}" {{ ($material->active) ? 'checked' : '' }}>
+                        <label class="onoffswitch-label" for="switch-{{ $material->id }}">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
                 </td>
             </tr>
-            
+
         @empty
             <p>No Materials</p>
         @break
@@ -122,6 +151,7 @@
         </tbody>
         <tfoot>
             <tr>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -154,7 +184,7 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
 <script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script>
-<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<!-- <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script> -->
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <!-- <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script> -->

@@ -65,13 +65,12 @@ class FontsController extends Controller
         $fontName = $request->input('name');
         $tailSweep = 0;
         $script = 0;
-         $blockFont = 0;
-        $tailSweep = $request->input('tail_sweep');
-            if($tailSweep){$tailSweep = 1;}
-        $script = $request->input('script');
-            if($script){$script = 1;}
-        $blockFont = $request->input('block_font');
-            if($blockFont){$blockFont = 1;}
+        $blockFont = 0;
+
+      
+        if($request->input('tail_sweep')){$tailSweep = 1;}
+        if($request->input('script')){$script = 1;}
+        if($request->input('block_font')){$blockFont = 1;}
 
 
         $fontType = (empty($request->input('type'))) ? 'default' : $request->input('type');
@@ -81,6 +80,7 @@ class FontsController extends Controller
         $fontSizeTable = $request->input('font_size_table');
         $sports = explode(",", $request->input('sports_value'));
         $tailSweepProperties = $request->input('tail_sweep_properties');
+        $fontSizeTables = $request->input('font_size_tables');
         
         $myJson = json_decode($fontProperties, true);
 
@@ -104,7 +104,8 @@ class FontsController extends Controller
             'block_font' => $blockFont,
             'font_size_table' => $fontSizeTable,
             'sports' => $sports,
-            'tail_sweep_properties' => $tailSweepProperties
+            'tail_sweep_properties' => $tailSweepProperties,
+            'font_size_tables' => $fontSizeTables
         ];
 
         if ($fontType != 'default')
@@ -172,7 +173,6 @@ class FontsController extends Controller
                 }
             }
         }
-
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
@@ -180,6 +180,7 @@ class FontsController extends Controller
                             ->with('message', 'There was a problem uploading your files');
         }
         $data['font_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
+// dd(json_encode($data));
 
         $response = null;
         if (!empty($fontId))

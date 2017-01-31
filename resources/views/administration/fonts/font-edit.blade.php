@@ -13,6 +13,9 @@ li.select2-selection__choice {
     -moz-transition: height 0.2s;
     transition: height 0.2s;
 }
+.inputs {
+    width: 45px;
+}
 </style>
 @endsection
 
@@ -47,6 +50,8 @@ li.select2-selection__choice {
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="font_id" value="{{ $font->id }}">
                         <input type="hidden" id="font_family" value="{{ $font->name }}">
+                        <input type="hidden" id="old_font_size_tables" value="{{ $font->font_size_tables }}">
+                        <input type="hidden" id="font_size_tables" name="font_size_tables">
                         <input type="hidden" id="existing-fonts-properties" value="{{ $font->font_properties }}">
                         <input type="hidden" name="font_properties" id="font_properties" value="">
                         <input type="hidden" name="old_font_path" id="old_font_path" value="{{ $font->font_path }}">
@@ -176,7 +181,90 @@ li.select2-selection__choice {
                                 <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>
                         </div>                        
-
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Input Size <a href="#" data-toggle="tooltip" data-message="Actual size (inches)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Output Size <a href="#" data-toggle="tooltip" data-message="Override - Size that will appear in customizer (used to correct display ratio)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>X Offset <a href="#" data-toggle="tooltip" data-message="Horizontal Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="front-fst-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Back</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Input Size</th>
+                                            <th>Output Size</th>
+                                            <th>X Offset</th>
+                                            <th>Y Offset</th>
+                                            <th>X Scale</th>
+                                            <th>Y Scale</th>
+                                            <th>Application Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="back-fst-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Left</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Input Size</th>
+                                            <th>Output Size</th>
+                                            <th>X Offset</th>
+                                            <th>Y Offset</th>
+                                            <th>X Scale</th>
+                                            <th>Y Scale</th>
+                                            <th>Application Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="left-fst-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Right</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Input Size</th>
+                                            <th>Output Size</th>
+                                            <th>X Offset</th>
+                                            <th>Y Offset</th>
+                                            <th>X Scale</th>
+                                            <th>Y Scale</th>
+                                            <th>Application Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="right-fst-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Layers
                             <div>
@@ -270,6 +358,88 @@ $(document).ready(function(){
     if($('#sports_value').val()){
         var sports = JSON.parse($('#sports_value').val());   
     }
+    var fstbls = $('#old_font_size_tables').val();
+    if(fstbls != ""){
+        var old_font_size_tables = JSON.parse(fstbls);
+        console.log(old_font_size_tables);
+        old_font_size_tables.forEach(function(entry) {
+            // console.log(entry);s
+            var tbl_class = '.'+entry.perspective+'-fst-body';
+            entry.sizes.forEach(function(item) {
+                console.log(item.inputSize);
+                var elem = '<tr><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                $(tbl_class).append(elem);
+            });
+            // var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
+            // $('.front-fst-body').prepend(elem);
+            // $(tbl_class).prepend(elem);
+        });
+    }
+
+    $("#edit-font-form").on("keyup", ".inputs", function(e){
+        refreshMultipleFST();
+    });
+
+    $("#edit-font-form").on("change", ".inputs", function(e){
+        refreshMultipleFST();
+    });
+
+    function refreshMultipleFST(){
+        var data = [];
+        var perspectives = ["front", "back", "left", "right"];
+        perspectives.forEach(function(entry) {
+            var perspectiveData = {
+                "perspective" : entry
+            };
+            var temp = [];
+            var elem_class = '.'+entry+'-fst-body tr';
+            // $(".front-fst-body tr").each(function(i) {
+            $(elem_class).each(function(i) {
+                // console.log(this);
+                var x = {
+                    "inputSize" : $(this).find('.input-size').val(),
+                    "outputSize" : $(this).find('.output-size').val(),
+                    "x_offset" : $(this).find('.x-offset').val(),
+                    "y_offset" : $(this).find('.y-offset').val(),
+                    "x_scale" : $(this).find('.x-scale').val(),
+                    "y_scale" : $(this).find('.y-scale').val(),
+                    "application_number" : $(this).find('.application-number').val()
+                };
+
+                temp.push(x);
+            });
+            perspectiveData.sizes = temp;
+            data.push(perspectiveData);
+
+        });
+        // var frontSizes = {
+        //     "perspective" : "front"
+        // };
+        // var temp = [];
+        // $(".front-fst-body tr").each(function(i) {
+        //     console.log(this);
+        //     var x = {
+        //         "inputSize" : $(this).find('.input-size').val(),
+        //         "outputSize" : $(this).find('.output-size').val(),
+        //         "x_offset" : $(this).find('.x-offset').val(),
+        //         "y_offset" : $(this).find('.y-offset').val(),
+        //         "x_scale" : $(this).find('.x-scale').val(),
+        //         "y_scale" : $(this).find('.y-scale').val()
+        //     };
+
+        //     temp.push(x);
+        // });
+        // frontSizes.sizes = temp;
+        // data.push(frontSizes);
+        console.log(JSON.stringify(data));
+        $('#font_size_tables').val(JSON.stringify(data));
+    }
+
+    $("#edit-font-form").on("click", ".remove-layer", function(e){
+        e.preventDefault();
+        $(this).parent().parent().remove();
+    });
+
     // var sports = JSON.parse($('#sports_value').val());
 
     $('.sports').select2({

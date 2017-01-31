@@ -7214,8 +7214,9 @@ $(document).ready(function() {
 
         var $smallPickerContainer   = $('div.smallPickerContainer[data-layer-no="' + _layer_no + '"]');
         var _checkMark              = '<i class="fa fa-check" aria-hidden="true"></i>';
+        var _checkMarkNone          = '<i class="fa fa-ban" aria-hidden="true"></i>';
 
-        var $colorItems = $smallPickerContainer.find('span.colorItem').not('.turnOff');
+        var $colorItems = $smallPickerContainer.find('span.colorItem').not('.turnOff').not('[data-color-code="none"]');
 
         $colorItems.html('&nbsp;');
         $colorItems.css('width','25px');
@@ -7225,7 +7226,20 @@ $(document).ready(function() {
 
         $activeColorItem.addClass('activeColorItem');
         $activeColorItem.css('width','40px');
-        $activeColorItem.html(_checkMark);
+        
+        if (_color_code === "none") {
+
+            $activeColorItem.html(_checkMarkNone);
+            $activeColorItem.css('color', '#000');
+
+        } else {
+            
+            $activeColorItem.css('color', '#fff');
+            $activeColorItem.html(_checkMark);
+
+            $smallPickerContainer.find('span.colorItem[data-color-code="none"]').css('color', '#eee').css('width','25px');
+
+        }
 
     },
 
@@ -7943,7 +7957,7 @@ $(document).ready(function() {
         } else if (ub.current_material.material.uniform_category === "Wrestling") {
             _sizes        = ub.funcs.getApplicationSizes('text_wrestling');    
         } else if (ub.current_material.material.uniform_category === "Baseball") {
-            _sizes        = ub.funcs.getApplicationSizes('text_baseball');    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
         }
         
         else {
@@ -9400,10 +9414,9 @@ $(document).ready(function() {
             _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_wrestling'});            
         }
 
-        if (applicationType === "text_baseball") {
-            _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_baseball'});            
+        if (ub.funcs.isCurrentSport('Baseball')) {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: 'baseball'});            
         }
-        
         
         return _sizes;
 

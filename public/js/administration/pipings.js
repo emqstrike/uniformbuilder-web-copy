@@ -1,5 +1,6 @@
 $(document).ready(function() {
 colors = getColors().colors;
+$(".global-color").append(globalColorSelector(colors));
 // select colors
 // window.selectColors = getSelectColorTemplate(colors);
 
@@ -71,12 +72,22 @@ colors = getColors().colors;
 		});
 		selectbox += '</select>';
 
+		if(!entry.colors_array){
+			entry.colors_array = ["","","",];
+		}
+		if(!entry.team_color_id_array){
+			entry.team_color_id_array = ["","","",];
+		}
+
 		var template = `<table class="table table-striped table-bordered table-hover piping-table">
         <tr>
         	<td colspan="5"><a href="#" class="btn btn-danger pull-right delete-piping">Remove</a></td>
         </tr>
         <tr>
-    		<td><b>PIPING DETAILS</b></td>
+    		<td><b>PIPING DETAILS </td>
+    		<td>
+    			<b>Team Color Id</b></td>
+    		<td>
     		<td>
     			<b>SIZE</b>`+selectbox+`</td>
     		<td>
@@ -94,13 +105,15 @@ colors = getColors().colors;
     			</div>
     		</td>
     	</tr>
-        <tr><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
+        <tr><th></th><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
         <tbody>
         	<tr>
         		<td>
         			Position 1 <input type="checkbox" class="position-1" value="1" `+pos1checked+`>
+  					
   					`+ getSelectColorTemplate(colors,entry.colors_array[0])  +`
         		</td>
+        		<td><br><input class="team_color_id_array" type="number" value="`+ entry.team_color_id_array[0] +`"></td>
         		<td><input type="file" class="file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
         		<td><input type="file" class="file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
         		<td><input type="file" class="file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
@@ -112,7 +125,7 @@ colors = getColors().colors;
         			Position 2 <input type="checkbox" class="position-2" value="1" `+pos2checked+`>
         			`+ getSelectColorTemplate(colors,entry.colors_array[1])  +`
         		</td>
-
+        		<td><br><input class="team_color_id_array" type="number" value="`+ entry.team_color_id_array[1] +`"></td>
         		<td><input type="file" class="file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
         		<td><input type="file" class="file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
         		<td><input type="file" class="file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
@@ -123,6 +136,7 @@ colors = getColors().colors;
         			Position 3 <input type="checkbox" class="position-3" value="1" `+pos3checked+`>
         			`+ getSelectColorTemplate(colors,entry.colors_array[2])  +`
         		</td>
+        		<td><br><input class="team_color_id_array" type="number" value="`+ entry.team_color_id_array[2] +`"></td>
         		<td><input type="file" class="file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
         		<td><input type="file" class="file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
         		<td><input type="file" class="file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
@@ -132,12 +146,16 @@ colors = getColors().colors;
         </table>`;
 
         $('.pipings-content').append(template);
+        
+        
     	}); // loop closing
     	deletePiping();
     	changeImage();
     	changeEvent();
     	refreshJSON();
     	detectImages();
+
+		
 	}
 
 	// http://localhost:81/administration/material/92/pipings
@@ -184,6 +202,9 @@ colors = getColors().colors;
         <tr>
     		<td><b>PIPING DETAILS</b></td>
     		<td>
+    			<b>Team Color Id</b></td>
+    		<td>
+    		<td>
     			<b>SIZE</b>
     			<select class="form-control piping-size">
     				<option value="1/8">1/8</option>
@@ -206,7 +227,7 @@ colors = getColors().colors;
     			</div>
     		</td>
     	</tr>
-        <tr><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
+        <tr><th></th><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
         <tbody>
         	<tr>
 
@@ -214,6 +235,7 @@ colors = getColors().colors;
         			Position 1 <input type="checkbox" class="position-1" value="1">
         			`+ getSelectColorTemplate(colors)  +`
         		</td>
+        		<td><br><input class="team_color_id_array" type="number"></td>
         		<td><input type="file" class="file-f-1 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-1 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-1 image" data-img-url=""></td>
@@ -225,6 +247,7 @@ colors = getColors().colors;
         			Position 2 <input type="checkbox" class="position-2" value="1">
         			`+ getSelectColorTemplate(colors)  +`
         		</td>
+        		<td><br><input class="team_color_id_array" type="number"></td>
         		<td><input type="file" class="file-f-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-2 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-2 image" data-img-url=""></td>
@@ -235,7 +258,7 @@ colors = getColors().colors;
         			Position 3 <input type="checkbox" class="position-3" value="1">
         			`+ getSelectColorTemplate(colors)  +`
         		</td>
-
+        		<td><br><input class="team_color_id_array" type="number"></td>
         		<td><input type="file" class="file-f-3 image" data-img-url=""></td>
         		<td><input type="file" class="file-b-3 image" data-img-url=""></td>
         		<td><input type="file" class="file-l-3 image" data-img-url=""></td>
@@ -249,6 +272,7 @@ colors = getColors().colors;
     	changeEvent();
     	refreshJSON();
     	detectImages();
+
     });
 
     function detectImages(){
@@ -319,6 +343,16 @@ colors = getColors().colors;
 			});
 	
 			info.colors_array = colors_array;
+
+			var team_color_id_array = [];
+			$( $(this).find(".team_color_id_array") ).each(function( index ) {
+			    team_color_id_array.push($( this ).val());
+			});
+	
+			info.team_color_id_array = team_color_id_array;
+
+
+
 //perspectives
 
 
@@ -528,22 +562,76 @@ colors = getColors().colors;
 	function getSelectColorTemplate(result,c_code){
 		
 	   
-     	var template;
+     	var template = '<option value="none" style="background:#fff;color:black"selected>None</option>';
+     	var selectedColor = "";
+     	var fontColor = "black";
+     	
     	 result.forEach(function(entry) {
+    	 	if(entry.color_code == "W" || entry.color_code == "none" ){
+	      			fontColor = "black";
+	      			entry.hex_code = "fff";
+	      	}else{
+	      			fontColor = "white";
+	      	}
+
+	      	console.log(fontColor);
 	      	if(entry.color_code == c_code){
-				template += '<option value="'+ entry.color_code +'" selected>' + entry.name + '</option>';
+
+				template += '<option value="'+ entry.color_code +'" style="background:#'+ entry.hex_code + ';color:'+ fontColor + '" selected>' + entry.name + '</option>';
+				selectedColor = entry.hex_code;
 			} else {
-				template += '<option value='+ entry.color_code +'>' + entry.name + '</option>';
+				template += '<option value='+ entry.color_code +' style="background:#'+ entry.hex_code + ';color:'+ fontColor + '">' + entry.name + '</option>';
 			}
 
 		});
-	    return template = `<select class='form-control piping-colors'>` + template + `</select>`;
+    	if(c_code == "W" || c_code == "none" || !c_code){
+    		fontColor = "black";
+    	}
+	    return template = `<select class='form-control piping-colors' style="background:#` + selectedColor + `;color:` + fontColor + `">` + template + `</select>`;
 		    
 		
 				
 	}
 
+	function globalColorSelector(result){
+		var template = '<option value="none" style="background:#fff;color:black"selected>None</option>';
+     	var selectedColor = "";
+     	var fontColor = "black";
+		result.forEach(function(entry) {
+
+			if(entry.color_code == "W" || entry.color_code == "none"){
+	      			fontColor = "black";
+	      			entry.hex_code = "fff";
+	      	}else{
+	      			fontColor = "white";
+	      	}
+			template += '<option value='+ entry.color_code +' style="background:#'+ entry.hex_code + ';color:'+ fontColor + '">' + entry.name + '</option>';
+			
+			
+		});
+
+		return template = `<select class='form-control global-color-selector' ">` + template + `</select>`;
+		
+// console.log(template);
+// 			$(".global-color").append("asdasd");
+	}
 
 
+	 $(document).on('change', '.piping-colors', function(){
+     
+  		var selectedColorValue = $(this).find("option:selected").attr("style");
+  		$(this).attr("style",selectedColorValue);
+  	});
+
+	 $(document).on('change', '.global-color-selector', function(){
+  		var selectedColorValue = $(this).find("option:selected").attr("style");
+  		$(this).attr("style",selectedColorValue);
+
+  		$(".piping-colors").val($(this).val()).attr("style",selectedColorValue);
+  		refreshJSON();
+
+  	});
+
+	 
 	
 });

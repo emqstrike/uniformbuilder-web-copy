@@ -183,7 +183,7 @@ $(document).ready(function() {
     // Mock Object for Pipings 
 
     ub.folders                      = { piping: '/images/pipings' } ;
-    
+ 
     ub.data.pipings                 = [
             
         /// Neck Piping
@@ -192,9 +192,9 @@ $(document).ready(function() {
             name: 'Neck Piping 1/8',
             size: '1/8',
             set: 'Neck Piping',
-            color_1: true,
-            color_2: true,
-            color_3: false,
+            color1: true,
+            color2: true,
+            color3: false,
             perspectives: [
                 {
                     perspective: 'front',
@@ -272,9 +272,9 @@ $(document).ready(function() {
             name: 'Neck Piping 1/4',
             size: '1/4',
             set: 'Neck Piping',
-            color_1: true,
-            color_2: false,
-            color_3: false,
+            color1: true,
+            color2: false,
+            color3: false,
             perspectives: [
                 {
                     perspective: 'front',
@@ -356,9 +356,9 @@ $(document).ready(function() {
             name: 'Yoke Piping 1/8',
             size: '1/8',
             set: 'Yoke Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -436,9 +436,9 @@ $(document).ready(function() {
             name: 'Yoke Piping 1/4',
             size: '1/4',
             set: 'Yoke Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -520,9 +520,9 @@ $(document).ready(function() {
             name: 'Center Piping 1/8',
             size: '1/8',
             set: 'Center Piping',
-            color_1: true,
-            color_2: false,
-            color_3: false,
+            color1: true,
+            color2: false,
+            color3: false,
             perspectives: [
                 {
                     perspective: 'front',
@@ -568,9 +568,9 @@ $(document).ready(function() {
             name: 'Center Piping 1/4',
             size: '1/4',
             set: 'Center Piping',
-            color_1: true,
-            color_2: false,
-            color_3: false,
+            color1: true,
+            color2: false,
+            color3: false,
             perspectives: [
                 {
                     perspective: 'front',
@@ -620,9 +620,9 @@ $(document).ready(function() {
             name: 'Left End of Sleeve Piping 1/8',
             size: '1/8',
             set: 'Left End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -701,9 +701,9 @@ $(document).ready(function() {
             name: 'Left End of Sleeve Piping 1/4',
             size: '1/4',
             set: 'Left End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -781,9 +781,9 @@ $(document).ready(function() {
             name: 'Left End of Sleeve Piping 1/2',
             size: '1/2',
             set: 'Left End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -865,9 +865,9 @@ $(document).ready(function() {
             name: 'Right End of Sleeve Piping 1/8',
             size: '1/8',
             set: 'Right End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -946,9 +946,9 @@ $(document).ready(function() {
             name: 'Right End of Sleeve Piping 1/4',
             size: '1/4',
             set: 'Right End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1026,9 +1026,9 @@ $(document).ready(function() {
             name: 'Right End of Sleeve Piping 1/2',
             size: '1/2',
             set: 'Right End of Sleeve Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1110,9 +1110,9 @@ $(document).ready(function() {
             name: 'Left Sleeve Piping 1-inch Up 1/8',
             size: '1/8',
             set: 'Left Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1190,9 +1190,9 @@ $(document).ready(function() {
             name: 'Left Sleeve Piping 1-inch Up 1/4',
             size: '1/4',
             set: 'Left Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1270,9 +1270,9 @@ $(document).ready(function() {
             name: 'Left Sleeve Piping 1-inch Up 1/2',
             size: '1/2',
             set: 'Left Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1353,9 +1353,9 @@ $(document).ready(function() {
             name: 'Right Sleeve Piping 1-inch Up 1/8',
             size: '1/8',
             set: 'Right Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1433,9 +1433,9 @@ $(document).ready(function() {
             name: 'Right Sleeve Piping 1-inch Up 1/4',
             size: '1/4',
             set: 'Right Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1513,9 +1513,9 @@ $(document).ready(function() {
             name: 'Right Sleeve Piping 1-inch Up 1/2',
             size: '1/2',
             set: 'Right Sleeve Piping 1-inch Up',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1598,9 +1598,9 @@ $(document).ready(function() {
             name: 'Left Set-in Piping 1/8',
             size: '1/8',
             set: 'Left Set-in Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1678,9 +1678,9 @@ $(document).ready(function() {
             name: 'Left Set-in Piping 1/4',
             size: '1/4',
             set: 'Left Set-in Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1761,9 +1761,9 @@ $(document).ready(function() {
             name: 'Right Set-in Piping 1/8',
             size: '1/8',
             set: 'Right Set-in Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1841,9 +1841,9 @@ $(document).ready(function() {
             name: 'Right Set-in Piping 1/4',
             size: '1/4',
             set: 'Right Set-in Piping',
-            color_1: true,
-            color_2: true,
-            color_3: true,
+            color1: true,
+            color2: true,
+            color3: true,
             perspectives: [
                 {
                     perspective: 'front',
@@ -1921,6 +1921,8 @@ $(document).ready(function() {
 
         
     ];
+
+     ub.data.pipings                 = [];
 
 
     ub.data.searchSource            = {};
@@ -2069,6 +2071,7 @@ $(document).ready(function() {
         items: [
                 {
                     name: 'team_name',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     type: 'embroidery',
@@ -2083,6 +2086,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'team_name',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 1,
@@ -2098,6 +2102,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'player_name',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     type: 'tackle twill',
@@ -2108,6 +2113,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'player_name',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 2.5,
@@ -2117,6 +2123,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'front_number',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 8,
@@ -2129,6 +2136,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'back_number',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 10,
@@ -2141,6 +2149,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'front_number',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 6,
@@ -2153,6 +2162,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'back_number',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 8,
@@ -2165,6 +2175,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'shoulder_number',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 3,
@@ -2176,6 +2187,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'sleeve_number',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 3,
@@ -2187,6 +2199,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'numbers_extra',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 1,
@@ -2204,6 +2217,7 @@ $(document).ready(function() {
                 },                
                 {
                     name: 'logo',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 1,
@@ -2221,6 +2235,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'mascot',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 1,
@@ -2238,6 +2253,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'mascot_2',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 8,
@@ -2249,6 +2265,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'mascot_5',
+                    sport: 'football',
                     sizes:  [
                                 {
                                     size: 10,
@@ -2260,6 +2277,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'mascot_wrestling',
+                    sport: 'wrestling',
                     sizes:  [
                                 {
                                     size: 5,
@@ -2277,6 +2295,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'text_wrestling',
+                    sport: 'wrestling',
                     sizes:  [
                                 {
                                     size: 1,
@@ -2294,6 +2313,7 @@ $(document).ready(function() {
                 },
                 {
                     name: 'text_baseball',
+                    sport: 'baseball',
                     sizes:  [
                                 {
                                     size: 1,
@@ -2308,6 +2328,91 @@ $(document).ready(function() {
                                     size: 4,
                                 },
                             ],
+                },
+                // Baseball
+                {
+                    name: 'team_name',
+                    sport: 'baseball',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'baseball',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'baseball',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'baseball',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'baseball',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'baseball',
+                    sizes:  [
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
                 },
 
             ],
@@ -3595,6 +3700,8 @@ $(document).ready(function() {
 
         ],
     }
+
+    ub.data.tailSweeps = [];
 
     ub.data.tailsweeps = {
         items: [

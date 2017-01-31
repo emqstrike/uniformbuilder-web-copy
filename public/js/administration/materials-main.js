@@ -80,9 +80,14 @@ $(document).ready(function() {
 	    });
 	});
 
-	$('.toggle-material').on('click', function(){
+	// $('.toggle-material').on('click', function(){
+    $("#materials_table").on("click", ".toggle-material", function(e){
+        e.preventDefault();
+        console.log('toggle');
         var id = $(this).data('material-id');
         var url = "//" + api_host + "/api/material/toggle/";
+
+       // var url = "//localhost:8888/api/material/toggle/";
         $.ajax({
             url: url,
             type: "POST",
@@ -100,6 +105,11 @@ $(document).ready(function() {
                         type: 'success',
                         hide: true
                     });
+                    console.log('toggle success');
+             
+                 window.location.reload(true);
+                } else {
+                    console.log('toggle fail');
                 }
             }
         });

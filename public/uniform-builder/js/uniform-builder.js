@@ -24,6 +24,7 @@ $(document).ready(function () {
             ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
             ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
             ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
+            ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
 
             ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
             ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
@@ -33,6 +34,8 @@ $(document).ready(function () {
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
+
+            ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
             
             ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
             ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
@@ -559,9 +562,16 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
-            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories') {
+            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
 
                 ub.data[object_name] = obj;
+
+                if (object_name === "tailSweeps") {
+
+                    console.log('Tailsweeps Loaded: ');
+                    console.log(obj);
+
+                }
 
             } else {
 
@@ -608,8 +618,6 @@ $(document).ready(function () {
                 ub.init_style();
                 ub.funcs.initFonts();
 
-                
-
             }
             
         };
@@ -625,7 +633,17 @@ $(document).ready(function () {
                 contentType: 'application/json',
             
                 success: function (response){
-                    cb(response[object_name], object_name);
+
+                    if (object_name === "tailSweeps") {
+
+                        cb(response['tailsweeps'], object_name);
+
+                    } else {
+
+                        cb(response[object_name], object_name);
+
+                    }
+
                 }
             
             });
@@ -1260,7 +1278,6 @@ $(document).ready(function () {
 
     ub.data.getPixelFontSize = function (fontID, fontSize) {
 
-
         var _fontObj        = _.find(ub.data.fonts, {id: fontID});
 
         if (typeof _fontObj === "undefined") {
@@ -1419,6 +1436,8 @@ $(document).ready(function () {
 
                     };
 
+                    console.log(view.application);
+
                 } 
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
@@ -1531,68 +1550,35 @@ $(document).ready(function () {
 
     ub.funcs.setupTempPiping = function () {
 
-        if (ub.config.material_id === 731) {
+        // if (ub.config.material_id === 731) {
 
-            ub.current_material.settings.pipings['Center Piping'] = {
+        //     ub.current_material.settings.pipings['Center Piping'] = ub.data.mock.piping731;
 
-                numberOfColors: 1,
-                size: "1/8",
-                layers: [
+        //     ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
+        //             ub.funcs.getColorByColorCode('B'),
+        //             ub.funcs.getColorByColorCode('RB'),
+        //             ub.funcs.getColorByColorCode('W'),
+        //         ], 1);
 
-                    {
+        //     ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Left End of Sleeve Piping 1/2"}), [
+        //             ub.funcs.getColorByColorCode('B'),
+        //             ub.funcs.getColorByColorCode('RB'),
+        //             ub.funcs.getColorByColorCode('W'),
+        //         ], 1);
 
-                        colorCode: "B",
-                        layer: 1,
-                        status: false,
+        //     ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Right End of Sleeve Piping 1/2"}), [
+        //             ub.funcs.getColorByColorCode('B'),
+        //             ub.funcs.getColorByColorCode('RB'),
+        //             ub.funcs.getColorByColorCode('W'),
+        //         ], 1);
 
-                    },
-                    {
-
-                        colorCode: "",
-                        layer: 1,
-                        status: false,
-
-                    },
-                    {
-
-                        colorCode: "",
-                        layer: 1,
-                        status: false,
-
-                    }
-
-                ]                                
-
-            };
-
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Center Piping 1/8"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-
-                ], 1);
-
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Left End of Sleeve Piping 1/2"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-
-                ], 1);
-
-            ub.funcs.renderPipings(_.find(ub.data.pipings, {name: "Right End of Sleeve Piping 1/2"}), [
-                    ub.funcs.getColorByColorCode('B'),
-                    ub.funcs.getColorByColorCode('RB'),
-                    ub.funcs.getColorByColorCode('W'),
-
-                ], 1);
-
-        }
+        // }
 
     }
 
     ub.funcs.processPipings = function () {
 
-        ub.funcs.setupTempPiping();
+        // ub.funcs.setupTempPiping();
 
         if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
 
@@ -1605,17 +1591,68 @@ $(document).ready(function () {
 
             _.each(ub.data.pipings, function (piping) {
 
+                var _colorArray = [];
+                var _layers = [];
+
+                if (typeof piping.colors_array !== "undefined") {
+
+                    _.each(piping.colors_array, function (color, index) {
+
+                        var _color = ub.funcs.getColorByColorCode(color);
+                        
+                        _colorArray.push(_color);
+                        _layers.push({
+
+                            colorCode: color,
+                            colorObj: _color,
+                            layer: index,
+                            status: false,
+
+                        });
+
+                        if (piping.enabled === 1 && _color.color_code !== "none") {
+
+                            ub.funcs.addColorToTeamColors(_color, true);
+
+                        }
+                        
+                    });
+
+                } else {
+
+                    console.warn('No Color Array for ' + piping.name);
+
+                }
+
+                var _colorCount = 0;
+
+                if (piping.color1) { _colorCount +=1 }; 
+                if (piping.color2) { _colorCount +=1 }; 
+                if (piping.color3) { _colorCount +=1 }; 
 
                 if (piping.enabled === 1) {
 
-                    ub.funcs.renderPipings(piping, [
-                        ub.funcs.getColorByColorCode('B'),
-                        ub.funcs.getColorByColorCode('RB'),
-                        ub.funcs.getColorByColorCode('W'),
-                    ], 1);
+                    ub.current_material.settings.pipings[piping.set] = {
+
+                        set: piping.set,
+                        layers: _layers,
+                        numberOfColors: _colorCount,
+                        size: piping.size,
+                        
+                    };
+
+                    ub.current_material.settings.pipings[piping.set].enabled        = 1;
+                    ub.current_material.settings.pipings[piping.set].size           = piping.size;
+                    ub.current_material.settings.pipings[piping.set].numberOfColors = _colorCount;
+
+                    var _pipingObject                   = piping;
+                    var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
+
+                    ub.funcs.renderPipings(piping, _colorArray, _colorCount);
+                    ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, piping.size);
 
                 }
-                
+
             });
 
         } else {
@@ -1628,12 +1665,6 @@ $(document).ready(function () {
 
     ub.loadSettings = function (settings) {
 
-        // Process Pipings Here
-
-        // pipings = ub.current_material.material.pipings.replace(new RegExp("\\\\", "g"), "");
-        // pipings = pipings.slice(1, -1);
-        // pipings = JSON.parse(pipings);
-
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
 
@@ -1645,7 +1676,7 @@ $(document).ready(function () {
 
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
                 var _team_color_id  =  parseInt(_materialOption.team_color_id);
-                
+
                 e.team_color_id     = _team_color_id;
 
                 var _allowPattern   =  parseInt(_materialOption.allow_pattern);
@@ -4657,7 +4688,6 @@ $(document).ready(function () {
                     }
 
                     ub.funcs.showPipingsPanel();
-                    ub.funcs.activatePipings();
 
                     return;
 
@@ -5832,6 +5862,8 @@ $(document).ready(function () {
 
     ub.funcs.initGenderPicker = function () {
 
+        $('body').removeClass('generic-canvas');
+
         $('div#main-picker-container').css('background-image','url(/images/main-ui/_unleash.png)');
         $('body').css('background-image',"url('/images/main-ui/_unleashbg.jpg')");
 
@@ -6167,8 +6199,21 @@ $(document).ready(function () {
 
                   }
 
+
+                  //created_at change format into date string
+                data.savedDesigns.forEach(function (value, i) {
+                    var date = new Date(value.created_at);
+                    date = date.toDateString();
+                    var time = moment(data.savedDesigns[0].created_at).format('h:mm a');
+                   data.savedDesigns[i].created_at = date + " " + time;
+                });
+                                            
+
+
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
+
+
 
                   var $imgThumbs = $('img.tview');
                     
