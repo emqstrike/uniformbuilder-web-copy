@@ -6204,7 +6204,7 @@ $(document).ready(function () {
                 data.savedDesigns.forEach(function (value, i) {
                     var date = new Date(value.created_at);
                     date = date.toDateString();
-                    var time = moment(data.savedDesigns[0].created_at).format('h:mm a');
+                    var time = moment(value.created_at).format('h:mm a');
                    data.savedDesigns[i].created_at = date + " " + time;
                 });
                                             
