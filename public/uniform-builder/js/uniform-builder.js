@@ -6222,7 +6222,7 @@ $(document).ready(function () {
                      data.savedDesigns[i].created_at = serverDate;
 
 
-                       console.log(date);
+                       console.log(data);
                 });
                       
                   var markup = Mustache.render(template, data);
