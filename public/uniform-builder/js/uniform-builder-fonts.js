@@ -23,7 +23,7 @@ $(document).ready(function() {
     }
 
     // Get offsets from new multiple perspective font size tables
-    ub.funcs.getFontOffsetsfromParsedFontTables = function (fontName, perspective, location) {
+    ub.funcs.getFontOffsetsfromParsedFontTables = function (fontName, perspective, location, fontSize) {
 
         var _font = _.find(ub.data.fonts, {name: fontName});
         var _perspectiveData = undefined;
@@ -32,7 +32,8 @@ $(document).ready(function() {
         if (typeof _font !== "undefined") {
 
             _perspectiveData = _.find(_font.parsedFontSizeTables, {perspective: perspective});
-            _offsetResult = _.find(_perspectiveData.sizes, {application_number: location});
+            ub.data.offSetResult = _perspectiveData;
+            _offsetResult = _.find(_perspectiveData.sizes, {application_number: location.toString(), inputSize: fontSize.toString()});
 
         }
 
@@ -95,7 +96,7 @@ $(document).ready(function() {
 
     ub.funcs.fixAlignments = function () {
 
-        if (ub.current_material.material.uniform_category === "Baseball") { return; }
+        if (ub.current_material.material.uniform_category !== "Football" || ub.current_material.material.uniform_category !== "Wrestling") 
         if (ub.data.rosterInitialized) { return; }
 
         if (typeof ub.objects.back_view.objects_10 !== 'undefined' && ub.objects.back_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_10 !== 'undefined') {
@@ -206,54 +207,62 @@ $(document).ready(function() {
         var _yScale         = 0;
         var _fontSizeTables = _fontObj.parsedFontSizeTables;
 
-        if(_fontSizeTable === null) {
-
-            _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseFloat(fontSize)}).outputSize;    
-
-        } else {
-
-            _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
-
-            _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
-            _inputFontSize      = _fontProperties.inputSize;
-            _returnFontSize     = _fontProperties.outputSize;
-            _xOffset            = _fontProperties.xOffset;
-            _yOffset            = _fontProperties.yOffset;
-            _xScale             = _fontProperties.xScale;
-            _yScale             = _fontProperties.yScale;
-
-        }
-
-        _fontSizeData =  {
-
-            inputSize: _inputFontSize,
-            pixelFontSize: _returnFontSize,
-            xOffset: _xOffset,
-            yOffset: _yOffset,
-            xScale: _xScale,
-            yScale: _yScale,
-
-        };
-
         // If the font has the multi-perspective settings use it instead
 
         if (_fontSizeTables !== null && typeof _fontSizeTables !== "undefined") {
 
-            var _fontSizeTable = ub.funcs.getFontOffsetsfromParsedFontTables(_fontObj.name, perspective, application.id.toString());
+            var _fontSizeTable = ub.funcs.getFontOffsetsfromParsedFontTables(_fontObj.name, perspective, application.id.toString(), fontSize);
 
             _fontSizeData =  {
 
-                inputSize: _fontSizeData.inputSize,
-                pixelFontSize: _fontSizeData.pixelFontSize,
-                xOffset: _fontSizeData.xOffset,
-                yOffset: _fontSizeData.yOffset,
-                xScale: _fontSizeData.xScale,
-                yScale: _fontSizeData.yScale,
+                inputSize: _fontSizeTable.inputSize,
+                pixelFontSize: _fontSizeTable.outputSize,
+                xOffset: parseFloat(_fontSizeTable.x_offset),
+                yOffset: parseFloat(_fontSizeTable.y_offset),
+                xScale: parseFloat(_fontSizeTable.x_scale),
+                yScale: parseFloat(_fontSizeTable.y_scale),
+
+            };
+
+            console.log(perspective);
+            console.log(_fontSizeTable);
+            console.log('');
+
+        } else {
+
+            if(_fontSizeTable === null) {
+
+                _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseFloat(fontSize)}).outputSize;
+
+            } else {
+
+                _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
+
+                _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
+                _inputFontSize      = _fontProperties.inputSize;
+                _returnFontSize     = _fontProperties.outputSize;
+                _xOffset            = _fontProperties.xOffset;
+                _yOffset            = _fontProperties.yOffset;
+                _xScale             = _fontProperties.xScale;
+                _yScale             = _fontProperties.yScale;
+
+            }
+
+            _fontSizeData =  {
+
+                inputSize: _inputFontSize,
+                pixelFontSize: _returnFontSize,
+                xOffset: _xOffset,
+                yOffset: _yOffset,
+                xScale: _xScale,
+                yScale: _yScale,
 
             };
 
         }
+
         
+
         return _fontSizeData;
 
     }
