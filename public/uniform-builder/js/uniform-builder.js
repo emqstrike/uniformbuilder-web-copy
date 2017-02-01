@@ -6201,7 +6201,7 @@ $(document).ready(function () {
 
                 
                 data.savedDesigns.forEach(function (value, i) {
-                    data.savedDesigns[i].created_at = util.dateFormat(value);
+                    data.savedDesigns[i].created_at = util.dateFormat(value.created_at);
                 });
            
                       

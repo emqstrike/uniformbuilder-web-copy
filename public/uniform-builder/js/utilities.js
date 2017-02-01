@@ -69,8 +69,8 @@ $( document ).ready(function() {
             return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
         },
 
-        dateFormat: function(value){
-            var text = value.created_at;
+        dateFormat: function(created_at){
+            var text = created_at;
             var serverDate = moment.utc(text).local().format('LLL'); 
             return serverDate;
         },
