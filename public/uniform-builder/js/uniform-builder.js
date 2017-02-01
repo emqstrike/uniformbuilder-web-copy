@@ -568,8 +568,7 @@ $(document).ready(function () {
 
                 if (object_name === "tailSweeps") {
 
-                    console.log('Tailsweeps Loaded: ');
-                    console.log(obj);
+                    // To Do: Process Tailsweeps Here...
 
                 }
 
@@ -581,8 +580,7 @@ $(document).ready(function () {
 
             if (object_name === 'fonts') { 
 
-                ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
-                ub.data.fonts = _.sortBy(ub.data.fonts, "name");
+                ub.funcs.processFonts();
 
             }
 
@@ -1276,70 +1274,6 @@ $(document).ready(function () {
 
     };
 
-    ub.data.getPixelFontSize = function (fontID, fontSize) {
-
-        var _fontObj        = _.find(ub.data.fonts, {id: fontID});
-
-        if (typeof _fontObj === "undefined") {
-
-            var _tf = ub.config.host + '/Fonts/tailsweeptrial_2.otf';
-
-            _fontObj = {
-
-                active:"1",
-                font_path: _tf,
-                font_properties: "[{'name':'Tail Sweep Trial 2','font_path':'" + _tf + "','type':'default','parent_id':'0'}]",
-                font_size_table: null,
-                id: "59",
-                name: "Tail Sweep Trial 2",
-                parent_id: 0,
-                sports: "[]",
-                type: 'default',
-            };
-
-        }
-        var _fontSizeTable  = _fontObj.font_size_table;
-        var _fontSizeData;
-        var _fontProperties;
-        var _inputFontSize  = '0';
-        var _xOffset        = 0;
-        var _yOffset        = 0;
-        var _xScale         = 0;
-        var _yScale         = 0;
-
-        if(_fontSizeTable === null) {
-
-            _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseFloat(fontSize)}).outputSize;    
-
-        } else {
-
-            _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
-
-            _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
-            _inputFontSize      = _fontProperties.inputSize;
-            _returnFontSize     = _fontProperties.outputSize;
-            _xOffset            = _fontProperties.xOffset;
-            _yOffset            = _fontProperties.yOffset;
-            _xScale             = _fontProperties.xScale;
-            _yScale             = _fontProperties.yScale;
-
-        }
- 
-        _fontSizeData =  {
-
-            inputSize: _inputFontSize,
-            pixelFontSize: _returnFontSize,
-            xOffset: _xOffset,
-            yOffset: _yOffset,
-            xScale: _xScale,
-            yScale: _yScale,
-
-        };
-
-        return _fontSizeData;
-
-    }
-
     ub.funcs.getValidApplicationTypes = function (view) {
 
         var _set = [];
@@ -1413,7 +1347,7 @@ $(document).ready(function () {
 
                     });
 
-                    var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0]); 
+                    var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0], view.perspective, { id: _application.id });
 
                     _output = {
 
@@ -1435,8 +1369,6 @@ $(document).ready(function () {
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
-
-                    console.log(view.application);
 
                 } 
 
