@@ -6325,7 +6325,7 @@ $(document).ready(function () {
                     
                      console.log(dataSaved.orders);               
                     dataSaved.orders.forEach(function (value, i) {
-                        data.savedDesigns[i].created_at = util.dateFormat(value.created_at);
+                        value.created_at = util.dateFormat(value.created_at);
                     });
                     var markup = Mustache.render(template, dataSaved);
                     $containerSaved.html(markup);
@@ -6335,7 +6335,7 @@ $(document).ready(function () {
                     var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
                      console.log(dataSubmitted.orders); 
                     dataSubmitted.orders.forEach(function (value, i) {
-                        data.savedDesigns[i].created_at = util.dateFormat(value.created_at);
+                        value.created_at = util.dateFormat(value.created_at);
                     });
                     var markup                  = Mustache.render(template, dataSubmitted);
                     $containerSubmitted.html(markup);
