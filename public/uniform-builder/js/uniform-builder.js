@@ -6199,31 +6199,15 @@ $(document).ready(function () {
 
                   }
 
-       
-                  //created_at change format into date string
-
- //                data.savedDesigns.forEach(function (value, i) {
- //                    var date = new Date(value.created_at + " UTC");
- //                    date = date.toDateString();
- // var d = new Date(Date.UTC(2017, 02, 01));
-             
- //                    var time = moment(value.created_at + " UTC").format('h:mm a');
- //                   data.savedDesigns[i].created_at = date + " " + time;
-
- //                       console.log(date);
- //                           console.log(time);
- //                });
-                                            
-
-
+                
                 data.savedDesigns.forEach(function (value, i) {
-                    var text = value.created_at;
-                    var serverDate = moment.utc(text).local().format('LLL'); 
-                     data.savedDesigns[i].created_at = serverDate;
-
-
-                       console.log(data);
+                    dateFormat(value);
                 });
+                // data.savedDesigns.forEach(function (value, i) {
+                //     var text = value.created_at;
+                //     var serverDate = moment.utc(text).local().format('LLL'); 
+                //     data.savedDesigns[i].created_at = serverDate;
+                // });
                       
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
