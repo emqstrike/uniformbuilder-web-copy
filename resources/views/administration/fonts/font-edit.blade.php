@@ -180,7 +180,10 @@ li.select2-selection__choice {
                                 </table>
                                 <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>
-                        </div>                        
+                        </div>
+                        <div class="form-group">
+                            <textarea id="fst-fix"></textarea><a href="#" class="fix-fst-button btn btn-xs btn-primary">FIX</a>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
                             <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
