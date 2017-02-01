@@ -75,6 +75,12 @@ $( document ).ready(function() {
             return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
         },
 
+        dateFormat: function(created_at){
+            var text = created_at;
+            var serverDate = moment.utc(text).local().format('LLL'); 
+            return serverDate;
+        },
+
         dataSelector: function(preamble, obj){
 
             /// helper to compose selector when using multiple data-attributes, will print an error log
