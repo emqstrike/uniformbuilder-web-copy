@@ -6315,7 +6315,7 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
-                    console.log(response);
+   
 
                     $('div.my-orders-loading').hide();
 
@@ -6323,8 +6323,8 @@ $(document).ready(function () {
                     var template                = $('#m-orders-table').html();
                     var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };
                     
-                     console.log(dataSaved);               
-                    dataSaved.savedDesigns.forEach(function (value, i) {
+                     console.log(dataSaved.orders);               
+                    dataSaved.orders.forEach(function (value, i) {
                         data.savedDesigns[i].created_at = util.dateFormat(value.created_at);
                     });
                     var markup = Mustache.render(template, dataSaved);
@@ -6333,8 +6333,8 @@ $(document).ready(function () {
                     var $containerSubmitted     = $('div.order-list.submitted');
                     var template                = $('#m-orders-table').html();
                     var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
-                     console.log(dataSubmitted); 
-                    dataSubmitted.savedDesigns.forEach(function (value, i) {
+                     console.log(dataSubmitted.orders); 
+                    dataSubmitted.orders.forEach(function (value, i) {
                         data.savedDesigns[i].created_at = util.dateFormat(value.created_at);
                     });
                     var markup                  = Mustache.render(template, dataSubmitted);
