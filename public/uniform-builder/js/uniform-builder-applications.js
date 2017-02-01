@@ -2357,8 +2357,8 @@ $(document).ready(function() {
 
                 // End Lower Uniform Application Scales
 
-
-                if (!ub.funcs.isCurrentSport('Baseball')) {
+                // Legacy One Dimensional Font Overrides, Extract this
+                if (ub.funcs.isCurrentSport('Football') || ub.funcs.isCurrentSport('Wrestling')) {
 
                     /// Font Overrides
 
