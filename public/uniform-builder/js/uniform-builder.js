@@ -568,7 +568,8 @@ $(document).ready(function () {
 
                 if (object_name === "tailSweeps") {
 
-                    // To Do: Process Tailsweeps Here...
+                    console.log('Tailsweeps Loaded: ');
+                    console.log(obj);
 
                 }
 
@@ -580,7 +581,8 @@ $(document).ready(function () {
 
             if (object_name === 'fonts') { 
 
-                ub.funcs.processFonts();
+                ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
+                ub.data.fonts = _.sortBy(ub.data.fonts, "name");
 
             }
 
@@ -1274,6 +1276,70 @@ $(document).ready(function () {
 
     };
 
+    ub.data.getPixelFontSize = function (fontID, fontSize) {
+
+        var _fontObj        = _.find(ub.data.fonts, {id: fontID});
+
+        if (typeof _fontObj === "undefined") {
+
+            var _tf = ub.config.host + '/Fonts/tailsweeptrial_2.otf';
+
+            _fontObj = {
+
+                active:"1",
+                font_path: _tf,
+                font_properties: "[{'name':'Tail Sweep Trial 2','font_path':'" + _tf + "','type':'default','parent_id':'0'}]",
+                font_size_table: null,
+                id: "59",
+                name: "Tail Sweep Trial 2",
+                parent_id: 0,
+                sports: "[]",
+                type: 'default',
+            };
+
+        }
+        var _fontSizeTable  = _fontObj.font_size_table;
+        var _fontSizeData;
+        var _fontProperties;
+        var _inputFontSize  = '0';
+        var _xOffset        = 0;
+        var _yOffset        = 0;
+        var _xScale         = 0;
+        var _yScale         = 0;
+
+        if(_fontSizeTable === null) {
+
+            _returnFontSize     = _.find(ub.data.defaultFontSizes, {size: parseFloat(fontSize)}).outputSize;    
+
+        } else {
+
+            _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
+
+            _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
+            _inputFontSize      = _fontProperties.inputSize;
+            _returnFontSize     = _fontProperties.outputSize;
+            _xOffset            = _fontProperties.xOffset;
+            _yOffset            = _fontProperties.yOffset;
+            _xScale             = _fontProperties.xScale;
+            _yScale             = _fontProperties.yScale;
+
+        }
+ 
+        _fontSizeData =  {
+
+            inputSize: _inputFontSize,
+            pixelFontSize: _returnFontSize,
+            xOffset: _xOffset,
+            yOffset: _yOffset,
+            xScale: _xScale,
+            yScale: _yScale,
+
+        };
+
+        return _fontSizeData;
+
+    }
+
     ub.funcs.getValidApplicationTypes = function (view) {
 
         var _set = [];
@@ -1347,7 +1413,7 @@ $(document).ready(function () {
 
                     });
 
-                    var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0], view.perspective, { id: _application.id });
+                    var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0]); 
 
                     _output = {
 
@@ -1369,6 +1435,8 @@ $(document).ready(function () {
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
+
+                    console.log(view.application);
 
                 } 
 
@@ -1748,6 +1816,7 @@ $(document).ready(function () {
             console.log("Pipings is null!");
 
         } else {
+
 
 
             ub.funcs.processPipings(ub.current_material.material.pipings);
@@ -6130,8 +6199,16 @@ $(document).ready(function () {
 
                   }
 
+                
+                data.savedDesigns.forEach(function (value, i) {
+                    data.savedDesigns[i].created_at = util.dateFormat(value.created_at);
+                });
+           
+                      
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
+
+
 
                   var $imgThumbs = $('img.tview');
                     
@@ -6238,18 +6315,24 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
+   
 
                     $('div.my-orders-loading').hide();
 
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
-                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };              
+                    dataSaved.orders.forEach(function (value, i) {
+                        value.created_at = util.dateFormat(value.created_at);
+                    });
                     var markup = Mustache.render(template, dataSaved);
                     $containerSaved.html(markup);
-
                     var $containerSubmitted     = $('div.order-list.submitted');
                     var template                = $('#m-orders-table').html();
                     var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
+                    dataSubmitted.orders.forEach(function (value, i) {
+                        value.created_at = util.dateFormat(value.created_at);
+                    });
                     var markup                  = Mustache.render(template, dataSubmitted);
                     $containerSubmitted.html(markup);
 
