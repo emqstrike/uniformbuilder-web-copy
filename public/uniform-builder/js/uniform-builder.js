@@ -6201,13 +6201,9 @@ $(document).ready(function () {
 
                 
                 data.savedDesigns.forEach(function (value, i) {
-                    dateFormat(value);
+                    data.savedDesigns[i].created_at = util.dateFormat(value);
                 });
-                // data.savedDesigns.forEach(function (value, i) {
-                //     var text = value.created_at;
-                //     var serverDate = moment.utc(text).local().format('LLL'); 
-                //     data.savedDesigns[i].created_at = serverDate;
-                // });
+           
                       
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
