@@ -96,7 +96,7 @@ $(document).ready(function() {
 
     ub.funcs.fixAlignments = function () {
 
-        if (ub.current_material.material.uniform_category !== "Football" || ub.current_material.material.uniform_category !== "Wrestling") 
+        if (ub.current_material.material.uniform_category !== "Football" && ub.current_material.material.uniform_category !== "Wrestling") { return; }
         if (ub.data.rosterInitialized) { return; }
 
         if (typeof ub.objects.back_view.objects_10 !== 'undefined' && ub.objects.back_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_10 !== 'undefined') {
