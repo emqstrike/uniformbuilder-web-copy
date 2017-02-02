@@ -443,8 +443,8 @@ $(document).ready(function(){
         var id = $(this).data('value');
 
 
-       //var url = "//" + api_host + "/api/font/delete/";
-       var url = "//localhost:8888/api/font/delete/";
+       var url = "//" + api_host + "/api/font/delete/";
+       //var url = "//localhost:8888/api/font/delete/";
         
         $.ajax({
             url: url,
