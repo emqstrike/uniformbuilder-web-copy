@@ -1175,9 +1175,7 @@
             } else {
     
                 scale_settings = _scaleSettings.scale;
-                console.log('Scale Settings: ');
-                console.log(_scaleSettings);
-
+                
             }
 
         }
