@@ -1162,6 +1162,26 @@
         if (settings_obj.size === 1)   { scale_settings = {x: 0.08, y: 0.08}; }
         if (settings_obj.size === 0.5) { scale_settings = {x: 0.04, y: 0.04}; }
 
+        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling')) {
+
+            var _uniformCategory = ub.current_material.material.uniform_category;
+
+            var _scaleSettings  = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
+
+            if (typeof _scaleSettings === "undefined") {
+
+                console.warn('Scale Settings Not Found.');
+
+            } else {
+    
+                scale_settings = _scaleSettings.scale;
+                console.log('Scale Settings: ');
+                console.log(_scaleSettings);
+
+            }
+
+        }
+
         _.each(mascot.layers_properties, function(layer, index) {
 
             var mascot_layer = ub.pixi.new_sprite(layer.filename);

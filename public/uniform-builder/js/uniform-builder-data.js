@@ -8684,6 +8684,31 @@ ub.funcs.fontOffSets = [
         }
     }
 
+    ub.data.mascotSizes = {
+
+        items: [
+
+            {
+                sport: 'Baseball',
+                size: 3,
+                scale: {x: 0.38,y: 0.38 },
+            },
+            {
+                sport: 'Baseball',
+                size: 4,
+                scale: {x: 0.53,y: 0.53 },
+            }
+
+        ],
+
+        getSize: function (sport, size) {
+
+            return _.find(this.items, {sport: sport, size: size});
+
+        }
+
+    }
+
     /// End Block Pattern Lengths
 
     /// Messages
