@@ -224,10 +224,6 @@ $(document).ready(function() {
 
             };
 
-            console.log(perspective);
-            console.log(_fontSizeTable);
-            console.log('');
-
         } else {
 
             if(_fontSizeTable === null) {
