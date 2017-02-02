@@ -7553,7 +7553,7 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.saveFontData = function (fontID, size) {
+    ub.funcs.saveFontData = function (fontID, size, applicationID, perspective) {
 
         var _newFontSizeTable       = [];
         
@@ -8644,7 +8644,7 @@ $(document).ready(function() {
 
                         if (evt.altKey) {
                             
-                            ub.funcs.saveFontData(_fontID, _size);
+                            ub.funcs.saveFontData(_fontID, _size, applicationID, perspective);
 
                         }
 
