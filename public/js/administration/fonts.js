@@ -434,13 +434,18 @@ $(document).ready(function(){
     });
 
     $('.delete-font').on('click', function(){
-        var id = $(this).data('font-id');
+        var id = [];
+        id.push($(this).data('font-id'));
         modalConfirm('Remove font', 'Are you sure you want to delete the font?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/font/delete/";
+
+
+       var url = "//" + api_host + "/api/font/delete/";
+       //var url = "//localhost:8888/api/font/delete/";
+        
         $.ajax({
             url: url,
             type: "POST",
@@ -458,7 +463,10 @@ $(document).ready(function(){
                         hide: true
                     });
                     $('#confirmation-modal').modal('hide');
-                    $('.font-' + id).fadeOut();
+                    id.forEach(function(value) {
+                        $('.font-' + value).fadeOut();
+                    });
+
                 }
             }
         });
@@ -473,6 +481,31 @@ $(document).ready(function(){
             hide: true
         });
         $('.main-content').fadeOut('slow');
+    });
+
+
+
+    var multipleRemove=[];
+    $(document).on('click', '#multipleDelete', function() {
+        if($(this).is(':checked')){
+            multipleRemove.push($(this).data("font-id"));
+       
+ 
+        }else{
+           multipleRemove.splice( $.inArray($(this).data("font-id"),multipleRemove) ,1 );
+
+        }
+       multipleRemove = multipleRemove.sort();
+
+
+ 
+    });
+
+    $(document).on('click', '.multiple-delete-font', function() {
+     
+        modalConfirm('Remove font', 'Are you sure you want to delete the fonts?', multipleRemove);
+ 
+
     });
 
 });

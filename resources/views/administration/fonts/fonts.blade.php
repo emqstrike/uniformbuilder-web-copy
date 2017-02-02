@@ -35,6 +35,12 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>
+                                <a href="#" class="btn btn-danger btn-xs multiple-delete-font" role="button">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    Remove Checked
+                                </a>
+                            </th>
                             <th>Font Name</th>
                             <th>Tail Sweep</th>
                             <th>Script</th>
@@ -52,6 +58,12 @@
                         <tr class='font-{{ $font->id }} {{ (!$font->active) ? ' inactive' : '' }}'>
                             <td>
                                 {{ $font->id }}
+                            </td>
+
+                             <td>
+                                <div class="checkbox">
+                                  <input type="checkbox" id="multipleDelete" name="remove[]" data-font-id="{{ $font->id }}" value="">
+                                </div>
                             </td>
                             <td>
                                 {{ $font->name }}<br />
