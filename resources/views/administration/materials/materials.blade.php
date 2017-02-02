@@ -108,11 +108,13 @@
                     {{ $material->type }}
                 </td>
                 <td>
-                    @if($material->active)
-                    YES
-                    @else
-                    NO
-                    @endif
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-material" id="switch-{{ $material->id }}" data-material-id="{{ $material->id }}" {{ ($material->active) ? 'checked' : '' }}>
+                        <label class="onoffswitch-label" for="switch-{{ $material->id }}">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
                 </td>
                 <td>
                     {{ $material->asset_target }}
@@ -134,13 +136,7 @@
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
  
-                    <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-material" id="switch-{{ $material->id }}" data-material-id="{{ $material->id }}" {{ ($material->active) ? 'checked' : '' }}>
-                        <label class="onoffswitch-label" for="switch-{{ $material->id }}">
-                            <span class="onoffswitch-inner"></span>
-                            <span class="onoffswitch-switch"></span>
-                        </label>
-                    </div>
+               
                 </td>
             </tr>
 
