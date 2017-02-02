@@ -8684,6 +8684,36 @@ ub.funcs.fontOffSets = [
         }
     }
 
+    ub.data.sampleFonts = {
+
+        items: [
+
+            {
+                sport: 'Football',
+                fontName: 'Badgers',
+            },
+            {
+                sport: 'Wrestling',
+                fontName: 'Badgers',
+            },
+            {
+                sport: 'Baseball',
+                fontName: 'Impact',
+            }
+
+        ],
+        getSampleFont: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport})
+
+            if (typeof _result === "undefined") { console.warn('Sample Font for ' + sport + ' not found.')};
+
+            return _result;
+
+        }
+
+    }
+
     ub.data.mascotSizes = {
 
         items: [
@@ -8703,7 +8733,11 @@ ub.funcs.fontOffSets = [
 
         getSize: function (sport, size) {
 
-            return _.find(this.items, {sport: sport, size: size});
+            var _result = _.find(this.items, {sport: sport, size: size});
+            
+            if (typeof _result === "undefined") { console.warn('mascotSize for ' + sport + ' not found.')};
+
+            return _result;
 
         }
 

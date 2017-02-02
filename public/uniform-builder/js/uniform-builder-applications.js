@@ -7264,9 +7264,10 @@ $(document).ready(function() {
 
     ub.funcs.getSampleFont = function () {
 
-        var _sampleFontName = 'Badgers';
+        var _uniformCategory = ub.current_material.material.uniform_category;
+        var _sampleFont = ub.data.sampleFonts.getSampleFont(_uniformCategory);
 
-        return ub.funcs.getFontByName(_sampleFontName);
+        return ub.funcs.getFontByName(_sampleFont.fontName);
 
     }
 
@@ -7318,6 +7319,13 @@ $(document).ready(function() {
 
                 _settingsObject.size = 5;
                 _settingsObject.font_size = 5;                
+
+            }
+
+            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling')) {
+
+                _settingsObject.size = 4;
+                _settingsObject.font_size = 4;                
 
             }
 
