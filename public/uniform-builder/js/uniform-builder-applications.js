@@ -7698,6 +7698,12 @@ $(document).ready(function() {
 
         }
 
+        if (ub.user.id === "172" || ub.user.id === "73") {
+
+            $('span.cog').fadeIn();
+
+        }
+
     }
 
     ub.funcs.activateApplications = function (application_id) {
