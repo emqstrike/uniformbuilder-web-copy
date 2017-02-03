@@ -2068,7 +2068,7 @@ $(document).ready(function() {
                     _matchingObj.scale.y = scaleY;
 
                 }
-                
+
                 console.log('Primary Object #' + location);
 
                 console.log('Position: ');
@@ -2091,7 +2091,7 @@ $(document).ready(function() {
             if (typeof ub.objects[perspective + '_view']['objects_' + location] !== "undefined") {
 
                 var _obj = ub.objects[perspective + '_view']['objects_' + location];
-                
+
                 console.log('Position: ');
                 console.log(_obj.position);
                 console.log('Scale: ');
@@ -2104,6 +2104,85 @@ $(document).ready(function() {
         ub.funcs.getSettingsObject = function (applicationID) {
 
             return ub.current_material.settings.applications[applicationID];
+
+        }
+
+        ub.funcs.oneInchPullUp = function (code) {
+
+            console.clear();
+
+            var _currentSport = ub.current_material.material.uniform_category;
+
+            if (_currentSport !== "Baseball") { return; }
+
+            var _codes = ["1", "6", "5", "26", "27"];
+
+            if (!_.includes(_codes, code)) { return; }
+
+            console.log('Processing PullUps.');
+
+            // Pull up 26 and 27
+
+            var _app1 = ub.current_material.settings.applications[1];
+            var _app26 = ub.current_material.settings.applications[26];
+            var _app27 = ub.current_material.settings.applications[27];
+
+            _.each(ub.views, function (_view) {
+
+                var _object26 = ub.objects[_view + '_view']['objects_' + '26']
+
+                if (typeof _object26 !== "undefined") {
+
+                    if (typeof _app1 !== "undefined") {
+
+                        var _multiplier             = 4 - _app1.font_size;
+                        var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport);
+                        var _calculatedPullUpHeight = _multiplier * _pullUpHeightObj.pullUpHeight;
+
+                        console.log('Orig Position' + _view);
+                        console.log(typeof _app26['originalPosition' + _view]);
+                        console.log(_app26['originalPosition' + _view])
+
+                        // if (typeof _app26['originalPosition' + _view] === "undefined") {
+
+                        //     _app26['originalPosition' + _view] = _object26.position;
+
+                        // }
+
+                        _object26.position.y =  _app26['originalPosition' + _view].y + _calculatedPullUpHeight;
+
+                        console.log('Multiplier: ');
+                        console.log(_multiplier);
+
+                        console.log('Calculated Pull Up Height: 26');
+                        console.log(_calculatedPullUpHeight);
+
+                        console.log('New Y: ');
+                        console.log(_app26['origPosition_' + _view].y + _calculatedPullUpHeight)
+
+                    }
+
+                    console.log('26 exists in ' + _view);
+
+                }
+
+                if (typeof ub.objects[_view + '_view']['objects_' + '27'] !== "undefined") {
+
+                    console.log('27 exists in ' + _view);
+
+                }
+
+                // Pull up 5
+
+                console.log(_view);
+
+                if (typeof ub.objects[_view + '_view']['objects_' + '5'] !== "undefined") {
+
+                    console.log('5 exists in ' + _view);
+
+                }
+
+            });
 
         }
 
@@ -2134,7 +2213,7 @@ $(document).ready(function() {
 
             var adjustablePositions = ['1','2','6','5'];
 
-            _.each(views, function(view) {
+            _.each(views, function (view) {
 
                 args.perspective = view.perspective;
 
@@ -2334,7 +2413,6 @@ $(document).ready(function() {
                 if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 1) { point.position.y   += 13; }
                 if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
 
-                
                 // Lower Uniform Application Scales
 
                 var _isValidPantLocation = ub.data.pantLocations.isValidLocation(parseInt(app_id));
@@ -2549,8 +2627,14 @@ $(document).ready(function() {
                     }
 
                 }
-                
+
+                // This will be used for the 1-inch Pull-up
+                _settingsObject['originalPosition_' + view.perspective] = { x: point.position.x, y: point.position.y };
+
             });
+
+            console.log('After Render Application: ');
+            console.log(_settingsObject);
 
             ub.funcs.identify(app_id);
 
@@ -4916,8 +5000,6 @@ $(document).ready(function() {
 
         var _id         = settingsObj.id;
         ub.funcs.removeApplicationByID(_id);
-
-        /// Set Default Colors 
 
         settingsObj.font_size = parseFloat(size);
         settingsObj.size = parseFloat(size);
@@ -7583,7 +7665,7 @@ $(document).ready(function() {
         _fontSizeData.xScale        = _scaleX;
         _fontSizeData.yScale        = _scaleY;
 
-        _.each (_fontSizeTable, function (fontSizeData){
+        _.each (_fontSizeTable, function (fontSizeData) {
 
             if (fontSizeData.inputSize === _fontSizeData.inputSize) {
 

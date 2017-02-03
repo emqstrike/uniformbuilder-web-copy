@@ -8714,6 +8714,30 @@ ub.funcs.fontOffSets = [
 
     }
 
+    // This will be used to keep the 1-inch separation between team name / player name and the Front and Back Number
+    ub.data.applicationPullUps = {
+
+        items: [
+
+            {
+                sport: 'Baseball',
+                pullUpHeight: -37,
+            }
+
+        ], 
+
+        getPullUp: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport});
+            
+            if (typeof _result === "undefined") { console.warn('pullUp height for ' + sport + ' not found.')};
+
+            return _result;
+
+        },
+
+    }
+
     ub.data.mascotSizes = {
 
         items: [
