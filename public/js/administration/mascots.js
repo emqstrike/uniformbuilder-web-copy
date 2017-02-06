@@ -1,4 +1,17 @@
 $(document).ready(function() {
+    $( ".mascot-row" ).each(function( index ) {
+
+        for (val of $(this).data("sports")) {
+            console.log(val);
+            $(this).addClass(val);
+        }
+        // $(this).data("sports").forEach(function(element) {
+            
+
+        //     $(this).addClass(element);
+        //     console.log( $(mascotElement).data("sports"));
+        // });
+    });
 
     try{
         var $container = $('.isotope').isotope({
@@ -9,10 +22,15 @@ $(document).ready(function() {
         });
 
         $('#filters').on( 'click', 'button', function() {
+             var filterValue = $( this ).attr('data-filter') + "" + $("#filterSports .btn-primary").attr('data-filter');
+             console.log(filterValue);         
+             $container.isotope({ filter: filterValue });
 
-            var filterValue = $( this ).attr('data-filter');
+        });
+        $('#filterSports').on( 'click', 'button', function() {
+              var filterValue = $( this ).attr('data-filter') + "" + $("#filters .btn-primary").attr('data-filter'); 
              console.log(filterValue);
-            $container.isotope({ filter: filterValue });
+             $container.isotope({ filter: filterValue });
         });
 
         $('.button-group').each( function( i, buttonGroup ) {
@@ -102,7 +120,7 @@ $(document).ready(function() {
         $('.toggle-mascot-typographic').on('click', function(){
             
             var id = $(this).data('mascot-id');
-            console.log(id);
+    
              var url = "//" + api_host + "/api/mascot/toggle_typographic/";
             //  var url = "//localhost:8888/api/mascot/toggle_typographic/";
           

@@ -41,11 +41,12 @@ class MascotsController extends Controller
 
         $mascots = $this->client->getMascots();
         $mascot_categories = $this->mascotsCategoryClient->getMascotCategories();
-        
-        
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $sports = $categoriesAPIClient->getUniformCategories();
         return view('administration.mascots.mascots', [
             'mascots' => $mascots,
-            'mascot_categories' => $mascot_categories
+            'mascot_categories' => $mascot_categories,
+            'sports' => $sports
         ]);
     }
 
@@ -82,6 +83,8 @@ class MascotsController extends Controller
         $colors = $this->colorsClient->getColors();
         $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
         $mascots_categories = array();
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
         foreach($raw_mascots_categories as $mascot_category){
             if($mascot_category->active == 1){
@@ -95,7 +98,8 @@ class MascotsController extends Controller
 
         return view('administration.mascots.mascot-create', [
             'colors' => $colors,
-            'mascots_categories' => $mascots_categories
+            'mascots_categories' => $mascots_categories,
+            'categories' => $uniformCategories
         ]);
     }
 
@@ -133,6 +137,10 @@ class MascotsController extends Controller
     {
         $colors = $this->colorsClient->getColors();
         $mascot = $this->client->getMascot($id);
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $uniformCategories = $categoriesAPIClient->getUniformCategories();
+       
+
 
         $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
         $mascots_categories = array();
@@ -150,7 +158,8 @@ class MascotsController extends Controller
         return view('administration.mascots.mascot-edit', [
             'colors' => $colors,
             'mascot' => $mascot,
-            'mascots_categories' => $mascots_categories
+            'mascots_categories' => $mascots_categories,
+            'categories' => $uniformCategories
         ]);
     }
 
@@ -163,12 +172,15 @@ class MascotsController extends Controller
         // $team_color_id = $request->input('team_color_id');
         $layersProperties = $request->input('layers_properties');
 
+        $sports = explode(",", $request->input('sports_value'));
+
         $data = [
             'name' => $mascotName,
             'code' => $code,
             'category' => $category,
             // 'team_color_id' => $team_color_id,
-            'layers_properties' => $layersProperties
+            'layers_properties' => $layersProperties,
+            'sports' => $sports
         ];
 
 
@@ -178,7 +190,7 @@ class MascotsController extends Controller
             $id = $request->input('mascot_id');
             $data['id'] = $id;
         }
-
+ 
         $myJson = json_decode($layersProperties, true);
         $materialFolder = $mascotName;
         try
