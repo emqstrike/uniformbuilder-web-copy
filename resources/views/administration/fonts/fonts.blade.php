@@ -53,7 +53,7 @@
                     </thead>
                     <tbody>
 
-                    @forelse ($fonts as $font)
+                    {{-- @forelse ($fonts as $font)
 
                         <tr class='font-{{ $font->id }} {{ (!$font->active) ? ' inactive' : '' }}'>
                             <td>
@@ -135,7 +135,7 @@
                             </td>
                         </tr>
 
-                    @endforelse
+                    @endforelse --}}
 
                     </tbody>
                     </table>
