@@ -14,7 +14,10 @@ $(document).ready(function(){
 
     });
 
-
+    // $(document).on('change', 'input', function() {
+    //     updater();
+    //     var length = $('.layers-row').length;
+    // });
 
     updater();
     function updater(edit){
@@ -93,6 +96,13 @@ $(document).ready(function(){
                         '<center><img src="' + thumbnail + '" class="img-thumbnail" style="height: 100px; width: 120px;">' +
                         '</div></div></div>'
                     );
+                    $('.neck-option-name').keyup(function(){
+
+                        console.log($(this).val());
+                        var length = $('.layers-row').length;
+                        updateJSON(length, edit);
+
+                    });
                 });
             }
             catch(err) {
@@ -186,6 +196,14 @@ $(document).ready(function(){
                 $(this).parent().parent().remove();
                 var length = $('.layers-row').length;
                 updateJSON(length, 1);
+            });
+
+            $('.neck-option-name').keyup(function(){
+
+                console.log($(this).val());
+                var length = $('.layers-row').length;
+                updateJSON(length, 1);
+
             });
 
         }
