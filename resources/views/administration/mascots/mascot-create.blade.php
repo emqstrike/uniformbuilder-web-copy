@@ -1,20 +1,12 @@
 @extends('administration.lte-main')
 
 @section('custom-styles')
-
 select:hover {
   background-color: transparent;
 }
 @endsection
 
 @section('content')
-<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
-<style type="text/css">
-    
-    li.select2-selection__choice {
-    color: black !important;
-}
-</style>
 <div class="container-fluid main-content">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -48,34 +40,6 @@ select:hover {
                                 <input type="name" class="form-control mascot-code" name="code" value="{{ old('code') }}">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Category</label>
-                            <div class="col-md-6">
-                                <select name='category' class="form-control mascot-category">
-                                @foreach ($mascots_categories as $mascot_category)
-                                    <option value='{{ $mascot_category }}'>{{ $mascot_category }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Sports</label>
-                            <div class="col-md-6">
-                                <input type="hidden" class="sports-val" id="sports_value" name="sports_value" value="">
-                                <select name="sports[]" class="form-control sports" multiple="multiple">
-                                    @foreach ($categories as $category)
-                                        @if ($category->active)
-                                        <option value='{{ $category->name }}'>
-                                            {{ $category->name }}
-                                        </option>
-                                        @endif
-                                    @endforeach
-                                    <option value="All">All</option>
-                                </select>
-                            </div>
-                        </div>
-
-
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Icon</label>
@@ -90,7 +54,16 @@ select:hover {
                             </div>
                         </div>
 
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Category</label>
+                            <div class="col-md-6">
+                                <select name='category' class="form-control mascot-category">
+                                @foreach ($mascots_categories as $mascot_category)
+                                    <option value='{{ $mascot_category }}'>{{ $mascot_category }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
 
 
 <!--                         <div class="form-group">
@@ -197,7 +170,6 @@ select:hover {
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/mascots.js"></script>
-<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $('select:not(:has(option))').attr('visible', false);
@@ -206,19 +178,6 @@ $(document).ready(function(){
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
     });
-
-    $('.sports').select2({
-        placeholder: "Select sports",
-        multiple: true,
-        allowClear: true
-    });
-
-    $(".sports").change(function() {
-        $('#sports_value').val($(this).val());
-    });
-
-    $('.sports').select2('val', sports);
-
 });
 </script>
 @endsection
