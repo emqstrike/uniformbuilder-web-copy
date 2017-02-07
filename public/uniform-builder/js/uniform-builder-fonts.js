@@ -60,9 +60,6 @@ $(document).ready(function() {
 
         }
 
-        console.log('Perspective Data: ');
-        console.log(_perspectiveData);
-
         _offsetData = _.find(_perspectiveData.sizes, {inputSize: size.toString(), application_number: applicationNo.toString()});
 
         if (typeof _offsetData === "undefined") {

@@ -2126,9 +2126,9 @@ $(document).ready(function() {
             
             _.each(ub.views, function (_view) {
 
-                var _object26   = ub.objects[_view + '_view']['objects_' + '26'];
-                var _object27   = ub.objects[_view + '_view']['objects_' + '27'];
-                var _object5    = ub.objects[_view + '_view']['objects_' + '5'];
+                var _object26   = ub.objects[_view + '_view']['objects_26'];
+                var _object27   = ub.objects[_view + '_view']['objects_27'];
+                var _object5    = ub.objects[_view + '_view']['objects_5'];
 
                 if (typeof _object26 !== "undefined") {
 
@@ -2146,7 +2146,7 @@ $(document).ready(function() {
 
                 }
 
-                if (typeof ub.objects[_view + '_view']['objects_' + '27'] !== "undefined") {
+                if (typeof _object27 !== "undefined") {
 
                     if (typeof _app1 !== "undefined") {
 
@@ -2164,7 +2164,7 @@ $(document).ready(function() {
 
                 // Pull up 5
 
-                if (typeof ub.objects[_view + '_view']['objects_' + '5'] !== "undefined") {
+                if (typeof _object5 !== "undefined") {
 
                      if (typeof _app6 !== "undefined") {
 
