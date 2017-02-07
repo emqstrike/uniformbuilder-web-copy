@@ -27,7 +27,7 @@ class FontsController extends Controller
     public function index()
     {
         $fonts = $this->client->getAllFonts();
-
+        
         return view('administration.fonts.fonts', [
             'fonts' => $fonts
         ]);

@@ -54,6 +54,28 @@ $(document).ready(function(){
         console.log(err.message);
     }
 
+    $('.fix-fst-button').on('click', function(e){
+        // loadFontSizeTable(JSON.parse($('#fst-fix').val()));
+
+        var fstbls_old = $('#fst-fix').val();
+        if(fstbls_old != ""){
+            var old_font_size_tables = JSON.parse(fstbls_old);
+            console.log(old_font_size_tables);
+            old_font_size_tables.forEach(function(entry) {
+                // console.log(entry);s
+                var tbl_class = '.'+entry.perspective+'-fst-body';
+                entry.sizes.forEach(function(item) {
+                    console.log(item.inputSize);
+                    var elem = '<tr><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                    $(tbl_class).append(elem);
+                });
+                // var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
+                // $('.front-fst-body').prepend(elem);
+                // $(tbl_class).prepend(elem);
+            });
+        }
+    });
+
     function loadFontSizeTable(old_fst){
         ctr = 0;
 
@@ -412,13 +434,18 @@ $(document).ready(function(){
     });
 
     $('.delete-font').on('click', function(){
-        var id = $(this).data('font-id');
+        var id = [];
+        id.push($(this).data('font-id'));
         modalConfirm('Remove font', 'Are you sure you want to delete the font?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/font/delete/";
+
+
+       var url = "//" + api_host + "/api/font/delete/";
+       //var url = "//localhost:8888/api/font/delete/";
+        
         $.ajax({
             url: url,
             type: "POST",
@@ -436,7 +463,10 @@ $(document).ready(function(){
                         hide: true
                     });
                     $('#confirmation-modal').modal('hide');
-                    $('.font-' + id).fadeOut();
+                    id.forEach(function(value) {
+                        $('.font-' + value).fadeOut();
+                    });
+
                 }
             }
         });
@@ -451,6 +481,31 @@ $(document).ready(function(){
             hide: true
         });
         $('.main-content').fadeOut('slow');
+    });
+
+
+
+    var multipleRemove=[];
+    $(document).on('click', '#multipleDelete', function() {
+        if($(this).is(':checked')){
+            multipleRemove.push($(this).data("font-id"));
+       
+ 
+        }else{
+           multipleRemove.splice( $.inArray($(this).data("font-id"),multipleRemove) ,1 );
+
+        }
+       multipleRemove = multipleRemove.sort();
+
+
+ 
+    });
+
+    $(document).on('click', '.multiple-delete-font', function() {
+     
+        modalConfirm('Remove font', 'Are you sure you want to delete the fonts?', multipleRemove);
+ 
+
     });
 
 });

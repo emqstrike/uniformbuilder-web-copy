@@ -25,7 +25,7 @@ $(document).ready(function() {
                         );
 
                         column
-                            .search( val ? '^'+val+'$' : '', true, false )
+                        .search( val ? '^'+val+'$' : '', true, false )
                             .draw();
                     } );
 

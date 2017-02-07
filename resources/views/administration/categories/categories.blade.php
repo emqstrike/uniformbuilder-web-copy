@@ -1,5 +1,20 @@
 @extends('administration.lte-main')
 
+
+@section('styles')
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
+<style type="text/css">
+    tfoot tr td select {
+        display: none;
+    }
+    tfoot tr td:first-child select {
+        display: block;
+    }
+</style>
+
+@endsection
+
 @section('content')
 
 <section class="content">
@@ -78,6 +93,16 @@
 
                     @endforelse
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                     
+                        </tr>
+                    </tfoot>
                     </table>
                 </div>
             </div>
@@ -90,7 +115,8 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<!-- <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/categories.js"></script>
 <script type="text/javascript">
@@ -98,11 +124,34 @@ $(document).ready(function(){
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
-        "searching": false,
-        "ordering": true,
+        "searching": true,
+        "ordering": false,
         "info": true,
-        "autoWidth": false
+        "autoWidth": true,
+        initComplete: function () {
+            this.api().columns().every( function () {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                    // var val = $('<div/>').html(d).text();
+                    // select.append( '<option value="' + val + '">' + val + '</option>' );
+                } );
+            } );
+        }
     });
+
 });
 </script>
 @endsection
