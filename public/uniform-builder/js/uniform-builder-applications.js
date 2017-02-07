@@ -8902,6 +8902,14 @@ $(document).ready(function() {
 
             }
 
+            // Disable tailsweep tab when application is not #1
+            if (_id !== '1') {
+
+                $('div.column1.tailsweeps').hide();
+                $('span.tab[data-item="tailsweeps"]').hide();
+
+            }
+
         /// End Initialize
 
         ub.funcs.afterActivateApplication();
