@@ -290,8 +290,6 @@ $(document).ready(function () {
 
                 if (e.state === "order-form") {
 
-                    
-                    
                     ub.funcs.reShowOrderFrom();
 
                 }
@@ -380,9 +378,7 @@ $(document).ready(function () {
             }
             
             ub.funcs.prepareBottomTabs();
-
             ub.funcs.loadOtherFonts();
-
 
             var _blockPattern = ub.current_material.material.block_pattern;
 
@@ -3898,6 +3894,7 @@ $(document).ready(function () {
 
                 var container = application_settings.pattern;
                 var v = application.perspective;
+                
                 container.sprites = {};
 
                 _.each(clone.layers, function (layer, index) {
