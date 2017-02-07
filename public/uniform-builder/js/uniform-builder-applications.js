@@ -2069,35 +2069,23 @@ $(document).ready(function() {
 
                 }
 
-                console.log('Primary Object #' + location);
-
-                console.log('Position: ');
-                console.log(_obj.position);
-                console.log('Scale: ');
-                console.log(_obj.scale);
-
-                console.log('Matching Object #' + _prID);
-                console.log('Position: ');
-                console.log(_matchingObj.position);
-                console.log('Scale: ');
-                console.log(_matchingObj.scale);
-
             }
 
         }
 
         ub.funcs.getProperties = function (location, perspective) {
 
+            var _obj = undefined;
+
             if (typeof ub.objects[perspective + '_view']['objects_' + location] !== "undefined") {
 
-                var _obj = ub.objects[perspective + '_view']['objects_' + location];
-
-                console.log('Position: ');
-                console.log(_obj.position);
-                console.log('Scale: ');
-                console.log(_obj.scale);
+                _obj = ub.objects[perspective + '_view']['objects_' + location];
 
             }
+
+            if (typeof _obj === "undefined") { console.warn('Location ' + location + " in perspective " + perspective + " not found."); }
+
+            return _obj;
 
         }
 
