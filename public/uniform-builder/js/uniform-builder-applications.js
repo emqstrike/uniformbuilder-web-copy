@@ -2184,7 +2184,6 @@ $(document).ready(function() {
 
         }
 
-
         ub.funcs.renderApplication = function (sprite_function, args, app_id) {
 
             var sprite_collection   = [];
@@ -5259,6 +5258,19 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.changeAngleFromPopup = function (id, settingsObj, angle) {
+
+        settingsObj.tailsweep.angle = angle;
+
+        ub.funcs.removeApplicationByID(id);
+        ub.create_application(settingsObj, undefined);
+
+        $popup = $('div#primaryTailSweepPopup');
+        $popup.remove();
+        ub.status.tailSweepPopupVisible = false;
+
+    }
+
     ub.status.tailsweepPopupVisible = false;
     ub.funcs.createTailSweepPopup = function (settingsObj) {
 
@@ -8078,15 +8090,19 @@ $(document).ready(function() {
             _htmlBuilder        +=                 '</div>';
             _htmlBuilder        +=                 '<div class="sizeContainer">';
 
-            _htmlBuilder        +=                 '<span class="sizeItem" data-size="short">Short</span>';        
-            _htmlBuilder        +=                 '<span class="sizeItem" data-size="medium">Medium</span>';        
-            _htmlBuilder        +=                 '<span class="sizeItem" data-size="long">Long</span>';        
+            _htmlBuilder        +=                      '<span class="sizeLabel">LENGTH</span>';
+            _htmlBuilder        +=                      '<span class="sizeItem" data-size="short">Short</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem" data-size="medium">Medium</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem" data-size="long">Long</span>';        
 
+            _htmlBuilder        +=                      '<span class="sizeLabel">ANGLE</span>';
+            _htmlBuilder        +=                      '<span class="angleItem" data-angle="straight">Straight</span>';        
+            _htmlBuilder        +=                      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
+            
             _htmlBuilder        +=                 '</div>';
             _htmlBuilder        +=              '</div>';
 
         }
-
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
@@ -8105,6 +8121,19 @@ $(document).ready(function() {
                 $('span.sizeItem').removeClass('active');
 
                 ub.funcs.changeTailSweepFromPopup(_id, _settingsObject, _size);
+
+                $(this).addClass('active');
+
+            });
+
+            // Application w/ Tailsweep angle Event
+            $('span.angleItem').unbind('click');
+            $('span.angleItem').on('click', function () {
+
+                var _angle = $(this).data('angle');
+                $('span.angleItem').removeClass('active');
+
+                ub.funcs.changeAngleFromPopup(_id, _settingsObject, _angle);
 
                 $(this).addClass('active');
 
@@ -8899,6 +8928,35 @@ $(document).ready(function() {
                 $('div.column1.patterns').hide();
                 $('span.tab[data-item="tailsweeps"]').hide();
                 $('span.tab[data-item="patterns"]').hide();
+
+            }
+
+            // Disable tailsweep tab when application is not #1
+            if (_id !== '1') {
+
+                $('div.column1.tailsweeps').hide();
+                $('span.tab[data-item="tailsweeps"]').hide();
+
+            }
+
+            if (_id === '1') {
+
+                var _tailSweepObj = ub.current_material.settings.applications[parseInt(_id)].tailsweep;
+                if (typeof _tailSweepObj !== "undefined") {
+
+                    if (_tailSweepObj.angle === "rotated") {
+
+                        $('span.angleItem').removeClass('active');
+                        $('span.angleItem[data-angle="rotated"]').addClass('active');
+
+                    } else {
+
+                        $('span.angleItem').removeClass('active');
+                        $('span.angleItem[data-angle="straight"]').addClass('active');
+
+                    }
+
+                }
 
             }
 
