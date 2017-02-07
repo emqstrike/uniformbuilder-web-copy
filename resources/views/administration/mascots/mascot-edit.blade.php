@@ -54,6 +54,22 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sports</label>
+                            <div class="col-md-6">
+                                <input type="hidden" class="sports-val" id="sports_value" name="sports_value" value="{{ $mascot->sports }}">
+                                <select name="sports[]" class="form-control sports" multiple="multiple">
+                                    @foreach ($categories as $category)
+                                        @if ($category->active)
+                                        <option value='{{ $category->name }}'>
+                                            {{ $category->name }}
+                                        </option>
+                                        @endif
+                                    @endforeach
+                                    <option value="All">All</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <!-- <div class="form-group">
                             <label class="col-md-4 control-label">Team Color ID</label>
@@ -398,7 +414,21 @@ $(document).ready(function(){
 
 
 
-
+    if($('#sports_value').val()){
+        var sports = JSON.parse($('#sports_value').val()); 
+    }
+ 
+    $('.sports').select2({
+        placeholder: "Select sports",
+        multiple: true,
+        allowClear: true
+    });
+ 
+    $(".sports").change(function() {
+        $('#sports_value').val($(this).val());
+    });
+ 
+    $('.sports').select2('val', sports);
       
 });
 </script>
