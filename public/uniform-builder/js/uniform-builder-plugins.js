@@ -1352,6 +1352,8 @@
         $other_color_container.html('');    
 
         /// Create Text Accents
+
+        var _angle = "straight";
         _.each(accent_obj.layers, function (layer, index) {
 
             var text_layer = '';
@@ -1460,16 +1462,18 @@
             }
 
             var _appendage;
-
+            
             if (typeof input_object.applicationObj.tailsweep !== "undefined") {
 
                 _appendage = ub.data.tailsweepCharacters.getCharacter(input_object.applicationObj.tailsweep.code, input_object.applicationObj.tailsweep.length);
+                _angle = input_object.applicationObj.tailsweep.angle;
 
             }
 
             if (typeof _appendage === "undefined") {
 
                 _appendage = "";
+                _angle = "straight";
 
             }
 
@@ -1493,7 +1497,18 @@
 
             }
 
-            /// Custom Properties]
+
+            if (_angle === "rotated") {
+
+                text_layer.text_sprite.rotation = -0.25;
+
+            } else {
+
+                text_layer.text_sprite.rotation = 0;
+
+            }
+
+            /// Custom Properties
 
             text_layer.text_sprite.ubName = layer.name;
             text_layer.text_sprite.ubDefaultColor = layer.default_color;
@@ -1529,6 +1544,8 @@
             if (layer.name === 'Mask') {
                 text_layer.text_sprite.alpha = 1;                
             }
+
+           
 
         }); /// End Text Accents
 

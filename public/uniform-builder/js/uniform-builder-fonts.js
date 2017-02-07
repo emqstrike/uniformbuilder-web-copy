@@ -308,10 +308,18 @@ $(document).ready(function() {
 
         }
 
-        
-
         return _fontSizeData;
 
-    }
+    };
+
+    ub.funcs.getTailSweepByID = function (id) {
+
+        var _tailSweepObj = _.find(ub.data.tailSweeps, {id: id.toString()});
+
+        if (typeof _tailSweepObj === "undefined") { console.log('Tailsweep with id ' + id + ' not found.'); }
+
+        return _tailSweepObj;
+
+    };
 
 });
