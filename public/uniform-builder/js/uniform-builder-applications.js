@@ -2107,84 +2107,95 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.pullUp = function (_object, originalPosition, pullUpValue) {
+
+            if (typeof originalPosition !== "undefined") {
+
+                _object.position.y =  originalPosition.y + pullUpValue;
+
+            }
+
+        }
+
         ub.funcs.oneInchPullUp = function (code) {
 
-            console.clear();
-
             var _currentSport = ub.current_material.material.uniform_category;
-
-            if (_currentSport !== "Baseball") { return; }
-
             var _codes = ["1", "6", "5", "26", "27"];
 
-            if (!_.includes(_codes, code)) { return; }
-
-            console.log('Processing PullUps.');
+            if (_currentSport !== "Baseball") { return; }
+            if (!_.includes(_codes, code))    { return; }
 
             // Pull up 26 and 27
 
-            var _app1 = ub.current_material.settings.applications[1];
-            var _app26 = ub.current_material.settings.applications[26];
-            var _app27 = ub.current_material.settings.applications[27];
-
+            // Front
+            var _app1       = ub.current_material.settings.applications[1];
+            var _app26      = ub.current_material.settings.applications[26];
+            var _app27      = ub.current_material.settings.applications[27];
+       
+            // Back
+            var _app6       = ub.current_material.settings.applications[6];
+            var _app5       = ub.current_material.settings.applications[5];
+            
             _.each(ub.views, function (_view) {
 
-                var _object26 = ub.objects[_view + '_view']['objects_' + '26']
+                var _object26   = ub.objects[_view + '_view']['objects_' + '26'];
+                var _object27   = ub.objects[_view + '_view']['objects_' + '27'];
+                var _object5    = ub.objects[_view + '_view']['objects_' + '5'];
 
                 if (typeof _object26 !== "undefined") {
 
                     if (typeof _app1 !== "undefined") {
 
-                        var _multiplier             = 4 - _app1.font_size;
-                        var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport);
-                        var _calculatedPullUpHeight = _multiplier * _pullUpHeightObj.pullUpHeight;
+                        var _parentSize             =  parseInt(_app1.font_size);
+                        var _applicationNumber      = '26'
+                        var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                        var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                        var _originalPosition       = _app26['originalPosition_' + _view];
 
-                        console.log('Orig Position' + _view);
-                        console.log(typeof _app26['originalPosition' + _view]);
-                        console.log(_app26['originalPosition' + _view])
-
-                        // if (typeof _app26['originalPosition' + _view] === "undefined") {
-
-                        //     _app26['originalPosition' + _view] = _object26.position;
-
-                        // }
-
-                        _object26.position.y =  _app26['originalPosition' + _view].y + _calculatedPullUpHeight;
-
-                        console.log('Multiplier: ');
-                        console.log(_multiplier);
-
-                        console.log('Calculated Pull Up Height: 26');
-                        console.log(_calculatedPullUpHeight);
-
-                        console.log('New Y: ');
-                        console.log(_app26['origPosition_' + _view].y + _calculatedPullUpHeight)
+                        ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);
 
                     }
-
-                    console.log('26 exists in ' + _view);
 
                 }
 
                 if (typeof ub.objects[_view + '_view']['objects_' + '27'] !== "undefined") {
 
-                    console.log('27 exists in ' + _view);
+                    if (typeof _app1 !== "undefined") {
+
+                        var _parentSize             =  parseInt(_app1.font_size);
+                        var _applicationNumber      = '27'
+                        var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                        var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                        var _originalPosition       = _app27['originalPosition_' + _view];
+
+                        ub.funcs.pullUp(_object27, _originalPosition, _calculatedPullUpHeight);
+
+                    }
 
                 }
 
                 // Pull up 5
 
-                console.log(_view);
-
                 if (typeof ub.objects[_view + '_view']['objects_' + '5'] !== "undefined") {
 
-                    console.log('5 exists in ' + _view);
+                     if (typeof _app6 !== "undefined") {
+
+                        var _parentSize             =  parseInt(_app6.font_size);
+                        var _applicationNumber      = '5'
+                        var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                        var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                        var _originalPosition       = _app5['originalPosition_' + _view];
+
+                        ub.funcs.pullUp(_object5, _originalPosition, _calculatedPullUpHeight);
+
+                    }
 
                 }
 
             });
 
         }
+
 
         ub.funcs.renderApplication = function (sprite_function, args, app_id) {
 
@@ -2629,12 +2640,9 @@ $(document).ready(function() {
                 }
 
                 // This will be used for the 1-inch Pull-up
-                _settingsObject['originalPosition_' + view.perspective] = { x: point.position.x, y: point.position.y };
+                _settingsObject['originalPosition_' + view.perspective] = {x: point.position.x, y: point.position.y };
 
             });
-
-            console.log('After Render Application: ');
-            console.log(_settingsObject);
 
             ub.funcs.identify(app_id);
 
@@ -7687,20 +7695,21 @@ $(document).ready(function() {
 
         ub.funcs.postData(_postData, _url);
 
-    }
+    };
 
     ub.funcs.hideGAFontTool = function () {
 
         // Hide GA Font Tool
         $('span.cog').hide();
         
-    }
+    };
 
     ub.funcs.runAfterUpdate = function(application_id) {
 
+        ub.funcs.oneInchPullUp(application_id);
         ub.funcs.updateCaption(application_id);
 
-    }
+    };
 
     ub.funcs.okToStart = function () {
 

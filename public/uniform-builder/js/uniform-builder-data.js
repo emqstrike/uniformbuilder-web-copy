@@ -8721,14 +8721,57 @@ ub.funcs.fontOffSets = [
 
             {
                 sport: 'Baseball',
-                pullUpHeight: -37,
-            }
-
+                applicationNumber: '26',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '26',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '26',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '27',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '27',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '27',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -35,
+            },
         ], 
 
-        getPullUp: function (sport) {
+        getPullUp: function (sport, parentSize, applicationNumber) {
 
-            var _result = _.find(this.items, {sport: sport});
+            var _result = _.find(this.items, {sport: sport, size: parentSize, applicationNumber: applicationNumber});
             
             if (typeof _result === "undefined") { console.warn('pullUp height for ' + sport + ' not found.')};
 
