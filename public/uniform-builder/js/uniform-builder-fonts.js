@@ -7,12 +7,14 @@ $(document).ready(function() {
 
         _.each (ub.data.fonts, function (font) {
 
+            if (font.name === "") { return; }
+
             var _fontSizeTables = font.font_size_tables;
             var _parsedFontSizeTables = undefined;
 
             if (typeof _fontSizeTables !== "undefined" && _fontSizeTables !== null) {
 
-                _parsedFontSizeTables = JSON.parse(font.font_size_tables);
+               _parsedFontSizeTables = JSON.parse(_fontSizeTables);
                 
             }
 
@@ -21,6 +23,55 @@ $(document).ready(function() {
         });
 
     }
+
+    ub.funcs.getFontByName = function (fontName) {
+
+        var _fontObj = _.find(ub.data.fonts, {name: fontName});
+
+        if (typeof _fontObj === "undefined") { 
+
+            console.warn('Font ' + name + ' not found!');
+
+        }
+
+        return _fontObj;
+
+    };
+
+    ub.funcs.getFontOffsetsByName = function (fontName, perspective, size, applicationNo) {
+
+        var _fontObj = ub.funcs.getFontByName(fontName);
+        var _perspectiveData = undefined;
+        var _offsetData = undefined;
+
+        if (typeof _fontObj === "undefined") {
+
+            console.warn('Font ' + fontName + ' not found.');
+            return;
+
+        }
+
+        _perspectiveData = _.find(_fontObj.parsedFontSizeTables, {perspective: perspective});
+
+        if (typeof _perspectiveData === "undefiend") {
+
+            console.warn('Perspective Data for ' + _fontName + ', ' + perspective + ' is undefined.');
+            return;
+
+        }
+
+        _offsetData = _.find(_perspectiveData.sizes, {inputSize: size.toString(), application_number: applicationNo.toString()});
+
+        if (typeof _offsetData === "undefined") {
+
+            console.warn('offset data for ' + _fontName + ', ' + perspective + ', size: ' + size + ' not found.');
+            return;
+
+        }
+
+        return _offsetData;
+
+    };
 
     // Get offsets from new multiple perspective font size tables
     ub.funcs.getFontOffsetsfromParsedFontTables = function (fontName, perspective, location, fontSize) {
