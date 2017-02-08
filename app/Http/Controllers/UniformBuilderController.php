@@ -1181,7 +1181,7 @@ class UniformBuilderController extends Controller
             $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
         }
 
-        $this->notify(new GeneratedDesignSheet($message))
+        $this->notify(new GeneratedDesignSheet($message));
         return $transformedPath;
     }
 
