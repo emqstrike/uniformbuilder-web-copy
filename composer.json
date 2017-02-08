@@ -14,9 +14,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "intervention/image": "^2.3",
         "google/recaptcha": "^1.1",
-        "elibyy/tcpdf-laravel": "5.4.*",
-        "maknz/slack-laravel": "^1.0",
-        "maknz/slack": "^1.7"
+        "elibyy/tcpdf-laravel": "5.4.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
