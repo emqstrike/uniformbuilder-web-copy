@@ -1410,9 +1410,9 @@
 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
 
-                var _tailSweepFonts = ['Brush Script', 'Cracker Jack', 'Impact', 'Dodger', 'Arabian Nights', 'Bomber'];
+                var _tailSweepFonts = ['Brush Script', 'Cracker Jack', 'Impact', 'Dodger Script', 'Arabian Nights', 'Bomber'];
 
-                if(_.contains(_tailSweepFonts, input_object.font_name)) {
+                if(!_.contains(_tailSweepFonts, input_object.font_name)) {
                     style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 1};
                 } else {
                     style = {font: font_size + "px " + font_name, fill: "white", padding: 150, lineJoin: 'miter', miterLimit: 1};

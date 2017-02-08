@@ -3703,131 +3703,6 @@ $(document).ready(function() {
 
     ub.data.tailSweeps = [];
 
-    ub.data.tailsweeps = {
-        items: [
-            {   // None
-                id: -1,
-                name: 'None',
-                code: 'none',
-                title: 'None',
-                thumbnail: 'blank.png',
-                short: "",   
-                medium: "",  
-                long: "",    
-            },  // End None
-            {   // Astros
-                id: 0,
-                name: 'Astros',
-                code: 'astros',
-                title: 'Astros',
-                thumbnail: 'astros.png',
-                short: "À",   // 'U+00C0'
-                medium: "Á",  // 'U+00C1'
-                long: "Â",    // 'U+00C2'
-            },  // End Astros
-            {   // Brewers
-                id: 1,
-                name: 'Brewers',
-                code: 'brewers',
-                title: 'Brewers',
-                thumbnail: 'brewers.png',
-                short: "Ã",   // 'U+00C3',
-                medium: "Ä",  // 'U+00C4'
-                long: "Å",    // 'U+00C5'
-            },  // End Brewers
-            {   // Dodgers
-                id: 2,
-                name: 'Dodgers',
-                code: 'dodgers',
-                title: 'Dodgers',
-                thumbnail: 'dodgers.png',
-                short: "Æ",   // 'U+00C6'
-                medium: "Ç",  // 'U+00C7'
-                long: "È",    // 'U+00C8'
-            },  // End Dodgers
-            {   // Expos
-                id: 3,
-                name: 'Expos',
-                code: 'expos',
-                title: 'Expos',
-                thumbnail: 'expos.png',
-                short: "Ò",   // 'U+00D2'
-                medium: "Ó",  // 'U+00D3'
-                long: "Ô",    // 'U+00D4'
-            },  // End Expos
-            {   // Indians
-                id: 4,
-                name: 'Indians',
-                code: 'indians',
-                title: 'Indians',
-                thumbnail: 'indians.png',
-                short: "Ø",   // 'U+00D8'
-                medium: "Ù",  // 'U+00D9'
-                long: "Ú",    // 'U+00DA'
-            },  // End Indians
-            {   // Oaklands
-                id: 5,
-                name: "Oakland A's",
-                code: "oaklands",
-                title: "Oakland A's",
-                thumbnail: 'oaklands.png',
-                short: "Õ",   // 'U+00D5'
-                medium: "Ö",  // 'U+00D6'
-                long: "×",    // 'U+00D7'
-            },  // End Oakland A's
-            {   // Orioles
-                id: 6,
-                name: "Orioles",
-                code: 'orioles',
-                title: "Orioles",
-                thumbnail: 'orioles.png',
-                short: "É",   // 'U+00C9'
-                medium: "Ê",  // 'U+00CA'
-                long: "Ë",    // 'U+00CB'
-            },  // End Orioles
-            {   // Royals
-                id: 7,
-                name: "Royals",
-                code: 'royals',
-                title: "Royals",
-                thumbnail: 'royals.png',
-                short: "Û",   // 'U+00DB'
-                medium: "Ü",  // 'U+00DC'
-                long: "Ý",    // 'U+00DD'
-            },  // End Royals
-            {   // San Francisco Giants
-                id: 8,
-                name: "San Francisco Giants",
-                code: 'sanfranciscogiants',
-                title: "San Francisco Giants",
-                thumbnail: 'sanfranciscogiants.png',
-                short: "Ï",   // 'U+00CF'
-                medium: "Ð",  // 'U+00D0'
-                long: "Ñ",    // 'U+00D1'
-            },  // End San Francisco Giants
-            {   // Twins
-                id: 9,
-                name: "Twins",
-                code: 'twins',
-                title: "Twins",
-                thumbnail: 'twins.png',
-                short: "Þ",   // 'U+00DE'
-                medium: "ß",  // 'U+00DF'
-                long: "à",    // 'U+00E0'
-            },  // End Twins
-            {   // Yankees
-                id: 10,
-                name: "Yankees",
-                code: 'yankees',
-                title: "Yankees",
-                thumbnail: 'yankees.png',
-                short: "Ì",   // 'U+00CC'
-                medium: "Í",  // 'U+00CD'
-                long: "Î",    // 'U+00CE'
-            },  // End Yankees
-        ],
-    }
-
     ub.uniformSizes = {
         'YXS': {
             name: 'Youth Extra Small',
@@ -8884,7 +8759,7 @@ ub.funcs.fontOffSets = [
                long: "Î",    // 'U+00CE'
             },
             {
-               code: 'sanfranciscogiants',
+               code: 'sanfranciscogia',
                short: "Ï",   // 'U+00CF'
                medium: "Ð",  // 'U+00D0'
                long: "Ñ",    // 'U+00D1'

@@ -1782,11 +1782,9 @@ $(document).ready(function() {
 
         $('body').mouseup(function() {
 
-            /// If locations is turned on exit
-            if (ub.status.fontPopupVisible) { return; }
-            if (ub.status.accentPopupVisible) { return; }
-            if (ub.status.mascotPopupVisible) { return; }
+            if (ub.funcs.popupTest()) {return;}
 
+            /// If locations is turned on exit
             if (ub.showLocation) { return; }
             
             if (sprite.ubHover) {
@@ -1809,10 +1807,7 @@ $(document).ready(function() {
 
         sprite.mousedown = sprite.touchstart = function(data) {
 
-
-            if (ub.status.fontPopupVisible) { return; }
-            if (ub.status.accentPopupVisible) { return; }
-            if (ub.status.mascotPopupVisible) { return; }
+            if (ub.funcs.popupTest()) {return;}
 
             if (ub.showLocation) { return; }
 
@@ -1829,9 +1824,7 @@ $(document).ready(function() {
 
         sprite.mousemove = sprite.mousemove = function(interactionData) {
 
-            if (ub.status.fontPopupVisible) { return; }
-            if (ub.status.accentPopupVisible) { return; }
-            if (ub.status.mascotPopupVisible) { return; }
+            if (ub.funcs.popupTest()) { return; }
 
             var this_data = interactionData.data;
             window.sprite = sprite;
@@ -2130,33 +2123,37 @@ $(document).ready(function() {
                 var _object27   = ub.objects[_view + '_view']['objects_27'];
                 var _object5    = ub.objects[_view + '_view']['objects_5'];
 
-                if (typeof _object26 !== "undefined") {
+                if (code === '1' || code === '26' || code === "27") {
 
-                    if (typeof _app1 !== "undefined") {
+                    if (typeof _object26 !== "undefined") {
 
-                        var _parentSize             =  parseInt(_app1.font_size);
-                        var _applicationNumber      = '26'
-                        var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
-                        var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
-                        var _originalPosition       = _app26['originalPosition_' + _view];
+                        if (typeof _app1 !== "undefined") {
 
-                        ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);
+                            var _parentSize             =  parseInt(_app1.font_size);
+                            var _applicationNumber      = '26'
+                            var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                            var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                            var _originalPosition       = _app26['originalPosition_' + _view];
+
+                            ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);
+
+                        }
 
                     }
 
-                }
+                    if (typeof _object27 !== "undefined") {
 
-                if (typeof _object27 !== "undefined") {
+                        if (typeof _app1 !== "undefined") {
 
-                    if (typeof _app1 !== "undefined") {
+                            var _parentSize             =  parseInt(_app1.font_size);
+                            var _applicationNumber      = '27'
+                            var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                            var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                            var _originalPosition       = _app27['originalPosition_' + _view];
 
-                        var _parentSize             =  parseInt(_app1.font_size);
-                        var _applicationNumber      = '27'
-                        var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
-                        var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
-                        var _originalPosition       = _app27['originalPosition_' + _view];
+                            ub.funcs.pullUp(_object27, _originalPosition, _calculatedPullUpHeight);
 
-                        ub.funcs.pullUp(_object27, _originalPosition, _calculatedPullUpHeight);
+                        }
 
                     }
 
@@ -2164,17 +2161,22 @@ $(document).ready(function() {
 
                 // Pull up 5
 
-                if (typeof _object5 !== "undefined") {
+                if (code === '5' || code === '6') {
 
-                     if (typeof _app6 !== "undefined") {
+                    if (typeof _object5 !== "undefined") {
 
-                        var _parentSize             =  parseInt(_app6.font_size);
-                        var _applicationNumber      = '5'
-                        var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
-                        var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
-                        var _originalPosition       = _app5['originalPosition_' + _view];
+                         if (typeof _app6 !== "undefined") {
 
-                        ub.funcs.pullUp(_object5, _originalPosition, _calculatedPullUpHeight);
+
+                            var _parentSize             =  parseInt(_app6.font_size);
+                            var _applicationNumber      = '5'
+                            var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                            var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                            var _originalPosition       = _app5['originalPosition_' + _view];
+
+                            ub.funcs.pullUp(_object5, _originalPosition, _calculatedPullUpHeight);
+
+                        }
 
                     }
 
@@ -2633,12 +2635,12 @@ $(document).ready(function() {
 
             ub.funcs.identify(app_id);
 
-            //if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+            // //if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
 
                 ub.funcs.runAfterUpdate(app_id);    
 
-            //}
-            
+            // //}
+
             return sprite_collection;
 
         };
@@ -3368,6 +3370,8 @@ $(document).ready(function() {
     }
 
     ub.funcs.stageMouseMove = function (mousedata) {
+
+        if (ub.funcs.popupTest()) { return; }
 
         if (ub.data.rosterInitialized) { 
 
@@ -5286,7 +5290,11 @@ $(document).ready(function() {
 
         if (_isScriptFont) {
 
-            _items = _.reject(ub.data.tailSweeps, {code: 'twins'});
+            var _blacklist = ['twins', 'royals', 'indians', 'orioles', 'expos', 'none'];
+
+            _items = _.reject(ub.data.tailSweeps, function (ts) {
+                return _.contains(_blacklist, ts.code);
+            });
 
         }
 
@@ -9369,6 +9377,14 @@ $(document).ready(function() {
 
     /// End Interactive Applications
 
+    ub.funcs.popupTest = function () {
+
+        var _result = $('div#primaryTailSweepPopup').is(':visible') || $('div#primaryFontPopup').is(':visible') || $('div#primaryAccentPopup').is(':visible') || $('div#primaryMascotPopup').is(':visible');
+
+        return _result;
+
+    }
+
     /// Locations and Free Application Types
 
     ub.data.locationSprites = []; 
@@ -9389,10 +9405,9 @@ $(document).ready(function() {
         $('body').mouseup( function () {
 
             if (viewPerspective !== ub.active_view) { return; }
-            if (ub.status.fontPopupVisible) { return; }
-            if ($('div#primaryPatternPopup').is(':visible')) { return; }
-            if ($('div#primaryMascotPopup').is(':visible')) { return; }
-
+            
+            if (ub.funcs.popupTest()) { return; }
+            
             if (sprite.ubHover) {
 
                 var _id               = locationCode;
@@ -9426,6 +9441,7 @@ $(document).ready(function() {
 
             if (viewPerspective !== ub.active_view) { return; }
             if (ub.status.fontPopupVisible) { return; }
+            if (ub.funcs.popupTest()) {return;}
             if (typeof this.interactionData === 'undefined') { return; }
 
             var this_data = this.interactionData.data;
@@ -9439,7 +9455,7 @@ $(document).ready(function() {
 
         sprite.mousemove = sprite.mousemove = function(interactionData) {
 
-            if (ub.status.fontPopupVisible) { return; }
+            if (ub.funcs.popupTest()) {return;}
             if (viewPerspective !== ub.active_view) { return; }
 
             var this_data = interactionData.data;
