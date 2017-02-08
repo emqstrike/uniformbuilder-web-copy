@@ -564,6 +564,22 @@ $(document).ready(function () {
 
                 if (object_name === "tailSweeps") {
 
+                    _.each(obj, function (tailsweep, index) {
+
+                        if (tailsweep.code === "blank") { 
+                            
+                            tailsweep.sortOrder = 0; 
+
+                        } else {
+
+                            tailsweep.sortOrder = index + 1;
+
+                        }
+
+                    });
+
+                    ub.data.tailSweeps = _.sortBy(ub.data.tailSweeps, "sortOrder");
+
                 }
 
             } else {

@@ -1307,9 +1307,14 @@
         var overrideSize =  input_object.overrideSize;
         var verticalText = input_object.applicationObj.verticalText;
         var text_input = '';
+        var id = input_object.application.id;
+        var fontObject = ub.funcs.getFontByName(font_name); // TODO: use js casing for the vars here...
+        var isScriptFont = false;
 
-        // var text_input = input_object.text_input.toUpperCase();
+        if (typeof fontObject === "undefined") { ub.utilities.error('Font ' + font_name + ' not found'); }
 
+        isScriptFont = fontObject.script === "1";
+        
         if (verticalText === 1) {
 
             text_input = vertical_text(input_object.text_input.toUpperCase());
@@ -1340,8 +1345,7 @@
             accent_id = input_object.accentObj.id;
             accent_obj = input_object.accentObj;
 
-        } 
-        else {
+        } else {
 
             accent_id = $('div.accent_drop[data-id="' + application.id + '"]').data('accent-id');
             accent_obj = _.find(ub.data.accents.items, {id: accent_id});
@@ -1406,10 +1410,12 @@
 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
 
-                if(input_object.font_name !== "Brush Script" && input_object.font_name !== "Cracker jack" && input_object.font_name !== "Block Test") {
+                var _tailSweepFonts = ['Brush Script', 'Cracker Jack', 'Impact', 'Dodger', 'Arabian Nights', 'Bomber'];
+
+                if(_.contains(_tailSweepFonts, input_object.font_name)) {
                     style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 1};
                 } else {
-                    style = {font: font_size + "px " + font_name, fill: "white", padding: 45, lineJoin: 'miter', miterLimit: 1};
+                    style = {font: font_size + "px " + font_name, fill: "white", padding: 150, lineJoin: 'miter', miterLimit: 1};
                 }
 
             }
