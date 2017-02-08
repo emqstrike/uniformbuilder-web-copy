@@ -5275,15 +5275,24 @@ $(document).ready(function() {
     ub.funcs.createTailSweepPopup = function (settingsObj) {
 
         var _sampleText = $('input[name="sampleText"]').val();
-        var _length     = "short";
+        var _length = "short";
+        var _items = _.filter(ub.data.tailSweeps, function (tailsweep) { return tailsweep.code === "twins" || tailsweep.code === "blank"; });
 
         if (_sampleText.length <= 5)                             { _length = 'short';  }
         if (_sampleText.length >= 6 && _sampleText.length <= 7 ) { _length = 'medium'; } 
         if (_sampleText.length > 7)                              { _length = 'long';   } 
 
+        var _isScriptFont = settingsObj.font_obj.script === "1";
+
+        if (_isScriptFont) {
+
+            _items = _.reject(ub.data.tailSweeps, {code: 'twins'});
+
+        }
+
         var data = {
 
-           tailsweeps: ub.data.tailsweeps.items,
+           tailsweeps: _items,
            sampleText: _sampleText,
 
         }
