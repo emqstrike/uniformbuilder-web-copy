@@ -3811,9 +3811,9 @@ $(document).ready(function() {
                 code: 'twins',
                 title: "Twins",
                 thumbnail: 'twins.png',
-                short: "Ï",   // 'U+00CF'
-                medium: "Ð",  // 'U+00D0'
-                long: "Ñ",    // 'U+00D1'
+                short: "Þ",   // 'U+00DE'
+                medium: "ß",  // 'U+00DF'
+                long: "à",    // 'U+00E0'
             },  // End Twins
             {   // Yankees
                 id: 10,
