@@ -1,14 +1,18 @@
 $(document).ready(function() {
-    $( ".mascot-row" ).each(function( index ) {
-            var sports = $(this).data("sports");
-            for (var i in sports) {
-                $(this).addClass(sports[i]);
-            }
-            // $(this).data("sports").forEach(function(element) {
 
-            //     $(this).addClass(element);
-            //     console.log( $(mascotElement).data("sports"));
-            // });
+    $( ".mascot-row" ).each(function( index ) {
+            if (typeof($(this).attr("data-sports")) != 'undefined') {
+                //sport sample data string ["baseball","batketball"]
+                var sports = $(this).attr("data-sports").replace(/[\[\]']+/g, '').replace(/['"]+/g, '');
+                sports = sports.split(',');
+                for (i = 0; i < sports.length; i++) {               
+                    console.log(sports[i]);
+                    $(this).addClass(sports[i]);
+                }             
+               
+            }
+        
+        
         });
 
     try{

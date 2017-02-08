@@ -54,9 +54,9 @@
                 <div class="box-body isotope" id="box_body">
                 @forelse ($mascots as $mascot)
                         @if( $mascot->active == 1)
-                        <div class="col-md-2 mascot-row On" data-category="{{ $mascot->category }}" @if (isset($mascot->sports)) data-sports="{{ $mascot->sports }} @endif">
+                        <div class="col-md-2 mascot-row On" data-category="{{ $mascot->category }}" @if (isset($mascot->sports)) data-sports="{{ $mascot->sports }}@endif">
                         @else
-                        <div class="col-md-2 mascot-row Off " data-category="{{ $mascot->category }}" @if (isset($mascot->sports)) data-sports="{{ $mascot->sports }} @endif"> 
+                        <div class="col-md-2 mascot-row Off " data-category="{{ $mascot->category }}" @if (isset($mascot->sports)) data-sports="{{ $mascot->sports }}@endif"> 
                        
                         
                         @endif
@@ -170,7 +170,7 @@
 
         $(this).attr("data-category",filteredClass);
         $(this).addClass(filteredClass);
-           console.log(this);
+          
 
         });
 
@@ -185,14 +185,14 @@ $(document).ready(function(){
    
 
 
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
-    });
+    // $('.data-table').DataTable({
+    //     "paging": true,
+    //     "lengthChange": false,
+    //     "searching": false,
+    //     "ordering": true,
+    //     "info": true,
+    //     "autoWidth": false
+    // });
 });
 </script>
 @endsection
