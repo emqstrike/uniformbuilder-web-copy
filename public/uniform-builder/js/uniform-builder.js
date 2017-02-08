@@ -290,8 +290,6 @@ $(document).ready(function () {
 
                 if (e.state === "order-form") {
 
-                    
-                    
                     ub.funcs.reShowOrderFrom();
 
                 }
@@ -380,9 +378,7 @@ $(document).ready(function () {
             }
             
             ub.funcs.prepareBottomTabs();
-
             ub.funcs.loadOtherFonts();
-
 
             var _blockPattern = ub.current_material.material.block_pattern;
 
@@ -567,6 +563,22 @@ $(document).ready(function () {
                 ub.data[object_name] = obj;
 
                 if (object_name === "tailSweeps") {
+
+                    _.each(obj, function (tailsweep, index) {
+
+                        if (tailsweep.code === "blank") { 
+                            
+                            tailsweep.sortOrder = 0; 
+
+                        } else {
+
+                            tailsweep.sortOrder = index + 1;
+
+                        }
+
+                    });
+
+                    ub.data.tailSweeps = _.sortBy(ub.data.tailSweeps, "sortOrder");
 
                 }
 
@@ -1370,6 +1382,39 @@ $(document).ready(function () {
 
                     };
 
+                    // Setup Default Tailsweep
+                    if (view.application.id === "1" && ub.funcs.isCurrentSport('Baseball')) {
+
+                        if (view.application.tailsweeps !== "") {
+
+                            var _tailSweepObj = ub.funcs.getTailSweepByID(view.application.tailsweeps);
+
+                            if (typeof _tailSweepObj !== "undefined") {
+
+                                var _rotated = 'straight';
+
+                                if (view.application.rotatedTailsweep === 1) { 
+
+                                    _rotated = 'rotated';
+
+                                }
+
+                                _output.tailsweep = {
+
+                                    id: parseInt(_tailSweepObj.id),
+                                    code: _tailSweepObj.code,
+                                    thumbnail: _tailSweepObj.code + '.png',
+                                    length: 'short', // TODO: change this to auto length compute when the 12 lengths tailsweep is done
+                                    angle: _rotated,
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
                 } 
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
@@ -1677,18 +1722,18 @@ $(document).ready(function () {
 
         ub.funcs.showLocations();
 
-        if (ub.config.material_id === 731) {
+        // if (ub.config.material_id === 731) {
 
-            ub.current_material.settings.applications[1].tailsweep = {
+        //     ub.current_material.settings.applications[1].tailsweep = {
 
-                id: 10,
-                code: 'yankees',
-                thumbnail: 'yankees.png',
-                length: 'long',
+        //         id: 10,
+        //         code: 'yankees',
+        //         thumbnail: 'yankees.png',
+        //         length: 'long',
 
-            };
+        //     };
 
-        }
+        // }
 
 
         /// End Transform Applications
@@ -3898,6 +3943,7 @@ $(document).ready(function () {
 
                 var container = application_settings.pattern;
                 var v = application.perspective;
+                
                 container.sprites = {};
 
                 _.each(clone.layers, function (layer, index) {

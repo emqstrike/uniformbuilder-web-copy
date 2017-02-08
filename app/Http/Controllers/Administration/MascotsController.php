@@ -43,6 +43,7 @@ class MascotsController extends Controller
         $mascot_categories = $this->mascotsCategoryClient->getMascotCategories();
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
+        
         return view('administration.mascots.mascots', [
             'mascots' => $mascots,
             'mascot_categories' => $mascot_categories,
@@ -139,8 +140,6 @@ class MascotsController extends Controller
         $mascot = $this->client->getMascot($id);
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
-       
-
 
         $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
         $mascots_categories = array();
@@ -172,8 +171,8 @@ class MascotsController extends Controller
         // $team_color_id = $request->input('team_color_id');
         $layersProperties = $request->input('layers_properties');
 
-        $sports = explode(",", $request->input('sports_value'));
 
+        $sports = explode(",", $request->input('sports_value'));
         $data = [
             'name' => $mascotName,
             'code' => $code,
@@ -190,7 +189,7 @@ class MascotsController extends Controller
             $id = $request->input('mascot_id');
             $data['id'] = $id;
         }
- 
+
         $myJson = json_decode($layersProperties, true);
         $materialFolder = $mascotName;
         try

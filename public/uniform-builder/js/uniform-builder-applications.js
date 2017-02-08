@@ -2068,19 +2068,6 @@ $(document).ready(function() {
                     _matchingObj.scale.y = scaleY;
 
                 }
-                
-                console.log('Primary Object #' + location);
-
-                console.log('Position: ');
-                console.log(_obj.position);
-                console.log('Scale: ');
-                console.log(_obj.scale);
-
-                console.log('Matching Object #' + _prID);
-                console.log('Position: ');
-                console.log(_matchingObj.position);
-                console.log('Scale: ');
-                console.log(_matchingObj.scale);
 
             }
 
@@ -2088,22 +2075,112 @@ $(document).ready(function() {
 
         ub.funcs.getProperties = function (location, perspective) {
 
+            var _obj = undefined;
+
             if (typeof ub.objects[perspective + '_view']['objects_' + location] !== "undefined") {
 
-                var _obj = ub.objects[perspective + '_view']['objects_' + location];
-                
-                console.log('Position: ');
-                console.log(_obj.position);
-                console.log('Scale: ');
-                console.log(_obj.scale);
+                _obj = ub.objects[perspective + '_view']['objects_' + location];
 
             }
+
+            if (typeof _obj === "undefined") { console.warn('Location ' + location + " in perspective " + perspective + " not found."); }
+
+            return _obj;
 
         }
 
         ub.funcs.getSettingsObject = function (applicationID) {
 
             return ub.current_material.settings.applications[applicationID];
+
+        }
+
+        ub.funcs.pullUp = function (_object, originalPosition, pullUpValue) {
+
+            if (typeof originalPosition !== "undefined") {
+
+                _object.position.y =  originalPosition.y + pullUpValue;
+
+            }
+
+        }
+
+        ub.funcs.oneInchPullUp = function (code) {
+
+            var _currentSport = ub.current_material.material.uniform_category;
+            var _codes = ["1", "6", "5", "26", "27"];
+
+            if (_currentSport !== "Baseball") { return; }
+            if (!_.includes(_codes, code))    { return; }
+
+            // Pull up 26 and 27
+
+            // Front
+            var _app1       = ub.current_material.settings.applications[1];
+            var _app26      = ub.current_material.settings.applications[26];
+            var _app27      = ub.current_material.settings.applications[27];
+       
+            // Back
+            var _app6       = ub.current_material.settings.applications[6];
+            var _app5       = ub.current_material.settings.applications[5];
+            
+            _.each(ub.views, function (_view) {
+
+                var _object26   = ub.objects[_view + '_view']['objects_26'];
+                var _object27   = ub.objects[_view + '_view']['objects_27'];
+                var _object5    = ub.objects[_view + '_view']['objects_5'];
+
+                if (typeof _object26 !== "undefined") {
+
+                    if (typeof _app1 !== "undefined") {
+
+                        var _parentSize             =  parseInt(_app1.font_size);
+                        var _applicationNumber      = '26'
+                        var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                        var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                        var _originalPosition       = _app26['originalPosition_' + _view];
+
+                        ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);
+
+                    }
+
+                }
+
+                if (typeof _object27 !== "undefined") {
+
+                    if (typeof _app1 !== "undefined") {
+
+                        var _parentSize             =  parseInt(_app1.font_size);
+                        var _applicationNumber      = '27'
+                        var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                        var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                        var _originalPosition       = _app27['originalPosition_' + _view];
+
+                        ub.funcs.pullUp(_object27, _originalPosition, _calculatedPullUpHeight);
+
+                    }
+
+                }
+
+                // Pull up 5
+
+                if (typeof _object5 !== "undefined") {
+
+                     if (typeof _app6 !== "undefined") {
+
+                        var _parentSize             =  parseInt(_app6.font_size);
+                        var _applicationNumber      = '5'
+                        var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                        var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                        var _originalPosition       = _app5['originalPosition_' + _view];
+
+                        ub.funcs.pullUp(_object5, _originalPosition, _calculatedPullUpHeight);
+
+                    }
+
+                }
+
+            });
 
         }
 
@@ -2134,7 +2211,7 @@ $(document).ready(function() {
 
             var adjustablePositions = ['1','2','6','5'];
 
-            _.each(views, function(view) {
+            _.each(views, function (view) {
 
                 args.perspective = view.perspective;
 
@@ -2334,7 +2411,6 @@ $(document).ready(function() {
                 if ((app_id === '5' || app_id === '2') && _applicationObj.type === 'mascot' && _size === 1) { point.position.y   += 13; }
                 if (_applicationObj.type === 'mascot' && _size === 8)    { point.position.y   -= 5;    }
 
-                
                 // Lower Uniform Application Scales
 
                 var _isValidPantLocation = ub.data.pantLocations.isValidLocation(parseInt(app_id));
@@ -2549,7 +2625,10 @@ $(document).ready(function() {
                     }
 
                 }
-                
+
+                // This will be used for the 1-inch Pull-up
+                _settingsObject['originalPosition_' + view.perspective] = {x: point.position.x, y: point.position.y };
+
             });
 
             ub.funcs.identify(app_id);
@@ -4917,8 +4996,6 @@ $(document).ready(function() {
         var _id         = settingsObj.id;
         ub.funcs.removeApplicationByID(_id);
 
-        /// Set Default Colors 
-
         settingsObj.font_size = parseFloat(size);
         settingsObj.size = parseFloat(size);
         ub.create_application(settingsObj, undefined);
@@ -5181,19 +5258,41 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.changeAngleFromPopup = function (id, settingsObj, angle) {
+
+        settingsObj.tailsweep.angle = angle;
+
+        ub.funcs.removeApplicationByID(id);
+        ub.create_application(settingsObj, undefined);
+
+        $popup = $('div#primaryTailSweepPopup');
+        $popup.remove();
+        ub.status.tailSweepPopupVisible = false;
+
+    }
+
     ub.status.tailsweepPopupVisible = false;
     ub.funcs.createTailSweepPopup = function (settingsObj) {
 
         var _sampleText = $('input[name="sampleText"]').val();
-        var _length     = "short";
+        var _length = "short";
+        var _items = _.filter(ub.data.tailSweeps, function (tailsweep) { return tailsweep.code === "twins" || tailsweep.code === "blank"; });
 
         if (_sampleText.length <= 5)                             { _length = 'short';  }
         if (_sampleText.length >= 6 && _sampleText.length <= 7 ) { _length = 'medium'; } 
         if (_sampleText.length > 7)                              { _length = 'long';   } 
 
+        var _isScriptFont = settingsObj.font_obj.script === "1";
+
+        if (_isScriptFont) {
+
+            _items = _.reject(ub.data.tailSweeps, {code: 'twins'});
+
+        }
+
         var data = {
 
-           tailsweeps: ub.data.tailsweeps.items,
+           tailsweeps: _items,
            sampleText: _sampleText,
 
         }
@@ -7583,7 +7682,7 @@ $(document).ready(function() {
         _fontSizeData.xScale        = _scaleX;
         _fontSizeData.yScale        = _scaleY;
 
-        _.each (_fontSizeTable, function (fontSizeData){
+        _.each (_fontSizeTable, function (fontSizeData) {
 
             if (fontSizeData.inputSize === _fontSizeData.inputSize) {
 
@@ -7605,20 +7704,21 @@ $(document).ready(function() {
 
         ub.funcs.postData(_postData, _url);
 
-    }
+    };
 
     ub.funcs.hideGAFontTool = function () {
 
         // Hide GA Font Tool
         $('span.cog').hide();
         
-    }
+    };
 
     ub.funcs.runAfterUpdate = function(application_id) {
 
+        ub.funcs.oneInchPullUp(application_id);
         ub.funcs.updateCaption(application_id);
 
-    }
+    };
 
     ub.funcs.okToStart = function () {
 
@@ -7999,15 +8099,19 @@ $(document).ready(function() {
             _htmlBuilder        +=                 '</div>';
             _htmlBuilder        +=                 '<div class="sizeContainer">';
 
-            _htmlBuilder        +=                 '<span class="sizeItem" data-size="short">Short</span>';        
-            _htmlBuilder        +=                 '<span class="sizeItem" data-size="medium">Medium</span>';        
-            _htmlBuilder        +=                 '<span class="sizeItem" data-size="long">Long</span>';        
+            _htmlBuilder        +=                      '<span class="sizeLabel">LENGTH</span>';
+            _htmlBuilder        +=                      '<span class="sizeItem" data-size="short">Short</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem" data-size="medium">Medium</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem" data-size="long">Long</span>';        
 
+            _htmlBuilder        +=                      '<span class="sizeLabel">ANGLE</span>';
+            _htmlBuilder        +=                      '<span class="angleItem" data-angle="straight">Straight</span>';        
+            _htmlBuilder        +=                      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
+            
             _htmlBuilder        +=                 '</div>';
             _htmlBuilder        +=              '</div>';
 
         }
-
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
@@ -8026,6 +8130,19 @@ $(document).ready(function() {
                 $('span.sizeItem').removeClass('active');
 
                 ub.funcs.changeTailSweepFromPopup(_id, _settingsObject, _size);
+
+                $(this).addClass('active');
+
+            });
+
+            // Application w/ Tailsweep angle Event
+            $('span.angleItem').unbind('click');
+            $('span.angleItem').on('click', function () {
+
+                var _angle = $(this).data('angle');
+                $('span.angleItem').removeClass('active');
+
+                ub.funcs.changeAngleFromPopup(_id, _settingsObject, _angle);
 
                 $(this).addClass('active');
 
@@ -8820,6 +8937,35 @@ $(document).ready(function() {
                 $('div.column1.patterns').hide();
                 $('span.tab[data-item="tailsweeps"]').hide();
                 $('span.tab[data-item="patterns"]').hide();
+
+            }
+
+            // Disable tailsweep tab when application is not #1
+            if (_id !== '1') {
+
+                $('div.column1.tailsweeps').hide();
+                $('span.tab[data-item="tailsweeps"]').hide();
+
+            }
+
+            if (_id === '1') {
+
+                var _tailSweepObj = ub.current_material.settings.applications[parseInt(_id)].tailsweep;
+                if (typeof _tailSweepObj !== "undefined") {
+
+                    if (_tailSweepObj.angle === "rotated") {
+
+                        $('span.angleItem').removeClass('active');
+                        $('span.angleItem[data-angle="rotated"]').addClass('active');
+
+                    } else {
+
+                        $('span.angleItem').removeClass('active');
+                        $('span.angleItem[data-angle="straight"]').addClass('active');
+
+                    }
+
+                }
 
             }
 

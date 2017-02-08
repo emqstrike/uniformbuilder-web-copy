@@ -1,7 +1,6 @@
 @extends('administration.lte-main')
 
 @section('custom-styles')
-
 select:hover {
   background-color: transparent;
 }
@@ -10,7 +9,7 @@ select:hover {
 @section('content')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
     li.select2-selection__choice {
     color: black !important;
 }
@@ -75,8 +74,6 @@ select:hover {
                             </div>
                         </div>
 
-
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">Icon</label>
                             <div class="col-md-6 front-view">
@@ -90,7 +87,7 @@ select:hover {
                             </div>
                         </div>
 
-
+                        
 
 
 <!--                         <div class="form-group">
@@ -206,7 +203,6 @@ $(document).ready(function(){
         var color = $('option:selected', this).data('color');
         $(this).css('background-color', color);
     });
-
     $('.sports').select2({
         placeholder: "Select sports",
         multiple: true,
@@ -218,7 +214,6 @@ $(document).ready(function(){
     });
 
     $('.sports').select2('val', sports);
-
 });
 </script>
 @endsection

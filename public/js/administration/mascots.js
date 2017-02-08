@@ -1,17 +1,19 @@
 $(document).ready(function() {
+
     $( ".mascot-row" ).each(function( index ) {
-
-        for (val of $(this).data("sports")) {
-            console.log(val);
-            $(this).addClass(val);
-        }
-        // $(this).data("sports").forEach(function(element) {
-            
-
-        //     $(this).addClass(element);
-        //     console.log( $(mascotElement).data("sports"));
-        // });
-    });
+            if (typeof($(this).attr("data-sports")) != 'undefined') {
+                //sport sample data string ["baseball","batketball"]
+                var sports = $(this).attr("data-sports").replace(/[\[\]']+/g, '').replace(/['"]+/g, '');
+                sports = sports.split(',');
+                for (i = 0; i < sports.length; i++) {               
+                    console.log(sports[i]);
+                    $(this).addClass(sports[i]);
+                }             
+               
+            }
+        
+        
+        });
 
     try{
         var $container = $('.isotope').isotope({
@@ -25,13 +27,15 @@ $(document).ready(function() {
              var filterValue = $( this ).attr('data-filter') + "" + $("#filterSports .btn-primary").attr('data-filter');
              console.log(filterValue);         
              $container.isotope({ filter: filterValue });
-
+ 
+            
         });
         $('#filterSports').on( 'click', 'button', function() {
               var filterValue = $( this ).attr('data-filter') + "" + $("#filters .btn-primary").attr('data-filter'); 
-             console.log(filterValue);
+              console.log(filterValue);
+       
              $container.isotope({ filter: filterValue });
-        });
+         });
 
         $('.button-group').each( function( i, buttonGroup ) {
             var $buttonGroup = $( buttonGroup );
@@ -120,7 +124,7 @@ $(document).ready(function() {
         $('.toggle-mascot-typographic').on('click', function(){
             
             var id = $(this).data('mascot-id');
-    
+            console.log(id);
              var url = "//" + api_host + "/api/mascot/toggle_typographic/";
             //  var url = "//localhost:8888/api/mascot/toggle_typographic/";
           

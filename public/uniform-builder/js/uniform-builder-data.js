@@ -3811,9 +3811,9 @@ $(document).ready(function() {
                 code: 'twins',
                 title: "Twins",
                 thumbnail: 'twins.png',
-                short: "Ï",   // 'U+00CF'
-                medium: "Ð",  // 'U+00D0'
-                long: "Ñ",    // 'U+00D1'
+                short: "Þ",   // 'U+00DE'
+                medium: "ß",  // 'U+00DF'
+                long: "à",    // 'U+00E0'
             },  // End Twins
             {   // Yankees
                 id: 10,
@@ -8714,6 +8714,73 @@ ub.funcs.fontOffSets = [
 
     }
 
+    // This will be used to keep the 1-inch separation between team name / player name and the Front and Back Number
+    ub.data.applicationPullUps = {
+
+        items: [
+
+            {
+                sport: 'Baseball',
+                applicationNumber: '26',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '26',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '26',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '27',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '27',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '27',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -35,
+            },
+        ], 
+
+        getPullUp: function (sport, parentSize, applicationNumber) {
+
+            var _result = _.find(this.items, {sport: sport, size: parentSize, applicationNumber: applicationNumber});
+            
+            if (typeof _result === "undefined") { console.warn('pullUp height for ' + sport + ' not found.')};
+
+            return _result;
+
+        },
+
+    }
+
     ub.data.mascotSizes = {
 
         items: [
@@ -8824,7 +8891,7 @@ ub.funcs.fontOffSets = [
             },
             {
                code: 'expos',
-               short: "Ô",   // 'U+00D2'
+               short: "Ò",   // 'U+00D2'
                medium: "Ó",  // 'U+00D3'
                long: "Ô",    // 'U+00D4'
             },
