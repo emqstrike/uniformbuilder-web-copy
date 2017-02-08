@@ -90,13 +90,6 @@ class FontsController extends Controller
             $fontId = $request->input('font_id');
         }
 
-        // Font Name should be Unique
-        if ($this->client->isFontExist($fontName, $fontId))
-        {
-            return Redirect::to('administration/fonts')
-                        ->with('message', 'Font name already exists');
-        }
-
         $data = [
             'name' => $fontName,
             'tail_sweep' => $tailSweep,
