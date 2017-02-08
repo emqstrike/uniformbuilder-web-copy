@@ -21,6 +21,7 @@ use App\Utilities\Random;
 use TCPDF;
 use File;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\GeneratedDesignSheet;
 
 class UniformBuilderController extends Controller
 {
@@ -1180,6 +1181,7 @@ class UniformBuilderController extends Controller
             $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
         }
 
+        $this->notify(new GeneratedDesignSheet($message))
         return $transformedPath;
     }
 
