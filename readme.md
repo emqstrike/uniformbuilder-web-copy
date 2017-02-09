@@ -14,4 +14,4 @@
 * [**Backend and API**, Jethro Del Rosario - https://github.com/jethqx](https://github.com/jethqx)
 * [**FRONTEND**, Arthur Abogadil - https://github.com/arthur-v-abogadil](https://github.com/arthur-v-abogadil)
 * [**Jr. Support Dev**, Aljim Dungca - https://github.com/aljim0990](https://github.com/aljim0990)
-* [**QA**, Rohmer Sicat - https://github.com/rohmersjay](https://github.com/rohmersjay)        
+* [**DevOps/QA**, Rohmer Sicat - https://github.com/rohmersjay](https://github.com/rohmersjay)        
