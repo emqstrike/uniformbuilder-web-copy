@@ -55,7 +55,7 @@ class AssetVersionUpgradeCommand extends Command
     }
 
     /**
-     * Generate a random key for the application.
+     * Generates a newer version of the `ASSET_VERSION`
      *
      * @return string
      */
@@ -89,7 +89,7 @@ class AssetVersionUpgradeCommand extends Command
     }
 
     /**
-     * Set the asset_version in the environment file.
+     * Set the ASSET_VERSION in the environment file.
      *
      * @param  string  $version
      * @return bool
@@ -105,7 +105,7 @@ class AssetVersionUpgradeCommand extends Command
     }
 
     /**
-     * Write a new environment file with the given key.
+     * Write a new environment file with the given version.
      *
      * @param  string  $version
      * @return void
@@ -113,18 +113,18 @@ class AssetVersionUpgradeCommand extends Command
     protected function writeNewEnvironmentFileWith($version)
     {
         file_put_contents($this->laravel->environmentFilePath(), preg_replace(
-            $this->keyReplacementPattern(),
+            $this->assetVersionReplacementPattern(),
             'ASSET_VERSION='.$version,
             file_get_contents($this->laravel->environmentFilePath())
         ));
     }
 
     /**
-     * Get a regex pattern that will match env asset_version with any random key.
+     * Get a regex pattern that will match env ASSET_VERSION with a newer version.
      *
      * @return string
      */
-    protected function keyReplacementPattern()
+    protected function assetVersionReplacementPattern()
     {
         $escaped = preg_quote('='.$this->laravel['config']['customizer.asset_version'], '/');
 
