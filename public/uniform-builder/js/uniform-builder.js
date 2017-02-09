@@ -555,8 +555,36 @@ $(document).ready(function () {
             });
 
         };
+
+        ub.convertToString = function (obj) {
+
+            _.each(obj, function (item) {
+
+                if (typeof item.id === "number") {
+
+                    item.id = item.id.toString();
+
+                }
+
+                if (typeof item.active === "number") {
+
+                    item.active = item.active.toString();
+
+                }
+
+                if (typeof item.debug_mode === "number") {
+
+                    item.debug_mode = item.debug_mode.toString();
+
+                }
+
+            });
+
+        }
  
         ub.callback = function (obj, object_name) {
+
+            ub.convertToString(obj);
 
             if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
 
