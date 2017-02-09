@@ -1037,7 +1037,8 @@ $(document).ready(function() {
                 path: $(this).data('material-option-path'),
                 perspective: $(this).data('material-option-perspective'),
                 applications_properties: ($(this).data('material-option-applications-properties')),
-                highlights: ($(this).data('material-highlights-path'))
+                highlights: ($(this).data('material-highlights-path')),
+                guide: ($(this).data('material-option-guide'))
             }
         };
 
@@ -1053,6 +1054,7 @@ $(document).ready(function() {
         $('#app_option_id').val($(this).data('material-option-id'));
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
+        $("#shape-guide").css("background-image", "url("+material.option.guide+")");
         $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
         $("#shape-view").css("background-image", "url("+material.option.highlights+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
