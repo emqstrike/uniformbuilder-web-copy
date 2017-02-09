@@ -68,7 +68,6 @@ select:hover {
 
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-<!-- <script type="text/javascript" src="/js/administration/mascot-sizes.js"></script> -->
 <script type="text/javascript">
 $(document).ready(function(){
 

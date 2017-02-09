@@ -12,7 +12,7 @@ $(document).ready(function() {
             var _fontSizeTables = font.font_size_tables;
             var _parsedFontSizeTables = undefined;
 
-            if (typeof _fontSizeTables !== "undefined" && _fontSizeTables !== null) {
+            if (typeof _fontSizeTables !== "undefined" && _fontSizeTables !== null && _fontSizeTables !== "") {
 
                _parsedFontSizeTables = JSON.parse(_fontSizeTables);
                 

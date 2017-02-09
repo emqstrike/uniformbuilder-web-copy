@@ -91,7 +91,6 @@
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<!-- <script type="text/javascript" src="/js/administration/mascot-sizes.js"></script> -->
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -101,11 +100,7 @@ $(document).ready(function(){
     });
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-
-
-       //var url = "//" + api_host + "/api/mascot_size/delete/";
-       var url = "//localhost:8888/api/mascot_size/delete/";
-
+        var url = "//" + api_host + "/api/mascot_size/delete/";      
         $.ajax({
             url: url,
             type: "POST",
