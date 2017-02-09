@@ -1,4 +1,4 @@
-# Code Map
+# ProLook Customizer Code Map
 
 ## Main JS Files
 
