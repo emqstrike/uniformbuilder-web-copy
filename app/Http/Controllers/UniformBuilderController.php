@@ -20,10 +20,13 @@ use App\Utilities\FileUploaderV2;
 use App\Utilities\Random;
 use TCPDF;
 use File;
-use Slack;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\GeneratedDesignSheet;
 
 class UniformBuilderController extends Controller
 {
+    use Notifiable;
+
     protected $materialsClient;
     protected $colorsClient;
     protected $designSetClient;
@@ -1178,9 +1181,8 @@ class UniformBuilderController extends Controller
             $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
         }
 
-        Slack::send($message);
+        $this->notify(new GeneratedDesignSheet($message));
         return $transformedPath;
-        
     }
 
     public function generateOrderForm(Request $request){
