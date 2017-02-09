@@ -560,22 +560,25 @@ $(document).ready(function () {
 
             _.each(obj, function (item) {
 
-                if (typeof item.id === "number") {
+                if (item !== null) {
 
-                    item.id = item.id.toString();
+                    if (typeof item.id === "number") {
 
-                }
+                        item.id = item.id.toString();
 
-                if (typeof item.active === "number") {
+                    }
 
-                    item.active = item.active.toString();
+                    if (typeof item.active === "number") {
 
-                }
+                        item.active = item.active.toString();
 
-                if (typeof item.debug_mode === "number") {
+                    }
 
-                    item.debug_mode = item.debug_mode.toString();
+                    if (typeof item.debug_mode === "number") {
 
+                        item.debug_mode = item.debug_mode.toString();
+
+                    }
                 }
 
             });
@@ -1133,6 +1136,7 @@ $(document).ready(function () {
         ub.load_materials = function (obj, object_name){
 
             ub.materials = {};
+            ub.convertToString(obj);
             ub.materials = _.filter(obj, {debug_mode: '0'});
 
             _.each (ub.materials, function (material) {
