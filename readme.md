@@ -6,14 +6,6 @@
 * Staging Server to follow
 * API Documentation url to follow
 
-### Frameworks and Libraries
-
-* [Laravel](http://laravel.com)
-* [FabricJS](http://fabricjs.com/fabric-intro-part-1/)
-* [PrototypeJS](http://prototypejs.org/)
-* [jQuery](http://jquery.com)
-* [Twitter Bootstrap](http://getbootstrap.com/)
-
 ### Geeks
 
 * [**CIO / CTO**, Chief Geek Jared Blanchard - https://github.com/jaredean](https://github.com/jaredean)
@@ -23,7 +15,3 @@
 * [**FRONTEND**, Arthur Abogadil - https://github.com/arthur-v-abogadil](https://github.com/arthur-v-abogadil)
 * [**Jr. Support Dev**, Aljim Dungca - https://github.com/aljim0990](https://github.com/aljim0990)
 * [**QA**, Rohmer Sicat - https://github.com/rohmersjay](https://github.com/rohmersjay)        
-
-Special Mention
-
-[**Original Backend Dev**, Romack Natividad - https://github.com/itsromack](https://github.com/itsromack)
