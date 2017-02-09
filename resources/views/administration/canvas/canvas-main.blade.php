@@ -21,7 +21,7 @@
     
     <!-- Builder Main Stylesheets -->
         
-        <link rel="stylesheet" href="{{$asset_storage}}/canvas/internal/css/canvas.css{{$asset_version}}">
+        <link rel="stylesheet" href="{{$asset_storage}}/canvas/internal/css/canvas.css?v={{$asset_version}}">
 
     <!-- End Builder Main Stylesheets -->    
 
@@ -68,19 +68,19 @@
         <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
         <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <script src="{{$asset_storage}}/canvas/third-party/threejs/three.js{{$asset_version}}"></script>
+        <script src="{{$asset_storage}}/canvas/third-party/threejs/three.js?v={{$asset_version}}"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js"></script>
-        <script src="{{$asset_storage}}/canvas/third-party/dropzone/dropzone.js{{$asset_version}}"></script>
-        <script src="{{$asset_storage}}/canvas/third-party/fabric-orbitcontrols/orbitcontrols.js{{$asset_version}}"></script>
+        <script src="{{$asset_storage}}/canvas/third-party/dropzone/dropzone.js?v={{$asset_version}}"></script>
+        <script src="{{$asset_storage}}/canvas/third-party/fabric-orbitcontrols/orbitcontrols.js?v={{$asset_version}}"></script>
 
     <!-- End Third Party Scripts -->
 
 
     <!-- Builder Main Scripts -->
     
-        <script src="{{$asset_storage}}/canvas/internal/js/utilities.js{{$asset_version}}"></script>
-        <script src="{{$asset_storage}}/canvas/internal/js/prolook_builder_and_canvas.js{{$asset_version}}"></script>
-        <script src="{{$asset_storage}}/canvas/internal/js/canvas.js{{$asset_version}}"></script>
+        <script src="{{$asset_storage}}/canvas/internal/js/utilities.js?v={{$asset_version}}"></script>
+        <script src="{{$asset_storage}}/canvas/internal/js/prolook_builder_and_canvas.js?v={{$asset_version}}"></script>
+        <script src="{{$asset_storage}}/canvas/internal/js/canvas.js?v={{$asset_version}}"></script>
 
     <!-- End Builder Main Scripts -->
 

@@ -171,7 +171,7 @@ class AuthenticationController extends AdminAuthController
         $params = [
             'page_title' => 'Forgot your password? | ' . env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE')
         ];
         return view('forms.forgot-password', $params);
@@ -193,7 +193,7 @@ class AuthenticationController extends AdminAuthController
             $params = [
                 'page_title' => 'Reset your password | ' . env('APP_TITLE'),
                 'app_title' => env('APP_TITLE'),
-                'asset_version' => env('ASSET_VERSION'),
+                'asset_version' => config('customizer.asset_version'),
                 'asset_storage' => env('ASSET_STORAGE'),
                 'full_name' => $user->first_name . ' ' . $user->last_name,
                 'email' => $user->email,
@@ -228,7 +228,7 @@ class AuthenticationController extends AdminAuthController
         $params = [
             'page_title' => 'Forgot your password? | ' . env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'user_id' => Session::get('userId'),
             'material_id' => -1,
