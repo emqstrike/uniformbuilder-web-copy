@@ -116,6 +116,20 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Group</label>
+                            <div class="col-md-6">
+                                <select name='sports_group_id' class="form-control uniform-category">
+                                <option value="">None</option>
+                                @foreach ($uniform_categories as $category)
+                                    @if ($category->active)
+                                    <option value='{{ $category->id }}'@if($material->sports_group_id == $category->id) selected="selected"@endif>{{ $category->name }}</option>
+                                    @endif
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
                                 <select name='type' class="form-control type">

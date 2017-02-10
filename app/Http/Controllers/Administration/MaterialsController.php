@@ -996,6 +996,7 @@ class MaterialsController extends Controller
         $type = $request->input('type');
         $gender = $request->input('gender');
         $uniformCategoryId = $request->input('uniform_category_id');
+        $sportsGroupId = $request->input('sports_group_id');
         $colorCode = $request->input('color_code');
         $liningType = $request->input('lining_type');
         $uniformApplicationType = $request->input('uniform_application_type');
@@ -1049,6 +1050,7 @@ class MaterialsController extends Controller
             'code' => $materialCode,
             'gender' => $gender,
             'uniform_category_id' => $uniformCategoryId,
+            'sports_group_id' => $sportsGroupId,
             'color_code' => $colorCode,
             'lining_type' => $liningType,
             'factory_code' => $factoryCode,
