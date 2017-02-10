@@ -190,13 +190,13 @@ li.select2-selection__choice {
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>Input Size <a href="#" data-toggle="tooltip" data-message="Actual size (inches)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>Output Size <a href="#" data-toggle="tooltip" data-message="Override - Size that will appear in customizer (used to correct display ratio)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>X Offset <a href="#" data-toggle="tooltip" data-message="Horizontal Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                         </tr>
                                     </thead>
                                     <tbody class="front-fst-body">
@@ -211,13 +211,13 @@ li.select2-selection__choice {
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Application Number</th>
                                             <th>Input Size</th>
                                             <th>Output Size</th>
                                             <th>X Offset</th>
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
-                                            <th>Application Number</th>
                                         </tr>
                                     </thead>
                                     <tbody class="back-fst-body">
@@ -232,13 +232,13 @@ li.select2-selection__choice {
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Application Number</th>
                                             <th>Input Size</th>
                                             <th>Output Size</th>
                                             <th>X Offset</th>
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
-                                            <th>Application Number</th>
                                         </tr>
                                     </thead>
                                     <tbody class="left-fst-body">
@@ -253,13 +253,13 @@ li.select2-selection__choice {
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Application Number</th>
                                             <th>Input Size</th>
                                             <th>Output Size</th>
                                             <th>X Offset</th>
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
-                                            <th>Application Number</th>
                                         </tr>
                                     </thead>
                                     <tbody class="right-fst-body">
@@ -370,7 +370,7 @@ $(document).ready(function(){
             var tbl_class = '.'+entry.perspective+'-fst-body';
             entry.sizes.forEach(function(item) {
                 console.log(item.inputSize);
-                var elem = '<tr><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                var elem = '<tr><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                 $(tbl_class).append(elem);
             });
             // var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
