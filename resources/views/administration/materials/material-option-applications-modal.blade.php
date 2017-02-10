@@ -84,6 +84,7 @@
                                     </option>
                                 @endforeach
                             </select>
+                            Filter: <input type="text" id="filter_app_template">
                         </center>
                         <hr>
                         <div align="left">
