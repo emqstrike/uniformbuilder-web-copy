@@ -46,7 +46,7 @@ select:hover {
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Mascot Size
                                 </button>
-                                <a href="/administration/mascot-sizes_categories" class="btn btn-danger">
+                                <a href="/administration/mascot_sizes" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
