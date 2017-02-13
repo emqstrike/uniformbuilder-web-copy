@@ -1,0 +1,26 @@
+/************************************
+ * Vendor Name: Nike
+ * @since February 13, 2017
+ ************************************/
+@navbar-height: 75px; 
+@main-container-margin: ( @navbar-height + 0px );
+@micro_spacer: 2px;
+
+/* G: #3d3d3d or R: #b71500 or B: #002e62; or P: #ee2375 
+*/
+@forecolor: #545454;
+@text_color: #001C4F;
+@border_color: #E8BCBC;
+
+@customizer_bg: #96916C;
+@customizer_forecolor: #803030;
+@customizer_main_area: #803030;
+
+@light-border: #FFDEDE;
+
+@main_highlight: #545454;
+@main_highlight_off: #CC3737;
+@main_forecolor: @text_color;
+@button_secondary_color: #004D8C;
+
+@main_window_pane_height: 550px;

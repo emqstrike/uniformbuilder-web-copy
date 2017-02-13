@@ -74,7 +74,7 @@
                          <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/administration/main">
-                        <img src="{{ config('customizer.logo_url') }}" alt="{{ config('customizer.title') }}" style="width: 3em; padding-right: 10px;" align="left">
+                        <img src="{{ config('customizer.vendor.logo_url') }}" alt="{{ config('customizer.vendor.title') }}" style="width: 3em; padding-right: 10px;" align="left">
                         <span>Dashboard</span>
                     </a>
                     <ul class="dropdown-menu">
