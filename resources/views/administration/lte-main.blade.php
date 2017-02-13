@@ -4,7 +4,7 @@
 
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Administration | {{ env('APP_TITLE') }}</title>
+<title>Administration | {{ config('customizer.title') }}</title>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">
@@ -63,10 +63,10 @@
     <header class="main-header">
         <a href="#" class="logo">
             <span class="logo-mini">
-                <img src="{{ env('LOGO_URL') }}" height='20em'>
+                <img src="{{ config('customizer.logo_url') }}" height='20em'>
             </span>
             <span class="logo-lg">
-                <img src="{{ env('LOGO_URL') }}" height='35em'>
+                <img src="{{ config('customizer.logo_url') }}" height='35em'>
             </span>
         </a>
 

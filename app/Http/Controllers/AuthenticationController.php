@@ -169,8 +169,8 @@ class AuthenticationController extends AdminAuthController
     public function forgotPasswordForm()
     {
         $params = [
-            'page_title' => 'Forgot your password? | ' . env('APP_TITLE'),
-            'app_title' => env('APP_TITLE'),
+            'page_title' => 'Forgot your password? | ' . config('customizer.title'),
+            'app_title' => config('customizer.title'),
             'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE')
         ];
@@ -191,8 +191,8 @@ class AuthenticationController extends AdminAuthController
         {
             $user = $response['user'];
             $params = [
-                'page_title' => 'Reset your password | ' . env('APP_TITLE'),
-                'app_title' => env('APP_TITLE'),
+                'page_title' => 'Reset your password | ' . config('customizer.title'),
+                'app_title' => config('customizer.title'),
                 'asset_version' => config('customizer.asset_version'),
                 'asset_storage' => env('ASSET_STORAGE'),
                 'full_name' => $user->first_name . ' ' . $user->last_name,
@@ -226,8 +226,8 @@ class AuthenticationController extends AdminAuthController
     public function changePasswordForm()
     {
         $params = [
-            'page_title' => 'Forgot your password? | ' . env('APP_TITLE'),
-            'app_title' => env('APP_TITLE'),
+            'page_title' => 'Forgot your password? | ' . config('customizer.title'),
+            'app_title' => config('customizer.title'),
             'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'user_id' => Session::get('userId'),

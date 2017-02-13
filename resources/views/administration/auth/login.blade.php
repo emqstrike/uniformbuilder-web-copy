@@ -28,7 +28,7 @@
 
     <div class="login-box">
         <div class="login-logo">
-            <img src="{{ env('LOGO_URL') }}" style='height: 10vh; padding: 20px; margin-top: 50px;'>
+            <img src="{{ config('customizer.logo_url') }}" style='height: 10vh; padding: 20px; margin-top: 50px;'>
         </div>
         <div class="login-box-body">
             <p class="login-box-msg">Sign in to start your session</p>

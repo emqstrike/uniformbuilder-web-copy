@@ -95,8 +95,8 @@ class UniformBuilderController extends Controller
         }
 
         $params = [
-            'page_title' => env('APP_TITLE'),
-            'app_title' => env('APP_TITLE'),
+            'page_title' => config('customizer.title'),
+            'app_title' => config('customizer.title'),
             'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'colors' => $colors,
@@ -1411,8 +1411,8 @@ class UniformBuilderController extends Controller
         $categoryId = -1;
 
         $params = [
-            'page_title' => env('APP_TITLE'),
-            'app_title' => env('APP_TITLE'),
+            'page_title' => config('customizer.title'),
+            'app_title' => config('customizer.title'),
             'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
@@ -1432,8 +1432,8 @@ class UniformBuilderController extends Controller
         $categoryId = -1;
 
         $params = [
-            'page_title' => env('APP_TITLE'),
-            'app_title' => env('APP_TITLE'),
+            'page_title' => config('customizer.title'),
+            'app_title' => config('customizer.title'),
             'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
@@ -1453,8 +1453,8 @@ class UniformBuilderController extends Controller
         $categoryId = -1;
 
         $params = [
-            'page_title' => env('APP_TITLE'),
-            'app_title' => env('APP_TITLE'),
+            'page_title' => config('customizer.title'),
+            'app_title' => config('customizer.title'),
             'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
@@ -1481,8 +1481,8 @@ class UniformBuilderController extends Controller
         $categoryId = -1;
 
         $params = [
-            'page_title' => env('APP_TITLE'),
-            'app_title' => env('APP_TITLE'),
+            'page_title' => config('customizer.title'),
+            'app_title' => config('customizer.title'),
             'asset_version' => env('ASSET_VERSION'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
@@ -1502,8 +1502,8 @@ class UniformBuilderController extends Controller
         $categoryId = -1;
 
         $params = [
-            'page_title' => env('APP_TITLE'),
-            'app_title' => env('APP_TITLE'),
+            'page_title' => config('customizer.title'),
+            'app_title' => config('customizer.title'),
             'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
@@ -1522,8 +1522,8 @@ class UniformBuilderController extends Controller
         $categoryId = -1;
 
         $params = [
-            'page_title' => env('APP_TITLE'),
-            'app_title' => env('APP_TITLE'),
+            'page_title' => config('customizer.title'),
+            'app_title' => config('customizer.title'),
             'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,

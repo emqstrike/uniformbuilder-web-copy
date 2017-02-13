@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header" id="navbar-header">
-            <a class="navbar-brand" href="/"><img src="{{ env('LOGO_URL') }}" height="50em"></a>
+            <a class="navbar-brand" href="/"><img src="{{ config('customizer.logo_url') }}" height="50em"></a>
         </div>
         <div>
             <h1 class="text-center" id="header_text">{{ $app_title }}</h1>
