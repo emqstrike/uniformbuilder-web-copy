@@ -33,7 +33,5 @@ class SavedDesignsAPIClient extends APIClient
         }
         
         return null;
-
     }
-
 }

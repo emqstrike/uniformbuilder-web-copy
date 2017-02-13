@@ -15,9 +15,9 @@ class AccentsAPIClient extends APIClient
         ]);
         return $this->decoder->decode($response->getBody());
     }
-     public function updateAccent($data)
+
+    public function updateAccent($data)
     {  
-        // dd($data);
         $response = $this->post('accent/update', [
 
             'json' => $data
@@ -26,7 +26,8 @@ class AccentsAPIClient extends APIClient
 
         return $this->decoder->decode($response->getBody());
     }
-       public function getAllAccents()
+
+    public function getAllAccents()
     {
         $response = $this->get('accents');
         $result = $this->decoder->decode($response->getBody());
@@ -39,7 +40,8 @@ class AccentsAPIClient extends APIClient
         
         return $accents;
     }
-     public function getAccent($id)
+
+    public function getAccent($id)
     {
         $response = $this->get('accent/' . $id);
         $result = $this->decoder->decode($response->getBody());

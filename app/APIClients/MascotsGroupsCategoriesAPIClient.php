@@ -10,8 +10,6 @@ class MascotsGroupsCategoriesAPIClient extends APIClient
 
     public function getMascotsGroupsCategories()
     {
-
-
         $response = $this->get('mascots_groups_categories');
         $result = $this->decoder->decode($response->getBody());
 
@@ -25,7 +23,6 @@ class MascotsGroupsCategoriesAPIClient extends APIClient
 
     public function isMascotGroupCategoryTaken($name, $id)
     {
-
         $response = $this->get('mascot_group_category/name/' . $name);
 
         $result = $this->decoder->decode($response->getBody());
@@ -40,8 +37,7 @@ class MascotsGroupsCategoriesAPIClient extends APIClient
 
         if (!is_null($mascot_group_category) && !is_null($id))
         {
-
-            $compare = $this->getMascotGroupCategory($id);//dd($compare);
+            $compare = $this->getMascotGroupCategory($id);
            
             try
             {
@@ -61,12 +57,8 @@ class MascotsGroupsCategoriesAPIClient extends APIClient
 
     public function getMascotGroupCategoryByName($name)
     {
-
-
         $response = $this->get('mascot_group_category/name/' . $name);
-
-         $result= $this->decoder->decode($response->getBody());
-        
+        $result= $this->decoder->decode($response->getBody());
         if ($result->success)
         {
             return $result->mascot_category;
@@ -77,11 +69,8 @@ class MascotsGroupsCategoriesAPIClient extends APIClient
 
     public function getMascotGroupCategory($id)
     {
-
         $response = $this->get('mascot_group_category/' . $id);
-
         $result = $this->decoder->decode($response->getBody());
-         
         if ($result->success)
         {
             return $result->mascot_group_category;
@@ -101,7 +90,6 @@ class MascotsGroupsCategoriesAPIClient extends APIClient
 
     public function updateMascotGroupCategory($data)
     {
-        
         $response = $this->post('mascot_group_category/update', [
             'json' => $data
         ]);
