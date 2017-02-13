@@ -719,6 +719,10 @@ $(document).ready(function () {
 
         }
 
+        if (typeof _colorObj == 'undefined') {
+            return colorCode;
+        }
+
         return _colorObj;
 
     }
