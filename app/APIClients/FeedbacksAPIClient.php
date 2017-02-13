@@ -10,7 +10,6 @@ class FeedbacksAPIClient extends APIClient
 
     public function getAll()
     {
-
         $response = $this->get('feedbacks');
         $result = $this->decoder->decode($response->getBody());
 
@@ -20,7 +19,6 @@ class FeedbacksAPIClient extends APIClient
         }
 
         return null;
-
     }
 
     public function getFeedback($id)
@@ -35,7 +33,5 @@ class FeedbacksAPIClient extends APIClient
         }
 
         return null;
-
     }
-
 }

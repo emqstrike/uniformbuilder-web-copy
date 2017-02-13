@@ -8,16 +8,7 @@ class NewsLettersAPIClient extends APIClient
         parent::__construct();
     }
 
-    // public function createMobileNotification($data)
-    // {
-
-    //     $response = $this->post('newsletter', [
-    //         'json' => $data
-    //     ]);
-    //     return $this->decoder->decode($response->getBody());
-    // }
-
-       public function getNewsLetters()
+    public function getNewsLetters()
     {
         $response = $this->get('newsletters');
         $result = $this->decoder->decode($response->getBody());
@@ -30,15 +21,4 @@ class NewsLettersAPIClient extends APIClient
         
         return $newsletters;
     }
-    //  public function getAccent($id)
-    // {
-    //     $response = $this->get('accent/' . $id);
-    //     $result = $this->decoder->decode($response->getBody());
-    //     if ($result->success)
-    //     {
-
-    //         return $result->accent;
-    //     }
-    //     return null;
-    // }
 }

@@ -57,7 +57,6 @@ class MaterialsAPIClient extends APIClient
 
     public function updatePiping($data, $page_number)
     {
-
         if($page_number == 1)
         {
             $url = 'material/updatePiping';
