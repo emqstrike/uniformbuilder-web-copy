@@ -16,13 +16,13 @@
 
 		<link href='http://fonts.googleapis.com/css?family=Roboto:500' rel='stylesheet' type='text/css'>
 		
-		<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css{{$asset_version}}">
-		<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css{{$asset_version}}">
-		<link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css{{$asset_version}}">
-		<link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css{{$asset_version}}">
-		<link rel="stylesheet" href="{{$asset_storage}}/dropzone/dropzone.css{{$asset_version}}">
+		<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css?v={{$asset_version}}">
+		<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css?v={{$asset_version}}">
+		<link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css?v={{$asset_version}}">
+		<link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css?v={{$asset_version}}">
+		<link rel="stylesheet" href="{{$asset_storage}}/dropzone/dropzone.css?v={{$asset_version}}">
 
-		<link rel="stylesheet" href="{{$asset_storage}}/css/custom.css{{$asset_version}}">
+		<link rel="stylesheet" href="{{$asset_storage}}/css/custom.css?v={{$asset_version}}">
 	
 	</head>
 
@@ -62,11 +62,11 @@
 		
 		</style>
 
-		<script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js{{$asset_version}}"></script>
-		<script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js{{$asset_version}}"></script>
-		<script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js{{$asset_version}}"></script>
-		<script src="{{$asset_storage}}/fabricjs/fabric.min.js{{$asset_version}}"></script>
-		<script src="{{$asset_storage}}/dropzone/dropzone.js{{$asset_version}}"></script>
+		<script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js?v={{$asset_version}}"></script>
+		<script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js?v={{$asset_version}}"></script>
+		<script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js?v={{$asset_version}}"></script>
+		<script src="{{$asset_storage}}/fabricjs/fabric.min.js?v={{$asset_version}}"></script>
+		<script src="{{$asset_storage}}/dropzone/dropzone.js?v={{$asset_version}}"></script>
 
 	
 		@yield('additional-scripts')

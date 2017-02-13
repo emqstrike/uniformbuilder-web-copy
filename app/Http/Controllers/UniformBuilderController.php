@@ -97,7 +97,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'colors' => $colors,
             'material' => $material,
@@ -1413,7 +1413,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
             'category_id' => -1,
@@ -1434,7 +1434,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
             'category_id' => -1,
@@ -1455,7 +1455,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
             'category_id' => -1,
@@ -1504,7 +1504,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
             'category_id' => -1,
@@ -1524,7 +1524,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
             'category_id' => -1,

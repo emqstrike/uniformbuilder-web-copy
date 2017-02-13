@@ -28,7 +28,7 @@ class CanvasController extends Controller
         return view('administration.canvas.index', [
             
             'page_title' => $title,
-            'asset_version' =>  env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             
         ]);
@@ -42,7 +42,7 @@ class CanvasController extends Controller
         return view('administration.canvas.texturing-guide', [
             
             'page_title' => $title,
-            'asset_version' =>  env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             
         ]);

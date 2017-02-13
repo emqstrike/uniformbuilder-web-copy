@@ -105,23 +105,23 @@
         <div class='tabs'>
         
             <div class="mTab" data-type="color">  
-                <img src="/images/uiV1/modifier_tabs/inactive/color.png{{$asset_version}}">
+                <img src="/images/uiV1/modifier_tabs/inactive/color.png?v={{$asset_version}}">
             </div>
             
             <div class="mTab" data-type="pattern">
-                <img src="/images/uiV1/modifier_tabs/inactive/pattern.png{{$asset_version}}">
+                <img src="/images/uiV1/modifier_tabs/inactive/pattern.png?v={{$asset_version}}">
             </div>
             
             <div class="mTab" data-type="mascot">
-                <img src="/images/uiV1/modifier_tabs/inactive/mascot.png{{$asset_version}}">
+                <img src="/images/uiV1/modifier_tabs/inactive/mascot.png?v={{$asset_version}}">
             </div>
             
             <div class="mTab" data-type="name">
-                <img src="/images/uiV1/modifier_tabs/inactive/name.png{{$asset_version}}">
+                <img src="/images/uiV1/modifier_tabs/inactive/name.png?v={{$asset_version}}">
             </div>
             
             <div class="mTab" data-type="number">
-                <img src="/images/uiV1/modifier_tabs/inactive/number.png">
+                <img src="/images/uiV1/modifier_tabs/inactive/number.png?v={{$asset_version}}">
             </div>
 
         </div>
