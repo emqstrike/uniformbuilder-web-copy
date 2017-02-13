@@ -62,7 +62,7 @@ class MaterialsOptionsAPIClient extends APIClient
     }
 
     public function updateApplications($data)
-    {//dd($data);
+    {
         $response = $this->post('material_option/updateApplications', [
             'json' => $data
         ]);

@@ -50,17 +50,6 @@ class PreferencesAPIClient extends APIClient
         return !is_null($preference);
     }
 
-    // public function getMascotCategoryByName($name)
-    // {
-    //     $response = $this->get('mascot_category/name/' . $name);
-    //     $result = $this->decoder->decode($response->getBody());
-    //     if ($result->success)
-    //     {
-    //         return $result->mascot_category;
-    //     }
-    //     return null;
-    // }
-
     public function getPreference($id)
     {
         $response = $this->get('preference/' . $id);

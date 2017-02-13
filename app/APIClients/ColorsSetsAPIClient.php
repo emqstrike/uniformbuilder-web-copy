@@ -25,8 +25,6 @@ class ColorsSetsAPIClient extends APIClient
 
     public function createColorsSet($data)
     {
-        // $data['colors'] = json_encode($data['colors']);
-        // dd($data);
         $response = $this->post('color_set', [
             'json' => $data
         ]);
