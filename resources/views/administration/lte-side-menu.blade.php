@@ -95,6 +95,11 @@
           <i class="fa fa-circle"></i> <span>Mascots Groups Categories</span>
         </a>
       </li>
+      <li  data-step="7" data-intro="For Mascots settings.">
+        <a href="/administration/mascot_sizes">
+          <i class="fa fa-linux"></i> <span>Mascot Sizes</span>
+        </a>
+      </li>
       <li data-step="9" data-intro="For Materials settings.">
         <a href="/administration/materials">
           <i class="fa fa-cubes"></i> <span>Materials</span>

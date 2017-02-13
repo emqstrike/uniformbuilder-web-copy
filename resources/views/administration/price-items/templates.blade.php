@@ -80,17 +80,98 @@
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script>
 $(document).ready(function(){
 
+    // $(".properties").each(function(i) {
+    //     var x  = $(this).val();
+    //     console.log(x);
+    // });
 
+    var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','YS','YM','YL','YXL','Y2XL','Y3XL'];
+    var adult_sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
+    var youth_sizes = ['YS','YM','YL','YXL','Y2XL','Y3XL'];
+    var size_properties = {};
 
-    $(".properties").each(function(i) {
-        var x  = $(this).val();
-        console.log(x);
-    });
+    getPriceItems(function(price_items){ window.price_items = price_items; });
+    function getPriceItems(callback){
+        var price_items;
+        var url = "//api-dev.qstrike.com/api/price_items";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                price_items = data['price_items'];
+                if(typeof callback === "function") callback(price_items);
+            }
+        });
+    }
 
+    getPriceItemTemplates(function(price_item_templates){ window.price_item_templates = price_item_templates; });
+    function getPriceItemTemplates(callback){
+        var price_item_templates;
+        var url = "//api-dev.qstrike.com/api/price_item_templates";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                price_item_templates = data['price_item_templates'];
+                if(typeof callback === "function") callback(price_item_templates);
+            }
+        });
+    }
 
+    // console.log(window.price_items);
+    // console.log(window.price_item_templates);
+    var templates_raw = window.price_item_templates;
+    // console.log(templates_raw);
+    // var templates = JSON.parse(templates_raw.slice(1, -1));
+    // console.log(templates_raw);
+    // console.log(window.price_item_templates);
+    // var pi = [{"price_item":"FBGJ","msrp":999,"web_price_sale":777}];
+    try{
+        templates_raw.forEach(function(entry) {
+            // var props = JSON.parse(entry['properties'].slice(1,-1));
+            // console.log(JSON.parse(entry['properties']));
+            var props = JSON.parse(entry['properties']);
+
+            if( props['properties']['adult'].length > 0 ){
+                props['properties']['adult'].forEach(function(i) {
+                    // console.log('BEFORE>' + i.msrp);
+                    var match = _.find(window.price_items, function(obj) { return obj.price_item == i.price_item });
+                    i.msrp = match.msrp;
+                    i.web_price_sale = match.web_price_sale;
+                    // console.log('AFTER>' + i.msrp);
+                });
+                // properties.adult = adult;
+                // var adult_min_msrp = _.min(adult, function(o){return o.msrp;});
+                var y = _.min(props['properties']['adult'], function(o){return o.msrp;});
+                // size_properties.adult_min_msrp = adult_min_msrp.msrp;
+                console.log(y);
+                props['adult_min_msrp'] = z.msrp;
+                var z = _.min(props['properties']['youth'], function(o){return o.web_price_sale;});
+                props['youth_min_web_price_sale'] = z.youth_min_web_price_sale;
+
+                // var adult_min_web_price_sale = _.min(adult, function(o){return o.web_price_sale;});
+                // size_properties.adult_min_web_price_sale = adult_min_web_price_sale.web_price_sale;
+
+            }
+            entry['properties'] = JSON.stringify(props);
+        });
+    } catch(err){
+        console.log(err.message);
+    }
+
+    console.log(templates_raw);
 
 });
 </script>

@@ -69,7 +69,7 @@ tr.center-table-heads > th{
     filter:         drop-shadow(0px 1px 1px #222); 
 }
 
-#front-shape-view, #back-shape-view, #left-shape-view, #right-shape-view, #shape-view, #shape-view-top, .shape-views, #shape-crosshair {
+#shape-guide, #front-shape-view, #back-shape-view, #left-shape-view, #right-shape-view, #shape-view, #shape-view-top, .shape-views, #shape-crosshair {
     width: 496px;
     height: 550px;
     background-position: center center;

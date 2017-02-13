@@ -32,19 +32,22 @@ class ArtworksController extends Controller
         $ctr = 0;
         foreach($orders as $order)
         {
-
-            $data = json_decode($order->items[0]->attached_files, 1);
             try {
-                if(isset($data[0]['code']) && $order->status === "new")
-                {
-                    $order->artworks = $data;
-                } else {
-                    unset($orders[$ctr]);
+                $data = json_decode($order->items[0]->attached_files, 1);
+                try {
+                    if(isset($data[0]['code']) && $order->status === "new")
+                    {
+                        $order->artworks = $data;
+                    } else {
+                        unset($orders[$ctr]);
+                    }
+                } catch (Exception $e) {
+                    error_log($e->getMessage());
                 }
+                $ctr++;
             } catch (Exception $e) {
                 error_log($e->getMessage());
             }
-            $ctr++;
         }
 
         $account_type = Session::get('accountType');

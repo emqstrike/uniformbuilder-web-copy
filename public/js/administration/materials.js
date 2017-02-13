@@ -1037,7 +1037,8 @@ $(document).ready(function() {
                 path: $(this).data('material-option-path'),
                 perspective: $(this).data('material-option-perspective'),
                 applications_properties: ($(this).data('material-option-applications-properties')),
-                highlights: ($(this).data('material-highlights-path'))
+                highlights: ($(this).data('material-highlights-path')),
+                guide: ($(this).data('material-option-guide'))
             }
         };
 
@@ -1053,6 +1054,7 @@ $(document).ready(function() {
         $('#app_option_id').val($(this).data('material-option-id'));
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
+        $("#shape-guide").css("background-image", "url("+material.option.guide+")");
         $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
         $("#shape-view").css("background-image", "url("+material.option.highlights+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
@@ -3517,6 +3519,26 @@ function accentMascotSelect(data,accentMascot,rowIndex){
 
         $.each(str2, function( index, value ) {
            $( ".load-boundaries-template option" ).each(function( index ) {
+              var str1 = $( this ).text().toLowerCase();
+                
+                if(str1.indexOf(value) != -1){
+                    $(this).show();
+                }
+            });
+        });
+           
+
+    });
+
+     $(document).on('click','.load-applications-template',function(){
+        console.log($("#filter_app_template").val());
+        var str2 = $("#filter_app_template").val();
+       str2 = str2.split(' ');
+       console.log(str2);
+        $( ".load-applications-template option" ).hide();
+
+        $.each(str2, function( index, value ) {
+           $( ".load-applications-template option" ).each(function( index ) {
               var str1 = $( this ).text().toLowerCase();
                 
                 if(str1.indexOf(value) != -1){

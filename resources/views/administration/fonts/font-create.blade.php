@@ -176,13 +176,13 @@ li.select2-selection__choice {
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>Input Size <a href="#" data-toggle="tooltip" data-message="Actual size (inches)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>Output Size <a href="#" data-toggle="tooltip" data-message="Override - Size that will appear in customizer (used to correct display ratio)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>X Offset <a href="#" data-toggle="tooltip" data-message="Horizontal Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                             <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
-                                            <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
                                         </tr>
                                     </thead>
                                     <tbody class="front-fst-body">
@@ -197,13 +197,13 @@ li.select2-selection__choice {
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Application #</th>
                                             <th>Input Size</th>
                                             <th>Output Size</th>
                                             <th>X Offset</th>
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
-                                            <th>Application #</th>
                                         </tr>
                                     </thead>
                                     <tbody class="back-fst-body">
@@ -218,13 +218,13 @@ li.select2-selection__choice {
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Application #</th>
                                             <th>Input Size</th>
                                             <th>Output Size</th>
                                             <th>X Offset</th>
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
-                                            <th>Application #</th>
                                         </tr>
                                     </thead>
                                     <tbody class="left-fst-body">
@@ -239,13 +239,13 @@ li.select2-selection__choice {
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Application #</th>
                                             <th>Input Size</th>
                                             <th>Output Size</th>
                                             <th>X Offset</th>
                                             <th>Y Offset</th>
                                             <th>X Scale</th>
                                             <th>Y Scale</th>
-                                            <th>Application #</th>
                                         </tr>
                                     </thead>
                                     <tbody class="right-fst-body">
