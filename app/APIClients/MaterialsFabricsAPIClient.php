@@ -10,7 +10,6 @@ class MaterialsFabricsAPIClient extends APIClient
 
     public function createMaterialsFabrics($data)
     {
-
         $response = $this->post('materials_fabric', [
             'json' => $data
         ]);
@@ -18,16 +17,16 @@ class MaterialsFabricsAPIClient extends APIClient
     }
      public function updateMaterialsFabrics($data)
     {  
-        // dd($data);
         $response = $this->post('materials_fabric/update', [
 
             'json' => $data
         ]);
-       
 
         return $this->decoder->decode($response->getBody());
     }
-       public function getAllMaterialsFabrics()
+
+
+    public function getAllMaterialsFabrics()
     {
         $response = $this->get('materials_fabrics');
         $result = $this->decoder->decode($response->getBody());
@@ -41,9 +40,9 @@ class MaterialsFabricsAPIClient extends APIClient
         
         return $materials_fabrics;
     }
-     public function getMaterialsFabric($id)
-    {
 
+    public function getMaterialsFabric($id)
+    {
         $response = $this->get('materials_fabric/' . $id);
         $result = $this->decoder->decode($response->getBody());
 

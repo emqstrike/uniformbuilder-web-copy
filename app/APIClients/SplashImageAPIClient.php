@@ -7,27 +7,25 @@ class SplashImageAPIClient extends APIClient
     {
         parent::__construct();
     }
-      public function createSplashImage($data)
+
+    public function createSplashImage($data)
     {
-  
         $response = $this->post('splash_image', [
             'json' => $data
         ]);
         return $this->decoder->decode($response->getBody());
-
     }
-      public function updateSplashImage($data)
-    {  
-        // dd($data);
-        $response = $this->post('splash_image/update', [
 
+    public function updateSplashImage($data)
+    {
+        $response = $this->post('splash_image/update', [
             'json' => $data
         ]);
        
-
         return $this->decoder->decode($response->getBody());
     }
-       public function getAllSplashImages()
+
+    public function getAllSplashImages()
     {
         $response = $this->get('splash_images');
         $result = $this->decoder->decode($response->getBody());
@@ -40,22 +38,16 @@ class SplashImageAPIClient extends APIClient
         
         return $splash_images;
     }
-         public function getSplashImage($id)
+
+    public function getSplashImage($id)
     {
         $response = $this->get('splash_image/' . $id);
-       
-        
         $result = $this->decoder->decode($response->getBody());
 
         if ($result->success)
         {
-
             return $result->splash_image;
         }
         return null;
     }
-
-
-  
-
 }
