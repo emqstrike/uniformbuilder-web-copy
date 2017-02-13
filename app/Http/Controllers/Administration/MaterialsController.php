@@ -84,10 +84,23 @@ class MaterialsController extends Controller
         $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFonts();
 
+        $front_guide = null;
+        $back_guide = null;
+        $left_guide = null;
+        $right_guide = null;
+
         foreach($options as $option){
             $default_color = $option->default_color;
             $sublimated_default_color = $option->sublimated_default_color;
-
+            if($option->perspective == "front" && $option->name =="Guide"){
+                $front_guide = $option->material_option_path;
+            } else if($option->perspective == "back" && $option->name =="Guide"){
+                $back_guide = $option->material_option_path;
+            } else if($option->perspective == "left" && $option->name =="Guide"){
+                $left_guide = $option->material_option_path;
+            } else if($option->perspective == "right" && $option->name =="Guide"){
+                $right_guide = $option->material_option_path;
+            }
             foreach($colors as $color){
                 if($color->color_code == $default_color) {
                     $option->default_hex_code = $color->hex_code;
@@ -121,7 +134,11 @@ class MaterialsController extends Controller
             'gradients' => $gradients,
             'applications' => $applications,
             'boundaries' => $boundaries,
-            'fonts' => $fonts
+            'fonts' => $fonts,
+            'front_guide' => $front_guide,
+            'back_guide' => $back_guide,
+            'left_guide' => $left_guide,
+            'right_guide' => $right_guide
         ]);
     }
 
@@ -979,6 +996,7 @@ class MaterialsController extends Controller
         $type = $request->input('type');
         $gender = $request->input('gender');
         $uniformCategoryId = $request->input('uniform_category_id');
+        $sportsGroupId = $request->input('sports_group_id');
         $colorCode = $request->input('color_code');
         $liningType = $request->input('lining_type');
         $uniformApplicationType = $request->input('uniform_application_type');
@@ -1032,6 +1050,7 @@ class MaterialsController extends Controller
             'code' => $materialCode,
             'gender' => $gender,
             'uniform_category_id' => $uniformCategoryId,
+            'sports_group_id' => $sportsGroupId,
             'color_code' => $colorCode,
             'lining_type' => $liningType,
             'factory_code' => $factoryCode,
