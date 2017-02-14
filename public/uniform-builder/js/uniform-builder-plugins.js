@@ -1392,10 +1392,10 @@
             ///
 
             var style = "";
+            var lineHeight = font_size;
+            var _padding = 10;
 
             if (verticalText === 1) {
-
-                var lineHeight = font_size;
 
                 if (layer.name === "Base Color" || layer.name === "Mask") {
 
@@ -1405,18 +1405,18 @@
                 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 0, lineJoin: 'miter', miterLimit: 2, lineHeight: lineHeight, align: 'center'};
 
-            }
-            else {
+            } else {
 
                 style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
 
-                var _tailSweepFonts = ['Brush Script', 'Cracker Jack', 'Impact', 'Dodger Script', 'Arabian Nights', 'Bomber'];
+                if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
 
-                if(!_.contains(_tailSweepFonts, input_object.font_name)) {
-                    style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 1};
-                } else {
-                    style = {font: font_size + "px " + font_name, fill: "white", padding: 150, lineJoin: 'miter', miterLimit: 1};
+                    // Additional vertical padding so that tailsweeps wont be clipped
+                    _padding = 150;
+
                 }
+
+                style = {font: font_size + "px " + font_name, fill: "white", padding: _padding, lineJoin: 'miter', miterLimit: 1};
 
             }
 
