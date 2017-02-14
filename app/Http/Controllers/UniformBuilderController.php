@@ -1184,7 +1184,7 @@ class UniformBuilderController extends Controller
         // Notify Slack Channel
         $slack_channel = config('slack.channels.design_sheets_pdf');
         $slack_username = config('slack.username');
-        $slack_icon = config('slack.username');
+        $slack_icon = config('slack.icon');
         $this->notify(new GeneratedDesignSheet(
                 $message,
                 $slack_channel,
