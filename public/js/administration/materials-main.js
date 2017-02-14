@@ -1,11 +1,11 @@
 $(document).ready(function() {
 
-	// var $container = $('.isotope').isotope({
-	//     itemSelector: '.material-div',
-	//     getSortData: {
-	//       category: '[data-category]'
-	//     }
-	// });
+    // var $container = $('.isotope').isotope({
+    //     itemSelector: '.material-div',
+    //     getSortData: {
+    //       category: '[data-category]'
+    //     }
+    // });
 
     $('.data-table').DataTable({
         "paging": true,
@@ -16,6 +16,7 @@ $(document).ready(function() {
         "autoWidth": true,
         initComplete: function () {
             this.api().columns().every( function () {
+
                 var column = this;
                 var select = $('<select><option value=""></option></select>')
                     .appendTo( $(column.footer()).empty() )
@@ -30,6 +31,7 @@ $(document).ready(function() {
                     } );
 
                 column.data().unique().sort().each( function ( d, j ) {
+
                     select.append( '<option value="'+d+'">'+d+'</option>' )
                     // var val = $('<div/>').html(d).text();
                     // select.append( '<option value="' + val + '">' + val + '</option>' );
@@ -63,7 +65,7 @@ $(document).ready(function() {
     });
     var filters="";
     $('#filters').on( 'click', 'button', function() {
-    	filters = $( this ).attr('data-filter');
+        filters = $( this ).attr('data-filter');
         materials_button_filters();
     });
 
@@ -72,15 +74,15 @@ $(document).ready(function() {
         $container.isotope({ filter: filtersFlatforms + "" + filtersCategory + "" + filters});
     }
 
-	$('.button-group').each( function( i, buttonGroup ) {
-	    var $buttonGroup = $( buttonGroup );
-	    $buttonGroup.on( 'click', 'button', function() {
-	        $buttonGroup.find('.btn-primary').removeClass('btn-primary');
-	        $( this ).addClass('btn-primary');
-	    });
-	});
+    $('.button-group').each( function( i, buttonGroup ) {
+        var $buttonGroup = $( buttonGroup );
+        $buttonGroup.on( 'click', 'button', function() {
+            $buttonGroup.find('.btn-primary').removeClass('btn-primary');
+            $( this ).addClass('btn-primary');
+        });
+    });
 
-	// $('.toggle-material').on('click', function(){
+    // $('.toggle-material').on('click', function(){
     $("#materials_table").on("click", ".toggle-material", function(e){
         e.preventDefault();
         console.log('toggle');
@@ -234,6 +236,48 @@ $(document).ready(function() {
         }
 
     });
+
+    $(document).on('change','#sports-filter',function(){
+           
+        var sports_selected = $(this).find("option:selected").val();
+        var materials_data = $("#materials-data").val();
+        materials_data = JSON.parse(materials_data);
+        
+        if(sports_selected != ""){
+        $("#block-patterns-filter select option").hide();
+            $.each(materials_data, function(i, item){         
+                if(sports_selected == item.uniform_category){
+                    $('#block-patterns-filter select option[value="' + item.block_pattern + '"]').show();
+                     $('#block-patterns-filter select option[value=""]').show();
+                  
+                }               
+            });
+        }else{
+            $("#block-patterns-filter select option").show();
+        }               
+    });
+
+    $(document).on('change','#block-patterns-filter',function(){
+           
+        var block_patterns_selected = $(this).find("option:selected").val();
+        var materials_data = $("#materials-data").val();
+        materials_data = JSON.parse(materials_data);
+        
+        if(block_patterns_selected != ""){
+        $("#necks-filter select option").hide();
+            $.each(materials_data, function(i, item){         
+                if(block_patterns_selected == item.block_pattern){
+                    console.log(block_patterns_selected);
+                     console.log(item.neck_option);
+                    $('#necks-filter select option[value="' + item.neck_option + '"]').show();
+                    $('#necks-filter select option[value=""]').show();
+                }               
+            });
+        }else{
+            $("#necks-filter select option").show();
+        }               
+    });
+
 
 
 
