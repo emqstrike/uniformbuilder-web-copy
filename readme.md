@@ -3,7 +3,6 @@
 * [Live Site - http://customizer.prolook.com](http://customizer.prolook.com)
 * [API Endpoint - http://api-dev.qstrike.com/api/](http://api-dev.qstrike.com/api/)
 * [Admin Size - http://customizer.prolook.com/administration/login](http://customizer.prolook.com/administration/login)
-* API Documentation url to follow
 
 ### Geeks
 
