@@ -25,7 +25,7 @@ class GeneratedDesignSheet extends Notification
     public function __construct(
         $message,
         $channel = 'generated-pdfs',
-        $from = 'ProLook Customizer',
+        $from = 'Customizer',
         $icon = ':prolook"'
     )
     {

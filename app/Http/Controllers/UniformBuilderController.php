@@ -1181,6 +1181,7 @@ class UniformBuilderController extends Controller
             $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
         }
 
+        $slack_channel = config('slack.channels.design_sheets_pdf');
         $this->notify(new GeneratedDesignSheet($message));
         return $transformedPath;
     }

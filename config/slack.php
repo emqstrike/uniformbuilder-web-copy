@@ -28,6 +28,16 @@ return [
 
     'channel' => '#generated-pdfs',
 
+    'channels' => [
+
+        'design_sheets_pdf' => 'generated-pdfs',
+
+        'saved_designs' => 'saved-designs',
+
+        'shared_orders' => 'shared-orders'
+
+    ],
+
     /*
     |-------------------------------------------------------------
     | Default username
@@ -38,7 +48,7 @@ return [
     |
     */
 
-    'username' => 'Prolook Customizer',
+    'username' => env('APP_TITLE', 'Customizer'),
 
     /*
     |-------------------------------------------------------------
@@ -51,7 +61,7 @@ return [
     |
     */
 
-    'icon' => ":prolook:",
+    'icon' => env('SLACK_VENDOR_ICON', ":prolook:"),
 
     /*
     |-------------------------------------------------------------
