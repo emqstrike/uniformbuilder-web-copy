@@ -64,8 +64,8 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered materials display'>
-                        <thead>
+                    <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered materials display'>   <thead>
+                        <input type="hidden" id="materials-data" value="{{ $materials_string }}">
                             <tr>
                                 <th>ID</th>
                                 <th>Preview</th>
@@ -150,9 +150,9 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td id="sports-filter"></td>
+                <td id="block-patterns-filter"></td>
+                <td id="necks-filter"></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -181,7 +181,7 @@
 <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
 <script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script>
 <!-- <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script> -->
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+<script type="text/javascript" src="/js/administration/datatables.min.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <!-- <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script> -->
 <script type="text/javascript" src="/js/administration/materials-main.js"></script>
