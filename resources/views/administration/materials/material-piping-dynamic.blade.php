@@ -42,7 +42,13 @@
                             </a>
                         </div>
                         <div class="col-md-1">
-                            Change All
+                            Change Colors
+                            <div class="global-color">
+                                
+                            </div>
+                            <div class="global-color">
+                     
+                            </div>
                             <div class="global-color">
                      
                             </div>

@@ -612,8 +612,7 @@ $(".global-color").append(globalColorSelector(colors));
 
 		return template = `<select class='form-control global-color-selector' ">` + template + `</select>`;
 		
-// console.log(template);
-// 			$(".global-color").append("asdasd");
+
 	}
 
 
@@ -623,13 +622,14 @@ $(".global-color").append(globalColorSelector(colors));
   		$(this).attr("style",selectedColorValue);
   	});
 
-	 $(document).on('change', '.global-color-selector', function(){
+	$(document).on('change', '.global-color-selector', function(){
   		var selectedColorValue = $(this).find("option:selected").attr("style");
-  		$(this).attr("style",selectedColorValue);
+  		var ind = $(".global-color-selector").index(this);
+  		ind++;
+  		$(this).attr("style",selectedColorValue); 		
 
-  		$(".piping-colors").val($(this).val()).attr("style",selectedColorValue);
+  		$(".position-"+ ind +" ~ select").val($(this).val()).attr("style",selectedColorValue);
   		refreshJSON();
-
   	});
 
 	 
