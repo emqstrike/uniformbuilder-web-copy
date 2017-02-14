@@ -2746,7 +2746,7 @@ $(document).ready(function() {
 
                         if (typeof apps_transformed[shape.name][obj.id] === 'undefined'){
 
-                            apps_transformed[shape.name][obj.id] = { id: obj.id, name: obj.name, views: [], layer: shape.name, type: obj.name.toCodeCase()};
+                            apps_transformed[shape.name][obj.id] = { id: obj.id.toString(), name: obj.name, views: [], layer: shape.name, type: obj.name.toCodeCase()};
 
                         }
                         
