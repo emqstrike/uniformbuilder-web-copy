@@ -3692,8 +3692,6 @@ $(document).ready(function() {
                 ub.funcs.activateColorPickers();    
             }
 
-            ub.funcs.moveToColorPickerByIndex(_ctr - 1);
-
             if (_fullname === 'team-colors' || _sizeOfTeamColors <= 1) {
 
                 ub.funcs.initTeamColors();
@@ -3709,6 +3707,8 @@ $(document).ready(function() {
             if ($('div#cw').html().length === 0) {
                 ub.funcs.drawColorPickers();
             }
+
+            ub.funcs.moveToColorPickerByIndex(_ctr - 1);
 
             ub.active_part = _fullname;
 
