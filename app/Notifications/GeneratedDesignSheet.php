@@ -43,7 +43,10 @@ class GeneratedDesignSheet extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'slack'];
+        return [
+            // 'mail',
+            'slack'
+        ];
     }
 
     /**
