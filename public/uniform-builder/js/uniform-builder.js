@@ -1584,7 +1584,7 @@ $(document).ready(function () {
 
     ub.funcs.processPipings = function () {
 
-        // ub.funcs.setupTempPiping();
+        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) { return; }
 
         if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
 
