@@ -10,8 +10,6 @@ class MascotSizesAPIClient extends APIClient
 
     public function createMascotSize($data)
     {
-
-     
         $response = $this->post('mascot_size', [
             'json' => $data
         ]);
@@ -21,7 +19,6 @@ class MascotSizesAPIClient extends APIClient
 
     public function updateMascotSize($data)
     {
-      
         $response = $this->post('mascot_size/update', [
             'json' => $data
         ]);

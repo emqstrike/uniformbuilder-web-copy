@@ -72,7 +72,6 @@ class MascotsAPIClient extends APIClient
 
     public function createMascot($data)
     {
-
         $response = $this->post('mascot', [
             'json' => $data
         ]);
@@ -82,7 +81,6 @@ class MascotsAPIClient extends APIClient
 
     public function createArtwork($data)
     {
-
         $response = $this->post('mascot/artwork', [
             'json' => $data
         ]);
@@ -92,7 +90,6 @@ class MascotsAPIClient extends APIClient
 
     public function updateMascot($data)
     {
-
         $response = $this->post('mascot/update', [
             'json' => $data
         ]);

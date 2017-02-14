@@ -3529,5 +3529,25 @@ function accentMascotSelect(data,accentMascot,rowIndex){
            
 
     });
+
+     $(document).on('click','.load-applications-template',function(){
+        console.log($("#filter_app_template").val());
+        var str2 = $("#filter_app_template").val();
+       str2 = str2.split(' ');
+       console.log(str2);
+        $( ".load-applications-template option" ).hide();
+
+        $.each(str2, function( index, value ) {
+           $( ".load-applications-template option" ).each(function( index ) {
+              var str1 = $( this ).text().toLowerCase();
+                
+                if(str1.indexOf(value) != -1){
+                    $(this).show();
+                }
+            });
+        });
+           
+
+    });    
    
 });

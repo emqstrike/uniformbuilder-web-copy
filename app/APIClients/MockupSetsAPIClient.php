@@ -8,14 +8,8 @@ class MockupSetsAPIClient extends APIClient
         parent::__construct();
     }
 
-
- 
-
- 
-
     public function getMockupSets()
     {
-
         $response = $this->get('mockup_sets');
         $result = $this->decoder->decode($response->getBody());
 
@@ -27,14 +21,12 @@ class MockupSetsAPIClient extends APIClient
         return $mockup_sets;
     }
 
-      public function getMockupSet($id)
+    public function getMockupSet($id)
     {
         $response = $this->get('mockup_set/' . $id);
         $result = $this->decoder->decode($response->getBody());
         if ($result->success)
         {
-          
-
             return $result->mockup_set;
         }
         return null;
