@@ -66,10 +66,12 @@ class MaterialsController extends Controller
         Log::info('Index');
         $materials = $this->client->getMaterials();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
-
+        $materials_string = json_encode($materials);
+      
         return view('administration.materials.materials', [
             'block_patterns' => $block_patterns,
-            'materials' => $materials
+            'materials' => $materials,
+            'materials_string' => $materials_string
         ]);
     }
 

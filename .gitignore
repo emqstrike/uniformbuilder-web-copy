@@ -5,3 +5,4 @@
 Homestead.yaml
 .env
 .env-staging
+.DS_Store

@@ -8574,6 +8574,18 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Baseball',
                 fontName: 'Impact',
+            },
+            {
+                sport: 'Fastpitch',
+                fontName: 'Impact',
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                fontName: 'Impact',
+            },
+            {
+                sport: 'Compression (Apparel)',
+                fontName: 'Impact',
             }
 
         ],
@@ -8663,13 +8675,67 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Baseball',
                 size: 3,
-                scale: {x: 0.38,y: 0.38 },
+                scale: {x: 0.38 ,y: 0.38 },
             },
             {
                 sport: 'Baseball',
                 size: 4,
-                scale: {x: 0.53,y: 0.53 },
-            }
+                scale: {x: 0.53 ,y: 0.53 },
+            },
+
+            // Tech-Tee
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 2,
+                scale: {x: 0.18, y: 0.18 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 3,
+                scale: {x: 0.28, y: 0.28 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 4,
+                scale: {x: 0.36, y: 0.53 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 8,
+                scale: {x: 0.70, y: 0.70 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 10,
+                scale: {x: 0.90, y: 0.90 },
+            },
+
+            // Compression
+            {
+                sport: 'Compression (Apparel)',
+                size: 2,
+                scale: {x: 0.18, y: 0.18 },
+            },
+            {
+                sport: 'Compression (Apparel)',
+                size: 3,
+                scale: {x: 0.28, y: 0.28 },
+            },
+            {
+                sport: 'Compression (Apparel)',
+                size: 4,
+                scale: {x: 0.36, y: 0.53 },
+            },
+            {
+                sport: 'Compression (Apparel)',
+                size: 8,
+                scale: {x: 0.70, y: 0.70 },
+            },
+            {
+                sport: 'Compression (Apparel)',
+                size: 10,
+                scale: {x: 0.90, y: 0.90 },
+            },
 
         ],
 
