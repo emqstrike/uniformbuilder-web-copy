@@ -220,6 +220,10 @@ $(".global-color").append(globalColorSelector(colors));
 
     $('.add-piping').on('click', function(e){
     	e.preventDefault();
+    	var selectedFirst = $(".global-color-selector option:selected").eq(0).val();
+    	var selectedSecond = $(".global-color-selector option:selected").eq(1).val();
+    	var selectedThird = $(".global-color-selector option:selected").eq(2).val();
+
         console.log( 'Add Section . . .' );
         var elem = `<table class="table table-striped table-bordered table-hover piping-table">
         <tr>
@@ -258,7 +262,7 @@ $(".global-color").append(globalColorSelector(colors));
 
         		<td>
         			Position 1 <input type="checkbox" class="position-1" value="1">
-        			`+ getSelectColorTemplate(colors)  +`
+        			`+ getSelectColorTemplate(colors,selectedFirst)  +`
         		</td>
         		<td><br><input class="team_color_id_array" type="number"></td>
         		<td><input type="file" class="file-f-1 image" data-img-url=""></td>
@@ -270,7 +274,7 @@ $(".global-color").append(globalColorSelector(colors));
 
         		<td>
         			Position 2 <input type="checkbox" class="position-2" value="1">
-        			`+ getSelectColorTemplate(colors)  +`
+        			`+ getSelectColorTemplate(colors,selectedSecond)  +`
         		</td>
         		<td><br><input class="team_color_id_array" type="number"></td>
         		<td><input type="file" class="file-f-2 image" data-img-url=""></td>
@@ -281,7 +285,7 @@ $(".global-color").append(globalColorSelector(colors));
         	<tr>
         		<td>
         			Position 3 <input type="checkbox" class="position-3" value="1">
-        			`+ getSelectColorTemplate(colors)  +`
+        			`+ getSelectColorTemplate(colors,selectedThird)  +`
         		</td>
         		<td><br><input class="team_color_id_array" type="number"></td>
         		<td><input type="file" class="file-f-3 image" data-img-url=""></td>
@@ -586,7 +590,6 @@ $(".global-color").append(globalColorSelector(colors));
 
 	function getSelectColorTemplate(result,c_code){
 		
-	   
      	var template = '<option value="none" style="background:#fff;color:black"selected>None</option>';
      	var selectedColor = "";
      	var fontColor = "black";
