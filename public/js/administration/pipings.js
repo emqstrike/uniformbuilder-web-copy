@@ -3,6 +3,22 @@ colors = getColors().colors;
 $(".global-color").append(globalColorSelector(colors));
 // select colors
 // window.selectColors = getSelectColorTemplate(colors);
+	$('.copy-piping').on('click', function(e){
+		copyToClipboard();
+		function copyToClipboard() {
+			var data = $('#pipings_data').val().slice(1, -1).replace(new RegExp("\\\\", "g"), "");
+		    // window.prompt("Copy to clipboard: Ctrl+C, Enter", data);
+		    // console.log(data);
+		    $('#ta_pipings_data').val(data);
+		    $('#ta_pipings_data').show();
+		}
+	});
+
+	$('.load-piping').on('click', function(e){
+		var data = $('#ta_load_pipings').val();
+		console.log(data);
+	    loadPipings(data);
+	});
 
 	var pipings_data = $('#pipings_data').val();
 
@@ -19,13 +35,25 @@ $(".global-color").append(globalColorSelector(colors));
 	//     return this.replace(/\\(.)/mg, "$1");
 	// }
 
-	function loadPipings(){
+	function loadPipings(copydata){
 		// load pipings information
-		var pipings_data = $('#pipings_data').val();
-		var pipings = pipings_data.slice(1, -1);
-		pipings = pipings.replace(new RegExp("\\\\", "g"), "");
-		var x = pipings;
-		pipings = JSON.parse(pipings);
+		var pipings, x;
+		if(!copydata){
+			var pipings_data = $('#pipings_data').val();
+			pipings = pipings_data.slice(1, -1);
+			pipings = pipings.replace(new RegExp("\\\\", "g"), "");
+			x = pipings;
+			pipings = JSON.parse(pipings);
+		} else {
+			$('.pipings-content').html('');
+			// var pipings_data = $('#pipings_data').val();
+			// pipings = pipings_data.slice(1, -1);
+			// pipings = copydata.replace(new RegExp("\\\\", "g"), "");
+			pipings = JSON.parse(copydata);
+			x = pipings;
+		}
+
+		// pipings = JSON.parse(pipings);
 		// console.log( pipings[0] );
 		pipings.forEach(function(entry) {
 			console.log(entry);
@@ -60,7 +88,6 @@ $(".global-color").append(globalColorSelector(colors));
 			pos3checked = 'checked';
 		}
 
-
 		var selectbox = '<select class="form-control piping-size">';
 		var piping_sizes = ["1/8", "1/4", "1/2"];
 		piping_sizes.forEach(function(entry) {
@@ -81,13 +108,10 @@ $(".global-color").append(globalColorSelector(colors));
 
 		var template = `<table class="table table-striped table-bordered table-hover piping-table">
         <tr>
+        	<td><b>PIPING DETAILS</b></td>
         	<td colspan="5"><a href="#" class="btn btn-danger pull-right delete-piping">Remove</a></td>
         </tr>
         <tr>
-    		<td><b>PIPING DETAILS </td>
-    		<td>
-    			<b>Team Color Id</b></td>
-    		<td>
     		<td>
     			<b>SIZE</b>`+selectbox+`</td>
     		<td>
@@ -98,6 +122,8 @@ $(".global-color").append(globalColorSelector(colors));
     			<b>SET</b>
     			<input type="text" class="form-control piping-set" value="`+entry.set+`">
     		</td>
+    		<td></td>
+    		<td></td>
     		<td>
 				<div class="alert alert-info">
     				<i style="font-size: 30px;">Enable Piping</i>
@@ -105,7 +131,7 @@ $(".global-color").append(globalColorSelector(colors));
     			</div>
     		</td>
     	</tr>
-        <tr><th></th><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
+        <tr><th></th><th>TEAM COLOR ID</th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
         <tbody>
         	<tr>
         		<td>
@@ -197,13 +223,10 @@ $(".global-color").append(globalColorSelector(colors));
         console.log( 'Add Section . . .' );
         var elem = `<table class="table table-striped table-bordered table-hover piping-table">
         <tr>
+        	<td><b>PIPING DETAILS</b></td>
         	<td colspan="5"><a href="#" class="btn btn-danger pull-right delete-piping">Remove</a></td>
         </tr>
         <tr>
-    		<td><b>PIPING DETAILS</b></td>
-    		<td>
-    			<b>Team Color Id</b></td>
-    		<td>
     		<td>
     			<b>SIZE</b>
     			<select class="form-control piping-size">
@@ -220,6 +243,8 @@ $(".global-color").append(globalColorSelector(colors));
     			<b>SET</b>
     			<input type="text" class="form-control piping-set">
     		</td>
+    		<td></td>
+    		<td></td>
     		<td>
     			<div class="alert alert-info">
     				<i style="font-size: 30px;">Enable Piping</i>
@@ -227,7 +252,7 @@ $(".global-color").append(globalColorSelector(colors));
     			</div>
     		</td>
     	</tr>
-        <tr><th></th><th></th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
+        <tr><th></th><th>TEAM COLOR ID</th><th>FRONT</th><th>BACK</th><th>LEFT</th><th>RIGHT</th></tr>
         <tbody>
         	<tr>
 
