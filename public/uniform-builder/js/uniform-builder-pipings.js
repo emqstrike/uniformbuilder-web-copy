@@ -383,11 +383,26 @@ $(document).ready(function () {
         return _result;
         
     }
+
+    ub.funcs.sortPipingSizes = function (data) {
+
+        _.each (data.items, function (item) {
+
+            if (item.size === "1/8") { item.sort = 0; }
+            if (item.size === "1/4") { item.sort = 1; }
+            if (item.size === "1/2") { item.sort = 2; }
+
+        });
+
+        data.items = _.sortBy(data.items, "sort");
+        return data;
+        
+    }
     
     ub.funcs.getPipingSizes = function (pipingSet) {
 
         var _template = $('#m-piping-sizes').html();
-        var _data = { items: pipingSet};            
+        var _data = ub.funcs.sortPipingSizes({ items: pipingSet}); 
         var _markup = Mustache.render(_template, _data);
 
         return _markup;
