@@ -579,6 +579,12 @@ $(document).ready(function () {
                         item.debug_mode = item.debug_mode.toString();
 
                     }
+
+                    if (typeof item.sublimation_only === "number") {
+
+                        item.sublimation_only = item.sublimation_only.toString();
+
+                    }
                 }
 
             });
