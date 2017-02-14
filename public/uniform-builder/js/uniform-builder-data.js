@@ -8574,6 +8574,18 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Baseball',
                 fontName: 'Impact',
+            },
+            {
+                sport: 'Fastpitch',
+                fontName: 'Impact',
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                fontName: 'Impact',
+            },
+            {
+                sport: 'Compression (Apparel)',
+                fontName: 'Impact',
             }
 
         ],
