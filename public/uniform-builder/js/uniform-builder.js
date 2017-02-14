@@ -555,8 +555,35 @@ $(document).ready(function () {
             });
 
         };
+
+        // Fix for returned ints, ub expects string
+        ub.convertToString = function (obj) {
+
+            var _toConverList = ['id', 'active', 'debug_mode', 'sublimation_only']; 
+
+            _.each(obj, function (item) {
+
+                if (item !== null) {
+
+                    _.each(_toConverList, function (field) {
+
+                        if (typeof item[field] === "number") {
+
+                            item[field] = item[field].toString();
+
+                        }
+
+                    });
+
+                }
+
+            });
+
+        }
  
         ub.callback = function (obj, object_name) {
+
+            ub.convertToString(obj);
 
             if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
 
@@ -1105,6 +1132,8 @@ $(document).ready(function () {
         ub.load_materials = function (obj, object_name){
 
             ub.materials = {};
+            ub.convertToString(obj);
+
             ub.materials = _.filter(obj, {debug_mode: '0'});
 
             _.each (ub.materials, function (material) {
