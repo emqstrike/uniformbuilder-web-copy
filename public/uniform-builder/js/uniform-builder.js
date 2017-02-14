@@ -556,35 +556,25 @@ $(document).ready(function () {
 
         };
 
+        // Fix for returned ints, ub expects string
         ub.convertToString = function (obj) {
+
+            var _toConverList = ['id', 'active', 'debug_mode', 'sublimation_only']; 
 
             _.each(obj, function (item) {
 
                 if (item !== null) {
 
-                    if (typeof item.id === "number") {
+                    _.each(_toConverList, function (field) {
 
-                        item.id = item.id.toString();
+                        if (typeof item[field] === "number") {
 
-                    }
+                            item[field] = item[field].toString();
 
-                    if (typeof item.active === "number") {
+                        }
 
-                        item.active = item.active.toString();
+                    });
 
-                    }
-
-                    if (typeof item.debug_mode === "number") {
-
-                        item.debug_mode = item.debug_mode.toString();
-
-                    }
-
-                    if (typeof item.sublimation_only === "number") {
-
-                        item.sublimation_only = item.sublimation_only.toString();
-
-                    }
                 }
 
             });
@@ -1143,6 +1133,7 @@ $(document).ready(function () {
 
             ub.materials = {};
             ub.convertToString(obj);
+
             ub.materials = _.filter(obj, {debug_mode: '0'});
 
             _.each (ub.materials, function (material) {
@@ -1593,7 +1584,7 @@ $(document).ready(function () {
 
     ub.funcs.processPipings = function () {
 
-        // ub.funcs.setupTempPiping();
+        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) { return; }
 
         if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
 
