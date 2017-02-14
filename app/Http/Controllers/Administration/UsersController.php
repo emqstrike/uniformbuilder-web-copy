@@ -1,14 +1,14 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use Crypt;
 use Session;
 use Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\APIClients\UsersAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\UsersAPIClient as APIClient;
 
 class UsersController extends Controller
 {

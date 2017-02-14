@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\APIClients\PriceItemsAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\PriceItemsAPIClient as APIClient;
 
 class PriceItemsController extends Controller
 {

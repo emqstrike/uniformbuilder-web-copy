@@ -1,12 +1,12 @@
 <?php
-namespace App\Utilities;
+namespace Customizer\Utilities;
 
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
 use Webmozart\Json\ValidationFailedException;
 use Webmozart\Json\DecodingFailedException;
 use Webmozart\Json\UnexpectedValueException;
-use App\Exceptions\RequiredFieldException;
+use Customizer\Exceptions\RequiredFieldException;
 use \Exception;
 
 class HTTPBodyReader

@@ -1,14 +1,14 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploaderV2;
-use App\Utilities\Random;
+use Customizer\Utilities\FileUploaderV2;
+use Customizer\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
+use Customizer\Http\Controllers\Controller;
 
 class TestsController extends Controller
 {

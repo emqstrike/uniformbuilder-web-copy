@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Customizer\Http\Controllers;
 
 use Session;
 use Redirect;
-use App\Utilities\Log;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
 use GuzzleHttp\Exception\ClientException;
-use App\APIClients\UsersAPIClient as APIClient;
+use Customizer\APIClients\UsersAPIClient as APIClient;
 
 class RegistrationController extends Controller
 {

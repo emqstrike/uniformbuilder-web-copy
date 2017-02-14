@@ -1,14 +1,14 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\APIClients\ColorsAPIClient;
-use App\APIClients\ColorsSetsAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\ColorsAPIClient;
+use Customizer\APIClients\ColorsSetsAPIClient as APIClient;
 
 class ColorsSetsController extends Controller
 {

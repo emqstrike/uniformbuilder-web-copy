@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Customizer\Http\Controllers;
 
 use Session;
 use Redirect;
-use App\Utilities\Log;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\APIClients\ColorsAPIClient;
-use App\APIClients\MaterialsAPIClient;
-use App\APIClients\UniformDesignSetsAPIClient;
-use App\APIClients\OrdersAPIClient;
-use App\APIClients\UsersAPIClient;
-use App\APIClients\SavedDesignsAPIClient;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\Utilities\FileUtility;
-use App\Utilities\S3Uploader;
-use App\Utilities\FileUploaderV2;
-use App\Utilities\Random;
+use Customizer\APIClients\ColorsAPIClient;
+use Customizer\APIClients\MaterialsAPIClient;
+use Customizer\APIClients\UniformDesignSetsAPIClient;
+use Customizer\APIClients\OrdersAPIClient;
+use Customizer\APIClients\UsersAPIClient;
+use Customizer\APIClients\SavedDesignsAPIClient;
+use Customizer\Http\Requests;
+use Customizer\Http\Controllers\Controller;
+use Customizer\Utilities\FileUtility;
+use Customizer\Utilities\S3Uploader;
+use Customizer\Utilities\FileUploaderV2;
+use Customizer\Utilities\Random;
 use TCPDF;
 use File;
 use Illuminate\Notifications\Notifiable;
-use App\Notifications\GeneratedDesignSheet;
+use Customizer\Notifications\GeneratedDesignSheet;
 
 class UniformBuilderController extends Controller
 {

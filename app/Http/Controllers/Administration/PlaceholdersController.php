@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
-use App\Utilities\Random;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
+use Customizer\Utilities\Random;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
+use Customizer\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
-use App\APIClients\UniformCategoriesAPIClient;
-use App\APIClients\PlaceholdersAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\UniformCategoriesAPIClient;
+use Customizer\APIClients\PlaceholdersAPIClient as APIClient;
 
 class PlaceholdersController extends Controller
 {

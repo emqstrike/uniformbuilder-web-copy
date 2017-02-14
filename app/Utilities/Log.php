@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utilities;
+namespace Customizer\Utilities;
 
 use Log as Monolog;
 use Session;

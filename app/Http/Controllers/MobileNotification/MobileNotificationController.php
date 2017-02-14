@@ -1,13 +1,13 @@
 <?php
-namespace App\Http\Controllers\MobileNotification;
+namespace Customizer\Http\Controllers\MobileNotification;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use Customizer\Http\Requests;
+use Customizer\Http\Controllers\Controller;
 
 
-use App\APIClients\MobileNotificationsAPIClient as APIClient;
+use Customizer\APIClients\MobileNotificationsAPIClient as APIClient;
 
 class MobileNotificationController extends Controller
 {

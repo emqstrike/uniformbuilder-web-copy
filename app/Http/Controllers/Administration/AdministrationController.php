@@ -1,12 +1,12 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Session;
-use App\Http\Requests;
+use Customizer\Http\Requests;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Customizer\Http\Controllers\Controller;
 use GuzzleHttp\Exception\ClientException;
-use App\APIClients\OrdersAPIClient;
+use Customizer\APIClients\OrdersAPIClient;
 // use Illuminate\Support\Facades\Redis;
 
 

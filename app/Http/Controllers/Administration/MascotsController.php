@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use View;
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use App\Utilities\FileUploaderV2;
-use App\Utilities\Random;
+use Customizer\Utilities\FileUploader;
+use Customizer\Utilities\FileUploaderV2;
+use Customizer\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
-use App\APIClients\ColorsAPIClient;
-use App\APIClients\MascotsCategoriesAPIClient;
-use App\APIClients\ArtworksAPIClient;
-use App\APIClients\MascotsAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\ColorsAPIClient;
+use Customizer\APIClients\MascotsCategoriesAPIClient;
+use Customizer\APIClients\ArtworksAPIClient;
+use Customizer\APIClients\MascotsAPIClient as APIClient;
 
 class MascotsController extends Controller
 {
@@ -41,7 +41,7 @@ class MascotsController extends Controller
 
         $mascots = $this->client->getMascots();
         $mascot_categories = $this->mascotsCategoryClient->getMascotCategories();
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $categoriesAPIClient = new \Customizer\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
         
         return view('administration.mascots.mascots', [
@@ -84,7 +84,7 @@ class MascotsController extends Controller
         $colors = $this->colorsClient->getColors();
         $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
         $mascots_categories = array();
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $categoriesAPIClient = new \Customizer\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
         foreach($raw_mascots_categories as $mascot_category){
@@ -138,7 +138,7 @@ class MascotsController extends Controller
     {
         $colors = $this->colorsClient->getColors();
         $mascot = $this->client->getMascot($id);
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $categoriesAPIClient = new \Customizer\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
         $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();

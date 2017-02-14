@@ -1,6 +1,6 @@
 <?php
-namespace App\APIClients;
-use App\Utilities\Log;
+namespace Customizer\APIClients;
+use Customizer\Utilities\Log;
 
 class MaterialsOptionsAPIClient extends APIClient
 {

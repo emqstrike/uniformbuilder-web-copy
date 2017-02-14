@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
+use Customizer\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
 use Webmozart\Json\JsonDecoder;
-use App\Http\Controllers\Controller;
-use App\APIClients\UniformDesignSetsAPIClient as APIClient;
-use App\APIClients\ColorsAPIClient;
-use App\APIClients\UniformCategoriesAPIClient;
-use App\APIClients\MaterialsAPIClient;
-use App\APIClients\FabricsAPIClient;
-use App\APIClients\LiningsAPIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\UniformDesignSetsAPIClient as APIClient;
+use Customizer\APIClients\ColorsAPIClient;
+use Customizer\APIClients\UniformCategoriesAPIClient;
+use Customizer\APIClients\MaterialsAPIClient;
+use Customizer\APIClients\FabricsAPIClient;
+use Customizer\APIClients\LiningsAPIClient;
 
 class UniformDesignSetsController extends Controller
 {

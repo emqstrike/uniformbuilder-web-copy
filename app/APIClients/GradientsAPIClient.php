@@ -1,5 +1,5 @@
 <?php
-namespace App\APIClients;
+namespace Customizer\APIClients;
 
 class GradientsAPIClient extends APIClient
 {

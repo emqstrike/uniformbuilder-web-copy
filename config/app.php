@@ -173,11 +173,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Customizer\Providers\AppServiceProvider::class,
+        Customizer\Providers\AuthServiceProvider::class,
+        // Customizer\Providers\BroadcastServiceProvider::class,
+        Customizer\Providers\EventServiceProvider::class,
+        Customizer\Providers\RouteServiceProvider::class,
         'Elibyy\TCPDF\ServiceProvider',                                                                                                                                                                                                                                                                                                     
 
     ],

@@ -1,14 +1,14 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
-use App\Http\Controllers\Controller;
-use App\APIClients\FactoriesAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\FactoriesAPIClient as APIClient;
 
 class FactoriesController extends Controller
 {

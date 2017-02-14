@@ -1,8 +1,8 @@
 <?php
-namespace App\Utilities;
+namespace Customizer\Utilities;
 
 use Storage;
-use App\Utilities\Random;
+use Customizer\Utilities\Random;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Intervention\Image\ImageManagerStatic as Image;
 

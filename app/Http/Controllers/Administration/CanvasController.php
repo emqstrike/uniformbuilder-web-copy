@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use Customizer\Http\Requests;
+use Customizer\Http\Controllers\Controller;
 use Webmozart\Json\JsonDecoder;
-use App\APIClients\APIClient;
+use Customizer\APIClients\APIClient;
 
 class CanvasController extends Controller
 {

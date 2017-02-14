@@ -1,14 +1,14 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use Session;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
-use App\Http\Controllers\Controller;
+use Customizer\Http\Controllers\Controller;
 use GuzzleHttp\Exception\ClientException;
-use App\APIClients\UsersAPIClient as APIClient;
+use Customizer\APIClients\UsersAPIClient as APIClient;
 
 class AuthenticationController extends Controller
 {

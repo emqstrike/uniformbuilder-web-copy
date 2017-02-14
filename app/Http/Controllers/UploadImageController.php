@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Customizer\Http\Controllers;
 
 
 use \Session;
 use \Redirect;
-use App\Http\Requests;
+use Customizer\Http\Requests;
 use Illuminate\Http\Request;
-use App\APIClients\APIClient;
+use Customizer\APIClients\APIClient;
 use Webmozart\Json\JsonDecoder;
-use App\Http\Controllers\Controller;
-use App\Utilities\S3Uploader;
+use Customizer\Http\Controllers\Controller;
+use Customizer\Utilities\S3Uploader;
 
 class UploadImageController extends Controller
 {

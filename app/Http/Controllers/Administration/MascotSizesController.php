@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use App\Utilities\Random;
+use Customizer\Utilities\FileUploader;
+use Customizer\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
-use App\APIClients\MascotSizesAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\MascotSizesAPIClient as APIClient;
 
 class MascotSizesController extends Controller
 {
@@ -36,7 +36,7 @@ class MascotSizesController extends Controller
 
     public function addMascotSizeForm()
     {
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $categoriesAPIClient = new \Customizer\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
         return view('administration.mascots.mascot-size-create', [
            'sports' => $sports
@@ -47,7 +47,7 @@ class MascotSizesController extends Controller
     {   
         
         $mascot_size = $this->client->getMascotSize($id);
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $categoriesAPIClient = new \Customizer\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
         
         return view('administration.mascots.mascot-size-edit', [

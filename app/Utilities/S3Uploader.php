@@ -1,11 +1,11 @@
 <?php
-namespace App\Utilities;
+namespace Customizer\Utilities;
 
 use Storage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Intervention\Image\ImageManagerStatic as Image;
-use App\Utilities\Random;
-use App\Utilities\FileUtility;
+use Customizer\Utilities\Random;
+use Customizer\Utilities\FileUtility;
 
 class S3Uploader
 {

@@ -1,15 +1,15 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
-use App\Http\Controllers\Controller;
+use Customizer\Http\Controllers\Controller;
 
-use App\APIClients\MascotsGroupsCategoriesAPIClient as APIClient;
+use Customizer\APIClients\MascotsGroupsCategoriesAPIClient as APIClient;
 
 class MascotsGroupsCategoriesController extends Controller
 {

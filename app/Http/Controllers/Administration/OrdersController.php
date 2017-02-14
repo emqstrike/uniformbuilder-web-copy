@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\APIClients\OrdersAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\OrdersAPIClient as APIClient;
 
 class OrdersController extends Controller
 {

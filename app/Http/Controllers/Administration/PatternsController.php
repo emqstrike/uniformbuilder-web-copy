@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
-use App\Utilities\Random;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
+use Customizer\Utilities\Random;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
+use Customizer\Utilities\FileUploader;
 use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
-use App\APIClients\ColorsAPIClient;
-use App\APIClients\PatternsAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\ColorsAPIClient;
+use Customizer\APIClients\PatternsAPIClient as APIClient;
 
 class PatternsController extends Controller
 {
@@ -39,7 +39,7 @@ class PatternsController extends Controller
     {
         $colors = $this->colorsClient->getColors();
         $pattern = $this->client->getPattern($id);
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $categoriesAPIClient = new \Customizer\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
 
@@ -54,7 +54,7 @@ class PatternsController extends Controller
     public function addPatternForm()
     {
         $colors = $this->colorsClient->getColors();
-           $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+           $categoriesAPIClient = new \Customizer\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
       
 

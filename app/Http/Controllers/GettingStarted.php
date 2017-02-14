@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Customizer\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use Customizer\Http\Requests;
+use Customizer\Http\Controllers\Controller;
 
 class GettingStarted extends Controller
 {

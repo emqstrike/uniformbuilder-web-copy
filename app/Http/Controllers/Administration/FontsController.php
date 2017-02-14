@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use App\Utilities\Random;
+use Customizer\Utilities\FileUploader;
+use Customizer\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
-use App\APIClients\FontsAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\FontsAPIClient as APIClient;
 
 class FontsController extends Controller
 {
@@ -36,7 +36,7 @@ class FontsController extends Controller
     public function addFontForm()
     {
         $fonts = $this->client->getDefaultFonts();
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $categoriesAPIClient = new \Customizer\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
         return view('administration.fonts.font-create', [
@@ -49,7 +49,7 @@ class FontsController extends Controller
     {
         $font = $this->client->getFont($id);
         $fonts = $this->client->getDefaultFonts();
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $categoriesAPIClient = new \Customizer\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
         
         return view('administration.fonts.font-edit', [

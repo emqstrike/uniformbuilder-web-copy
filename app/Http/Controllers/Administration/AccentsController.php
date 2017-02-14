@@ -1,20 +1,20 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use App\Utilities\Random;
+use Customizer\Utilities\FileUploader;
+use Customizer\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
-use App\APIClients\AccentsAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\AccentsAPIClient as APIClient;
 
 
-use App\APIClients\FontsAPIClient;
-use App\APIClients\ColorsAPIClient;
+use Customizer\APIClients\FontsAPIClient;
+use Customizer\APIClients\ColorsAPIClient;
 
 class AccentsController extends Controller
 {

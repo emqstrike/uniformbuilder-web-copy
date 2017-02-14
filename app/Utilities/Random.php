@@ -1,5 +1,5 @@
 <?php
-namespace App\Utilities;
+namespace Customizer\Utilities;
 
 class Random {
     public static function generateToken($length = 32)

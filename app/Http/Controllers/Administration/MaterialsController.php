@@ -1,24 +1,24 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use App\Utilities\Random;
+use Customizer\Utilities\FileUploader;
+use Customizer\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
-use App\APIClients\ColorsAPIClient;
-use App\APIClients\FactoriesAPIClient;
-use App\APIClients\GradientsAPIClient;
-use App\APIClients\ApplicationsAPIClient;
-use App\APIClients\BoundariesAPIClient;
-use App\APIClients\FontsAPIClient;
-use App\APIClients\BlockPatternsAPIClient;
-use App\APIClients\MaterialsOptionsAPIClient;
-use App\APIClients\PriceItemTemplatesAPIClient;
-use App\APIClients\MaterialsAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\ColorsAPIClient;
+use Customizer\APIClients\FactoriesAPIClient;
+use Customizer\APIClients\GradientsAPIClient;
+use Customizer\APIClients\ApplicationsAPIClient;
+use Customizer\APIClients\BoundariesAPIClient;
+use Customizer\APIClients\FontsAPIClient;
+use Customizer\APIClients\BlockPatternsAPIClient;
+use Customizer\APIClients\MaterialsOptionsAPIClient;
+use Customizer\APIClients\PriceItemTemplatesAPIClient;
+use Customizer\APIClients\MaterialsAPIClient as APIClient;
 
 class MaterialsController extends Controller
 {
@@ -165,10 +165,10 @@ class MaterialsController extends Controller
 
     public function editMaterialForm($id)
     {
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $categoriesAPIClient = new \Customizer\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
-        $colorsAPIClient = new \App\APIClients\ColorsAPIClient();
+        $colorsAPIClient = new \Customizer\APIClients\ColorsAPIClient();
         $colors = $colorsAPIClient->getColors();
         $factories = $this->factoriesClient->getFactories();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
@@ -236,7 +236,7 @@ class MaterialsController extends Controller
 
     public function addMaterialForm()
     {
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $categoriesAPIClient = new \Customizer\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
 

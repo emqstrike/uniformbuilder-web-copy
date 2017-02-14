@@ -1,4 +1,4 @@
 <?php
-namespace App\Exceptions;
+namespace Customizer\Exceptions;
 
 class RequiredFieldException extends \Exception {}

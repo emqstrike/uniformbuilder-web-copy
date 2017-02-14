@@ -1,17 +1,17 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use App\Utilities\Random;
+use Customizer\Utilities\FileUploader;
+use Customizer\Utilities\Random;
 use Webmozart\Json\JsonDecoder;
-use App\Http\Controllers\Controller;
-use App\APIClients\UniformCategoriesAPIClient;
-use App\APIClients\HelpersAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\UniformCategoriesAPIClient;
+use Customizer\APIClients\HelpersAPIClient as APIClient;
 
 class HelpersController extends Controller
 {

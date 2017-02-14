@@ -1,15 +1,15 @@
 <?php
-namespace App\Http\Controllers\Administration;
+namespace Customizer\Http\Controllers\Administration;
 
 use \Session;
 use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
+use Customizer\Http\Requests;
+use Customizer\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
+use Customizer\Utilities\FileUploader;
 use Webmozart\Json\JsonDecoder;
-use App\Http\Controllers\Controller;
-use App\APIClients\UniformCategoriesAPIClient as APIClient;
+use Customizer\Http\Controllers\Controller;
+use Customizer\APIClients\UniformCategoriesAPIClient as APIClient;
 
 class UniformCategoriesController extends Controller
 {
