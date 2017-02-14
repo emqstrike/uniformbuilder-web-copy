@@ -34,12 +34,16 @@
                         <input type="hidden" name="material_id" value="{{ $material->id }}">
                         <input type="hidden" id="pipings_data" value="{{ $material->pipings }}">
                         <input type="hidden" name="pipings" id="pipings">
-
                         <div class="col-md-12">
                             <a href="#" class="btn btn-success add-piping">
                             <span class="glyphicon glyphicon-plus"></span>
                             Add Piping
                             </a>
+                            <a href="#" class="btn btn-info copy-piping">
+                            <span class="glyphicon glyphicon-copy"></span>
+                            Copy
+                            </a>
+                            <textarea id="ta_pipings_data" style="display: none;"></textarea>
                         </div>
                         <div class="col-md-1">
                             Change Colors
@@ -51,6 +55,12 @@
                             </div>
                             <div class="global-color">
                      
+                            </div>
+                        </div>
+                        <div class="col-md-11">
+                            <div class="pull-right">
+                                <textarea id="ta_load_pipings"></textarea>
+                                <a href="#" class="btn btn-xs btn-primary load-piping">Load</a>
                             </div>
                         </div>
                         <div class="col-md-12 pipings-content">
