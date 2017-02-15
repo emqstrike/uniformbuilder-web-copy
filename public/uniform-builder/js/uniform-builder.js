@@ -6206,11 +6206,14 @@ $(document).ready(function () {
 
                   }
 
+
+
                 
                 data.savedDesigns.forEach(function (value, i) {
                     data.savedDesigns[i].created_at = util.dateFormat(value.created_at);
                 });
-           
+
+               
                       
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
@@ -6227,6 +6230,15 @@ $(document).ready(function () {
                         
                         ub.showModalTool(_str);
 
+                    });
+
+                    $('.data-table').DataTable({
+                        "paging": true,
+                        "lengthChange": false,
+                        "searching": false,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false
                     });
 
                   $('span.action-button.view').on('click', function () {
@@ -6355,6 +6367,15 @@ $(document).ready(function () {
 
                         ub.showModalTool(_str);
 
+                    });
+
+                     $('.data-table').DataTable({
+                        "paging": true,
+                        "lengthChange": false,
+                        "searching": false,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false
                     });
 
                     $('span.action-button.edit').unbind('click');

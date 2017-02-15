@@ -27,7 +27,7 @@
 <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.pips.css{{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.tooltips.css{{$asset_version}}">
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
@@ -438,6 +438,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js{{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js{{$asset_version}}"></script>
+<script type="text/javascript" src="{{$asset_storage}}/data-table/datatables.min.js"></script>
 
 <!-- End Uniform Builder Scripts -->
 
