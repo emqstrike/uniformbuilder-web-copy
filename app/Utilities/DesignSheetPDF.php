@@ -237,7 +237,7 @@ class DesignSheetPDF
 
     private function getMaterialOptionsTable()
     {
-        $parts = $this->customizations;
+        $parts = $this->uniform;
 
         return View::make('pdf.design-sheet.material-options', compact('parts'));
     }
