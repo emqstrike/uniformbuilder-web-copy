@@ -507,5 +507,21 @@ $(document).ready(function(){
  
 
     });
+    $(document).on('click', '#filterSports button', function() {
+        $("#filterSports button").removeClass("btn-primary");
+        $(this).addClass("btn-primary");
+        var Sports = $(this).data("filter");
+        $("tbody tr").hide();     
+        $( "tr #sports-column" ).each(function( index ) {
+            if ($(this).text().indexOf(Sports) > -1)
+                {
+                 $(this).parent("tr").fadeIn( "slow" );
+                }
+            // $(this).find(":contains("+ Sports +")").parent("tr").show();
+
+        });
+    });
+
+    
 
 });
