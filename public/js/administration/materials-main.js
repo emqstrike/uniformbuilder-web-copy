@@ -252,9 +252,21 @@ $(document).ready(function() {
                   
                 }               
             });
+            $("#necks-filter select option").hide();
+            $.each(materials_data, function(i, item){         
+                if(sports_selected == item.uniform_category){
+                    console.log(sports_selected);
+                    console.log(item.uniform_category);
+                    console.log(item.neck_option);
+                    $('#necks-filter select option[value="' + item.neck_option + '"]').show();
+                    $('#necks-filter select option[value=""]').show();
+                }               
+            });
         }else{
             $("#block-patterns-filter select option").show();
-        }               
+        }   
+
+
     });
 
     $(document).on('change','#block-patterns-filter',function(){
@@ -267,8 +279,7 @@ $(document).ready(function() {
         $("#necks-filter select option").hide();
             $.each(materials_data, function(i, item){         
                 if(block_patterns_selected == item.block_pattern){
-                    console.log(block_patterns_selected);
-                     console.log(item.neck_option);
+                
                     $('#necks-filter select option[value="' + item.neck_option + '"]').show();
                     $('#necks-filter select option[value=""]').show();
                 }               
