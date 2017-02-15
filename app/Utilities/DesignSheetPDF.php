@@ -116,7 +116,7 @@ class DesignSheetPDF
         {
             $this->customizations = $this->uniform['builder_customizations'];
 
-            $this->perspectives = $this->customizations['thumnbnails'];
+            $this->perspectives = $this->customizations['thumbnails'];
 
             $this->roster = $this->customizations['roster'];
 
