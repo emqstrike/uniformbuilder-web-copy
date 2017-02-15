@@ -67,6 +67,7 @@ class MaterialsController extends Controller
         $materials = $this->client->getMaterials();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
         $materials_string = json_encode($materials);
+
       
         return view('administration.materials.materials', [
             'block_patterns' => $block_patterns,
@@ -80,12 +81,12 @@ class MaterialsController extends Controller
         Log::info('Get Material Options');
 
         $options = $this->optionsClient->getByMaterialId($id);
-        
+       
         $colors = $this->colorsClient->getColors();
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFonts();
-
+        
         $front_guide = null;
         $back_guide = null;
         $left_guide = null;
