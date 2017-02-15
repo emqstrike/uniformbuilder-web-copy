@@ -34,6 +34,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
 <input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">
 <input type="hidden" id="material_block_pattern" value="{{ $material->block_pattern }}">
 <input type="hidden" id="material_neck_option" value="{{ $material->neck_option }}">
+<input type="hidden" id="material_uniform_category" value="{{ $material->uniform_category }}">
 <a href="/administration/materials" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; margin-left: -15px; border-radius: 0;">
     Back
 </a>
