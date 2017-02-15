@@ -178,7 +178,11 @@ return [
         // Customizer\Providers\BroadcastServiceProvider::class,
         Customizer\Providers\EventServiceProvider::class,
         Customizer\Providers\RouteServiceProvider::class,
-        'Elibyy\TCPDF\ServiceProvider',                                                                                                                                                                                                                                                                                                     
+
+        /**
+         * Additional Service Providers
+         */
+        Elibyy\TCPDF\ServiceProvider::class,
 
     ],
 
@@ -228,6 +232,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        // Additional Aliases
+        'PDF' => Elibyy\TCPDF\Facades\TCPDF::class
 
     ],
 

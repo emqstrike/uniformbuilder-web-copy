@@ -18,7 +18,7 @@ use Customizer\Utilities\FileUtility;
 use Customizer\Utilities\S3Uploader;
 use Customizer\Utilities\FileUploaderV2;
 use Customizer\Utilities\Random;
-use TCPDF;
+use Customizer\Utilities\DesignSheetPDF;
 use File;
 use Illuminate\Notifications\Notifiable;
 use Customizer\Notifications\GeneratedDesignSheet;
@@ -336,6 +336,8 @@ class UniformBuilderController extends Controller
         return $s3path;
     }
 
+    // Note: Please use the `Customizer\Utilities\StringUtility::generateGUID()
+    //        function was transferred in that ulitility class
     function getGUID(){
 
         if (function_exists('com_create_guid')){
@@ -1195,13 +1197,21 @@ class UniformBuilderController extends Controller
         return $transformedPath;
     }
 
-    public function generateOrderForm(Request $request){
+    /**
+     * Generate the Order Form
+     */
+    public function generateOrderForm(Request $request)
+    {
+        $vendor = config('vendor.name');
 
-        $r = $request->all();
-        $fname = $this->generatePDF($r);
+        $pdf = new DesignSheetPDF($vendor, $request->all());
+        return $pdf->generate();
+        $pdf_path = $pdf->getPath();
 
-        return response()->json(['success' => true, 'filename' => $fname ]);
-
+        return response()->json([
+            'success' => true,
+            'filename' => $pdf_path
+        ]);
     }
 
     function createPDF ($builder_customizations) {

@@ -51,6 +51,8 @@ Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOr
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
 Route::post('saveUniformDesign', 'UniformBuilderController@saveOrder');
 Route::post('generateOrderForm', 'UniformBuilderController@generateOrderForm');
+// NEW PDF Generator
+Route::get('design-sheet', 'UniformBuilderController@generateOrderForm');
 
 // Save Logo 
 Route::post('saveLogo', 'UniformBuilderController@saveLogo');
