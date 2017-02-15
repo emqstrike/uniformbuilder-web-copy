@@ -29,7 +29,16 @@
                             </a>
                         </small>
                     </h1>
+
+                    <h3>Sports</h3>
+                    <div id="filterSports" class="col-md-12 button-group" style="margin-top: 10px;">
+                         <button class="button btn-primary" data-filter="">All</button>
+                         @foreach ($sports as $sport)
+                             <button class="button" data-filter="{{ $sport->name }}">{{ $sport->name }}</button>
+                         @endforeach 
+                    </div>   
                 </div>
+
                 <div class="box-body">
                     <table data-toggle='table' class='table table-bordered fonts'>
                     <thead>
@@ -97,7 +106,7 @@
                                 @endif
                             </td>
 
-                            <td>
+                            <td  id ="sports-column">
                                 {{ $font->sports }}
                             </td>
                             <td>
