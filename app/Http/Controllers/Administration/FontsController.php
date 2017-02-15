@@ -27,9 +27,12 @@ class FontsController extends Controller
     public function index()
     {
         $fonts = $this->client->getAllFonts();
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $sports = $categoriesAPIClient->getUniformCategories();
         
         return view('administration.fonts.fonts', [
-            'fonts' => $fonts
+            'fonts' => $fonts,
+            'sports' => $sports
         ]);
     }
 
