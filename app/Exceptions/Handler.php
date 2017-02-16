@@ -31,7 +31,10 @@ class Handler extends ExceptionHandler
     {
         if ($e instanceof Exception)
         {
-            $content = "APP_ENV = " . env('APP_ENV') . "\n\n<hr />";
+            $env = env('APP_ENV');
+            $server = $_SERVER['SERVER_NAME'];
+            $url = $_SERVER['REQUEST_URI'];
+            $content = null;
 
             if (ExceptionHandler::isHttpException($e))
             {
@@ -43,7 +46,7 @@ class Handler extends ExceptionHandler
             }
 
             // Send Error Notification to EMAIL
-            Mail::send('errors.oops', compact('content'), function($message) {
+            Mail::send('errors.oops', compact('content', 'server', 'url', 'env'), function($message) {
                 $message->to(config('mail.oops_receiver'), 'QStrike Geeks');
                 $message->from(config('mail.oops_sender'), config('app.title'));
                 $message->subject('[OOPS!] ' . config('app.title') . ' ' . date('Y-m-d H:i:s'));
