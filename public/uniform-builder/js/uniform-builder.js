@@ -1653,7 +1653,9 @@ $(document).ready(function () {
 
                     var _pipingObject                   = piping;
                     var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
-
+                    var selectedColorArray              = ub.current_material.settings.team_colors;
+                    
+                    ub.funcs.initPipingColors(piping, selectedColorArray[0]);
                     ub.funcs.renderPipings(piping, _colorArray, _colorCount);
                     ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, piping.size);
 
