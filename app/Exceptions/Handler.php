@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use Log;
+use Mail;
 use Exception;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -27,6 +29,27 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
+        if ($e instanceof Exception)
+        {
+            $content = "APP_ENV = " . env('APP_ENV') . "\n\n<hr />";
+
+            if (ExceptionHandler::isHttpException($e))
+            {
+                $content .= ExceptionHandler::toIlluminateResponse(ExceptionHandler::renderHttpException($e), $e);
+            }
+            else
+            {
+                $content .= ExceptionHandler::toIlluminateResponse(ExceptionHandler::convertExceptionToResponse($e), $e);
+            }
+
+            // Send Error Notification to EMAIL
+            Mail::send('errors.oops', compact('content'), function($message) {
+                $message->to(config('mail.oops_receiver'), 'QStrike Geeks');
+                $message->from(config('mail.oops_sender'), config('app.title'));
+                $message->subject('[OOPS!] ' . config('app.title') . ' ' . date('Y-m-d H:i:s'));
+            });
+        }
+
         return parent::report($e);
     }
 

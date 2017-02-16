@@ -121,4 +121,14 @@ return [
 
     'pretend' => false,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Exception notification email settings
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'oops_sender' => env('OOPS_SENDER', 'noreply@customizer.prolook.com'),
+    'oops_receiver' => env('OOPS_RECEIVER', 'geek@qstrike.com'),
+
 ];
