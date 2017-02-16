@@ -392,7 +392,7 @@
             
             <div class="main-picker-items grow @{{disabledClass}}" data-picker-type="gender" data-item="@{{name}}">
 
-                <img src="/images/main-ui/pickers/@{{code}}.png{{$asset_version}}">
+                <img src="/images/main-ui/pickers/@{{code}}.png?v={{$asset_version}}">
 
                 <span class="main-picker-item-caption">
                     @{{name}}
@@ -421,7 +421,7 @@
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
             @endif
-                <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png{{$asset_version}}">
+                <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png?v={{$asset_version}}">
 
                 <span class="main-picker-item-caption">
                     @{{name}}
@@ -443,7 +443,7 @@
             
             <div class="main-picker-items grow" data-picker-type="uniforms" data-item="@{{name}}">
 
-                <img src="@{{thumbnail_path}}{{$asset_version}}">
+                <img src="@{{thumbnail_path}}?v={{$asset_version}}">
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
@@ -484,7 +484,7 @@
             
             <div class="main-picker-items grow" data-picker-type="search-result" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
 
-                <img width='280' src="@{{thumbnail}}{{$asset_version}}">
+                <img width='280' src="@{{thumbnail}}?v={{$asset_version}}">
 
                 <span class="main-picker-item-caption">
                     @{{name}}
