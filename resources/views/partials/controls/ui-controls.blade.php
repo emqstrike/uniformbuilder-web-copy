@@ -1420,10 +1420,10 @@
                 <td>&nbsp;</td>
             </tr>
             </thead>
-
+            <tbody>
             @{{#savedDesigns}}
 
-                <tbody>
+               
                     <tr class="saved-design-row" data-id="@{{id}}">
 
                     <td>@{{created_at}}</td>
@@ -1455,10 +1455,10 @@
                     </td>
 
                 </tr>
-                </tbody>
+                
 
             @{{/savedDesigns}}
-
+            </tbody>
         </table>
 
     </script>   
