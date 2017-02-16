@@ -147,11 +147,11 @@
 
 @section('additional-scripts')
 
-	<script src="{{$asset_storage}}/threejs/three.js{{$asset_version}}"></script>
-	<script src="{{$asset_storage}}/js/main.js{{$asset_version}}"></script>
-	<script src="{{$asset_storage}}/js/texture_canvas.js{{$asset_version}}"></script>
-	<script src="{{$asset_storage}}/js/orbitcontrols.js{{$asset_version}}"></script>
-	<script src="{{$asset_storage}}/js/camera.js{{$asset_version}}"></script>
+	<script src="{{$asset_storage}}/threejs/three.js?v={{$asset_version}}"></script>
+	<script src="{{$asset_storage}}/js/main.js?v={{$asset_version}}"></script>
+	<script src="{{$asset_storage}}/js/texture_canvas.js?v={{$asset_version}}"></script>
+	<script src="{{$asset_storage}}/js/orbitcontrols.js?v={{$asset_version}}"></script>
+	<script src="{{$asset_storage}}/js/camera.js?v={{$asset_version}}"></script>
 	<script src="introjs/intro.min.js"></script>
 	<script src="js/slidemenu.min.js"></script>
 
