@@ -1110,57 +1110,61 @@
 
         <br />
 
-        <table>
+        <table class="data-table">
            
-            <tr class="header">
-
+           <thead>
+                <tr class="header">
                 <td>Date</td>
                 <td>Order ID</td>
+                <td>Sport</td>
                 <td>Thumbnails</td>
                 <td>Client</td>
                 <td>Status</td>
                 <td>Submitted</td>
                 <td>&nbsp;</td>
-
-            </tr>
-
-            @{{#orders}}
-
-                <tr class="saved-order-row" data-id="@{{id}}"> 
-                    <td>@{{created_at}}</td>
-                    <td>
-                        <strong> @{{order_id}}</strong> <br />
-                    </td>
-                    <td class="order-info">
-
-                        @{{#items}}
-
-                            <strong> @{{description}}</strong> / <a href="@{{design_sheet}}" target="_new">View PDF</a> <br /><br />
-                            
-                            <img class="thumbs" src="@{{thumbnails.front_view}}" data-file="@{{thumbnails.front_view}}" />
-                            <img class="thumbs" src="@{{thumbnails.left_view}}"  data-file="@{{thumbnails.left_view}}"  />
-                            <img class="thumbs" src="@{{thumbnails.right_view}}" data-file="@{{thumbnails.right_view}}" />
-                            <img class="thumbs" src="@{{thumbnails.back_view}}"  data-file="@{{thumbnails.back_view}}"  />
-
-                            <br />
-
-                        @{{/items}}
-
-                    </td>
-                    <td>@{{client}}</td>
-                    <td>@{{status}}</td>
-                    <td>@{{submitted}}</td>
-                    
-                    <td class="action">
-
-                        <span class="action-button edit" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span> <br />
-                        <span class="action-button delete" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-remove" aria-hidden="true"></i> Delete Order </span>
-                        
-                    </td>
-
                 </tr>
+           </thead>
 
-            @{{/orders}}
+           <tbody>
+                @{{#orders}}
+
+                    <tr class="saved-order-row" data-id="@{{id}}"> 
+                        <td>@{{created_at}}</td>
+                        <td>
+                            <strong> @{{order_id}}</strong> <br />
+                        </td>
+                        <td>@{{sport}}</td>
+                        <td class="order-info">
+
+                            @{{#items}}
+
+                                <strong> @{{description}}</strong> / <a href="@{{design_sheet}}" target="_new">View PDF</a> <br /><br />
+                                
+                                <img class="thumbs" src="@{{thumbnails.front_view}}" data-file="@{{thumbnails.front_view}}" />
+                                <img class="thumbs" src="@{{thumbnails.left_view}}"  data-file="@{{thumbnails.left_view}}"  />
+                                <img class="thumbs" src="@{{thumbnails.right_view}}" data-file="@{{thumbnails.right_view}}" />
+                                <img class="thumbs" src="@{{thumbnails.back_view}}"  data-file="@{{thumbnails.back_view}}"  />
+
+                                <br />
+
+                            @{{/items}}
+
+                        </td>
+                        <td>@{{client}}</td>
+                        <td>@{{status}}</td>
+                        <td>@{{submitted}}</td>
+                        
+                        <td class="action">
+
+                            <span class="action-button edit" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span> <br />
+                            <span class="action-button delete" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-remove" aria-hidden="true"></i> Delete Order </span>
+                            
+                        </td>
+
+                    </tr>
+
+                @{{/orders}}
+           </tbody>
 
         </table>
 
@@ -1401,26 +1405,36 @@
     <script type="text/mustache" id="m-saved-designs-table">
 
         <br />
-        <table>
+        <table class='data-table'>
            
-            <tr class="header">
+            <thead>
+                <tr class="header">
 
                 <td>Date</td>
+                <td>
+                    Sport
+                </td>
                 <td>Name / Notes</td>
                 <td>Thumbnails</td>
 
                 <td>&nbsp;</td>
             </tr>
-
+            </thead>
+            <tbody>
             @{{#savedDesigns}}
 
-                <tr class="saved-design-row" data-id="@{{id}}">
+               
+                    <tr class="saved-design-row" data-id="@{{id}}">
 
                     <td>@{{created_at}}</td>
+                    <td>
+                        @{{sport}}
+                    </td>
                     <td>
                         <strong>@{{name}}</strong><br />
                         <em>@{{notes}}</em>
                     </td>
+                    
                     
                     <td>
                     
@@ -1441,9 +1455,10 @@
                     </td>
 
                 </tr>
+                
 
             @{{/savedDesigns}}
-
+            </tbody>
         </table>
 
     </script>   
