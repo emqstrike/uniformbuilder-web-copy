@@ -3559,6 +3559,7 @@ function accentMascotSelect(data,accentMascot,rowIndex){
             if (stringSport.indexOf(Sports) > -1)
                 {
                  $(this).show();
+                 console.log("");
                 }       
         });
     });
