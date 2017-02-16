@@ -233,6 +233,7 @@ $(document).ready(function () {
 
             var _objectReference = ub.objects[perspective + '_view'][_pipingSet.set];
             var _childLayer = _.find(_objectReference.children, {ubName: 'Layer ' + _layer_no});
+
             _childLayer.tint = parseInt(_colorObj.hex_code, 16);
 
             if (_colorObj.color_code === "none") {
@@ -486,7 +487,7 @@ $(document).ready(function () {
             ub.funcs.changePipingColor(_colorObj, _layer_no, _pipingSet);
             ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
-            var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(_layer_no - 1)});
+            var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(_layer_no)});
 
             if (typeof _layer !== "undefined") {
 
@@ -499,7 +500,7 @@ $(document).ready(function () {
 
                 ub.funcs.changePipingColor(_colorObj, _layer_no, matchingPipingSet);
 
-                var _matchingLayer         = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(_layer_no - 1)});
+                var _matchingLayer         = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(_layer_no)});
 
                 if (typeof _matchingLayer !== "undefined") {
 
@@ -512,39 +513,17 @@ $(document).ready(function () {
 
         });
 
-        _.each(_pipingSettingsObject.layers, function (layer) {
-
-            if (layer.colorCode !== "") {
-
-                $('span.colorItem[data-layer-no="' + (layer.layer + 1) + '"][data-color-code="' + layer.colorCode + '"]').trigger('click');
-
-            }
-
-        });
-
     }
 
     ub.funcs.renderPipings = function (pipingObject, colorArray, colorCount) {
 
         var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(pipingObject.set);
-        var _firstColor = colorArray[0];
 
         _.each (ub.views, function (perspective) {
 
             var _perspectiveString = perspective + '_view';
 
-            _.each(_pipingSettingsObject.layers, function (layer) {
-
-                if (typeof layer.colorObj === "undefined") {
-
-                    layer.colorCode = _firstColor.color_code;
-                    layer.colorObj = _firstColor;
-
-                }
-
-            });
-
-            var _sprites = $.ub.create_piping(pipingObject, _firstColor, colorCount, perspective, _pipingSettingsObject);
+            var _sprites = $.ub.create_piping(pipingObject, colorCount, perspective, _pipingSettingsObject);
 
             if (typeof ub.objects[_perspectiveString] !== "undefined") {
 
@@ -604,6 +583,24 @@ $(document).ready(function () {
 
     // Activate Pipings 
 
+    // Assign Piping Colors if none is detected (e.g. when piping type is first activated)
+    ub.funcs.initPipingColors = function (pipingObject, firstColor)  {
+
+        var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(pipingObject.set);
+
+        _.each(_pipingSettingsObject.layers, function (layer) {
+
+            if (typeof layer.colorObj === "undefined") {
+
+                layer.colorCode = firstColor.color_code;
+                layer.colorObj = firstColor;
+
+            }
+
+        });
+
+    }
+
     ub.funcs.activatePipings = function (pipingSet) {
 
         if (ub.funcs.popupsVisible()) { return; }
@@ -614,36 +611,14 @@ $(document).ready(function () {
 
         var _status             = 'off';
         var _pipingSet          = pipingSet;
-        var _activePipingSet    = _pipingSet;
-
+        var _activePipingSet    = '';
+        
         _activePipingSet        = ub.current_material.settings.pipings[pipingSet];
-
-        if (typeof _activePipingSet !== "undefined") {
-
-            if (_activePipingSet.enabled === 1) {
-
-                _status = "on";
-
-            } else {
-
-                _status = "off";
-
-            }
-
-        } else {
-
-            _status = "off";
-
-        }
+        _status                 = (typeof _activePipingSet !== "undefined" && _activePipingSet.enabled === 1) ? "on" : "off";
 
         if (_activePipingSet === "undefined") {
 
-            var initialPipingSet = pipingSet;
-
-            _pipingSet           = ub.funcs.getPipingSet(initialPipingSet);
-            pipingSet            = initialPipingSet;
-            _activePipingSet     = _.first(_pipingSet);
-
+            _activePipingSet    = _.first(_pipingSet);
 
         } else {
 
@@ -651,6 +626,7 @@ $(document).ready(function () {
             _activePipingSet    = _.first(_pipingSet);
 
         }
+
 
         // Main Template
 
@@ -682,6 +658,7 @@ $(document).ready(function () {
             $('div.ui-row.colors-row').html(_colorsMarkup);
 
         // End Inner Templates
+
 
         // Events
 
@@ -739,20 +716,32 @@ $(document).ready(function () {
                     var _colorPickerHtml    = ub.funcs.drawPipingColorPickers(_pipingObject, _value, _pipingSettingsObject);
                     var selectedColorArray  = ub.current_material.settings.team_colors;
 
+                    $('div.colorContainer').html(_colorPickerHtml);
+
+                    ub.funcs.setupSmallColorPickerEvents(_pipingObject, _pipingSettingsObject, _matchingPipingObject, _matchingPipingSettingsObject);
+                    ub.funcs.initPipingColors(_pipingObject, selectedColorArray[0]);
                     ub.funcs.renderPipings(_pipingObject, selectedColorArray, _value);
  
                     /// Process Matching Object
                     
                         if (typeof _matchingPipingObject !== "undefined") {
 
+                            ub.funcs.initPipingColors(_matchingPipingObject, selectedColorArray[0]);
                             ub.funcs.renderPipings(_matchingPipingObject, selectedColorArray, _value);
 
                         }
 
                     /// End Process Matching Object
 
-                    $('div.colorContainer').html(_colorPickerHtml);
-                    ub.funcs.setupSmallColorPickerEvents(_pipingObject, _pipingSettingsObject, _matchingPipingObject, _matchingPipingSettingsObject);
+                    _.each(_pipingSettingsObject.layers, function (layer) {
+
+                        if (layer.colorCode !== "") {
+
+                            $('span.colorItem[data-layer-no="' + (layer.layer) + '"][data-color-code="' + layer.colorCode + '"]').trigger('click');
+
+                        }
+
+                    });
 
                     $pipingColorsButtons.removeClass('active');
                     $(this).addClass('active');
@@ -825,12 +814,6 @@ $(document).ready(function () {
                 }
 
             }
-
-            // } else {
-
-            //     _status = "off";
-
-            // }
 
             ub.funcs.togglePiping(_pipingSet, _status);    
 
