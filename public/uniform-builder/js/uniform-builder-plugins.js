@@ -1082,7 +1082,7 @@
         var _frontObject = _.find(pipingObject.perspectives, {perspective: perspective});
 
         _.each(_frontObject.layers, function (layer, index) {
-
+            
             if (index + 1 > colorCount) { return; }
 
             var _layerSettings = _.find(pipingSettingsObject.layers, {layer: layer.position});
