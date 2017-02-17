@@ -515,7 +515,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.renderPipings = function (pipingObject, colorArray, colorCount) {
+    ub.funcs.renderPipings = function (pipingObject, colorCount) {
 
         var _pipingSettingsObject = ub.funcs.getPipingSettingsObject(pipingObject.set);
 
@@ -720,14 +720,16 @@ $(document).ready(function () {
 
                     ub.funcs.setupSmallColorPickerEvents(_pipingObject, _pipingSettingsObject, _matchingPipingObject, _matchingPipingSettingsObject);
                     ub.funcs.initPipingColors(_pipingObject, selectedColorArray[0]);
-                    ub.funcs.renderPipings(_pipingObject, selectedColorArray, _value);
+                    ub.funcs.renderPipings(_pipingObject, _value);
  
                     /// Process Matching Object
                     
                         if (typeof _matchingPipingObject !== "undefined") {
 
+                            _matchingPipingSettingsObject.numberOfColors = _value;
+
                             ub.funcs.initPipingColors(_matchingPipingObject, selectedColorArray[0]);
-                            ub.funcs.renderPipings(_matchingPipingObject, selectedColorArray, _value);
+                            ub.funcs.renderPipings(_matchingPipingObject, _value);
 
                         }
 
