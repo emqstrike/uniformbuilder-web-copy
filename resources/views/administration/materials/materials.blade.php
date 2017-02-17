@@ -61,6 +61,11 @@
                     <h1>
                         <i class="fa fa-bookmark"></i>
                         Materials
+                        <small>
+                            <a href="/administration/material/add" class='btn btn-md btn-default materials-add'>
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </small>
                     </h1>
                 </div>
                 <div class="box-body">
