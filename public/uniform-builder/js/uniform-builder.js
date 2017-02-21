@@ -6204,6 +6204,54 @@ $(document).ready(function () {
             });
    
         }
+        ub.funcs.runDataTable = function () {
+
+            $.getScript("/data-tables/datatables.min.js", function( data, textStatus, jqxhr ) {
+
+              $('.data-table').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": false,
+                    "info": true,
+                    "autoWidth": true,
+                    initComplete: function () {
+                        this.api().columns().every( function () {
+
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo( $(column.footer()).empty() )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                    .search( val ? '^'+val+'$' : '', true, false )
+                                        .draw();
+                                } );
+
+                            column.data().unique().sort().each( function ( d, j ) {
+
+                                select.append( '<option value="'+d+'">'+d+'</option>' )
+                            } );
+                        } );
+                        $(".data-table-filter-hide select").hide();
+                       
+
+                    }
+                }); 
+            });
+            
+            $(".dropdown-toggle").on('click', function () {                       
+
+                if($( ".btn-group" ).hasClass( "open" )){
+                    $( ".btn-group" ).removeClass("open");
+                }else{
+                    $( ".btn-group" ).addClass("open");
+                }
+            });
+        }
 
         ub.funcs.displayMySavedDesigns = function () {
 
@@ -6235,7 +6283,7 @@ $(document).ready(function () {
                       
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
-
+                  ub.funcs.runDataTable();
 
 
                   var $imgThumbs = $('img.tview');
@@ -6249,6 +6297,9 @@ $(document).ready(function () {
                         ub.showModalTool(_str);
 
                     });
+
+  
+                
 
                   $('span.action-button.view').on('click', function () {
 
@@ -6363,6 +6414,8 @@ $(document).ready(function () {
                     });
                     var markup                  = Mustache.render(template, dataSubmitted);
                     $containerSubmitted.html(markup);
+
+                    ub.funcs.runDataTable();
 
                     $('div.order-list.submitted').find('span.action-button.delete').hide();
 
