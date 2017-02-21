@@ -1582,6 +1582,19 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.processSavedPipings = function () {
+
+        _.each(ub.current_material.settings.pipings, function (piping, key) {
+
+            var _result = _.find(ub.data.pipings, {name: key + " " + piping.size});
+
+            if(piping.size === "") { return; }
+            ub.funcs.renderPipings(_result, piping.numberOfColors);    
+
+        });
+
+    }
+
     ub.funcs.processPipings = function () {
 
         if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) { return; }
@@ -1636,6 +1649,10 @@ $(document).ready(function () {
                 if (piping.color2) { _colorCount +=1 }; 
                 if (piping.color3) { _colorCount +=1 }; 
 
+                if (_.size(ub.current_material.settings.pipings) > 0) { 
+                    return; 
+                }
+
                 if (piping.enabled === 1) {
 
                     ub.current_material.settings.pipings[piping.set] = {
@@ -1656,7 +1673,7 @@ $(document).ready(function () {
                     var selectedColorArray              = ub.current_material.settings.team_colors;
                     
                     ub.funcs.initPipingColors(piping, selectedColorArray[0]);
-                    ub.funcs.renderPipings(piping, _colorArray, _colorCount);
+                    ub.funcs.renderPipings(piping, _colorCount);
                     ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, piping.size);
 
                 }
@@ -1825,13 +1842,15 @@ $(document).ready(function () {
 
         } else {
 
-
-
             ub.funcs.processPipings(ub.current_material.material.pipings);
 
-        }
+            if (_.size(ub.current_material.settings.pipings) > 0) {
 
-        
+                ub.funcs.processSavedPipings();
+
+            }
+
+        }
 
     };
 
