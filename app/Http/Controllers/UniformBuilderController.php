@@ -18,6 +18,7 @@ use App\Utilities\FileUtility;
 use App\Utilities\S3Uploader;
 use App\Utilities\FileUploaderV2;
 use App\Utilities\Random;
+use App\Utilities\DesignSheetPDF;
 use TCPDF;
 use File;
 use Slack;
@@ -94,7 +95,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'colors' => $colors,
             'material' => $material,
@@ -1183,13 +1184,17 @@ class UniformBuilderController extends Controller
         
     }
 
-    public function generateOrderForm(Request $request){
+    public function generateOrderForm(Request $request)
+    {
+        $vendor = config('customizer.vendor.name');
 
-        $r = $request->all();
-        $fname = $this->generatePDF($r);
+        $pdf = new DesignSheetPDF($vendor, $request->all());
+        $pdf->generate();
 
-        return response()->json(['success' => true, 'filename' => $fname ]);
-
+        return response()->json([
+            'success' => true,
+            'filename' => $pdf->getPath()
+        ]);
     }
 
     function createPDF ($builder_customizations) {
@@ -1411,7 +1416,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
             'category_id' => -1,
@@ -1432,7 +1437,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
             'category_id' => -1,
@@ -1453,7 +1458,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
             'category_id' => -1,
@@ -1481,7 +1486,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
             'category_id' => -1,
@@ -1502,7 +1507,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
             'category_id' => -1,
@@ -1522,7 +1527,7 @@ class UniformBuilderController extends Controller
         $params = [
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
-            'asset_version' => env('ASSET_VERSION'),
+            'asset_version' => config('customizer.asset_version'),
             'asset_storage' => env('ASSET_STORAGE'),
             'material_id' => -1,
             'category_id' => -1,
