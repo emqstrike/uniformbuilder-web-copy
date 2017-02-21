@@ -1132,7 +1132,7 @@
                     <tr class="saved-order-row" data-id="@{{id}}"> 
                         <td>@{{created_at}}</td>
                         <td>
-                            <strong> @{{order_id}}</strong> <br />
+                            <strong>@{{order_id}}</strong> <br />
                         </td>
                         <td class="order-info">
 
@@ -1432,8 +1432,7 @@
                     <tr class="saved-design-row" data-id="@{{id}}">
                         <td>@{{created_at}}</td>
                         <td>
-                            <strong>@{{name}}</strong><br />
-                            <em>@{{notes}}</em>
+                            <strong>@{{name}}</strong><br /><em>@{{notes}}</em>
                         </td>                        
                         <td>
                         
@@ -1458,7 +1457,6 @@
                 <td></td>
                 <td class="data-table-filter-hide"></td>
                 <td class="data-table-filter-hide"></td>
-
             </tfoot>
         </table>
 
