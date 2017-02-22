@@ -1454,9 +1454,9 @@
             </tbody>
 
             <tfoot>
+                <td class="data-table-filter-date"></td>
                 <td></td>
-                <td></td>
-                <td></td>
+                <td class="data-table-filter-hide"></td>
                 <td class="data-table-filter-hide"></td>
                 <td class="data-table-filter-hide"></td>
             </tfoot>
