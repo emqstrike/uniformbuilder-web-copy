@@ -6238,7 +6238,9 @@ $(document).ready(function () {
                         } );
                         $(".data-table-filter-hide select").hide();                      
                         $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
-                        $("tfoot tr select").attr( "style","margin: 10px;" );
+                        $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
+                        $(".dataTables_info").attr( "style","margin-top: 10px;" );
+                        $(".dataTables_filter input").attr( "style","width: 300px;margin-left: 10px;" );
   
                     }
                 }); 
