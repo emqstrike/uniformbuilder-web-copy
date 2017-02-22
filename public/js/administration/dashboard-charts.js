@@ -5,6 +5,11 @@
  * @since February 22, 2017
  */
 
+// Endpoints
+var endpoints = {
+  orders: '/stats/orders/',
+  users: '/stats/users/'
+};
 
 // Reusable color settings
 var colors = {
@@ -14,11 +19,11 @@ var colors = {
   green: 'rgba(75, 192, 192, 0.2)',
   violet: 'rgba(153, 102, 255, 0.2)',
   orange: 'rgba(255, 159, 64, 0.2)'
-}
+};
 
 // Month constants
 var months_array = [
-  "Januray",
+  "January",
   "February",
   "March",
   "April",
@@ -31,79 +36,63 @@ var months_array = [
   "December"
 ];
 
-// Orders chart configuration
-var OrdersChartData = {
-  labels: months_array,
-  datasets: [{
-      label: '# of Orders',
-      data: [],
-      backgroundColor: [
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue
-      ],
-      borderColor: [
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue,
-          colors.blue
-      ],
-      borderWidth: 1
-  }]
+function initChartData(selectedColor) {
+  return {
+    labels: months_array,
+    datasets: [{
+        label: '',
+        data: [],
+        backgroundColor: [
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor]
+        ],
+        borderColor: [
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor],
+            colors[selectedColor]
+        ],
+        borderWidth: 1
+    }],
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  };
 }
 
-// Users chart configuration
-var UsersChartData = {
-  labels: months_array,
-  datasets: [{
-      label: '# of Users',
-      data: [],
-      backgroundColor: [
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet
-      ],
-      borderColor: [
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet,
-          colors.violet
-      ],
-      borderWidth: 1
-  }]
+function buildChart(elementId, chartDataType, data, label, color) {
+  var ctx = document.getElementById(elementId);
+  var chart_data = undefined;
+  var chart_data = initChartData(color);
+  chart_data.datasets[0].data = data;
+  chart_data.datasets[0].label = label
+  return new Chart(ctx, {
+    type: 'bar',
+    data: chart_data,
+    options: chart_data.options
+  });
 }
-

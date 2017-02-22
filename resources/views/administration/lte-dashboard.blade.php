@@ -92,38 +92,88 @@
 <script type="text/javascript" src="/js/administration/dashboard-charts.js"></script>
 <script type="text/javascript">
 
-OrdersChartData.datasets[0].data = [{{ implode(',', $orders_stats) }}];
+(function(){
 
-var orders_ctx = document.getElementById('orders-chart');
-var orders_chart = new Chart(orders_ctx, {
-  type: 'bar',
-  data: OrdersChartData,
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
+  var apiHost = "{{ config('customizer.api_host') }}";
+
+  // Build the Orders Chart
+  var ordersChart = buildChart(
+    'orders-chart',
+    'orders',
+    [{{ implode(',', $orders_stats) }}],
+    '# of Orders',
+    'blue'
+  );
+
+  $('#orders-select-year').on('change', function(){
+    var year = $(this).val();
+    ordersChart.destroy();
+    $.ajax({
+      url: 'http://' + apiHost + '/api' + endpoints.orders + year,
+      method: 'GET',
+      dataType: 'JSON',
+      success: function(response) {
+        if (response.success) {
+          var newData = response.orders;
+          var newChartData = [0,0,0,0,0,0,0,0,0,0,0,0];
+          for (i = 0; i < newData.length; i++) {
+            newChartData[ newData[i].month_number - 1 ] = newData[i].orders_count;
+          }
+          ordersChart = buildChart(
+            'orders-chart',
+            'orders',
+            newChartData,
+            '# of Orders',
+            'blue'
+          );
         }
-      }]
-    }
-  }
-});
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  });
 
-UsersChartData.datasets[0].data = [{{ implode(',', $users_stats) }}];
+  // Build the Users Chart
+  var usersChart = buildChart(
+    'users-chart',
+    'users',
+    [{{ implode(',', $users_stats) }}],
+    '# of Users',
+    'violet'
+  );
 
-var users_ctx = document.getElementById('users-chart');
-var users_chart = new Chart(users_ctx, {
-  type: 'bar',
-  data: UsersChartData,
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
+  $('#users-select-year').on('change', function(){
+    var year = $(this).val();
+    usersChart.destroy();
+    $.ajax({
+      url: 'http://' + apiHost + '/api' + endpoints.users + year,
+      method: 'GET',
+      dataType: 'JSON',
+      success: function(response) {
+        if (response.success) {
+          var newData = response.users;
+          var newChartData = [0,0,0,0,0,0,0,0,0,0,0,0];
+          for (i = 0; i < newData.length; i++) {
+            newChartData[ newData[i].month_number - 1 ] = newData[i].users_count;
+          }
+          usersChart = buildChart(
+            'users-chart',
+            'users',
+            newChartData,
+            '# of Users',
+            'violet'
+          );
         }
-      }]
-    }
-  }
-});
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  });
+
+})();
+
 </script>
+
 @endsection
