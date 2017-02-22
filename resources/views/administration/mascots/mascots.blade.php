@@ -6,6 +6,13 @@
 @endsection
 
 @section('content')
+<style type="text/css">
+    div#box_body {
+    overflow-y: scroll;
+    max-height: 500px;
+}
+    
+</style>
 <input type="hidden" name="_token" value="{{ csrf_token() }}" id="x-csrf-token">
 
 

@@ -2,6 +2,7 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+
 @endsection
 
 @section('custom-styles')
@@ -13,7 +14,12 @@
 @endsection
 
 @section('content')
-
+<style type="text/css">
+    .bootstrap-table{
+    overflow-y: scroll;
+    max-height: 636px;
+}
+</style>
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
