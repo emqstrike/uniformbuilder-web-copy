@@ -6236,9 +6236,10 @@ $(document).ready(function () {
                                 select.append( '<option value="'+d+'">'+d+'</option>' )
                             } );
                         } );
-                        $(".data-table-filter-hide select").hide();
-                       
-
+                        $(".data-table-filter-hide select").hide();                      
+                        $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
+                        $("tfoot tr select").attr( "style","margin: 10px;" );
+  
                     }
                 }); 
             });
@@ -6251,6 +6252,9 @@ $(document).ready(function () {
                     $( ".btn-group" ).addClass("open");
                 }
             });
+           
+
+
         }
 
         ub.funcs.displayMySavedDesigns = function () {
