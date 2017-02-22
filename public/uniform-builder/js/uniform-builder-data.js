@@ -1977,16 +1977,19 @@ $(document).ready(function() {
 
     ub.data.uniformSizes = [
 
+
+        /// Football
         {
             sport: 'football',
             category: 'adult',
             sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL','3XL', '4XL', '5XL','YXS','YS', 'YM', 'YL', 'YXL', 'Y2XL', 'Y3XL']
-        }, 
+        },
         {
             sport: 'football',
             category: 'youth',
             sizes: ['YS', 'YM', 'YL', 'YXL', 'Y2XL', 'Y3XL',]
         }, 
+
 
     ];
 
@@ -8877,6 +8880,69 @@ ub.funcs.fontOffSets = [
             }
 
         },
+    }
+
+    ub.data.sizes = {
+        
+        items: [
+
+            // Football
+            {
+                sport: 'Football',
+                type: 'adult',
+                gender: 'men',
+                sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'],
+            },
+            {
+                sport: 'Football',
+                type: 'youth',
+                gender: 'men',
+                sizes: ['YXS', 'YS', 'YM', 'YL', 'YXL', 'Y2XL', 'Y3XL'],
+            },
+
+            // Wrestling
+            {
+                sport: 'Wrestling',
+                type: 'adult',
+                gender: 'men',
+                sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
+            },
+            {
+                sport: 'Wrestling',
+                type: 'youth',
+                gender: 'men',
+                sizes: ['YS', 'YM', 'YL'],
+            },
+
+            // Baseball 
+            {
+                sport: 'Baseball',
+                type: 'adult',
+                gender: 'men',
+                sizes: [ '36/S', '38/M', '40', '42/L', '44', '46/XL', '48', '50/2XL', '52', '54/3XL'],
+            },
+            {
+                sport: 'Baseball',
+                type: 'youth',
+                gender: 'men',
+                sizes: ['24/YXS', '26/YS', '28/YM', '30', '32/YL', '34/YXL'],
+            }
+
+        ],
+
+        getSizes: function (sport, gender, type) {
+            var _result = _.find(this.items, {sport: sport, gender: gender, type: type });
+
+            if (typeof _result === "undefined") {
+
+                ub.utilities.warn('Sport Not Found')
+                
+            }
+
+            return _result;
+
+        },
+
     }
 
 });

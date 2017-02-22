@@ -152,7 +152,7 @@ $(document).ready(function() {
 
     ub.funcs.hideColumns = function () {
 
-        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+        if (ub.funcs.getCurrentUniformCategory() !== "Football") {
 
             $('td.PlayerNumberInput, th.thPlayerNumberInput, td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
             
@@ -1341,24 +1341,6 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.prepareUniformSizes = function () {
-
-        if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-
-            var _toHide = ['4XL','5XL','YXS', 'YXL', 'Y2XL', 'Y3XL'];
-
-            _.each(_toHide, function (item) {
-
-                $('span[data-size="' + item + '"]').hide();
-
-            });
-
-            
-
-        }
-
-    };
-
     ub.funcs.initRosterCalled = false;
 
     ub.funcs.AddRosterRow = function (_size) {
@@ -1547,6 +1529,57 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.prepareUniformSizes = function () {
+
+        // Get Sizes from pricing column, if not available from Mock JS Object (ub.data.uniformSizes)
+
+        var _sport = ub.current_material.material.uniform_category;
+        var _gender = ub.current_material.material.gender;
+
+        var _youth = ub.data.sizes.getSizes(_sport, _gender, 'youth');
+        var _adult = ub.data.sizes.getSizes(_sport, _gender, 'adult');
+        var _combinedSizes = _.union(_youth.sizes, _adult.sizes);
+        var data = {};
+        var _template = '';
+        var _markup = '';
+
+        /// Circle Sizes 
+        
+        data = {
+            adult: _adult.sizes,
+            youth: _youth.sizes,
+        };
+
+        _template = $('#m-circle-sizes').html();
+        _markup = Mustache.render(_template, data);
+
+        $('div#sizes').append(_markup);
+
+        /// Tab Buttons 
+
+         data = {
+            adult: _adult.sizes,
+            youth: _youth.sizes,
+        };
+
+        _template = $('#m-tabButtons-sizes').html();
+        _markup = Mustache.render(_template, data);
+
+        $('div.tabButtonsContainer').append(_markup);
+        
+        /// Table Rows 
+        
+        data = {
+            tabs: _combinedSizes,
+        };
+
+        _template = $('#m-roster-table').html();
+        _markup = Mustache.render(_template, data);
+
+        $('div.tabsContainer').append(_markup);
+
+    };
+
     ub.data.rosterInitialized = false;
     ub.funcs.initRoster = function (orderInfo) {
     
@@ -1559,8 +1592,6 @@ $(document).ready(function() {
 
         ub.data.orderFormInitialized = true;
         ub.funcs.pushState({data: 'roster-form', title: 'Enter Roster', url: '?roster-form'});
-
-        ub.funcs.prepareUniformSizes();
 
         $('span.undo-btn').hide();
         ub.funcs.deactivateMoveTool();
@@ -1580,18 +1611,9 @@ $(document).ready(function() {
         ub.uploadThumbnail('left_view');
         ub.uploadThumbnail('right_view');
 
+        ub.funcs.prepareUniformSizes();
         ub.funcs.fadeOutCustomizer();
 
-        var data = {
-            tabs: ub.data.uniformSizes[0].sizes,
-        };
-
-        var template = $('#m-roster-table').html();
-        var markup = Mustache.render(template, data);
-
-        ub.funcs.prepareUniformSizes();
-
-        $('div.tabsContainer').append(markup);
         ub.funcs.hideColumns();
 
         $('span.add-player').on('click', function () {
@@ -1601,7 +1623,7 @@ $(document).ready(function() {
 
             _size           = $(this).data('size');
 
-            if (!ub.funcs.isCurrentSport('Wrestling')) {
+            if (ub.funcs.isCurrentSport('Football')) {
 
                 _numbers         = ub.funcs.createNumbersSelectionPopup(_size);
 
@@ -1851,7 +1873,6 @@ $(document).ready(function() {
             $('div.save-design').remove();
 
             var data = {
-                tabs: ub.data.uniformSizes[0].sizes,
             };
 
             var template = $('#m-save-design').html();
