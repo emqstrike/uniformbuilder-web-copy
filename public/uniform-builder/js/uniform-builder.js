@@ -6241,6 +6241,12 @@ $(document).ready(function () {
                         $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
                         $(".dataTables_info").attr( "style","margin-top: 10px;" );
                         $(".dataTables_filter input").attr( "style","width: 300px;margin-left: 10px;" );
+                        $(".active a").attr( "style","background: #3d3d3d !important;" );
+
+                        $( ".data-table-filter-date option" ).each(function( index ) {
+                            var date = $( this ).text().split(' ').slice(0, -2).join(' ');
+                            $(this).text(date);
+                        });
   
                     }
                 }); 
