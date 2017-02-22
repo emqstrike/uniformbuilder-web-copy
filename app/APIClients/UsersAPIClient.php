@@ -32,6 +32,29 @@ class UsersAPIClient extends APIClient
         return null;
     }
 
+    public function getStats($year = null, $month = null, $day = null)
+    {
+        $endpoint = 'stats/users/' . $year;
+        if (!is_null($month))
+        {
+            $endpoint .= '/' . $month;
+            if (!is_null($day))
+            {
+                $endpoint .= '/' . $day;
+            }
+        }
+
+        $response = $this->get($endpoint);
+        $result = $this->decoder->decode($response->getBody());
+
+        $users = [];
+        if ($result->success)
+        {
+            $users = $result->users;
+        }
+        return $users;
+    }
+
     public function recoverPassword($email)
     {
         $data = ['email' => $email];

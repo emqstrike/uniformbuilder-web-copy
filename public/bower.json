@@ -1,0 +1,20 @@
+{
+  "name": "Customizer",
+  "homepage": "https://github.com/qstrike/uniformbuilder-web",
+  "authors": [
+    "Geeks <geek@qstrike.com>"
+  ],
+  "description": "Uniform Customizer",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chart.js": "^2.5.0"
+  }
+}
