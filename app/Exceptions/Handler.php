@@ -58,10 +58,13 @@ class Handler extends ExceptionHandler
             });
         }
 
-        if ($exception->getStatusCode() == '404')
-        {
+       if (method_exists($e, 'getStatusCode'))
+       {
+            if ($e->getStatusCode() == '404')
+            {
             return view('errors.404');
-        }
+            }
+       }
 
         parent::report($exception);
     }
