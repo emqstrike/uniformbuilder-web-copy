@@ -459,7 +459,7 @@ $(document).ready(function() {
         var fonts_options = '<option value="">Not Set</option>';
         for(var i = 0; i < window.fonts.length; i++) {
             if(window.fonts[i].active == 1){
-            fonts_options += "<option value=" + window.fonts[i].id + " style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
+            fonts_options += "<option value=" + window.fonts[i].id + " data-sport = '" + window.fonts[i].sports + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px;' data-font-family='" + window.fonts[i].name + "'>" + window.fonts[i].name + "</option>";
             }
         }
 
@@ -1409,9 +1409,9 @@ $(document).ready(function() {
                 for(var i = 0; i < window.fonts.length; i++) {
                     if(window.fonts[i].active == 1){
                         if(app_font == window.fonts[i].id){
-                            fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;' selected>" + window.fonts[i].name + "</option>";
+                            fonts_options += "<option value=" + window.fonts[i].id + " data-sport='" + window.fonts[i].sports + "'  data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;' selected>" + window.fonts[i].name + "</option>";
                         } else {
-                            fonts_options += "<option value=" + window.fonts[i].id + " data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;'>" + window.fonts[i].name + "</option>";
+                            fonts_options += "<option value=" + window.fonts[i].id + " data-sport='" + window.fonts[i].sports + "' data-font-family='" + window.fonts[i].name + "' style='font-family: " + window.fonts[i].name + "; font-size: 30px; width: 300px;'>" + window.fonts[i].name + "</option>";
                         }
                     }
                 }
@@ -3548,6 +3548,21 @@ function accentMascotSelect(data,accentMascot,rowIndex){
         });
            
 
-    });    
+    });  
+        $(document).on('click', '.app-default-font', function() {
+        var Sports = $("#material_uniform_category").val();
+        $(".app-default-font option").hide();
+        $(this).find("option:first-child").show();
+        $( this ).find("option").each(function( index ) {
+         var stringSport = JSON.stringify($(this).data("sport"));
+         stringSport = "" +stringSport+ "";
+            if (stringSport.indexOf(Sports) > -1)
+                {
+                 $(this).show();
+                 console.log("");
+                }       
+        });
+    });
+  
    
 });

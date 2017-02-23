@@ -484,7 +484,7 @@
             
             <div class="main-picker-items grow" data-picker-type="search-result" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
 
-                <img width='280' src="@{{thumbnail}}?v={$asset_version}}">
+                <img width='280' src="@{{thumbnail}}?v={{$asset_version}}">
 
                 <span class="main-picker-item-caption">
                     @{{name}}
@@ -1110,57 +1110,73 @@
 
         <br />
 
-        <table>
-           
-            <tr class="header">
+        <table class="data-table">
+           <thead>
+                <tr class="header">
 
-                <td>Date</td>
-                <td>Order ID</td>
-                <td>Thumbnails</td>
-                <td>Client</td>
-                <td>Status</td>
-                <td>Submitted</td>
-                <td>&nbsp;</td>
+                    <td>Date</td>
+                    <td>Order ID</td>
+                    <td>Thumbnails</td>
+                    <td>Client</td>
+                    <td>Status</td>
+                    <td>Submitted</td>
+                    <td>&nbsp;</td>
 
-            </tr>
+                </tr> 
 
-            @{{#orders}}
+           </thead>
+            
+           <tbody>
+                @{{#orders}}
 
-                <tr class="saved-order-row" data-id="@{{id}}"> 
-                    <td>@{{created_at}}</td>
-                    <td>
-                        <strong> @{{order_id}}</strong> <br />
-                    </td>
-                    <td class="order-info">
+                    <tr class="saved-order-row" data-id="@{{id}}"> 
+                        <td>@{{created_at}}</td>
+                        <td>
+                            <strong>@{{order_id}}</strong> <br />
+                        </td>
+                        <td class="order-info">
 
-                        @{{#items}}
+                            @{{#items}}
 
-                            <strong> @{{description}}</strong> / <a href="@{{design_sheet}}" target="_new">View PDF</a> <br /><br />
-                            
-                            <img class="thumbs" src="@{{thumbnails.front_view}}" data-file="@{{thumbnails.front_view}}" />
-                            <img class="thumbs" src="@{{thumbnails.left_view}}"  data-file="@{{thumbnails.left_view}}"  />
-                            <img class="thumbs" src="@{{thumbnails.right_view}}" data-file="@{{thumbnails.right_view}}" />
-                            <img class="thumbs" src="@{{thumbnails.back_view}}"  data-file="@{{thumbnails.back_view}}"  />
+                                <strong> @{{description}}</strong> / <a href="@{{design_sheet}}" target="_new">View PDF</a> <br /><br />
+                                
+                                <img class="thumbs" src="@{{thumbnails.front_view}}" data-file="@{{thumbnails.front_view}}" />
+                                <img class="thumbs" src="@{{thumbnails.left_view}}"  data-file="@{{thumbnails.left_view}}"  />
+                                <img class="thumbs" src="@{{thumbnails.right_view}}" data-file="@{{thumbnails.right_view}}" />
+                                <img class="thumbs" src="@{{thumbnails.back_view}}"  data-file="@{{thumbnails.back_view}}"  />
 
-                            <br />
+                                <br />
 
-                        @{{/items}}
+                            @{{/items}}
 
-                    </td>
-                    <td>@{{client}}</td>
-                    <td>@{{status}}</td>
-                    <td>@{{submitted}}</td>
-                    
-                    <td class="action">
-
-                        <span class="action-button edit" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span> <br />
-                        <span class="action-button delete" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-remove" aria-hidden="true"></i> Delete Order </span>
+                        </td>
+                        <td>@{{client}}</td>
+                        <td>@{{status}}</td>
+                        <td>@{{submitted}}</td>
                         
-                    </td>
+                        <td class="action">
 
-                </tr>
+                            <span class="action-button edit" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span> <br />
+                            <span class="action-button delete" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-remove" aria-hidden="true"></i> Delete Order </span>
+                            
+                        </td>
 
-            @{{/orders}}
+                    </tr>
+
+                @{{/orders}} 
+
+           </tbody>
+           <tfoot>
+                <td></td>
+                <td></td>
+                <td class="data-table-filter-hide"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="data-table-filter-hide"></td>
+
+           </tfoot>
+            
 
         </table>
 
@@ -1399,51 +1415,51 @@
 <!-- My Saved Designs Table -->
 
     <script type="text/mustache" id="m-saved-designs-table">
-
+        
         <br />
-        <table>
-           
-            <tr class="header">
-
-                <td>Date</td>
-                <td>Name / Notes</td>
-                <td>Thumbnails</td>
-
-                <td>&nbsp;</td>
-            </tr>
-
-            @{{#savedDesigns}}
-
-                <tr class="saved-design-row" data-id="@{{id}}">
-
-                    <td>@{{created_at}}</td>
-                    <td>
-                        <strong>@{{name}}</strong><br />
-                        <em>@{{notes}}</em>
-                    </td>
-                    
-                    <td>
-                    
-                        <img class="tview" src="@{{front_thumbnail}}" data-file="@{{front_thumbnail}}" />
-                        <img class="tview" src="@{{back_thumbnail}}"  data-file="@{{back_thumbnail}}"  />
-                        <img class="tview" src="@{{right_thumbnail}}" data-file="@{{right_thumbnail}}" />
-                        <img class="tview" src="@{{left_thumbnail}}"  data-file="@{{left_thumbnail}}"  />
-                    
-                    </td>
-                    
-                    <td class="action">
-
-                        <span class="action-button view" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-eye" aria-hidden="true"></i> Load Design</span>
-                        <span class="action-button share share-uniform-design" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> Share Via Email</span>
-                        <hr />
-                        <span class="action-button delete" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete Design</span>
-
-                    </td>
-
+        <table class="data-table">
+            <thead>
+                <tr class="header">
+                    <td>Date</td>
+                    <td>Sport</td>
+                    <td>Name / Notes</td>
+                    <td>Thumbnails</td>
+                    <td>&nbsp;</td>
                 </tr>
+            </thead>
+            <tbody>
+                @{{#savedDesigns}}
+                    <tr class="saved-design-row" data-id="@{{id}}">
+                        <td>@{{created_at}}</td>
+                        <td>@{{sport}}</td>
+                        <td>
+                            <strong>@{{name}}</strong><br /><em>@{{notes}}</em>
+                        </td>                        
+                        <td>
+                        
+                            <img class="tview" src="@{{front_thumbnail}}" data-file="@{{front_thumbnail}}" />
+                            <img class="tview" src="@{{back_thumbnail}}"  data-file="@{{back_thumbnail}}"  />
+                            <img class="tview" src="@{{right_thumbnail}}" data-file="@{{right_thumbnail}}" />
+                            <img class="tview" src="@{{left_thumbnail}}"  data-file="@{{left_thumbnail}}"  />                       
+                        </td>                        
+                        <td class="action">
 
-            @{{/savedDesigns}}
+                            <span class="action-button view" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-eye" aria-hidden="true"></i> Load Design</span>
+                            <span class="action-button share share-uniform-design" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> Share Via Email</span>
+                            <hr />
+                            <span class="action-button delete" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete Design</span>
+                        </td>
+                    </tr>
+                @{{/savedDesigns}}
+            </tbody>
 
+            <tfoot>
+                <td class="data-table-filter-hide"></td>
+                <td></td>
+                <td class="data-table-filter-hide"></td>
+                <td class="data-table-filter-hide"></td>
+                <td class="data-table-filter-hide"></td>
+            </tfoot>
         </table>
 
     </script>   

@@ -2,9 +2,12 @@
 
 namespace App\Exceptions;
 
+use Log;
+use Mail;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Utilities\ServerUtility;
 
 class Handler extends ExceptionHandler
 {
@@ -32,7 +35,35 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        parent::report($exception);
+        if ($exception instanceof Exception)
+        {
+            $env = env('APP_ENV');
+            $visitor_ip_address = ServerUtility::getIpAddress();
+            $content = null;
+
+            if (ExceptionHandler::isHttpException($exception))
+            {
+                $content .= ExceptionHandler::toIlluminateResponse(ExceptionHandler::renderHttpException($exception), $exception);
+            }
+            else
+            {
+                $content .= ExceptionHandler::toIlluminateResponse(ExceptionHandler::convertExceptionToResponse($exception), $exception);
+            }
+
+            // Send Error Notification to EMAIL
+            Mail::send('errors.oops', compact('content', 'env', 'visitor_ip_address'), function($message) {
+                $message->to(config('mail.oops_receiver'), 'QStrike Geeks');
+                $message->from(config('mail.oops_sender'), config('app.title'));
+                $message->subject('[OOPS!] ' . config('app.title') . ' ' . date('Y-m-d H:i:s'));
+            });
+        }
+
+        if ($exception->getStatusCode() == '404')
+        {
+            return view('errors.404');
+        }
+
+        return parent::report($exception);
     }
 
     /**

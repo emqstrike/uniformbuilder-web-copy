@@ -224,6 +224,8 @@
 
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
 
+
+
 <!-- End Third Party Scripts -->
 
 <!-- Uniform Builder Scripts -->

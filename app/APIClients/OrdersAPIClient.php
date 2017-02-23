@@ -48,6 +48,29 @@ class OrdersAPIClient extends APIClient
         return $orders;
     }
 
+    public function getStats($year = null, $month = null, $day = null)
+    {
+        $endpoint = 'stats/orders/' . $year;
+        if (!is_null($month))
+        {
+            $endpoint .= '/' . $month;
+            if (!is_null($day))
+            {
+                $endpoint .= '/' . $day;
+            }
+        }
+
+        $response = $this->get($endpoint);
+        $result = $this->decoder->decode($response->getBody());
+
+        $orders = [];
+        if ($result->success)
+        {
+            $orders = $result->orders;
+        }
+        return $orders;
+    }
+
     public function getOrdersArtwork($status = null)
     {
         $endpoint = 'orders/artworks';
