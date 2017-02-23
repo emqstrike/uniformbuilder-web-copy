@@ -6,7 +6,7 @@
  * @since February 9, 2017
  */
 
-namespace Customizer\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -61,7 +61,7 @@ class AssetVersionUpgradeCommand extends Command
      */
     protected function generateVersion()
     {
-        $currentVersion = $this->laravel['config']['customizer.asset_version'];
+        $currentVersion = config('customizer.asset_version');
         if (empty($currentVersion))
         {
             $newVersion = 0.0001;
@@ -96,7 +96,7 @@ class AssetVersionUpgradeCommand extends Command
      */
     protected function setAssetVersionInEnvironmentFile($version)
     {
-        $currentVersion = $this->laravel['config']['customizer.asset_version'];
+        $currentVersion = config('customizer.asset_version');
         $this->info('Previous version: ' . $currentVersion);
 
         $this->writeNewEnvironmentFileWith($version);
@@ -112,10 +112,12 @@ class AssetVersionUpgradeCommand extends Command
      */
     protected function writeNewEnvironmentFileWith($version)
     {
-        file_put_contents($this->laravel->environmentFilePath(), preg_replace(
+        $path = base_path('.env');
+
+        file_put_contents($path, preg_replace(
             $this->assetVersionReplacementPattern(),
             'ASSET_VERSION='.$version,
-            file_get_contents($this->laravel->environmentFilePath())
+            file_get_contents($path)
         ));
     }
 

@@ -1582,6 +1582,19 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.processSavedPipings = function () {
+
+        _.each(ub.current_material.settings.pipings, function (piping, key) {
+
+            var _result = _.find(ub.data.pipings, {name: key + " " + piping.size});
+
+            if(piping.size === "") { return; }
+            ub.funcs.renderPipings(_result, piping.numberOfColors);    
+
+        });
+
+    }
+
     ub.funcs.processPipings = function () {
 
         if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) { return; }
@@ -1636,6 +1649,10 @@ $(document).ready(function () {
                 if (piping.color2) { _colorCount +=1 }; 
                 if (piping.color3) { _colorCount +=1 }; 
 
+                if (_.size(ub.current_material.settings.pipings) > 0) { 
+                    return; 
+                }
+
                 if (piping.enabled === 1) {
 
                     ub.current_material.settings.pipings[piping.set] = {
@@ -1653,8 +1670,10 @@ $(document).ready(function () {
 
                     var _pipingObject                   = piping;
                     var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
-
-                    ub.funcs.renderPipings(piping, _colorArray, _colorCount);
+                    var selectedColorArray              = ub.current_material.settings.team_colors;
+                    
+                    ub.funcs.initPipingColors(piping, selectedColorArray[0]);
+                    ub.funcs.renderPipings(piping, _colorCount);
                     ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, piping.size);
 
                 }
@@ -1823,13 +1842,15 @@ $(document).ready(function () {
 
         } else {
 
-
-
             ub.funcs.processPipings(ub.current_material.material.pipings);
 
-        }
+            if (_.size(ub.current_material.settings.pipings) > 0) {
 
-        
+                ub.funcs.processSavedPipings();
+
+            }
+
+        }
 
     };
 
@@ -6183,6 +6204,63 @@ $(document).ready(function () {
             });
    
         }
+        ub.funcs.runDataTable = function () {
+
+            $.getScript("/data-tables/datatables.min.js", function( data, textStatus, jqxhr ) {
+
+              $('.data-table').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": false,
+                    "info": true,
+                    "autoWidth": true,
+                    initComplete: function () {
+                        this.api().columns().every( function () {
+
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo( $(column.footer()).empty() )
+                                .on( 'change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+
+                                    column
+                                    .search( val ? '^'+val+'$' : '', true, false )
+                                        .draw();
+                                } );
+
+                            column.data().unique().sort().each( function ( d, j ) {
+
+                                select.append( '<option value="'+d+'">'+d+'</option>' )
+                            } );
+                        } );
+                        $(".data-table-filter-hide select").hide();                      
+                        $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
+                        $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
+                        $(".dataTables_info").attr( "style","margin-top: 10px;" );
+                        $(".dataTables_filter input").attr( "style","width: 300px;margin-left: 10px;" );
+                        $(".active a").attr( "style","background: #3d3d3d;border-color: #3d3d3d" );
+
+                
+  
+                    }
+                }); 
+            });
+            
+            $(".dropdown-toggle").on('click', function () {                       
+
+                if($( ".btn-group" ).hasClass( "open" )){
+                    $( ".btn-group" ).removeClass("open");
+                }else{
+                    $( ".btn-group" ).addClass("open");
+                }
+            });
+           
+
+
+        }
 
         ub.funcs.displayMySavedDesigns = function () {
 
@@ -6214,7 +6292,7 @@ $(document).ready(function () {
                       
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
-
+                  ub.funcs.runDataTable();
 
 
                   var $imgThumbs = $('img.tview');
@@ -6228,6 +6306,9 @@ $(document).ready(function () {
                         ub.showModalTool(_str);
 
                     });
+
+  
+                
 
                   $('span.action-button.view').on('click', function () {
 
@@ -6342,6 +6423,8 @@ $(document).ready(function () {
                     });
                     var markup                  = Mustache.render(template, dataSubmitted);
                     $containerSubmitted.html(markup);
+
+                    ub.funcs.runDataTable();
 
                     $('div.order-list.submitted').find('span.action-button.delete').hide();
 

@@ -1070,13 +1070,11 @@
 
     $.ub = {};
 
-    $.ub.create_piping = function (pipingObject, firstColor, colorCount, perspective, pipingSettingsObject) {
+    $.ub.create_piping = function (pipingObject, colorCount, perspective, pipingSettingsObject) {
 
         var sprite;
         var pipingObject = pipingObject;
         var settings = ub.current_material.settings;
-        var initialColor = firstColor;
-
         var view = ub[perspective + '_view'];
         var view_objects = ub.objects[perspective + '_view'];
         var container = new PIXI.Container();
@@ -1084,13 +1082,12 @@
         var _frontObject = _.find(pipingObject.perspectives, {perspective: perspective});
 
         _.each(_frontObject.layers, function (layer, index) {
-
+            
             if (index + 1 > colorCount) { return; }
 
-            var _layerSettings = pipingSettingsObject.layers[index];
-
-
+            var _layerSettings = _.find(pipingSettingsObject.layers, {layer: layer.position});
             var pipingLayer = ub.pixi.new_sprite(layer.filename);
+            
             pipingLayer.ubName = 'Layer ' + (index + 1);
             pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
 

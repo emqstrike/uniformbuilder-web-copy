@@ -40,6 +40,8 @@ return [
 
     'debug' => env('APP_DEBUG', false),
 
+    'title' => env('APP_TITLE', 'Customizer'),
+
     /*
     |--------------------------------------------------------------------------
     | Application URL

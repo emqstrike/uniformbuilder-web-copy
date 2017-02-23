@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \Customizer\Console\Commands\AssetVersionUpgradeCommand::class
+        \App\Console\Commands\AssetVersionUpgradeCommand::class,
     ];
 
     /**

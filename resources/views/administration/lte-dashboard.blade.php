@@ -44,57 +44,136 @@
   </div>
   <div class="col-lg-12">
   <div class="box-body">
-    <table data-toggle='table' class='data-table table table-bordered patterns'>
-      <thead>
-          <tr>
-              <th>Id</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-      
-          </tr>
-      </thead>
-      <tbody>
-     {{--  @foreach ($users as $user)
-          <tr>
-            <td>{{ $user->id }}</td>
-            <td>{{ $user->first_name }}</td>
-            <td>{{ $user->last_name }}</td>  
-          </tr>
-        @endforeach --}}
 
-      </tbody>
-    </table>
-  </div>
-
-
-  <!-- <div class="col-lg-3 col-xs-6">
-    <div class="small-box bg-yellow">
-      <div class="inner">
-        <h3 class='user-registration-count'>0</h3>
-        <p>User Registrations</p>
+    <!-- Orders Chart -->
+    <div class="container">
+      <div class="chart-header">
+        <h3>
+          Orders
+          <select id="orders-select-year">
+          @for ($year = date('Y'); $year >= 2015; $year--)
+            <option>{{ $year }}</option>
+          @endfor
+          </select>
+        </h3>
       </div>
-      <div class="icon">
-        <i class="ion ion-person-add"></i>
+      <div class="chart-body">
+        <canvas id="orders-chart" width="700" height="120"></canvas>
       </div>
-      <a href="/administration/users" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
     </div>
-  </div> -->
+    <!-- End Orders Chart -->
 
-<!--   <div class="col-lg-3 col-xs-6">
-    <div class="small-box bg-green">
-      <div class="inner">
-        <h3>N</h3>
-        <p>Unique Visitors</p>
+    <!-- Users Chart -->
+    <div class="container">
+      <div class="chart-header">
+        <h3>
+          Users
+          <select id="users-select-year">
+          @for ($year = date('Y'); $year >= 2015; $year--)
+            <option>{{ $year }}</option>
+          @endfor
+          </select>
+        </h3>
       </div>
-      <div class="icon">
-        <i class="ion ion-pie-graph"></i>
+      <div class="chart-body">
+        <canvas id="users-chart" width="700" height="120"></canvas>
       </div>
-      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
     </div>
-  </div> -->
+    <!-- End Users Chart -->
 
 </div>
 
 <div class="row">
 </div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript" src="/bower_components/chart.js/dist/Chart.min.js"></script>
+<script type="text/javascript" src="/js/administration/dashboard-charts.js"></script>
+<script type="text/javascript">
+
+(function(){
+
+  var apiHost = "{{ config('customizer.api_host') }}";
+
+  // Build the Orders Chart
+  var ordersChart = buildChart(
+    'orders-chart',
+    'orders',
+    [{{ implode(',', $orders_stats) }}],
+    '# of Orders',
+    'blue'
+  );
+
+  $('#orders-select-year').on('change', function(){
+    var year = $(this).val();
+    ordersChart.destroy();
+    $.ajax({
+      url: 'http://' + apiHost + '/api' + endpoints.orders + year,
+      method: 'GET',
+      dataType: 'JSON',
+      success: function(response) {
+        if (response.success) {
+          var newData = response.orders;
+          var newChartData = [0,0,0,0,0,0,0,0,0,0,0,0];
+          for (i = 0; i < newData.length; i++) {
+            newChartData[ newData[i].month_number - 1 ] = newData[i].orders_count;
+          }
+          ordersChart = buildChart(
+            'orders-chart',
+            'orders',
+            newChartData,
+            '# of Orders',
+            'blue'
+          );
+        }
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  });
+
+  // Build the Users Chart
+  var usersChart = buildChart(
+    'users-chart',
+    'users',
+    [{{ implode(',', $users_stats) }}],
+    '# of Users',
+    'violet'
+  );
+
+  $('#users-select-year').on('change', function(){
+    var year = $(this).val();
+    usersChart.destroy();
+    $.ajax({
+      url: 'http://' + apiHost + '/api' + endpoints.users + year,
+      method: 'GET',
+      dataType: 'JSON',
+      success: function(response) {
+        if (response.success) {
+          var newData = response.users;
+          var newChartData = [0,0,0,0,0,0,0,0,0,0,0,0];
+          for (i = 0; i < newData.length; i++) {
+            newChartData[ newData[i].month_number - 1 ] = newData[i].users_count;
+          }
+          usersChart = buildChart(
+            'users-chart',
+            'users',
+            newChartData,
+            '# of Users',
+            'violet'
+          );
+        }
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  });
+
+})();
+
+</script>
+
 @endsection
