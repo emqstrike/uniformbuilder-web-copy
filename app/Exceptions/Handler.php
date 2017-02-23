@@ -63,7 +63,7 @@ class Handler extends ExceptionHandler
             return view('errors.404');
         }
 
-        return parent::report($exception);
+        parent::report($exception);
     }
 
     /**
