@@ -15,6 +15,7 @@
 
         <div id="sizes">
 
+            <!-- 
             <span>ADULT SIZES:</span>
             <span data-status="off" data-size="XS" class="size">XS</span>
             <span data-status="off" data-size="S" class="size">S</span>
@@ -36,6 +37,7 @@
             <span data-status="off" data-size="YXL" class="size">YXL</span>
             <span data-status="off" data-size="Y2XL" class="size">Y2XL</span>
             <span data-status="off" data-size="Y3XL" class="size">Y3XL</span>
+            -->
 
         </div>
 
@@ -83,6 +85,7 @@
 
             <div class="tabButtonsContainer">
 
+            <!-- 
                 <span class='adult-header'>Adult Sizes: </span>
 
                 <span class="tabButton" data-category="adult" data-size="XS">
@@ -136,6 +139,8 @@
                 <span class="tabButton" data-category="youth" data-size="Y3XL">
                     Y3XL
                 </span>
+
+            -->
 
             </div>
 

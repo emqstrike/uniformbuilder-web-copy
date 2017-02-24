@@ -1024,6 +1024,48 @@
 
 <!-- End Tail Sweep Picker w/ Preview -->
 
+<!-- Sizes Circle Button -->
+
+    <script type="text/mustache" id="m-circle-sizes">
+
+        <span>ADULT SIZES:</span>
+        
+        @{{#adult}}
+            <span data-status="off" data-size="@{{.}}" class="size">@{{.}}</span>
+        @{{/adult}}
+
+        <br />
+
+        <span>YOUTH SIZES:</span>
+
+        @{{#youth}}
+            <span data-status="off" data-size="@{{.}}" class="size">@{{.}}</span>
+        @{{/youth}}
+
+    </script>
+
+<!-- End Sizes Circle Button-->
+
+<!-- Tab Buttons Container -->
+
+    <script type="text/mustache" id="m-tabButtons-sizes">
+
+        <span class='adult-header'>Adult Sizes: </span>
+        
+        @{{#adult}}
+            <span class="tabButton" data-category="adult" data-size="@{{.}}">@{{.}}</span>
+        @{{/adult}}
+
+        <span class='youth-header'>Youth Sizes: </span>
+
+        @{{#youth}}
+            <span class="tabButton" data-category="youth" data-size="@{{.}}">@{{.}}</span>
+        @{{/youth}}
+
+    </script>
+
+<!-- End Tab Buttons Container -->
+
 <!-- Roster Table -->
     
     <script type="text/mustache" id="m-roster-table">
