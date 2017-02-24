@@ -29,6 +29,12 @@
 input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
     width: 60px;
 }
+.text-center {
+    overflow-y: scroll;
+    max-height: 636px;
+    overflow-x: scroll;
+    max-width: 100%;
+}
 </style>
 <div class="col-md-12" style="margin-top: -40px;">
 <input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">

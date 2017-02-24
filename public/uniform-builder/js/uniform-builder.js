@@ -6236,9 +6236,15 @@ $(document).ready(function () {
                                 select.append( '<option value="'+d+'">'+d+'</option>' )
                             } );
                         } );
-                        $(".data-table-filter-hide select").hide();
-                       
+                        $(".data-table-filter-hide select").hide();                      
+                        $(".dataTables_filter,.dataTables_paginate").attr( "style","float: right;" );
+                        $(".dataTables_filter label").attr( "style","margin-bottom: 10px;" );
+                        $(".dataTables_info").attr( "style","margin-top: 10px;" );
+                        $(".dataTables_filter input").attr( "style","width: 300px;margin-left: 10px;" );
+                        $(".active a").attr( "style","background: #3d3d3d;border-color: #3d3d3d" );
 
+                
+  
                     }
                 }); 
             });
@@ -6251,6 +6257,9 @@ $(document).ready(function () {
                     $( ".btn-group" ).addClass("open");
                 }
             });
+           
+
+
         }
 
         ub.funcs.displayMySavedDesigns = function () {

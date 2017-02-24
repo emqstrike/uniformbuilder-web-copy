@@ -1463,9 +1463,9 @@
             <thead>
                 <tr class="header">
                     <td>Date</td>
+                    <td>Sport</td>
                     <td>Name / Notes</td>
                     <td>Thumbnails</td>
-
                     <td>&nbsp;</td>
                 </tr>
             </thead>
@@ -1473,6 +1473,7 @@
                 @{{#savedDesigns}}
                     <tr class="saved-design-row" data-id="@{{id}}">
                         <td>@{{created_at}}</td>
+                        <td>@{{sport}}</td>
                         <td>
                             <strong>@{{name}}</strong><br /><em>@{{notes}}</em>
                         </td>                        
@@ -1495,8 +1496,9 @@
             </tbody>
 
             <tfoot>
+                <td class="data-table-filter-hide"></td>
                 <td></td>
-                <td></td>
+                <td class="data-table-filter-hide"></td>
                 <td class="data-table-filter-hide"></td>
                 <td class="data-table-filter-hide"></td>
             </tfoot>

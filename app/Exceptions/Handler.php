@@ -7,6 +7,7 @@ use Mail;
 use Exception;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Utilities\ServerUtility;
 
 class Handler extends ExceptionHandler
 {
@@ -32,8 +33,7 @@ class Handler extends ExceptionHandler
         if ($e instanceof Exception)
         {
             $env = env('APP_ENV');
-            $server = $_SERVER['SERVER_NAME'];
-            $url = $_SERVER['REQUEST_URI'];
+            $visitor_ip_address = ServerUtility::getIpAddress();
             $content = null;
 
             if (ExceptionHandler::isHttpException($e))
@@ -46,12 +46,20 @@ class Handler extends ExceptionHandler
             }
 
             // Send Error Notification to EMAIL
-            Mail::send('errors.oops', compact('content', 'server', 'url', 'env'), function($message) {
+            Mail::send('errors.oops', compact('content', 'env', 'visitor_ip_address'), function($message) {
                 $message->to(config('mail.oops_receiver'), 'QStrike Geeks');
                 $message->from(config('mail.oops_sender'), config('app.title'));
                 $message->subject('[OOPS!] ' . config('app.title') . ' ' . date('Y-m-d H:i:s'));
             });
         }
+
+	if (method_exists($e, 'getStatusCode'))
+	{
+	        if ($e->getStatusCode() == '404')
+	        {
+			return view('errors.404');
+	        }
+	}
 
         return parent::report($e);
     }
