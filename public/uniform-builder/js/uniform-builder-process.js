@@ -74,7 +74,7 @@ $(document).ready(function() {
 
         $('span.size[data-status="on"]').each (function () {
 
-            var _size = $(this).data('size');
+            var _size = $(this).data('size').toString();
             
             _activeSizes.push(_size);
 
