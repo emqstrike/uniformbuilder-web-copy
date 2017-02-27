@@ -181,7 +181,7 @@ li.select2-selection__choice {
                                 <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>
                         </div>
-                        <div class="form-group" style="display:none">
+                        <div class="form-group">
                             <textarea id="fst-fix"></textarea><a href="#" class="fix-fst-button btn btn-xs btn-primary">FIX</a>
                         </div>
                         <div class="form-group">
@@ -385,7 +385,7 @@ li.select2-selection__choice {
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary create-font">
+                                <button type="submit" class="btn btn-primary edit-font">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Uniform font
                                 </button>
@@ -573,6 +573,13 @@ $(document).ready(function(){
             }
         });
         console.log(fields);
+    });
+
+    $(document).on('click', '.edit-font', function(e) {
+        e.preventDefault();
+        setTimeout(function(){
+            $('.edit-font').submit();
+        },1000);
     });
 
     $("#edit-font-form").on("click", ".remove-layer", function(e){
