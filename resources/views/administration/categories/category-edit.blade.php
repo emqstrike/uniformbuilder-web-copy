@@ -53,6 +53,20 @@
                                 <img src="{{ $category->thumbnail_youth }}" style="height: 140; width: 93.33;">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sizes</label>
+                            <div class="col-md-4 Sizes">
+                                <input type="hidden" name="sizes" value="{{ $category->sizes }}">
+                                <div class="col-md-4 adultSizes">
+                                    Adult<br>
+                                   <!--  <input type="checkbox"  name="tail_sweep"> -->
+                                </div>
+                                <div class="col-md-4 youthSizes">
+                                    Youth<br>
+                                    <!-- <input type="checkbox"  name="tail_sweep"> -->
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

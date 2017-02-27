@@ -276,5 +276,64 @@
         }).start();
       });
     </script>
+    <script type="text/javascript">
+    var adult_sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
+    var youth_sizes = ['YS','YM','YL','YXL','Y2XL','Y3XL'];
+    sizesLoop(adult_sizes,".adultSizes");
+    sizesLoop(youth_sizes,".youthSizes");
+    updateObjectSizes();
+
+    function sizesLoop(sizes,cl){
+      for (var item of sizes) { 
+       $(cl).append("<input type='checkbox' value="+ item +"> : "+item + "<br>");
+      }
+    }
+
+    var sizes = {};
+    var adult_sizes = [];
+    var youth_sizes = [];
+    if($("input[name='sizes']").val()){
+      sizes = $("input[name='sizes']").val();
+      sizes = JSON.parse(sizes);
+      adult_sizes = sizes.adult;
+      youth_sizes = sizes.youth;
+    }
+    $('.adultSizes input').on('click', function(){
+
+      createObjectAdultYouthSizes(this,adult_sizes);
+    });
+    $('.youthSizes input').on('click', function(){
+      createObjectAdultYouthSizes(this,youth_sizes);
+    });
+    function createObjectAdultYouthSizes(th,size){
+      var value = $(th).val();
+      if($(th).is(':checked')){
+          size.push(value);    
+          console.log(value);
+      }else{
+          size.splice( $.inArray(value,size) ,1 );
+
+      }
+      sizes = {"adult": adult_sizes,"youth": youth_sizes};
+      sizes = JSON.stringify(sizes);
+      $("input[name='sizes']").val(sizes);
+
+    }
+    function updateObjectSizes(){
+     
+      if($("input[name='sizes']").val()){
+         var sizes = $("input[name='sizes']").val();
+          sizes = JSON.parse(sizes);
+
+            $.each( sizes, function( key, value ) {
+              for (var item of value) { 
+
+                $('.'+key+'Sizes :input[value='+ item +']').attr( "checked", true );
+              }            
+            });
+      }     
+    }
+
+    </script>
   </body>
 </html>

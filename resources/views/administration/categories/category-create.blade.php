@@ -49,6 +49,25 @@
                                 <input type="file" class="form-control youth-thumbnail-file" name="thumbnail_youth" accept="image/*">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Youth Thumbnail File</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control youth-thumbnail-file" name="thumbnail_youth" accept="image/*">
+                            </div>
+                         <div class="form-group">
+                            <label class="col-md-4 control-label">Sizes</label>
+                            <div class="col-md-4 Sizes">
+                                <input type="hidden" name="sizes" value="">
+                                <div class="col-md-4 adultSizes">
+                                    Adult<br>
+                                   <!--  <input type="checkbox"  name="tail_sweep"> -->
+                                </div>
+                                <div class="col-md-4 youthSizes">
+                                    Youth<br>
+                                    <!-- <input type="checkbox"  name="tail_sweep"> -->
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -68,5 +87,6 @@
         </div>
     </div>
 </div>
+
 
 @endsection
