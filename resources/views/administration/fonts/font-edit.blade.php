@@ -181,18 +181,13 @@ li.select2-selection__choice {
                                 <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>
                         </div>
-<<<<<<< HEAD
                         <div class="form-group">
                             <textarea id="fst-fix"></textarea><a href="#" class="fix-fst-button btn btn-xs btn-primary">FIX</a>
                         </div>
                         <div class="form-group">
                             <a href="#" class="btn btn-warning btn-xs reset-fst">Reset Font Size Tables data</a>
                         </div>
-=======
->>>>>>> 918b399b02cffbe0727b579176de5dc06c0d0a8e
-                        <div class="form-group">
-                            <textarea id="fst-fix"></textarea><a href="#" class="fix-fst-button btn btn-xs btn-primary">FIX</a>
-                        </div>
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
                             <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
