@@ -320,20 +320,18 @@
 
     }
     function updateObjectSizes(){
-      var sizes = $("input[name='sizes']").val();
+     
+      if($("input[name='sizes']").val()){
+         var sizes = $("input[name='sizes']").val();
+          sizes = JSON.parse(sizes);
 
-        sizes = JSON.parse(sizes);
+            $.each( sizes, function( key, value ) {
+              for (var item of value) { 
 
-          $.each( sizes, function( key, value ) {
-            for (var item of value) { 
-
-              $('.'+key+'Sizes :input[value='+ item +']').attr( "checked", true );
-            }            
-          });
-  
- 
-
-
+                $('.'+key+'Sizes :input[value='+ item +']').attr( "checked", true );
+              }            
+            });
+      }     
     }
 
     </script>
