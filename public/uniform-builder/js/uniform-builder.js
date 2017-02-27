@@ -6284,11 +6284,13 @@ $(document).ready(function () {
 
                   }
 
-                
+
                 data.savedDesigns.forEach(function (value, i) {
                     data.savedDesigns[i].created_at = util.dateFormat(value.created_at);
+                    data.savedDesigns[i].created_at_time = util.dateFormat(value.created_at);
+                    data.savedDesigns[i].created_at = data.savedDesigns[i].created_at.split(' ').slice(0, 3).join(' ');
+                    data.savedDesigns[i].created_at_time = data.savedDesigns[i].created_at_time.split(' ').slice(3, 5).join(' ');
                 });
-           
                       
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
