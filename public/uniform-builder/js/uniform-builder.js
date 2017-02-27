@@ -6429,7 +6429,8 @@ $(document).ready(function () {
                         value.created_at = value.created_at.split(' ').slice(0, 3).join(' ');
                         value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
 
-                    });                    var markup                  = Mustache.render(template, dataSubmitted);
+                    });                    
+                    var markup                  = Mustache.render(template, dataSubmitted);
                     $containerSubmitted.html(markup);
 
                     ub.funcs.runDataTable();
