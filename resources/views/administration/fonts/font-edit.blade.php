@@ -517,18 +517,6 @@ $(document).ready(function(){
         console.log(fields);
     });
 
-    $(document).on('click', '.edit-font', function(e) {
-        e.preventDefault();
-        setTimeout(function(){
-            $('.edit-font').submit();
-        },1000);
-    });
-
-    $("#edit-font-form").on("click", ".remove-layer", function(e){
-        e.preventDefault();
-        $(this).parent().parent().remove();
-    });
-
     // var sports = JSON.parse($('#sports_value').val());
 
     $('.sports').select2({
