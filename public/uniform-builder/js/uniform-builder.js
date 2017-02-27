@@ -6412,24 +6412,28 @@ $(document).ready(function () {
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
                     var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };     
+
                     dataSaved.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
-                    });
+                        value.created_at_time = util.dateFormat(value.created_at);
+                        value.created_at = value.created_at.split(' ').slice(0, 3).join(' ');
+                        value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
+
+                    }); 
                     var markup = Mustache.render(template, dataSaved);
                     $containerSaved.html(markup);
                     var $containerSubmitted     = $('div.order-list.submitted');
                     var template                = $('#m-orders-table').html();
                     var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
-                    // dataSubmitted.orders.forEach(function (value, i) {
-                    //     value.created_at = util.dateFormat(value.created_at);
-                    // });
+
                     dataSubmitted.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
                         value.created_at_time = util.dateFormat(value.created_at);
                         value.created_at = value.created_at.split(' ').slice(0, 3).join(' ');
                         value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
 
-                    });                    
+                    }); 
+                    console.log(dataSubmitted.orders);                   
                     var markup                  = Mustache.render(template, dataSubmitted);
                     $containerSubmitted.html(markup);
 
