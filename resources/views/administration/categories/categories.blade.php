@@ -62,6 +62,9 @@
                                 <img src="{{ $category->thumbnail_youth }}" style="height: 105px; width: 70px;">
                             </td>
                             <td>
+                                {{ $category->sizes }}
+                            </td>
+                            <td>
                                 <a href="#" class="btn btn-default btn-xs disable-category" data-category-id="{{ $category->id }}" role="button" {{ ($category->active) ? : 'disabled="disabled"' }}>
                                     <i class="glyphicon glyphicon-eye-close"></i>
                                     Disable
