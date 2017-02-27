@@ -41,7 +41,7 @@
                             <th>Male</th>
                             <th>Female</th>
                             <th>Youth</th>
-                            <th>Status</th>
+                            <th>Sizes</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
