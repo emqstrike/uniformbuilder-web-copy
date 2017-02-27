@@ -181,65 +181,17 @@ li.select2-selection__choice {
                                 <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>
                         </div>
+<<<<<<< HEAD
                         <div class="form-group">
                             <textarea id="fst-fix"></textarea><a href="#" class="fix-fst-button btn btn-xs btn-primary">FIX</a>
                         </div>
                         <div class="form-group">
                             <a href="#" class="btn btn-warning btn-xs reset-fst">Reset Font Size Tables data</a>
                         </div>
+=======
+>>>>>>> 918b399b02cffbe0727b579176de5dc06c0d0a8e
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3">
-                                <table class="table table-bordered" id="fst-updater">
-                                <a href="#" data-toggle="tooltip" data-message="Bulk update for font size tables values."><span class="glyphicon glyphicon-info-sign"></span></a>
-                                    <thead>
-                                        <tr>
-                                            <td>Application #</td>
-                                            <td>Perspective</td>
-                                            <td>Action</td>
-                                            <td>Affected Columns</td>
-                                            <td>Value</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <input type="number" id="fst-update-app-num">
-                                            </td>
-                                            <td>
-                                                <select id="fst-update-perspective">
-                                                    <option value="all">All</option>
-                                                    <option value="front">Front</option>
-                                                    <option value="back">Back</option>
-                                                    <option value="left">Left</option>
-                                                    <option value="right">Right</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select id="fst-update-action">
-                                                    <option value="add">Add</option>
-                                                    <option value="subtract">Subtract</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" class="cbx" data-field=".input-size"> Input Size </br>
-                                                <input type="checkbox" class="cbx" data-field=".output-size"> Output Size </br>
-                                                <input type="checkbox" class="cbx" data-field=".x-offset"> X Offset </br>
-                                                <input type="checkbox" class="cbx" data-field=".y-offset"> Y Offset </br>
-                                                <input type="checkbox" class="cbx" data-field=".x-scale"> X Scale </br>
-                                                <input type="checkbox" class="cbx" data-field=".y-scale"> Y Scale </br>
-                                            </td>
-                                            <td>
-                                                <input type="number" step="any" id="fst-update-value">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4">
-                                                    <a href="#" class="btn btn-primary btn-xs pull-right update-fst">Update</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <textarea id="fst-fix"></textarea><a href="#" class="fix-fst-button btn btn-xs btn-primary">FIX</a>
                         </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
@@ -411,10 +363,6 @@ li.select2-selection__choice {
 <script type="text/javascript" src="/js/libs/autosize.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    var fields = []; // to be used in fst updater
-
-    window.backup = null;
-
     $( "#static_row" ).hide();
 
     $('.animated').autosize({append: "\n"});
@@ -425,14 +373,13 @@ $(document).ready(function(){
     var fstbls = $('#old_font_size_tables').val();
     if(fstbls != ""){
         var old_font_size_tables = JSON.parse(fstbls);
-        window.backup = old_font_size_tables;
         console.log(old_font_size_tables);
         old_font_size_tables.forEach(function(entry) {
             // console.log(entry);s
             var tbl_class = '.'+entry.perspective+'-fst-body';
             entry.sizes.forEach(function(item) {
                 console.log(item.inputSize);
-                var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                var elem = '<tr><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                 $(tbl_class).append(elem);
             });
             // var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
@@ -496,7 +443,7 @@ $(document).ready(function(){
         // });
         // frontSizes.sizes = temp;
         // data.push(frontSizes);
-        // console.log(JSON.stringify(data));
+        console.log(JSON.stringify(data));
         $('#font_size_tables').val(JSON.stringify(data));
     }
 
