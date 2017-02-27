@@ -6284,11 +6284,13 @@ $(document).ready(function () {
 
                   }
 
-                
+
                 data.savedDesigns.forEach(function (value, i) {
                     data.savedDesigns[i].created_at = util.dateFormat(value.created_at);
+                    data.savedDesigns[i].created_at_time = util.dateFormat(value.created_at);
+                    data.savedDesigns[i].created_at = data.savedDesigns[i].created_at.split(' ').slice(0, 3).join(' ');
+                    data.savedDesigns[i].created_at_time = data.savedDesigns[i].created_at_time.split(' ').slice(3, 5).join(' ');
                 });
-           
                       
                   var markup = Mustache.render(template, data);
                   $container.html(markup);
@@ -6409,7 +6411,7 @@ $(document).ready(function () {
 
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
-                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };              
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };     
                     dataSaved.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
                     });

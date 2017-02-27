@@ -1024,6 +1024,48 @@
 
 <!-- End Tail Sweep Picker w/ Preview -->
 
+<!-- Sizes Circle Button -->
+
+    <script type="text/mustache" id="m-circle-sizes">
+
+        <span>ADULT SIZES:</span>
+        
+        @{{#adult}}
+            <span data-status="off" data-size="@{{.}}" class="size">@{{.}}</span>
+        @{{/adult}}
+
+        <br />
+
+        <span>YOUTH SIZES:</span>
+
+        @{{#youth}}
+            <span data-status="off" data-size="@{{.}}" class="size">@{{.}}</span>
+        @{{/youth}}
+
+    </script>
+
+<!-- End Sizes Circle Button-->
+
+<!-- Tab Buttons Container -->
+
+    <script type="text/mustache" id="m-tabButtons-sizes">
+
+        <span class='adult-header'>Adult Sizes: </span>
+        
+        @{{#adult}}
+            <span class="tabButton" data-category="adult" data-size="@{{.}}">@{{.}}</span>
+        @{{/adult}}
+
+        <span class='youth-header'>Youth Sizes: </span>
+
+        @{{#youth}}
+            <span class="tabButton" data-category="youth" data-size="@{{.}}">@{{.}}</span>
+        @{{/youth}}
+
+    </script>
+
+<!-- End Tab Buttons Container -->
+
 <!-- Roster Table -->
     
     <script type="text/mustache" id="m-roster-table">
@@ -1115,6 +1157,7 @@
                 <tr class="header">
 
                     <td>Date</td>
+                    <td>Time</td>
                     <td>Order ID</td>
                     <td>Thumbnails</td>
                     <td>Client</td>
@@ -1131,6 +1174,7 @@
 
                     <tr class="saved-order-row" data-id="@{{id}}"> 
                         <td>@{{created_at}}</td>
+                        <td>@{{created_at_time}}</td>
                         <td>
                             <strong>@{{order_id}}</strong> <br />
                         </td>
@@ -1166,13 +1210,14 @@
                 @{{/orders}} 
 
            </tbody>
-           <tfoot>
+           <tfoot>                
                 <td></td>
+                <td class="data-table-filter-hide"></td>               
                 <td></td>
                 <td class="data-table-filter-hide"></td>
                 <td></td>
                 <td></td>
-                <td></td>
+                <td class="data-table-filter-hide"></td>
                 <td class="data-table-filter-hide"></td>
 
            </tfoot>
@@ -1421,6 +1466,7 @@
             <thead>
                 <tr class="header">
                     <td>Date</td>
+                    <td>Time</td>
                     <td>Sport</td>
                     <td>Name / Notes</td>
                     <td>Thumbnails</td>
@@ -1431,6 +1477,7 @@
                 @{{#savedDesigns}}
                     <tr class="saved-design-row" data-id="@{{id}}">
                         <td>@{{created_at}}</td>
+                        <td>@{{created_at_time}}</td>                       
                         <td>@{{sport}}</td>
                         <td>
                             <strong>@{{name}}</strong><br /><em>@{{notes}}</em>
@@ -1453,7 +1500,8 @@
                 @{{/savedDesigns}}
             </tbody>
 
-            <tfoot>
+            <tfoot>               
+                <td></td>
                 <td class="data-table-filter-hide"></td>
                 <td></td>
                 <td class="data-table-filter-hide"></td>
