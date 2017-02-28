@@ -3371,6 +3371,7 @@ $(document).ready(function() {
 
     ub.funcs.stageMouseMove = function (mousedata) {
 
+        if (!ub.status.render.getRenderStatus()) { return; }
         if (ub.funcs.popupTest()) { return; }
 
         if (ub.data.rosterInitialized) { 
@@ -5253,7 +5254,7 @@ $(document).ready(function() {
 
         settingsObj.tailsweep.length = length;
 
-        ub.funcs.removeApplicationByID(id);
+        ub.funcs.removeApplicationByID(settingsObj.code);
         ub.create_application(settingsObj, undefined);
 
         $popup = $('div#primaryTailSweepPopup');
@@ -5282,15 +5283,15 @@ $(document).ready(function() {
         var _length = "short";
         var _items = _.filter(ub.data.tailSweeps, function (tailsweep) { return tailsweep.code === "twins" || tailsweep.code === "blank"; });
 
-        if (_sampleText.length <= 5)                             { _length = 'short';  }
-        if (_sampleText.length >= 6 && _sampleText.length <= 7 ) { _length = 'medium'; } 
-        if (_sampleText.length > 7)                              { _length = 'long';   } 
+        _length = (_sampleText.length <= 12) ? _sampleText.length : 12;
 
         var _isScriptFont = settingsObj.font_obj.script === "1";
 
         if (_isScriptFont) {
 
-            var _blacklist = ['twins', 'royals', 'indians', 'orioles', 'expos', 'none'];
+            // var _blacklist = ['twins', 'royals', 'indians', 'orioles', 'expos', 'none'];
+            
+            var _blacklist = ['twins', 'none'];
 
             _items = _.reject(ub.data.tailSweeps, function (ts) {
                 return _.contains(_blacklist, ts.code);
@@ -5337,8 +5338,20 @@ $(document).ready(function() {
                 var $element            = $(value)
                 var _tailsweepCharacter = $element.data(_size);
                 var _sampleText         = $element.data('sampleText');
+                var _code               = $element.data('tailsweep-code');
 
-                $element.html(_sampleText + _tailsweepCharacter);
+                var _char = ub.data.tailsweepCharacters.getCharacter(_code, parseInt(_size));
+
+                if (typeof _char !== "undefined") {
+
+                    $element.html(_sampleText + _char);
+
+                } else {
+
+                    $element.html(_sampleText);
+
+                }
+                
 
             });
 
@@ -5359,10 +5372,6 @@ $(document).ready(function() {
             var _id         = $(this).data('tailsweep-id');
             var _code       = $(this).data('tailsweep-code');
             var _length     = "short";
-
-            if (settingsObj.text.length <= 5) { _length = 'short'; }
-            if (settingsObj.text.length >= 6 && settingsObj.text.length <= 7 ) { _length = 'medium'; }
-            if (settingsObj.text.length > 7) { _length = 'long'; } 
 
             _length = $('span.sizeButton.active').data('size');
 
@@ -5411,6 +5420,12 @@ $(document).ready(function() {
             ub.status.tailSweepPopupVisible = false;
 
         });
+
+        /// Initialize 
+
+            $('span.sizeButton[data-size="' + _length + '"]').click();
+
+        /// End Initialize
 
     }
 
@@ -8107,15 +8122,30 @@ $(document).ready(function() {
             _htmlBuilder        +=                 '</div>';
             _htmlBuilder        +=                 '<div class="sizeContainer">';
 
-            _htmlBuilder        +=                      '<span class="sizeLabel">LENGTH</span>';
-            _htmlBuilder        +=                      '<span class="sizeItem" data-size="short">Short</span>';        
-            _htmlBuilder        +=                      '<span class="sizeItem" data-size="medium">Medium</span>';        
-            _htmlBuilder        +=                      '<span class="sizeItem" data-size="long">Long</span>';        
+            // _htmlBuilder        +=                      '<span class="sizeLabel">LENGTH</span>';
+            // _htmlBuilder        +=                      '<span class="sizeItem" data-size="short">Short</span>';        
+            // _htmlBuilder        +=                      '<span class="sizeItem" data-size="medium">Medium</span>';        
+            // _htmlBuilder        +=                      '<span class="sizeItem" data-size="long">Long</span>';        
+
+            _htmlBuilder        +=                      '<span class="sizeLabel">LENGTH 2</span>';
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="1">1</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="2">2</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="3">3</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="4">4</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="5">5</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="6">6</span>';        
+            _htmlBuilder        +=                      '<br />';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="7">7</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="8">8</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="9">9</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="10">10</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="11">11</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="12">12</span>';        
 
             _htmlBuilder        +=                      '<span class="sizeLabel">ANGLE</span>';
             _htmlBuilder        +=                      '<span class="angleItem" data-angle="straight">Straight</span>';        
             _htmlBuilder        +=                      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
-            
+
             _htmlBuilder        +=                 '</div>';
             _htmlBuilder        +=              '</div>';
 
@@ -8634,9 +8664,11 @@ $(document).ready(function() {
 
                     if (typeof _settingsObject.tailsweep !== "undefined") {
 
-                        if (_settingsObject.text.length <= 5) { _length = 'short'; } 
-                        if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; } 
-                        if (_settingsObject.text.length > 7) { _length = 'long'; } 
+                        // if (_settingsObject.text.length <= 5) { _length = 'short'; } 
+                        // if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; } 
+                        // if (_settingsObject.text.length > 7) { _length = 'long'; } 
+
+                        _length = (_settingsObject.text.length <= 12) ? _settingsObject.text.length : 12;
 
                         _settingsObject.tailsweep.length = _length;
 
