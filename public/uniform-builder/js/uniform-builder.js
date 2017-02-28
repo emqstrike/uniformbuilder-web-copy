@@ -1226,6 +1226,7 @@ $(document).ready(function () {
         window.ub.render_frames = function () {
 
             if (ub.data.rosterInitialized) { return }
+            if (!ub.status.render.getRenderStatus()) { return; }
 
             requestAnimationFrame(ub.render_frames);
             ub.renderer.render(ub.stage);
@@ -1428,12 +1429,14 @@ $(document).ready(function () {
 
                                 }
 
+                                var _length;
+
                                 _output.tailsweep = {
 
                                     id: parseInt(_tailSweepObj.id),
                                     code: _tailSweepObj.code,
                                     thumbnail: _tailSweepObj.code + '.png',
-                                    length: 'short', // TODO: change this to auto length compute when the 12 lengths tailsweep is done
+                                    length: 1,
                                     angle: _rotated,
 
                                 }
@@ -3929,7 +3932,6 @@ $(document).ready(function () {
 
                     app_containers[application_obj.code].object = {};
                     app_containers[application_obj.code].object.sprite = sprite_collection;
-
                     
                 }
 

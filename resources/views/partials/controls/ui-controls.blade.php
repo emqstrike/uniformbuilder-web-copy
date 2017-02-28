@@ -981,10 +981,25 @@
                   <div class="size-container">
 
                     <span class="container-label">Select Tailsweep Size: </span>
-                        
+
+<!--                         
                     <span class="sizeButton" data-size="short">Short</span>
                     <span class="sizeButton active defaultShadow" data-size="medium">Medium</span>
                     <span class="sizeButton" data-size="long">Long</span>
+-->
+                    
+                    <span class="sizeButton" data-size="1">1</span>
+                    <span class="sizeButton" data-size="2">2</span>
+                    <span class="sizeButton" data-size="3">3</span>
+                    <span class="sizeButton" data-size="4">4</span>
+                    <span class="sizeButton" data-size="5">5</span>
+                    <span class="sizeButton" data-size="6">6</span>
+                    <span class="sizeButton" data-size="7">7</span>
+                    <span class="sizeButton" data-size="8">8</span>
+                    <span class="sizeButton" data-size="9">9</span>
+                    <span class="sizeButton" data-size="10">10</span>
+                    <span class="sizeButton" data-size="11">11</span>
+                    <span class="sizeButton" data-size="12">12</span>
 
                 </div>
              
