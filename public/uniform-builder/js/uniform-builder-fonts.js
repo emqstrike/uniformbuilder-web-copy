@@ -94,6 +94,9 @@ $(document).ready(function() {
 
     ub.funcs.getFontOffsets = function (fontName, fontSize, perspective, location) {
 
+        console.log('Font Name: ');
+        console.log(fontName);
+
         var _offsetObject = _.find(ub.funcs.fontOffSets, {fontName: fontName, size: fontSize.toString(), perspective: perspective, location: location.toString()});
         var _returnObject = {
 

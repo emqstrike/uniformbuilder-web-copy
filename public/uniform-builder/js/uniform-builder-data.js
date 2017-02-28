@@ -8909,15 +8909,15 @@ ub.funcs.fontOffSets = [
                lengths: [
                     {
                         length: 1,
-                        character: 'Ê'// U+00D4
+                        character: 'Ô'// U+00D4
                     },
                     {
                         length: 2,
-                        character: 'Ê'// U+00D4
+                        character: 'Ô'// U+00D4
                     },
                     {
                         length: 3,
-                        character: 'Ê'// U+00D4
+                        character: 'Ô'// U+00D4
                     },
                     {
                         length: 4,
@@ -8962,51 +8962,51 @@ ub.funcs.fontOffSets = [
                lengths: [
                     {
                         length: 1,
-                        character: 'Ê'// U+00DE
+                        character: 'Þ'// U+00DE
                     },
                     {
                         length: 2,
-                        character: 'Ê'// U+00DE
+                        character: 'Þ'// U+00DE
                     },
                     {
                         length: 3,
-                        character: 'Ê'// U+00DE
+                        character: 'Þ'// U+00DE
                     },
                     {
                         length: 4,
-                        character: 'Õ'// U+00DF
+                        character: 'ß'// U+00DF
                     },
                     {
                         length: 5,
-                        character: 'Ö'// U+00E0
+                        character: 'à'// U+00E0
                     },
                     {
                         length: 6,
-                        character: '×'// U+00E1
+                        character: 'á'// U+00E1
                     },
                     {
                         length: 7,
-                        character: 'Ø'// U+00E2
+                        character: 'â'// U+00E2
                     },
                     {
                         length: 8,
-                        character: 'Ù'// U+00E3
+                        character: 'ã'// U+00E3
                     },
                     {
                         length: 9,
-                        character: 'Ú'// U+00E4
+                        character: 'ä'// U+00E4
                     },
                     {
                         length: 10,
-                        character: 'Û'// U+00E5
+                        character: 'å'// U+00E5
                     },
                     {
                         length: 11,
-                        character: 'Ü'// U+00E6
+                        character: 'æ'// U+00E6
                     },
                     {
                         length: 12,
-                        character: 'Ý'// U+00E7
+                        character: 'ç'// U+00E7
                     }
                ]
             },
@@ -9218,7 +9218,7 @@ ub.funcs.fontOffSets = [
                     },
                     {
                         length: 12,
-                        character: '‬'// U+202C
+                        character: '“'// U+201C
                     }
                ]
             }, 
@@ -9308,7 +9308,7 @@ ub.funcs.fontOffSets = [
                     },
                     {
                         length: 8,
-                        character: '•'  // U+2202
+                        character: '∂'  // U+2202
                     },
                     {
                         length: 9,
