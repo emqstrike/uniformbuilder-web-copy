@@ -438,6 +438,7 @@ $(document).ready(function(){
             // var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
             // $('.front-fst-body').prepend(elem);
             // $(tbl_class).prepend(elem);
+            refreshMultipleFST();
         });
     }
 
