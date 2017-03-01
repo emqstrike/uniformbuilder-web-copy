@@ -7873,16 +7873,31 @@ $(document).ready(function() {
         var _title            = _applicationType.toTitleCase();
         var _sampleText       = _settingsObject.text;
         var _sizes;
+        var _uniformCategory = ub.current_material.material.uniform_category
+        var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
 
-        if (ub.current_material.material.uniform_category === "Football") {
+        // if (ub.current_material.material.uniform_category === "Football") {
+        //     _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+        // } else if (ub.current_material.material.uniform_category === "Wrestling") {
+        //     _sizes        = ub.funcs.getApplicationSizes('text_wrestling');    
+        // } else if (ub.current_material.material.uniform_category === "Baseball") {
+        //     _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
+        // }
+
+
+        if (_uniformCategory === "Football") {
+            
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
-        } else if (ub.current_material.material.uniform_category === "Wrestling") {
-            _sizes        = ub.funcs.getApplicationSizes('text_wrestling');    
+            
         } else if (ub.current_material.material.uniform_category === "Baseball") {
+            
             _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
-        }
-        
-        else {
+
+        } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
+            
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);    
+
+        } else {
 
             console.warn('no sizes setting defaulting to generic');
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
@@ -9371,24 +9386,15 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.getApplicationSizes = function (applicationType, gender) {
+    ub.funcs.getApplicationSizes = function (applicationType, alias) {
 
         var _factory = ub.current_material.material.factory_code;
         var _sizes;
-        var _gender;
-
-        if (typeof gender === 'undefined') {
-            _gender = 'adult';
-        }
 
         if (applicationType === 'team_name') {
             _sizes = _.find(ub.data.applicationSizes.items, {factory: _factory, name: 'team_name'});
         } else {
             _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType});            
-        }
-
-        if (typeof _sizes === 'undefined') {
-            util.error('Application Sizes for ' + applicationType + ' is not found!');
         }
 
         if (applicationType === "mascot_wrestling") {
@@ -9399,8 +9405,12 @@ $(document).ready(function() {
             _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_wrestling'});            
         }
 
-        if (ub.funcs.isCurrentSport('Baseball')) {
-            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: 'baseball'});            
+        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias});            
+        }
+
+        if (typeof _sizes === 'undefined') {
+            ub.Utilities.warn('Application Sizes for ' + applicationType + ' is not found!');
         }
         
         return _sizes;
