@@ -6345,8 +6345,9 @@ $(document).ready(function () {
                     var template = $('#m-saved-designs-table').html();
                     var filteredDataString = JSON.stringify(data.savedDesigns);
                     var filteredData =JSON.parse(filteredDataString);
-                    
+
                     filteredData.forEach(function (value, i) {
+                        value.created_at = value.created_at.split(' ').slice(0, 1).join(' ');
                        if(filterFrom <= value.created_at && filterTo >= value.created_at){    
                         }else{
                          delete filteredData[i];   
@@ -6359,6 +6360,7 @@ $(document).ready(function () {
                     
                     var markup = Mustache.render(template, filtered_data);
                     $container.html(markup); 
+                    console.log(filteredData);
                     $( ".created-at" ).each(function( index ) {
                       var date = util.dateFormat($( this ).text());
                       date = date.split(' ').slice(0, 3).join(' ');

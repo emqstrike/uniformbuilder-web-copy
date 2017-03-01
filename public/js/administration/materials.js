@@ -545,6 +545,8 @@ $(document).ready(function() {
             });
             item['description'] = item.category + ' [ ' + c + ' ]';
             item['imageSrc'] = item.icon;
+            item['layers'] = c ;
+
         });
 
         mascotsData = window.mascots;
@@ -3368,6 +3370,7 @@ function accentMascotSelect(data,accentMascot,rowIndex){
     var layers;
     var colorCode = $(".app-colors").eq(rowIndex).val().split(',');
     var colorCodeField="";
+
     if(accentMascot == "accent"){
 
         layers = ((data.selectedData).layers)-2;
