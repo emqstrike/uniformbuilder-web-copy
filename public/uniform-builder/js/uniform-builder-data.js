@@ -2046,7 +2046,7 @@ $(document).ready(function() {
     ]
 
     ub.data.mascotSizes = {
-        
+
         items: [
             {
                 size: '1',
@@ -2067,6 +2067,49 @@ $(document).ready(function() {
         ],
 
     };
+
+    ub.data.sportAliases = {
+
+        items: [
+            {
+                name: "Football",
+                alias: "football",
+            },
+            {
+                name: "Wrestling",
+                alias: "text_wrestling",
+            },
+            {
+                name: "Baseball",
+                alias: "baseball",
+            },
+            {
+                name: "Compression (Apparel)",
+                alias: "compression",
+            },
+            { 
+                name: "Tech-Tee (Apparel)",
+                alias: "tech-tee",
+            },
+
+        ],
+
+        getAlias: function (sportName) {
+
+            var _result = _.find(this.items, {name: sportName});
+
+            if (typeof _result === "undefined") {
+
+                ub.utilities.warn(sportName + ' not found.');
+                console.trace();
+
+            }
+
+            return _result;
+
+        }
+
+    }
 
     ub.data.applicationSizes = {
 
@@ -2416,6 +2459,214 @@ $(document).ready(function() {
                             ],
                     type: 'adult',
                 },
+
+                // tech-teee
+
+                 {
+                    name: 'text_tech-tee',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+                {
+                    name: 'team_name',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+
+                // end tech-tee
+
+                // compression
+
+                 {
+                    name: 'text_tech-tee',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+                {
+                    name: 'team_name',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+
+                // end compression
 
             ],
     }
