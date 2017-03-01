@@ -1477,6 +1477,7 @@
     <script type="text/mustache" id="m-saved-designs-table">
         
         <br />
+      
         <table class="data-table">
             <thead>
                 <tr class="header">
@@ -1491,7 +1492,7 @@
             <tbody>
                 @{{#savedDesigns}}
                     <tr class="saved-design-row" data-id="@{{id}}">
-                        <td>@{{created_at}}</td>
+                        <td class="created-at">@{{created_at}}</td>
                         <td>@{{created_at_time}}</td>                       
                         <td>@{{sport}}</td>
                         <td>
