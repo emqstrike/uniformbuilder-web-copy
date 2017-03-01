@@ -41,7 +41,7 @@
                             <th>Male</th>
                             <th>Female</th>
                             <th>Youth</th>
-                            <th>Status</th>
+                            <th>Sizes</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -60,6 +60,9 @@
                             </td>
                             <td>
                                 <img src="{{ $category->thumbnail_youth }}" style="height: 105px; width: 70px;">
+                            </td>
+                            <td>
+                                {{ $category->sizes }}
                             </td>
                             <td>
                                 <a href="#" class="btn btn-default btn-xs disable-category" data-category-id="{{ $category->id }}" role="button" {{ ($category->active) ? : 'disabled="disabled"' }}>

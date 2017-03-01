@@ -6265,9 +6265,8 @@ $(document).ready(function () {
         }
 
         ub.funcs.displayMySavedDesigns = function () {
-
+         
             $.ajax({
-            
                 url: ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
@@ -6277,7 +6276,7 @@ $(document).ready(function () {
                 success: function (response) {
 
                   $('div.my-saved-designs-loading').hide();
-
+                  
                   var $container = $('div.saved-designs-list');
                   var template = $('#m-saved-designs-table').html();
                   var data = {
@@ -6285,32 +6284,34 @@ $(document).ready(function () {
                         savedDesigns: ub.funcs.parseJSON(response.saved_designs),
 
                   }
-
-                
+         
                 data.savedDesigns.forEach(function (value, i) {
-                    data.savedDesigns[i].created_at = util.dateFormat(value.created_at);
+                    data.savedDesigns[i].created_at_time = util.dateFormat(value.created_at);
+                    data.savedDesigns[i].created_at_time = data.savedDesigns[i].created_at_time.split(' ').slice(3, 5).join(' ');
                 });
-           
-                      
-                  var markup = Mustache.render(template, data);
-                  $container.html(markup);
-                  ub.funcs.runDataTable();
+          
+                var markup = Mustache.render(template, data);
+                $container.html(markup);
+                $( ".created-at" ).each(function( index ) {
+                  var date = util.dateFormat($( this ).text());
+                  date = date.split(' ').slice(0, 3).join(' ');
+                  $( this ).text(date);
+                });
+                ub.funcs.runDataTable();
+                var $imgThumbs = $('img.tview');
+                
+                $imgThumbs.unbind('click');
+                $imgThumbs.on('click', function () {
 
-
-                  var $imgThumbs = $('img.tview');
+                    var _file = $(this).data('file');
+                    var _str = "<img src ='" + _file + "' />";
                     
-                    $imgThumbs.unbind('click');
-                    $imgThumbs.on('click', function () {
+                    ub.showModalTool(_str);
 
-                        var _file = $(this).data('file');
-                        var _str = "<img src ='" + _file + "' />";
-                        
-                        ub.showModalTool(_str);
-
-                    });
+                });
 
   
-                
+               
 
                   $('span.action-button.view').on('click', function () {
 
@@ -6338,7 +6339,33 @@ $(document).ready(function () {
                         ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
 
                   });
-
+                  $(document).on('change', '.fil-to,.fil-from', function(){
+                    var filterFrom = $('.fil-from').val();
+                    var filterTo = $('.fil-to').val();
+                    var template = $('#m-saved-designs-table').html();
+                    var filteredDataString = JSON.stringify(data.savedDesigns);
+                    var filteredData =JSON.parse(filteredDataString);
+                    
+                    filteredData.forEach(function (value, i) {
+                       if(filterFrom <= value.created_at && filterTo >= value.created_at){    
+                        }else{
+                         delete filteredData[i];   
+                        }
+                    });
+                   var filteredDataRemoveEmpty = filteredData.filter(function(x){
+                      return (x !== (undefined || ''));
+                    });
+                    var filtered_data = {savedDesigns: filteredDataRemoveEmpty,}        
+                    
+                    var markup = Mustache.render(template, filtered_data);
+                    $container.html(markup); 
+                    $( ".created-at" ).each(function( index ) {
+                      var date = util.dateFormat($( this ).text());
+                      date = date.split(' ').slice(0, 3).join(' ');
+                      $( this ).text(date);
+                    });
+                    ub.funcs.runDataTable();    
+                  });   
                   bindShareDesigns();
             
                 }
@@ -6355,9 +6382,9 @@ $(document).ready(function () {
             if (!window.ub.user) { 
                 ub.funcs.displayLoginForm(); 
                 return;
-            } 
+            }          
+            ub.funcs.displayMySavedDesigns();          
 
-            ub.funcs.displayMySavedDesigns();
 
         }
 
@@ -6412,17 +6439,28 @@ $(document).ready(function () {
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
                     var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };     
+
                     dataSaved.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
-                    });
+                        value.created_at_time = util.dateFormat(value.created_at);
+                        value.created_at = value.created_at.split(' ').slice(0, 3).join(' ');
+                        value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
+
+                    }); 
                     var markup = Mustache.render(template, dataSaved);
                     $containerSaved.html(markup);
                     var $containerSubmitted     = $('div.order-list.submitted');
                     var template                = $('#m-orders-table').html();
                     var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
+
                     dataSubmitted.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
-                    });
+                        value.created_at_time = util.dateFormat(value.created_at);
+                        value.created_at = value.created_at.split(' ').slice(0, 3).join(' ');
+                        value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
+
+                    }); 
+                    console.log(dataSubmitted.orders);                   
                     var markup                  = Mustache.render(template, dataSubmitted);
                     $containerSubmitted.html(markup);
 

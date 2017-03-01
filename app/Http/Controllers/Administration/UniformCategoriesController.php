@@ -23,7 +23,6 @@ class UniformCategoriesController extends Controller
     public function index()
     {
         $categories = $this->client->getUniformCategories();
-
         return view('administration.categories.categories', [
             'categories' => $categories
         ]);
@@ -44,10 +43,14 @@ class UniformCategoriesController extends Controller
 
     public function store(Request $request)
     {
+
         $name = $request->input('name');
+        $sizes = $request->input('sizes');
         $data = [
-            'name' => $name
+            'name' => $name,
+            'sizes' => $sizes
         ];
+
 
         $id = null;
         if (!empty($request->input('uniform_category_id')))
