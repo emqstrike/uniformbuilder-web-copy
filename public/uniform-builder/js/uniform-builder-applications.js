@@ -6536,6 +6536,8 @@ $(document).ready(function() {
         var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
         var _applicationType    = _settingsObject.application_type;
         var _sizes              = ub.funcs.getApplicationSizes(_applicationType);
+        var _uniformCategory = ub.current_material.material.uniform_category
+        var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
 
         if (ub.current_material.material.uniform_category === "Football") {
 
@@ -6550,6 +6552,15 @@ $(document).ready(function() {
         } else if (ub.current_material.material.uniform_category === "Wrestling") {
 
             _sizes = ub.funcs.getApplicationSizes('mascot_wrestling');
+
+        } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
+            
+            _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+
+        } else {
+
+            console.warn('no sizes setting defaulting to generic');
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
 
         }
 
@@ -7884,11 +7895,10 @@ $(document).ready(function() {
         //     _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
         // }
 
-
         if (_uniformCategory === "Football") {
             
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
-            
+
         } else if (ub.current_material.material.uniform_category === "Baseball") {
             
             _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
@@ -7899,7 +7909,7 @@ $(document).ready(function() {
 
         } else {
 
-            console.warn('no sizes setting defaulting to generic');
+            ub.utilities.warn('no sizes setting defaulting to generic');
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
 
         }
@@ -8855,7 +8865,6 @@ $(document).ready(function() {
                         //ub.hideFontGuides();
                         $('#cogPopupContainer').remove();
 
-
                     });
 
                     $('span.resetButton').on('click', function () {
@@ -9410,7 +9419,7 @@ $(document).ready(function() {
         }
 
         if (typeof _sizes === 'undefined') {
-            ub.Utilities.warn('Application Sizes for ' + applicationType + ' is not found!');
+            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found!');
         }
         
         return _sizes;

@@ -21,9 +21,13 @@ use App\Utilities\Random;
 use TCPDF;
 use File;
 use Slack;
+use App\Utilities\StringUtility;
+use App\Traits\OwnsUniformDesign;
 
 class UniformBuilderController extends Controller
 {
+    use OwnsUniformDesign;
+
     protected $materialsClient;
     protected $colorsClient;
     protected $designSetClient;
@@ -1366,18 +1370,17 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function mySavedDesign($savedDesignID)
+    /**
+     * Displays the saved uniform design on the "Customizer"
+     * @param Integer $id Saved Uniform design ID
+     */
+    public function loadSavedDesign($id)
     {
-
-        $savedDesign = $this->savedDesignsClient->getSavedDesign($savedDesignID);
-
-        if( isset($savedDesign) ) {
-
-            $savedDesignID = $savedDesign->id;
+        $savedDesign = $this->savedDesignsClient->getSavedDesign($id);
+        if (isset($savedDesign))
+        {
             $builder_customizations = json_decode($savedDesign->builder_customizations);
-            $materialID = $savedDesign->material_id;
-        
-            //$material = $this->materialsClient->getMaterial($materialID);
+            $materialId = $savedDesign->material_id;
 
             Session::put('page-type', [
                 'page' => 'saved-design',
@@ -1385,21 +1388,54 @@ class UniformBuilderController extends Controller
 
             Session::put('design', [
                 'id' => $savedDesign->id,
-                'material_id' => $materialID,
+                'material_id' => $materialId,
             ]);
 
             $config = [
-                'material_id' => $materialID,
-                'id' => $savedDesignID,
-                'builder_customizations' => $savedDesignID,
+                'material_id' => $materialId,
+                'id' => $savedDesign->id,
+                'builder_customizations' => $savedDesign->id,
                 'type' => 'Saved Design',
             ];
-            
-            return $this->showBuilder($config);
 
+            return $this->showBuilder($config);
+        }
+        return redirect('index');
+    }
+
+    /**
+     * Public endpoint for saved uniform designs
+     */
+    public function showcaseDesign($showcaseDesignId)
+    {
+        $salt = config('customizer.vendor.code');
+
+        if (is_numeric($showcaseDesignId))
+        {
+            $showcaseIdHash = StringUtility::encryptShowcaseId($showcaseDesignId);
+            return redirect('/showcase/' . $showcaseIdHash);
+        }
+        else
+        {
+            $saved_design_id = StringUtility::decryptShowcaseId($showcaseDesignId);
+            return $this->loadSavedDesign($saved_design_id);
+        }
+    }
+
+    /**
+     * Owner of uniforms could use this method. If non-owners try to access this uniform design, they will be redirected to a different URL but same uniform design
+     */
+    public function mySavedDesign($saved_design_id)
+    {
+
+        $savedDesign = $this->savedDesignsClient->getSavedDesign($saved_design_id);
+
+        if (!$this->isUniformOwner($savedDesign))
+        {
+            return $this->showcaseDesign($saved_design_id);
         }
 
-        return redirect('index');
+        return $this->loadSavedDesign($saved_design_id);
 
     }
 
