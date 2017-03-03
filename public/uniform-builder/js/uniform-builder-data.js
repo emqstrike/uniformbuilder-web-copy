@@ -2045,29 +2045,6 @@ $(document).ready(function() {
 
     ]
 
-    ub.data.mascotSizes = {
-
-        items: [
-            {
-                size: '1',
-                scale: 0.07,
-            },
-            {
-                size: '2',
-                scale: 0.3,
-            },
-            {
-                size: '3',
-                scale: 0.4,
-            },
-            {
-                size: '4',
-                scale: 0.5,
-            },
-        ],
-
-    };
-
     ub.data.sportAliases = {
 
         items: [
@@ -2524,10 +2501,22 @@ $(document).ready(function() {
                     sport: 'tech-tee',
                     sizes:  [
                                 {
+                                    size: 2,
+                                },
+                                {
                                     size: 3,
                                 },
                                 {
                                     size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
                                 },
                             ],
                     factory: 'BLB',
@@ -2626,14 +2615,26 @@ $(document).ready(function() {
                 {
                     name: 'mascot',
                     sport: 'compression',
-                    sizes:  [
+                        sizes:  [
+                                {
+                                    size: 2,
+                                },
                                 {
                                     size: 3,
                                 },
                                 {
                                     size: 4,
                                 },
-                            ],
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                        ],
                     factory: 'BLB',
                 },
                 {
@@ -8945,17 +8946,22 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Tech-Tee (Apparel)',
                 size: 3,
-                scale: {x: 0.28, y: 0.28 },
+                scale: {x: 0.27, y: 0.27 },
             },
             {
                 sport: 'Tech-Tee (Apparel)',
                 size: 4,
-                scale: {x: 0.36, y: 0.53 },
+                scale: {x: 0.36, y: 0.36 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 5,
+                scale: {x: 0.44, y: 0.44 },
             },
             {
                 sport: 'Tech-Tee (Apparel)',
                 size: 8,
-                scale: {x: 0.70, y: 0.70 },
+                scale: {x: 0.72, y: 0.72 },
             },
             {
                 sport: 'Tech-Tee (Apparel)',
@@ -8964,7 +8970,7 @@ ub.funcs.fontOffSets = [
             },
 
             // Compression
-            {
+             {
                 sport: 'Compression (Apparel)',
                 size: 2,
                 scale: {x: 0.18, y: 0.18 },
@@ -8972,17 +8978,22 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Compression (Apparel)',
                 size: 3,
-                scale: {x: 0.28, y: 0.28 },
+                scale: {x: 0.27, y: 0.27 },
             },
             {
                 sport: 'Compression (Apparel)',
                 size: 4,
-                scale: {x: 0.36, y: 0.53 },
+                scale: {x: 0.36, y: 0.36 },
+            },
+            {
+                sport: 'Compression (Apparel)',
+                size: 5,
+                scale: {x: 0.44, y: 0.44 },
             },
             {
                 sport: 'Compression (Apparel)',
                 size: 8,
-                scale: {x: 0.70, y: 0.70 },
+                scale: {x: 0.72, y: 0.72 },
             },
             {
                 sport: 'Compression (Apparel)',
@@ -9604,7 +9615,7 @@ ub.funcs.fontOffSets = [
                     },
                     {
                         length: 6,
-                        character: '‡'  // U+221E
+                        character: '∞'  // U+221E
                     },
                     {
                         length: 7,
