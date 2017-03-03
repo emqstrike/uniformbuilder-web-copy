@@ -2,6 +2,35 @@ $(document).ready(function() {
 
 colors = getColors().colors;
 
+window.piping_sets = [
+					"Yoke Piping",
+					"Neck Piping",
+					"Center Piping",
+					"Left End of Sleeve Piping",
+					"Left End of Sleeve Piping 1 inch Up",
+					"Left Raglan Piping",
+					"Left Set-in Piping",
+					"Right End of Sleeve Piping",
+					"Right End of Sleeve Piping 1 inch Up",
+					"Right Raglan Piping",
+					"Right Set-in Piping",
+					"Tunnel Piping",
+					"Right Pant Piping",
+					"Left Pant Piping"
+				];
+
+function buildSetsDropdown(value){
+	var dropdown = '<select class="form-control piping-set">';
+	window.piping_sets.forEach(function(entry) {
+		if(entry == value){
+			dropdown += '<option value="'+entry+'" selected>'+entry+'</option>';
+		} else {
+			dropdown += '<option value="'+entry+'">'+entry+'</option>';
+		}
+	});
+	return dropdown;
+}
+
 $(".global-color").append(globalColorSelector(colors));
 	$('.copy-piping').on('click', function(e){
 		copyToClipboard();
@@ -87,6 +116,8 @@ $(".global-color").append(globalColorSelector(colors));
 			entry.team_color_id_array = ["","","",];
 		}
 
+		var set = buildSetsDropdown(entry.set);
+
 		var template = `<table class="table table-striped table-bordered table-hover piping-table">
         <tr>
         	<td><b>PIPING DETAILS</b></td>
@@ -101,7 +132,10 @@ $(".global-color").append(globalColorSelector(colors));
     		</td>
     		<td>
     			<b>SET</b>
-    			<input type="text" class="form-control piping-set" value="`+entry.set+`">
+    			`
+    			// +entry.set+
+    			+set+
+    			`
     		</td>
     		<td></td>
     		<td></td>
@@ -178,6 +212,8 @@ $(".global-color").append(globalColorSelector(colors));
     	var selectedSecond = $(".global-color-selector option:selected").eq(1).val();
     	var selectedThird = $(".global-color-selector option:selected").eq(2).val();
 
+    	var sets_dropdown = buildSetsDropdown();
+
         console.log( 'Add Section . . .' );
         var elem = `<table class="table table-striped table-bordered table-hover piping-table">
         <tr>
@@ -199,7 +235,9 @@ $(".global-color").append(globalColorSelector(colors));
     		</td>
     		<td>
     			<b>SET</b>
-    			<input type="text" class="form-control piping-set">
+    			`
+    			+sets_dropdown+
+    			`
     		</td>
     		<td></td>
     		<td></td>
@@ -285,8 +323,10 @@ $(".global-color").append(globalColorSelector(colors));
     function refreshJSON(){
     	var data = [];
 		$(".piping-table").each(function(i) {
+			var name = $(this).find('.piping-set').val() + " " + $(this).find('.piping-size').val()
+			$(this).find('.piping-name').val(name);
     		var info = {
-				"name" : $(this).find('.piping-name').val(),
+				"name" : name,
 				"size" : $(this).find('.piping-size').val(),
 				"set" : $(this).find('.piping-set').val()
 			};
@@ -590,6 +630,4 @@ $(".global-color").append(globalColorSelector(colors));
   		refreshJSON();
   	});
 
-	 
-	
 });
