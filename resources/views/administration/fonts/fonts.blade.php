@@ -63,6 +63,7 @@
                             <th>Sports</th>  
                             <th>Sample</th>
                             <th>Active Status</th>
+                            <th>Last Updated</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -129,6 +130,9 @@
                                     <i class="glyphicon glyphicon-eye-open"></i>
                                     Enable
                                 </a>
+                            </td>
+                            <td>
+                                {{ $font->updated_at }}
                             </td>
                             <td>
                                 <a href="/administration/font/edit/{{ $font->id }}" class="btn btn-primary btn-xs edit-font" data-font-id="{{ $font->id }}" role="button">

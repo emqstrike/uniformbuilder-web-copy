@@ -84,6 +84,8 @@ class FontsController extends Controller
         $sports = explode(",", $request->input('sports_value'));
         $tailSweepProperties = $request->input('tail_sweep_properties');
         $fontSizeTables = $request->input('font_size_tables');
+
+        $userID = $request->input('user_id');
         
         $myJson = json_decode($fontProperties, true);
 
@@ -101,7 +103,8 @@ class FontsController extends Controller
             'font_size_table' => $fontSizeTable,
             'sports' => $sports,
             'tail_sweep_properties' => $tailSweepProperties,
-            'font_size_tables' => $fontSizeTables
+            'font_size_tables' => $fontSizeTables,
+            'updated_by' => $userID
         ];
 
         if ($fontType != 'default')

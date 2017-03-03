@@ -48,6 +48,7 @@ li.select2-selection__choice {
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/font/update" enctype="multipart/form-data" id='edit-font-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="user_id" value="{{ Session::get('userId') }}">
                         <input type="hidden" name="font_id" value="{{ $font->id }}">
                         <input type="hidden" id="font_family" value="{{ $font->name }}">
                         <input type="hidden" id="old_font_size_tables" value="{{ $font->font_size_tables }}">
