@@ -183,10 +183,7 @@ li.select2-selection__choice {
                             </div>
                         </div>
                         <div class="form-group">
-                            <textarea id="fst-fix"></textarea><a href="#" class="fix-fst-button btn btn-xs btn-primary">FIX</a>
-                        </div>
-                        <div class="form-group">
-                            <a href="#" class="btn btn-warning btn-xs reset-fst">Reset Font Size Tables data</a>
+                            <textarea id="fst-fix"></textarea></br><a href="#" class="fix-fst-button btn btn-xs btn-primary">Apply New Data</a>
                         </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
@@ -240,6 +237,12 @@ li.select2-selection__choice {
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                                <center><a data-toggle="modal" href="#myModal" class="btn btn-xs btn-primary">Copy data</a></center>
+                                <a href="#" class="btn btn-warning btn-xs reset-fst pull-right">Reset Font Size Tables data</a>
                             </div>
                         </div>
                         <div class="form-group">
@@ -402,7 +405,31 @@ li.select2-selection__choice {
         </div>
     </div>
 </div>
+<div class="container">
+  <h2>Modal Login Example</h2>
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-default btn-lg" id="myBtn">Login</button>
 
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4> Font size tables data</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div>
+              <textarea class="fst-data-field form-control animated"></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>
 @endsection
 
 @section('custom-scripts')
@@ -413,7 +440,6 @@ li.select2-selection__choice {
 <script type="text/javascript">
 $(document).ready(function(){
     var fields = []; // to be used in fst updater
-
     window.backup = null;
 
     $( "#static_row" ).hide();
@@ -429,16 +455,13 @@ $(document).ready(function(){
         window.backup = old_font_size_tables;
         console.log(old_font_size_tables);
         old_font_size_tables.forEach(function(entry) {
-            // console.log(entry);s
+
             var tbl_class = '.'+entry.perspective+'-fst-body';
             entry.sizes.forEach(function(item) {
                 console.log(item.inputSize);
                 var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                 $(tbl_class).append(elem);
             });
-            // var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
-            // $('.front-fst-body').prepend(elem);
-            // $(tbl_class).prepend(elem);
             refreshMultipleFST();
         });
     }
@@ -460,9 +483,9 @@ $(document).ready(function(){
             };
             var temp = [];
             var elem_class = '.'+entry+'-fst-body tr';
-            // $(".front-fst-body tr").each(function(i) {
+
             $(elem_class).each(function(i) {
-                // console.log(this);
+
                 var x = {
                     "inputSize" : $(this).find('.input-size').val(),
                     "outputSize" : $(this).find('.output-size').val(),
@@ -479,27 +502,9 @@ $(document).ready(function(){
             data.push(perspectiveData);
 
         });
-        // var frontSizes = {
-        //     "perspective" : "front"
-        // };
-        // var temp = [];
-        // $(".front-fst-body tr").each(function(i) {
-        //     console.log(this);
-        //     var x = {
-        //         "inputSize" : $(this).find('.input-size').val(),
-        //         "outputSize" : $(this).find('.output-size').val(),
-        //         "x_offset" : $(this).find('.x-offset').val(),
-        //         "y_offset" : $(this).find('.y-offset').val(),
-        //         "x_scale" : $(this).find('.x-scale').val(),
-        //         "y_scale" : $(this).find('.y-scale').val()
-        //     };
-
-        //     temp.push(x);
-        // });
-        // frontSizes.sizes = temp;
-        // data.push(frontSizes);
-        // console.log(JSON.stringify(data));
         $('#font_size_tables').val(JSON.stringify(data));
+        $('.fst-data-field').text(JSON.stringify(data));
+        $('.animated').autosize({append: "\n"});
     }
 
     $("#edit-font-form").on("click", ".fix-fst-button", function(e){
@@ -513,16 +518,12 @@ $(document).ready(function(){
         window.backup = old_font_size_tables;
         console.log(old_font_size_tables);
         old_font_size_tables.forEach(function(entry) {
-            // console.log(entry);s
             var tbl_class = '.'+entry.perspective+'-fst-body';
             entry.sizes.forEach(function(item) {
                 console.log(item.inputSize);
                 var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                 $(tbl_class).append(elem);
             });
-            // var elem = '<tr><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
-            // $('.front-fst-body').prepend(elem);
-            // $(tbl_class).prepend(elem);
         });
         refreshMultipleFST();
     });
@@ -536,7 +537,6 @@ $(document).ready(function(){
         window.backup.forEach(function(entry) {
             var tbl_class = '.'+entry.perspective+'-fst-body';
             entry.sizes.forEach(function(item) {
-                // console.log(item.inputSize);
                 var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                 $(tbl_class).append(elem);
             });
@@ -546,7 +546,7 @@ $(document).ready(function(){
 
     $("#fst-updater").on("click", ".update-fst", function(e){
         e.preventDefault();
-        // var match = 0;
+
         var app_num = $("#fst-update-app-num").val();
         var action = $("#fst-update-action").val();
         var value = parseFloat($("#fst-update-value").val());
@@ -555,8 +555,7 @@ $(document).ready(function(){
             var elem = $(this);
             if(perspective == "all"){
                 if($(this).data("app-num") == app_num){
-                    // match++;
-                    // console.log('Match:_'+match);
+
                     fields.forEach(function(entry) {
                         var new_val = null;
                         var p_val = parseFloat(elem.find(entry).val());
@@ -572,8 +571,7 @@ $(document).ready(function(){
                 }
             } else {
                 if($(this).data("app-num") == app_num && $(this).data("perspective") == perspective){
-                    // match++;
-                    // console.log('Match:_'+match);
+
                     fields.forEach(function(entry) {
                         var new_val = null;
                         var p_val = parseFloat(elem.find(entry).val());
@@ -606,8 +604,6 @@ $(document).ready(function(){
         e.preventDefault();
         $(this).parent().parent().remove();
     });
-
-    // var sports = JSON.parse($('#sports_value').val());
 
     $('.sports').select2({
         placeholder: "Select sports",

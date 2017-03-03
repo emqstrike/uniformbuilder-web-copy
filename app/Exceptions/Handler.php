@@ -30,28 +30,28 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        if ($e instanceof Exception)
-        {
-            $env = env('APP_ENV');
-            $visitor_ip_address = ServerUtility::getIpAddress();
-            $content = null;
+        // if ($e instanceof Exception)
+        // {
+        //     $env = env('APP_ENV');
+        //     $visitor_ip_address = ServerUtility::getIpAddress();
+        //     $content = null;
 
-            if (ExceptionHandler::isHttpException($e))
-            {
-                $content .= ExceptionHandler::toIlluminateResponse(ExceptionHandler::renderHttpException($e), $e);
-            }
-            else
-            {
-                $content .= ExceptionHandler::toIlluminateResponse(ExceptionHandler::convertExceptionToResponse($e), $e);
-            }
+        //     if (ExceptionHandler::isHttpException($e))
+        //     {
+        //         $content .= ExceptionHandler::toIlluminateResponse(ExceptionHandler::renderHttpException($e), $e);
+        //     }
+        //     else
+        //     {
+        //         $content .= ExceptionHandler::toIlluminateResponse(ExceptionHandler::convertExceptionToResponse($e), $e);
+        //     }
 
-            // Send Error Notification to EMAIL
-            Mail::send('errors.oops', compact('content', 'env', 'visitor_ip_address'), function($message) {
-                $message->to(config('mail.oops_receiver'), 'QStrike Geeks');
-                $message->from(config('mail.oops_sender'), config('app.title'));
-                $message->subject('[OOPS!] ' . config('app.title') . ' ' . date('Y-m-d H:i:s'));
-            });
-        }
+        //     // Send Error Notification to EMAIL
+        //     Mail::send('errors.oops', compact('content', 'env', 'visitor_ip_address'), function($message) {
+        //         $message->to(config('mail.oops_receiver'), 'QStrike Geeks');
+        //         $message->from(config('mail.oops_sender'), config('app.title'));
+        //         $message->subject('[OOPS!] ' . config('app.title') . ' ' . date('Y-m-d H:i:s'));
+        //     });
+        // }
 
 	if (method_exists($e, 'getStatusCode'))
 	{
