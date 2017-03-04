@@ -2098,6 +2098,42 @@ $(document).ready(function() {
 
         }
 
+        // For Mascots
+        ub.funcs.oneInchPullUpMascots = function (code) {
+
+            var _uniformCategory = ub.current_material.material.uniform_category;
+            var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
+            var _mascotOffset = undefined;
+            var _code = parseInt(code);
+            var _validCodesForPullUps = [1,5,6];
+            var _app = undefined;
+
+            if (!(_alias.alias === "tech-tee" || _alias.alias === "compression" )) { console.log('Cancelling...'); return; }
+            if (!_.contains(_validCodesForPullUps, _code)) { return; }
+
+            _mascotOffset = ub.data.mascotOffsets.getSize(_alias.alias, 6, 8);
+            _app = ub.current_material.settings.applications[_code];
+
+            if (_app.application_type !== "mascot") { return; }
+            if (typeof _app === "undefined") { return; }
+
+            _.each(ub.views, function (view) {
+
+                var _object = ub.objects[view + '_view']['objects_' + code];
+                var _descStr = '';
+                
+                if (typeof _object !== "undefined") {
+
+                    _descStr = 'objects_' + code + ' ' + view;
+                    _object.position.y += _mascotOffset.yAdjustment;
+
+                }
+
+            });
+
+        }
+
+        // For Text Applications
         ub.funcs.oneInchPullUp = function (code) {
 
             var _currentSport = ub.current_material.material.uniform_category;
@@ -2191,7 +2227,7 @@ $(document).ready(function() {
             var sprite_collection   = [];
             var mat_option          = ub.funcs.getApplicationMatOption(app_id);
             var marker_name         = "objects_" + app_id;
-            var views;    
+            var views;
             var _applicationObj;
 
             views = ub.current_material.settings.applications[app_id].application.views;
@@ -6535,9 +6571,9 @@ $(document).ready(function() {
         var _id                 = application_id.toString();
         var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
         var _applicationType    = _settingsObject.application_type;
-        var _sizes              = ub.funcs.getApplicationSizes(_applicationType);
-        var _uniformCategory = ub.current_material.material.uniform_category
-        var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
+        var _uniformCategory    = ub.current_material.material.uniform_category;
+        var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
+        var _sizes              = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
 
         if (ub.current_material.material.uniform_category === "Football") {
 
@@ -7741,7 +7777,7 @@ $(document).ready(function() {
     };
 
     ub.funcs.hideGAFontTool = function () {
-
+        
         // Hide GA Font Tool
         $('span.cog').hide();
         
@@ -7751,6 +7787,7 @@ $(document).ready(function() {
 
         ub.funcs.oneInchPullUp(application_id);
         ub.funcs.updateCaption(application_id);
+        ub.funcs.oneInchPullUpMascots(application_id);
 
     };
 
