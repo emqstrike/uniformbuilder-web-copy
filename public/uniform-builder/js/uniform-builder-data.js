@@ -8945,7 +8945,7 @@ ub.funcs.fontOffSets = [
                 sport: 'tech-tee',
                 applicationNumber: 5,
                 size: 10,
-                yAdjustment: -16,
+                yAdjustment: 16,
             },
             {
                 sport: 'tech-tee',
