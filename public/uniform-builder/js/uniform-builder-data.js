@@ -8919,69 +8919,83 @@ ub.funcs.fontOffSets = [
 
     }
 
+
     ub.data.mascotOffsets = {
 
         items: [
             {
                 sport: 'tech-tee',
                 applicationNumber: 1,
-                yAdjustment: -12,
                 size: 2,
+                yAdjustment: -12,
             },
             {
                 sport: 'tech-tee',
                 applicationNumber: 1,
-                yAdjustment: 4,
                 size: 3,
+                yAdjustment: 4,
             },
             {
                 sport: 'tech-tee',
                 applicationNumber: 5,
-                yAdjustment: -51,
                 size: 8,
+                yAdjustment: -14,
             },
             {
                 sport: 'tech-tee',
                 applicationNumber: 5,
-                yAdjustment: -21,
                 size: 10,
+                yAdjustment: -16,
             },
             {
                 sport: 'tech-tee',
                 applicationNumber: 6,
-                yAdjustment: -5,
-                size: 8,
+                size: 6,
+                yAdjustment: -15,
             },
             {
-                sport: 'compression',
-                applicationNumber: 1,
-                yAdjustment: -12,
-                size: 2,
-            },
-            {
-                sport: 'compression',
-                applicationNumber: 1,
-                yAdjustment: 4,
+                sport: 'tech-tee',
+                applicationNumber: 6,
                 size: 3,
+                yAdjustment: 1,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 1,
+                size: 2,
+                yAdjustment: -12,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 1,
+                size: 3,
+                yAdjustment: 4,
             },
             {
                 sport: 'compression',
                 applicationNumber: 5,
-                yAdjustment: -51,
                 size: 8,
+                yAdjustment: -14,
             },
             {
                 sport: 'compression',
                 applicationNumber: 5,
-                yAdjustment: -21,
                 size: 10,
+                yAdjustment: 16,
             },
             {
                 sport: 'compression',
                 applicationNumber: 6,
-                yAdjustment: -5,
-                size: 8,
+                size: 2,
+                yAdjustment: -15,
             },
+            {
+                sport: 'compression',
+                applicationNumber: 6,
+                size: 3,
+                yAdjustment: 1,
+            },
+
         ],
 
         getSize: function (sport, applicationNumber, size) {
@@ -8997,6 +9011,40 @@ ub.funcs.fontOffSets = [
             return _result;
 
         }
+
+    }
+
+    // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
+    // 1" - 0.15
+    // 1.75" - 0.18
+    // 2" - 0.2
+    // 3" - 0.3
+    // 4" - 0.42
+
+    // tapos ung adjustment ng font +35 px ( application #'s 37,38,39,40)
+
+    // Trad_Elastic_Knicker
+    // 1" - 0.17
+    // 1.75" - 0.23
+    // 2" - 0.27
+    // 3" - 0.42
+    // 4" - 0.56
+
+    ub.data.mascotSizesPant = {
+
+        items: [
+        ],
+
+            getSize: function (sport, size) {
+
+            var _result = _.find(this.items, {sport: sport, size: size});
+            
+            if (typeof _result === "undefined") { console.warn('mascotSize for ' + sport + ' not found.')};
+
+            return _result;
+
+        }
+
 
     }
 

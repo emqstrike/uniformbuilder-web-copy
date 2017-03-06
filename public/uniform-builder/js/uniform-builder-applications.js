@@ -2108,14 +2108,17 @@ $(document).ready(function() {
             var _validCodesForPullUps = [1,5,6];
             var _app = undefined;
 
-            if (!(_alias.alias === "tech-tee" || _alias.alias === "compression" )) { console.log('Cancelling...'); return; }
+            if (!(_alias.alias === "tech-tee" || _alias.alias === "compression" )) { return; }
             if (!_.contains(_validCodesForPullUps, _code)) { return; }
 
-            _mascotOffset = ub.data.mascotOffsets.getSize(_alias.alias, 6, 8);
             _app = ub.current_material.settings.applications[_code];
 
             if (_app.application_type !== "mascot") { return; }
             if (typeof _app === "undefined") { return; }
+
+            _mascotOffset = ub.data.mascotOffsets.getSize(_alias.alias, _code, _app.size);
+
+            if (typeof _mascotOffset === "undefined") { return; }
 
             _.each(ub.views, function (view) {
 
@@ -2498,7 +2501,7 @@ $(document).ready(function() {
                         }
 
                     }
-                
+
                     if (_.includes(ub.data.leftSideOverrides, args.font_name) && ( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
 
                         var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
@@ -2670,12 +2673,7 @@ $(document).ready(function() {
             });
 
             ub.funcs.identify(app_id);
-
-            // //if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-
-                ub.funcs.runAfterUpdate(app_id);    
-
-            // //}
+            ub.funcs.runAfterUpdate(app_id);    
 
             return sprite_collection;
 
@@ -7780,6 +7778,13 @@ $(document).ready(function() {
         
         // Hide GA Font Tool
         $('span.cog').hide();
+        
+    };
+
+    ub.funcs.runBeforeUpdate = function (application_id) {
+
+        // TODO: Application Preprocessing Event Here ...
+        
         
     };
 

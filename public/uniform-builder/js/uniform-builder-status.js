@@ -38,8 +38,6 @@ $(document).ready(function() {
 
         setRenderStatus: function (status) {
 
-            console.log('Setting Render status as: ' + status);
-
             this.renderFrames = status;
             return this.getRenderStatus();
 

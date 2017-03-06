@@ -230,29 +230,28 @@ $(document).ready(function () {
 
 		// GA Tools 
 		ub.shortcut.add("Alt+1", function () {
-
 			ub.toggleFontGuides();
+		});
+
+		// ub.shortcut.add("Alt+2", function () {
 			
-		});
-
-		ub.shortcut.add("Alt+2", function () {
+		// 	$('div.qa-tools-tab').modal('show');
 			
-			$('div.qa-tools-tab').modal('show');
-			
-		});
+		// });
 
-		// Dev Tools
-		ub.shortcut.add("Ctrl+1", function () {
-			console.log('Ctrl + 1 is pressed');
-		});
+		// // Dev Tools is at shift + alt,
 
-		ub.shortcut.add("Ctrl+2", function() {
-			console.log('Ctrl + 2 is pressed');
-		});
+		// ub.shortcut.add("Shift+Ctrl+1", function () {
+		// 	console.log('Ctrl + 1 is pressed');
+		// });
 
-		ub.shortcut.add("Ctrl+0", function() {
-			console.clear()
-		});
+		// ub.shortcut.add("Shift+Ctrl+2", function() {
+		// 	console.log('Ctrl + 2 is pressed');
+		// });
+
+		// ub.shortcut.add("Shift+Ctrl+0", function() {
+		// 	console.clear()
+		// });
 
 	/// End Shortcut definitions 
 
