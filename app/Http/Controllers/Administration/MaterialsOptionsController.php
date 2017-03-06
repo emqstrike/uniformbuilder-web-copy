@@ -36,6 +36,7 @@ class MaterialsOptionsController extends Controller
         $materialID = $request->input('cleanup_material_id');
         $groupIDs = $request->input('group_id');
         $teamColorIDs = $request->input('team_color_id');
+        $deafaultColors = $request->input('default_color');
 
         $ctr = 0;
         foreach ($optionIds as $optionId) {
@@ -77,6 +78,14 @@ class MaterialsOptionsController extends Controller
             $idx = $ctr;
             $item = 'item'.$ctr;
             $data['info'][$item]['team_color_id'] = $teamColorID;
+            $ctr++;
+        }
+
+        $ctr = 0;
+        foreach ($deafaultColors as $color) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item]['default_color'] = $color;
             $ctr++;
         }
 

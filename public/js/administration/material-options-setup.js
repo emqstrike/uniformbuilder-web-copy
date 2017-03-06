@@ -62,6 +62,20 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('change', '.default-color', function() {
+        console.log('changed default color');
+        var color = $(this).val();
+        var perspective = $(this).data('perspective');
+        var name = $(this).data('name').toLowerCase();
+        $(".default-color").each(function(i) {
+            if( $(this).data('perspective') != perspective && $(this).data('name').toLowerCase() == name ){
+                $(this).fadeOut();
+                $(this).fadeIn();
+                $(this).val(color);
+            }
+        });
+    });
+
     $(document).on('change', '.tcid', function() {
         console.log('changed gid');
         var number = $(this).val();
