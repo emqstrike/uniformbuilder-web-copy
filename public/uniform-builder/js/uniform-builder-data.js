@@ -93,8 +93,6 @@ $(document).ready(function() {
 
     }
 
-
-
     /// End Interactive Viewport
 
     ub.container_div                = 'main_view';
@@ -121,7 +119,6 @@ $(document).ready(function() {
     ub.renderer                     = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
     ub.renderer.backgroundColor     = 0xeeeeee;
 
-
     var _bg                         = window.ub.pixi.new_sprite('/images/uiV1/bg.jpg');
     ub.stage.addChild(_bg); 
 
@@ -131,14 +128,14 @@ $(document).ready(function() {
     ub.stage.addChild(ub.right_view);
     ub.stage.addChild(ub.pattern_view);
     ub.stage.addChild(ub.gradient_preview);
-    
+
     if (typeof ub.renderer !== "undefined" && ub.pCanvas !== null) {
         ub.pCanvas.appendChild(ub.renderer.view);
     }
 
     ub.interactionManager           = ub.renderer.plugins.interaction;
     ub.dragAndDropManager           = new PIXI.DragAndDropManager(ub.interactionManager);
-     
+
     /// Hide other views except for the left view, by bringing them offscreen, 
     /// But still visible so we can still get the thumbnails by using renderTexture
 
@@ -2615,7 +2612,7 @@ $(document).ready(function() {
                 {
                     name: 'mascot',
                     sport: 'compression',
-                        sizes:  [
+                    sizes:  [
                                 {
                                     size: 2,
                                 },
@@ -2634,7 +2631,7 @@ $(document).ready(function() {
                                 {
                                     size: 10,
                                 },
-                        ],
+                    ],
                     factory: 'BLB',
                 },
                 {
@@ -8922,6 +8919,135 @@ ub.funcs.fontOffSets = [
 
     }
 
+
+    ub.data.mascotOffsets = {
+
+        items: [
+            {
+                sport: 'tech-tee',
+                applicationNumber: 1,
+                size: 2,
+                yAdjustment: -12,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 1,
+                size: 3,
+                yAdjustment: 4,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 5,
+                size: 8,
+                yAdjustment: -14,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 5,
+                size: 10,
+                yAdjustment: -16,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 6,
+                size: 6,
+                yAdjustment: -15,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 6,
+                size: 3,
+                yAdjustment: 1,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 1,
+                size: 2,
+                yAdjustment: -12,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 1,
+                size: 3,
+                yAdjustment: 4,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 5,
+                size: 8,
+                yAdjustment: -14,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 5,
+                size: 10,
+                yAdjustment: 16,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 6,
+                size: 2,
+                yAdjustment: -15,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 6,
+                size: 3,
+                yAdjustment: 1,
+            },
+
+        ],
+
+        getSize: function (sport, applicationNumber, size) {
+
+            var _result = _.find(this.items, {sport: sport, applicationNumber: applicationNumber, size: size});
+
+            if (typeof _result === "undefined") {
+
+                ub.utilities.warn('Not Found mascot offset for Sport:  ' + sport + ', Location #: ' + applicationNumber + ' size: ' + size);
+
+            }
+
+            return _result;
+
+        }
+
+    }
+
+    // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
+    // 1" - 0.15
+    // 1.75" - 0.18
+    // 2" - 0.2
+    // 3" - 0.3
+    // 4" - 0.42
+
+    // tapos ung adjustment ng font +35 px ( application #'s 37,38,39,40)
+
+    // Trad_Elastic_Knicker
+    // 1" - 0.17
+    // 1.75" - 0.23
+    // 2" - 0.27
+    // 3" - 0.42
+    // 4" - 0.56
+
+    ub.data.mascotSizesPant = {
+
+        items: [
+        ],
+
+            getSize: function (sport, size) {
+
+            var _result = _.find(this.items, {sport: sport, size: size});
+            
+            if (typeof _result === "undefined") { console.warn('mascotSize for ' + sport + ' not found.')};
+
+            return _result;
+
+        }
+
+
+    }
+
     ub.data.mascotSizes = {
 
         items: [
@@ -9647,14 +9773,6 @@ ub.funcs.fontOffSets = [
 
         getCharacter: function (code, length) {
 
-            console.clear();
-
-            console.log('Code: ');
-            console.log(code);
-
-            console.log('Length: ');
-            console.log(length);
-            
             var _match = _.find(this.items, {code: code});
 
             if(typeof _match !== "undefined") {
@@ -9668,9 +9786,6 @@ ub.funcs.fontOffSets = [
                     return undefined;
 
                 } else {
-
-                    console.log('Match Found: ');
-                    console.log(_result);
 
                     return _result.character;
                     

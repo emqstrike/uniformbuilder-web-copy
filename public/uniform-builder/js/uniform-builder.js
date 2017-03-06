@@ -330,7 +330,6 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
-
         }
 
         ub.data.afterLoadCalled = 0;
@@ -344,6 +343,7 @@ $(document).ready(function () {
            // $('div.activate_qa_tools').fadeIn();
 
             var _type = '';
+            
             if (ub.current_material.material.factory_code === "BLB") {
 
                 _type = "Sublimated";
@@ -435,40 +435,6 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="locations-add"]').hide();
             $('a.change-view[data-view="locations"]').hide();
-
-        }
-
-        ub.showFontGuides = function () {
-
-            _.each (ub.views, function (view) {
-
-                if (typeof ub.objects[view + '_view']['guide'] === "object") {
-
-                    ub.objects[view + '_view']['guide'].alpha = 1;
-                    ub.objects[view + '_view']['guide'].zIndex = -29;
-
-                }
-
-                ub.updateLayersOrder(ub[view + '_view']);
-
-            });
-
-        };
-
-        ub.hideFontGuides = function () {
-
-            _.each (ub.views, function (view) {
-
-                if (typeof ub.objects[view + '_view']['guide'] === "object") {
-
-                    ub.objects[view + '_view']['guide'].alpha = 0;
-                    ub.objects[view + '_view']['guide'].zIndex = -29;
-
-                }
-
-                ub.updateLayersOrder(ub[view + '_view']);
-
-            });
 
         }
 
