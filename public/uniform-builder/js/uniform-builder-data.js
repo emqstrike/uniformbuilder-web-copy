@@ -17,8 +17,7 @@ $(document).ready(function() {
     ub.offset = {x: 70, y: 70};
     ub.active = null;
     ub.vars = {};
-    ub.status = {};
-
+    
     ub.uiTools = {};
 
     ub.totalWidth = 1000;
@@ -94,8 +93,6 @@ $(document).ready(function() {
 
     }
 
-
-
     /// End Interactive Viewport
 
     ub.container_div                = 'main_view';
@@ -122,7 +119,6 @@ $(document).ready(function() {
     ub.renderer                     = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
     ub.renderer.backgroundColor     = 0xeeeeee;
 
-
     var _bg                         = window.ub.pixi.new_sprite('/images/uiV1/bg.jpg');
     ub.stage.addChild(_bg); 
 
@@ -132,14 +128,14 @@ $(document).ready(function() {
     ub.stage.addChild(ub.right_view);
     ub.stage.addChild(ub.pattern_view);
     ub.stage.addChild(ub.gradient_preview);
-    
+
     if (typeof ub.renderer !== "undefined" && ub.pCanvas !== null) {
         ub.pCanvas.appendChild(ub.renderer.view);
     }
 
     ub.interactionManager           = ub.renderer.plugins.interaction;
     ub.dragAndDropManager           = new PIXI.DragAndDropManager(ub.interactionManager);
-     
+
     /// Hide other views except for the left view, by bringing them offscreen, 
     /// But still visible so we can still get the thumbnails by using renderTexture
 
@@ -2046,28 +2042,48 @@ $(document).ready(function() {
 
     ]
 
-    ub.data.mascotSizes = {
-        
+    ub.data.sportAliases = {
+
         items: [
             {
-                size: '1',
-                scale: 0.07,
+                name: "Football",
+                alias: "football",
             },
             {
-                size: '2',
-                scale: 0.3,
+                name: "Wrestling",
+                alias: "text_wrestling",
             },
             {
-                size: '3',
-                scale: 0.4,
+                name: "Baseball",
+                alias: "baseball",
             },
             {
-                size: '4',
-                scale: 0.5,
+                name: "Compression (Apparel)",
+                alias: "compression",
             },
+            { 
+                name: "Tech-Tee (Apparel)",
+                alias: "tech-tee",
+            },
+
         ],
 
-    };
+        getAlias: function (sportName) {
+
+            var _result = _.find(this.items, {name: sportName});
+
+            if (typeof _result === "undefined") {
+
+                ub.utilities.warn(sportName + ' not found.');
+                console.trace();
+
+            }
+
+            return _result;
+
+        }
+
+    }
 
     ub.data.applicationSizes = {
 
@@ -2417,6 +2433,238 @@ $(document).ready(function() {
                             ],
                     type: 'adult',
                 },
+
+                // tech-teee
+
+                 {
+                    name: 'text_tech-tee',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+                {
+                    name: 'team_name',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+
+                // end tech-tee
+
+                // compression
+
+                 {
+                    name: 'text_tech-tee',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+                {
+                    name: 'team_name',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+
+                // end compression
 
             ],
     }
@@ -8671,6 +8919,135 @@ ub.funcs.fontOffSets = [
 
     }
 
+
+    ub.data.mascotOffsets = {
+
+        items: [
+            {
+                sport: 'tech-tee',
+                applicationNumber: 1,
+                size: 2,
+                yAdjustment: -12,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 1,
+                size: 3,
+                yAdjustment: 4,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 5,
+                size: 8,
+                yAdjustment: -14,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 5,
+                size: 10,
+                yAdjustment: 16,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 6,
+                size: 6,
+                yAdjustment: -15,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 6,
+                size: 3,
+                yAdjustment: 1,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 1,
+                size: 2,
+                yAdjustment: -12,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 1,
+                size: 3,
+                yAdjustment: 4,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 5,
+                size: 8,
+                yAdjustment: -14,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 5,
+                size: 10,
+                yAdjustment: 16,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 6,
+                size: 2,
+                yAdjustment: -15,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 6,
+                size: 3,
+                yAdjustment: 1,
+            },
+
+        ],
+
+        getSize: function (sport, applicationNumber, size) {
+
+            var _result = _.find(this.items, {sport: sport, applicationNumber: applicationNumber, size: size});
+
+            if (typeof _result === "undefined") {
+
+                ub.utilities.warn('Not Found mascot offset for Sport:  ' + sport + ', Location #: ' + applicationNumber + ' size: ' + size);
+
+            }
+
+            return _result;
+
+        }
+
+    }
+
+    // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
+    // 1" - 0.15
+    // 1.75" - 0.18
+    // 2" - 0.2
+    // 3" - 0.3
+    // 4" - 0.42
+
+    // tapos ung adjustment ng font +35 px ( application #'s 37,38,39,40)
+
+    // Trad_Elastic_Knicker
+    // 1" - 0.17
+    // 1.75" - 0.23
+    // 2" - 0.27
+    // 3" - 0.42
+    // 4" - 0.56
+
+    ub.data.mascotSizesPant = {
+
+        items: [
+        ],
+
+            getSize: function (sport, size) {
+
+            var _result = _.find(this.items, {sport: sport, size: size});
+            
+            if (typeof _result === "undefined") { console.warn('mascotSize for ' + sport + ' not found.')};
+
+            return _result;
+
+        }
+
+
+    }
+
     ub.data.mascotSizes = {
 
         items: [
@@ -8695,17 +9072,22 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Tech-Tee (Apparel)',
                 size: 3,
-                scale: {x: 0.28, y: 0.28 },
+                scale: {x: 0.27, y: 0.27 },
             },
             {
                 sport: 'Tech-Tee (Apparel)',
                 size: 4,
-                scale: {x: 0.36, y: 0.53 },
+                scale: {x: 0.36, y: 0.36 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 5,
+                scale: {x: 0.44, y: 0.44 },
             },
             {
                 sport: 'Tech-Tee (Apparel)',
                 size: 8,
-                scale: {x: 0.70, y: 0.70 },
+                scale: {x: 0.72, y: 0.72 },
             },
             {
                 sport: 'Tech-Tee (Apparel)',
@@ -8714,7 +9096,7 @@ ub.funcs.fontOffSets = [
             },
 
             // Compression
-            {
+             {
                 sport: 'Compression (Apparel)',
                 size: 2,
                 scale: {x: 0.18, y: 0.18 },
@@ -8722,17 +9104,22 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Compression (Apparel)',
                 size: 3,
-                scale: {x: 0.28, y: 0.28 },
+                scale: {x: 0.27, y: 0.27 },
             },
             {
                 sport: 'Compression (Apparel)',
                 size: 4,
-                scale: {x: 0.36, y: 0.53 },
+                scale: {x: 0.36, y: 0.36 },
+            },
+            {
+                sport: 'Compression (Apparel)',
+                size: 5,
+                scale: {x: 0.44, y: 0.44 },
             },
             {
                 sport: 'Compression (Apparel)',
                 size: 8,
-                scale: {x: 0.70, y: 0.70 },
+                scale: {x: 0.72, y: 0.72 },
             },
             {
                 sport: 'Compression (Apparel)',
@@ -8798,80 +9185,613 @@ ub.funcs.fontOffSets = [
 
         items: [
             {
-               code: 'astros',
-               short: "À",   // 'U+00C0'
-               medium: "Á",  // 'U+00C1'
-               long: "Â",    // 'U+00C2'
+               code: 'astros', // u+00C0 - u+00C9
+               lengths: [
+                    {
+                        length: 1,
+                        character: 'À'// U+00C0
+                    },
+                    {
+                        length: 2,
+                        character: 'À'// U+00C0
+                    },
+                    {
+                        length: 3,
+                        character: 'À'// U+00C0
+                    },
+                    {
+                        length: 4,
+                        character: 'Á'// U+00C1
+                    },
+                    {
+                        length: 5,
+                        character: 'Â'// U+00C2
+                    },
+                    {
+                        length: 6,
+                        character: 'Ã'// U+00C3
+                    },
+                    {
+                        length: 7,
+                        character: 'Ä'// U+00C4
+                    },
+                    {
+                        length: 8,
+                        character: 'Å'// U+00C5
+                    },
+                    {
+                        length: 9,
+                        character: 'Æ'// U+00C6
+                    },
+                    {
+                        length: 10,
+                        character: 'Ç'// U+00C7
+                    },
+                    {
+                        length: 11,
+                        character: 'È'// U+00C8
+                    },
+                    {
+                        length: 12,
+                        character: 'É'// U+00C9
+                    }
+
+               ]
             },
             {
-               code: 'brewers',
-               short: "Ã",   // 'U+00C3',
-               medium: "Ä",  // 'U+00C4'
-               long: "Å",    // 'U+00C5'
+               code: 'brewers', // U+00CA - U+00D3
+               lengths: [
+                    {
+                        length: 1,
+                        character: 'Ê'// U+00CA
+                    },
+                    {
+                        length: 2,
+                        character: 'Ê'// U+00CA
+                    },
+                    {
+                        length: 3,
+                        character: 'Ê'// U+00CA
+                    },
+                    {
+                        length: 4,
+                        character: 'Ë'// U+00CB
+                    },
+                    {
+                        length: 5,
+                        character: 'Ì'// U+00CC
+                    },
+                    {
+                        length: 6,
+                        character: 'Í'// U+00CD
+                    },
+                    {
+                        length: 7,
+                        character: 'Î'// U+00CE
+                    },
+                    {
+                        length: 8,
+                        character: 'Ï'// U+00CF
+                    },
+                    {
+                        length: 9,
+                        character: 'Ð'// U+00D0
+                    },
+                    {
+                        length: 10,
+                        character: 'Ñ'// U+00D1
+                    },
+                    {
+                        length: 11,
+                        character: 'Ò'// U+00D2
+                    },
+                    {
+                        length: 12,
+                        character: 'Ó'// U+00D3
+                    }
+
+               ]
             },
             {
-               code: 'orioles',
-               short: "É",   // 'U+00C9'
-               medium: "Ê",  // 'U+00CA'
-               long: "Ë",    // 'U+00CB'
+               code: 'dodgers', // U+00D4 - U+00DE
+               lengths: [
+                    {
+                        length: 1,
+                        character: 'Ô'// U+00D4
+                    },
+                    {
+                        length: 2,
+                        character: 'Ô'// U+00D4
+                    },
+                    {
+                        length: 3,
+                        character: 'Ô'// U+00D4
+                    },
+                    {
+                        length: 4,
+                        character: 'Õ'// U+00D5
+                    },
+                    {
+                        length: 5,
+                        character: 'Ö'// U+00D6
+                    },
+                    {
+                        length: 6,
+                        character: '×'// U+00D7
+                    },
+                    {
+                        length: 7,
+                        character: 'Ø'// U+00D8
+                    },
+                    {
+                        length: 8,
+                        character: 'Ù'// U+00D9
+                    },
+                    {
+                        length: 9,
+                        character: 'Ú'// U+00DA
+                    },
+                    {
+                        length: 10,
+                        character: 'Û'// U+00DB
+                    },
+                    {
+                        length: 11,
+                        character: 'Ü'// U+00DC
+                    },
+                    {
+                        length: 12,
+                        character: 'Ý'// U+00DD
+                    }
+               ]
             },
             {
-               code: 'dodgers',
-               short: "Æ",   // 'U+00C6'
-               medium: "Ç",  // 'U+00C7'
-               long: "È",    // 'U+00C8'
+               code: 'orioles', // U+00DE - U+00E7
+               lengths: [
+                    {
+                        length: 1,
+                        character: 'Þ'// U+00DE
+                    },
+                    {
+                        length: 2,
+                        character: 'Þ'// U+00DE
+                    },
+                    {
+                        length: 3,
+                        character: 'Þ'// U+00DE
+                    },
+                    {
+                        length: 4,
+                        character: 'ß'// U+00DF
+                    },
+                    {
+                        length: 5,
+                        character: 'à'// U+00E0
+                    },
+                    {
+                        length: 6,
+                        character: 'á'// U+00E1
+                    },
+                    {
+                        length: 7,
+                        character: 'â'// U+00E2
+                    },
+                    {
+                        length: 8,
+                        character: 'ã'// U+00E3
+                    },
+                    {
+                        length: 9,
+                        character: 'ä'// U+00E4
+                    },
+                    {
+                        length: 10,
+                        character: 'å'// U+00E5
+                    },
+                    {
+                        length: 11,
+                        character: 'æ'// U+00E6
+                    },
+                    {
+                        length: 12,
+                        character: 'ç'// U+00E7
+                    }
+               ]
             },
             {
-               code: 'yankees',
-               short: "Ì",   // 'U+00CC'
-               medium: "Í",  // 'U+00CD'
-               long: "Î",    // 'U+00CE'
+               code: 'yankees', // U+00E8 - U+00F1
+               lengths: [
+                    {
+                        length: 1,
+                        character: 'è'// U+00E8
+                    },
+                    {
+                        length: 2,
+                        character: 'è'// U+00E8
+                    },
+                    {
+                        length: 3,
+                        character: 'è'// U+00E8
+                    },
+                    {
+                        length: 4,
+                        character: 'é'// U+00E9
+                    },
+                    {
+                        length: 5,
+                        character: 'ê'// U+00EA
+                    },
+                    {
+                        length: 6,
+                        character: 'ë'// U+00EB
+                    },
+                    {
+                        length: 7,
+                        character: 'ì'// U+00EC
+                    },
+                    {
+                        length: 8,
+                        character: 'í'// U+00ED
+                    },
+                    {
+                        length: 9,
+                        character: 'î'// U+00EE
+                    },
+                    {
+                        length: 10,
+                        character: 'ï'// U+00EF
+                    },
+                    {
+                        length: 11,
+                        character: 'ð'// U+00F0
+                    },
+                    {
+                        length: 12,
+                        character: 'ñ'// U+00F1
+                    }
+               ]
             },
             {
-               code: 'sanfranciscogia',
-               short: "Ï",   // 'U+00CF'
-               medium: "Ð",  // 'U+00D0'
-               long: "Ñ",    // 'U+00D1'
+               code: 'sanfranciscogia', // U+00F2 - U+00FB
+               lengths: [
+                    {
+                        length: 1,
+                        character: 'ò'// U+00F2
+                    },
+                    {
+                        length: 2,
+                        character: 'ò'// U+00F2
+                    },
+                    {
+                        length: 3,
+                        character: 'ò'// U+00F2
+                    },
+                    {
+                        length: 4,
+                        character: 'ó'// U+00F3
+                    },
+                    {
+                        length: 5,
+                        character: 'ô'// U+00F4
+                    },
+                    {
+                        length: 6,
+                        character: 'õ'// U+00F5
+                    },
+                    {
+                        length: 7,
+                        character: 'ö'// U+00F6
+                    },
+                    {
+                        length: 8,
+                        character: '÷'// U+00F7
+                    },
+                    {
+                        length: 9,
+                        character: 'ø'// U+00F8
+                    },
+                    {
+                        length: 10,
+                        character: 'ù'// U+00F9
+                    },
+                    {
+                        length: 11,
+                        character: 'ú'// U+00FA
+                    },
+                    {
+                        length: 12,
+                        character: 'û'// U+00FB
+                    }
+               ]
             },
             {
-               code: 'expos',
-               short: "Ò",   // 'U+00D2'
-               medium: "Ó",  // 'U+00D3'
-               long: "Ô",    // 'U+00D4'
+               code: 'expos', // U+00FC - U+002D9
+               lengths: [
+                    {
+                        length: 1,
+                        character: 'ü'// U+00FC
+                    },
+                    {
+                        length: 2,
+                        character: 'ü'// U+00FC
+                    },
+                    {
+                        length: 3,
+                        character: 'ü'// U+00FC
+                    },
+                    {
+                        length: 4,
+                        character: 'ý'// U+00FD
+                    },
+                    {
+                        length: 5,
+                        character: 'þ'// U+00FE
+                    },
+                    {
+                        length: 6,
+                        character: 'ÿ'// U+00FF
+                    },
+                    {
+                        length: 7,
+                        character: 'ı'// U+0131
+                    },
+                    {
+                        length: 8,
+                        character: 'ˆ'// U+02C6
+                    },
+                    {
+                        length: 9,
+                        character: 'ˇ'// U+02C7
+                    },
+                    {
+                        length: 10,
+                        character: 'ˉ'// U+02C9
+                    },
+                    {
+                        length: 11,
+                        character: '˘'// U+02D8
+                    },
+                    {
+                        length: 12,
+                        character: '˙'// U+02D9
+                    }
+               ]
             },
             {
-               code: 'oaklands',
-               short: "Õ",   // 'U+00D5'
-               medium: "Ö",  // 'U+00D6'
-               long: "×",    // 'U+00D7'
+               code: 'oaklands', // U+02DA - U+0202C
+               lengths: [
+                    {
+                        length: 1,
+                        character: '˚'// U+02DA
+                    },
+                    {
+                        length: 2,
+                        character: '˚'// U+02DA
+                    },
+                    {
+                        length: 3,
+                        character: '˚'// U+02DA
+                    },
+                    {
+                        length: 4,
+                        character: '˛'// U+02DB
+                    },
+                    {
+                        length: 5,
+                        character: '˜'// U+02DC
+                    },
+                    {
+                        length: 6,
+                        character: '˝'// U+02DD
+                    },
+                    {
+                        length: 7,
+                        character: '–'// U+2013
+                    },
+                    {
+                        length: 8,
+                        character: '—'// U+2014
+                    },
+                    {
+                        length: 9,
+                        character: '‘'// U+2018
+                    },
+                    {
+                        length: 10,
+                        character: '’'// U+2019
+                    },
+                    {
+                        length: 11,
+                        character: '‚'// U+201A
+                    },
+                    {
+                        length: 12,
+                        character: '“'// U+201C
+                    }
+               ]
+            }, 
+            {  
+                code: 'indians', // $201D - $20A3
+                lengths: [
+                    {
+                        length: 1,
+                        character: '”'// u+201D
+                    },
+                    {
+                        length: 2,
+                        character: '”'// U+201D
+                    },
+                    {
+                        length: 3,
+                        character: '”'// U+201D
+                    },
+                    {
+                        length: 4,
+                        character: '„'// U+201E
+                    },
+                    {
+                        length: 5,
+                        character: '†'// U+2020
+                    },
+                    {
+                        length: 6,
+                        character: '‡'// U+2021
+                    },
+                    {
+                        length: 7,
+                        character: '•'// U+2022
+                    },
+                    {
+                        length: 8,
+                        character: '…'// U+2026
+                    },
+                    {
+                        length: 9,
+                        character: '‹'// U+2039
+                    },
+                    {
+                        length: 10,
+                        character: '›'// U+203A
+                    },
+                    {
+                        length: 11,
+                        character: '⁄'// U+2044
+                    },
+                    {
+                        length: 12,
+                        character: '‬₣'//  U+20A3
+                    }
+               ]
             },
             {
-               code: 'indians',
-               short: "Ø",   // 'U+00D8'
-               medium: "Ù",  // 'U+00D9'
-               long: "Ú",    // 'U+00DA'
+               code: 'royals', // U+20A4 - U+2212
+               lengths: [
+                    {
+                        length: 1,
+                        character: '₤'  // u+20A4
+                    },
+                    {
+                        length: 2,
+                        character: '₤'  // U+20A4
+                    },
+                    {
+                        length: 3,
+                        character: '₤'  // U+20A4
+                    },
+                    {
+                        length: 4,
+                        character: '₧'  // U+20A7
+                    },
+                    {
+                        length: 5,
+                        character: '€'  // U+20AC
+                    },
+                    {
+                        length: 6,
+                        character: '№'  // U+2116
+                    },
+                    {
+                        length: 7,
+                        character: '™'  // U+2122
+                    },
+                    {
+                        length: 8,
+                        character: '∂'  // U+2202
+                    },
+                    {
+                        length: 9,
+                        character: '∆'  // U+2206
+                    },
+                    {
+                        length: 10,
+                        character: '∏'  // U+220F
+                    },
+                    {
+                        length: 11,
+                        character: '∑'  // U+2211
+                    },
+                    {
+                        length: 12,
+                        character: '‬−' // U+2212
+                    }
+               ]
             },
             {
-               code: 'royals',
-               short: "Û",   // 'U+00DB'
-               medium: "Ü",  // 'U+00DC'
-               long: "Ý",    // 'U+00DD'
-            },
-            {
-               code: 'twins',
-               short: "Þ",   // 'U+00DE'
-               medium: "ß",  // 'U+00DF'
-               long: "à",    // 'U+00E0'
+               code: 'twins', // U+221A - U+FB02
+               lengths: [
+                    {
+                        length: 1,
+                        character: '√'  // U+221A
+                    },
+                    {
+                        length: 2,
+                        character: '√'  // U+221A
+                    },
+                    {
+                        length: 3,
+                        character: '√'  // U+221A
+                    },
+                    {
+                        length: 4,
+                        character: '√'  // U+221A
+                    },
+                    {
+                        length: 5,
+                        character: '√'  // U+221A
+                    },
+                    {
+                        length: 6,
+                        character: '∞'  // U+221E
+                    },
+                    {
+                        length: 7,
+                        character: '∫'  // U+222B
+                    },
+                    {
+                        length: 8,
+                        character: '≈'  // U+2248
+                    },
+                    {
+                        length: 9,
+                        character: '≤'  // U+2264
+                    },
+                    {
+                        length: 10,
+                        character: '≥'  // U+2265
+                    },
+                    {
+                        length: 11,
+                        character: 'ﬁ'  // $F001, $FB01
+                    },
+                    {
+                        length: 12,
+                        character: 'ﬂ' // $F002, $FB02
+                    }
+               ] 
             },
         ],
 
         getCharacter: function (code, length) {
-            
+
             var _match = _.find(this.items, {code: code});
 
             if(typeof _match !== "undefined") {
 
-                return _match[length];
+                var _result = _.find(_match.lengths, {length: length});
+
+                if (typeof _result === "undefined") {
+
+                    ub.utilities.warn('tailsweep length not found for ' + code);
+
+                    return undefined;
+
+                } else {
+
+                    return _result.character;
+                    
+                }
+
+                
 
             } else {
 

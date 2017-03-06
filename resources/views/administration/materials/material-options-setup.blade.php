@@ -78,6 +78,8 @@
                             <input class="front group-id" data-name="{{ $option->name }}" data-perspective="front" data-perspective="front" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
                             <input class="front tcid" data-name="{{ $option->name }}" data-perspective="front" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
+                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Color: </span>
+                            <input class="front default-color" data-name="{{ $option->name }}" data-perspective="front" type="text" name="default_color[]" value='{{ ($option->default_color) }}' style="width: 40px;">
                             <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                     </td></tr>
                 @endif
@@ -112,6 +114,8 @@
                             <input class="back group-id" data-name="{{ $option->name }}" data-perspective="back" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
                             <input class="back tcid" data-name="{{ $option->name }}" data-perspective="back" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
+                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Color: </span>
+                            <input class="back default-color" data-name="{{ $option->name }}" data-perspective="back" type="text" name="default_color[]" value='{{ ($option->default_color) }}' style="width: 40px;">
                             <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                     </td></tr>
                 @endif
@@ -146,6 +150,8 @@
                             <input class="left group-id" data-name="{{ $option->name }}" data-perspective="left" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
                             <input class="left tcid" data-name="{{ $option->name }}" data-perspective="left" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
+                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Color: </span>
+                            <input class="left default-color" data-name="{{ $option->name }}" data-perspective="left" type="text" name="default_color[]" value='{{ ($option->default_color) }}' style="width: 40px;">
                             <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                     </td></tr>
                 @endif
@@ -180,6 +186,8 @@
                             <input class="right group-id" data-name="{{ $option->name }}" data-perspective="right" type="number" name="group_id[]" value='{{ ($option->group_id) ? "$option->group_id" : "" }}' style="width: 40px;">
                             <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">TID: </span>
                             <input class="right tcid" data-name="{{ $option->name }}" data-perspective="right" type="number" name="team_color_id[]" value='{{ ($option->group_id) ? "$option->team_color_id" : "" }}' style="width: 40px;">
+                            <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">Color: </span>
+                            <input class="right default-color" data-name="{{ $option->name }}" data-perspective="right" type="text" name="default_color[]" value='{{ ($option->default_color) }}' style="width: 40px;">
                             <input class="delete-multiple-material-options" name="deleteCheckedMaterialsOptions[]" type="checkbox" class="check" value="{{ $option->id }}">
                     </td></tr>
                 @endif

@@ -2098,6 +2098,45 @@ $(document).ready(function() {
 
         }
 
+        // For Mascots
+        ub.funcs.oneInchPullUpMascots = function (code) {
+
+            var _uniformCategory = ub.current_material.material.uniform_category;
+            var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
+            var _mascotOffset = undefined;
+            var _code = parseInt(code);
+            var _validCodesForPullUps = [1,5,6];
+            var _app = undefined;
+
+            if (!(_alias.alias === "tech-tee" || _alias.alias === "compression" )) { return; }
+            if (!_.contains(_validCodesForPullUps, _code)) { return; }
+
+            _app = ub.current_material.settings.applications[_code];
+
+            if (_app.application_type !== "mascot") { return; }
+            if (typeof _app === "undefined") { return; }
+
+            _mascotOffset = ub.data.mascotOffsets.getSize(_alias.alias, _code, _app.size);
+
+            if (typeof _mascotOffset === "undefined") { return; }
+
+            _.each(ub.views, function (view) {
+
+                var _object = ub.objects[view + '_view']['objects_' + code];
+                var _descStr = '';
+                
+                if (typeof _object !== "undefined") {
+
+                    _descStr = 'objects_' + code + ' ' + view;
+                    _object.position.y += _mascotOffset.yAdjustment;
+
+                }
+
+            });
+
+        }
+
+        // For Text Applications
         ub.funcs.oneInchPullUp = function (code) {
 
             var _currentSport = ub.current_material.material.uniform_category;
@@ -2191,7 +2230,7 @@ $(document).ready(function() {
             var sprite_collection   = [];
             var mat_option          = ub.funcs.getApplicationMatOption(app_id);
             var marker_name         = "objects_" + app_id;
-            var views;    
+            var views;
             var _applicationObj;
 
             views = ub.current_material.settings.applications[app_id].application.views;
@@ -2462,7 +2501,7 @@ $(document).ready(function() {
                         }
 
                     }
-                
+
                     if (_.includes(ub.data.leftSideOverrides, args.font_name) && ( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
 
                         var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
@@ -2634,12 +2673,7 @@ $(document).ready(function() {
             });
 
             ub.funcs.identify(app_id);
-
-            // //if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-
-                ub.funcs.runAfterUpdate(app_id);    
-
-            // //}
+            ub.funcs.runAfterUpdate(app_id);    
 
             return sprite_collection;
 
@@ -3371,6 +3405,7 @@ $(document).ready(function() {
 
     ub.funcs.stageMouseMove = function (mousedata) {
 
+        if (!ub.status.render.getRenderStatus()) { return; }
         if (ub.funcs.popupTest()) { return; }
 
         if (ub.data.rosterInitialized) { 
@@ -5253,7 +5288,7 @@ $(document).ready(function() {
 
         settingsObj.tailsweep.length = length;
 
-        ub.funcs.removeApplicationByID(id);
+        ub.funcs.removeApplicationByID(settingsObj.code);
         ub.create_application(settingsObj, undefined);
 
         $popup = $('div#primaryTailSweepPopup');
@@ -5282,15 +5317,15 @@ $(document).ready(function() {
         var _length = "short";
         var _items = _.filter(ub.data.tailSweeps, function (tailsweep) { return tailsweep.code === "twins" || tailsweep.code === "blank"; });
 
-        if (_sampleText.length <= 5)                             { _length = 'short';  }
-        if (_sampleText.length >= 6 && _sampleText.length <= 7 ) { _length = 'medium'; } 
-        if (_sampleText.length > 7)                              { _length = 'long';   } 
+        _length = (_sampleText.length <= 12) ? _sampleText.length : 12;
 
         var _isScriptFont = settingsObj.font_obj.script === "1";
 
         if (_isScriptFont) {
 
-            var _blacklist = ['twins', 'royals', 'indians', 'orioles', 'expos', 'none'];
+            // var _blacklist = ['twins', 'royals', 'indians', 'orioles', 'expos', 'none'];
+            
+            var _blacklist = ['twins', 'none'];
 
             _items = _.reject(ub.data.tailSweeps, function (ts) {
                 return _.contains(_blacklist, ts.code);
@@ -5337,8 +5372,20 @@ $(document).ready(function() {
                 var $element            = $(value)
                 var _tailsweepCharacter = $element.data(_size);
                 var _sampleText         = $element.data('sampleText');
+                var _code               = $element.data('tailsweep-code');
 
-                $element.html(_sampleText + _tailsweepCharacter);
+                var _char = ub.data.tailsweepCharacters.getCharacter(_code, parseInt(_size));
+
+                if (typeof _char !== "undefined") {
+
+                    $element.html(_sampleText + _char);
+
+                } else {
+
+                    $element.html(_sampleText);
+
+                }
+                
 
             });
 
@@ -5359,10 +5406,6 @@ $(document).ready(function() {
             var _id         = $(this).data('tailsweep-id');
             var _code       = $(this).data('tailsweep-code');
             var _length     = "short";
-
-            if (settingsObj.text.length <= 5) { _length = 'short'; }
-            if (settingsObj.text.length >= 6 && settingsObj.text.length <= 7 ) { _length = 'medium'; }
-            if (settingsObj.text.length > 7) { _length = 'long'; } 
 
             _length = $('span.sizeButton.active').data('size');
 
@@ -5411,6 +5454,12 @@ $(document).ready(function() {
             ub.status.tailSweepPopupVisible = false;
 
         });
+
+        /// Initialize 
+
+            $('span.sizeButton[data-size="' + _length + '"]').click();
+
+        /// End Initialize
 
     }
 
@@ -6520,7 +6569,9 @@ $(document).ready(function() {
         var _id                 = application_id.toString();
         var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
         var _applicationType    = _settingsObject.application_type;
-        var _sizes              = ub.funcs.getApplicationSizes(_applicationType);
+        var _uniformCategory    = ub.current_material.material.uniform_category;
+        var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
+        var _sizes              = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
 
         if (ub.current_material.material.uniform_category === "Football") {
 
@@ -6535,6 +6586,15 @@ $(document).ready(function() {
         } else if (ub.current_material.material.uniform_category === "Wrestling") {
 
             _sizes = ub.funcs.getApplicationSizes('mascot_wrestling');
+
+        } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
+            
+            _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+
+        } else {
+
+            console.warn('no sizes setting defaulting to generic');
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
 
         }
 
@@ -7715,9 +7775,16 @@ $(document).ready(function() {
     };
 
     ub.funcs.hideGAFontTool = function () {
-
+        
         // Hide GA Font Tool
         $('span.cog').hide();
+        
+    };
+
+    ub.funcs.runBeforeUpdate = function (application_id) {
+
+        // TODO: Application Preprocessing Event Here ...
+        
         
     };
 
@@ -7725,6 +7792,7 @@ $(document).ready(function() {
 
         ub.funcs.oneInchPullUp(application_id);
         ub.funcs.updateCaption(application_id);
+        ub.funcs.oneInchPullUpMascots(application_id);
 
     };
 
@@ -7858,18 +7926,32 @@ $(document).ready(function() {
         var _title            = _applicationType.toTitleCase();
         var _sampleText       = _settingsObject.text;
         var _sizes;
+        var _uniformCategory = ub.current_material.material.uniform_category
+        var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
 
-        if (ub.current_material.material.uniform_category === "Football") {
+        // if (ub.current_material.material.uniform_category === "Football") {
+        //     _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+        // } else if (ub.current_material.material.uniform_category === "Wrestling") {
+        //     _sizes        = ub.funcs.getApplicationSizes('text_wrestling');    
+        // } else if (ub.current_material.material.uniform_category === "Baseball") {
+        //     _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
+        // }
+
+        if (_uniformCategory === "Football") {
+            
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
-        } else if (ub.current_material.material.uniform_category === "Wrestling") {
-            _sizes        = ub.funcs.getApplicationSizes('text_wrestling');    
-        } else if (ub.current_material.material.uniform_category === "Baseball") {
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
-        }
-        
-        else {
 
-            console.warn('no sizes setting defaulting to generic');
+        } else if (ub.current_material.material.uniform_category === "Baseball") {
+            
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
+
+        } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
+            
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);    
+
+        } else {
+
+            ub.utilities.warn('no sizes setting defaulting to generic');
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
 
         }
@@ -8107,15 +8189,30 @@ $(document).ready(function() {
             _htmlBuilder        +=                 '</div>';
             _htmlBuilder        +=                 '<div class="sizeContainer">';
 
-            _htmlBuilder        +=                      '<span class="sizeLabel">LENGTH</span>';
-            _htmlBuilder        +=                      '<span class="sizeItem" data-size="short">Short</span>';        
-            _htmlBuilder        +=                      '<span class="sizeItem" data-size="medium">Medium</span>';        
-            _htmlBuilder        +=                      '<span class="sizeItem" data-size="long">Long</span>';        
+            // _htmlBuilder        +=                      '<span class="sizeLabel">LENGTH</span>';
+            // _htmlBuilder        +=                      '<span class="sizeItem" data-size="short">Short</span>';        
+            // _htmlBuilder        +=                      '<span class="sizeItem" data-size="medium">Medium</span>';        
+            // _htmlBuilder        +=                      '<span class="sizeItem" data-size="long">Long</span>';        
+
+            _htmlBuilder        +=                      '<span class="sizeLabel">LENGTH 2</span>';
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="1">1</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="2">2</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="3">3</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="4">4</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="5">5</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="6">6</span>';        
+            _htmlBuilder        +=                      '<br />';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="7">7</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="8">8</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="9">9</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="10">10</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="11">11</span>';        
+            _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="12">12</span>';        
 
             _htmlBuilder        +=                      '<span class="sizeLabel">ANGLE</span>';
             _htmlBuilder        +=                      '<span class="angleItem" data-angle="straight">Straight</span>';        
             _htmlBuilder        +=                      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
-            
+
             _htmlBuilder        +=                 '</div>';
             _htmlBuilder        +=              '</div>';
 
@@ -8634,9 +8731,11 @@ $(document).ready(function() {
 
                     if (typeof _settingsObject.tailsweep !== "undefined") {
 
-                        if (_settingsObject.text.length <= 5) { _length = 'short'; } 
-                        if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; } 
-                        if (_settingsObject.text.length > 7) { _length = 'long'; } 
+                        // if (_settingsObject.text.length <= 5) { _length = 'short'; } 
+                        // if (_settingsObject.text.length >= 6 && _settingsObject.text.length <= 7 ) { _length = 'medium'; } 
+                        // if (_settingsObject.text.length > 7) { _length = 'long'; } 
+
+                        _length = (_settingsObject.text.length <= 12) ? _settingsObject.text.length : 12;
 
                         _settingsObject.tailsweep.length = _length;
 
@@ -8807,7 +8906,6 @@ $(document).ready(function() {
 
                         //ub.hideFontGuides();
                         $('#cogPopupContainer').remove();
-
 
                     });
 
@@ -9339,24 +9437,15 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.getApplicationSizes = function (applicationType, gender) {
+    ub.funcs.getApplicationSizes = function (applicationType, alias) {
 
         var _factory = ub.current_material.material.factory_code;
         var _sizes;
-        var _gender;
-
-        if (typeof gender === 'undefined') {
-            _gender = 'adult';
-        }
 
         if (applicationType === 'team_name') {
             _sizes = _.find(ub.data.applicationSizes.items, {factory: _factory, name: 'team_name'});
         } else {
             _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType});            
-        }
-
-        if (typeof _sizes === 'undefined') {
-            util.error('Application Sizes for ' + applicationType + ' is not found!');
         }
 
         if (applicationType === "mascot_wrestling") {
@@ -9367,8 +9456,12 @@ $(document).ready(function() {
             _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_wrestling'});            
         }
 
-        if (ub.funcs.isCurrentSport('Baseball')) {
-            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: 'baseball'});            
+        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias});            
+        }
+
+        if (typeof _sizes === 'undefined') {
+            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found!');
         }
         
         return _sizes;

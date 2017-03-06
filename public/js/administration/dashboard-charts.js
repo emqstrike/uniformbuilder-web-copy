@@ -8,6 +8,7 @@
 // Endpoints
 var endpoints = {
   orders: '/stats/orders/',
+  saved_designs: '/stats/saved-designs/',
   users: '/stats/users/'
 };
 

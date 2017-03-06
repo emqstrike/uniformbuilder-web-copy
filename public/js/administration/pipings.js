@@ -1,14 +1,41 @@
 $(document).ready(function() {
+
 colors = getColors().colors;
+
+window.piping_sets = [
+					"Yoke Piping",
+					"Neck Piping",
+					"Center Piping",
+					"Left End of Sleeve Piping",
+					"Left End of Sleeve Piping 1 inch Up",
+					"Left Raglan Piping",
+					"Left Set-in Piping",
+					"Right End of Sleeve Piping",
+					"Right End of Sleeve Piping 1 inch Up",
+					"Right Raglan Piping",
+					"Right Set-in Piping",
+					"Tunnel Piping",
+					"Right Pant Piping",
+					"Left Pant Piping"
+				];
+
+function buildSetsDropdown(value){
+	var dropdown = '<select class="form-control piping-set">';
+	window.piping_sets.forEach(function(entry) {
+		if(entry == value){
+			dropdown += '<option value="'+entry+'" selected>'+entry+'</option>';
+		} else {
+			dropdown += '<option value="'+entry+'">'+entry+'</option>';
+		}
+	});
+	return dropdown;
+}
+
 $(".global-color").append(globalColorSelector(colors));
-// select colors
-// window.selectColors = getSelectColorTemplate(colors);
 	$('.copy-piping').on('click', function(e){
 		copyToClipboard();
 		function copyToClipboard() {
 			var data = $('#pipings_data').val().slice(1, -1).replace(new RegExp("\\\\", "g"), "");
-		    // window.prompt("Copy to clipboard: Ctrl+C, Enter", data);
-		    // console.log(data);
 		    $('#ta_pipings_data').val(data);
 		    $('#ta_pipings_data').show();
 		}
@@ -31,12 +58,8 @@ $(".global-color").append(globalColorSelector(colors));
 		}
 	}
 
-	// String.prototype.stripSlashes = function(){
-	//     return this.replace(/\\(.)/mg, "$1");
-	// }
-
 	function loadPipings(copydata){
-		// load pipings information
+
 		var pipings, x;
 		if(!copydata){
 			var pipings_data = $('#pipings_data').val();
@@ -46,28 +69,15 @@ $(".global-color").append(globalColorSelector(colors));
 			pipings = JSON.parse(pipings);
 		} else {
 			$('.pipings-content').html('');
-			// var pipings_data = $('#pipings_data').val();
-			// pipings = pipings_data.slice(1, -1);
-			// pipings = copydata.replace(new RegExp("\\\\", "g"), "");
+
 			pipings = JSON.parse(copydata);
 			x = pipings;
 		}
 
-		// pipings = JSON.parse(pipings);
-		// console.log( pipings[0] );
 		pipings.forEach(function(entry) {
 			console.log(entry);
 			var size = entry.size;
 
-		// var array = $.map(pipings, function(value, index) {
-		//     return [value];
-		// });
-
-		// for (var i = 0, len = array.length; i < len; i++) {
-		// 	console.log('Array: ' + array[i].name);
-		// }
-
-		// console.log(array);
 		var ischecked = '';
 		if(entry.enabled == "1"){
 			ischecked = 'checked';
@@ -106,6 +116,8 @@ $(".global-color").append(globalColorSelector(colors));
 			entry.team_color_id_array = ["","","",];
 		}
 
+		var set = buildSetsDropdown(entry.set);
+
 		var template = `<table class="table table-striped table-bordered table-hover piping-table">
         <tr>
         	<td><b>PIPING DETAILS</b></td>
@@ -120,7 +132,10 @@ $(".global-color").append(globalColorSelector(colors));
     		</td>
     		<td>
     			<b>SET</b>
-    			<input type="text" class="form-control piping-set" value="`+entry.set+`">
+    			`
+    			// +entry.set+
+    			+set+
+    			`
     		</td>
     		<td></td>
     		<td></td>
@@ -183,33 +198,6 @@ $(".global-color").append(globalColorSelector(colors));
 
 		
 	}
-
-	// http://localhost:81/administration/material/92/pipings
-
-
-	// getPipings(function(pipings){ window.pipings = pipings; });
-
-	// function getPipings(callback){ // get Pipings
- //        var pipings;
- //        var id = 92;
- //        var url = "//api-dev.qstrike.com/api/material/"+id+"/pipings";
- //        $.ajax({
- //            url: url,
- //            async: false,
- //            type: "GET",
- //            dataType: "json",
- //            crossDomain: true,
- //            contentType: 'application/json',
- //            success: function(data){
- //                pipings = data['pipings'];
- //                if(typeof callback === "function") callback(pipings);
- //            }
- //        });
- //    }
-
- //    function bindImages(data){
-
- //    }
  
  	function deletePiping(){
  		$('.delete-piping').on('click', function(e){
@@ -223,6 +211,8 @@ $(".global-color").append(globalColorSelector(colors));
     	var selectedFirst = $(".global-color-selector option:selected").eq(0).val();
     	var selectedSecond = $(".global-color-selector option:selected").eq(1).val();
     	var selectedThird = $(".global-color-selector option:selected").eq(2).val();
+
+    	var sets_dropdown = buildSetsDropdown();
 
         console.log( 'Add Section . . .' );
         var elem = `<table class="table table-striped table-bordered table-hover piping-table">
@@ -245,7 +235,9 @@ $(".global-color").append(globalColorSelector(colors));
     		</td>
     		<td>
     			<b>SET</b>
-    			<input type="text" class="form-control piping-set">
+    			`
+    			+sets_dropdown+
+    			`
     		</td>
     		<td></td>
     		<td></td>
@@ -306,7 +298,6 @@ $(".global-color").append(globalColorSelector(colors));
 
     function detectImages(){
     	$(".image").each(function(i) {
-    		// console.log($(this).data('img-url'));
     		var val = $(this).data('img-url');
     		if(val != ""){
     			$(this).removeClass( "alert alert-danger" );
@@ -332,8 +323,10 @@ $(".global-color").append(globalColorSelector(colors));
     function refreshJSON(){
     	var data = [];
 		$(".piping-table").each(function(i) {
+			var name = $(this).find('.piping-set').val() + " " + $(this).find('.piping-size').val()
+			$(this).find('.piping-name').val(name);
     		var info = {
-				"name" : $(this).find('.piping-name').val(),
+				"name" : name,
 				"size" : $(this).find('.piping-size').val(),
 				"set" : $(this).find('.piping-set').val()
 			};
@@ -379,11 +372,6 @@ $(".global-color").append(globalColorSelector(colors));
 			});
 	
 			info.team_color_id_array = team_color_id_array;
-
-
-
-//perspectives
-
 
 			console.log( 'front file 1: '+ $(this).find('.file-f-1').attr('data-img-url') );
 
@@ -468,16 +456,12 @@ $(".global-color").append(globalColorSelector(colors));
     function changeImage(){
 	    $(".image").change( function() {
 
-	            // ub.data.uploading = true;
-	            // ub.data.orderAttachment = "";
-	            // $('span.additional-attachment-message').html('Uploading...' + '<img src="/images/loading.gif" />');
 	            console.log('uploading');
 	            var elem = $(this);
 	            console.log(elem);
 
 	            if (this.files && this.files[0]) {
 
-	                // var _filename = ub.funcs.fileUploadAttachment(this.files[0], function (filename, extension, valid) {
 	                var _filename = fileUploadAttachment(this.files[0], elem, function (filename, extension, valid, element) {
 	                    if (typeof filename === 'undefined') {
 
@@ -490,8 +474,6 @@ $(".global-color").append(globalColorSelector(colors));
 
 	                    if (valid){
 
-	                        // ub.data.orderAttachment = filename;
-	                        // $('span.additional-attachment-message').html('Upload ok! Please click on the [Continue] button to proceed.');
 	                        console.log('Valid');
 	                        console.log(element);
 	                        element.attr("data-img-url", filename);
@@ -503,8 +485,6 @@ $(".global-color").append(globalColorSelector(colors));
 	                        $.smkAlert({text: 'Invalid File Type: ' + extension, type:'warning', time: 3, marginTop: '80px'});
 	                        console.log('Invalid');
 	                    }
-
-	                    // ub.data.uploading = false;
 
 
 	                });
@@ -537,7 +517,6 @@ $(".global-color").append(globalColorSelector(colors));
             processData: false,  // tell jQuery not to process the data
             contentType: false,
             crossDomain: true,
-            // headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
             success: function (response){
 
@@ -546,17 +525,8 @@ $(".global-color").append(globalColorSelector(colors));
                     var _extension = response.filename.split('.').pop();
 
                     console.log('success' + response.filename);
-                    // return response.filename;
-
-                    // if (ub.data.validDocumentTypesForUpload.isValidDocument(_extension)) {
 
                         callback(response.filename, _extension, true, x);
-
-                    // } else {
-
-                    //     callback(response.filename, _extension, false);
-
-                    // }
 
                 }
                 else {
@@ -660,6 +630,4 @@ $(".global-color").append(globalColorSelector(colors));
   		refreshJSON();
   	});
 
-	 
-	
 });

@@ -330,7 +330,6 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
-
         }
 
         ub.data.afterLoadCalled = 0;
@@ -344,6 +343,7 @@ $(document).ready(function () {
            // $('div.activate_qa_tools').fadeIn();
 
             var _type = '';
+            
             if (ub.current_material.material.factory_code === "BLB") {
 
                 _type = "Sublimated";
@@ -435,40 +435,6 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="locations-add"]').hide();
             $('a.change-view[data-view="locations"]').hide();
-
-        }
-
-        ub.showFontGuides = function () {
-
-            _.each (ub.views, function (view) {
-
-                if (typeof ub.objects[view + '_view']['guide'] === "object") {
-
-                    ub.objects[view + '_view']['guide'].alpha = 1;
-                    ub.objects[view + '_view']['guide'].zIndex = -29;
-
-                }
-
-                ub.updateLayersOrder(ub[view + '_view']);
-
-            });
-
-        };
-
-        ub.hideFontGuides = function () {
-
-            _.each (ub.views, function (view) {
-
-                if (typeof ub.objects[view + '_view']['guide'] === "object") {
-
-                    ub.objects[view + '_view']['guide'].alpha = 0;
-                    ub.objects[view + '_view']['guide'].zIndex = -29;
-
-                }
-
-                ub.updateLayersOrder(ub[view + '_view']);
-
-            });
 
         }
 
@@ -1226,6 +1192,7 @@ $(document).ready(function () {
         window.ub.render_frames = function () {
 
             if (ub.data.rosterInitialized) { return }
+            if (!ub.status.render.getRenderStatus()) { return; }
 
             requestAnimationFrame(ub.render_frames);
             ub.renderer.render(ub.stage);
@@ -1428,12 +1395,14 @@ $(document).ready(function () {
 
                                 }
 
+                                var _length;
+
                                 _output.tailsweep = {
 
                                     id: parseInt(_tailSweepObj.id),
                                     code: _tailSweepObj.code,
                                     thumbnail: _tailSweepObj.code + '.png',
-                                    length: 'short', // TODO: change this to auto length compute when the 12 lengths tailsweep is done
+                                    length: 1,
                                     angle: _rotated,
 
                                 }
@@ -3929,7 +3898,6 @@ $(document).ready(function () {
 
                     app_containers[application_obj.code].object = {};
                     app_containers[application_obj.code].object.sprite = sprite_collection;
-
                     
                 }
 
@@ -6263,9 +6231,8 @@ $(document).ready(function () {
         }
 
         ub.funcs.displayMySavedDesigns = function () {
-
+         
             $.ajax({
-            
                 url: ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
@@ -6275,7 +6242,7 @@ $(document).ready(function () {
                 success: function (response) {
 
                   $('div.my-saved-designs-loading').hide();
-
+                  
                   var $container = $('div.saved-designs-list');
                   var template = $('#m-saved-designs-table').html();
                   var data = {
@@ -6283,34 +6250,34 @@ $(document).ready(function () {
                         savedDesigns: ub.funcs.parseJSON(response.saved_designs),
 
                   }
-
-
+         
                 data.savedDesigns.forEach(function (value, i) {
-                    data.savedDesigns[i].created_at = util.dateFormat(value.created_at);
                     data.savedDesigns[i].created_at_time = util.dateFormat(value.created_at);
-                    data.savedDesigns[i].created_at = data.savedDesigns[i].created_at.split(' ').slice(0, 3).join(' ');
                     data.savedDesigns[i].created_at_time = data.savedDesigns[i].created_at_time.split(' ').slice(3, 5).join(' ');
                 });
-                      
-                  var markup = Mustache.render(template, data);
-                  $container.html(markup);
-                  ub.funcs.runDataTable();
+          
+                var markup = Mustache.render(template, data);
+                $container.html(markup);
+                $( ".created-at" ).each(function( index ) {
+                  var date = util.dateFormat($( this ).text());
+                  date = date.split(' ').slice(0, 3).join(' ');
+                  $( this ).text(date);
+                });
+                ub.funcs.runDataTable();
+                var $imgThumbs = $('img.tview');
+                
+                $imgThumbs.unbind('click');
+                $imgThumbs.on('click', function () {
 
-
-                  var $imgThumbs = $('img.tview');
+                    var _file = $(this).data('file');
+                    var _str = "<img src ='" + _file + "' />";
                     
-                    $imgThumbs.unbind('click');
-                    $imgThumbs.on('click', function () {
+                    ub.showModalTool(_str);
 
-                        var _file = $(this).data('file');
-                        var _str = "<img src ='" + _file + "' />";
-                        
-                        ub.showModalTool(_str);
-
-                    });
+                });
 
   
-                
+               
 
                   $('span.action-button.view').on('click', function () {
 
@@ -6338,7 +6305,35 @@ $(document).ready(function () {
                         ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
 
                   });
+                  $(document).on('change', '.fil-to,.fil-from', function(){
+                    var filterFrom = $('.fil-from').val();
+                    var filterTo = $('.fil-to').val();
+                    var template = $('#m-saved-designs-table').html();
+                    var filteredDataString = JSON.stringify(data.savedDesigns);
+                    var filteredData =JSON.parse(filteredDataString);
 
+                    filteredData.forEach(function (value, i) {
+                        value.created_at = value.created_at.split(' ').slice(0, 1).join(' ');
+                       if(filterFrom <= value.created_at && filterTo >= value.created_at){    
+                        }else{
+                         delete filteredData[i];   
+                        }
+                    });
+                   var filteredDataRemoveEmpty = filteredData.filter(function(x){
+                      return (x !== (undefined || ''));
+                    });
+                    var filtered_data = {savedDesigns: filteredDataRemoveEmpty,}        
+                    
+                    var markup = Mustache.render(template, filtered_data);
+                    $container.html(markup); 
+                    console.log(filteredData);
+                    $( ".created-at" ).each(function( index ) {
+                      var date = util.dateFormat($( this ).text());
+                      date = date.split(' ').slice(0, 3).join(' ');
+                      $( this ).text(date);
+                    });
+                    ub.funcs.runDataTable();    
+                  });   
                   bindShareDesigns();
             
                 }
@@ -6355,9 +6350,9 @@ $(document).ready(function () {
             if (!window.ub.user) { 
                 ub.funcs.displayLoginForm(); 
                 return;
-            } 
+            }          
+            ub.funcs.displayMySavedDesigns();          
 
-            ub.funcs.displayMySavedDesigns();
 
         }
 
@@ -6412,17 +6407,28 @@ $(document).ready(function () {
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
                     var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };     
+
                     dataSaved.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
-                    });
+                        value.created_at_time = util.dateFormat(value.created_at);
+                        value.created_at = value.created_at.split(' ').slice(0, 3).join(' ');
+                        value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
+
+                    }); 
                     var markup = Mustache.render(template, dataSaved);
                     $containerSaved.html(markup);
                     var $containerSubmitted     = $('div.order-list.submitted');
                     var template                = $('#m-orders-table').html();
                     var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
+
                     dataSubmitted.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
-                    });
+                        value.created_at_time = util.dateFormat(value.created_at);
+                        value.created_at = value.created_at.split(' ').slice(0, 3).join(' ');
+                        value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
+
+                    }); 
+                    console.log(dataSubmitted.orders);                   
                     var markup                  = Mustache.render(template, dataSubmitted);
                     $containerSubmitted.html(markup);
 

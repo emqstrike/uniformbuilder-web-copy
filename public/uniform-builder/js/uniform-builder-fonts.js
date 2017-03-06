@@ -77,15 +77,18 @@ $(document).ready(function() {
     ub.funcs.getFontOffsetsfromParsedFontTables = function (fontName, perspective, location, fontSize) {
 
         var _font = _.find(ub.data.fonts, {name: fontName});
+
+
         var _perspectiveData = undefined;
         var _offsetResult = undefined;
 
         if (typeof _font !== "undefined") {
 
             _perspectiveData = _.find(_font.parsedFontSizeTables, {perspective: perspective});
+
             ub.data.offSetResult = _perspectiveData;
             _offsetResult = _.find(_perspectiveData.sizes, {application_number: location.toString(), inputSize: fontSize.toString()});
-
+            
         }
 
         return _offsetResult;
@@ -263,6 +266,7 @@ $(document).ready(function() {
         if (_fontSizeTables !== null && typeof _fontSizeTables !== "undefined") {
 
             var _fontSizeTable = ub.funcs.getFontOffsetsfromParsedFontTables(_fontObj.name, perspective, application.id.toString(), fontSize);
+
 
             _fontSizeData =  {
 

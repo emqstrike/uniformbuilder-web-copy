@@ -66,7 +66,6 @@
         </div>    
 
     </div>
-    
 
     <div id="main-row" class="row">
         <div id="left-pane-column"  class="col-md-6">
@@ -216,12 +215,8 @@
 <script src="{{$asset_storage}}/sortable/Sortable.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/jquery.binding.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/jquery.fn.sortable.js?v={{$asset_version}}"></script>
-
 <script src="{{$asset_storage}}/moment/moment.js?v={{$asset_version}}"></script>
-
 <script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js?v={{$asset_version}}"></script>
-
-
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
 
 
@@ -244,13 +239,12 @@
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/'
-
         };
 
         @if (Session::get('isLoggedIn'))
 
             window.ub.user = {
-                id: {{ Session::get('userId') }}, 
+                id: {{ Session::get('userId') }},   
                 fullname: "{{ Session::get('fullname') }}",
                 firstName: "{{ Session::get('firstName') }}",
                 lastName: "{{ Session::get('lastName') }}",
@@ -423,6 +417,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-mock-data.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-status.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-placeholder-applications.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-process.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js?v={{$asset_version}}"></script>
@@ -440,6 +435,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
 
