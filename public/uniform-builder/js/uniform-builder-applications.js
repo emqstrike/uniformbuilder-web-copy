@@ -6,6 +6,13 @@ $(document).ready(function() {
 
     };
 
+    // Check if current uniform is upper or lower
+    ub.funcs.isCurrentType = function (type) {
+
+        return ub.current_material.material.type === type;
+
+    };
+
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
@@ -2093,6 +2100,46 @@ $(document).ready(function() {
             if (typeof originalPosition !== "undefined") {
 
                 _object.position.y =  originalPosition.y + pullUpValue;
+
+            }
+
+        }
+
+        ub.funcs.oneInchPushDownMascotsPant = function (code) {
+
+            var _uniformCategory = ub.current_material.material.uniform_category;
+            var _uniformType = ub.current_material.material.pant;
+            var _option = ub.current_material.material.neck_option;
+
+            var _code = parseInt(code);
+            var _mascotOffset = undefined;
+            var _app = undefined;
+            var _offsetY = undefined; 
+
+            _app = ub.current_material.settings.applications[_code];
+
+            if (_uniformCategory === "football" || _uniformCategory === "wrestling") { return; }
+            if (_app.type !== 'mascot') { return; }
+
+            _mascotOffset = ub.data.mascotOffsetsPant.getSize('baseball', _option, _code, parseInt(_app.size));
+
+            if (typeof _mascotOffset !== 'undefined') {
+
+                _offsetY =   _mascotOffset.yAdjustment;
+
+                _.each(ub.views, function (view) {
+
+                    var _object = ub.objects[view + '_view']['objects_' + code];
+                    var _descStr = '';
+                    
+                    if (typeof _object !== "undefined") {
+
+                       _descStr = 'objects_' + code + ' ' + view;
+                       _object.position.y += _offsetY;
+
+                    }
+
+                });
 
             }
 
@@ -6589,7 +6636,11 @@ $(document).ready(function() {
 
         } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
             
-            _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+            if (ub.funcs.isCurrentType('upper')) {
+                _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+            } else {
+                _sizes = ub.funcs.getApplicationSizesPant(_applicationType, _alias.alias, _id);
+            }
 
         } else {
 
@@ -7792,7 +7843,12 @@ $(document).ready(function() {
 
         ub.funcs.oneInchPullUp(application_id);
         ub.funcs.updateCaption(application_id);
-        ub.funcs.oneInchPullUpMascots(application_id);
+
+        if (ub.funcs.isCurrentType('upper')) {
+            ub.funcs.oneInchPullUpMascots(application_id);
+        } else {
+            ub.funcs.oneInchPushDownMascotsPant(application_id);
+        }
 
     };
 
@@ -8419,6 +8475,8 @@ $(document).ready(function() {
 
                     ub.funcs.changeApplicationType(_settingsObject, _type);
                     $('div#changeApplicationUI').remove();
+
+                    ub.funcs.activateMascots(_id);
 
                 });
 
@@ -9437,10 +9495,28 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.getApplicationSizesPant = function (applicationType, sport, id) {
+
+        var _sizes = undefined;
+
+        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
+            // _sizes = _.find(ub.data.applicationSizesPant.items, {name: applicationType, sport: sport, id});   
+            _sizes = ub.data.applicationSizesPant.getSize(applicationType, sport, parseInt(id));
+
+        }
+
+        if (typeof _sizes === 'undefined') {
+            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found!');
+        }
+
+        return _sizes;
+
+    }
+
     ub.funcs.getApplicationSizes = function (applicationType, alias) {
 
         var _factory = ub.current_material.material.factory_code;
-        var _sizes;
+        var _sizes = undefined;
 
         if (applicationType === 'team_name') {
             _sizes = _.find(ub.data.applicationSizes.items, {factory: _factory, name: 'team_name'});
@@ -9457,7 +9533,7 @@ $(document).ready(function() {
         }
 
         if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
-            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias});            
+            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias});                
         }
 
         if (typeof _sizes === 'undefined') {

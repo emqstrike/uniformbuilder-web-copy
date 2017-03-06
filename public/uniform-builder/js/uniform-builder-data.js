@@ -2085,6 +2085,66 @@ $(document).ready(function() {
 
     }
 
+    ub.data.applicationSizesPant = {
+
+        items: [
+            {
+                name: 'mascot',
+                sport: 'baseball',
+                applicationNumbers: [37, 38, 39, 40],
+                sizes:  [
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
+                ],
+            },
+            {
+                name: 'mascot',
+                sport: 'baseball',
+                applicationNumbers: [15],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 1.75,
+                            },
+                ],
+            },
+        ], 
+        getSize: function (applicationType, sport, id) {
+
+            var _result = _.filter(this.items, {name: applicationType, sport: sport});
+            var _object = undefined;
+
+            if (typeof _result === "undefined") {
+                ub.utilities.warn('Application Sizes for ' + applicationType + ' in ' + sport + ' is not found!');
+            }
+
+            _object = _.find(_result, function (item) {
+
+                return _.contains(item.applicationNumbers, id);
+
+            });
+
+            if (typeof _object === "undefined") {
+
+                ub.utilities.warn('Mascot sizes for ' + sport + ' #' + id  + ' not found.');
+
+            }
+
+            return _object;
+
+        }
+
+    }
+
     ub.data.applicationSizes = {
 
         items: [
@@ -8919,6 +8979,82 @@ ub.funcs.fontOffSets = [
 
     }
 
+    ub.data.mascotOffsetsPant = {
+
+        items: [
+            {
+                sport: 'baseball',
+                option: ['Trad_Elastic_Knicker'],
+                applicationNumbers: [37,38,39,40],
+                size: 2,
+                yAdjustment: 0,
+            },
+            {
+                sport: 'baseball',
+                option: ['Trad_Elastic_Knicker'],
+                applicationNumbers: [37,38,39,40],
+                size: 3,
+                yAdjustment: 28,
+            },
+            {
+                sport: 'baseball',
+                option: ['Trad_Elastic_Knicker'],
+                applicationNumbers: [37,38,39,40],
+                size: 4,
+                yAdjustment: 48,
+            },
+            {
+                sport: 'baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                applicationNumbers: [37,38,39,40],
+                size: 2,
+                yAdjustment: 0,
+            },
+            {
+                sport: 'baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                applicationNumbers: [37,38,39,40],
+                size: 3,
+                yAdjustment: 21,
+            },
+            {
+                sport: 'baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                applicationNumbers: [37,38,39,40],
+                size: 4,
+                yAdjustment: 36,
+            },
+        ],
+
+        getSize: function (sport, option, applicationNumber, size) {
+
+            var _result = _.filter(this.items, {sport: sport});
+
+            if (typeof _result === "undefined" ) { ub.utilities.warn('Pant Mascot offsets for ' + sport + ' not found'); }
+
+            var _object = _.filter(_result, function (item) {
+
+                return _.contains(item.option, option);
+
+            });
+
+            if (typeof _object === "undefined") { ub.utilities.warn('Pant Mascot offsets for ' + sport + ' option ' + option + ' not found'); }
+
+            _object = _.find(_object, {size: size});
+
+            if (typeof _object !== "undefined" && !_.contains(_object.applicationNumbers, applicationNumber)) {
+
+                ub.utilities.warn('Pant Mascot offsets for ' + sport + ' option ' + option + ' # ' + applicationNumber + ' not found');
+                _object = undefined;
+
+            }
+
+
+            return _object;
+
+        }
+
+    }
 
     ub.data.mascotOffsets = {
 
@@ -9014,37 +9150,106 @@ ub.funcs.fontOffSets = [
 
     }
 
-    // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
-    // 1" - 0.15
-    // 1.75" - 0.18
-    // 2" - 0.2
-    // 3" - 0.3
-    // 4" - 0.42
-
     // tapos ung adjustment ng font +35 px ( application #'s 37,38,39,40)
-
-    // Trad_Elastic_Knicker
-    // 1" - 0.17
-    // 1.75" - 0.23
-    // 2" - 0.27
-    // 3" - 0.42
-    // 4" - 0.56
 
     ub.data.mascotSizesPant = {
 
         items: [
+
+            // Trad Elastic Knicker
+            // 1"       - 0.17
+            // 1.75"    - 0.23
+            // 2"       - 0.27
+            // 3"       - 0.42
+            // 4"       - 0.56
+
+            {
+                sport: 'Baseball',
+                option: ['Trad_Elastic_Knicker'],
+                size: 1,
+                scale: {x: 0.17 ,y: 0.17},
+            },
+            {
+                sport: 'Baseball',
+                option: ['Trad_Elastic_Knicker'],
+                size: 1.75,
+                scale: {x: 0.23 ,y: 0.23},
+            },
+            {
+                sport: 'Baseball',
+                option: ['Trad_Elastic_Knicker'],
+                size: 2,
+                scale: {x: 0.23 ,y: 0.23},
+            },
+            {
+                sport: 'Baseball',
+                option: ['Trad_Elastic_Knicker'],
+                size: 3,
+                scale: {x: 0.42 ,y: 0.42},
+            },
+            {
+                sport: 'Baseball',
+                option: ['Trad_Elastic_Knicker'],
+                size: 4,
+                scale: {x: 0.56 ,y: 0.56},
+            },
+
+            // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
+            // 1"       - 0.15
+            // 1.75"    - 0.18
+            // 2"       - 0.2
+            // 3"       - 0.3
+            // 4"       - 0.42
+
+            {
+                sport: 'Baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                size: 1,
+                scale: {x: 0.15, y: 0.15},
+            },
+            {
+                sport: 'Baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                size: 1.75,
+                scale: {x: 0.18, y: 0.18},
+            },
+            {
+                sport: 'Baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                size: 2,
+                scale: {x: 0.2, y: 0.2},
+            },
+            {
+                sport: 'Baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                size: 2,
+                scale: {x: 0.3, y: 0.3},
+            },
+            {
+                sport: 'Baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                size: 2,
+                scale: {x: 0.42, y: 0.42},
+            },
+
         ],
 
-            getSize: function (sport, size) {
+        getSize: function (sport, size, option) {
 
-            var _result = _.find(this.items, {sport: sport, size: size});
-            
-            if (typeof _result === "undefined") { console.warn('mascotSize for ' + sport + ' not found.')};
+            var _result = undefined;
+            var _object = undefined;
 
-            return _result;
+            _result = _.filter(this.items, {sport: sport, size: size});
+
+            if (typeof _result === "undefined") { ub.utilities.warn('mascotSize for ' + sport + ' not found.')};
+
+            _object = _.find(_result, function (item) { return _.contains(item.option, option) });
+
+            if (typeof _object === "undefined") { ub.utilities.warn('Option ' + option + ' in ' +  sport + ' for size: '  + size + ' not found.')};
+
+            return _object;
 
         }
-
 
     }
 
