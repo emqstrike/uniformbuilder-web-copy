@@ -9222,13 +9222,13 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Baseball',
                 option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 2,
+                size: 3,
                 scale: {x: 0.3, y: 0.3},
             },
             {
                 sport: 'Baseball',
                 option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 2,
+                size: 4,
                 scale: {x: 0.42, y: 0.42},
             },
 
