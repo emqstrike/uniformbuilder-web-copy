@@ -63,6 +63,24 @@
     </div>
     <!-- End Orders Chart -->
 
+    <!-- Saved Designs Chart -->
+    <div class="container">
+      <div class="chart-header">
+        <h3>
+          Saved Designs
+          <select id="saved-designs-select-year">
+          @for ($year = date('Y'); $year >= 2015; $year--)
+            <option>{{ $year }}</option>
+          @endfor
+          </select>
+        </h3>
+      </div>
+      <div class="chart-body">
+        <canvas id="saved-designs-chart" width="700" height="120"></canvas>
+      </div>
+    </div>
+    <!-- End Saved Designs Chart -->
+
     <!-- Users Chart -->
     <div class="container">
       <div class="chart-header">
@@ -125,6 +143,44 @@
             newChartData,
             '# of Orders',
             'blue'
+          );
+        }
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  });
+
+  // Build the Saved Designs Chart
+  var savedDesignsChart = buildChart(
+    'saved-designs-chart',
+    'saved_designs',
+    [{{ implode(',', $saved_designs_stats) }}],
+    '# of Saved Designs',
+    'orange'
+  );
+
+  $('#saved-designs-select-year').on('change', function(){
+    var year = $(this).val();
+    savedDesignsChart.destroy();
+    $.ajax({
+      url: 'http://' + apiHost + '/api' + endpoints.saved_designs + year,
+      method: 'GET',
+      dataType: 'JSON',
+      success: function(response) {
+        if (response.success) {
+          var newData = response.saved_designs;
+          var newChartData = [0,0,0,0,0,0,0,0,0,0,0,0];
+          for (i = 0; i < newData.length; i++) {
+            newChartData[ newData[i].month_number - 1 ] = newData[i].saved_designs_count;
+          }
+          savedDesignsChart = buildChart(
+            'saved-designs-chart',
+            'saved_designs',
+            newChartData,
+            '# of Saved Designs',
+            'orange'
           );
         }
       },
