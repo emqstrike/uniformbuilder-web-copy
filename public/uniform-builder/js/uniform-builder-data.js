@@ -8965,6 +8965,59 @@ ub.funcs.fontOffSets = [
                 size: 2,
                 pullUpHeight: -35,
             },
+
+            // Compression
+             {
+                sport: 'Compression (Apparel)',
+                applicationNumber: '2',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Compression (Apparel)',
+                applicationNumber: '2',
+                size: 2,
+                pullUpHeight: -21,
+            },
+            {
+                sport: 'Compression (Apparel)',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Compression (Apparel)',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -21,
+            },
+
+            //"Tech-Tee (Apparel)"
+            {
+                sport: 'Tech-Tee (Apparel)',
+                applicationNumber: '2',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                applicationNumber: '2',
+                size: 2,
+                pullUpHeight: -21,
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -21,
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+
         ], 
 
         getPullUp: function (sport, parentSize, applicationNumber) {

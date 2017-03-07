@@ -2187,9 +2187,9 @@ $(document).ready(function() {
         ub.funcs.oneInchPullUp = function (code) {
 
             var _currentSport = ub.current_material.material.uniform_category;
-            var _codes = ["1", "6", "5", "26", "27"];
+            var _codes = ["1", "2", "6", "5", "26", "27"];
 
-            if (_currentSport !== "Baseball") { return; }
+            if (_currentSport === "Football" || _currentSport === "Wrestling") { return; }
             if (!_.includes(_codes, code))    { return; }
 
             // Pull up 26 and 27
@@ -2198,31 +2198,50 @@ $(document).ready(function() {
             var _app1       = ub.current_material.settings.applications[1];
             var _app26      = ub.current_material.settings.applications[26];
             var _app27      = ub.current_material.settings.applications[27];
+            var _app2       = ub.current_material.settings.applications[2];
        
             // Back
             var _app6       = ub.current_material.settings.applications[6];
             var _app5       = ub.current_material.settings.applications[5];
+
             
             _.each(ub.views, function (_view) {
 
                 var _object26   = ub.objects[_view + '_view']['objects_26'];
+                var _object1    = ub.objects[_view + '_view']['objects_1'];
+                var _object2    = ub.objects[_view + '_view']['objects_2'];
+
                 var _object27   = ub.objects[_view + '_view']['objects_27'];
                 var _object5    = ub.objects[_view + '_view']['objects_5'];
 
-                if (code === '1' || code === '26' || code === "27") {
+                if (code === '1' || code === '2' || code === '26' || code === "27") {
 
-                    if (typeof _object26 !== "undefined") {
+                    if (typeof _object26 !== "undefined" || typeof _object2 !== "undefined") {
 
                         if (typeof _app1 !== "undefined") {
 
                             var _parentSize             =  parseInt(_app1.font_size);
                             var _applicationNumber      = '26'
+
+                            if (_currentSport !== "Baseball") {
+
+                                _applicationNumber      = '2'                                
+
+                            }
+
                             var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
                             var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
                             var _originalPosition       = _app26['originalPosition_' + _view];
 
-                            ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);
+                            if (_currentSport === "Baseball") {
+                                ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);    
+                            } else {
 
+                                _originalPosition      = _app2['originalPosition_' + _view];                                
+                                ub.funcs.pullUp(_object2, _originalPosition, _calculatedPullUpHeight);
+
+                            }
+                            
                         }
 
                     }
@@ -2252,7 +2271,6 @@ $(document).ready(function() {
                     if (typeof _object5 !== "undefined") {
 
                          if (typeof _app6 !== "undefined") {
-
 
                             var _parentSize             =  parseInt(_app6.font_size);
                             var _applicationNumber      = '5'
@@ -7835,7 +7853,6 @@ $(document).ready(function() {
     ub.funcs.runBeforeUpdate = function (application_id) {
 
         // TODO: Application Preprocessing Event Here ...
-        
         
     };
 
