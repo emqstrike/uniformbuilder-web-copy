@@ -1087,16 +1087,16 @@
 
             var _layerSettings = _.find(pipingSettingsObject.layers, {layer: layer.position});
             var pipingLayer = ub.pixi.new_sprite(layer.filename);
-            
+   
             pipingLayer.ubName = 'Layer ' + (index + 1);
-            pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
 
-             if (_layerSettings.colorCode === "none") {
+            if (typeof _layerSettings === "undefined" || _layerSettings.colorCode === "none") {
 
                 pipingLayer.alpha = 0;
 
             } else {
 
+                pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
                 pipingLayer.alpha = 1;                
                 
             }

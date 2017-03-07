@@ -2746,7 +2746,7 @@ $(document).ready(function() {
 
             // End do not run from change color
 
-            ub.funcs.runAfterUpdate(app_id, _fromChangeColor);    
+            ub.funcs.runAfterUpdate(app_id, _fromChangeColor);
 
             return sprite_collection;
 
