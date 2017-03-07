@@ -706,7 +706,7 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.update_application_mascot = function (application, mascot) {
+    ub.funcs.update_application_mascot = function (application, mascot, options) {
 
         var settings = ub.current_material.settings;
         var application_mascot_code = application.id + '_' + mascot.id;
@@ -723,6 +723,7 @@ $(document).ready(function() {
 
             application: application,
             mascot: mascot,
+            fromChangeColor: (typeof options !== "undefined"),
 
         };
 
@@ -2118,7 +2119,7 @@ $(document).ready(function() {
 
             _app = ub.current_material.settings.applications[_code];
 
-            if (_uniformCategory === "football" || _uniformCategory === "wrestling") { return; }
+            if (_uniformCategory === "Football" || _uniformCategory === "Wrestling") { return; }
             if (_app.type !== 'mascot') { return; }
 
             _mascotOffset = ub.data.mascotOffsetsPant.getSize('baseball', _option, _code, parseInt(_app.size));
@@ -2350,8 +2351,7 @@ $(document).ready(function() {
 
                     point.zIndex = -(50 + _settingsObject.zIndex);
                         
-                }
-                else {
+                } else {
 
                     point.zIndex = -50;
 
@@ -2738,7 +2738,15 @@ $(document).ready(function() {
             });
 
             ub.funcs.identify(app_id);
-            ub.funcs.runAfterUpdate(app_id);    
+
+            // Do not run mascot pull ups if just coming from mascot change color, only on initial render
+            
+            var _fromChangeColor = undefined;
+            if (args.fromChangeColor) { _fromChangeColor = true; }
+
+            // End do not run from change color
+
+            ub.funcs.runAfterUpdate(app_id, _fromChangeColor);    
 
             return sprite_collection;
 
@@ -5657,7 +5665,7 @@ $(document).ready(function() {
     
         settingsObj.color_array[layer_no - 1] = colorObj;
 
-        ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
+        ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot, {fromChangeColor: true});
 
     }
 
@@ -7565,6 +7573,13 @@ $(document).ready(function() {
 
             }
 
+            if (ub.funcs.isCurrentSport('Baseball') && _id === 15) {
+
+                _settingsObject.size = 1.75;
+                _settingsObject.font_size = 1.75;                
+
+            }
+
             var _matchingID;
             var _matchingSide;
             
@@ -7856,15 +7871,23 @@ $(document).ready(function() {
         
     };
 
-    ub.funcs.runAfterUpdate = function(application_id) {
+    ub.funcs.runAfterUpdate = function(application_id, fromChangeColor) {
 
         ub.funcs.oneInchPullUp(application_id);
         ub.funcs.updateCaption(application_id);
 
         if (ub.funcs.isCurrentType('upper')) {
+
             ub.funcs.oneInchPullUpMascots(application_id);
+
         } else {
-            ub.funcs.oneInchPushDownMascotsPant(application_id);
+
+            if (typeof fromChangeColor == "undefined") {
+
+                ub.funcs.oneInchPushDownMascotsPant(application_id);
+                
+            }
+
         }
 
     };
