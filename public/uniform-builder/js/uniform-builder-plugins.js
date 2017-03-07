@@ -1080,6 +1080,16 @@
         var container = new PIXI.Container();
         var elements = "";
         var _frontObject = _.find(pipingObject.perspectives, {perspective: perspective});
+        var _firstPosition = pipingSettingsObject.layers[0].layer;
+
+        // Normalize if first position is 1
+        if (_firstPosition === 1) { 
+            _.each (pipingSettingsObject.layers, function(item,index) {
+
+                item.layer = index;
+
+            });
+        }
 
         _.each(_frontObject.layers, function (layer, index) {
             
@@ -1088,6 +1098,8 @@
             var _layerSettings = _.find(pipingSettingsObject.layers, {layer: layer.position - 1});
             var pipingLayer = ub.pixi.new_sprite(layer.filename);
    
+
+
             pipingLayer.ubName = 'Layer ' + (index + 1);
             pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
 
