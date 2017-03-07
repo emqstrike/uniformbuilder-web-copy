@@ -1085,10 +1085,11 @@
             
             if (index + 1 > colorCount) { return; }
 
-            var _layerSettings = _.find(pipingSettingsObject.layers, {layer: layer.position});
+            var _layerSettings = _.find(pipingSettingsObject.layers, {layer: layer.position - 1});
             var pipingLayer = ub.pixi.new_sprite(layer.filename);
    
             pipingLayer.ubName = 'Layer ' + (index + 1);
+            pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
 
             if (typeof _layerSettings === "undefined" || _layerSettings.colorCode === "none") {
 
@@ -1096,7 +1097,6 @@
 
             } else {
 
-                pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
                 pipingLayer.alpha = 1;                
                 
             }

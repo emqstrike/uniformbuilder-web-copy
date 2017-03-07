@@ -1558,6 +1558,7 @@ $(document).ready(function () {
             var _result = _.find(ub.data.pipings, {name: key + " " + piping.size});
 
             if(piping.size === "") { return; }
+
             ub.funcs.renderPipings(_result, piping.numberOfColors);    
 
         });
@@ -1598,15 +1599,12 @@ $(document).ready(function () {
 
                         });
 
+                        var _teamColorId = piping.team_color_id_array[index];
+
                         if (piping.enabled === 1 && _color.color_code !== "none") {
 
-                            var $btn = $('button.change-color[title="' + _color.name + '"]');
+                             ub.data.colorsUsed[_color.hex_code] = {hexCode: _color.hex_code, parsedValue: _color.hex_code, teamColorID: _teamColorId};
 
-                            if ($btn.data('status') !== "selected") {
-
-                                $btn.trigger('click');
-
-                            } 
                         }
                         
                     });
@@ -1623,9 +1621,11 @@ $(document).ready(function () {
                 if (piping.color2) { _colorCount +=1 }; 
                 if (piping.color3) { _colorCount +=1 }; 
 
-                if (_.size(ub.current_material.settings.pipings) > 0) { 
-                    return; 
-                }
+                // if (_.size(ub.current_material.settings.pipings) > 0) { 
+                //     return; 
+                // }
+
+                if (typeof ub.current_material.settings.pipings[piping.set] !== "undefined") { return; }
 
                 if (piping.enabled === 1) {
 
@@ -1645,6 +1645,8 @@ $(document).ready(function () {
                     var _pipingObject                   = piping;
                     var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
                     var selectedColorArray              = ub.current_material.settings.team_colors;
+
+
                     
                     ub.funcs.initPipingColors(piping, selectedColorArray[0]);
                     ub.funcs.renderPipings(piping, _colorCount);
