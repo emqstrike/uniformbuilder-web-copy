@@ -93,8 +93,6 @@ $(document).ready(function() {
 
     }
 
-
-
     /// End Interactive Viewport
 
     ub.container_div                = 'main_view';
@@ -121,7 +119,6 @@ $(document).ready(function() {
     ub.renderer                     = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
     ub.renderer.backgroundColor     = 0xeeeeee;
 
-
     var _bg                         = window.ub.pixi.new_sprite('/images/uiV1/bg.jpg');
     ub.stage.addChild(_bg); 
 
@@ -131,14 +128,14 @@ $(document).ready(function() {
     ub.stage.addChild(ub.right_view);
     ub.stage.addChild(ub.pattern_view);
     ub.stage.addChild(ub.gradient_preview);
-    
+
     if (typeof ub.renderer !== "undefined" && ub.pCanvas !== null) {
         ub.pCanvas.appendChild(ub.renderer.view);
     }
 
     ub.interactionManager           = ub.renderer.plugins.interaction;
     ub.dragAndDropManager           = new PIXI.DragAndDropManager(ub.interactionManager);
-     
+
     /// Hide other views except for the left view, by bringing them offscreen, 
     /// But still visible so we can still get the thumbnails by using renderTexture
 
@@ -2088,6 +2085,66 @@ $(document).ready(function() {
 
     }
 
+    ub.data.applicationSizesPant = {
+
+        items: [
+            {
+                name: 'mascot',
+                sport: 'baseball',
+                applicationNumbers: [37, 38, 39, 40],
+                sizes:  [
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
+                ],
+            },
+            {
+                name: 'mascot',
+                sport: 'baseball',
+                applicationNumbers: [15],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 1.75,
+                            },
+                ],
+            },
+        ], 
+        getSize: function (applicationType, sport, id) {
+
+            var _result = _.filter(this.items, {name: applicationType, sport: sport});
+            var _object = undefined;
+
+            if (typeof _result === "undefined") {
+                ub.utilities.warn('Application Sizes for ' + applicationType + ' in ' + sport + ' is not found!');
+            }
+
+            _object = _.find(_result, function (item) {
+
+                return _.contains(item.applicationNumbers, id);
+
+            });
+
+            if (typeof _object === "undefined") {
+
+                ub.utilities.warn('Mascot sizes for ' + sport + ' #' + id  + ' not found.');
+
+            }
+
+            return _object;
+
+        }
+
+    }
+
     ub.data.applicationSizes = {
 
         items: [
@@ -2615,7 +2672,7 @@ $(document).ready(function() {
                 {
                     name: 'mascot',
                     sport: 'compression',
-                        sizes:  [
+                    sizes:  [
                                 {
                                     size: 2,
                                 },
@@ -2634,7 +2691,7 @@ $(document).ready(function() {
                                 {
                                     size: 10,
                                 },
-                        ],
+                    ],
                     factory: 'BLB',
                 },
                 {
@@ -8908,6 +8965,59 @@ ub.funcs.fontOffSets = [
                 size: 2,
                 pullUpHeight: -35,
             },
+
+            // Compression
+             {
+                sport: 'Compression (Apparel)',
+                applicationNumber: '2',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Compression (Apparel)',
+                applicationNumber: '2',
+                size: 2,
+                pullUpHeight: -21,
+            },
+            {
+                sport: 'Compression (Apparel)',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Compression (Apparel)',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -21,
+            },
+
+            //"Tech-Tee (Apparel)"
+            {
+                sport: 'Tech-Tee (Apparel)',
+                applicationNumber: '2',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                applicationNumber: '2',
+                size: 2,
+                pullUpHeight: -21,
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -21,
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+
         ], 
 
         getPullUp: function (sport, parentSize, applicationNumber) {
@@ -8919,6 +9029,280 @@ ub.funcs.fontOffSets = [
             return _result;
 
         },
+
+    }
+
+    ub.data.mascotOffsetsPant = {
+
+        items: [
+            {
+                sport: 'baseball',
+                option: ['Trad_Elastic_Knicker'],
+                applicationNumbers: [37,38,39,40],
+                size: 2,
+                yAdjustment: 0,
+            },
+            {
+                sport: 'baseball',
+                option: ['Trad_Elastic_Knicker'],
+                applicationNumbers: [37,38,39,40],
+                size: 3,
+                yAdjustment: 28,
+            },
+            {
+                sport: 'baseball',
+                option: ['Trad_Elastic_Knicker'],
+                applicationNumbers: [37,38,39,40],
+                size: 4,
+                yAdjustment: 48,
+            },
+            {
+                sport: 'baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                applicationNumbers: [37,38,39,40],
+                size: 2,
+                yAdjustment: 0,
+            },
+            {
+                sport: 'baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                applicationNumbers: [37,38,39,40],
+                size: 3,
+                yAdjustment: 21,
+            },
+            {
+                sport: 'baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                applicationNumbers: [37,38,39,40],
+                size: 4,
+                yAdjustment: 36,
+            },
+        ],
+
+        getSize: function (sport, option, applicationNumber, size) {
+
+            var _result = _.filter(this.items, {sport: sport});
+
+            if (typeof _result === "undefined" ) { ub.utilities.warn('Pant Mascot offsets for ' + sport + ' not found'); }
+
+            var _object = _.filter(_result, function (item) {
+
+                return _.contains(item.option, option);
+
+            });
+
+            if (typeof _object === "undefined") { ub.utilities.warn('Pant Mascot offsets for ' + sport + ' option ' + option + ' not found'); }
+
+            _object = _.find(_object, {size: size});
+
+            if (typeof _object !== "undefined" && !_.contains(_object.applicationNumbers, applicationNumber)) {
+
+                ub.utilities.warn('Pant Mascot offsets for ' + sport + ' option ' + option + ' # ' + applicationNumber + ' not found');
+                _object = undefined;
+
+            }
+
+
+            return _object;
+
+        }
+
+    }
+
+    ub.data.mascotOffsets = {
+
+        items: [
+            {
+                sport: 'tech-tee',
+                applicationNumber: 1,
+                size: 2,
+                yAdjustment: -12,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 1,
+                size: 3,
+                yAdjustment: 4,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 5,
+                size: 8,
+                yAdjustment: -14,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 5,
+                size: 10,
+                yAdjustment: 11,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 6,
+                size: 6,
+                yAdjustment: -15,
+            },
+            {
+                sport: 'tech-tee',
+                applicationNumber: 6,
+                size: 3,
+                yAdjustment: 1,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 1,
+                size: 2,
+                yAdjustment: -12,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 1,
+                size: 3,
+                yAdjustment: 4,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 5,
+                size: 8,
+                yAdjustment: -14,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 5,
+                size: 10,
+                yAdjustment: 11,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 6,
+                size: 2,
+                yAdjustment: -15,
+            },
+            {
+                sport: 'compression',
+                applicationNumber: 6,
+                size: 3,
+                yAdjustment: 1,
+            },
+
+        ],
+
+        getSize: function (sport, applicationNumber, size) {
+
+            var _result = _.find(this.items, {sport: sport, applicationNumber: applicationNumber, size: size});
+
+            if (typeof _result === "undefined") {
+
+                ub.utilities.warn('Not Found mascot offset for Sport:  ' + sport + ', Location #: ' + applicationNumber + ' size: ' + size);
+
+            }
+
+            return _result;
+
+        }
+
+    }
+
+    // tapos ung adjustment ng font +35 px ( application #'s 37,38,39,40)
+
+    ub.data.mascotSizesPant = {
+
+        items: [
+
+            // Trad Elastic Knicker
+            // 1"       - 0.17
+            // 1.75"    - 0.23
+            // 2"       - 0.27
+            // 3"       - 0.42
+            // 4"       - 0.56
+
+            {
+                sport: 'Baseball',
+                option: ['Trad_Elastic_Knicker'],
+                size: 1,
+                scale: {x: 0.17 ,y: 0.17},
+            },
+            {
+                sport: 'Baseball',
+                option: ['Trad_Elastic_Knicker'],
+                size: 1.75,
+                scale: {x: 0.23 ,y: 0.23},
+            },
+            {
+                sport: 'Baseball',
+                option: ['Trad_Elastic_Knicker'],
+                size: 2,
+                scale: {x: 0.23 ,y: 0.23},
+            },
+            {
+                sport: 'Baseball',
+                option: ['Trad_Elastic_Knicker'],
+                size: 3,
+                scale: {x: 0.42 ,y: 0.42},
+            },
+            {
+                sport: 'Baseball',
+                option: ['Trad_Elastic_Knicker'],
+                size: 4,
+                scale: {x: 0.56 ,y: 0.56},
+            },
+
+            // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
+            // 1"       - 0.15
+            // 1.75"    - 0.18
+            // 2"       - 0.2
+            // 3"       - 0.3
+            // 4"       - 0.42
+
+            {
+                sport: 'Baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                size: 1,
+                scale: {x: 0.15, y: 0.15},
+            },
+            {
+                sport: 'Baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                size: 1.75,
+                scale: {x: 0.18, y: 0.18},
+            },
+            {
+                sport: 'Baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                size: 2,
+                scale: {x: 0.2, y: 0.2},
+            },
+            {
+                sport: 'Baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                size: 3,
+                scale: {x: 0.3, y: 0.3},
+            },
+            {
+                sport: 'Baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                size: 4,
+                scale: {x: 0.42, y: 0.42},
+            },
+
+        ],
+
+        getSize: function (sport, size, option) {
+
+            var _result = undefined;
+            var _object = undefined;
+
+            _result = _.filter(this.items, {sport: sport, size: size});
+
+            if (typeof _result === "undefined") { ub.utilities.warn('mascotSize for ' + sport + ' not found.')};
+
+            _object = _.find(_result, function (item) { return _.contains(item.option, option) });
+
+            if (typeof _object === "undefined") { ub.utilities.warn('Option ' + option + ' in ' +  sport + ' for size: '  + size + ' not found.')};
+
+            return _object;
+
+        }
 
     }
 
@@ -9647,14 +10031,6 @@ ub.funcs.fontOffSets = [
 
         getCharacter: function (code, length) {
 
-            console.clear();
-
-            console.log('Code: ');
-            console.log(code);
-
-            console.log('Length: ');
-            console.log(length);
-            
             var _match = _.find(this.items, {code: code});
 
             if(typeof _match !== "undefined") {
@@ -9668,9 +10044,6 @@ ub.funcs.fontOffSets = [
                     return undefined;
 
                 } else {
-
-                    console.log('Match Found: ');
-                    console.log(_result);
 
                     return _result.character;
                     

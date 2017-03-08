@@ -6,6 +6,13 @@ $(document).ready(function() {
 
     };
 
+    // Check if current uniform is upper or lower
+    ub.funcs.isCurrentType = function (type) {
+
+        return ub.current_material.material.type === type;
+
+    };
+
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
@@ -699,7 +706,7 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.update_application_mascot = function (application, mascot) {
+    ub.funcs.update_application_mascot = function (application, mascot, options) {
 
         var settings = ub.current_material.settings;
         var application_mascot_code = application.id + '_' + mascot.id;
@@ -716,6 +723,7 @@ $(document).ready(function() {
 
             application: application,
             mascot: mascot,
+            fromChangeColor: (typeof options !== "undefined"),
 
         };
 
@@ -2098,12 +2106,91 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.oneInchPushDownMascotsPant = function (code) {
+
+            var _uniformCategory = ub.current_material.material.uniform_category;
+            var _uniformType = ub.current_material.material.pant;
+            var _option = ub.current_material.material.neck_option;
+
+            var _code = parseInt(code);
+            var _mascotOffset = undefined;
+            var _app = undefined;
+            var _offsetY = undefined; 
+
+            _app = ub.current_material.settings.applications[_code];
+
+            if (_uniformCategory === "Football" || _uniformCategory === "Wrestling") { return; }
+            if (_app.type !== 'mascot') { return; }
+
+            _mascotOffset = ub.data.mascotOffsetsPant.getSize('baseball', _option, _code, parseInt(_app.size));
+
+            if (typeof _mascotOffset !== 'undefined') {
+
+                _offsetY =   _mascotOffset.yAdjustment;
+
+                _.each(ub.views, function (view) {
+
+                    var _object = ub.objects[view + '_view']['objects_' + code];
+                    var _descStr = '';
+                    
+                    if (typeof _object !== "undefined") {
+
+                       _descStr = 'objects_' + code + ' ' + view;
+                       _object.position.y += _offsetY;
+
+                    }
+
+                });
+
+            }
+
+        }
+
+        // For Mascots
+        ub.funcs.oneInchPullUpMascots = function (code) {
+
+            var _uniformCategory = ub.current_material.material.uniform_category;
+            var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
+            var _mascotOffset = undefined;
+            var _code = parseInt(code);
+            var _validCodesForPullUps = [1,5,6];
+            var _app = undefined;
+
+            if (!(_alias.alias === "tech-tee" || _alias.alias === "compression" )) { return; }
+            if (!_.contains(_validCodesForPullUps, _code)) { return; }
+
+            _app = ub.current_material.settings.applications[_code];
+
+            if (_app.application_type !== "mascot") { return; }
+            if (typeof _app === "undefined") { return; }
+
+            _mascotOffset = ub.data.mascotOffsets.getSize(_alias.alias, _code, _app.size);
+
+            if (typeof _mascotOffset === "undefined") { return; }
+
+            _.each(ub.views, function (view) {
+
+                var _object = ub.objects[view + '_view']['objects_' + code];
+                var _descStr = '';
+                
+                if (typeof _object !== "undefined") {
+
+                    _descStr = 'objects_' + code + ' ' + view;
+                    _object.position.y += _mascotOffset.yAdjustment;
+
+                }
+
+            });
+
+        }
+
+        // For Text Applications
         ub.funcs.oneInchPullUp = function (code) {
 
             var _currentSport = ub.current_material.material.uniform_category;
-            var _codes = ["1", "6", "5", "26", "27"];
+            var _codes = ["1", "2", "6", "5", "26", "27"];
 
-            if (_currentSport !== "Baseball") { return; }
+            if (_currentSport === "Football" || _currentSport === "Wrestling") { return; }
             if (!_.includes(_codes, code))    { return; }
 
             // Pull up 26 and 27
@@ -2112,31 +2199,50 @@ $(document).ready(function() {
             var _app1       = ub.current_material.settings.applications[1];
             var _app26      = ub.current_material.settings.applications[26];
             var _app27      = ub.current_material.settings.applications[27];
+            var _app2       = ub.current_material.settings.applications[2];
        
             // Back
             var _app6       = ub.current_material.settings.applications[6];
             var _app5       = ub.current_material.settings.applications[5];
+
             
             _.each(ub.views, function (_view) {
 
                 var _object26   = ub.objects[_view + '_view']['objects_26'];
+                var _object1    = ub.objects[_view + '_view']['objects_1'];
+                var _object2    = ub.objects[_view + '_view']['objects_2'];
+
                 var _object27   = ub.objects[_view + '_view']['objects_27'];
                 var _object5    = ub.objects[_view + '_view']['objects_5'];
 
-                if (code === '1' || code === '26' || code === "27") {
+                if (code === '1' || code === '2' || code === '26' || code === "27") {
 
-                    if (typeof _object26 !== "undefined") {
+                    if (typeof _object26 !== "undefined" || typeof _object2 !== "undefined") {
 
                         if (typeof _app1 !== "undefined") {
 
                             var _parentSize             =  parseInt(_app1.font_size);
                             var _applicationNumber      = '26'
+
+                            if (_currentSport !== "Baseball") {
+
+                                _applicationNumber      = '2'                                
+
+                            }
+
                             var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
                             var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
                             var _originalPosition       = _app26['originalPosition_' + _view];
 
-                            ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);
+                            if (_currentSport === "Baseball") {
+                                ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);    
+                            } else {
 
+                                _originalPosition      = _app2['originalPosition_' + _view];                                
+                                ub.funcs.pullUp(_object2, _originalPosition, _calculatedPullUpHeight);
+
+                            }
+                            
                         }
 
                     }
@@ -2167,7 +2273,6 @@ $(document).ready(function() {
 
                          if (typeof _app6 !== "undefined") {
 
-
                             var _parentSize             =  parseInt(_app6.font_size);
                             var _applicationNumber      = '5'
                             var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
@@ -2191,7 +2296,7 @@ $(document).ready(function() {
             var sprite_collection   = [];
             var mat_option          = ub.funcs.getApplicationMatOption(app_id);
             var marker_name         = "objects_" + app_id;
-            var views;    
+            var views;
             var _applicationObj;
 
             views = ub.current_material.settings.applications[app_id].application.views;
@@ -2246,8 +2351,7 @@ $(document).ready(function() {
 
                     point.zIndex = -(50 + _settingsObject.zIndex);
                         
-                }
-                else {
+                } else {
 
                     point.zIndex = -50;
 
@@ -2462,7 +2566,7 @@ $(document).ready(function() {
                         }
 
                     }
-                
+
                     if (_.includes(ub.data.leftSideOverrides, args.font_name) && ( app_id === "9" || app_id === "33") && (_applicationObj.type !== "mascot" && _applicationObj.type !== "logo" )) {
 
                         var _fontOffsets = ub.funcs.getFontOffsets(args.font_name, args.fontSize, view.perspective, app_id);
@@ -2635,11 +2739,14 @@ $(document).ready(function() {
 
             ub.funcs.identify(app_id);
 
-            // //if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+            // Do not run mascot pull ups if just coming from mascot change color, only on initial render
+            
+            var _fromChangeColor = undefined;
+            if (args.fromChangeColor) { _fromChangeColor = true; }
 
-                ub.funcs.runAfterUpdate(app_id);    
+            // End do not run from change color
 
-            // //}
+            ub.funcs.runAfterUpdate(app_id, _fromChangeColor);
 
             return sprite_collection;
 
@@ -5558,7 +5665,7 @@ $(document).ready(function() {
     
         settingsObj.color_array[layer_no - 1] = colorObj;
 
-        ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
+        ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot, {fromChangeColor: true});
 
     }
 
@@ -6535,9 +6642,9 @@ $(document).ready(function() {
         var _id                 = application_id.toString();
         var _settingsObject     = _.find(ub.current_material.settings.applications, {code: _id});
         var _applicationType    = _settingsObject.application_type;
-        var _sizes              = ub.funcs.getApplicationSizes(_applicationType);
-        var _uniformCategory = ub.current_material.material.uniform_category
-        var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
+        var _uniformCategory    = ub.current_material.material.uniform_category;
+        var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
+        var _sizes              = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
 
         if (ub.current_material.material.uniform_category === "Football") {
 
@@ -6555,7 +6662,11 @@ $(document).ready(function() {
 
         } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
             
-            _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+            if (ub.funcs.isCurrentType('upper')) {
+                _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+            } else {
+                _sizes = ub.funcs.getApplicationSizesPant(_applicationType, _alias.alias, _id);
+            }
 
         } else {
 
@@ -7462,6 +7573,13 @@ $(document).ready(function() {
 
             }
 
+            if (ub.funcs.isCurrentSport('Baseball') && _id === 15) {
+
+                _settingsObject.size = 1.75;
+                _settingsObject.font_size = 1.75;                
+
+            }
+
             var _matchingID;
             var _matchingSide;
             
@@ -7741,16 +7859,36 @@ $(document).ready(function() {
     };
 
     ub.funcs.hideGAFontTool = function () {
-
+        
         // Hide GA Font Tool
         $('span.cog').hide();
         
     };
 
-    ub.funcs.runAfterUpdate = function(application_id) {
+    ub.funcs.runBeforeUpdate = function (application_id) {
+
+        // TODO: Application Preprocessing Event Here ...
+        
+    };
+
+    ub.funcs.runAfterUpdate = function(application_id, fromChangeColor) {
 
         ub.funcs.oneInchPullUp(application_id);
         ub.funcs.updateCaption(application_id);
+
+        if (ub.funcs.isCurrentType('upper')) {
+
+            ub.funcs.oneInchPullUpMascots(application_id);
+
+        } else {
+
+            if (typeof fromChangeColor == "undefined") {
+
+                ub.funcs.oneInchPushDownMascotsPant(application_id);
+                
+            }
+
+        }
 
     };
 
@@ -8377,6 +8515,8 @@ $(document).ready(function() {
 
                     ub.funcs.changeApplicationType(_settingsObject, _type);
                     $('div#changeApplicationUI').remove();
+
+                    ub.funcs.activateMascots(_id);
 
                 });
 
@@ -9395,10 +9535,28 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.getApplicationSizesPant = function (applicationType, sport, id) {
+
+        var _sizes = undefined;
+
+        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
+            // _sizes = _.find(ub.data.applicationSizesPant.items, {name: applicationType, sport: sport, id});   
+            _sizes = ub.data.applicationSizesPant.getSize(applicationType, sport, parseInt(id));
+
+        }
+
+        if (typeof _sizes === 'undefined') {
+            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found!');
+        }
+
+        return _sizes;
+
+    }
+
     ub.funcs.getApplicationSizes = function (applicationType, alias) {
 
         var _factory = ub.current_material.material.factory_code;
-        var _sizes;
+        var _sizes = undefined;
 
         if (applicationType === 'team_name') {
             _sizes = _.find(ub.data.applicationSizes.items, {factory: _factory, name: 'team_name'});
@@ -9415,7 +9573,7 @@ $(document).ready(function() {
         }
 
         if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
-            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias});            
+            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias});                
         }
 
         if (typeof _sizes === 'undefined') {

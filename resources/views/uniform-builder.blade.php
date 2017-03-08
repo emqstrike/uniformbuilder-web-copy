@@ -215,12 +215,8 @@
 <script src="{{$asset_storage}}/sortable/Sortable.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/jquery.binding.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/jquery.fn.sortable.js?v={{$asset_version}}"></script>
-
 <script src="{{$asset_storage}}/moment/moment.js?v={{$asset_version}}"></script>
-
 <script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js?v={{$asset_version}}"></script>
-
-
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
 
 
@@ -439,6 +435,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
 

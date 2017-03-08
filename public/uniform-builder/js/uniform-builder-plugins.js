@@ -1080,18 +1080,30 @@
         var container = new PIXI.Container();
         var elements = "";
         var _frontObject = _.find(pipingObject.perspectives, {perspective: perspective});
+        var _firstPosition = pipingSettingsObject.layers[0].layer;
+
+        // Normalize if first position is 1
+        if (_firstPosition === 1) { 
+            _.each (pipingSettingsObject.layers, function(item,index) {
+
+                item.layer = index;
+
+            });
+        }
 
         _.each(_frontObject.layers, function (layer, index) {
             
             if (index + 1 > colorCount) { return; }
 
-            var _layerSettings = _.find(pipingSettingsObject.layers, {layer: layer.position});
+            var _layerSettings = _.find(pipingSettingsObject.layers, {layer: layer.position - 1});
             var pipingLayer = ub.pixi.new_sprite(layer.filename);
-            
+   
+
+
             pipingLayer.ubName = 'Layer ' + (index + 1);
             pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
 
-             if (_layerSettings.colorCode === "none") {
+            if (typeof _layerSettings === "undefined" || _layerSettings.colorCode === "none") {
 
                 pipingLayer.alpha = 0;
 
@@ -1140,6 +1152,8 @@
         var container = new PIXI.Container();
         var elements = "";
 
+        var _uniformCategory = ub.current_material.material.uniform_category;
+
         /// Wrestling
         // if (settings_obj.size === 12)  { scale_settings = {x: 0.9, y: 0.9}; }
         // if (settings_obj.size === 10)  { scale_settings = {x: 0.83, y: 0.83}; }
@@ -1159,11 +1173,23 @@
         if (settings_obj.size === 1)   { scale_settings = {x: 0.08, y: 0.08}; }
         if (settings_obj.size === 0.5) { scale_settings = {x: 0.04, y: 0.04}; }
 
-        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling')) {
+        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') && ub.funcs.isCurrentType('upper')) {
 
-            var _uniformCategory = ub.current_material.material.uniform_category;
+            var _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
 
-            var _scaleSettings  = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
+            if (typeof _scaleSettings === "undefined") {
+
+                console.warn('Scale Settings Not Found.');
+
+            } else {
+    
+                scale_settings = _scaleSettings.scale;
+                
+            }
+
+        } else if (ub.funcs.isCurrentSport('Baseball') && ub.funcs.isCurrentType('lower')) {
+
+            var _scaleSettings = ub.data.mascotSizesPant.getSize(_uniformCategory, settings_obj.size, ub.current_material.material.neck_option); // Refactor this
 
             if (typeof _scaleSettings === "undefined") {
 

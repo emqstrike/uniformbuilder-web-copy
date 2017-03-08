@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use GuzzleHttp\Exception\ClientException;
 use App\APIClients\OrdersAPIClient;
 use App\APIClients\UsersAPIClient;
+use App\APIClients\SavedDesignsAPIClient;
 // use Illuminate\Support\Facades\Redis;
 
 
@@ -16,13 +17,17 @@ use App\APIClients\UsersAPIClient;
 class AdministrationController extends Controller
 {
     protected $ordersClient;
+    protected $savedDesignsClient;
+    protected $usersClient;
 
     public function __construct(
         OrdersAPIClient $ordersAPIClient,
+        SavedDesignsAPIClient $savedDesignAPIClient,
         UsersAPIClient $usersAPIClient
     )
     {
         $this->ordersClient = $ordersAPIClient;
+        $this->savedDesignsClient = $savedDesignAPIClient;
         $this->usersClient = $usersAPIClient;
     }
 
@@ -73,6 +78,14 @@ class AdministrationController extends Controller
                     $orders_stats[ $order->month_number - 1 ] = $order->orders_count;
                 }
 
+                // Orders
+                $saved_designs_stats_result = $this->savedDesignsClient->getStats($year);
+                $saved_designs_stats = $this->initOneMonth();
+                foreach ($saved_designs_stats_result as $saved_design)
+                {
+                    $saved_designs_stats[ $saved_design->month_number - 1 ] = $saved_design->saved_designs_count;
+                }
+
                 // Users
                 $users_stats_result = $this->usersClient->getStats($year);
                 $users_stats = $this->initOneMonth();
@@ -83,6 +96,7 @@ class AdministrationController extends Controller
 
                 return view('administration.lte-dashboard', compact(
                     'orders_stats',
+                    'saved_designs_stats',
                     'users_stats'
                 ));
                 // if(Session::get('adminFullAccess')){

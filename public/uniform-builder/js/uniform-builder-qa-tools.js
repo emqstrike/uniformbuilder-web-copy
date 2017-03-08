@@ -1,10 +1,11 @@
 $(document).ready(function () { 
 
     /// Note: Number of colors being used is calculated here, consider this when turning off the QA Tools, refactor.
-    /// 
-
+    /// maybe separate ga, qa and devtools
 
     ub.qa = {};
+    ub.ga = {};
+    ub.devtools = {};
 
     ub.funcs.printNames = function () {
 
@@ -175,5 +176,61 @@ $(document).ready(function () {
         return;    
 
     });
+
+    // Font Guides 
+
+    ub.toggleFontGuides = function () {
+
+        var _status = !ub.status.gaFontTool.getStatus();
+
+        if (_status) {
+
+            ub.showFontGuides();
+
+        } else {
+
+           ub.hideFontGuides();
+            
+        }
+
+        ub.status.gaFontTool.setStatus(_status);
+
+    }
+
+    ub.showFontGuides = function () {
+
+        _.each (ub.views, function (view) {
+
+            if (typeof ub.objects[view + '_view']['guide'] === "object") {
+
+                ub.objects[view + '_view']['guide'].alpha = 1;
+                ub.objects[view + '_view']['guide'].zIndex = -29;
+
+            }
+
+            ub.updateLayersOrder(ub[view + '_view']);
+
+        });
+
+    };
+
+    ub.hideFontGuides = function () {
+
+        _.each (ub.views, function (view) {
+
+            if (typeof ub.objects[view + '_view']['guide'] === "object") {
+
+                ub.objects[view + '_view']['guide'].alpha = 0;
+                ub.objects[view + '_view']['guide'].zIndex = -29;
+
+            }
+
+            ub.updateLayersOrder(ub[view + '_view']);
+
+        });
+
+    }
+
+    // End Font Guides 
 
 });
