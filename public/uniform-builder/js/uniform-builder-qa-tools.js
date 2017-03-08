@@ -7,6 +7,8 @@ $(document).ready(function () {
     ub.ga = {};
     ub.devtools = {};
 
+    ub.fontGuideIDs = [172, 73, 87, 85];
+
     ub.funcs.printNames = function () {
 
         var _nameErrors = [];
