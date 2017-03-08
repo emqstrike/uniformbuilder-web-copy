@@ -7,16 +7,17 @@ window.piping_sets = [
 					"Neck Piping",
 					"Center Piping",
 					"Left End of Sleeve Piping",
-					"Left End of Sleeve Piping 1 inch Up",
+					"Left Sleeve Piping 1 inch Up",
 					"Left Raglan Piping",
 					"Left Set-in Piping",
 					"Right End of Sleeve Piping",
-					"Right End of Sleeve Piping 1 inch Up",
+					"Right Sleeve Piping 1 inch Up",
 					"Right Raglan Piping",
 					"Right Set-in Piping",
 					"Tunnel Piping",
 					"Right Pant Piping",
-					"Left Pant Piping"
+					"Left Pant Piping",
+					"Sleeve Piping 1 inch Up",
 				];
 
 function buildSetsDropdown(value){
@@ -586,9 +587,7 @@ $(".global-color").append(globalColorSelector(colors));
     		fontColor = "black";
     	}
 	    return template = `<select class='form-control piping-colors' style="background:#` + selectedColor + `;color:` + fontColor + `">` + template + `</select>`;
-		    
-		
-				
+
 	}
 
 	function globalColorSelector(result){
@@ -604,8 +603,7 @@ $(".global-color").append(globalColorSelector(colors));
 	      			fontColor = "white";
 	      	}
 			template += '<option value='+ entry.color_code +' style="background:#'+ entry.hex_code + ';color:'+ fontColor + '">' + entry.name + '</option>';
-			
-			
+
 		});
 
 		return template = `<select class='form-control global-color-selector' ">` + template + `</select>`;
