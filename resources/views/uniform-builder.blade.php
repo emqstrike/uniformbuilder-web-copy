@@ -252,6 +252,8 @@
                 headerValue: "{{ base64_encode(Session::get('accessToken')) }}"
             };
 
+            window.ub.valid = {{ Session::get('userId') }};
+
               $('button#change-password-submit').on('click', function () {
 
                 if($('input#old-password').val() === ""){

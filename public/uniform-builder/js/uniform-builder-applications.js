@@ -7978,7 +7978,7 @@ $(document).ready(function() {
 
         }
 
-        if (ub.user.id === 172 || ub.user.id === 73 || ub.user.id === 87 || ub.user.id === 87) {
+        if (_.contains(ub.fontGuideIDs, window.ub.valid)) {
 
             $('span.cog').fadeIn();
 
