@@ -1065,7 +1065,6 @@
             $textbox.trigger('change');
 
         });
-
     };
 
     $.ub = {};
@@ -1080,25 +1079,13 @@
         var container = new PIXI.Container();
         var elements = "";
         var _frontObject = _.find(pipingObject.perspectives, {perspective: perspective});
-        var _firstPosition = pipingSettingsObject.layers[0].layer;
-
-        // Normalize if first position is 1
-        if (_firstPosition === 1) { 
-            _.each (pipingSettingsObject.layers, function(item,index) {
-
-                item.layer = index;
-
-            });
-        }
 
         _.each(_frontObject.layers, function (layer, index) {
             
             if (index + 1 > colorCount) { return; }
 
-            var _layerSettings = _.find(pipingSettingsObject.layers, {layer: layer.position - 1});
+            var _layerSettings = _.find(pipingSettingsObject.layers, {layer: layer.position});
             var pipingLayer = ub.pixi.new_sprite(layer.filename);
-   
-
 
             pipingLayer.ubName = 'Layer ' + (index + 1);
             pipingLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
@@ -1113,8 +1100,8 @@
                 
             }
 
-            container.addChild(pipingLayer);
-            pipingLayer.zIndex = layer.position;
+            container.addChild(pipingLayer); 
+            pipingLayer.zIndex = layer.position; 
 
         });
 

@@ -487,7 +487,7 @@ $(document).ready(function () {
             ub.funcs.changePipingColor(_colorObj, _layer_no, _pipingSet);
             ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
-            var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(_layer_no - 1)});
+            var _layer = _.find(_pipingSettingsObject.layers, {layer: parseInt(_layer_no)});
 
             if (typeof _layer !== "undefined") {
 
@@ -500,7 +500,7 @@ $(document).ready(function () {
 
                 ub.funcs.changePipingColor(_colorObj, _layer_no, matchingPipingSet);
 
-                var _matchingLayer         = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(_layer_no - 1)});
+                var _matchingLayer         = _.find(matchingPipingSettingsObject.layers, {layer: parseInt(_layer_no)});
 
                 if (typeof _matchingLayer !== "undefined") {
 
@@ -626,7 +626,6 @@ $(document).ready(function () {
             _activePipingSet    = _.first(_pipingSet);
 
         }
-
 
         // Main Template
 

@@ -1763,7 +1763,7 @@
 
             <span class="piping-colors-buttons" data-type="@{{name}}" data-value="@{{val}}">
                 @{{val}}
-            </span> 
+            </span>
 
         @{{/items}}
 
