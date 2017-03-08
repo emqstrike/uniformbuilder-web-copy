@@ -1583,6 +1583,20 @@ $(document).ready(function () {
                 var _colorArray = [];
                 var _layers = [];
 
+                // Normalize Piping Position From source 
+
+                _.each (piping.perspectives, function (perspective) {
+
+                    _.each(perspective.layers, function (layer) {
+
+                        layer.position = layer.position;
+
+                    });
+
+                });
+
+                // End Normalize Piping Position from source
+
                 if (typeof piping.colors_array !== "undefined") {
 
                     _.each(piping.colors_array, function (color, index) {
@@ -1594,7 +1608,7 @@ $(document).ready(function () {
 
                             colorCode: color,
                             colorObj: _color,
-                            layer: index,
+                            layer: index + 1,
                             status: false,
 
                         });
@@ -1642,8 +1656,6 @@ $(document).ready(function () {
                     var _pipingObject                   = piping;
                     var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
                     var selectedColorArray              = ub.current_material.settings.team_colors;
-
-
                     
                     ub.funcs.initPipingColors(piping, selectedColorArray[0]);
                     ub.funcs.renderPipings(piping, _colorCount);
