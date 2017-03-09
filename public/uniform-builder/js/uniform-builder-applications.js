@@ -6663,7 +6663,9 @@ $(document).ready(function() {
         } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
             
             if (ub.funcs.isCurrentType('upper')) {
-                _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+                
+                _sizes = ub.data.applicationSizes.getSizes(_alias.alias, 'mascot', parseInt(application_id));
+
             } else {
                 _sizes = ub.funcs.getApplicationSizesPant(_applicationType, _alias.alias, _id);
             }
@@ -7577,6 +7579,13 @@ $(document).ready(function() {
 
                 _settingsObject.size = 1.75;
                 _settingsObject.font_size = 1.75;                
+
+            }
+
+            if (ub.funcs.isCurrentSport('Baseball') && (_id === 7 || _id === 6)) {
+
+                _settingsObject.size = 2;
+                _settingsObject.font_size = 2;                
 
             }
 

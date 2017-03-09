@@ -2454,15 +2454,21 @@ $(document).ready(function() {
                 {
                     name: 'mascot',
                     sport: 'baseball',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
+                    applicationNumbers: [7,6],
+                    sizes: [
+                        {size: 2},
+                        {size: 3},
+                    ],
+                },
+                {
+                    name: 'mascot',
+                    sport: 'baseball',
+                    applicationNumbers: [29, 26, 28, 27, 30, 31, 9, 10,1],
+                    sizes: [
+                        {size: 2},
+                        {size: 3},
+                        {size: 4},
+                    ],
                 },
                 {
                     name: 'front_number',
@@ -2727,6 +2733,31 @@ $(document).ready(function() {
                 // end compression
 
             ],
+            getSizes: function (sport, type, locationNumber) {
+
+                var _result = _.filter(this.items, {sport: sport, name: type});
+
+                if (typeof _result === "undefined") {
+
+                    ub.utilities.warn(type + ' Sizes for ' + type + ' not found.' );
+
+                }
+
+                _result = _.find(_result, function (item) {
+
+                    return _.contains(item.applicationNumbers, locationNumber);
+
+                });
+
+                if (typeof _result === "undefined") {
+
+                    ub.utilities.warn('Location #' + locationNumber + ' for ' + type + ' Sizes in ' + sport + ' not found.' );
+
+                }
+
+                return _result;
+
+            }
     }
 
     /// Todo: Read This from API for a complete font listing
@@ -9310,6 +9341,11 @@ ub.funcs.fontOffSets = [
 
         items: [
 
+            {
+                sport: 'Baseball',
+                size: 2,
+                scale: {x: 0.22 ,y: 0.22 },
+            },
             {
                 sport: 'Baseball',
                 size: 3,
