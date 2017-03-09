@@ -1198,6 +1198,7 @@ $(document).ready(function () {
             ub.renderer.render(ub.stage);
 
             ub.funcs.fixAlignments();
+            ub.funcs.mirrorRotation();
 
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
 
