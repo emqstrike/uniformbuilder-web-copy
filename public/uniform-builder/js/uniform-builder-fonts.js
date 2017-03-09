@@ -146,6 +146,33 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.mirrorRotation = function () {
+
+        if (ub.current_material.material.uniform_category !== "Hockey") { return; }
+        if (ub.data.rosterInitialized) { return; }
+
+        if (typeof ub.objects.back_view.objects_10 !== 'undefined' && ub.objects.back_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_10 !== 'undefined') {
+
+            var _totalWidthFront = ub.totalWidth; 
+            var _totalWidthBack = ub.totalWidth;
+            var _application9 = ub.current_material.settings.applications[9];
+            var is9BuffsBold;
+
+            if (_application9.application_type === 'mascot' || _application9.application_type === 'free') { return; }
+
+            ub.objects.back_view.objects_9.rotation     = ub.objects.back_view.objects_10.rotation * -1;
+            ub.objects.front_view.objects_10.rotation   = ub.objects.front_view.objects_9.rotation * -1;
+
+            ub.objects.front_view.objects_10.position.x = _totalWidthFront - ub.objects.front_view.objects_9.position.x + 4;
+            ub.objects.back_view.objects_9.position.x   = _totalWidthBack - ub.objects.back_view.objects_10.position.x + 4;
+            
+            ub.objects.front_view.objects_10.position.y = ub.objects.front_view.objects_9.position.y;
+            ub.objects.back_view.objects_9.position.y   = ub.objects.back_view.objects_10.position.y;
+
+        }
+
+    }
+
     ub.funcs.fixAlignments = function () {
 
         if (ub.current_material.material.uniform_category !== "Football" && ub.current_material.material.uniform_category !== "Wrestling") { return; }
@@ -185,7 +212,6 @@ $(document).ready(function() {
 
                 ub.objects.back_view.objects_10.position.x = 115;
                 ub.objects.front_view.objects_9.position.x = 118
-
 
             }
 
