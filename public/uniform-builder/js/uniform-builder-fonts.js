@@ -77,8 +77,6 @@ $(document).ready(function() {
     ub.funcs.getFontOffsetsfromParsedFontTables = function (fontName, perspective, location, fontSize) {
 
         var _font = _.find(ub.data.fonts, {name: fontName});
-
-
         var _perspectiveData = undefined;
         var _offsetResult = undefined;
 
