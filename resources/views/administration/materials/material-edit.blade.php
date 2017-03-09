@@ -61,6 +61,13 @@
                         </div>
 <hr>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Inch in Pixels</label>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control" step="any" name="one_inch_in_px" value="{{ $material->one_inch_in_px }}">
+                            </div>
+                        </div>
+<hr>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Debug Mode</label>
                             <div class="col-md-6">
                                 <select class="form-control material-debug_mode" name="debug_mode" id="debug_mode">
