@@ -362,23 +362,6 @@ $(document).ready(function() {
         var _yScale         = 0;
         var _fontSizeTables = _fontObj.parsedFontSizeTables;
 
-        if (ub.current_material.material.uniform_category === "Hockey") {
-
-            _fontSizeData =  {
-
-                inputSize: fontSize,
-                pixelFontSize: fontSize * parseInt(ub.current_material.material.one_inch_in_px),
-                xOffset: 0,
-                yOffset: 0,
-                xScale: 1,
-                yScale: 1,
-
-            };
-
-            return _fontSizeData;
-            
-        }
-
         // If the font has the multi-perspective settings use it instead
 
         if (_fontSizeTables !== null && typeof _fontSizeTables !== "undefined") {
@@ -429,6 +412,14 @@ $(document).ready(function() {
             };
 
         }
+
+
+        if (ub.current_material.material.uniform_category === "Hockey") {
+
+            _fontSizeData.pixelFontSize = fontSize * parseInt(ub.current_material.material.one_inch_in_px);
+                
+        }
+
 
         return _fontSizeData;
 
