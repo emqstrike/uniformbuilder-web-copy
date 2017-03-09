@@ -2065,6 +2065,10 @@ $(document).ready(function() {
                 name: "Tech-Tee (Apparel)",
                 alias: "tech-tee",
             },
+            { 
+                name: "Hockey",
+                alias: "hockey",
+            },
 
         ],
 
@@ -2408,6 +2412,7 @@ $(document).ready(function() {
                                 },
                             ],
                 },
+
                 // Baseball
                 {
                     name: 'team_name',
@@ -2499,6 +2504,97 @@ $(document).ready(function() {
                             ],
                     type: 'adult',
                 },
+                // End Baseball
+
+                // Hockey
+                {
+                    name: 'team_name',
+                    sport: 'hockey',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'hockey',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'hockey',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'hockey',
+                    applicationNumbers: [7,6],
+                    sizes: [
+                        {size: 2},
+                        {size: 3},
+                    ],
+                },
+                {
+                    name: 'mascot',
+                    sport: 'hockey',
+                    applicationNumbers: [29, 26, 28, 27, 30, 31, 9, 10,1],
+                    sizes: [
+                        {size: 2},
+                        {size: 3},
+                        {size: 4},
+                    ],
+                },
+                {
+                    name: 'front_number',
+                    sport: 'hockey',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'hockey',
+                    sizes:  [
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                // End Hockey
 
                 // tech-teee
 
@@ -9048,6 +9144,34 @@ ub.funcs.fontOffSets = [
                 size: 3,
                 pullUpHeight: 0,
             },
+
+            // "Hockey"
+            {
+                sport: 'Hockey',
+                applicationNumber: '2',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Hockey',
+                applicationNumber: '2',
+                size: 2,
+                pullUpHeight: -21,
+            },
+            {
+                sport: 'Hockey',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -21,
+            },
+            {
+                sport: 'Hockey',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+
+
 
         ], 
 
