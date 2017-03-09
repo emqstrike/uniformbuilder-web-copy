@@ -1,5 +1,16 @@
 $(document).ready(function() {
 
+    ub.funcs.getSampleFont = function () {
+
+        // TODO: Use first available font if there's no match
+
+        var _uniformCategory = ub.current_material.material.uniform_category;
+        var _sampleFont = ub.data.sampleFonts.getSampleFont(_uniformCategory);
+
+        return ub.funcs.getFontByName(_sampleFont.fontName);
+
+    }
+
     ub.funcs.processFonts = function () {
 
         ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
@@ -146,28 +157,94 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.mirrorApp = function (baseApp, backOa, backOb, frontOa, frontOb) {
+
+        if (baseApp.application_type === 'mascot' || baseApp.application_type === 'free') { return; }
+
+        var _totalWidthFront    = ub.totalWidth; 
+        var _totalWidthBack     = ub.totalWidth;
+
+        backOb.rotation         = backOa.rotation * -1;
+        frontOa.rotation        = frontOb.rotation * -1;
+
+        frontOa.position.x      = _totalWidthFront - frontOb.position.x + 4;
+        backOb.position.x       = _totalWidthBack - backOa.position.x + 4;
+        
+        frontOa.position.y      = frontOb.position.y;
+        backOb.position.y       = backOa.position.y;
+
+    }
+
     ub.funcs.mirrorRotation = function () {
 
         if (ub.current_material.material.uniform_category !== "Hockey") { return; }
         if (ub.data.rosterInitialized) { return; }
 
-        if (typeof ub.objects.back_view.objects_10 !== 'undefined' && ub.objects.back_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_9 !== 'undefined' && ub.objects.front_view.objects_10 !== 'undefined') {
+        var _backOa = undefined;
+        var _backOb = undefined; 
+        var _frontOa = undefined;
+        var _frontOb = undefined; 
+        var _baseApp = undefined;
 
-            var _totalWidthFront = ub.totalWidth; 
-            var _totalWidthBack = ub.totalWidth;
-            var _application9 = ub.current_material.settings.applications[9];
-            var is9BuffsBold;
+        // 9 and 10
 
-            if (_application9.application_type === 'mascot' || _application9.application_type === 'free') { return; }
+        _baseApp = ub.current_material.settings.applications[9];
 
-            ub.objects.back_view.objects_9.rotation     = ub.objects.back_view.objects_10.rotation * -1;
-            ub.objects.front_view.objects_10.rotation   = ub.objects.front_view.objects_9.rotation * -1;
+        _backOa = ub.objects.back_view.objects_10;
+        _backOb = ub.objects.back_view.objects_9;
 
-            ub.objects.front_view.objects_10.position.x = _totalWidthFront - ub.objects.front_view.objects_9.position.x + 4;
-            ub.objects.back_view.objects_9.position.x   = _totalWidthBack - ub.objects.back_view.objects_10.position.x + 4;
-            
-            ub.objects.front_view.objects_10.position.y = ub.objects.front_view.objects_9.position.y;
-            ub.objects.back_view.objects_9.position.y   = ub.objects.back_view.objects_10.position.y;
+        _frontOa = ub.objects.front_view.objects_10;
+        _frontOb = ub.objects.front_view.objects_9;
+
+        if (typeof _backOa !== 'undefined' && _backOb !== 'undefined' && _frontOb !== 'undefined' && _frontOa !== 'undefined') {
+
+            ub.funcs.mirrorApp(_baseApp, _backOa, _backOb, _frontOa, _frontOb);
+
+        }
+
+
+        // 43 and 44 
+
+        _backOa     = undefined;
+        _backOb     = undefined; 
+        _frontOa    = undefined;
+        _frontOb    = undefined; 
+        _baseApp    = undefined;
+
+        _baseApp    = ub.current_material.settings.applications[43];
+
+        _backOa     = ub.objects.back_view.objects_44;
+        _backOb     = ub.objects.back_view.objects_43;
+
+        _frontOa    = ub.objects.front_view.objects_44;
+        _frontOb    = ub.objects.front_view.objects_43;
+
+        if (typeof _backOa !== 'undefined' && _backOb !== 'undefined' && _frontOb !== 'undefined' && _frontOa !== 'undefined') {
+
+            ub.funcs.mirrorApp(_baseApp, _backOa, _backOb, _frontOa, _frontOb);
+
+        }
+
+
+        // 41 and 42 
+
+        _backOa     = undefined;
+        _backOb     = undefined; 
+        _frontOa    = undefined;
+        _frontOb    = undefined; 
+        _baseApp    = undefined;
+
+        _baseApp    = ub.current_material.settings.applications[41];
+
+        _backOa     = ub.objects.back_view.objects_42;
+        _backOb     = ub.objects.back_view.objects_41;
+
+        _frontOa    = ub.objects.front_view.objects_42;
+        _frontOb    = ub.objects.front_view.objects_41;
+
+        if (typeof _backOa !== 'undefined' && _backOb !== 'undefined' && _frontOb !== 'undefined' && _frontOa !== 'undefined') {
+
+            ub.funcs.mirrorApp(_baseApp, _backOa, _backOb, _frontOa, _frontOb);
 
         }
 

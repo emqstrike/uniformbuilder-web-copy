@@ -9024,6 +9024,10 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Compression (Apparel)',
                 fontName: 'Impact',
+            },
+            {
+                sport: 'Hockey',
+                fontName: 'HCKY_impact',
             }
 
         ],
