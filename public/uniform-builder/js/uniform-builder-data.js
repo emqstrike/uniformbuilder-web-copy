@@ -2570,10 +2570,10 @@ $(document).ready(function() {
                     sport: 'hockey',
                     sizes:  [
                                 {
-                                    size: 3,
+                                    size: 4,
                                 },
                                 {
-                                    size: 4,
+                                    size: 5,
                                 },
                             ],
                     type: 'adult',
@@ -2582,9 +2582,6 @@ $(document).ready(function() {
                     name: 'back_number',
                     sport: 'hockey',
                     sizes:  [
-                                {
-                                    size: 6,
-                                },
                                 {
                                     size: 8,
                                 },
