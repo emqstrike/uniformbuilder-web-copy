@@ -9178,8 +9178,6 @@ ub.funcs.fontOffSets = [
                 pullUpHeight: 0,
             },
 
-
-
         ], 
 
         getPullUp: function (sport, parentSize, applicationNumber) {

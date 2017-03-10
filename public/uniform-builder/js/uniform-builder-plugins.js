@@ -1426,7 +1426,7 @@
 
                 }
 
-                style = {font: font_size + "px " + font_name, fill: "white", padding: _padding, lineJoin: 'miter', miterLimit: 1};
+                style = {font: font_size + "px " + font_name, fill: "white", padding: _padding, lineJoin: 'miter', miterLimit: 2};
 
             }
 
