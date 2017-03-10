@@ -191,7 +191,7 @@ $(document).ready(function() {
 
     ub.funcs.mirrorRotation = function () {
 
-        if (ub.current_material.material.uniform_category !== "Hockey") { return; }
+        if (!ub.data.sportsMain.currentOk()) { return; }
         if (ub.data.rosterInitialized) { return; }
 
         var _backOa = undefined;
@@ -353,7 +353,7 @@ $(document).ready(function() {
 
             ub.objects.front_view.objects_10.position.x = _totalWidthFront - ub.objects.front_view.objects_9.position.x;
             ub.objects.back_view.objects_9.position.x   = _totalWidthBack - ub.objects.back_view.objects_10.position.x;
-            
+
             ub.objects.front_view.objects_10.position.y = ub.objects.front_view.objects_9.position.y;
             ub.objects.back_view.objects_9.position.y   = ub.objects.back_view.objects_10.position.y;
 
@@ -426,11 +426,15 @@ $(document).ready(function() {
 
         }
 
+        if (ub.data.sportsMain.currentOk()) {
 
-        if (ub.current_material.material.uniform_category === "Hockey") {
+            if(ub.current_material.material.one_inch_in_px === null) {
+
+                ub.utilities.warn('No one_inch_in_px set for this uniform.');
+
+            }
 
             _fontSizeData.pixelFontSize = fontSize * parseInt(ub.current_material.material.one_inch_in_px);
-            _fontSizeData._yOffset            = 0;
                 
         }
 
