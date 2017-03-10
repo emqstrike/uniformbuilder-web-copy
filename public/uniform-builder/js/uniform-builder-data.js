@@ -2079,7 +2079,13 @@ $(document).ready(function() {
             if (typeof _result === "undefined") {
 
                 ub.utilities.warn(sportName + ' not found.');
+                ub.utilities.warn('Forcing lowercase instead. Using (' + sportName.toLowerCase());
                 console.trace();
+
+                var _result = {
+                    name: sportName,
+                    alias: sportName.toLowerCase(),
+                }
 
             }
 
@@ -10282,6 +10288,55 @@ ub.funcs.fontOffSets = [
 
         },
 
+    };
+
+    ub.data.originalSports = ['Football', 'Wrestling'];
+
+    // Sports using the new Font Metrics 
+    ub.data.sportsMain = {
+
+        items: [
+            'Hockey',
+        ],
+
+        currentOk: function () {
+
+            return _.contains(this.items, ub.current_material.material.uniform_category);
+
+        }
+
     }
+
+    ub.data.anchors = {
+
+        items: [
+            {
+                applicationNumbers: [1, 2, 5, 6],
+                anchor: {x: 0.5, y: 1.0},   
+            }
+        ],
+
+        getAnchor: function (applicationNumber) {
+
+            var _result = _.find(this.items, function (item) {
+
+                return _.contains(item.applicationNumbers, applicationNumber);
+
+            });
+
+            if (typeof _result === "undefined") {
+
+                _result = {
+                    applicationNumbers: [-1],
+                    anchor:    {x: 0.5, y: 0.5},
+                }
+
+            }
+
+            return _result;
+
+        }
+
+    };
 
 });

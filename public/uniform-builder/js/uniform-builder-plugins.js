@@ -1331,7 +1331,7 @@
 
         } else {
 
-            if (ub.funcs.isCurrentSport('Baseball')) {
+            if (!ub.funcs.isCurrentSport('Football')) {
 
                 text_input = input_object.text_input;
 
@@ -1537,10 +1537,14 @@
             text_layer.text_sprite.y += dummy.height * layer.increment_y;
             
             if (verticalText !== 1) {
+                
                 text_layer.text_sprite.anchor.set(0.5, 0.5);
+
             }
             else {
+
                 text_layer.text_sprite.anchor.set(0.5, 0);   
+
             }
 
             container.addChild(text_layer.text_sprite);
