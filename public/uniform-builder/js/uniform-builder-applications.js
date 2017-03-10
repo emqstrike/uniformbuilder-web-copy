@@ -2304,7 +2304,7 @@ $(document).ready(function() {
 
             var _settingsObject     = ub.funcs.getSettingsObject(app_id);
             
-            _.each(ub.views, function(_view){
+            _.each(ub.views, function(_view) {
 
                 var _view_name = _view + '_view';
 
@@ -2315,6 +2315,7 @@ $(document).ready(function() {
                 }
 
             });
+
 
             var adjustablePositions = ['1','2','6','5'];
 
@@ -7508,15 +7509,6 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.getSampleFont = function () {
-
-        var _uniformCategory = ub.current_material.material.uniform_category;
-        var _sampleFont = ub.data.sampleFonts.getSampleFont(_uniformCategory);
-
-        return ub.funcs.getFontByName(_sampleFont.fontName);
-
-    }
-
     ub.funcs.changeApplicationType = function (settingsObject,type) {
 
         var _settingsObject = settingsObject;
@@ -7980,7 +7972,7 @@ $(document).ready(function() {
 
     ub.funcs.afterActivateApplication = function () {
 
-        if (ub.funcs.isCurrentSport('Baseball')) {
+        if (!ub.funcs.isCurrentSport('Football')) {
 
             // Remove force uppercase requirement on Team Name input
             $('input.sampleText').addClass('disableUpperCaseRequirement');

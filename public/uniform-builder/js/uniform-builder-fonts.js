@@ -6,8 +6,22 @@ $(document).ready(function() {
 
         var _uniformCategory = ub.current_material.material.uniform_category;
         var _sampleFont = ub.data.sampleFonts.getSampleFont(_uniformCategory);
+        var _result = ub.funcs.getFontByName(_sampleFont.fontName);
 
-        return ub.funcs.getFontByName(_sampleFont.fontName);
+        if (typeof _result === "undefined") {
+
+            if (ub.data.fonts.length === 0) {
+
+                ub.utilities.warn('There are no fonts loaded!');
+
+            }
+
+            _result = _.first(ub.data.fonts);
+            if (typeof _result !== "undefined") { ub.utilities.warn('No Sample Font Set for ' + ub.current_material.material.uniform_category + ' using ' + _result.name); }
+
+        }
+
+        return _result;
 
     }
 
@@ -368,7 +382,6 @@ $(document).ready(function() {
 
             var _fontSizeTable = ub.funcs.getFontOffsetsfromParsedFontTables(_fontObj.name, perspective, application.id.toString(), fontSize);
 
-
             _fontSizeData =  {
 
                 inputSize: _fontSizeTable.inputSize,
@@ -417,6 +430,7 @@ $(document).ready(function() {
         if (ub.current_material.material.uniform_category === "Hockey") {
 
             _fontSizeData.pixelFontSize = fontSize * parseInt(ub.current_material.material.one_inch_in_px);
+            _fontSizeData._yOffset            = 0;
                 
         }
 
