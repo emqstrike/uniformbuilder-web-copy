@@ -2831,6 +2831,104 @@ $(document).ready(function() {
 
                 // end compression
 
+                // defaults 
+
+                {
+                    name: 'team_name',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+
+                // end defaults
+
             ],
             getSizes: function (sport, type, locationNumber) {
 
@@ -2850,7 +2948,10 @@ $(document).ready(function() {
 
                 if (typeof _result === "undefined") {
 
-                    ub.utilities.warn('Location #' + locationNumber + ' for ' + type + ' Sizes in ' + sport + ' not found.' );
+                    ub.utilities.warn('Location #' + locationNumber + ' for ' + type + ' Sizes in ' + sport + ' not found. Using default.');
+
+                    _result = _.filter(this.items, {sport: 'default', name: type});
+                    _result.sport = sport;
 
                 }
 
@@ -9550,13 +9651,64 @@ ub.funcs.fontOffSets = [
                 scale: {x: 0.90, y: 0.90 },
             },
 
+            // Defaults 
+
+            {
+                sport: 'Default',
+                size: 2,
+                scale: {x: 0.18, y: 0.18 },
+            },
+            {
+                sport: 'Default',
+                size: 3,
+                scale: {x: 0.27, y: 0.27 },
+            },
+            {
+                sport: 'Default',
+                size: 4,
+                scale: {x: 0.36, y: 0.36 },
+            },
+            {
+                sport: 'Default',
+                size: 5,
+                scale: {x: 0.44, y: 0.44 },
+            },
+            {
+                sport: 'Default',
+                size: 8,
+                scale: {x: 0.72, y: 0.72 },
+            },
+            {
+                sport: 'Default',
+                size: 10,
+                scale: {x: 0.90, y: 0.90 },
+            },
+
         ],
 
         getSize: function (sport, size) {
 
             var _result = _.find(this.items, {sport: sport, size: size});
             
-            if (typeof _result === "undefined") { console.warn('mascotSize for ' + sport + ' not found.')};
+            if (typeof _result === "undefined") { 
+                
+                ub.utilities.warn('mascotSize for ' + sport + ' not found. Using default'); 
+
+                _result = _.find(this.items, {sport: 'Default', size: size });
+
+                if (typeof _result === "undefined") {
+
+                    ub.utilities.warn('Default size for mascot on ' + sport + ' not found. Using 0.5 x 0.5'); 
+
+                    _result = {
+                        sport: sport,
+                        size: size,
+                        scale: { x: 0.5, y: 0.5 }
+                    }
+
+                }
+
+            };
 
             return _result;
 

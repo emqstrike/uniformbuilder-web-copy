@@ -9,6 +9,17 @@ $(document).ready(function () {
 
     ub.fontGuideIDs = [172, 73, 87, 85];
 
+    ub.funcs.printUniformInfo = function (material) {
+
+        ub.utilities.info('ID: ' + material.id);
+        ub.utilities.info('Block Pattern ID: ' + material.block_pattern_id);
+        ub.utilities.info('Block Pattern: ' + material.block_pattern);
+        ub.utilities.info('Uniform: ' + material.name);
+        ub.utilities.info('Sport: ' + material.uniform_category);
+        ub.utilities.info('Type: ' + material.type);
+
+    }
+
     ub.funcs.printNames = function () {
 
         var _nameErrors = [];

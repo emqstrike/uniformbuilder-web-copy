@@ -1417,12 +1417,16 @@
 
             } else {
 
-                style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
+                style = {font: font_size + "px " + font_name, fill: "white", padding: 150, lineJoin: 'miter', miterLimit: 2};
 
                 if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
 
                     // Additional vertical padding so that tailsweeps wont be clipped
                     _padding = 150;
+
+                } else {
+
+                    _padding = 40;
 
                 }
 

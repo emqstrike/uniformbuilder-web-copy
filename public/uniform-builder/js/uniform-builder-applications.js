@@ -2229,13 +2229,13 @@ $(document).ready(function() {
                                 _applicationNumber      = '2'                                
 
                             }
-
-                            var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
-                            var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
-
+                           
                             var _originalPosition       = _app26['originalPosition_' + _view];
 
-                            if (_currentSport === "Baseball") {
+                            if (_currentSport === "Baseball" || _currentSport === "Fastpitch") {
+
+                                var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                                var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
 
                                 ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);
 
@@ -2250,8 +2250,8 @@ $(document).ready(function() {
                                 if (_parentSize === 2) {
 
                                     if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
-
                                     _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -1;
+                                    
                                 }
                                 
                                 ub.funcs.pullUp(_object2, _originalPosition, _calculatedPullUpHeight);
