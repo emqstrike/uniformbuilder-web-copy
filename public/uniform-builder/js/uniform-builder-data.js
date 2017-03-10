@@ -10297,6 +10297,9 @@ ub.funcs.fontOffSets = [
 
         items: [
             'Hockey',
+            'Tech-Tee (Apparel)',
+            'Compression (Apparel)',
+            'Fastpitch',
         ],
 
         currentOk: function () {
