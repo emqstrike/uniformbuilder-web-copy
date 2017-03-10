@@ -1403,7 +1403,7 @@
 
             var style = "";
             var lineHeight = font_size;
-            var _padding = 10;
+            var _padding = 40;
 
             if (verticalText === 1) {
 
