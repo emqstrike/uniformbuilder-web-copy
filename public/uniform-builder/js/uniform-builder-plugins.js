@@ -1424,12 +1424,8 @@
                     // Additional vertical padding so that tailsweeps wont be clipped
                     _padding = 150;
 
-                } else {
-
-                    _padding = 40;
-
                 }
-
+                
                 style = {font: font_size + "px " + font_name, fill: "white", padding: _padding, lineJoin: 'miter', miterLimit: 2};
 
             }

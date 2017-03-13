@@ -2079,7 +2079,7 @@ $(document).ready(function() {
             if (typeof _result === "undefined") {
 
                 ub.utilities.warn(sportName + ' not found.');
-                ub.utilities.warn('Forcing lowercase instead. Using (' + sportName.toLowerCase());
+                ub.utilities.warn('Forcing lowercase instead. Using (' + sportName.toLowerCase() + ')');
                 console.trace();
 
                 var _result = {
@@ -2479,6 +2479,16 @@ $(document).ready(function() {
                         {size: 2},
                         {size: 3},
                         {size: 4},
+                    ],
+                },
+                {
+                    name: 'mascot',
+                    sport: 'baseball',
+                    applicationNumbers: [5],
+                    sizes: [
+                        {size: 6},
+                        {size: 8},
+                        {size: 10},
                     ],
                 },
                 {
@@ -2950,7 +2960,7 @@ $(document).ready(function() {
 
                     ub.utilities.warn('Location #' + locationNumber + ' for ' + type + ' Sizes in ' + sport + ' not found. Using default.');
 
-                    _result = _.filter(this.items, {sport: 'default', name: type});
+                    _result = _.find(this.items, {sport: 'default', name: type});
                     _result.sport = sport;
 
                 }
@@ -9152,6 +9162,8 @@ ub.funcs.fontOffSets = [
 
         items: [
 
+
+            // Baseball 
             {
                 sport: 'Baseball',
                 applicationNumber: '26',
@@ -9200,6 +9212,62 @@ ub.funcs.fontOffSets = [
                 size: 2,
                 pullUpHeight: -35,
             },
+
+            // End Baseball 
+
+            // Fastpitch 
+
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '26',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '26',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '26',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '27',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '27',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '27',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -35,
+            },
+
+
+            // End Fastpitch 
 
             // Compression
              {
