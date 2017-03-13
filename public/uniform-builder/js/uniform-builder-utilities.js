@@ -24,6 +24,15 @@ $(document).ready(function() {
 
         },
 
+        info: function (msg, type, user) {
+
+            // TODO: Persist / Log to storage
+            // TODO: (Refactor) Funnel all info messages through here
+
+            console.info(msg);
+
+        }
+
     };
 
 });

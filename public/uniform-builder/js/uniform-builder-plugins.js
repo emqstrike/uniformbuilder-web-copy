@@ -1417,7 +1417,7 @@
 
             } else {
 
-                style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
+                style = {font: font_size + "px " + font_name, fill: "white", padding: 150, lineJoin: 'miter', miterLimit: 2};
 
                 if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
 
@@ -1425,7 +1425,7 @@
                     _padding = 150;
 
                 }
-
+                
                 style = {font: font_size + "px " + font_name, fill: "white", padding: _padding, lineJoin: 'miter', miterLimit: 2};
 
             }

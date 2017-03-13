@@ -1838,6 +1838,12 @@ $(document).ready(function () {
 
         }
 
+        // Applications
+
+            ub.funcs.printUniformInfo(ub.current_material.material, ub.current_material.settings);
+
+        // End Applications
+
     };
 
     // Initialize uniform settings

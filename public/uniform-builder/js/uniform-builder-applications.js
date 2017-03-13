@@ -2205,7 +2205,6 @@ $(document).ready(function() {
             var _app6       = ub.current_material.settings.applications[6];
             var _app5       = ub.current_material.settings.applications[5];
 
-            
             _.each(ub.views, function (_view) {
 
                 var _object26   = ub.objects[_view + '_view']['objects_26'];
@@ -2224,18 +2223,18 @@ $(document).ready(function() {
                             var _parentSize             =  parseInt(_app1.font_size);
                             var _applicationNumber      = '26'
 
-                            if (_currentSport !== "Baseball") {
+                            if (_currentSport !== "Baseball" && _currentSport !== "Fastpitch") {
 
                                 _applicationNumber      = '2'                                
 
                             }
-
-                            var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
-                            var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
-
+                           
                             var _originalPosition       = _app26['originalPosition_' + _view];
 
-                            if (_currentSport === "Baseball") {
+                            if (_currentSport === "Baseball" || _currentSport === "Fastpitch") {
+
+                                var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                                var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
 
                                 ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);
 
@@ -2250,10 +2249,10 @@ $(document).ready(function() {
                                 if (_parentSize === 2) {
 
                                     if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
-
-                                    _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -1;
+                                    _calculatedPullUpHeight = -20; // Set to 20 for now
+                                    
                                 }
-                                
+
                                 ub.funcs.pullUp(_object2, _originalPosition, _calculatedPullUpHeight);
 
                             }
@@ -2302,7 +2301,7 @@ $(document).ready(function() {
 
                                     if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
 
-                                    _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -1;
+                                    _calculatedPullUpHeight =  -20; // parseInt(ub.current_material.material.one_inch_in_px) * -1;
 
                                 }
                             
@@ -9607,8 +9606,13 @@ $(document).ready(function() {
         }
 
         if (typeof _sizes === 'undefined') {
-            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found!');
+            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
+
+            _sizes = ub.data.applicationSizes.getSizes('default', applicationType);            
+
         }
+
+
         
         return _sizes;
 
