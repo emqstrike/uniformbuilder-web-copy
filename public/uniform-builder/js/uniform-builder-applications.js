@@ -5401,7 +5401,7 @@ $(document).ready(function() {
 
     ub.funcs.changeAngleFromPopup = function (id, settingsObj, angle) {
 
-        settingsObj.tailsweep.angle = angle;
+        settingsObj.angle = angle;
 
         ub.funcs.removeApplicationByID(id);
         ub.create_application(settingsObj, undefined);
@@ -8171,6 +8171,15 @@ $(document).ready(function() {
         _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
 
         _htmlBuilder        +=          '</div>';
+
+        // Rotate Team Name in Baseball and Fastpitch
+        _htmlBuilder        += '<div class="ui-row angleItems">';
+        _htmlBuilder        +=      '<label class="applicationLabels font_size">Angle</label>';
+        _htmlBuilder        +=      '<span class="angleItem" data-angle="straight">Straight</span>';        
+        _htmlBuilder        +=      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
+        _htmlBuilder        += '</div>';
+        // End Rotate Team Name in Baseball and Fastpitch 
+
         _htmlBuilder        +=          '<div class="clearfix"></div>';
         _htmlBuilder        +=          '<div class="color-pattern-tabs">';
         _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span>';
@@ -8304,7 +8313,7 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
-        if(ub.funcs.isCurrentSport('Baseball')) {
+        if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
 
             _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
             _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb"><br />';
@@ -8334,9 +8343,9 @@ $(document).ready(function() {
             _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="11">11</span>';        
             _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="12">12</span>';        
 
-            _htmlBuilder        +=                      '<span class="sizeLabel">ANGLE</span>';
-            _htmlBuilder        +=                      '<span class="angleItem" data-angle="straight">Straight</span>';        
-            _htmlBuilder        +=                      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
+            _htmlBuilder        +=      '<label class="applicationLabels">Rotated</label>';
+            _htmlBuilder        +=      '<span class="angleItem" data-angle="straight">Straight</span>';        
+            _htmlBuilder        +=      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
 
             _htmlBuilder        +=                 '</div>';
             _htmlBuilder        +=              '</div>';
@@ -9164,7 +9173,10 @@ $(document).ready(function() {
 
             ub.funcs.toggleApplication(_id, _status);
 
-            if (ub.current_material.material.uniform_category !== "Baseball") {
+            if (
+                    parseInt(ub.current_material.material.id) !== 394 && 
+                    !(ub.current_material.material.uniform_category === "Baseball" || ub.current_material.material.uniform_category === "Fastpitch")
+                ) {
 
                 $('div.column1.tailsweeps').hide();
                 $('div.column1.patterns').hide();
@@ -9199,6 +9211,20 @@ $(document).ready(function() {
                     }
 
                 }
+
+                var _angle = _settingsObject.angle;
+
+                $('span.angleItem').removeClass('active');
+
+                if (_angle === "rotated") {
+                    $('span.angleItem[data-angle="rotated"]').addClass('active');    
+                } else {
+                    $('span.angleItem[data-angle="straight"]').addClass('active');    
+                }
+                
+            } else {
+
+                $('div.ui-row.angleItems').hide();
 
             }
 

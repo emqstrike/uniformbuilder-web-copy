@@ -1493,6 +1493,10 @@
 
             }
 
+            // Angle Override 
+            _angle = input_object.applicationObj.angle;
+            // End Angle Override
+
             if (verticalText === 1) {
                 text_layer.text_sprite = new PIXI.Text(text_input, style);
             } else {
