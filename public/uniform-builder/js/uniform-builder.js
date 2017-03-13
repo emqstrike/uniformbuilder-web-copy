@@ -1855,7 +1855,20 @@ $(document).ready(function () {
 
         // End Applications
 
+        if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+            // Activate Left View when a sock is loaded
+            ub.funcs.activateLeftView();
+
+        }
+
     };
+
+    ub.funcs.activateLeftView = function () {
+
+        $('a.footer-buttons.change-view[data-view="left"]').trigger('click');
+
+    }
 
     // Initialize uniform settings
     ub.init_settings_object = function () {

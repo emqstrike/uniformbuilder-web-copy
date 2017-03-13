@@ -6702,6 +6702,10 @@ $(document).ready(function() {
                 
                 _sizes = ub.data.applicationSizes.getSizes(_alias.alias, 'mascot', parseInt(application_id));
 
+            } else if (ub.funcs.isCurrentType('lower') && _uniformCategory === "Crew Socks (Apparel)" ) {
+
+                console.log('Apparel / Lower / Socks Detected... ');
+
             } else {
                 _sizes = ub.funcs.getApplicationSizesPant(_applicationType, _alias.alias, _id);
             }
