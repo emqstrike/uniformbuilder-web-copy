@@ -335,14 +335,14 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('tailsweep/edit/{id}', 'Administration\TailsweepsController@editTailsweepForm');
     Route::post('tailsweep/update', 'Administration\TailsweepsController@store');
 
-      // mascot sizes
+    // mascot sizes
     Route::get('mascot_sizes', 'Administration\MascotSizesController@index');
     Route::get('mascot_size/add', 'Administration\MascotSizesController@addMascotSizeForm');
     Route::post('mascot_size/add', 'Administration\MascotSizesController@store');
     Route::get('mascot_size/edit/{id}', 'Administration\MascotSizesController@editMascotSizeForm');
     Route::post('mascot_size/update', 'Administration\MascotSizesController@store');
 
-   // Route::get('price_item_template/edit/{id}', 'Administration\PriceItemTemplatesController@editMascotSizeForm');
+    // Route::get('price_item_template/edit/{id}', 'Administration\PriceItemTemplatesController@editMascotSizeForm');
     // Route::post('price_item_template/update', 'Administration\PriceItemTemplatesController@store');
 
 });
