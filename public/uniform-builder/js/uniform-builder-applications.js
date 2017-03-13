@@ -4782,6 +4782,12 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.hideOtherPanels = function () {
+
+        ub.funcs.hidePipingFunctions();
+
+    }
+
     ub.funcs.activatePatterns = function () {
 
         var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
@@ -4789,6 +4795,7 @@ $(document).ready(function() {
         if (typeof _modifier === 'undefined') { return false; }
 
         ub.funcs.deactivateMoveTool();
+
         var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
         var titleNameFirstMaterial      = _names[0].toTitleCase();
         var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
