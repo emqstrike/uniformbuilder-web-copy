@@ -6704,7 +6704,7 @@ $(document).ready(function() {
 
             } else if (ub.funcs.isCurrentType('lower') && _uniformCategory === "Crew Socks (Apparel)" ) {
 
-                console.log('Apparel / Lower / Socks Detected... ');
+                _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias, _id);
 
             } else {
                 _sizes = ub.funcs.getApplicationSizesPant(_applicationType, _alias.alias, _id);
