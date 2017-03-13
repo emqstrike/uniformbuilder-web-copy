@@ -4704,6 +4704,7 @@ $(document).ready(function () {
 
                     if (ub.current_part === 0) { return; }
 
+                    ub.funcs.hideOtherPanels();
                     ub.funcs.activatePatterns();
                     return;
                     
