@@ -109,7 +109,7 @@ $(document).ready(function() {
         console.log(fontName);
 
         console.log('Perspective: ');
-        console.log (perspective);
+        console.log(perspective);
 
         console.log('Location: ');
         console.log(location);
@@ -118,10 +118,6 @@ $(document).ready(function() {
         console.log(fontSize);
 
         console.log(_font);
-
-        console.log(_font);
-
-
 
         if (typeof _font !== "undefined") {
 

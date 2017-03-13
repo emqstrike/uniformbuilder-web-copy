@@ -2066,6 +2066,10 @@ $(document).ready(function() {
                 alias: "tech-tee",
             },
             { 
+                name: "Crew Socks (Apparel)",
+                alias: "crew-socks",
+            },
+            { 
                 name: "Hockey",
                 alias: "hockey",
             },
@@ -2521,6 +2525,21 @@ $(document).ready(function() {
                     type: 'adult',
                 },
                 // End Baseball
+
+                // Crew Socks 
+
+                {
+                    name: 'mascot',
+                    sport: 'crew-socks',
+                    applicationNumbers: [52, 53, 54, 55],
+                    sizes: [
+                        {size: 2},
+                        {size: 3},
+                        {size: 4},
+                    ],
+                },
+
+                // ENd Crew Socks 
 
                 // Hockey
                 {
