@@ -1358,6 +1358,8 @@ $(document).ready(function () {
 
                     var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0], view.perspective, { id: _application.id }); 
 
+
+
                     _output = {
 
                         accent_obj: _accentObj,
@@ -1375,12 +1377,21 @@ $(document).ready(function () {
                         text: view.application.defaultText,
                         type: _application.type,
                         verticalText: view.application.verticalText,
+                        angle: (view.application.rotatedTailsweep === 1) ? "rotated": "straight",
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
 
                     // Setup Default Tailsweep
                     if (view.application.id === "1" && ub.funcs.isCurrentSport('Baseball')) {
+
+                        var _rotated = 'straight';
+
+                        if (view.application.rotatedTailsweep === 1) { 
+
+                           _rotated = 'rotated';
+
+                        }
 
                         if (view.application.tailsweeps !== "") {
 
