@@ -347,6 +347,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('application_size/add', 'Administration\ApplicationSizesController@addForm');
     Route::post('application_size/add', 'Administration\ApplicationSizesController@store');
     Route::get('application_size/edit/{id}', 'Administration\ApplicationSizesController@editForm');
+    Route::post('application_size/update', 'Administration\ApplicationSizesController@store');
 
     // Route::get('price_item_template/edit/{id}', 'Administration\PriceItemTemplatesController@editMascotSizeForm');
     // Route::post('price_item_template/update', 'Administration\PriceItemTemplatesController@store');

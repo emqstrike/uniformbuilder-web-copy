@@ -52,7 +52,7 @@ class ApplicationSizesController extends Controller
     {
         $sports = $this->uniformCategoriesClient->getUniformCategories();
         $application_size = $this->client->getApplicationSize($id);
-        dd($application_size);
+
         return view('administration.applications.application-sizes-edit', [
             'application_size' => $application_size,
             'sports' => $sports
@@ -81,7 +81,7 @@ class ApplicationSizesController extends Controller
         if (!empty($request->input('application_size_id')))
         {
             Log::info('Attempts to update application sizes' . $id);
-            $response = $this->client->updateHelper($data);
+            $response = $this->client->update($data);
         }
         else
         {

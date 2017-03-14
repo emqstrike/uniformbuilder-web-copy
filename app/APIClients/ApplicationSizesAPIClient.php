@@ -16,16 +16,13 @@ class ApplicationSizesAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
-    // public function updateAccent($data)
-    // {  
-    //     $response = $this->post('accent/update', [
-
-    //         'json' => $data
-    //     ]);
-
-
-    //     return $this->decoder->decode($response->getBody());
-    // }
+    public function update($data)
+    {  
+        $response = $this->post('application_size/update', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
 
     public function getAll()
     {

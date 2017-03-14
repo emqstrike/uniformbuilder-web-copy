@@ -38,13 +38,15 @@ li.select2-selection__choice {
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/application_size/add" enctype="multipart/form-data" id='create_application_size'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/application_size/update" enctype="multipart/form-data" id='create_application_size'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="application_size_id" value="{{ $application_size->id }}">
                         <input type="hidden" name="configurations" id="configurations">
+                        <input type="hidden" name="old_configurations" id="old_configurations" value="{{ $application_size->configurations }}">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="name" value="">
+                                <input type="name" class="form-control" name="name" value="{{ $application_size->name }}">
                             </div>
                         </div>
 
@@ -64,7 +66,7 @@ li.select2-selection__choice {
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Configurations</label>
-                            <div class="col-md-6 config-content">
+                            <div class="col-md-6 config-content" id="config_content">
                                 <a href="#" class='btn btn-xs btn-default add-configuration'>
                                     <span class="glyphicon glyphicon-plus"></span> Add
                                 </a>
@@ -100,5 +102,5 @@ li.select2-selection__choice {
 <script src="/jquery-ui/jquery-ui.min.js"></script>
 <script src="/js/libs/select2/select2.min.js"></script>
 <script src="/js/ddslick.min.js"></script>
-<script src="/js/administration/application_sizes.js"></script>
+<script src="/js/administration/application-sizes.js"></script>
 @endsection

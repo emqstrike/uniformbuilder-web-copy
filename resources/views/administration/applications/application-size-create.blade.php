@@ -100,5 +100,5 @@ li.select2-selection__choice {
 <script src="/jquery-ui/jquery-ui.min.js"></script>
 <script src="/js/libs/select2/select2.min.js"></script>
 <script src="/js/ddslick.min.js"></script>
-<script src="/js/administration/application_sizes.js"></script>
+<script src="/js/administration/application-sizes.js"></script>
 @endsection
