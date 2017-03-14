@@ -55,7 +55,7 @@ li.select2-selection__choice {
                                     <option value="">None</option>
                                     @foreach ($sports as $sport)
                                         @if ($sport->active)
-                                        <option value='{{ $sport->id }}'>{{ $sport->name }}</option>
+                                        <option value='{{ $sport->id }}' @if($sport->id == $application_size->uniform_category_id) selected="selected"@endif>{{ $sport->name }}</option>
                                         @endif
                                     @endforeach
                                 </select>

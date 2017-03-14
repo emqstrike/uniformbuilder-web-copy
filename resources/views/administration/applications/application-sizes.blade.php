@@ -37,7 +37,9 @@
                             <td>
                                 {{ $item->sport }}
                             </td>
-                            <td></td>
+                            <td>
+                                <a href="application_size/edit/{{ $item->id }}" class="btn btn-xs btn-primary">Edit</a>
+                            </td>
                         </tr>
 
                     @empty

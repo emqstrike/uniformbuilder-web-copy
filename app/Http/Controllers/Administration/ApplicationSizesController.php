@@ -46,7 +46,61 @@ class ApplicationSizesController extends Controller
         return view('administration.applications.application-size-create', [
             'sports' => $sports
         ]);
+    }
 
+    public function editForm($id)
+    {
+        $sports = $this->uniformCategoriesClient->getUniformCategories();
+        $application_size = $this->client->getApplicationSize($id);
+        dd($application_size);
+        return view('administration.applications.application-sizes-edit', [
+            'application_size' => $application_size,
+            'sports' => $sports
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $name = $request->input('name');
+        $uniform_category_id = $request->input('uniform_category_id');
+        $configurations = $request->input('configurations');
+        $data = [
+            'name' => $name,
+            'uniform_category_id' => $uniform_category_id,
+            'configurations' => $configurations
+        ];
+
+        $id = null;
+        if (!empty($request->input('application_size_id')))
+        {
+            $id = $request->input('application_size_id');
+            $data['id'] = $id;
+        }
+// dd($data);
+        $response = null;
+        if (!empty($request->input('application_size_id')))
+        {
+            Log::info('Attempts to update application sizes' . $id);
+            $response = $this->client->updateHelper($data);
+        }
+        else
+        {
+            Log::info('Attempts to create a new application sizes ' . json_encode($data));
+            $response = $this->client->create($data);
+        }
+
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('administration/application_sizes')
+                            ->with('message', 'Successfully saved changes');
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('administration/application_sizes')
+                            ->with('message', $response->message);
+        }
     }
 
 }

@@ -22,7 +22,7 @@ class ApplicationSizesAPIClient extends APIClient
 
     //         'json' => $data
     //     ]);
-       
+
 
     //     return $this->decoder->decode($response->getBody());
     // }
@@ -41,15 +41,14 @@ class ApplicationSizesAPIClient extends APIClient
         return $application_sizes;
     }
 
-    // public function getAccent($id)
-    // {
-    //     $response = $this->get('accent/' . $id);
-    //     $result = $this->decoder->decode($response->getBody());
-    //     if ($result->success)
-    //     {
-
-    //         return $result->accent;
-    //     }
-    //     return null;
-    // }
+    public function getApplicationSize($id)
+    {
+        $response = $this->get('application_size/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->application_size;
+        }
+        return null;
+    }
 }
