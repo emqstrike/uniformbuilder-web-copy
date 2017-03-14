@@ -2682,6 +2682,16 @@ $(document).ready(function() {
 
                 /// Rotation Overrides 
 
+                // Angle Rotation for Team Name
+
+                if (args.applicationObj.angle === "rotated") {
+
+                    point.rotation = -0.25;
+
+                }
+
+                // End Angle Rotation for Team Name 
+
                 if ( (app_id === '9' || app_id === '33')  && _applicationObj.type === 'mascot') {
 
                     if (args.mascot.typographic === "0") {
