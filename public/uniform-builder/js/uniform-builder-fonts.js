@@ -116,7 +116,7 @@ $(document).ready(function() {
 
         console.log('Font Size');
         console.log(fontSize);
-
+        
         console.log(_font);
 
         if (typeof _font !== "undefined") {
