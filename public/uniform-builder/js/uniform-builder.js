@@ -1358,6 +1358,8 @@ $(document).ready(function () {
 
                     var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0], view.perspective, { id: _application.id }); 
 
+
+
                     _output = {
 
                         accent_obj: _accentObj,
@@ -1375,12 +1377,21 @@ $(document).ready(function () {
                         text: view.application.defaultText,
                         type: _application.type,
                         verticalText: view.application.verticalText,
+                        angle: (view.application.rotatedTailsweep === 1) ? "rotated": "straight",
                         validApplicationTypes: ub.funcs.getValidApplicationTypes(view),
 
                     };
 
                     // Setup Default Tailsweep
                     if (view.application.id === "1" && ub.funcs.isCurrentSport('Baseball')) {
+
+                        var _rotated = 'straight';
+
+                        if (view.application.rotatedTailsweep === 1) { 
+
+                           _rotated = 'rotated';
+
+                        }
 
                         if (view.application.tailsweeps !== "") {
 
@@ -1838,7 +1849,26 @@ $(document).ready(function () {
 
         }
 
+        // Applications
+
+            ub.funcs.printUniformInfo(ub.current_material.material, ub.current_material.settings);
+
+        // End Applications
+
+        if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+            // Activate Left View when a sock is loaded
+            ub.funcs.activateLeftView();
+
+        }
+
     };
+
+    ub.funcs.activateLeftView = function () {
+
+        $('a.footer-buttons.change-view[data-view="left"]').trigger('click');
+
+    }
 
     // Initialize uniform settings
     ub.init_settings_object = function () {
@@ -4687,6 +4717,7 @@ $(document).ready(function () {
 
                     if (ub.current_part === 0) { return; }
 
+                    ub.funcs.hideOtherPanels();
                     ub.funcs.activatePatterns();
                     return;
                     

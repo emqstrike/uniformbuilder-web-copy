@@ -1417,7 +1417,7 @@
 
             } else {
 
-                style = {font: font_size + "px " + font_name, fill: "white", padding: 10, lineJoin: 'miter', miterLimit: 2};
+                style = {font: font_size + "px " + font_name, fill: "white", padding: 150, lineJoin: 'miter', miterLimit: 2};
 
                 if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
 
@@ -1425,7 +1425,7 @@
                     _padding = 150;
 
                 }
-
+                
                 style = {font: font_size + "px " + font_name, fill: "white", padding: _padding, lineJoin: 'miter', miterLimit: 2};
 
             }
@@ -1492,6 +1492,10 @@
                 _angle = "straight";
 
             }
+
+            // Angle Override 
+            _angle = input_object.applicationObj.angle;
+            // End Angle Override
 
             if (verticalText === 1) {
                 text_layer.text_sprite = new PIXI.Text(text_input, style);

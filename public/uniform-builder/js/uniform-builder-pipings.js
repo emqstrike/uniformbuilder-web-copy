@@ -15,6 +15,14 @@ $(document).ready(function () {
 
     /// GUI 
 
+        ub.funcs.hidePipingFunctions = function () {
+
+            $('div#pipingsUI').hide();
+            $('div#pipings-panel').hide();
+            $('a.change-view[data-view="pipings"]').removeClass('active-change-view');
+
+        }
+
         ub.funcs.showPipingsPanel = function () {
 
             ub.funcs.activateBody();

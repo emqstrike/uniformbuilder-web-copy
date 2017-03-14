@@ -2205,7 +2205,6 @@ $(document).ready(function() {
             var _app6       = ub.current_material.settings.applications[6];
             var _app5       = ub.current_material.settings.applications[5];
 
-            
             _.each(ub.views, function (_view) {
 
                 var _object26   = ub.objects[_view + '_view']['objects_26'];
@@ -2224,18 +2223,18 @@ $(document).ready(function() {
                             var _parentSize             =  parseInt(_app1.font_size);
                             var _applicationNumber      = '26'
 
-                            if (_currentSport !== "Baseball") {
+                            if (_currentSport !== "Baseball" && _currentSport !== "Fastpitch") {
 
                                 _applicationNumber      = '2'                                
 
                             }
-
-                            var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
-                            var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
-
+                           
                             var _originalPosition       = _app26['originalPosition_' + _view];
 
-                            if (_currentSport === "Baseball") {
+                            if (_currentSport === "Baseball" || _currentSport === "Fastpitch") {
+
+                                var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
+                                var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
 
                                 ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);
 
@@ -2250,10 +2249,10 @@ $(document).ready(function() {
                                 if (_parentSize === 2) {
 
                                     if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
-
-                                    _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -1;
+                                    _calculatedPullUpHeight = -20; // Set to 20 for now
+                                    
                                 }
-                                
+
                                 ub.funcs.pullUp(_object2, _originalPosition, _calculatedPullUpHeight);
 
                             }
@@ -2302,7 +2301,7 @@ $(document).ready(function() {
 
                                     if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
 
-                                    _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -1;
+                                    _calculatedPullUpHeight =  -20; // parseInt(ub.current_material.material.one_inch_in_px) * -1;
 
                                 }
                             
@@ -4783,6 +4782,12 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.hideOtherPanels = function () {
+
+        ub.funcs.hidePipingFunctions();
+
+    }
+
     ub.funcs.activatePatterns = function () {
 
         var _modifier                   = ub.funcs.getModifierByIndex(ub.current_part);
@@ -4790,6 +4795,7 @@ $(document).ready(function() {
         if (typeof _modifier === 'undefined') { return false; }
 
         ub.funcs.deactivateMoveTool();
+
         var _names                      = ub.funcs.ui.getAllNames(_modifier.name);
         var titleNameFirstMaterial      = _names[0].toTitleCase();
         var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
@@ -5070,10 +5076,10 @@ $(document).ready(function() {
 
             var _object = ub.objects[_viewName]['objects_' + id];
 
-            if (typeof _object === "object") {
+            if (typeof _object !== "undefined") {
                 _object.ubHover = false;
                 _object.destroy();
-                ub.front_view.removeChild(_object);
+                ub[_viewName].removeChild(_object);
             }
 
         });
@@ -5402,7 +5408,7 @@ $(document).ready(function() {
 
     ub.funcs.changeAngleFromPopup = function (id, settingsObj, angle) {
 
-        settingsObj.tailsweep.angle = angle;
+        settingsObj.angle = angle;
 
         ub.funcs.removeApplicationByID(id);
         ub.create_application(settingsObj, undefined);
@@ -5744,52 +5750,17 @@ $(document).ready(function() {
         settingsObj.customFilename = _customFilename;
 
         /// Uploaded Artwork
-        
-        if (settingsObj.code === "9") {
 
-            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+        var _matchingID = undefined;
+        _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
+
+        if (typeof _matchingID !== "undefined") {
+            
+            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
             ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
 
             _matchingSettingsObject.customLogo = _customLogo;
             _matchingSettingsObject.customFilename = _customFilename;
-
-             ub.funcs.activateMascots(_matchingSettingsObject.code);
-
-        }
-
-        if (settingsObj.code === "10") {
-
-            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-            _matchingSettingsObject.customLogo = _customLogo;
-            _matchingSettingsObject.customFilename = _customFilename;
-
-            ub.funcs.activateMascots(_matchingSettingsObject.code);
-
-        }
-
-        if (settingsObj.code === "32") {
-
-            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-            _matchingSettingsObject.customLogo = _customLogo;
-            _matchingSettingsObject.customFilename = _customFilename;
-
-            ub.funcs.activateMascots(_matchingSettingsObject.code);
-
-        }
-
-        if (settingsObj.code === "33") {
-
-            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-            _matchingSettingsObject.customLogo = _customLogo;
-            _matchingSettingsObject.customFilename = _customFilename;
-
-            ub.funcs.activateMascots(_matchingSettingsObject.code);
 
         }
 
@@ -6696,6 +6667,10 @@ $(document).ready(function() {
                 
                 _sizes = ub.data.applicationSizes.getSizes(_alias.alias, 'mascot', parseInt(application_id));
 
+            } else if (ub.funcs.isCurrentType('lower') && _uniformCategory === "Crew Socks (Apparel)" ) {
+
+                _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias, _id);
+
             } else {
                 _sizes = ub.funcs.getApplicationSizesPant(_applicationType, _alias.alias, _id);
             }
@@ -6870,7 +6845,6 @@ $(document).ready(function() {
         _htmlBuilder        +=  '</div>';
         
         $('.modifier_main_container').append(_htmlBuilder);
-
         $('a.view-file').unbind('click');
         $('a.view-file').on('click', function () {
 
@@ -7090,13 +7064,16 @@ $(document).ready(function() {
                 });
 
             });
+
+            var _matchingID = undefined;
+            
+            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+            if (typeof _matchingID !== "undefined") {
+
+                ub.funcs.toggleApplication(_matchingID.toString(), _status); 
+
+            }
  
-            if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
-            if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
-
-            if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
-            if(_id === "33") { ub.funcs.toggleApplication('32', _status); }
-
             $('span.font_size').on('click', function () {
 
                 //if (_id === '4') { return; }
@@ -7136,30 +7113,12 @@ $(document).ready(function() {
 
                 ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
 
-                if (_id === "9") {
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+                if (typeof _matchingID !== "undefined") {
 
-                }
-
-                if (_id === "10") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
-
-                }
-
-                if (_id === "32") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
-
-                }
-
-                if (_id === "33") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                     ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
 
                 }
@@ -7205,33 +7164,16 @@ $(document).ready(function() {
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
                 ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
-                if (_id === "9") {
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "10"});
+                if (typeof _matchingID !== "undefined") {
+                    
+                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                     ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject); 
 
                 }
-
-                if (_id === "10") {
-
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "9"});
-                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
-                }
-
-                if (_id === "32") {
-
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "33"});
-                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
-
-                }
-
-                if (_id === "33") {
-
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "32"});
-                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
-
-                }
-                
+   
             });
 
             ub.funcs.useRotated(_status);
@@ -7239,10 +7181,6 @@ $(document).ready(function() {
         // End Small Color Pickers
 
         // End Events
-
-        $('div#applicationUI').fadeIn();
-        ub.funcs.activateMoveTool(application_id);
-        ub.funcs.activateLayer(application_id);
 
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
@@ -7257,17 +7195,47 @@ $(document).ready(function() {
                 s = 'on';
             }
 
+            if (s === "on") { ub.funcs.LSRSBSFS(parseInt(_id)); }
+
             ub.funcs.toggleApplication(_id,s);    
 
-            if(_id === "9") { ub.funcs.toggleApplication('10', s); }
-            if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+            var _matchingSide;
+            var _matchingID = undefined;
+            
+            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            if(_id === "32") { ub.funcs.toggleApplication('33', s); }
-            if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+            if (typeof _matchingID !== "undefined") {
+
+                ub.funcs.toggleApplication(_matchingID,s);                    
+
+            }
 
         });
 
+        $('div#applicationUI').fadeIn();
+        ub.funcs.activateMoveTool(application_id);
+        ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
+
+    }
+
+    ub.funcs.LSRSBSFS = function (_id) { 
+
+        // LS, RS - FS, BS for crew socks
+
+        if (_id === 52 || _id === 53) {
+         
+            ub.funcs.toggleApplication(54, "off");
+            ub.funcs.toggleApplication(55, "off");
+
+        }
+
+        if (_id === 54 || _id === 55) {
+         
+            ub.funcs.toggleApplication(52, "off");
+            ub.funcs.toggleApplication(53, "off");
+
+        }
 
     }
 
@@ -7380,11 +7348,7 @@ $(document).ready(function() {
 
         if (_state === "off") {
 
-            if (ub.activeApplication === id) {
-
-                return;
-
-            }
+            if (ub.activeApplication === id) { return; }
             
             $('div.toggle').data('status', "off");
 
@@ -7414,6 +7378,8 @@ $(document).ready(function() {
 
             var _view = view.perspective + '_view';
             var _obj  = ub.objects[_view]['objects_' + id];
+
+            if (typeof _obj === "undefined") { return; }
 
             if (_state === "on") {
 
@@ -7610,15 +7576,12 @@ $(document).ready(function() {
 
             }
 
-            var _matchingID;
             var _matchingSide;
+            var _matchingID = undefined;
             
-            if (_id === 33) { _matchingID = 32; }
-            if (_id === 32) { _matchingID = 33; }
-            if (_id === 9)  { _matchingID = 10; }
-            if (_id === 10) { _matchingID = 9;  }
+            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            if (_id === 33 || _id === 32 || _id === 9 || _id === 10) {
+            if (_.contains(ub.data.matchingApplications, _id)) {
 
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
@@ -7640,10 +7603,12 @@ $(document).ready(function() {
             }
 
             ub.funcs.update_application_mascot(_settingsObject.application, _settingsObject.mascot);
-            ub.funcs.activateMascots(_settingsObject.code);
 
             ub.current_material.settings.applications[_id] = _settingsObject;
+            ub.funcs.LSRSBSFS(parseInt(_id));
 
+            ub.funcs.activateMascots(_settingsObject.code);
+     
         }
 
         if (_type === 'player_name') {
@@ -7748,31 +7713,32 @@ $(document).ready(function() {
 
             var _matchingID;
             var _matchingSide;
-            
-            if (_id === 33) { _matchingID = 32; }
-            if (_id === 32) { _matchingID = 33; }
-            if (_id === 9)  { _matchingID = 10; }
-            if (_id === 10) { _matchingID = 9;  }
 
-            if (_id === 33 || _id === 32 || _id === 9 || _id === 10) {
+            _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
 
-                _matchingSide                   = ub.current_material.settings.applications[_matchingID];
+            if (typeof _matchingID !== "undefined") {
 
-                _matchingSide.accent_obj        = ub.funcs.getSampleAccent();
-                _matchingSide.text              = ub.funcs.getSampleNumber();
-                _matchingSide.application_type  = _applicationType;
-                _matchingSide.type              = _applicationType;
-                _matchingSide.object_type       = 'text object';
-                _matchingSide.font_obj          = ub.funcs.getSampleFont();
-                _matchingSide.color_array       = ub.funcs.getDefaultColors();
+                if (_.contains(ub.data.matchingApplications, _id)) {
 
-                _matchingSide.size              = _settingsObject.size; 
-                _matchingSide.font_size         = _settingsObject.size; 
+                    _matchingSide                   = ub.current_material.settings.applications[_matchingID];
 
-                _matchingSide.application.name  = _applicationType.toTitleCase();
-                _matchingSide.application.type  = _applicationType;
+                    _matchingSide.accent_obj        = ub.funcs.getSampleAccent();
+                    _matchingSide.text              = ub.funcs.getSampleNumber();
+                    _matchingSide.application_type  = _applicationType;
+                    _matchingSide.type              = _applicationType;
+                    _matchingSide.object_type       = 'text object';
+                    _matchingSide.font_obj          = ub.funcs.getSampleFont();
+                    _matchingSide.color_array       = ub.funcs.getDefaultColors();
 
-                ub.create_application(_matchingSide, undefined);
+                    _matchingSide.size              = _settingsObject.size; 
+                    _matchingSide.font_size         = _settingsObject.size; 
+
+                    _matchingSide.application.name  = _applicationType.toTitleCase();
+                    _matchingSide.application.type  = _applicationType;
+
+                    ub.create_application(_matchingSide, undefined);
+
+                }
 
             }
 
@@ -8172,6 +8138,15 @@ $(document).ready(function() {
         _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
 
         _htmlBuilder        +=          '</div>';
+
+        // Rotate Team Name in Baseball and Fastpitch
+        _htmlBuilder        += '<div class="ui-row angleItems">';
+        _htmlBuilder        +=      '<label class="applicationLabels font_size">Angle</label>';
+        _htmlBuilder        +=      '<span class="angleItem" data-angle="straight">Straight</span>';        
+        _htmlBuilder        +=      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
+        _htmlBuilder        += '</div>';
+        // End Rotate Team Name in Baseball and Fastpitch 
+
         _htmlBuilder        +=          '<div class="clearfix"></div>';
         _htmlBuilder        +=          '<div class="color-pattern-tabs">';
         _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span>';
@@ -8254,14 +8229,11 @@ $(document).ready(function() {
 
             }
 
-            if (_settingsObject.code === '9')  { _matchingCode = '10' }
-            if (_settingsObject.code === '10') { _matchingCode = '9' } 
-            if (_settingsObject.code === '32') { _matchingCode = '33' } 
-            if (_settingsObject.code === '33') { _matchingCode = '32' } 
+            _matchingCode = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
 
-            if (typeof _matchingCode !== 'undefined') {
+            if (typeof _matchingCode !== "undefined") {
 
-                _matchingSettingsObject = ub.funcs.getApplicationSettings(_matchingCode);
+                 _matchingSettingsObject = ub.funcs.getApplicationSettings(_matchingCode.toString());
 
                 if (typeof _matchingSettingsObject !== 'undefined') {
 
@@ -8305,7 +8277,7 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
-        if(ub.funcs.isCurrentSport('Baseball')) {
+        if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
 
             _htmlBuilder        +=              '<div class="column1 applications tailsweeps">';
             _htmlBuilder        +=                 '<div class="sub1 tailSweepThumb"><br />';
@@ -8335,9 +8307,9 @@ $(document).ready(function() {
             _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="11">11</span>';        
             _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="12">12</span>';        
 
-            _htmlBuilder        +=                      '<span class="sizeLabel">ANGLE</span>';
-            _htmlBuilder        +=                      '<span class="angleItem" data-angle="straight">Straight</span>';        
-            _htmlBuilder        +=                      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
+            _htmlBuilder        +=      '<label class="applicationLabels">Rotated</label>';
+            _htmlBuilder        +=      '<span class="angleItem" data-angle="straight">Straight</span>';        
+            _htmlBuilder        +=      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
 
             _htmlBuilder        +=                 '</div>';
             _htmlBuilder        +=              '</div>';
@@ -8559,11 +8531,14 @@ $(document).ready(function() {
 
             });
 
-            if(_id === "9")  { ub.funcs.toggleApplication('10', _status); }
-            if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
+            var _matchingID = undefined;
+            
+            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+            if (typeof _matchingID !== "undefined") {
 
-            if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
-            if(_id === "33") { ub.funcs.toggleApplication('32', _status); }
+                ub.funcs.toggleApplication(_matchingID.toString(), _status); 
+
+            }
 
             // Font Left and Right
 
@@ -8603,30 +8578,12 @@ $(document).ready(function() {
 
                     }
 
-                    if (_settingsObject.code === "32") {
+                    var _matchingID = undefined;
+            
+                    _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+                    if (typeof _matchingID !== "undefined") {
 
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
-
-                    }
-
-                    if (_settingsObject.code === "33") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
-
-                    }
-
-                    if (_settingsObject.code === "9") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
-
-                    }
-
-                    if (_settingsObject.code === "10") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                         ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
 
                     }
@@ -8652,9 +8609,17 @@ $(document).ready(function() {
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
                     ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
-                    if (_settingsObject.code === "32") {
+                    var _matchingID;
+                    var _matchingSide;
 
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                    _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
+
+                    if (typeof _matchingID !== "undefined") {
+
+                        console.log('Matching ID: ');
+                        console.log(_matchingID);
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                         var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
                     
                         _layer.default_color = _colorObj.hex_code;
@@ -8663,43 +8628,7 @@ $(document).ready(function() {
                         ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
 
                     }
-
-                    if (_settingsObject.code === "33") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
-                    
-                        _layer.default_color = _colorObj.hex_code;
-                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
-    
-                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
-
-                    }
-
-                    if (_settingsObject.code === "9") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
-                    
-                        _layer.default_color = _colorObj.hex_code;
-                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
-    
-                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
-
-                    }
-
-                    if (_settingsObject.code === "10") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
-                    
-                        _layer.default_color = _colorObj.hex_code;
-                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
-    
-                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
-
-                    }
-                    
+     
                 });
 
             // End Small Color Pickers
@@ -9153,11 +9082,14 @@ $(document).ready(function() {
 
             ub.funcs.toggleApplication(_id,s);    
 
-            if(_id === "9") { ub.funcs.toggleApplication('10', s); }
-            if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+             var _matchingID = undefined;
+            
+            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+            if (typeof _matchingID !== "undefined") {
 
-            if(_id === "32") { ub.funcs.toggleApplication('33', s); }
-            if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+                ub.funcs.toggleApplication(_matchingID.toString(), s); 
+
+            }
 
         });
 
@@ -9165,7 +9097,7 @@ $(document).ready(function() {
 
             ub.funcs.toggleApplication(_id, _status);
 
-            if (ub.current_material.material.uniform_category !== "Baseball") {
+            if (parseInt(ub.current_material.material.id) !== 394) {
 
                 $('div.column1.tailsweeps').hide();
                 $('div.column1.patterns').hide();
@@ -9200,6 +9132,20 @@ $(document).ready(function() {
                     }
 
                 }
+
+                var _angle = _settingsObject.angle;
+
+                $('span.angleItem').removeClass('active');
+
+                if (_angle === "rotated") {
+                    $('span.angleItem[data-angle="rotated"]').addClass('active');    
+                } else {
+                    $('span.angleItem[data-angle="straight"]').addClass('active');    
+                }
+                
+            } else {
+
+                $('div.ui-row.angleItems').hide();
 
             }
 
@@ -9607,8 +9553,13 @@ $(document).ready(function() {
         }
 
         if (typeof _sizes === 'undefined') {
-            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found!');
+            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
+
+            _sizes = ub.data.applicationSizes.getSizes('default', applicationType);            
+
         }
+
+
         
         return _sizes;
 

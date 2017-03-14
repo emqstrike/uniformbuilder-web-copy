@@ -2066,6 +2066,10 @@ $(document).ready(function() {
                 alias: "tech-tee",
             },
             { 
+                name: "Crew Socks (Apparel)",
+                alias: "crew-socks",
+            },
+            { 
                 name: "Hockey",
                 alias: "hockey",
             },
@@ -2079,7 +2083,7 @@ $(document).ready(function() {
             if (typeof _result === "undefined") {
 
                 ub.utilities.warn(sportName + ' not found.');
-                ub.utilities.warn('Forcing lowercase instead. Using (' + sportName.toLowerCase());
+                ub.utilities.warn('Forcing lowercase instead. Using (' + sportName.toLowerCase() + ')');
                 console.trace();
 
                 var _result = {
@@ -2482,6 +2486,16 @@ $(document).ready(function() {
                     ],
                 },
                 {
+                    name: 'mascot',
+                    sport: 'baseball',
+                    applicationNumbers: [5],
+                    sizes: [
+                        {size: 6},
+                        {size: 8},
+                        {size: 10},
+                    ],
+                },
+                {
                     name: 'front_number',
                     sport: 'baseball',
                     sizes:  [
@@ -2511,6 +2525,21 @@ $(document).ready(function() {
                     type: 'adult',
                 },
                 // End Baseball
+
+                // Crew Socks 
+
+                {
+                    name: 'mascot',
+                    sport: 'crew-socks',
+                    applicationNumbers: [52, 53, 54, 55],
+                    sizes: [
+                        {size: 2},
+                        {size: 3},
+                        {size: 4},
+                    ],
+                },
+
+                // ENd Crew Socks 
 
                 // Hockey
                 {
@@ -2831,6 +2860,104 @@ $(document).ready(function() {
 
                 // end compression
 
+                // defaults 
+
+                {
+                    name: 'team_name',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+
+                // end defaults
+
             ],
             getSizes: function (sport, type, locationNumber) {
 
@@ -2850,7 +2977,10 @@ $(document).ready(function() {
 
                 if (typeof _result === "undefined") {
 
-                    ub.utilities.warn('Location #' + locationNumber + ' for ' + type + ' Sizes in ' + sport + ' not found.' );
+                    ub.utilities.warn('Location #' + locationNumber + ' for ' + type + ' Sizes in ' + sport + ' not found. Using default.');
+
+                    _result = _.find(this.items, {sport: 'default', name: type});
+                    _result.sport = sport;
 
                 }
 
@@ -2956,7 +3086,7 @@ $(document).ready(function() {
             },
             {
                 fontID: 11,
-                fontName: 'Carbon Block',
+                fontName: 'FB Carbon Block',
                 startSize: 20,
                 increment: 10,
                 fontSizeTable: [
@@ -4608,7 +4738,7 @@ $(document).ready(function() {
 
     ];
 
-ub.data.leftSideOverrides = ['Carbon Block', 'CHARGERS', 'Beaver Block', 'Badgers', 'Bears', 'HAWKS', 'Horned Frogs', 'Jaguars', 'MARYLAND', 'Sky Line', 'Spartans', 'Syracuse', 'Yard Line'];
+ub.data.leftSideOverrides = ['FB Carbon Block', 'CHARGERS', 'Beaver Block', 'Badgers', 'Bears', 'HAWKS', 'Horned Frogs', 'Jaguars', 'MARYLAND', 'Sky Line', 'Spartans', 'Syracuse', 'Yard Line'];
 
 ub.funcs.fontOffSets = [
 
@@ -5154,10 +5284,10 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },
       /// End Beaver Block 33 and 9
-      /// Start Carbon Block
+      /// Start FB Carbon Block
        {
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'right',
             size: '4',
             origY: 74,
@@ -5168,7 +5298,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'right',
             size: '3',
             origY: 74,
@@ -5179,7 +5309,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '4',
             origY: 72,
@@ -5190,7 +5320,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '3',
             origY: 72,
@@ -5201,7 +5331,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '4',
             origY: 44,
@@ -5212,7 +5342,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '3',
             origY: 44,
@@ -5223,7 +5353,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'right',
             size: '4',
             origY: 180,
@@ -5234,7 +5364,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'right',
             size: '3',
             origY: 180,
@@ -5245,7 +5375,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '4',
             origY: 168,
@@ -5256,7 +5386,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '3',
             origY: 168,
@@ -5267,7 +5397,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '4',
             origY: 174,
@@ -5278,7 +5408,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '3',
             origY: 174,
@@ -5288,7 +5418,7 @@ ub.funcs.fontOffSets = [
             scaleY: 1,
             scaleX: 1,
         },
-      /// End Carbon Block 33 9
+      /// End FB Carbon Block 33 9
       /// Start HAWKS
         {
             location: '33',
@@ -7053,10 +7183,10 @@ ub.funcs.fontOffSets = [
         /// End CHARGERS     
 
 
-        /// Start Carbon Block
+        /// Start FB Carbon Block
         {   
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'left',
             size: '4',
             origY: 74,            
@@ -7067,7 +7197,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'left',
             size: '3',
             origY: 74,            
@@ -7078,7 +7208,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,            
         },{
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '4',
             origY: 72,
@@ -7089,7 +7219,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '3',
             origY: 72,
@@ -7100,7 +7230,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '4',
             origY: 44,
@@ -7111,7 +7241,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '3',
             origY: 44,
@@ -7122,7 +7252,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'left',
             size: '4',
             origY: 180,
@@ -7133,7 +7263,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'left',
             size: '3',
             origY: 180,
@@ -7144,7 +7274,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,            
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '4',
             origY: 168,
@@ -7155,7 +7285,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                        
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '3',
             origY: 168,
@@ -7166,7 +7296,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                                     
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '4',
             origY: 174,
@@ -7177,7 +7307,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                        
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '3',
             origY: 174,
@@ -7187,7 +7317,7 @@ ub.funcs.fontOffSets = [
             scaleY: 1,
             scaleX: 1,                                     
         },
-        /// End Carbon Block
+        /// End FB Carbon Block
 
 
        /// Start Full Block
@@ -9051,6 +9181,8 @@ ub.funcs.fontOffSets = [
 
         items: [
 
+
+            // Baseball 
             {
                 sport: 'Baseball',
                 applicationNumber: '26',
@@ -9099,6 +9231,62 @@ ub.funcs.fontOffSets = [
                 size: 2,
                 pullUpHeight: -35,
             },
+
+            // End Baseball 
+
+            // Fastpitch 
+
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '26',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '26',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '26',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '27',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '27',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '27',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Fastpitch',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -35,
+            },
+
+
+            // End Fastpitch 
 
             // Compression
              {
@@ -9550,13 +9738,64 @@ ub.funcs.fontOffSets = [
                 scale: {x: 0.90, y: 0.90 },
             },
 
+            // Defaults 
+
+            {
+                sport: 'Default',
+                size: 2,
+                scale: {x: 0.18, y: 0.18 },
+            },
+            {
+                sport: 'Default',
+                size: 3,
+                scale: {x: 0.27, y: 0.27 },
+            },
+            {
+                sport: 'Default',
+                size: 4,
+                scale: {x: 0.36, y: 0.36 },
+            },
+            {
+                sport: 'Default',
+                size: 5,
+                scale: {x: 0.44, y: 0.44 },
+            },
+            {
+                sport: 'Default',
+                size: 8,
+                scale: {x: 0.72, y: 0.72 },
+            },
+            {
+                sport: 'Default',
+                size: 10,
+                scale: {x: 0.90, y: 0.90 },
+            },
+
         ],
 
         getSize: function (sport, size) {
 
             var _result = _.find(this.items, {sport: sport, size: size});
             
-            if (typeof _result === "undefined") { console.warn('mascotSize for ' + sport + ' not found.')};
+            if (typeof _result === "undefined") { 
+                
+                ub.utilities.warn('mascotSize for ' + sport + ' not found. Using default'); 
+
+                _result = _.find(this.items, {sport: 'Default', size: size });
+
+                if (typeof _result === "undefined") {
+
+                    ub.utilities.warn('Default size for mascot on ' + sport + ' not found. Using 0.5 x 0.5'); 
+
+                    _result = {
+                        sport: sport,
+                        size: size,
+                        scale: { x: 0.5, y: 0.5 }
+                    }
+
+                }
+
+            };
 
             return _result;
 
@@ -10338,5 +10577,38 @@ ub.funcs.fontOffSets = [
         }
 
     };
+
+    ub.data.matchingApplications = [33, 32, 9, 10, 52, 53, 54, 55];
+    ub.data.matchingIDs = {
+
+        items: [
+            { id: 9,  matchingID: 10  },
+            { id: 10, matchingID: 9   },
+            { id: 32, matchingID: 33  },
+            { id: 33, matchingID: 32  },
+
+            { id: 52, matchingID: 53  },
+            { id: 53, matchingID: 52  },
+            { id: 54, matchingID: 55  },
+            { id: 55, matchingID: 54  },
+            
+        ], 
+        getMatchingID: function (id) {
+
+            var _result = undefined;
+
+            _result = _.find(this.items, {id: parseInt(id)});
+
+            if (typeof _result === "undefined") {
+
+                return undefined;
+
+            }
+
+            return _result.matchingID;
+
+        } 
+
+    }
 
 });
