@@ -5079,7 +5079,7 @@ $(document).ready(function() {
             if (typeof _object === "object") {
                 _object.ubHover = false;
                 _object.destroy();
-                ub.front_view.removeChild(_object);
+                ub[_viewName].removeChild(_object);
             }
 
         });
@@ -5750,54 +5750,72 @@ $(document).ready(function() {
         settingsObj.customFilename = _customFilename;
 
         /// Uploaded Artwork
-        
-        if (settingsObj.code === "9") {
 
-            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+        var _matchingID = undefined;
+        _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
+
+        if (typeof _matchingID !== "undefined") {
+            
+            // var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+            // ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject); 
+
+             var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
             ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
 
             _matchingSettingsObject.customLogo = _customLogo;
             _matchingSettingsObject.customFilename = _customFilename;
 
-             ub.funcs.activateMascots(_matchingSettingsObject.code);
+             // ub.funcs.activateMascots(_matchingSettingsObject.code);
 
         }
 
-        if (settingsObj.code === "10") {
+        // if (settingsObj.code === "9") {
 
-            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+        //     var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
+        //     ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
 
-            _matchingSettingsObject.customLogo = _customLogo;
-            _matchingSettingsObject.customFilename = _customFilename;
+        //     _matchingSettingsObject.customLogo = _customLogo;
+        //     _matchingSettingsObject.customFilename = _customFilename;
 
-            ub.funcs.activateMascots(_matchingSettingsObject.code);
+        //      ub.funcs.activateMascots(_matchingSettingsObject.code);
 
-        }
+        // }
 
-        if (settingsObj.code === "32") {
+        // if (settingsObj.code === "10") {
 
-            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+        //     var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+        //     ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
 
-            _matchingSettingsObject.customLogo = _customLogo;
-            _matchingSettingsObject.customFilename = _customFilename;
+        //     _matchingSettingsObject.customLogo = _customLogo;
+        //     _matchingSettingsObject.customFilename = _customFilename;
 
-            ub.funcs.activateMascots(_matchingSettingsObject.code);
+        //     ub.funcs.activateMascots(_matchingSettingsObject.code);
 
-        }
+        // }
 
-        if (settingsObj.code === "33") {
+        // if (settingsObj.code === "32") {
 
-            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+        //     var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+        //     ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
 
-            _matchingSettingsObject.customLogo = _customLogo;
-            _matchingSettingsObject.customFilename = _customFilename;
+        //     _matchingSettingsObject.customLogo = _customLogo;
+        //     _matchingSettingsObject.customFilename = _customFilename;
 
-            ub.funcs.activateMascots(_matchingSettingsObject.code);
+        //     ub.funcs.activateMascots(_matchingSettingsObject.code);
 
-        }
+        // }
+
+        // if (settingsObj.code === "33") {
+
+        //     var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+        //     ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+        //     _matchingSettingsObject.customLogo = _customLogo;
+        //     _matchingSettingsObject.customFilename = _customFilename;
+
+        //     ub.funcs.activateMascots(_matchingSettingsObject.code);
+
+        // }
 
         ub.funcs.activateMascots(settingsObj.code);
 
@@ -7100,13 +7118,16 @@ $(document).ready(function() {
                 });
 
             });
+
+            var _matchingID = undefined;
+            
+            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+            if (typeof _matchingID !== "undefined") {
+
+                ub.funcs.toggleApplication(_matchingID.toString(), _status); 
+
+            }
  
-            if(_id === "9") { ub.funcs.toggleApplication('10', _status); }
-            if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
-
-            if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
-            if(_id === "33") { ub.funcs.toggleApplication('32', _status); }
-
             $('span.font_size').on('click', function () {
 
                 //if (_id === '4') { return; }
@@ -7146,30 +7167,12 @@ $(document).ready(function() {
 
                 ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
 
-                if (_id === "9") {
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
+                if (typeof _matchingID !== "undefined") {
 
-                }
-
-                if (_id === "10") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
-
-                }
-
-                if (_id === "32") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                    ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
-
-                }
-
-                if (_id === "33") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                     ub.funcs.changeMascotSize(_selectedSize, _matchingSettingsObject);
 
                 }
@@ -7215,33 +7218,16 @@ $(document).ready(function() {
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
                 ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
-                if (_id === "9") {
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "10"});
+                if (typeof _matchingID !== "undefined") {
+                    
+                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                     ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject); 
 
                 }
-
-                if (_id === "10") {
-
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "9"});
-                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
-                }
-
-                if (_id === "32") {
-
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "33"});
-                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
-
-                }
-
-                if (_id === "33") {
-
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: "32"});
-                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject);                 
-
-                }
-                
+   
             });
 
             ub.funcs.useRotated(_status);
@@ -7269,11 +7255,21 @@ $(document).ready(function() {
 
             ub.funcs.toggleApplication(_id,s);    
 
-            if(_id === "9") { ub.funcs.toggleApplication('10', s); }
-            if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+            var _matchingID = undefined;
+            
+            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            if(_id === "32") { ub.funcs.toggleApplication('33', s); }
-            if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+            if (typeof _matchingID !== "undefined") {
+
+                ub.funcs.toggleApplication(_matchingID, s);
+
+            }
+
+            // if(_id === "9") { ub.funcs.toggleApplication('10', s); }
+            // if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+
+            // if(_id === "32") { ub.funcs.toggleApplication('33', s); }
+            // if(_id === "33") { ub.funcs.toggleApplication('32', s); }
 
         });
 
@@ -7424,6 +7420,8 @@ $(document).ready(function() {
 
             var _view = view.perspective + '_view';
             var _obj  = ub.objects[_view]['objects_' + id];
+
+            if (typeof _obj === "undefined") { console.log('Returning...'); return; }
 
             if (_state === "on") {
 
@@ -7620,15 +7618,12 @@ $(document).ready(function() {
 
             }
 
-            var _matchingID;
             var _matchingSide;
+            var _matchingID = undefined;
             
-            if (_id === 33) { _matchingID = 32; }
-            if (_id === 32) { _matchingID = 33; }
-            if (_id === 9)  { _matchingID = 10; }
-            if (_id === 10) { _matchingID = 9;  }
+            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            if (_id === 33 || _id === 32 || _id === 9 || _id === 10) {
+            if (_.contains(ub.data.matchingApplications, _id)) {
 
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
@@ -7653,6 +7648,28 @@ $(document).ready(function() {
             ub.funcs.activateMascots(_settingsObject.code);
 
             ub.current_material.settings.applications[_id] = _settingsObject;
+
+            // LS, RS - FS, BS for crew socks
+
+            if (_id === 52 || _id === 53) {
+                
+                ub.funcs.removeApplicationByID(54);
+                ub.funcs.removeApplicationByID(55);
+
+                ub.current_material.settings.applications[54].status = "off";
+                ub.current_material.settings.applications[55].status = "off";
+
+            }
+
+            if (_id === 54 || _id === 55) {
+                
+                ub.funcs.removeApplicationByID(52);
+                ub.funcs.removeApplicationByID(53);
+
+                ub.current_material.settings.applications[52].status = "off";
+                ub.current_material.settings.applications[53].status = "off";
+
+            }
 
         }
 
@@ -8578,11 +8595,22 @@ $(document).ready(function() {
 
             });
 
-            if(_id === "9")  { ub.funcs.toggleApplication('10', _status); }
-            if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
+            var _matchingID = undefined;
+            
+            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+            if (typeof _matchingID !== "undefined") {
 
-            if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
-            if(_id === "33") { ub.funcs.toggleApplication('32', _status); }
+                ub.funcs.toggleApplication(_matchingID.toString(), _status); 
+
+            }
+
+
+
+            // if(_id === "9")  { ub.funcs.toggleApplication('10', _status); }
+            // if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
+
+            // if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
+            // if(_id === "33") { ub.funcs.toggleApplication('32', _status); }
 
             // Font Left and Right
 
@@ -9172,11 +9200,21 @@ $(document).ready(function() {
 
             ub.funcs.toggleApplication(_id,s);    
 
-            if(_id === "9") { ub.funcs.toggleApplication('10', s); }
-            if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+             var _matchingID = undefined;
+            
+            _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+            if (typeof _matchingID !== "undefined") {
 
-            if(_id === "32") { ub.funcs.toggleApplication('33', s); }
-            if(_id === "33") { ub.funcs.toggleApplication('32', s); }
+                console.log('match found + ' + _matchingID);
+                ub.funcs.toggleApplication(_matchingID.toString(), s); 
+
+            }
+
+            // if(_id === "9") { ub.funcs.toggleApplication('10', s); }
+            // if(_id === "10") { ub.funcs.toggleApplication('9', s); }
+
+            // if(_id === "32") { ub.funcs.toggleApplication('33', s); }
+            // if(_id === "33") { ub.funcs.toggleApplication('32', s); }
 
         });
 

@@ -10578,4 +10578,37 @@ ub.funcs.fontOffSets = [
 
     };
 
+    ub.data.matchingApplications = [33, 32, 9, 10, 52, 53, 54, 55];
+    ub.data.matchingIDs = {
+
+        items: [
+            { id: 9,  matchingID: 10  },
+            { id: 10, matchingID: 9   },
+            { id: 32, matchingID: 33  },
+            { id: 10, matchingID: 9   },
+
+            { id: 52, matchingID: 53  },
+            { id: 53, matchingID: 52  },
+            { id: 54, matchingID: 55  },
+            { id: 55, matchingID: 54  },
+            
+        ], 
+        getMatchingID: function (id) {
+
+            var _result = undefined;
+
+            _result = _.find(this.items, {id: parseInt(id)});
+
+            if (typeof _result === "undefined") {
+
+                return undefined;
+
+            }
+
+            return _result.matchingID;
+
+        } 
+
+    }
+    
 });
