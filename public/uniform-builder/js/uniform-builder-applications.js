@@ -9124,7 +9124,7 @@ $(document).ready(function() {
 
             }
 
-            if (_id === '1') {
+            if (_id === '1' && (ub.funcs.isCurrentSport("Baseball") || ub.funcs.isCurrentSport("Fastpitch"))) {
 
                 var _tailSweepObj = ub.current_material.settings.applications[parseInt(_id)].tailsweep;
                 if (typeof _tailSweepObj !== "undefined") {
