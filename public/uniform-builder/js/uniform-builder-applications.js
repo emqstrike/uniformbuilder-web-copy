@@ -9184,10 +9184,7 @@ $(document).ready(function() {
 
             ub.funcs.toggleApplication(_id, _status);
 
-            if (
-                    parseInt(ub.current_material.material.id) !== 394 && 
-                    !(ub.current_material.material.uniform_category === "Baseball" || ub.current_material.material.uniform_category === "Fastpitch")
-                ) {
+            if (parseInt(ub.current_material.material.id) !== 394) {
 
                 $('div.column1.tailsweeps').hide();
                 $('div.column1.patterns').hide();
