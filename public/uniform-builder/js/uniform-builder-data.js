@@ -3086,7 +3086,7 @@ $(document).ready(function() {
             },
             {
                 fontID: 11,
-                fontName: 'Carbon Block',
+                fontName: 'FB Carbon Block',
                 startSize: 20,
                 increment: 10,
                 fontSizeTable: [
@@ -4738,7 +4738,7 @@ $(document).ready(function() {
 
     ];
 
-ub.data.leftSideOverrides = ['Carbon Block', 'CHARGERS', 'Beaver Block', 'Badgers', 'Bears', 'HAWKS', 'Horned Frogs', 'Jaguars', 'MARYLAND', 'Sky Line', 'Spartans', 'Syracuse', 'Yard Line'];
+ub.data.leftSideOverrides = ['FB Carbon Block', 'CHARGERS', 'Beaver Block', 'Badgers', 'Bears', 'HAWKS', 'Horned Frogs', 'Jaguars', 'MARYLAND', 'Sky Line', 'Spartans', 'Syracuse', 'Yard Line'];
 
 ub.funcs.fontOffSets = [
 
@@ -5284,10 +5284,10 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },
       /// End Beaver Block 33 and 9
-      /// Start Carbon Block
+      /// Start FB Carbon Block
        {
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'right',
             size: '4',
             origY: 74,
@@ -5298,7 +5298,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'right',
             size: '3',
             origY: 74,
@@ -5309,7 +5309,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '4',
             origY: 72,
@@ -5320,7 +5320,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '3',
             origY: 72,
@@ -5331,7 +5331,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '4',
             origY: 44,
@@ -5342,7 +5342,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '33',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '3',
             origY: 44,
@@ -5353,7 +5353,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'right',
             size: '4',
             origY: 180,
@@ -5364,7 +5364,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'right',
             size: '3',
             origY: 180,
@@ -5375,7 +5375,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '4',
             origY: 168,
@@ -5386,7 +5386,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '3',
             origY: 168,
@@ -5397,7 +5397,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '4',
             origY: 174,
@@ -5408,7 +5408,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '9',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '3',
             origY: 174,
@@ -5418,7 +5418,7 @@ ub.funcs.fontOffSets = [
             scaleY: 1,
             scaleX: 1,
         },
-      /// End Carbon Block 33 9
+      /// End FB Carbon Block 33 9
       /// Start HAWKS
         {
             location: '33',
@@ -7183,10 +7183,10 @@ ub.funcs.fontOffSets = [
         /// End CHARGERS     
 
 
-        /// Start Carbon Block
+        /// Start FB Carbon Block
         {   
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'left',
             size: '4',
             origY: 74,            
@@ -7197,7 +7197,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,
         },{
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'left',
             size: '3',
             origY: 74,            
@@ -7208,7 +7208,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,            
         },{
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '4',
             origY: 72,
@@ -7219,7 +7219,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '3',
             origY: 72,
@@ -7230,7 +7230,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '4',
             origY: 44,
@@ -7241,7 +7241,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '32',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '3',
             origY: 44,
@@ -7252,7 +7252,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'left',
             size: '4',
             origY: 180,
@@ -7263,7 +7263,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                         
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'left',
             size: '3',
             origY: 180,
@@ -7274,7 +7274,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,            
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '4',
             origY: 168,
@@ -7285,7 +7285,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                        
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'front',
             size: '3',
             origY: 168,
@@ -7296,7 +7296,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                                     
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '4',
             origY: 174,
@@ -7307,7 +7307,7 @@ ub.funcs.fontOffSets = [
             scaleX: 1,                        
         },{
             location: '10',
-            fontName: 'Carbon Block',
+            fontName: 'FB Carbon Block',
             perspective: 'back',
             size: '3',
             origY: 174,
@@ -7317,7 +7317,7 @@ ub.funcs.fontOffSets = [
             scaleY: 1,
             scaleX: 1,                                     
         },
-        /// End Carbon Block
+        /// End FB Carbon Block
 
 
        /// Start Full Block
@@ -10585,7 +10585,7 @@ ub.funcs.fontOffSets = [
             { id: 9,  matchingID: 10  },
             { id: 10, matchingID: 9   },
             { id: 32, matchingID: 33  },
-            { id: 10, matchingID: 9   },
+            { id: 33, matchingID: 32  },
 
             { id: 52, matchingID: 53  },
             { id: 53, matchingID: 52  },
@@ -10610,5 +10610,5 @@ ub.funcs.fontOffSets = [
         } 
 
     }
-    
+
 });

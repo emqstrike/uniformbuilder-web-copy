@@ -5076,7 +5076,7 @@ $(document).ready(function() {
 
             var _object = ub.objects[_viewName]['objects_' + id];
 
-            if (typeof _object === "object") {
+            if (typeof _object !== "undefined") {
                 _object.ubHover = false;
                 _object.destroy();
                 ub[_viewName].removeChild(_object);
@@ -5756,66 +5756,13 @@ $(document).ready(function() {
 
         if (typeof _matchingID !== "undefined") {
             
-            // var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-            // ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject); 
-
-             var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
             ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
 
             _matchingSettingsObject.customLogo = _customLogo;
             _matchingSettingsObject.customFilename = _customFilename;
 
-             // ub.funcs.activateMascots(_matchingSettingsObject.code);
-
         }
-
-        // if (settingsObj.code === "9") {
-
-        //     var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-        //     ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-        //     _matchingSettingsObject.customLogo = _customLogo;
-        //     _matchingSettingsObject.customFilename = _customFilename;
-
-        //      ub.funcs.activateMascots(_matchingSettingsObject.code);
-
-        // }
-
-        // if (settingsObj.code === "10") {
-
-        //     var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-        //     ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-        //     _matchingSettingsObject.customLogo = _customLogo;
-        //     _matchingSettingsObject.customFilename = _customFilename;
-
-        //     ub.funcs.activateMascots(_matchingSettingsObject.code);
-
-        // }
-
-        // if (settingsObj.code === "32") {
-
-        //     var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-        //     ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-        //     _matchingSettingsObject.customLogo = _customLogo;
-        //     _matchingSettingsObject.customFilename = _customFilename;
-
-        //     ub.funcs.activateMascots(_matchingSettingsObject.code);
-
-        // }
-
-        // if (settingsObj.code === "33") {
-
-        //     var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-        //     ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
-
-        //     _matchingSettingsObject.customLogo = _customLogo;
-        //     _matchingSettingsObject.customFilename = _customFilename;
-
-        //     ub.funcs.activateMascots(_matchingSettingsObject.code);
-
-        // }
 
         ub.funcs.activateMascots(settingsObj.code);
 
@@ -6898,7 +6845,6 @@ $(document).ready(function() {
         _htmlBuilder        +=  '</div>';
         
         $('.modifier_main_container').append(_htmlBuilder);
-
         $('a.view-file').unbind('click');
         $('a.view-file').on('click', function () {
 
@@ -7236,10 +7182,6 @@ $(document).ready(function() {
 
         // End Events
 
-        $('div#applicationUI').fadeIn();
-        ub.funcs.activateMoveTool(application_id);
-        ub.funcs.activateLayer(application_id);
-
         $("div.toggleOption").unbind('click');
         $("div.toggleOption").on("click", function () {
 
@@ -7253,27 +7195,47 @@ $(document).ready(function() {
                 s = 'on';
             }
 
+            if (s === "on") { ub.funcs.LSRSBSFS(parseInt(_id)); }
+
             ub.funcs.toggleApplication(_id,s);    
 
+            var _matchingSide;
             var _matchingID = undefined;
             
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
             if (typeof _matchingID !== "undefined") {
 
-                ub.funcs.toggleApplication(_matchingID, s);
+                ub.funcs.toggleApplication(_matchingID,s);                    
 
             }
 
-            // if(_id === "9") { ub.funcs.toggleApplication('10', s); }
-            // if(_id === "10") { ub.funcs.toggleApplication('9', s); }
-
-            // if(_id === "32") { ub.funcs.toggleApplication('33', s); }
-            // if(_id === "33") { ub.funcs.toggleApplication('32', s); }
-
         });
 
+        $('div#applicationUI').fadeIn();
+        ub.funcs.activateMoveTool(application_id);
+        ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
+
+    }
+
+    ub.funcs.LSRSBSFS = function (_id) { 
+
+        // LS, RS - FS, BS for crew socks
+
+        if (_id === 52 || _id === 53) {
+         
+            ub.funcs.toggleApplication(54, "off");
+            ub.funcs.toggleApplication(55, "off");
+
+        }
+
+        if (_id === 54 || _id === 55) {
+         
+            ub.funcs.toggleApplication(52, "off");
+            ub.funcs.toggleApplication(53, "off");
+
+        }
 
     }
 
@@ -7386,11 +7348,7 @@ $(document).ready(function() {
 
         if (_state === "off") {
 
-            if (ub.activeApplication === id) {
-
-                return;
-
-            }
+            if (ub.activeApplication === id) { return; }
             
             $('div.toggle').data('status', "off");
 
@@ -7421,7 +7379,7 @@ $(document).ready(function() {
             var _view = view.perspective + '_view';
             var _obj  = ub.objects[_view]['objects_' + id];
 
-            if (typeof _obj === "undefined") { console.log('Returning...'); return; }
+            if (typeof _obj === "undefined") { return; }
 
             if (_state === "on") {
 
@@ -7645,32 +7603,12 @@ $(document).ready(function() {
             }
 
             ub.funcs.update_application_mascot(_settingsObject.application, _settingsObject.mascot);
-            ub.funcs.activateMascots(_settingsObject.code);
 
             ub.current_material.settings.applications[_id] = _settingsObject;
+            ub.funcs.LSRSBSFS(parseInt(_id));
 
-            // LS, RS - FS, BS for crew socks
-
-            if (_id === 52 || _id === 53) {
-                
-                ub.funcs.removeApplicationByID(54);
-                ub.funcs.removeApplicationByID(55);
-
-                ub.current_material.settings.applications[54].status = "off";
-                ub.current_material.settings.applications[55].status = "off";
-
-            }
-
-            if (_id === 54 || _id === 55) {
-                
-                ub.funcs.removeApplicationByID(52);
-                ub.funcs.removeApplicationByID(53);
-
-                ub.current_material.settings.applications[52].status = "off";
-                ub.current_material.settings.applications[53].status = "off";
-
-            }
-
+            ub.funcs.activateMascots(_settingsObject.code);
+     
         }
 
         if (_type === 'player_name') {
@@ -7775,31 +7713,32 @@ $(document).ready(function() {
 
             var _matchingID;
             var _matchingSide;
-            
-            if (_id === 33) { _matchingID = 32; }
-            if (_id === 32) { _matchingID = 33; }
-            if (_id === 9)  { _matchingID = 10; }
-            if (_id === 10) { _matchingID = 9;  }
 
-            if (_id === 33 || _id === 32 || _id === 9 || _id === 10) {
+            _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
 
-                _matchingSide                   = ub.current_material.settings.applications[_matchingID];
+            if (typeof _matchingID !== "undefined") {
 
-                _matchingSide.accent_obj        = ub.funcs.getSampleAccent();
-                _matchingSide.text              = ub.funcs.getSampleNumber();
-                _matchingSide.application_type  = _applicationType;
-                _matchingSide.type              = _applicationType;
-                _matchingSide.object_type       = 'text object';
-                _matchingSide.font_obj          = ub.funcs.getSampleFont();
-                _matchingSide.color_array       = ub.funcs.getDefaultColors();
+                if (_.contains(ub.data.matchingApplications, _id)) {
 
-                _matchingSide.size              = _settingsObject.size; 
-                _matchingSide.font_size         = _settingsObject.size; 
+                    _matchingSide                   = ub.current_material.settings.applications[_matchingID];
 
-                _matchingSide.application.name  = _applicationType.toTitleCase();
-                _matchingSide.application.type  = _applicationType;
+                    _matchingSide.accent_obj        = ub.funcs.getSampleAccent();
+                    _matchingSide.text              = ub.funcs.getSampleNumber();
+                    _matchingSide.application_type  = _applicationType;
+                    _matchingSide.type              = _applicationType;
+                    _matchingSide.object_type       = 'text object';
+                    _matchingSide.font_obj          = ub.funcs.getSampleFont();
+                    _matchingSide.color_array       = ub.funcs.getDefaultColors();
 
-                ub.create_application(_matchingSide, undefined);
+                    _matchingSide.size              = _settingsObject.size; 
+                    _matchingSide.font_size         = _settingsObject.size; 
+
+                    _matchingSide.application.name  = _applicationType.toTitleCase();
+                    _matchingSide.application.type  = _applicationType;
+
+                    ub.create_application(_matchingSide, undefined);
+
+                }
 
             }
 
@@ -8290,14 +8229,11 @@ $(document).ready(function() {
 
             }
 
-            if (_settingsObject.code === '9')  { _matchingCode = '10' }
-            if (_settingsObject.code === '10') { _matchingCode = '9' } 
-            if (_settingsObject.code === '32') { _matchingCode = '33' } 
-            if (_settingsObject.code === '33') { _matchingCode = '32' } 
+            _matchingCode = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
 
-            if (typeof _matchingCode !== 'undefined') {
+            if (typeof _matchingCode !== "undefined") {
 
-                _matchingSettingsObject = ub.funcs.getApplicationSettings(_matchingCode);
+                 _matchingSettingsObject = ub.funcs.getApplicationSettings(_matchingCode.toString());
 
                 if (typeof _matchingSettingsObject !== 'undefined') {
 
@@ -8604,14 +8540,6 @@ $(document).ready(function() {
 
             }
 
-
-
-            // if(_id === "9")  { ub.funcs.toggleApplication('10', _status); }
-            // if(_id === "10") { ub.funcs.toggleApplication('9', _status); }
-
-            // if(_id === "32") { ub.funcs.toggleApplication('33', _status); }
-            // if(_id === "33") { ub.funcs.toggleApplication('32', _status); }
-
             // Font Left and Right
 
                 $('span.fontLeft, span.fontRight').on('click', function (e) { 
@@ -8650,30 +8578,12 @@ $(document).ready(function() {
 
                     }
 
-                    if (_settingsObject.code === "32") {
+                    var _matchingID = undefined;
+            
+                    _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+                    if (typeof _matchingID !== "undefined") {
 
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
-
-                    }
-
-                    if (_settingsObject.code === "33") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
-
-                    }
-
-                    if (_settingsObject.code === "9") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                        ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
-
-                    }
-
-                    if (_settingsObject.code === "10") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                         ub.funcs.changeFontFromPopup(_newFont.id, _matchingSettingsObject);
 
                     }
@@ -8699,9 +8609,17 @@ $(document).ready(function() {
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
                     ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
-                    if (_settingsObject.code === "32") {
+                    var _matchingID;
+                    var _matchingSide;
 
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+                    _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
+
+                    if (typeof _matchingID !== "undefined") {
+
+                        console.log('Matching ID: ');
+                        console.log(_matchingID);
+
+                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                         var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
                     
                         _layer.default_color = _colorObj.hex_code;
@@ -8710,43 +8628,7 @@ $(document).ready(function() {
                         ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
 
                     }
-
-                    if (_settingsObject.code === "33") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
-                    
-                        _layer.default_color = _colorObj.hex_code;
-                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
-    
-                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
-
-                    }
-
-                    if (_settingsObject.code === "9") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
-                    
-                        _layer.default_color = _colorObj.hex_code;
-                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
-    
-                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
-
-                    }
-
-                    if (_settingsObject.code === "10") {
-
-                        var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-                        var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
-                    
-                        _layer.default_color = _colorObj.hex_code;
-                        _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
-    
-                        ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
-
-                    }
-                    
+     
                 });
 
             // End Small Color Pickers
@@ -9205,16 +9087,9 @@ $(document).ready(function() {
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
             if (typeof _matchingID !== "undefined") {
 
-                console.log('match found + ' + _matchingID);
                 ub.funcs.toggleApplication(_matchingID.toString(), s); 
 
             }
-
-            // if(_id === "9") { ub.funcs.toggleApplication('10', s); }
-            // if(_id === "10") { ub.funcs.toggleApplication('9', s); }
-
-            // if(_id === "32") { ub.funcs.toggleApplication('33', s); }
-            // if(_id === "33") { ub.funcs.toggleApplication('32', s); }
 
         });
 
@@ -9222,10 +9097,7 @@ $(document).ready(function() {
 
             ub.funcs.toggleApplication(_id, _status);
 
-            if (
-                    parseInt(ub.current_material.material.id) !== 394 && 
-                    !(ub.current_material.material.uniform_category === "Baseball" || ub.current_material.material.uniform_category === "Fastpitch")
-                ) {
+            if (parseInt(ub.current_material.material.id) !== 394) {
 
                 $('div.column1.tailsweeps').hide();
                 $('div.column1.patterns').hide();
