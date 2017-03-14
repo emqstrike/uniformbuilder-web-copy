@@ -1,0 +1,55 @@
+<?php
+namespace App\APIClients;
+
+class ApplicationSizesAPIClient extends APIClient
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function create($data)
+    {
+        $response = $this->post('application_size', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
+
+    // public function updateAccent($data)
+    // {  
+    //     $response = $this->post('accent/update', [
+
+    //         'json' => $data
+    //     ]);
+       
+
+    //     return $this->decoder->decode($response->getBody());
+    // }
+
+    public function getAll()
+    {
+        $response = $this->get('application_sizes');
+        $result = $this->decoder->decode($response->getBody());
+
+        $application_sizes = [];
+        if ($result->success)
+        {
+            $application_sizes = $result->application_sizes;
+        }
+        
+        return $application_sizes;
+    }
+
+    // public function getAccent($id)
+    // {
+    //     $response = $this->get('accent/' . $id);
+    //     $result = $this->decoder->decode($response->getBody());
+    //     if ($result->success)
+    //     {
+
+    //         return $result->accent;
+    //     }
+    //     return null;
+    // }
+}

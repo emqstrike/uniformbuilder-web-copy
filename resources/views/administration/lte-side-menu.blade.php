@@ -70,6 +70,11 @@
           <i class="fa fa-star"></i> <span>Accents</span>
         </a>
       </li>
+      <li data-step="4" data-intro="For Application Sizes settings." data-position='right'>
+        <a href="/administration/application_sizes">
+          <i class="fa fa-cube"></i> <span>Application Sizes</span>
+        </a>
+      </li>
       <li  data-step="5" data-intro="For Block patterns settings.">
         <a href="/administration/block_patterns">
           <i class="fa fa-star"></i> <span>Block Patterns</span>
