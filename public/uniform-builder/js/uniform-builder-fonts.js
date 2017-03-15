@@ -105,26 +105,42 @@ $(document).ready(function() {
         var _perspectiveData = undefined;
         var _offsetResult = undefined;
 
-        console.log('Font Name: ');
-        console.log(fontName);
-
-        console.log('Perspective: ');
-        console.log(perspective);
-
-        console.log('Location: ');
-        console.log(location);
-
-        console.log('Font Size');
-        console.log(fontSize);
-        
-        console.log(_font);
-
         if (typeof _font !== "undefined") {
 
             _perspectiveData = _.find(_font.parsedFontSizeTables, {perspective: perspective});
 
+            if (typeof _perspectiveData === "undefined") {
+
+                console.log('Font Name: ');
+                console.log(fontName);
+
+                console.log('Perspective: ');
+                console.log(perspective);
+
+                console.log('Location: ');
+                console.log(location);
+
+                console.log('Font Size');
+                console.log(fontSize);
+                
+                console.log(_font);
+
+            }
+
             ub.data.offSetResult = _perspectiveData;
             _offsetResult = _.find(_perspectiveData.sizes, {application_number: location.toString(), inputSize: fontSize.toString()});
+            
+        }
+
+        // Not Matching Settings, get a similar size from the front, without specifying the application number
+        if (typeof _offsetResult === "undefined") {
+
+            _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
+
+            console.log('');
+            console.error('No font size record found for location ' + location.toString() + ', size: ' + fontSize + ', perspective ' + perspective);
+            console.error('Temporary using settings for location #' + _offsetResult.application_number);
+            console.error(_offsetResult);
             
         }
 

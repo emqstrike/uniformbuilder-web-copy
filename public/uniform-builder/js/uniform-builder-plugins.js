@@ -1517,17 +1517,6 @@
 
             }
 
-
-            if (_angle === "rotated") {
-
-                text_layer.text_sprite.rotation = -0.25;
-
-            } else {
-
-                text_layer.text_sprite.rotation = 0;
-
-            }
-
             /// Custom Properties
 
             text_layer.text_sprite.ubName = layer.name;

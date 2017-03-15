@@ -9370,9 +9370,18 @@ ub.funcs.fontOffSets = [
 
         getPullUp: function (sport, parentSize, applicationNumber) {
 
-            var _result = _.find(this.items, {sport: sport, size: parentSize, applicationNumber: applicationNumber});
+            var _parentSize = parentSize; 
+
+            // Handle unset teamnames
+            if(isNaN(_parentSize)) {
+
+                _parentSize = 2;
+
+            } 
+
+            var _result = _.find(this.items, {sport: sport, size: _parentSize, applicationNumber: applicationNumber});
             
-            if (typeof _result === "undefined") { console.warn('pullUp height for ' + sport + ' not found.')};
+            if (typeof _result === "undefined") { console.warn('pullUp height for ' + sport + ', size ' + parentSize + ' on ' + applicationNumber + ' not found.')};
 
             return _result;
 
