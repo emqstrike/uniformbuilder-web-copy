@@ -105,23 +105,27 @@ $(document).ready(function() {
         var _perspectiveData = undefined;
         var _offsetResult = undefined;
 
-        console.log('Font Name: ');
-        console.log(fontName);
-
-        console.log('Perspective: ');
-        console.log(perspective);
-
-        console.log('Location: ');
-        console.log(location);
-
-        console.log('Font Size');
-        console.log(fontSize);
-        
-        console.log(_font);
-
         if (typeof _font !== "undefined") {
 
             _perspectiveData = _.find(_font.parsedFontSizeTables, {perspective: perspective});
+
+            if (typeof _perspectiveData === "undefined") {
+
+                console.log('Font Name: ');
+                console.log(fontName);
+
+                console.log('Perspective: ');
+                console.log(perspective);
+
+                console.log('Location: ');
+                console.log(location);
+
+                console.log('Font Size');
+                console.log(fontSize);
+                
+                console.log(_font);
+
+            }
 
             ub.data.offSetResult = _perspectiveData;
             _offsetResult = _.find(_perspectiveData.sizes, {application_number: location.toString(), inputSize: fontSize.toString()});
