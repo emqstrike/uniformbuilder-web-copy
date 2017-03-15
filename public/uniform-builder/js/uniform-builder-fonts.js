@@ -132,6 +132,18 @@ $(document).ready(function() {
             
         }
 
+        // Not Matching Settings, get a similar size from the front, without specifying the application number
+        if (typeof _offsetResult === "undefined") {
+
+            _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
+
+            console.log('');
+            console.error('No font size record found for location ' + location.toString() + ', size: ' + fontSize + ', perspective ' + perspective);
+            console.error('Temporary using settings for location #' + _offsetResult.application_number);
+            console.error(_offsetResult);
+            
+        }
+
         return _offsetResult;
 
     }
