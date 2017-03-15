@@ -2902,31 +2902,6 @@ $(document).ready(function() {
                     factory: 'BLB',
                 },
                 {
-                    name: 'mascot',
-                    sport: 'default',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                    ],
-                    factory: 'BLB',
-                },
-                {
                     name: 'front_number',
                     sport: 'default',
                     sizes:  [
@@ -2954,7 +2929,33 @@ $(document).ready(function() {
                                 },
                             ],
                     type: 'adult',
+                },                
+                {
+                    name: 'mascot',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                    ],
+                    factory: 'BLB',
                 },
+               
 
                 // end defaults
 
@@ -2977,10 +2978,9 @@ $(document).ready(function() {
 
                 if (typeof _result === "undefined") {
 
-                    ub.utilities.warn('Location #' + locationNumber + ' for ' + type + ' Sizes in ' + sport + ' not found. Using default.');
+                    ub.utilities.warn('Location #' + locationNumber + ' for ' + type + ' in ' + sport + ' not found. Using default.');
 
                     _result = _.find(this.items, {sport: 'default', name: type});
-                    _result.sport = sport;
 
                 }
 
@@ -10537,6 +10537,97 @@ ub.funcs.fontOffSets = [
     };
 
     ub.data.originalSports = ['Football', 'Wrestling'];
+
+    // To be used when changing application types (uba@changeApplicationType)
+    ub.data.initialSizes = {
+
+        items: [
+            {
+                type: 'player_number',
+                types: [
+                    {
+                        applicationNumbers: [2],
+                        resultApplicationType: 'front_number',
+                        size: 8,
+                        font_size: 8,
+                        sport: ['Football'],
+                    },
+                    {
+                        applicationNumbers: [2],
+                        resultApplicationType: 'front_number',
+                        size: 4,
+                        font_size: 4,
+                        sport: ['Default','Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [26, 27, 28, 29, 30, 31],
+                        resultApplicationType: 'front_number',
+                        size: 4,
+                        font_size: 4,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [5],
+                        resultApplicationType: 'back_number',
+                        size: 8,
+                        font_size: 8,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [9, 10],
+                        resultApplicationType: 'sleeve_number',
+                        size: 3,
+                        font_size: 3,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [32, 33],
+                        resultApplicationType: 'shoulder_number',
+                        size: 3,
+                        font_size: 3,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [-1],
+                        resultApplicationType: 'shoulder_number',
+                        size: 3,
+                        font_size: 3,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                ] 
+
+            }
+            
+        ], 
+        getSize: function (type, applicationNumber, sport) {
+
+            var _result = _.find(this.items, {type: type});
+
+            if (typeof _result === "undefined") { ub.utilities.warn('Initial Size not found for ' + type + ' on location #' + applicationNumber); }
+
+            _result = _.find(_result.types, function (type) {
+
+                return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, sport);
+
+            });
+
+            if (typeof _result === "undefined") {
+
+                var _result = _.find(this.items, {type: type});
+
+                _result = _.find(_result.types, function (type) {
+
+                    return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, 'Default');
+
+                });
+
+            }
+
+            return _result;
+
+        }
+
+    }
 
     // Sports using the new Font Metrics 
     ub.data.sportsMain = {
