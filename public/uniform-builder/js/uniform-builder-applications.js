@@ -2268,11 +2268,22 @@ $(document).ready(function() {
                             var _parentSize             =  parseInt(_app1.font_size);
                             var _applicationNumber      = '27'
                             var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
-                            var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
-                            var _originalPosition       = _app27['originalPosition_' + _view];
 
-                            ub.funcs.pullUp(_object27, _originalPosition, _calculatedPullUpHeight);
+                            if (typeof _pullUpHeightObj === "undefined") {
 
+                                console.log('Not Found: ');
+                                console.log(_currentSport + ' - ' + _parentSize + ' - ' + _applicationNumber);
+                                console.log(_pullUpHeightObj);
+
+                            } else { 
+
+                                var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                                var _originalPosition       = _app27['originalPosition_' + _view];
+
+                                ub.funcs.pullUp(_object27, _originalPosition, _calculatedPullUpHeight);
+
+                            }
+                            
                         }
 
                     }
@@ -2684,7 +2695,7 @@ $(document).ready(function() {
 
                 // Angle Rotation for Team Name
 
-                if (args.applicationObj.angle === "rotated") {
+                if (typeof args.applicationObj !== "undefined"  && args.applicationObj.angle === "rotated") {
 
                     point.rotation = -0.25;
 
