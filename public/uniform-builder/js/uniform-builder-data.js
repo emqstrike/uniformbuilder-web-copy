@@ -2533,8 +2533,7 @@ $(document).ready(function() {
                     sport: 'crew-socks',
                     applicationNumbers: [52, 53, 54, 55],
                     sizes: [
-                        {size: 2},
-                        {size: 3},
+                        {size: 2.5},
                     ],
                 },
 
@@ -9798,16 +9797,10 @@ ub.funcs.fontOffSets = [
 
             {
                 sport: 'Crew Socks (Apparel)',
-                size: 2,
+                size: 2.5,
                 scale: {x: 0.5, y: 0.5 },
             },
-            {
-                sport: 'Crew Socks (Apparel)',
-                size: 3,
-                scale: {x: 0.75, y: 0.75 },
-            },
-           
-
+            
             // End "Crew Socks (Apparel)"
 
             // Defaults 
