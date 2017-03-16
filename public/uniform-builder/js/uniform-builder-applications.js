@@ -7555,6 +7555,13 @@ $(document).ready(function() {
 
             }
 
+            if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) {
+
+                _settingsObject.size = 3;
+                _settingsObject.font_size = 3;                
+
+            }
+
             var _matchingSide;
             var _matchingID = undefined;
             
