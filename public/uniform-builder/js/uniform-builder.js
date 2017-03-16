@@ -492,26 +492,19 @@ $(document).ready(function () {
 
                 var sports = JSON.parse(font.sports);
 
-//                console.warn(font.name);
-
                 if (sports === null) {
 
-                    //console.warn('Returning True for nulled');
                     return true;
 
                 } else {
 
                     if (sports[0] === "" || sports[0] === "All") {
 
-                        //console.warn('Returning True for Blank and "All"');
                         return true;
 
                     } else { 
 
                         var _result = _.contains(sports,ub.current_material.material.uniform_category);
-
-                        //console.warn('(specific) Returning ' + _result);
-                        //console.warn(sports);
                         return _result;
 
                     }
@@ -519,6 +512,25 @@ $(document).ready(function () {
                 }
 
             });
+
+            if (ub.data.fonts.length > 0) {
+
+                ub.utilities.info(ub.data.fonts.length + " fonts loaded.");
+                ub.utilities.info('Preloading ' + ub.data.fonts[0].name);
+
+                WebFont.load({
+
+                    custom: {
+                      families: [ub.data.fonts[0].name,]
+                    },
+
+                });    
+
+            } else {
+
+                ub.utilities.error('No fonts loaded for ' + ub.current_material.material.uniform_category + "!");
+
+            }
 
         };
 
