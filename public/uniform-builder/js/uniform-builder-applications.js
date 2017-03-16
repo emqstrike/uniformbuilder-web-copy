@@ -8031,6 +8031,7 @@ $(document).ready(function() {
 
         var _fontObj          = _settingsObject.font_obj;
         var _fontName         = _fontObj.name;
+        var _fontCaption      = _fontObj.caption;
         var _accentObj        = _settingsObject.accent_obj;
         var _accentName       = _accentObj.title;
         var _accentFilename   = _accentObj.thumbnail;
@@ -8076,7 +8077,7 @@ $(document).ready(function() {
         _htmlBuilder        +=          '<div class="ui-row">';
         _htmlBuilder        +=              '<label class="applicationLabels font_name">Font</label>';
         _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
-        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontName + '</span>';                       
+        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontCaption + '</span>';                       
         _htmlBuilder        +=              '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';

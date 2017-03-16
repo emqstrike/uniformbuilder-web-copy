@@ -513,6 +513,10 @@ $(document).ready(function () {
 
             });
 
+            _.each(ub.data.fonts, function (font) {
+                font.caption = font.name.replace(ub.current_material.material.uniform_category, '');
+            });
+
             if (ub.data.fonts.length > 0) {
 
                 ub.utilities.info(ub.data.fonts.length + " fonts loaded.");

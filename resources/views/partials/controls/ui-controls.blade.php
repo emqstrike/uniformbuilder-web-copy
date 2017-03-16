@@ -582,7 +582,7 @@
                     @{{#fonts}}
 
                         <div class="item grow" style="font-family: @{{name}}" data-font-id="@{{id}}">
-                            <span class='inside-label'>@{{name}}</span>
+                            <span class='inside-label'>@{{caption}}</span>
                             <div class="name" style="padding-top:@{{paddingTop}} ;font-size: @{{sampleSize}}">@{{sampleText}}</div>
                         </div>
 
