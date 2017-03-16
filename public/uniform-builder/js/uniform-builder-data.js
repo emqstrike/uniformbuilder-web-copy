@@ -9798,7 +9798,7 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Crew Socks (Apparel)',
                 size: 2.5,
-                scale: {x: 0.5, y: 0.5 },
+                scale: {x: 0.6, y: 0.6 },
             },
             
             // End "Crew Socks (Apparel)"
