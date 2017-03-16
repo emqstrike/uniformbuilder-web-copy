@@ -6,8 +6,8 @@ $(document).ready(function() {
 
         var _uniformCategory = ub.current_material.material.uniform_category;
         var _sampleFont = ub.data.sampleFonts.getSampleFont(_uniformCategory);
-        var _result = undefined;
-
+        var _result = ub.funcs.getFontByName(_sampleFont.fontName);
+        
         if (typeof _result === "undefined") {
 
             if (ub.data.fonts.length === 0) {
