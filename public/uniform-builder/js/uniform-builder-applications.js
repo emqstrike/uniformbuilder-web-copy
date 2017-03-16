@@ -7631,25 +7631,31 @@ $(document).ready(function() {
 
             _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category);
 
-
             if (typeof _sizeObj !== "undefined") {
 
                 _applicationType = _sizeObj.resultApplicationType;
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
-            } else {
+            } 
+            // else {
 
-                ub.utilities.error('No initial size found for ' + _type + ' location #' + _id);
+            // //     if (parseInt(_id) > 70) { // Free Form Tool, Wrestling, etc...
 
-            }
+            // //         _applicationType = 'front_number';
+            // //         _settingsObject.size = 4;
+            // //         _settingsObject.font_size = 4;
 
-            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+            // //     }
 
-                _settingsObject.size             = 4;
-                _settingsObject.font_size        = 4;                
+            // // }
 
-            }
+            // if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+
+            //     _settingsObject.size             = 4;
+            //     _settingsObject.font_size        = 4;                
+
+            // }
 
             _settingsObject.accent_obj          = ub.funcs.getSampleAccent();
             _settingsObject.text                = ub.funcs.getSampleNumber();

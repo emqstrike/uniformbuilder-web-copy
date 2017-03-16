@@ -2741,6 +2741,22 @@ $(document).ready(function() {
                             ],
                     type: 'adult',
                 },
+                {
+                    name: 'shoulder_number',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                            ],
+                    type: 'adult',
+                },
 
                 // end tech-tee
 
@@ -2857,6 +2873,22 @@ $(document).ready(function() {
                             ],
                     type: 'adult',
                 },
+                {
+                    name: 'shoulder_number',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                            ],
+                    type: 'adult',
+                },
 
                 // end compression
 
@@ -2951,6 +2983,22 @@ $(document).ready(function() {
                                 },
                                 {
                                     size: 10,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: '', // Dynamically Added Applications, For Free Form Tool Such as Wrestling, etc...
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
                                 },
                     ],
                     factory: 'BLB',
@@ -10590,8 +10638,8 @@ ub.funcs.fontOffSets = [
                     {
                         applicationNumbers: [-1],
                         resultApplicationType: 'shoulder_number',
-                        size: 3,
-                        font_size: 3,
+                        size: 4,
+                        font_size: 4,
                         sport: ['Default', 'Baseball', 'Fastpitch'],
                     },
                 ] 
@@ -10611,17 +10659,34 @@ ub.funcs.fontOffSets = [
 
             });
 
-            if (typeof _result === "undefined") {
+            if (typeof _result === "undefined" && applicationNumber < 70) {
+
+                 ub.utilities.warn('Using Undefined... ');
 
                 var _result = _.find(this.items, {type: type});
 
                 _result = _.find(_result.types, function (type) {
 
-                    return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, 'Default');
+                    return _.contains(type.applicationNumbers, -1) && _.contains(type.sport, 'Default');
 
                 });
 
             }
+
+            if (applicationNumber > 70) {
+
+                ub.utilities.warn('Using Free Form Size... ');
+                
+                _result =  {
+                    applicationNumbers: [-1],
+                    resultApplicationType: 'front_number',
+                    size: 4,
+                    font_size: 4,
+                    sport: ['Default', 'Free Form Tool'],
+                };
+
+            }
+
 
             return _result;
 
@@ -10678,7 +10743,7 @@ ub.funcs.fontOffSets = [
 
     };
 
-    ub.data.matchingApplications = [33, 32, 9, 10, 52, 53, 54, 55];
+    ub.data.matchingApplications = [33, 32, 9, 10, 42, 41, 44, 43, 52, 53, 54, 55];
     ub.data.matchingIDs = {
 
         items: [
@@ -10691,7 +10756,10 @@ ub.funcs.fontOffSets = [
             { id: 53, matchingID: 52  },
             { id: 54, matchingID: 55  },
             { id: 55, matchingID: 54  },
-            
+            { id: 43, matchingID: 44  },
+            { id: 44, matchingID: 43  },
+            { id: 41, matchingID: 42  },
+            { id: 42, matchingID: 41  },
         ], 
         getMatchingID: function (id) {
 
