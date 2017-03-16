@@ -2535,11 +2535,10 @@ $(document).ready(function() {
                     sizes: [
                         {size: 2},
                         {size: 3},
-                        {size: 4},
                     ],
                 },
 
-                // ENd Crew Socks 
+                // End Crew Socks 
 
                 // Hockey
                 {
@@ -9794,6 +9793,22 @@ ub.funcs.fontOffSets = [
                 size: 10,
                 scale: {x: 0.90, y: 0.90 },
             },
+
+            // "Crew Socks (Apparel)"
+
+            {
+                sport: 'Crew Socks (Apparel)',
+                size: 2,
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: 'Crew Socks (Apparel)',
+                size: 3,
+                scale: {x: 0.75, y: 0.75 },
+            },
+           
+
+            // End "Crew Socks (Apparel)"
 
             // Defaults 
 

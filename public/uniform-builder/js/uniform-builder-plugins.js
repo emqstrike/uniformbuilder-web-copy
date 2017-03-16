@@ -1188,6 +1188,11 @@
                 
             }
 
+        } else if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
+
+            _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
+            scale_settings = _scaleSettings.scale;
+
         }
 
         _.each(mascot.layers_properties, function(layer, index) {
