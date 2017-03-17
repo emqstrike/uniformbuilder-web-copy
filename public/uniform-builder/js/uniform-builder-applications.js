@@ -5202,30 +5202,12 @@ $(document).ready(function() {
 
             }
 
-           if (settingsObj.code === "32") {
+            var _matchingID = undefined;
+            _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
 
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
+            if (typeof _matchingID !== "undefined") {
 
-            }
-
-            if (settingsObj.code === "33") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "9") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "10") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                 ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
 
             }
@@ -5311,35 +5293,15 @@ $(document).ready(function() {
             $popup.remove();
             ub.funcs.activateApplications(settingsObj.code);
 
-            if (settingsObj.code === "32") {
+            var _matchingID = undefined;
+            _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
 
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+            if (typeof _matchingID !== "undefined") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                 ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
 
             }
-
-            if (settingsObj.code === "33") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "9") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "10") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
-
-            }
-            
-
 
         });
 
@@ -8634,30 +8596,12 @@ $(document).ready(function() {
 
                 ub.funcs.changeSize(_selectedSize, _settingsObject);
 
-                if (_settingsObject.code === "32") {
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
 
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+                if (typeof _matchingID !== "undefined") {
 
-                }
-
-                if (_settingsObject.code === "33") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
-
-                }
-
-                if (_settingsObject.code === "9") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
-
-                }
-
-                if (_settingsObject.code === "10") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                     ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
 
                 }
