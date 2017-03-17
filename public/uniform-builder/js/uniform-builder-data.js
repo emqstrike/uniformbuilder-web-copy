@@ -10607,8 +10607,15 @@ ub.funcs.fontOffSets = [
                         sport: ['Default','Baseball', 'Fastpitch'],
                     },
                     {
-                        applicationNumbers: [26, 27, 28, 29, 30, 31],
+                        applicationNumbers: [26, 27, 28, 29, 30, 31, 25, 3, 24],
                         resultApplicationType: 'front_number',
+                        size: 4,
+                        font_size: 4,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [7,51,8],
+                        resultApplicationType: 'back_number',
                         size: 4,
                         font_size: 4,
                         sport: ['Default', 'Baseball', 'Fastpitch'],
