@@ -203,19 +203,19 @@ $(document).ready(function() {
 
     ub.funcs.mirrorApp = function (baseApp, backOa, backOb, frontOa, frontOb) {
 
-        // if (baseApp.application_type === 'mascot' || baseApp.application_type === 'free') { return; }
+        if (baseApp.application_type === 'mascot' || baseApp.application_type === 'free') { return; }
 
-        // // var _totalWidthFront    = ub.totalWidth; 
-        // // var _totalWidthBack     = ub.totalWidth;
+        var _totalWidthFront    = ub.totalWidth; 
+        var _totalWidthBack     = ub.totalWidth;
 
-        // // backOb.rotation         = backOa.rotation * -1;
-        // // frontOa.rotation        = frontOb.rotation * -1;
+        backOb.rotation         = backOa.rotation * -1;
+        frontOa.rotation        = frontOb.rotation * -1;
 
-        // // frontOa.position.x      = _totalWidthFront - frontOb.position.x + 4;
-        // // backOb.position.x       = _totalWidthBack - backOa.position.x;
+        // frontOa.position.x      = _totalWidthFront - frontOb.position.x + 4;
+        // backOb.position.x       = _totalWidthBack - backOa.position.x;
         
-        // // frontOa.position.y      = frontOb.position.y;
-        // // backOb.position.y       = backOa.position.y;
+        frontOa.position.y      = frontOb.position.y;
+        backOb.position.y       = backOa.position.y;
 
     }
 
