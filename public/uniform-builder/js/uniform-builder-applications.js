@@ -9479,13 +9479,13 @@ $(document).ready(function() {
         baseSprite.oldTint = baseSprite.tint;
 
         sprite.spriteType = 'Marker';
-        sprite.draggable({ manager: ub.dragAndDropManager });
+        sprite.draggable({ manager: ub.dragAndDropManager, disabled: true, });
         sprite.mouseup = sprite.touchend = function (data) { };
 
         $('body').mouseup( function () {
 
             if (viewPerspective !== ub.active_view) { return; }
-            
+
             if (ub.funcs.popupTest()) { return; }
             
             if (sprite.ubHover) {
