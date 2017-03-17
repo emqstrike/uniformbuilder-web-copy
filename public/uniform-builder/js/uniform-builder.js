@@ -4693,6 +4693,12 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.hidePipingPanel = function () {
+
+        $('div#pipings-panel').hide();
+
+    }
+
         /// End Utilities ///
 
         /// Bottom Nav Handlers
@@ -4803,7 +4809,7 @@ $(document).ready(function () {
                 }
 
                 if (view === 'layers') {
-
+                    ub.funcs.hidePipingPanel();
                     ub.funcs.showLayerTool();
                     
                     return;
