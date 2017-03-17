@@ -2932,6 +2932,19 @@ $(document).ready(function() {
                     factory: 'BLB',
                 },
                 {
+                    name: 'shoulder_number',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
                     name: 'front_number',
                     sport: 'default',
                     sizes:  [

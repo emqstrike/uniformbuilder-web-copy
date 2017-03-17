@@ -9517,8 +9517,8 @@ $(document).ready(function() {
         }
 
         if (typeof _sizes === 'undefined') {
-            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
 
+            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
             _sizes = ub.data.applicationSizes.getSizes('default', applicationType);            
 
         }
