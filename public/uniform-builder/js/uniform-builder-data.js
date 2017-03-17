@@ -10635,6 +10635,13 @@ ub.funcs.fontOffSets = [
                         sport: ['Default', 'Baseball', 'Fastpitch'],
                     },
                     {
+                        applicationNumbers: [41, 42, 43, 44],
+                        resultApplicationType: 'sleeve_number',
+                        size: 3,
+                        font_size: 3,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
                         applicationNumbers: [-1],
                         resultApplicationType: 'shoulder_number',
                         size: 4,
@@ -10648,34 +10655,33 @@ ub.funcs.fontOffSets = [
         ], 
         getSize: function (type, applicationNumber, sport) {
 
-            var _result = _.find(this.items, {type: type});
+            var _result = undefined;
+            var _items = _.find(this.items, {type: type});
 
-            if (typeof _result === "undefined") { ub.utilities.warn('Initial Size not found for ' + type + ' on location #' + applicationNumber); }
+            if (typeof _items === "undefined") { ub.utilities.warn('Initial Size not found for ' + type + ' on location #' + applicationNumber); }
 
-            _result = _.find(_result.types, function (type) {
+            _result = _.find(_items.types, function (type) {
 
                 return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, sport);
 
             });
 
-            if (typeof _result === "undefined" && applicationNumber < 70) {
+            if (typeof _result === "undefined") {
 
-                 ub.utilities.warn('Using Undefined... ');
-
-                var _result = _.find(this.items, {type: type});
-
-                _result = _.find(_result.types, function (type) {
-
-                    return _.contains(type.applicationNumbers, -1) && _.contains(type.sport, 'Default');
-
-                });
+                _result = _.find(_items.types, function (type) { return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, 'Default'); });
 
             }
 
+            if (typeof _result === "undefined" && applicationNumber < 70) {
+
+                ub.utilities.warn('Using catch all initial size (-1)');
+                _result = _.find(_items.types, function (type) { return _.contains(type.applicationNumbers, -1) && _.contains(type.sport, 'Default'); });
+
+            } 
+
+            // For Free Form Tool
             if (applicationNumber > 70) {
 
-                ub.utilities.warn('Using Free Form Size... ');
-                
                 _result =  {
                     applicationNumbers: [-1],
                     resultApplicationType: 'front_number',
@@ -10685,7 +10691,6 @@ ub.funcs.fontOffSets = [
                 };
 
             }
-
 
             return _result;
 
