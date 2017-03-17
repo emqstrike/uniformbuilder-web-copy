@@ -2749,9 +2749,6 @@ $(document).ready(function() {
                                 {
                                     size: 4,
                                 },
-                                {
-                                    size: 5,
-                                },
                             ],
                     type: 'adult',
                 },
@@ -2880,9 +2877,6 @@ $(document).ready(function() {
                                 },
                                 {
                                     size: 4,
-                                },
-                                {
-                                    size: 5,
                                 },
                             ],
                     type: 'adult',
