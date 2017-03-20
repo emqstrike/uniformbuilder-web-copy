@@ -6786,32 +6786,32 @@ $(document).ready(function() {
                 var _color   = ub.funcs.getColorByColorCode(_hexCode);
                 var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
 
-                if (typeof exists === 'undefined') {
+                // if (typeof exists === 'undefined') {
 
-                    var _teamColorID = parseInt(layer.team_color_id);
-                    _color = ub.funcs.getTeamColorObjByIndex(_teamColorID);
+                //     var _teamColorID = parseInt(layer.team_color_id);
+                //     _color = ub.funcs.getTeamColorObjByIndex(_teamColorID);
 
-                    if (typeof _color !== "undefined") {
+                //     if (typeof _color !== "undefined") {
 
-                        ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+                //         ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
 
-                    }
+                //     }
 
-                } else {
+                // } else {
 
-                    ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+                //     ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
 
-                }
+                // }
 
-                if (typeof _color === 'undefined') {
+                // if (typeof _color === 'undefined') {
 
-                    var _teamColorLength = ub.current_material.settings.team_colors.length;
-                    var _rotatedTeamColorID = ub.funcs.getRotatedValue(_teamColorLength, _teamColorID);
+                //     var _teamColorLength = ub.current_material.settings.team_colors.length;
+                //     var _rotatedTeamColorID = ub.funcs.getRotatedValue(_teamColorLength, _teamColorID);
 
-                    _color = ub.funcs.getTeamColorObjByIndex(_rotatedTeamColorID);
-                    ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+                //     _color = ub.funcs.getTeamColorObjByIndex(_rotatedTeamColorID);
+                //     ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
                     
-                }
+                // }
 
                 if (typeof _color !== 'undefined') {
 
