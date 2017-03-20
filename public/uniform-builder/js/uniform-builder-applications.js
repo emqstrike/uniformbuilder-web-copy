@@ -2207,12 +2207,12 @@ $(document).ready(function() {
 
             _.each(ub.views, function (_view) {
 
-                var _object26   = ub.objects[_view + '_view']['objects_26'];
                 var _object1    = ub.objects[_view + '_view']['objects_1'];
-                var _object2    = ub.objects[_view + '_view']['objects_2'];
+                var _object2    = ub.objects[_view + '_view']['objects_2'];                
+                var _object5    = ub.objects[_view + '_view']['objects_5'];
 
                 var _object27   = ub.objects[_view + '_view']['objects_27'];
-                var _object5    = ub.objects[_view + '_view']['objects_5'];
+                var _object26   = ub.objects[_view + '_view']['objects_26'];
 
                 if (code === '1' || code === '2' || code === '26' || code === "27") {
 
@@ -2222,13 +2222,6 @@ $(document).ready(function() {
 
                             var _parentSize             =  parseInt(_app1.font_size);
                             var _applicationNumber      = '26'
-
-                            if (_currentSport !== "Baseball" && _currentSport !== "Fastpitch") {
-
-                                _applicationNumber      = '2'                                
-
-                            }
-                           
                             var _originalPosition       = _app26['originalPosition_' + _view];
 
                             if (_currentSport === "Baseball" || _currentSport === "Fastpitch") {
@@ -2236,53 +2229,23 @@ $(document).ready(function() {
                                 var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
                                 var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
 
-                                ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight);
-
                             } else {
 
-                                _originalPosition      = _app2['originalPosition_' + _view];                                
-
-                                // Use one_inch_in_px
-                                
+                                _originalPosition       = _app2['originalPosition_' + _view];                                
                                 _calculatedPullUpHeight = 0;
 
                                 if (_parentSize === 2) {
 
                                     if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
-                                    _calculatedPullUpHeight = -20; // Set to 20 for now
-                                    
+                                    _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -1;
+
                                 }
-
-                                ub.funcs.pullUp(_object2, _originalPosition, _calculatedPullUpHeight);
-
+                               
                             }
-                            
-                        }
 
-                    }
-
-                    if (typeof _object27 !== "undefined") {
-
-                        if (typeof _app1 !== "undefined") {
-
-                            var _parentSize             =  parseInt(_app1.font_size);
-                            var _applicationNumber      = '27'
-                            var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
-
-                            if (typeof _pullUpHeightObj === "undefined") {
-
-                                console.log('Not Found: ');
-                                console.log(_currentSport + ' - ' + _parentSize + ' - ' + _applicationNumber);
-                                console.log(_pullUpHeightObj);
-
-                            } else { 
-
-                                var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
-                                var _originalPosition       = _app27['originalPosition_' + _view];
-
-                                ub.funcs.pullUp(_object27, _originalPosition, _calculatedPullUpHeight);
-
-                            }
+                            if (typeof _object26 !== "undefined") { ub.funcs.pullUp(_object26, _originalPosition, _calculatedPullUpHeight); }
+                            if (typeof _object27 !== "undefined") { ub.funcs.pullUp(_object27, _originalPosition, _calculatedPullUpHeight); }
+                            if (typeof _object2 !== "undefined")  { ub.funcs.pullUp(_object2, _originalPosition, _calculatedPullUpHeight);  }
                             
                         }
 
@@ -2305,15 +2268,10 @@ $(document).ready(function() {
                             var _originalPosition       = _app5['originalPosition_' + _view];
 
                             if (ub.data.sportsMain.currentOk()) {
-
                                 _calculatedPullUpHeight = 0;
-
                                 if (_parentSize === 2) {
-
                                     if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
-
-                                    _calculatedPullUpHeight =  -20; // parseInt(ub.current_material.material.one_inch_in_px) * -1;
-
+                                    _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -1;
                                 }
                             
                             }
@@ -5244,30 +5202,12 @@ $(document).ready(function() {
 
             }
 
-           if (settingsObj.code === "32") {
+            var _matchingID = undefined;
+            _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
 
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
+            if (typeof _matchingID !== "undefined") {
 
-            }
-
-            if (settingsObj.code === "33") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "9") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "10") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                 ub.funcs.changeFontFromPopup(_id, _matchingSettingsObject);
 
             }
@@ -5353,35 +5293,15 @@ $(document).ready(function() {
             $popup.remove();
             ub.funcs.activateApplications(settingsObj.code);
 
-            if (settingsObj.code === "32") {
+            var _matchingID = undefined;
+            _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
 
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
+            if (typeof _matchingID !== "undefined") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                 ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
 
             }
-
-            if (settingsObj.code === "33") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "9") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
-
-            }
-
-            if (settingsObj.code === "10") {
-
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
-                ub.funcs.changeAccentFromPopup(_id, _matchingSettingsObject);
-
-            }
-            
-
 
         });
 
@@ -7597,6 +7517,13 @@ $(document).ready(function() {
 
             }
 
+            if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) {
+
+                _settingsObject.size = 2.5;
+                _settingsObject.font_size = 2.5;                
+
+            }
+
             var _matchingSide;
             var _matchingID = undefined;
             
@@ -7669,46 +7596,17 @@ $(document).ready(function() {
             ub.funcs.deActivateApplications();
 
             var _applicationType = '';
+            var _sizeObj = undefined;
 
-            if (_id === 2) {
+            _sizeObj = ub.data.initialSizes.getSize(_type, _id, ub.current_material.material.uniform_category);
 
-                _applicationType = 'front_number';
-                _settingsObject.size = 8;
-                _settingsObject.font_size = 8;
+            if (typeof _sizeObj !== "undefined") {
 
-            } else if (_id === 5) {
+                _applicationType = _sizeObj.resultApplicationType;
+                _settingsObject.size = _sizeObj.size;
+                _settingsObject.font_size = _sizeObj.font_size;
 
-                _applicationType = 'back_number';
-                _settingsObject.size = 8;
-                _settingsObject.font_size = 8;
-
-            } else if (_id === 32 || _id === 33) {
-
-                _applicationType = 'shoulder_number';
-                _settingsObject.size = 3;
-                _settingsObject.font_size = 3;
-
-            } else if (_id === 9 || _id === 10) {
-
-                _applicationType = 'sleeve_number';
-                _settingsObject.size = 3;
-                _settingsObject.font_size = 3;
-
-
-            } else {
-
-                _applicationType = 'sleeve_number';
-                _settingsObject.size = 3;
-                _settingsObject.font_size = 3;
-
-            }
-
-            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-
-                _settingsObject.size             = 4;
-                _settingsObject.font_size        = 4;                
-
-            }
+            } 
 
             _settingsObject.accent_obj          = ub.funcs.getSampleAccent();
             _settingsObject.text                = ub.funcs.getSampleNumber();
@@ -7722,15 +7620,6 @@ $(document).ready(function() {
 
             _settingsObject.application.name    = _applicationType.toTitleCase();
             _settingsObject.application.type    = _applicationType;
-
-            if (_id === 2) { 
-                _settingsObject.size = 8; 
-                _settingsObject.font_size = 8; 
-            }
-            if (_id === 5) { 
-                _settingsObject.size = 10; 
-                _settingsObject.font_size = 10; 
-            }
 
             var _matchingID;
             var _matchingSide;
@@ -8086,6 +7975,7 @@ $(document).ready(function() {
 
         var _fontObj          = _settingsObject.font_obj;
         var _fontName         = _fontObj.name;
+        var _fontCaption      = _fontObj.caption;
         var _accentObj        = _settingsObject.accent_obj;
         var _accentName       = _accentObj.title;
         var _accentFilename   = _accentObj.thumbnail;
@@ -8131,7 +8021,7 @@ $(document).ready(function() {
         _htmlBuilder        +=          '<div class="ui-row">';
         _htmlBuilder        +=              '<label class="applicationLabels font_name">Font</label>';
         _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
-        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontName + '</span>';                       
+        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _fontName + ';">' + _fontCaption + '</span>';                       
         _htmlBuilder        +=              '<span class="fontRight" data-direction="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -8637,9 +8527,6 @@ $(document).ready(function() {
 
                     if (typeof _matchingID !== "undefined") {
 
-                        console.log('Matching ID: ');
-                        console.log(_matchingID);
-
                         var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                         var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
                     
@@ -8691,30 +8578,12 @@ $(document).ready(function() {
 
                 ub.funcs.changeSize(_selectedSize, _settingsObject);
 
-                if (_settingsObject.code === "32") {
+                var _matchingID = undefined;
+                _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
 
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "33"});
-                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
+                if (typeof _matchingID !== "undefined") {
 
-                }
-
-                if (_settingsObject.code === "33") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "32"});
-                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
-
-                }
-
-                if (_settingsObject.code === "9") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "10"});
-                    ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
-
-                }
-
-                if (_settingsObject.code === "10") {
-
-                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: "9"});
+                    var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                     ub.funcs.changeSize(_selectedSize, _matchingSettingsObject);                    
 
                 }
@@ -9574,8 +9443,8 @@ $(document).ready(function() {
         }
 
         if (typeof _sizes === 'undefined') {
-            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
 
+            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
             _sizes = ub.data.applicationSizes.getSizes('default', applicationType);            
 
         }
@@ -9610,13 +9479,13 @@ $(document).ready(function() {
         baseSprite.oldTint = baseSprite.tint;
 
         sprite.spriteType = 'Marker';
-        sprite.draggable({ manager: ub.dragAndDropManager });
+        sprite.draggable({ manager: ub.dragAndDropManager, disabled: true, });
         sprite.mouseup = sprite.touchend = function (data) { };
 
         $('body').mouseup( function () {
 
             if (viewPerspective !== ub.active_view) { return; }
-            
+
             if (ub.funcs.popupTest()) { return; }
             
             if (sprite.ubHover) {

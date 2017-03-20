@@ -2533,13 +2533,11 @@ $(document).ready(function() {
                     sport: 'crew-socks',
                     applicationNumbers: [52, 53, 54, 55],
                     sizes: [
-                        {size: 2},
-                        {size: 3},
-                        {size: 4},
+                        {size: 2.5},
                     ],
                 },
 
-                // ENd Crew Socks 
+                // End Crew Socks 
 
                 // Hockey
                 {
@@ -2741,6 +2739,19 @@ $(document).ready(function() {
                             ],
                     type: 'adult',
                 },
+                {
+                    name: 'shoulder_number',
+                    sport: 'tech-tee',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    type: 'adult',
+                },
 
                 // end tech-tee
 
@@ -2857,6 +2868,19 @@ $(document).ready(function() {
                             ],
                     type: 'adult',
                 },
+                {
+                    name: 'shoulder_number',
+                    sport: 'compression',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    type: 'adult',
+                },
 
                 // end compression
 
@@ -2902,28 +2926,16 @@ $(document).ready(function() {
                     factory: 'BLB',
                 },
                 {
-                    name: 'mascot',
+                    name: 'shoulder_number',
                     sport: 'default',
                     sizes:  [
-                                {
-                                    size: 2,
-                                },
                                 {
                                     size: 3,
                                 },
                                 {
                                     size: 4,
                                 },
-                                {
-                                    size: 5,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                    ],
+                            ],
                     factory: 'BLB',
                 },
                 {
@@ -2954,7 +2966,49 @@ $(document).ready(function() {
                                 },
                             ],
                     type: 'adult',
+                },                
+                {
+                    name: 'mascot',
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                    ],
+                    factory: 'BLB',
                 },
+                {
+                    name: '', // Dynamically Added Applications, For Free Form Tool Such as Wrestling, etc...
+                    sport: 'default',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+               
 
                 // end defaults
 
@@ -2977,10 +3031,9 @@ $(document).ready(function() {
 
                 if (typeof _result === "undefined") {
 
-                    ub.utilities.warn('Location #' + locationNumber + ' for ' + type + ' Sizes in ' + sport + ' not found. Using default.');
+                    ub.utilities.warn('Location #' + locationNumber + ' for ' + type + ' in ' + sport + ' not found. Using default.');
 
                     _result = _.find(this.items, {sport: 'default', name: type});
-                    _result.sport = sport;
 
                 }
 
@@ -8863,22 +8916,6 @@ ub.funcs.fontOffSets = [
         font_builder = "<style type=\"text/css\">" + font_builder + "</style>";
         
         $("head").prepend(font_builder);
-
-        // Preload first font
-        if ( ub.data.fonts.length > 0 ) {
-
-            WebFont.load({
-
-                custom: {
-                  families: [ub.data.fonts[0].name, 'Tail Sweep Trial 2'],
-                },
-
-            });
-
-        }
-
-        /// Load all other Fonts 
-        // moved to afterLoad Event
         
     };
 
@@ -9747,6 +9784,16 @@ ub.funcs.fontOffSets = [
                 scale: {x: 0.90, y: 0.90 },
             },
 
+            // "Crew Socks (Apparel)"
+
+            {
+                sport: 'Crew Socks (Apparel)',
+                size: 2.5,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            
+            // End "Crew Socks (Apparel)"
+
             // Defaults 
 
             {
@@ -10538,6 +10585,126 @@ ub.funcs.fontOffSets = [
 
     ub.data.originalSports = ['Football', 'Wrestling'];
 
+    // To be used when changing application types (uba@changeApplicationType)
+    ub.data.initialSizes = {
+
+        items: [
+            {
+                type: 'player_number',
+                types: [
+                    {
+                        applicationNumbers: [2],
+                        resultApplicationType: 'front_number',
+                        size: 8,
+                        font_size: 8,
+                        sport: ['Football'],
+                    },
+                    {
+                        applicationNumbers: [2],
+                        resultApplicationType: 'front_number',
+                        size: 4,
+                        font_size: 4,
+                        sport: ['Default','Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [26, 27, 28, 29, 30, 31, 25, 3, 24],
+                        resultApplicationType: 'front_number',
+                        size: 4,
+                        font_size: 4,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [7,51,8],
+                        resultApplicationType: 'back_number',
+                        size: 4,
+                        font_size: 4,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [5],
+                        resultApplicationType: 'back_number',
+                        size: 8,
+                        font_size: 8,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [9, 10],
+                        resultApplicationType: 'sleeve_number',
+                        size: 3,
+                        font_size: 3,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [32, 33],
+                        resultApplicationType: 'shoulder_number',
+                        size: 3,
+                        font_size: 3,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [41, 42, 43, 44],
+                        resultApplicationType: 'sleeve_number',
+                        size: 3,
+                        font_size: 3,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                    {
+                        applicationNumbers: [-1],
+                        resultApplicationType: 'shoulder_number',
+                        size: 4,
+                        font_size: 4,
+                        sport: ['Default', 'Baseball', 'Fastpitch'],
+                    },
+                ] 
+
+            }
+            
+        ], 
+        getSize: function (type, applicationNumber, sport) {
+
+            var _result = undefined;
+            var _items = _.find(this.items, {type: type});
+
+            if (typeof _items === "undefined") { ub.utilities.warn('Initial Size not found for ' + type + ' on location #' + applicationNumber); }
+
+            _result = _.find(_items.types, function (type) {
+
+                return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, sport);
+
+            });
+
+            if (typeof _result === "undefined") {
+
+                _result = _.find(_items.types, function (type) { return _.contains(type.applicationNumbers, applicationNumber) && _.contains(type.sport, 'Default'); });
+
+            }
+
+            if (typeof _result === "undefined" && applicationNumber < 70) {
+
+                ub.utilities.warn('Using catch all initial size (-1)');
+                _result = _.find(_items.types, function (type) { return _.contains(type.applicationNumbers, -1) && _.contains(type.sport, 'Default'); });
+
+            } 
+
+            // For Free Form Tool
+            if (applicationNumber > 70) {
+
+                _result =  {
+                    applicationNumbers: [-1],
+                    resultApplicationType: 'front_number',
+                    size: 4,
+                    font_size: 4,
+                    sport: ['Default', 'Free Form Tool'],
+                };
+
+            }
+
+            return _result;
+
+        }
+
+    }
+
     // Sports using the new Font Metrics 
     ub.data.sportsMain = {
 
@@ -10587,7 +10754,7 @@ ub.funcs.fontOffSets = [
 
     };
 
-    ub.data.matchingApplications = [33, 32, 9, 10, 52, 53, 54, 55];
+    ub.data.matchingApplications = [33, 32, 9, 10, 42, 41, 44, 43, 52, 53, 54, 55];
     ub.data.matchingIDs = {
 
         items: [
@@ -10600,7 +10767,10 @@ ub.funcs.fontOffSets = [
             { id: 53, matchingID: 52  },
             { id: 54, matchingID: 55  },
             { id: 55, matchingID: 54  },
-            
+            { id: 43, matchingID: 44  },
+            { id: 44, matchingID: 43  },
+            { id: 41, matchingID: 42  },
+            { id: 42, matchingID: 41  },
         ], 
         getMatchingID: function (id) {
 

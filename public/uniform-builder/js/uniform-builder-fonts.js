@@ -7,7 +7,7 @@ $(document).ready(function() {
         var _uniformCategory = ub.current_material.material.uniform_category;
         var _sampleFont = ub.data.sampleFonts.getSampleFont(_uniformCategory);
         var _result = ub.funcs.getFontByName(_sampleFont.fontName);
-
+        
         if (typeof _result === "undefined") {
 
             if (ub.data.fonts.length === 0) {
@@ -211,8 +211,8 @@ $(document).ready(function() {
         backOb.rotation         = backOa.rotation * -1;
         frontOa.rotation        = frontOb.rotation * -1;
 
-        frontOa.position.x      = _totalWidthFront - frontOb.position.x + 4;
-        backOb.position.x       = _totalWidthBack - backOa.position.x + 4;
+        // frontOa.position.x      = _totalWidthFront - frontOb.position.x + 4;
+        // backOb.position.x       = _totalWidthBack - backOa.position.x;
         
         frontOa.position.y      = frontOb.position.y;
         backOb.position.y       = backOa.position.y;
