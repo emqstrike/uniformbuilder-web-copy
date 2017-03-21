@@ -58,11 +58,13 @@
             var color_elements      = '';
             var color 
             var width               = '35px';
+            var height              = '35px';
             var sublimatedClass     = '';
 
             if (ub.funcs.isSublimated()) {
 
-                width = '25px';
+                height = '25px';
+                width = '38px';
                 sublimatedClass = ('sublimated');
 
             }
@@ -92,7 +94,7 @@
 
                 var element = '<div class="color_element ' + sublimatedClass + '">';
 
-                element = element + '<button class=" grow btn change-color ' + cl + '" data-status="unselected" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" data-color-id="' + color.id + '" data-color-label="' + color.color_code + '" data-color-code="' + color.hex_code + '"  data-type="' +  settings.type + '" style="background-color: #' + background_color + '; width: ' + width + '; height: ' + width + '; border-radius: 4px; border-width: thin; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
+                element = element + '<button class=" grow btn change-color ' + cl + '" data-status="unselected" data-elid="' + btn_el_id + '" data-index="' + color_stop_index + '" data-panel="' + code + '" data-target="' + code + '" data-color="#' + color.hex_code + '" data-color-id="' + color.id + '" data-color-label="' + color.color_code + '" data-color-code="' + color.hex_code + '"  data-type="' +  settings.type + '" style="background-color: #' + background_color + '; width: ' + width + '; height: ' + height + '; border-radius: 4px; border-width: thin; padding: 0px;" data-layer="none" data-placement="bottom" title="' + color.name + '" data-selection="none"></button>';
                 element = element + '<span class="label">' + ub.funcs.tennGuardTemp(color.name) + '</span>';
                 element = element + '</div>';    
                 color_elements = color_elements + element;
