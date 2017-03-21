@@ -10612,5 +10612,19 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.isSublimated = function () {
+
+        var _factoryCode = ub.current_material.material.factory_code;
+        var _result = false;
+
+        if (_factoryCode === "BLB") {
+
+            _result = true;
+
+        }
+
+        return _result;
+
+    }
 
 });
