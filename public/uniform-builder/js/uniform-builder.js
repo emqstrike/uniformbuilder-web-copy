@@ -1726,10 +1726,14 @@ $(document).ready(function () {
 
                     if (_materialOption.pattern_properties !== null && _materialOption.pattern_properties !== "") {
 
-                        if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
-                            e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
-                        }    
+                        if (e.pattern.pattern_id === "") {
 
+                            if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
+                                e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
+                            }    
+
+                        }
+                        
                     }
                     else {
 
@@ -4693,9 +4697,23 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.hidePipingPanel = function () {
+    ub.funcs.removePipingsPanel = function () {
 
-        $('div#pipings-panel').hide();
+        if ($('div#pipings-panel').is(':visible')) {
+
+            $('div.pipings-header > span.close').trigger('click');
+
+        }
+
+    }
+
+    ub.funcs.removeApplicationsPanel = function () {
+
+        if ($('div#layers-order').is(':visible')) {
+
+            $('div.layers-header > span.close').trigger('click');
+
+        }
 
     }
 
@@ -4755,6 +4773,7 @@ $(document).ready(function () {
 
                     }
 
+                    ub.funcs.removeApplicationsPanel();
                     ub.funcs.showPipingsPanel();
 
                     return;
@@ -4809,7 +4828,8 @@ $(document).ready(function () {
                 }
 
                 if (view === 'layers') {
-                    ub.funcs.hidePipingPanel();
+                    
+                    ub.funcs.removePipingsPanel();
                     ub.funcs.showLayerTool();
                     
                     return;

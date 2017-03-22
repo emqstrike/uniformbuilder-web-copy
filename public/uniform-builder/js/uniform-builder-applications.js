@@ -6535,21 +6535,68 @@ $(document).ready(function() {
 
     }
 
-    ub.data.forRotating = [];
+    ub.funcs.activateColors = function (application_id) {
 
-    ub.funcs.useRotated = function (status) {
+        var _appSettings = ub.current_material.settings.applications[application_id];
+        var _noOfLayers = _.size(_appSettings.mascot.layers_properties); // -1 becuase one of the layers is just a duplicate for the mask
+        var _noOfColors = ub.current_material.settings.applications[application_id].color_array.length;
 
-        if (status === "off") { return; }
+        _.each(_appSettings.color_array, function (color, index) {
 
-        _.each (ub.data.forRotating, function (_rotate) {
+            var _layerNo = index + 1;
 
-            $("span.colorItem[data-layer-no='" +  _rotate.layerNumber + "'][data-color-code='" + _rotate.colorOBJ.color_code + "']").trigger('click');
+            if (_layerNo > _noOfLayers) { return; }
+
+            $layer = $('span.colorItem[data-layer-no="' + _layerNo + '"][data-color-code="' + color.color_code + '"]');
+            $layer.click();
 
         });
+        
+        // Handle Non-Existent colors
+        
+        if (_noOfLayers > _noOfColors) { 
 
-        ub.data.forRotating = [];
+            var _diff = _noOfLayers - _noOfColors;
 
-    }
+            for (i = _noOfColors + 1; i <= _noOfColors + _diff; i++) {
+
+                var _mascotSettingsLayer = _.find(_appSettings.mascot.layers_properties, {layer_number: i.toString()});
+                var _teamColorID = _mascotSettingsLayer.team_color_id;
+                var _color = ub.funcs.getTeamColorObjByIndex(parseInt(_teamColorID));
+
+                if (typeof _color !== "undefined") {
+
+                    $layer = $('span.colorItem[data-layer-no="' + i + '"][data-color-code="' + _color.color_code + '"]');
+                    $layer.click();
+
+                } else {
+
+                    ub.utilities.warn('Team Color ' + _teamColorID + " not found, using first team color for mascot");
+                    _color = ub.funcs.getTeamColorObjByIndex(1);
+
+                    $layer = $('span.colorItem[data-layer-no="' + i + '"][data-color-code="' + _color.color_code + '"]');
+                    $layer.click();
+
+                }
+
+            }
+            
+        }
+
+    } 
+
+    ub.funcs.beforeActivateMascots = function (application_id) {
+
+        // Todo: Prepocessing Here
+
+    };
+
+    ub.funcs.afterActivateMascots = function (application_id) {
+
+        // Restore current mascot colors from settings object
+       ub.funcs.activateColors(application_id);
+
+    };
 
     ub.funcs.activateMascots = function (application_id) {
 
@@ -6569,12 +6616,12 @@ $(document).ready(function() {
 
         }
 
-        if (ub.funcs.isBitFieldOn()) { 
+        if (ub.funcs.isBitFieldOn()) {
 
             var _marker = _.find(ub.data.markerBitField, {value: true});
 
             if (_marker.code.toString() !== application_id.toString()) {
-                return;     
+                return;
             }
 
         }
@@ -6613,7 +6660,9 @@ $(document).ready(function() {
                 _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias, _id);
 
             } else {
+
                 _sizes = ub.funcs.getApplicationSizesPant(_applicationType, _alias.alias, _id);
+
             }
 
         } else {
@@ -6737,32 +6786,32 @@ $(document).ready(function() {
                 var _color   = ub.funcs.getColorByColorCode(_hexCode);
                 var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
 
-                if (typeof exists === 'undefined') {
+                // if (typeof exists === 'undefined') {
 
-                    var _teamColorID = parseInt(layer.team_color_id);
-                    _color = ub.funcs.getTeamColorObjByIndex(_teamColorID);
+                //     var _teamColorID = parseInt(layer.team_color_id);
+                //     _color = ub.funcs.getTeamColorObjByIndex(_teamColorID);
 
-                    if (typeof _color !== "undefined") {
+                //     if (typeof _color !== "undefined") {
 
-                        ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+                //         ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
 
-                    }
+                //     }
 
-                } else {
+                // } else {
 
-                    ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+                //     ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
 
-                }
+                // }
 
-                if (typeof _color === 'undefined') {
+                // if (typeof _color === 'undefined') {
 
-                    var _teamColorLength = ub.current_material.settings.team_colors.length;
-                    var _rotatedTeamColorID = ub.funcs.getRotatedValue(_teamColorLength, _teamColorID);
+                //     var _teamColorLength = ub.current_material.settings.team_colors.length;
+                //     var _rotatedTeamColorID = ub.funcs.getRotatedValue(_teamColorLength, _teamColorID);
 
-                    _color = ub.funcs.getTeamColorObjByIndex(_rotatedTeamColorID);
-                    ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
+                //     _color = ub.funcs.getTeamColorObjByIndex(_rotatedTeamColorID);
+                //     ub.data.forRotating.push({colorOBJ: _color, layerNumber: layer.layer_number});
                     
-                }
+                // }
 
                 if (typeof _color !== 'undefined') {
 
@@ -7079,7 +7128,6 @@ $(document).ready(function() {
 
             });
 
-
             $('span.colorItem').on('click', function () {
 
                 var _layer_no   = $(this).data('layer-no');
@@ -7116,8 +7164,6 @@ $(document).ready(function() {
                 }
    
             });
-
-            ub.funcs.useRotated(_status);
 
         // End Small Color Pickers
 
@@ -7157,6 +7203,7 @@ $(document).ready(function() {
         ub.funcs.activateMoveTool(application_id);
         ub.funcs.activateLayer(application_id);
         ub.funcs.toggleApplication(_id, _status);
+        ub.funcs.afterActivateMascots(_id);
 
     }
 
@@ -10565,5 +10612,19 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.isSublimated = function () {
+
+        var _factoryCode = ub.current_material.material.factory_code;
+        var _result = false;
+
+        if (_factoryCode === "BLB") {
+
+            _result = true;
+
+        }
+
+        return _result;
+
+    }
 
 });
