@@ -169,7 +169,9 @@ li.select2-selection__choice {
                                 <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>
                         </div>
-                        <hr>
+                        <div class="form-group">
+                            <textarea id="fst-fix"></textarea></br><a href="#" class="fix-fst-button btn btn-xs btn-primary">Apply New Data</a>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
                             <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
@@ -351,6 +353,60 @@ $(document).ready(function(){
     $(".sports").change(function() {
         $('.sports-val').val($(this).val());
     });
+
+    $("#create-font-form").on("click", ".fix-fst-button", function(e){
+        e.preventDefault();
+        $('.front-fst-body').html('');
+        $('.back-fst-body').html('');
+        $('.left-fst-body').html('');
+        $('.right-fst-body').html('');
+        var old_font_size_tables = JSON.parse($('#fst-fix').val());
+        console.log($('#fst-fix').val());
+        window.backup = old_font_size_tables;
+        console.log(old_font_size_tables);
+        old_font_size_tables.forEach(function(entry) {
+            var tbl_class = '.'+entry.perspective+'-fst-body';
+            entry.sizes.forEach(function(item) {
+                console.log(item.inputSize);
+                var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                $(tbl_class).append(elem);
+            });
+        });
+        refreshMultipleFST();
+    });
+
+    function refreshMultipleFST(){
+        var data = [];
+        var perspectives = ["front", "back", "left", "right"];
+        perspectives.forEach(function(entry) {
+            var perspectiveData = {
+                "perspective" : entry
+            };
+            var temp = [];
+            var elem_class = '.'+entry+'-fst-body tr';
+
+            $(elem_class).each(function(i) {
+
+                var x = {
+                    "inputSize" : $(this).find('.input-size').val(),
+                    "outputSize" : $(this).find('.output-size').val(),
+                    "x_offset" : $(this).find('.x-offset').val(),
+                    "y_offset" : $(this).find('.y-offset').val(),
+                    "x_scale" : $(this).find('.x-scale').val(),
+                    "y_scale" : $(this).find('.y-scale').val(),
+                    "application_number" : $(this).find('.application-number').val()
+                };
+
+                temp.push(x);
+            });
+            perspectiveData.sizes = temp;
+            data.push(perspectiveData);
+
+        });
+        $('#font_size_tables').val(JSON.stringify(data));
+        $('.fst-data-field').text(JSON.stringify(data));
+        $('.animated').autosize({append: "\n"});
+    }
 
     $(document).on('change', 'input, select', function() {
         var newLength = $('.layers-row').length;
