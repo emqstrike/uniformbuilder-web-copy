@@ -6625,9 +6625,9 @@ $(document).ready(function() {
     ub.funcs.afterActivateMascots = function (application_id) {
 
         // Restore current mascot colors from settings object
-        var _appInfo = ub.funcs.getApplicationSettings(31);
+        var _appInfo = ub.funcs.getApplicationSettings(application_id);
 
-        if (typeof ub.current_material.settings.applications[51] !== "undefined" && _appInfo.status === "on") {
+        if (typeof ub.current_material.settings.applications[application_id] !== "undefined" && _appInfo.status === "on") {
             ub.funcs.activateColors(application_id);     
         }        
 
