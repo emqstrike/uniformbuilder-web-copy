@@ -708,6 +708,7 @@ $(document).ready(function() {
 
     ub.funcs.update_application_mascot = function (application, mascot, options) {
 
+
         var settings = ub.current_material.settings;
         var application_mascot_code = application.id + '_' + mascot.id;
 
@@ -737,6 +738,11 @@ $(document).ready(function() {
             sprite: sprite_collection, 
 
         };
+
+        console.log('Status: ');
+        console.log(settings_obj.status);
+
+        ub.funcs.toggleApplication(application.id, settings_obj.status);    
 
         /// window.sprite = sprite;
 
@@ -6594,7 +6600,11 @@ $(document).ready(function() {
     ub.funcs.afterActivateMascots = function (application_id) {
 
         // Restore current mascot colors from settings object
-       ub.funcs.activateColors(application_id);
+        var _appInfo = ub.funcs.getApplicationSettings(31);
+
+        if (_appInfo.status === "on") {
+            ub.funcs.activateColors(application_id);     
+        }        
 
     };
 
