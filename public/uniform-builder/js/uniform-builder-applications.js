@@ -738,10 +738,16 @@ $(document).ready(function() {
 
         };
 
-        console.log('Status: ');
-        console.log(settings_obj.status);
+        var _status = settings_obj.status;
 
-        ub.funcs.toggleApplication(application.id, settings_obj.status);    
+        if (typeof settings_obj.status === "undefined") {
+
+            // For Default Applications
+            _status = "on";
+
+        }
+
+        ub.funcs.toggleApplication(application.id, _status);    
 
         /// window.sprite = sprite;
 
@@ -5698,15 +5704,35 @@ $(document).ready(function() {
         /// Uploaded Artwork
 
         var _matchingID = undefined;
+        var _processMatchingSide = true;
+
         _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
 
         if (typeof _matchingID !== "undefined") {
             
-            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
 
-            _matchingSettingsObject.customLogo = _customLogo;
-            _matchingSettingsObject.customFilename = _customFilename;
+            // On Crew Socks, only duplicate application on matching side is the matching side is blank, otherwise skip this and allow different mascots
+            if (_matchingSettingsObject.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { _processMatchingSide = false; }
+
+
+            if (typeof settingsObj.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+                        
+                // Restore Colors if the same mascot id
+                if (settingsObj.mascot.id === _matchingSettingsObject.mascot.id) { 
+                    _processMatchingSide = true; 
+                }
+
+            }
+
+            if (_processMatchingSide) {
+
+                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+                _matchingSettingsObject.customLogo = _customLogo;
+                _matchingSettingsObject.customFilename = _customFilename;
+
+            }
 
         }
 
@@ -7162,13 +7188,38 @@ $(document).ready(function() {
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
                 ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
+                var _processMatchingSide = true;
                 var _matchingID = undefined;
                 _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-                if (typeof _matchingID !== "undefined") {
+                var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+
+                // On Crew Socks, only change the color of the matching side if its the same mascot id
+                if (typeof _matchingSettingsObject !== "undefined") {
                     
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject); 
+                    if (_matchingSettingsObject.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
+                    
+                        _processMatchingSide = false; 
+                        
+                    }
+                    
+                    if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+                        
+                        if (_settingsObject.mascot.id === _matchingSettingsObject.mascot.id) { 
+                            _processMatchingSide = true; 
+                        }
+
+                    }
+
+                }
+
+                if (typeof _matchingID !== "undefined") {
+        
+                    if(_processMatchingSide) {
+
+                        ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject); 
+
+                    }
 
                 }
    
@@ -7197,13 +7248,23 @@ $(document).ready(function() {
 
             var _matchingSide;
             var _matchingID = undefined;
+            var _processMatchingSide = true;
             
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
+            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+
+            if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+                        
+                // Toggle matching mascot if the same mascot is selected 
+                _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
+
+            }
+
             if (typeof _matchingID !== "undefined") {
 
-                ub.funcs.toggleApplication(_matchingID,s);                    
-
+                if (_processMatchingSide) { ub.funcs.toggleApplication(_matchingID,s); }
+                
             }
 
         });
@@ -7582,6 +7643,7 @@ $(document).ready(function() {
 
             var _matchingSide;
             var _matchingID = undefined;
+            var _processMatchingSide = true;
             
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
@@ -7589,20 +7651,27 @@ $(document).ready(function() {
 
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
-                _matchingSide.application_type  = _applicationType;
-                _matchingSide.type              = _applicationType;
-                _matchingSide.object_type       = _applicationType;
-                _matchingSide.size              = _settingsObject.size;      
-                _matchingSide.font_size         = _settingsObject.font_size;      
-                _matchingSide.color_array       = ub.funcs.getDefaultColors();
-                _matchingSide.mascot            = _.find(ub.data.mascots, { id: _mascotID });
+                // On Crew Socks, only duplicate application on matching side is the matching side is blank, otherwise skip this and allow different mascots
+                if (_matchingSide.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { _processMatchingSide = false; }
 
-                if (typeof _matchingSide.color_array === 'undefined') { _matchingSide.color_array = [ub.current_material.settings.team_colors[1],]; }
+                if (_processMatchingSide) {
 
-                _matchingSide.application.name  = _applicationType.toTitleCase();
-                _matchingSide.application.type  = _applicationType;
+                    _matchingSide.application_type  = _applicationType;
+                    _matchingSide.type              = _applicationType;
+                    _matchingSide.object_type       = _applicationType;
+                    _matchingSide.size              = _settingsObject.size;      
+                    _matchingSide.font_size         = _settingsObject.font_size;      
+                    _matchingSide.color_array       = ub.funcs.getDefaultColors();
+                    _matchingSide.mascot            = _.find(ub.data.mascots, { id: _mascotID });
 
-                ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
+                    if (typeof _matchingSide.color_array === 'undefined') { _matchingSide.color_array = [ub.current_material.settings.team_colors[1],]; }
+
+                    _matchingSide.application.name  = _applicationType.toTitleCase();
+                    _matchingSide.application.type  = _applicationType;
+
+                    ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
+
+                }
 
             }
 
