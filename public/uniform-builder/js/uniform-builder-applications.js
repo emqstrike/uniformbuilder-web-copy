@@ -6484,7 +6484,7 @@ $(document).ready(function() {
 
             if (size.size === settingsObject.font_size || _id === '4') { _additionalClass = 'active'; }
 
-            if (ub.funcs.isCurrentSport('Wrestling')) {
+            if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category))  {
 
                 if (_additionalClass === "active") { 
             
@@ -6504,7 +6504,7 @@ $(document).ready(function() {
         if (applicationType !== "mascot") { _divisor = 100; } // For Text Applications
 
         // Custom Size
-        if (ub.funcs.isCurrentSport('Wrestling')) {
+        if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category)) {
 
             var _v = ub.funcs.getPrimaryView(settingsObject.application);
      
@@ -7190,10 +7190,14 @@ $(document).ready(function() {
 
                 var _processMatchingSide = true;
                 var _matchingID = undefined;
+                var _matchingSettingsObject = undefined;
+
                 _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-                var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-
+                if (typeof _matchingID !== "undefined") {
+                    _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});    
+                }
+                
                 // On Crew Socks, only change the color of the matching side if its the same mascot id
                 if (typeof _matchingSettingsObject !== "undefined") {
                     
@@ -9188,10 +9192,11 @@ $(document).ready(function() {
         var _primaryView    = ub.funcs.getPrimaryView(_applicationObj.application);
         var _perspective    = _primaryView + '_view';
         var _appObj         = ub.objects[_perspective]["objects_" + application_id];
-              ub.focusObject =  ub.objects[_perspective]["locations_" + application_id];
-              ub.targetObj = ub.objects[_perspective]["objects_" + application_id];
+  
+        ub.focusObject      = ub.objects[_perspective]["locations_" + application_id];
+        ub.targetObj        = ub.objects[_perspective]["objects_" + application_id];
 
-        if (ub.current_material.material.uniform_category !== "Wrestling") { return; }
+        if (!ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category)) { return; }
 
         ub.funcs.deactivateMoveTool();
 
@@ -9936,7 +9941,9 @@ $(document).ready(function() {
 
     ub.funcs.addLocation = function () {
 
-        if (!ub.is.wrestling()) { return; }
+        var _submimatedSport = ub.data.freeFormToolEnabledSports.get(ub.current_material.material.uniform_category);
+
+        if (typeof _submimatedSport === "undefined") { return; }
 
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
@@ -9959,9 +9966,9 @@ $(document).ready(function() {
         });
 
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
-        if (typeof ub.data.applications_transformed["Body"] !== 'undefined') {
+        if (typeof ub.data.applications_transformed[_submimatedSport.sublimatedPart] !== 'undefined') {
 
-            ub.data.applications_transformed["Body"][_newIDStr] = _newApplication.application;
+            ub.data.applications_transformed[_submimatedSport.sublimatedPart][_newIDStr] = _newApplication.application;
 
         } else {
 
@@ -10266,7 +10273,7 @@ $(document).ready(function() {
 
         });
 
-        if (!ub.is.wrestling()) {
+        if (!ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category)) {
 
             $('span.add-application').addClass('inactive');
             $('em.dragMessage').remove();
