@@ -738,6 +738,17 @@ $(document).ready(function() {
 
         };
 
+        var _status = settings_obj.status;
+
+        if (typeof settings_obj.status === "undefined") {
+
+            // For Default Applications
+            _status = "on";
+
+        }
+
+        ub.funcs.toggleApplication(application.id, _status);    
+
         /// window.sprite = sprite;
 
     };
@@ -5693,15 +5704,35 @@ $(document).ready(function() {
         /// Uploaded Artwork
 
         var _matchingID = undefined;
+        var _processMatchingSide = true;
+
         _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
 
         if (typeof _matchingID !== "undefined") {
             
-            var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-            ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
 
-            _matchingSettingsObject.customLogo = _customLogo;
-            _matchingSettingsObject.customFilename = _customFilename;
+            // On Crew Socks, only duplicate application on matching side is the matching side is blank, otherwise skip this and allow different mascots
+            if (_matchingSettingsObject.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { _processMatchingSide = false; }
+
+
+            if (typeof settingsObj.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+                        
+                // Restore Colors if the same mascot id
+                if (settingsObj.mascot.id === _matchingSettingsObject.mascot.id) { 
+                    _processMatchingSide = true; 
+                }
+
+            }
+
+            if (_processMatchingSide) {
+
+                ub.funcs.changeMascotFromPopup(_id, _matchingSettingsObject);
+
+                _matchingSettingsObject.customLogo = _customLogo;
+                _matchingSettingsObject.customFilename = _customFilename;
+
+            }
 
         }
 
@@ -6453,7 +6484,7 @@ $(document).ready(function() {
 
             if (size.size === settingsObject.font_size || _id === '4') { _additionalClass = 'active'; }
 
-            if (ub.funcs.isCurrentSport('Wrestling')) {
+            if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category))  {
 
                 if (_additionalClass === "active") { 
             
@@ -6473,7 +6504,7 @@ $(document).ready(function() {
         if (applicationType !== "mascot") { _divisor = 100; } // For Text Applications
 
         // Custom Size
-        if (ub.funcs.isCurrentSport('Wrestling')) {
+        if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category)) {
 
             var _v = ub.funcs.getPrimaryView(settingsObject.application);
      
@@ -6594,7 +6625,11 @@ $(document).ready(function() {
     ub.funcs.afterActivateMascots = function (application_id) {
 
         // Restore current mascot colors from settings object
-       ub.funcs.activateColors(application_id);
+        var _appInfo = ub.funcs.getApplicationSettings(application_id);
+
+        if (typeof ub.current_material.settings.applications[application_id] !== "undefined" && _appInfo.status === "on") {
+            ub.funcs.activateColors(application_id);     
+        }        
 
     };
 
@@ -7153,13 +7188,42 @@ $(document).ready(function() {
                 ub.funcs.changeMascotColor(_colorObj, _layer_no, _settingsObject); 
                 ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
 
+                var _processMatchingSide = true;
                 var _matchingID = undefined;
+                var _matchingSettingsObject = undefined;
+
                 _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
                 if (typeof _matchingID !== "undefined") {
+                    _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});    
+                }
+                
+                // On Crew Socks, only change the color of the matching side if its the same mascot id
+                if (typeof _matchingSettingsObject !== "undefined") {
                     
-                    var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                    ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject); 
+                    if (_matchingSettingsObject.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
+                    
+                        _processMatchingSide = false; 
+                        
+                    }
+                    
+                    if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+                        
+                        if (_settingsObject.mascot.id === _matchingSettingsObject.mascot.id) { 
+                            _processMatchingSide = true; 
+                        }
+
+                    }
+
+                }
+
+                if (typeof _matchingID !== "undefined") {
+        
+                    if(_processMatchingSide) {
+
+                        ub.funcs.changeMascotColor(_colorObj, _layer_no, _matchingSettingsObject); 
+
+                    }
 
                 }
    
@@ -7188,13 +7252,32 @@ $(document).ready(function() {
 
             var _matchingSide;
             var _matchingID = undefined;
+            var _processMatchingSide = true;
+            var _matchingSettingsObject = undefined;
             
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
             if (typeof _matchingID !== "undefined") {
 
-                ub.funcs.toggleApplication(_matchingID,s);                    
+                _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                
+            }
+            
+            if (typeof _matchingSettingsObject !== "undefined") {
 
+                if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+                            
+                    // Toggle matching mascot if the same mascot is selected 
+                    _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
+
+                }
+
+            }
+
+            if (typeof _matchingID !== "undefined") {
+
+                if (_processMatchingSide) { ub.funcs.toggleApplication(_matchingID,s); }
+                
             }
 
         });
@@ -7207,7 +7290,50 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.turnOffApplicationsBySide = function (perspective) {
+
+        _.each(ub.current_material.settings.applications, function (application) {
+
+            var _primaryPerspective = ub.funcs.getPrimaryView(application.application);
+
+            if (_primaryPerspective === perspective) {
+
+                if (application.status === "on") {
+
+                    ub.funcs.toggleApplication(parseInt(application.code), "off");
+
+                }
+
+            }
+
+        });
+
+    }
+
+    ub.funcs.turnOnApplicationsBySide = function (perspective) {
+
+        _.each(ub.current_material.settings.applications, function (application) {
+
+            var _primaryPerspective = ub.funcs.getPrimaryView(application.application);
+
+            if (_primaryPerspective === perspective) {
+
+                if (application.status === "off" && application.application_type !== "free") {
+
+                    ub.funcs.toggleApplication(parseInt(application.code), "on");
+
+                }
+
+            }
+
+        });
+
+    }
+
     ub.funcs.LSRSBSFS = function (_id) { 
+
+        var _settingsObject = ub.funcs.getApplicationSettings(_id);
+        var _perspective;
 
         // LS, RS - FS, BS for crew socks
 
@@ -7222,6 +7348,37 @@ $(document).ready(function() {
          
             ub.funcs.toggleApplication(52, "off");
             ub.funcs.toggleApplication(53, "off");
+
+        }
+
+        // Check if this is from the Free Form Tool on Socks
+        if (parseInt(_id) > 70 && ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+            if (typeof _settingsObject !== "undefined" && _settingsObject.application_type !== "free") {
+
+                _perspective = ub.funcs.getPrimaryView(_settingsObject.application);
+
+                if (_perspective === "left" || _perspective === "right") {
+
+                    ub.funcs.turnOffApplicationsBySide('back');
+                    ub.funcs.turnOffApplicationsBySide('front');
+
+                    ub.funcs.turnOnApplicationsBySide('left');
+                    ub.funcs.turnOnApplicationsBySide('right');
+
+                }
+
+                if (_perspective === "front" || _perspective === "back") {
+
+                    ub.funcs.turnOffApplicationsBySide('left');
+                    ub.funcs.turnOffApplicationsBySide('right');
+
+                    ub.funcs.turnOnApplicationsBySide('front');
+                    ub.funcs.turnOnApplicationsBySide('back');
+
+                }
+
+            }
 
         }
 
@@ -7328,6 +7485,10 @@ $(document).ready(function() {
     ub.funcs.toggleApplication = function (id, state) {
 
         var _settingsObj = ub.funcs.getApplicationSettings(parseInt(id));
+
+        // Consider deleted locations
+        if (typeof _settingsObj === "undefined") { return; }
+
         var _views       = _settingsObj.application.views;
 
         ////
@@ -7573,6 +7734,7 @@ $(document).ready(function() {
 
             var _matchingSide;
             var _matchingID = undefined;
+            var _processMatchingSide = true;
             
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
@@ -7580,20 +7742,27 @@ $(document).ready(function() {
 
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
-                _matchingSide.application_type  = _applicationType;
-                _matchingSide.type              = _applicationType;
-                _matchingSide.object_type       = _applicationType;
-                _matchingSide.size              = _settingsObject.size;      
-                _matchingSide.font_size         = _settingsObject.font_size;      
-                _matchingSide.color_array       = ub.funcs.getDefaultColors();
-                _matchingSide.mascot            = _.find(ub.data.mascots, { id: _mascotID });
+                // On Crew Socks, only duplicate application on matching side is the matching side is blank, otherwise skip this and allow different mascots
+                if (_matchingSide.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { _processMatchingSide = false; }
 
-                if (typeof _matchingSide.color_array === 'undefined') { _matchingSide.color_array = [ub.current_material.settings.team_colors[1],]; }
+                if (_processMatchingSide) {
 
-                _matchingSide.application.name  = _applicationType.toTitleCase();
-                _matchingSide.application.type  = _applicationType;
+                    _matchingSide.application_type  = _applicationType;
+                    _matchingSide.type              = _applicationType;
+                    _matchingSide.object_type       = _applicationType;
+                    _matchingSide.size              = _settingsObject.size;      
+                    _matchingSide.font_size         = _settingsObject.font_size;      
+                    _matchingSide.color_array       = ub.funcs.getDefaultColors();
+                    _matchingSide.mascot            = _.find(ub.data.mascots, { id: _mascotID });
 
-                ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
+                    if (typeof _matchingSide.color_array === 'undefined') { _matchingSide.color_array = [ub.current_material.settings.team_colors[1],]; }
+
+                    _matchingSide.application.name  = _applicationType.toTitleCase();
+                    _matchingSide.application.type  = _applicationType;
+
+                    ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
+
+                }
 
             }
 
@@ -9110,10 +9279,11 @@ $(document).ready(function() {
         var _primaryView    = ub.funcs.getPrimaryView(_applicationObj.application);
         var _perspective    = _primaryView + '_view';
         var _appObj         = ub.objects[_perspective]["objects_" + application_id];
-              ub.focusObject =  ub.objects[_perspective]["locations_" + application_id];
-              ub.targetObj = ub.objects[_perspective]["objects_" + application_id];
+  
+        ub.focusObject      = ub.objects[_perspective]["locations_" + application_id];
+        ub.targetObj        = ub.objects[_perspective]["objects_" + application_id];
 
-        if (ub.current_material.material.uniform_category !== "Wrestling") { return; }
+        if (!ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category)) { return; }
 
         ub.funcs.deactivateMoveTool();
 
@@ -9858,10 +10028,26 @@ $(document).ready(function() {
 
     ub.funcs.addLocation = function () {
 
-        if (!ub.is.wrestling()) { return; }
+        var _submimatedSport = ub.data.freeFormToolEnabledSports.get(ub.current_material.material.uniform_category);
+
+        if (typeof _submimatedSport === "undefined") { return; }
 
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
+        var _part           = 'Body';
+
+        // Set Mascots Only for now on Socks
+        if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+            _part = "Sublimated";
+            _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
+
+        } else {
+
+            _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
+
+        }
+
         var _newID          = ub.funcs.getNewCustomID();
         var _newApplication = JSON.parse(JSON.stringify(_phaSettings)); // Quick Clone
 
@@ -9881,9 +10067,9 @@ $(document).ready(function() {
         });
 
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
-        if (typeof ub.data.applications_transformed["Body"] !== 'undefined') {
+        if (typeof ub.data.applications_transformed[_submimatedSport.sublimatedPart] !== 'undefined') {
 
-            ub.data.applications_transformed["Body"][_newIDStr] = _newApplication.application;
+            ub.data.applications_transformed[_submimatedSport.sublimatedPart][_newIDStr] = _newApplication.application;
 
         } else {
 
@@ -10070,7 +10256,7 @@ $(document).ready(function() {
 
         });
 
-        if (!ub.is.wrestling()) { return; } // Cancel Draggable if not Wrestling, in the future make switch for sublimated 
+        if (!ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category)) { return; } // Cancel Draggable if not Wrestling, in the future make switch for sublimated 
 
         ub.data.sorting = false;
 
@@ -10188,7 +10374,7 @@ $(document).ready(function() {
 
         });
 
-        if (!ub.is.wrestling()) {
+        if (!ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category)) {
 
             $('span.add-application').addClass('inactive');
             $('em.dragMessage').remove();
@@ -10251,6 +10437,8 @@ $(document).ready(function() {
         _htmlBuilder        +=      '<div class="body">';
 
         var _deactivated ='';
+
+
 
         if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; } 
 

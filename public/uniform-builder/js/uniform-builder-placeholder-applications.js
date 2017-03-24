@@ -1,5 +1,35 @@
 $(document).ready(function () {
 
+    ub.data.freeFormValidTypes = {
+
+        items: [
+            {
+                sport: "Crew Socks (Apparel)",
+                part: 'Sublimated',
+                validTypes: ["logo"],
+            },
+            {
+                sport: "Default",
+                part: "Default",
+                validTypes: ["logo","number","player_name","team_name"],
+            }
+        ], 
+
+        getItem: function (sport, part) {
+
+            var _result = _.find(this.items, {sport: sport, part: part});
+
+            if (typeof _result === "undefined") {
+
+                _result = _.find(this.items, {sport: "Default", part: "Default"});
+
+            }
+
+            return _result;
+
+        }
+
+    }
 
     ub.data.placeHolderApplications = [
         {

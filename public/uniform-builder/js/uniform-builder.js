@@ -1726,7 +1726,7 @@ $(document).ready(function () {
 
                     if (_materialOption.pattern_properties !== null && _materialOption.pattern_properties !== "") {
 
-                        if (e.pattern.pattern_id === "") {
+                        if (typeof e.pattern === "undefined" || e.pattern.pattern_id === "") {
 
                             if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
                                 e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
@@ -4388,6 +4388,9 @@ $(document).ready(function () {
         // end load logo
 
         ub.update_application_mascot = function(application_obj) {
+
+            console.log('Here...');
+            console.log(application_obj)
 
             var application = application_obj.application;
             var mascot = application_obj.mascot;

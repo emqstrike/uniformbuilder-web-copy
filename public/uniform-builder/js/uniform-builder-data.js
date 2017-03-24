@@ -10790,4 +10790,32 @@ ub.funcs.fontOffSets = [
 
     }
 
+    ub.data.freeFormToolEnabledSports = {
+
+        items: [
+            {
+                sport: 'Wrestling',
+                sublimatedPart: 'Body',
+            },
+            {
+                sport: 'Crew Socks (Apparel)',
+                sublimatedPart: 'Sublimated',
+            }
+        ],
+
+        get: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport});
+            return _result;
+
+        },
+        isValid: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport});
+            return _.size(_result) > 0;
+
+        }
+
+    };
+
 });
