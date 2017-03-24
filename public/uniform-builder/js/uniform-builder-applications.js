@@ -7253,11 +7253,16 @@ $(document).ready(function() {
             var _matchingSide;
             var _matchingID = undefined;
             var _processMatchingSide = true;
+            var _matchingSettingsObject = undefined;
             
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
 
-            var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+            if (typeof _matchingID !== "undefined") {
 
+                _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                
+            }
+            
             if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
                         
                 // Toggle matching mascot if the same mascot is selected 
@@ -9947,6 +9952,20 @@ $(document).ready(function() {
 
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
+        var _part           = 'Body';
+
+        // Set Mascots Only for now on Socks
+        if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+            _part = "Sublimated";
+            _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
+
+        } else {
+
+            _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
+
+        }
+
         var _newID          = ub.funcs.getNewCustomID();
         var _newApplication = JSON.parse(JSON.stringify(_phaSettings)); // Quick Clone
 
@@ -10155,7 +10174,7 @@ $(document).ready(function() {
 
         });
 
-        if (!ub.is.wrestling()) { return; } // Cancel Draggable if not Wrestling, in the future make switch for sublimated 
+        if (!ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category)) { return; } // Cancel Draggable if not Wrestling, in the future make switch for sublimated 
 
         ub.data.sorting = false;
 
@@ -10336,6 +10355,8 @@ $(document).ready(function() {
         _htmlBuilder        +=      '<div class="body">';
 
         var _deactivated ='';
+
+
 
         if (!_.contains(_validApplicationTypes, 'number')) { _deactivated = 'deactivatedOptionButton'; } 
 
