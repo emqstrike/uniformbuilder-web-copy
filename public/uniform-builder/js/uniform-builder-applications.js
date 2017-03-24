@@ -7263,10 +7263,14 @@ $(document).ready(function() {
                 
             }
             
-            if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
-                        
-                // Toggle matching mascot if the same mascot is selected 
-                _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
+            if (typeof _matchingSettingsObject !== "undefined") {
+
+                if (typeof _settingsObject.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
+                            
+                    // Toggle matching mascot if the same mascot is selected 
+                    _processMatchingSide = _settingsObject.mascot.id === _matchingSettingsObject.mascot.id
+
+                }
 
             }
 
@@ -7286,7 +7290,50 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.turnOffApplicationsBySide = function (perspective) {
+
+        _.each(ub.current_material.settings.applications, function (application) {
+
+            var _primaryPerspective = ub.funcs.getPrimaryView(application.application);
+
+            if (_primaryPerspective === perspective) {
+
+                if (application.status === "on") {
+
+                    ub.funcs.toggleApplication(parseInt(application.code), "off");
+
+                }
+
+            }
+
+        });
+
+    }
+
+    ub.funcs.turnOnApplicationsBySide = function (perspective) {
+
+        _.each(ub.current_material.settings.applications, function (application) {
+
+            var _primaryPerspective = ub.funcs.getPrimaryView(application.application);
+
+            if (_primaryPerspective === perspective) {
+
+                if (application.status === "off" && application.application_type !== "free") {
+
+                    ub.funcs.toggleApplication(parseInt(application.code), "on");
+
+                }
+
+            }
+
+        });
+
+    }
+
     ub.funcs.LSRSBSFS = function (_id) { 
+
+        var _settingsObject = ub.funcs.getApplicationSettings(_id);
+        var _perspective;
 
         // LS, RS - FS, BS for crew socks
 
@@ -7301,6 +7348,37 @@ $(document).ready(function() {
          
             ub.funcs.toggleApplication(52, "off");
             ub.funcs.toggleApplication(53, "off");
+
+        }
+
+        // Check if this is from the Free Form Tool on Socks
+        if (parseInt(_id) > 70 && ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+            if (typeof _settingsObject !== "undefined" && _settingsObject.application_type !== "free") {
+
+                _perspective = ub.funcs.getPrimaryView(_settingsObject.application);
+
+                if (_perspective === "left" || _perspective === "right") {
+
+                    ub.funcs.turnOffApplicationsBySide('back');
+                    ub.funcs.turnOffApplicationsBySide('front');
+
+                    ub.funcs.turnOnApplicationsBySide('left');
+                    ub.funcs.turnOnApplicationsBySide('right');
+
+                }
+
+                if (_perspective === "front" || _perspective === "back") {
+
+                    ub.funcs.turnOffApplicationsBySide('left');
+                    ub.funcs.turnOffApplicationsBySide('right');
+
+                    ub.funcs.turnOnApplicationsBySide('front');
+                    ub.funcs.turnOnApplicationsBySide('back');
+
+                }
+
+            }
 
         }
 
