@@ -10035,6 +10035,7 @@ $(document).ready(function() {
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
         var _part           = 'Body';
+        var _sport          = ub.current_material.material.uniform_category;
 
         // Set Mascots Only for now on Socks
         if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
@@ -10042,42 +10043,15 @@ $(document).ready(function() {
             _part = "Sublimated";
             _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
 
+            var _perspectiveView = _.find(_phaSettings.application.views, {perspective: ub.active_view});
             
-            var _leftView = _.find(_phaSettings.application.views, {perspective: "left"});
-            var _rightView = _.find(_phaSettings.application.views, {perspective: "right"});
+            if (typeof _perspectiveView !== "undefined" && parseInt(_perspectiveView.application.isPrimary) === 1) {
 
-            var _frontView = _.find(_phaSettings.application.views, {perspective: "front"});
-            var _backView = _.find(_phaSettings.application.views, {perspective: "back"});
+                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, ub.active_view);
 
-            if (typeof _leftView !== "undefined" && parseInt(_leftView.application.isPrimary) === 1) {
-
-                _leftView.application.center = {x: 489.2527472527473, y: 340};
-                _leftView.application.pivot  = {x: 489.2527472527473, y: 340};
-                _leftView.application.rotation = -17;
-
-            }
-
-            if (typeof _rightView !== "undefined" && parseInt(_rightView.application.isPrimary) === 1) {
-
-                _rightView.application.center = {x: 514.9670329670332, y: 331.42857142857144};
-                _rightView.application.pivot  = {x: 514.9670329670332, y: 331.42857142857144};
-                _rightView.application.rotation = 17;
-
-            }
-
-            if (typeof _frontView !== "undefined" && parseInt(_frontView.application.isPrimary) === 1) {
-
-                _frontView.application.center = {x: 504.967032967033, y: 343.7142857142858};
-                _frontView.application.pivot  = {x: 504.967032967033, y: 343.7142857142858};
-                _frontView.application.rotation = -2.86478898;
-
-            }
-
-            if (typeof _backView !== "undefined" && parseInt(_backView.application.isPrimary) === 1) {
-
-                _backView.application.center = {x: 493.5384615384618, y: 286.5714285714286};
-                _backView.application.pivot  = {x: 493.5384615384618, y: 286.5714285714286};
-                _backView.application.rotation = 3.8561364221653305;
+                _perspectiveView.application.center = _overrides.position;
+                _perspectiveView.application.pivot  = _overrides.position;
+                _perspectiveView.application.rotation = _overrides.rotation;
 
             }
 
