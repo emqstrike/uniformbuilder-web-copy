@@ -1007,6 +1007,8 @@ class MaterialsController extends Controller
         $debugMode = $request->input('debug_mode');
         $assetTarget = $request->input('asset_target');
         $inchInPx = $request->input('one_inch_in_px');
+        $isSublimated = $request->input('is_sublimated');
+        $isTwill = $request->input('is_twill');
         $slug = FileUploader::makeSlug($materialName);
 
         $block_pattern_id = $request->input('block_pattern_id');
@@ -1071,7 +1073,9 @@ class MaterialsController extends Controller
             'debug_mode' => $debugMode,
             'asset_target' => $assetTarget,
             'price_item_template_id' => $priceItemTemplateID,
-            'one_inch_in_px' => $inchInPx
+            'one_inch_in_px' => $inchInPx,
+            'is_sublimated' => $isSublimated,
+            'is_twill' => $isTwill
         ];
 
         try {

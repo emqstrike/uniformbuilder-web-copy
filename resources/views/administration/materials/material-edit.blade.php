@@ -169,6 +169,26 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Is Sublimated</label>
+                            <div class="col-md-6">
+                                <select name='is_sublimated' class="form-control is-sublimated">
+                                    <option value='0' @if($material->is_sublimated == 0) selected="selected"@endif>No</option>
+                                    <option value='1' @if($material->is_sublimated == 1) selected="selected"@endif>Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Is Twill</label>
+                            <div class="col-md-6">
+                                <select name='is_twill' class="form-control is-twill">
+                                    <option value='0' @if($material->is_twill == 0) selected="selected"@endif>No</option>
+                                    <option value='1' @if($material->is_twill == 1) selected="selected"@endif>Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Uniform Application Type</label>
                             <div class="col-md-6">
                                 <select name='uniform_application_type' class="form-control uniform-application-type">
