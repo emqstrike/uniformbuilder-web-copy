@@ -10043,50 +10043,15 @@ $(document).ready(function() {
             _part = "Sublimated";
             _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
 
+            var _perspectiveView = _.find(_phaSettings.application.views, {perspective: ub.active_view});
             
-            var _leftView = _.find(_phaSettings.application.views, {perspective: "left"});
-            var _rightView = _.find(_phaSettings.application.views, {perspective: "right"});
+            if (typeof _perspectiveView !== "undefined" && parseInt(_perspectiveView.application.isPrimary) === 1) {
 
-            var _frontView = _.find(_phaSettings.application.views, {perspective: "front"});
-            var _backView = _.find(_phaSettings.application.views, {perspective: "back"});
+                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, ub.active_view);
 
-            if (typeof _leftView !== "undefined" && parseInt(_leftView.application.isPrimary) === 1) {
-
-                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, 'left');
-
-                _leftView.application.center = _overrides.position;
-                _leftView.application.pivot  = _overrides.position;
-                _leftView.application.rotation = _overrides.rotation;
-
-            }
-
-            if (typeof _rightView !== "undefined" && parseInt(_rightView.application.isPrimary) === 1) {
-
-                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, 'right');
-
-                _rightView.application.center = _overrides.position;
-                _rightView.application.pivot  = _overrides.position;
-                _rightView.application.rotation = _overrides.rotation;
-
-            }
-
-            if (typeof _frontView !== "undefined" && parseInt(_frontView.application.isPrimary) === 1) {
-
-                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, 'front');
-
-                _frontView.application.center = _overrides.position;
-                _frontView.application.pivot  = _overrides.position;
-                _frontView.application.rotation = _overrides.rotation;
-
-            }
-
-            if (typeof _backView !== "undefined" && parseInt(_backView.application.isPrimary) === 1) {
-
-                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, 'back');
-
-                _backView.application.center = _overrides.position;
-                _backView.application.pivot  = _overrides.position;
-                _backView.application.rotation = _overrides.rotation;
+                _perspectiveView.application.center = _overrides.position;
+                _perspectiveView.application.pivot  = _overrides.position;
+                _perspectiveView.application.rotation = _overrides.rotation;
 
             }
 
