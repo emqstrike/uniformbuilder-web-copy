@@ -10035,6 +10035,7 @@ $(document).ready(function() {
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
         var _part           = 'Body';
+        var _sport          = ub.current_material.material.uniform_category;
 
         // Set Mascots Only for now on Socks
         if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
@@ -10051,33 +10052,41 @@ $(document).ready(function() {
 
             if (typeof _leftView !== "undefined" && parseInt(_leftView.application.isPrimary) === 1) {
 
-                _leftView.application.center = {x: 489.2527472527473, y: 340};
-                _leftView.application.pivot  = {x: 489.2527472527473, y: 340};
-                _leftView.application.rotation = -17;
+                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, 'left');
+
+                _leftView.application.center = _overrides.position;
+                _leftView.application.pivot  = _overrides.position;
+                _leftView.application.rotation = _overrides.rotation;
 
             }
 
             if (typeof _rightView !== "undefined" && parseInt(_rightView.application.isPrimary) === 1) {
 
-                _rightView.application.center = {x: 514.9670329670332, y: 331.42857142857144};
-                _rightView.application.pivot  = {x: 514.9670329670332, y: 331.42857142857144};
-                _rightView.application.rotation = 17;
+                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, 'right');
+
+                _rightView.application.center = _overrides.position;
+                _rightView.application.pivot  = _overrides.position;
+                _rightView.application.rotation = _overrides.rotation;
 
             }
 
             if (typeof _frontView !== "undefined" && parseInt(_frontView.application.isPrimary) === 1) {
 
-                _frontView.application.center = {x: 504.967032967033, y: 343.7142857142858};
-                _frontView.application.pivot  = {x: 504.967032967033, y: 343.7142857142858};
-                _frontView.application.rotation = -2.86478898;
+                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, 'front');
+
+                _frontView.application.center = _overrides.position;
+                _frontView.application.pivot  = _overrides.position;
+                _frontView.application.rotation = _overrides.rotation;
 
             }
 
             if (typeof _backView !== "undefined" && parseInt(_backView.application.isPrimary) === 1) {
 
-                _backView.application.center = {x: 493.5384615384618, y: 286.5714285714286};
-                _backView.application.pivot  = {x: 493.5384615384618, y: 286.5714285714286};
-                _backView.application.rotation = 3.8561364221653305;
+                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, 'back');
+
+                _backView.application.center = _overrides.position;
+                _backView.application.pivot  = _overrides.position;
+                _backView.application.rotation = _overrides.rotation;
 
             }
 
