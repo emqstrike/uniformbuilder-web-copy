@@ -7485,6 +7485,10 @@ $(document).ready(function() {
     ub.funcs.toggleApplication = function (id, state) {
 
         var _settingsObj = ub.funcs.getApplicationSettings(parseInt(id));
+
+        // Consider deleted locations
+        if (typeof _settingsObj === "undefined") { return; }
+
         var _views       = _settingsObj.application.views;
 
         ////
