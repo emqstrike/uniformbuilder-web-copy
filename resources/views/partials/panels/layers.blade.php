@@ -25,7 +25,7 @@
       <div class="tools">
         <span class="add-application">
             <i class="fa fa-plus-circle" aria-hidden="true"></i><br />
-            Add New Application
+            Add New <br /> Free Form Application
         </span>
 
         <span class="show-locations">
