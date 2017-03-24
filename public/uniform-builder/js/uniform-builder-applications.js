@@ -10042,6 +10042,45 @@ $(document).ready(function() {
             _part = "Sublimated";
             _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
 
+            
+            var _leftView = _.find(_phaSettings.application.views, {perspective: "left"});
+            var _rightView = _.find(_phaSettings.application.views, {perspective: "right"});
+
+            var _frontView = _.find(_phaSettings.application.views, {perspective: "front"});
+            var _backView = _.find(_phaSettings.application.views, {perspective: "back"});
+
+            if (typeof _leftView !== "undefined" && parseInt(_leftView.application.isPrimary) === 1) {
+
+                _leftView.application.center = {x: 489.2527472527473, y: 340};
+                _leftView.application.pivot  = {x: 489.2527472527473, y: 340};
+                _leftView.application.rotation = -17;
+
+            }
+
+            if (typeof _rightView !== "undefined" && parseInt(_rightView.application.isPrimary) === 1) {
+
+                _rightView.application.center = {x: 514.9670329670332, y: 331.42857142857144};
+                _rightView.application.pivot  = {x: 514.9670329670332, y: 331.42857142857144};
+                _rightView.application.rotation = 17;
+
+            }
+
+            if (typeof _frontView !== "undefined" && parseInt(_frontView.application.isPrimary) === 1) {
+
+                _frontView.application.center = {x: 504.967032967033, y: 343.7142857142858};
+                _frontView.application.pivot  = {x: 504.967032967033, y: 343.7142857142858};
+                _frontView.application.rotation = -2.86478898;
+
+            }
+
+            if (typeof _backView !== "undefined" && parseInt(_backView.application.isPrimary) === 1) {
+
+                _backView.application.center = {x: 493.5384615384618, y: 286.5714285714286};
+                _backView.application.pivot  = {x: 493.5384615384618, y: 286.5714285714286};
+                _backView.application.rotation = 3.8561364221653305;
+
+            }
+
         } else {
 
             _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
