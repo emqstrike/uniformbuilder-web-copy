@@ -10055,6 +10055,29 @@ $(document).ready(function() {
 
             }
 
+            /// Use on primary perspective, exclude auxilliary perspectives (for socks only)
+
+            var _tempViews = [];
+            var _primaryView = undefined;
+
+            var _primaryView = _.find(_phaSettings.application.views, function (view) { 
+                return parseInt(view.application.isPrimary) === 1;
+            });
+
+            if (typeof _primaryView !== "undefined") {
+
+                _tempViews.push(_primaryView);
+                    
+            } else {
+
+                ub.utilities.warn('Free Form Application has no primary view set!');
+
+            }
+
+            _phaSettings.application.views = _tempViews;
+
+            /// End Use on primary perspective, exclude auxilliary perspectives (for socks only)
+
         } else {
 
             _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
