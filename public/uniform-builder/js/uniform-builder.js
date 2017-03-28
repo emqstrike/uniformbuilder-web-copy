@@ -1339,7 +1339,7 @@ $(document).ready(function () {
 
         _.each (_one_dimensional, function (_application) {
 
-           _.each(_application.views, function (view) {
+            _.each(_application.views, function (view) {
         
                 var _accentObj          = _.find(ub.data.accents.items, {id: parseInt(view.application.accents)});
                 var _colorArray         = view.application.colors.split(',');
@@ -1374,9 +1374,9 @@ $(document).ready(function () {
 
                     });
 
+                    if (typeof _fontObj === "undefined") { ub.utilities.warn('Invalid Font ID detected for ' + _application.id); }
+
                     var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0], view.perspective, { id: _application.id }); 
-
-
 
                     _output = {
 
