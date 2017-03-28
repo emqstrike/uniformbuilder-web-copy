@@ -2715,9 +2715,6 @@ $(document).ready(function() {
                     sport: 'tech-tee',
                     sizes:  [
                                 {
-                                    size: 3,
-                                },
-                                {
                                     size: 4,
                                 },
                                 {
@@ -2843,9 +2840,6 @@ $(document).ready(function() {
                     name: 'front_number',
                     sport: 'compression',
                     sizes:  [
-                                {
-                                    size: 3,
-                                },
                                 {
                                     size: 4,
                                 },
@@ -9189,11 +9183,11 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Tech-Tee (Apparel)',
-                fontName: 'Impact',
+                fontName: 'TCT Impact',
             },
             {
                 sport: 'Compression (Apparel)',
-                fontName: 'Impact',
+                fontName: 'TCT Impact',
             },
             {
                 sport: 'Hockey',
