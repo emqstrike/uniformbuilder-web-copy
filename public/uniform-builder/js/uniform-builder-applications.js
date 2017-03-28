@@ -2682,7 +2682,7 @@ $(document).ready(function() {
 
                 /// Sublimation Override - Wrestling ///
 
-                if(ub.current_material.material.uniform_category === "Wrestling") {
+                if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category))  {
 
                     if (typeof view.application.scale !== "undefined") {
 
@@ -3735,7 +3735,8 @@ $(document).ready(function() {
             if (typeof _obj === 'undefined') { return; }
 
             if (_obj.setting_type === 'static_layer') { return; }
-            
+            if (_obj.name === "Extra") { return; }
+
             var _group_id       = _obj.group_id;
             var _team_color_id  = _obj.team_color_id;            
 
@@ -6484,7 +6485,7 @@ $(document).ready(function() {
 
             if (size.size === settingsObject.font_size || _id === '4') { _additionalClass = 'active'; }
 
-            if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category))  {
+            if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(_id) > 70)  {
 
                 if (_additionalClass === "active") { 
             
@@ -6504,10 +6505,9 @@ $(document).ready(function() {
         if (applicationType !== "mascot") { _divisor = 100; } // For Text Applications
 
         // Custom Size
-        if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category)) {
+        if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(_id) > 70) {
 
             var _v = ub.funcs.getPrimaryView(settingsObject.application);
-     
             
             /// Rotate
 
@@ -6521,7 +6521,6 @@ $(document).ready(function() {
             _additionalClass = '';    
             _htmlBuilder    += '<span class="applicationLabels font_size custom rotate ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/rotate-caption.png'>" + '<span class="custom_text rotate">' + _start + '</span>°' + '</span>';
             _htmlBuilder    += '<div class="slider-container rotate"><div id="rotate-slider"></div></div>';
-
 
             /// Move
             
@@ -8851,7 +8850,7 @@ $(document).ready(function() {
                 ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
 
                 // cancel automatic changing of application (e.g. all team names changes)
-                if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
+                if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(application_id) > 70)  { return; }
 
                 _.each (ub.current_material.settings.applications, function (_application) {
 
@@ -8910,7 +8909,7 @@ $(document).ready(function() {
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
 
                     // cancel automatic changing of application (e.g. all team names changes)
-                    if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { return; }
+                    if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(application_id) > 70)  { return; }
                 
                     _.each (ub.current_material.settings.applications, function (_application) {
 
@@ -9265,13 +9264,11 @@ $(document).ready(function() {
 
     ub.funcs.activateMoveTool = function (application_id) {
 
-        if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { 
-
-            return; 
-
-        }
+        if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { return; }
 
         var _applicationObj = ub.current_material.settings.applications[application_id];
+
+        if (parseInt(application_id) < 70) { return; }
 
         // if deleted exit
         if (typeof _applicationObj === "undefined") { return; }
@@ -9425,8 +9422,6 @@ $(document).ready(function() {
 
         ub.updateLayersOrder(ub[_perspective]);
         ub.funcs.createDraggable(_spriteCenter, _applicationObj, ub[_perspective], _perspective);
-
-
 
         // --- Rotate --- ///
 
