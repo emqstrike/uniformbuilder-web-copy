@@ -10803,17 +10803,45 @@ ub.funcs.fontOffSets = [
                 sport: 'Tech-Tee (Apparel)',
                 sublimatedPart: 'Extra',
             }, 
+            {
+                sport: 'Football',
+                sublimatedPart: 'Body',
+            },
         ],
 
         get: function (sport) {
 
             var _result = _.find(this.items, {sport: sport});
+
+            if (sport === "Football") {
+
+                // Disable free-form tool on football if block pattern is not infused 14
+                if (ub.current_material.material.block_pattern !== "INFUSED 14") {
+
+                    _result = undefined;
+
+                }
+
+            }
+
             return _result;
 
         },
         isValid: function (sport) {
 
             var _result = _.find(this.items, {sport: sport});
+
+            if (sport === "Football") {
+
+                // Disable free-form tool on football if block pattern is not infused 14
+                if (ub.current_material.material.block_pattern !== "INFUSED 14") {
+
+                    _result = undefined;
+
+                }
+
+            }
+
             return _.size(_result) > 0;
 
         }
