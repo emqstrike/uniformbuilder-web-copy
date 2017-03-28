@@ -154,8 +154,10 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@materialsOptionsSetup']);
     Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@editPipingForm']);
     Route::get('material/{id}/pipings', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@pipings']);
+    Route::get('material/{id}/random_feed', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@randomFeed']);
     Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePiping']);
     Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePipings']);
+    Route::post('material/updateRandomFeed', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updateRandomFeed']);
 
     // Materials Options
     Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);
@@ -163,7 +165,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('material_option/saveBoundary', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@saveBoundary']);
     Route::post('material_option/saveMultiple', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@storeMultiple']);
     Route::post('material_option/purgeColor', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@purgeColor']);
-    Route::post('material_option/saveUpdates', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@updateMaterialOptions']);
+    Route::post('material_option/saveUpdates', 'Administration\MaterialsOptionsController@updateMaterialOptions');
 
     // Messages
     Route::get('messages', ['middleware' => 'adminAccess', 'uses' => 'Administration\MessagesController@getUserMessages']);

@@ -137,6 +137,9 @@
                     <a href="/administration/material/{{ $material->id }}/pipings" class="btn btn-xs btn-warning">
                         <span class="glyphicon glyphicon-stats"></span>
                     </a>
+                    <a href="/administration/material/{{ $material->id }}/random_feed" class="btn btn-xs btn-warning">
+                        <i class="fa fa-random" aria-hidden="true"></i>
+                    </a>
                     <a href="#" class="btn btn-xs btn-danger delete-material" data-material-id="{{ $material->id }}">
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
