@@ -31,6 +31,57 @@ $(document).ready(function () {
 
     }
 
+    ub.data.placeHolderOverrides = {
+
+        items: [
+
+            {
+                sport: "Crew Socks (Apparel)",
+                part: 'Sublimated',
+                perspective: "left",
+                position: {x: 489.2527472527473, y: 340},
+                rotation: -17,
+            },
+            {
+                sport: "Crew Socks (Apparel)",
+                part: 'Sublimated',
+                perspective: "right",
+                position: {x: 514.9670329670332, y: 331.42857142857144},
+                rotation: 17,
+            },
+            {
+                sport: "Crew Socks (Apparel)",
+                part: 'Sublimated',
+                perspective: "front",
+                position: {x: 504.967032967033, y: 343.7142857142858},
+                rotation: -2.86478898,
+            },
+            {
+                sport: "Crew Socks (Apparel)",
+                part: 'Sublimated',
+                perspective: "back",
+                position: {x: 493.5384615384618, y: 286.5714285714286},
+                rotation: 3.8561364221653305,
+            },
+
+        ], 
+
+        getOverrides: function (sport, part, perspective) {
+
+            var _result = _.find(this.items, {sport: sport, part: part, perspective: perspective});
+
+            if (typeof _result === "undefined") {
+
+                // TODO, add defaults here ... 
+
+            }
+
+            return _result;
+
+        }
+
+    }
+
     ub.data.placeHolderApplications = [
         {
             id: 100,

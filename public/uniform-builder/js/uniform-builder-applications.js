@@ -10035,12 +10035,48 @@ $(document).ready(function() {
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
         var _part           = 'Body';
+        var _sport          = ub.current_material.material.uniform_category;
 
         // Set Mascots Only for now on Socks
         if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
 
             _part = "Sublimated";
             _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
+
+            var _perspectiveView = _.find(_phaSettings.application.views, {perspective: ub.active_view});
+            
+            if (typeof _perspectiveView !== "undefined" && parseInt(_perspectiveView.application.isPrimary) === 1) {
+
+                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, ub.active_view);
+
+                _perspectiveView.application.center = _overrides.position;
+                _perspectiveView.application.pivot  = _overrides.position;
+                _perspectiveView.application.rotation = _overrides.rotation;
+
+            }
+
+            /// Use on primary perspective, exclude auxilliary perspectives (for socks only)
+
+            var _tempViews = [];
+            var _primaryView = undefined;
+
+            var _primaryView = _.find(_phaSettings.application.views, function (view) { 
+                return parseInt(view.application.isPrimary) === 1;
+            });
+
+            if (typeof _primaryView !== "undefined") {
+
+                _tempViews.push(_primaryView);
+                    
+            } else {
+
+                ub.utilities.warn('Free Form Application has no primary view set!');
+
+            }
+
+            _phaSettings.application.views = _tempViews;
+
+            /// End Use on primary perspective, exclude auxilliary perspectives (for socks only)
 
         } else {
 
