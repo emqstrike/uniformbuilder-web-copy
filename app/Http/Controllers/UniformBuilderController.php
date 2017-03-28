@@ -391,6 +391,8 @@ class UniformBuilderController extends Controller
 
         foreach ($applications as &$application) {
 
+
+
             $appType = strtoupper(str_replace("_"," ",$application['application_type']));
 
             if ($appType == "FREE") { continue; }
@@ -448,7 +450,8 @@ class UniformBuilderController extends Controller
 
                 $html .=   '<td align="center">';
 
-                if ($uniform_category == "Wrestling") {
+                // Applications greater than 70 are free-form tool applications, best fit for GA's
+                if (intval($application['code']) > 70) {
 
                     $html .=   'Refer to Thumbnail<br />';    
 
@@ -468,7 +471,8 @@ class UniformBuilderController extends Controller
 
                 $html .=   '<td align="center">';
 
-                if ($uniform_category == "Wrestling") {
+                // Applications greater than 70 are free-form tool applications, best fit for GA's
+                if (intval($application['code']) > 70 ) {
 
                     $html .=   'Refer to Thumbnail<br />';    
 
