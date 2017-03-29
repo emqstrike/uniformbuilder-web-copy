@@ -7789,7 +7789,7 @@ $(document).ready(function() {
             _settingsObject.size             = 2.5;
             _settingsObject.font_size        = 2.5;
 
-            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
+            if (ub.funcs.isFreeFormToolEnabled(_id)) {
 
                 _settingsObject.size             = 4;
                 _settingsObject.font_size        = 4;                
