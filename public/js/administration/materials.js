@@ -2235,10 +2235,12 @@ $(document).ready(function() {
         polyData = JSON.parse(output);
         loadPolygon(polyData);
         updateCoordinates();
+        canvas.renderAll();
     });
 
     $(".load-applications-template").change(function() {
         canvasFront.clear();
+        canvas.renderAll();
         application_number = 0;
         $( ".front-applications" ).html(''); // prevents continuous appending of applications points
         var va_prop_val = $(this).val();
@@ -3481,7 +3483,7 @@ function accentMascotSelect(data,accentMascot,rowIndex){
         });
          
     function bringingPointToFront(){
-
+        console.log('being to front');
          canvas.forEachObject(function(key,obj){  
 
             var subjectName = ""+ canvas.item(obj).name +"";
@@ -3493,11 +3495,11 @@ function accentMascotSelect(data,accentMascot,rowIndex){
                   
             // canvas.sendToBack(canvas.item(obj));
         
-
+            console.log('line');
              canvas.item(obj).evented = false;
              canvas.item(obj).selectable = false;
             } else if(subjectName != "unde") { 
-        
+            console.log('unde');
                // canvas.sendToFront(canvas.item(obj));
                canvas.item(obj).evented = true;
              canvas.item(obj).selectable = true;
@@ -3510,7 +3512,7 @@ function accentMascotSelect(data,accentMascot,rowIndex){
             canvas.renderAll();
     }
 
-   
+
 
     $(document).on('click','select.load-boundaries-template',function(){
 
