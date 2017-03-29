@@ -4490,6 +4490,8 @@ $(document).ready(function () {
 
     ub.funcs.createQuickRegistrationPopup = function () {
 
+        if ($('div#primaryQuickRegistrationPopup').is(':visible')) { return; }
+
         ub.status.quickRegistrationPopup = true;
 
         var sampleSize = '1.9em';
@@ -4710,6 +4712,31 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.initOrderProcess = function () {
+
+        ub.funcs.resetHighlights();
+
+        if (ub.data.afterLoadCalled === 0) { return; }
+
+        if (typeof (window.ub.user.id) === "undefined") {
+
+            ub.funcs.quickRegistration();
+            return;
+
+        }
+
+        if (typeof ub.temp !== "undefined") {
+
+            ub.funcs.getOrderAndDetailsInfo();
+            
+        } else {
+
+            ub.funcs.initRoster();
+
+        }
+
+    }
+
     ub.funcs.removeApplicationsPanel = function () {
 
         if ($('div#layers-order').is(':visible')) {
@@ -4725,6 +4752,8 @@ $(document).ready(function () {
         /// Bottom Nav Handlers
 
             $('div.drop.parts').on('click', function () {
+
+                if ($('div#primaryQuickRegistrationPopup').is(':visible')) { return; }
 
                 $('#select_part').click();
 
@@ -4862,35 +4891,7 @@ $(document).ready(function () {
 
                 if (view === 'team-info') {
 
-                    ub.funcs.resetHighlights();
-
-                    // if(ub.data.orderFormInitialized) {
-
-                    //     ub.funcs.reShowRosterInput();
-                    //     return;
-
-                    // }
-
-                    if(typeof (window.ub.user.id) === "undefined") {
-
-                        ub.funcs.quickRegistration();
-                        return;
-                        
-                    }
-
-                    if (ub.data.afterLoadCalled === 0) { return; }
-
-                    if (typeof ub.temp !== "undefined") {
-
-                        ub.funcs.getOrderAndDetailsInfo();
-                        
-                    } else {
-
-                        ub.funcs.initRoster();
-
-                    }
-
-                    return;
+                    ub.funcs.initOrderProcess();
 
                 }
 
