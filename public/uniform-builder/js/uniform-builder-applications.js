@@ -3919,11 +3919,7 @@ $(document).ready(function() {
         }
         else {
 
-            // $('span.next_label').html('Done');
-            // $('span.part_label').html('Enter Roster Info');
-            // $('button#next_mo').css('background-color', '#000000');
-
-            ub.funcs.initRoster();
+            ub.funcs.initOrderProcess();
 
         }
 
@@ -3937,6 +3933,8 @@ $(document).ready(function() {
     }
 
     ub.funcs.moveToPrevMaterialOption = function () {
+
+        if ($('div#primaryQuickRegistrationPopup').is(':visible')) { return; }
 
         var _currentPart    = ub.current_part;
         var _moCount        = _.size(ub.data.modifierLabels);
