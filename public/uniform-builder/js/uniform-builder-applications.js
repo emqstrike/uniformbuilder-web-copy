@@ -8116,7 +8116,7 @@ $(document).ready(function() {
 
     ub.funcs.isFreeFormToolEnabled = function (application_id) {
 
-        return ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(application_id);
+        return ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(application_id) > 70;
 
     } 
 
