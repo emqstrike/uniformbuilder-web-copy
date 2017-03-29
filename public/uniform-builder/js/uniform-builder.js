@@ -1821,10 +1821,14 @@ $(document).ready(function () {
                     WebFont.load({
                     
                         custom: {
+
                           families: [application_obj.font_obj.name],
+
                         },
                         active: function () {
+
                             ub.create_application(application_obj, undefined);
+
                         },
 
                     });
@@ -4716,24 +4720,38 @@ $(document).ready(function () {
 
         ub.funcs.resetHighlights();
 
-        if (ub.data.afterLoadCalled === 0) { return; }
+        var _exit = false;
 
-        if (typeof (window.ub.user.id) === "undefined") {
+        bootbox.confirm("Are you sure you want to go to the order form?", function (result) { 
+        
+            if (!result) {
 
-            ub.funcs.quickRegistration();
-            return;
+                return true;
 
-        }
+            } else {
 
-        if (typeof ub.temp !== "undefined") {
+                if (ub.data.afterLoadCalled === 0) { return; }
 
-            ub.funcs.getOrderAndDetailsInfo();
-            
-        } else {
+                if (typeof (window.ub.user.id) === "undefined") {
 
-            ub.funcs.initRoster();
+                    ub.funcs.quickRegistration();
+                    return true;
 
-        }
+                }
+
+                if (typeof ub.temp !== "undefined") {
+
+                    ub.funcs.getOrderAndDetailsInfo();
+                    
+                } else {
+
+                    ub.funcs.initRoster();
+
+                }
+
+            } 
+
+        });
 
     }
 
@@ -4891,7 +4909,8 @@ $(document).ready(function () {
 
                 if (view === 'team-info') {
 
-                    ub.funcs.initOrderProcess();
+                    ub.funcs.initOrderProcess()
+                    return;
 
                 }
 
@@ -5803,11 +5822,10 @@ $(document).ready(function () {
                 }, 1000);
 
             }
-        
 
             /* End Tertiary Links */
 
-            // Secondary Filters 
+            // Secondary Filters
 
             $('span.secondary-filters').unbind('click');
             $('span.primary-filters').unbind('click');
