@@ -6485,7 +6485,7 @@ $(document).ready(function() {
 
             if (size.size === settingsObject.font_size || _id === '4') { _additionalClass = 'active'; }
 
-            if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(_id) > 70)  {
+            if (ub.funcs.isFreeFormToolEnabled(_id))  {
 
                 if (_additionalClass === "active") { 
             
@@ -6505,7 +6505,7 @@ $(document).ready(function() {
         if (applicationType !== "mascot") { _divisor = 100; } // For Text Applications
 
         // Custom Size
-        if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(_id) > 70) {
+        if (ub.funcs.isFreeFormToolEnabled(_id)) {
 
             var _v = ub.funcs.getPrimaryView(settingsObject.application);
             
@@ -6531,6 +6531,9 @@ $(document).ready(function() {
             // _start = _start.toString().substr(0,4);
 
             if (_start === '1' || _start === '0') { _start += '.00'; }
+
+            var _position = ub.objects[_v + '_view']['objects_' + settingsObject.code].position;
+            _start = parseInt(_position.x) + ', ' + parseInt(_position.y);
             
             _additionalClass = '';    
             _htmlBuilder    += '<span class="applicationLabels font_size custom move' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/move-caption.png'>" + '<span class="custom_text move">' + _start + '</span>' + '</span>';
@@ -6668,6 +6671,8 @@ $(document).ready(function() {
         var _uniformCategory    = ub.current_material.material.uniform_category;
         var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
         var _sizes              = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+        var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
+
 
         if (ub.current_material.material.uniform_category === "Football") {
 
@@ -6744,7 +6749,9 @@ $(document).ready(function() {
 
         var _label = 'Size';
         var _class = '';
-        if (ub.funcs.isCurrentSport('Wrestling')) { _label = 'Measurements'; _class = "custom"; }
+        if (_isFreeFormEnabled) { 
+            _label = 'Measurements'; _class = "custom"; 
+        }
         _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
         var _inputSizes;
@@ -8107,6 +8114,13 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.isFreeFormToolEnabled = function (application_id) {
+
+        return ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(application_id);
+
+    } 
+
+
     ub.funcs.activateApplications = function (application_id) {
 
         ub.funcs.beforeActivateApplication();
@@ -8138,13 +8152,14 @@ $(document).ready(function() {
         ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
 
-        var _sampleText       = _settingsObject.text;
-        var _applicationType  = _settingsObject.application_type;
-        var _title            = _applicationType.toTitleCase();
-        var _sampleText       = _settingsObject.text;
+        var _sampleText         = _settingsObject.text;
+        var _applicationType    = _settingsObject.application_type;
+        var _title              = _applicationType.toTitleCase();
+        var _sampleText         = _settingsObject.text;
         var _sizes;
-        var _uniformCategory = ub.current_material.material.uniform_category
-        var _alias = ub.data.sportAliases.getAlias(_uniformCategory);
+        var _uniformCategory    = ub.current_material.material.uniform_category
+        var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
+        var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
 
         // if (ub.current_material.material.uniform_category === "Football") {
         //     _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
@@ -8243,7 +8258,9 @@ $(document).ready(function() {
 
         var _label = 'Size';
         var _class = '';
-        if (ub.funcs.isCurrentSport('Wrestling')) { _label = 'Measurements'; _class = "custom"; }
+
+        if (_isFreeFormEnabled) { _label = 'Measurements'; _class = "custom"; }
+
         _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
         if (typeof _settingsObject.font_size === 'undefined') {
@@ -8850,7 +8867,7 @@ $(document).ready(function() {
                 ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
 
                 // cancel automatic changing of application (e.g. all team names changes)
-                if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(application_id) > 70)  { return; }
+                if (_isFreeFormEnabled)  { return; }
 
                 _.each (ub.current_material.settings.applications, function (_application) {
 
@@ -8909,7 +8926,7 @@ $(document).ready(function() {
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
 
                     // cancel automatic changing of application (e.g. all team names changes)
-                    if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(application_id) > 70)  { return; }
+                    if (_isFreeFormEnabled) { return; }
                 
                     _.each (ub.current_material.settings.applications, function (_application) {
 
@@ -9260,15 +9277,13 @@ $(document).ready(function() {
 
     }
 
-
-
     ub.funcs.activateMoveTool = function (application_id) {
 
         if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { return; }
 
         var _applicationObj = ub.current_material.settings.applications[application_id];
 
-        if (parseInt(application_id) < 70) { return; }
+        if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
 
         // if deleted exit
         if (typeof _applicationObj === "undefined") { return; }
@@ -9279,8 +9294,6 @@ $(document).ready(function() {
   
         ub.focusObject      = ub.objects[_perspective]["locations_" + application_id];
         ub.targetObj        = ub.objects[_perspective]["objects_" + application_id];
-
-        if (!ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category)) { return; }
 
         ub.funcs.deactivateMoveTool();
 
