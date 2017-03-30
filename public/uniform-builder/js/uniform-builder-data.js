@@ -2105,17 +2105,30 @@ $(document).ready(function() {
             {
                 name: 'mascot',
                 sport: 'baseball',
-                applicationNumbers: [37, 38, 39, 40],
+                applicationNumbers: [37, 38],
                 sizes:  [
+                            {
+                                size: 1,
+                            },
                             {
                                 size: 2,
                             },
                             {
                                 size: 3,
+                            }
+                ],
+            },
+            {
+                name: 'mascot',
+                sport: 'baseball',
+                applicationNumbers: [39, 40],
+                sizes:  [
+                            {
+                                size: 1,
                             },
                             {
-                                size: 4,
-                            }
+                                size: 2,
+                            },
                 ],
             },
             {
