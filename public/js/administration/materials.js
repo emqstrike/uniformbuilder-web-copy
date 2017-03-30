@@ -956,6 +956,7 @@ $(document).ready(function() {
         };
 
         $('.b-prop').val(material.option.boundary_properties);
+        // $('#boundary-properties').val(material.option.boundary_properties);
         $('.material-option-id').val(material.option.id);
         $('.material-id').val(material.id);
 
@@ -2235,6 +2236,7 @@ $(document).ready(function() {
         polyData = JSON.parse(output);
         loadPolygon(polyData);
         updateCoordinates();
+        $('.b-prop').val(va_prop_val);
         canvas.renderAll();
     });
 
