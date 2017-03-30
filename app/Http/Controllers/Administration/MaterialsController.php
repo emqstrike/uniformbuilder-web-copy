@@ -400,13 +400,27 @@ class MaterialsController extends Controller
         try {
             // Thumbnail Files
             $thumbnailFile = $request->file('thumbnail_path');
+            $randstr = Random::randomize(6);
             if (isset($thumbnailFile))
             {
                 if ($thumbnailFile->isValid())
                 {
                     $data['thumbnail_path'] = FileUploader::upload(
                                                     $thumbnailFile,
-                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.$randstr,
+                                                    'thumbnail'
+                                                );
+                }
+            }
+
+            $thumbnailFileFront = $request->file('thumbnail_path_front');
+            if (isset($thumbnailFileFront))
+            {
+                if ($thumbnailFileFront->isValid())
+                {
+                    $data['thumbnail_path_front'] = FileUploader::upload(
+                                                    $thumbnailFileFront,
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_front'.$randstr,
                                                     'thumbnail'
                                                 );
                 }
@@ -419,7 +433,7 @@ class MaterialsController extends Controller
                 {
                     $data['thumbnail_path_back'] = FileUploader::upload(
                                                     $thumbnailFileBack,
-                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_back',
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_back'.$randstr,
                                                     'thumbnail'
                                                 );
                 }
@@ -432,7 +446,7 @@ class MaterialsController extends Controller
                 {
                     $data['thumbnail_path_left'] = FileUploader::upload(
                                                     $thumbnailFileLeft,
-                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_left',
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_left'.$randstr,
                                                     'thumbnail'
                                                 );
                 }
@@ -445,7 +459,7 @@ class MaterialsController extends Controller
                 {
                     $data['thumbnail_path_right'] = FileUploader::upload(
                                                     $thumbnailFileRight,
-                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_right',
+                                                    $materialName.'_'.$block_pattern_id.'_'.$neck_option.'_right'.$randstr,
                                                     'thumbnail'
                                                 );
                 }
