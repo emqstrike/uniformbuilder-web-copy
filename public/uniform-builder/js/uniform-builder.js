@@ -395,7 +395,6 @@ $(document).ready(function () {
             // End Block Pattern Widths
 
             ub.funcs.setupEventHandlers();
-
             ub.funcs.pushState({data: 'customize-uniform', title: 'Customize Uniform', url: '?customize-uniform'});
 
         };

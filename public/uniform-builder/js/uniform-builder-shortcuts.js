@@ -241,9 +241,19 @@ $(document).ready(function () {
 
 		// // Dev Tools is at shift + alt,
 
-		// ub.shortcut.add("Shift+Ctrl+1", function () {
-		// 	console.log('Ctrl + 1 is pressed');
-		// });
+		ub.shortcut.add("Shift+Alt+1", function () {
+			
+			if ($('nav.navbar').is(':visible')) {
+
+				ub.funcs.removeUI();
+
+			} else {
+
+				ub.funcs.restoreUI();
+
+			}
+
+		});
 
 		// ub.shortcut.add("Shift+Ctrl+2", function() {
 		// 	console.log('Ctrl + 2 is pressed');
