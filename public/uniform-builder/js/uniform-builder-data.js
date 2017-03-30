@@ -9440,8 +9440,15 @@ ub.funcs.fontOffSets = [
                 sport: 'baseball',
                 option: ['Trad_Elastic_Knicker'],
                 applicationNumbers: [37,38,39,40],
+                size: 1,
+                yAdjustment: -15,
+            },
+            {
+                sport: 'baseball',
+                option: ['Trad_Elastic_Knicker'],
+                applicationNumbers: [37,38,39,40],
                 size: 2,
-                yAdjustment: 0,
+                yAdjustment: 2,
             },
             {
                 sport: 'baseball',
@@ -9456,6 +9463,13 @@ ub.funcs.fontOffSets = [
                 applicationNumbers: [37,38,39,40],
                 size: 4,
                 yAdjustment: 48,
+            },
+            {
+                sport: 'baseball',
+                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+                applicationNumbers: [37,38,39,40],
+                size: 1,
+                yAdjustment: -8,
             },
             {
                 sport: 'baseball',
@@ -9633,7 +9647,7 @@ ub.funcs.fontOffSets = [
                 sport: 'Baseball',
                 option: ['Trad_Elastic_Knicker'],
                 size: 2,
-                scale: {x: 0.23 ,y: 0.23},
+                scale: {x: 0.27 ,y: 0.27},
             },
             {
                 sport: 'Baseball',

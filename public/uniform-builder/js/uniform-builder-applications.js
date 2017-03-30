@@ -7736,10 +7736,17 @@ $(document).ready(function() {
 
             }
 
-            if (ub.funcs.isCurrentSport("Baseball") && _.contains([37,38,39,40], _id) ) {
+            if (ub.funcs.isCurrentSport("Baseball") && _.contains([37,38], _id) ) {
 
                 _settingsObject.size = 3;
                 _settingsObject.font_size = 3;                
+
+            }
+
+            if (ub.funcs.isCurrentSport("Baseball") && _.contains([39,40], _id) ) {
+
+                _settingsObject.size = 2;
+                _settingsObject.font_size = 2;                
 
             }
 
@@ -7801,6 +7808,13 @@ $(document).ready(function() {
 
             }
 
+            if (ub.funcs.isCurrentSport('Baseball')) {
+
+                _settingsObject.size = 2;
+                _settingsObject.font_size = 2;                
+
+            }
+
             _settingsObject.accent_obj       = ub.funcs.getSampleAccent();
             _settingsObject.text             = ub.funcs.getSamplePlayerName();
             _settingsObject.application_type = _applicationType;
@@ -7814,7 +7828,7 @@ $(document).ready(function() {
 
             ub.create_application(_settingsObject, undefined);
             ub.funcs.activateApplications(_settingsObject.code);
-            ub.current_material.settings.applications[_id] = _settingsObject;          
+            ub.current_material.settings.applications[_id] = _settingsObject;  
 
         }
 
