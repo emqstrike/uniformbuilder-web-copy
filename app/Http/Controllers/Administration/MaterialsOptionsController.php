@@ -72,7 +72,6 @@ class MaterialsOptionsController extends Controller
             $ctr++;
         }
 
-
         $ctr = 0;
         foreach ($teamColorIDs as $teamColorID) {
             $idx = $ctr;
@@ -88,7 +87,6 @@ class MaterialsOptionsController extends Controller
             $data['info'][$item]['default_color'] = $color;
             $ctr++;
         }
-
 
         $data['input'] = json_encode($data['info']);
         $response = null;
@@ -150,7 +148,7 @@ class MaterialsOptionsController extends Controller
             'material_id' => $materialId,
             'boundary_properties' => $boundary_properties
         ];
-
+// dd($data);
         $response = null;
         if (!empty($materialOptionId))
         {
