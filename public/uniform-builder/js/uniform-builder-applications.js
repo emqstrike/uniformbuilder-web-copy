@@ -7736,10 +7736,17 @@ $(document).ready(function() {
 
             }
 
-            if (ub.funcs.isCurrentSport("Baseball") && _.contains([37,38,39,40], _id) ) {
+            if (ub.funcs.isCurrentSport("Baseball") && _.contains([37,38], _id) ) {
 
                 _settingsObject.size = 3;
                 _settingsObject.font_size = 3;                
+
+            }
+
+            if (ub.funcs.isCurrentSport("Baseball") && _.contains([39,40], _id) ) {
+
+                _settingsObject.size = 2;
+                _settingsObject.font_size = 2;                
 
             }
 
