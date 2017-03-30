@@ -7736,6 +7736,13 @@ $(document).ready(function() {
 
             }
 
+            if (ub.funcs.isCurrentSport("Baseball") && _.contains([37,38,39,40], _id) ) {
+
+                _settingsObject.size = 3;
+                _settingsObject.font_size = 3;                
+
+            }
+
             var _matchingSide;
             var _matchingID = undefined;
             var _processMatchingSide = true;
@@ -7776,7 +7783,7 @@ $(document).ready(function() {
             ub.funcs.LSRSBSFS(parseInt(_id));
 
             ub.funcs.activateMascots(_settingsObject.code);
-     
+
         }
 
         if (_type === 'player_name') {
