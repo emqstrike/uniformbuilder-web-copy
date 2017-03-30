@@ -141,6 +141,12 @@
                     <hr>
                 </div>
 
+                <div class="col-md-12">
+                    <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Build Type:</label>
+                    <select class="form-control build-type" name="build_type" id="build_type">
+                    </select>
+                </div>
+
                 <div class="col-md-3">
                     <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Blend:</label>
                     <input type="checkbox" name="is_blend" id="is_blend" value="1">
