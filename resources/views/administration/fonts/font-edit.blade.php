@@ -75,6 +75,12 @@ li.select2-selection__choice {
                                 <input type="name" class="form-control base-font-name" name="name" value="{{ $font->name }}">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Alias</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control font-alias" name="alias" value="{{ $font->alias }}">
+                            </div>
+                        </div>
                          <div class="form-group">
                             <label class="col-md-5 control-label">Tail Sweep</label>
                             <div class="col-md-4">
