@@ -515,7 +515,7 @@ $(document).ready(function () {
 
             _.each(ub.data.fonts, function (font) {
 
-                font.caption = font.name.replace(ub.current_material.material.uniform_category, '');
+                font.caption = font.alias;
 
             });
 
