@@ -437,6 +437,8 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-renderer.js?v={{$asset_version}}"></script>
+
 
 <!-- End Uniform Builder Scripts -->
 
