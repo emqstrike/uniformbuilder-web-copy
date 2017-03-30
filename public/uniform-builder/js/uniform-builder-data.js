@@ -9441,14 +9441,14 @@ ub.funcs.fontOffSets = [
                 option: ['Trad_Elastic_Knicker'],
                 applicationNumbers: [37,38,39,40],
                 size: 1,
-                yAdjustment: -8,
+                yAdjustment: -15,
             },
             {
                 sport: 'baseball',
                 option: ['Trad_Elastic_Knicker'],
                 applicationNumbers: [37,38,39,40],
                 size: 2,
-                yAdjustment: -15,
+                yAdjustment: 2,
             },
             {
                 sport: 'baseball',
