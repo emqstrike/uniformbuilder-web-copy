@@ -2105,17 +2105,30 @@ $(document).ready(function() {
             {
                 name: 'mascot',
                 sport: 'baseball',
-                applicationNumbers: [37, 38, 39, 40],
+                applicationNumbers: [37, 38],
                 sizes:  [
+                            {
+                                size: 1,
+                            },
                             {
                                 size: 2,
                             },
                             {
                                 size: 3,
+                            }
+                ],
+            },
+            {
+                name: 'mascot',
+                sport: 'baseball',
+                applicationNumbers: [39, 40],
+                sizes:  [
+                            {
+                                size: 1,
                             },
                             {
-                                size: 4,
-                            }
+                                size: 2,
+                            },
                 ],
             },
             {
@@ -4216,8 +4229,8 @@ $(document).ready(function() {
                         name: 'Shadow',
                         default_color: '1e1e1e',
                         layer_no: 4,
-                        increment_x: 0.06, 
-                        increment_y: 0.06,
+                        increment_x: 0.03, 
+                        increment_y: 0.02,
                         outline: 2,
                         zIndex: -2,
                         type: 'outer_stroke',
@@ -10797,7 +10810,7 @@ ub.funcs.fontOffSets = [
             }, 
             {
                 sport: 'Compression (Apparel)',
-                sublimatedPart: 'Body',
+                sublimatedPart: 'Extra',
             }, 
             {
                 sport: 'Tech-Tee (Apparel)',

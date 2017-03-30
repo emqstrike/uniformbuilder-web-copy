@@ -218,8 +218,7 @@
 <script src="{{$asset_storage}}/moment/moment.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
-
-
+<script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
 
