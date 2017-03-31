@@ -120,7 +120,9 @@ $(document).ready(function() {
     ub.renderer.backgroundColor     = 0xeeeeee;
 
     var _bg                         = window.ub.pixi.new_sprite('/images/uiV1/bg.jpg');
+    
     ub.stage.addChild(_bg); 
+    ub.bg = _bg;
 
     ub.stage.addChild(ub.left_view);
     ub.stage.addChild(ub.front_view);
@@ -128,6 +130,8 @@ $(document).ready(function() {
     ub.stage.addChild(ub.right_view);
     ub.stage.addChild(ub.pattern_view);
     ub.stage.addChild(ub.gradient_preview);
+
+
 
     if (typeof ub.renderer !== "undefined" && ub.pCanvas !== null) {
         ub.pCanvas.appendChild(ub.renderer.view);
@@ -3964,8 +3968,8 @@ $(document).ready(function() {
                         name: 'Shadow',
                         default_color: '1e1e1e',
                         layer_no: 3,
-                        increment_x: 0.06, 
-                        increment_y: 0.06,
+                        increment_x: 0.03, 
+                        increment_y: 0.02,
                         outline: 1,
                         type: 'shadow',
                         zIndex: -2,
@@ -4049,8 +4053,8 @@ $(document).ready(function() {
                         name: 'Shadow',
                         default_color: '1e1e1e',
                         layer_no: 2,
-                        increment_x: 0.06, 
-                        increment_y: 0.06,
+                        increment_x: 0.03, 
+                        increment_y: 0.02,
                         outline: 0,
                         zIndex: -2,
                     },
@@ -4229,8 +4233,8 @@ $(document).ready(function() {
                         name: 'Shadow',
                         default_color: '1e1e1e',
                         layer_no: 4,
-                        increment_x: 0.03, 
-                        increment_y: 0.02,
+                        increment_x: 0.04, 
+                        increment_y: 0.03,
                         outline: 2,
                         zIndex: -2,
                         type: 'outer_stroke',

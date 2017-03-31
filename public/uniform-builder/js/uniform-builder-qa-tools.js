@@ -199,6 +199,20 @@ $(document).ready(function () {
 
     // Font Guides 
 
+    ub.toggleFullView = function () {
+
+        if ($('nav.navbar').is(':visible')) {
+
+            ub.funcs.removeUI();
+
+        } else {
+
+            ub.funcs.restoreUI();
+
+        }
+            
+    }
+
     ub.toggleFontGuides = function () {
 
         var _status = !ub.status.gaFontTool.getStatus();

@@ -233,6 +233,10 @@ $(document).ready(function () {
 			ub.toggleFontGuides();
 		});
 
+		ub.shortcut.add("Alt+2", function () {
+			ub.toggleFullView(); 
+		});
+
 		// ub.shortcut.add("Alt+2", function () {
 			
 		// 	$('div.qa-tools-tab').modal('show');
@@ -241,9 +245,11 @@ $(document).ready(function () {
 
 		// // Dev Tools is at shift + alt,
 
-		// ub.shortcut.add("Shift+Ctrl+1", function () {
-		// 	console.log('Ctrl + 1 is pressed');
-		// });
+		ub.shortcut.add("Shift+Alt+1", function () {
+			
+			
+
+		});
 
 		// ub.shortcut.add("Shift+Ctrl+2", function() {
 		// 	console.log('Ctrl + 2 is pressed');
