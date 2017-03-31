@@ -233,6 +233,10 @@ $(document).ready(function () {
 			ub.toggleFontGuides();
 		});
 
+		ub.shortcut.add("Alt+2", function () {
+			ub.toggleFullView(); 
+		});
+
 		// ub.shortcut.add("Alt+2", function () {
 			
 		// 	$('div.qa-tools-tab').modal('show');
@@ -243,15 +247,7 @@ $(document).ready(function () {
 
 		ub.shortcut.add("Shift+Alt+1", function () {
 			
-			if ($('nav.navbar').is(':visible')) {
-
-				ub.funcs.removeUI();
-
-			} else {
-
-				ub.funcs.restoreUI();
-
-			}
+			
 
 		});
 
