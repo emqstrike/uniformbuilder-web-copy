@@ -328,6 +328,8 @@ class MaterialsController extends Controller
         $inchInPx = $request->input('one_inch_in_px');
         $isSublimated = $request->input('is_sublimated');
         $isTwill = $request->input('is_twill');
+        $isInfused = $request->input('is_infused');
+        $status = $request->input('status');
         $slug = FileUploader::makeSlug($materialName);
 
         $block_pattern_id = $request->input('block_pattern_id');
@@ -394,7 +396,9 @@ class MaterialsController extends Controller
             'price_item_template_id' => $priceItemTemplateID,
             'one_inch_in_px' => $inchInPx,
             'is_sublimated' => $isSublimated,
-            'is_twill' => $isTwill
+            'is_twill' => $isTwill,
+            'is_infused' => $isInfused,
+            'status' => $status
         ];
 
         try {
