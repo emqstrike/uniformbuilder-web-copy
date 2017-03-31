@@ -29,7 +29,19 @@
                                 <input type="text" class="form-control material-name" name="name" value="{{ $material->name }}">
                             </div>
                         </div>
-
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Status</label>
+                            <div class="col-md-6">
+                                <select class="form-control material-status" name="status" value="{{ $material->status }}">
+                                    <option value="none">None</option>
+                                    <option value="on_progress" @if( $material->status == "on_progress" ) selected="selected"@endif>On Progress</option>
+                                    <option value="finished" @if( $material->status == "finished" ) selected="selected"@endif>Finished</option>
+                                    <option value="improvement" @if( $material->status == "improvement" ) selected="selected"@endif>Improvement</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material Code</label>
                             <div class="col-md-6">
@@ -184,6 +196,16 @@
                                 <select name='is_twill' class="form-control is-twill">
                                     <option value='0' @if($material->is_twill == 0) selected="selected"@endif>No</option>
                                     <option value='1' @if($material->is_twill == 1) selected="selected"@endif>Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Is Infused</label>
+                            <div class="col-md-6">
+                                <select name='is_infused' class="form-control is-twill">
+                                    <option value='0' @if($material->is_infused == 0) selected="selected"@endif>No</option>
+                                    <option value='1' @if($material->is_infused == 1) selected="selected"@endif>Yes</option>
                                 </select>
                             </div>
                         </div>
