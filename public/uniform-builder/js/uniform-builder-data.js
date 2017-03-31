@@ -2404,6 +2404,21 @@ $(document).ready(function() {
                             ],
                 },
                 {
+                    name: 'team_name',
+                    sport: 'wrestling',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+                {
                     name: 'text_wrestling',
                     sport: 'wrestling',
                     sizes:  [

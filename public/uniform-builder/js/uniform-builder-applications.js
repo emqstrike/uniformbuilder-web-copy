@@ -6493,9 +6493,9 @@ $(document).ready(function() {
 
             if (size.size === settingsObject.font_size || _id === '4') { _additionalClass = 'active'; }
 
-            if (ub.funcs.isFreeFormToolEnabled(_id))  {
+            if (ub.funcs.isFreeFormToolEnabled(_id)) {
 
-                if (_additionalClass === "active") { 
+                if (_additionalClass === "active") {
             
                     _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
 
@@ -9677,14 +9677,14 @@ $(document).ready(function() {
             _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias});                
         }
 
-        if (typeof _sizes === 'undefined') {
-
-            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
-            _sizes = ub.data.applicationSizes.getSizes('default', applicationType);            
-
+        if (applicationType === 'team_name' && ub.funcs.isCurrentSport('Wrestling')) {
+            _sizes = _.find(ub.data.applicationSizes.items, {name: 'team_name', sport: 'wrestling'});
         }
 
-
+        if (typeof _sizes === 'undefined') {
+            ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
+            _sizes = ub.data.applicationSizes.getSizes('default', applicationType);
+        }
         
         return _sizes;
 
