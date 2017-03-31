@@ -1133,7 +1133,8 @@ $(document).ready(function() {
                 highlights: ($(this).data('material-highlights-path')),
                 pattern_id: ($(this).data('pattern-id')),
                 pattern_properties: ($(this).data('pattern-properties')),
-                default_display: ($(this).data('default-display'))
+                default_display: ($(this).data('default-display')),
+                build_type: ($(this).data('build-type')),
             }
         };
         console.log('TESTER' + material.option.pattern_properties);
@@ -1143,6 +1144,19 @@ $(document).ready(function() {
         if( $('#pattern_properties').val() != "" || $('#pattern_properties').val() != null || $('#pattern_properties').val()!= undefined ){
             pattern_loaded = 1;
         }
+
+        var build_type_dropdown = '<option value="">None</option>';
+        var build_types = ["twill", "sublimated", "infused"];
+        build_types.forEach(function(entry) {
+            console.log(entry);
+            if(entry == material.option.build_type){
+                build_type_dropdown += '<option value="'+entry+'" selected>'+entry+'</option>';
+            } else {
+                build_type_dropdown += '<option value="'+entry+'">'+entry+'</option>';
+            }
+        });
+        console.log(build_type_dropdown);
+        $(".build-type").append(build_type_dropdown);
 
         $('.material-id').prop("value", material.id);
         $('.material-option-id').prop("value", material.option.id);
