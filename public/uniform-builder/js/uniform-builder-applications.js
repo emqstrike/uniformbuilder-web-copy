@@ -2363,13 +2363,17 @@ $(document).ready(function() {
                 } else {
 
                     point.zIndex = -50;
+                    
+                    if (typeof args.applicationObj !== "undefined") {
 
-                    if ((args.applicationObj.application_type === "team_name" || parseInt(args.applicationObj.code) === 1) && ub.funcs.isCurrentSport('Baseball')) {
+                        if ((args.applicationObj.application_type === "team_name" || parseInt(args.applicationObj.code) === 1) && ub.funcs.isCurrentSport('Baseball')) {
 
-                        point.zIndex = -80; // So it will be rendered above the piping
+                            point.zIndex = -80; // So it will be rendered above the piping
+
+                        }
 
                     }
-
+                    
                 }
 
                 point.ubType = "object";
