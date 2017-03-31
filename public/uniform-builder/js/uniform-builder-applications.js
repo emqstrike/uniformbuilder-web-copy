@@ -2363,7 +2363,17 @@ $(document).ready(function() {
                 } else {
 
                     point.zIndex = -50;
+                    
+                    if (typeof args.applicationObj !== "undefined") {
 
+                        if ((args.applicationObj.application_type === "team_name" || parseInt(args.applicationObj.code) === 1) && ub.funcs.isCurrentSport('Baseball')) {
+
+                            point.zIndex = -80; // So it will be rendered above the piping
+
+                        }
+
+                    }
+                    
                 }
 
                 point.ubType = "object";
@@ -8116,7 +8126,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.afterActivateApplication = function () {
+    ub.funcs.afterActivateApplication = function (application_id) {
 
         if (!ub.funcs.isCurrentSport('Football')) {
 
@@ -8131,6 +8141,19 @@ $(document).ready(function() {
 
         }
 
+        if (parseInt(application_id) === 1) {
+
+            var _settingsObject = ub.funcs.getApplicationSettings(1);
+
+            if (_settingsObject.application_type === "team_name" && ub.funcs.isCurrentSport('Baseball')) {
+
+                ub.objects.front_view.objects_1.zIndex = -80; // So it will be rendered above the piping
+                ub.updateLayersOrder(ub.front_view);
+
+            }
+
+        }
+        
     }
 
     ub.funcs.isFreeFormToolEnabled = function (application_id) {
@@ -9292,7 +9315,7 @@ $(document).ready(function() {
 
         /// End Initialize
 
-        ub.funcs.afterActivateApplication();
+        ub.funcs.afterActivateApplication(application_id);
 
     }
 
