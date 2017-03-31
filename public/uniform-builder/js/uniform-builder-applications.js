@@ -7666,8 +7666,9 @@ $(document).ready(function() {
         if (_type === 'mascot') {
 
             var _applicationType = 'mascot';
-
             var _mascotID = '181';
+            var _size;
+
             ub.funcs.deActivateApplications();
 
             _settingsObject.application_type    = _applicationType;
@@ -7679,76 +7680,28 @@ $(document).ready(function() {
             _settingsObject.application.name    = _applicationType.toTitleCase();
             _settingsObject.application.type    = _applicationType;
 
-            if (_id === 1) { _settingsObject.size = 2;  }
-            if (_id === 2) { _settingsObject.size = 8;  }
-            if (_id === 5) { _settingsObject.size = 10; }
-            if (_id === 4) { _settingsObject.size = 0.5; }
+            if (_id === 1) { _size = 2;   }
+            if (_id === 2) { _size = 8;   }
+            if (_id === 5) { _size = 10;  }
+            if (_id === 4) { _size = 0.5; }
 
             if (_id === 2 || _id === 5 || _id > 70) {
-                
-                _settingsObject.size = 8;
-                _settingsObject.font_size = 8;
-
+                _size = 8;
             } else if (_id === 9 || _id === 10 || _id === 32 || _id === 33) {
-
-                _settingsObject.size = 3;
-                _settingsObject.font_size = 3;
-
+               _size = 3;
             } else {
-
-                _settingsObject.size = 2;
-                _settingsObject.font_size = 2;                
-
+               _size = 2;      
             }
 
-            if (ub.funcs.isCurrentSport('Wrestling')) {
+            if (ub.funcs.isCurrentSport('Wrestling'))                                            { _size = 5;    }
+            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))   { _size = 4;    }
+            if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                              { _size = 1.75; }
+            if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                { _size = 2;    }
+            if (ub.funcs.isCurrentSport("Crew Socks (Apparel)"))                                 { _size = 2.5;  }
+            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )               { _size = 3;    }
+            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )               { _size = 2;    }
 
-                _settingsObject.size = 5;
-                _settingsObject.font_size = 5;                
-
-            }
-
-            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling')) {
-
-                _settingsObject.size = 4;
-                _settingsObject.font_size = 4;                
-
-            }
-
-            if (ub.funcs.isCurrentSport('Baseball') && _id === 15) {
-
-                _settingsObject.size = 1.75;
-                _settingsObject.font_size = 1.75;                
-
-            }
-
-            if (ub.funcs.isCurrentSport('Baseball') && (_id === 7 || _id === 6)) {
-
-                _settingsObject.size = 2;
-                _settingsObject.font_size = 2;                
-
-            }
-
-            if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) {
-
-                _settingsObject.size = 2.5;
-                _settingsObject.font_size = 2.5;                
-
-            }
-
-            if (ub.funcs.isCurrentSport("Baseball") && _.contains([37,38], _id) ) {
-
-                _settingsObject.size = 3;
-                _settingsObject.font_size = 3;                
-
-            }
-
-            if (ub.funcs.isCurrentSport("Baseball") && _.contains([39,40], _id) ) {
-
-                _settingsObject.size = 2;
-                _settingsObject.font_size = 2;                
-
-            }
+            ub.funcs.setAppSize(_id, _size);
 
             var _matchingSide;
             var _matchingID = undefined;
@@ -7768,8 +7721,6 @@ $(document).ready(function() {
                     _matchingSide.application_type  = _applicationType;
                     _matchingSide.type              = _applicationType;
                     _matchingSide.object_type       = _applicationType;
-                    _matchingSide.size              = _settingsObject.size;      
-                    _matchingSide.font_size         = _settingsObject.font_size;      
                     _matchingSide.color_array       = ub.funcs.getDefaultColors();
                     _matchingSide.mascot            = _.find(ub.data.mascots, { id: _mascotID });
 
@@ -7778,6 +7729,7 @@ $(document).ready(function() {
                     _matchingSide.application.name  = _applicationType.toTitleCase();
                     _matchingSide.application.type  = _applicationType;
 
+                    ub.funcs.setAppSize(_matchingID, _size);
                     ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
 
                 }
@@ -7797,23 +7749,13 @@ $(document).ready(function() {
 
             ub.funcs.deActivateApplications();
 
-            var _applicationType             = 'player_name';
-            _settingsObject.size             = 2.5;
-            _settingsObject.font_size        = 2.5;
+            var _applicationType = 'player_name';
+            var _size = 2.5;
+            
+            if (ub.funcs.isFreeFormToolEnabled(_id)) { _size = 4; }
+            if (ub.funcs.isCurrentSport('Baseball')) { _size = 2; }
 
-            if (ub.funcs.isFreeFormToolEnabled(_id)) {
-
-                _settingsObject.size             = 4;
-                _settingsObject.font_size        = 4;                
-
-            }
-
-            if (ub.funcs.isCurrentSport('Baseball')) {
-
-                _settingsObject.size = 2;
-                _settingsObject.font_size = 2;                
-
-            }
+            ub.funcs.setAppSize(_id, _size);
 
             _settingsObject.accent_obj       = ub.funcs.getSampleAccent();
             _settingsObject.text             = ub.funcs.getSamplePlayerName();
@@ -7880,13 +7822,10 @@ $(document).ready(function() {
                     _matchingSide.object_type       = 'text object';
                     _matchingSide.font_obj          = ub.funcs.getSampleFont();
                     _matchingSide.color_array       = ub.funcs.getDefaultColors();
-
-                    _matchingSide.size              = _settingsObject.size; 
-                    _matchingSide.font_size         = _settingsObject.size; 
-
                     _matchingSide.application.name  = _applicationType.toTitleCase();
                     _matchingSide.application.type  = _applicationType;
 
+                    ub.funcs.setAppSize(_matchingID, _size);
                     ub.create_application(_matchingSide, undefined);
 
                 }
@@ -7903,16 +7842,12 @@ $(document).ready(function() {
 
             ub.funcs.deActivateApplications();
 
-            var _applicationType             = 'team_name';
-            _settingsObject.size             = 2;
-            _settingsObject.font_size        = 2;
+            var _applicationType = 'team_name';
+            var _size = 2;
+            
+            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") { _size = 4; }
 
-            if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
-
-                _settingsObject.size             = 4;
-                _settingsObject.font_size        = 4;                
-
-            }
+            ub.funcs.setAppSize(_id, _size);
 
             _settingsObject.text             = ub.funcs.getSampleTeamName();
             _settingsObject.accent_obj       = ub.funcs.getSampleAccent();
@@ -8138,6 +8073,13 @@ $(document).ready(function() {
         return ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(application_id) > 70;
 
     } 
+
+    ub.funcs.setAUIActiveSize = function (size) {
+
+        $('span.font_size').removeClass('active');
+        $('span.font_size[data-size="' + size + '"]').addClass('active');
+
+    }
 
 
     ub.funcs.activateApplications = function (application_id) {
@@ -8941,6 +8883,32 @@ $(document).ready(function() {
                         $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
 
                     }
+
+                    /// Set Auto Font Size on Team Name, Baseball / Fastpitch
+                    
+                    if (parseInt(application_id) === 1 && (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) {
+
+                        if (_settingsObject.application_type === "team_name") {
+
+                            var _len = _val.length;
+                            var _size = _settingsObject.font_size;
+
+                            if (_len <= 4) {
+                                _size = 4;
+                            } else if (_len >= 5 && _len <= 7) {
+                                _size = 3;
+                            } else if (_len >= 8) {
+                                _size = 2;
+                            }
+
+                            ub.funcs.setAppSize(application_id, _size);
+                            ub.funcs.setAUIActiveSize(_size);
+
+                        }
+
+                    }
+
+                    /// End Set Auto Font Size
 
                     ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject);
 

@@ -31,6 +31,15 @@ $(document).ready(function() {
 
             console.info(msg);
 
+        },
+
+        actionLog: function (msg, type, user) {
+
+            // TODO: Persist / Log to storage
+            // TODO: (Refactor) Funnel all user action here ...
+
+            console.info(msg);
+
         }
 
     };

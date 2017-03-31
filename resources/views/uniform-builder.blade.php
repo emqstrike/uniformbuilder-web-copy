@@ -417,11 +417,13 @@
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-utilities.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-mock-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-status.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-placeholder-applications.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-process.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-getters-setters.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-pipings.js?v={{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js?v={{$asset_version}}"></script>
@@ -430,7 +432,6 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-ui.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-colors.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-history.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-utilities.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-fonts.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js?v={{$asset_version}}"></script>
