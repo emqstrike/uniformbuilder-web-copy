@@ -2345,7 +2345,7 @@ $(document).ready(function() {
             ctype = 'knot';
         } else {
             cfill = '';
-            cstroke = 'gray';
+            cstroke = 'red';
             ctype = 'control';
         }
         var c = new fabric.Circle({
@@ -2394,8 +2394,8 @@ $(document).ready(function() {
         var new_line = new fabric.Object();
         new_line = new fabric.Line([p0.left, p0.top, p1.left, p1.top], {
             id: lineIdx,
-            fill: "white",
-            stroke: "white",
+            fill: "red",
+            stroke: "red",
             strokeLinejoin: "miter",
             strokeMiterlimit: 1,
             strokeWidth: 3,
