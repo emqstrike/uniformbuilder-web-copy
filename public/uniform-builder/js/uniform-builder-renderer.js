@@ -13,11 +13,14 @@ $(document).ready(function() {
     ub.funcs.removeUI = function () {
 
         console.log('Removing UI...');
+
         $('div#right-pane-column').hide();
         $('div#uniform_name').hide();
         $('div#uniform-price-youth').hide();
         $('div#uniform-price-adult').hide();
         $('div#uniform-price-call-for-team-pricing').hide();
+        $('div#left-side-toolbar').hide();
+        $('div#livechat-compact-container').hide();
         
         $('div#main_container').css('margin-top','0px');
 
@@ -49,6 +52,9 @@ $(document).ready(function() {
         $('div#uniform-price-youth').show();
         $('div#uniform-price-adult').show();
         $('div#uniform-price-call-for-team-pricing').show();
+        $('div#livechat-compact-container').show();
+
+        $('div#left-side-toolbar').show();
 
         $('div#main_container').css('margin-top','70px');
 
