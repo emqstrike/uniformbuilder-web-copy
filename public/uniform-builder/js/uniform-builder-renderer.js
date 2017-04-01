@@ -28,9 +28,9 @@ $(document).ready(function() {
 
         // Rearrange UI
 
+            ub['left_view'].position.set(30, 150);
             ub['front_view'].position.set(380, 150);
             ub['back_view'].position.set(850, 150);
-            ub['left_view'].position.set(30, 150);
             ub['right_view'].position.set(1200, 150);
 
             ub['front_view'].scale.set(0.5,0.5);
@@ -39,6 +39,32 @@ $(document).ready(function() {
             ub['right_view'].scale.set(0.5,0.5);
 
         // End Rearrange UI
+
+        // Center
+
+            var _windowWidth;
+            var _widthOfElement;
+            var _totalWidthOfElements;
+            var _space;
+            var _p1;
+            var _p2;
+            var _y = 150;
+            var _x;
+            
+            _windowWidth = window.innerWidth;
+            _widthOfElement = ub['front_view'].width;
+            _totalWidthOfElements = _widthOfElement * 4;
+            _space = _windowWidth - _totalWidthOfElements;
+            _p1 = _space / 2;
+
+            _fx = function (no) { return _p1 + ((no - 1)  * _widthOfElement) };
+
+            ub['left_view'].position.set(_fx(1), _y);
+            ub['front_view'].position.set(_fx(2), _y);
+            ub['back_view'].position.set(_fx(3), _y);
+            ub['right_view'].position.set(_fx(4), _y);
+
+        // End Center
 
         ub.bg.alpha = 0.5;
 
