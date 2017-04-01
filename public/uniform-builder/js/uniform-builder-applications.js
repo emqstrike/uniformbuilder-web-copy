@@ -3509,6 +3509,7 @@ $(document).ready(function() {
 
         if (!ub.status.render.getRenderStatus()) { return; }
         if (ub.funcs.popupTest()) { return; }
+        if (ub.status.fullView.getStatus()) { return; }
 
         if (ub.data.rosterInitialized) { 
 

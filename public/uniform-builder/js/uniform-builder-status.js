@@ -5,6 +5,26 @@ $(document).ready(function() {
     ub.status = {};
     ub.status.manipulatorDown = false;
 
+    ub.status.fullView = {
+
+        active: false,
+
+        getStatus: function () {
+
+            return this.active;
+
+        }, 
+
+        setStatus: function (status) {
+
+            this.active = status;
+            return this.getStatus();
+
+        }
+
+    };
+
+
     ub.status.gaFontTool = {
 
         active: false,
