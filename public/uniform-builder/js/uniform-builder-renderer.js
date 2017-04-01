@@ -73,11 +73,7 @@ $(document).ready(function() {
             var _rightThumb = ub.getThumbnailImage2('right_view');
 
             ub.utilities.info('Thumbnails Generated!');
-            ub.utilities.warn('Front View: ' + _frontThumb);
-            ub.utilities.warn('Back View: ' + _backThumb);
-            ub.utilities.warn('Left View: ' + _leftThumb);
-            ub.utilities.warn('Right View: ' + _rightThumb);
-
+            
             ub.front = _frontThumb;
             ub.back = _backThumb;
             ub.left = _frontThumb;
