@@ -6,6 +6,8 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
+            if (parseInt(ub.render) === 1) { ub.funcs.removePanels(); }
+
             ub.funcs.beforeLoad(); 
             ub.config.print_version();
 
@@ -14,11 +16,7 @@ $(document).ready(function () {
             ub.current_material.id = window.ub.config.material_id;
             ub.current_material.code = window.ub.config.code;
 
-            if (ub.current_material.id !== -1) {
- 
-                ub.funcs.initCanvas();
-
-            }
+            if (ub.current_material.id !== -1) { ub.funcs.initCanvas(); }
 
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
             ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
@@ -57,11 +55,7 @@ $(document).ready(function () {
 
             ub.zoom_off();
 
-            if (window.ub.config.material_id !== -1) {
-
-                ub.funcs.loadHomePickers();  
-
-            }
+            if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
 
         };
 
@@ -396,6 +390,8 @@ $(document).ready(function () {
 
             ub.funcs.setupEventHandlers();
             ub.funcs.pushState({data: 'customize-uniform', title: 'Customize Uniform', url: '?customize-uniform'});
+
+            if (parseInt(ub.render) === 1) { ub.funcs.removeUI(); }
 
         };
 

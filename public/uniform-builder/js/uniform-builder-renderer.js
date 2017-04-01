@@ -10,9 +10,7 @@ $(document).ready(function() {
     var _leftOldScale = ub.left_view.scale;
     var _rightOldScale = ub.right_view.scale;
 
-    ub.funcs.removeUI = function () {
-
-        ub.utilities.warn('Removing UI...');
+    ub.funcs.removePanels = function () {
 
         $('div#right-pane-column').hide();
         $('div#left-side-toolbar').hide();
@@ -20,6 +18,13 @@ $(document).ready(function() {
         $('div#main_container').css('margin-top','0px');
 
         $('nav.navbar').hide();
+    }
+
+    ub.funcs.removeUI = function () {
+
+        ub.utilities.warn('Removing UI...');
+
+        ub.funcs.removePanels();
 
         // Rearrange UI
 
@@ -63,6 +68,14 @@ $(document).ready(function() {
 
         ub.bg.alpha = 0.5;
 
+        ub.funcs.prepareThumbnails();
+
+        ub.status.fullView.setStatus(true);
+
+    };
+
+    ub.funcs.prepareThumbnails = function () {
+
         // Prepare thumbnails 
 
             ub.utilities.info('Preparing Thumbnails ...');
@@ -81,9 +94,7 @@ $(document).ready(function() {
 
         // End Prepare thumbnails 
 
-        ub.status.fullView.setStatus(true);
-
-    };
+    }
 
     ub.funcs.restoreUI = function () {
 
