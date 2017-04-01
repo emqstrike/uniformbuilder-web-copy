@@ -12,16 +12,11 @@ $(document).ready(function() {
 
     ub.funcs.removeUI = function () {
 
-        console.log('Removing UI...');
+        ub.utilities.warn('Removing UI...');
 
         $('div#right-pane-column').hide();
-        $('div#uniform_name').hide();
-        $('div#uniform-price-youth').hide();
-        $('div#uniform-price-adult').hide();
-        $('div#uniform-price-call-for-team-pricing').hide();
         $('div#left-side-toolbar').hide();
         $('div#livechat-compact-container').hide();
-        
         $('div#main_container').css('margin-top','0px');
 
         $('nav.navbar').hide();
@@ -68,20 +63,35 @@ $(document).ready(function() {
 
         ub.bg.alpha = 0.5;
 
+        // Prepare thumbnails 
+
+            ub.utilities.info('Preparing Thumbnails ...');
+
+            var _frontThumb = ub.getThumbnailImage2('front_view');
+            var _backThumb = ub.getThumbnailImage2('back_view');
+            var _leftThumb = ub.getThumbnailImage2('left_view');
+            var _rightThumb = ub.getThumbnailImage2('right_view');
+
+            ub.utilities.info('Thumbnails Generated!');
+            
+            ub.front = _frontThumb;
+            ub.back = _backThumb;
+            ub.left = _frontThumb;
+            ub.right = _rightThumb;
+
+        // End Prepare thumbnails 
+
+        ub.status.fullView.setStatus(true);
+
     };
 
     ub.funcs.restoreUI = function () {
 
-        console.log('Restoring UI...');
+        ub.utilities.warn('Restoring UI...');
+
         $('div#right-pane-column').show();
-        $('div#uniform_name').show();
-        $('div#uniform-price-youth').show();
-        $('div#uniform-price-adult').show();
-        $('div#uniform-price-call-for-team-pricing').show();
         $('div#livechat-compact-container').show();
-
         $('div#left-side-toolbar').show();
-
         $('div#main_container').css('margin-top','70px');
 
         $('nav.navbar').show();
@@ -103,6 +113,8 @@ $(document).ready(function() {
         ub.bg.alpha = 1;
 
         $('a.change-view[data-view="front"]').click();
+
+        ub.status.fullView.setStatus(false);
 
     };
 
