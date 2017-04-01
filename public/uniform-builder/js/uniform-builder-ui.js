@@ -187,6 +187,8 @@ $(document).ready(function () {
     
     ub.funcs.resize  = function () {
 
+        if (ub.status.fullView.getStatus()) { return; }
+
         var windowSize  = ub.funcs.getWindowSize();
         var w           = windowSize.width;
         var h           = windowSize.height;
