@@ -261,4 +261,38 @@ $(document).ready(function () {
 
 	/// End Shortcut definitions 
 
+	/// Key Down Events 
+
+		$( "body" ).keydown(function( event ) {
+
+			if (event.key === 'Alt') {
+
+				$('a.footer-buttons.change-view[data-view="front"]').html('F<br /><span>Thumbnail</span>');
+				$('a.footer-buttons.change-view[data-view="back"]').html('B<br /><span>Thumbnail</span>');
+				$('a.footer-buttons.change-view[data-view="left"]').html('L<br /><span>Thumbnail</span>');
+				$('a.footer-buttons.change-view[data-view="right"]').html('R<br /><span>Thumbnail</span>');
+
+				$('a.footer-buttons.change-view[data-view="zoom"]').html('<i class="fa fa-arrows-alt" aria-hidden="true"></i><br /><span>Full View</span>');
+
+			}
+			
+		});
+
+		$( "body" ).keyup(function( event ) {
+
+			if (event.key === 'Alt') {
+
+				$('a.footer-buttons.change-view[data-view="front"]').html('F<br /><span>Front View</span>');
+				$('a.footer-buttons.change-view[data-view="back"]').html('B<br /><span>Back View</span>');
+				$('a.footer-buttons.change-view[data-view="left"]').html('L<br /><span>Left View</span>');
+				$('a.footer-buttons.change-view[data-view="right"]').html('R<br /><span>Right View</span>');
+
+				$('a.footer-buttons.change-view[data-view="zoom"]').html('<i class="fa fa-search"></i><br /><span>Zoom</span>');
+
+			}
+
+		});
+
+	/// 
+
 });

@@ -391,7 +391,10 @@ $(document).ready(function () {
             ub.funcs.setupEventHandlers();
             ub.funcs.pushState({data: 'customize-uniform', title: 'Customize Uniform', url: '?customize-uniform'});
 
-            if (parseInt(ub.render) === 1) { ub.funcs.removeUI(); }
+            if (parseInt(ub.render) === 1) { 
+                ub.funcs.removeUI();
+                $('button#button-return-to-customizer').hide();
+            }
 
         };
 
@@ -4884,6 +4887,11 @@ $(document).ready(function () {
                 if (view === 'zoom') {
 
                     ub.funcs.deActivateLocations();
+
+                    if (e.altKey) {
+                        ub.funcs.removeUI();
+                        return;
+                    }
 
                     if (!ub.zoom) {
 
