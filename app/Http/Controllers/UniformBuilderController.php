@@ -129,6 +129,7 @@ class UniformBuilderController extends Controller
                 $params['saved_design_id'] = $config['id'];
                 $params['material_id'] = $config['material_id'];
                 $params['builder_customizations'] = $config['builder_customizations'];
+                $params['saved_design_name'] = $config['saved_design_name'];              
 
             } elseif ($pageType['page'] === "order") {
                 
@@ -1412,9 +1413,10 @@ class UniformBuilderController extends Controller
                 'id' => $savedDesign->id,
                 'builder_customizations' => $savedDesign->id,
                 'type' => 'Saved Design',
+                'saved_design_name' => $savedDesign->name,
             ];
 
-            if ($render) {  $config['render'] = true; }
+            if ($render) { $config['render'] = true; }
 
             return $this->showBuilder($config);
         }

@@ -43,6 +43,7 @@
             <div id="uniform-price-youth"></div>
             <div id="uniform-price-adult"></div>
             <div id="uniform-price-call-for-team-pricing">(Call for Team Pricing)</div>
+            <div id="saved_design_name"></div>
 
             <div id="return-to-customizer">
                 <button id="button-return-to-customizer">Return to Customizer</button>
