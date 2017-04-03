@@ -16,7 +16,8 @@ $(document).ready(function() {
         $('div#left-side-toolbar').hide();
         $('div#livechat-compact-container').hide();
         $('div#main_container').css('margin-top','0px');
-        $('button#button-return-to-customizer').fadeIn();
+        $('button#button-return-to-customizer').show();
+        $('button#button-return-to-customizer').html('Go back to the Customizer');
 
         $('nav.navbar').hide();
     }
