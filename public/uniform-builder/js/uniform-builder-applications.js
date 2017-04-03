@@ -1987,6 +1987,9 @@ $(document).ready(function() {
 
             });    
 
+            var _settingsObject = ub.funcs.getSettingsObject(app_id);
+            var material_option = _settingsObject.application.layer;
+
             if (typeof material_option === 'undefined') {
 
                 if (parseInt(app_id) > 70) {
@@ -10130,11 +10133,13 @@ $(document).ready(function() {
         if (typeof ub.data.applications_transformed[_submimatedSport.sublimatedPart] !== 'undefined') {
 
             ub.data.applications_transformed[_submimatedSport.sublimatedPart][_newIDStr] = _newApplication.application;
+            _newApplication.application.layer = _submimatedSport.sublimatedPart;
 
         } else {
 
             if (typeof ub.data.applications_transformed["Body Panel Color"] !== 'undefined') {
 
+                _newApplication.application.layer = "Body Panel Color";
                 ub.data.applications_transformed["Body Panel Color"][_newIDStr] = _newApplication.application;
 
             }
