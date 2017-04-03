@@ -367,7 +367,8 @@
         window.ub.page = "{{ isset($page) ? $page : 'builder' }}";
 
         ub.render = "{{ isset($render) ? $render : false }}";
-
+        ub.savedDesignName = "{{ isset($saved_design_name) ? $saved_design_name : '' }}";
+        
         // #load_order
         var s = "{{ $builder_customizations }}";
 

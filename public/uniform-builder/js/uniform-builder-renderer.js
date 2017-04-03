@@ -18,6 +18,11 @@ $(document).ready(function() {
         $('div#main_container').css('margin-top','0px');
         $('button#button-return-to-customizer').show();
         $('button#button-return-to-customizer').html('Go back to the Customizer');
+        
+        if (ub.savedDesignName !== "") {
+            $('div#saved_design_name').show();
+            $('div#saved_design_name').html(ub.savedDesignName);
+        }
 
         $('nav.navbar').hide();
     }
@@ -108,6 +113,10 @@ $(document).ready(function() {
         $('button#button-return-to-customizer').hide();
 
         $('nav.navbar').show();
+
+        if (ub.savedDesignName !== "") {
+            $('div#saved_design_name').hide();
+        }
 
         // Rearrange UI
 
