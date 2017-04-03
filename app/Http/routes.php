@@ -45,6 +45,7 @@ Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderControll
 Route::get('/showcase/{showcaseDesignId}', 'UniformBuilderController@showcaseDesign');
 // Saved design
 Route::get('/my-saved-design/{savedDesignID}', 'UniformBuilderController@mySavedDesign');
+Route::get('/my-saved-design/{savedDesignID}/render', 'UniformBuilderController@mySavedDesignRender');
 Route::get('/my-saved-designs', 'UniformBuilderController@mySavedDesigns');
 Route::get('/my-orders', 'UniformBuilderController@myOrders');
 Route::get('/my-profile', 'UniformBuilderController@myProfile');
