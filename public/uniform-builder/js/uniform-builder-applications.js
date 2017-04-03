@@ -1802,8 +1802,7 @@ $(document).ready(function() {
         $('body').mouseup(function() {
 
             if (ub.funcs.popupTest()) {return;}
-
-            /// If locations is turned on exit
+            if (ub.status.fullView.getStatus()) { return; }
             if (ub.showLocation) { return; }
             
             if (sprite.ubHover) {
@@ -1827,7 +1826,7 @@ $(document).ready(function() {
         sprite.mousedown = sprite.touchstart = function(data) {
 
             if (ub.funcs.popupTest()) {return;}
-
+            if (ub.status.fullView.getStatus()) { return; }
             if (ub.showLocation) { return; }
 
             if (typeof this.interactionData === 'undefined') { return; }
@@ -1844,6 +1843,7 @@ $(document).ready(function() {
         sprite.mousemove = sprite.mousemove = function(interactionData) {
 
             if (ub.funcs.popupTest()) { return; }
+            if (ub.status.fullView.getStatus()) { return; }
 
             var this_data = interactionData.data;
             window.sprite = sprite;
@@ -3432,6 +3432,8 @@ $(document).ready(function() {
         });
 
         ub.stage.on('mousedown', function (mousedata) {
+
+            if (ub.status.fullView.getStatus()) { return; }
 
             if (ub.zoom) {
  
@@ -9721,7 +9723,7 @@ $(document).ready(function() {
         $('body').mouseup( function () {
 
             if (viewPerspective !== ub.active_view) { return; }
-
+            if (ub.status.fullView.getStatus()) { return; }
             if (ub.funcs.popupTest()) { return; }
             
             if (sprite.ubHover) {
@@ -9755,6 +9757,7 @@ $(document).ready(function() {
 
         sprite.mousedown = sprite.touchstart = function(data) {
 
+            if (ub.status.fullView.getStatus()) { return; }
             if (viewPerspective !== ub.active_view) { return; }
             if (ub.status.fontPopupVisible) { return; }
             if (ub.funcs.popupTest()) {return;}
@@ -9773,6 +9776,8 @@ $(document).ready(function() {
 
             if (ub.funcs.popupTest()) {return;}
             if (viewPerspective !== ub.active_view) { return; }
+
+            if (ub.status.fullView.getStatus()) { return; }
 
             var this_data = interactionData.data;
             window.sprite = sprite;
