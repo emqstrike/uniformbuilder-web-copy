@@ -16,6 +16,7 @@ $(document).ready(function() {
         $('div#left-side-toolbar').hide();
         $('div#livechat-compact-container').hide();
         $('div#main_container').css('margin-top','0px');
+        $('button#button-return-to-customizer').fadeIn();
 
         $('nav.navbar').hide();
     }
@@ -69,7 +70,6 @@ $(document).ready(function() {
         ub.bg.alpha = 0.5;
 
         ub.funcs.prepareThumbnails();
-
         ub.status.fullView.setStatus(true);
 
     };
@@ -104,6 +104,7 @@ $(document).ready(function() {
         $('div#livechat-compact-container').show();
         $('div#left-side-toolbar').show();
         $('div#main_container').css('margin-top','70px');
+        $('button#button-return-to-customizer').hide();
 
         $('nav.navbar').show();
 
@@ -124,10 +125,13 @@ $(document).ready(function() {
         ub.bg.alpha = 1;
 
         $('a.change-view[data-view="front"]').click();
-
         ub.status.fullView.setStatus(false);
 
     };
+
+    $('button#button-return-to-customizer').on('click', function () {
+        ub.funcs.restoreUI();
+    });
 
 
 });
