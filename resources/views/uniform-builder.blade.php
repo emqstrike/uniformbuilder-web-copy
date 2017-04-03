@@ -365,7 +365,8 @@
         @endif
 
         window.ub.page = "{{ isset($page) ? $page : 'builder' }}";
-        ub.render = "{{ $render }}";
+
+        ub.render = "{{ isset($render) ? $render : false }}";
 
         // #load_order
         var s = "{{ $builder_customizations }}";
