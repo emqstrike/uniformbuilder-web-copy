@@ -1390,7 +1390,7 @@ class UniformBuilderController extends Controller
      * Displays the saved uniform design on the "Customizer"
      * @param Integer $id Saved Uniform design ID
      */
-    public function loadSavedDesign($id)
+    public function loadSavedDesign($id, $render = false)
     {
         $savedDesign = $this->savedDesignsClient->getSavedDesign($id);
         if (isset($savedDesign))
@@ -1413,6 +1413,8 @@ class UniformBuilderController extends Controller
                 'builder_customizations' => $savedDesign->id,
                 'type' => 'Saved Design',
             ];
+
+            if ($render) {  $config['render'] = true; }
 
             return $this->showBuilder($config);
         }
@@ -1452,6 +1454,23 @@ class UniformBuilderController extends Controller
         }
 
         return $this->loadSavedDesign($saved_design_id);
+
+    }
+
+     /**
+     * Owner of uniforms could use this method. If non-owners try to access this uniform design, they will be redirected to a different URL but same uniform design
+     */
+    public function mySavedDesignRender($saved_design_id)
+    {
+
+        $savedDesign = $this->savedDesignsClient->getSavedDesign($saved_design_id);
+
+        if (!$this->isUniformOwner($savedDesign))
+        {
+            return $this->showcaseDesign($saved_design_id);
+        }
+
+        return $this->loadSavedDesign($saved_design_id, true);
 
     }
 
