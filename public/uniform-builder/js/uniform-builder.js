@@ -394,7 +394,10 @@ $(document).ready(function () {
             if (parseInt(ub.render) === 1) { 
                 ub.funcs.removeUI();
                 $('button#button-return-to-customizer').html('Customize this uniform');
+            } else {
+                $('button#button-return-to-customizer').hide();
             }
+
 
         };
 
