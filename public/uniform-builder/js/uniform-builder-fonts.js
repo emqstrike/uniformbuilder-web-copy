@@ -160,6 +160,12 @@ $(document).ready(function() {
 
         }
 
+        if (typeof _offsetObject === "undefined" && ub.funcs.isCurrentSport('Football')) { 
+
+            ub.utilities.warn('Football Font (' + fontName + ') should have old settings...')
+
+        }
+
         if (typeof _offsetObject === "undefined") {
 
             var _fontSizeTable = ub.funcs.getFontOffsetsfromParsedFontTables(fontName, perspective, location.toString());
