@@ -59,7 +59,8 @@ $(document).ready(function() {
             var _x;
             
             _windowWidth = window.innerWidth;
-            _widthOfElement = ub['front_view'].width;
+            // _widthOfElement = ub['front_view'].width;
+            _widthOfElement = 500;
             _totalWidthOfElements = _widthOfElement * 4;
             _space = _windowWidth - _totalWidthOfElements;
             _p1 = _space / 2;
