@@ -5,25 +5,56 @@ $(document).ready(function() {
     ub.status = {};
     ub.status.manipulatorDown = false;
 
-    ub.status.fullView = {
 
-        active: false,
+    // Full View Zoom
 
-        getStatus: function () {
+        ub.status.fullView = {
 
-            return this.active;
+            active: false,
 
-        }, 
+            getStatus: function () {
 
-        setStatus: function (status) {
+                return this.active;
 
-            this.active = status;
-            return this.getStatus();
+            }, 
 
-        }
+            setStatus: function (status) {
 
-    };
+                this.active = status;
+                return this.getStatus();
 
+            }
+
+        };
+
+        ub.status.fullViewZoom = {
+
+            active: false,
+            view: undefined,
+
+            getView: function () {
+
+                return this.view;
+
+            }, 
+
+            getStatus: function () {
+
+                return this.active;
+
+            }, 
+
+            setStatus: function (status, view) {
+
+                this.active = status;
+                this.view = view;
+                return this.getStatus();
+
+            }
+
+        };
+
+    // End Full View Zoom 
 
     ub.status.gaFontTool = {
 

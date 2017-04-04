@@ -3436,7 +3436,41 @@ $(document).ready(function() {
 
         ub.stage.on('mousedown', function (mousedata) {
 
-            if (ub.status.fullView.getStatus()) { return; }
+            if (ub.status.fullView.getStatus()) { 
+
+                if (ub.status.fullViewZoom.getStatus()) {
+
+                    // Turn Off Full View Zoom
+                    ub.funcs.resetZoom();
+                    ub.status.fullViewZoom.setStatus(false, undefined);
+
+                } else {
+
+                    // Zoom View Depending on the area that was clicked
+
+                    ub.funcs.getZoomView(mousedata.data.global);
+                    ub.funcs.resetZoom();
+
+                    var _view = ub.funcs.getZoomView(mousedata.data.global)
+
+                    if (typeof _view !== "undefined") {
+
+                        ub.funcs.hideViews();
+                        ub.funcs.zoomView(_view);
+
+                    }
+
+                    ub.status.fullViewZoom.setStatus(true, _view);
+
+                    // fadeOut other Views
+                    // Move the View to a common center, so its visible
+                    // Have a notification that the user has to click to turn this off
+
+                }
+
+                return; 
+
+            }
 
             if (ub.zoom) {
  
@@ -3514,7 +3548,49 @@ $(document).ready(function() {
 
         if (!ub.status.render.getRenderStatus()) { return; }
         if (ub.funcs.popupTest()) { return; }
-        if (ub.status.fullView.getStatus()) { return; }
+        
+        if (ub.status.fullView.getStatus()) { 
+
+                if (!ub.status.fullViewZoom.getStatus()) {
+
+                    // Zoom View Depending on the area that was clicked
+
+                    ub.funcs.resetZoom();
+                    ub.funcs.getZoomView(mousedata.data.global);
+
+                    var _view = ub.funcs.getZoomView(mousedata.data.global)
+
+                    if (typeof _view !== "undefined") {
+
+                        ub.funcs.partialZoomOut();
+                        ub.funcs.partialZoomView(_view);
+
+                    }
+
+                } else {
+
+                    // Pan
+                    var _view = ub.status.fullViewZoom.getView();
+
+                    if (typeof _view !== "undefined") {
+
+                        if (mousedata.data.global.x < (_view.width/2)) {
+
+                            _view.position.set(_view.position.x, -mousedata.data.global.y + 300);
+                         
+                        } else {
+
+                            _view.position.set(_view.position.x, -mousedata.data.global.y + 300);
+                        
+                        }
+
+                    }
+
+                }
+
+                return; 
+
+            }
 
         if (ub.data.rosterInitialized) { 
 
