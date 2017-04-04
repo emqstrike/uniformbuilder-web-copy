@@ -6407,7 +6407,7 @@ $(document).ready(function () {
                   $('span.action-button.view').on('click', function () {
 
                         var _savedDesignID = $(this).data('saved-design-id');
-                        window.location.href =  '/my-saved-design/' + _savedDesignID;
+                        window.location.href =  '/my-saved-design/' + _savedDesignID + '/render';
                         
                   });
 
