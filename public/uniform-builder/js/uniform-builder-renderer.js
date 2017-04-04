@@ -168,10 +168,10 @@ $(document).ready(function() {
 
                 var _coorsX = coors.x;
 
-                if (ub.funcs.hitTest(ub.front_view.position.x, _coorsX)) { _result = ub.front_view; console.log('Front View'); }
-                if (ub.funcs.hitTest(ub.back_view.position.x, _coorsX))  { _result = ub.back_view;  console.log('Back View'); }
-                if (ub.funcs.hitTest(ub.left_view.position.x, _coorsX))  { _result = ub.left_view;  console.log('Left View'); }
-                if (ub.funcs.hitTest(ub.right_view.position.x, _coorsX)) { _result = ub.right_view; console.log('Right View'); }
+                if (ub.funcs.hitTest(ub.front_view.position.x, _coorsX)) { _result = ub.front_view; }
+                if (ub.funcs.hitTest(ub.back_view.position.x, _coorsX))  { _result = ub.back_view;  }
+                if (ub.funcs.hitTest(ub.left_view.position.x, _coorsX))  { _result = ub.left_view;  }
+                if (ub.funcs.hitTest(ub.right_view.position.x, _coorsX)) { _result = ub.right_view; }
 
             }
 

@@ -3447,7 +3447,6 @@ $(document).ready(function() {
                 } else {
 
                     // Zoom View Depending on the area that was clicked
-
                     ub.funcs.getZoomView(mousedata.data.global);
                     ub.funcs.resetZoom();
 
@@ -3461,10 +3460,6 @@ $(document).ready(function() {
                     }
 
                     ub.status.fullViewZoom.setStatus(true, _view);
-
-                    // fadeOut other Views
-                    // Move the View to a common center, so its visible
-                    // Have a notification that the user has to click to turn this off
 
                 }
 
