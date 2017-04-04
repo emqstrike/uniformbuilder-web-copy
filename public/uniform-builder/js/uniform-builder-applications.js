@@ -10470,7 +10470,6 @@ $(document).ready(function() {
 
     }
 
-
     ub.funcs.showLayerTool = function () {
 
         ub.funcs.activateBody();
@@ -10480,7 +10479,7 @@ $(document).ready(function() {
             $('div#layers-order').removeClass('on').addClass('off');
             $('a.change-view[data-view="layers"]').removeClass('active-change-view');
 
-           $('a.change-view[data-view="locations"]').click();
+            $('a.change-view[data-view="locations"]').click();
             
         } else {
 
@@ -10495,6 +10494,8 @@ $(document).ready(function() {
 
         ub.funcs.updateLayerTool();
         // End Populate Layer Tool
+
+        ub.funcs.gotoFirstApplication();
 
         $('div.layers-header > span.close').on('click', function () {
 
@@ -10548,6 +10549,7 @@ $(document).ready(function() {
         $('div#layers-order > span.layers-close').on('click', function (){
             ub.funcs.showLayerTool();   
         });
+
 
     }
 
@@ -10630,6 +10632,25 @@ $(document).ready(function() {
         ub.funcs.activateLayer(application_id);
 
     };
+
+    ub.funcs.gotoFirstApplication = function () {
+
+        if (ub.funcs.isCurrentSport('Baseball') && ub.current_material.material.type === "lower") {
+
+            $('span.layer[data-location-id="38"]').trigger('click');
+
+        } else if (ub.funcs.isCurrentSport('Baseball') && ub.current_material.material.type === "upper") {
+
+            $('span.layer[data-location-id="1"]').trigger('click');
+
+        } else {
+
+            var $span = $('span.layer').first();
+            if (typeof $span !== "undefined") { $span.trigger('click'); }
+
+        }
+
+    }
 
     ub.funcs.gotoFirstMaterialOption = function () {
 
