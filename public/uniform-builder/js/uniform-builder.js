@@ -5494,7 +5494,7 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (_item !== "Football" && _item !== "Wrestling") { return; }
+                if (_item !== "Football" && _item !== "Wrestling" && _item !== "Baseball") { return; }
                 if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
 
                 ub.funcs.initUniformsPicker(_item);
@@ -5608,7 +5608,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.initScroller = function (type, items, gender, fromTertiary) {
+    ub.funcs. initScroller = function (type, items, gender, fromTertiary) {
 
         ub.funcs.fadeOutElements();
 
@@ -5719,7 +5719,7 @@ $(document).ready(function () {
             });
 
             var data = {
-
+                sport: gender,
                 picker_type: type,
                 picker_items: ub.tempItems,
                 filters: _.find(ub.data.sportFilters, {sport: gender}).filters,
@@ -6027,6 +6027,17 @@ $(document).ready(function () {
 
         var $searchField = $('input#search_field');
         $searchField.fadeIn();
+
+        if (_.contains(ub.fontGuideIDs, ub.user.id)) {
+
+            var a = _.find(ub.data.sports, {gender: 'Men'});
+            var _bsb = _.find(a.sports, {code: 'baseball'});
+
+            _bsb.active = "1";
+            _bsb.tooltip = "";
+            _bsb.disabledClass = "";
+
+        }
 
         var items = _.find(ub.data.sports, {gender: sport});
         ub.funcs.initScroller('sports', items.sports);
