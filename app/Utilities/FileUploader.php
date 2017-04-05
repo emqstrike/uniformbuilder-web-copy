@@ -184,7 +184,7 @@ class FileUploader
 
         try
         {
-            $image = Image::make($uploadedFilePath)->resize(280, 420);
+            $image = Image::make($uploadedFilePath)->resize(388, 420);
         }
         catch (Exception $e)
         {
