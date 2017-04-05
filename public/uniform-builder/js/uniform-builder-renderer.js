@@ -213,6 +213,8 @@ $(document).ready(function() {
 
         ub.funcs.partialZoomOut = function () {
 
+            $('body').css('cursor', 'pointer');
+
             var _level = 0.1;
 
             ub.funcs.resetZoom();
@@ -224,7 +226,12 @@ $(document).ready(function() {
             
         }
 
-        ub.funcs.partialZoomView = function (viewObj) { viewObj.alpha = 1; }
+        ub.funcs.partialZoomView = function (viewObj) { 
+
+            $('body').css('cursor', 'zoom-in');
+            viewObj.alpha = 1; 
+
+        }
 
 
     // Setup Events
