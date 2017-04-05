@@ -6,6 +6,8 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
+            if (parseInt(ub.render) === 1) { ub.funcs.removePanels(); }
+
             ub.funcs.beforeLoad(); 
             ub.config.print_version();
 
@@ -14,11 +16,7 @@ $(document).ready(function () {
             ub.current_material.id = window.ub.config.material_id;
             ub.current_material.code = window.ub.config.code;
 
-            if (ub.current_material.id !== -1) {
- 
-                ub.funcs.initCanvas();
-
-            }
+            if (ub.current_material.id !== -1) { ub.funcs.initCanvas(); }
 
             ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
             ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
@@ -57,11 +55,7 @@ $(document).ready(function () {
 
             ub.zoom_off();
 
-            if (window.ub.config.material_id !== -1) {
-
-                ub.funcs.loadHomePickers();  
-
-            }
+            if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
 
         };
 
@@ -339,6 +333,7 @@ $(document).ready(function () {
 
             ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
+            $('span.fullscreen-btn').fadeIn();
 
            // $('div.activate_qa_tools').fadeIn();
 
@@ -396,6 +391,19 @@ $(document).ready(function () {
 
             ub.funcs.setupEventHandlers();
             ub.funcs.pushState({data: 'customize-uniform', title: 'Customize Uniform', url: '?customize-uniform'});
+
+            if (parseInt(ub.render) === 1) { 
+                ub.funcs.removeUI();
+                $('button#button-return-to-customizer').html('Customize this uniform');
+
+                if (ub.savedDesignName !== "") {
+                    $('div#saved_design_name').html(ub.savedDesignName);
+                }
+            } else {
+                $('button#button-return-to-customizer').hide();
+                $('div#saved_design_name').hide();
+            }
+
 
         };
 
@@ -4889,6 +4897,11 @@ $(document).ready(function () {
 
                     ub.funcs.deActivateLocations();
 
+                    if (e.altKey) {
+                        ub.funcs.removeUI();
+                        return;
+                    }
+
                     if (!ub.zoom) {
 
                         ub.zoom_on(true);
@@ -6395,7 +6408,7 @@ $(document).ready(function () {
                   $('span.action-button.view').on('click', function () {
 
                         var _savedDesignID = $(this).data('saved-design-id');
-                        window.location.href =  '/my-saved-design/' + _savedDesignID;
+                        window.location.href =  '/my-saved-design/' + _savedDesignID + '/render';
                         
                   });
 

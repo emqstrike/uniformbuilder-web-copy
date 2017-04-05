@@ -3135,7 +3135,7 @@ div.header-container.main {
         display: none;
     }
 
-    div#uniform_name {
+    div#uniform_name, div#saved_design_name {
 
         position: absolute;
         color: white;
@@ -3151,7 +3151,16 @@ div.header-container.main {
 
     }
 
-    div#uniform-price-youth, div#uniform-price-adult, div#uniform-price-call-for-team-pricing {
+    div#saved_design_name {
+
+        width: 100%;
+        text-align: center;
+        font-size: 2.5em;
+        margin-top: 50px;
+
+    }
+
+    div#uniform-price-youth, div#uniform-price-adult, div#uniform-price-call-for-team-pricing, div#return-to-customizer {
 
         position: absolute;
         color: white;
@@ -3203,6 +3212,26 @@ div.header-container.main {
         color: lightgray;
         
         text-transform: lowercase;
+
+    }
+
+    div#return-to-customizer {
+
+        margin-top: 8.4em;
+        color: lightgray; 
+        
+        text-transform: lowercase;
+
+        button#button-return-to-customizer {
+
+            color: white;
+            background-color: #3d3d3d;
+            border: none;
+            padding: 7px;
+            padding-left: 10px;
+            padding-right: 10px;
+            
+        }
 
     }
 
@@ -4554,7 +4583,6 @@ div.header-container.main {
 
                 }
 
-
             }
 
         }
@@ -5249,6 +5277,7 @@ div.header-container.main {
                         width: 125px;
                         height: 125px;
                         background-color: white;
+                        padding: 7px;
                         
                     }
 
@@ -8268,11 +8297,7 @@ strong.hello {
         bottom: 115px;
 
 
-        span.undo-btn {
-
-            display: none;
-
-        }
+        span.undo-btn, span.fullscreen-btn { display: none; }
 
         span.toolbar-item {
 

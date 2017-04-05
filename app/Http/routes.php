@@ -35,12 +35,17 @@ Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
 
+Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderController@loadDesignSetRender');
+
+
+
 // Orders and Profile
 
 // Showcase design
 Route::get('/showcase/{showcaseDesignId}', 'UniformBuilderController@showcaseDesign');
 // Saved design
 Route::get('/my-saved-design/{savedDesignID}', 'UniformBuilderController@mySavedDesign');
+Route::get('/my-saved-design/{savedDesignID}/render', 'UniformBuilderController@mySavedDesignRender');
 Route::get('/my-saved-designs', 'UniformBuilderController@mySavedDesigns');
 Route::get('/my-orders', 'UniformBuilderController@myOrders');
 Route::get('/my-profile', 'UniformBuilderController@myProfile');
