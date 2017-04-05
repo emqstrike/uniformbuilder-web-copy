@@ -231,4 +231,8 @@ $(document).ready(function() {
             ub.funcs.restoreUI();
         });
 
+        $('span.fullscreen-btn').on('click', function (e) {
+            ub.funcs.removeUI();
+        });
+
 });
