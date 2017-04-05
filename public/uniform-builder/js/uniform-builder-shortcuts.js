@@ -246,7 +246,7 @@ $(document).ready(function () {
 		// Main UI 
 
 		ub.shortcut.add("Esc", function () {			
-			if (ub.status.fullView.getStatus()) { ub.toggleFullView(); }
+			if (ub.status.fullView.getStatus()) { ub.funcs.restoreUI(); }
 		});
 
 	/// End Shortcut definitions 

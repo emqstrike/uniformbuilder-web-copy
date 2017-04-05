@@ -98,6 +98,7 @@ $(document).ready(function() {
 
         $('a.change-view[data-view="front"]').click();
         ub.status.fullView.setStatus(false);
+        ub.status.fullViewZoom.setStatus(false, undefined);
 
     };
 
