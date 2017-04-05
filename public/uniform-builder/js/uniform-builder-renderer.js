@@ -99,6 +99,7 @@ $(document).ready(function() {
         $('a.change-view[data-view="front"]').click();
         ub.status.fullView.setStatus(false);
         ub.status.fullViewZoom.setStatus(false, undefined);
+        ub.funcs.restorePointer();
 
     };
 
@@ -188,6 +189,8 @@ $(document).ready(function() {
             ub.left_view.alpha = 1;
             ub.right_view.alpha = 1;
 
+            ub.funcs.restorePointer();
+
         }
 
         ub.funcs.hideViews = function () {
@@ -209,11 +212,11 @@ $(document).ready(function() {
             viewObj.scale.set(1, 1);
             viewObj.position.x = _diff / 2;
 
+            ub.funcs.setZoomOutPointer();
+
         }
 
         ub.funcs.partialZoomOut = function () {
-
-            $('body').css('cursor', 'pointer');
 
             var _level = 0.1;
 
@@ -228,13 +231,20 @@ $(document).ready(function() {
 
         ub.funcs.partialZoomView = function (viewObj) { 
 
-            $('body').css('cursor', 'zoom-in');
+            ub.funcs.setZoomInPointer();
             viewObj.alpha = 1; 
 
         }
 
+        
+        // Utility Functions 
 
-    // Setup Events
+        ub.funcs.restorePointer    = function () { $('body').css('cursor', 'auto');     }
+        ub.funcs.setZoomInPointer  = function () { $('body').css('cursor', 'zoom-in');  }
+        ub.funcs.setZoomOutPointer = function () { $('body').css('cursor', 'zoom-out'); }
+
+        
+        // Setup Events
 
         $('button#button-return-to-customizer').on('click', function () {
             ub.funcs.restoreUI();
