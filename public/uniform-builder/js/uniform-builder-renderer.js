@@ -17,7 +17,7 @@ $(document).ready(function() {
         $('div#livechat-compact-container').hide();
         $('div#main_container').css('margin-top','0px');
         $('button#button-return-to-customizer').show();
-        $('button#button-return-to-customizer').html('Go back to the Customizer');
+        $('button#button-return-to-customizer').html('<i class="fa fa-arrow-left" aria-hidden="true"></i> Go back to Customizer [ESC]');
         
         if (ub.savedDesignName !== "") {
             $('div#saved_design_name').show();
@@ -34,7 +34,7 @@ $(document).ready(function() {
         ub.funcs.removePanels();
         ub.funcs.resetZoom();
 
-        ub.bg.alpha = 0.5;
+        ub.bg.alpha = 0.7;
 
         ub.funcs.prepareThumbnails();
         ub.status.fullView.setStatus(true);
@@ -98,6 +98,8 @@ $(document).ready(function() {
 
         $('a.change-view[data-view="front"]').click();
         ub.status.fullView.setStatus(false);
+        ub.status.fullViewZoom.setStatus(false, undefined);
+        ub.funcs.restorePointer();
 
     };
 
@@ -108,10 +110,12 @@ $(document).ready(function() {
 
             // Rearrange UI
 
-                ub['left_view'].position.set(30, 150);
-                ub['front_view'].position.set(380, 150);
-                ub['back_view'].position.set(850, 150);
-                ub['right_view'].position.set(1200, 150);
+                var _y = 190;
+
+                ub['left_view'].position.set(30, _y);
+                ub['front_view'].position.set(380, _y);
+                ub['back_view'].position.set(850, _y);
+                ub['right_view'].position.set(1200, _y);
 
                 ub['front_view'].scale.set(0.5,0.5);
                 ub['back_view'].scale.set(0.5,0.5);
@@ -128,7 +132,6 @@ $(document).ready(function() {
                 var _space;
                 var _p1;
                 var _p2;
-                var _y = 150;
                 var _x;
                 
                 _windowWidth = window.innerWidth;
@@ -186,6 +189,8 @@ $(document).ready(function() {
             ub.left_view.alpha = 1;
             ub.right_view.alpha = 1;
 
+            ub.funcs.restorePointer();
+
         }
 
         ub.funcs.hideViews = function () {
@@ -207,6 +212,8 @@ $(document).ready(function() {
             viewObj.scale.set(1, 1);
             viewObj.position.x = _diff / 2;
 
+            ub.funcs.setZoomOutPointer();
+
         }
 
         ub.funcs.partialZoomOut = function () {
@@ -222,10 +229,22 @@ $(document).ready(function() {
             
         }
 
-        ub.funcs.partialZoomView = function (viewObj) { viewObj.alpha = 1; }
+        ub.funcs.partialZoomView = function (viewObj) { 
 
+            ub.funcs.setZoomInPointer();
+            viewObj.alpha = 1; 
 
-    // Setup Events
+        }
+
+        
+        // Utility Functions 
+
+        ub.funcs.restorePointer    = function () { $('body').css('cursor', 'auto');     }
+        ub.funcs.setZoomInPointer  = function () { $('body').css('cursor', 'zoom-in');  }
+        ub.funcs.setZoomOutPointer = function () { $('body').css('cursor', 'zoom-out'); }
+
+        
+        // Setup Events
 
         $('button#button-return-to-customizer').on('click', function () {
             ub.funcs.restoreUI();
