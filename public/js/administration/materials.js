@@ -124,7 +124,7 @@ $(document).ready(function() {
             $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
         });
     }
-
+ 
     function refreshColors(){
         $(".layer-default-color").change(function() {
             var x = 1;
@@ -439,9 +439,9 @@ $(document).ready(function() {
                 cornerShape: 'rect',
                 cornerBackgroundColor: 'blue'
             },
-            tl: {
-                icon: 'http://52.39.10.209/rotate.svg'
-            }
+            // tl: {
+            //     icon: 'http://52.39.10.209/rotate.svg'
+            // }
         });
         group.setControlsVisibility({
             mt: false,
@@ -1058,7 +1058,7 @@ $(document).ready(function() {
         $('#app-saved-perspective').val(material.option.perspective);
         $('#app-material-option-name').val(material.option.name);
         $("#shape-guide").css("background-image", "url("+material.option.guide+")");
-        $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
+        // $("#shape-crosshair").css("background-image", "url(http://52.39.10.209/cross_hair.png)");
         $("#shape-view").css("background-image", "url("+material.option.highlights+")");
         $("#shape-view-top").css("background-image", "url("+material.option.path+")");
 
@@ -1350,9 +1350,9 @@ $(document).ready(function() {
                     cornerBackgroundColor: 'blue'
                     // cornerPadding: 5
                 },
-                tl: {
-                    icon: 'http://52.39.10.209/rotate.svg'
-                }
+                // tl: {
+                //     icon: 'http://52.39.10.209/rotate.svg'
+                // }
             });
             group.setControlsVisibility({
                 mt: false,
@@ -2368,7 +2368,6 @@ $(document).ready(function() {
         return c;
     } // addCircle()
 
-
     function addPoint(name, x, y, style) {
         var p = addCircle(name, x, y, style);
         p.point = new fabric.Point(x, y);
@@ -2386,7 +2385,7 @@ $(document).ready(function() {
         });
         // canvas.add(p.text);
         canvas.add(p);
-     
+
         return p;
     } // addPoint()
 
