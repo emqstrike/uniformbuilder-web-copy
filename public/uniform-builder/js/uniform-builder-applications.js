@@ -3566,6 +3566,7 @@ $(document).ready(function() {
 
                     // Pan
                     var _view = ub.status.fullViewZoom.getView();
+                    $('body').css('cursor', 'zoom-out');
 
                     if (typeof _view !== "undefined") {
 
