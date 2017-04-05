@@ -124,7 +124,7 @@ $(document).ready(function() {
             $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
         });
     }
-
+ 
     function refreshColors(){
         $(".layer-default-color").change(function() {
             var x = 1;
@@ -2368,7 +2368,6 @@ $(document).ready(function() {
         return c;
     } // addCircle()
 
-
     function addPoint(name, x, y, style) {
         var p = addCircle(name, x, y, style);
         p.point = new fabric.Point(x, y);
@@ -2386,7 +2385,7 @@ $(document).ready(function() {
         });
         // canvas.add(p.text);
         canvas.add(p);
-     
+
         return p;
     } // addPoint()
 
