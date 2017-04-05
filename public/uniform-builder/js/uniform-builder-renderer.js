@@ -17,7 +17,7 @@ $(document).ready(function() {
         $('div#livechat-compact-container').hide();
         $('div#main_container').css('margin-top','0px');
         $('button#button-return-to-customizer').show();
-        $('button#button-return-to-customizer').html('Go back to the Customizer');
+        $('button#button-return-to-customizer').html('<i class="fa fa-arrow-left" aria-hidden="true"></i> Go back to Customizer [ESC]');
         
         if (ub.savedDesignName !== "") {
             $('div#saved_design_name').show();
@@ -34,7 +34,7 @@ $(document).ready(function() {
         ub.funcs.removePanels();
         ub.funcs.resetZoom();
 
-        ub.bg.alpha = 0.5;
+        ub.bg.alpha = 0.7;
 
         ub.funcs.prepareThumbnails();
         ub.status.fullView.setStatus(true);
@@ -109,10 +109,12 @@ $(document).ready(function() {
 
             // Rearrange UI
 
-                ub['left_view'].position.set(30, 150);
-                ub['front_view'].position.set(380, 150);
-                ub['back_view'].position.set(850, 150);
-                ub['right_view'].position.set(1200, 150);
+                var _y = 190;
+
+                ub['left_view'].position.set(30, _y);
+                ub['front_view'].position.set(380, _y);
+                ub['back_view'].position.set(850, _y);
+                ub['right_view'].position.set(1200, _y);
 
                 ub['front_view'].scale.set(0.5,0.5);
                 ub['back_view'].scale.set(0.5,0.5);
@@ -129,7 +131,6 @@ $(document).ready(function() {
                 var _space;
                 var _p1;
                 var _p2;
-                var _y = 150;
                 var _x;
                 
                 _windowWidth = window.innerWidth;
