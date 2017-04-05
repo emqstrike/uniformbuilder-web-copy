@@ -333,6 +333,7 @@ $(document).ready(function () {
 
             ub.funcs.activatePartByIndex(0);
             $('div.left-pane-column-full').fadeIn();
+            $('span.fullscreen-btn').fadeIn();
 
            // $('div.activate_qa_tools').fadeIn();
 
