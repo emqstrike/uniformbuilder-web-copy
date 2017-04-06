@@ -441,7 +441,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-item="@{{name}}">
+            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-item="@{{name}}" data-id="@{{id}}">
 
                 <img src="@{{thumbnail_path}}?v={{$asset_version}}">
 
