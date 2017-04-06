@@ -953,6 +953,8 @@ $(document).ready(function () {
                 type: type,
                 name: data,
                 thumbnail: _object.thumbnail,
+                uniform_category: _object.object.uniform_category,
+
                 id: _object.id,
             });
 
@@ -988,12 +990,9 @@ $(document).ready(function () {
                     }
                     );
 
-                    // console.log('TT Hint');
-                    
                     // $('input.typeahead.tt-hint').on('change', function () {
                     //     console.log($(this).val());
                     // });
-
                     // $('body').on("mouseover", ".tt-suggestion", function () {
                     //     console.log($(this).data('value'));
 
@@ -5982,11 +5981,17 @@ $(document).ready(function () {
             ub.funcs.hideSecondaryBar();
 
             var template = $('#m-picker-items-search-results').html();
-            var uniques = _.map(_.groupBy(items,function(doc){
+            var uniques = _.map(_.groupBy(items, function(doc) {
               return doc.id;
             }),function(grouped){
               return grouped[0];
             });
+
+            if (!_.contains(ub.fontGuideIDs, ub.user.id)) {
+                uniques = _.reject(uniques, function (item) { 
+                    return item.uniform_category === "Baseball"; 
+                });
+            }
 
             var data = {
                 picker_type: type,
@@ -6068,6 +6073,15 @@ $(document).ready(function () {
             _bsb.active = "1";
             _bsb.tooltip = "";
             _bsb.disabledClass = "";
+
+        } else {
+
+            var a = _.find(ub.data.sports, {gender: 'Men'});
+            var _bsb = _.find(a.sports, {code: 'baseball'});
+
+            _bsb.active = "0";
+            _bsb.tooltip = "Coming Soon!";
+            _bsb.disabledClass = "disabled";
 
         }
 
@@ -7632,7 +7646,7 @@ $(document).ready(function () {
 
                     window.ub.user = {
 
-                        id: response.userId,
+                        id: parseInt(response.userId),
                         fullname: response.fullname,
                         firstName: response.firstName,
                         lastName: response.lastName,
@@ -7657,6 +7671,15 @@ $(document).ready(function () {
 
                         $('div#primaryQuickRegistrationPopup').remove();
                         ub.funcs.initRoster();
+
+                    } else {
+
+                        // Return to pickers, if not editing any material
+                        if(typeof ub.current_material.material === "undefined") {
+
+                            ub.funcs.initSportsPicker('Men');
+
+                        }
 
                     }
 
