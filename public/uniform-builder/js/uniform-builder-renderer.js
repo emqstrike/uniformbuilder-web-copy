@@ -29,14 +29,15 @@ $(document).ready(function() {
 
     ub.funcs.removeUI = function () {
 
-        ub.utilities.warn('Removing UI...');
-
         ub.funcs.removePanels();
         ub.funcs.resetZoom();
 
         ub.bg.alpha = 0.7;
-
-        ub.funcs.prepareThumbnails();
+        
+        if (ub.render) {
+            ub.funcs.prepareThumbnails();    
+        }
+        
         ub.status.fullView.setStatus(true);
 
     };
@@ -64,8 +65,6 @@ $(document).ready(function() {
     }
 
     ub.funcs.restoreUI = function () {
-
-        ub.utilities.warn('Restoring UI...');
 
         $('div#right-pane-column').show();
         $('div#livechat-compact-container').show();
