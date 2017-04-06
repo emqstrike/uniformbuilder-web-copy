@@ -966,7 +966,7 @@ $(document).ready(function () {
                 if (typeof ub.data.searchSource['materials'] === 'object' && typeof ub.data.searchSource['orders'] === 'object') {
 
                     $('.typeahead').typeahead({
-                        minLength: 2,
+                        minLength: 0,
                         highlight: true
                     },
                     {
@@ -975,6 +975,13 @@ $(document).ready(function () {
                         templates: {
                             header: '<h3 class="header-name">Styles</h3>',
                             suggestion:  function (data) {
+
+                                if ($('input#search_field').val().length === 0) {
+
+                                    $('.typeahead').typeahead('close');
+                                    ub.funcs.initGenderPicker();
+
+                                }
 
                                 ub.addToSearchResults('materials', data);
                                 return '<div class="typeahead_results_template" onclick="ub.overrideTypeAheadEvent(this);" data-value="' + data + '" data-id="materials">' + data + '</div>';                            
@@ -5609,7 +5616,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs. initScroller = function (type, items, gender, fromTertiary) {
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary) {
 
         ub.funcs.fadeOutElements();
 
@@ -5957,9 +5964,22 @@ $(document).ready(function () {
 
             var template = $('#m-picker-items-search-results').html();
 
+            if ($('input#search_field').val().length === 0) {
+
+                ub.funcs.initGenderPicker();
+                return;
+
+            }
+
+            var uniques = _.map(_.groupBy(items,function(doc){
+              return doc.id;
+            }),function(grouped){
+              return grouped[0];
+            });
+
             var data = {
                 picker_type: type,
-                picker_items: items,
+                picker_items: uniques,
             }
             
             var markup = Mustache.render(template, data);
@@ -6079,9 +6099,7 @@ $(document).ready(function () {
 
         var _input = $(this).val();
 
-        if (_input === '') {
-            ub.funcs.initGenderPicker();
-        }
+        ub.funcs.initGenderPicker();
 
     });
 
