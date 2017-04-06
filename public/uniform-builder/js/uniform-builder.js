@@ -5497,6 +5497,8 @@ $(document).ready(function () {
                 if (_item !== "Football" && _item !== "Wrestling" && _item !== "Baseball") { return; }
                 if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
 
+                if (_item === "Baseball" && !_.contains(ub.fontGuideIDs, ub.user.id)) { return; }
+
                 ub.funcs.initUniformsPicker(_item);
 
             }
@@ -5508,7 +5510,6 @@ $(document).ready(function () {
 
                 $('#main-picker-container').hide();
                 $('.header-container').removeClass('forceHide');
-
 
                 var _uniform = _.find(ub.materials, {name: _item});
                 window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;
