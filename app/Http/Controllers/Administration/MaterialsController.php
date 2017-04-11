@@ -159,6 +159,38 @@ class MaterialsController extends Controller
 
     }
 
+    public function dropZone($id)
+    {
+        Log::info('Materials Options QS');
+        $material = $this->client->getMaterialQS($id);
+        $options = $this->optionsClient->getByMaterialId($id);
+        return view('administration.materials.add-materials-options-dropzone', [
+            'material' => $material,
+            'options' => $options,
+        ]);
+
+    }
+
+    public function insertDropzoneImage(Request $request){
+        $file = $request->file('file');
+        if (isset($file))
+        {
+            if ($file->isValid())
+            {
+                $randName = Random::randomize(12);
+                $loc = FileUploader::upload(
+                    $file,
+                    $randName,
+                    'material_option',
+                    "materials",
+                    "{$file}.png"
+                );
+
+                return $loc;
+            }
+        }
+    }
+
     public function delete($id)
     {
         return $this->client->deleteMaterial($id);

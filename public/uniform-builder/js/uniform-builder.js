@@ -188,7 +188,7 @@ $(document).ready(function () {
             if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
 
             $.ajax({
-            
+
                 url: ub.config.api_host + '/api/messages/recipient/unread/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
