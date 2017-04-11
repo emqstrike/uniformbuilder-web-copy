@@ -8962,11 +8962,11 @@ button.loginRest {
 
     div#add-new-free-form-application {
 
-        div.perspective-container, div.part-container, div.application-container  {
+        div.perspective-container, div.part-container, div.application-container, div.side-container  {
 
             text-align: center;
 
-            span.perspective, span.part, span.optionButton {
+            span.perspective, span.part, span.optionButton, span.side {
 
                 display: inline-block;
                 width: 70px;
@@ -8978,14 +8978,14 @@ button.loginRest {
 
             }
 
-            span.perspective:hover, span.part:hover, span.optionButton:hover {
+            span.perspective:hover, span.part:hover, span.optionButton:hover, span.side:hover {
 
                 color: white;
                 background-color: #acacac;
 
             }
 
-            span.perspective.active, span.part.active, span.optionButton.active {
+            span.perspective.active, span.part.active, span.optionButton.active, span.side.active {
 
                 font-family: "Avenir Next LT W04 Bold";
                 color: white;
@@ -9008,6 +9008,14 @@ button.loginRest {
                 
             }
 
+            span.side {
+
+                width: 170px;
+                height: 30px;
+                padding-top: 4px;
+                
+            }
+
             span.optionButton {
 
                 width: 120px;
@@ -9020,6 +9028,12 @@ button.loginRest {
                 }
 
             }
+
+        }
+
+        label.leftrightPart, div.side-container {
+
+            display:none;
 
         }
 

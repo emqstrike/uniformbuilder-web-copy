@@ -10164,7 +10164,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.newApplication = function (perspective, part, type) {
+    ub.funcs.newApplication = function (perspective, part, type, side) {
 
         var _pha            = _.find(ub.data.placeHolderApplications, {perspective: perspective});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
@@ -10172,19 +10172,17 @@ $(document).ready(function() {
         var _sport          = ub.current_material.material.uniform_category;
 
 
-
         if (ub.funcs.isCurrentSport('Compression (Apparel)') || ub.funcs.isCurrentSport('Tech-Tee (Apparel)')) {
 
-            if (_part === "Body" || _part === "Back Body") {
-
-                _part = 'Extra';
-
-                console.log('Using Extra...');
-
-            }
+            if (_part === "Body" || _part === "Back Body") { _part = 'Extra'; }
 
         }
 
+        if (typeof side !== "undefined") {
+
+            _part = side.toTitleCase() + " " + _part;
+
+        }
 
         // Set Mascots Only for now on Socks
         if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
@@ -10192,7 +10190,7 @@ $(document).ready(function() {
             // _part = "Sublimated";
             _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
 
-            var _perspectiveView = _.find(_phaSettings.application.views, {perspective: ub.active_view});
+            var _perspectiveView = _.find(_phaSettings.application.views, {perspective: perspective});
             
             if (typeof _perspectiveView !== "undefined" && parseInt(_perspectiveView.application.isPrimary) === 1) {
 
@@ -10339,10 +10337,60 @@ $(document).ready(function() {
 
                 $('div.part-container > span.part').removeClass('active');
                 $(this).addClass('active');
-                
-                ub.funcs.setActiveView(_part);
+
+                var _left = _.find(ub.current_material.materials_options, {name: "Left " + _part});
+
+                if (typeof _left !== "undefined") {
+
+                    // This has a left / right part
+
+                    $('span.partName').html(_part);
+
+                    $('span.side[data-id="na"]').hide();
+                    $('label.leftrightPart, div.side-container').fadeIn();
+
+                    $('span.side').removeClass('active');
+                    $('span.side[data-id="left"]').addClass('active');
+
+                    $('span.side[data-id="left"]').html('Left ' + _part);
+                    $('span.side[data-id="right"]').html('Right ' + _part);
+
+                    var _side = $('span.perspective.active').data('id');
+
+                    $('span.side').removeClass('active');
+                    $('span.side[data-id="' + _side + '"]').addClass('active');
+
+                } else {
+
+                    $('label.leftrightPart, div.side-container').hide();                    
+                    $('span.side').removeClass('active');
+                    $('span.side[data-id="na"]').addClass('active');
+                    $('span.side[data-id="na"]').show();
+
+                }
 
             });
+
+
+            // Sides
+
+            $('div.side-container > span.side').unbind('click');
+            $('div.side-container > span.side').on('click', function () {
+
+                var _side = $(this).data('id');
+
+                $('div.side-container > span.side').removeClass('active');
+                $(this).addClass('active');
+
+                if (_side === "left" || _side === "right") {
+
+                    $('span.perspective[data-id="' + _side + '"]').trigger('click');
+
+                }
+
+            });
+
+            
 
             // Application Type
 
@@ -10378,17 +10426,9 @@ $(document).ready(function() {
                 var _perspective = $('span.perspective.active').data('id');
                 var _part = $('span.part.active').data('id');
                 var _type = $('span.optionButton.active').data('type');
+                var _side = $('span.side.active').data('id');
 
-                console.log('Perspective: ');
-                console.log('_perspective');
-
-                console.log('Part: ');
-                console.log(_part);
-
-                console.log('Type: ');
-                console.log(_type);
-
-                ub.funcs.newApplication(_perspective, _part, _type);
+                ub.funcs.newApplication(_perspective, _part, _type, _side);
                 dialog.modal('hide');
 
             });
