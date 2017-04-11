@@ -342,9 +342,9 @@ class MaterialsController extends Controller
             $isTwill = 0;
         }
 
-        if (empty($isTwill))
+        if (empty($isInfused))
         {
-            $isTwill = 0;
+            $isInfused = 0;
         }
 
         $block_pattern_id = $request->input('block_pattern_id');
