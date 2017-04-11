@@ -10636,13 +10636,23 @@ $(document).ready(function() {
 
     ub.funcs.gotoFirstApplication = function () {
 
+        var obj1 = a = ub.funcs.getApplicationSettings(1);
+        var $layersContainer = $('div.layers-container');
+
         if (ub.funcs.isCurrentSport('Baseball') && ub.current_material.material.type === "lower") {
 
             $('span.layer[data-location-id="38"]').trigger('click');
+            $layersContainer.scrollTo($('span.layer[data-location-id="38"]'));
 
         } else if (ub.funcs.isCurrentSport('Baseball') && ub.current_material.material.type === "upper") {
 
             $('span.layer[data-location-id="1"]').trigger('click');
+            $layersContainer.scrollTo($('span.layer[data-location-id="1"]'));
+
+        } else if (typeof obj1 === "object") {
+
+            $('span.layer[data-location-id="1"]').trigger('click');
+            $layersContainer.scrollTo($('span.layer[data-location-id="1"]'));
 
         } else {
 
