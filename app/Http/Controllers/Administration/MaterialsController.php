@@ -332,6 +332,21 @@ class MaterialsController extends Controller
         $status = $request->input('status');
         $slug = FileUploader::makeSlug($materialName);
 
+        if (empty($isSublimated))
+        {
+            $isSublimated = 0;
+        }
+
+        if (empty($isTwill))
+        {
+            $isTwill = 0;
+        }
+
+        if (empty($isInfused))
+        {
+            $isInfused = 0;
+        }
+
         $block_pattern_id = $request->input('block_pattern_id');
 
         if (!empty($request->input('neck_option')))

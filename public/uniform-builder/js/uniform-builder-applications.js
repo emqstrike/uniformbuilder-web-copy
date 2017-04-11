@@ -7786,8 +7786,11 @@ $(document).ready(function() {
             if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                              { _size = 1.75; }
             if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                { _size = 2;    }
             if (ub.funcs.isCurrentSport("Crew Socks (Apparel)"))                                 { _size = 2.5;  }
+            
             if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )               { _size = 3;    }
             if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )               { _size = 2;    }
+            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )               { _size = 3;    }
+            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )               { _size = 2;    }
 
             ub.funcs.setAppSize(_id, _size);
 
@@ -10811,7 +10814,7 @@ $(document).ready(function() {
         var obj1 = a = ub.funcs.getApplicationSettings(1);
         var $layersContainer = $('div.layers-container');
 
-        if (ub.funcs.isCurrentSport('Baseball') && ub.current_material.material.type === "lower") {
+        if ((ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) && ub.current_material.material.type === "lower") {
 
             $('span.layer[data-location-id="38"]').trigger('click');
             $layersContainer.scrollTo($('span.layer[data-location-id="38"]'));
