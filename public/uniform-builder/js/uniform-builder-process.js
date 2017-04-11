@@ -1,6 +1,5 @@
 $(document).ready(function() {                    
 
-    
     ub.funcs.fadeOutCustomizer = function () {
 
         $('div#right-pane-column').fadeOut();        
@@ -1898,6 +1897,119 @@ $(document).ready(function() {
 
         };
 
-    ///// End Save DEsign /////
+    ///// End Save Design /////
+
+    /// LREST
+
+    ub.funcs.lRest = function (e, p, fromMiddleScreen) {
+
+        if (e.trim().length === 0 || p.trim().length === 0) { return; }
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+
+            data: JSON.stringify({ email: e, password: p }),
+            url: ub.config.host + "/lrest",
+            dataType: "json",
+            type: "POST", 
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response) {
+
+                if(response.success) {
+
+                    window.ub.user = {
+
+                        id: parseInt(response.userId),
+                        fullname: response.fullname,
+                        firstName: response.firstName,
+                        lastName: response.lastName,
+                        email: response.email,
+                        headerValue: response.accessToken,
+
+                    };
+
+                    var template = $('#m-loggedInNavbar').html();
+                    var data = { firstName: response.firstName, }
+                    var markup = Mustache.render(template, data);
+
+                    $('div.user-profile.pull-right').html(markup);
+                    $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
+
+                    ub.funcs.updateMessageCount();
+
+                    $('a.change-view[data-view="save"]').removeClass('disabled');
+                    $('a.change-view[data-view="open-design"]').removeClass('disabled');
+
+                    if (typeof fromMiddleScreen !== 'undefined') {
+
+                        $('div#primaryQuickRegistrationPopup').remove();
+                        ub.funcs.initRoster();
+
+                    } else {
+
+                        // Return to pickers, if not editing any material
+                        if(typeof ub.current_material.material === "undefined") {
+
+                            window.location.href = "/";
+
+                        }
+
+                    }
+
+                } else {
+
+                    if (typeof fromMiddleScreen !== 'undefined') {
+                        
+                        var _forgotPasswordLink = ' <a href="/forgot-password" target="_new">did you forget your password?</a>';
+                        $('em.message').html(response.message + ", " + _forgotPasswordLink);
+
+                    } else {
+
+                        $.smkAlert({text: response.message, type: 'warning', time: 3, marginTop: '260px'});
+
+                    }
+
+                }
+
+            }
+        
+        });
+
+    }
+
+    $('input#login-email').on('keypress', function (e) {
+
+        var code = (e.keyCode ? e.keyCode : e.which);
+        
+        if (code == 13) { 
+            
+            $('input#login-password').focus();
+            e.preventDefault();
+
+        }
+
+    });
+
+    $("form.loginRest").submit( function( event ) { event.preventDefault(); });
+
+    $('button.loginRest').unbind('click');
+    $('button.loginRest').on('click', function () {
+
+        var _e = $('input[type="email"]').val();
+        var _p = $('input[type="password"]').val();
+
+        ub.funcs.lRest(_e, _p);
+
+    });
+
+    /// END LREST
 
 });
