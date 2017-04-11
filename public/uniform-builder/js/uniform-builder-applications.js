@@ -10140,6 +10140,7 @@ $(document).ready(function() {
             _list   = _.sortBy(ub.data.modifierLabels, 'intGroupID');
 
             _list = _.reject(_list, function (item)     { return item.name.indexOf('Trim') > -1 || 
+                                                                 item.name.indexOf('Piping') > -1 || 
                                                                  item.name.indexOf('Prolook') > -1; });
 
             if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { 
@@ -10148,7 +10149,7 @@ $(document).ready(function() {
 
             }
 
-            if (ub.funcs.isCurrentSport('Wrestling')) { 
+            if (ub.funcs.isCurrentSport('Wrestling'))   {  
 
                 _list = _.reject(_list, function (item) { return item.name.indexOf('Body') === -1; });
 
@@ -10166,6 +10167,21 @@ $(document).ready(function() {
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
         var _part           = part;
         var _sport          = ub.current_material.material.uniform_category;
+
+
+
+        if (ub.funcs.isCurrentSport('Compression (Apparel)') || ub.funcs.isCurrentSport('Tech-Tee (Apparel)')) {
+
+            if (_part === "Body" || _part === "Back Body") {
+
+                _part = 'Extra';
+
+                console.log('Using Extra...');
+
+            }
+
+        }
+
 
         // Set Mascots Only for now on Socks
         if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
@@ -10234,10 +10250,13 @@ $(document).ready(function() {
 
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
         //if (typeof ub.data.applications_transformed[_submimatedSport.sublimatedPart] !== 'undefined') {
-        if (typeof ub.data.applications_transformed[part] !== 'undefined') {
 
-            ub.data.applications_transformed[part][_newIDStr] = _newApplication.application;
-            _newApplication.application.layer = part;
+        _newApplication.application.layer = _part;
+
+        if (typeof ub.data.applications_transformed[_part] !== 'undefined') {
+
+            ub.data.applications_transformed[_part][_newIDStr] = _newApplication.application;
+            _newApplication.application.layer = _part;
 
         } else {
 

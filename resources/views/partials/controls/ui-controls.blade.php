@@ -1816,7 +1816,19 @@
 
         <div id="add-new-free-form-application">
 
-            <label>1. What perspective do you want to add the application?</label>
+            <label>1. What type of application do you want to add?</label>
+
+            <div class="application-container">
+
+                <span class="optionButton" data-type="player_number"><div class="icon"><img src="/images/main-ui/icon-number-large.png"></div><div class="caption">Player Number</div></span>
+                <span class="optionButton" data-type="team_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Team Name</div></span>
+                <span class="optionButton" data-type="player_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Player Name</div></span>
+                <span class="optionButton" data-type="mascot"><div class="icon"><img src="/images/main-ui/icon-mascot-large.png"></div><div class="caption">Mascot</div></span>                            
+                
+            </div>
+
+            <br />
+            <label>2. What perspective do you want to add the application?</label>
 
             <div class="perspective-container">
 
@@ -1828,7 +1840,7 @@
             </div>
 
             <br />
-            <label>2. Which part do you want to add the application on?</label>
+            <label>3. Which part do you want to add the application on?</label>
 
             <div class="part-container">
 
@@ -1841,14 +1853,13 @@
             </div>
 
             <br />
-            <label>3. What type of application do you want to add?</label>
+            <label class="leftrightPart">4. <span class="partName">Sleeve</span> has a left and right part, which side do you want to put the application on?</label>
 
-            <div class="application-container">
+            <div class="side-container">
 
-                <span class="optionButton" data-type="player_number"><div class="icon"><img src="/images/main-ui/icon-number-large.png"></div><div class="caption">Player Number</div></span>
-                <span class="optionButton" data-type="team_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Team Name</div></span>
-                <span class="optionButton" data-type="player_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Player Name</div></span>
-                <span class="optionButton" data-type="mascot"><div class="icon"><img src="/images/main-ui/icon-mascot-large.png"></div><div class="caption">Mascot</div></span>                            
+                <span class="side" data-id="na">N/A</span>
+                <span class="side" data-id="left">Left</span>
+                <span class="side" data-id="right">Right</span>
                 
             </div>
 
