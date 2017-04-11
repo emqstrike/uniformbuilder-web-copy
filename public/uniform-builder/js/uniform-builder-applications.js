@@ -9772,7 +9772,7 @@ $(document).ready(function() {
 
     ub.funcs.popupTest = function () {
 
-        var _result = $('div#primaryTailSweepPopup').is(':visible') || $('div#primaryFontPopup').is(':visible') || $('div#primaryAccentPopup').is(':visible') || $('div#primaryMascotPopup').is(':visible');
+        var _result = $('div#primaryTailSweepPopup').is(':visible') || $('div#primaryFontPopup').is(':visible') || $('div#primaryAccentPopup').is(':visible') || $('div#primaryMascotPopup').is(':visible') ||$('div.bootbox').is(':visible');
 
         return _result;
 
@@ -10125,28 +10125,59 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.addLocation = function () {
+    ub.funcs.isUniformFullSublimation = function ()  {
 
-        var _submimatedSport = ub.data.freeFormToolEnabledSports.get(ub.current_material.material.uniform_category);
+        return ub.current_material.material.factory_code === "BLB";
 
-        if (typeof _submimatedSport === "undefined") { return; }
+    }
 
-        var _pha            = _.find(ub.data.placeHolderApplications, {perspective: ub.active_view});
+    ub.funcs.getFreeFormLayers = function () {
+
+        var _list = [];
+
+        if (ub.funcs.isUniformFullSublimation()) {
+
+            _list   = _.sortBy(ub.data.modifierLabels, 'intGroupID');
+
+            _list = _.reject(_list, function (item)     { return item.name.indexOf('Trim') > -1 || 
+                                                                 item.name.indexOf('Prolook') > -1; });
+
+            if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { 
+
+                _list = _.reject(_list, function (item) { return item.name.indexOf('Sublimated') === -1; });
+
+            }
+
+            if (ub.funcs.isCurrentSport('Wrestling')) { 
+
+                _list = _.reject(_list, function (item) { return item.name.indexOf('Body') === -1; });
+
+            }
+
+        }
+
+        return _list;
+
+    }
+
+    ub.funcs.newApplication = function (perspective, part, type) {
+
+        var _pha            = _.find(ub.data.placeHolderApplications, {perspective: perspective});
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
-        var _part           = 'Body';
+        var _part           = part;
         var _sport          = ub.current_material.material.uniform_category;
 
         // Set Mascots Only for now on Socks
         if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
 
-            _part = "Sublimated";
+            // _part = "Sublimated";
             _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
 
             var _perspectiveView = _.find(_phaSettings.application.views, {perspective: ub.active_view});
             
             if (typeof _perspectiveView !== "undefined" && parseInt(_perspectiveView.application.isPrimary) === 1) {
 
-                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, ub.active_view);
+                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, perspective);
 
                 _perspectiveView.application.center = _overrides.position;
                 _perspectiveView.application.pivot  = _overrides.position;
@@ -10202,10 +10233,11 @@ $(document).ready(function() {
         });
 
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
-        if (typeof ub.data.applications_transformed[_submimatedSport.sublimatedPart] !== 'undefined') {
+        //if (typeof ub.data.applications_transformed[_submimatedSport.sublimatedPart] !== 'undefined') {
+        if (typeof ub.data.applications_transformed[part] !== 'undefined') {
 
-            ub.data.applications_transformed[_submimatedSport.sublimatedPart][_newIDStr] = _newApplication.application;
-            _newApplication.application.layer = _submimatedSport.sublimatedPart;
+            ub.data.applications_transformed[part][_newIDStr] = _newApplication.application;
+            _newApplication.application.layer = part;
 
         } else {
 
@@ -10222,6 +10254,127 @@ $(document).ready(function() {
         ub.funcs.renderLocations(_newIDStr);
         ub.funcs.pushOldState('add location', 'application', _newApplication, {applicationID: _newIDStr});
         ub.funcs.updateLayerTool();
+
+        $('div.optionButton[data-type="' + type + '"]').trigger('click');
+
+        $.smkAlert({text: 'Added ' + type.toTitleCase() + ' on ' + part.toTitleCase(), type:'success', time: 10, marginTop: '90px'});
+
+    }
+
+    ub.funcs.addLocation = function () {
+
+        // Guard
+
+        var _submimatedSport = ub.data.freeFormToolEnabledSports.get(ub.current_material.material.uniform_category);
+        if (typeof _submimatedSport === "undefined") { return; }
+
+        // End Guard 
+
+        // Select Perspective
+
+        var template = $('#m-add-free-form-application').html();
+        var data = { parts: ub.funcs.getFreeFormLayers(), };
+        var markup = Mustache.render(template, data);
+
+        var dialog = bootbox.dialog({
+            title: 'Add a new Free Form Application',
+            message: markup,
+        });
+
+        dialog.init(function() {
+
+            if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+                $('span.optionButton[data-type="player_number"]').hide();
+                $('span.optionButton[data-type="player_name"]').hide();
+                $('span.optionButton[data-type="team_name"]').hide();
+
+            }
+
+            // Perspectives
+
+            $('div.perspective-container > span.perspective').unbind('click');
+            $('div.perspective-container > span.perspective').on('click', function () {
+
+                var _perspective = $(this).data('id');
+
+                $('div.perspective-container > span.perspective').removeClass('active');
+                $(this).addClass('active');
+                
+                ub.funcs.setActiveView(_perspective);
+
+            });
+
+            $('div.perspective-container > span.perspective[data-id="' + ub.active_view + '"]').addClass('active');
+
+            
+            // Parts 
+
+            $('div.part-container > span.part').unbind('click');
+            $('div.part-container > span.part').on('click', function () {
+
+                var _part = $(this).data('id');
+
+                $('div.part-container > span.part').removeClass('active');
+                $(this).addClass('active');
+                
+                ub.funcs.setActiveView(_part);
+
+            });
+
+            // Application Type
+
+            $('div.application-container > span.optionButton').unbind('click');
+            $('div.application-container > span.optionButton').on('click', function () {
+
+                var _part = $(this).data('id');
+
+                $('div.application-container > span.optionButton').removeClass('active');
+                $(this).addClass('active');
+                
+            });
+
+            var _part = 'Body';
+            if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { _part = "Sublimated" }
+
+            $('div.part-container > span.part[data-id="' + _part + '"]').addClass('active');
+            $('div.application-container > span.optionButton[data-type="mascot"').addClass('active');
+
+
+            // Footer Buttons 
+
+            $('span.cancelButton').unbind('click');
+            $('span.cancelButton').on('click', function () {
+
+                dialog.modal('hide');
+
+            });
+
+            $('span.okButton').unbind('click');
+            $('span.okButton').on('click', function () {
+
+                var _perspective = $('span.perspective.active').data('id');
+                var _part = $('span.part.active').data('id');
+                var _type = $('span.optionButton.active').data('type');
+
+                console.log('Perspective: ');
+                console.log('_perspective');
+
+                console.log('Part: ');
+                console.log(_part);
+
+                console.log('Type: ');
+                console.log(_type);
+
+                ub.funcs.newApplication(_perspective, _part, _type);
+                dialog.modal('hide');
+
+            });
+
+        });
+
+        // End Select Perspective 
+
 
     };
 
