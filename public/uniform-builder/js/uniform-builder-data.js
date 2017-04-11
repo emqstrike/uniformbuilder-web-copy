@@ -2196,6 +2196,7 @@ $(document).ready(function() {
                                 size: 1.75,
                             },
                 ],
+            }
         ], 
         getSize: function (applicationType, sport, id) {
 
