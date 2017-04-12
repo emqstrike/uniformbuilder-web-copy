@@ -1629,7 +1629,7 @@ $(document).ready(function () {
 
     ub.funcs.processPipings = function () {
 
-        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) { return; }
+        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || ub.funcs.isCurrentSport('Crew Socks (Apparel)') )) { return; }
 
         if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
 
