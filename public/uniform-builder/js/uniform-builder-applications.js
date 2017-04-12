@@ -10188,37 +10188,23 @@ $(document).ready(function() {
 
             var _partObject = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: _part});
             var _polygon = [];
-
             var _cx = undefined;
+            var con = new ub.Contour();
 
-            if (typeof _polygon === "undefined") {
+            if (typeof _polygon === "undefined") { ub.utilities.warn('No Bouding Box Defined for ' + _part); }
+            
+            if (typeof _polygon !== "undefined") {
 
-                ub.utilities.warn('No Bouding Box Defined for ' + _part);
-
-            } else {
-
-                console.log('Polygon for ' + _part);
-
-                _polygon = _partObject.polygon;
-                console.log(_polygon);
-
-                var con = new ub.Contour();
-                con.pts = _polygon;
-                var c = con.centroid();
-                _cx = c.x;
-
-                console.log('Centoid: ');
-                console.log(_cx);
+                con.pts = _partObject.polygon;
+                _cx = con.centroid().x;
 
             }
 
-        // End Get Center of Polygon 
+        // End Get Center of Polygon
 
         // Set Mascots Only for now on Socks
-        if(ub.data.placeHolderOverrideSports.isValid(ub.current_material.material.uniform_category) || ub.funcs.isCurrentSport('Football')) {
 
-            // _part = "Sublimated";
-            _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
+        _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
 
             var _perspectiveView = _.find(_phaSettings.application.views, {perspective: perspective});
             
@@ -10234,11 +10220,25 @@ $(document).ready(function() {
                     _perspectiveView.application.pivot = _cx;
                     _perspectiveView.application.rotation = 0;
  
-                } else {
+                } 
 
-                    _perspectiveView.application.center = _overrides.position;
-                    _perspectiveView.application.pivot  = _overrides.position;
-                    _perspectiveView.application.rotation = _overrides.rotation;
+                if (_part === "Extra") {
+
+                    if (perspective === "front" || perspective === "back") {
+
+                        _perspectiveView.application.center = {x: 492.8115478104783, y: 537.336581778293};
+                        _perspectiveView.application.pivot = {x: 492.8115478104783, y: 537.336581778293};
+                        _perspectiveView.application.rotation = 0;
+
+                    }
+
+                    if (perspective === "left" || perspective === "right") {
+
+                        _perspectiveView.application.center = {x: 492.8115478104783, y: 537.336581778293};
+                        _perspectiveView.application.pivot = {x: 492.8115478104783, y: 537.336581778293};
+                        _perspectiveView.application.rotation = 0;
+                        
+                    }
 
                 }
 
@@ -10267,17 +10267,11 @@ $(document).ready(function() {
 
             /// End Use on primary perspective, exclude auxilliary perspectives (for socks only)
 
-        } else {
-
-            _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
-
-        }
-
         var _newID          = ub.funcs.getNewCustomID();
         var _newApplication = JSON.parse(JSON.stringify(_phaSettings)); // Quick Clone
 
         _newID = _newID;
-        _newIDStr = _newID.toString(); 
+        _newIDStr = _newID.toString();
 
         _newApplication.code                    = _newIDStr;
         _newApplication.application.id          = _newIDStr;
@@ -10411,6 +10405,9 @@ $(document).ready(function() {
                     $('span.side[data-id="' + _side + '"]').addClass('active');
 
                 } else {
+
+                    if (_part === "Back Body") { $('span.perspective[data-id="back"]').addClass('active'); }
+                    if (_part === "Body") { $('span.perspective[data-id="front"]').addClass('active'); }
 
                     $('label.leftrightPart, div.side-container').hide();                    
                     $('span.side').removeClass('active');
