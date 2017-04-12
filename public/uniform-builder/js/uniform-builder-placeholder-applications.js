@@ -39,6 +39,7 @@ $(document).ready(function () {
 
         items: [
             'Crew Socks (Apparel)',
+            'Football'
         ],
         isValid: function (sport) {
 
