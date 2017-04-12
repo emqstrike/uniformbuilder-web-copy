@@ -318,7 +318,7 @@ $(document).ready(function () {
             
             //if (ub.current_material.material.id === '648' || '731') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
 
-            if(ub.funcs.isCurrentSport('Baseball')) {
+            if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
                 $('a.change-view[data-view="pipings"]').removeClass('disabled');                                
             } else {
 
