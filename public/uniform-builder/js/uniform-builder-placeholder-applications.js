@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+
+
     ub.data.freeFormValidTypes = {
 
         items: [
@@ -26,6 +28,21 @@ $(document).ready(function () {
             }
 
             return _result;
+
+        }
+
+    }
+
+    // List of sports with a valid coordinate override for free-form application
+
+    ub.data.placeHolderOverrideSports = {
+
+        items: [
+            'Crew Socks (Apparel)',
+        ],
+        isValid: function (sport) {
+
+            return _.contains(this.items, sport);
 
         }
 
@@ -72,7 +89,7 @@ $(document).ready(function () {
 
             if (typeof _result === "undefined") {
 
-                // TODO, add defaults here ... 
+                // TODO, add defaults here ...
 
             }
 

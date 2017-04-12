@@ -10178,14 +10178,44 @@ $(document).ready(function() {
 
         }
 
-        if (typeof side !== "undefined") {
+        if (typeof side !== "undefined" && side !== "na") {
 
             _part = side.toTitleCase() + " " + _part;
 
         }
 
+        // Get Center of Polygon 
+
+            var _partObject = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: _part});
+            var _polygon = [];
+
+            var _cx = undefined;
+
+            if (typeof _polygon === "undefined") {
+
+                ub.utilities.warn('No Bouding Box Defined for ' + _part);
+
+            } else {
+
+                console.log('Polygon for ' + _part);
+
+                _polygon = _partObject.polygon;
+                console.log(_polygon);
+
+                var con = new ub.Contour();
+                con.pts = _polygon;
+                var c = con.centroid();
+                _cx = c.x;
+
+                console.log('Centoid: ');
+                console.log(_cx);
+
+            }
+
+        // End Get Center of Polygon 
+
         // Set Mascots Only for now on Socks
-        if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+        if(ub.data.placeHolderOverrideSports.isValid(ub.current_material.material.uniform_category) || ub.funcs.isCurrentSport('Football')) {
 
             // _part = "Sublimated";
             _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
@@ -10196,9 +10226,21 @@ $(document).ready(function() {
 
                 var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, perspective);
 
-                _perspectiveView.application.center = _overrides.position;
-                _perspectiveView.application.pivot  = _overrides.position;
-                _perspectiveView.application.rotation = _overrides.rotation;
+                // CX Override 
+
+                if (typeof _cx !== "undefined") {
+
+                    _perspectiveView.application.center = _cx;
+                    _perspectiveView.application.pivot = _cx;
+                    _perspectiveView.application.rotation = 0;
+ 
+                } else {
+
+                    _perspectiveView.application.center = _overrides.position;
+                    _perspectiveView.application.pivot  = _overrides.position;
+                    _perspectiveView.application.rotation = _overrides.rotation;
+
+                }
 
             }
 
@@ -10277,7 +10319,7 @@ $(document).ready(function() {
 
         $('div.optionButton[data-type="' + type + '"]').trigger('click');
 
-        $.smkAlert({text: 'Added ' + type.toTitleCase() + ' on ' + part.toTitleCase(), type:'success', time: 10, marginTop: '90px'});
+        $.smkAlert({text: 'Added [' + type.toTitleCase() + '] on [' + part.toTitleCase() + '] layer', type:'success', time: 10, marginTop: '90px'});
 
     }
 
@@ -10356,6 +10398,14 @@ $(document).ready(function() {
                     $('span.side[data-id="right"]').html('Right ' + _part);
 
                     var _side = $('span.perspective.active').data('id');
+
+                    if (_side === "front" || _side === "back") {
+
+                        _side = "left";
+                        $('span.perspective').removeClass('active');
+                        $('span.perspective[data-id="' + _side + '"]').addClass('active');
+
+                    }
 
                     $('span.side').removeClass('active');
                     $('span.side[data-id="' + _side + '"]').addClass('active');
