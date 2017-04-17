@@ -1742,7 +1742,7 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings[uniform_type], function (e) {
 
-            if(e.setting_type === 'highlights' || e.setting_type === 'shadows') { return; }
+            if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') { return; }
 
             if (typeof e.code !== 'undefined') {
 
