@@ -324,6 +324,12 @@ $(document).ready(function () {
 
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
 
+            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)")) {
+
+                $('a.footer-buttons[data-view="right"], a.footer-buttons[data-view="left"]').addClass('disabled')
+
+            }                
+
         }
 
         ub.data.afterLoadCalled = 0;
@@ -4895,6 +4901,12 @@ $(document).ready(function () {
 
                     ub.funcs.initSaveDesign();
                     return;
+
+                }
+
+                if (view === "left" || view === "right") {
+
+                    if ($(this).hasClass('disabled')) { return; }
 
                 }
 
