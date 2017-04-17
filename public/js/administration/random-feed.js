@@ -3,21 +3,12 @@ $(document).ready(function() {
 colors = getColors().colors;
 
 window.random_feed_sets = [
-					"Yoke Piping",
-					"Neck Piping",
-					"Center Piping",
-					"Left End of Sleeve Piping",
-					"Left Sleeve Piping 1 inch Up",
-					"Left Raglan Piping",
-					"Left Set-in Piping",
-					"Right End of Sleeve Piping",
-					"Right Sleeve Piping 1 inch Up",
-					"Right Raglan Piping",
-					"Right Set-in Piping",
-					"Tunnel Piping",
-					"Right Pant Piping",
-					"Left Pant Piping",
-					"Sleeve Piping 1 inch Up",
+					"Top Welt",
+					"Arch",
+					"Padding",
+					"Body",
+					"Toe",
+					"Heel",
 				];
 
 function buildSetsDropdown(value){
