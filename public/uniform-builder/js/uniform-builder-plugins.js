@@ -1134,6 +1134,60 @@
 
     };
 
+    $.ub.create_randomFeed = function (randomFeedObject, colorCount, perspective, randomFeedSettingsObject) {
+
+        var sprite;
+        var randomFeedObject = randomFeedObject;
+        var settings = ub.current_material.settings;
+        var view = ub[perspective + '_view'];
+        var view_objects = ub.objects[perspective + '_view'];
+        var container = new PIXI.Container();
+        var elements = "";
+        var _frontObject = _.find(randomFeedObject.perspectives, {perspective: perspective});
+
+        _.each(_frontObject.layers, function (layer, index) {
+            
+            if (index + 1 > colorCount) { return; }
+
+            var _layerSettings = _.find(randomFeedSettingsObject.layers, {layer: layer.position});
+            var randomFeedLayer = ub.pixi.new_sprite(layer.filename);
+
+            randomFeedLayer.ubName = 'Layer ' + (index + 1);
+            randomFeedLayer.tint = parseInt(_layerSettings.colorObj.hex_code, 16);
+
+            if (typeof _layerSettings === "undefined" || _layerSettings.colorCode === "none") {
+
+                randomFeedLayer.alpha = 0;
+
+            } else {
+
+                randomFeedLayer.alpha = 1;                
+                
+            }
+
+            container.addChild(randomFeedLayer); 
+            randomFeedLayer.zIndex = layer.position; 
+
+        });
+
+        sprite = container;
+
+        ub.updateLayersOrder(sprite);
+
+        ub.current_material.containers[randomFeedObject.name] = {};
+        ub.current_material.containers[randomFeedObject.name].pipingObject = sprite;
+
+        var temp                    = {};
+        var layer_order             = ( 70 );
+
+        sprite.originalZIndex       = layer_order * (-1);
+        sprite.zIndex               = layer_order * (-1);
+
+        return sprite;
+
+    };
+
+
     $.ub.create_mascot = function (input_object) {
 
         var sprite;

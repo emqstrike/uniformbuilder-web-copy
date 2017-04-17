@@ -22,21 +22,19 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.showRandoFeedPanel = function () {
+        ub.funcs.showRandomFeedPanel = function () {
 
             ub.funcs.activateBody();
 
             if ($('div#randomFeeds-panel').is(':visible')) {
 
                 $('div#randomFeeds-panel').removeClass('on').addClass('off');
-                $('a.change-view[data-view="randomFeeds"]').removeClass('active-change-view');
-
-                $('a.change-view[data-view="locations"]').click();
+                $('a.change-view[data-view="randomFeed"]').removeClass('active-change-view');
 
             } else {
 
                 $('div#randomFeeds-panel').removeClass('off').addClass('on');
-                $('a.change-view[data-view="randomFeeds"]').addClass('active-change-view');
+                $('a.change-view[data-view="randomFeed"]').addClass('active-change-view');
 
             }
 
@@ -50,49 +48,8 @@ $(document).ready(function () {
 
                 ub.funcs.hideRandomFeedsPanel();
 
-               if (ub.showLocation) {
-
-                    ub.funcs.removeLocations();
-                    $('span.show-locations').find('span.caption').html("Show Location Markers");
-                    $('span.show-locations').removeClass('active');
-
-               }
-
             });
 
-            if (!ub.is.wrestling()) {
-
-                $('span.add-application').addClass('inactive');
-                $('em.dragMessage').remove();
-                $('div.randomFeeds-container').addClass('notSublimated');
-
-            }
-
-            $('span.add-application').unbind('click');
-            $('span.add-application').on('click', function () {
-
-                $('a.change-view[data-view="locations-add"]').click();
-
-            });
-
-            $('span.show-locations').unbind('click');
-            $('span.show-locations').on('click', function () {
-
-               if ($(this).find('span.caption').html() === "Show Location Markers") {
-
-                    $(this).find('span.caption').html("Hide Location Markers");
-                    $(this).addClass('active');
-                    ub.funcs.showLocations();
-                    
-               } else {
-
-                    $(this).find('span.caption').html("Show Location Markers");
-                    $(this).removeClass('active');
-                    ub.funcs.removeLocations();
-
-               }
-
-            })
 
             $('div#randomFeeds-panel > span.close').unbind('click');
             $('div#randomFeeds-panel > span.randomFeeds-close').on('click', function (){
@@ -127,7 +84,7 @@ $(document).ready(function () {
             _.each(_randomFeedSet, function (randomFeed) {
 
                 _captionPart        = '<span class="caption">' + randomFeed + '</span>';
-                _htmlStr            += '<span class="randomFeed unselectable" data-randomFeed-name="' + randomFeed + '">' + _captionPart + '</span>';
+                _htmlStr            += '<span class="randomFeed unselectable" data-random-feed-name="' + randomFeed + '">' + _captionPart + '</span>';
 
             });
 
@@ -137,7 +94,7 @@ $(document).ready(function () {
             $('span.randomFeed').unbind('click');
             $('span.randomFeed').on('click', function () {
 
-                var _randomFeed = $(this).data('randomFeed-name');
+                var _randomFeed = $(this).data('random-feed-name');
 
                 $('span.randomFeed').removeClass('active');
                 $(this).addClass('active');
@@ -161,8 +118,6 @@ $(document).ready(function () {
         }
 
     /// End GUI 
-
-
 
     ub.funcs.getRandomFeedSettingsObject = function (set) {
 
@@ -616,12 +571,12 @@ $(document).ready(function () {
         ub.funcs.activatePanelGuard();
         ub.funcs.deactivatePanels();
 
-        var _status             = 'off';
+        var _status                 = 'off';
         var _randomFeedSet          = randomFeedSet;
         var _activeRandomFeedSet    = '';
         
         _activeRandomFeedSet        = ub.current_material.settings.randomFeeds[randomFeedSet];
-        _status                 = (typeof _activeRandomFeedSet !== "undefined" && _activeRandomFeedSet.enabled === 1) ? "on" : "off";
+        _status                     = (typeof _activeRandomFeedSet !== "undefined" && _activeRandomFeedSet.enabled === 1) ? "on" : "off";
 
         if (_activeRandomFeedSet === "undefined") {
 
@@ -660,11 +615,16 @@ $(document).ready(function () {
             var _sizesMarkup        = ub.funcs.getRandomFeedSizes(_randomFeedSet, _activeRandomFeedSet);
             var _colorsMarkup       = ub.funcs.getRandomFeedColors(_activeRandomFeedSet);
 
+            console.log('Sizes Markup: ');
+            console.log(_sizesMarkup);
+
+            console.log('Colors Markup: ');
+            console.log(_colorsMarkup);
+
             $('div.ui-row.size-row').html(_sizesMarkup);
             $('div.ui-row.colors-row').html(_colorsMarkup);
 
         // End Inner Templates
-
 
         // Events
 
@@ -825,7 +785,6 @@ $(document).ready(function () {
 
             ub.funcs.toggleRandomFeed(_randomFeedSet, _status);    
 
-
         // End Initial States
         
     }
@@ -844,7 +803,7 @@ $(document).ready(function () {
 
             if(randomFeed.size === "") { return; }
 
-            ub.funcs.renderRandomFeeds(_result, randomFeed.numberOfColors);    
+            ub.funcs.renderRandomFeed(_result, randomFeed.numberOfColors);    
 
         });
 
@@ -852,11 +811,11 @@ $(document).ready(function () {
 
     ub.funcs.processRandomFeeds = function () {
 
-        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) { return; }
+        if (!ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { return; }
 
-        if (!util.isNullOrUndefined(ub.current_material.material.randomFeeds)) {
+        if (!util.isNullOrUndefined(ub.current_material.material.random_feed)) {
 
-            var _randomFeeds = ub.current_material.material.randomFeeds.replace(new RegExp("\\\\", "g"), "");
+            var _randomFeeds = ub.current_material.material.random_feed.replace(new RegExp("\\\\", "g"), "");
 
             _randomFeeds = _randomFeeds.slice(1, -1);
             _randomFeeds = JSON.parse(_randomFeeds);
@@ -939,11 +898,11 @@ $(document).ready(function () {
                     ub.current_material.settings.randomFeeds[randomFeed.set].numberOfColors = _colorCount;
 
                     var _randomFeedObject                   = randomFeed;
-                    var _randomFeedSettingsObject           = ub.funcs.getrandomFeedSettingsObject(randomFeed.set);
+                    var _randomFeedSettingsObject           = ub.funcs.getRandomFeedSettingsObject(randomFeed.set);
                     var selectedColorArray                  = ub.current_material.settings.team_colors;
                     
                     ub.funcs.initRandomFeedColors(randomFeed, selectedColorArray[0]);
-                    ub.funcs.renderRandomFeeds(randomFeed, _colorCount);
+                    ub.funcs.renderRandomFeed(randomFeed, _colorCount);
                     ub.funcs.changeRandomFeedSize(_randomFeedSettingsObject, _randomFeedObject, randomFeed.size);
 
                 }
@@ -963,6 +922,7 @@ $(document).ready(function () {
         if ($('div#randomFeeds-panel').is(':visible')) {
 
             $('div.randomFeeds-header > span.close').trigger('click');
+            ub.funcs.hiderandomFeedsTool();
 
         }
 

@@ -250,9 +250,9 @@
                 <br /><span>Pipings</span>
             </a>
 
-            <a class="footer-buttons change-view hidden" data-view="randomFeeds">
-                <i class="fa fa-bars" aria-hidden="true"></i>
-                <br /><span>Random Feeds</span>
+            <a class="footer-buttons change-view hidden" data-view="randomFeed">
+                <i class="fa fa-random" aria-hidden="true"></i>
+                <br /><span>Random Feed</span>
             </a>
 
             <a class="footer-buttons change-view" data-view="locations" style="display: none;">

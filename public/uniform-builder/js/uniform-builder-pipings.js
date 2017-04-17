@@ -957,4 +957,14 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.removePipingsPanel = function () {
+
+        if ($('div#pipings-panel').is(':visible')) {
+
+            $('div.pipings-header > span.close').trigger('click');
+
+        }
+
+    }
+
 });

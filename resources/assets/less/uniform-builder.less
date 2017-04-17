@@ -9288,6 +9288,255 @@ strong.hello {
 /* End Pipings Panel */
 
 
+/* Random Feed Panel */
+
+    div#randomFeeds-panel {
+
+        cursor: grab;
+        position: absolute;
+        display: none;
+        width: 270px;
+        height: 661px;
+        background-color: #acacac;
+        margin-left: -280px;
+        padding: 10px;
+
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+        text-align: center;
+        z-index: 3000;
+
+        border: solid 1px #888888;
+
+        -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+
+        em.dragMessage {
+
+            -webkit-user-select: none; /* Chrome/Safari */        
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+ */
+
+        }
+
+        div.tools {
+
+            span.add-application, span.show-locations {
+
+            display: table-cell;
+            background-color: #888888;
+            color: white;
+            width: 100px;
+            height: 90px;
+            font-size: 0.8em;
+            padding: 9px;
+            vertical-align: bottom;
+            border: 3px solid #acacac;
+            cursor: pointer;
+            float: right;
+            vertical-align: bottom;
+
+            }
+
+            span.show-locations {
+
+                background-color: #acacac;
+                float: left;
+                color: #3d3d3d;
+                width: 150px;
+                margin-top: 50px;
+                height: 10px;
+                text-align: left;
+                padding: 0px;
+
+            }
+
+            span.add-application.inactive {
+
+                cursor: not-allowed;
+                background-color: #888888;
+                opacity: 0.2;
+
+            } 
+
+            span.show-locations.active {
+
+                color: white;
+
+            }
+
+            span.add-application:hover {
+
+                background-color: #3d3d3d;
+
+            }
+
+            span.show-locations:hover {
+
+                color: white;
+
+            }
+
+        }
+        
+        div.randomFeeds-header {
+
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Avenir Next LT W04 Bold';
+            font-size: 0.9em;
+            width: 100%;
+
+            span.header-text {
+
+                float: left;
+                font-size: 1.2em;
+
+                -webkit-user-select: none; /* Chrome/Safari */        
+                -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* IE10+ */
+
+            }
+
+            span.close {
+
+                cursor: pointer;
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+            span.close:hover {
+
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+        }
+
+        div.randomFeeds-container {
+
+            height: 460px;
+            width: 100%;
+            display: block;
+            overflow-y: auto;
+            margin-top: 20px;
+
+            span.randomFeed {
+
+                padding: 5px;
+                display: block;
+                background-color: #e7e7e7;
+                margin: 3px;
+                cursor: pointer;
+                font-size: 0.8em;
+                text-align: left;
+                font-family: 'Avenir Next LT W04 Thin';
+                color: #3d3d3d;
+
+                
+                span.caption {
+
+                    display: inline-block;
+                    min-width: 90px;
+                    padding-left: 30px;
+                    
+                }
+
+                span.perspective, span.application_type {
+
+                    font-size: 0.8em;
+                    color: #acacac;
+                    float: right;
+                    margin-right: 7px;
+                    margin-top: 2px;
+
+                }
+
+                span.perspective {
+
+                    color: white;
+
+                }
+
+            }
+
+            span.randomFeed:hover {
+
+                background-color: #3d3d3d;
+                color: white;
+
+            }
+
+        }
+
+        div.randomFeeds-container.notSublimated {
+
+            height: 520px;
+
+        }
+
+        span.randomFeed.active {
+
+            background-color: #3d3d3d !important;
+            color: white !important;
+            font-family: 'Avenir Next LT W04 Bold' !important;
+
+            -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+            span.caption {
+
+                color: white !important;
+
+            }
+
+        }
+
+        span.randomFeeds-close {
+
+            background-color: #888888;
+            color: #acacac;
+            width: 100%;
+            padding: 3px;
+            font-size: 1em;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+
+        }
+
+        span.randomFeeds-close:hover {
+
+            background-color: #3d3d3d;
+            color: white;
+
+        }
+
+    }
+
+    div#randomFeeds-panel.on {
+
+        display: block;
+        top: 0px;
+        
+    }
+
+    div#randomFeeds-panel.off {
+
+        display: none;
+        top: -200px;
+        
+    }
+
+/* End Random Feed Panel */
+
+
 .active-change-view {
     background-color: white !important;
 }

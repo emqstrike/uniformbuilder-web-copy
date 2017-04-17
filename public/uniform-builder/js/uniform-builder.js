@@ -1766,17 +1766,21 @@ $(document).ready(function () {
 
         // Process Pipings Here
 
-        if (ub.current_material.pipings === null) {
+        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
 
-            console.log("Pipings is null!");
+            if (ub.current_material.pipings === null) {
 
-        } else {
+                console.log("Pipings is null!");
 
-            ub.funcs.processPipings(ub.current_material.material.pipings);
+            } else {
 
-            if (_.size(ub.current_material.settings.pipings) > 0) {
+                ub.funcs.processPipings(ub.current_material.material.pipings);
 
-                ub.funcs.processSavedPipings();
+                if (_.size(ub.current_material.settings.pipings) > 0) {
+
+                    ub.funcs.processSavedPipings();
+
+                }
 
             }
 
@@ -1784,13 +1788,13 @@ $(document).ready(function () {
 
         // Process Random Feeds Here
 
-        if (ub.current_material.randomFeeds === null) {
+        if (ub.current_material.material.random_feed === null) {
 
             console.log("Random Feeds is null!");
 
         } else {
 
-            ub.funcs.processRandomFeeds(ub.current_material.material.randomFeeds);
+            ub.funcs.processRandomFeeds(ub.current_material.material.random_feed);
 
             if (_.size(ub.current_material.settings.randomFeeds) > 0) {
 
@@ -4707,7 +4711,6 @@ $(document).ready(function () {
             $('div.drop.parts').on('click', function () {
 
                 if ($('div#primaryQuickRegistrationPopup').is(':visible')) { return; }
-
                 $('#select_part').click();
 
             });
@@ -4759,13 +4762,14 @@ $(document).ready(function () {
                     }
 
                     ub.funcs.removeApplicationsPanel();
+                    ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showPipingsPanel();
 
                     return;
 
                 }
 
-                if (view === 'randomFeeds') {
+                if (view === 'randomFeed') {
 
                     if($(this).hasClass('disabled')) {
 
@@ -4774,7 +4778,7 @@ $(document).ready(function () {
                     }
 
                     ub.funcs.removeApplicationsPanel();
-                    ub.funcs.showRandomFeedsPanel();
+                    ub.funcs.showRandomFeedPanel();
 
                     return;
 
@@ -4803,8 +4807,6 @@ $(document).ready(function () {
                     if(!ub.showLocation) {
 
                         ub.funcs.gotoFirstMaterialOption();
-
-                        //ub.funcs.showLocations();
                         $(this).addClass('zoom_on');
 
                     }
@@ -4830,6 +4832,7 @@ $(document).ready(function () {
                 if (view === 'layers') {
                     
                     ub.funcs.removePipingsPanel();
+                    ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showLayerTool();
                     
                     return;
