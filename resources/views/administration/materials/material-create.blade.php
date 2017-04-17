@@ -31,7 +31,19 @@
                                 <input type="text" class="form-control material-name" name="name" value="{{ old('name') }}">
                             </div>
                         </div>
-
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Status</label>
+                            <div class="col-md-6">
+                                <select class="form-control material-status" name="status">
+                                    <option value="none">None</option>
+                                    <option value="on_progress">On Progress</option>
+                                    <option value="finished">Finished</option>
+                                    <option value="improvement">Improvement</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material Code</label>
                             <div class="col-md-8">
@@ -107,6 +119,20 @@
                             <label class="col-md-4 control-label">Uniform Category</label>
                             <div class="col-md-8">
                                 <select name='uniform_category_id' class="form-control uniform-category">
+                                @foreach ($uniform_categories as $category)
+                                    @if ($category->active)
+                                    <option value='{{ $category->id }}'>{{ $category->name }}</option>
+                                    @endif
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Group</label>
+                            <div class="col-md-6">
+                                <select name='sports_group_id' class="form-control uniform-category">
+                                <option value="">None</option>
                                 @foreach ($uniform_categories as $category)
                                     @if ($category->active)
                                     <option value='{{ $category->id }}'>{{ $category->name }}</option>

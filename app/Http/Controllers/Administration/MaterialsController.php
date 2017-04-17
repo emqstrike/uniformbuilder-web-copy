@@ -19,6 +19,7 @@ use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\PriceItemTemplatesAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
+use Illuminate\Support\Facades\Input;
 
 class MaterialsController extends Controller
 {
@@ -157,6 +158,45 @@ class MaterialsController extends Controller
             'options' => $options,
         ]);
 
+    }
+
+    public function dropZone($id)
+    {
+        Log::info('Materials Options QS');
+        $material = $this->client->getMaterialQS($id);
+        $options = $this->optionsClient->getByMaterialId($id);
+        return view('administration.materials.add-materials-options-dropzone', [
+            'material' => $material,
+            'options' => $options,
+        ]);
+
+    }
+
+    public function insertDropzoneImage(Request $request){
+        // $image = Input::file('file');
+        $file = $request->file('file');
+        $a = explode('\\', $file);
+        $b = end($a);
+        $c = explode('.', $b);
+        $d = $c[0];
+        // $b = $image->getClientOriginalExtension();
+        // return $d;
+        if (isset($file))
+        {
+            if ($file->isValid())
+            {
+                $randName = Random::randomize(12);
+                $loc = FileUploader::upload(
+                    $file,
+                    $randName,
+                    'material_option',
+                    "materials",
+                    "{$d}.png"
+                );
+
+                return $loc;
+            }
+        }
     }
 
     public function delete($id)
