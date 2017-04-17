@@ -44,7 +44,10 @@ $(document).ready(function () {
             if (typeof ub.user.id !== 'undefined') {
 
                 ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
-                ub.loader(ub.orders_url, 'orders', ub.load_orders);                
+                ub.loader(ub.orders_url, 'orders', ub.load_orders);
+
+                // ub.savedDesigns_url = window.ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id;
+                // ub.loader(ub.savedDesigns_url, 'saved_designs', ub.load_save_designs);
 
             }
             else {
@@ -315,7 +318,7 @@ $(document).ready(function () {
             
             //if (ub.current_material.material.id === '648' || '731') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
 
-            if(ub.funcs.isCurrentSport('Baseball')) {
+            if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
                 $('a.change-view[data-view="pipings"]').removeClass('disabled');                                
             } else {
 
@@ -338,7 +341,7 @@ $(document).ready(function () {
            // $('div.activate_qa_tools').fadeIn();
 
             var _type = '';
-            
+
             if (ub.current_material.material.factory_code === "BLB") {
 
                 _type = "Sublimated";
@@ -950,6 +953,8 @@ $(document).ready(function () {
                 type: type,
                 name: data,
                 thumbnail: _object.thumbnail,
+                uniform_category: _object.object.uniform_category,
+
                 id: _object.id,
             });
 
@@ -966,7 +971,7 @@ $(document).ready(function () {
                 if (typeof ub.data.searchSource['materials'] === 'object' && typeof ub.data.searchSource['orders'] === 'object') {
 
                     $('.typeahead').typeahead({
-                        minLength: 2,
+                        minLength: 3,
                         highlight: true
                     },
                     {
@@ -977,27 +982,35 @@ $(document).ready(function () {
                             suggestion:  function (data) {
 
                                 ub.addToSearchResults('materials', data);
-                                return '<div class="typeahead_results_template" onclick="ub.overrideTypeAheadEvent(this);" data-value="' + data + '" data-id="materials">' + data + '</div>';                            
+                                return '<div class="typeahead_results_template" onclick="ub.overrideTypeAheadEvent(this);" data-value="' + data + '" data-id="materials">' + data + '</div>';
 
                             },
 
                         },
-                    },
-                    {
-                        name: 'orders',
-                        source: substringMatcher(ub.data.searchSource['orders']),
-                        templates: {
-                            
-                            header: '<h3 class="header-name orders">Saved Designs</h3>',
-                            suggestion:  function (data) {
+                    }
+                    );
 
-                                ub.addToSearchResults('orders', data);
-                                return '<div class="typeahead_results_template" onclick="ub.overrideTypeAheadEvent(this);" data-value="' + data + '" data-id="orders">' + data + '</div>';                            
+                    // $('input.typeahead.tt-hint').on('change', function () {
+                    //     console.log($(this).val());
+                    // });
+                    // $('body').on("mouseover", ".tt-suggestion", function () {
+                    //     console.log($(this).data('value'));
 
-                            },
+                    //     $('input#search_field').val($(this).data('value'));
+                    // });
 
-                        },
-                    });
+                    // {
+                    //     name: 'savedDesigns',
+                    //     source: substringMatcher(ub.data.searchSource['savedDesigns']),
+                    //     templates: {
+                    //         header: '<h3 class="header-name orders">Saved Designs</h3>',
+                    //         suggestion:  function (data) {
+                    //             ub.addToSearchResults('savedDesigns', data);
+                    //             return '<div class="typeahead_results_template" onclick="ub.overrideTypeAheadEvent(this);" data-value="' + data + '" data-id="savedDesigns">' + data + '</div>';                            
+                    //         },
+                    //     },
+                    // })
+                    ;
 
                     $('.typeahead').unbind('typeahead:idle');
                     $('.typeahead').bind('typeahead:idle', function (ev, list, flag, dataset) {
@@ -1006,11 +1019,12 @@ $(document).ready(function () {
 
                     $('.typeahead').unbind('typeahead:select');
                     $('.typeahead').bind('typeahead:select', function (ev, data) {
+
                         $('[data-item="'+ data +'"]').click();
+
                     });
 
                     $('#search_field').attr("placeholder","Search: Style or Saved Designs");
-                    setTimeout("$('#search_field').focus();", 0);
 
                 }
 
@@ -1020,7 +1034,7 @@ $(document).ready(function () {
                 if (typeof ub.data.searchSource['materials'] === 'object') {
 
                     $('.typeahead').typeahead({
-                        minLength: 2,
+                        minLength: 3,
                         highlight: true
                     },{
                         
@@ -1051,7 +1065,7 @@ $(document).ready(function () {
                     });
 
                     $('#search_field').attr("placeholder","Search: Style");
-                    setTimeout("$('#search_field').focus();", 0);
+                    
 
                 }
 
@@ -1148,6 +1162,17 @@ $(document).ready(function () {
             ub.prepareTypeAhead();
 
         }
+
+        ub.load_save_designs = function (obj, object_name){
+
+            ub.savedDesigns = {};
+            ub.savedDesigns = obj;
+            ub.data.searchSource['savedDesigns'] = _.pluck(ub.savedDesigns, 'name');
+
+            ub.prepareTypeAhead();
+
+        }
+
 
         ub.load_patterns = function (obj, object_name){
 
@@ -1604,7 +1629,7 @@ $(document).ready(function () {
 
     ub.funcs.processPipings = function () {
 
-        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch'))) { return; }
+        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || ub.funcs.isCurrentSport('Crew Socks (Apparel)') )) { return; }
 
         if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
 
@@ -5475,6 +5500,7 @@ $(document).ready(function () {
 
             var _picker_type = $(this).data('picker-type');
             var _item        = $(this).data('item');
+            var _id          = $(this).data('id');
 
             if (_picker_type === 'gender') {
 
@@ -5494,8 +5520,10 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (_item !== "Football" && _item !== "Wrestling") { return; }
+                if (_item !== "Football" && _item !== "Wrestling" && _item !== "Baseball") { return; }
                 if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
+
+                if (_item === "Baseball" && !_.contains(ub.fontGuideIDs, ub.user.id)) { return; }
 
                 ub.funcs.initUniformsPicker(_item);
 
@@ -5509,9 +5537,7 @@ $(document).ready(function () {
                 $('#main-picker-container').hide();
                 $('.header-container').removeClass('forceHide');
 
-
-                var _uniform = _.find(ub.materials, {name: _item});
-                window.location.href = window.ub.config.host + '/builder/0/' + _uniform.id;
+                window.location.href = window.ub.config.host + '/builder/0/' + _id;
 
             }
 
@@ -5719,7 +5745,7 @@ $(document).ready(function () {
             });
 
             var data = {
-
+                sport: gender,
                 picker_type: type,
                 picker_items: ub.tempItems,
                 filters: _.find(ub.data.sportFilters, {sport: gender}).filters,
@@ -5955,10 +5981,21 @@ $(document).ready(function () {
             ub.funcs.hideSecondaryBar();
 
             var template = $('#m-picker-items-search-results').html();
+            var uniques = _.map(_.groupBy(items, function(doc) {
+              return doc.id;
+            }),function(grouped){
+              return grouped[0];
+            });
+
+            if (!_.contains(ub.fontGuideIDs, ub.user.id)) {
+                uniques = _.reject(uniques, function (item) { 
+                    return item.uniform_category === "Baseball"; 
+                });
+            }
 
             var data = {
                 picker_type: type,
-                picker_items: items,
+                picker_items: uniques,
             }
             
             var markup = Mustache.render(template, data);
@@ -6028,6 +6065,26 @@ $(document).ready(function () {
         var $searchField = $('input#search_field');
         $searchField.fadeIn();
 
+        if (_.contains(ub.fontGuideIDs, ub.user.id)) {
+
+            var a = _.find(ub.data.sports, {gender: 'Men'});
+            var _bsb = _.find(a.sports, {code: 'baseball'});
+
+            _bsb.active = "1";
+            _bsb.tooltip = "";
+            _bsb.disabledClass = "";
+
+        } else {
+
+            var a = _.find(ub.data.sports, {gender: 'Men'});
+            var _bsb = _.find(a.sports, {code: 'baseball'});
+
+            _bsb.active = "0";
+            _bsb.tooltip = "Coming Soon!";
+            _bsb.disabledClass = "disabled";
+
+        }
+
         var items = _.find(ub.data.sports, {gender: sport});
         ub.funcs.initScroller('sports', items.sports);
 
@@ -6061,17 +6118,19 @@ $(document).ready(function () {
 
     };
 
-    $('input#search_field').on('keypress', function (evt) {
+    $('input#search_field').on('keyup', function (evt) {
 
-        if (evt.which !== 13) { return; }
-
-        var _input = $(this).val();
-
-        if (_input === '') {
-            ub.funcs.initGenderPicker();
-        }
+        if ($(this).val().length === 0) { 
+            ub.funcs.initMen();           
+        }        
 
     });
+
+    ub.funcs.initMen = function () {
+         
+        $('span.slink[data-item="Men"]').click();
+
+    }
 
     ub.funcs.backHome = function () {
 
@@ -7556,111 +7615,5 @@ $(document).ready(function () {
 
     // Initial Roster Item
     createNewRosterRecordForm();
-
-    
-
-    // lrest
-
-    ub.funcs.lRest = function (e, p, fromMiddleScreen) {
-
-        if (e.trim().length === 0 || p.trim().length === 0) { return; }
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $.ajax({
-
-            data: JSON.stringify({ email: e, password: p }),
-            url: ub.config.host + "/lrest",
-            dataType: "json",
-            type: "POST", 
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-        
-            success: function (response) {
-
-                if(response.success) {
-
-                    window.ub.user = {
-
-                        id: response.userId,
-                        fullname: response.fullname,
-                        firstName: response.firstName,
-                        lastName: response.lastName,
-                        email: response.email,
-                        headerValue: response.accessToken,
-
-                    };
-
-                    var template = $('#m-loggedInNavbar').html();
-                    var data = { firstName: response.firstName, }
-                    var markup = Mustache.render(template, data);
-
-                    $('div.user-profile.pull-right').html(markup);
-                    $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
-
-                    ub.funcs.updateMessageCount();
-
-                    $('a.change-view[data-view="save"]').removeClass('disabled');
-                    $('a.change-view[data-view="open-design"]').removeClass('disabled');
-
-                    if (typeof fromMiddleScreen !== 'undefined') {
-
-                        $('div#primaryQuickRegistrationPopup').remove();
-                        ub.funcs.initRoster();
-
-                    }
-
-                } else {
-
-                    if (typeof fromMiddleScreen !== 'undefined') {
-                        
-                        var _forgotPasswordLink = ' <a href="/forgot-password" target="_new">did you forget your password?</a>';
-                        $('em.message').html(response.message + ", " + _forgotPasswordLink);
-
-                    } else {
-
-                        $.smkAlert({text: response.message, type: 'warning', time: 3, marginTop: '260px'});
-
-                    }
-
-                }
-
-            }
-        
-        });
-
-    }
-
-    $('input#login-email').on('keypress', function (e) {
-
-        var code = (e.keyCode ? e.keyCode : e.which);
-        
-        if (code == 13) { 
-            
-            $('input#login-password').focus();
-            e.preventDefault();
-
-        }
-
-    });
-
-    $("form.loginRest").submit( function( event ) { event.preventDefault(); });
-
-    $('button.loginRest').unbind('click');
-    $('button.loginRest').on('click', function () {
-
-        var _e = $('input[type="email"]').val();
-        var _p = $('input[type="password"]').val();
-
-        ub.funcs.lRest(_e, _p);
-
-    });
-
-    // End lrest
 
 });

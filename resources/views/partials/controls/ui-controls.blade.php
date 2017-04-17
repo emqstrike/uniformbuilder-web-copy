@@ -441,7 +441,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow" data-picker-type="uniforms" data-item="@{{name}}">
+            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-item="@{{name}}" data-id="@{{id}}">
 
                 <img src="@{{thumbnail_path}}?v={{$asset_version}}">
 
@@ -1810,4 +1810,69 @@
 
 <!-- End Main Piping Sidebar -->
 
+<!-- Add New Free-Form Location -->
 
+    <script type="text/mustache" id="m-add-free-form-application">
+
+        <div id="add-new-free-form-application">
+
+            <label>1. What type of application do you want to add?</label>
+
+            <div class="application-container">
+
+                <span class="optionButton" data-type="player_number"><div class="icon"><img src="/images/main-ui/icon-number-large.png"></div><div class="caption">Player Number</div></span>
+                <span class="optionButton" data-type="team_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Team Name</div></span>
+                <span class="optionButton" data-type="player_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Player Name</div></span>
+                <span class="optionButton" data-type="mascot"><div class="icon"><img src="/images/main-ui/icon-mascot-large.png"></div><div class="caption">Mascot</div></span>                            
+                
+            </div>
+
+            <br />
+            <label>2. What perspective do you want to add the application?</label>
+
+            <div class="perspective-container">
+
+                <span class="perspective" data-id="front">Front</span>
+                <span class="perspective" data-id="back">Back</span>
+                <span class="perspective" data-id="left">Left</span>
+                <span class="perspective" data-id="right">Right</span>
+                
+            </div>
+
+            <br />
+            <label>3. Which part do you want to add the application on?</label>
+
+            <div class="part-container">
+
+                @{{#parts}}
+
+                    <span class="part" data-id="@{{name}}">@{{name}}</span>
+
+                @{{/parts}}
+                
+            </div>
+
+            <br />
+            <label class="leftrightPart">4. <span class="partName">Sleeve</span> has a left and right part, which side do you want to put the application on?</label>
+
+            <div class="side-container">
+
+                <span class="side" data-id="na">N/A</span>
+                <span class="side" data-id="left">Left</span>
+                <span class="side" data-id="right">Right</span>
+                
+            </div>
+
+            <hr />
+
+            <div class="footer-buttons">
+
+                <span class="button okButton" >Ok</span> <span class="button cancelButton">Cancel</span>
+
+            </div>
+            
+        </div>
+        
+    </script>
+
+<!-- End Add New Free-Form Location -->

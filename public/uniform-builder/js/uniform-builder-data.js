@@ -2062,6 +2062,10 @@ $(document).ready(function() {
                 alias: "baseball",
             },
             {
+                name: "Fastpitch",
+                alias: "fastpitch",
+            },
+            {
                 name: "Compression (Apparel)",
                 alias: "compression",
             },
@@ -2148,6 +2152,51 @@ $(document).ready(function() {
                             },
                 ],
             },
+
+            // Fast Pitch
+
+            {
+                name: 'mascot',
+                sport: 'fastpitch',
+                applicationNumbers: [37, 38],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            }
+                ],
+            },
+            {
+                name: 'mascot',
+                sport: 'fastpitch',
+                applicationNumbers: [39, 40],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                ],
+            },
+            {
+                name: 'mascot',
+                sport: 'fastpitch',
+                applicationNumbers: [15],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 1.75,
+                            },
+                ],
+            }
         ], 
         getSize: function (applicationType, sport, id) {
 
@@ -2543,6 +2592,128 @@ $(document).ready(function() {
                 {
                     name: 'back_number',
                     sport: 'baseball',
+                    sizes:  [
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                // End Baseball
+
+                 {
+                    name: 'text_baseball',
+                    sport: 'fastpitch',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+
+                // Baseball
+                {
+                    name: 'team_name',
+                    sport: 'fastpitch',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'fastpitch',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'fastpitch',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'fastpitch',
+                    applicationNumbers: [7,6],
+                    sizes: [
+                        {size: 2},
+                        {size: 3},
+                    ],
+                },
+                {
+                    name: 'mascot',
+                    sport: 'fastpitch',
+                    applicationNumbers: [29, 26, 28, 27, 30, 31, 9, 10,1],
+                    sizes: [
+                        {size: 2},
+                        {size: 3},
+                        {size: 4},
+                    ],
+                },
+                {
+                    name: 'mascot',
+                    sport: 'fastpitch',
+                    applicationNumbers: [5],
+                    sizes: [
+                        {size: 6},
+                        {size: 8},
+                        {size: 10},
+                    ],
+                },
+                {
+                    name: 'front_number',
+                    sport: 'fastpitch',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'fastpitch',
                     sizes:  [
                                 {
                                     size: 6,
@@ -9719,6 +9890,86 @@ ub.funcs.fontOffSets = [
                 scale: {x: 0.42, y: 0.42},
             },
 
+
+            // Fast Pitch 
+
+            // Knicker, Elastic_Knicker
+            // 1"       - 0.17
+            // 1.75"    - 0.23
+            // 2"       - 0.27
+            // 3"       - 0.42
+            // 4"       - 0.56
+            {
+                sport: 'Fastpitch',
+                option: ['Knicker', 'Elastic_Knicker'],
+                size: 1,
+                scale: {x: 0.17 ,y: 0.17},
+            },
+            {
+                sport: 'Fastpitch',
+                option: ['Knicker', 'Elastic_Knicker'],
+                size: 1.75,
+                scale: {x: 0.23 ,y: 0.23},
+            },
+            {
+                sport: 'Fastpitch',
+                option: ['Knicker', 'Elastic_Knicker'],
+                size: 2,
+                scale: {x: 0.27 ,y: 0.27},
+            },
+            {
+                sport: 'Fastpitch',
+                option: ['Knicker', 'Elastic_Knicker'],
+                size: 3,
+                scale: {x: 0.42 ,y: 0.42},
+            },
+            {
+                sport: 'Fastpitch',
+                option: ['Knicker', 'Elastic_Knicker'],
+                size: 4,
+                scale: {x: 0.56 ,y: 0.56},
+            },
+
+            // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
+            // 1"       - 0.15
+            // 1.75"    - 0.18
+            // 2"       - 0.2
+            // 3"       - 0.3
+            // 4"       - 0.42
+
+            
+
+            {
+                sport: 'Fastpitch',
+                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+                size: 1,
+                scale: {x: 0.15, y: 0.15},
+            },
+            {
+                sport: 'Fastpitch',
+                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+                size: 1.75,
+                scale: {x: 0.18, y: 0.18},
+            },
+            {
+                sport: 'Fastpitch',
+                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+                size: 2,
+                scale: {x: 0.2, y: 0.2},
+            },
+            {
+                sport: 'Fastpitch',
+                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+                size: 3,
+                scale: {x: 0.3, y: 0.3},
+            },
+            {
+                sport: 'Fastpitch',
+                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+                size: 4,
+                scale: {x: 0.42, y: 0.42},
+            },
+
         ],
 
         getSize: function (sport, size, option) {
@@ -10670,8 +10921,8 @@ ub.funcs.fontOffSets = [
                     {
                         applicationNumbers: [9, 10],
                         resultApplicationType: 'sleeve_number',
-                        size: 3,
-                        font_size: 3,
+                        size: 4,
+                        font_size: 4,
                         sport: ['Default', 'Baseball', 'Fastpitch'],
                     },
                     {

@@ -2579,6 +2579,13 @@ div#main-picker-container {
             }
 
         }        
+        
+        div.main-picker-items.Baseball {
+
+            width: 388px;
+            height: 420px;
+
+        }
 
     }
 }
@@ -8367,7 +8374,7 @@ strong.hello {
         -webkit-transition: all .2s;
         transition: all .2s;
         text-align: center;
-        z-index: 3000;
+        z-index: 1000;
 
         -webkit-user-select: none; /* Chrome/Safari */        
         -moz-user-select: none; /* Firefox */
@@ -8950,3 +8957,115 @@ button.loginRest {
     }
 
 /* End Message Modal */
+
+/* Add New Free Form Application */
+
+    div#add-new-free-form-application {
+
+        div.perspective-container, div.part-container, div.application-container, div.side-container  {
+
+            text-align: center;
+
+            span.perspective, span.part, span.optionButton, span.side {
+
+                display: inline-block;
+                width: 70px;
+                height: 70px;
+                border: solid 1px #acacac;
+                padding-top: 23px;
+                margin: 7px;
+                cursor: pointer;
+
+            }
+
+            span.perspective:hover, span.part:hover, span.optionButton:hover, span.side:hover {
+
+                color: white;
+                background-color: #acacac;
+
+            }
+
+            span.perspective.active, span.part.active, span.optionButton.active, span.side.active {
+
+                font-family: "Avenir Next LT W04 Bold";
+                color: white;
+                background-color: #3d3d3d;
+
+                img {
+                    
+                    -webkit-filter: brightness(100); 
+                    filter: brightness(100);
+
+                }
+
+            }
+
+            span.part {
+
+                width: 170px;
+                height: 30px;
+                padding-top: 4px;
+                
+            }
+
+            span.side {
+
+                width: 200px;
+                height: 30px;
+                padding-top: 4px;
+                
+            }
+
+            span.optionButton {
+
+                width: 120px;
+                height: 120px;
+
+                div.caption {
+
+                    margin-top: 7px;
+
+                }
+
+            }
+
+        }
+
+        label.leftrightPart, div.side-container {
+
+            display:none;
+
+        }
+
+        div.footer-buttons {
+
+            margin-bottom: 50px;
+            margin-top: 10px;
+
+            span.button {
+
+                float: right;
+                width: 150px;
+                height: 35px;
+                background-color: #acacac;
+                color: white;
+                text-align: center;
+                padding-top: 7px;
+                margin-left: 10px;
+
+                cursor: pointer;
+
+            }
+
+            span.button:hover {
+
+                background-color: #3d3d3d;
+                color: white;
+
+            }
+
+        }
+
+    }
+
+/* End Add New Free Form Application*/
