@@ -1810,6 +1810,83 @@
 
 <!-- End Main Piping Sidebar -->
 
+
+<!-- Random Feed Sizes -->
+
+    <script type="text/mustache" id="m-randomFeed-sizes">
+
+        <label class="applicationLabels size">Size</label>
+
+        @{{#items}}
+
+            <span class="randomFeed-sizes-buttons" data-type="@{{name}}" data-size="@{{size}}">
+                @{{size}}
+            </span> 
+
+        @{{/items}}
+
+    </script>
+
+<!-- End Random Feed Sizes -->
+
+<!-- Random Feed Colors -->
+
+    <script type="text/mustache" id="m-randomFeed-colors">
+
+        <label class="applicationLabels colors"># of Colors</label> 
+
+        @{{#items}}
+
+            <span class="randomFeed-colors-buttons" data-type="@{{name}}" data-value="@{{val}}">
+                @{{val}}
+            </span>
+
+        @{{/items}}
+
+    </script>
+
+<!-- End randomFeed Colors -->
+
+
+<!-- Main Random Feed Sidebar -->
+
+    <script type="text/mustache" id="m-randomFeed-sidebar">
+
+        <div id="randomFeedsUI">
+          <div class="header">
+          <div class="toggle" data-status="@{{status}}"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>
+          <div class="body">
+              <div class="cover"></div>
+              <div class="ui-row">
+
+                  <label class="applicationLabels">Type</label>
+                  <span class="randomFeed-type">@{{type}}</span>                       
+
+              </div>
+
+              <div class="ui-row size-row">
+
+              </div>
+
+              <div class="ui-row colors-row">
+                  
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="ui-row">
+                  <div class="column1"> &nbsp;
+                      <div class="colorContainer"><br />
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        
+    </script>
+
+<!-- End Main Random Feed Sidebar -->
+
 <!-- Add New Free-Form Location -->
 
     <script type="text/mustache" id="m-add-free-form-application">

@@ -155,6 +155,7 @@ $(document).ready(function() {
     ub.current_material.settings.order_info     = {};
     ub.current_material.settings.size_breakdown = {};
     ub.current_material.settings.pipings        = {};
+    ub.current_material.settings.randomFeeds    = {};
 
     ub.current_material.settings.thumbnails     = {
         front_view: "",
@@ -11094,6 +11095,10 @@ ub.funcs.fontOffSets = [
             }, 
             {
                 sport: 'Compression (Apparel)',
+                sublimatedPart: 'Extra',
+            }, 
+            {
+                sport: "Cinch Sack (Apparel)",
                 sublimatedPart: 'Extra',
             }, 
             {

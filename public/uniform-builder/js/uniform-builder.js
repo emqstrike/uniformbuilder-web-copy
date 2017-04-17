@@ -74,11 +74,9 @@ $(document).ready(function () {
 
             ub.current_material.material_url         = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
             ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
-            // ub.current_material.pipings_url          = window.ub.config.api_host + '/api/pipings/' + ub.current_material.id;
 
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
-            // ub.loader(ub.current_material.pipings_url, 'pipings', ub.callback);
 
             $('#main_view').parent().fadeIn();
             $('div.header-container').fadeIn(); 
@@ -305,24 +303,23 @@ $(document).ready(function () {
         ub.funcs.prepareBottomTabs = function () {
 
             if (typeof (window.ub.user.id) === "undefined") {
-
                 $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
                 $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
-                
             } else {
-
                 $('a.change-view[data-view="save"]').removeClass('disabled');
                 $('a.change-view[data-view="open-design"]').removeClass('disabled');
-
             }
-            
-            //if (ub.current_material.material.id === '648' || '731') { $('a.change-view[data-view="pipings"]').removeClass('disabled'); }
 
-            if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
-                $('a.change-view[data-view="pipings"]').removeClass('disabled');                                
+            if(ub.funcs.isCurrentSport('Baseball')) {
+                $('a.change-view[data-view="pipings"]').removeClass('hidden');                                
             } else {
+                $('a.change-view[data-view="pipings"]').addClass('hidden');                
+            }
 
-                $('a.change-view[data-view="pipings"]').addClass('disabled');                
+            if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {                
+                $('a.change-view[data-view="randomFeed"]').removeClass('hidden'); 
+            } else {
+                $('a.change-view[data-view="randomFeed"]').addClass('hidden');             
             }
 
             $('a.change-view[data-view="team-info"]').removeClass('disabled');
@@ -1613,128 +1610,6 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.processSavedPipings = function () {
-
-        _.each(ub.current_material.settings.pipings, function (piping, key) {
-
-            var _result = _.find(ub.data.pipings, {name: key + " " + piping.size});
-
-            if(piping.size === "") { return; }
-
-            ub.funcs.renderPipings(_result, piping.numberOfColors);    
-
-        });
-
-    }
-
-    ub.funcs.processPipings = function () {
-
-        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || ub.funcs.isCurrentSport('Crew Socks (Apparel)') )) { return; }
-
-        if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
-
-            var _pipings = ub.current_material.material.pipings.replace(new RegExp("\\\\", "g"), "");
-
-            _pipings = _pipings.slice(1, -1);
-            _pipings = JSON.parse(_pipings);
-
-            ub.data.pipings = _pipings;
-
-            _.each(ub.data.pipings, function (piping) {
-
-                var _colorArray = [];
-                var _layers = [];
-
-                // Normalize Piping Position From source 
-
-                _.each (piping.perspectives, function (perspective) {
-
-                    _.each(perspective.layers, function (layer) {
-
-                        layer.position = layer.position;
-
-                    });
-
-                });
-
-                // End Normalize Piping Position from source
-
-                if (typeof piping.colors_array !== "undefined") {
-
-                    _.each(piping.colors_array, function (color, index) {
-
-                        var _color = ub.funcs.getColorByColorCode(color);
-                        
-                        _colorArray.push(_color);
-                        _layers.push({
-
-                            colorCode: color,
-                            colorObj: _color,
-                            layer: index + 1,
-                            status: false,
-
-                        });
-
-                        var _teamColorId = piping.team_color_id_array[index];
-
-                        if (piping.enabled === 1 && _color.color_code !== "none") {
-
-                             ub.data.colorsUsed[_color.hex_code] = {hexCode: _color.hex_code, parsedValue: _color.hex_code, teamColorID: _teamColorId};
-
-                        }
-                        
-                    });
-
-                } else {
-
-                    console.warn('No Color Array for ' + piping.name);
-
-                }
-
-                var _colorCount = 0;
-
-                if (piping.color1) { _colorCount +=1 }; 
-                if (piping.color2) { _colorCount +=1 }; 
-                if (piping.color3) { _colorCount +=1 }; 
-
-                // Skip setup of piping settings is coming from saved design, so the saved data will be rendered instead of the default piping style
-                if (typeof ub.current_material.settings.pipings[piping.set] !== "undefined") { return; }
-
-                if (piping.enabled === 1) {
-
-                    ub.current_material.settings.pipings[piping.set] = {
-
-                        set: piping.set,
-                        layers: _layers,
-                        numberOfColors: _colorCount,
-                        size: piping.size,
-                        
-                    };
-
-                    ub.current_material.settings.pipings[piping.set].enabled        = 1;
-                    ub.current_material.settings.pipings[piping.set].size           = piping.size;
-                    ub.current_material.settings.pipings[piping.set].numberOfColors = _colorCount;
-
-                    var _pipingObject                   = piping;
-                    var _pipingSettingsObject           = ub.funcs.getPipingSettingsObject(piping.set);
-                    var selectedColorArray              = ub.current_material.settings.team_colors;
-                    
-                    ub.funcs.initPipingColors(piping, selectedColorArray[0]);
-                    ub.funcs.renderPipings(piping, _colorCount);
-                    ub.funcs.changePipingSize(_pipingSettingsObject, _pipingObject, piping.size);
-
-                }
-
-            });
-
-        } else {
-
-            console.warn('Pipings Null || Undefined');
-
-        }
-
-    }
-
     ub.loadSettings = function (settings) {
 
         ub.current_material.settings    = settings;
@@ -1891,17 +1766,39 @@ $(document).ready(function () {
 
         // Process Pipings Here
 
-        if (ub.current_material.pipings === null) {
+        if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
 
-            console.log("Pipings is null!");
+            if (ub.current_material.pipings === null) {
+
+                console.log("Pipings is null!");
+
+            } else {
+
+                ub.funcs.processPipings(ub.current_material.material.pipings);
+
+                if (_.size(ub.current_material.settings.pipings) > 0) {
+
+                    ub.funcs.processSavedPipings();
+
+                }
+
+            }
+
+        }
+
+        // Process Random Feeds Here
+
+        if (ub.current_material.material.random_feed === null) {
+
+            console.log("Random Feeds is null!");
 
         } else {
 
-            ub.funcs.processPipings(ub.current_material.material.pipings);
+            ub.funcs.processRandomFeeds(ub.current_material.material.random_feed);
 
-            if (_.size(ub.current_material.settings.pipings) > 0) {
+            if (_.size(ub.current_material.settings.randomFeeds) > 0) {
 
-                ub.funcs.processSavedPipings();
+                ub.funcs.processSavedRandomFeeds();
 
             }
 
@@ -4758,16 +4655,6 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.removePipingsPanel = function () {
-
-        if ($('div#pipings-panel').is(':visible')) {
-
-            $('div.pipings-header > span.close').trigger('click');
-
-        }
-
-    }
-
     ub.funcs.initOrderProcess = function () {
 
         ub.funcs.resetHighlights();
@@ -4824,7 +4711,6 @@ $(document).ready(function () {
             $('div.drop.parts').on('click', function () {
 
                 if ($('div#primaryQuickRegistrationPopup').is(':visible')) { return; }
-
                 $('#select_part').click();
 
             });
@@ -4876,7 +4762,23 @@ $(document).ready(function () {
                     }
 
                     ub.funcs.removeApplicationsPanel();
+                    ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showPipingsPanel();
+
+                    return;
+
+                }
+
+                if (view === 'randomFeed') {
+
+                    if($(this).hasClass('disabled')) {
+
+                        return;
+
+                    }
+
+                    ub.funcs.removeApplicationsPanel();
+                    ub.funcs.showRandomFeedPanel();
 
                     return;
 
@@ -4905,8 +4807,6 @@ $(document).ready(function () {
                     if(!ub.showLocation) {
 
                         ub.funcs.gotoFirstMaterialOption();
-
-                        //ub.funcs.showLocations();
                         $(this).addClass('zoom_on');
 
                     }
@@ -4932,6 +4832,7 @@ $(document).ready(function () {
                 if (view === 'layers') {
                     
                     ub.funcs.removePipingsPanel();
+                    ub.funcs.removeRandomFeedsPanel();
                     ub.funcs.showLayerTool();
                     
                     return;

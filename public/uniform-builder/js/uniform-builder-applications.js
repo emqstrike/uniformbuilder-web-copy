@@ -10727,6 +10727,14 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.hiderandomFeedsTool = function () {
+
+        $('div#randomFeeds-panel').removeClass('on').addClass('off');
+        $('a.change-view[data-view="randomFeed"]').removeClass('active-change-view');
+        $('div#randomFeedsUI').remove();
+            
+    }
+
     ub.is.wrestling = function () {
 
         return ub.funcs.getCurrentUniformCategory() === "Wrestling";
