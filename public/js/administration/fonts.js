@@ -441,7 +441,7 @@ $(document).ready(function(){
             console.log('no');
         } else {
             console.log('clone');
-            var url = "//" + api_host + "/api/font/clone/";
+            var url = "//" + api_host + "/api/font/duplicate/";
             $.ajax({
                 url: url,
                 type: "POST",
