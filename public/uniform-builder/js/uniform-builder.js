@@ -189,7 +189,7 @@ $(document).ready(function () {
             if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
 
             $.ajax({
-            
+
                 url: ub.config.api_host + '/api/messages/recipient/unread/' + ub.user.id,
                 type: "GET", 
                 crossDomain: true,
@@ -2205,6 +2205,26 @@ $(document).ready(function () {
                 current_object.zIndex = (obj.layer_level * 2) * (-1); 
                 current_object.originalZIndex = (obj.layer_level * 2) * (-1);
 
+                // So these static layers will be above the random feed layers in 
+
+                if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+                    if (name === "back_tab")  {
+
+                        current_object.zIndex = -86;
+                        current_object.originalZIndex = -86;
+
+                    }
+
+                    if (name === "prolook")  {
+
+                        current_object.zIndex = -87;
+                        current_object.originalZIndex = -87;
+
+                    }
+
+                }
+                
                 if (obj.setting_type === 'highlights') {
 
                     current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
