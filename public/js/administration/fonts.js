@@ -433,6 +433,39 @@ $(document).ready(function(){
         });
     });
 
+    $("#fonts_table").on("click", ".clone-font", function(e){
+        var id = $(this).data('font-id');
+        e.preventDefault();
+        console.log('try to clone');
+        if(!confirm('Do you want to clone this item?')){
+            console.log('no');
+        } else {
+            console.log('clone');
+            var url = "//" + api_host + "/api/font/clone/";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({id: id}),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                        $('.material-' + id).fadeOut();
+                        window.location.reload(true);
+                    }
+                }
+            });
+        }
+    });
+
     $('.delete-font').on('click', function(){
         var id = [];
         id.push($(this).data('font-id'));
@@ -445,7 +478,7 @@ $(document).ready(function(){
 
        var url = "//" + api_host + "/api/font/delete/";
        //var url = "//localhost:8888/api/font/delete/";
-        
+
         $.ajax({
             url: url,
             type: "POST",

@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered fonts'>
+                    <table data-toggle='table' class='table table-bordered fonts' id="fonts_table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -139,6 +139,10 @@
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
+                                <a href="#" class="btn btn-default btn-xs clone-font" data-font-id="{{ $font->id }}" role="button">
+                                    <i class="glyphicon glyphicon-copy"></i>
+                                    Clone
+                                </a>
                                 <a href="#" class="btn btn-danger pull-right btn-xs delete-font" data-font-id="{{ $font->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
@@ -163,6 +167,37 @@
         </div>
     </div>
 </section>
+
+<!-- Confirmation Modal -->
+<div class="modal confirmation-modal" id="clone-confirmation-modal" aria-hidden="false">
+    <div class="modal-dialog"> 
+        <div class="modal-content"> 
+            <div class="modal-header"> 
+                <button type="button" class="close" data-dismiss="modal">×</button> 
+                <h4 class="modal-title">Title</h4> 
+            </div> 
+            <div class="modal-body">Message</div> 
+            <div class="modal-footer">
+                <button class="btn btn-danger @if (isset($yes_class_name)) {{ $yes_class_name }} @else confirm-yes @endif" data-value=''
+                @if (isset($attributes))
+                    @if (count($attributes) > 0)
+                        @foreach ($attributes as $attribute)
+                            data-{{ $attribute }}=""
+                        @endforeach
+                    @endif
+                @endif
+                >
+                    <li class="glyphicon glyphicon-ok"></li>
+                    Yes
+                </button>
+                <button class="btn btn-default confirm-no" data-dismiss="modal">
+                    <li class="glyphicon glyphicon-remove"></li>
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @include('partials.confirmation-modal')
 
