@@ -1742,7 +1742,7 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings[uniform_type], function (e) {
 
-            if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') { return; }
+            if(e.setting_type === 'highlights' || e.setting_type === 'shadows') { return; }
 
             if (typeof e.code !== 'undefined') {
 
@@ -2312,6 +2312,26 @@ $(document).ready(function () {
                 current_object.zIndex = (obj.layer_level * 2) * (-1); 
                 current_object.originalZIndex = (obj.layer_level * 2) * (-1);
 
+                // So these static layers will be above the random feed layers in 
+
+                if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+                    if (name === "back_tab")  {
+
+                        current_object.zIndex = -86;
+                        current_object.originalZIndex = -86;
+
+                    }
+
+                    if (name === "prolook")  {
+
+                        current_object.zIndex = -87;
+                        current_object.originalZIndex = -87;
+
+                    }
+
+                }
+                
                 if (obj.setting_type === 'highlights') {
 
                     current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
