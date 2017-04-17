@@ -153,6 +153,7 @@ $('.submit-data').on('click', function(e){
 	console.log('submit');
 
 	var data = $('.data-string').val();
+    console.log(data);
 	$.ajax({
         url: "//localhost:8888/api/material_options/insert_multiple_from_dropzone",
         type: "POST",

@@ -19,6 +19,7 @@ use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\PriceItemTemplatesAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
+use Illuminate\Support\Facades\Input;
 
 class MaterialsController extends Controller
 {
@@ -172,7 +173,14 @@ class MaterialsController extends Controller
     }
 
     public function insertDropzoneImage(Request $request){
+        // $image = Input::file('file');
         $file = $request->file('file');
+        $a = explode('\\', $file);
+        $b = end($a);
+        $c = explode('.', $b);
+        $d = $c[0];
+        // $b = $image->getClientOriginalExtension();
+        // return $d;
         if (isset($file))
         {
             if ($file->isValid())
@@ -183,7 +191,7 @@ class MaterialsController extends Controller
                     $randName,
                     'material_option',
                     "materials",
-                    "{$file}.png"
+                    "{$d}.png"
                 );
 
                 return $loc;
