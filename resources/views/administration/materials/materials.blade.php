@@ -140,6 +140,9 @@
                     <a href="/administration/material/{{ $material->id }}/random_feed" class="btn btn-xs btn-warning">
                         <i class="fa fa-random" aria-hidden="true"></i>
                     </a>
+                    <a href="/administration/material/materials_options/dropzone/{{ $material->id }}" class="btn btn-xs btn-default">
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                    </a>
                     <a href="#" class="btn btn-xs btn-danger delete-material" data-material-id="{{ $material->id }}">
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
