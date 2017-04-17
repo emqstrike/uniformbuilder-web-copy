@@ -10406,8 +10406,15 @@ $(document).ready(function() {
 
                 } else {
 
-                    if (_part === "Back Body") { $('span.perspective[data-id="back"]').addClass('active'); }
-                    if (_part === "Body") { $('span.perspective[data-id="front"]').addClass('active'); }
+                    if (_part === "Back Body") { 
+                        $('span.perspective').removeClass('active');
+                        $('span.perspective[data-id="back"]').addClass('active'); 
+                    }
+
+                    if (_part === "Body") { 
+                        $('span.perspective').removeClass('active');
+                        $('span.perspective[data-id="front"]').addClass('active'); 
+                    }
 
                     $('label.leftrightPart, div.side-container').hide();                    
                     $('span.side').removeClass('active');
@@ -10436,8 +10443,6 @@ $(document).ready(function() {
                 }
 
             });
-
-            
 
             // Application Type
 
@@ -10479,6 +10484,14 @@ $(document).ready(function() {
                 dialog.modal('hide');
 
             });
+
+            // Cinch Sack doesnt have a Left and Right View
+
+            if (ub.funcs.isCurrentSport("Cinch Sack (Apparel)")) {
+
+                $('span.perspective[data-id="left"], span.perspective[data-id="right"]').hide();
+
+            }
 
         });
 
@@ -10794,6 +10807,9 @@ $(document).ready(function() {
         $('span.add-application').on('click', function () {
 
             $('a.change-view[data-view="locations-add"]').click();
+
+
+            
 
         });
 
