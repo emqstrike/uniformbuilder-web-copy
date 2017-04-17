@@ -155,7 +155,7 @@ $('.submit-data').on('click', function(e){
 	var data = $('.data-string').val();
     console.log(data);
 	$.ajax({
-        url: "//localhost:8888/api/material_options/insert_multiple_from_dropzone",
+        url: "//api-dev.qstrike.com/api/material_options/insert_multiple_from_dropzone",
         type: "POST",
         data: data,
         dataType: "json",
