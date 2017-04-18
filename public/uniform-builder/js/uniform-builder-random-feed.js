@@ -13,9 +13,6 @@ $(document).ready(function () {
 
             var _result = _.find(ub.data.randomFeeds, {set: set});
 
-            console.log('Result: ');
-            console.log(_result);
-
             if (typeof _result === "undefined") {
 
                 ub.utilities.warn(set + " doesn't have a random feed!");

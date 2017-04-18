@@ -543,12 +543,7 @@ $(document).ready(function () {
 
         _element = document.getElementById(_id);
 
-        if(_element === null) {
-
-            console.log('get element with ' + _id + ' returned null');
-            return;
-
-        } 
+        if(_element === null) { return; } 
 
         _element.setAttribute("d", describeArc(275, 215, 150, _start, _end));
 
