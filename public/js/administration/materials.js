@@ -721,20 +721,20 @@ $(document).ready(function() {
         console.log(err.message);
     }
 
-    window.materialOptionSettings = null;
-    var url = "//" + api_host + "/api/cuts/settings";
-    $.ajax({
-        url: url,
-        type: "GET",
-        dataType: "json",
-        crossDomain: true,
-        contentType: 'application/json',
-        success: function(response){
-            window.materialOptionSettings = response;
-            var type = 'pant cut';
-            var items = materialOptionSettings[type];
-        }
-    });
+    // window.materialOptionSettings = null;
+    // var url = "//" + api_host + "/api/cuts/settings";
+    // $.ajax({
+    //     url: url,
+    //     type: "GET",
+    //     dataType: "json",
+    //     crossDomain: true,
+    //     contentType: 'application/json',
+    //     success: function(response){
+    //         window.materialOptionSettings = response;
+    //         var type = 'pant cut';
+    //         var items = materialOptionSettings[type];
+    //     }
+    // });
 
     $('.materials').bootstrapTable();
 
