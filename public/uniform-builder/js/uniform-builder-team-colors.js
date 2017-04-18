@@ -624,7 +624,14 @@ $(document).ready(function () {
                 var fill = 'white';
 
                 _strBuilder     += '<div class="color-wheel" id="cw_' + modLabel.index + '">';
-                _strBuilder     += '<svg id="svg_cw_' + modLabel.index + '" class="svg-color-wheel">';
+                _strBuilder     += '<svg id="svg_cw_' + modLabel.index + '" class="svg-color-wheel">';                // bg's 
+
+                // start bg's
+
+                // from http://stackoverflow.com/questions/3796025/fill-svg-path-element-with-a-background-image TODO: manipulate this
+                _strBuilder += '<defs><pattern id="img1" patternUnits="userSpaceOnUse" width="100" height="100"><image xlink:href="wall.jpg" x="0" y="0" width="100" height="100" /></pattern></defs>';
+                // end bg's 
+
                 _tempIndex      += 1;
                 _strBuilder     += '<circle class="preview growCircle" cx="275" cy="215" r="100"  fill="#3d3d3d" />';
                 _strBuilder     += '<text class="previewColorCode growTextCode" x="275" y="215" font-family="Avenir Next LT W04 Thin" font-size="48px" text-anchor="middle" fill="' + fill + '">RB</text>';
