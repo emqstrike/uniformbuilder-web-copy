@@ -531,18 +531,105 @@ $(document).ready(function () {
 
     };
 
-    ub.funcs.drawColorPickers = function () {
+    ub.funcs.setupArc = function (modLabel, index, length) {
+
+        var _length = length;
+        var _nth    = index;
+        var _start  = _nth * _length;
+        var _end    = _start + _length;
+        var _id     = "arc" + index + '-' + modLabel.fullname;
+        var $pArc = $("path#arc" + index + '-' + modLabel.fullname);
+        var _element = undefined;
+
+        console.log('Length: ');
+        console.log(length);
+        console.log('ID: ' + _id);
+
+        _element = document.getElementById(_id);
+
+        if(_element === null) {
+
+            console.log('get element with ' + _id + ' returned null');
+            return;
+
+        } 
+
+        _element.setAttribute("d", describeArc(275, 215, 150, _start, _end));
+
+        $pArc.parent().find('circle').css('cursor', 'pointer');
+        $pArc.parent().find('circle').on('click', function () {
+
+            $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
+
+        });
+
+        $pArc.parent().find('text.previewColorName').css('cursor', 'pointer');
+        $pArc.parent().find('text.previewColorName').on('click', function () {
+
+            $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
+
+        });
+
+        $pArc.parent().find('text.previewColorCode').css('cursor', 'pointer');
+        $pArc.parent().find('text.previewColorCode').on('click', function () {
+
+            $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
+
+        });
+
+        $pArc.css('cursor','pointer');
+
+        $pArc.on("click", function () {
+
+            $("path.arc-" + modLabel.fullname).attr("class", "growStroke arc-" + modLabel.fullname);
+            $(this).attr("class", "selectedStroke growStroke arc-" + modLabel.fullname);
+
+            var _colorID           = $(this).data('color-id');
+            var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});
+            
+            ub.funcs.ui.setMaterialOptionColor(modLabel.name, _colorOBJ, 'from color picker');
+
+            var $previewCircle     = $(this).parent().find('circle');
+            $previewCircle.css('fill', '#' + _colorOBJ.hex_code);
+
+            if (_colorOBJ.color_code === 'W') {
+            
+                $previewCircle.css('fill', '#ffffff');
+
+            }
+
+            var fill = "white";
+
+            if (_colorOBJ.color_code === 'W' || _colorOBJ.color_code === 'Y' || _colorOBJ.color_code === 'CR' || _colorOBJ.color_code === 'S' || _colorOBJ.color_code === 'PK'  || _colorOBJ.color_code === 'OP' || _colorOBJ.color_code === 'SG') {
+                fill = 'black';
+            }
+
+            var $previewColorCode = $(this).parent().find('text.previewColorCode');
+            $previewColorCode.html(_colorOBJ.color_code);
+            $previewColorCode.css('fill', fill);
+
+            var $previewColorName = $(this).parent().find('text.previewColorName');
+            $previewColorName.html(_colorOBJ.name);
+            $previewColorName.css('fill', fill);
+
+        });
+
+    }
+
+    ub.funcs.drawColorPickers = function () { 
 
         var _teamColorObj           = ub.current_material.settings.team_colors;
         var _strBuilder             = '';
         var _sortedModifierLabels   = _.sortBy(ub.data.modifierLabels, 'index');
         var _tempIndex              = 1;
         var _colorSet               = ub.funcs.getBaseColors();
+        var _hasRandomFeed          = undefined; 
 
         _strBuilder                 += '<div id="color-wheel-container">';
         
             _.each(_sortedModifierLabels, function (modLabel) {
 
+                var _hasRandomFeed          = ub.funcs.hasRandomFeed(modLabel.fullname.toTitleCase()); 
                 var fill = 'white';
 
                 _strBuilder     += '<div class="color-wheel" id="cw_' + modLabel.index + '">';
@@ -563,7 +650,16 @@ $(document).ready(function () {
 
                     _strBuilder +=  '<path class="growStroke arc-' + modLabel.fullname + '" id="arc' + index + '-' + modLabel.fullname + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
 
+
                 });
+
+                colorObj = ub.funcs.getColorByColorCode('B');
+
+                if (_hasRandomFeed) {
+
+                    _strBuilder +=  '<path class="growStroke arc-' + modLabel.fullname + '" id="arc' + _teamColorObj.length + '-' + modLabel.fullname + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
+
+                }
 
                 _strBuilder     += '</svg>';
                 _strBuilder     += '</div>';
@@ -577,77 +673,34 @@ $(document).ready(function () {
         _.each(_sortedModifierLabels, function (modLabel) {
 
             var _elements   = _teamColorObj.length;
-            var _length     = 360 / _elements;
-            var _start      = 0;
+            var _length     = undefined;
+            var _start      = undefined;
+            var _hasRandomFeed          = ub.funcs.hasRandomFeed(modLabel.fullname.toTitleCase()); 
+            
+            console.log('Mod Label: ');
+            console.log(modLabel.fullname);
+            console.log('Has Random Feed? ' + _hasRandomFeed);
+            console.log('');
+
+            if (_hasRandomFeed) { _elements += 1; }
+
+            _length     = 360 / _elements;
+            _start      = 0;
+
+            console.log('Team Coclor Obj Length: ');
+            console.log(_teamColorObj.length);
 
             _.each(_teamColorObj, function (colorObj, index) {
 
-                var _nth    = index;
-                var _start  = _nth * _length;
-                var _end    = _start + _length;
-                var _id     = "arc" + index + '-' + modLabel.fullname;
-
-                document.getElementById(_id).setAttribute("d", describeArc(275, 215, 150, _start, _end));
-
-                $("path#arc" + index + '-' + modLabel.fullname).parent().find('circle').css('cursor', 'pointer');
-                $("path#arc" + index + '-' + modLabel.fullname).parent().find('circle').on('click', function () {
-
-                    $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
-
-                });
-
-                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorName').css('cursor', 'pointer');
-                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorName').on('click', function () {
-
-                    $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
-
-                });
-
-                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorCode').css('cursor', 'pointer');
-                $("path#arc" + index + '-' + modLabel.fullname).parent().find('text.previewColorCode').on('click', function () {
-
-                    $('div.pd-dropdown-links[data-fullname="team-colors"]').trigger('click');
-
-                });
-
-                $("path#arc" + index + '-' + modLabel.fullname).css('cursor','pointer');
-
-                $("path#arc" + index + '-' + modLabel.fullname).on("click", function () {
-
-                    $("path.arc-" + modLabel.fullname).attr("class", "growStroke arc-" + modLabel.fullname);
-                    $(this).attr("class", "selectedStroke growStroke arc-" + modLabel.fullname);
-
-                   var _colorID           = $(this).data('color-id');
-                   var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});
-                   
-                   ub.funcs.ui.setMaterialOptionColor(modLabel.name, _colorOBJ, 'from color picker');
-
-                   var $previewCircle     = $(this).parent().find('circle');
-                   $previewCircle.css('fill', '#' + _colorOBJ.hex_code);
-
-                   if (_colorOBJ.color_code === 'W') {
-                    
-                        $previewCircle.css('fill', '#ffffff');
-
-                   }
-
-                   var fill = "white";
-
-                   if (_colorOBJ.color_code === 'W' || _colorOBJ.color_code === 'Y' || _colorOBJ.color_code === 'CR' || _colorOBJ.color_code === 'S' || _colorOBJ.color_code === 'PK'  || _colorOBJ.color_code === 'OP' || _colorOBJ.color_code === 'SG') {
-                        fill = 'black';
-                   }
-
-                   var $previewColorCode = $(this).parent().find('text.previewColorCode');
-                   $previewColorCode.html(_colorOBJ.color_code);
-                   $previewColorCode.css('fill', fill);
-
-                   var $previewColorName = $(this).parent().find('text.previewColorName');
-                   $previewColorName.html(_colorOBJ.name);
-                   $previewColorName.css('fill', fill);
-
-                });
+                ub.funcs.setupArc(modLabel, index, _length);
 
             });
+
+            if (_hasRandomFeed) {
+
+                ub.funcs.setupArc(modLabel, _teamColorObj.length, _length);
+                
+            }
 
         });    
 
