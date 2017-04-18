@@ -80,6 +80,7 @@
                                 <th>Neck</th>
                                 <th>Price Item</th>
                                 <th>Type</th>
+                                <th>Gender</th>
                                 <th>Active</th>
                                 <th>Asset Target</th>
                                 <th>Actions</th>
@@ -111,6 +112,9 @@
                 </td>
                 <td>
                     {{ $material->type }}
+                </td>
+                <td>
+                    {{ $material->gender }}
                 </td>
                 <td>
                     <div class="onoffswitch">
