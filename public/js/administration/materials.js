@@ -58,6 +58,28 @@ $(document).ready(function() {
 
     console.log(window.tailsweeps);
 
+    // START
+    $(".edit-material-option-info").each(function(i) {
+        var default_color_code = $(this).data('material-option-default-color');
+        var sublimated_default_color_code = $(this).data('material-option-sublimated-default-color');
+        console.log(default_color_code);
+
+        var dcc_item = _.find(window.colors, function (o) { return o.color_code == default_color_code; });
+        var default_color_name = dcc_item.name;
+        var default_color_hex = dcc_item.hex_code;
+
+        var sdcc_item = _.find(window.colors, function (o) { return o.color_code == sublimated_default_color_code; });
+        var sublimated_default_color_name = sdcc_item.name;
+        // console.log(dcc_item);
+
+        $(this).attr('data-material-option-default-color-name', default_color_name);
+        $(this).attr('data-material-option-sublimated-default-color-name', sublimated_default_color_name);
+
+        $(this).parent().find('.color-preview-pill').html('#'+default_color_hex);
+        $(this).parent().find('.color-preview-pill').css('background-color', '#'+default_color_hex);
+    });
+    // END
+
 
     var accentObject= [];
     jQuery.each(accents, function(index, item) {  
