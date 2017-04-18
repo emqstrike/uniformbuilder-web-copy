@@ -541,10 +541,6 @@ $(document).ready(function () {
         var $pArc = $("path#arc" + index + '-' + modLabel.fullname);
         var _element = undefined;
 
-        console.log('Length: ');
-        console.log(length);
-        console.log('ID: ' + _id);
-
         _element = document.getElementById(_id);
 
         if(_element === null) {
@@ -677,18 +673,10 @@ $(document).ready(function () {
             var _start      = undefined;
             var _hasRandomFeed          = ub.funcs.hasRandomFeed(modLabel.fullname.toTitleCase()); 
             
-            console.log('Mod Label: ');
-            console.log(modLabel.fullname);
-            console.log('Has Random Feed? ' + _hasRandomFeed);
-            console.log('');
-
             if (_hasRandomFeed) { _elements += 1; }
 
             _length     = 360 / _elements;
             _start      = 0;
-
-            console.log('Team Coclor Obj Length: ');
-            console.log(_teamColorObj.length);
 
             _.each(_teamColorObj, function (colorObj, index) {
 
