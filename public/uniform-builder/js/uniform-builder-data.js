@@ -9403,7 +9403,19 @@ ub.funcs.fontOffSets = [
 
             var _result = _.find(this.items, {sport: sport})
 
-            if (typeof _result === "undefined") { console.warn('Sample Font for ' + sport + ' not found.')};
+            if (typeof _result === "undefined") { 
+
+                if(ub.data.fonts.length > 1) {
+
+                    _result = _.first(ub.data.fonts);
+
+                } else {
+
+                    console.warn('Sample Font for ' + sport + ' not found.')
+
+                }
+
+            };
 
             return _result;
 
@@ -11004,11 +11016,17 @@ ub.funcs.fontOffSets = [
             'Hockey',
             'Tech-Tee (Apparel)',
             'Compression (Apparel)',
+            'Cinch Sack (Apparel)',
+            'Polo (Apparel)',
+            'Hoodie (Apparel)',
+        ],
+        options: [
+            'Fight Short'
         ],
 
         currentOk: function () {
 
-            return _.contains(this.items, ub.current_material.material.uniform_category);
+            return _.contains(this.items, ub.current_material.material.uniform_category) || _.contains(this.options, ub.current_material.material.neck_option);
 
         }
 

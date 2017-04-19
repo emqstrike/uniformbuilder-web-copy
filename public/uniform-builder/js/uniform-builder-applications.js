@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+    ub.funcs.isCurrentOption = function (option) {
+
+        return ub.current_material.material.neck_option === option;
+
+    };
+
     ub.funcs.isCurrentSport = function (sport) {
 
         return ub.current_material.material.uniform_category === sport;
