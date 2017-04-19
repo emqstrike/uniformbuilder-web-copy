@@ -609,6 +609,7 @@ $(document).ready(function(){
     $("#edit-font-form").on("click", ".remove-layer", function(e){
         e.preventDefault();
         $(this).parent().parent().remove();
+        refreshMultipleFST();
     });
 
     $('.sports').select2({
