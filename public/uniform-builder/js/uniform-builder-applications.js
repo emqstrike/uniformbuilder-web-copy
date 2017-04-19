@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+    ub.funcs.isCurrentOption = function (option) {
+
+        return ub.current_material.material.neck_option === option;
+
+    };
+
     ub.funcs.isCurrentSport = function (sport) {
 
         return ub.current_material.material.uniform_category === sport;
@@ -10460,7 +10466,7 @@ $(document).ready(function() {
             if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { _part = "Sublimated" }
 
             $('div.part-container > span.part[data-id="' + _part + '"]').addClass('active');
-            $('div.application-container > span.optionButton[data-type="mascot"').addClass('active');
+            $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');
 
 
             // Footer Buttons 
