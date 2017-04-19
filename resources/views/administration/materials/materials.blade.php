@@ -73,7 +73,6 @@
                         <input type="hidden" id="materials-data" value="{{ $materials_string }}">
                             <tr>
                                 <th>ID</th>
-                                <th>Preview</th>
                                 <th>Name</th>
                                 <th>Sport</th>
                                 <th>Block Pattern</th>
@@ -91,9 +90,6 @@
             <tr>
                 <td>
                     {{ $material->id }}
-                </td>
-                <td>
-                    <center><img src="{{ $material->thumbnail_path }}" style="height: 45px; width: 35px;" data-toggle="popover"></center>
                 </td>
                 <td>
                     {{ $material->name }}
