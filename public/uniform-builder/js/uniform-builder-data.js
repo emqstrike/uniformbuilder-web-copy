@@ -2082,6 +2082,10 @@ $(document).ready(function() {
                 name: "Hockey",
                 alias: "hockey",
             },
+            { 
+                name: "Cinch Sack (Apparel)",
+                alias: "cinch-sack",
+            },
 
         ],
 
@@ -3081,6 +3085,128 @@ $(document).ready(function() {
                 },
 
                 // end compression
+
+                // cinch-sack
+
+                {
+                    name: 'team_name',
+                    sport: 'cinch-sack',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'cinch-sack',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'mascot',
+                    applicationNumbers: [56, 57],
+                    sport: 'cinch-sack',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 7,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    applicationNumbers: [58, 59],
+                    sport: 'cinch-sack',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'cinch-sack',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'cinch-sack',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },                            ],
+                    type: 'adult',
+                },
+
+                // end cinch-sack
 
                 // defaults 
 
@@ -9405,7 +9531,7 @@ ub.funcs.fontOffSets = [
 
             if (typeof _result === "undefined") { 
 
-                if(ub.data.fonts.length > 1) {
+                if(ub.data.fonts.length >= 1) {
 
                     _result = _.first(ub.data.fonts);
 
@@ -10086,6 +10212,43 @@ ub.funcs.fontOffSets = [
                 sport: 'Compression (Apparel)',
                 size: 10,
                 scale: {x: 0.90, y: 0.90 },
+            },
+
+             // Cinch Sack
+            {
+                sport: 'Cinch Sack (Apparel)',
+                size: 1,
+                scale: {x: 0.18, y: 0.18 },
+            },
+            {
+                sport: 'Cinch Sack (Apparel)',
+                size: 2,
+                scale: {x: 0.36, y: 0.36 },
+            },
+            {
+                sport: 'Cinch Sack (Apparel)',
+                size: 3,
+                scale: {x: 0.54, y: 0.54 },
+            },
+            {
+                sport: 'Cinch Sack (Apparel)',
+                size: 4,
+                scale: {x: 0.71, y: 0.71 },
+            },
+            {
+                sport: 'Cinch Sack (Apparel)',
+                size: 5,
+                scale: {x: 0.9, y: 0.9 },
+            },
+            {
+                sport: 'Cinch Sack (Apparel)',
+                size: 6,
+                scale: {x: 1.07, y: 1.07 },
+            },
+            {
+                sport: 'Cinch Sack (Apparel)',
+                size: 7,
+                scale: {x: 1.25, y: 1.25 },
             },
 
             // "Crew Socks (Apparel)"
