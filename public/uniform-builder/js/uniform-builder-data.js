@@ -9531,7 +9531,7 @@ ub.funcs.fontOffSets = [
 
             if (typeof _result === "undefined") { 
 
-                if(ub.data.fonts.length > 1) {
+                if(ub.data.fonts.length >= 1) {
 
                     _result = _.first(ub.data.fonts);
 
