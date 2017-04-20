@@ -11301,4 +11301,57 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.removePatternMasks = function () {
+
+        _.each (ub.views, function (view) {
+
+            var _viewStr = view + '_view';
+
+            _.each(ub.objects[_viewStr], function (obj) {
+
+                var s = obj.name;
+
+                if (s !== null) {
+
+                    if(s.indexOf('pattern') > -1) {
+
+                        console.log(obj);
+
+                        obj.oldMask = obj.mask;
+                        obj.mask = undefined;
+
+                    }
+                }
+
+            });
+
+        })
+
+    }
+
+    ub.funcs.restorePatternMasks = function () {
+
+        _.each (ub.views, function (view) {
+
+            var _viewStr = view + '_view';
+
+            _.each(ub.objects[_viewStr], function (obj) {
+
+                var s = obj.name;
+
+                if (s !== null) {
+
+                    if(s.indexOf('pattern') > -1) {
+                        
+                        obj.mask = obj.oldMask;
+                        
+                    }
+                }
+
+            });
+
+        })
+
+    }
+
 });
