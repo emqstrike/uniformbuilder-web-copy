@@ -3820,8 +3820,10 @@ $(document).ready(function() {
     ub.funcs.get_modifier_labels = function () {
 
         var _modifierLabels = ub.data.modifierLabels;
-        var _sportWithHiddenBody = ["Hoodie (Apparel)",];
-        var _hideBody = _.contains(_sportWithHiddenBody, ub.current_material.material.uniform_category);
+        var _sportWithHiddenBody = ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)"];
+        var _optionWithHiddenBody = ["Fight Short",];
+
+        var _hideBody = _.contains(_sportWithHiddenBody, ub.current_material.material.uniform_category) || _.contains(_optionWithHiddenBody, ub.current_material.material.neck_option);
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
 
@@ -3892,7 +3894,12 @@ $(document).ready(function() {
 
             }
 
-            strBuilder += '<div class="pd-dropdown-links" data-ctr="' + _ctr + '" data-group-id="' + label.group_id + '" data-fullname="' +  label.fullname + '" data-name="' + label.name + '">' + '<i>' + _ctr + ' of ' + _moCount + '</i> ' + label.name + _groupTemp + '</div>';
+            var _tempLabel = label.name;
+
+            if (_tempLabel === "Body Left") { _tempLabel = "Left Body"; }
+            if (_tempLabel === "Body Right") { _tempLabel = "Right Body"; }
+
+            strBuilder += '<div class="pd-dropdown-links" data-ctr="' + _ctr + '" data-group-id="' + label.group_id + '" data-fullname="' +  label.fullname + '" data-name="' + _tempLabel + '">' + '<i>' + _ctr + ' of ' + _moCount + '</i> ' + _tempLabel + _groupTemp + '</div>';
             _ctr++;
 
         });
