@@ -10094,12 +10094,8 @@ $(document).ready(function() {
 
         var _ctr = 70;
         
-        // var _lastAdded = _.last(_.filter(ub.current_material.settings.applications, {configurationSource: "Added"}));
-
         var _lastAdded = _.last(_.filter(ub.current_material.settings.applications, function (app) {
-
            return parseInt(app.code) > 70;
-
         }));
 
         if (typeof _lastAdded !== "undefined") { _ctr = parseInt(_lastAdded.code); }
