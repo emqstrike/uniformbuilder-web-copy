@@ -3820,10 +3820,7 @@ $(document).ready(function() {
     ub.funcs.get_modifier_labels = function () {
 
         var _modifierLabels = ub.data.modifierLabels;
-        var _sportWithHiddenBody = ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)"];
-        var _optionWithHiddenBody = ["Fight Short",];
-
-        var _hideBody = _.contains(_sportWithHiddenBody, ub.current_material.material.uniform_category) || _.contains(_optionWithHiddenBody, ub.current_material.material.neck_option);
+        var _hideBody = ub.data.hiddenBody.currentUniformOk();
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
 
@@ -11298,6 +11295,57 @@ $(document).ready(function() {
         }
 
         return _result;
+
+    }
+
+    ub.funcs.removePatternMasks = function () {
+
+        _.each (ub.views, function (view) {
+
+            var _viewStr = view + '_view';
+
+            _.each(ub.objects[_viewStr], function (obj) {
+
+                var s = obj.name;
+
+                if (s !== null) {
+
+                    if(s.indexOf('pattern') > -1) {
+
+                        obj.oldMask = obj.mask;
+                        obj.mask = undefined;
+
+                    }
+                }
+
+            });
+
+        })
+
+    }
+
+    ub.funcs.restorePatternMasks = function () {
+
+        _.each (ub.views, function (view) {
+
+            var _viewStr = view + '_view';
+
+            _.each(ub.objects[_viewStr], function (obj) {
+
+                var s = obj.name;
+
+                if (s !== null) {
+
+                    if(s.indexOf('pattern') > -1) {
+                        
+                        obj.mask = obj.oldMask;
+                        
+                    }
+                }
+
+            });
+
+        })
 
     }
 
