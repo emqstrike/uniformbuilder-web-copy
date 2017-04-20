@@ -230,6 +230,8 @@ $(document).ready(function() {
         if (!ub.data.sportsMain.currentOk()) { return; }
         if (ub.data.rosterInitialized) { return; }
 
+        if (ub.current_material.material.type === "lower") { return; }
+
         var _backOa = undefined;
         var _backOb = undefined; 
         var _frontOa = undefined;
