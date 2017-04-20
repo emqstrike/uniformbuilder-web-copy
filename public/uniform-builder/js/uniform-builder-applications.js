@@ -10102,9 +10102,6 @@ $(document).ready(function() {
 
         }));
 
-        console.log('Last Added: ');
-        console.log(_lastAdded);
-
         if (typeof _lastAdded !== "undefined") { _ctr = parseInt(_lastAdded.code); }
 
         return _ctr + 1;
