@@ -11315,8 +11315,6 @@ $(document).ready(function() {
 
                     if(s.indexOf('pattern') > -1) {
 
-                        console.log(obj);
-
                         obj.oldMask = obj.mask;
                         obj.mask = undefined;
 
