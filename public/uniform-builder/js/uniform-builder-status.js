@@ -75,6 +75,25 @@ $(document).ready(function() {
 
     };
 
+    ub.status.patternMasks = {
+
+        active: false,
+
+        getStatus: function () {
+
+            return this.active;
+
+        }, 
+
+        setStatus: function (status) {
+
+            this.active = status;
+            return this.getStatus();
+
+        }
+
+    };
+
     /// Used in temporarily cancelling rendering while sprites hasn't been constructed
 
     ub.status.render = {

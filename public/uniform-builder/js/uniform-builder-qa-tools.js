@@ -231,6 +231,24 @@ $(document).ready(function () {
 
     }
 
+    ub.togglePatternMasks = function () {
+
+        var _status = !ub.status.patternMasks.getStatus();
+
+        if (_status) {
+            
+            ub.funcs.removePatternMasks();
+
+        } else {
+
+            ub.funcs.restorePatternMasks();
+            
+        }
+
+        ub.status.patternMasks.setStatus(_status);
+
+    }
+
     ub.showFontGuides = function () {
 
         _.each (ub.views, function (view) {
