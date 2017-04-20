@@ -10093,7 +10093,17 @@ $(document).ready(function() {
     ub.funcs.getNewCustomID = function () {
 
         var _ctr = 70;
-        var _lastAdded = _.last(_.filter(ub.current_material.settings.applications, {configurationSource: "Added"}))
+        
+        // var _lastAdded = _.last(_.filter(ub.current_material.settings.applications, {configurationSource: "Added"}));
+
+        var _lastAdded = _.last(_.filter(ub.current_material.settings.applications, function (app) {
+
+           return parseInt(app.code) > 70;
+
+        }));
+
+        console.log('Last Added: ');
+        console.log(_lastAdded);
 
         if (typeof _lastAdded !== "undefined") { _ctr = parseInt(_lastAdded.code); }
 
@@ -10839,9 +10849,6 @@ $(document).ready(function() {
         $('span.add-application').on('click', function () {
 
             $('a.change-view[data-view="locations-add"]').click();
-
-
-            
 
         });
 
