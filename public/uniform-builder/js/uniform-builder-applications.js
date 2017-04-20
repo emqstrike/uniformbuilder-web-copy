@@ -3820,10 +3820,7 @@ $(document).ready(function() {
     ub.funcs.get_modifier_labels = function () {
 
         var _modifierLabels = ub.data.modifierLabels;
-        var _sportWithHiddenBody = ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)"];
-        var _optionWithHiddenBody = ["Fight Short",];
-
-        var _hideBody = _.contains(_sportWithHiddenBody, ub.current_material.material.uniform_category) || _.contains(_optionWithHiddenBody, ub.current_material.material.neck_option);
+        var _hideBody = ub.data.hiddenBody.currentUniformOk();
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
 

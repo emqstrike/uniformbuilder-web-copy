@@ -11331,4 +11331,16 @@ ub.funcs.fontOffSets = [
 
     };
 
+    ub.data.hiddenBody = {
+
+        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "1-4 Zip Jacket (Apparel)"],
+        options: ["Fight Short"],
+        currentUniformOk: function () {
+
+            return _.contains(this.sports, ub.current_material.material.uniform_category) || _.contains(this.options, ub.current_material.material.neck_option);
+
+        } 
+
+    }
+
 });
