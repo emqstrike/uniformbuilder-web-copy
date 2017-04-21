@@ -237,6 +237,10 @@ $(document).ready(function () {
 			ub.toggleFullView(); 
 		});
 
+		ub.shortcut.add("Alt+3", function () {
+			ub.togglePatternMasks(); 
+		});
+		
 		// Dev Tools is at shift + alt,
 
 		// ub.shortcut.add("Shift+Alt+1", function () {

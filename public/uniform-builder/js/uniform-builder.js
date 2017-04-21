@@ -5192,13 +5192,15 @@ $(document).ready(function () {
                 }
                 ///
 
-                sprite.anchor.set(0.5,0.5);
+                sprite.anchor.set(0.5, 0.5);
+                sprite.pivot.set(0.5, 0.5);
+
                 sprite.tint = clone.layers[index].color;
                 container.addChild(sprite);
 
                 var _positionAdjusted = {
-                    x: layer.container_position.x + _adjustment.x,
-                    y: layer.container_position.y + _adjustment.y,
+                    x: 0,
+                    y: 0,
                 };
 
                 container.position = _positionAdjusted;
@@ -5211,7 +5213,6 @@ $(document).ready(function () {
             });
 
             ub.updateLayersOrder(container);
-
 
             var view = v + '_view';
             var mask = ub.objects[view][target + "_mask"];
@@ -5228,38 +5229,21 @@ $(document).ready(function () {
             }
 
             ub.objects[view]['pattern_' + target] = container;
+
+            var _p = ub.objects[view]['pattern_' + target];
+
             ub[view].addChild(container);
             container.zIndex = mask.zIndex + (-1);
+
+            _p.position.x += ub.dimensions.width / 2;
+            _p.position.y += ub.dimensions.height / 2;
+
+            _p.anchor = {x: 0.5, y: 0.5};
+            _p.pivot = {x: 0.5, y: 0.5};
 
             ub.updateLayersOrder(ub[view]);
 
         });
-
-        // For Initial Load Only
-        if (clone.code === 'stripe' || clone.code === 'tiger2' || clone.code === 'checkered' || clone.code === 'arrow') {
-
-            // if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined')  { ub.objects['back_view']['pattern_' + target].position.y  -= 70; }
-            // if (typeof ub.objects['left_view']['pattern_' + target] !== 'undefined')  { ub.objects['left_view']['pattern_' + target].position.y  -= 70; }
-            // if (typeof ub.objects['right_view']['pattern_' + target] !== 'undefined') { ub.objects['right_view']['pattern_' + target].position.y -= 70; }
-
-            if (window.screen.height > 1100) {
-
-                if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined')  { ub.objects['front_view']['pattern_' + target].position.y = 532; }
-                if (typeof ub.objects['back_view']['pattern_' + target] !== 'undefined')  { ub.objects['back_view']['pattern_' + target].position.y  = 532; }
-                if (typeof ub.objects['left_view']['pattern_' + target] !== 'undefined')  { ub.objects['left_view']['pattern_' + target].position.y  = 532; }
-                if (typeof ub.objects['right_view']['pattern_' + target] !== 'undefined') { ub.objects['right_view']['pattern_' + target].position.y = 532; }
-
-                if (typeof ub.objects['back_view']['pattern_left_shoulder_cowl_insert'] !== 'undefined') { ub.objects['back_view']['pattern_left_shoulder_cowl_insert'].position.y = 232; }
-   
-            }
-
-            if (window.screen.height < 1100) {
-
-                if (typeof ub.objects['back_view']['pattern_body'] !== 'undefined') { ub.objects['back_view']['pattern_body'].position.y = 532; }
-   
-            }
-
-        }
 
     }
 

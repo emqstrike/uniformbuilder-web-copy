@@ -3820,6 +3820,7 @@ $(document).ready(function() {
     ub.funcs.get_modifier_labels = function () {
 
         var _modifierLabels = ub.data.modifierLabels;
+        var _hideBody = ub.data.hiddenBody.currentUniformOk();
 
         _.each(ub.current_material.options_distinct_names, function (_distinct_name) {
 
@@ -3830,6 +3831,12 @@ $(document).ready(function() {
 
             if (_obj.setting_type === 'static_layer') { return; }
             if (_obj.name === "Extra") { return; }
+
+            if (_hideBody) {
+
+                if (_obj.name === "Body") { return; }
+
+            }
 
             var _group_id       = _obj.group_id;
             var _team_color_id  = _obj.team_color_id;            
@@ -3876,7 +3883,20 @@ $(document).ready(function() {
 
             label.index = _ctr;
 
-            strBuilder += '<div class="pd-dropdown-links" data-ctr="' + _ctr + '" data-group-id="' + label.group_id + '" data-fullname="' +  label.fullname + '" data-name="' + label.name + '">' + '<i>' + _ctr + ' of ' + _moCount + '</i> ' + label.name + '</div>';
+            var _groupTemp = ''; 
+
+            if (_.contains(ub.fontGuideIDs, window.ub.valid)) {
+
+                _groupTemp = ' (' + label.group_id + ') ';
+
+            }
+
+            var _tempLabel = label.name;
+
+            if (_tempLabel === "Body Left") { _tempLabel = "Left Body"; }
+            if (_tempLabel === "Body Right") { _tempLabel = "Right Body"; }
+
+            strBuilder += '<div class="pd-dropdown-links" data-ctr="' + _ctr + '" data-group-id="' + label.group_id + '" data-fullname="' +  label.fullname + '" data-name="' + _tempLabel + '">' + '<i>' + _ctr + ' of ' + _moCount + '</i> ' + _tempLabel + _groupTemp + '</div>';
             _ctr++;
 
         });
@@ -4479,13 +4499,16 @@ $(document).ready(function() {
 
         _.each(_names, function (name) {
 
-            var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(name.toTitleCase());
-            var _materialOptions            = ub.funcs.getMaterialOptions(name.toTitleCase());
+            var _settingsObject         = ub.funcs.getMaterialOptionSettingsObject(name.toTitleCase());
+            var _materialOptions        = ub.funcs.getMaterialOptions(name.toTitleCase());
 
-            materialOption = _materialOptions[0];
+            materialOption              = _materialOptions[0];
             outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
             _settingsObject.pattern     = outputPatternObject;
             e = _settingsObject;
+
+            console.log('E: ');
+            console.log(e);
 
             ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
 
@@ -10067,7 +10090,10 @@ $(document).ready(function() {
     ub.funcs.getNewCustomID = function () {
 
         var _ctr = 70;
-        var _lastAdded = _.last(_.filter(ub.current_material.settings.applications, {configurationSource: "Added"}))
+        
+        var _lastAdded = _.last(_.filter(ub.current_material.settings.applications, function (app) {
+           return parseInt(app.code) > 70;
+        }));
 
         if (typeof _lastAdded !== "undefined") { _ctr = parseInt(_lastAdded.code); }
 
@@ -10814,9 +10840,6 @@ $(document).ready(function() {
 
             $('a.change-view[data-view="locations-add"]').click();
 
-
-            
-
         });
 
         $('span.show-locations').unbind('click');
@@ -11272,6 +11295,57 @@ $(document).ready(function() {
         }
 
         return _result;
+
+    }
+
+    ub.funcs.removePatternMasks = function () {
+
+        _.each (ub.views, function (view) {
+
+            var _viewStr = view + '_view';
+
+            _.each(ub.objects[_viewStr], function (obj) {
+
+                var s = obj.name;
+
+                if (s !== null) {
+
+                    if(s.indexOf('pattern') > -1) {
+
+                        obj.oldMask = obj.mask;
+                        obj.mask = undefined;
+
+                    }
+                }
+
+            });
+
+        })
+
+    }
+
+    ub.funcs.restorePatternMasks = function () {
+
+        _.each (ub.views, function (view) {
+
+            var _viewStr = view + '_view';
+
+            _.each(ub.objects[_viewStr], function (obj) {
+
+                var s = obj.name;
+
+                if (s !== null) {
+
+                    if(s.indexOf('pattern') > -1) {
+                        
+                        obj.mask = obj.oldMask;
+                        
+                    }
+                }
+
+            });
+
+        })
 
     }
 
