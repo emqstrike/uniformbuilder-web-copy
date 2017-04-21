@@ -238,19 +238,18 @@ $(document).ready(function() {
     });
 
     $(document).on('change','#sports-filter',function(){
-           
         var sports_selected = $(this).find("option:selected").val();
         var materials_data = $("#materials-data").val();
         materials_data = JSON.parse(materials_data);
-        
+
         if(sports_selected != ""){
         $("#block-patterns-filter select option").hide();
             $.each(materials_data, function(i, item){         
                 if(sports_selected == item.uniform_category){
                     $('#block-patterns-filter select option[value="' + item.block_pattern + '"]').show();
                      $('#block-patterns-filter select option[value=""]').show();
-                  
-                }               
+
+                }
             });
             $("#necks-filter select option").hide();
             $.each(materials_data, function(i, item){         

@@ -34,7 +34,7 @@ $(document).ready(function () {
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
 
             ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
-            
+
             ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
             ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 

@@ -72,6 +72,24 @@
 </div>
 </div>
 
+<div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="progress-modal-message"></h1>
+      </div>
+      <!-- <div class="modal-body">
+        <div class="progress">
+          <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+            <span class="sr-only">40% Complete (success)</span>
+          </div>
+          <i class='icon-spinner icon-spin icon-large'></i>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+
 @endsection
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
@@ -148,12 +166,26 @@ $(document).on('change', '.origin, .perspective, .mo-allow-color, .mo-allow-patt
 	refreshJSON();
 });
 
+//  modal
+    var pleaseWait = $('#pleaseWaitDialog'); 
+    
+    showPleaseWait = function() {
+        pleaseWait.modal('show');
+    };
+
+    hidePleaseWait = function () {
+        pleaseWait.modal('hide');
+    };
+// modal
+
 $('.submit-data').on('click', function(e){
 	e.preventDefault();
 	console.log('submit');
 
 	var data = $('.data-string').val();
     console.log(data);
+    showPleaseWait();
+    $('.progress-modal-message').html('Saving images . . .');
 	$.ajax({
         url: "//api-dev.qstrike.com/api/material_options/insert_multiple_from_dropzone",
         type: "POST",
@@ -165,6 +197,13 @@ $('.submit-data').on('click', function(e){
         success: function(response){
             if (response.success) {
                 console.log(response.message);
+                hidePleaseWait();
+                showPleaseWait();
+                $('.progress-modal-message').html('Images saved successfully.');
+                setTimeout(function(){
+                    hidePleaseWait();
+                }, 1500);
+                window.location.reload();
             }
         }
     });
@@ -284,12 +323,17 @@ Dropzone.options.myAwesomeDropzone = {
         files.push(file.name);
     	// console.log(files);
     	// console.log(file);
+        hidePleaseWait();
     },
     removedfile: function(file) {
     	files.splice(files.indexOf(file.name), 1);
 	    // console.log(files);
 	    // console.log(filesData);
-	}
+	},
+    drop: function(){
+        showPleaseWait();
+        $('.progress-modal-message').html('Uploading image . . .');
+    },
 };
 
 });
