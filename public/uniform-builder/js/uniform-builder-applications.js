@@ -2333,7 +2333,6 @@ $(document).ready(function() {
 
             });
 
-
             var adjustablePositions = ['1','2','6','5'];
 
             _.each(views, function (view) {
@@ -2701,25 +2700,25 @@ $(document).ready(function() {
 
                 /// Sublimation Override - Wrestling ///
 
-                if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category))  {
+              //  if (ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category))  {
 
-                    if (typeof view.application.scale !== "undefined") {
+                if (typeof view.application.scale !== "undefined") {
 
-                        point.scale = view.application.scale;
-
-                    }
-
-                    if (view.application.flip === 1) {
-
-                        point.scale.x *= -1;
-
-                    } else {
-                        
-                        point.scale.x = Math.abs(point.scale.x);
-
-                    }
+                    point.scale = view.application.scale;
 
                 }
+
+                if (view.application.flip === 1) {
+
+                    point.scale.x *= -1;
+
+                } else {
+                    
+                    point.scale.x = Math.abs(point.scale.x);
+
+                }
+
+             //   }
 
                 /// End Sublimation Override - Wrestling ///
 
@@ -2785,6 +2784,9 @@ $(document).ready(function() {
             // End do not run from change color
 
             ub.funcs.runAfterUpdate(app_id, _fromChangeColor);
+
+
+
 
             return sprite_collection;
 
@@ -7073,11 +7075,11 @@ $(document).ready(function() {
 
             // End In-place preview
 
-            if (ub.current_material.material.uniform_category !== "Wrestling") {
+            // if (ub.current_material.material.uniform_category !== "Wrestling") {
 
-                $('span.flipButton').hide();
+            //     $('span.flipButton').hide();
 
-            } else {
+            // } else {
 
                 ub.funcs.updateCoordinates(_settingsObject);
 
@@ -7102,8 +7104,9 @@ $(document).ready(function() {
 
                 }
 
-            }
+            //}
 
+            $('span.flipButton').unbind('click');
             $('span.flipButton').on('click', function () {
 
                 var _settingsObject         = _.find(ub.current_material.settings.applications, {code: _id});
