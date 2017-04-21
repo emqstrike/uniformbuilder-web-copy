@@ -4589,11 +4589,19 @@ $(document).ready(function() {
 
     ub.funcs.createPatternPopup = function () {
 
+        var _patternList = _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'); 
+
+        _patternList = _.filter(_patternList, function (pattern) {
+
+            return _.contains(pattern.sports, ub.current_material.material.uniform_category) || pattern.name === "Blank" ;
+
+        });
+
         if ($('div#primaryPatternPopup').length === 0) {
 
             var data = {
                 label: 'Choose Patterns: ',
-                patterns: _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'),
+                patterns: _patternList,
             };
 
             var template = $('#m-pattern-popup').html();
