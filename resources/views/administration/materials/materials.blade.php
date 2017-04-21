@@ -189,8 +189,8 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
-<script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script>
+<!-- <script type="text/javascript" src="/fabricjs/fabric.min.js"></script> -->
+<!-- <script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script> -->
 <!-- <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script> -->
 <script type="text/javascript" src="/js/administration/datatables.min.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
