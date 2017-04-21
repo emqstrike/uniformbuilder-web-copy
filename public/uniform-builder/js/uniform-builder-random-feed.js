@@ -615,14 +615,11 @@ $(document).ready(function () {
             var _sizesMarkup        = ub.funcs.getRandomFeedSizes(_randomFeedSet, _activeRandomFeedSet);
             var _colorsMarkup       = ub.funcs.getRandomFeedColors(_activeRandomFeedSet);
 
-            console.log('Sizes Markup: ');
-            console.log(_sizesMarkup);
-
-            console.log('Colors Markup: ');
-            console.log(_colorsMarkup);
-
             $('div.ui-row.size-row').html(_sizesMarkup);
             $('div.ui-row.colors-row').html(_colorsMarkup);
+
+            $('div.ui-row.size-row').hide();
+            $('div.ui-row.colors-row').hide();
 
         // End Inner Templates
 
