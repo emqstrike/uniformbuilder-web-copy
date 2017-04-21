@@ -11334,10 +11334,25 @@ ub.funcs.fontOffSets = [
     ub.data.hiddenBody = {
 
         sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "1-4 Zip Jacket (Apparel)"],
-        options: ["Fight Short"],
+        options: [
+                {
+                    sport: 'Wrestling',
+                    option: "Fight Short",
+                },
+                {
+                    sport: 'Baseball',
+                    option: "Long Sleeve",
+                },
+                {
+                    sport: 'Baseball',
+                    option: "Short Sleeve",
+                },
+
+        ],
         currentUniformOk: function () {
 
-            return _.contains(this.sports, ub.current_material.material.uniform_category) || _.contains(this.options, ub.current_material.material.neck_option);
+            return _.contains(this.sports, ub.current_material.material.uniform_category) || 
+                   (typeof _.find(this.options, {sport: ub.current_material.material.uniform_category, option: ub.current_material.material.neck_option}) !== "undefined");
 
         } 
 
