@@ -160,7 +160,6 @@
             <tr>
                 <td></td>
                 <td></td>
-                <td></td>
                 <td id="sports-filter"></td>
                 <td id="block-patterns-filter"></td>
                 <td id="necks-filter"></td>
