@@ -334,6 +334,9 @@ $(document).ready(function () {
             //$('div.applicationType').css({ 'color': '#3d3d3d', 'text-decoration': 'initial', 'opacity': '1'});
             $('span.cog').fadeIn();
 
+                        $('span.randomFeed-colors-buttons[data-value="2"]').click();
+
+
             //ub.funcs.hideGAFontTool();
 
         }
@@ -618,8 +621,7 @@ $(document).ready(function () {
             $('div.ui-row.size-row').html(_sizesMarkup);
             $('div.ui-row.colors-row').html(_colorsMarkup);
 
-            $('div.ui-row.size-row').hide();
-            $('div.ui-row.colors-row').hide();
+          
 
         // End Inner Templates
 
@@ -780,7 +782,11 @@ $(document).ready(function () {
 
             }
 
-            ub.funcs.toggleRandomFeed(_randomFeedSet, _status);    
+            ub.funcs.toggleRandomFeed(_randomFeedSet, _status);   
+
+            $('div.ui-row.size-row').hide();
+            $('div.ui-row.colors-row').hide();
+ 
 
         // End Initial States
         
