@@ -1860,7 +1860,7 @@
               <div class="cover"></div>
               <div class="ui-row">
 
-                  <label class="applicationLabels">Type</label>
+                  <label class="applicationLabels">Location</label>
                   <span class="randomFeed-type">@{{type}}</span>                       
 
               </div>
