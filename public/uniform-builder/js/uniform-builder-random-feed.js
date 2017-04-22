@@ -58,7 +58,7 @@ $(document).ready(function () {
 
             // Activate First randomFeed Set
 
-               $('span.randomFeed').first().trigger('click')
+            $('span.randomFeed').first().trigger('click')
 
             // End Activate First randomFeed Set 
 
@@ -571,7 +571,7 @@ $(document).ready(function () {
         if (ub.funcs.popupsVisible()) { return; }
         if (!ub.funcs.okToStart())    { return; }
 
-        ub.funcs.activatePanelGuard();
+        //ub.funcs.activatePanelGuard();
         ub.funcs.deactivatePanels();
 
         var _status                 = 'off';
