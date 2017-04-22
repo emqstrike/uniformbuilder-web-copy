@@ -3527,7 +3527,7 @@ $(document).ready(function() {
                 var _result = _match.replace('right_','left_');
                 var _obj    = _.find(ub.data.modifierLabels, {fullname: _result});
                 var _index  = ub.funcs.getIndexByName(_result);
-                
+
                 ub.funcs.activatePartByIndex(_index);   
 
             }
@@ -3980,6 +3980,26 @@ $(document).ready(function() {
             ub.funcs.match(_fullname);
 
             $('div.mTab[data-type="color"]').click();
+
+            if (ub.funcs.isCurrentSport('Crew Socks (Apparel)') && ub.data.afterLoadCalled === 1) {
+
+                var _set = _fullname.toString().toTitleCase();
+
+                if (typeof ub.current_material.settings.randomFeeds[_set] !== "undefined") {
+
+                    var _enabled = ub.current_material.settings.randomFeeds[_set].enabled;
+
+                    if (parseInt(_enabled) === 1) {
+
+                        ub.funcs.activateRandomFeeds(_set);
+
+                        return;
+
+                    }
+
+                }
+
+            }
 
         });
 
@@ -8144,7 +8164,7 @@ $(document).ready(function() {
 
     ub.funcs.activatePanelGuard = function () {
 
-        if ($('div#parts_dropdown').is(':visible') ||$('div#single_team-color-picker').is(':visible')){
+        if ($('div#parts_dropdown').is(':visible') || $('div#single_team-color-picker').is(':visible')){
 
             ub.funcs.activateBody();
 
@@ -8156,6 +8176,12 @@ $(document).ready(function() {
 
         $('div#pipingsUI').remove();
 
+    };
+
+    ub.funcs.deActivateRandomFeeds = function () {
+
+        $('div#randomFeedsUI').remove();
+
     }
 
     ub.funcs.deactivatePanels = function  () {
@@ -8166,8 +8192,11 @@ $(document).ready(function() {
         ub.funcs.deActivateLocations();
         ub.funcs.deactivatePipings();
         ub.funcs.deactivatePipings();
+        ub.funcs.deActivateRandomFeeds();
 
     }
+
+
 
     ub.funcs.popupsVisible = function () {
 
