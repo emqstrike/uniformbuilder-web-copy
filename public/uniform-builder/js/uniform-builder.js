@@ -1776,7 +1776,7 @@ $(document).ready(function () {
 
             if (ub.current_material.pipings === null) {
 
-                console.log("Pipings is null!");
+                ub.utilities.warn("Pipings is null!");
 
             } else {
 
@@ -1796,7 +1796,7 @@ $(document).ready(function () {
 
         if (ub.current_material.material.random_feed === null) {
 
-            console.log("Random Feeds is null!");
+            ub.utilities.warn("Random Feeds is null!");
 
         } else {
 

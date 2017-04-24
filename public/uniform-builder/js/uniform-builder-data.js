@@ -11391,7 +11391,10 @@ ub.funcs.fontOffSets = [
 
             _result = _.find(this.items, {set: set});
 
-            if (typeof _result === "undefined") { ub.utilities.warn ('Set [' + set + '] not found.'); }
+            if (typeof _result === "undefined") { 
+                ub.utilities.warn ('Set [' + set + '] not found. Using 0'); 
+                _result = { order: 0 };
+            }
 
             return _result;
 
