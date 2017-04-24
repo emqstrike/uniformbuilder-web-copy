@@ -10415,7 +10415,6 @@ $(document).ready(function() {
 
                 $('span.optionButton[data-type="player_number"]').hide();
                 $('span.optionButton[data-type="player_name"]').hide();
-                $('span.optionButton[data-type="team_name"]').hide();
 
             }
 

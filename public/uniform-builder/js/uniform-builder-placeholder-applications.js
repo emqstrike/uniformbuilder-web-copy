@@ -1,14 +1,12 @@
 $(document).ready(function () {
 
-
-
     ub.data.freeFormValidTypes = {
 
         items: [
             {
                 sport: "Crew Socks (Apparel)",
                 part: 'Sublimated',
-                validTypes: ["logo"],
+                validTypes: ["logo", "team_name"],
             },
             {
                 sport: "Default",

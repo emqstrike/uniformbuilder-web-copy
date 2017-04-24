@@ -11182,6 +11182,7 @@ ub.funcs.fontOffSets = [
             'Cinch Sack (Apparel)',
             'Polo (Apparel)',
             'Hoodie (Apparel)',
+            'Crew Socks (Apparel)',
         ],
         options: [
             'Fight Short'
