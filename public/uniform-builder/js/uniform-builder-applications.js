@@ -9996,7 +9996,7 @@ $(document).ready(function() {
 
         _.each (_locations, function (location) {
 
-            _.each(location.application.views, function (view, index){
+            _.each(location.application.views, function (view, index) {
 
                 var _perspective = view.perspective + '_view';
 
@@ -10020,7 +10020,7 @@ $(document).ready(function() {
 
     ub.funcs.renderLocations = function (locationCode) {
 
-        var _locations = ub.current_material.settings.applications;  
+        var _locations = ub.current_material.settings.applications;
 
          _.each (_locations, function (location) {
 

@@ -11401,6 +11401,44 @@ ub.funcs.fontOffSets = [
 
         }
 
-    }
+    };
 
+    ub.data.materialOptionWithLimitedColors = {
+        items: [
+            {
+                block_pattern: '1-4 Zip Jacket',
+                neck_options: ['Long Sleeve', 'Short Sleeve'],
+                material_option: 'Zipper',
+                valid_colors: [
+                    'B',
+                    'W',
+
+                ]
+            }, 
+            {
+                block_pattern: 'Cage Jacket',
+                neck_options: ['Long Sleeve', 'Short Sleeve'],
+                material_option: 'Zipper', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+        }],
+        getLimitedColorSet: function (materialOption) {
+
+            var _result = _.find(this.items, function (item) {
+
+                return item.block_pattern === ub.current_material.material.block_pattern && _.contains(item.neck_options, ub.current_material.material.neck_option) && item.material_option === materialOption;
+
+            });
+
+            return _result;
+
+        }
+    }
+    
 });
