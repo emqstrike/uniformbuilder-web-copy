@@ -10087,6 +10087,14 @@ $(document).ready(function() {
         var _locations = ub.current_material.settings.applications;  
         ub.showLocation = true;
 
+        // Don't process this function when there's no application
+        if (typeof _firstID === "undefined") {
+
+            ub.utilities.warn('This uniforms has no applications set.');
+            return;
+
+        }
+
         var _firstID = _.first(_.pluck(ub.current_material.settings.applications, 'code'));
         var _objectPresent = false;
         var _pView = ub.funcs.getPrimaryView(ub.current_material.settings.applications[_firstID].application);
