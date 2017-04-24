@@ -9996,7 +9996,7 @@ $(document).ready(function() {
 
         _.each (_locations, function (location) {
 
-            _.each(location.application.views, function (view, index){
+            _.each(location.application.views, function (view, index) {
 
                 var _perspective = view.perspective + '_view';
 
@@ -10020,7 +10020,7 @@ $(document).ready(function() {
 
     ub.funcs.renderLocations = function (locationCode) {
 
-        var _locations = ub.current_material.settings.applications;  
+        var _locations = ub.current_material.settings.applications;
 
          _.each (_locations, function (location) {
 
@@ -10086,6 +10086,14 @@ $(document).ready(function() {
 
         var _locations = ub.current_material.settings.applications;  
         ub.showLocation = true;
+
+        // Don't process this function when there's no application
+        if (typeof _firstID === "undefined") {
+
+            ub.utilities.warn('This uniforms has no applications set.');
+            return;
+
+        }
 
         var _firstID = _.first(_.pluck(ub.current_material.settings.applications, 'code'));
         var _objectPresent = false;
