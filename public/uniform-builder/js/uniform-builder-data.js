@@ -11358,4 +11358,45 @@ ub.funcs.fontOffSets = [
 
     }
 
+    ub.data.randomFeedArrangement = {
+
+        items: [ 
+            {
+                set: 'Top Welt',
+                order: 0,
+            }, 
+            {
+                set: 'Body',
+                order: 1,
+            }, 
+            {
+                set: 'Heel',
+                order: 2,
+            }, 
+            {
+                set: 'Padding',
+                order: 3,
+            }, 
+            {
+                set: 'Arch',
+                order: 4,
+            },
+            {
+                set: 'Toe',
+                order: 5,
+            },
+        ],
+
+        getSortID: function (set) { 
+
+            _result = _.find(this.items, {set: set});
+
+            if (typeof _result === "undefined") { ub.utilities.warn ('Set [' + set + '] not found.'); }
+
+            return _result;
+
+        }
+
+    }
+
 });
