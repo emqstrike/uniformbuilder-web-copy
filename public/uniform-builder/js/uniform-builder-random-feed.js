@@ -830,6 +830,7 @@ $(document).ready(function () {
                 var _colorArray = [];
                 var _layers = [];
 
+
                 // Normalize randomFeed Position From source 
 
                 _.each (randomFeed.perspectives, function (perspective) {
@@ -882,10 +883,14 @@ $(document).ready(function () {
                 if (randomFeed.color2) { _colorCount +=1 }; 
                 if (randomFeed.color3) { _colorCount +=1 }; 
 
-                // Skip setup of randomFeed settings is coming from saved design, so the saved data will be rendered instead of the default randomFeed style
+                // Set order Weight, so it can be sorted
+                randomFeed.sortID = ub.data.randomFeedArrangement.getSortID(randomFeed.set).order;
+                
+                // Skip setup of randomFeed settings if coming from saved design, so the saved data will be rendered instead of the default randomFeed style
                 if (typeof ub.current_material.settings.randomFeeds[randomFeed.set] !== "undefined") { return; }
 
                 if (randomFeed.enabled === 1) {
+
 
                     ub.current_material.settings.randomFeeds[randomFeed.set] = {
 
@@ -911,6 +916,8 @@ $(document).ready(function () {
                 }
 
             });
+
+            ub.data.randomFeeds = _.sortBy(ub.data.randomFeeds, 'sortID');
 
         } else {
 
