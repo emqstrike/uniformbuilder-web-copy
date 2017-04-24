@@ -334,12 +334,13 @@ $(document).ready(function () {
             //$('div.applicationType').css({ 'color': '#3d3d3d', 'text-decoration': 'initial', 'opacity': '1'});
             $('span.cog').fadeIn();
 
-                        $('span.randomFeed-colors-buttons[data-value="2"]').click();
-
+            $('span.randomFeed-colors-buttons[data-value="2"]').click();
 
             //ub.funcs.hideGAFontTool();
 
         }
+
+        _state === "on" ? $('span.header-type').hide() : $('span.header-type').show();
 
     }
 
@@ -601,6 +602,8 @@ $(document).ready(function () {
         var _htmlBuilder        = Mustache.render(_template, _data);            
 
         $('.modifier_main_container').append(_htmlBuilder);
+
+        if (_status === "on") { $('span.header-type').hide(); }
 
         var s = $('span.randomFeed-type').html();
 

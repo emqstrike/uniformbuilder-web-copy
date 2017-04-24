@@ -1855,7 +1855,7 @@
         <div id="randomFeedsUI">
           <div class="header">
           <div class="toggle" data-status="@{{status}}"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>
-          <div class="applicationType">Random Feed</div>
+          <div class="applicationType">Random Feed <span class="header-type">(@{{type}})</span></div>
           <div class="body">
               <div class="cover"></div>
               <div class="ui-row">
