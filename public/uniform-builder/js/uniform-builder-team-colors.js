@@ -13,12 +13,12 @@ $(document).ready(function () {
 
         _names.push(_name);
 
-        if (_name.indexOf('left') >-1) {
+        if (_name.indexOf('left') >-1 && _name.indexOf('body') === -1) {
             _match      = _name.replace('left', 'right');
             _names.push(_match);
         }
 
-        if (_name.indexOf('right') >-1) {
+        if (_name.indexOf('right') >-1 && _name.indexOf('body') === -1) {
             _match      = _name.replace('right', 'left');
             _names.push(_match);
         }
