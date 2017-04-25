@@ -11432,7 +11432,9 @@ ub.funcs.fontOffSets = [
 
             var _result = _.find(this.items, function (item) {
 
-                return item.block_pattern === ub.current_material.material.block_pattern && _.contains(item.neck_options, ub.current_material.material.neck_option) && item.material_option === materialOption;
+                return item.block_pattern === ub.current_material.material.block_pattern && 
+                        _.contains(item.neck_options, ub.current_material.material.neck_option) && 
+                        item.material_option === materialOption;
 
             });
 

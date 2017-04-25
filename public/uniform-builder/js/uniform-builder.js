@@ -1664,8 +1664,23 @@ $(document).ready(function () {
 
                 var _hexCode = (e.color).toString(16);
                 var _paddedHex = util.padHex(_hexCode, 6);
+                var _modLabelName = e.code.toTitleCase();
+                var _limitedColorSet = ub.data.materialOptionWithLimitedColors.getLimitedColorSet(_modLabelName);
 
-                ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};
+                // Only add to team colors if material option does not belong to the group of layers that has a different color set
+                if (typeof _limitedColorSet === "undefined" && _modLabelName !== "Extra") {
+
+                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};    
+
+                } else {
+                    
+                    if (_modLabelName === "Extra") {
+                        ub.utilities.info(_modLabelName + ' layer detected, skipping add to Team Colors...');                        
+                    } else {
+                        ub.utilities.info(_modLabelName + ' has a different color set, skipping add to Team Colors...');    
+                    }
+
+                }
 
             }
             
@@ -1774,11 +1789,7 @@ $(document).ready(function () {
 
         if (ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
 
-            if (ub.current_material.pipings === null) {
-
-                ub.utilities.warn("Pipings is null!");
-
-            } else {
+            if (ub.current_material.pipings !== null) {
 
                 ub.funcs.processPipings(ub.current_material.material.pipings);
 
@@ -1794,11 +1805,7 @@ $(document).ready(function () {
 
         // Process Random Feeds Here
 
-        if (ub.current_material.material.random_feed === null) {
-
-            ub.utilities.warn("Random Feeds is null!");
-
-        } else {
+        if (ub.current_material.material.random_feed !== null) {
 
             ub.funcs.processRandomFeeds(ub.current_material.material.random_feed);
 

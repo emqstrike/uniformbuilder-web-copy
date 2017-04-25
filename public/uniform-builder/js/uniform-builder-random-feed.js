@@ -924,7 +924,7 @@ $(document).ready(function () {
 
         } else {
 
-            console.warn('Random Feed Null || Undefined');
+            ub.utilities.info("This uniform has no Random Feeds.");
 
         }
 
