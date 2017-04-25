@@ -951,7 +951,7 @@ $(document).ready(function () {
 
         } else {
 
-            console.warn('Pipings Null || Undefined');
+            ub.utilities.info('This uniform has no Pipings.');
 
         }
 

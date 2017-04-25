@@ -112,20 +112,22 @@ $(document).ready(function () {
         }
 
         var _newColorSet = [];
+        var _notFound = [];
+
         _.each (_colors, function (_color) {
 
             var _match = _.find(ub.data.colors, {color_code: _color});
 
             if (typeof _match === 'undefined') {
-
-                console.log('Cant Find ' + _color);
-
+                _notFound.push(_color);
             }
             else {
                 _newColorSet.push(_match);    
             }            
 
         });
+
+        if (_notFound.length > 0) { ub.utilities.info("Can't find these assigned colors for " + material_option + ": " + _notFound.toString()); }
 
         return _newColorSet;
 
@@ -568,8 +570,7 @@ $(document).ready(function () {
 
                     });
 
-                    ub.utilities.warn ('Limited Color Set detected for ' + modLabel.name);
-
+                    ub.utilities.info ('Limited Color Set detected for ' + modLabel.name);
                     _colorSet = _alternateColorSet;
 
                 }
@@ -623,7 +624,7 @@ $(document).ready(function () {
 
                 });
 
-                ub.utilities.warn ('Limited Color Set detected for ' + modLabel.name);
+                ub.utilities.info ('Limited Color Set detected for ' + modLabel.name);
 
                 _colorSet = _alternateColorSet;
 

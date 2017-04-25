@@ -3397,7 +3397,7 @@ $(document).ready(function() {
         var boundaries_transformed = ub.data.boundaries_transformed;
         var boundaries_one_dimensional = ub.data.boundaries_transformed_one_dimensional;
 
-        _.each(shapes, function(shape){
+        _.each(shapes, function(shape) {
 
             var boundary_properties = JSON.parse(shape.boundary_properties.slice(1, -1));
 
@@ -3405,7 +3405,7 @@ $(document).ready(function() {
             shape.patternOffsetX = boundary_properties[0].px;
             shape.patternOffsetY = boundary_properties[0].py;
 
-            if(boundary_properties !== null){
+            if (boundary_properties !== null) {
 
                 if (typeof boundaries_transformed[shape.name] === "undefined") {
         
@@ -10093,7 +10093,7 @@ $(document).ready(function() {
 
         if (typeof _firstID === "undefined") {
 
-            ub.utilities.warn('This uniforms has no applications set.');
+            ub.utilities.info('This uniform has no Applications.');
             return;
 
         }

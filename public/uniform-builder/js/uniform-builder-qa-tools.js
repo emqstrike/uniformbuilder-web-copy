@@ -12,18 +12,15 @@ $(document).ready(function () {
     ub.funcs.printUniformInfo = function (material, settings) {
 
         ub.utilities.info('ID: ' + material.id);
+        ub.utilities.info('Uniform: ' + material.name);
         ub.utilities.info('Block Pattern ID: ' + material.block_pattern_id);
         ub.utilities.info('Block Pattern: ' + material.block_pattern);
-        ub.utilities.info('Uniform: ' + material.name);
         ub.utilities.info('Sport: ' + material.uniform_category);
         ub.utilities.info('Type: ' + material.type);
+        ub.utilities.info('Factory Code: ' + material.factory_code);
 
         ub.utilities.info('Applications: ');    
-        _.each(settings.applications, function (app) {
-
-            console.log(app.code + ' - ' + app.type);
-
-        });
+        _.each(settings.applications, function (app) { ub.utilities.info(app.code + ' - ' + app.type); });
 
     }
 
