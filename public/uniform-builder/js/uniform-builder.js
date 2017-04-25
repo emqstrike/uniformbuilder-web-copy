@@ -341,7 +341,11 @@ $(document).ready(function () {
             $('div.left-pane-column-full').fadeIn();
             $('span.fullscreen-btn').fadeIn();
 
-           // $('div.activate_qa_tools').fadeIn();
+            if (_.contains(ub.fontGuideIDs, window.ub.valid)) {
+
+                $('div.activate_qa_tools').fadeIn();
+
+            }
 
             var _type = '';
 
