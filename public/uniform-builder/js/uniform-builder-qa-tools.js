@@ -141,31 +141,36 @@ $(document).ready(function () {
         _.each(ub.qa.partNames, function(key, index) {
 
             var index2 = 0;
-            _ptStr += "<tr class='header_row'><td>Name</td><td>Perspective</td><td>Group ID</td><td>Team Color ID</td><td>Allow Pattern</td></tr>";
+
+            _ptStr += "<tr><td colspan='6' class='tCenter tLabel'><strong>" + key.name + "</strong></td></tr>";
+
+            _ptStr += "<tr class='header_row'><td class='tCenter'>Name</td><td class='tCenter'>Perspective</td><td class='tRight'>Group ID</td><td class='tRight'>Team Color ID</td><td class='tCenter'>Allow Pattern</td><td class='tCenter'></td></tr>";
 
             _.each (key.perspectives, function (mo, index3) {
 
                 index2 +=1;
 
                 _ptStr += '<tr>';
-                    _ptStr += "<td class='pattern-material-option-column ucase'>";  
+                    _ptStr += "<td class='pattern-material-option-column ucase tCenter'>";  
 
-                    if(index2 === 1) {
+                    // if(index2 === 1) {
 
-                        _ptStr += key.name;
+                    //     _ptStr += key.name;
 
-                        _ptStr += "<br /><br />";
+                    //     _ptStr += "<br /><br />";
                         
-                    }
+                    // }
 
                     _ptStr += "<strong style='padding:3px;background-color:#" + mo.default_color + "; color: white'>#" + mo.default_color + "</strong>";
                     
                     _ptStr + "</td>";
 
-                    _ptStr += "<td class='pattern-material-option-column'>" + mo.perspective + "</td>";
-                    _ptStr += "<td class='pattern-material-option-column'>" + mo.group_id + "</td>";
-                    _ptStr += "<td class='pattern-material-option-column'>" + mo.team_color_id + "</td>";
-                    _ptStr += "<td class='pattern-material-option-column'>" + mo.allow_pattern + "</td>";
+                    var _allowpattern = parseInt(mo.allow_pattern) === 1 ? "<strong>Yes</strong>": "No";
+                    
+                    _ptStr += "<td class='pattern-material-option-column tCenter'>" + mo.perspective + "</td>";
+                    _ptStr += "<td class='pattern-material-option-column tRight'>" + mo.group_id + "</td>";
+                    _ptStr += "<td class='pattern-material-option-column tRight'>" + mo.team_color_id + "</td>";
+                    _ptStr += "<td class='pattern-material-option-column tCenter'>" + _allowpattern + "</td>";
                     _ptStr += "<td class='pattern-material-option-column'>" + '<img class="img_preview" style="background-color: #' + mo.default_color  + ';" src= "' + mo.path +'" />';
 
                 _ptStr += '</tr>';
