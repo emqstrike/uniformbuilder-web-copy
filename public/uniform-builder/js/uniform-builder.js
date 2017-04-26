@@ -6008,8 +6008,8 @@ $(document).ready(function () {
             var _bsb = _.find(a.sports, {code: 'baseball'});
 
             _bsb.active = "0";
-            _bsb.tooltip = "Coming Soon!";
-            _bsb.disabledClass = "disabled";
+            _bsb.tooltip = "COMING SOON";
+            _bsb.disabledClass = "disabledClass";
 
         }
 

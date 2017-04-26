@@ -3839,30 +3839,23 @@ $(document).ready(function() {
                     code: 'baseball',
                     name: 'Baseball',
                     active: "1",
-                    tooltip: 'Coming Soon!',
+                    tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 },
                 {
-                    code: 'basketball',
-                    name: 'Basketball',
+                    code: 'lacrosse',
+                    name: 'Lacrosse',
                     active: "1",
-                    tooltip: 'Coming Soon!',
+                    tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 },
                 {
                     code: 'soccer',
                     name: 'Soccer',
                     active: "1",
-                    tooltip: 'Coming Soon!',
+                    tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 }, 
-                {
-                    code: 'lacrosse',
-                    name: 'Lacrosse',
-                    active: "1",
-                    tooltip: 'Coming Soon!',
-                    disabledClass: 'disabledClass',
-                },
             ],
         },
         {
@@ -3914,6 +3907,30 @@ $(document).ready(function() {
                     active: "1",
                 },
             ],
+        },
+
+    ];
+
+    ub.data.apparel = [
+        {
+            gender: 'Men',
+            sports: [
+                {
+                    code: 'crew_socks',
+                    name: 'Crew Socks (Apparel)',
+                    active: "1",
+                    tooltip: '',
+                    disabledClass: '',
+                },
+            ],
+        },
+        {
+            gender: 'Women',
+            sports: [],
+        },
+        {
+            gender: 'Youth',
+            sports: [],
         },
 
     ];
