@@ -2713,7 +2713,7 @@ $(document).ready(function() {
                     point.scale.x *= -1;
 
                 } else {
-                    
+
                     view.application.flip = 0;
                     point.scale.x = Math.abs(point.scale.x);
 
@@ -10266,7 +10266,7 @@ $(document).ready(function() {
         var _sport          = ub.current_material.material.uniform_category;
 
 
-        if (ub.funcs.isCurrentSport('Compression (Apparel)') || ub.funcs.isCurrentSport('Tech-Tee (Apparel)')) {
+        if (ub.funcs.isCurrentSport('Compression (Apparel)') || ub.funcs.isCurrentSport('Tech-Tee (Apparel)') || ub.funcs.isCurrentSport('Baseball')) {
 
             if (_part === "Body" || _part === "Back Body") { _part = 'Extra'; }
 
