@@ -11408,11 +11408,12 @@ ub.funcs.fontOffSets = [
             if (sport === "Baseball") {
 
                 // Disable free-form tool on football if block pattern is not infused 14
-                if (ub.current_material.material.block_pattern !== "Cage Jacket") {
+                if (ub.current_material.material.uniform_application_type !== "sublimated") {
 
                     _result = undefined;
 
                 }
+                console.log(_result)
 
             }
 
