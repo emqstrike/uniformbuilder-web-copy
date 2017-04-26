@@ -3092,11 +3092,15 @@ $(document).ready(function() {
 
     };
 
+    // This is used before uploading the thumbnails
     ub.funcs.fullResetHighlights = function () {
 
         _.each(ub.current_material.materials_options, function (mo){
     
             var _moName = mo.name.toCodeCase();
+
+            if (_moName === "guide") { return; }
+
             var _obj = ub.objects[mo.perspective + '_view'][_moName];
             _obj.alpha = ub.ALPHA_ON;
 
@@ -3109,6 +3113,7 @@ $(document).ready(function() {
                 if (typeof object !== "undefined") {
 
                     if (object.name === null) { return; }
+                    if (object.name === "guide") { return; }
 
                     if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1 && object.name.indexOf(ub.active_part) === -1) {
 
@@ -3136,6 +3141,9 @@ $(document).ready(function() {
             var _name = _materialOption.name.toCodeCase();
             var _object = ub.objects[ub.active_view + '_view'][_name];
 
+            // do not include Guide layers on reset
+            if (_name === "guide") { return; }
+            
             ub.funcs.setAlphaOn(_object, _object.name);
             ub.active_part = undefined;
 
@@ -3144,6 +3152,9 @@ $(document).ready(function() {
         _.each (ub.objects[ub.active_view + "_view"], function (object) {
 
             if (object.name === null) { return; }
+
+            // do not include Guide layers on reset
+            if (object.name === "guide") { return; }
 
             if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1 && object.name.indexOf(ub.active_part) === -1) {
 
