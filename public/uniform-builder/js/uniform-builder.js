@@ -1370,6 +1370,24 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.isSublimated = function () {
+
+        return ub.current_material.material.uniform_application_type === "sublimated";
+
+    }
+
+    ub.funcs.moveToExtra = function (application) {
+
+        if (ub.funcs.isCurrentSport('Compression (Apparel)') ||
+            ub.funcs.isCurrentSport('Tech-Tee (Apparel)') ||
+            (ub.funcs.isCurrentSport('Baseball') && ub.funcs.isSublimated())) {
+
+            if (application.layer === "Body" || application.layer === "Back Body") { application.layer = "Extra"; }
+
+        }
+
+    }
+
     ub.data.convertDefaultApplications = function () {
 
         if (typeof ub.temp !== "undefined" || _.size(ub.current_material.settings.applications) !== 0) { return; }
@@ -1377,6 +1395,8 @@ $(document).ready(function () {
         var _one_dimensional = ub.data.applications_transformed_one_dimensional;
 
         _.each (_one_dimensional, function (_application) {
+
+            ub.funcs.moveToExtra(_application);
 
             _.each(_application.views, function (view) {
         
