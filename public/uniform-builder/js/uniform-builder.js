@@ -5542,8 +5542,8 @@ $(document).ready(function () {
 
         } else if (sport === "Crew Socks (Apparel)") {
 
-            $('span.slink[data-item="Jersey"]').html("Crew Socks");
-            $('span.slink[data-item="Pant"]').hide();
+            $('span.slink[data-item="Jersey"]').hide();
+            $('span.slink[data-item="Pant"]').html("Crew Socks");
             $('span.slink[data-item="Twill"]').hide();
 
         }
