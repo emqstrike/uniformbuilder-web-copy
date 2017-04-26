@@ -194,6 +194,7 @@ $(document).ready(function () {
         }
 
         $('div.qa-tools-tab').modal('show');
+        $('div.qa-tools-tab').draggable({ handle: ".modal-content" });
 
         return;    
 
