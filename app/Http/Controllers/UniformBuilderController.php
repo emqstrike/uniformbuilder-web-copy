@@ -1089,7 +1089,8 @@ class UniformBuilderController extends Controller
         $html  = '';
         $html .= $style;
         $html .= '<div style ="width: 100%; text-align: center;">';
-        $html .=    '<h3>PROLOOK UNIFORM CUSTOMIZER - ORDER FORM (' . $uniform_category . ')</h3>';
+        $html .=    '<h4>PROLOOK UNIFORM CUSTOMIZER - ORDER FORM</h2>';
+        $html .=    '<h3>' . $uniform_category . '</h3>';
         $html .= '</div>';
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
