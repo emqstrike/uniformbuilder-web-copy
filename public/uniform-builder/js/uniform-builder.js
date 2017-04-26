@@ -5550,6 +5550,7 @@ $(document).ready(function () {
         else {
 
             $('span.slink[data-item="Jersey"]').html("Jersey");
+            $('span.slink[data-item="Pant"]').html("Pant");
             $('span.slink[data-item="Pant"]').show();
             $('span.slink[data-item="Twill"]').show();
 

@@ -431,8 +431,7 @@
 
         @{{/picker_items}}
 
-        <hr />
-        
+
         @{{#apparel}}
             
             <div class="main-picker-items grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
