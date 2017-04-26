@@ -76,6 +76,20 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('change', '.allow-pattern', function() {
+        console.log('changed allow pattern');
+        var color = $(this).val();
+        var perspective = $(this).data('perspective');
+        var name = $(this).data('name').toLowerCase();
+        $(".allow-pattern").each(function(i) {
+            if( $(this).data('perspective') != perspective && $(this).data('name').toLowerCase() == name ){
+                $(this).fadeOut();
+                $(this).fadeIn();
+                $(this).val(color);
+            }
+        });
+    });
+
     $(document).on('change', '.tcid', function() {
         console.log('changed gid');
         var number = $(this).val();
