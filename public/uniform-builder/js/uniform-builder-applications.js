@@ -2708,7 +2708,7 @@ $(document).ready(function() {
 
                 }
 
-                if (view.application.flip === 1) {
+                if (view.application.flip === 1 && _applicationObj.type === "mascot") {
 
                     point.scale.x *= -1;
 
