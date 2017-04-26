@@ -37,6 +37,7 @@ class MaterialsOptionsController extends Controller
         $groupIDs = $request->input('group_id');
         $teamColorIDs = $request->input('team_color_id');
         $deafaultColors = $request->input('default_color');
+        $allowPatterns = $request->input('allow_pattern');
 
         $ctr = 0;
         foreach ($optionIds as $optionId) {
@@ -85,6 +86,14 @@ class MaterialsOptionsController extends Controller
             $idx = $ctr;
             $item = 'item'.$ctr;
             $data['info'][$item]['default_color'] = $color;
+            $ctr++;
+        }
+
+        $ctr = 0;
+        foreach ($allowPatterns as $allow) {
+            $idx = $ctr;
+            $item = 'item'.$ctr;
+            $data['info'][$item]['allow_pattern'] = $allow;
             $ctr++;
         }
 

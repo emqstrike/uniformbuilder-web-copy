@@ -82,6 +82,7 @@
                                 <th>Gender</th>
                                 <th>Active</th>
                                 <th>Asset Target</th>
+                                <th>Uniform Application Type</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -124,6 +125,9 @@
                 <td>
                     {{ $material->asset_target }}
                 </td>
+                <td>
+                    {{ $material->uniform_application_type }}
+                </td>
                 <td class="td-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-xs btn-primary">Edit</a>
                     <a href="/administration/material/view_material_options/{{ $material->id }}" class="btn btn-xs btn-default">Material Options</a>
@@ -163,6 +167,7 @@
                 <td id="sports-filter"></td>
                 <td id="block-patterns-filter"></td>
                 <td id="necks-filter"></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
