@@ -11031,6 +11031,20 @@ ub.funcs.fontOffSets = [
                 type: 'youth',
                 gender: 'men',
                 sizes: ['24/YXS', '26/YS', '28/YM', '30', '32/YL', '34/YXL'],
+            },
+
+            // Crew Socks 
+            {
+                sport: 'Crew Socks (Apparel)',
+                type: 'adult',
+                gender: 'men',
+                sizes: ['S', 'M', 'L', 'XL'],
+            },
+            {
+                sport: 'Crew Socks (Apparel)',
+                type: 'youth',
+                gender: 'men',
+                sizes: ['YS', 'YM',],
             }
 
         ],
@@ -11291,6 +11305,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Football',
                 sublimatedPart: 'Body',
             },
+          {
+                sport: 'Baseball',
+                sublimatedPart: 'Extra',
+            },
         ],
 
         get: function (sport) {
@@ -11301,6 +11319,17 @@ ub.funcs.fontOffSets = [
 
                 // Disable free-form tool on football if block pattern is not infused 14
                 if (ub.current_material.material.block_pattern !== "INFUSED 14") {
+
+                    _result = undefined;
+
+                }
+
+            }
+
+            if (sport === "Baseball") {
+
+                // Disable free-form tool on football if block pattern is not infused 14
+                if (ub.current_material.material.block_pattern !== "Cage Jacket") {
 
                     _result = undefined;
 
@@ -11319,6 +11348,17 @@ ub.funcs.fontOffSets = [
 
                 // Disable free-form tool on football if block pattern is not infused 14
                 if (ub.current_material.material.block_pattern !== "INFUSED 14") {
+
+                    _result = undefined;
+
+                }
+
+            }
+
+            if (sport === "Baseball") {
+
+                // Disable free-form tool on football if block pattern is not infused 14
+                if (ub.current_material.material.block_pattern !== "Cage Jacket") {
 
                     _result = undefined;
 
