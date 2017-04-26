@@ -5448,10 +5448,10 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (_item !== "Football" && _item !== "Wrestling" && _item !== "Baseball") { return; }
+                if (_item !== "Football" && _item !== "Wrestling" && _item !== "Baseball" && _item !== "Crew Socks (Apparel)") { return; }
                 if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
 
-                if (_item === "Baseball" && !_.contains(ub.fontGuideIDs, ub.user.id)) { return; }
+                if ((_item === "Baseball" || _item === "Crew Socks (Apparel)") && !_.contains(ub.fontGuideIDs, ub.user.id)) { return; }
 
                 ub.funcs.initUniformsPicker(_item);
 
@@ -5536,15 +5536,22 @@ $(document).ready(function () {
 
         if (sport === "Wrestling") {
 
-                $('span.slink[data-item="Jersey"]').html("Singlet");
-                $('span.slink[data-item="Pant"]').hide();
-                $('span.slink[data-item="Twill"]').hide();
+            $('span.slink[data-item="Jersey"]').html("Singlet");
+            $('span.slink[data-item="Pant"]').hide();
+            $('span.slink[data-item="Twill"]').hide();
 
-            } else {
+        } else if (sport === "Crew Socks (Apparel)") {
 
-                $('span.slink[data-item="Jersey"]').html("Jersey");
-                $('span.slink[data-item="Pant"]').show();
-                $('span.slink[data-item="Twill"]').show();
+            $('span.slink[data-item="Jersey"]').html("Crew Socks");
+            $('span.slink[data-item="Pant"]').hide();
+            $('span.slink[data-item="Twill"]').hide();
+
+        }
+        else {
+
+            $('span.slink[data-item="Jersey"]').html("Jersey");
+            $('span.slink[data-item="Pant"]').show();
+            $('span.slink[data-item="Twill"]').show();
 
         }
 
@@ -5562,7 +5569,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.initScroller = function (type, items, gender, fromTertiary) {
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel) {
 
         ub.funcs.fadeOutElements();
 
@@ -5610,11 +5617,11 @@ $(document).ready(function () {
             ub.funcs.hideSecondaryBar();
             
             var template = $('#m-picker-items-sport').html();
-
             var data = {
                 gender: gender,
                 picker_type: type,
                 picker_items: items,
+                apparel: _apparel,
             }
             
             var markup = Mustache.render(template, data);
@@ -5993,6 +6000,7 @@ $(document).ready(function () {
         var $searchField = $('input#search_field');
         $searchField.fadeIn();
 
+
         if (_.contains(ub.fontGuideIDs, ub.user.id)) {
 
             var a = _.find(ub.data.sports, {gender: 'Men'});
@@ -6001,6 +6009,13 @@ $(document).ready(function () {
             _bsb.active = "1";
             _bsb.tooltip = "";
             _bsb.disabledClass = "";
+
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _csc = _.find(a.sports, {code: 'crew_sock'});
+
+            _csc.active = "1";
+            _csc.tooltip = "";
+            _csc.disabledClass = "";
 
         } else {
 
@@ -6011,10 +6026,19 @@ $(document).ready(function () {
             _bsb.tooltip = "COMING SOON";
             _bsb.disabledClass = "disabledClass";
 
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _csc = _.find(a.sports, {code: 'crew_sock'});
+
+            _csc.active = "0";
+            _csc.tooltip = "COMING SOON";
+            _csc.disabledClass = "disabledClass";
+
         }
 
+        var _apparel = _.find(ub.data.apparel, {gender: 'Men'});
+
         var items = _.find(ub.data.sports, {gender: sport});
-        ub.funcs.initScroller('sports', items.sports);
+        ub.funcs.initScroller('sports', items.sports,undefined,undefined,_apparel.sports);
 
     };
 

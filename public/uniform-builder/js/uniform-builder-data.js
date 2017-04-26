@@ -3916,11 +3916,39 @@ $(document).ready(function() {
             gender: 'Men',
             sports: [
                 {
-                    code: 'crew_socks',
+                    code: 'cinch_sack',
+                    name: 'Cinch Sack (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'crew_sock',
                     name: 'Crew Socks (Apparel)',
                     active: "1",
-                    tooltip: '',
-                    disabledClass: '',
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'polo',
+                    name: 'Polo (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'hoodie',
+                    name: 'Hoodie (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'compression',
+                    name: 'Compression (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
                 },
             ],
         },
@@ -9233,6 +9261,10 @@ ub.funcs.fontOffSets = [
         }, 
         {
             sport: 'Wrestling',
+            filters: ['All'],
+        }, 
+        {
+            sport: 'Crew Socks (Apparel)',
             filters: ['All'],
         }, 
     ];
