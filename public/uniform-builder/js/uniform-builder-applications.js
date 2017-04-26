@@ -2714,6 +2714,7 @@ $(document).ready(function() {
 
                 } else {
                     
+                    view.application.flip = 0;
                     point.scale.x = Math.abs(point.scale.x);
 
                 }
