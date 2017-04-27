@@ -10239,7 +10239,7 @@ $(document).ready(function() {
 
     ub.funcs.isUniformFullSublimation = function ()  {
 
-        return ub.current_material.material.factory_code === "BLB";
+        return ub.current_material.material.uniform_application_type === "sublimated";
 
     }
 
@@ -10279,7 +10279,6 @@ $(document).ready(function() {
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
         var _part           = part;
         var _sport          = ub.current_material.material.uniform_category;
-
 
         if (ub.funcs.isCurrentSport('Compression (Apparel)') || ub.funcs.isCurrentSport('Tech-Tee (Apparel)') || ub.funcs.isCurrentSport('Baseball')) {
 
@@ -10330,6 +10329,14 @@ $(document).ready(function() {
                     _perspectiveView.application.rotation = 0;
  
                 } 
+
+                if (typeof _overrides !== "undefined") {
+
+                    _perspectiveView.application.rotation = _overrides.rotation;
+                    _perspectiveView.application.center = _overrides.position;
+                    _perspectiveView.application.pivot = _overrides.position;
+
+                }
 
                 if (_part === "Extra") {
 
@@ -10470,7 +10477,6 @@ $(document).ready(function() {
             });
 
             $('div.perspective-container > span.perspective[data-id="' + ub.active_view + '"]').addClass('active');
-
             
             // Parts 
 
@@ -10569,7 +10575,6 @@ $(document).ready(function() {
 
             $('div.part-container > span.part[data-id="' + _part + '"]').addClass('active');
             $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');
-
 
             // Footer Buttons 
 
