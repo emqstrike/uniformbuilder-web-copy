@@ -4183,8 +4183,8 @@ $(document).ready(function() {
 
         ub.funcs.clearPatternUI();
         ub.funcs.deActivateApplications();
-
         ub.funcs.deActivateLocations();
+        ub.funcs.activeStyle('colors');
 
         $('#color-wheel-container').fadeIn();
 
@@ -4933,6 +4933,18 @@ $(document).ready(function() {
     ub.funcs.hideOtherPanels = function () {
 
         ub.funcs.hidePipingFunctions();
+        ub.funcs.hiderandomFeedsTool();
+
+    }
+
+    ub.funcs.activeStyle = function (tab) {
+
+        $('a.change-view[data-view="colors"]').removeClass('active-change-view');    
+        $('a.change-view[data-view="layers"]').removeClass('active-change-view'); 
+        $('a.change-view[data-view="randomFeed"]').removeClass('active-change-view'); 
+        $('a.change-view[data-view="patterns"]').removeClass('active-change-view');
+
+        $('a.change-view[data-view="' + tab + '"]').addClass('active-change-view');
 
     }
 
@@ -4951,10 +4963,13 @@ $(document).ready(function() {
 
         var _returnValue                = false;
 
+
+
         if (_settingsObject.has_pattern === 1) {
 
             ub.funcs.deActivateColorPickers ();
             ub.funcs.deActivateApplications();
+            ub.funcs.activeStyle('patterns');
 
             var firstMaterialOption     = _materialOptions[0];
             var patternObject           = _settingsObject.pattern;
@@ -10873,6 +10888,7 @@ $(document).ready(function() {
         // End Populate Layer Tool
 
         ub.funcs.gotoFirstApplication();
+        ub.funcs.activeStyle('layers');
 
         $('div.layers-header > span.close').on('click', function () {
 

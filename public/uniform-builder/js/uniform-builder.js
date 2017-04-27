@@ -4776,6 +4776,7 @@ $(document).ready(function () {
                 if (view === 'colors') { 
 
                     ub.funcs.activateColorPickers();
+                    ub.funcs.activeStyle('colors');
                     return;
                     
                 }
