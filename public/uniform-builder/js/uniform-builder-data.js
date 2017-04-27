@@ -11087,13 +11087,13 @@ ub.funcs.fontOffSets = [
                 sport: 'Crew Socks (Apparel)',
                 type: 'adult',
                 gender: 'men',
-                sizes: ['S', 'M', 'L', 'XL'],
+                sizes: ['5-7', '8-12', '13-14',],
             },
             {
                 sport: 'Crew Socks (Apparel)',
                 type: 'youth',
                 gender: 'men',
-                sizes: ['YS', 'YM',],
+                sizes: [],
             }
 
         ],

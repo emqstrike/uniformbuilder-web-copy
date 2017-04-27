@@ -1061,7 +1061,7 @@
 
     <script type="text/mustache" id="m-circle-sizes">
 
-        <span>ADULT SIZES:</span>
+        <span class="adult-sizes">ADULT SIZES:</span>
         
         @{{#adult}}
             <span data-status="off" data-size="@{{.}}" class="size">@{{.}}</span>
@@ -1069,7 +1069,7 @@
 
         <br />
 
-        <span>YOUTH SIZES:</span>
+        <span class="youth-sizes">YOUTH SIZES:</span>
 
         @{{#youth}}
             <span data-status="off" data-size="@{{.}}" class="size">@{{.}}</span>

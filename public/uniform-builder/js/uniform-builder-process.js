@@ -1554,6 +1554,9 @@ $(document).ready(function() {
 
         $('div#sizes').append(_markup);
 
+        if (_adult.sizes.length === 0) { $('span.adult-sizes').hide(); }
+        if (_youth.sizes.length === 0) { $('span.youth-sizes').hide(); }
+
         /// Tab Buttons 
 
          data = {
@@ -1593,6 +1596,8 @@ $(document).ready(function() {
         ub.funcs.pushState({data: 'roster-form', title: 'Enter Roster', url: '?roster-form'});
 
         $('span.undo-btn').hide();
+        $('span.fullscreen-btn').hide();
+        
         ub.funcs.deactivateMoveTool();
         ub.funcs.turnLocationsOff();
         ub.funcs.initRosterCalled = true;
