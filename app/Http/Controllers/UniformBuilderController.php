@@ -722,11 +722,14 @@ class UniformBuilderController extends Controller
                     if ($randomFeeds[$titledPart]['enabled'] != '0') {
                     
                         $colors = '';
+                        $index = 1;
                         foreach ($randomFeeds[$titledPart]['layers'] as &$layer) {
 
-                            if ($layer['colorCode'] === "none") { continue; }
+                            // Random Feeds only have two colors
+                            if ($layer['colorCode'] === "none" or $index === 3) { continue; }
 
                             $colors .= $layer['colorCode'] . ',';
+                            $index++;
 
                         }
 
