@@ -11413,7 +11413,6 @@ ub.funcs.fontOffSets = [
                     _result = undefined;
 
                 }
-                console.log(_result)
 
             }
 
