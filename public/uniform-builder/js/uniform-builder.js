@@ -5590,6 +5590,22 @@ $(document).ready(function () {
 
     }
 
+    // Group by block pattern and also group upper and lower uniforms
+    ub.funcs.sortPickerItems = function (items) {
+
+        var _sorted = _.sortBy(items, function(item) { 
+
+            var _weight = parseInt(item.block_pattern_id);
+            (item.type === 'upper') ? _weight += 100 : _weight += 200;
+
+            return _weight;
+
+        });
+
+        return _sorted;
+
+    }
+
     ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel) {
 
         ub.funcs.fadeOutElements();
@@ -5689,16 +5705,7 @@ $(document).ready(function () {
 
             var template = $('#m-picker-items-uniforms').html();
 
-            ub.tempItems = _.sortBy(items, function(item) { 
-
-                if (item.type === 'upper') { 
-                    return 1;
-                } 
-                else {
-                    return 2;
-                }
-
-            });
+            ub.tempItems = ub.funcs.sortPickerItems(items);
 
             var data = {
                 sport: gender,
