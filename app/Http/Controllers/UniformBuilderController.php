@@ -610,6 +610,7 @@ class UniformBuilderController extends Controller
         $bc = $itemData['builder_customizations'];
         $uniformType = $itemData['type'];
         $parts = $bc[$uniformType];
+        $randomFeeds = $bc['randomFeeds'];
 
         $html = '';
         $html .= '<br /><br />';
@@ -626,6 +627,15 @@ class UniformBuilderController extends Controller
         $html .=   '<td width="40%" align="center">';
         $html .=       '<strong>PATTERN</strong>';
         $html .=   '</td>';
+
+        if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+
+            $html .=   '<td width="40%" align="center">';
+            $html .=       '<strong>RANDOM FEEDS</strong>';
+            $html .=   '</td>';
+
+        }
+
         $html .= '</tr>';
         $html .= '<tr>';
         $html .=   '<td>';
@@ -695,6 +705,43 @@ class UniformBuilderController extends Controller
             }
 
             $html .=   '</td>';
+
+            // Random Feeds 
+            if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+
+                $html .=   '<td align="center">';
+
+                Log::error('----------' . $code);
+
+                $titledPart = $part['code'];
+                $titledPart = str_replace('_', ' ', $titledPart);
+                $titledPart = ucwords($titledPart);
+
+                if (array_key_exists($titledPart, $randomFeeds)) {
+
+                    if ($randomFeeds[$titledPart]['enabled'] != '0') {
+                    
+                        $colors = '';
+                        foreach ($randomFeeds[$titledPart]['layers'] as &$layer) {
+
+                            if ($layer['colorCode'] === "none") { continue; }
+
+                            $colors .= $layer['colorCode'] . ',';
+
+                        }
+
+                        $colorsTrimmed = rtrim($colors, ",");
+                        $html .= '<strong>' . $colorsTrimmed . '</strong>';
+
+                    }
+
+                }
+
+                $html .=   '</td>';
+
+            }
+            // End Random Feeds 
+
             $html .= '</tr>';
 
         }
