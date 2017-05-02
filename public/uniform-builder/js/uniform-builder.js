@@ -354,9 +354,9 @@ $(document).ready(function () {
               
               default:
 
-                $('span.youthPrice').show();
-                $('span.youthPriceSale').show();
-                $('span.adult-label').html('Adult from ');
+                // $('span.youthPrice').show();
+                // $('span.youthPriceSale').show();
+                // $('span.adult-label').html('Adult from ');
 
                 ub.utilities.info('No Per Sport Cleanup for Picker')
                 
@@ -5658,9 +5658,9 @@ $(document).ready(function () {
           
           default:
 
-            $('span.youthPrice').show();
-            $('span.youthPriceSale').show();
-            $('span.adult-label').html('Adult from ');
+            // $('span.youthPrice').show();
+            // $('span.youthPriceSale').show();
+            // $('span.adult-label').html('Adult from ');
 
             ub.utilities.info('No Per Sport Cleanup for Picker')
             
