@@ -476,11 +476,11 @@
                     </span>
                     
                     <span class="adultPrice @{{parsedPricingTable.adult_sale}}">
-                        Adult from <strong>$@{{parsedPricingTable.adult_min_msrp}}</strong>
+                        <span class='adult-label'>Adult from</span> <strong>$@{{parsedPricingTable.adult_min_msrp}}</strong>
                     </span>
 
                     <span class="adultPriceSale @{{parsedPricingTable.adult_sale}}">
-                        Adult now from <strong>$@{{parsedPricingTable.adult_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
+                        <span class='adult-label'>Adult now from </span><strong>$@{{parsedPricingTable.adult_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
                     </span>
 
                     <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong> <!-- <strong class="type">@{{block_pattern}}</strong> -->

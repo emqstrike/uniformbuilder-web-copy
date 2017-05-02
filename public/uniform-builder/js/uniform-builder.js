@@ -5606,6 +5606,32 @@ $(document).ready(function () {
         return _sorted;
 
     }
+    
+    ub.funcs.cleanupPricesPerSport = function (sport) {
+
+        var _sport = sport;
+
+        switch (_sport) {
+          
+          case 'Crew Socks (Apparel)':
+            
+            $('span.youthPrice').hide();
+            $('span.youthPriceSale').hide();
+            $('span.adult-label').html('Price starts from ');
+
+            break;
+          
+          default:
+
+            $('span.youthPrice').show();
+            $('span.youthPriceSale').show();
+            $('span.adult-label').html('Adult from ');
+
+            ub.utilities.info('No Per Sport Cleanup for Picker')
+            
+        }
+
+    }
 
     ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel) {
 
@@ -5756,6 +5782,7 @@ $(document).ready(function () {
             );
 
             ub.funcs.hideIpadUniforms();
+            ub.funcs.cleanupPricesPerSport(_sport);
 
             $('.picker-header').html('Choose a Style');
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
