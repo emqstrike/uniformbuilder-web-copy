@@ -11531,6 +11531,37 @@ ub.funcs.fontOffSets = [
             return _result;
 
         }
-    }
+    };
+
+    ub.data.minimumOrder = {
+
+        items: [ 
+            {
+                sport: 'Crew Socks (Apparel)',
+                qty: 30,
+            }, 
+            {
+                sport: 'Default',
+                order: 1,
+            }, 
+        ],
+
+        getQty: function (sport) { 
+
+            _result = _.find(this.items, {sport: sport});
+
+            if (typeof _result === "undefined") { 
+                
+                ub.utilities.warn ('Sport [' + sport + '] not found. Using Default'); 
+                _result = _.find(this.items, {sport: 'Default'});
+                
+            }
+
+            return _result;
+
+        }
+
+    };
+
     
 });

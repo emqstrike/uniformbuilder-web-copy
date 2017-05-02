@@ -840,8 +840,14 @@ $(document).ready(function() {
 
         $('span.processing-pdf').fadeOut();
         $('span.previewFormPdf').fadeIn();
-        $('span.submit-confirmed-order').fadeIn();
         $('span.save-order').fadeIn();
+
+        var _qty = ub.funcs.getOrderQty();
+        var _sport = ub.current_material.material.uniform_category;
+        _result = ub.data.minimumOrder.getQty(_sport);
+
+        // Show submit order only if qty is greater or equal than required per style
+        if (_qty >= _result.qty) { $('span.submit-confirmed-order').fadeIn(); }
 
         var _url = "/pdfjs/web/viewer.html?file=" + _linkTransformed;
 
@@ -1318,19 +1324,23 @@ $(document).ready(function() {
 
         });
 
+    }
 
+    ub.funcs.getOrderQty = function () {
 
+        var _qty = 0;
+
+        $('input[name="quantity"]').each(function (index, obj) {
+
+           _qty += parseInt($(obj).val());
+           
+        });
+
+        return _qty;
 
     }
 
-    ub.funcs.submitUniform = function (orderInfo) {
-
-        if ($('tr.roster-row').length === 0) { 
-            
-            $.smkAlert({text: 'Please add Sizes and Roster before proceeding.', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-            return;
-            
-        }
+    ub.funcs.proceedToPreview = function (orderInfo) {
 
         var _validate = ub.funcs.rosterValid();
 
@@ -1343,6 +1353,42 @@ $(document).ready(function() {
 
         ub.current_material.settings.roster = _validate.roster;
         ub.funcs.showOrderForm(orderInfo);
+
+    }
+
+    ub.funcs.perUniformValidation = function (orderInfo) {
+
+        var _result = true;
+        var _qty = ub.funcs.getOrderQty();
+        var _sport = ub.current_material.material.uniform_category;
+        _result = ub.data.minimumOrder.getQty(_sport);
+
+        if (_qty < _result.qty) {
+
+            bootbox.confirm("Minimum order for " + ub.current_material.material.uniform_category + " is " + _result.qty + " per style. You can only 'Save' and not 'Submit' this order if you proceed. To be able to Submit an Order for this item, please place at least " + _result.qty + " items.<br /><br />Press 'Cancel' to add more items.<br />Press 'OK' to save this order info and add the quantity later. <br /><br />Thank you!" , function (result) { 
+
+                if (result) { ub.funcs.proceedToPreview(orderInfo); }
+
+            });
+
+        } else {
+
+            ub.funcs.proceedToPreview(orderInfo);
+
+        }
+
+    }
+
+    ub.funcs.submitUniform = function (orderInfo) {
+
+        if ($('tr.roster-row').length === 0) {
+            
+            $.smkAlert({text: 'Please add Sizes and Roster before proceeding.', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+            return;
+            
+        }
+
+        ub.funcs.perUniformValidation(orderInfo);
 
     };
 
