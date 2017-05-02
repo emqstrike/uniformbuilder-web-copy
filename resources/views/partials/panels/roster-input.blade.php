@@ -157,7 +157,7 @@
             <br /><br />
             
             <span class="add-item-to-order">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Item To Order
+                <i class="fa fa-chevron-right" aria-hidden="true"></i> Next
             </span>
 
         </div>

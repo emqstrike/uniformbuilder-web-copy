@@ -44,7 +44,6 @@ $(document).ready(function(){
             'color: #3d3d3d; background: #3d3d3d; padding:5px 0;',
             'color: #fff; background: #3d3d3d; padding:5px 0;',
             'color: #fff; background: #3d3d3d; padding:5px 0;',
-            'color: #fff; background: #3d3d3d; padding:5px 0;',
         ];
 
         window.console.log.apply(console, args);
