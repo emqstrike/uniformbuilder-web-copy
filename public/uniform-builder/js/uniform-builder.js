@@ -332,6 +332,38 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.perUniformPriceCustomizerCleanup = function () {
+
+            var _sport = ub.current_material.material.uniform_category;
+
+            switch (_sport) {
+
+              case 'Crew Socks (Apparel)':
+                
+                $('span.youthPriceCustomizer').hide();
+                $('span.youthPriceCustomizerSale').hide();
+                $('span.adult-label').html('Price starts from ');
+                $('div#uniform-price-youth').hide();
+
+                $('span.adult-str').html('Price Starts ');
+
+                $('div#uniform-price-adult').addClass('single');
+                $('div#uniform-price-call-for-team-pricing').addClass('single');
+
+                break;
+              
+              default:
+
+                $('span.youthPrice').show();
+                $('span.youthPriceSale').show();
+                $('span.adult-label').html('Adult from ');
+
+                ub.utilities.info('No Per Sport Cleanup for Picker')
+                
+            }
+
+        }
+
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
 
@@ -361,13 +393,16 @@ $(document).ready(function () {
 
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
 
+            var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
+
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
-            $('div#uniform-price-adult').html("Adult &nbsp;<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
+            $('div#uniform-price-adult').html(_adultStr + "<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
 
             $('div.header-container').css('display','none !important');
 
+            ub.funcs.perUniformPriceCustomizerCleanup();
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
 
             ub.hideFontGuides();
