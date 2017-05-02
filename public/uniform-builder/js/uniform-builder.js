@@ -1250,7 +1250,7 @@ $(document).ready(function () {
                 var view_name = view + '_view';
 
                 ub.assets[view_name] = {};
-                ub.assets[view_name].shape = material[v + '_shape'];
+                // ub.assets[view_name].shape = material[v + '_shape'];
 
             });
 
@@ -1323,15 +1323,15 @@ $(document).ready(function () {
                     var shape_mask = ub.pixi.new_sprite(ub.assets[view_name].shape);
 
                     ub.objects[view_name] = {};
-                    ub.objects[view_name].shape = shape;
-                    ub.objects[view_name].shape_mask = shape_mask;
+                    // ub.objects[view_name].shape = shape;
+                    // ub.objects[view_name].shape_mask = shape_mask;
 
-                    shape.tint = 0xeeeded; 
-                    shape.zIndex = 2;
-                    shape_mask.zIndex = 1;
+                    // shape.tint = 0xeeeded; 
+                    // shape.zIndex = 2;
+                    // shape_mask.zIndex = 1;
            
-                    ub[view_name].addChild(shape);
-                    ub.updateLayersOrder(ub[view_name]);
+                    // ub[view_name].addChild(shape);
+                    // ub.updateLayersOrder(ub[view_name]);
 
                 });
 
