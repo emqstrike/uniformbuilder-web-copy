@@ -159,7 +159,7 @@ $(document).ready(function() {
 
         if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
 
-            $('td.lastname, th.thlastname').hide();
+            $('td.PlayerLastNameInput, th.thlastname').hide();
 
         }
 

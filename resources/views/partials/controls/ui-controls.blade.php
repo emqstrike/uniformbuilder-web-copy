@@ -1141,7 +1141,7 @@
                         <input type="text" name="size" value="@{{size}}" class="size" disabled />
                     </td>
                     
-                    <td>
+                    <td class="PlayerLastNameInput">
                         <input type="text" name="lastname" class="lastname" maxlength="12" value="@{{name}}" />
                     </td>
 
