@@ -546,11 +546,16 @@ class UniformBuilderController extends Controller
         $html .=   '<td align="center">';
         $html .=   '<strong>QUANTITY</strong>';
         $html .=   '</td>';
-        $html .=   '<td align="center">';
-        $html .=   '<strong>LASTNAME</strong>';
-        $html .=   '</td>';
 
-        if ($sport !== "Wrestling") {
+        if ($sport !== "Crew Socks (Apparel)") {
+
+            $html .=   '<td align="center">';
+            $html .=   '<strong>LASTNAME</strong>';
+            $html .=   '</td>';
+
+        }    
+
+        if ($sport !== "Wrestling" and $sport !== "Crew Socks (Apparel)") {
 
             $html .=   '<td align="center">';
             $html .=   '<strong>NUMBER</strong>';
@@ -576,11 +581,16 @@ class UniformBuilderController extends Controller
             $html .=   '<td align="center">';
             $html .=   $roster['quantity'];
             $html .=   '</td>';
-            $html .=   '<td align="center">';
-            $html .=   strtoupper($roster['lastname']);
-            $html .=   '</td>';
 
-            if ($sport !== "Wrestling") {
+            if ($sport !== "Crew Socks (Apparel)") {
+
+                $html .=   '<td align="center">';
+                $html .=   strtoupper($roster['lastname']);
+                $html .=   '</td>';
+
+            }
+
+            if ($sport !== "Wrestling" and $sport !== "Crew Socks (Apparel)") {
 
                 $html .=   '<td align="center">';
                 $html .=   $roster['number'];

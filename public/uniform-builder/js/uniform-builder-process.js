@@ -157,6 +157,12 @@ $(document).ready(function() {
             
         }
 
+        if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+            $('td.PlayerLastNameInput, th.thlastname').hide();
+
+        }
+
     }
 
     ub.funcs.updateSelect = function (_size, _length) {
@@ -1528,6 +1534,15 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.modifyOrderFormUIBySport = function () {
+
+        if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { 
+            $('span.adult-sizes').html('SHOE SIZES: '); 
+            $('span.adult-header').html('Shoe Sizes: '); 
+        }
+
+    };
+
     ub.funcs.prepareUniformSizes = function () {
 
         // Get Sizes from pricing column, if not available from Mock JS Object (ub.data.uniformSizes)
@@ -1579,6 +1594,8 @@ $(document).ready(function() {
         _markup = Mustache.render(_template, data);
 
         $('div.tabsContainer').append(_markup);
+
+        ub.funcs.modifyOrderFormUIBySport();
 
     };
 
