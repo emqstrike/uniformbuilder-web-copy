@@ -17,15 +17,15 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered fonts table-striped table-hover'>
+                    <table data-toggle='table' class='table table-bordered table-striped table-hover'>
                     <thead>
                         <tr>
-                            <th>Price Item</th>
-                            <th>Item ID</th>
-                            <th>Material ID</th>
-                            <th>Part Name</th>
-                            <th>MSRP</th>
-                            <th>Web Price Sale</th>
+                            <th><small>Price Item</small></th>
+                            <th><small>Item ID</small></th>
+                            <th><small>Material ID</small></th>
+                            <th><small>Style Name</small></th>
+                            <th><small>Adult Sizes</small></th>
+                            <th><small>Youth Sizes</small></th>
                         </tr>
                     </thead>
                     <tbody id="contents">
@@ -76,6 +76,7 @@ function getMaterials(callback){
 var group = {};
 $.each(window.materials, function(index, item){
     var name = item.name;
+    var pricing = item.pricing;
     var price_item = item.price_item_code;
     if (typeof group[price_item] !== 'object')  {
         group[price_item] = {
@@ -88,7 +89,8 @@ $.each(window.materials, function(index, item){
     nArr = {
         material_id: item.id,
         item_id: item.item_id,
-        material_name: name
+        material_name: name,
+        pricing: pricing
     };
 
     group[price_item].materials.push(nArr);
@@ -105,6 +107,10 @@ $.each(group, function(index, item){
     console.log(item);
     var p_item = item;
     $.each(item.materials, function(index, item){
+
+        if(item.id == 910){
+            console.log(item);
+        }
 
         var alert_type = 'warning';
         var safe_price = 50;
@@ -137,13 +143,45 @@ $.each(group, function(index, item){
             wps_alert = '';
         }
 
+        var pricing = JSON.parse(item.pricing);
+        // console.log(pricing);
+        try{
+            var elem_adult = '<table class="table table-bordered"><thead><tr>';
+            $.each(pricing.properties.adult, function(index, e){
+                elem_adult += '<td>'+e.size+'</td>';
+            });
+            elem_adult += '</tr><tbody><tr>';
+            $.each(pricing.properties.adult, function(index, e){
+                elem_adult += '<td>'+e.price_item+'</td>';
+            });
+            elem_adult += '</tr></tbody></table>';
+        } catch(err){
+            // console.log(err.log);
+        }
+
+        try{
+            var elem_youth = '<table class="table table-bordered"><thead><tr>';
+            $.each(pricing.properties.youth, function(index, e){
+                elem_youth += '<td>'+e.size+'</td>';
+            });
+            elem_youth += '</tr><tbody><tr>';
+            $.each(pricing.properties.youth, function(index, e){
+                elem_youth += '<td>'+e.price_item+'</td>';
+            });
+            elem_youth += '</tr></tbody></table>';
+        } catch(err){
+            // console.log(err.log);
+        }
+
         var elem = '<tr>';
-        elem += '<td class="alert alert-' + pi_alert + '">' + p_item.price_item + '</td>';
-        elem += '<td class="alert alert-' + iid_alert + '">' + item.item_id + '</td>';
-        elem += '<td>' + item.material_id + '</td>';
-        elem += '<td>' + item.material_name + '</td>';
-        elem += '<td class="alert alert-' + msrp_alert + '">' + p_item.msrp + '</td>';
-        elem += '<td class="alert alert-' + wps_alert + '">' + p_item.web_price_sale + '</td>';
+        elem += '<td class="alert alert-' + pi_alert + '"><small>' + p_item.price_item + '</td>';
+        elem += '<td class="alert alert-' + iid_alert + '"><small>' + item.item_id + '</td>';
+        elem += '<td><small>' + item.material_id + '</td>';
+        elem += '<td><small>' + item.material_name + '</td>';
+        // elem += '<td class="alert alert-' + msrp_alert + '"><small>' + p_item.msrp + '</td>';
+        elem += '<td class="alert alert-' + msrp_alert + '">' + elem_adult + '</td>';
+        // elem += '<td class="alert alert-' + wps_alert + '"><small>' + p_item.web_price_sale + '</td>';
+        elem += '<td class="alert alert-' + msrp_alert + '">' + elem_youth + '</td>';
         elem +='</tr>';
         $('#contents').append(elem);
     });
