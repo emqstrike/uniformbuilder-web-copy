@@ -182,30 +182,60 @@
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Is Sublimated</label>
-                            <div class="col-md-6">
+                            <div class="col-md-2">
                                 <select name='is_sublimated' class="form-control is-sublimated">
                                     <option value='0' @if($material->is_sublimated == 0) selected="selected"@endif>No</option>
                                     <option value='1' @if($material->is_sublimated == 1) selected="selected"@endif>Yes</option>
+                                </select>
+                            </div>
+
+                            <label class="col-md-2 control-label">Price Item Template</label>
+                            <div class="col-md-3">
+                                <select class="form-control material-price-item-template-id" name="sublimated_price_item_template_id" id="sublimated_price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'@if($material->sublimated_price_item_template_id == $template->id) selected="selected"@endif>{{ $template->name }}</option>
+                                @endforeach
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Is Twill</label>
-                            <div class="col-md-6">
+                            <div class="col-md-2">
                                 <select name='is_twill' class="form-control is-twill">
                                     <option value='0' @if($material->is_twill == 0) selected="selected"@endif>No</option>
                                     <option value='1' @if($material->is_twill == 1) selected="selected"@endif>Yes</option>
+                                </select>
+                            </div>
+
+                            <label class="col-md-2 control-label">Price Item Template</label>
+                            <div class="col-md-3">
+                                <select class="form-control material-price-item-template-id" name="twill_price_item_template_id" id="twill_price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'@if($material->twill_price_item_template_id == $template->id) selected="selected"@endif>{{ $template->name }}</option>
+                                @endforeach
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Is Infused</label>
-                            <div class="col-md-6">
+                            <div class="col-md-2">
                                 <select name='is_infused' class="form-control is-twill">
                                     <option value='0' @if($material->is_infused == 0) selected="selected"@endif>No</option>
                                     <option value='1' @if($material->is_infused == 1) selected="selected"@endif>Yes</option>
+                                </select>
+                            </div>
+
+                            <label class="col-md-2 control-label">Price Item Template</label>
+                            <div class="col-md-3">
+                                <select class="form-control material-price-item-template-id" name="infused_price_item_template_id" id="infused_price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'@if($material->infused_price_item_template_id == $template->id) selected="selected"@endif>{{ $template->name }}</option>
+                                @endforeach
                                 </select>
                             </div>
                         </div>
