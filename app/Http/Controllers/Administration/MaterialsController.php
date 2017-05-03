@@ -288,12 +288,14 @@ class MaterialsController extends Controller
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
+        $piTemplates = $this->priceItemTemplateClient->getAll();
 
         $factories = $this->factoriesClient->getFactories();
         return view('administration.materials.material-create', [
             'uniform_categories' => $uniformCategories,
             'factories' => $factories,
-            'block_patterns' => $block_patterns
+            'block_patterns' => $block_patterns,
+            'price_item_templates' => $piTemplates
         ]);
     }
 

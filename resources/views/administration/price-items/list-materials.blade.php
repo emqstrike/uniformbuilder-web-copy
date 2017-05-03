@@ -172,7 +172,7 @@ $.each(group, function(index, item){
         } catch(err){
             // console.log(err.log);
         }
-
+// console.log(elem_adult);
         var elem = '<tr>';
         elem += '<td class="alert alert-' + pi_alert + '"><small>' + p_item.price_item + '</td>';
         elem += '<td class="alert alert-' + iid_alert + '"><small>' + item.item_id + '</td>';
