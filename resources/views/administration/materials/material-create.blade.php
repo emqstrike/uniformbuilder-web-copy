@@ -176,6 +176,66 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Is Sublimated</label>
+                            <div class="col-md-2">
+                                <select name='is_sublimated' class="form-control is-sublimated">
+                                    <option value='0'>No</option>
+                                    <option value='1'>Yes</option>
+                                </select>
+                            </div>
+
+                            <label class="col-md-2 control-label">Price Item Template</label>
+                            <div class="col-md-3">
+                                <select class="form-control material-price-item-template-id" name="sublimated_price_item_template_id" id="sublimated_price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'>{{ $template->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Is Twill</label>
+                            <div class="col-md-2">
+                                <select name='is_twill' class="form-control is-twill">
+                                    <option value='0'>No</option>
+                                    <option value='1'>Yes</option>
+                                </select>
+                            </div>
+
+                            <label class="col-md-2 control-label">Price Item Template</label>
+                            <div class="col-md-3">
+                                <select class="form-control material-price-item-template-id" name="twill_price_item_template_id" id="twill_price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'>{{ $template->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Is Infused</label>
+                            <div class="col-md-2">
+                                <select name='is_infused' class="form-control is-twill">
+                                    <option value='0'>No</option>
+                                    <option value='1'>Yes</option>
+                                </select>
+                            </div>
+
+                            <label class="col-md-2 control-label">Price Item Template</label>
+                            <div class="col-md-3">
+                                <select class="form-control material-price-item-template-id" name="infused_price_item_template_id" id="infused_price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'>{{ $template->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Uniform Application Type</label>
                             <div class="col-md-6">
                                 <select name='uniform_application_type' class="form-control uniform-application-type">

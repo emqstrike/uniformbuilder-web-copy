@@ -70,7 +70,7 @@ $(document).ready(function() {
 
         var sdcc_item = _.find(window.colors, function (o) { return o.color_code == sublimated_default_color_code; });
         var sublimated_default_color_name = sdcc_item.name;
-        // console.log(dcc_item);
+        console.log(dcc_item);
 
         $(this).attr('data-material-option-default-color-name', default_color_name);
         $(this).attr('data-material-option-sublimated-default-color-name', sublimated_default_color_name);
