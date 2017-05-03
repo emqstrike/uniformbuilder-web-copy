@@ -5900,11 +5900,11 @@ $(document).ready(function () {
 
                 if (_dataItem === "Sublimated") {
 
-                    ub.filters.secondary = "BLB";
+                    ub.filters.secondary = "sublimated";
                     
                 } else if (_dataItem === "Twill") {
 
-                    ub.filters.secondary = "PMP";
+                    ub.filters.secondary = "tackle_twill";
 
                 } else {
 
@@ -5928,11 +5928,11 @@ $(document).ready(function () {
 
                     if (ub.filters.primary !== 'All') {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, factory_code: ub.filters.secondary,  type: ub.filters.primary });    
+                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary,  type: ub.filters.primary });    
 
                     } else {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, factory_code: ub.filters.secondary });
+                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary });
 
                     }
 
@@ -5968,7 +5968,7 @@ $(document).ready(function () {
 
                     if (ub.filters.secondary !== 'All') {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, factory_code: ub.filters.secondary  });    
+                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary  });    
 
                     } else {
                         
@@ -5980,7 +5980,7 @@ $(document).ready(function () {
 
                     if (ub.filters.secondary !== 'All') {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, factory_code: ub.filters.secondary  });    
+                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, uniform_application_type: ub.filters.secondary  });    
 
                     } else {
 
