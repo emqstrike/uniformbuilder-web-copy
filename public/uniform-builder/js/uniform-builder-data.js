@@ -11583,6 +11583,10 @@ ub.funcs.fontOffSets = [
                 order: 4,
             },
             {
+                colorName: 'Cardinal',
+                order: 5,
+            },
+            {
                 colorName: 'Seminole',
                 order: 6,
             },
