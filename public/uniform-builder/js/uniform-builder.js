@@ -369,7 +369,9 @@ $(document).ready(function () {
 
             if (ub.data.afterLoadCalled > 0) {return;}
 
+            ub.sport = ub.current_material.material.uniform_category;
             ub.funcs.activatePartByIndex(0);
+
             $('div.left-pane-column-full').fadeIn();
             $('span.fullscreen-btn').fadeIn();
 
@@ -5511,10 +5513,10 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (_item !== "Football" && _item !== "Wrestling" && _item !== "Baseball" && _item !== "Crew Socks (Apparel)") { return; }
+                if (_item !== "Football" && _item !== "Wrestling" && !ub.data.tempSports.isSportOK(_item)) { return; }
                 if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
 
-                if ((_item === "Baseball" || _item === "Crew Socks (Apparel)") && !_.contains(ub.fontGuideIDs, ub.user.id)) { return; }
+                if (ub.data.tempSports.isSportOK(_item) && !_.contains(ub.fontGuideIDs, ub.user.id)) { return; }
 
                 ub.funcs.initUniformsPicker(_item);
 
@@ -5597,25 +5599,29 @@ $(document).ready(function () {
 
     ub.funcs.prepareSecondaryBar = function (sport) {
 
-        if (sport === "Wrestling") {
+        $('span.slink[data-item="Jersey"]').html("Jersey");
+        $('span.slink[data-item="Pant"]').html("Pant");
+        $('span.slink[data-item="Jersey"]').show();
+        $('span.slink[data-item="Pant"]').show();
+        $('span.slink[data-item="Twill"]').show();
 
-            $('span.slink[data-item="Jersey"]').html("Singlet");
-            $('span.slink[data-item="Pant"]').hide();
-            $('span.slink[data-item="Twill"]').hide();
+        var _secondaryBarLabels = ub.data.secondaryBarLabels.getLabel(sport);
 
-        } else if (sport === "Crew Socks (Apparel)") {
+        if (typeof _secondaryBarLabels !== "undefined") {
 
-            $('span.slink[data-item="Jersey"]').hide();
-            $('span.slink[data-item="Pant"]').html("Crew Socks");
-            $('span.slink[data-item="Twill"]').hide();
+            if (_secondaryBarLabels.type === "upper") {
 
-        }
-        else {
+                $('span.slink[data-item="Jersey"]').html(_secondaryBarLabels.upperLabel);
+                $('span.slink[data-item="Pant"]').hide();
+                $('span.slink[data-item="Twill"]').hide();
 
-            $('span.slink[data-item="Jersey"]').html("Jersey");
-            $('span.slink[data-item="Pant"]').html("Pant");
-            $('span.slink[data-item="Pant"]').show();
-            $('span.slink[data-item="Twill"]').show();
+            } else if (_secondaryBarLabels.type === "lower") {
+                
+                $('span.slink[data-item="Jersey"]').hide();
+                $('span.slink[data-item="Pant"]').html(_secondaryBarLabels.lowerLabel);
+                $('span.slink[data-item="Twill"]').hide();
+
+            }
 
         }
 
@@ -6115,6 +6121,27 @@ $(document).ready(function () {
             _csc.tooltip = "";
             _csc.disabledClass = "";
 
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _tct = _.find(a.sports, {code: 'tech_tee'});
+
+            _tct.active = "1";
+            _tct.tooltip = "";
+            _tct.disabledClass = "";
+
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _tct = _.find(a.sports, {code: 'tech_tee'});
+
+            _tct.active = "1";
+            _tct.tooltip = "";
+            _tct.disabledClass = "";
+
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _cmp = _.find(a.sports, {code: 'compression'});
+
+            _cmp.active = "1";
+            _cmp.tooltip = "";
+            _cmp.disabledClass = "";
+
         } else {
 
             var a = _.find(ub.data.sports, {gender: 'Men'});
@@ -6130,6 +6157,21 @@ $(document).ready(function () {
             _csc.active = "0";
             _csc.tooltip = "COMING SOON";
             _csc.disabledClass = "disabledClass";
+
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _tct = _.find(a.sports, {code: 'tech_tee'});
+
+            _tct.active = "0";
+            _tct.tooltip = "COMING SOON";
+            _tct.disabledClass = "disabledClass";
+
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _tct = _.find(a.sports, {code: 'compression'});
+
+            _tct.active = "0";
+            _tct.tooltip = "COMING SOON";
+            _tct.disabledClass = "disabledClass";
+
 
         }
 

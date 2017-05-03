@@ -3950,6 +3950,13 @@ $(document).ready(function() {
                     tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 },
+                {
+                    code: 'tech_tee',
+                    name: 'Tech-Tee (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
             ],
         },
         {
@@ -9267,6 +9274,15 @@ ub.funcs.fontOffSets = [
             sport: 'Crew Socks (Apparel)',
             filters: ['All'],
         }, 
+        {
+            sport: 'Compression (Apparel)',
+            filters: ['All'],
+        }, 
+        {
+            sport: 'Tech-Tee (Apparel)',
+            filters: ['All'],
+        }, 
+
     ];
 
     ub.funcs.load_fonts = function () {
@@ -11734,6 +11750,69 @@ ub.funcs.fontOffSets = [
             return _result;
 
         },
+    };
+
+    ub.data.tempSports = {
+
+        items: [
+
+            { sport: 'Baseball' },
+            { sport: 'Crew Socks (Apparel)' },
+            { sport: 'Compression (Apparel)' },
+            { sport: 'Tech-Tee (Apparel)' },
+
+        ],
+
+        isSportOK: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport});
+            return (typeof _result !== "undefined") ? true: false;
+
+        } 
+
+    };
+
+    ub.data.secondaryBarLabels = {
+
+        items: [
+            {
+                sport: 'Wrestling',
+                type: 'upper',
+                upperLabel: 'Singlet',
+            },
+            {
+                sport: 'Crew Socks (Apparel)',
+                type: 'lower',
+                lowerLabel: 'Crew Sock',
+            },
+            {
+                sport: 'Compression (Apparel)',
+                type: 'upper',
+                upperLabel: 'Compression',
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                type: 'upper',
+                upperLabel: 'Tech-Tee',
+            },
+
+            {
+                sport: 'Default', // Football
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Pant',
+            }
+        ],
+        getLabel: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport});
+
+            if (typeof _result === "undefined") { ub.utilities.info('Secondary Bar Labels not found for ' + sport); }
+
+            return _result;
+
+        }
+
     }
     
 });
