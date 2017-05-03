@@ -10,7 +10,7 @@
                 <div class="panel-body col-md-8 text-center">
                     
                 </div>
-                <div class="panel-body col-md-4">
+                <div class="panel-body col-md-8">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -373,6 +373,17 @@
                             </div>
                         </div>
                         <textarea id="block_patterns_data"><?php echo json_encode($block_patterns, JSON_FORCE_OBJECT);?></textarea>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Price Item Template</label>
+                            <div class="col-md-6">
+                                <select class="form-control material-price-item-template-id" name="price_item_template_id" id="price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'>{{ $template->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -384,26 +395,42 @@
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <script>
 $( document ).ready(function() {
 
     $('#block_patterns_data').hide();
     var block_patterns_array = $('#block_patterns_data').text();
-    window.block_patterns = JSON.parse(block_patterns_array);
-
+    console.log("BPA ------------ ");
+console.log(block_patterns_array);
+    var z = JSON.parse(block_patterns_array);
+    console.log("Z ------------ ");
+console.log(z);
+    window.block_patterns = _.flatten(z, true);
+console.log(window.block_patterns);
     $(document).on('change', '#block_pattern', function() {
 
         var id = $(this).val();
-
+console.log("ID ------------------");
+                console.log(id);
         $( '#neck_option' ).html('');
 
-        $.each(window.block_patterns, function(i, item) {
-            if( item.id === id ){
-                window.neck_options = JSON.parse(item.neck_options);
-                $.each(window.neck_options, function(i, item) {
+        $.each(z, function(i, item) {
+            
+            if( item.id == id ){
+                console.log(item);
+                var optx = JSON.parse(item.neck_options);
+                console.log("NECK OPTX ------------------");
+                console.log(optx);
+                // var opt = _.flatten(optx);
+                console.log("NECK OPT ------------------");
+                // console.log(opt);
+                $.each(optx, function(i, item) {
                     $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
                 });
+            } else {
+                console.log('not equal');
             }
         });
 

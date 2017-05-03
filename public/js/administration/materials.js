@@ -1043,8 +1043,6 @@ $(document).ready(function() {
         $(".save-applications").trigger("click");
     });
 
-    
-
     $('.material-option-applications').on('click', function(){
         application_number = 0;
         material = {
@@ -1999,7 +1997,7 @@ $(document).ready(function() {
             if($(this).hasClass("delete-multiple-material-options")){
                 checkedMaterialOptionsIDs.push($(this).val());
             }
-            
+
         });
         console.log(checkedMaterialOptionsIDs);
         modalConfirm(
