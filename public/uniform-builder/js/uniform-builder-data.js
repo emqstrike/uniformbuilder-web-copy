@@ -11563,5 +11563,173 @@ ub.funcs.fontOffSets = [
 
     };
 
+    ub.data.sublimatedColorArrangement = {
+
+        items: [
+            {
+                colorName: 'White',
+                order: 1,
+            },
+            {
+                colorName: 'Black',
+                order: 2,
+            },
+            {
+                colorName: 'Red',
+                order: 3,
+            },
+            {
+                colorName: 'Brick Red',
+                order: 4,
+            },
+            {
+                colorName: 'Seminole',
+                order: 6,
+            },
+            {
+                colorName: 'Maroon',
+                order: 7,
+            },
+            {
+                colorName: 'Pink',
+                order: 8,
+            },
+            {
+                colorName: 'Neon Pink',
+                order: 9,
+            },
+            {
+                colorName: 'Orange',
+                order: 10,
+            },
+            {
+                colorName: 'Texas Orange',
+                order: 11,
+            },
+            {
+                colorName: 'Tennessee Orange',
+                order: 12,
+            },
+            {
+                colorName: 'Gold',
+                order: 13,
+            },
+            {
+                colorName: 'Old Gold',
+                order: 14,
+            },
+            {
+                colorName: 'Vegas Gold',
+                order: 15,
+            },
+            {
+                colorName: 'Yellow',
+                order: 16,
+            },
+            {
+                colorName: 'Optic Yellow',
+                order: 17,
+            },
+            {
+                colorName: 'Safety Green',
+                order: 18,
+            },
+            {
+                colorName: 'Lime Green',
+                order: 19,
+            },  
+            {
+                colorName: 'Kelly Green',
+                order: 20,
+            },
+            {
+                colorName: 'Forest Green',
+                order: 21,
+            }, 
+            {
+                colorName: 'Dark Green',
+                order: 22,
+            },
+            {
+                colorName: 'Royal Blue',
+                order: 23,
+            },
+            {
+                colorName: 'Dark Royal Blue',
+                order: 24,
+            },
+            {
+                colorName: 'Navy Blue',
+                order: 25,
+            },
+            {
+                colorName: 'Dark Navy Blue',
+                order: 26,
+            },
+            {
+                colorName: 'Purple',
+                order: 27,
+            },
+            {
+                colorName: 'Dark Purple',
+                order: 28,
+            },
+            {
+                colorName: 'Marlin Blue',
+                order: 29,
+            },
+            {
+                colorName: 'Turquoise',
+                order: 30,
+            },
+            {
+                colorName: 'Aqua',
+                order: 31,
+            },
+            {
+                colorName: 'Carolina Blue',
+                order: 32,
+            },
+            {
+                colorName: 'Columbia Blue',
+                order: 33,
+            },
+            {
+                colorName: 'Charcoal Grey',
+                order: 34,
+            },
+            {
+                colorName: 'Gray',
+                order: 35,
+            },
+            {
+                colorName: 'Silver Gray',
+                order: 36,
+            },
+            {
+                colorName: 'Cream',
+                order: 37,
+            },
+            {
+                colorName: 'Brown',
+                order: 38,
+            },
+        ], 
+        getOrderID: function (colorName) {
+
+            var _result = _.find(this.items, {colorName: colorName});
+
+            if (typeof _result === "undefined") {
+
+                // return last index + 1
+                _result = { colorName: colorName, order: this.items.length + 1 };
+                ub.utilities.warn('Sort order not found for ' + colorName + ' using ' + (this.items.length + 1));
+
+            }
+
+            return _result;
+
+        },
+    }
     
 });
