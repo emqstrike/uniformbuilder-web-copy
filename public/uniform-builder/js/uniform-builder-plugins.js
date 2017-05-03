@@ -1125,7 +1125,7 @@
         ub.current_material.containers[pipingObject.name].pipingObject = sprite;
 
         var temp                    = {};
-        var layer_order             = ( 70 );
+        var layer_order             = ( 40 );
 
         sprite.originalZIndex       = layer_order * (-1);
         sprite.zIndex               = layer_order * (-1);

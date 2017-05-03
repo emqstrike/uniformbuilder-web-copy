@@ -407,6 +407,9 @@ class MaterialsController extends Controller
         $design_type = $request->input('design_type');
 
         $priceItemTemplateID = $request->input('price_item_template_id');
+        $twillPriceItemTemplateID = $request->input('twill_price_item_template_id');
+        $sublimatedPriceItemTemplateID = $request->input('sublimated_price_item_template_id');
+        $infusedPriceItemTemplateID = $request->input('infused_price_item_template_id');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -455,7 +458,10 @@ class MaterialsController extends Controller
             'is_sublimated' => $isSublimated,
             'is_twill' => $isTwill,
             'is_infused' => $isInfused,
-            'status' => $status
+            'status' => $status,
+            'twill_price_item_template_id' => $twillPriceItemTemplateID,
+            'sublimated_price_item_template_id' => $sublimatedPriceItemTemplateID,
+            'infused_price_item_template_id' => $infusedPriceItemTemplateID
         ];
 
         try {

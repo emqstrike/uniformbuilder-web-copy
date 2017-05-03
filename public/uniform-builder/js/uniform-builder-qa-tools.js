@@ -7,7 +7,7 @@ $(document).ready(function () {
     ub.ga = {};
     ub.devtools = {};
 
-    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547];
+    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 71, 190, 1];
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
@@ -194,6 +194,7 @@ $(document).ready(function () {
         }
 
         $('div.qa-tools-tab').modal('show');
+        $('div.qa-tools-tab').draggable({ handle: ".modal-content" });
 
         return;    
 

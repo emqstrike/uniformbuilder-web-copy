@@ -332,12 +332,46 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.perUniformPriceCustomizerCleanup = function () {
+
+            var _sport = ub.current_material.material.uniform_category;
+
+            switch (_sport) {
+
+              case 'Crew Socks (Apparel)':
+                
+                $('span.youthPriceCustomizer').hide();
+                $('span.youthPriceCustomizerSale').hide();
+                $('span.adult-label').html('Price starts from ');
+                $('div#uniform-price-youth').hide();
+
+                $('span.adult-str').html('Price Starts ');
+
+                $('div#uniform-price-adult').addClass('single');
+                $('div#uniform-price-call-for-team-pricing').addClass('single');
+
+                break;
+              
+              default:
+
+                // $('span.youthPrice').show();
+                // $('span.youthPriceSale').show();
+                // $('span.adult-label').html('Adult from ');
+
+                ub.utilities.info('No Per Sport Cleanup for Picker')
+                
+            }
+
+        }
+
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
 
             if (ub.data.afterLoadCalled > 0) {return;}
 
+            ub.sport = ub.current_material.material.uniform_category;
             ub.funcs.activatePartByIndex(0);
+
             $('div.left-pane-column-full').fadeIn();
             $('span.fullscreen-btn').fadeIn();
 
@@ -347,27 +381,20 @@ $(document).ready(function () {
 
             }
 
-            var _type = '';
-
-            if (ub.current_material.material.factory_code === "BLB") {
-
-                _type = "Sublimated";
-
-            } else {
-
-                _type ="Tackle Twill";
-
-            }
+            var _type = ub.current_material.material.uniform_application_type.replace('_', ' ');
 
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
 
+            var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
+
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
-            $('div#uniform-price-adult').html("Adult &nbsp;<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
+            $('div#uniform-price-adult').html(_adultStr + "<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
 
             $('div.header-container').css('display','none !important');
 
+            ub.funcs.perUniformPriceCustomizerCleanup();
             ub.funcs.restoreTeamColorSelectionsFromInitialUniformColors();
 
             ub.hideFontGuides();
@@ -627,7 +654,14 @@ $(document).ready(function () {
             if (object_name === 'colors') { 
 
                 ub.data.colors = _.filter(ub.data.colors, {active: "1"});
-                ub.data.colors = _.sortBy(ub.data.colors, "name");
+                ub.data.colors = _.map(ub.data.colors, function (color) { 
+                
+                    color.order = ub.data.sublimatedColorArrangement.getOrderID(color.name).order;
+                    return color;
+
+                });
+                
+                ub.data.colors = _.sortBy(ub.data.colors, 'order');
 
             }
 
@@ -1215,7 +1249,7 @@ $(document).ready(function () {
                 var view_name = view + '_view';
 
                 ub.assets[view_name] = {};
-                ub.assets[view_name].shape = material[v + '_shape'];
+                // ub.assets[view_name].shape = material[v + '_shape'];
 
             });
 
@@ -1288,15 +1322,15 @@ $(document).ready(function () {
                     var shape_mask = ub.pixi.new_sprite(ub.assets[view_name].shape);
 
                     ub.objects[view_name] = {};
-                    ub.objects[view_name].shape = shape;
-                    ub.objects[view_name].shape_mask = shape_mask;
+                    // ub.objects[view_name].shape = shape;
+                    // ub.objects[view_name].shape_mask = shape_mask;
 
-                    shape.tint = 0xeeeded; 
-                    shape.zIndex = 2;
-                    shape_mask.zIndex = 1;
+                    // shape.tint = 0xeeeded; 
+                    // shape.zIndex = 2;
+                    // shape_mask.zIndex = 1;
            
-                    ub[view_name].addChild(shape);
-                    ub.updateLayersOrder(ub[view_name]);
+                    // ub[view_name].addChild(shape);
+                    // ub.updateLayersOrder(ub[view_name]);
 
                 });
 
@@ -1370,6 +1404,24 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.isSublimated = function () {
+
+        return ub.current_material.material.uniform_application_type === "sublimated";
+
+    }
+
+    ub.funcs.moveToExtra = function (application) {
+
+        if (ub.funcs.isCurrentSport('Compression (Apparel)') ||
+            ub.funcs.isCurrentSport('Tech-Tee (Apparel)') ||
+            (ub.funcs.isCurrentSport('Baseball') && ub.funcs.isSublimated())) {
+
+            if (application.layer === "Body" || application.layer === "Back Body") { application.layer = "Extra"; }
+
+        }
+
+    }
+
     ub.data.convertDefaultApplications = function () {
 
         if (typeof ub.temp !== "undefined" || _.size(ub.current_material.settings.applications) !== 0) { return; }
@@ -1377,6 +1429,8 @@ $(document).ready(function () {
         var _one_dimensional = ub.data.applications_transformed_one_dimensional;
 
         _.each (_one_dimensional, function (_application) {
+
+            ub.funcs.moveToExtra(_application);
 
             _.each(_application.views, function (view) {
         
@@ -4756,6 +4810,7 @@ $(document).ready(function () {
                 if (view === 'colors') { 
 
                     ub.funcs.activateColorPickers();
+                    ub.funcs.activeStyle('colors');
                     return;
                     
                 }
@@ -5448,10 +5503,10 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (_item !== "Football" && _item !== "Wrestling" && _item !== "Baseball") { return; }
+                if (_item !== "Football" && _item !== "Wrestling" && !ub.data.tempSports.isSportOK(_item)) { return; }
                 if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
 
-                if (_item === "Baseball" && !_.contains(ub.fontGuideIDs, ub.user.id)) { return; }
+                if (ub.data.tempSports.isSportOK(_item) && !_.contains(ub.fontGuideIDs, ub.user.id)) { return; }
 
                 ub.funcs.initUniformsPicker(_item);
 
@@ -5534,17 +5589,29 @@ $(document).ready(function () {
 
     ub.funcs.prepareSecondaryBar = function (sport) {
 
-        if (sport === "Wrestling") {
+        $('span.slink[data-item="Jersey"]').html("Jersey");
+        $('span.slink[data-item="Pant"]').html("Pant");
+        $('span.slink[data-item="Jersey"]').show();
+        $('span.slink[data-item="Pant"]').show();
+        $('span.slink[data-item="Twill"]').show();
 
-                $('span.slink[data-item="Jersey"]').html("Singlet");
+        var _secondaryBarLabels = ub.data.secondaryBarLabels.getLabel(sport);
+
+        if (typeof _secondaryBarLabels !== "undefined") {
+
+            if (_secondaryBarLabels.type === "upper") {
+
+                $('span.slink[data-item="Jersey"]').html(_secondaryBarLabels.upperLabel);
                 $('span.slink[data-item="Pant"]').hide();
                 $('span.slink[data-item="Twill"]').hide();
 
-            } else {
+            } else if (_secondaryBarLabels.type === "lower") {
+                
+                $('span.slink[data-item="Jersey"]').hide();
+                $('span.slink[data-item="Pant"]').html(_secondaryBarLabels.lowerLabel);
+                $('span.slink[data-item="Twill"]').hide();
 
-                $('span.slink[data-item="Jersey"]').html("Jersey");
-                $('span.slink[data-item="Pant"]').show();
-                $('span.slink[data-item="Twill"]').show();
+            }
 
         }
 
@@ -5562,7 +5629,49 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.initScroller = function (type, items, gender, fromTertiary) {
+    // Group by block pattern and also group upper and lower uniforms
+    ub.funcs.sortPickerItems = function (items) {
+
+        var _sorted = _.sortBy(items, function(item) { 
+
+            var _weight = parseInt(item.block_pattern_id);
+            (item.type === 'upper') ? _weight += 100 : _weight += 200;
+
+            return _weight;
+
+        });
+
+        return _sorted;
+
+    }
+    
+    ub.funcs.cleanupPricesPerSport = function (sport) {
+
+        var _sport = sport;
+
+        switch (_sport) {
+          
+          case 'Crew Socks (Apparel)':
+            
+            $('span.youthPrice').hide();
+            $('span.youthPriceSale').hide();
+            $('span.adult-label').html('Price starts from ');
+
+            break;
+          
+          default:
+
+            // $('span.youthPrice').show();
+            // $('span.youthPriceSale').show();
+            // $('span.adult-label').html('Adult from ');
+
+            ub.utilities.info('No Per Sport Cleanup for Picker')
+            
+        }
+
+    }
+
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel) {
 
         ub.funcs.fadeOutElements();
 
@@ -5610,11 +5719,11 @@ $(document).ready(function () {
             ub.funcs.hideSecondaryBar();
             
             var template = $('#m-picker-items-sport').html();
-
             var data = {
                 gender: gender,
                 picker_type: type,
                 picker_items: items,
+                apparel: _apparel,
             }
             
             var markup = Mustache.render(template, data);
@@ -5661,16 +5770,7 @@ $(document).ready(function () {
 
             var template = $('#m-picker-items-uniforms').html();
 
-            ub.tempItems = _.sortBy(items, function(item) { 
-
-                if (item.type === 'upper') { 
-                    return 1;
-                } 
-                else {
-                    return 2;
-                }
-
-            });
+            ub.tempItems = ub.funcs.sortPickerItems(items);
 
             var data = {
                 sport: gender,
@@ -5684,15 +5784,7 @@ $(document).ready(function () {
 
                         var _type = '';
 
-                        if (render(text) === "BLB") {
-
-                            _type = "Sublimated";
-
-                        } else {
-
-                            _type = "Tackle Twill";
-
-                        }
+                        _type  = render(text).replace('_', ' '); 
 
                         return "<b>" + render(_type) + "</b>";
 
@@ -5720,6 +5812,7 @@ $(document).ready(function () {
             );
 
             ub.funcs.hideIpadUniforms();
+            ub.funcs.cleanupPricesPerSport(_sport);
 
             $('.picker-header').html('Choose a Style');
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
@@ -5993,6 +6086,7 @@ $(document).ready(function () {
         var $searchField = $('input#search_field');
         $searchField.fadeIn();
 
+
         if (_.contains(ub.fontGuideIDs, ub.user.id)) {
 
             var a = _.find(ub.data.sports, {gender: 'Men'});
@@ -6002,19 +6096,71 @@ $(document).ready(function () {
             _bsb.tooltip = "";
             _bsb.disabledClass = "";
 
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _csc = _.find(a.sports, {code: 'crew_sock'});
+
+            _csc.active = "1";
+            _csc.tooltip = "";
+            _csc.disabledClass = "";
+
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _tct = _.find(a.sports, {code: 'tech_tee'});
+
+            _tct.active = "1";
+            _tct.tooltip = "";
+            _tct.disabledClass = "";
+
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _tct = _.find(a.sports, {code: 'tech_tee'});
+
+            _tct.active = "1";
+            _tct.tooltip = "";
+            _tct.disabledClass = "";
+
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _cmp = _.find(a.sports, {code: 'compression'});
+
+            _cmp.active = "1";
+            _cmp.tooltip = "";
+            _cmp.disabledClass = "";
+
         } else {
 
             var a = _.find(ub.data.sports, {gender: 'Men'});
             var _bsb = _.find(a.sports, {code: 'baseball'});
 
             _bsb.active = "0";
-            _bsb.tooltip = "Coming Soon!";
-            _bsb.disabledClass = "disabled";
+            _bsb.tooltip = "COMING SOON";
+            _bsb.disabledClass = "disabledClass";
+
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _csc = _.find(a.sports, {code: 'crew_sock'});
+
+            _csc.active = "0";
+            _csc.tooltip = "COMING SOON";
+            _csc.disabledClass = "disabledClass";
+
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _tct = _.find(a.sports, {code: 'tech_tee'});
+
+            _tct.active = "0";
+            _tct.tooltip = "COMING SOON";
+            _tct.disabledClass = "disabledClass";
+
+            var a = _.find(ub.data.apparel, {gender: 'Men'});
+            var _tct = _.find(a.sports, {code: 'compression'});
+
+            _tct.active = "0";
+            _tct.tooltip = "COMING SOON";
+            _tct.disabledClass = "disabledClass";
+
 
         }
 
+        var _apparel = _.find(ub.data.apparel, {gender: 'Men'});
+
         var items = _.find(ub.data.sports, {gender: sport});
-        ub.funcs.initScroller('sports', items.sports);
+        ub.funcs.initScroller('sports', items.sports,undefined,undefined,_apparel.sports);
 
     };
 

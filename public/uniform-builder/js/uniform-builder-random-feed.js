@@ -574,6 +574,7 @@ $(document).ready(function () {
 
         //ub.funcs.activatePanelGuard();
         ub.funcs.deactivatePanels();
+        ub.funcs.activeStyle('randomFeed');
 
         var _status                 = 'off';
         var _randomFeedSet          = randomFeedSet;

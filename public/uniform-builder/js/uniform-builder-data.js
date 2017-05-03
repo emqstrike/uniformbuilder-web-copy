@@ -3839,30 +3839,23 @@ $(document).ready(function() {
                     code: 'baseball',
                     name: 'Baseball',
                     active: "1",
-                    tooltip: 'Coming Soon!',
+                    tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 },
                 {
-                    code: 'basketball',
-                    name: 'Basketball',
+                    code: 'lacrosse',
+                    name: 'Lacrosse',
                     active: "1",
-                    tooltip: 'Coming Soon!',
+                    tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 },
                 {
                     code: 'soccer',
                     name: 'Soccer',
                     active: "1",
-                    tooltip: 'Coming Soon!',
+                    tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 }, 
-                {
-                    code: 'lacrosse',
-                    name: 'Lacrosse',
-                    active: "1",
-                    tooltip: 'Coming Soon!',
-                    disabledClass: 'disabledClass',
-                },
             ],
         },
         {
@@ -3914,6 +3907,65 @@ $(document).ready(function() {
                     active: "1",
                 },
             ],
+        },
+
+    ];
+
+    ub.data.apparel = [
+        {
+            gender: 'Men',
+            sports: [
+                {
+                    code: 'cinch_sack',
+                    name: 'Cinch Sack (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'crew_sock',
+                    name: 'Crew Socks (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'polo',
+                    name: 'Polo (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'hoodie',
+                    name: 'Hoodie (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'compression',
+                    name: 'Compression (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'tech_tee',
+                    name: 'Tech-Tee (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+            ],
+        },
+        {
+            gender: 'Women',
+            sports: [],
+        },
+        {
+            gender: 'Youth',
+            sports: [],
         },
 
     ];
@@ -9218,6 +9270,19 @@ ub.funcs.fontOffSets = [
             sport: 'Wrestling',
             filters: ['All'],
         }, 
+        {
+            sport: 'Crew Socks (Apparel)',
+            filters: ['All'],
+        }, 
+        {
+            sport: 'Compression (Apparel)',
+            filters: ['All'],
+        }, 
+        {
+            sport: 'Tech-Tee (Apparel)',
+            filters: ['All'],
+        }, 
+
     ];
 
     ub.funcs.load_fonts = function () {
@@ -11031,6 +11096,20 @@ ub.funcs.fontOffSets = [
                 type: 'youth',
                 gender: 'men',
                 sizes: ['24/YXS', '26/YS', '28/YM', '30', '32/YL', '34/YXL'],
+            },
+
+            // Crew Socks 
+            {
+                sport: 'Crew Socks (Apparel)',
+                type: 'adult',
+                gender: 'men',
+                sizes: ['5-7', '8-12', '13-14',],
+            },
+            {
+                sport: 'Crew Socks (Apparel)',
+                type: 'youth',
+                gender: 'men',
+                sizes: [],
             }
 
         ],
@@ -11291,6 +11370,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Football',
                 sublimatedPart: 'Body',
             },
+          {
+                sport: 'Baseball',
+                sublimatedPart: 'Extra',
+            },
         ],
 
         get: function (sport) {
@@ -11308,6 +11391,18 @@ ub.funcs.fontOffSets = [
 
             }
 
+            if (sport === "Baseball") {
+
+                // Disable free-form tool on football if block pattern is not infused 14
+                if (ub.current_material.material.uniform_application_type !== "sublimated") {
+
+                    _result = undefined;
+
+                }
+                console.log(_result)
+
+            }
+
             return _result;
 
         },
@@ -11319,6 +11414,17 @@ ub.funcs.fontOffSets = [
 
                 // Disable free-form tool on football if block pattern is not infused 14
                 if (ub.current_material.material.block_pattern !== "INFUSED 14") {
+
+                    _result = undefined;
+
+                }
+
+            }
+
+            if (sport === "Baseball") {
+
+                // Disable free-form tool on football if block pattern is not infused 14
+                if (ub.current_material.material.uniform_application_type !== "sublimated") {
 
                     _result = undefined;
 
@@ -11441,6 +11547,272 @@ ub.funcs.fontOffSets = [
             return _result;
 
         }
+    };
+
+    ub.data.minimumOrder = {
+
+        items: [ 
+            {
+                sport: 'Crew Socks (Apparel)',
+                qty: 30,
+            }, 
+            {
+                sport: 'Default',
+                order: 1,
+            }, 
+        ],
+
+        getQty: function (sport) { 
+
+            _result = _.find(this.items, {sport: sport});
+
+            if (typeof _result === "undefined") { 
+                
+                ub.utilities.warn ('Sport [' + sport + '] not found. Using Default'); 
+                _result = _.find(this.items, {sport: 'Default'});
+                
+            }
+
+            return _result;
+
+        }
+
+    };
+
+    ub.data.sublimatedColorArrangement = {
+
+        items: [
+            {
+                colorName: 'White',
+                order: 1,
+            },
+            {
+                colorName: 'Black',
+                order: 2,
+            },
+            {
+                colorName: 'Red',
+                order: 3,
+            },
+            {
+                colorName: 'Brick Red',
+                order: 4,
+            },
+            {
+                colorName: 'Cardinal',
+                order: 5,
+            },
+            {
+                colorName: 'Seminole',
+                order: 6,
+            },
+            {
+                colorName: 'Maroon',
+                order: 7,
+            },
+            {
+                colorName: 'Pink',
+                order: 8,
+            },
+            {
+                colorName: 'Neon Pink',
+                order: 9,
+            },
+            {
+                colorName: 'Orange',
+                order: 10,
+            },
+            {
+                colorName: 'Texas Orange',
+                order: 11,
+            },
+            {
+                colorName: 'Tennessee Orange',
+                order: 12,
+            },
+            {
+                colorName: 'Gold',
+                order: 13,
+            },
+            {
+                colorName: 'Old Gold',
+                order: 14,
+            },
+            {
+                colorName: 'Vegas Gold',
+                order: 15,
+            },
+            {
+                colorName: 'Yellow',
+                order: 16,
+            },
+            {
+                colorName: 'Optic Yellow',
+                order: 17,
+            },
+            {
+                colorName: 'Safety Green',
+                order: 18,
+            },
+            {
+                colorName: 'Lime Green',
+                order: 19,
+            },  
+            {
+                colorName: 'Kelly Green',
+                order: 20,
+            },
+            {
+                colorName: 'Forest Green',
+                order: 21,
+            }, 
+            {
+                colorName: 'Dark Green',
+                order: 22,
+            },
+            {
+                colorName: 'Royal Blue',
+                order: 23,
+            },
+            {
+                colorName: 'Dark Royal Blue',
+                order: 24,
+            },
+            {
+                colorName: 'Navy Blue',
+                order: 25,
+            },
+            {
+                colorName: 'Dark Navy Blue',
+                order: 26,
+            },
+            {
+                colorName: 'Purple',
+                order: 27,
+            },
+            {
+                colorName: 'Dark Purple',
+                order: 28,
+            },
+            {
+                colorName: 'Marlin Blue',
+                order: 29,
+            },
+            {
+                colorName: 'Turquoise',
+                order: 30,
+            },
+            {
+                colorName: 'Aqua',
+                order: 31,
+            },
+            {
+                colorName: 'Carolina Blue',
+                order: 32,
+            },
+            {
+                colorName: 'Columbia Blue',
+                order: 33,
+            },
+            {
+                colorName: 'Charcoal Grey',
+                order: 34,
+            },
+            {
+                colorName: 'Gray',
+                order: 35,
+            },
+            {
+                colorName: 'Silver Gray',
+                order: 36,
+            },
+            {
+                colorName: 'Cream',
+                order: 37,
+            },
+            {
+                colorName: 'Brown',
+                order: 38,
+            },
+        ], 
+        getOrderID: function (colorName) {
+
+            var _result = _.find(this.items, {colorName: colorName});
+
+            if (typeof _result === "undefined") {
+
+                // return last index + 1
+                _result = { colorName: colorName, order: this.items.length + 1 };
+                ub.utilities.warn('Sort order not found for ' + colorName + ' using ' + (this.items.length + 1));
+
+            }
+
+            return _result;
+
+        },
+    };
+
+    ub.data.tempSports = {
+
+        items: [
+
+            { sport: 'Baseball' },
+            { sport: 'Crew Socks (Apparel)' },
+            { sport: 'Compression (Apparel)' },
+            { sport: 'Tech-Tee (Apparel)' },
+
+        ],
+
+        isSportOK: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport});
+            return (typeof _result !== "undefined") ? true: false;
+
+        } 
+
+    };
+
+    ub.data.secondaryBarLabels = {
+
+        items: [
+            {
+                sport: 'Wrestling',
+                type: 'upper',
+                upperLabel: 'Singlet',
+            },
+            {
+                sport: 'Crew Socks (Apparel)',
+                type: 'lower',
+                lowerLabel: 'Crew Sock',
+            },
+            {
+                sport: 'Compression (Apparel)',
+                type: 'upper',
+                upperLabel: 'Compression',
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                type: 'upper',
+                upperLabel: 'Tech-Tee',
+            },
+
+            {
+                sport: 'Default', // Football
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Pant',
+            }
+        ],
+        getLabel: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport});
+
+            if (typeof _result === "undefined") { ub.utilities.info('Secondary Bar Labels not found for ' + sport); }
+
+            return _result;
+
+        }
+
     }
     
 });

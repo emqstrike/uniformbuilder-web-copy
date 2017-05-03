@@ -416,7 +416,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+            <div class="main-picker-items sports grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
@@ -430,6 +430,24 @@
             </div>
 
         @{{/picker_items}}
+
+
+        @{{#apparel}}
+            
+            <div class="main-picker-items apparel grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
+                <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png?v={{$asset_version}}">
+
+                <span class="main-picker-item-caption">
+                    @{{name}}
+                </span>
+
+            </div>
+
+        @{{/apparel}}
 
     </script>
 
@@ -458,14 +476,14 @@
                     </span>
                     
                     <span class="adultPrice @{{parsedPricingTable.adult_sale}}">
-                        Adult from <strong>$@{{parsedPricingTable.adult_min_msrp}}</strong>
+                        <span class='adult-label'>Adult from</span> <strong>$@{{parsedPricingTable.adult_min_msrp}}</strong>
                     </span>
 
                     <span class="adultPriceSale @{{parsedPricingTable.adult_sale}}">
-                        Adult now from <strong>$@{{parsedPricingTable.adult_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
+                        <span class='adult-label'>Adult now from </span><strong>$@{{parsedPricingTable.adult_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
                     </span>
 
-                    <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong> <!-- <strong class="type">@{{block_pattern}}</strong> -->
+                    <strong class="type">@{{#uniform_type}}@{{uniform_application_type}}@{{/uniform_type}}</strong> <!-- <strong class="type">@{{block_pattern}}</strong> -->
                 </span> 
 
             </div>
@@ -1043,7 +1061,7 @@
 
     <script type="text/mustache" id="m-circle-sizes">
 
-        <span>ADULT SIZES:</span>
+        <span class="adult-sizes">ADULT SIZES:</span>
         
         @{{#adult}}
             <span data-status="off" data-size="@{{.}}" class="size">@{{.}}</span>
@@ -1051,7 +1069,7 @@
 
         <br />
 
-        <span>YOUTH SIZES:</span>
+        <span class="youth-sizes">YOUTH SIZES:</span>
 
         @{{#youth}}
             <span data-status="off" data-size="@{{.}}" class="size">@{{.}}</span>
@@ -1092,7 +1110,7 @@
                             
                 <tr class="thead">
                     
-                    <th class='count'></th><th class="thnumber">Size</th><th class="wide">Last Name</th><th class="thnumber thPlayerNumberInput">Number</th><th class="thnumber">Quantity</th><th  class="wide sleevetype">Sleeve Type</th><th class="wide lastnameapplication">Last Name Application</th><th class="action"></th>
+                    <th class='count'></th><th class="thnumber">Size</th><th class="wide thlastname">Last Name</th><th class="thnumber thPlayerNumberInput">Number</th><th class="thnumber">Quantity</th><th  class="wide sleevetype">Sleeve Type</th><th class="wide lastnameapplication">Last Name Application</th><th class="action"></th>
 
                 </tr>
 
@@ -1123,7 +1141,7 @@
                         <input type="text" name="size" value="@{{size}}" class="size" disabled />
                     </td>
                     
-                    <td>
+                    <td class="PlayerLastNameInput">
                         <input type="text" name="lastname" class="lastname" maxlength="12" value="@{{name}}" />
                     </td>
 

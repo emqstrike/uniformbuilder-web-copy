@@ -2376,7 +2376,7 @@ $(document).ready(function() {
 
                         if ((args.applicationObj.application_type === "team_name" || parseInt(args.applicationObj.code) === 1) && ub.funcs.isCurrentSport('Baseball')) {
 
-                            point.zIndex = -80; // So it will be rendered above the piping
+                             // point.zIndex = -80; // So it will be rendered above the piping
 
                         }
 
@@ -2708,12 +2708,13 @@ $(document).ready(function() {
 
                 }
 
-                if (view.application.flip === 1) {
+                if (view.application.flip === 1 && _applicationObj.type === "mascot") {
 
                     point.scale.x *= -1;
 
                 } else {
-                    
+
+                    view.application.flip = 0;
                     point.scale.x = Math.abs(point.scale.x);
 
                 }
@@ -3092,11 +3093,15 @@ $(document).ready(function() {
 
     };
 
+    // This is used before uploading the thumbnails
     ub.funcs.fullResetHighlights = function () {
 
         _.each(ub.current_material.materials_options, function (mo){
     
             var _moName = mo.name.toCodeCase();
+
+            if (_moName === "guide") { return; }
+
             var _obj = ub.objects[mo.perspective + '_view'][_moName];
             _obj.alpha = ub.ALPHA_ON;
 
@@ -3109,6 +3114,7 @@ $(document).ready(function() {
                 if (typeof object !== "undefined") {
 
                     if (object.name === null) { return; }
+                    if (object.name === "guide") { return; }
 
                     if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1 && object.name.indexOf(ub.active_part) === -1) {
 
@@ -3136,6 +3142,9 @@ $(document).ready(function() {
             var _name = _materialOption.name.toCodeCase();
             var _object = ub.objects[ub.active_view + '_view'][_name];
 
+            // do not include Guide layers on reset
+            if (_name === "guide") { return; }
+            
             ub.funcs.setAlphaOn(_object, _object.name);
             ub.active_part = undefined;
 
@@ -3144,6 +3153,9 @@ $(document).ready(function() {
         _.each (ub.objects[ub.active_view + "_view"], function (object) {
 
             if (object.name === null) { return; }
+
+            // do not include Guide layers on reset
+            if (object.name === "guide") { return; }
 
             if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1 && object.name.indexOf(ub.active_part) === -1) {
 
@@ -4171,8 +4183,8 @@ $(document).ready(function() {
 
         ub.funcs.clearPatternUI();
         ub.funcs.deActivateApplications();
-
         ub.funcs.deActivateLocations();
+        ub.funcs.activeStyle('colors');
 
         $('#color-wheel-container').fadeIn();
 
@@ -4921,6 +4933,18 @@ $(document).ready(function() {
     ub.funcs.hideOtherPanels = function () {
 
         ub.funcs.hidePipingFunctions();
+        ub.funcs.hiderandomFeedsTool();
+
+    }
+
+    ub.funcs.activeStyle = function (tab) {
+
+        $('a.change-view[data-view="colors"]').removeClass('active-change-view');    
+        $('a.change-view[data-view="layers"]').removeClass('active-change-view'); 
+        $('a.change-view[data-view="randomFeed"]').removeClass('active-change-view'); 
+        $('a.change-view[data-view="patterns"]').removeClass('active-change-view');
+
+        $('a.change-view[data-view="' + tab + '"]').addClass('active-change-view');
 
     }
 
@@ -4939,10 +4963,13 @@ $(document).ready(function() {
 
         var _returnValue                = false;
 
+
+
         if (_settingsObject.has_pattern === 1) {
 
             ub.funcs.deActivateColorPickers ();
             ub.funcs.deActivateApplications();
+            ub.funcs.activeStyle('patterns');
 
             var firstMaterialOption     = _materialOptions[0];
             var patternObject           = _settingsObject.pattern;
@@ -10212,7 +10239,7 @@ $(document).ready(function() {
 
     ub.funcs.isUniformFullSublimation = function ()  {
 
-        return ub.current_material.material.factory_code === "BLB";
+        return ub.current_material.material.uniform_application_type === "sublimated";
 
     }
 
@@ -10253,8 +10280,7 @@ $(document).ready(function() {
         var _part           = part;
         var _sport          = ub.current_material.material.uniform_category;
 
-
-        if (ub.funcs.isCurrentSport('Compression (Apparel)') || ub.funcs.isCurrentSport('Tech-Tee (Apparel)')) {
+        if (ub.funcs.isCurrentSport('Compression (Apparel)') || ub.funcs.isCurrentSport('Tech-Tee (Apparel)') || ub.funcs.isCurrentSport('Baseball')) {
 
             if (_part === "Body" || _part === "Back Body") { _part = 'Extra'; }
 
@@ -10303,6 +10329,14 @@ $(document).ready(function() {
                     _perspectiveView.application.rotation = 0;
  
                 } 
+
+                if (typeof _overrides !== "undefined") {
+
+                    _perspectiveView.application.rotation = _overrides.rotation;
+                    _perspectiveView.application.center = _overrides.position;
+                    _perspectiveView.application.pivot = _overrides.position;
+
+                }
 
                 if (_part === "Extra") {
 
@@ -10443,7 +10477,6 @@ $(document).ready(function() {
             });
 
             $('div.perspective-container > span.perspective[data-id="' + ub.active_view + '"]').addClass('active');
-
             
             // Parts 
 
@@ -10542,7 +10575,6 @@ $(document).ready(function() {
 
             $('div.part-container > span.part[data-id="' + _part + '"]').addClass('active');
             $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');
-
 
             // Footer Buttons 
 
@@ -10861,6 +10893,7 @@ $(document).ready(function() {
         // End Populate Layer Tool
 
         ub.funcs.gotoFirstApplication();
+        ub.funcs.activeStyle('layers');
 
         $('div.layers-header > span.close').on('click', function () {
 

@@ -2452,8 +2452,8 @@ div#main-picker-container {
 
         display: block;
         position: absolute;
-        margin-top: 100px;
-        width: 1350px;
+        margin-top: 30px;
+        width: 1550px;
         margin: 30px auto;
 
         -moz-transition: all .2s;
@@ -2462,14 +2462,14 @@ div#main-picker-container {
 
         .disabledClass {
 
-            cursor: auto !important;
+            cursor: not-allowed !important;
             opacity: 0.2;
 
         }
 
         .disabledClass:hover {
 
-            opacity: 1;
+            opacity: 0.95;
         
         }
 
@@ -2519,15 +2519,17 @@ div#main-picker-container {
         div.main-picker-items {
 
             display: block;
-            width: 224px;
+            width: 341px;
+            height: 420px;
             float: left;
             cursor: pointer;
-            margin-bottom: 130px;
+            margin-bottom: 100px;
             margin-right: 20px;
             margin-left: 25px;
+            margin-top: 30px;
 
             img {
-                width: 100%;
+                height: 370px;
                 margin-bottom: 30px;
             }
 
@@ -2573,26 +2575,28 @@ div#main-picker-container {
             .cSoon {
                 color: white;
                 background: #3d3d3d;
-                font-size: 1.0em;
-                padding: 0px;
+                font-size: 0.9em;
+                padding: 5px;
                 text-align: center;
                 position: absolute;
                 top: 35%;
-                width: 60%;
-                margin-left: 20%;
-                margin-right: 20%;
-                opacity: 0.7;
+                width: 100%;
+                opacity: 0.8;
+                z-index: 1000;
+                font-family: "Avenir Next LT W04 Bold";
             }
 
-        }        
+        }  
+
+        div.main-picker-items.sports, div.main-picker-items.apparel {
+
+            margin-bottom: 10px;
+            margin-right: 20px;
+            margin-left: 25px;
+            margin-top: 30px;
+            
+        }      
         
-        div.main-picker-items.Baseball {
-
-            width: 388px;
-            height: 420px;
-
-        }
-
     }
 }
 
@@ -3229,6 +3233,8 @@ div.header-container.main {
 
     }
 
+    div#uniform-price-adult.single { margin-top: 5.5em; }
+
     div#uniform-price-call-for-team-pricing {
 
         margin-top: 8.2em;
@@ -3236,6 +3242,12 @@ div.header-container.main {
         
         text-transform: lowercase;
 
+    }
+
+    div#uniform-price-call-for-team-pricing.single {
+
+        margin-top: 6.7em;
+        
     }
 
     div#return-to-customizer {
@@ -6996,6 +7008,7 @@ div.header-container.main {
                                 span.clear-row {
 
                                     cursor: pointer;
+                                    margin-left: 10px;
 
                                 }
 
@@ -7100,6 +7113,7 @@ div.header-container.main {
         div#sizes {
 
             text-align: center;
+            margin-bottom: 30px;
 
             span.size {
 
