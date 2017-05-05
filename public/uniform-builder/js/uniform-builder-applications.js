@@ -11464,4 +11464,110 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.removePolygon = function () {
+
+        _.each(ub.views, function (view) {
+
+            if (typeof ub.objects[view + '_view']['activePolygon'] !== "undefined") {
+
+                ub[view + '_view'].removeChild(ub.objects[view + '_view']['activePolygon']);
+
+            }
+
+        });
+
+    }
+
+    ub.funcs.createEllipse = function (graphics, coordinates) {
+
+        var width = 7;
+        var height = 7;
+
+        graphics.beginFill(0x000000);
+        graphics.drawEllipse(coordinates.x, coordinates.y, width, height);
+        graphics.endFill();
+
+    }
+
+    ub.funcs.createPolygon = function (perspective, polygon, minMax) {
+
+        var graphics = new PIXI.Graphics();
+
+        ub.funcs.removePolygon(); // Remove if previous polygon exists
+
+        graphics.lineStyle(2, 0x000000, 1);
+        graphics.drawPolygon(polygon); 
+
+        ub.activePolygon = graphics;
+
+        ub.funcs.createEllipse(graphics, minMax.minXCoor);
+        ub.funcs.createEllipse(graphics, minMax.minYCoor);
+        ub.funcs.createEllipse(graphics, minMax.maxXCoor);
+        ub.funcs.createEllipse(graphics, minMax.maxYCoor);
+
+        ub.funcs.createEllipse(graphics, {
+            x: ((minMax.maxXCoor.x - minMax.minXCoor.x) / 2)  + minMax.minXCoor.x, 
+            y: ((minMax.maxYCoor.y - minMax.minYCoor.y) / 2) + minMax.minYCoor.y,
+        });
+
+        ub.objects[perspective + '_view']['activePolygon'] = ub.activePolygon;
+        ub[ perspective + '_view'].addChild(ub.activePolygon);
+
+    }
+
+    ub.funcs.getBoundariesCurrentView = function (materialOption) {
+
+        return ub.funcs.getBoundaries(ub.active_view, materialOption);
+
+    }
+
+    ub.funcs.getBoundaries = function (perspective, materialOption) {
+
+        var _result = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {alias: materialOption.toTitleCase() });
+        var _polygon = undefined;
+        var _array = [];
+
+        if (typeof _result !== "undefined") {
+
+            _polygon = _result.polygon;
+
+        }
+
+        // convert to linear array 
+        
+        var minMax = {
+            minX: ub.dimensions.width, 
+            minY: ub.dimensions.height,
+            maxX: 0,
+            maxY: 0,
+
+            minXCoor: {x: 0, y: 0},
+            minYCoor: {x: 0, y: 0},
+            maxXCoor: {x: 0, y: 0},
+            maxYCoor: {x: 0, y: 0},
+        }
+
+        _.each (_polygon, function (point) {
+
+            minMax.minX = Math.min(point.x, minMax.minX);
+            minMax.minY = Math.min(point.y, minMax.minY);
+            minMax.maxX = Math.max(point.x, minMax.maxX);
+            minMax.maxY = Math.max(point.y, minMax.maxY);
+
+            if (minMax.minX === point.x) { minMax.minXCoor = {x: point.x, y: point.y}; }
+            if (minMax.minY === point.y) { minMax.minYCoor = {x: point.x, y: point.y}; }
+            if (minMax.maxX === point.x) { minMax.maxXCoor = {x: point.x, y: point.y}; }
+            if (minMax.maxY === point.y) { minMax.maxYCoor = {x: point.x, y: point.y}; }
+
+            _array.push(point.x);
+            _array.push(point.y);
+
+        });
+
+        ub.funcs.createPolygon(perspective, _array, minMax);
+
+        return {boundaries: _array, minMax: minMax};
+
+    } 
+
 });
