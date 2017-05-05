@@ -531,97 +531,97 @@
 
     };
 
-    $.fn.ubLogoDialog = function (options) {
+    // $.fn.ubLogoDialog = function (options) {
 
-        ub.funcs.removeUIHandles();
+    //     ub.funcs.removeUIHandles();
 
-        var settings = $.extend({ application: {} }, options);
-        var application = settings.application;
+    //     var settings = $.extend({ application: {} }, options);
+    //     var application = settings.application;
 
-        var view_str = application.perspective + '_view';
-        $('a#view_' + application.perspective).click();
+    //     var view_str = application.perspective + '_view';
+    //     $('a#view_' + application.perspective).click();
 
-        return this.each(function () { 
+    //     return this.each(function () { 
 
-            var $container = $(this);
+    //         var $container = $(this);
 
-            var data = {
-                application_id: application.id,
-            }
+    //         var data = {
+    //             application_id: application.id,
+    //         }
 
-            var template = $('#logo-dropdown').html();
-            var markup = Mustache.render(template, data);
+    //         var template = $('#logo-dropdown').html();
+    //         var markup = Mustache.render(template, data);
 
-            $container.html(markup);
+    //         $container.html(markup);
             
-            var selector = 'div.logo_drop[data-id="' + application.id + '"]';
-            var upload_template = $('#logo-upload-dialog').html();
-            var content = Mustache.render(upload_template, data);
+    //         var selector = 'div.logo_drop[data-id="' + application.id + '"]';
+    //         var upload_template = $('#logo-upload-dialog').html();
+    //         var content = Mustache.render(upload_template, data);
 
-            var drop = new Drop({
-                target: document.querySelector(selector),
-                content: content,
-                classes: 'drop-theme-arrows',
-                position: 'bottom left',
-                openOn: 'click'
-            });
+    //         var drop = new Drop({
+    //             target: document.querySelector(selector),
+    //             content: content,
+    //             classes: 'drop-theme-arrows',
+    //             position: 'bottom left',
+    //             openOn: 'click'
+    //         });
 
-            ub.ui.drops[application.id] = drop;
+    //         ub.ui.drops[application.id] = drop;
 
-            var file_change_handler = function () {
+    //         var file_change_handler = function () {
 
-                var $file_input = $(this);
-                var data_id = application.id;
-                var files = !!this.files ? this.files : [];
+    //             var $file_input = $(this);
+    //             var data_id = application.id;
+    //             var files = !!this.files ? this.files : [];
 
-                if (!files.length || !window.FileReader) { return; }
+    //             if (!files.length || !window.FileReader) { return; }
 
-                if (/^image/.test(files[0].type)) { 
+    //             if (/^image/.test(files[0].type)) { 
 
-                    var reader = new FileReader();
-                    reader.readAsDataURL(files[0]);
+    //                 var reader = new FileReader();
+    //                 reader.readAsDataURL(files[0]);
 
-                    reader.onloadend = function () {
+    //                 reader.onloadend = function () {
 
-                        var logos = ub.current_material.containers.files.logos;
-                        var file = files[0];
-                        var id = new Date().getTime();
+    //                     var logos = ub.current_material.containers.files.logos;
+    //                     var file = files[0];
+    //                     var id = new Date().getTime();
 
-                        var logo = {
-                            id: id,
-                            filename: file.name,
-                            dataUrl: this.result
-                        };
+    //                     var logo = {
+    //                         id: id,
+    //                         filename: file.name,
+    //                         dataUrl: this.result
+    //                     };
 
-                        logos.push(logo)
+    //                     logos.push(logo)
 
-                        var application_id = application.id;
+    //                     var application_id = application.id;
 
-                        ub.funcs.update_logo_list();
-                        $('a.logo_picker[data-application-id="' + application_id + '"]').click();
+    //                     ub.funcs.update_logo_list();
+    //                     $('a.logo_picker[data-application-id="' + application_id + '"]').click();
 
-                    }
-                }
+    //                 }
+    //             }
 
-            };
+    //         };
 
-            drop.once('open', function () {
+    //         drop.once('open', function () {
 
-                var $selector = $('#file-src-' + settings.application.id);
-                $selector.on('change', file_change_handler);
+    //             var $selector = $('#file-src-' + settings.application.id);
+    //             $selector.on('change', file_change_handler);
 
-                ub.data.panels = {};
-                ub.data.panels['logo_panel'] = $selector;
+    //             ub.data.panels = {};
+    //             ub.data.panels['logo_panel'] = $selector;
 
-                ub.funcs.update_logo_list();
+    //             ub.funcs.update_logo_list();
 
-            });
+    //         });
 
-            drop.open();
+    //         drop.open();
             
-        });
+    //     });
 
-    };
+    // };
 
     $.fn.ubMascotDialog = function ( options ) {
 
@@ -1121,11 +1121,13 @@
 
         ub.updateLayersOrder(sprite);
 
+        var _pipingLengthBefore = _.filter(ub.current_material.settings.pipings, {enabled: 1}).length;
+
         ub.current_material.containers[pipingObject.name] = {};
         ub.current_material.containers[pipingObject.name].pipingObject = sprite;
 
         var temp                    = {};
-        var layer_order             = ( 40 );
+        var layer_order             = ( ub.funcs.generateZindex('pipings') + _pipingLengthBefore + 1);
 
         sprite.originalZIndex       = layer_order * (-1);
         sprite.zIndex               = layer_order * (-1);
@@ -1694,8 +1696,8 @@
  
         /// End Set First Three Colors 
 
-        container.zIndex = -50;
-
+        // container.zIndex = -(ub.funcs.generateZindex('applications') + parseInt(input_object.application.id));
+        
         return container;
         
     }

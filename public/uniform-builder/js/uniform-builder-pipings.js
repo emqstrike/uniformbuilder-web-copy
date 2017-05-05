@@ -17,7 +17,7 @@ $(document).ready(function () {
         ub.funcs.hidePipingFunctions = function () {
 
             $('div#pipingsUI').hide();
-            $('div#pipings-panel').hide();
+            //$('div#pipings-panel').remove();
             $('a.change-view[data-view="pipings"]').removeClass('active-change-view');
 
         }
@@ -59,14 +59,6 @@ $(document).ready(function () {
                }
 
             });
-
-            if (!ub.is.wrestling()) {
-
-                $('span.add-application').addClass('inactive');
-                $('em.dragMessage').remove();
-                $('div.pipings-container').addClass('notSublimated');
-
-            }
 
             $('span.add-application').unbind('click');
             $('span.add-application').on('click', function () {

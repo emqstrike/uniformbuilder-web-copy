@@ -129,6 +129,8 @@ $(document).ready(function () {
                 team_color_id: _mo.team_color_id,
                 allow_pattern: _mo.allow_pattern,
                 path: _mo.material_option_path,
+                transformedZIndex: _mo.layer_level * ub.zIndexMultiplier,
+                layerLevel: _mo.layer_level,
 
             }
 
@@ -144,7 +146,7 @@ $(document).ready(function () {
 
             _ptStr += "<tr><td colspan='6' class='tCenter tLabel'><strong>" + key.name + "</strong></td></tr>";
 
-            _ptStr += "<tr class='header_row'><td class='tCenter'>Name</td><td class='tCenter'>Perspective</td><td class='tRight'>Group ID</td><td class='tRight'>Team Color ID</td><td class='tCenter'>Allow Pattern</td><td class='tCenter'></td></tr>";
+            _ptStr += "<tr class='header_row'><td class='tCenter'>Color</td><td class='tCenter'>Layer Level / zIndex</td><td class='tCenter'>Perspective</td><td class='tRight'>Group ID</td><td class='tRight'>Team Color ID</td><td class='tCenter'>Allow Pattern</td><td class='tCenter'></td></tr>";
 
             _.each (key.perspectives, function (mo, index3) {
 
@@ -163,10 +165,11 @@ $(document).ready(function () {
 
                     _ptStr += "<strong style='padding:3px;background-color:#" + mo.default_color + "; color: white'>#" + mo.default_color + "</strong>";
                     
-                    _ptStr + "</td>";
+                    _ptStr += "</td>";
 
                     var _allowpattern = parseInt(mo.allow_pattern) === 1 ? "<strong>Yes</strong>": "No";
-                    
+
+                    _ptStr += "<td class='pattern-material-option-column tCenter'>" + mo.layerLevel + ' / ' + mo.transformedZIndex +  "</td>";
                     _ptStr += "<td class='pattern-material-option-column tCenter'>" + mo.perspective + "</td>";
                     _ptStr += "<td class='pattern-material-option-column tRight'>" + mo.group_id + "</td>";
                     _ptStr += "<td class='pattern-material-option-column tRight'>" + mo.team_color_id + "</td>";
