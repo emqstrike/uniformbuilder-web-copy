@@ -52,7 +52,9 @@ li.select2-selection__choice {
                         <input type="hidden" name="font_id" value="{{ $font->id }}">
                         <input type="hidden" id="font_family" value="{{ $font->name }}">
                         <input type="hidden" id="old_font_size_tables" value="{{ $font->font_size_tables }}">
+                        <!-- <input type="hidden" id="old_sublimated_font_size_tables" value="{{ $font->font_size_tables }}"> -->
                         <input type="hidden" id="font_size_tables" name="font_size_tables">
+                        <input type="hidden" id="sublimated_font_size_tables" name="sublimated_font_size_tables">
                         <input type="hidden" id="existing-fonts-properties" value="{{ $font->font_properties }}">
                         <input type="hidden" name="font_properties" id="font_properties" value="">
                         <input type="hidden" name="old_font_path" id="old_font_path" value="{{ $font->font_path }}">
@@ -245,6 +247,9 @@ li.select2-selection__choice {
                                 </table>
                             </div>
                         </div>
+                        
+                    <div class="form-group twill-fst"> <!-- START -->
+                        <div class="alert alert-info"><h3>Twill Font Size Tables</h3></div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
                                 <center><a data-toggle="modal" href="#myModal" class="btn btn-xs btn-primary">Copy data</a></center>
@@ -334,6 +339,99 @@ li.select2-selection__choice {
                                 </table>
                             </div>
                         </div>
+                    </div> <!-- END -->
+                    <div class="form-group sublimated-fst"> <!-- START -->
+                        <div class="alert alert-info"><h3>Sublimated Font Size Tables</h3></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                                <center><a data-toggle="modal" href="#myModal" class="btn btn-xs btn-primary">Copy data</a></center>
+                                <a href="#" class="btn btn-warning btn-xs reset-fst pull-right">Reset Font Size Tables data</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Application # <a href="#" data-toggle="tooltip" data-message="Optional. Used to match input size to an application point."><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Input Size <a href="#" data-toggle="tooltip" data-message="Actual size (inches)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Output Size <a href="#" data-toggle="tooltip" data-message="Override - Size that will appear in customizer (used to correct display ratio)"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>X Offset <a href="#" data-toggle="tooltip" data-message="Horizontal Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Y Offset <a href="#" data-toggle="tooltip" data-message="Vertical Offset"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>X Scale <a href="#" data-toggle="tooltip" data-message="Horizontal Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                            <th>Y Scale <a href="#" data-toggle="tooltip" data-message="Vertical Scale"><span class="glyphicon glyphicon-info-sign"></span></a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="front-fst-body-sublimated">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Back</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Application Number</th>
+                                            <th>Input Size</th>
+                                            <th>Output Size</th>
+                                            <th>X Offset</th>
+                                            <th>Y Offset</th>
+                                            <th>X Scale</th>
+                                            <th>Y Scale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="back-fst-body-sublimated">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Left</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Application Number</th>
+                                            <th>Input Size</th>
+                                            <th>Output Size</th>
+                                            <th>X Offset</th>
+                                            <th>Y Offset</th>
+                                            <th>X Scale</th>
+                                            <th>Y Scale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="left-fst-body-sublimated">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                            <h3>Right</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Application Number</th>
+                                            <th>Input Size</th>
+                                            <th>Output Size</th>
+                                            <th>X Offset</th>
+                                            <th>Y Offset</th>
+                                            <th>X Scale</th>
+                                            <th>Y Scale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="right-fst-body-sublimated">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> <!-- END -->
                         <hr>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Layers
@@ -423,12 +521,33 @@ li.select2-selection__choice {
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4> Font size tables data</h4>
+          <h4> TWILL Font size tables data</h4>
         </div>
         <div class="modal-body">
           <form role="form">
             <div>
               <textarea class="fst-data-field form-control animated"></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModalB" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4> TWILL Font size tables data</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div>
+              <textarea class="fst-sublimated-data-field form-control animated"></textarea>
             </div>
           </form>
         </div>
@@ -469,6 +588,8 @@ $(document).ready(function(){
                 $(tbl_class).append(elem);
             });
             refreshMultipleFST();
+            // var xy = $('.sublimated-fst').find('.application-number:fourth').val();
+            // console.log('---XY---'+xy);
         });
     }
 
@@ -510,6 +631,39 @@ $(document).ready(function(){
         });
         $('#font_size_tables').val(JSON.stringify(data));
         $('.fst-data-field').text(JSON.stringify(data));
+        $('.animated').autosize({append: "\n"});
+    }
+
+    function refreshMultipleSublimatedFST(){
+        var data = [];
+        var perspectives = ["front", "back", "left", "right"];
+        perspectives.forEach(function(entry) {
+            var perspectiveData = {
+                "perspective" : entry
+            };
+            var temp = [];
+            var elem_class = '.'+entry+'-fst-body-sublimated tr';
+
+            $(elem_class).each(function(i) {
+
+                var x = {
+                    "inputSize" : $(this).find('.input-size').val(),
+                    "outputSize" : $(this).find('.output-size').val(),
+                    "x_offset" : $(this).find('.x-offset').val(),
+                    "y_offset" : $(this).find('.y-offset').val(),
+                    "x_scale" : $(this).find('.x-scale').val(),
+                    "y_scale" : $(this).find('.y-scale').val(),
+                    "application_number" : $(this).find('.application-number').val()
+                };
+
+                temp.push(x);
+            });
+            perspectiveData.sizes = temp;
+            data.push(perspectiveData);
+
+        });
+        $('#sublimated_font_size_tables').val(JSON.stringify(data));
+        $('.fst-sublimated-data-field').text(JSON.stringify(data));
         $('.animated').autosize({append: "\n"});
     }
 
