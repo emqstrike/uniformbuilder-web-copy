@@ -1176,11 +1176,13 @@
 
         ub.updateLayersOrder(sprite);
 
+        var _randomFeedLengthBefore = _.filter(ub.current_material.settings.randomFeeds, {enabled: 1}).length;
+
         ub.current_material.containers[randomFeedObject.name] = {};
         ub.current_material.containers[randomFeedObject.name].pipingObject = sprite;
 
         var temp                    = {};
-        var layer_order             = ( 70 );
+        var layer_order             = ( ub.funcs.generateZindex('randomFeeds') + _randomFeedLengthBefore + 1 );
 
         sprite.originalZIndex       = layer_order * (-1);
         sprite.zIndex               = layer_order * (-1);
