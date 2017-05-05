@@ -11447,6 +11447,10 @@ $(document).ready(function() {
             _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 100;
             break;
 
+          case 'randomFeeds': 
+            _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 50;  
+            break;
+
           case 'pipings': 
             _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 50;  
             break;
