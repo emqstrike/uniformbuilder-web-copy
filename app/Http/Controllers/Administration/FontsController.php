@@ -84,6 +84,7 @@ class FontsController extends Controller
         $sports = explode(",", $request->input('sports_value'));
         $tailSweepProperties = $request->input('tail_sweep_properties');
         $fontSizeTables = $request->input('font_size_tables');
+        $sublimatedFontSizeTables = $request->input('sublimated_font_size_tables');
         $alias = $request->input('alias');
 
         $userID = $request->input('user_id');
@@ -105,6 +106,7 @@ class FontsController extends Controller
             'sports' => $sports,
             'tail_sweep_properties' => $tailSweepProperties,
             'font_size_tables' => $fontSizeTables,
+            'sublimated_font_size_tables' => $sublimatedFontSizeTables,
             'updated_by' => $userID,
             'alias' =>$alias
         ];
