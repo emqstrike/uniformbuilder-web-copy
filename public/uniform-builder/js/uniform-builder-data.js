@@ -11823,5 +11823,30 @@ ub.funcs.fontOffSets = [
         }
 
     }
+
+    // Todo: Detect this at runtime instead
+    ub.data.sportsWithExtraLayer = {
+
+        items: [
+            {
+                sport: 'Compression (Apparel)',
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+            },
+            {
+                sport: 'Baseball',
+            }
+        ],
+
+        isValid: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport});
+
+            return typeof _result !== "undefined";
+
+        }
+
+    }
     
 });
