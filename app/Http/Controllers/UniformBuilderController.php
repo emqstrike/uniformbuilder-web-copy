@@ -63,6 +63,7 @@ class UniformBuilderController extends Controller
             : null;
 
         $render = (isset($config['render'])) ? $config['render'] : false;
+        $return_rendered_code = (isset($config['code'])) ? $config['code'] : false;
 
         $accessToken = null;
         $categoryId = 0;
@@ -107,6 +108,7 @@ class UniformBuilderController extends Controller
             'material_id' => $materialId,
             'category_id' => $categoryId,
             'render' => $render,
+            'return_rendered_code' => $return_rendered_code
         ];
 
         $params['builder_customizations'] = null;
@@ -273,13 +275,14 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function loadDesignSetRender($designSetId = null, $materialId = null)
+    public function loadDesignSetRender($designSetId = null, $materialId = null, $code = null)
     {
         $config = [
             'design_set_id' => $designSetId,
             'material_id' => $materialId,
             'type' => 'Design Set',
             'render' => true,
+            'code' => $code
         ];
         return $this->showBuilder($config);
 

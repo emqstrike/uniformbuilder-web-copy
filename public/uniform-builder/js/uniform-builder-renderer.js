@@ -78,6 +78,9 @@ $(document).ready(function() {
 
         ub.funcs.prepareThumbnails();
         ub.status.fullView.setStatus(true);
+        if (ub.return_rendered) {
+            ub.funcs.saveThumbnails();
+        }
 
     };
 
@@ -100,8 +103,26 @@ $(document).ready(function() {
             ub.right = _rightThumb;
 
         // End Prepare thumbnails 
+    };
 
-    }
+    ub.funcs.saveThumbnails = function () {
+        $.ajax({
+            url: '',
+            data: {
+                code: ub.return_rendered_code,
+                front: ub.front,
+                back: ub.back
+            },
+            method: 'POST',
+            success: function(response) {
+                if (response.success) {
+                    ub.utilities.info('Saved as images');
+                    ub.utilities.info('Front: ' + response.front);
+                    ub.utilities.info('Back: ' + response.back);
+                }
+            }
+        });
+    };
 
     ub.funcs.restoreUI = function () {
 

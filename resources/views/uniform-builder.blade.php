@@ -367,6 +367,10 @@
         window.ub.page = "{{ isset($page) ? $page : 'builder' }}";
 
         ub.render = "{{ isset($render) ? $render : false }}";
+        // Flag for returning the requested images
+        ub.return_rendered = "{{ isset($return_rendered)}} ? $return_rendered : false";
+        // Return code
+        ub.return_rendered_code = "{{ isset($return_rendered_code)}} ? $return_rendered_code : false }}";
         ub.savedDesignName = "{{ isset($saved_design_name) ? $saved_design_name : '' }}";
         
         // #load_order
