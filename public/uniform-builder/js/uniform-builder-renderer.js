@@ -114,6 +114,7 @@ $(document).ready(function() {
         $.ajax({
             url: ub.config.team_store_api_host + '/product/save_thumbnails',
             data: {
+                product_id: ub.config.material_id,
                 code: ub.return_rendered_code,
                 front: ub.front,
                 back: ub.back
