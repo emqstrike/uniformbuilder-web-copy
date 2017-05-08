@@ -11560,7 +11560,13 @@ $(document).ready(function() {
 
         _.each(ub.views, function (view) {
 
-            ub.objects[view + '_view']['pattern_' + part].scale = {x: percentage, y: percentage};
+            var _part =  ub.objects[view + '_view']['pattern_' + part];
+
+            if (typeof _part !== "undefined")  {
+
+                ub.objects[view + '_view']['pattern_' + part].scale = {x: percentage, y: percentage};
+                
+            }
 
         });
 
