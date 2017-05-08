@@ -35,7 +35,11 @@ $(document).ready(function() {
         ub.bg.alpha = 0.7;
         
         if (ub.render) {
-            ub.funcs.prepareThumbnails();    
+            if (ub.return_rendered_code) {
+                ub.funcs.prepareThumbnails(ub.funcs.saveThumbnails);
+            } else {
+                ub.funcs.prepareThumbnails();
+            }
         }
         
         ub.status.fullView.setStatus(true);
