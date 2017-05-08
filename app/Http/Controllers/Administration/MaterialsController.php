@@ -19,6 +19,7 @@ use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\PriceItemTemplatesAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
+use Illuminate\Support\Facades\Input;
 
 class MaterialsController extends Controller
 {
@@ -104,26 +105,26 @@ class MaterialsController extends Controller
             } else if($option->perspective == "right" && $option->name =="Guide"){
                 $right_guide = $option->material_option_path;
             }
-            foreach($colors as $color){
-                if($color->color_code == $default_color) {
-                    $option->default_hex_code = $color->hex_code;
-                    $option->default_color_name = $color->name;
-                    break;
-                } else {
-                    $option->default_hex_code = "000";
-                    $option->default_color_name = "Black";
-                }
-            }
-            foreach($colors as $color){
-                if($color->color_code == $sublimated_default_color) {
-                    $option->sublimated_default_hex_code = $color->hex_code;
-                    $option->sublimated_default_color_name = $color->name;
-                    break;
-                } else {
-                    $option->sublimated_default_hex_code = "000";
-                    $option->sublimated_default_color_name = "Black";
-                }
-            }
+            // foreach($colors as $color){
+            //     if($color->color_code == $default_color) {
+            //         $option->default_hex_code = $color->hex_code;
+            //         $option->default_color_name = $color->name;
+            //         break;
+            //     } else {
+            //         $option->default_hex_code = "000";
+            //         $option->default_color_name = "Black";
+            //     }
+            // }
+            // foreach($colors as $color){
+            //     if($color->color_code == $sublimated_default_color) {
+            //         $option->sublimated_default_hex_code = $color->hex_code;
+            //         $option->sublimated_default_color_name = $color->name;
+            //         break;
+            //     } else {
+            //         $option->sublimated_default_hex_code = "000";
+            //         $option->sublimated_default_color_name = "Black";
+            //     }
+            // }
         }
 
         $material = $this->client->getMaterial($id);
@@ -157,6 +158,45 @@ class MaterialsController extends Controller
             'options' => $options,
         ]);
 
+    }
+
+    public function dropZone($id)
+    {
+        Log::info('Materials Options QS');
+        $material = $this->client->getMaterialQS($id);
+        $options = $this->optionsClient->getByMaterialId($id);
+        return view('administration.materials.add-materials-options-dropzone', [
+            'material' => $material,
+            'options' => $options,
+        ]);
+
+    }
+
+    public function insertDropzoneImage(Request $request){
+        // $image = Input::file('file');
+        $file = $request->file('file');
+        $a = explode('\\', $file);
+        $b = end($a);
+        $c = explode('.', $b);
+        $d = $c[0];
+        // $b = $image->getClientOriginalExtension();
+        // return $d;
+        if (isset($file))
+        {
+            if ($file->isValid())
+            {
+                $randName = Random::randomize(12);
+                $loc = FileUploader::upload(
+                    $file,
+                    $randName,
+                    'material_option',
+                    "materials",
+                    "{$d}.png"
+                );
+
+                return $loc;
+            }
+        }
     }
 
     public function delete($id)
@@ -248,12 +288,14 @@ class MaterialsController extends Controller
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
+        $piTemplates = $this->priceItemTemplateClient->getAll();
 
         $factories = $this->factoriesClient->getFactories();
         return view('administration.materials.material-create', [
             'uniform_categories' => $uniformCategories,
             'factories' => $factories,
-            'block_patterns' => $block_patterns
+            'block_patterns' => $block_patterns,
+            'price_item_templates' => $piTemplates
         ]);
     }
 
@@ -332,6 +374,21 @@ class MaterialsController extends Controller
         $status = $request->input('status');
         $slug = FileUploader::makeSlug($materialName);
 
+        if (empty($isSublimated))
+        {
+            $isSublimated = 0;
+        }
+
+        if (empty($isTwill))
+        {
+            $isTwill = 0;
+        }
+
+        if (empty($isInfused))
+        {
+            $isInfused = 0;
+        }
+
         $block_pattern_id = $request->input('block_pattern_id');
 
         if (!empty($request->input('neck_option')))
@@ -350,6 +407,9 @@ class MaterialsController extends Controller
         $design_type = $request->input('design_type');
 
         $priceItemTemplateID = $request->input('price_item_template_id');
+        $twillPriceItemTemplateID = $request->input('twill_price_item_template_id');
+        $sublimatedPriceItemTemplateID = $request->input('sublimated_price_item_template_id');
+        $infusedPriceItemTemplateID = $request->input('infused_price_item_template_id');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -398,7 +458,10 @@ class MaterialsController extends Controller
             'is_sublimated' => $isSublimated,
             'is_twill' => $isTwill,
             'is_infused' => $isInfused,
-            'status' => $status
+            'status' => $status,
+            'twill_price_item_template_id' => $twillPriceItemTemplateID,
+            'sublimated_price_item_template_id' => $sublimatedPriceItemTemplateID,
+            'infused_price_item_template_id' => $infusedPriceItemTemplateID
         ];
 
         try {

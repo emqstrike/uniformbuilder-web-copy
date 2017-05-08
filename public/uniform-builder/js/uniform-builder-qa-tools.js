@@ -7,23 +7,20 @@ $(document).ready(function () {
     ub.ga = {};
     ub.devtools = {};
 
-    ub.fontGuideIDs = [172, 73, 87, 85];
+    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 71, 190, 1];
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
         ub.utilities.info('ID: ' + material.id);
+        ub.utilities.info('Uniform: ' + material.name);
         ub.utilities.info('Block Pattern ID: ' + material.block_pattern_id);
         ub.utilities.info('Block Pattern: ' + material.block_pattern);
-        ub.utilities.info('Uniform: ' + material.name);
         ub.utilities.info('Sport: ' + material.uniform_category);
         ub.utilities.info('Type: ' + material.type);
+        ub.utilities.info('Factory Code: ' + material.factory_code);
 
         ub.utilities.info('Applications: ');    
-        _.each(settings.applications, function (app) {
-
-            console.log(app.code + ' - ' + app.type);
-
-        });
+        _.each(settings.applications, function (app) { ub.utilities.info(app.code + ' - ' + app.type); });
 
     }
 
@@ -132,6 +129,8 @@ $(document).ready(function () {
                 team_color_id: _mo.team_color_id,
                 allow_pattern: _mo.allow_pattern,
                 path: _mo.material_option_path,
+                transformedZIndex: _mo.layer_level * ub.zIndexMultiplier,
+                layerLevel: _mo.layer_level,
 
             }
 
@@ -144,31 +143,37 @@ $(document).ready(function () {
         _.each(ub.qa.partNames, function(key, index) {
 
             var index2 = 0;
-            _ptStr += "<tr class='header_row'><td>Name</td><td>Perspective</td><td>Group ID</td><td>Team Color ID</td><td>Allow Pattern</td></tr>";
+
+            _ptStr += "<tr><td colspan='6' class='tCenter tLabel'><strong>" + key.name + "</strong></td></tr>";
+
+            _ptStr += "<tr class='header_row'><td class='tCenter'>Color</td><td class='tCenter'>Layer Level / zIndex</td><td class='tCenter'>Perspective</td><td class='tRight'>Group ID</td><td class='tRight'>Team Color ID</td><td class='tCenter'>Allow Pattern</td><td class='tCenter'></td></tr>";
 
             _.each (key.perspectives, function (mo, index3) {
 
                 index2 +=1;
 
                 _ptStr += '<tr>';
-                    _ptStr += "<td class='pattern-material-option-column ucase'>";  
+                    _ptStr += "<td class='pattern-material-option-column ucase tCenter'>";  
 
-                    if(index2 === 1) {
+                    // if(index2 === 1) {
 
-                        _ptStr += key.name;
+                    //     _ptStr += key.name;
 
-                        _ptStr += "<br /><br />";
+                    //     _ptStr += "<br /><br />";
                         
-                    }
+                    // }
 
                     _ptStr += "<strong style='padding:3px;background-color:#" + mo.default_color + "; color: white'>#" + mo.default_color + "</strong>";
                     
-                    _ptStr + "</td>";
+                    _ptStr += "</td>";
 
-                    _ptStr += "<td class='pattern-material-option-column'>" + mo.perspective + "</td>";
-                    _ptStr += "<td class='pattern-material-option-column'>" + mo.group_id + "</td>";
-                    _ptStr += "<td class='pattern-material-option-column'>" + mo.team_color_id + "</td>";
-                    _ptStr += "<td class='pattern-material-option-column'>" + mo.allow_pattern + "</td>";
+                    var _allowpattern = parseInt(mo.allow_pattern) === 1 ? "<strong>Yes</strong>": "No";
+
+                    _ptStr += "<td class='pattern-material-option-column tCenter'>" + mo.layerLevel + ' / ' + mo.transformedZIndex +  "</td>";
+                    _ptStr += "<td class='pattern-material-option-column tCenter'>" + mo.perspective + "</td>";
+                    _ptStr += "<td class='pattern-material-option-column tRight'>" + mo.group_id + "</td>";
+                    _ptStr += "<td class='pattern-material-option-column tRight'>" + mo.team_color_id + "</td>";
+                    _ptStr += "<td class='pattern-material-option-column tCenter'>" + _allowpattern + "</td>";
                     _ptStr += "<td class='pattern-material-option-column'>" + '<img class="img_preview" style="background-color: #' + mo.default_color  + ';" src= "' + mo.path +'" />';
 
                 _ptStr += '</tr>';
@@ -192,6 +197,7 @@ $(document).ready(function () {
         }
 
         $('div.qa-tools-tab').modal('show');
+        $('div.qa-tools-tab').draggable({ handle: ".modal-content" });
 
         return;    
 
@@ -228,6 +234,24 @@ $(document).ready(function () {
         }
 
         ub.status.gaFontTool.setStatus(_status);
+
+    }
+
+    ub.togglePatternMasks = function () {
+
+        var _status = !ub.status.patternMasks.getStatus();
+
+        if (_status) {
+            
+            ub.funcs.removePatternMasks();
+
+        } else {
+
+            ub.funcs.restorePatternMasks();
+            
+        }
+
+        ub.status.patternMasks.setStatus(_status);
 
     }
 

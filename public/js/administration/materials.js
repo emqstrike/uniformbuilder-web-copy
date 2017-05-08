@@ -58,6 +58,28 @@ $(document).ready(function() {
 
     console.log(window.tailsweeps);
 
+    // START
+    $(".edit-material-option-info").each(function(i) {
+        var default_color_code = $(this).data('material-option-default-color');
+        var sublimated_default_color_code = $(this).data('material-option-sublimated-default-color');
+        console.log(default_color_code);
+
+        var dcc_item = _.find(window.colors, function (o) { return o.color_code == default_color_code; });
+        var default_color_name = dcc_item.name;
+        var default_color_hex = dcc_item.hex_code;
+
+        var sdcc_item = _.find(window.colors, function (o) { return o.color_code == sublimated_default_color_code; });
+        var sublimated_default_color_name = sdcc_item.name;
+        console.log(dcc_item);
+
+        $(this).attr('data-material-option-default-color-name', default_color_name);
+        $(this).attr('data-material-option-sublimated-default-color-name', sublimated_default_color_name);
+
+        $(this).parent().find('.color-preview-pill').html('#'+default_color_hex);
+        $(this).parent().find('.color-preview-pill').css('background-color', '#'+default_color_hex);
+    });
+    // END
+
 
     var accentObject= [];
     jQuery.each(accents, function(index, item) {  
@@ -124,7 +146,7 @@ $(document).ready(function() {
             $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
         });
     }
-
+ 
     function refreshColors(){
         $(".layer-default-color").change(function() {
             var x = 1;
@@ -721,20 +743,20 @@ $(document).ready(function() {
         console.log(err.message);
     }
 
-    window.materialOptionSettings = null;
-    var url = "//" + api_host + "/api/cuts/settings";
-    $.ajax({
-        url: url,
-        type: "GET",
-        dataType: "json",
-        crossDomain: true,
-        contentType: 'application/json',
-        success: function(response){
-            window.materialOptionSettings = response;
-            var type = 'pant cut';
-            var items = materialOptionSettings[type];
-        }
-    });
+    // window.materialOptionSettings = null;
+    // var url = "//" + api_host + "/api/cuts/settings";
+    // $.ajax({
+    //     url: url,
+    //     type: "GET",
+    //     dataType: "json",
+    //     crossDomain: true,
+    //     contentType: 'application/json',
+    //     success: function(response){
+    //         window.materialOptionSettings = response;
+    //         var type = 'pant cut';
+    //         var items = materialOptionSettings[type];
+    //     }
+    // });
 
     $('.materials').bootstrapTable();
 
@@ -1020,8 +1042,6 @@ $(document).ready(function() {
 
         $(".save-applications").trigger("click");
     });
-
-    
 
     $('.material-option-applications').on('click', function(){
         application_number = 0;
@@ -1977,7 +1997,7 @@ $(document).ready(function() {
             if($(this).hasClass("delete-multiple-material-options")){
                 checkedMaterialOptionsIDs.push($(this).val());
             }
-            
+
         });
         console.log(checkedMaterialOptionsIDs);
         modalConfirm(
@@ -2368,7 +2388,6 @@ $(document).ready(function() {
         return c;
     } // addCircle()
 
-
     function addPoint(name, x, y, style) {
         var p = addCircle(name, x, y, style);
         p.point = new fabric.Point(x, y);
@@ -2386,7 +2405,7 @@ $(document).ready(function() {
         });
         // canvas.add(p.text);
         canvas.add(p);
-     
+
         return p;
     } // addPoint()
 

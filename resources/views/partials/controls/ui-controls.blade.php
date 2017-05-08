@@ -416,7 +416,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+            <div class="main-picker-items sports grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
@@ -431,6 +431,24 @@
 
         @{{/picker_items}}
 
+
+        @{{#apparel}}
+            
+            <div class="main-picker-items apparel grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+
+            @if (@tooltip != "")
+                <div class="cSoon">@{{tooltip}}</div>
+            @endif
+                <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png?v={{$asset_version}}">
+
+                <span class="main-picker-item-caption">
+                    @{{name}}
+                </span>
+
+            </div>
+
+        @{{/apparel}}
+
     </script>
 
 <!-- End Sports Pickers -->
@@ -441,7 +459,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow" data-picker-type="uniforms" data-item="@{{name}}">
+            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-item="@{{name}}" data-id="@{{id}}">
 
                 <img src="@{{thumbnail_path}}?v={{$asset_version}}">
 
@@ -458,14 +476,14 @@
                     </span>
                     
                     <span class="adultPrice @{{parsedPricingTable.adult_sale}}">
-                        Adult from <strong>$@{{parsedPricingTable.adult_min_msrp}}</strong>
+                        <span class='adult-label'>Adult from</span> <strong>$@{{parsedPricingTable.adult_min_msrp}}</strong>
                     </span>
 
                     <span class="adultPriceSale @{{parsedPricingTable.adult_sale}}">
-                        Adult now from <strong>$@{{parsedPricingTable.adult_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
+                        <span class='adult-label'>Adult now from </span><strong>$@{{parsedPricingTable.adult_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
                     </span>
 
-                    <strong class="type">@{{#uniform_type}}@{{factory_code}}@{{/uniform_type}}</strong> <!-- <strong class="type">@{{block_pattern}}</strong> -->
+                    <strong class="type">@{{#uniform_type}}@{{uniform_application_type}}@{{/uniform_type}}</strong> <!-- <strong class="type">@{{block_pattern}}</strong> -->
                 </span> 
 
             </div>
@@ -1043,7 +1061,7 @@
 
     <script type="text/mustache" id="m-circle-sizes">
 
-        <span>ADULT SIZES:</span>
+        <span class="adult-sizes">ADULT SIZES:</span>
         
         @{{#adult}}
             <span data-status="off" data-size="@{{.}}" class="size">@{{.}}</span>
@@ -1051,7 +1069,7 @@
 
         <br />
 
-        <span>YOUTH SIZES:</span>
+        <span class="youth-sizes">YOUTH SIZES:</span>
 
         @{{#youth}}
             <span data-status="off" data-size="@{{.}}" class="size">@{{.}}</span>
@@ -1092,7 +1110,7 @@
                             
                 <tr class="thead">
                     
-                    <th class='count'></th><th class="thnumber">Size</th><th class="wide">Last Name</th><th class="thnumber thPlayerNumberInput">Number</th><th class="thnumber">Quantity</th><th  class="wide sleevetype">Sleeve Type</th><th class="wide lastnameapplication">Last Name Application</th><th class="action"></th>
+                    <th class='count'></th><th class="thnumber">Size</th><th class="wide thlastname">Last Name</th><th class="thnumber thPlayerNumberInput">Number</th><th class="thnumber">Quantity</th><th  class="wide sleevetype">Sleeve Type</th><th class="wide lastnameapplication">Last Name Application</th><th class="action"></th>
 
                 </tr>
 
@@ -1123,7 +1141,7 @@
                         <input type="text" name="size" value="@{{size}}" class="size" disabled />
                     </td>
                     
-                    <td>
+                    <td class="PlayerLastNameInput">
                         <input type="text" name="lastname" class="lastname" maxlength="12" value="@{{name}}" />
                     </td>
 
@@ -1811,3 +1829,146 @@
 <!-- End Main Piping Sidebar -->
 
 
+<!-- Random Feed Sizes -->
+
+    <script type="text/mustache" id="m-randomFeed-sizes">
+
+        <label class="applicationLabels size">Size</label>
+
+        @{{#items}}
+
+            <span class="randomFeed-sizes-buttons" data-type="@{{name}}" data-size="@{{size}}">
+                @{{size}}
+            </span> 
+
+        @{{/items}}
+
+    </script>
+
+<!-- End Random Feed Sizes -->
+
+<!-- Random Feed Colors -->
+
+    <script type="text/mustache" id="m-randomFeed-colors">
+
+        <label class="applicationLabels colors"># of Colors</label> 
+
+        @{{#items}}
+
+            <span class="randomFeed-colors-buttons" data-type="@{{name}}" data-value="@{{val}}">
+                @{{val}}
+            </span>
+
+        @{{/items}}
+
+    </script>
+
+<!-- End randomFeed Colors -->
+
+
+<!-- Main Random Feed Sidebar -->
+
+    <script type="text/mustache" id="m-randomFeed-sidebar">
+
+        <div id="randomFeedsUI">
+          <div class="header">
+          <div class="toggle" data-status="@{{status}}"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>
+          <div class="applicationType">Random Feed <span class="header-type">(@{{type}})</span></div>
+          <div class="body">
+              <div class="cover"></div>
+              <div class="ui-row">
+
+                  <label class="applicationLabels">Location</label>
+                  <span class="randomFeed-type">@{{type}}</span>                       
+
+              </div>
+
+              <div class="ui-row size-row">
+
+              </div>
+
+              <div class="ui-row colors-row">
+                  
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="ui-row">
+                  <div class="column1"> &nbsp;
+                      <div class="colorContainer"><br />
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        
+    </script>
+
+<!-- End Main Random Feed Sidebar -->
+
+<!-- Add New Free-Form Location -->
+
+    <script type="text/mustache" id="m-add-free-form-application">
+
+        <div id="add-new-free-form-application">
+
+            <label>1. What type of application do you want to add?</label>
+
+            <div class="application-container">
+
+                <span class="optionButton" data-type="player_number"><div class="icon"><img src="/images/main-ui/icon-number-large.png"></div><div class="caption">Player Number</div></span>
+                <span class="optionButton" data-type="team_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Team Name</div></span>
+                <span class="optionButton" data-type="player_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Player Name</div></span>
+                <span class="optionButton" data-type="mascot"><div class="icon"><img src="/images/main-ui/icon-mascot-large.png"></div><div class="caption">Mascot</div></span>                            
+                
+            </div>
+
+            <br />
+            <label>2. What perspective do you want to add the application?</label>
+
+            <div class="perspective-container">
+
+                <span class="perspective" data-id="front">Front</span>
+                <span class="perspective" data-id="back">Back</span>
+                <span class="perspective" data-id="left">Left</span>
+                <span class="perspective" data-id="right">Right</span>
+                
+            </div>
+
+            <br />
+            <label>3. Which part do you want to add the application on?</label>
+
+            <div class="part-container">
+
+                @{{#parts}}
+
+                    <span class="part" data-id="@{{name}}">@{{name}}</span>
+
+                @{{/parts}}
+                
+            </div>
+
+            <br />
+            <label class="leftrightPart">4. <span class="partName">Sleeve</span> has a left and right part, which side do you want to put the application on?</label>
+
+            <div class="side-container">
+
+                <span class="side" data-id="na">N/A</span>
+                <span class="side" data-id="left">Left</span>
+                <span class="side" data-id="right">Right</span>
+                
+            </div>
+
+            <hr />
+
+            <div class="footer-buttons">
+
+                <span class="button okButton" >Ok</span> <span class="button cancelButton">Cancel</span>
+
+            </div>
+            
+        </div>
+        
+    </script>
+
+<!-- End Add New Free-Form Location -->

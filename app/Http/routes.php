@@ -163,6 +163,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePiping']);
     Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updatePipings']);
     Route::post('material/updateRandomFeed', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updateRandomFeed']);
+    Route::get('material/materials_options/dropzone/{material_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@dropZone']);
+    Route::post('material/insert_dz_image', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@insertDropzoneImage']);
 
     // Materials Options
     Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);

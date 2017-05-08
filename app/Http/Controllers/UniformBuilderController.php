@@ -389,6 +389,70 @@ class UniformBuilderController extends Controller
 
     }
 
+    function generatePipingsTable ($pipings, $uniform_category) {
+
+        $html = '';
+        $html .= '<br /><br />';
+        $html .= '<h3>PIPINGS</h3>';
+        $html .= '<table>';
+
+        $html .= '<tr>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>TYPE</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>Number of Colors</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>Colors</strong>';
+        $html .=   '</td>';
+        $html .= '</tr>';
+
+        foreach ($pipings as $key => &$piping) {
+
+            $pipingType = $key;
+
+            if ($piping["enabled"] == "0") { continue; }
+
+            $html .= '<tr>';
+            
+            $html .=   '<td align="center">';
+            $html .=   $pipingType;
+            $html .=   '</td>';
+
+
+            $html .=   '<td align="center">';
+            $html .=   $piping['numberOfColors'];
+            $html .=   '</td>';
+
+            $html .=   '<td align="center">';
+
+            $colors = '';
+            $val = 1; 
+            $noOfColors = intval($piping['numberOfColors']);
+            foreach ($piping['layers'] as &$color) {
+
+                if ($val > $noOfColors) { continue; }
+                $colors .= $color['colorCode'] . ",";
+                $val++;
+
+            }
+
+            $colorsTrimmed = rtrim($colors, ",");
+
+            $html .= $colorsTrimmed;
+            $html .=   '</td>';
+
+            $html .= '</tr>';
+
+        }
+
+        $html .= '</table>';
+
+        return $html;
+
+    }
+
     function generateApplicationsTable ($applications, $uniform_category) {
 
         $html = '';
@@ -416,8 +480,6 @@ class UniformBuilderController extends Controller
         $html .= '</tr>';
 
         foreach ($applications as &$application) {
-
-
 
             $appType = strtoupper(str_replace("_"," ",$application['application_type']));
 
@@ -559,11 +621,16 @@ class UniformBuilderController extends Controller
         $html .=   '<td align="center">';
         $html .=   '<strong>QUANTITY</strong>';
         $html .=   '</td>';
-        $html .=   '<td align="center">';
-        $html .=   '<strong>LASTNAME</strong>';
-        $html .=   '</td>';
 
-        if ($sport !== "Wrestling") {
+        if ($sport !== "Crew Socks (Apparel)") {
+
+            $html .=   '<td align="center">';
+            $html .=   '<strong>LASTNAME</strong>';
+            $html .=   '</td>';
+
+        }    
+
+        if ($sport !== "Wrestling" and $sport !== "Crew Socks (Apparel)") {
 
             $html .=   '<td align="center">';
             $html .=   '<strong>NUMBER</strong>';
@@ -589,11 +656,16 @@ class UniformBuilderController extends Controller
             $html .=   '<td align="center">';
             $html .=   $roster['quantity'];
             $html .=   '</td>';
-            $html .=   '<td align="center">';
-            $html .=   strtoupper($roster['lastname']);
-            $html .=   '</td>';
 
-            if ($sport !== "Wrestling") {
+            if ($sport !== "Crew Socks (Apparel)") {
+
+                $html .=   '<td align="center">';
+                $html .=   strtoupper($roster['lastname']);
+                $html .=   '</td>';
+
+            }
+
+            if ($sport !== "Wrestling" and $sport !== "Crew Socks (Apparel)") {
 
                 $html .=   '<td align="center">';
                 $html .=   $roster['number'];
@@ -623,6 +695,7 @@ class UniformBuilderController extends Controller
         $bc = $itemData['builder_customizations'];
         $uniformType = $itemData['type'];
         $parts = $bc[$uniformType];
+        $randomFeeds = $bc['randomFeeds'];
 
         $html = '';
         $html .= '<br /><br />';
@@ -639,6 +712,15 @@ class UniformBuilderController extends Controller
         $html .=   '<td width="40%" align="center">';
         $html .=       '<strong>PATTERN</strong>';
         $html .=   '</td>';
+
+        if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+
+            $html .=   '<td width="40%" align="center">';
+            $html .=       '<strong>RANDOM FEEDS</strong>';
+            $html .=   '</td>';
+
+        }
+
         $html .= '</tr>';
         $html .= '<tr>';
         $html .=   '<td>';
@@ -708,6 +790,46 @@ class UniformBuilderController extends Controller
             }
 
             $html .=   '</td>';
+
+            // Random Feeds 
+            if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+
+                $html .=   '<td align="center">';
+
+                Log::error('----------' . $code);
+
+                $titledPart = $part['code'];
+                $titledPart = str_replace('_', ' ', $titledPart);
+                $titledPart = ucwords($titledPart);
+
+                if (array_key_exists($titledPart, $randomFeeds)) {
+
+                    if ($randomFeeds[$titledPart]['enabled'] != '0') {
+                    
+                        $colors = '';
+                        $index = 1;
+                        foreach ($randomFeeds[$titledPart]['layers'] as &$layer) {
+
+                            // Random Feeds only have two colors
+                            if ($layer['colorCode'] === "none" or $index === 3) { continue; }
+
+                            $colors .= $layer['colorCode'] . ',';
+                            $index++;
+
+                        }
+
+                        $colorsTrimmed = rtrim($colors, ",");
+                        $html .= '<strong>' . $colorsTrimmed . '</strong>';
+
+                    }
+
+                }
+
+                $html .=   '</td>';
+
+            }
+            // End Random Feeds 
+
             $html .= '</tr>';
 
         }
@@ -1102,7 +1224,8 @@ class UniformBuilderController extends Controller
         $html  = '';
         $html .= $style;
         $html .= '<div style ="width: 100%; text-align: center;">';
-        $html .=    '<h3>PROLOOK UNIFORM CUSTOMIZER - ORDER FORM (' . $uniform_category . ')</h3>';
+        $html .=    '<h4>PROLOOK UNIFORM CUSTOMIZER - ORDER FORM</h2>';
+        $html .=    '<h3>' . $uniform_category . '</h3>';
         $html .= '</div>';
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
@@ -1197,6 +1320,28 @@ class UniformBuilderController extends Controller
         $html .='</table>';
 
         $pdf->writeHTML($html, true, false, true, false, '');      
+
+        // Piping 
+
+        if ($uniform_category === "Baseball" or $uniform_category == "Fastpitch") {
+
+            $applications = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations']['pipings'];
+            $pdf->AddPage("L");
+            $html  = '';
+            $html .= $style;
+            $html .= '<table>';
+            $html .=    '<tr>';
+            $html .=        '<td width="100%">';
+            $html .=            $this->generatePipingsTable($applications, $uniform_category);
+            $html .=        '</td>';
+            $html .=    '</tr>';
+            $html .='</table>';
+
+            $pdf->writeHTML($html, true, false, true, false, '');     
+
+        }
+
+        // End Piping 
 
         $pdf->Output($path, 'F');
 

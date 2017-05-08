@@ -20,6 +20,7 @@ $(document).ready(function () {
                 name: _object.name,
                 code: _object.name.toCodeCase(),
                 icon: _object.thumbnail_path,
+                sports: JSON.parse(_object.sports),
                 layers: [],
             };
 

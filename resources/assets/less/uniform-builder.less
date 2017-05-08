@@ -2204,6 +2204,12 @@ div.team_color_picker_options > div.scroller {
 
 }
 
+.hidden {
+
+    display: none;
+
+}
+
 .pickers-enabled  {
 
 }
@@ -2446,8 +2452,8 @@ div#main-picker-container {
 
         display: block;
         position: absolute;
-        margin-top: 100px;
-        width: 1350px;
+        margin-top: 30px;
+        width: 1550px;
         margin: 30px auto;
 
         -moz-transition: all .2s;
@@ -2456,14 +2462,14 @@ div#main-picker-container {
 
         .disabledClass {
 
-            cursor: auto !important;
+            cursor: not-allowed !important;
             opacity: 0.2;
 
         }
 
         .disabledClass:hover {
 
-            opacity: 1;
+            opacity: 0.95;
         
         }
 
@@ -2513,15 +2519,17 @@ div#main-picker-container {
         div.main-picker-items {
 
             display: block;
-            width: 224px;
+            width: 341px;
+            height: 420px;
             float: left;
             cursor: pointer;
-            margin-bottom: 130px;
+            margin-bottom: 100px;
             margin-right: 20px;
             margin-left: 25px;
+            margin-top: 30px;
 
             img {
-                width: 100%;
+                height: 370px;
                 margin-bottom: 30px;
             }
 
@@ -2567,19 +2575,28 @@ div#main-picker-container {
             .cSoon {
                 color: white;
                 background: #3d3d3d;
-                font-size: 1.0em;
-                padding: 0px;
+                font-size: 0.9em;
+                padding: 5px;
                 text-align: center;
                 position: absolute;
                 top: 35%;
-                width: 60%;
-                margin-left: 20%;
-                margin-right: 20%;
-                opacity: 0.7;
+                width: 100%;
+                opacity: 0.8;
+                z-index: 1000;
+                font-family: "Avenir Next LT W04 Bold";
             }
 
-        }        
+        }  
 
+        div.main-picker-items.sports, div.main-picker-items.apparel {
+
+            margin-bottom: 10px;
+            margin-right: 20px;
+            margin-left: 25px;
+            margin-top: 30px;
+            
+        }      
+        
     }
 }
 
@@ -2948,15 +2965,25 @@ div.header-container.main {
 
     tr.header_row td {
 
-        font-weight: bold;
         width: 20%;
         font-size: 1.2em;
         text-align: left;
         padding: 10px;
         border-bottom: solid 1px #d7d7d7;
         border-top: solid 1px #d7d7d7;
-        
+
     }
+
+    tr.header_row {
+
+        td.tCenter { text-align: center; }
+        td.tRight { text-align: right; }
+
+    }
+
+    .tCenter { text-align: center; }
+    .tRight { text-align: right; }
+    .tLabel { font-size: 2em; }
 
     td.pattern-material-option-column.ucase {
         text-transform: uppercase;
@@ -3206,6 +3233,8 @@ div.header-container.main {
 
     }
 
+    div#uniform-price-adult.single { margin-top: 5.5em; }
+
     div#uniform-price-call-for-team-pricing {
 
         margin-top: 8.2em;
@@ -3213,6 +3242,12 @@ div.header-container.main {
         
         text-transform: lowercase;
 
+    }
+
+    div#uniform-price-call-for-team-pricing.single {
+
+        margin-top: 6.7em;
+        
     }
 
     div#return-to-customizer {
@@ -3230,6 +3265,13 @@ div.header-container.main {
             padding: 7px;
             padding-left: 10px;
             padding-right: 10px;
+            
+        }
+
+        button#button-return-to-customizer:hover {
+
+            color: #3d3d3d;
+            background-color: #acacac;
             
         }
 
@@ -4167,7 +4209,7 @@ div.header-container.main {
 
         }
 
-        /* Pipings UI */ 
+    /* Pipings UI */ 
 
     div#pipingsUI {
 
@@ -4588,6 +4630,429 @@ div.header-container.main {
         }
 
     /* End Pipings UI */
+
+    /* randomFeeds UI */ 
+
+    div#randomFeedsUI {
+
+            display: none;
+            margin: 20px;
+            width: 520px;            
+
+            -moz-transition: all .2s;
+            -webkit-transition: all .2s;
+            transition: all .2s;
+
+            div.header {
+
+                font-size: 1.5em;
+                color: @text_color;
+                text-transform: uppercase;
+
+                span.cog {
+
+                    float: right;
+                    cursor: pointer;
+                    margin-right: 30px;
+
+                }
+
+                div.toggle {
+
+                    display: inline-block;
+                    width: 100px;
+                    overflow: hidden;
+                    height: 30px;
+                    white-space: nowrap; 
+                    text-overflow: ellipsis;
+                    margin-right: 10px;
+
+                    -moz-transition: all .2s;
+                    -webkit-transition: all .2s;
+                    transition: all .2s;
+
+                    div.valueContainer {
+
+                        -moz-transition: all .2s;
+                        -webkit-transition: all .2s;
+                        transition: all .2s;
+
+                        max-width: 200px;
+                        cursor: pointer;
+
+                        div.toggleOption {
+
+                            width: 100px;
+                            text-align: center;
+                            display: inline-block;
+
+                            -webkit-touch-callout: none;
+                            -webkit-user-select: none;
+                            -khtml-user-select: none;
+                            -moz-user-select: none;
+                            -ms-user-select: none;
+                            user-select: none;
+
+                        }
+
+                        div.on {
+
+                            background-color: @text_color;
+                            color: white;
+                            font-weight: bold;
+
+                        }
+
+                        div.off {
+
+                            background-color: @forecolor;
+                            color: @customizer_bg;
+                            
+                        }
+
+                    }
+
+                }
+
+            }
+
+            div.body {
+
+                padding: 30px;
+                font-size: 1em;
+                padding-top: 10px;
+                padding-left: 10px;
+
+                div.optionButton {
+
+                    display: inline-block;
+                    width: 40%;
+                    font-size: 1.5em;
+                    text-align: center;
+                    border: 1px solid #3d3d3d;
+                    margin-left: 30px;
+                    margin-bottom: 30px;
+                    padding: 10px;
+                    cursor: pointer;
+
+                    -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+                    -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+                    box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
+    
+                    div.icon { }
+
+                    div.caption {
+
+                        font-size: 0.4em;
+
+                    }
+
+                }
+
+                div.optionButton:hover {
+
+                    border: 1px solid #ffffff;
+
+                }
+
+                div.cover {
+
+                    display: none;
+                    width: 550px;
+                    background-color: #3d3d3d;
+                    z-index: 1000;
+                    opacity: 0.9;
+                    height: 393px;
+                    margin-left: -30px;
+
+                }
+
+                span.accentThumb img {
+
+                    cursor: pointer;
+                    width: 125px;
+                    
+                }
+
+                div.color-pattern-tabs {
+
+                    margin-top: 10px;
+
+                    span.tab {
+
+                        color: #3d3d3d;
+                        background-color: #e7e7e7;
+                        width: 35%;
+                        height: 30px;
+                        cursor: pointer;
+                        padding: 5px;
+                        display: inline-block;
+                        text-align: center;
+                        font-size: 0.8em;
+                        margin-right: 5px;
+                        
+                    }
+
+                    span.tab:hover, span.tab.active {
+
+                        color: white;
+                        background-color: #3d3d3d;
+
+                    }
+
+                    span.tab.active {
+
+                        font-weight: bold;
+
+                    }
+
+                }
+
+                .ui-row {
+
+                    margin-bottom: 10px;
+
+                    span.randomFeed-type {
+
+                        font-size: 1em;
+
+                    }
+
+                    span.randomFeed-sizes-buttons, span.randomFeed-colors-buttons {
+
+                        background-color: #e7e7e7;
+                        color: #3d3d3d;
+                        cursor: pointer;
+
+                        margin-right: 3px;
+                        width: 80px;
+                        display: inline-block;
+                        text-align: center;
+
+                    }
+
+                    span.randomFeed-sizes-buttons:hover, span.randomFeed-sizes-buttons.active, span.randomFeed-colors-buttons:hover, span.randomFeed-colors-buttons.active {
+
+                        background-color: #3d3d3d;
+                        color: white;
+
+                        -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                        -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                        box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                        
+                    }
+
+                    span.randomFeed-sizes-buttons.active, span.randomFeed-colors-buttons.active {
+
+                        font-family: 'Avenir Next LT W04 Bold', sans-serif;
+                        
+                    }
+
+                    span.randomFeed-colors-buttons {
+
+                        font-size: 0.8em;
+
+                    }
+                
+                    label {
+
+                        padding-left: 0px !important;
+
+                    }
+
+                    .column1, .column2 {
+
+                        border-top: solid 1px #3d3d3d;
+
+                        div.sub1 {
+
+                            display: table-cell;
+                            width: 30%;
+
+                        }
+
+                        display: inline-block;
+                        text-align: center;
+                        width: 100%;
+
+                        label {
+
+                            width: 100%;
+
+                        }
+
+                        div.colorContainer,   {
+
+                            display: table-cell;
+                            vertical-align: top;
+                            width: 70%;
+
+                            padding-top: 0px;
+
+                            .smallColorPickerLabel {
+
+                                width: 30%;
+                                text-align: right;
+                                margin-right: 10px;
+                                font-size: 0.6em;
+
+                            }
+
+                            .smallPickerContainer {
+
+                                width: 100%;
+                                margin-bottom: 1px;
+
+                            }
+
+                            span.colorItem {
+
+                                display: inline-block;
+                                width: 25px;
+                                height: 25px;
+                                background-color: white;
+                                margin-bottom: 1px;
+                                font-size: 0.8em;
+                                font-size: 0.7em;
+                                padding-top: 4px;
+                                font-weight: normal;
+                                cursor: pointer;
+                                margin-right: 0px;
+
+                                -moz-transition: all .2s;
+                                -webkit-transition: all .2s;
+                                transition: all .2s;
+
+                                -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+                                i.fa.fa-check {
+
+                                    font-size: 0.8em;
+
+                                }
+
+                            }
+
+                            span.colorItem.activeColorItem {
+
+                                -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                                box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+                            }
+
+                            span.colorItem:hover {
+
+                                font-weight: bold;
+
+                            }
+
+                        }
+
+                    }
+
+                    div.applications.patterns, div.applications.tailsweeps {
+
+                        display: none;
+
+                    }
+
+                }
+
+                span.font_name:hover {
+
+                    color: @forecolor;
+
+                }
+
+                span.randomFeed_size {
+
+                    cursor: pointer;
+                    padding-bottom: 3px;
+                    font-weight: bold;
+                    font-size: 1em;
+                    width: 8%;
+                    background-color: white;
+                    margin-right: 10px;
+                    display: inline-block;
+                    padding: 3px;
+                    text-align: center;
+
+                    -moz-transition: all .2s;
+                    -webkit-transition: all .2s;
+                    transition: all .2s;
+
+                }
+
+                span.randomFeed_size:hover {
+
+                    background-color: @main_highlight;
+                    color: white;
+                    
+                }
+
+                span.randomFeed_size.active {
+
+                    background-color: @text_color;
+                    color: white;
+
+                    -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                    -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                    box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+                    
+                }
+
+                em {
+
+                    font-size: 0.8em;
+
+                }
+
+                span.color-string {
+
+                    cursor: pointer;
+                    text-shadow: 2px 2px #333333;
+                    margin-left: 3px;
+                    border-bottom: 1px dashed;
+                    font-weight: bold;
+
+                }
+
+                span.color-string:hover {
+
+                    color: white !important;   
+
+                }
+
+                label.applicationLabels {
+
+                    display: inline-block;
+                    font-size: 0.8em;
+                    color: white;
+                    width: 25%;
+
+                }
+
+                label.randomFeed_size {
+
+                    width: 32%;
+
+                }
+
+                label.randomFeed_size.custom {
+
+                    width: 26.7%;
+
+                }
+
+            }
+
+        }
+
+    /* End randomFeeds UI */
+
 
         div#applicationUI {
 
@@ -6543,6 +7008,7 @@ div.header-container.main {
                                 span.clear-row {
 
                                     cursor: pointer;
+                                    margin-left: 10px;
 
                                 }
 
@@ -6647,6 +7113,7 @@ div.header-container.main {
         div#sizes {
 
             text-align: center;
+            margin-bottom: 30px;
 
             span.size {
 
@@ -8297,11 +8764,7 @@ strong.hello {
         bottom: 115px;
 
 
-        span.undo-btn {
-
-            display: none;
-
-        }
+        span.undo-btn, span.fullscreen-btn { display: none; }
 
         span.toolbar-item {
 
@@ -8364,7 +8827,7 @@ strong.hello {
         -webkit-transition: all .2s;
         transition: all .2s;
         text-align: center;
-        z-index: 3000;
+        z-index: 1000;
 
         -webkit-user-select: none; /* Chrome/Safari */        
         -moz-user-select: none; /* Firefox */
@@ -8849,6 +9312,255 @@ strong.hello {
 /* End Pipings Panel */
 
 
+/* Random Feed Panel */
+
+    div#randomFeeds-panel {
+
+        cursor: grab;
+        position: absolute;
+        display: none;
+        width: 270px;
+        height: 661px;
+        background-color: #acacac;
+        margin-left: -280px;
+        padding: 10px;
+
+        -moz-transition: all .2s;
+        -webkit-transition: all .2s;
+        transition: all .2s;
+        text-align: center;
+        z-index: 3000;
+
+        border: solid 1px #888888;
+
+        -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+
+        em.dragMessage {
+
+            -webkit-user-select: none; /* Chrome/Safari */        
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+ */
+
+        }
+
+        div.tools {
+
+            span.add-application, span.show-locations {
+
+            display: table-cell;
+            background-color: #888888;
+            color: white;
+            width: 100px;
+            height: 90px;
+            font-size: 0.8em;
+            padding: 9px;
+            vertical-align: bottom;
+            border: 3px solid #acacac;
+            cursor: pointer;
+            float: right;
+            vertical-align: bottom;
+
+            }
+
+            span.show-locations {
+
+                background-color: #acacac;
+                float: left;
+                color: #3d3d3d;
+                width: 150px;
+                margin-top: 50px;
+                height: 10px;
+                text-align: left;
+                padding: 0px;
+
+            }
+
+            span.add-application.inactive {
+
+                cursor: not-allowed;
+                background-color: #888888;
+                opacity: 0.2;
+
+            } 
+
+            span.show-locations.active {
+
+                color: white;
+
+            }
+
+            span.add-application:hover {
+
+                background-color: #3d3d3d;
+
+            }
+
+            span.show-locations:hover {
+
+                color: white;
+
+            }
+
+        }
+        
+        div.randomFeeds-header {
+
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Avenir Next LT W04 Bold';
+            font-size: 0.9em;
+            width: 100%;
+
+            span.header-text {
+
+                float: left;
+                font-size: 1.2em;
+
+                -webkit-user-select: none; /* Chrome/Safari */        
+                -moz-user-select: none; /* Firefox */
+                -ms-user-select: none; /* IE10+ */
+
+            }
+
+            span.close {
+
+                cursor: pointer;
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+            span.close:hover {
+
+                color: #3d3d3d;
+                float: right;
+
+            }
+
+        }
+
+        div.randomFeeds-container {
+
+            height: 460px;
+            width: 100%;
+            display: block;
+            overflow-y: auto;
+            margin-top: 20px;
+
+            span.randomFeed {
+
+                padding: 5px;
+                display: block;
+                background-color: #e7e7e7;
+                margin: 3px;
+                cursor: pointer;
+                font-size: 0.8em;
+                text-align: left;
+                font-family: 'Avenir Next LT W04 Thin';
+                color: #3d3d3d;
+
+                
+                span.caption {
+
+                    display: inline-block;
+                    min-width: 90px;
+                    padding-left: 30px;
+                    
+                }
+
+                span.perspective, span.application_type {
+
+                    font-size: 0.8em;
+                    color: #acacac;
+                    float: right;
+                    margin-right: 7px;
+                    margin-top: 2px;
+
+                }
+
+                span.perspective {
+
+                    color: white;
+
+                }
+
+            }
+
+            span.randomFeed:hover {
+
+                background-color: #3d3d3d;
+                color: white;
+
+            }
+
+        }
+
+        div.randomFeeds-container.notSublimated {
+
+            height: 520px;
+
+        }
+
+        span.randomFeed.active {
+
+            background-color: #3d3d3d !important;
+            color: white !important;
+            font-family: 'Avenir Next LT W04 Bold' !important;
+
+            -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+            box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.75);
+
+            span.caption {
+
+                color: white !important;
+
+            }
+
+        }
+
+        span.randomFeeds-close {
+
+            background-color: #888888;
+            color: #acacac;
+            width: 100%;
+            padding: 3px;
+            font-size: 1em;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+
+        }
+
+        span.randomFeeds-close:hover {
+
+            background-color: #3d3d3d;
+            color: white;
+
+        }
+
+    }
+
+    div#randomFeeds-panel.on {
+
+        display: block;
+        top: 0px;
+        
+    }
+
+    div#randomFeeds-panel.off {
+
+        display: none;
+        top: -200px;
+        
+    }
+
+/* End Random Feed Panel */
+
+
 .active-change-view {
     background-color: white !important;
 }
@@ -8947,3 +9659,116 @@ button.loginRest {
     }
 
 /* End Message Modal */
+
+/* Add New Free Form Application */
+
+    div#add-new-free-form-application {
+
+        div.perspective-container, div.part-container, div.application-container, div.side-container  {
+
+            text-align: center;
+
+            span.perspective, span.part, span.optionButton, span.side {
+
+                display: inline-block;
+                width: 70px;
+                height: 70px;
+                border: solid 1px #acacac;
+                padding-top: 23px;
+                margin: 7px;
+                cursor: pointer;
+
+            }
+
+            span.perspective:hover, span.part:hover, span.optionButton:hover, span.side:hover {
+
+                color: white;
+                background-color: #acacac;
+
+            }
+
+            span.perspective.active, span.part.active, span.optionButton.active, span.side.active {
+
+                font-family: "Avenir Next LT W04 Bold";
+                color: white;
+                background-color: #3d3d3d;
+
+                img {
+                    
+                    -webkit-filter: brightness(100); 
+                    filter: brightness(100);
+
+                }
+
+            }
+
+            span.part {
+
+                width: 170px;
+                height: 30px;
+                padding-top: 4px;
+                
+            }
+
+            span.side {
+
+                width: 200px;
+                height: 30px;
+                padding-top: 4px;
+                
+            }
+
+            span.optionButton {
+
+                width: 120px;
+                height: 120px;
+
+                div.caption {
+
+                    margin-top: 7px;
+
+                }
+
+            }
+
+        }
+
+        label.leftrightPart, div.side-container {
+
+            display:none;
+
+        }
+
+        div.footer-buttons {
+
+            margin-bottom: 50px;
+            margin-top: 10px;
+
+            span.button {
+
+                float: right;
+                width: 150px;
+                height: 35px;
+                background-color: #acacac;
+                color: white;
+                text-align: center;
+                padding-top: 7px;
+                margin-left: 10px;
+
+                cursor: pointer;
+
+            }
+
+            span.button:hover {
+
+                background-color: #3d3d3d;
+                color: white;
+
+            }
+
+        }
+
+    }
+
+/* End Add New Free Form Application*/
+

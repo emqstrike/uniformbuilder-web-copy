@@ -13,12 +13,12 @@ $(document).ready(function () {
 
         _names.push(_name);
 
-        if (_name.indexOf('left') >-1) {
+        if (_name.indexOf('left') >-1 && _name.indexOf('body') === -1) {
             _match      = _name.replace('left', 'right');
             _names.push(_match);
         }
 
-        if (_name.indexOf('right') >-1) {
+        if (_name.indexOf('right') >-1 && _name.indexOf('body') === -1) {
             _match      = _name.replace('right', 'left');
             _names.push(_match);
         }
@@ -112,20 +112,22 @@ $(document).ready(function () {
         }
 
         var _newColorSet = [];
+        var _notFound = [];
+
         _.each (_colors, function (_color) {
 
             var _match = _.find(ub.data.colors, {color_code: _color});
 
             if (typeof _match === 'undefined') {
-
-                console.log('Cant Find ' + _color);
-
+                _notFound.push(_color);
             }
             else {
                 _newColorSet.push(_match);    
             }            
 
         });
+
+        if (_notFound.length > 0) { ub.utilities.info("Can't find these assigned colors for " + material_option + ": " + _notFound.toString()); }
 
         return _newColorSet;
 
@@ -540,7 +542,7 @@ $(document).ready(function () {
         var _colorSet               = ub.funcs.getBaseColors();
 
         _strBuilder                 += '<div id="color-wheel-container">';
-        
+
             _.each(_sortedModifierLabels, function (modLabel) {
 
                 var fill = 'white';
@@ -552,7 +554,34 @@ $(document).ready(function () {
                 _strBuilder     += '<text class="previewColorCode growTextCode" x="275" y="215" font-family="Avenir Next LT W04 Thin" font-size="48px" text-anchor="middle" fill="' + fill + '">RB</text>';
                 _strBuilder     += '<text class="previewColorName growTextName" x="275" y="240" font-family="Avenir Next LT W04 Bold" font-size="18px" text-anchor="middle" fill="' + fill + '">Royal Blue</text>';
 
-                _.each(_teamColorObj, function (colorObj, index) {
+
+                /// Process Limited Colorset
+                
+                var _colorSet = undefined;
+                var _limitedColorSet = ub.data.materialOptionWithLimitedColors.getLimitedColorSet(modLabel.name);
+
+                if (typeof _limitedColorSet !== "undefined") {
+
+                    _alternateColorSet = [];
+
+                    _.each(_limitedColorSet.valid_colors, function (item) {
+
+                        _alternateColorSet.push(ub.funcs.getColorByColorCode(item));
+
+                    });
+
+                    ub.utilities.info ('Limited Color Set detected for ' + modLabel.name);
+                    _colorSet = _alternateColorSet;
+
+                }
+
+                if (typeof _limitedColorSet === "undefined") {
+                    _colorSet = ub.current_material.settings.team_colors;
+                }
+
+                /// End Process Limited Colorset
+
+                _.each(_colorSet, function (colorObj, index) {
 
                     // Only Update Material Option Colors when colors selected is less than the colors used count, to prevent updating uniform colors in case the user is just adding another color
                     if (_.size(ub.current_material.settings.team_colors) < _.size(ub.data.colorsUsed)) {
@@ -580,7 +609,37 @@ $(document).ready(function () {
             var _length     = 360 / _elements;
             var _start      = 0;
 
-            _.each(_teamColorObj, function (colorObj, index) {
+            /// Process Limited Colorset
+                
+            var _colorSet = undefined;
+            var _limitedColorSet = ub.data.materialOptionWithLimitedColors.getLimitedColorSet(modLabel.name);
+
+            if (typeof _limitedColorSet !== "undefined") {
+
+                _alternateColorSet = [];
+
+                _.each(_limitedColorSet.valid_colors, function (item) {
+
+                    _alternateColorSet.push(ub.funcs.getColorByColorCode(item));
+
+                });
+
+                ub.utilities.info ('Limited Color Set detected for ' + modLabel.name);
+
+                _colorSet = _alternateColorSet;
+
+                _elements   = _alternateColorSet.length;
+                _length     = 360 / _elements;
+
+            }
+
+            if (typeof _limitedColorSet === "undefined") {
+                _colorSet = ub.current_material.settings.team_colors;
+            }
+
+            /// End Process Limited Colorset
+
+            _.each(_colorSet, function (colorObj, index) {
 
                 var _nth    = index;
                 var _start  = _nth * _length;

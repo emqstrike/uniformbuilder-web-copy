@@ -99,8 +99,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-    var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','YS','YM','YL','YXL','Y2XL','Y3XL'];
-    var adult_sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
+    var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','5-7','8-12','13-14','YS','YM','YL','YXL','Y2XL','Y3XL'];
+    var adult_sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','5-7','8-12','13-14'];
     var youth_sizes = ['YS','YM','YL','YXL','Y2XL','Y3XL'];
     var size_properties = {};
     var template_props = JSON.parse($('.template-prop').val());

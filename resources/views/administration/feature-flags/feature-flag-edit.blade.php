@@ -84,8 +84,8 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">User Types</label>
                             <div class="col-md-6">
-                                <input type="hidden" name="users_value" id="user_types" value="{{ $feature_flag->user_types }}">
-                                <select name="" id="users" class="form-control users" multiple="multiple">
+                                <input type="hidden" name="users_types_value" id="user_types_value" value="{{ $feature_flag->user_types }}">
+                                <select name="user_types[]" id="user-types" class="form-control user-types" multiple="multiple">
                                     <option value='normal'>Normal</option>
                                     <option value='qa'>QA</option>
                                     <option value='ga'>Graphic Artist</option>
@@ -93,6 +93,20 @@ li.select2-selection__choice {
                                     <option value='manager'>Manager</option>
                                     <option value='dealer'>Dealer</option>
                                     <option value='administrator'>Administrator</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Users</label>
+                            <div class="col-md-6">
+                                <input type="hidden" id="users" name="users_value" value="{{ $feature_flag->user_ids }}">
+                                <select name="users[]" id="users" class="form-control users" multiple="multiple">
+                                    @foreach ($users as $user)
+                                        <option value='{{ $user->id }}'>
+                                            {{ $user->first_name }} {{ $user->last_name }} [{{ $user->id }}]
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -145,20 +159,52 @@ li.select2-selection__choice {
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script>
 $(document).ready(function(){
-    var user_types = JSON.parse($('#user_types').val());
+    var user_types = JSON.parse($('#user_types_value').val());
+
+    $('.user-types').select2({
+        placeholder: "Select user types",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".user-types").change(function() {
+        // console.log($(this).val());
+        $('#user_types_value').val($(this).val());
+    });
+
+    $('.user-types').select2('val', user_types);
+
+
+
+    // ************** USERS
 
     $('.users').select2({
-        placeholder: "Select user types",
+        placeholder: "Select users",
         multiple: true,
         allowClear: true
     });
 
     $(".users").change(function() {
         // console.log($(this).val());
-        $('#user_types').val($(this).val());
+        $('#users').val($(this).val());
     });
 
-    $('.users').select2('val', user_types);
+    try{
+        var users = JSON.parse($('#users').val());
+
+        $('.users').select2('val', users);
+    } catch(err){
+
+    }
+
+
+    // ************** END USERS
+
+
+
+
+
+
 
     var sports = JSON.parse($('#sports').val());
 

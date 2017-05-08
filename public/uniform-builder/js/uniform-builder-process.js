@@ -1,6 +1,5 @@
 $(document).ready(function() {                    
 
-    
     ub.funcs.fadeOutCustomizer = function () {
 
         $('div#right-pane-column').fadeOut();        
@@ -156,6 +155,12 @@ $(document).ready(function() {
 
             $('td.PlayerNumberInput, th.thPlayerNumberInput, td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
             
+        }
+
+        if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+            $('td.PlayerLastNameInput, th.thlastname').hide();
+
         }
 
     }
@@ -835,8 +840,14 @@ $(document).ready(function() {
 
         $('span.processing-pdf').fadeOut();
         $('span.previewFormPdf').fadeIn();
-        $('span.submit-confirmed-order').fadeIn();
         $('span.save-order').fadeIn();
+
+        var _qty = ub.funcs.getOrderQty();
+        var _sport = ub.current_material.material.uniform_category;
+        _result = ub.data.minimumOrder.getQty(_sport);
+
+        // Show submit order only if qty is greater or equal than required per style
+        if (_qty >= _result.qty) { $('span.submit-confirmed-order').fadeIn(); }
 
         var _url = "/pdfjs/web/viewer.html?file=" + _linkTransformed;
 
@@ -1313,19 +1324,23 @@ $(document).ready(function() {
 
         });
 
+    }
 
+    ub.funcs.getOrderQty = function () {
 
+        var _qty = 0;
+
+        $('input[name="quantity"]').each(function (index, obj) {
+
+           _qty += parseInt($(obj).val());
+           
+        });
+
+        return _qty;
 
     }
 
-    ub.funcs.submitUniform = function (orderInfo) {
-
-        if ($('tr.roster-row').length === 0) { 
-            
-            $.smkAlert({text: 'Please add Sizes and Roster before proceeding.', type:'warning', permanent: false, time: 5, marginTop: '90px'});
-            return;
-            
-        }
+    ub.funcs.proceedToPreview = function (orderInfo) {
 
         var _validate = ub.funcs.rosterValid();
 
@@ -1338,6 +1353,42 @@ $(document).ready(function() {
 
         ub.current_material.settings.roster = _validate.roster;
         ub.funcs.showOrderForm(orderInfo);
+
+    }
+
+    ub.funcs.perUniformValidation = function (orderInfo) {
+
+        var _result = true;
+        var _qty = ub.funcs.getOrderQty();
+        var _sport = ub.current_material.material.uniform_category;
+        _result = ub.data.minimumOrder.getQty(_sport);
+
+        if (_qty < _result.qty) {
+
+            bootbox.confirm("Minimum order for " + ub.current_material.material.uniform_category + " is " + _result.qty + " per style. You can only 'Save' and not 'Submit' this order if you proceed. To be able to Submit an Order for this item, please place at least " + _result.qty + " items.<br /><br />Press 'Cancel' to add more items.<br />Press 'OK' to save this order info and add the quantity later. <br /><br />Thank you!" , function (result) { 
+
+                if (result) { ub.funcs.proceedToPreview(orderInfo); }
+
+            });
+
+        } else {
+
+            ub.funcs.proceedToPreview(orderInfo);
+
+        }
+
+    }
+
+    ub.funcs.submitUniform = function (orderInfo) {
+
+        if ($('tr.roster-row').length === 0) {
+            
+            $.smkAlert({text: 'Please add Sizes and Roster before proceeding.', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+            return;
+            
+        }
+
+        ub.funcs.perUniformValidation(orderInfo);
 
     };
 
@@ -1529,6 +1580,15 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.modifyOrderFormUIBySport = function () {
+
+        if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { 
+            $('span.adult-sizes').html('SHOE SIZES: '); 
+            $('span.adult-header').html('Shoe Sizes: '); 
+        }
+
+    };
+
     ub.funcs.prepareUniformSizes = function () {
 
         // Get Sizes from pricing column, if not available from Mock JS Object (ub.data.uniformSizes)
@@ -1555,6 +1615,9 @@ $(document).ready(function() {
 
         $('div#sizes').append(_markup);
 
+        if (_adult.sizes.length === 0) { $('span.adult-sizes').hide(); }
+        if (_youth.sizes.length === 0) { $('span.youth-sizes').hide(); }
+
         /// Tab Buttons 
 
          data = {
@@ -1578,6 +1641,8 @@ $(document).ready(function() {
 
         $('div.tabsContainer').append(_markup);
 
+        ub.funcs.modifyOrderFormUIBySport();
+
     };
 
     ub.data.rosterInitialized = false;
@@ -1594,6 +1659,8 @@ $(document).ready(function() {
         ub.funcs.pushState({data: 'roster-form', title: 'Enter Roster', url: '?roster-form'});
 
         $('span.undo-btn').hide();
+        $('span.fullscreen-btn').hide();
+        
         ub.funcs.deactivateMoveTool();
         ub.funcs.turnLocationsOff();
         ub.funcs.initRosterCalled = true;
@@ -1898,6 +1965,119 @@ $(document).ready(function() {
 
         };
 
-    ///// End Save DEsign /////
+    ///// End Save Design /////
+
+    /// LREST
+
+    ub.funcs.lRest = function (e, p, fromMiddleScreen) {
+
+        if (e.trim().length === 0 || p.trim().length === 0) { return; }
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+
+            data: JSON.stringify({ email: e, password: p }),
+            url: ub.config.host + "/lrest",
+            dataType: "json",
+            type: "POST", 
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+        
+            success: function (response) {
+
+                if(response.success) {
+
+                    window.ub.user = {
+
+                        id: parseInt(response.userId),
+                        fullname: response.fullname,
+                        firstName: response.firstName,
+                        lastName: response.lastName,
+                        email: response.email,
+                        headerValue: response.accessToken,
+
+                    };
+
+                    var template = $('#m-loggedInNavbar').html();
+                    var data = { firstName: response.firstName, }
+                    var markup = Mustache.render(template, data);
+
+                    $('div.user-profile.pull-right').html(markup);
+                    $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
+
+                    ub.funcs.updateMessageCount();
+
+                    $('a.change-view[data-view="save"]').removeClass('disabled');
+                    $('a.change-view[data-view="open-design"]').removeClass('disabled');
+
+                    if (typeof fromMiddleScreen !== 'undefined') {
+
+                        $('div#primaryQuickRegistrationPopup').remove();
+                        ub.funcs.initRoster();
+
+                    } else {
+
+                        // Return to pickers, if not editing any material
+                        if(typeof ub.current_material.material === "undefined") {
+
+                            window.location.href = "/";
+
+                        }
+
+                    }
+
+                } else {
+
+                    if (typeof fromMiddleScreen !== 'undefined') {
+                        
+                        var _forgotPasswordLink = ' <a href="/forgot-password" target="_new">did you forget your password?</a>';
+                        $('em.message').html(response.message + ", " + _forgotPasswordLink);
+
+                    } else {
+
+                        $.smkAlert({text: response.message, type: 'warning', time: 3, marginTop: '260px'});
+
+                    }
+
+                }
+
+            }
+        
+        });
+
+    }
+
+    $('input#login-email').on('keypress', function (e) {
+
+        var code = (e.keyCode ? e.keyCode : e.which);
+        
+        if (code == 13) { 
+            
+            $('input#login-password').focus();
+            e.preventDefault();
+
+        }
+
+    });
+
+    $("form.loginRest").submit( function( event ) { event.preventDefault(); });
+
+    $('button.loginRest').unbind('click');
+    $('button.loginRest').on('click', function () {
+
+        var _e = $('input[type="email"]').val();
+        var _p = $('input[type="password"]').val();
+
+        ub.funcs.lRest(_e, _p);
+
+    });
+
+    /// END LREST
 
 });

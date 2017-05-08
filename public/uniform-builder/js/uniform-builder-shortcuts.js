@@ -237,27 +237,21 @@ $(document).ready(function () {
 			ub.toggleFullView(); 
 		});
 
-		// ub.shortcut.add("Alt+2", function () {
-			
-		// 	$('div.qa-tools-tab').modal('show');
-			
-		// });
-
-		// // Dev Tools is at shift + alt,
-
-		ub.shortcut.add("Shift+Alt+1", function () {
-			
-			
-
+		ub.shortcut.add("Alt+3", function () {
+			ub.togglePatternMasks(); 
 		});
+		
+		// Dev Tools is at shift + alt,
 
-		// ub.shortcut.add("Shift+Ctrl+2", function() {
-		// 	console.log('Ctrl + 2 is pressed');
+		// ub.shortcut.add("Shift+Alt+1", function () {
+				
 		// });
 
-		// ub.shortcut.add("Shift+Ctrl+0", function() {
-		// 	console.clear()
-		// });
+		// Main UI 
+
+		ub.shortcut.add("Esc", function () {			
+			if (ub.status.fullView.getStatus()) { ub.funcs.restoreUI(); }
+		});
 
 	/// End Shortcut definitions 
 

@@ -49,10 +49,10 @@
                                 Pro Look Sports
                             </td>
                             <td>
-                                $ <input type="text" value="{{ $price_item->msrp }}" class="row-msrp">
+                                $ <input type="text" value="{{ $price_item->msrp }}" class="row-msrp" disabled>
                             </td>
                             <td>
-                                $ <input type="text" value="{{ $price_item->web_price_sale }}" class="row-web-price-sale">
+                                $ <input type="text" value="{{ $price_item->web_price_sale }}" class="row-web-price-sale" disabled>
                             </td>
                             <td>
                                 <a href="#" class="save-price-item btn btn-primary btn-xs" data-id="{{ $price_item->id }}">Edit</a>

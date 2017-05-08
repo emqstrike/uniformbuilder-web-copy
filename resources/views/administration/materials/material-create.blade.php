@@ -10,7 +10,7 @@
                 <div class="panel-body col-md-8 text-center">
                     
                 </div>
-                <div class="panel-body col-md-4">
+                <div class="panel-body col-md-8">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -31,7 +31,19 @@
                                 <input type="text" class="form-control material-name" name="name" value="{{ old('name') }}">
                             </div>
                         </div>
-
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Status</label>
+                            <div class="col-md-6">
+                                <select class="form-control material-status" name="status">
+                                    <option value="none">None</option>
+                                    <option value="on_progress">On Progress</option>
+                                    <option value="finished">Finished</option>
+                                    <option value="improvement">Improvement</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Material Code</label>
                             <div class="col-md-8">
@@ -117,6 +129,20 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Group</label>
+                            <div class="col-md-6">
+                                <select name='sports_group_id' class="form-control uniform-category">
+                                <option value="">None</option>
+                                @foreach ($uniform_categories as $category)
+                                    @if ($category->active)
+                                    <option value='{{ $category->id }}'>{{ $category->name }}</option>
+                                    @endif
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-8">
                                 <select name='type' class="form-control type">
@@ -145,6 +171,66 @@
                                         <option value='{{ $factory->code }}'>{{ $factory->name }}</option>
                                         @endif
                                     @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Is Sublimated</label>
+                            <div class="col-md-2">
+                                <select name='is_sublimated' class="form-control is-sublimated">
+                                    <option value='0'>No</option>
+                                    <option value='1'>Yes</option>
+                                </select>
+                            </div>
+
+                            <label class="col-md-2 control-label">Price Item Template</label>
+                            <div class="col-md-3">
+                                <select class="form-control material-price-item-template-id" name="sublimated_price_item_template_id" id="sublimated_price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'>{{ $template->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Is Twill</label>
+                            <div class="col-md-2">
+                                <select name='is_twill' class="form-control is-twill">
+                                    <option value='0'>No</option>
+                                    <option value='1'>Yes</option>
+                                </select>
+                            </div>
+
+                            <label class="col-md-2 control-label">Price Item Template</label>
+                            <div class="col-md-3">
+                                <select class="form-control material-price-item-template-id" name="twill_price_item_template_id" id="twill_price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'>{{ $template->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Is Infused</label>
+                            <div class="col-md-2">
+                                <select name='is_infused' class="form-control is-twill">
+                                    <option value='0'>No</option>
+                                    <option value='1'>Yes</option>
+                                </select>
+                            </div>
+
+                            <label class="col-md-2 control-label">Price Item Template</label>
+                            <div class="col-md-3">
+                                <select class="form-control material-price-item-template-id" name="infused_price_item_template_id" id="infused_price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'>{{ $template->name }}</option>
+                                @endforeach
                                 </select>
                             </div>
                         </div>
@@ -287,6 +373,17 @@
                             </div>
                         </div>
                         <textarea id="block_patterns_data"><?php echo json_encode($block_patterns, JSON_FORCE_OBJECT);?></textarea>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Price Item Template</label>
+                            <div class="col-md-6">
+                                <select class="form-control material-price-item-template-id" name="price_item_template_id" id="price_item_template_id">
+                                    <option value="">None</option>
+                                @foreach ($price_item_templates as $template)
+                                    <option value='{{ $template->id }}'>{{ $template->name }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -298,13 +395,17 @@
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <script>
 $( document ).ready(function() {
 
     $('#block_patterns_data').hide();
     var block_patterns_array = $('#block_patterns_data').text();
-    window.block_patterns = JSON.parse(block_patterns_array);
+
+    var z = JSON.parse(block_patterns_array);
+
+    window.block_patterns = _.flatten(z, true);
 
     $(document).on('change', '#block_pattern', function() {
 
@@ -312,12 +413,17 @@ $( document ).ready(function() {
 
         $( '#neck_option' ).html('');
 
-        $.each(window.block_patterns, function(i, item) {
-            if( item.id === id ){
-                window.neck_options = JSON.parse(item.neck_options);
-                $.each(window.neck_options, function(i, item) {
+        $.each(z, function(i, item) {
+            
+            if( item.id == id ){
+
+                var optx = JSON.parse(item.neck_options);
+
+                $.each(optx, function(i, item) {
                     $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
                 });
+            } else {
+
             }
         });
 

@@ -73,15 +73,16 @@
                         <input type="hidden" id="materials-data" value="{{ $materials_string }}">
                             <tr>
                                 <th>ID</th>
-                                <th>Preview</th>
                                 <th>Name</th>
                                 <th>Sport</th>
                                 <th>Block Pattern</th>
                                 <th>Neck</th>
                                 <th>Price Item</th>
                                 <th>Type</th>
+                                <th>Gender</th>
                                 <th>Active</th>
                                 <th>Asset Target</th>
+                                <th>Uniform Application Type</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -90,9 +91,6 @@
             <tr>
                 <td>
                     {{ $material->id }}
-                </td>
-                <td>
-                    <center><img src="{{ $material->thumbnail_path }}" style="height: 45px; width: 35px;" data-toggle="popover"></center>
                 </td>
                 <td>
                     {{ $material->name }}
@@ -113,6 +111,9 @@
                     {{ $material->type }}
                 </td>
                 <td>
+                    {{ $material->gender }}
+                </td>
+                <td>
                     <div class="onoffswitch">
                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-material" id="switch-{{ $material->id }}" data-material-id="{{ $material->id }}" {{ ($material->active) ? 'checked' : '' }}>
                         <label class="onoffswitch-label" for="switch-{{ $material->id }}">
@@ -123,6 +124,9 @@
                 </td>
                 <td>
                     {{ $material->asset_target }}
+                </td>
+                <td>
+                    {{ $material->uniform_application_type }}
                 </td>
                 <td class="td-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-xs btn-primary">Edit</a>
@@ -139,6 +143,9 @@
                     </a>
                     <a href="/administration/material/{{ $material->id }}/random_feed" class="btn btn-xs btn-warning">
                         <i class="fa fa-random" aria-hidden="true"></i>
+                    </a>
+                    <a href="/administration/material/materials_options/dropzone/{{ $material->id }}" class="btn btn-xs btn-default">
+                        <i class="fa fa-upload" aria-hidden="true"></i>
                     </a>
                     <a href="#" class="btn btn-xs btn-danger delete-material" data-material-id="{{ $material->id }}">
                         <i class="glyphicon glyphicon-trash"></i>
@@ -157,10 +164,11 @@
             <tr>
                 <td></td>
                 <td></td>
-                <td></td>
                 <td id="sports-filter"></td>
                 <td id="block-patterns-filter"></td>
                 <td id="necks-filter"></td>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -186,8 +194,8 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
-<script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script>
+<!-- <script type="text/javascript" src="/fabricjs/fabric.min.js"></script> -->
+<!-- <script type="text/javascript" src="/isotope/isotope.pkgd.min.js"></script> -->
 <!-- <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script> -->
 <script type="text/javascript" src="/js/administration/datatables.min.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>

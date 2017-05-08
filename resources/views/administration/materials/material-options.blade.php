@@ -1,4 +1,4 @@
-\@extends('administration.lte-main')
+@extends('administration.lte-main')
 
 @section('styles')
 
@@ -48,9 +48,9 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
     Materials Options (Minified)
 </a>
 <center>
-<img src="{{ $material->thumbnail_path }}"
+<!-- <img src="{{ $material->thumbnail_path }}"
      width="100px"
-     height="100px" style="margin-bottom: 7px; margin-top: -7px; border-radius: 0px; border: 1px solid #808080;">
+     height="100px" style="margin-bottom: 7px; margin-top: -7px; border-radius: 0px; border: 1px solid #808080;"> -->
 <h3>Material Options of: <b>{{ ucfirst($material->name) }}
     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080; border-radius: 0px;">
         Edit 
@@ -69,56 +69,56 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
     <table class="col-md-12">
         <thead style="background-color: #fff;">
             <th style="border: 1px solid #000; padding-bottom: 10px;">
-            @foreach ($options as $option)
+            {{-- @foreach ($options as $option)
                 @if ($option->perspective == "front")
                     @if ($option->setting_type == "highlights")
 
-                    <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                    <!-- <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;"> -->
 
 
                     
                     @endif
                 @endif
-            @endforeach
+            @endforeach --}}
                 <center><h3>
                 <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
                 FRONT</h3></center>
                   <input class="material-options-Checkbox" data-checkboxselected=".frontCb" type="checkbox" value="">
             </th>
             <th style="border: 1px solid #000; padding-bottom: 10px;">
-            @foreach ($options as $option)
+            {{-- @foreach ($options as $option)
                 @if ($option->perspective == "back")
                     @if ($option->setting_type == "highlights")
-                    <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                    <!-- <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;"> -->
                     @endif
                 @endif
-            @endforeach
+            @endforeach --}}
                 <center><h3>
                 <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
                 BACK</h3></center>
                  <input class="material-options-Checkbox" data-checkboxselected=".backCb" type="checkbox" value="">
             </th>
             <th style="border: 1px solid #000; padding-bottom: 10px;">
-            @foreach ($options as $option)
+            {{-- @foreach ($options as $option)
                 @if ($option->perspective == "left")
                     @if ($option->setting_type == "highlights")
-                    <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                    <!-- <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;"> -->
                     @endif
                 @endif
-            @endforeach
+            @endforeach --}}
                 <center><h3>
                 <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
                 LEFT</h3></center>
                  <input class="material-options-Checkbox" data-checkboxselected=".leftCb" type="checkbox" value="">
             </th>
             <th style="border: 1px solid #000; padding-bottom: 10px;">
-            @foreach ($options as $option)
+            {{-- @foreach ($options as $option)
                 @if ($option->perspective == "right")
                     @if ($option->setting_type == "highlights")
-                    <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;">
+                    <!-- <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;"> -->
                     @endif
                 @endif
-            @endforeach
+            @endforeach --}}
                 <center><h3>
                 <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="margin-left: -50px; border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
                 RIGHT</h3></center>
@@ -178,8 +178,8 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ $option->default_color }}"
                                 data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
-                                data-material-option-default-color-name="{{ $option->default_color_name }}"
-                                data-material-option-sublimated-default-color-name="{{ $option->sublimated_default_color_name }}"
+                                data-material-option-default-color-name=""
+                                data-material-option-sublimated-default-color-name=""
                                 data-material-option-setting-type="{{ $option->setting_type }}"
                                 data-material-option-team-color-id="{{ $option->team_color_id }}"
                                 data-material-option-group-id="{{ $option->group_id }}"
@@ -204,7 +204,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->team_color_id) ? "$option->team_color_id" : "-" }}</span>
-                        <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
+                        <span class="color-preview-pill" style="margin-top: 0; background-color: #fff; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;"></span>
                     </div>
                 @endif
             @endforeach
@@ -261,8 +261,8 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ $option->default_color }}"
                                 data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
-                                data-material-option-default-color-name="{{ $option->default_color_name }}"
-                                data-material-option-sublimated-default-color-name="{{ $option->sublimated_default_color_name }}"
+                                data-material-option-default-color-name=""
+                                data-material-option-sublimated-default-color-name=""
                                 data-material-option-setting-type="{{ $option->setting_type }}"
                                 data-material-option-team-color-id="{{ $option->team_color_id }}"
                                 data-material-option-group-id="{{ $option->group_id }}"
@@ -287,7 +287,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->team_color_id) ? "$option->team_color_id" : "-" }}</span>
-                        <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
+                        <span class="color-preview-pill" style="margin-top: 0; background-color: #fff; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;"></span>
                     </div>
                 @endif
             @endforeach
@@ -344,8 +344,8 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ $option->default_color }}"
                                 data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
-                                data-material-option-default-color-name="{{ $option->default_color_name }}"
-                                data-material-option-sublimated-default-color-name="{{ $option->sublimated_default_color_name }}"
+                                data-material-option-default-color-name=""
+                                data-material-option-sublimated-default-color-name=""
                                 data-material-option-setting-type="{{ $option->setting_type }}"
                                 data-material-option-team-color-id="{{ $option->team_color_id }}"
                                 data-material-option-group-id="{{ $option->group_id }}"
@@ -370,7 +370,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->team_color_id) ? "$option->team_color_id" : "-" }}</span>
-                        <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
+                        <span class="color-preview-pill" style="margin-top: 0; background-color: #fff; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;"></span>
                     </div>
                 @endif
             @endforeach
@@ -427,8 +427,8 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ $option->default_color }}"
                                 data-material-option-sublimated-default-color="{{ $option->sublimated_default_color }}"
-                                data-material-option-default-color-name="{{ $option->default_color_name }}"
-                                data-material-option-sublimated-default-color-name="{{ $option->sublimated_default_color_name }}"
+                                data-material-option-default-color-name=""
+                                data-material-option-sublimated-default-color-name=""
                                 data-material-option-setting-type="{{ $option->setting_type }}"
                                 data-material-option-team-color-id="{{ $option->team_color_id }}"
                                 data-material-option-group-id="{{ $option->group_id }}"
@@ -453,7 +453,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->group_id) ? "$option->group_id" : "-" }}</span>
                         <span class="label" style="margin-top: 0; background-color: #808080; width: 20px;">{{ ($option->team_color_id) ? "$option->team_color_id" : "-" }}</span>
-                        <span style="margin-top: 0; background-color: #{{ $option->default_hex_code }}; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;">#{{ $option->default_hex_code }}</span>
+                        <span class="color-preview-pill" style="margin-top: 0; background-color: #fff; color: #fff; text-shadow: 1px 1px 1px #000; padding: 3px; border-radius: 2px;"></span>
                     </div>
                 @endif
             @endforeach
@@ -491,6 +491,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
 <script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/ddslick.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/materials.js"></script>
 @if (Session::has('message'))
 <script type="text/javascript">

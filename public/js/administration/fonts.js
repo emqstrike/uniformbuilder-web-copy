@@ -313,6 +313,16 @@ $(document).ready(function(){
         refreshMultipleFST();
     });
 
+    $('.add-font-size-sublimated').on('click', function(e){
+        var perspective = $(this).data('perspective');
+        var tbl_class = '.'+perspective+'-fst-body-sublimated';
+        e.preventDefault();
+        var elem = '<tr><td><input type="number" step="any" class="inputs application-number"></td><td><input type="number" step="any" class="inputs input-size"></td><td><input type="number" step="any" class="inputs output-size"></td><td><input type="number" step="any" class="inputs x-offset"></td><td><input type="number" step="any" class="inputs y-offset"></td><td><input type="number" step="any" class="inputs x-scale"></td><td><input type="number" step="any" class="inputs y-scale"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>'
+        // $('.front-fst-body').prepend(elem);
+        $(tbl_class).prepend(elem);
+        refreshMultipleSublimatedFST();
+    });
+
     $("#create-font-form").on("keyup", ".inputs", function(e){
         refreshMultipleFST();
     });
@@ -320,6 +330,39 @@ $(document).ready(function(){
     $("#create-font-form").on("change", ".inputs", function(e){
         refreshMultipleFST();
     });
+
+    function refreshMultipleSublimatedFST(){
+        var data = [];
+        var perspectives = ["front", "back", "left", "right"];
+        perspectives.forEach(function(entry) {
+            var perspectiveData = {
+                "perspective" : entry
+            };
+            var temp = [];
+            var elem_class = '.'+entry+'-fst-body-sublimated tr';
+
+            $(elem_class).each(function(i) {
+
+                var x = {
+                    "inputSize" : $(this).find('.input-size').val(),
+                    "outputSize" : $(this).find('.output-size').val(),
+                    "x_offset" : $(this).find('.x-offset').val(),
+                    "y_offset" : $(this).find('.y-offset').val(),
+                    "x_scale" : $(this).find('.x-scale').val(),
+                    "y_scale" : $(this).find('.y-scale').val(),
+                    "application_number" : $(this).find('.application-number').val()
+                };
+
+                temp.push(x);
+            });
+            perspectiveData.sizes = temp;
+            data.push(perspectiveData);
+
+        });
+        $('#sublimated_font_size_tables').val(JSON.stringify(data));
+        $('.fst-sublimated-data-field').text(JSON.stringify(data));
+        $('.animated').autosize({append: "\n"});
+    }
 
     function refreshMultipleFST(){
         var data = [];
@@ -373,6 +416,11 @@ $(document).ready(function(){
     }
 
     $("#create-font-form").on("click", ".remove-layer", function(e){
+        e.preventDefault();
+        $(this).parent().parent().remove();
+    });
+
+    $("#edit-font-form").on("click", ".remove-layer", function(e){
         e.preventDefault();
         $(this).parent().parent().remove();
     });
@@ -433,6 +481,39 @@ $(document).ready(function(){
         });
     });
 
+    $("#fonts_table").on("click", ".clone-font", function(e){
+        var id = $(this).data('font-id');
+        e.preventDefault();
+        console.log('try to clone');
+        if(!confirm('Do you want to clone this item?')){
+            console.log('no');
+        } else {
+            console.log('clone');
+            var url = "//" + api_host + "/api/font/duplicate/";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify({id: id}),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        new PNotify({
+                            title: 'Success',
+                            text: response.message,
+                            type: 'success',
+                            hide: true
+                        });
+                        $('.material-' + id).fadeOut();
+                        window.location.reload(true);
+                    }
+                }
+            });
+        }
+    });
+
     $('.delete-font').on('click', function(){
         var id = [];
         id.push($(this).data('font-id'));
@@ -445,7 +526,7 @@ $(document).ready(function(){
 
        var url = "//" + api_host + "/api/font/delete/";
        //var url = "//localhost:8888/api/font/delete/";
-        
+
         $.ajax({
             url: url,
             type: "POST",
