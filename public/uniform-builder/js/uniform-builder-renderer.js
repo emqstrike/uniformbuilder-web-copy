@@ -35,14 +35,18 @@ $(document).ready(function() {
         ub.bg.alpha = 0.7;
         
         if (ub.render) {
-            ub.funcs.prepareThumbnails();    
+            if (ub.return_rendered_code) {
+                ub.funcs.prepareThumbnails(ub.funcs.saveThumbnails);
+            } else {
+                ub.funcs.prepareThumbnails();
+            }
         }
         
         ub.status.fullView.setStatus(true);
 
     };
 
-    ub.funcs.prepareThumbnails = function () {
+    ub.funcs.prepareThumbnails = function (callback) {
 
         // Prepare thumbnails 
 
@@ -62,7 +66,30 @@ $(document).ready(function() {
 
         // End Prepare thumbnails 
 
-    }
+        if (callback) {
+            callback();
+        }
+    };
+
+    ub.funcs.saveThumbnails = function () {
+        $.ajax({
+            url: ub.config.team_store_api_host + '/product/save_thumbnails',
+            data: {
+                product_id: ub.config.material_id,
+                code: ub.return_rendered_code,
+                front: ub.front,
+                back: ub.back
+            },
+            method: 'POST',
+            success: function(response) {
+                if (response.success) {
+                    ub.utilities.info('Saved as images');
+                    ub.utilities.info('Front: ' + response.front);
+                    ub.utilities.info('Back: ' + response.back);
+                }
+            }
+        });
+    };
 
     ub.funcs.restoreUI = function () {
 
