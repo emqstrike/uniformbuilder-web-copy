@@ -360,285 +360,285 @@ $(document).ready(function() {
 
     /// End Mascot Utilities
 
-    ub.funcs.update_logo_list = function () {
+    // ub.funcs.update_logo_list = function () {
 
-        var $logo_container = $('div.logo-container');
-        var logos = ub.current_material.containers.files.logos;
+    //     var $logo_container = $('div.logo-container');
+    //     var logos = ub.current_material.containers.files.logos;
 
-        _.each($logo_container, function (el) {
+    //     _.each($logo_container, function (el) {
 
-            var $element = $(el);
-            var logo_list = "";
-            var template = $('#logo-list').html();
+    //         var $element = $(el);
+    //         var logo_list = "";
+    //         var template = $('#logo-list').html();
 
-            var data = {
-                element_id: $element.data('id'),
-                logo_set: logos,
-            }
+    //         var data = {
+    //             element_id: $element.data('id'),
+    //             logo_set: logos,
+    //         }
             
-            var markup = Mustache.render(template, data);
-            $element.html(markup);
+    //         var markup = Mustache.render(template, data);
+    //         $element.html(markup);
 
-            /// Handler for clicking a logo on the list of uploaded logos
-            $('a.logo_picker').on('click', function (e) {
+    //         /// Handler for clicking a logo on the list of uploaded logos
+    //         $('a.logo_picker').on('click', function (e) {
 
-                ub.funcs.removeUIHandles();
+    //             ub.funcs.removeUIHandles();
 
-                $link = $(e.target);
+    //             $link = $(e.target);
 
-                var application_id = $link.data('application-id');
-                var logo_id = $link.data('id');
+    //             var application_id = $link.data('application-id');
+    //             var logo_id = $link.data('id');
 
-                ub.ui.drops[application_id].close();
+    //             ub.ui.drops[application_id].close();
 
-                var logo = _.find(logos, {
-                    id: logo_id,
-                });
+    //             var logo = _.find(logos, {
+    //                 id: logo_id,
+    //             });
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
+    //             var application = _.find(ub.data.applications.items, {
+    //                 id: application_id
+    //             });
 
-                ub.funcs.update_application(application, logo);
-                ub.funcs.update_logos_picker(application.id, logo); 
+    //             ub.funcs.update_application(application, logo);
+    //             ub.funcs.update_logos_picker(application.id, logo); 
 
-            }); /// End $('a.logo_picker').on('click'...
+    //         }); /// End $('a.logo_picker').on('click'...
 
             
-        });
+    //     });
 
-    }
+    // }
 
-    ub.funcs.update_logos_picker = function(application_id, logo) {
+    // ub.funcs.update_logos_picker = function(application_id, logo) {
 
-        var $container = $('div.logo-controls[data-id="' + application_id + '"]');
-        var template = $('#logo-controls').html();
-        var data = {
-            application_id: application_id,
-        }
+    //     var $container = $('div.logo-controls[data-id="' + application_id + '"]');
+    //     var template = $('#logo-controls').html();
+    //     var data = {
+    //         application_id: application_id,
+    //     }
 
-        var markup = Mustache.render(template, data);
+    //     var markup = Mustache.render(template, data);
         
-        $container.html(markup);
+    //     $container.html(markup);
 
-        var application = _.find(ub.data.applications.items, {
-            id: application_id
-        });
+    //     var application = _.find(ub.data.applications.items, {
+    //         id: application_id
+    //     });
 
-        var view_str = application.perspective + '_view';
-        $('a#view_' + application.perspective).click();
+    //     var view_str = application.perspective + '_view';
+    //     $('a#view_' + application.perspective).click();
 
-        $('input#flip_logo_' + application_id).click( function () {
+    //     $('input#flip_logo_' + application_id).click( function () {
 
-            var obj = ub.objects[view_str]['objects_' + application_id];
-            var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
-            var value = parseInt($rotation_slider.find('span.edit').html());
-            var rotation = ( value / 620 ) * 360;
+    //         var obj = ub.objects[view_str]['objects_' + application_id];
+    //         var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+    //         var value = parseInt($rotation_slider.find('span.edit').html());
+    //         var rotation = ( value / 620 ) * 360;
 
-            if( $(this).is(':checked') ) {
+    //         if( $(this).is(':checked') ) {
 
-                obj.flipped = true;
-                obj.scale.x = Math.abs(obj.scale.x) * -1;
+    //             obj.flipped = true;
+    //             obj.scale.x = Math.abs(obj.scale.x) * -1;
 
-                $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
-                $angle_slider_logo.find('div.rs-bg-color').css({
-                    '-moz-transform': 'scaleX(-1)',
-                    '-o-transform': 'scaleX(-1)',
-                    'transform': 'scaleX(-1)',
-                    'filter': 'FlipH',
-                    '-ms-filter': "FlipH",
-                    '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
-                });
+    //             $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+    //             $angle_slider_logo.find('div.rs-bg-color').css({
+    //                 '-moz-transform': 'scaleX(-1)',
+    //                 '-o-transform': 'scaleX(-1)',
+    //                 'transform': 'scaleX(-1)',
+    //                 'filter': 'FlipH',
+    //                 '-ms-filter': "FlipH",
+    //                 '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+    //             });
 
-            }
-            else {
+    //         }
+    //         else {
             
-                obj.flipped = false;
-                obj.scale.x = Math.abs(obj.scale.x);
+    //             obj.flipped = false;
+    //             obj.scale.x = Math.abs(obj.scale.x);
 
-                $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
-                $angle_slider_logo.find('div.rs-bg-color').css({
-                    '-moz-transform': 'scaleX(1)',
-                    '-o-transform': 'scaleX(1)',
-                    'transform': 'scaleX(1)',
-                    'filter': 'none',
-                    '-ms-filter': "none",
-                    '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
-                });
+    //             $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+    //             $angle_slider_logo.find('div.rs-bg-color').css({
+    //                 '-moz-transform': 'scaleX(1)',
+    //                 '-o-transform': 'scaleX(1)',
+    //                 'transform': 'scaleX(1)',
+    //                 'filter': 'none',
+    //                 '-ms-filter': "none",
+    //                 '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+    //             });
 
-            }
+    //         }
 
-        });
+    //     });
 
-        $('div.y_slider[data-id="' + application_id + '"]').limitslider({
+    //     $('div.y_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [application.position.y  * ub.dimensions.height],
-            min: 0,
-            max: ub.dimensions.height,
-            gap: 0,
+    //         values: [application.position.y  * ub.dimensions.height],
+    //         min: 0,
+    //         max: ub.dimensions.height,
+    //         gap: 0,
 
-            change: function(event, ui) {
+    //         change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
-                var value = $(this).limitslider("values")[0];
-                var object = ub.objects[view_str]['objects_' + application_id];
-                object.y = value;
+    //             var application = _.find(ub.data.applications.items, {
+    //                 id: application_id
+    //             });
+    //             var value = $(this).limitslider("values")[0];
+    //             var object = ub.objects[view_str]['objects_' + application_id];
+    //             object.y = value;
 
-            }
+    //         }
 
-        });
+    //     });
 
-        $('div.x_slider[data-id="' + application_id + '"]').limitslider({
+    //     $('div.x_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [application.position.x * ub.dimensions.width],
-            min: 0,
-            max: ub.dimensions.width,
-            gap: 0,
+    //         values: [application.position.x * ub.dimensions.width],
+    //         min: 0,
+    //         max: ub.dimensions.width,
+    //         gap: 0,
 
-            change: function(event, ui) {
+    //         change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
-                var value = $(this).limitslider("values")[0];
-                var object = ub.objects[view_str]['objects_' + application_id];
-                object.x = value;
+    //             var application = _.find(ub.data.applications.items, {
+    //                 id: application_id
+    //             });
+    //             var value = $(this).limitslider("values")[0];
+    //             var object = ub.objects[view_str]['objects_' + application_id];
+    //             object.x = value;
 
-            }
+    //         }
 
-        });
+    //     });
 
-        var max_scale = 100;
-        $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
+    //     var max_scale = 100;
+    //     $('div.scale_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [100],
-            min: 0,
-            max: max_scale,
-            gap: 0,
+    //         values: [100],
+    //         min: 0,
+    //         max: max_scale,
+    //         gap: 0,
 
-            change: function(event, ui) {
+    //         change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, { id: application_id });
-                var value = $(this).limitslider("values")[0];
-                var object =  ub.objects[view_str]['objects_' + application_id];
-                var flipped = $('input#flip_logo_' + application_id).is(':checked');
-                var scale = new PIXI.Point(value / 100, value / 100);
+    //             var application = _.find(ub.data.applications.items, { id: application_id });
+    //             var value = $(this).limitslider("values")[0];
+    //             var object =  ub.objects[view_str]['objects_' + application_id];
+    //             var flipped = $('input#flip_logo_' + application_id).is(':checked');
+    //             var scale = new PIXI.Point(value / 100, value / 100);
                 
-                if (flipped) {
-                    scale.x = scale.x * -1;
-                }
-                else {
-                    scale.x = scale.x * 1;   
-                }
+    //             if (flipped) {
+    //                 scale.x = scale.x * -1;
+    //             }
+    //             else {
+    //                 scale.x = scale.x * 1;   
+    //             }
 
-                object.scale = scale;
+    //             object.scale = scale;
 
-                $('span[data-target="logo"][data-label="scale"][data-id="' + application_id + '"]').text(value);
+    //             $('span[data-target="logo"][data-label="scale"][data-id="' + application_id + '"]').text(value);
 
-            }
+    //         }
 
-        });
+    //     });
 
-        var max_opacity = 100;
-        $('div.opacity_slider[data-id="' + application_id + '"]').limitslider({
+    //     var max_opacity = 100;
+    //     $('div.opacity_slider[data-id="' + application_id + '"]').limitslider({
 
-            values: [100],
-            min: 0,
-            max: max_opacity,
-            gap: 0,
+    //         values: [100],
+    //         min: 0,
+    //         max: max_opacity,
+    //         gap: 0,
 
-            change: function(event, ui) {
+    //         change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
+    //             var application = _.find(ub.data.applications.items, {
+    //                 id: application_id
+    //             });
 
-                var value = $(this).limitslider("values")[0];
-                var object =  ub.objects[view_str]['objects_' + application_id];
+    //             var value = $(this).limitslider("values")[0];
+    //             var object =  ub.objects[view_str]['objects_' + application_id];
 
-                object.alpha = value / max_opacity;
+    //             object.alpha = value / max_opacity;
 
-                $('span[data-target="logo"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
+    //             $('span[data-target="logo"][data-label="opacity"][data-id="' + application_id + '"]').text(value);
 
-                $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+    //             $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
 
-                var opacity =  value / max_opacity;
-                $angle_slider_logo.find('div.rs-bg-color').css({
-                    "opacity": opacity,
-                });
+    //             var opacity =  value / max_opacity;
+    //             $angle_slider_logo.find('div.rs-bg-color').css({
+    //                 "opacity": opacity,
+    //             });
 
-            }
+    //         }
 
-        });
+    //     });
 
-        var max_rotation = 620;
-        var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
-        $rotation_slider.roundSlider({
+    //     var max_rotation = 620;
+    //     var $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+    //     $rotation_slider.roundSlider({
 
-            values: [0],
-            min: 0,
-            max: max_rotation,
-            gap: 0,
-            width: 5,
-            handleSize: "+14",
-            startAngle: 90,
+    //         values: [0],
+    //         min: 0,
+    //         max: max_rotation,
+    //         gap: 0,
+    //         width: 5,
+    //         handleSize: "+14",
+    //         startAngle: 90,
 
-            change: function(event, ui) {
+    //         change: function(event, ui) {
 
-                var application = _.find(ub.data.applications.items, {
-                    id: application_id
-                });
+    //             var application = _.find(ub.data.applications.items, {
+    //                 id: application_id
+    //             });
 
-                var value = parseInt($rotation_slider.find('span.edit').html());
-                var object =  ub.objects[view_str]['objects_' + application_id];
+    //             var value = parseInt($rotation_slider.find('span.edit').html());
+    //             var object =  ub.objects[view_str]['objects_' + application_id];
 
-                object.rotation = value / 100;
-                var rotation = ( value / max_rotation ) * 360;
+    //             object.rotation = value / 100;
+    //             var rotation = ( value / max_rotation ) * 360;
 
-                $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
+    //             $angle_slider_logo = $('div.rotation_slider[data-id="' + application_id + '"]');
 
-                var flipped = $('input#flip_logo_' + application_id).is(':checked');
+    //             var flipped = $('input#flip_logo_' + application_id).is(':checked');
 
-                if (flipped) {
+    //             if (flipped) {
 
-                    $angle_slider_logo.find('div.rs-bg-color').css({
-                        '-moz-transform': 'scaleX(-1)',
-                        '-o-transform': 'scaleX(-1)',
-                        'transform': 'scaleX(-1)',
-                        'filter': 'FlipH',
-                        '-ms-filter': "FlipH",
-                        '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
-                    });
+    //                 $angle_slider_logo.find('div.rs-bg-color').css({
+    //                     '-moz-transform': 'scaleX(-1)',
+    //                     '-o-transform': 'scaleX(-1)',
+    //                     'transform': 'scaleX(-1)',
+    //                     'filter': 'FlipH',
+    //                     '-ms-filter': "FlipH",
+    //                     '-webkit-transform': 'scaleX(-1) ' + ' rotate(-' + rotation + 'deg)',
+    //                 });
 
-                } else {
+    //             } else {
 
-                    $angle_slider_logo.find('div.rs-bg-color').css({
-                        '-moz-transform': 'scaleX(1)',
-                        '-o-transform': 'scaleX(1)',
-                        'transform': 'scaleX(1)',
-                        'filter': 'none',
-                        '-ms-filter': "none",
-                        '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
-                    });
+    //                 $angle_slider_logo.find('div.rs-bg-color').css({
+    //                     '-moz-transform': 'scaleX(1)',
+    //                     '-o-transform': 'scaleX(1)',
+    //                     'transform': 'scaleX(1)',
+    //                     'filter': 'none',
+    //                     '-ms-filter': "none",
+    //                     '-webkit-transform': 'scaleX(1) ' + ' rotate(' + rotation + 'deg)',
+    //                 });
 
-                }
+    //             }
 
-            }
+    //         }
 
-        });
+    //     });
 
-        $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
+    //     $rotation_slider = $('div.rotation_slider[data-id="' + application_id + '"]');
 
-        $rotation_slider.find('div.rs-bg-color').css({
-            'background-image': 'url(' + logo.dataUrl + ')',
-            'background-size': '80%',
-            'background-position': 'center center',
-            'background-repeat': 'no-repeat',
-        });
+    //     $rotation_slider.find('div.rs-bg-color').css({
+    //         'background-image': 'url(' + logo.dataUrl + ')',
+    //         'background-size': '80%',
+    //         'background-position': 'center center',
+    //         'background-repeat': 'no-repeat',
+    //     });
 
-    };
+    // };
 
     ub.funcs.lineDistance = function(point1, point2) {
         
@@ -759,105 +759,108 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.update_application = function(application, logo) {
+    // ub.funcs.update_application = function(application, logo) {
 
-        var x = ub.dimensions.width * application.position.x;
-        var y = ub.dimensions.height * application.position.y;
+    //     var x = ub.dimensions.width * application.position.x;
+    //     var y = ub.dimensions.height * application.position.y;
 
-        var settings = ub.current_material.settings;
-        var application_logo_code = application.id + '_' + logo.id;
+    //     var settings = ub.current_material.settings;
+    //     var application_logo_code = application.id + '_' + logo.id;
 
-        settings.applications[application.id] = {
-            application: application,
-            type: 'logo',
-            color_array: {},
-        };
+    //     settings.applications[application.id] = {
+    //         application: application,
+    //         type: 'logo',
+    //         color_array: {},
+    //     };
 
-        var settings_obj = settings.applications[application.id];
-        var view         = ub[application.perspective + '_view'];
-        var view_objects = ub.objects[application.perspective + '_view'];
-        var sprite       = PIXI.Sprite.fromImage(logo.dataUrl);
+    //     var settings_obj = settings.applications[application.id];
+    //     var view         = ub[application.perspective + '_view'];
+    //     var view_objects = ub.objects[application.perspective + '_view'];
+    //     var sprite       = PIXI.Sprite.fromImage(logo.dataUrl);
 
-        ub.saveLogo(logo.dataUrl, application.id);
+    //     ub.saveLogo(logo.dataUrl, application.id);
         
-        var mask = _.find(ub.current_material.material.options, {
-            perspective: application.perspective,
-            name: application.layer
-        });
+    //     var mask = _.find(ub.current_material.material.options, {
+    //         perspective: application.perspective,
+    //         name: application.layer
+    //     });
 
-        var mask = ub.pixi.new_sprite(mask.material_option_path);
+    //     var mask = ub.pixi.new_sprite(mask.material_option_path);
 
-        sprite.mask = mask;
+    //     sprite.mask = mask;
 
-        var s = view_objects['objects_' + application.id];
+    //     var s = view_objects['objects_' + application.id];
 
-        var position = '';
-        var scale = '';
-        var rotation = '';
-        var alpha = '';
+    //     var position = '';
+    //     var scale = '';
+    //     var rotation = '';
+    //     var alpha = '';
         
-        if (typeof(s) === 'object') {
+    //     if (typeof(s) === 'object') {
 
-            var obj = view_objects['objects_' + application.id];
+    //         var obj = view_objects['objects_' + application.id];
 
-            position = obj.position;
-            scale = obj.scale;
-            rotation = obj.rotation;
-            alpha = obj.alpha;
-            tint = obj.tint;
-            var color_array = settings_obj.color_array;
+    //         position = obj.position;
+    //         scale = obj.scale;
+    //         rotation = obj.rotation;
+    //         alpha = obj.alpha;
+    //         tint = obj.tint;
+    //         var color_array = settings_obj.color_array;
 
-            view.removeChild(view_objects['objects_' + application.id]);
-            delete view_objects['objects_' + application.id];
+    //         view.removeChild(view_objects['objects_' + application.id]);
+    //         delete view_objects['objects_' + application.id];
 
-        }
+    //     }
 
-        view_objects['objects_' + application.id] = sprite;
-        view.addChild(sprite);
+    //     view_objects['objects_' + application.id] = sprite;
+    //     view.addChild(sprite);
 
-        sprite.position = new PIXI.Point(x,y);
-        sprite.rotation = application.rotation;
+    //     sprite.position = new PIXI.Point(x,y);
+    //     sprite.rotation = application.rotation;
 
-        if (sprite.width === 1) {
+    //     if (sprite.width === 1) {
         
-            sprite.position.x -= (sprite.width / 2);
-            sprite.position.y -= (sprite.height / 2);
+    //         sprite.position.x -= (sprite.width / 2);
+    //         sprite.position.y -= (sprite.height / 2);
 
-        }
+    //     }
   
-        sprite.anchor.set(0.5, 0.5);
+    //     sprite.anchor.set(0.5, 0.5);
 
-        var layer_order = ( 10 + application.layer_order ) 
+    //     var layer_order = ( 10 + application.layer_order ) 
 
-        sprite.originalZIndex = layer_order * (-1);
-        sprite.zIndex = layer_order * (-1);
+    //     sprite.originalZIndex = layer_order * (-1);
+    //     sprite.zIndex = layer_order * (-1);
 
-        settings_obj.layer_order = layer_order;
+    //     settings_obj.layer_order = layer_order;
     
-        ub.updateLayersOrder(view);
+    //     ub.updateLayersOrder(view);
 
-        if(position !== ''){
+    //     if(position !== ''){
 
-            sprite.position = position;
-            sprite.scale = scale;
-            sprite.rotation = rotation;
-            sprite.alpha = alpha;
+    //         sprite.position = position;
+    //         sprite.scale = scale;
+    //         sprite.rotation = rotation;
+    //         sprite.alpha = alpha;
 
-        }
+    //     }
 
-        settings_obj.position = sprite.position;
-        settings_obj.scale = sprite.scale;
-        settings_obj.rotation = sprite.rotation;
-        settings_obj.alpha = sprite.alpha;
+    //     settings_obj.position = sprite.position;
+    //     settings_obj.scale = sprite.scale;
+    //     settings_obj.rotation = sprite.rotation;
+    //     settings_obj.alpha = sprite.alpha;
 
-        $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
-        $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
+    //     $('div.x_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.x]);
+    //     $('div.y_slider[data-id="' + application.id + '"]').limitslider('values', [sprite.position.y]);
 
-        ub.funcs.createDraggable(sprite, application, view);
-        ub.funcs.createClickable(sprite, application, view, 'application');
-        ub.funcs.identify(application.id);
+    //     ub.funcs.createDraggable(sprite, application, view);
+    //     ub.funcs.createClickable(sprite, application, view, 'application');
+    //     ub.funcs.identify(application.id);
 
-    };
+    //     console.clear();
+    //     console.log('Is this getting called!!');
+
+    // };
 
     ub.funcs.updateScaleViaSlider = function (_application, value) {
 
@@ -1913,52 +1916,52 @@ $(document).ready(function() {
 
     /// Rearrange Application Layers 
 
-    ub.funcs.rearrangeApplications = function (application, movement) {
+    // ub.funcs.rearrangeApplications = function (application, movement) {
 
-        var code = application.id;
-        var current_layer_order = ub.current_material.settings.applications[application.id].layer_order;
-        var settings_obj = ub.current_material.settings.applications[application.id];
-        var current_obj = ub.objects[ application.perspective + '_view']['objects_' + application.id];
+    //     var code = application.id;
+    //     var current_layer_order = ub.current_material.settings.applications[application.id].layer_order;
+    //     var settings_obj = ub.current_material.settings.applications[application.id];
+    //     var current_obj = ub.objects[ application.perspective + '_view']['objects_' + application.id];
 
-        if (movement === 'UP') {
+    //     if (movement === 'UP') {
 
-            var next_element = _.find(ub.current_material.settings.applications, {'layer_order': current_layer_order + 1});
+    //         var next_element = _.find(ub.current_material.settings.applications, {'layer_order': current_layer_order + 1});
             
-            if(typeof next_element !== 'undefined') {
+    //         if(typeof next_element !== 'undefined') {
 
-                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.id];
-                next_element.layer_order = (current_layer_order);
-                next_obj.zIndex = (current_layer_order) * -1;
+    //             var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.id];
+    //             next_element.layer_order = (current_layer_order);
+    //             next_obj.zIndex = (current_layer_order) * -1;
                 
-            }
+    //         }
 
-            settings_obj.layer_order = (current_layer_order + 1);
-            current_obj.zIndex = (current_layer_order + 1) * -1;
+    //         settings_obj.layer_order = (current_layer_order + 1);
+    //         current_obj.zIndex = (current_layer_order + 1) * -1;
 
-            ub.updateLayersOrder(ub[application.perspective + '_view']);
+    //         ub.updateLayersOrder(ub[application.perspective + '_view']);
 
-        }
+    //     }
 
-        if (movement === 'DOWN') {
+    //     if (movement === 'DOWN') {
 
-            var next_element = _.find(ub.current_material.settings.applications, {'layer_order': current_layer_order - 1});
+    //         var next_element = _.find(ub.current_material.settings.applications, {'layer_order': current_layer_order - 1});
             
-            if(typeof next_element !== 'undefined') {
+    //         if(typeof next_element !== 'undefined') {
 
-                var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.id];
-                next_element.layer_order = (current_layer_order);
-                next_obj.zIndex = (current_layer_order) * -1;
+    //             var next_obj = ub.objects[ application.perspective + '_view']['objects_' + next_element.application.id];
+    //             next_element.layer_order = (current_layer_order);
+    //             next_obj.zIndex = (current_layer_order) * -1;
 
-            }
+    //         }
 
-            settings_obj.layer_order = (current_layer_order - 1);
-            current_obj.zIndex = (current_layer_order - 1) * -1;
+    //         settings_obj.layer_order = (current_layer_order - 1);
+    //         current_obj.zIndex = (current_layer_order - 1) * -1;
 
-            ub.updateLayersOrder(ub[application.perspective + '_view']);
+    //         ub.updateLayersOrder(ub[application.perspective + '_view']);
 
-        }
+    //     }
 
-    };
+    // };
 
     /// End Rearrange Layers
 
@@ -2364,13 +2367,17 @@ $(document).ready(function() {
 
                 point.rotation = (view.application.rotation * Math.PI) / 180;
 
+                var _zIndex = ub.funcs.generateZindex('applications');
+
+                point.zIndex = -(_zIndex + _settingsObject.zIndex);
+
                 if (ub.funcs.getCurrentUniformCategory() === "Wrestling") {
 
-                    point.zIndex = -(50 + _settingsObject.zIndex);
+                    // point.zIndex = -(_zIndex + _settingsObject.zIndex);
                         
                 } else {
 
-                    point.zIndex = -50;
+                    // point.zIndex = -(_zIndex);
                     
                     if (typeof args.applicationObj !== "undefined") {
 
@@ -2785,9 +2792,6 @@ $(document).ready(function() {
             // End do not run from change color
 
             ub.funcs.runAfterUpdate(app_id, _fromChangeColor);
-
-
-
 
             return sprite_collection;
 
@@ -4962,8 +4966,6 @@ $(document).ready(function() {
         var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
 
         var _returnValue                = false;
-
-
 
         if (_settingsObject.has_pattern === 1) {
 
@@ -7711,7 +7713,7 @@ $(document).ready(function() {
 
             if (_state === "on") {
 
-                _obj.zIndex = -(50 + _settingsObj.zIndex);
+                _obj.zIndex = -(ub.funcs.generateZindex('applications') + _settingsObj.zIndex);
                 ub.updateLayersOrder(ub[_view]);
                 _settingsObj.status = "on";
                 
@@ -8253,18 +8255,18 @@ $(document).ready(function() {
 
         }
 
-        if (parseInt(application_id) === 1) {
+        // if (parseInt(application_id) === 1) {
 
-            var _settingsObject = ub.funcs.getApplicationSettings(1);
+        //     var _settingsObject = ub.funcs.getApplicationSettings(1);
 
-            if (_settingsObject.application_type === "team_name" && ub.funcs.isCurrentSport('Baseball')) {
+        //     if (_settingsObject.application_type === "team_name" && ub.funcs.isCurrentSport('Baseball')) {
 
-                ub.objects.front_view.objects_1.zIndex = -80; // So it will be rendered above the piping
-                ub.updateLayersOrder(ub.front_view);
+        //         //ub.objects.front_view.objects_1.zIndex = -80; // So it will be rendered above the piping
+        //         //ub.updateLayersOrder(ub.front_view);
 
-            }
+        //     }
 
-        }
+        // }
         
     }
 
@@ -10074,7 +10076,7 @@ $(document).ready(function() {
                 _sprite.position.x  = _x;
                 _sprite.position.y  = _y;
 
-                _sprite.zIndex = -200 + (index * -1);
+                _sprite.zIndex = -(ub.funcs.generateZindex('locations')) + (index * -1);
 
                 ub[_perspective].addChild(_sprite);
                 ub.updateLayersOrder(ub[_perspective]);
@@ -10294,19 +10296,19 @@ $(document).ready(function() {
 
         // Get Center of Polygon 
 
-            var _partObject = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: _part});
-            var _polygon = [];
-            var _cx = undefined;
-            var con = new ub.Contour();
+        var _partObject = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: _part});
+        var _polygon = [];
+        var _cx = undefined;
+        var con = new ub.Contour();
 
-            if (typeof _polygon === "undefined") { ub.utilities.warn('No Bouding Box Defined for ' + _part); }
-            
-            if (typeof _polygon !== "undefined") {
+        if (typeof _polygon === "undefined") { ub.utilities.warn('No Bouding Box Defined for ' + _part); }
+        
+        if (typeof _polygon !== "undefined") {
 
-                con.pts = _partObject.polygon;
-                _cx = con.centroid().x;
+            con.pts = _partObject.polygon;
+            _cx = con.centroid().x;
 
-            }
+        }
 
         // End Get Center of Polygon
 
@@ -10314,74 +10316,54 @@ $(document).ready(function() {
 
         _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
 
-            var _perspectiveView = _.find(_phaSettings.application.views, {perspective: perspective});
-            
-            if (typeof _perspectiveView !== "undefined" && parseInt(_perspectiveView.application.isPrimary) === 1) {
+        var _perspectiveView = _.find(_phaSettings.application.views, {perspective: perspective});
+        
+        if (typeof _perspectiveView !== "undefined" && parseInt(_perspectiveView.application.isPrimary) === 1) {
 
-                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, perspective);
+            var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, perspective);
 
-                // CX Override 
+            // CX Override 
 
-                if (typeof _cx !== "undefined") {
+            if (typeof _cx !== "undefined") {
 
-                    _perspectiveView.application.center = _cx;
-                    _perspectiveView.application.pivot = _cx;
-                    _perspectiveView.application.rotation = 0;
- 
-                } 
-
-                if (typeof _overrides !== "undefined") {
-
-                    _perspectiveView.application.rotation = _overrides.rotation;
-                    _perspectiveView.application.center = _overrides.position;
-                    _perspectiveView.application.pivot = _overrides.position;
-
-                }
-
-                if (_part === "Extra") {
-
-                    if (perspective === "front" || perspective === "back") {
-
-                        _perspectiveView.application.center = {x: 492.8115478104783, y: 537.336581778293};
-                        _perspectiveView.application.pivot = {x: 492.8115478104783, y: 537.336581778293};
-                        _perspectiveView.application.rotation = 0;
-
-                    }
-
-                    if (perspective === "left" || perspective === "right") {
-
-                        _perspectiveView.application.center = {x: 492.8115478104783, y: 537.336581778293};
-                        _perspectiveView.application.pivot = {x: 492.8115478104783, y: 537.336581778293};
-                        _perspectiveView.application.rotation = 0;
-                        
-                    }
-
-                }
+                _perspectiveView.application.center = _cx;
+                _perspectiveView.application.pivot = _cx;
+                _perspectiveView.application.rotation = 0;
 
             }
 
-            /// Use on primary perspective, exclude auxilliary perspectives (for socks only)
+            if (typeof _overrides !== "undefined") {
 
-            var _tempViews = [];
-            var _primaryView = undefined;
-
-            var _primaryView = _.find(_phaSettings.application.views, function (view) { 
-                return parseInt(view.application.isPrimary) === 1;
-            });
-
-            if (typeof _primaryView !== "undefined") {
-
-                _tempViews.push(_primaryView);
-                    
-            } else {
-
-                ub.utilities.warn('Free Form Application has no primary view set!');
+                _perspectiveView.application.rotation = _overrides.rotation;
+                _perspectiveView.application.center = _overrides.position;
+                _perspectiveView.application.pivot = _overrides.position;
 
             }
 
-            _phaSettings.application.views = _tempViews;
+        }
 
-            /// End Use on primary perspective, exclude auxilliary perspectives (for socks only)
+        /// Use on primary perspective, exclude auxilliary perspectives (for socks only)
+
+        var _tempViews = [];
+        var _primaryView = undefined;
+
+        var _primaryView = _.find(_phaSettings.application.views, function (view) { 
+            return parseInt(view.application.isPrimary) === 1;
+        });
+
+        if (typeof _primaryView !== "undefined") {
+
+            _tempViews.push(_primaryView);
+                
+        } else {
+
+            ub.utilities.warn('Free Form Application has no primary view set!');
+
+        }
+
+        _phaSettings.application.views = _tempViews;
+
+        /// End Use on primary perspective, exclude auxilliary perspectives (for socks only)
 
         var _newID          = ub.funcs.getNewCustomID();
         var _newApplication = JSON.parse(JSON.stringify(_phaSettings)); // Quick Clone
@@ -10820,7 +10802,7 @@ $(document).ready(function() {
                _.each(_app.application.views, function (view) {
 
                     var _obj = ub.objects[view.perspective + '_view']['objects_' + _locID];
-                    _obj.zIndex = -(50 + _index);
+                    _obj.zIndex = -(ub.funcs.generateZindex('applications') + _index);
 
                     
                });
@@ -11427,8 +11409,167 @@ $(document).ready(function() {
 
             });
 
-        })
+        });
 
     }
+
+    ub.funcs.generateZindex = function (type) {
+
+        var _val = 0;
+
+        switch (type) {
+
+          case 'locations':
+            _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 200;
+            break;
+          
+          case 'applications':
+            _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 100;
+            break;
+
+          case 'randomFeeds': 
+            _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 50;  
+            break;
+
+          case 'pipings': 
+            _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 50;  
+            break;
+
+          default:
+            _val = 0;
+
+        }
+
+        return _val;
+
+    }
+
+    ub.funcs.removePolygon = function () {
+
+        _.each(ub.views, function (view) {
+
+            if (typeof ub.objects[view + '_view']['activePolygon'] !== "undefined") {
+
+                ub[view + '_view'].removeChild(ub.objects[view + '_view']['activePolygon']);
+
+            }
+
+        });
+
+    }
+
+    ub.funcs.createEllipse = function (graphics, coordinates) {
+
+        var width = 7;
+        var height = 7;
+
+        graphics.beginFill(0x000000);
+        graphics.drawEllipse(coordinates.x, coordinates.y, width, height);
+        graphics.endFill();
+
+    }
+
+    ub.funcs.createPolygon = function (perspective, polygon, minMax) {
+
+        var graphics = new PIXI.Graphics();
+
+        ub.funcs.removePolygon(); // Remove if previous polygon exists
+
+        graphics.lineStyle(2, 0x000000, 1);
+        graphics.drawPolygon(polygon); 
+
+        ub.activePolygon = graphics;
+
+        ub.funcs.createEllipse(graphics, minMax.minXCoor);
+        ub.funcs.createEllipse(graphics, minMax.minYCoor);
+        ub.funcs.createEllipse(graphics, minMax.maxXCoor);
+        ub.funcs.createEllipse(graphics, minMax.maxYCoor);
+
+        ub.funcs.createEllipse(graphics, {
+            x: ((minMax.maxXCoor.x - minMax.minXCoor.x) / 2)  + minMax.minXCoor.x, 
+            y: ((minMax.maxYCoor.y - minMax.minYCoor.y) / 2) + minMax.minYCoor.y,
+        });
+
+        ub.objects[perspective + '_view']['activePolygon'] = ub.activePolygon;
+        ub[ perspective + '_view'].addChild(ub.activePolygon);
+
+    }
+
+    ub.funcs.getBoundariesCurrentView = function (materialOption) {
+
+        return ub.funcs.getBoundaries(ub.active_view, materialOption);
+
+    }
+
+    ub.funcs.getBoundaries = function (perspective, materialOption) {
+
+        var _result = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {alias: materialOption.toTitleCase() });
+        var _polygon = undefined;
+        var _array = [];
+
+        if (typeof _result !== "undefined") {
+
+            _polygon = _result.polygon;
+
+        }
+
+        // convert to linear array 
+        
+        var minMax = {
+            minX: ub.dimensions.width, 
+            minY: ub.dimensions.height,
+            maxX: 0,
+            maxY: 0,
+
+            minXCoor: {x: 0, y: 0},
+            minYCoor: {x: 0, y: 0},
+            maxXCoor: {x: 0, y: 0},
+            maxYCoor: {x: 0, y: 0},
+        }
+
+        _.each (_polygon, function (point) {
+
+            minMax.minX = Math.min(point.x, minMax.minX);
+            minMax.minY = Math.min(point.y, minMax.minY);
+            minMax.maxX = Math.max(point.x, minMax.maxX);
+            minMax.maxY = Math.max(point.y, minMax.maxY);
+
+            if (minMax.minX === point.x) { minMax.minXCoor = {x: point.x, y: point.y}; }
+            if (minMax.minY === point.y) { minMax.minYCoor = {x: point.x, y: point.y}; }
+            if (minMax.maxX === point.x) { minMax.maxXCoor = {x: point.x, y: point.y}; }
+            if (minMax.maxY === point.y) { minMax.maxYCoor = {x: point.x, y: point.y}; }
+
+            _array.push(point.x);
+            _array.push(point.y);
+
+        });
+
+        ub.funcs.createPolygon(perspective, _array, minMax);
+
+        return {boundaries: _array, minMax: minMax};
+
+    }
+
+    ub.funcs.setSocksPatternScale = function (percentage) {
+
+        ub.funcs.setPatternScale('sublimated', percentage);
+
+    }
+
+    ub.funcs.setPatternScale = function (part, percentage) {
+
+        _.each(ub.views, function (view) {
+
+            var _part =  ub.objects[view + '_view']['pattern_' + part];
+
+            if (typeof _part !== "undefined")  {
+
+                ub.objects[view + '_view']['pattern_' + part].scale = {x: percentage, y: percentage};
+                
+            }
+
+        });
+
+    } 
 
 });

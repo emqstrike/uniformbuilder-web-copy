@@ -2260,12 +2260,17 @@ $(document).ready(function () {
 
         ub.current_material.options_distinct_names = {};
 
+        ub.maxLayers = 0;
+
         _.each(ub.views, function (view) {
 
             var material_options = _.where(ub.current_material.material.options, {perspective: view});
             var current_view_objects = ub.objects[view + '_view']; 
+            var _layerCount = 0;
 
             _.each(material_options, function (obj, index) {
+
+                _layerCount +=1;
 
                 var name = obj.name.toCodeCase();
 
@@ -2277,9 +2282,9 @@ $(document).ready(function () {
                 // Multiplied to negative one because
                 // UpdateLayers order puts the least zIndex on the topmost position
 
-                current_object.zIndex = (obj.layer_level * 2) * (-1); 
+                current_object.zIndex = (obj.layer_level * ub.zIndexMultiplier) * (-1); 
                 current_object.originalZIndex = (obj.layer_level * 2) * (-1);
-
+                
                 // So these static layers will be above the random feed layers in 
 
                 if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
@@ -2365,6 +2370,10 @@ $(document).ready(function () {
                 ub[view + '_view'].addChild(current_object);
 
             });
+
+            ub.utilities.info('Layer Count for ' + view.toTitleCase() + ' View: ' + _layerCount);
+
+            if (_layerCount > ub.maxLayers) { ub.maxLayers = _layerCount};
 
             ub.updateLayersOrder(ub[view + '_view']);
 
@@ -4875,6 +4884,8 @@ $(document).ready(function () {
                 if (view === 'locations') {
 
                     ub.funcs.deActivateZoom();
+
+                    ub.funcs.hidePipingFunctions();
 
                     if(!ub.showLocation) {
 

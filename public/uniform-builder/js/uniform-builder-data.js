@@ -8,6 +8,7 @@ $(document).ready(function() {
     ub.funcs.ui = {};
     ub.is = {};
     ub.ui = {};
+    
     ub.ui.drops = {};
     ub.modifiers = {};
     ub.tethers = {}; 
@@ -17,7 +18,14 @@ $(document).ready(function() {
     ub.offset = {x: 70, y: 70};
     ub.active = null;
     ub.vars = {};
-    
+
+    // The sport of the current uniform that is being edited will be stored here, an alias for ub.current_material.material.uniform_category
+    ub.sport = ''; 
+
+    // Max number of material option for the the uniform in every perspective, is used to generate zIndex values
+    ub.maxLayers = 0;
+    ub.zIndexMultiplier = 4;
+
     ub.uiTools = {};
 
     ub.totalWidth = 1000;
@@ -11383,7 +11391,7 @@ ub.funcs.fontOffSets = [
             if (sport === "Football") {
 
                 // Disable free-form tool on football if block pattern is not infused 14
-                if (ub.current_material.material.block_pattern !== "INFUSED 14") {
+                if (ub.current_material.material.block_pattern !== "INFUSED 14" && ub.current_material.material.uniform_application_type !== "sublimated") {
 
                     _result = undefined;
 
@@ -11399,7 +11407,6 @@ ub.funcs.fontOffSets = [
                     _result = undefined;
 
                 }
-                console.log(_result)
 
             }
 
@@ -11413,7 +11420,7 @@ ub.funcs.fontOffSets = [
             if (sport === "Football") {
 
                 // Disable free-form tool on football if block pattern is not infused 14
-                if (ub.current_material.material.block_pattern !== "INFUSED 14") {
+                if (ub.current_material.material.block_pattern !== "INFUSED 14" && ub.current_material.material.uniform_application_type !== "sublimated") {
 
                     _result = undefined;
 
@@ -11427,6 +11434,8 @@ ub.funcs.fontOffSets = [
                 if (ub.current_material.material.uniform_application_type !== "sublimated") {
 
                     _result = undefined;
+
+
 
                 }
 
