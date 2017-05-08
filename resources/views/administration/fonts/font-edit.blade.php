@@ -52,7 +52,7 @@ li.select2-selection__choice {
                         <input type="hidden" name="font_id" value="{{ $font->id }}">
                         <input type="hidden" id="font_family" value="{{ $font->name }}">
                         <input type="hidden" id="old_font_size_tables" value="{{ $font->font_size_tables }}">
-                        <!-- <input type="hidden" id="old_sublimated_font_size_tables" value="{{ $font->font_size_tables }}"> -->
+                        <input type="hidden" id="old_sublimated_font_size_tables" value="{{ $font->sublimated_font_size_tables }}">
                         <input type="hidden" id="font_size_tables" name="font_size_tables">
                         <input type="hidden" id="sublimated_font_size_tables" name="sublimated_font_size_tables">
                         <input type="hidden" id="existing-fonts-properties" value="{{ $font->font_properties }}">
@@ -190,9 +190,7 @@ li.select2-selection__choice {
                                 <input type="hidden" name="font_size_table" id="font_size_table">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <textarea id="fst-fix"></textarea></br><a href="#" class="fix-fst-button btn btn-xs btn-primary">Apply New Data</a>
-                        </div>
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
                                 <table class="table table-bordered" id="fst-updater">
@@ -247,13 +245,43 @@ li.select2-selection__choice {
                                 </table>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2 col-md-offset-5">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>Show Twill</td>
+                                    <td>
+                                        <input type="checkbox" class="show-twill">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Show Sublimated</td>
+                                    <td>
+                                        <input type="checkbox" class="show-sublimated">
+                                    </td>
+                                </tr>
+                            </table>
+                            </div>
+                        </div>
                         
                     <div class="form-group twill-fst"> <!-- START -->
                         <div class="alert alert-info"><h3>Twill Font Size Tables</h3></div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
-                                <center><a data-toggle="modal" href="#myModal" class="btn btn-xs btn-primary">Copy data</a></center>
-                                <a href="#" class="btn btn-warning btn-xs reset-fst pull-right">Reset Font Size Tables data</a>
+                                <table class="table">
+                                    <tr>
+                                        <td>
+                                            <a data-toggle="modal" href="#myModal" class="btn btn-xs btn-primary">Copy data</a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-warning btn-xs reset-fst pull-right">Reset Font Size Tables data</a>
+                                        </td>
+                                        <td>
+                                            <textarea id="fst-fix"></textarea></br><a href="#" class="fix-fst-button btn btn-xs btn-primary">Apply New Data</a>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                         <div class="form-group">
@@ -342,15 +370,35 @@ li.select2-selection__choice {
                     </div> <!-- END -->
                     <div class="form-group sublimated-fst"> <!-- START -->
                         <div class="alert alert-info"><h3>Sublimated Font Size Tables</h3></div>
+                        <!-- <div class="form-group">
+                            <div class="col-md-6 col-md-offset-3">
+                                <center><a data-toggle="modal" href="#myModalB" class="btn btn-xs btn-primary">Copy data</a></center>
+                                <a href="#" class="btn btn-warning btn-xs reset-sublimated-fst pull-right">Reset Sublimated Font Size Tables data</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="fst-fix-sublimated"></textarea></br><a href="#" class="fix-fst-sublimated-button btn btn-xs btn-primary">Apply New Data</a>
+                        </div> -->
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
-                                <center><a data-toggle="modal" href="#myModal" class="btn btn-xs btn-primary">Copy data</a></center>
-                                <a href="#" class="btn btn-warning btn-xs reset-fst pull-right">Reset Font Size Tables data</a>
+                                <table class="table">
+                                    <tr>
+                                        <td>
+                                            <a data-toggle="modal" href="#myModalB" class="btn btn-xs btn-primary">Copy data</a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-warning btn-xs reset-sublimated-fst pull-right">Reset Font Size Tables data</a>
+                                        </td>
+                                        <td>
+                                            <textarea id="fst-fix-sublimated"></textarea></br><a href="#" class="fix-fst-sublimated-button btn btn-xs btn-primary">Apply New Data</a>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
-                            <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
+                            <h3>Front</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="front"><span class="glyphicon glyphicon-plus"></span></a>
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
@@ -371,7 +419,7 @@ li.select2-selection__choice {
                         <hr>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
-                            <h3>Back</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
+                            <h3>Back</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="back"><span class="glyphicon glyphicon-plus"></span></a>
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
@@ -392,7 +440,7 @@ li.select2-selection__choice {
                         <hr>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
-                            <h3>Left</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
+                            <h3>Left</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="left"><span class="glyphicon glyphicon-plus"></span></a>
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
@@ -413,7 +461,7 @@ li.select2-selection__choice {
                         <hr>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
-                            <h3>Right</h3><a href="#" class="btn btn-xs btn-primary add-font-size" data-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
+                            <h3>Right</h3><a href="#" class="btn btn-xs btn-primary add-font-size-sublimated" data-perspective="right"><span class="glyphicon glyphicon-plus"></span></a>
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
@@ -542,7 +590,7 @@ li.select2-selection__choice {
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4> TWILL Font size tables data</h4>
+          <h4> SUBLIMATED Font size tables data</h4>
         </div>
         <div class="modal-body">
           <form role="form">
@@ -593,12 +641,33 @@ $(document).ready(function(){
         });
     }
 
+    var sblmtdfstbls = $('#old_sublimated_font_size_tables').val();
+    if(sblmtdfstbls != ""){
+        var old_font_size_tables = JSON.parse(sblmtdfstbls);
+        window.backup = old_font_size_tables;
+        console.log(old_font_size_tables);
+        old_font_size_tables.forEach(function(entry) {
+
+            var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
+            entry.sizes.forEach(function(item) {
+                console.log(item.inputSize);
+                var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                $(tbl_class).append(elem);
+            });
+            refreshMultipleSublimatedFST();
+            // var xy = $('.sublimated-fst').find('.application-number:fourth').val();
+            // console.log('---XY---'+xy);
+        });
+    }
+
     $("#edit-font-form").on("keyup", ".inputs", function(e){
         refreshMultipleFST();
+        refreshMultipleSublimatedFST();
     });
 
     $("#edit-font-form").on("change", ".inputs", function(e){
         refreshMultipleFST();
+        refreshMultipleSublimatedFST();
     });
 
     function refreshMultipleFST(){
@@ -667,6 +736,27 @@ $(document).ready(function(){
         $('.animated').autosize({append: "\n"});
     }
 
+    $("#edit-font-form").on("click", ".fix-fst-sublimated-button", function(e){
+        e.preventDefault();
+        $('.front-fst-body').html('');
+        $('.back-fst-body').html('');
+        $('.left-fst-body').html('');
+        $('.right-fst-body').html('');
+        var old_font_size_tables = JSON.parse($('#fst-fix-sublimated').val());
+        console.log($('#fst-fix').val());
+        window.backup = old_font_size_tables;
+        console.log(old_font_size_tables);
+        old_font_size_tables.forEach(function(entry) {
+            var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
+            entry.sizes.forEach(function(item) {
+                console.log(item.inputSize);
+                var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                $(tbl_class).append(elem);
+            });
+        });
+        refreshMultipleSublimatedFST();
+    });
+
     $("#edit-font-form").on("click", ".fix-fst-button", function(e){
         e.preventDefault();
         $('.front-fst-body').html('');
@@ -702,6 +792,22 @@ $(document).ready(function(){
             });
         });
         refreshMultipleFST();
+    });
+
+    $("#edit-font-form").on("click", ".reset-sublimated-fst", function(e){
+        e.preventDefault();
+        $('.front-fst-body-sublimated').html('');
+        $('.back-fst-body-sublimated').html('');
+        $('.left-fst-body-sublimated').html('');
+        $('.right-fst-body-sublimated').html('');
+        window.backup.forEach(function(entry) {
+            var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
+            entry.sizes.forEach(function(item) {
+                var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
+                $(tbl_class).append(elem);
+            });
+        });
+        refreshMultipleSublimatedFST();
     });
 
     $("#fst-updater").on("click", ".update-fst", function(e){
@@ -764,6 +870,7 @@ $(document).ready(function(){
         e.preventDefault();
         $(this).parent().parent().remove();
         refreshMultipleFST();
+        refreshMultipleSublimatedFST();
     });
 
     $('.sports').select2({
