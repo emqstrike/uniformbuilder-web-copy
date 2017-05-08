@@ -15,7 +15,7 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
 
     mix.less("uniform-builder.less",'public/uniform-builder/css/uniform-builder.css');
-    
+
     mix.scripts([
             'jquery/jquery-1.11.3.min.js',
             'jquery-ui/jquery-ui.min.js',
@@ -80,6 +80,25 @@ elixir(function(mix) {
             // 'uniform-builder/js/uniform-builder-shortcuts.js'
         ], 
         'public/js/builds/customizer.min.js',
+        'public'
+    );
+
+    mix.styles([
+            'bootstrap/css/bootstrap.min.css',
+            'bootstrap/css/bootstrap-theme.min.css',
+            // 'font-awesome/css/font-awesome.min.css',
+            'jquery-ui/jquery-ui.min.css',
+            'round-slider/roundslider.min.css',
+            'drop/css/drop-theme-basic.css',
+            'uniform-builder/css/uniform-builder.css',
+            'js/libs/smoke/smoke.min.css',
+            'colorpicker/css/bootstrap-colorpicker.css',
+            'dropdown/jquery.dropdown.css',
+            'noUiSlider/nouislider.css',
+            'noUiSlider/nouislider.pips.css',
+            'noUiSlider/nouislider.tooltips.css'
+        ],
+        'public/css/builds/customizer.min.css',
         'public'
     );
 
