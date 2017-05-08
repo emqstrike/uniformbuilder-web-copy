@@ -84,8 +84,8 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">User Types</label>
                             <div class="col-md-6">
-                                <input type="hidden" class="users-val" name="users_value">
-                                <select name="user_types[]" id="users" class="form-control users" multiple="multiple">
+                                <input type="hidden" class="users-types-val" name="users_types_value">
+                                <select name="user_types[]" id="users" class="form-control user-types" multiple="multiple">
                                     <option value='normal'>Normal</option>
                                     <option value='qa'>QA</option>
                                     <option value='ga'>Graphic Artist</option>
@@ -93,6 +93,20 @@ li.select2-selection__choice {
                                     <option value='manager'>Manager</option>
                                     <option value='dealer'>Dealer</option>
                                     <option value='administrator'>Administrator</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Users</label>
+                            <div class="col-md-6">
+                                <input type="hidden" class="users-val" name="users_value">
+                                <select name="users[]" id="users" class="form-control users" multiple="multiple">
+                                    @foreach ($users as $user)
+                                        <option value='{{ $user->id }}'>
+                                            {{ $user->first_name }} {{ $user->last_name }} [{{ $user->id }}]
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -149,8 +163,18 @@ li.select2-selection__choice {
 <!-- <script type="text/javascript" src="/js/administration/feature-flags.js"></script> -->
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.users').select2({
+    $('.user-types').select2({
         placeholder: "Select User Types",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".user-types").change(function() {
+        $('.users-types-val').val($(this).val());
+    });
+
+    $('.users').select2({
+        placeholder: "Select Users",
         multiple: true,
         allowClear: true
     });

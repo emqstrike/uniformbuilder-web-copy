@@ -11,22 +11,26 @@ use App\Utilities\Random;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
 use App\APIClients\UniformCategoriesAPIClient;
+use App\APIClients\UsersAPIClient;
 use App\APIClients\FeatureFlagsAPIClient as APIClient;
 
 class FeatureFlagsController extends Controller
 {
     protected $client;
     protected $categoriesClient;
+    protected $usersClient;
     // protected $featureFlagsClient;
 
     public function __construct(
         APIClient $apiClient,
-        UniformCategoriesAPIClient $categoriesClient
+        UniformCategoriesAPIClient $categoriesClient,
+        UsersAPIClient $usersClient
         // FeatureFlagsAPIClient $featureFlagsClient
     )
     {
         $this->client = $apiClient;
         $this->categoriesClient = $categoriesClient;
+        $this->usersClient = $usersClient;
         // $this->featureFlagsClient = $FeatureFlagsAPIClient;
     }
 
@@ -43,17 +47,21 @@ class FeatureFlagsController extends Controller
     {
         $feature_flag = $this->client->getFeatureFlag($id);
         $sports = $this->categoriesClient->getUniformCategories();
+        $users = $this->usersClient->getUsers();
         return view('administration.feature-flags.feature-flag-edit', [
             'feature_flag' => $feature_flag,
-            'sports' => $sports
+            'sports' => $sports,
+            'users' => $users
         ]);
     }
 
     public function addForm()
     {
         $sports = $this->categoriesClient->getUniformCategories();
+        $users = $this->usersClient->getUsers();
         return view('administration.feature-flags.feature-flag-create', [
-            'sports' => $sports
+            'sports' => $sports,
+            'users' => $users
         ]);
     }
 
@@ -64,10 +72,11 @@ class FeatureFlagsController extends Controller
         $category = $request->input('category');
         $description = $request->input('description');
         $active = $request->input('active');
-        $user_types = explode(",", $request->input('users_value'));
+        $user_types = explode(",", $request->input('users_types_value'));
         $sports = explode(",", $request->input('sports_value'));
         $switch = $request->input('switch');
         $state = $request->input('state');
+        $users = explode(",", $request->input('users_value'));
         $data = [
             'name' => $name,
             'group' => $group,
@@ -77,7 +86,8 @@ class FeatureFlagsController extends Controller
             'user_types' => $user_types,
             'switch' => $switch,
             'state' => $state,
-            'sports' => $sports
+            'sports' => $sports,
+            'user_ids' => $users,
         ];
 
         $id = null;
