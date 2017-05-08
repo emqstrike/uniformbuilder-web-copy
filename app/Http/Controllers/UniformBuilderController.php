@@ -63,7 +63,6 @@ class UniformBuilderController extends Controller
             : null;
 
         $render = (isset($config['render'])) ? $config['render'] : false;
-        $return_rendered_code = (isset($config['code'])) ? $config['code'] : false;
 
         $accessToken = null;
         $categoryId = 0;
@@ -111,13 +110,14 @@ class UniformBuilderController extends Controller
         ];
 
         // Teamstore's Save thumbnails endpoint
-        $team_store_save_thumbnail_endpoint = config('teamstore.api_base') . '/' . config('teamstore.endpoints.save_product_thumbnails');
+        $team_store_save_thumbnail_endpoint = env('TEAM_STORE_API_BASE') . '/product/save_thumbnails';
         $params['team_store_save_thumbnail_endpoint'] = $team_store_save_thumbnail_endpoint;
 
         // * @config['code'] - parameter passed by team store
         if (isset($config['code']))
         {
-            $params['return_rendered_code'] = $return_rendered_code
+            $params['return_rendered_code'] = $config['code'];
+            Log::info('return_rendered_code = ' . $config['code']);
         }
 
         $params['builder_customizations'] = null;
@@ -290,9 +290,14 @@ class UniformBuilderController extends Controller
             'design_set_id' => $designSetId,
             'material_id' => $materialId,
             'type' => 'Design Set',
-            'render' => true,
-            'code' => $code
+            'render' => true
         ];
+        if (!is_null($code))
+        {
+            $config['code'] = $code;
+            Log::info('Render using this code ' . $code);
+        }
+
         return $this->showBuilder($config);
 
     }

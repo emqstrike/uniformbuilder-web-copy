@@ -112,7 +112,7 @@ $(document).ready(function() {
 
     ub.funcs.saveThumbnails = function () {
         $.ajax({
-            url: '{{ $team_store_save_thumbnail_endpoint }}',
+            url: ub.config.team_store_api_host + '/product/save_thumbnails',
             data: {
                 code: ub.return_rendered_code,
                 front: ub.front,
