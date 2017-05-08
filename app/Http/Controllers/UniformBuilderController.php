@@ -169,6 +169,7 @@ class UniformBuilderController extends Controller
             
         }
 
+        $params['use_js_builds'] = env('USE_JS_BUILDS', 0);
         return view('editor.uniform-builder-index', $params);
 
     }

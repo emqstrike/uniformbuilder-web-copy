@@ -181,6 +181,10 @@
 @include('partials.controls.ui-controls')
 
 <!-- Third Party Scripts -->
+@if ($use_js_builds)
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+<script src="{{$asset_storage}}/js/builds/customizer.min.js?v={{$asset_version}}"></script>
+@else
 <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/underscore/underscore.js?v={{$asset_version}}"></script>
@@ -219,7 +223,7 @@
 <script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
-
+@endif
 <!-- End Third Party Scripts -->
 
 <!-- Uniform Builder Scripts -->
@@ -420,7 +424,9 @@
 
 </script>
 
+@if (!$use_js_builds)
 <script src="{{$asset_storage}}/uniform-builder/js/utilities.js?v={{$asset_version}}"></script>
+@endif
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-utilities.js?v={{$asset_version}}"></script>
@@ -449,7 +455,6 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
-
 
 <!-- End Uniform Builder Scripts -->
 
