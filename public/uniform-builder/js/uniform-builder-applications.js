@@ -10292,23 +10292,25 @@ $(document).ready(function() {
 
             _part = side.toTitleCase() + " " + _part;
 
+            console.log('New Part: ' + _part);
+
         }
 
         // Get Center of Polygon 
 
-            var _partObject = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: _part});
-            var _polygon = [];
-            var _cx = undefined;
-            var con = new ub.Contour();
+        var _partObject = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: _part});
+        var _polygon = [];
+        var _cx = undefined;
+        var con = new ub.Contour();
 
-            if (typeof _polygon === "undefined") { ub.utilities.warn('No Bouding Box Defined for ' + _part); }
-            
-            if (typeof _polygon !== "undefined") {
+        if (typeof _polygon === "undefined") { ub.utilities.warn('No Bouding Box Defined for ' + _part); }
+        
+        if (typeof _polygon !== "undefined") {
 
-                con.pts = _partObject.polygon;
-                _cx = con.centroid().x;
+            con.pts = _partObject.polygon;
+            _cx = con.centroid().x;
 
-            }
+        }
 
         // End Get Center of Polygon
 
@@ -10316,74 +10318,54 @@ $(document).ready(function() {
 
         _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
 
-            var _perspectiveView = _.find(_phaSettings.application.views, {perspective: perspective});
-            
-            if (typeof _perspectiveView !== "undefined" && parseInt(_perspectiveView.application.isPrimary) === 1) {
+        var _perspectiveView = _.find(_phaSettings.application.views, {perspective: perspective});
+        
+        if (typeof _perspectiveView !== "undefined" && parseInt(_perspectiveView.application.isPrimary) === 1) {
 
-                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, perspective);
+            var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, perspective);
 
-                // CX Override 
+            // CX Override 
 
-                if (typeof _cx !== "undefined") {
+            if (typeof _cx !== "undefined") {
 
-                    _perspectiveView.application.center = _cx;
-                    _perspectiveView.application.pivot = _cx;
-                    _perspectiveView.application.rotation = 0;
- 
-                } 
-
-                if (typeof _overrides !== "undefined") {
-
-                    _perspectiveView.application.rotation = _overrides.rotation;
-                    _perspectiveView.application.center = _overrides.position;
-                    _perspectiveView.application.pivot = _overrides.position;
-
-                }
-
-                if (_part === "Extra") {
-
-                    if (perspective === "front" || perspective === "back") {
-
-                        _perspectiveView.application.center = {x: 492.8115478104783, y: 537.336581778293};
-                        _perspectiveView.application.pivot = {x: 492.8115478104783, y: 537.336581778293};
-                        _perspectiveView.application.rotation = 0;
-
-                    }
-
-                    if (perspective === "left" || perspective === "right") {
-
-                        _perspectiveView.application.center = {x: 492.8115478104783, y: 537.336581778293};
-                        _perspectiveView.application.pivot = {x: 492.8115478104783, y: 537.336581778293};
-                        _perspectiveView.application.rotation = 0;
-                        
-                    }
-
-                }
+                _perspectiveView.application.center = _cx;
+                _perspectiveView.application.pivot = _cx;
+                _perspectiveView.application.rotation = 0;
 
             }
 
-            /// Use on primary perspective, exclude auxilliary perspectives (for socks only)
+            if (typeof _overrides !== "undefined") {
 
-            var _tempViews = [];
-            var _primaryView = undefined;
-
-            var _primaryView = _.find(_phaSettings.application.views, function (view) { 
-                return parseInt(view.application.isPrimary) === 1;
-            });
-
-            if (typeof _primaryView !== "undefined") {
-
-                _tempViews.push(_primaryView);
-                    
-            } else {
-
-                ub.utilities.warn('Free Form Application has no primary view set!');
+                _perspectiveView.application.rotation = _overrides.rotation;
+                _perspectiveView.application.center = _overrides.position;
+                _perspectiveView.application.pivot = _overrides.position;
 
             }
 
-            _phaSettings.application.views = _tempViews;
+        }
 
-            /// End Use on primary perspective, exclude auxilliary perspectives (for socks only)
+        /// Use on primary perspective, exclude auxilliary perspectives (for socks only)
+
+        var _tempViews = [];
+        var _primaryView = undefined;
+
+        var _primaryView = _.find(_phaSettings.application.views, function (view) { 
+            return parseInt(view.application.isPrimary) === 1;
+        });
+
+        if (typeof _primaryView !== "undefined") {
+
+            _tempViews.push(_primaryView);
+                
+        } else {
+
+            ub.utilities.warn('Free Form Application has no primary view set!');
+
+        }
+
+        _phaSettings.application.views = _tempViews;
+
+        /// End Use on primary perspective, exclude auxilliary perspectives (for socks only)
 
         var _newID          = ub.funcs.getNewCustomID();
         var _newApplication = JSON.parse(JSON.stringify(_phaSettings)); // Quick Clone
@@ -11463,5 +11445,127 @@ $(document).ready(function() {
         return _val;
 
     }
+
+    ub.funcs.removePolygon = function () {
+
+        _.each(ub.views, function (view) {
+
+            if (typeof ub.objects[view + '_view']['activePolygon'] !== "undefined") {
+
+                ub[view + '_view'].removeChild(ub.objects[view + '_view']['activePolygon']);
+
+            }
+
+        });
+
+    }
+
+    ub.funcs.createEllipse = function (graphics, coordinates) {
+
+        var width = 7;
+        var height = 7;
+
+        graphics.beginFill(0x000000);
+        graphics.drawEllipse(coordinates.x, coordinates.y, width, height);
+        graphics.endFill();
+
+    }
+
+    ub.funcs.createPolygon = function (perspective, polygon, minMax) {
+
+        var graphics = new PIXI.Graphics();
+
+        ub.funcs.removePolygon(); // Remove if previous polygon exists
+
+        graphics.lineStyle(2, 0x000000, 1);
+        graphics.drawPolygon(polygon); 
+
+        ub.activePolygon = graphics;
+
+        ub.funcs.createEllipse(graphics, minMax.minXCoor);
+        ub.funcs.createEllipse(graphics, minMax.minYCoor);
+        ub.funcs.createEllipse(graphics, minMax.maxXCoor);
+        ub.funcs.createEllipse(graphics, minMax.maxYCoor);
+
+        ub.funcs.createEllipse(graphics, {
+            x: ((minMax.maxXCoor.x - minMax.minXCoor.x) / 2)  + minMax.minXCoor.x, 
+            y: ((minMax.maxYCoor.y - minMax.minYCoor.y) / 2) + minMax.minYCoor.y,
+        });
+
+        ub.objects[perspective + '_view']['activePolygon'] = ub.activePolygon;
+        ub[ perspective + '_view'].addChild(ub.activePolygon);
+
+    }
+
+    ub.funcs.getBoundariesCurrentView = function (materialOption) {
+
+        return ub.funcs.getBoundaries(ub.active_view, materialOption);
+
+    }
+
+    ub.funcs.getBoundaries = function (perspective, materialOption) {
+
+        var _result = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {alias: materialOption.toTitleCase() });
+        var _polygon = undefined;
+        var _array = [];
+
+        if (typeof _result !== "undefined") {
+
+            _polygon = _result.polygon;
+
+        }
+
+        // convert to linear array 
+        
+        var minMax = {
+            minX: ub.dimensions.width, 
+            minY: ub.dimensions.height,
+            maxX: 0,
+            maxY: 0,
+
+            minXCoor: {x: 0, y: 0},
+            minYCoor: {x: 0, y: 0},
+            maxXCoor: {x: 0, y: 0},
+            maxYCoor: {x: 0, y: 0},
+        }
+
+        _.each (_polygon, function (point) {
+
+            minMax.minX = Math.min(point.x, minMax.minX);
+            minMax.minY = Math.min(point.y, minMax.minY);
+            minMax.maxX = Math.max(point.x, minMax.maxX);
+            minMax.maxY = Math.max(point.y, minMax.maxY);
+
+            if (minMax.minX === point.x) { minMax.minXCoor = {x: point.x, y: point.y}; }
+            if (minMax.minY === point.y) { minMax.minYCoor = {x: point.x, y: point.y}; }
+            if (minMax.maxX === point.x) { minMax.maxXCoor = {x: point.x, y: point.y}; }
+            if (minMax.maxY === point.y) { minMax.maxYCoor = {x: point.x, y: point.y}; }
+
+            _array.push(point.x);
+            _array.push(point.y);
+
+        });
+
+        ub.funcs.createPolygon(perspective, _array, minMax);
+
+        return {boundaries: _array, minMax: minMax};
+
+    }
+
+    ub.funcs.setSocksPatternScale = function (percentage) {
+
+        ub.funcs.setPatternScale('sublimated', percentage);
+
+    }
+
+    ub.funcs.setPatternScale = function (part, percentage) {
+
+        _.each(ub.views, function (view) {
+
+            ub.objects[view + '_view']['pattern_' + part].scale = {x: percentage, y: percentage};
+
+        });
+
+    } 
 
 });
