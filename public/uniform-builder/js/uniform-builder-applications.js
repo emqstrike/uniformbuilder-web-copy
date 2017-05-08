@@ -3792,6 +3792,7 @@ $(document).ready(function() {
             if (v.application.isPrimary === 1) {
 
                 view = v;
+
             }
 
         });
@@ -3807,6 +3808,7 @@ $(document).ready(function() {
 
     }
 
+
     ub.funcs.getPrimaryView = function (application) {
 
         var view = undefined;
@@ -3816,6 +3818,7 @@ $(document).ready(function() {
             if (v.application.isPrimary === 1) {
 
                 view = v.perspective;
+                
             }
 
         });
@@ -10275,33 +10278,14 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.newApplication = function (perspective, part, type, side) {
+    ub.funcs.getCentoid = function (perspective, part) {
 
-        var _pha            = _.find(ub.data.placeHolderApplications, {perspective: perspective});
-        var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
-        var _part           = part;
-        var _sport          = ub.current_material.material.uniform_category;
-
-        if (ub.funcs.isCurrentSport('Compression (Apparel)') || ub.funcs.isCurrentSport('Tech-Tee (Apparel)') || ub.funcs.isCurrentSport('Baseball')) {
-
-            if (_part === "Body" || _part === "Back Body") { _part = 'Extra'; }
-
-        }
-
-        if (typeof side !== "undefined" && side !== "na") {
-
-            _part = side.toTitleCase() + " " + _part;
-
-        }
-
-        // Get Center of Polygon 
-
-        var _partObject = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: _part});
+        var _partObject = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: part});
         var _polygon = [];
         var _cx = undefined;
         var con = new ub.Contour();
 
-        if (typeof _polygon === "undefined") { ub.utilities.warn('No Bouding Box Defined for ' + _part); }
+        if (typeof _polygon === "undefined") { ub.utilities.warn('No Bouding Box Defined for ' + part); }
         
         if (typeof _polygon !== "undefined") {
 
@@ -10310,20 +10294,44 @@ $(document).ready(function() {
 
         }
 
-        // End Get Center of Polygon
+        return _cx
+
+    }
+
+    ub.funcs.newApplication = function (perspective, part, type, side) {
+
+        var _pha            = _.find(ub.data.placeHolderApplications, {perspective: perspective});
+        var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
+        var _part           = part;
+        var _sport          = ub.current_material.material.uniform_category;
+        var _primaryView    = ub.funcs.getPrimaryView(_phaSettings.application);
+        var _primaryViewObject = ub.funcs.getPrimaryViewObject(_phaSettings.application);
+
+        // Process Uniforms with Extra Layer 
+        if (ub.data.sportsWithExtraLayer.isValid(ub.sports)) {
+
+            var _extra = ub.objects[perspective + '_view']['extra'];
+
+            if (typeof _extra === "undefined") { ub.utilities.error('Extra Layer not detected!'); } 
+            if (typeof _extra !== "undefined") { 
+                if (_part === "Body" || _part === "Back Body") { _part = 'Extra'; } 
+            }
+
+        }
+
+
+        // For instances where the part has left or right (e.g. sleeve), converts it to Left Sleeve
+        if (typeof side !== "undefined" && side !== "na") { _part = side.toTitleCase() + " " + _part; }
 
         // Set Mascots Only for now on Socks
-
         _phaSettings.validApplicationTypes = ub.data.freeFormValidTypes.getItem(ub.current_material.material.uniform_category, _part).validTypes;
 
-        var _perspectiveView = _.find(_phaSettings.application.views, {perspective: perspective});
-        
-        if (typeof _perspectiveView !== "undefined" && parseInt(_perspectiveView.application.isPrimary) === 1) {
+        _.each(_phaSettings.application.views, function (_perspectiveView) {
 
-            var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, perspective);
+            // Get Center of Polygon 
+            var _cx = ub.funcs.getCentoid(_perspectiveView.perspective, _part);
 
             // CX Override 
-
             if (typeof _cx !== "undefined") {
 
                 _perspectiveView.application.center = _cx;
@@ -10332,38 +10340,104 @@ $(document).ready(function() {
 
             }
 
-            if (typeof _overrides !== "undefined") {
+            if (typeof _perspectiveView !== "undefined") {
 
-                _perspectiveView.application.rotation = _overrides.rotation;
-                _perspectiveView.application.center = _overrides.position;
-                _perspectiveView.application.pivot = _overrides.position;
+                if (parseInt(_perspectiveView.application.isPrimary) === 1) {
+
+                    var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, perspective);
+
+                    if (typeof _overrides !== "undefined") {
+
+                        _perspectiveView.application.rotation = _overrides.rotation;
+                        _perspectiveView.application.center = _overrides.position;
+                        _perspectiveView.application.pivot = _overrides.position;
+
+                    }
+
+                }
+
+            } 
+
+        });
+
+         _.each(_phaSettings.application.views, function (_perspectiveView) {
+
+            // Get Center of Polygon 
+            var _cx = ub.funcs.getCentoid(_perspectiveView.perspective, _part);
+
+            // CX Override 
+            if (typeof _cx !== "undefined") {
+
+                _perspectiveView.application.center = _cx;
+                _perspectiveView.application.pivot = _cx;
+                _perspectiveView.application.rotation = 0;
 
             }
 
-        }
+            if (typeof _perspectiveView !== "undefined") {
 
-        /// Use on primary perspective, exclude auxilliary perspectives (for socks only)
+                // Non-Primary
 
-        var _tempViews = [];
-        var _primaryView = undefined;
+                if (parseInt(_perspectiveView.application.isPrimary) !== 1) {
 
-        var _primaryView = _.find(_phaSettings.application.views, function (view) { 
-            return parseInt(view.application.isPrimary) === 1;
+                    var _bounds = ub.funcs.getBoundaries(_perspectiveView.perspective, _part, false);
+                    var _overrideX = undefined;
+                    var _overrideY = _bounds.minMax.centoid.y;
+
+                    console.log('Primary View ');
+
+                    if (_primaryView === "front") {
+
+                        if (typeof _bounds !== "undefined") {
+
+                            if (_perspectiveView.perspective === "left") { _overrideX = _bounds.minMax.minX; }
+                            if (_perspectiveView.perspective === "right") { _overrideX = _bounds.minMax.maxX; }
+
+                        }
+                        
+                    }
+
+                    if (_primaryView === "back") {
+
+                        if (typeof _bounds !== "undefined") {
+
+                            if (_perspectiveView.perspective === "left") { _overrideX = _bounds.minMax.maxX; }
+                            if (_perspectiveView.perspective === "right") { _overrideX = _bounds.minMax.minX; }
+
+                        }
+                        
+                    }
+
+                    if (_primaryView === "right") {
+
+                        if (typeof _bounds !== "undefined") {
+
+                            if (_perspectiveView.perspective === "front") { _overrideX = _bounds.minMax.minX; }
+                            if (_perspectiveView.perspective === "back") { _overrideX = _bounds.minMax.maxX; }
+
+                        }
+
+                    }
+
+                    if (_primaryView === "left") {
+
+                        if (typeof _bounds !== "undefined") {
+
+                            if (_perspectiveView.perspective === "front") { _overrideX = _bounds.minMax.maxX; }
+                            if (_perspectiveView.perspective === "back") { _overrideX = _bounds.minMax.minX; }
+
+                        }
+
+                    }
+
+                    _perspectiveView.application.position = {x: _overrideX, y : _primaryViewObject.application.center.x };
+                    _perspectiveView.application.center = {x: _overrideX, y : _primaryViewObject.application.center.y };
+
+                }
+
+            } 
+
         });
-
-        if (typeof _primaryView !== "undefined") {
-
-            _tempViews.push(_primaryView);
-                
-        } else {
-
-            ub.utilities.warn('Free Form Application has no primary view set!');
-
-        }
-
-        _phaSettings.application.views = _tempViews;
-
-        /// End Use on primary perspective, exclude auxilliary perspectives (for socks only)
 
         var _newID          = ub.funcs.getNewCustomID();
         var _newApplication = JSON.parse(JSON.stringify(_phaSettings)); // Quick Clone
@@ -10376,15 +10450,22 @@ $(document).ready(function() {
         _newApplication.configurationSource     = "Added";
 
         _newApplication.zIndex                  = ub.funcs.getNewZIndex();
+        
+        if (ub.data.placeHolderOverrideSports.isValid(ub.sport)) {
 
-        _.each(_newApplication.application.views, function (view) {
+            var _tmp = [];
+            _.each(_newApplication.application.views, function (view) {
 
-            view.application.id = _newIDStr;
+                view.application.id = _newIDStr;
+                if (view.application.isPrimary === 1) { _tmp = [view]; }
 
-        });
+            });
 
+            _newApplication.application.views = _tmp;
+
+        }
+        
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
-        //if (typeof ub.data.applications_transformed[_submimatedSport.sublimatedPart] !== 'undefined') {
 
         _newApplication.application.layer = _part;
 
@@ -11485,9 +11566,10 @@ $(document).ready(function() {
         ub.funcs.createEllipse(graphics, minMax.maxXCoor);
         ub.funcs.createEllipse(graphics, minMax.maxYCoor);
 
+        // Center Point - manual centoid
         ub.funcs.createEllipse(graphics, {
-            x: ((minMax.maxXCoor.x - minMax.minXCoor.x) / 2)  + minMax.minXCoor.x, 
-            y: ((minMax.maxYCoor.y - minMax.minYCoor.y) / 2) + minMax.minYCoor.y,
+            x: minMax.centoid.x, 
+            y: minMax.centoid.y,
         });
 
         ub.objects[perspective + '_view']['activePolygon'] = ub.activePolygon;
@@ -11501,9 +11583,9 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.getBoundaries = function (perspective, materialOption) {
+    ub.funcs.getBoundaries = function (perspective, materialOption, skipDrawPolygon) {
 
-        var _result = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {alias: materialOption.toTitleCase() });
+        var _result = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: materialOption.toTitleCase() });
         var _polygon = undefined;
         var _array = [];
 
@@ -11539,13 +11621,20 @@ $(document).ready(function() {
             if (minMax.maxX === point.x) { minMax.maxXCoor = {x: point.x, y: point.y}; }
             if (minMax.maxY === point.y) { minMax.maxYCoor = {x: point.x, y: point.y}; }
 
+            minMax.centoid = {
+                x: ((minMax.maxXCoor.x - minMax.minXCoor.x) / 2)  + minMax.minXCoor.x, 
+                y: ((minMax.maxYCoor.y - minMax.minYCoor.y) / 2) + minMax.minYCoor.y,
+            };
+
             _array.push(point.x);
             _array.push(point.y);
 
         });
 
-        ub.funcs.createPolygon(perspective, _array, minMax);
-
+        if (skipDrawPolygon) {
+            ub.funcs.createPolygon(perspective, _array, minMax);    
+        }
+        
         return {boundaries: _array, minMax: minMax};
 
     }
