@@ -10292,8 +10292,6 @@ $(document).ready(function() {
 
             _part = side.toTitleCase() + " " + _part;
 
-            console.log('New Part: ' + _part);
-
         }
 
         // Get Center of Polygon 
@@ -11562,7 +11560,13 @@ $(document).ready(function() {
 
         _.each(ub.views, function (view) {
 
-            ub.objects[view + '_view']['pattern_' + part].scale = {x: percentage, y: percentage};
+            var _part =  ub.objects[view + '_view']['pattern_' + part];
+
+            if (typeof _part !== "undefined")  {
+
+                ub.objects[view + '_view']['pattern_' + part].scale = {x: percentage, y: percentage};
+                
+            }
 
         });
 
