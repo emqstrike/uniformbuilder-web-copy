@@ -10292,8 +10292,6 @@ $(document).ready(function() {
 
             _part = side.toTitleCase() + " " + _part;
 
-            console.log('New Part: ' + _part);
-
         }
 
         // Get Center of Polygon 
