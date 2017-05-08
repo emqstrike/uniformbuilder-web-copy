@@ -107,9 +107,18 @@ class UniformBuilderController extends Controller
             'material' => $material,
             'material_id' => $materialId,
             'category_id' => $categoryId,
-            'render' => $render,
-            'return_rendered_code' => $return_rendered_code
+            'render' => $render
         ];
+
+        // Teamstore's Save thumbnails endpoint
+        $team_store_save_thumbnail_endpoint = config('teamstore.api_base') . '/' . config('teamstore.endpoints.save_product_thumbnails');
+        $params['team_store_save_thumbnail_endpoint'] = $team_store_save_thumbnail_endpoint;
+
+        // * @config['code'] - parameter passed by team store
+        if (isset($config['code']))
+        {
+            $params['return_rendered_code'] = $return_rendered_code
+        }
 
         $params['builder_customizations'] = null;
         $params['order'] = null;

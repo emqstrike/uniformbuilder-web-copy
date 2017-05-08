@@ -76,15 +76,16 @@ $(document).ready(function() {
 
         ub.bg.alpha = 0.5;
 
-        ub.funcs.prepareThumbnails();
-        ub.status.fullView.setStatus(true);
-        if (ub.return_rendered) {
-            ub.funcs.saveThumbnails();
+        if (ub.return_rendered_code) {
+            ub.funcs.prepareThumbnails(ub.funcs.saveThumbnails);
+        } else {
+            ub.funcs.prepareThumbnails();
         }
+        ub.status.fullView.setStatus(true);
 
     };
 
-    ub.funcs.prepareThumbnails = function () {
+    ub.funcs.prepareThumbnails = function (callback) {
 
         // Prepare thumbnails 
 
@@ -103,11 +104,15 @@ $(document).ready(function() {
             ub.right = _rightThumb;
 
         // End Prepare thumbnails 
+
+        if (callback) {
+            callback();
+        }
     };
 
     ub.funcs.saveThumbnails = function () {
         $.ajax({
-            url: '',
+            url: '{{ $team_store_save_thumbnail_endpoint }}',
             data: {
                 code: ub.return_rendered_code,
                 front: ub.front,
