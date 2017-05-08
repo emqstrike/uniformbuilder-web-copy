@@ -402,35 +402,28 @@ $( document ).ready(function() {
 
     $('#block_patterns_data').hide();
     var block_patterns_array = $('#block_patterns_data').text();
-    console.log("BPA ------------ ");
-console.log(block_patterns_array);
+
     var z = JSON.parse(block_patterns_array);
-    console.log("Z ------------ ");
-console.log(z);
+
     window.block_patterns = _.flatten(z, true);
-console.log(window.block_patterns);
+
     $(document).on('change', '#block_pattern', function() {
 
         var id = $(this).val();
-console.log("ID ------------------");
-                console.log(id);
+
         $( '#neck_option' ).html('');
 
         $.each(z, function(i, item) {
             
             if( item.id == id ){
-                console.log(item);
+
                 var optx = JSON.parse(item.neck_options);
-                console.log("NECK OPTX ------------------");
-                console.log(optx);
-                // var opt = _.flatten(optx);
-                console.log("NECK OPT ------------------");
-                // console.log(opt);
+
                 $.each(optx, function(i, item) {
                     $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
                 });
             } else {
-                console.log('not equal');
+
             }
         });
 

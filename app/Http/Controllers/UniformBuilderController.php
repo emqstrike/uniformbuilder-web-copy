@@ -106,8 +106,15 @@ class UniformBuilderController extends Controller
             'material' => $material,
             'material_id' => $materialId,
             'category_id' => $categoryId,
-            'render' => $render,
+            'render' => $render
         ];
+
+        // * @config['code'] - parameter passed by team store
+        if (isset($config['code']))
+        {
+            $params['return_rendered_code'] = $config['code'];
+            Log::info('return_rendered_code = ' . $config['code']);
+        }
 
         $params['builder_customizations'] = null;
         $params['order'] = null;
@@ -273,14 +280,20 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function loadDesignSetRender($designSetId = null, $materialId = null)
+    public function loadDesignSetRender($designSetId = null, $materialId = null, $code = null)
     {
         $config = [
             'design_set_id' => $designSetId,
             'material_id' => $materialId,
             'type' => 'Design Set',
-            'render' => true,
+            'render' => true
         ];
+        if (!is_null($code))
+        {
+            $config['code'] = $code;
+            Log::info('Render using this code ' . $code);
+        }
+
         return $this->showBuilder($config);
 
     }

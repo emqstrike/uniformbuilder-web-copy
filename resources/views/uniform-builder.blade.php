@@ -233,7 +233,8 @@
 
         window.ub.config = {
             app_env: "{{ env('APP_ENV') }}", 
-            api_host: "http://{{ env('API_HOST') }}", 
+            api_host: "http://{{ env('API_HOST') }}",
+            team_store_api_host: "http://{{ env('TEAM_STORE_API_BASE') }}",
             material_id: {{ $material_id }},
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
@@ -367,6 +368,8 @@
         window.ub.page = "{{ isset($page) ? $page : 'builder' }}";
 
         ub.render = "{{ isset($render) ? $render : false }}";
+        // Flag for returning the requested images
+        ub.return_rendered_code = "{{ isset($return_rendered_code) ? $return_rendered_code : false }}";
         ub.savedDesignName = "{{ isset($saved_design_name) ? $saved_design_name : '' }}";
         
         // #load_order
