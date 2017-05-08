@@ -109,10 +109,6 @@ class UniformBuilderController extends Controller
             'render' => $render
         ];
 
-        // Teamstore's Save thumbnails endpoint
-        $team_store_save_thumbnail_endpoint = env('TEAM_STORE_API_BASE') . '/product/save_thumbnails';
-        $params['team_store_save_thumbnail_endpoint'] = $team_store_save_thumbnail_endpoint;
-
         // * @config['code'] - parameter passed by team store
         if (isset($config['code']))
         {
