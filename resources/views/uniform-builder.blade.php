@@ -183,7 +183,7 @@
 <!-- Third Party Scripts -->
 @if ($use_js_builds)
 <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
-<script src="{{$asset_storage}}/js/builds/customizer.min.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/builds/build.js?v={{$asset_version}}"></script>
 @else
 <script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js?v={{$asset_version}}"></script>
