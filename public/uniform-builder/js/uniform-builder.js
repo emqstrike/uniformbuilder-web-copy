@@ -338,7 +338,7 @@ $(document).ready(function () {
 
             switch (_sport) {
 
-              case 'Crew Socks (Apparel)':
+              case 'Crew Socks (Apparel)', 'Compression (Apparel)':
                 
                 $('span.youthPriceCustomizer').hide();
                 $('span.youthPriceCustomizerSale').hide();
@@ -5666,7 +5666,7 @@ $(document).ready(function () {
 
         switch (_sport) {
           
-          case 'Crew Socks (Apparel)':
+          case 'Crew Socks (Apparel)', 'Compression (Apparel)':
             
             $('span.youthPrice').hide();
             $('span.youthPriceSale').hide();
