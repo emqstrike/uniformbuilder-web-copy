@@ -336,10 +336,8 @@ $(document).ready(function () {
 
             var _sport = ub.current_material.material.uniform_category;
 
-            switch (_sport) {
+            if (ub.data.sportsWithHiddenYouthPrices.isHidden(_sport)) {
 
-              case 'Crew Socks (Apparel)', 'Compression (Apparel)':
-                
                 $('span.youthPriceCustomizer').hide();
                 $('span.youthPriceCustomizerSale').hide();
                 $('span.adult-label').html('Price starts from ');
@@ -350,16 +348,6 @@ $(document).ready(function () {
                 $('div#uniform-price-adult').addClass('single');
                 $('div#uniform-price-call-for-team-pricing').addClass('single');
 
-                break;
-              
-              default:
-
-                // $('span.youthPrice').show();
-                // $('span.youthPriceSale').show();
-                // $('span.adult-label').html('Adult from ');
-
-                ub.utilities.info('No Per Sport Cleanup for Picker')
-                
             }
 
         }
@@ -5672,24 +5660,12 @@ $(document).ready(function () {
 
         var _sport = sport;
 
-        switch (_sport) {
-          
-          case 'Crew Socks (Apparel)', 'Compression (Apparel)':
-            
+        if (ub.data.sportsWithHiddenYouthPrices.isHidden(sport)) {
+
             $('span.youthPrice').hide();
             $('span.youthPriceSale').hide();
             $('span.adult-label').html('Price starts from ');
 
-            break;
-          
-          default:
-
-            // $('span.youthPrice').show();
-            // $('span.youthPriceSale').show();
-            // $('span.adult-label').html('Adult from ');
-
-            ub.utilities.info('No Per Sport Cleanup for Picker')
-            
         }
 
     }
