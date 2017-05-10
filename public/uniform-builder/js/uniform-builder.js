@@ -1685,7 +1685,15 @@ $(document).ready(function () {
                 e.setting_type === 'shadows' || 
                 e.setting_type === 'static_layer') { return; }
 
-            if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { console.log('Skipping team color processing for ' + e.code + '...'); return; }
+            if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
+                
+                if (typeof e.code !== "undefined") {
+                    ub.utilities.info(e.code.toTitleCase() + ' layer detected, skipping add to Team Colors...');     
+                }
+                
+                return; 
+
+            }
 
             if (typeof e.code !== 'undefined') {
 
