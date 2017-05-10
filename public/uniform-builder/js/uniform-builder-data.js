@@ -11876,6 +11876,30 @@ ub.funcs.fontOffSets = [
 
     }
 
+    ub.data.sportsWithHiddenYouthPrices = {
+
+        items: [
+            {
+                sport: 'Crew Socks (Apparel)',    
+            },
+            {
+                sport: 'Compression (Apparel)',    
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',    
+            }
+        ],
+
+        isHidden: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport});
+
+            return (typeof _result !== "undefined");
+
+        }
+
+    }
+
     ub.data.skipTeamColorProcessing = {
 
         items: [
