@@ -11455,6 +11455,7 @@ ub.funcs.fontOffSets = [
                     sport: 'Wrestling',
                     option: "Fight Short",
                 },
+               
                 {
                     sport: 'Baseball',
                     option: "Long Sleeve",
@@ -11462,6 +11463,32 @@ ub.funcs.fontOffSets = [
                 {
                     sport: 'Baseball',
                     option: "Short Sleeve",
+                },
+              
+                {
+                    sport: 'Volleyball',
+                    option: "Cap Sleeve",
+                },
+                {
+                    sport: 'Volleyball',
+                    option: "Long Sleeve",
+                },
+                {
+                    sport: 'Volleyball',
+                    option: "Compression Shorts",
+                },
+                {
+                    sport: 'Volleyball',
+                    option: "Short Sleeve",
+                },
+
+                {
+                    sport: 'Hockey',
+                    option: "Game Jersey",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Sublimated Jersey",
                 },
 
         ],
@@ -11819,6 +11846,31 @@ ub.funcs.fontOffSets = [
             if (typeof _result === "undefined") { ub.utilities.info('Secondary Bar Labels not found for ' + sport); }
 
             return _result;
+
+        }
+
+    }
+
+    // Todo: Detect this at runtime instead
+    ub.data.sportsWithExtraLayer = {
+
+        items: [
+            {
+                sport: 'Compression (Apparel)',
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+            },
+            {
+                sport: 'Baseball',
+            }
+        ],
+
+        isValid: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport});
+
+            return typeof _result !== "undefined";
 
         }
 

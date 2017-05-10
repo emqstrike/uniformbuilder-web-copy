@@ -33,6 +33,7 @@ $(document).ready(function () {
 
     // List of sports with a valid coordinate override for free-form application
 
+    // Because of LS - RS Rule
     ub.data.placeHolderOverrideSports = {
 
         items: [
@@ -70,14 +71,14 @@ $(document).ready(function () {
                 part: 'Sublimated',
                 perspective: "front",
                 position: {x: 504.967032967033, y: 343.7142857142858},
-                rotation: -2.86478898,
+                rotation: 0,
             },
             {
                 sport: "Crew Socks (Apparel)",
                 part: 'Sublimated',
                 perspective: "back",
                 position: {x: 493.5384615384618, y: 286.5714285714286},
-                rotation: 3.8561364221653305,
+                rotation: 0,
             },
 
         ], 
