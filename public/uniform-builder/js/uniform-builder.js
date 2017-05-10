@@ -1681,7 +1681,11 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings[uniform_type], function (e) {
 
-            if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') { return; }
+            if (e.setting_type === 'highlights' || 
+                e.setting_type === 'shadows' || 
+                e.setting_type === 'static_layer') { return; }
+
+            if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { console.log('Skipping team color processing for ' + e.code + '...'); return; }
 
             if (typeof e.code !== 'undefined') {
 
@@ -1748,7 +1752,7 @@ $(document).ready(function () {
 
                     ub.generate_gradient(e.gradient.gradient_obj, e.code);    
 
-                }    
+                }
 
             }
 
