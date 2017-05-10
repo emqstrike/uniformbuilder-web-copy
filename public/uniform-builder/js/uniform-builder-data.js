@@ -11875,5 +11875,23 @@ ub.funcs.fontOffSets = [
         }
 
     }
+
+    ub.data.skipTeamColorProcessing = {
+
+        items: [
+            {
+                sport: 'Cinch Sack (Apparel)',
+                code: 'body',
+            }
+        ],
+        shouldSkip: function (sport, code) {
+
+            var _result = _.find(this.items, {sport: sport, code: code});
+            
+            return (typeof _result !== "undefined");
+
+        }
+
+    }
     
 });
