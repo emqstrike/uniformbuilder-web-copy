@@ -11882,12 +11882,45 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Cinch Sack (Apparel)',
                 code: 'body',
-            }
+            },
+            {
+                sport: 'Polo (Apparel)',
+                code: 'body',
+            },
+            {
+                sport: 'Hockey',
+                code: 'body',
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                code: 'body',
+            },
+            {
+                sport: 'Volleyball',
+                code: 'body',
+            },
         ],
         shouldSkip: function (sport, code) {
 
             var _result = _.find(this.items, {sport: sport, code: code});
-            
+
+            if (typeof _result === "undefined") {
+
+                var material = ub.current_material.material;
+
+                var sportOk         = (sport === "Wrestling" || sport === "Baseball");
+                var neckOptionOk    = (material.neck_option === "Fight Short");
+                var blockPatternOk  = (material.block_pattern === "Cage Jacket");
+                var codeOk          = (code === "body");
+
+                if (sportOk && (neckOptionOk || blockPatternOk) && codeOk) {
+
+                    _result = { sport: sport, code: code }
+
+                }
+
+            }
+
             return (typeof _result !== "undefined");
 
         }
