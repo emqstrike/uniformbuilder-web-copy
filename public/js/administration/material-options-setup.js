@@ -91,7 +91,7 @@ $(document).ready(function() {
     });
 
     $(document).on('change', '.tcid', function() {
-        console.log('changed gid');
+        console.log('changed tcid');
         var number = $(this).val();
         var perspective = $(this).data('perspective');
         var name = $(this).data('name').toLowerCase();
