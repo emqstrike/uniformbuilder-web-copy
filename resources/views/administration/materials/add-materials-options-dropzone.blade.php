@@ -56,8 +56,8 @@
     			<td>Layer Number</td>
     			<td>Setting Type</td>
     			<td>Default Color</td>
-    			<td>Allow Pattern</td>
-    			<td>Allow Color</td>
+    			<td>Allow Pattern <input class="mo-allow-all-pattern" type="checkbox" value="1"></td>
+    			<td>Allow Color <input class="mo-allow-all-color" type="checkbox" value="1"></td>
     			<td>Team Color ID</td>
     			<td>Group ID</td>
     			<td>Preview</td>
@@ -152,6 +152,32 @@ function generateColorsDropdown(color_code){
     });
     return colors_dropdown;
 }
+
+$('.mo-allow-all-pattern').change(function(){
+    if($(this).is(':checked')){
+        $(".mo-allow-pattern").each(function(i) {
+            $(this).prop('checked', true);
+        });
+    } else {
+        $(".mo-allow-pattern").each(function(i) {
+            $(this).prop('checked', false);
+        });
+    }
+    refreshJSON();
+});
+
+$('.mo-allow-all-color').change(function(){
+    if($(this).is(':checked')){
+        $(".mo-allow-color").each(function(i) {
+            $(this).prop('checked', true);
+        });
+    } else {
+        $(".mo-allow-color").each(function(i) {
+            $(this).prop('checked', false);
+        });
+    }
+    refreshJSON();
+});
 
 function refreshColorBG(){
     $('.mo-default-color').change(function(){
