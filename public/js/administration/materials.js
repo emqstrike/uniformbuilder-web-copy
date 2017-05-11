@@ -1126,6 +1126,7 @@ $(document).ready(function() {
             back_shape: ($(this).data('material-back-shape')),
             left_shape: ($(this).data('material-left-shape')),
             right_shape: ($(this).data('material-right-shape')),
+            uniform_category: ($(this).data('material-uniform-category')),
             option: {
                 id: $(this).data('material-option-id'),
                 name: $(this).data('material-option-name'),
@@ -1269,15 +1270,25 @@ $(document).ready(function() {
         }
 
         var patterns_dropdown = '<option value="0">None</option>';
+        var myStr = '^.*'+material.uniform_category+'.*$';
+        var regexstr = new RegExp(myStr);
+        console.log('REGEX STR');
+        console.log(regexstr);
         try{
             $.each(window.patterns, function(i, item) {
-
-                if(item.asset_target == material.option.asset_target){
-                    if( material.option.pattern_id == item.id ){
-                        patterns_dropdown += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
-                    } else {
-                        patterns_dropdown += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
-                    }
+                // console.log('ITEM');
+                // console.log(item);
+                var sports = item.sports;
+                // console.log('SPORTS');
+                // console.log(sports);
+                if( ((typeof sports) === 'string') ){
+                    if(item.asset_target == material.option.asset_target && sports.match(regexstr) ){
+                        if( material.option.pattern_id == item.id ){
+                            patterns_dropdown += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
+                        } else {
+                            patterns_dropdown += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
+                        }
+                    } 
                 }
             });
             console.log('Material Option Pattern ID: '+material.option.pattern_id);

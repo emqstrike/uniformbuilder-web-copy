@@ -173,14 +173,10 @@ class MaterialsController extends Controller
     }
 
     public function insertDropzoneImage(Request $request){
-        // $image = Input::file('file');
         $file = $request->file('file');
         $a = explode('\\', $file);
-        $b = end($a);
-        $c = explode('.', $b);
-        $d = $c[0];
-        // $b = $image->getClientOriginalExtension();
-        // return $d;
+        $b = explode('/', $a[0]);
+        $c = end($b);
         if (isset($file))
         {
             if ($file->isValid())
@@ -191,7 +187,7 @@ class MaterialsController extends Controller
                     $randName,
                     'material_option',
                     "materials",
-                    "{$d}.png"
+                    "{$c}.png"
                 );
 
                 return $loc;
