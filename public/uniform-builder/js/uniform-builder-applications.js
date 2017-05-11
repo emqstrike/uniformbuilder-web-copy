@@ -10308,17 +10308,21 @@ $(document).ready(function() {
         var _primaryViewObject = ub.funcs.getPrimaryViewObject(_phaSettings.application);
 
         // Process Uniforms with Extra Layer 
-        if (ub.data.sportsWithExtraLayer.isValid(ub.sports)) {
+
+        if (ub.data.sportsWithExtraLayer.isValid(ub.sport)) {
 
             var _extra = ub.objects[perspective + '_view']['extra'];
 
-            if (typeof _extra === "undefined") { ub.utilities.error('Extra Layer not detected!'); } 
+            if (typeof _extra === "undefined") { 
+                ub.utilities.error('Extra Layer not detected!'); 
+            } 
             if (typeof _extra !== "undefined") { 
-                if (_part === "Body" || _part === "Back Body") { _part = 'Extra'; } 
+                if (_part === "Body" || _part === "Back Body") { 
+                    _part = 'Extra'; 
+                } 
             }
 
         }
-
 
         // For instances where the part has left or right (e.g. sleeve), converts it to Left Sleeve
         if (typeof side !== "undefined" && side !== "na") { _part = side.toTitleCase() + " " + _part; }

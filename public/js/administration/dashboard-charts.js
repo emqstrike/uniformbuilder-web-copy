@@ -28,6 +28,7 @@ var months_array = [
   "February",
   "March",
   "April",
+  "May",
   "June",
   "July",
   "August",

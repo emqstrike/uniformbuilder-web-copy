@@ -336,10 +336,8 @@ $(document).ready(function () {
 
             var _sport = ub.current_material.material.uniform_category;
 
-            switch (_sport) {
+            if (ub.data.sportsWithHiddenYouthPrices.isHidden(_sport)) {
 
-              case 'Crew Socks (Apparel)':
-                
                 $('span.youthPriceCustomizer').hide();
                 $('span.youthPriceCustomizerSale').hide();
                 $('span.adult-label').html('Price starts from ');
@@ -350,16 +348,6 @@ $(document).ready(function () {
                 $('div#uniform-price-adult').addClass('single');
                 $('div#uniform-price-call-for-team-pricing').addClass('single');
 
-                break;
-              
-              default:
-
-                // $('span.youthPrice').show();
-                // $('span.youthPriceSale').show();
-                // $('span.adult-label').html('Adult from ');
-
-                ub.utilities.info('No Per Sport Cleanup for Picker')
-                
             }
 
         }
@@ -1681,7 +1669,19 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings[uniform_type], function (e) {
 
-            if(e.setting_type === 'highlights' || e.setting_type === 'shadows' || e.setting_type === 'static_layer') { return; }
+            if (e.setting_type === 'highlights' || 
+                e.setting_type === 'shadows' || 
+                e.setting_type === 'static_layer') { return; }
+
+            if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
+                
+                if (typeof e.code !== "undefined") {
+                    ub.utilities.info(e.code.toTitleCase() + ' layer detected, skipping add to Team Colors...');     
+                }
+                
+                return; 
+
+            }
 
             if (typeof e.code !== 'undefined') {
 
@@ -1748,7 +1748,7 @@ $(document).ready(function () {
 
                     ub.generate_gradient(e.gradient.gradient_obj, e.code);    
 
-                }    
+                }
 
             }
 
@@ -5660,24 +5660,12 @@ $(document).ready(function () {
 
         var _sport = sport;
 
-        switch (_sport) {
-          
-          case 'Crew Socks (Apparel)':
-            
+        if (ub.data.sportsWithHiddenYouthPrices.isHidden(sport)) {
+
             $('span.youthPrice').hide();
             $('span.youthPriceSale').hide();
             $('span.adult-label').html('Price starts from ');
 
-            break;
-          
-          default:
-
-            // $('span.youthPrice').show();
-            // $('span.youthPriceSale').show();
-            // $('span.adult-label').html('Adult from ');
-
-            ub.utilities.info('No Per Sport Cleanup for Picker')
-            
         }
 
     }
