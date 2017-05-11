@@ -185,6 +185,7 @@ function refreshColorBG(){
         $(this).css('background-color', color);
         $(this).css('color', '#fff');
         $(this).css('text-shadow', '1px 1px #000');
+        refreshJSON();
     });
 }
 
