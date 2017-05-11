@@ -61,9 +61,11 @@ class BlockPatternsController extends Controller
         $name = $request->input('name');
         $uniformCategoryID = $request->input('uniform_category_id');
         $neckOptions = $request->input('neck_options');
+        $placeholderOverrides = $request->input('placeholder_overrides');
         $data = [
             'name' => $name,
-            'uniform_category_id' => $uniformCategoryID
+            'uniform_category_id' => $uniformCategoryID,
+            'placeholder_overrides' => $placeholderOverrides
         ];
 
         $id = null;

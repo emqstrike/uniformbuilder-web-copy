@@ -1,6 +1,10 @@
 $(document).ready(function(){
 
-
+    try{
+        $('.autosized').autosize({append: "\n"});
+    } catch(err){
+        console.log(err.message);
+    }
 
     var layers_properties = {};
 
