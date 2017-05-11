@@ -1270,7 +1270,9 @@ $(document).ready(function() {
         }
 
         var patterns_dropdown = '<option value="0">None</option>';
-        var myStr = '^.*'+material.uniform_category+'.*$';
+        var escaped_material_uc = material.uniform_category.replace("(", "\\(");
+        escaped_material_uc = escaped_material_uc.replace(")", "\\)");
+        var myStr = '^.*'+escaped_material_uc+'.*$';
         var regexstr = new RegExp(myStr);
         console.log('REGEX STR');
         console.log(regexstr);
