@@ -49,6 +49,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Placeholder Overrides</label>
+                            <div class="col-md-6">
+                                <textarea name="placeholder_overrides" class="form-control placeholder-overrides autosized"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Neck Options
                             <div>
                                 <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Neck Option</a>
@@ -106,5 +113,6 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/ddslick.min.js"></script>
+<script type="text/javascript" src="/js/libs/autosize.js"></script>
 <script type="text/javascript" src="/js/administration/block-patterns.js"></script>
 @endsection
