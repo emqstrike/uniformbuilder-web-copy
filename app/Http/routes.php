@@ -38,7 +38,6 @@ Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@load
 Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilderController@loadDesignSetRender');
 
 
-
 // Orders and Profile
 
 // Showcase design

@@ -37,4 +37,30 @@ class StringUtility
         }
         return null;
     }
+
+    public static function strToArray($string, $delimeter = ',')
+    {
+        if (empty($string))
+        {
+            return [];
+        }
+
+        $tmp = explode($delimeter, $string);
+        return $tmp;
+    }
+
+    /**
+     * Surround elements with double quotes (DQ)
+     * @param  Array $elements
+     * @return Array
+     */
+    public static function surroundElementsDQ($elements)
+    {
+        $new_elements = [];
+        foreach ($elements as $element)
+        {
+            $new_elements[] = "\"{$element}\"";
+        }
+        return $new_elements;
+    }
 }

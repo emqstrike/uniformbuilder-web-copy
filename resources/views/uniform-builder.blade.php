@@ -368,10 +368,15 @@
         window.ub.page = "{{ isset($page) ? $page : 'builder' }}";
 
         ub.render = "{{ isset($render) ? $render : false }}";
+
+        // Team Store Parameters
         // Flag for returning the requested images
         ub.return_rendered_code = "{{ isset($return_rendered_code) ? $return_rendered_code : false }}";
+        ub.team_name = "{{ isset($team_name) ? $team_name : false }}";
+        ub.team_colors = [{!! $team_colors !!}];
+
         ub.savedDesignName = "{{ isset($saved_design_name) ? $saved_design_name : '' }}";
-        
+
         // #load_order
         var s = "{{ $builder_customizations }}";
 

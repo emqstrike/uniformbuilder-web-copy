@@ -109,11 +109,27 @@ class UniformBuilderController extends Controller
             'render' => $render
         ];
 
-        // * @config['code'] - parameter passed by team store
+        // @param Render request code - parameter passed by team store
         if (isset($config['code']))
         {
             $params['return_rendered_code'] = $config['code'];
             Log::info('return_rendered_code = ' . $config['code']);
+        }
+
+        // @param Team Name
+        $params['team_name'] = '';
+        if (isset($config['team_name']))
+        {
+            $params['team_name'] = $config['team_name'];
+        }
+
+        // @param Team Colors - comma separated list
+        $params['team_colors'] = [];
+        if (isset($config['team_colors']))
+        {
+            $color_array = StringUtility::strToArray($config['team_colors']);
+            $color_array = StringUtility::surroundElementsDQ($color_array);
+            $params['team_colors'] = implode(',', $color_array);
         }
 
         $params['builder_customizations'] = null;
@@ -280,7 +296,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function loadDesignSetRender($designSetId = null, $materialId = null, $code = null)
+    public function loadDesignSetRender(Request $request, $designSetId = null, $materialId = null, $code = null)
     {
         $config = [
             'design_set_id' => $designSetId,
@@ -291,6 +307,14 @@ class UniformBuilderController extends Controller
         if (!is_null($code))
         {
             $config['code'] = $code;
+            if ($request->has('team_name'))
+            {
+                $config['team_name'] = $request->team_name;
+            }
+            if ($request->has('team_colors'))
+            {
+                $config['team_colors'] = $request->team_colors;
+            }
             Log::info('Render using this code ' . $code);
         }
 
