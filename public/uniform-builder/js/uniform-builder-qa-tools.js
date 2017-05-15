@@ -175,7 +175,8 @@ $(document).ready(function () {
                     _ptStr += "<td class='pattern-material-option-column tRight'>" + mo.group_id + "</td>";
                     _ptStr += "<td class='pattern-material-option-column tRight'>" + mo.team_color_id + "</td>";
                     _ptStr += "<td class='pattern-material-option-column tCenter'>" + _allowpattern + "</td>";
-                    _ptStr += "<td class='pattern-material-option-column'>" + '<img class="img_preview" style="background-color: #' + mo.default_color  + ';" src= "' + mo.path +'" />';
+                    _ptStr += "<td class='pattern-material-option-column'>" + '<img class="img_preview" style="background-color: #' + mo.default_color  + ';" src= "' + mo.path +'" /> <button class="btn show-boundaries" data-perspective="' + mo.perspective + '" data-name="' + key.name + '">Show Boundaries</button>';
+
 
                 _ptStr += '</tr>';
 
@@ -187,6 +188,24 @@ $(document).ready(function () {
 
         _ptStr += "</table>"
         $('div.pt').html(_ptStr);
+
+        $('button.show-boundaries').unbind('click');
+        $('button.show-boundaries').on('click', function () {
+
+            _perspective = $(this).data('perspective');
+            _name = $(this).data('name');
+
+            ub.funcs.changeActiveView(_perspective);
+            ub.funcs.getBoundaries(_perspective, _name, true);
+
+        });
+
+        $('div.btn.extract').unbind('click');
+        $('div.btn.extract').on('click', function () {
+
+            ub.generators.generatePlaceholderOverrides();
+
+        });
 
 
     };
