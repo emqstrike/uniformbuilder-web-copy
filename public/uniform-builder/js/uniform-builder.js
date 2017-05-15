@@ -1834,6 +1834,13 @@ $(document).ready(function () {
                 ub.update_application_logo(application_obj);
 
             }
+
+            // Pre-load team_name parameter
+            if (ub.team_name.length > 0) {
+                if (application_obj.type === 'team_name') {
+                    application_obj.text = ub.team_name;
+                }
+            }
                 
         });
 
