@@ -507,7 +507,6 @@ $(document).ready(function() {
         };
 
         var _url = 'http://api-dev.qstrike.com/api/feedback';
-
         //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
         $.ajax({

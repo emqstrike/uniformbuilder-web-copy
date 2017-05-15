@@ -2311,6 +2311,13 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.convertDegreesToRadians = function (degrees) {
+
+            var _result = (degrees * Math.PI) / 180;
+            return _result;
+
+        }
+
         ub.funcs.renderApplication = function (sprite_function, args, app_id) {
 
             var sprite_collection   = [];
@@ -2365,7 +2372,7 @@ $(document).ready(function() {
 
                 }
 
-                point.rotation = (view.application.rotation * Math.PI) / 180;
+                point.rotation = ub.funcs.convertDegreesToRadians(view.application.rotation);
 
                 var _zIndex = ub.funcs.generateZindex('applications');
 
@@ -4547,9 +4554,6 @@ $(document).ready(function() {
             outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
             _settingsObject.pattern     = outputPatternObject;
             e = _settingsObject;
-
-            console.log('E: ');
-            console.log(e);
 
             ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
 
@@ -10304,6 +10308,7 @@ $(document).ready(function() {
         var _phaSettings    = ub.data.placeholderApplicationSettings[_pha.id];
         var _part           = part;
         var _sport          = ub.current_material.material.uniform_category;
+        var _blockPattern   = ub.current_material.material.block_pattern;
         var _primaryView    = ub.funcs.getPrimaryView(_phaSettings.application);
         var _primaryViewObject = ub.funcs.getPrimaryViewObject(_phaSettings.application);
 
@@ -10332,31 +10337,28 @@ $(document).ready(function() {
 
         _.each(_phaSettings.application.views, function (_perspectiveView) {
 
+            var _perspective = _perspectiveView.perspective;
+
             // Get Center of Polygon 
-            var _cx = ub.funcs.getCentoid(_perspectiveView.perspective, _part);
+            var _cx = ub.funcs.getCentoid(_perspective, _part);
 
             // CX Override 
             if (typeof _cx !== "undefined") {
 
                 _perspectiveView.application.center = _cx;
                 _perspectiveView.application.pivot = _cx;
-                _perspectiveView.application.rotation = 0;
 
             }
 
             if (typeof _perspectiveView !== "undefined") {
 
-                if (parseInt(_perspectiveView.application.isPrimary) === 1) {
+                var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, _perspectiveView.perspective, _blockPattern);
 
-                    var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, perspective);
+                if (typeof _overrides !== "undefined") {
 
-                    if (typeof _overrides !== "undefined") {
-
-                        _perspectiveView.application.rotation = _overrides.rotation;
-                        _perspectiveView.application.center = _overrides.position;
-                        _perspectiveView.application.pivot = _overrides.position;
-
-                    }
+                    _perspectiveView.application.rotation = _overrides.rotation;
+                    _perspectiveView.application.center = _overrides.position;
+                    _perspectiveView.application.pivot = _overrides.position;
 
                 }
 
@@ -10364,31 +10366,27 @@ $(document).ready(function() {
 
         });
 
-         _.each(_phaSettings.application.views, function (_perspectiveView) {
+        _.each(_phaSettings.application.views, function (_perspectiveView) {
 
             // Get Center of Polygon 
             var _cx = ub.funcs.getCentoid(_perspectiveView.perspective, _part);
+            var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, _perspectiveView.perspective, _blockPattern);
 
             // CX Override 
-            if (typeof _cx !== "undefined") {
+            if (typeof _cx !== "undefined" && typeof _overrides === "undefined") {
 
                 _perspectiveView.application.center = _cx;
                 _perspectiveView.application.pivot = _cx;
-                _perspectiveView.application.rotation = 0;
 
             }
 
-            if (typeof _perspectiveView !== "undefined") {
-
-                // Non-Primary
+            if (typeof _perspectiveView !== "undefined" && typeof _overrides === "undefined") {
 
                 if (parseInt(_perspectiveView.application.isPrimary) !== 1) {
 
                     var _bounds = ub.funcs.getBoundaries(_perspectiveView.perspective, _part, false);
                     var _overrideX = undefined;
                     var _overrideY = _bounds.minMax.centoid.y;
-
-                    console.log('Primary View ');
 
                     if (_primaryView === "front") {
 
@@ -10434,8 +10432,8 @@ $(document).ready(function() {
 
                     }
 
-                    _perspectiveView.application.position = {x: _overrideX, y : _primaryViewObject.application.center.x };
-                    _perspectiveView.application.center = {x: _overrideX, y : _primaryViewObject.application.center.y };
+                    _perspectiveView.application.position = {x: _overrideX, y: _primaryViewObject.application.center.x };
+                    _perspectiveView.application.center = {x: _overrideX, y: _primaryViewObject.application.center.y };
 
                 }
 
@@ -11587,9 +11585,45 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.getBoundarySettings = function (perspective, materialOption) {
+
+        var _result =  _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: materialOption.toTitleCase()});
+        return _result;
+
+    }
+
+    ub.funcs.getMaterialOptionAngle = function (perspective, materialOption) {
+
+        var _angle = 0;
+        var _result = ub.funcs.getBoundarySettings(perspective, materialOption);
+
+        if (typeof _result === "undefined") { 
+
+            ub.utilties.info('No boundary settings for ' + perspective + ' / ' + materialOption);
+
+         }
+
+        if (typeof _result !== "undefined") {
+
+            if (typeof _result.polygon[0].angle !== "undefined") {
+
+                _angle = _result.polygon[0].angle;
+
+            } else {
+
+                ub.utilties.info('No angle field detected from ' + perspective + ' / ' + materialOption);
+ 
+            }
+
+        } 
+
+        return _angle;
+
+    }
+
     ub.funcs.getBoundaries = function (perspective, materialOption, skipDrawPolygon) {
 
-        var _result = _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: materialOption.toTitleCase() });
+        var _result = ub.funcs.getBoundarySettings(perspective, materialOption);
         var _polygon = undefined;
         var _array = [];
 
@@ -11664,5 +11698,11 @@ $(document).ready(function() {
         });
 
     } 
+
+    ub.funcs.changeActiveView = function (perspective) {
+
+        $('a.change-view[data-view="' + perspective + '"]').trigger('click');
+
+    }
 
 });

@@ -23,15 +23,18 @@ $(document).ready(function () {
             ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
             ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
             ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
+            ub.current_material.block_patterns_url = window.ub.config.api_host + '/api/block_patterns/';
 
             ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
             ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
+
             ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
             ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
             ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
             ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
             ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
             ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
+            ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
 
             ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
 
@@ -596,6 +599,21 @@ $(document).ready(function () {
             });
 
         }
+
+        ub.funcs.optimize = function () {
+
+            var _items = ub.data.placeHolderOverrides;
+
+            ub.pha = _.find(ub.pha, {name: ub.current_material.material.block_pattern});
+
+            if (typeof ub.pha !== "undefined") {
+
+                _items = JSON.parse(ub.pha.placeholder_overrides);
+                ub.data.placeHolderOverrides.items = _items;
+
+            }
+            
+        };
  
         ub.callback = function (obj, object_name) {
 
@@ -609,7 +627,7 @@ $(document).ready(function () {
 
                     _.each(obj, function (tailsweep, index) {
 
-                        if (tailsweep.code === "blank") { 
+                        if (tailsweep.code === "blank") {
                             
                             tailsweep.sortOrder = 0; 
 
@@ -631,7 +649,19 @@ $(document).ready(function () {
 
             }
 
-            if (object_name === 'fonts') { 
+            if (object_name === 'block_patterns') {
+
+                var _items = _.filter(obj, function (block_pattern) {
+
+                    return  (block_pattern.placeholder_overrides !== null && block_pattern.placeholder_overrides !== "");
+
+                });
+
+                ub.pha = _items;
+
+            }
+
+            if (object_name === 'fonts') {
 
                 ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
                 ub.data.fonts = _.sortBy(ub.data.fonts, "name");
@@ -639,10 +669,10 @@ $(document).ready(function () {
 
             }
 
-            if (object_name === 'colors') { 
+            if (object_name === 'colors') {
 
                 ub.data.colors = _.filter(ub.data.colors, {active: "1"});
-                ub.data.colors = _.map(ub.data.colors, function (color) { 
+                ub.data.colors = _.map(ub.data.colors, function (color) {
                 
                     color.order = ub.data.sublimatedColorArrangement.getOrderID(color.name).order;
                     return color;
@@ -677,6 +707,8 @@ $(document).ready(function () {
                 ub.init_settings_object();
                 ub.init_style();
                 ub.funcs.initFonts();
+
+                ub.funcs.optimize();
 
             }
             
