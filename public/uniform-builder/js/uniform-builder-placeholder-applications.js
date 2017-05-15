@@ -38,7 +38,6 @@ $(document).ready(function () {
 
         items: [
             'Crew Socks (Apparel)',
-            'Football'
         ],
         isValid: function (sport) {
 
@@ -50,46 +49,15 @@ $(document).ready(function () {
 
     ub.data.placeHolderOverrides = {
 
-        items: [
+        items: [], 
 
-            {
-                sport: "Crew Socks (Apparel)",
-                part: 'Sublimated',
-                perspective: "left",
-                position: {x: 489.2527472527473, y: 340},
-                rotation: -17,
-            },
-            {
-                sport: "Crew Socks (Apparel)",
-                part: 'Sublimated',
-                perspective: "right",
-                position: {x: 514.9670329670332, y: 331.42857142857144},
-                rotation: 17,
-            },
-            {
-                sport: "Crew Socks (Apparel)",
-                part: 'Sublimated',
-                perspective: "front",
-                position: {x: 504.967032967033, y: 343.7142857142858},
-                rotation: 0,
-            },
-            {
-                sport: "Crew Socks (Apparel)",
-                part: 'Sublimated',
-                perspective: "back",
-                position: {x: 493.5384615384618, y: 286.5714285714286},
-                rotation: 0,
-            },
+        getOverrides: function (sport, part, perspective, blockPattern) {
 
-        ], 
-
-        getOverrides: function (sport, part, perspective) {
-
-            var _result = _.find(this.items, {sport: sport, part: part, perspective: perspective});
+            var _result = _.find(this.items, {sport: sport, part: part, perspective: perspective, blockPattern: blockPattern});
 
             if (typeof _result === "undefined") {
 
-                // TODO, add defaults here ...
+                ub.utilities.info('Placeholder Override not found, using default.'); // Centoid Function will be used insteadff
 
             }
 
