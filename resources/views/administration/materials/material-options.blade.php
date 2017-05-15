@@ -136,7 +136,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                     data-material-option-id="{{ $option->id }}"
                                     data-material-id="{{ $material->id }}"
                                     data-material-option-name="{{ $option->name }}"
-                                    data-material-option-applications-properties='{{ $option->applications_properties }}@unless ( empty($option->applications_properties) ) "{}" @endunless'
+                                    data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
                                     data-material-option-guide="{{ $front_guide }}"
                                     data-material-option-path="{{ $option->material_option_path }}"
                                     data-material-option-perspective="{{ $option->perspective }}"
@@ -220,7 +220,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                     data-material-option-id="{{ $option->id }}"
                                     data-material-id="{{ $material->id }}"
                                     data-material-option-name="{{ $option->name }}"
-                                    data-material-option-applications-properties='{{ $option->applications_properties }}@unless ( empty($option->applications_properties) ) "{}" @endunless'
+                                    data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
                                     data-material-option-guide="{{ $back_guide }}"
                                     data-material-option-path="{{ $option->material_option_path }}"
                                     data-material-option-perspective="{{ $option->perspective }}"
@@ -304,7 +304,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                     data-material-option-id="{{ $option->id }}"
                                     data-material-id="{{ $material->id }}"
                                     data-material-option-name="{{ $option->name }}"
-                                    data-material-option-applications-properties='{{ $option->applications_properties }}@unless ( empty($option->applications_properties) ) "{}" @endunless'
+                                    data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
                                     data-material-option-guide="{{ $left_guide }}"
                                     data-material-option-path="{{ $option->material_option_path }}"
                                     data-material-option-perspective="{{ $option->perspective }}"
@@ -388,7 +388,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                     data-material-option-id="{{ $option->id }}"
                                     data-material-id="{{ $material->id }}"
                                     data-material-option-name="{{ $option->name }}"
-                                    data-material-option-applications-properties='{{ $option->applications_properties }}@unless ( empty($option->applications_properties) ) "{}" @endunless'
+                                    data-material-option-applications-properties="{{ !empty($option->applications_properties) ? $option->applications_properties : "\"{}\"" }}"
                                     data-material-option-guide="{{ $right_guide }}"
                                     data-material-option-path="{{ $option->material_option_path }}"
                                     data-material-option-perspective="{{ $option->perspective }}"
