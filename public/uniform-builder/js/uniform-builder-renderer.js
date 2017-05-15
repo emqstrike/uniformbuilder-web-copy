@@ -78,7 +78,8 @@ $(document).ready(function() {
                 product_id: ub.config.material_id,
                 code: ub.return_rendered_code,
                 front: ub.front,
-                back: ub.back
+                back: ub.back,
+                team_store: ub.team_store
             },
             method: 'POST',
             success: function(response) {
