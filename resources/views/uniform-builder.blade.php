@@ -449,6 +449,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-history.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-fonts.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-renderer.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-stores.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>

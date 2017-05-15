@@ -1667,6 +1667,9 @@ $(document).ready(function () {
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
 
+        // For Team Stores
+        if (ub.team_colors.length > 0) { ub.current_material.settings = ub.prepareForTeamStoresMaterialOptions(ub.current_material.settings) }
+
         _.each(ub.current_material.settings[uniform_type], function (e) {
 
             if (e.setting_type === 'highlights' || 
@@ -1794,6 +1797,10 @@ $(document).ready(function () {
         /// Load Applications, Text Type
 
         var font_families = [];
+
+        // For Team Stores
+        // 
+        //if (ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
             
