@@ -8,7 +8,7 @@ $(document).ready(function () {
 
             if (parseInt(ub.render) === 1) { ub.funcs.removePanels(); }
 
-            ub.funcs.beforeLoad(); 
+            ub.funcs.beforeLoad();
             ub.config.print_version();
 
             /// Initialize Assets
@@ -18,30 +18,44 @@ $(document).ready(function () {
 
             if (ub.current_material.id !== -1) { ub.funcs.initCanvas(); }
 
-            ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
-            ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
-            ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
-            ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
-            ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
+           if (window.ub.config.material_id !== -1) {
 
-            ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
-            ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
-            ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
-            ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
-            ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
-            ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
-            ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
-            ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
+                ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
+                ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
+                ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
+                ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
 
-            ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
+                // Disable Tailsweeps for now
+                // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
+                ub.current_material.block_patterns_url = window.ub.config.api_host + '/api/block_patterns/';
 
-            ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
-            ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
+                ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
+                ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
 
-            ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
-            ub.loader(ub.materials_url, 'materials', ub.load_materials);
+                ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
+                ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
+                ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
+                ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
+                ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
+                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
+                ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
 
-            if (typeof ub.user.id !== 'undefined') {
+                // Disable Tailsweeps for now
+                // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
+
+            }
+
+            if (window.ub.config.material_id === -1) {
+
+                ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
+                ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
+
+                ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
+                ub.loader(ub.materials_url, 'materials', ub.load_materials);
+
+            }
+
+            if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
                 ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);
@@ -49,8 +63,7 @@ $(document).ready(function () {
                 // ub.savedDesigns_url = window.ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id;
                 // ub.loader(ub.savedDesigns_url, 'saved_designs', ub.load_save_designs);
 
-            }
-            else {
+            } else {
 
                 $('.open-save-design-modal').hide();
 
@@ -596,12 +609,31 @@ $(document).ready(function () {
             });
 
         }
+
+        ub.funcs.optimize = function () {
+
+            var _items = ub.data.placeHolderOverrides;
+
+            ub.pha = _.find(ub.pha, {name: ub.current_material.material.block_pattern});
+
+            if (typeof ub.pha !== "undefined") {
+
+                _items = JSON.parse(ub.pha.placeholder_overrides);
+                ub.data.placeHolderOverrides.items = _items;
+
+            }
+            
+        };
  
         ub.callback = function (obj, object_name) {
 
+            ub.utilities.info('Loading ' + object_name.toTitleCase() + " ...");
+
             ub.convertToString(obj);
 
-            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
+//            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
+
+              if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories') {
 
                 ub.data[object_name] = obj;
 
@@ -609,7 +641,7 @@ $(document).ready(function () {
 
                     _.each(obj, function (tailsweep, index) {
 
-                        if (tailsweep.code === "blank") { 
+                        if (tailsweep.code === "blank") {
                             
                             tailsweep.sortOrder = 0; 
 
@@ -631,7 +663,19 @@ $(document).ready(function () {
 
             }
 
-            if (object_name === 'fonts') { 
+            if (object_name === 'block_patterns') {
+
+                var _items = _.filter(obj, function (block_pattern) {
+
+                    return  (block_pattern.placeholder_overrides !== null && block_pattern.placeholder_overrides !== "");
+
+                });
+
+                ub.pha = _items;
+
+            }
+
+            if (object_name === 'fonts') {
 
                 ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
                 ub.data.fonts = _.sortBy(ub.data.fonts, "name");
@@ -639,10 +683,10 @@ $(document).ready(function () {
 
             }
 
-            if (object_name === 'colors') { 
+            if (object_name === 'colors') {
 
                 ub.data.colors = _.filter(ub.data.colors, {active: "1"});
-                ub.data.colors = _.map(ub.data.colors, function (color) { 
+                ub.data.colors = _.map(ub.data.colors, function (color) {
                 
                     color.order = ub.data.sublimatedColorArrangement.getOrderID(color.name).order;
                     return color;
@@ -677,6 +721,8 @@ $(document).ready(function () {
                 ub.init_settings_object();
                 ub.init_style();
                 ub.funcs.initFonts();
+
+                ub.funcs.optimize();
 
             }
             
@@ -2305,15 +2351,15 @@ $(document).ready(function () {
 
                     if (name === "back_tab")  {
 
-                        current_object.zIndex = -86;
-                        current_object.originalZIndex = -86;
+                        current_object.zIndex = ub.data.backTabLayer;
+                        current_object.originalZIndex = ub.data.backTabLayer;
 
                     }
 
                     if (name === "prolook")  {
 
-                        current_object.zIndex = -87;
-                        current_object.originalZIndex = -87;
+                        current_object.zIndex = ub.data.prolookLayer;
+                        current_object.originalZIndex = ub.data.prolookLayer;
 
                     }
 

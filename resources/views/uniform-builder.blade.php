@@ -440,7 +440,6 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-pipings.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-random-feed.js?v={{$asset_version}}"></script>
 
-
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-transformers.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-settings.js?v={{$asset_version}}"></script>
@@ -455,7 +454,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
-
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-generators.js?v={{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
 
@@ -521,6 +520,7 @@
 
 </script>
 
+@if (env('APP_ENV') !== "local")
 <script type="text/javascript">
 window.__lc = window.__lc || {};
 window.__lc.license = 7737151;
@@ -530,6 +530,7 @@ window.__lc.license = 7737151;
  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
 })();
 </script>
+@endif
 
 @include('partials.detect-mobile')
 

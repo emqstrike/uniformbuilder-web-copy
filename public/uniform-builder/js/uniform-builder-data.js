@@ -189,6 +189,9 @@ $(document).ready(function() {
     ub.data.fonts                   = undefined;
     ub.data.pipings                 = undefined;
 
+    ub.data.backTabLayer            = -100;
+    ub.data.prolookLayer            = -100; 
+
     // Mock Object for Pipings 
 
     ub.folders                      = { piping: '/images/pipings' } ;
@@ -11950,5 +11953,7 @@ ub.funcs.fontOffSets = [
         }
 
     }
+
+
     
 });
