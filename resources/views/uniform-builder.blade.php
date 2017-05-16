@@ -373,7 +373,13 @@
         // Flag for returning the requested images
         ub.return_rendered_code = "{{ isset($return_rendered_code) ? $return_rendered_code : false }}";
         ub.team_name = "{{ isset($team_name) ? $team_name : false }}";
-        ub.team_colors = [{!! $team_colors !!}];
+
+        @if (isset($team_colors))
+            ub.team_colors = [{!! $team_colors !!}];    
+        @else 
+            ub.team_colors = [];
+        @endif
+        
         ub.team_store = "{{ isset($store) ? $store : false }}";
 
         ub.savedDesignName = "{{ isset($saved_design_name) ? $saved_design_name : '' }}";

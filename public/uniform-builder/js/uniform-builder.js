@@ -1751,7 +1751,7 @@ $(document).ready(function () {
                             if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
                                 
                                 e.pattern = ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
-                                e.pattern = ub.prepareForTeamStoresPatterns(e.pattern);
+                                if (ub.team_colors.length > 0) { e.pattern = ub.prepareForTeamStoresPatterns(e.pattern); }
 
                             }    
 
