@@ -37,21 +37,23 @@ $(document).ready(function () {
 
                     var _colorArrayText = "";
                     var _colorArray = [];
+
                     _.each(application_obj.colorArrayText, function (e) {
                        
                         var _replacementColor = ub.funcs.getTeamColorReplacementColor(e);
 
+
                         if (typeof _replacementColor !== "undefined") {
                             _colorArrayText += _replacementColor.newColorCode + ',';
-                            _colorArray.push(_replacementColor);    
+                            _colorArray.push(ub.funcs.getColorByColorCode(_replacementColor.newColorCode));  
                         } else {
                             _colorArrayText += e + ',';
-                            _colorArray.push(e);    
+                            _colorArray.push(ub.funcs.getColorByColorCode(e));  
                         }
                         
                     });
 
-                    application_obj.colorArrayText = _colorArrayText;
+                    application_obj.colorArrayText = _colorArrayText.replace(/,\s*$/, "");
                     application_obj.color_array = _colorArray;
 
                 }
@@ -62,19 +64,24 @@ $(document).ready(function () {
 
                 var _colorArrayText = "";
                 var _colorArray = [];
-                _.each(application_obj.colorArrayText, function (e) {
 
+                _.each(application_obj.colorArrayText, function (e) {
+                   
                     var _replacementColor = ub.funcs.getTeamColorReplacementColor(e);
+
 
                     if (typeof _replacementColor !== "undefined") {
                         _colorArrayText += _replacementColor.newColorCode + ',';
-                        _colorArray.push(_replacementColor);    
+                        _colorArray.push(ub.funcs.getColorByColorCode(_replacementColor.newColorCode));  
                     } else {
                         _colorArrayText += e + ',';
-                        _colorArray.push(e);    
+                        _colorArray.push(ub.funcs.getColorByColorCode(e));  
                     }
-
+                    
                 });
+
+                application_obj.colorArrayText = _colorArrayText.replace(/,\s*$/, "");
+                application_obj.color_array = _colorArray;
 
                 var _lpArray = [];
                 _.each(application_obj.mascot.layers_properties, function (lp){

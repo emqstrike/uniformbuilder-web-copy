@@ -1654,7 +1654,7 @@ $(document).ready(function () {
 
             if (application.type !== 'mascot' && application.type !== 'free') {
 
-                application.color_array =  _.map(application.colorArrayText, function (code) { 
+                application.color_array =  _.map(application.colorArrayText.split(','), function (code) { 
 
                     var _ub = ub.funcs.getColorByColorCode(code);
                     return _ub;
@@ -1849,7 +1849,7 @@ $(document).ready(function () {
 
         // For Team Stores
         // 
-        //if (ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
+        if (ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
             
