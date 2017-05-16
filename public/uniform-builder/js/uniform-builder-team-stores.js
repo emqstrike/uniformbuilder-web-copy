@@ -116,6 +116,29 @@ $(document).ready(function () {
 
     ub.data.teamStoresteamColors = {};
 
+    ub.prepareForTeamStoresPatterns = function (settings) {
+
+        if (settings.pattern_id !== "blank" && settings.pattern_id !== "none") {
+
+            _.each(settings.pattern_obj.layers, function (layer) {
+
+                var _replacementColor = ub.funcs.getTeamColorReplacementColor(layer.color_code);
+
+                if (typeof _replacementColor !== "undefined") {
+    
+                    layer.color_code = _replacementColor.newColorCode;
+                    layer.color = parseInt(_replacementColor.newColorObj.hex_code, 16);
+    
+                }
+
+            });
+
+        }
+
+        return settings;
+
+    }
+
     ub.prepareForTeamStoresMaterialOptions = function (settings) {
 
         var uniform_type = ub.current_material.material.type;
@@ -144,6 +167,8 @@ $(document).ready(function () {
                 var _team_color_id  =  parseInt(_materialOption.team_color_id);
 
                 e.team_color_id     = _team_color_id;
+
+                if (isNaN(e.team_color_id)) { console.log('No Team Color ID Detected for ' + e.code.toTitleCase()); return; }
 
                 var _colorObj = ub.funcs.getColorObjByPosition(e.team_color_id);
 

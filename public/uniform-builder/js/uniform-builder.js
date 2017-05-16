@@ -1749,7 +1749,10 @@ $(document).ready(function () {
                         if (typeof e.pattern === "undefined" || e.pattern.pattern_id === "") {
 
                             if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
-                                e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
+                                
+                                e.pattern = ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
+                                e.pattern = ub.prepareForTeamStoresPatterns(e.pattern);
+
                             }    
 
                         }
