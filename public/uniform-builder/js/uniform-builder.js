@@ -55,7 +55,7 @@ $(document).ready(function () {
 
             }
 
-            if (typeof ub.user.id !== 'undefined') {
+            if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
                 ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);
@@ -627,7 +627,7 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
-            console.log('Object Name: ' + object_name);
+            ub.utilities.info('Loading ' + object_name.toTitleCase() + " ...");
 
             ub.convertToString(obj);
 
