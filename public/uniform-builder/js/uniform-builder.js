@@ -6129,6 +6129,34 @@ $(document).ready(function () {
     
     };
 
+    ub.funcs.enableSport = function (source, gender, code) {
+
+        console.log(code);
+        console.log(gender);
+
+        var a = _.find(source, {gender: gender});
+        var _bsb = _.find(a.sports, {code: code});
+
+        _bsb.active = "1";
+        _bsb.tooltip = "";
+        _bsb.disabledClass = "";
+
+    }
+
+    ub.funcs.disableSport = function (source, gender, code) {
+
+        console.log(code);
+        console.log(gender);
+
+        var a = _.find(ub.data.sports, {gender: gender});
+        var _bsb = _.find(a.sports, {code: code});
+
+        _bsb.active = "0";
+        _bsb.tooltip = "COMING SOON";
+        _bsb.disabledClass = "disabledClass";
+
+    }
+
     ub.funcs.initSportsPicker = function (sport) {
 
         ub.funcs.fadeOutBackgrounds();
@@ -6141,74 +6169,21 @@ $(document).ready(function () {
         var $searchField = $('input#search_field');
         $searchField.fadeIn();
 
-
         if (_.contains(ub.fontGuideIDs, ub.user.id)) {
 
-            var a = _.find(ub.data.sports, {gender: 'Men'});
-            var _bsb = _.find(a.sports, {code: 'baseball'});
-
-            _bsb.active = "1";
-            _bsb.tooltip = "";
-            _bsb.disabledClass = "";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _csc = _.find(a.sports, {code: 'crew_sock'});
-
-            _csc.active = "1";
-            _csc.tooltip = "";
-            _csc.disabledClass = "";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _tct = _.find(a.sports, {code: 'tech_tee'});
-
-            _tct.active = "1";
-            _tct.tooltip = "";
-            _tct.disabledClass = "";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _tct = _.find(a.sports, {code: 'tech_tee'});
-
-            _tct.active = "1";
-            _tct.tooltip = "";
-            _tct.disabledClass = "";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _cmp = _.find(a.sports, {code: 'compression'});
-
-            _cmp.active = "1";
-            _cmp.tooltip = "";
-            _cmp.disabledClass = "";
+            ub.funcs.enableSport(ub.data.sports, 'Men', 'baseball');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'crew_sock');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'tech_tee');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'compression');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'cinch_sack');
 
         } else {
 
-            var a = _.find(ub.data.sports, {gender: 'Men'});
-            var _bsb = _.find(a.sports, {code: 'baseball'});
-
-            _bsb.active = "0";
-            _bsb.tooltip = "COMING SOON";
-            _bsb.disabledClass = "disabledClass";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _csc = _.find(a.sports, {code: 'crew_sock'});
-
-            _csc.active = "0";
-            _csc.tooltip = "COMING SOON";
-            _csc.disabledClass = "disabledClass";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _tct = _.find(a.sports, {code: 'tech_tee'});
-
-            _tct.active = "0";
-            _tct.tooltip = "COMING SOON";
-            _tct.disabledClass = "disabledClass";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _tct = _.find(a.sports, {code: 'compression'});
-
-            _tct.active = "0";
-            _tct.tooltip = "COMING SOON";
-            _tct.disabledClass = "disabledClass";
-
+            ub.funcs.disableSport(ub.data.sports, 'Men', 'baseball');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'crew_sock');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'tech_tee');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'compression');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'cinch_sack');
 
         }
 
