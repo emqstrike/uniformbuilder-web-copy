@@ -35,25 +35,24 @@ $(document).ready(function () {
 
                 if (_isATextApplication) {
 
-                    var _colorArrayText = "";
+                    var _colorArrayText = [];
                     var _colorArray = [];
 
                     _.each(application_obj.colorArrayText, function (e) {
                        
                         var _replacementColor = ub.funcs.getTeamColorReplacementColor(e);
 
-
                         if (typeof _replacementColor !== "undefined") {
-                            _colorArrayText += _replacementColor.newColorCode + ',';
+                            _colorArrayText.push(_replacementColor.newColorCode);
                             _colorArray.push(ub.funcs.getColorByColorCode(_replacementColor.newColorCode));  
                         } else {
-                            _colorArrayText += e + ',';
+                            _colorArrayText.push(e);
                             _colorArray.push(ub.funcs.getColorByColorCode(e));  
                         }
                         
                     });
 
-                    application_obj.colorArrayText = _colorArrayText.replace(/,\s*$/, "");
+                    application_obj.colorArrayText = _colorArrayText;
                     application_obj.color_array = _colorArray;
 
                 }
@@ -62,7 +61,7 @@ $(document).ready(function () {
 
             if (application_obj.type === "mascot"){
 
-                var _colorArrayText = "";
+                var _colorArrayText = [];
                 var _colorArray = [];
 
                 _.each(application_obj.colorArrayText, function (e) {
@@ -71,16 +70,16 @@ $(document).ready(function () {
 
 
                     if (typeof _replacementColor !== "undefined") {
-                        _colorArrayText += _replacementColor.newColorCode + ',';
+                        _colorArrayText.push(_replacementColor.newColorCode);
                         _colorArray.push(ub.funcs.getColorByColorCode(_replacementColor.newColorCode));  
                     } else {
-                        _colorArrayText += e + ',';
+                        _colorArrayText.push(e);
                         _colorArray.push(ub.funcs.getColorByColorCode(e));  
                     }
                     
                 });
 
-                application_obj.colorArrayText = _colorArrayText.replace(/,\s*$/, "");
+                application_obj.colorArrayText = _colorArrayText;
                 application_obj.color_array = _colorArray;
 
                 var _lpArray = [];
@@ -90,7 +89,6 @@ $(document).ready(function () {
                    if (typeof _replacementColor !== "undefined") {
                         lp.default_color = _replacementColor.newColorCode;
                         lp.color = parseInt(_replacementColor.newColorObj.hex_code, 16);
-
                    }
                    
                 });

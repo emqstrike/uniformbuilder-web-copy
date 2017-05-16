@@ -1653,8 +1653,8 @@ $(document).ready(function () {
         _.each(ub.current_material.settings.applications, function (application) {
 
             if (application.type !== 'mascot' && application.type !== 'free') {
-
-                application.color_array =  _.map(application.colorArrayText.split(','), function (code) { 
+    
+                application.color_array =  _.map(application.colorArrayText, function (code) { 
 
                     var _ub = ub.funcs.getColorByColorCode(code);
                     return _ub;
@@ -1890,12 +1890,7 @@ $(document).ready(function () {
                 ub.update_application_logo(application_obj);
 
             }
-
-            // Pre-load team_name parameter
-            if (application_obj.type === 'team_name') {
-                application_obj.text = ub.team_name;
-            }
-                
+    
         });
 
         /// 
