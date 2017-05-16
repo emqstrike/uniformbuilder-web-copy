@@ -374,7 +374,7 @@
         ub.return_rendered_code = "{{ isset($return_rendered_code) ? $return_rendered_code : false }}";
         ub.team_name = "{{ isset($team_name) ? $team_name : false }}";
 
-        @if(!isset($team_colors)) 
+        @if(isset($page)) 
             ub.team_colors = [];
         @else 
             ub.team_colors = [{!! $team_colors !!}];    
