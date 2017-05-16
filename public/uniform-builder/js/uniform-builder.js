@@ -6131,29 +6131,23 @@ $(document).ready(function () {
 
     ub.funcs.enableSport = function (source, gender, code) {
 
-        console.log(code);
-        console.log(gender);
-
         var a = _.find(source, {gender: gender});
-        var _bsb = _.find(a.sports, {code: code});
+        var _sport = _.find(a.sports, {code: code});
 
-        _bsb.active = "1";
-        _bsb.tooltip = "";
-        _bsb.disabledClass = "";
+        _sport.active = "1";
+        _sport.tooltip = "";
+        _sport.disabledClass = "";
 
     }
 
     ub.funcs.disableSport = function (source, gender, code) {
 
-        console.log(code);
-        console.log(gender);
-
         var a = _.find(ub.data.sports, {gender: gender});
-        var _bsb = _.find(a.sports, {code: code});
+        var _sport = _.find(a.sports, {code: code});
 
-        _bsb.active = "0";
-        _bsb.tooltip = "COMING SOON";
-        _bsb.disabledClass = "disabledClass";
+        _sport.active = "0";
+        _sport.tooltip = "COMING SOON";
+        _sport.disabledClass = "disabledClass";
 
     }
 
