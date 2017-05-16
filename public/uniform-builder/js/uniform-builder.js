@@ -2323,15 +2323,15 @@ $(document).ready(function () {
 
                     if (name === "back_tab")  {
 
-                        current_object.zIndex = -86;
-                        current_object.originalZIndex = -86;
+                        current_object.zIndex = ub.data.backTabLayer;
+                        current_object.originalZIndex = ub.data.backTabLayer;
 
                     }
 
                     if (name === "prolook")  {
 
-                        current_object.zIndex = -87;
-                        current_object.originalZIndex = -87;
+                        current_object.zIndex = ub.data.prolookLayer;
+                        current_object.originalZIndex = ub.data.prolookLayer;
 
                     }
 

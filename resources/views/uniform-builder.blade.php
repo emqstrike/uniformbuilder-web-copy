@@ -514,6 +514,7 @@
 
 </script>
 
+@if (env('APP_ENV') !== "local")
 <script type="text/javascript">
 window.__lc = window.__lc || {};
 window.__lc.license = 7737151;
@@ -523,6 +524,7 @@ window.__lc.license = 7737151;
  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
 })();
 </script>
+@endif
 
 @include('partials.detect-mobile')
 
