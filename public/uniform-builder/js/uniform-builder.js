@@ -6142,7 +6142,7 @@ $(document).ready(function () {
 
     ub.funcs.disableSport = function (source, gender, code) {
 
-        var a = _.find(ub.data.sports, {gender: gender});
+        var a = _.find(source, {gender: gender});
         var _sport = _.find(a.sports, {code: code});
 
         _sport.active = "0";
