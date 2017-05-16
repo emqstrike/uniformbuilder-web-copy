@@ -315,6 +315,10 @@ class UniformBuilderController extends Controller
             {
                 $config['team_colors'] = $request->team_colors;
             }
+            if ($request->has('store'))
+            {
+                $config['store'] = $request->store;
+            }
             Log::info('Render using this code ' . $code);
         }
 
