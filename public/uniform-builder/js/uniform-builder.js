@@ -8,7 +8,7 @@ $(document).ready(function () {
 
             if (parseInt(ub.render) === 1) { ub.funcs.removePanels(); }
 
-            ub.funcs.beforeLoad(); 
+            ub.funcs.beforeLoad();
             ub.config.print_version();
 
             /// Initialize Assets
@@ -18,31 +18,42 @@ $(document).ready(function () {
 
             if (ub.current_material.id !== -1) { ub.funcs.initCanvas(); }
 
-            ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
-            ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
-            ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
-            ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
-            ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
-            ub.current_material.block_patterns_url = window.ub.config.api_host + '/api/block_patterns/';
+           if (window.ub.config.material_id !== -1) {
 
-            ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
-            ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
+                ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
+                ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
+                ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
+                ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
 
-            ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
-            ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
-            ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
-            ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
-            ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
-            ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-            ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
+                // Disable Tailsweeps for now
+                // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
+                ub.current_material.block_patterns_url = window.ub.config.api_host + '/api/block_patterns/';
 
-            ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
+                ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
+                ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
 
-            ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
-            ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
+                ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
+                ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
+                ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
+                ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
+                ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
+                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
+                ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
 
-            ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
-            ub.loader(ub.materials_url, 'materials', ub.load_materials);
+                // Disable Tailsweeps for now
+                // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
+
+            }
+
+            if (window.ub.config.material_id === -1) {
+
+                ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
+                ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
+
+                ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
+                ub.loader(ub.materials_url, 'materials', ub.load_materials);
+
+            }
 
             if (typeof ub.user.id !== 'undefined') {
 
@@ -52,8 +63,7 @@ $(document).ready(function () {
                 // ub.savedDesigns_url = window.ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id;
                 // ub.loader(ub.savedDesigns_url, 'saved_designs', ub.load_save_designs);
 
-            }
-            else {
+            } else {
 
                 $('.open-save-design-modal').hide();
 
@@ -617,9 +627,13 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
+            console.log('Object Name: ' + object_name);
+
             ub.convertToString(obj);
 
-            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
+//            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
+
+              if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories') {
 
                 ub.data[object_name] = obj;
 
