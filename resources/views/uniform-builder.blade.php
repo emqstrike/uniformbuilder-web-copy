@@ -368,10 +368,22 @@
         window.ub.page = "{{ isset($page) ? $page : 'builder' }}";
 
         ub.render = "{{ isset($render) ? $render : false }}";
+
+        // Team Store Parameters
         // Flag for returning the requested images
         ub.return_rendered_code = "{{ isset($return_rendered_code) ? $return_rendered_code : false }}";
-        ub.savedDesignName = "{{ isset($saved_design_name) ? $saved_design_name : '' }}";
+        ub.team_name = "{{ isset($team_name) ? $team_name : false }}";
+
+        @if (isset($team_colors))
+            ub.team_colors = [{!! $team_colors !!}];    
+        @else 
+            ub.team_colors = [];
+        @endif
         
+        ub.team_store = "{{ isset($store) ? $store : false }}";
+
+        ub.savedDesignName = "{{ isset($saved_design_name) ? $saved_design_name : '' }}";
+
         // #load_order
         var s = "{{ $builder_customizations }}";
 
@@ -443,6 +455,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-history.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-fonts.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-renderer.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-stores.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>

@@ -1653,7 +1653,7 @@ $(document).ready(function () {
         _.each(ub.current_material.settings.applications, function (application) {
 
             if (application.type !== 'mascot' && application.type !== 'free') {
-
+    
                 application.color_array =  _.map(application.colorArrayText, function (code) { 
 
                     var _ub = ub.funcs.getColorByColorCode(code);
@@ -1713,6 +1713,9 @@ $(document).ready(function () {
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
 
+        // For Team Stores
+        if (ub.team_colors.length > 0) { ub.current_material.settings = ub.prepareForTeamStoresMaterialOptions(ub.current_material.settings) }
+
         _.each(ub.current_material.settings[uniform_type], function (e) {
 
             if (e.setting_type === 'highlights' || 
@@ -1746,7 +1749,10 @@ $(document).ready(function () {
                         if (typeof e.pattern === "undefined" || e.pattern.pattern_id === "") {
 
                             if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
-                                e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
+                                
+                                e.pattern = ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
+                                if (ub.team_colors.length > 0) { e.pattern = ub.prepareForTeamStoresPatterns(e.pattern); }
+
                             }    
 
                         }
@@ -1841,6 +1847,10 @@ $(document).ready(function () {
 
         var font_families = [];
 
+        // For Team Stores
+        // 
+        if (ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
+
         _.each(ub.current_material.settings.applications, function (application_obj) {
             
             if (application_obj.type !== "mascot" && application_obj.type !== "logo" && application_obj.type !== "free") {
@@ -1880,7 +1890,7 @@ $(document).ready(function () {
                 ub.update_application_logo(application_obj);
 
             }
-                
+    
         });
 
         /// 
