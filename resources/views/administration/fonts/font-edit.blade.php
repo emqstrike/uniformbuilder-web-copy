@@ -614,6 +614,7 @@ li.select2-selection__choice {
 $(document).ready(function(){
     var fields = []; // to be used in fst updater
     window.backup = null;
+    window.sublimated_backup = null;
 
     $( "#static_row" ).hide();
 
@@ -644,7 +645,7 @@ $(document).ready(function(){
     var sblmtdfstbls = $('#old_sublimated_font_size_tables').val();
     if(sblmtdfstbls != ""){
         var old_font_size_tables = JSON.parse(sblmtdfstbls);
-        window.backup = old_font_size_tables;
+        window.sublimated_backup = old_font_size_tables;
         console.log(old_font_size_tables);
         old_font_size_tables.forEach(function(entry) {
 
@@ -746,7 +747,7 @@ $(document).ready(function(){
         console.log('after clear');
         var old_font_size_tables = JSON.parse($('#fst-fix-sublimated').val());
         console.log($('#fst-fix-sublimated').val());
-        window.backup = old_font_size_tables;
+        window.sublimated_backup = old_font_size_tables;
         console.log(old_font_size_tables);
         old_font_size_tables.forEach(function(entry) {
             var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
@@ -802,7 +803,7 @@ $(document).ready(function(){
         $('.back-fst-body-sublimated').html('');
         $('.left-fst-body-sublimated').html('');
         $('.right-fst-body-sublimated').html('');
-        window.backup.forEach(function(entry) {
+        window.sublimated_backup.forEach(function(entry) {
             var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
             entry.sizes.forEach(function(item) {
                 var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
