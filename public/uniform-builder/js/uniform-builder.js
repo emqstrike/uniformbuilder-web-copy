@@ -8,7 +8,7 @@ $(document).ready(function () {
 
             if (parseInt(ub.render) === 1) { ub.funcs.removePanels(); }
 
-            ub.funcs.beforeLoad(); 
+            ub.funcs.beforeLoad();
             ub.config.print_version();
 
             /// Initialize Assets
@@ -18,33 +18,44 @@ $(document).ready(function () {
 
             if (ub.current_material.id !== -1) { ub.funcs.initCanvas(); }
 
-            ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
-            ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
-            ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
-            ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
-            ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
-            ub.current_material.block_patterns_url = window.ub.config.api_host + '/api/block_patterns/';
+           if (window.ub.config.material_id !== -1) {
 
-            ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
-            ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
+                ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
+                ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
+                ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
+                ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
 
-            ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
-            ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
-            ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
-            ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
-            ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
-            ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-            ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
+                // Disable Tailsweeps for now
+                // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
+                ub.current_material.block_patterns_url = window.ub.config.api_host + '/api/block_patterns/';
 
-            ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
+                ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
+                ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
 
-            ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
-            ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
+                ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
+                ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
+                ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
+                ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
+                ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
+                ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
+                ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
 
-            ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
-            ub.loader(ub.materials_url, 'materials', ub.load_materials);
+                // Disable Tailsweeps for now
+                // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
 
-            if (typeof ub.user.id !== 'undefined') {
+            }
+
+            if (window.ub.config.material_id === -1) {
+
+                ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
+                ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
+
+                ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
+                ub.loader(ub.materials_url, 'materials', ub.load_materials);
+
+            }
+
+            if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
                 ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);
@@ -52,8 +63,7 @@ $(document).ready(function () {
                 // ub.savedDesigns_url = window.ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id;
                 // ub.loader(ub.savedDesigns_url, 'saved_designs', ub.load_save_designs);
 
-            }
-            else {
+            } else {
 
                 $('.open-save-design-modal').hide();
 
@@ -617,9 +627,13 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
+            ub.utilities.info('Loading ' + object_name.toTitleCase() + " ...");
+
             ub.convertToString(obj);
 
-            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
+//            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
+
+              if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories') {
 
                 ub.data[object_name] = obj;
 
@@ -1639,7 +1653,7 @@ $(document).ready(function () {
         _.each(ub.current_material.settings.applications, function (application) {
 
             if (application.type !== 'mascot' && application.type !== 'free') {
-
+    
                 application.color_array =  _.map(application.colorArrayText, function (code) { 
 
                     var _ub = ub.funcs.getColorByColorCode(code);
@@ -1699,6 +1713,9 @@ $(document).ready(function () {
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
 
+        // For Team Stores
+        if (ub.team_colors.length > 0) { ub.current_material.settings = ub.prepareForTeamStoresMaterialOptions(ub.current_material.settings) }
+
         _.each(ub.current_material.settings[uniform_type], function (e) {
 
             if (e.setting_type === 'highlights' || 
@@ -1732,7 +1749,10 @@ $(document).ready(function () {
                         if (typeof e.pattern === "undefined" || e.pattern.pattern_id === "") {
 
                             if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
-                                e.pattern =  ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
+                                
+                                e.pattern = ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
+                                if (ub.team_colors.length > 0) { e.pattern = ub.prepareForTeamStoresPatterns(e.pattern); }
+
                             }    
 
                         }
@@ -1827,6 +1847,10 @@ $(document).ready(function () {
 
         var font_families = [];
 
+        // For Team Stores
+        // 
+        if (ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
+
         _.each(ub.current_material.settings.applications, function (application_obj) {
             
             if (application_obj.type !== "mascot" && application_obj.type !== "logo" && application_obj.type !== "free") {
@@ -1866,7 +1890,7 @@ $(document).ready(function () {
                 ub.update_application_logo(application_obj);
 
             }
-                
+    
         });
 
         /// 
@@ -2323,15 +2347,15 @@ $(document).ready(function () {
 
                     if (name === "back_tab")  {
 
-                        current_object.zIndex = -86;
-                        current_object.originalZIndex = -86;
+                        current_object.zIndex = ub.data.backTabLayer;
+                        current_object.originalZIndex = ub.data.backTabLayer;
 
                     }
 
                     if (name === "prolook")  {
 
-                        current_object.zIndex = -87;
-                        current_object.originalZIndex = -87;
+                        current_object.zIndex = ub.data.prolookLayer;
+                        current_object.originalZIndex = ub.data.prolookLayer;
 
                     }
 
@@ -6105,6 +6129,28 @@ $(document).ready(function () {
     
     };
 
+    ub.funcs.enableSport = function (source, gender, code) {
+
+        var a = _.find(source, {gender: gender});
+        var _sport = _.find(a.sports, {code: code});
+
+        _sport.active = "1";
+        _sport.tooltip = "";
+        _sport.disabledClass = "";
+
+    }
+
+    ub.funcs.disableSport = function (source, gender, code) {
+
+        var a = _.find(source, {gender: gender});
+        var _sport = _.find(a.sports, {code: code});
+
+        _sport.active = "0";
+        _sport.tooltip = "COMING SOON";
+        _sport.disabledClass = "disabledClass";
+
+    }
+
     ub.funcs.initSportsPicker = function (sport) {
 
         ub.funcs.fadeOutBackgrounds();
@@ -6117,74 +6163,21 @@ $(document).ready(function () {
         var $searchField = $('input#search_field');
         $searchField.fadeIn();
 
-
         if (_.contains(ub.fontGuideIDs, ub.user.id)) {
 
-            var a = _.find(ub.data.sports, {gender: 'Men'});
-            var _bsb = _.find(a.sports, {code: 'baseball'});
-
-            _bsb.active = "1";
-            _bsb.tooltip = "";
-            _bsb.disabledClass = "";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _csc = _.find(a.sports, {code: 'crew_sock'});
-
-            _csc.active = "1";
-            _csc.tooltip = "";
-            _csc.disabledClass = "";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _tct = _.find(a.sports, {code: 'tech_tee'});
-
-            _tct.active = "1";
-            _tct.tooltip = "";
-            _tct.disabledClass = "";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _tct = _.find(a.sports, {code: 'tech_tee'});
-
-            _tct.active = "1";
-            _tct.tooltip = "";
-            _tct.disabledClass = "";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _cmp = _.find(a.sports, {code: 'compression'});
-
-            _cmp.active = "1";
-            _cmp.tooltip = "";
-            _cmp.disabledClass = "";
+            ub.funcs.enableSport(ub.data.sports, 'Men', 'baseball');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'crew_sock');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'tech_tee');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'compression');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'cinch_sack');
 
         } else {
 
-            var a = _.find(ub.data.sports, {gender: 'Men'});
-            var _bsb = _.find(a.sports, {code: 'baseball'});
-
-            _bsb.active = "0";
-            _bsb.tooltip = "COMING SOON";
-            _bsb.disabledClass = "disabledClass";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _csc = _.find(a.sports, {code: 'crew_sock'});
-
-            _csc.active = "0";
-            _csc.tooltip = "COMING SOON";
-            _csc.disabledClass = "disabledClass";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _tct = _.find(a.sports, {code: 'tech_tee'});
-
-            _tct.active = "0";
-            _tct.tooltip = "COMING SOON";
-            _tct.disabledClass = "disabledClass";
-
-            var a = _.find(ub.data.apparel, {gender: 'Men'});
-            var _tct = _.find(a.sports, {code: 'compression'});
-
-            _tct.active = "0";
-            _tct.tooltip = "COMING SOON";
-            _tct.disabledClass = "disabledClass";
-
+            ub.funcs.disableSport(ub.data.sports, 'Men', 'baseball');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'crew_sock');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'tech_tee');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'compression');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'cinch_sack');
 
         }
 

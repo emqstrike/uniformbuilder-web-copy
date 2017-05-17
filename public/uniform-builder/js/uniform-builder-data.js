@@ -189,6 +189,9 @@ $(document).ready(function() {
     ub.data.fonts                   = undefined;
     ub.data.pipings                 = undefined;
 
+    ub.data.backTabLayer            = -100;
+    ub.data.prolookLayer            = -100; 
+
     // Mock Object for Pipings 
 
     ub.folders                      = { piping: '/images/pipings' } ;
@@ -9289,6 +9292,10 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Tech-Tee (Apparel)',
             filters: ['All'],
+        },
+        {
+            sport: 'Cinch Sack (Apparel)',
+            filters: ['All'],
         }, 
 
     ];
@@ -11796,6 +11803,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Crew Socks (Apparel)' },
             { sport: 'Compression (Apparel)' },
             { sport: 'Tech-Tee (Apparel)' },
+            { sport: 'Cinch Sack (Apparel)' },
 
         ],
 
@@ -11831,7 +11839,11 @@ ub.funcs.fontOffSets = [
                 type: 'upper',
                 upperLabel: 'Tech-Tee',
             },
-
+            {
+                sport: 'Cinch Sack (Apparel)',
+                type: 'upper',
+                upperLabel: 'Cinch Sack',
+            },
             {
                 sport: 'Default', // Football
                 type: 'both',
@@ -11950,5 +11962,7 @@ ub.funcs.fontOffSets = [
         }
 
     }
+
+
     
 });
