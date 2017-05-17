@@ -70,6 +70,7 @@ class PatternsController extends Controller
         $assetTarget = $request->input('asset_target');
         $patternProperties = $request->input('pattern_properties');
         $sports = explode(",", $request->input('sports_value'));
+        $blockPatternOptions = explode(",", $request->input('block_pattern_options_value'));
         // $team_color_id = $request->input('team_color_id');
         // $layer_1_color = $request->input('layer_1_color');
         // $layer_2_color = $request->input('layer_2_color');
@@ -80,6 +81,7 @@ class PatternsController extends Controller
             'name' => $patternName,
             'pattern_properties' => $patternProperties,
             'sports' => $sports,
+            'block_pattern_options' => $blockPatternOptions,
             'asset_target' => $assetTarget
             // 'layer_1_default_color' => $layer_1_color,
             // 'layer_2_default_color' => $layer_2_color,

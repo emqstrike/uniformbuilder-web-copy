@@ -857,7 +857,7 @@ $(document).ready(function() {
                     return '<img src="'+$(this).data('img') + '" style="width: 200px; height: 200px; background-color: #e3e3e3;"/>';
                 }
             });
-        }); 
+        });
 
     });
 
