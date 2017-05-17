@@ -738,12 +738,14 @@ $(document).ready(function(){
 
     $("#edit-font-form").on("click", ".fix-fst-sublimated-button", function(e){
         e.preventDefault();
-        $('.front-fst-body').html('');
-        $('.back-fst-body').html('');
-        $('.left-fst-body').html('');
-        $('.right-fst-body').html('');
+        console.log('before clear');
+        $('.front-fst-body-sublimated').html('');
+        $('.back-fst-body-sublimated').html('');
+        $('.left-fst-body-sublimated').html('');
+        $('.right-fst-body-sublimated').html('');
+        console.log('after clear');
         var old_font_size_tables = JSON.parse($('#fst-fix-sublimated').val());
-        console.log($('#fst-fix').val());
+        console.log($('#fst-fix-sublimated').val());
         window.backup = old_font_size_tables;
         console.log(old_font_size_tables);
         old_font_size_tables.forEach(function(entry) {
