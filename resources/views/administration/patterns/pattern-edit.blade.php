@@ -192,49 +192,65 @@ function getBlockPatterms(callback){
 }
 
 console.log(window.block_patterns);
+bindBPOS();
+function bindBPOS(){
+    // $('.block-pattern-options').html('');
+    // var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
+    var sports = $('.sports-val').val().split('"').join('');
+    var sports_arr = null;
+    var block_pattern_options = [];
+    console.log('[[SPORTS]]');
+    console.log(sports);
+    if(sports != null){
+        sports_arr = sports.split(",");
+        console.log(sports_arr);
+        sports_arr.forEach(function(entry) {
+            console.log('ENTRY: ' + entry);
+            var x = _.filter(window.block_patterns, function(e){ return e.uniform_category === entry; });
+            console.log(x);
+            x.forEach(function(entry) {
+                var y = JSON.parse(entry.neck_options);
 
-var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
-var sports_arr = null;
-var block_pattern_options = [];
-console.log('[[SPORTS]]');
-console.log(sports);
-if(sports != null){
-    sports_arr = sports.split(",");
-    console.log(sports_arr);
-    sports_arr.forEach(function(entry) {
-        console.log('ENTRY: ' + entry);
-        var x = _.filter(window.block_patterns, function(e){ return e.uniform_category === entry; });
-        console.log(x);
-        x.forEach(function(entry) {
-            var y = JSON.parse(entry.neck_options);
-
-            var list = [];
-            _.each(y, function(item){
-                list.push(_.omit(item, 'children'));
-                list.push(_.flatten(_.pick(item, 'children')));
+                var list = [];
+                _.each(y, function(item){
+                    list.push(_.omit(item, 'children'));
+                    list.push(_.flatten(_.pick(item, 'children')));
+                });
+                var result = _.flatten(list);
+                // console.log('[ RESULT ]');
+                // console.log(result);
+                // console.log(_.flatten(y, true));
+                // for(var i = 0; i <= 10; i++){
+                //     console.log(y[i]);
+                //     if( y[i] !== 'undefined' ){
+                //         console.log('gets in');
+                //         block_pattern_options.push(y[i].name);
+                //     }
+                // }
+                result.forEach(function(i) {
+                    block_pattern_options.push(i.name);
+                    // $('.block-pattern-options').append('<option value="'+i.name+'">'+i.name+'</option>');
+                });
             });
-            var result = _.flatten(list);
-            // console.log('[ RESULT ]');
-            // console.log(result);
-            // console.log(_.flatten(y, true));
-            // for(var i = 0; i <= 10; i++){
-            //     console.log(y[i]);
-            //     if( y[i] !== 'undefined' ){
-            //         console.log('gets in');
-            //         block_pattern_options.push(y[i].name);
-            //     }
-            // }
-            result.forEach(function(i) {
-                block_pattern_options.push(i.name);
-                $('.block-pattern-options').append('<option value="'+i.name+'">'+i.name+'</option>');
-            });
+            // var z = _.uniq(block_pattern_options);
+            
+            // z.forEach(function(i) {
+            //     $('.block-pattern-options').append('<option value="'+i+'">'+i+'</option>');
+            // });
+            // console.log(y);
+            // x = _.flatten(y, true);
+            // block_pattern_options.push(x.neck_options);
         });
-        // console.log(y);
-        // x = _.flatten(y, true);
-        // block_pattern_options.push(x.neck_options);
-    });
+        var z = _.sortBy(_.uniq(block_pattern_options));
+        $('.block-pattern-options').html('');
+        z.forEach(function(i) {
+            $('.block-pattern-options').append('<option value="'+i+'">'+i+'</option>');
+        });
+    }
+
+
 }
-console.log(block_pattern_options);
+// console.log(block_pattern_options);
 
     $('select:not(:has(option))').attr('visible', false);
 
@@ -270,6 +286,8 @@ console.log(block_pattern_options);
 
     $(".sports").change(function() {
         $('#sports_value').val($(this).val());
+        bindBPOS();
+        console.log('change sports binded BPOS')
     });
 
     $('.sports').select2('val', sports);

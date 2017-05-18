@@ -42,8 +42,6 @@ class PatternsController extends Controller
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
-
-
         return view('administration.patterns.pattern-edit', [
             'pattern' => $pattern,
             'color' => $colors,
@@ -89,7 +87,7 @@ class PatternsController extends Controller
             // 'layer_4_default_color' => $layer_4_color,
             // 'team_color_id' => $team_color_id
         ];
-
+// dd($data);
         $patternId = null;
         if (!empty($request->input('base_pattern_id')))
         {
