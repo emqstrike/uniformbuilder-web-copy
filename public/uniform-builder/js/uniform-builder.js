@@ -428,6 +428,7 @@ $(document).ready(function () {
             // End Block Pattern Widths
 
             ub.funcs.setupEventHandlers();
+
             var orig_query_string = location.search;
             var suffix_query_string = '';
             if (orig_query_string.indexOf('customize-uniform&')) {
@@ -438,6 +439,7 @@ $(document).ready(function () {
             if (orig_query_string.length > 0) {
                 suffix_query_string = '&' + suffix_query_string.slice(1);
             }
+
             ub.funcs.pushState({
                 data: 'customize-uniform',
                 title: 'Customize Uniform',
@@ -5584,7 +5586,7 @@ $(document).ready(function () {
 
             if (_picker_type === 'sports') {
 
-                if (_item !== "Football" && _item !== "Wrestling" && !ub.data.tempSports.isSportOK(_item)) { return; }
+                if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
                 if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
 
                 if (ub.data.tempSports.isSportOK(_item) && !_.contains(ub.fontGuideIDs, ub.user.id)) { return; }
@@ -6180,7 +6182,6 @@ $(document).ready(function () {
         if (_.contains(ub.fontGuideIDs, ub.user.id)) {
 
             ub.funcs.enableSport(ub.data.sports, 'Men', 'baseball');
-            ub.funcs.enableSport(ub.data.apparel, 'Men', 'crew_sock');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'tech_tee');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'compression');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'cinch_sack');
@@ -6188,7 +6189,6 @@ $(document).ready(function () {
         } else {
 
             ub.funcs.disableSport(ub.data.sports, 'Men', 'baseball');
-            ub.funcs.disableSport(ub.data.apparel, 'Men', 'crew_sock');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'tech_tee');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'compression');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'cinch_sack');
