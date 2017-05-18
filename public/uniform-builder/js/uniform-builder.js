@@ -430,8 +430,13 @@ $(document).ready(function () {
             ub.funcs.setupEventHandlers();
             var orig_query_string = location.search;
             var suffix_query_string = '';
+            if (orig_query_string.indexOf('customize-uniform&')) {
+                suffix_query_string = orig_query_string.replace('customize-uniform&', '');
+            } else {
+                suffix_query_string = orig_query_string.replace('customize-uniform', '');
+            }
             if (orig_query_string.length > 0) {
-                suffix_query_string = '&' + orig_query_string.slice(1);
+                suffix_query_string = '&' + suffix_query_string.slice(1);
             }
             ub.funcs.pushState({
                 data: 'customize-uniform',
