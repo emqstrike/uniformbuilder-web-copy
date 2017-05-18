@@ -3937,8 +3937,7 @@ $(document).ready(function() {
                     code: 'crew_sock',
                     name: 'Crew Socks (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
+
                 },
                 {
                     code: 'polo',
@@ -11794,13 +11793,30 @@ ub.funcs.fontOffSets = [
 
         },
     };
+    ub.data.activeSports = {
+
+        items: [
+
+            { sport: 'Football' },
+            { sport: 'Wrestling' },
+            { sport: 'Crew Socks (Apparel)' },
+
+        ],
+
+        isSportOK: function (sport) {
+
+            var _result = _.find(this.items, {sport: sport});
+            return (typeof _result !== "undefined") ? true: false;
+
+        } 
+
+    };
 
     ub.data.tempSports = {
 
         items: [
 
             { sport: 'Baseball' },
-            { sport: 'Crew Socks (Apparel)' },
             { sport: 'Compression (Apparel)' },
             { sport: 'Tech-Tee (Apparel)' },
             { sport: 'Cinch Sack (Apparel)' },
