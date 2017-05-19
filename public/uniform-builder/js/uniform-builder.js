@@ -371,6 +371,8 @@ $(document).ready(function () {
             if (ub.data.afterLoadCalled > 0) {return;}
 
             ub.sport = ub.current_material.material.uniform_category;
+            ub.neckOption = ub.current_material.material.neck_option;
+
             ub.funcs.activatePartByIndex(0);
 
             $('div.left-pane-column-full').fadeIn();

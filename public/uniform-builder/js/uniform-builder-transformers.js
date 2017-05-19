@@ -21,6 +21,7 @@ $(document).ready(function () {
                 code: _object.name.toCodeCase(),
                 icon: _object.thumbnail_path,
                 sports: JSON.parse(_object.sports),
+                blockPatternOptions: JSON.parse(_object.block_pattern_options),
                 layers: [],
             };
 

@@ -11979,6 +11979,26 @@ ub.funcs.fontOffSets = [
 
     }
 
+    ub.data.smallerPatterns = {
 
-    
+        items: [
+            {
+                sport: 'Wrestling', 
+                blockPatternOption: 'Fight Short',            
+            },
+            {
+                sport: 'Volleyball', 
+                blockPatternOption: 'Compression Shorts',            
+            },
+        ],
+        usesSmallerPattern: function (sport, blockPatternOption) {
+
+            var _result = _.find(this.items, { sport: sport, blockPatternOption: blockPatternOption });
+
+            return (typeof _result !== "undefined") ? true: false;
+
+        },
+
+    };
+
 });
