@@ -226,7 +226,7 @@ function bindBPOS(){
                 //         console.log('gets in');
                 //         block_pattern_options.push(y[i].name);
                 //     }
-                // }
+                    // }
                 result.forEach(function(i) {
                     block_pattern_options.push(i.name);
                     // $('.block-pattern-options').append('<option value="'+i.name+'">'+i.name+'</option>');

@@ -282,13 +282,20 @@ function buildRows(filesData){
 		entry_name = entry_name.split(".");
 		var split_name = entry.name.split("_");
 		var layer_number = split_name[0];
+        split_name.shift();
+        var zb = split_name.join();
+        var zc = zb.split(".");
+        zc.pop();
+        var zd = zc.join();
 		var base_name = entry_name[0].replace("_", " ");
-		entry_name = base_name.replace(/[0-9]/g, '');
-		entry_name = entry_name.replace("_", " ");
-		entry_name = entry_name.replace("_", " ");
-		entry_name = entry_name.replace("_", " ");
-		entry_name = entry_name.replace("_", " ");
-		entry_name = entry_name.replace("_", " ");
+
+		// entry_name = base_name.replace(/[0-9]/g, '');
+        entry_name = zd;
+		entry_name = entry_name.replace(",", " ");
+		entry_name = entry_name.replace(",", " ");
+		entry_name = entry_name.replace(",", " ");
+		entry_name = entry_name.replace(",", " ");
+		entry_name = entry_name.replace(",", " ");
 
 		var name = null;
 		var arr = entry_name.split(' ');
