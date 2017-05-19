@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'channel' => '#generated-pdfs',
+    'channel' => '#a-generated-pdfs',
 
     /*
     |-------------------------------------------------------------
