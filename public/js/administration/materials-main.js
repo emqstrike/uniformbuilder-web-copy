@@ -49,8 +49,24 @@ $(document).ready(function() {
         }
     });
 
-    var filtersFlatforms="";
+    $('.log-ids').on('click', function(){
+        var ids = [];
+        // $(".content .m-id-val").each(function(i) {
+        //     ids.push($(this).html().replace(/ /g,'').replace(/[\t\n]+/g,' ').replace(/ /g, ""));
+        // });
+        var table = $('.data-table').DataTable();
+        // var data = table.rows().data();
 
+        // console.log( 'Data', data );
+        // console.log(table.rows( { filter : 'applied'} ).data());
+        var xdata = table.rows( { filter : 'applied'} ).data();
+        $.each(xdata, function(i, item) {
+            ids.push(item[0]);
+        });
+        console.log(JSON.stringify(ids));
+    });
+
+    var filtersFlatforms="";
     $('#filtersFlatforms').on( 'click', 'button', function() {
 
      filtersFlatforms = $( this ).attr('data-filter');

@@ -67,6 +67,7 @@
                             </a>
                         </small>
                     </h1>
+                    <a href="#" class="btn btn-xs btn-primary log-ids">Log ids</a>
                 </div>
                 <div class="box-body">
                     <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered materials display'>   <thead>
@@ -89,7 +90,7 @@
                         <tbody>
         @forelse ($materials as $material)
             <tr>
-                <td>
+                <td class="m-id-val">
                     {{ $material->id }}
                 </td>
                 <td>
