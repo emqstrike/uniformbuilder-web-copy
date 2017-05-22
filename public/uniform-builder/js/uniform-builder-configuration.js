@@ -15,9 +15,82 @@ $(document).ready(function(){
                 drag_limits: false, 
                 scale_text: false, 
                 hotspot_applications: true, 
-            },    
+            },
 
     };
+
+    // Feature Flag Mapping
+    ub.config.features = {
+
+        uniforms: {
+                betaSportUniforms: false,
+            },
+
+        setState: function (section, property, state) {
+
+            if (typeof this[section] === "undefined") { ub.utilities.error('Feature Section [' + section + '] not found'); }
+            if (typeof this[section][property] === "undefined") { ub.utilities.error('Feature Section [' + section + '][' + property + '] not found'); }
+
+            this[section][property] = state;
+
+            ub.utilities.info('Setting the feature [' + section + ' / ' + property + '] to ' + state);
+
+            return this[section][property];
+
+        },
+
+        isOn: function (section, property) {
+
+            if (typeof this[section] === "undefined") { ub.utilities.error('Feature Section [' + section + '] not found'); }
+            if (typeof this[section][property] === "undefined") { ub.utilities.error('Feature Section [' + section + '][' + property + '] not found'); }
+
+            return this[section][property];
+
+        }
+
+    };
+
+    ub.config.setFeatureFlag = function (featureName, cb) {
+
+        var _url;
+        var _data;
+        var _featurePoint = ub.data.locations.getUrl('feature');
+
+        _data = {
+            "user_id": ub.user.id,
+            "feature": featureName,
+        };
+
+        if (typeof _featurePoint === "undefined") { return; }
+        _url = ub.config.api_host + _featurePoint.url;
+
+        $.ajax({
+            url: _url,
+            type: "POST", 
+            data: JSON.stringify(_data),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+
+            success: function (response){
+
+                var _structure;
+
+                _structure = ub.data.featureFlagCodes.getCode(featureName);
+                ub.config.features.setState(_structure.section, _structure.code, response.success);
+
+                if (typeof cb !== "undefined") { cb(response); }
+
+            }
+        });
+
+    };
+
+    ub.config.setFeatureFlags = function () {
+
+        ub.config.setFeatureFlag('Beta Sport Uniforms');
+        
+    }
 
     ub.config.isFeatureOn = function (namespace, feature) {
 

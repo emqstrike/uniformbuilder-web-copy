@@ -16,6 +16,12 @@ $(document).ready(function () {
             ub.current_material.id = window.ub.config.material_id;
             ub.current_material.code = window.ub.config.code;
 
+            // Hide Main Links on Load
+            ub.funcs.hideMainLinks();
+
+            // Set Feature Flags
+            ub.config.setFeatureFlags();
+
             if (ub.current_material.id !== -1) { ub.funcs.initCanvas(); }
 
             if (window.ub.config.material_id !== -1) {
@@ -1065,6 +1071,20 @@ $(document).ready(function () {
 
         };
 
+        ub.funcs.hideMainLinks = function () {
+
+            $('span.slink').hide();
+            $('span.slink[data-item="Loading"]').fadeIn();
+
+        }        
+
+        ub.funcs.showMainLinks = function () {
+
+            $('span.slink').fadeIn();
+            $('span.slink[data-item="Loading"]').hide();
+
+        }
+
         ub.prepareTypeAhead = function () {
 
             if (typeof ub.user.id !== 'undefined') { // Logged In
@@ -1126,6 +1146,7 @@ $(document).ready(function () {
                     });
 
                     $('#search_field').attr("placeholder","Search: Style or Saved Designs");
+                    ub.funcs.showMainLinks();
 
                 }
 
@@ -1166,6 +1187,7 @@ $(document).ready(function () {
                     });
 
                     $('#search_field').attr("placeholder","Search: Style");
+                    ub.funcs.showMainLinks();
                     
 
                 }
@@ -6179,7 +6201,9 @@ $(document).ready(function () {
 
     ub.funcs.enableBetaSports = function () {
 
-        if (_.contains(ub.fontGuideIDs, ub.user.id)) {
+        var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+
+        if (_betaUniformsOk) {
 
             ub.funcs.enableSport(ub.data.sports, 'Men', 'baseball');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'tech_tee');

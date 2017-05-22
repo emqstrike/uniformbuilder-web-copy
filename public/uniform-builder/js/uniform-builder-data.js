@@ -12001,4 +12001,50 @@ ub.funcs.fontOffSets = [
 
     };
 
+    ub.data.featureFlagCodes = {
+
+        items: [
+            { name: 'Beta Sport Uniforms', code: 'betaSportUniforms', section: 'uniforms' },
+        ],
+        
+        getCode: function (featureFlag) {
+            
+            var _result = undefined;
+
+            _result = _.find(this.items, { name: featureFlag });
+
+            if (typeof _result === "udefined") {
+
+                ub.utilities.error('Code for feature flag [' + featureFlag + '] is not found.');
+
+            }
+
+            return _result;
+
+        }
+
+    }
+
+    ub.data.locations = {
+
+        items: [
+            {
+                name: 'feature', 
+                url:  '/api/feature/check',
+            },
+        ],
+
+        getUrl: function (name) {
+
+            var _result = undefined;
+            _result = _.find(this.items, {name: name});
+
+            if (typeof _result === "undefined") { ub.utilities.error('Location [' + name + '] not found.'); }
+
+            return _result;
+
+        },
+
+    };
+
 });
