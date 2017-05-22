@@ -649,9 +649,17 @@ $(document).ready(function () {
 
             ub.convertToString(obj);
 
-//            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
+            var _createObjectList = [
+                'colors', 
+                'patterns',
+                'fonts',
+                'mascots',
+                'mascots_categories',
+                'mascots_groups_categories',
+                // 'tailsweeps',
+                ];
 
-              if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories') {
+            if (_.contains(_createObjectList, object_name)) {
 
                 ub.data[object_name] = obj;
 
@@ -6169,17 +6177,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.initSportsPicker = function (sport) {
-
-        ub.funcs.fadeOutBackgrounds();
-
-        $('body').addClass('pickers-enabled');
-
-        $('div#main-row').hide();
-        $('div.special_modifiers').hide();
-
-        var $searchField = $('input#search_field');
-        $searchField.fadeIn();
+    ub.funcs.enableBetaSports = function () {
 
         if (_.contains(ub.fontGuideIDs, ub.user.id)) {
 
@@ -6196,6 +6194,22 @@ $(document).ready(function () {
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'cinch_sack');
 
         }
+
+    }
+
+    ub.funcs.initSportsPicker = function (sport) {
+
+        ub.funcs.fadeOutBackgrounds();
+
+        $('body').addClass('pickers-enabled');
+
+        $('div#main-row').hide();
+        $('div.special_modifiers').hide();
+
+        var $searchField = $('input#search_field');
+        $searchField.fadeIn();
+
+        ub.funcs.enableBetaSports();
 
         var _apparel = _.find(ub.data.apparel, {gender: 'Men'});
 
