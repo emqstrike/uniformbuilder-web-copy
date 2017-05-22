@@ -18,7 +18,7 @@ $(document).ready(function () {
 
             if (ub.current_material.id !== -1) { ub.funcs.initCanvas(); }
 
-           if (window.ub.config.material_id !== -1) {
+            if (window.ub.config.material_id !== -1) {
 
                 ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
                 ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
@@ -6153,7 +6153,7 @@ $(document).ready(function () {
         var _sport = _.find(a.sports, {code: code});
 
         _sport.active = "1";
-        _sport.tooltip = "";
+        _sport.tooltip = "BETA";
         _sport.disabledClass = "";
 
     }
