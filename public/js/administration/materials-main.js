@@ -1,12 +1,5 @@
 $(document).ready(function() {
 
-    // var $container = $('.isotope').isotope({
-    //     itemSelector: '.material-div',
-    //     getSortData: {
-    //       category: '[data-category]'
-    //     }
-    // });
-
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
@@ -32,9 +25,7 @@ $(document).ready(function() {
 
                 column.data().unique().sort().each( function ( d, j ) {
 
-                    select.append( '<option value="'+d+'">'+d+'</option>' )
-                    // var val = $('<div/>').html(d).text();
-                    // select.append( '<option value="' + val + '">' + val + '</option>' );
+                    select.append( '<option value="'+d+'">'+d+'</option>' );
                 } );
             } );
         }
@@ -51,14 +42,9 @@ $(document).ready(function() {
 
     $('.log-ids').on('click', function(){
         var ids = [];
-        // $(".content .m-id-val").each(function(i) {
-        //     ids.push($(this).html().replace(/ /g,'').replace(/[\t\n]+/g,' ').replace(/ /g, ""));
-        // });
-        var table = $('.data-table').DataTable();
-        // var data = table.rows().data();
 
-        // console.log( 'Data', data );
-        // console.log(table.rows( { filter : 'applied'} ).data());
+        var table = $('.data-table').DataTable();
+
         var xdata = table.rows( { filter : 'applied'} ).data();
         $.each(xdata, function(i, item) {
             ids.push(item[0]);
@@ -98,14 +84,11 @@ $(document).ready(function() {
         });
     });
 
-    // $('.toggle-material').on('click', function(){
     $("#materials_table").on("click", ".toggle-material", function(e){
         e.preventDefault();
         console.log('toggle');
         var id = $(this).data('material-id');
         var url = "//" + api_host + "/api/material/toggle/";
-
-       // var url = "//localhost:8888/api/material/toggle/";
         $.ajax({
             url: url,
             type: "POST",
