@@ -10188,6 +10188,84 @@ ub.funcs.fontOffSets = [
                 scale: {x: 0.42, y: 0.42},
             },
 
+
+            /// Wrestling, Fight Short
+
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 1,
+                scale: {x: 0.14, y: 0.14},
+            },
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 2,
+                scale: {x: 0.26, y: 0.26},
+            },
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 3,
+                scale: {x: 0.39, y: 0.39},
+            },
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 4,
+                scale: {x: 0.52, y: 0.52},
+            },
+
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 5,
+                scale: {x: 0.66, y: 0.66},
+            },
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 6,
+                scale: {x: 0.79, y: 0.79},
+            },
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 7,
+                scale: {x: 0.93, y: 0.93},
+            },
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 8,
+                scale: {x: 1.06, y: 1.06},
+            },
+
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 9,
+                scale: {x: 1.20, y: 1.20},
+            },
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 10,
+                scale: {x: 1.33, y: 1.33},
+            },
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 11,
+                scale: {x: 1.47, y: 1.47},
+            },
+            {
+                sport: 'Wrestling',
+                option: ['Fight Short',],
+                size: 12,
+                scale: {x: 1.6, y: 1.6},
+            },
+
         ],
 
         getSize: function (sport, size, option) {
@@ -11996,6 +12074,52 @@ ub.funcs.fontOffSets = [
             var _result = _.find(this.items, { sport: sport, blockPatternOption: blockPatternOption });
 
             return (typeof _result !== "undefined") ? true: false;
+
+        },
+
+    };
+
+    ub.data.featureFlagCodes = {
+
+        items: [
+            { name: 'Beta Sport Uniforms', code: 'betaSportUniforms', section: 'uniforms' },
+        ],
+        
+        getCode: function (featureFlag) {
+            
+            var _result = undefined;
+
+            _result = _.find(this.items, { name: featureFlag });
+
+            if (typeof _result === "udefined") {
+
+                ub.utilities.error('Code for feature flag [' + featureFlag + '] is not found.');
+
+            }
+
+            return _result;
+
+        }
+
+    }
+
+    ub.data.locations = {
+
+        items: [
+            {
+                name: 'feature', 
+                url:  '/api/feature/check',
+            },
+        ],
+
+        getUrl: function (name) {
+
+            var _result = undefined;
+            _result = _.find(this.items, {name: name});
+
+            if (typeof _result === "undefined") { ub.utilities.error('Location [' + name + '] not found.'); }
+
+            return _result;
 
         },
 
