@@ -11969,12 +11969,21 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Baseball',
+            },
+            {
+                sport: 'Wrestling',
             }
         ],
 
         isValid: function (sport) {
 
             var _result = _.find(this.items, {sport: sport});
+
+            if (sport === "Wrestling" && ub.current_material.material.neck_option !== "Fight Short") {
+
+                _result = undefined;
+
+            }
 
             return typeof _result !== "undefined";
 
