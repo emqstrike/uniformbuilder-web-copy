@@ -3955,7 +3955,6 @@ $(document).ready(function() {
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
 
             ub.current_part = _ctr;
-
             ub.funcs.clearPatternUI();
 
             if (!ub.funcs.activatePatterns()) {
@@ -4565,9 +4564,6 @@ $(document).ready(function() {
     }
 
      ub.funcs.createPatternPopupApplications = function (settingsObj) {
-
-        console.log('Settings Object: ');
-        console.log(settingsObj);
 
         if ($('div#primaryPatternPopup').length === 0) {
 
