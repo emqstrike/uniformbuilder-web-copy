@@ -1244,7 +1244,7 @@
                 
             }
 
-        } else if ((ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) && ub.funcs.isCurrentType('lower')) {
+        } else if ((ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || ub.funcs.isCurrentSport('Wrestling')) && ub.funcs.isCurrentType('lower')) {
 
             var _scaleSettings = ub.data.mascotSizesPant.getSize(_uniformCategory, settings_obj.size, ub.current_material.material.neck_option); // Refactor this
 
