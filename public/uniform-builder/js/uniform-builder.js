@@ -292,7 +292,7 @@ $(document).ready(function () {
 
                 if (e.state === "customize-uniform") {
 
-                    $.smkAlert({text: 'Ability to go back to the cuztomizer is not yet implemented.', type:'warning', time: 3, marginTop: '80px'});
+                    $.smkAlert({text: 'Ability to go back to the customizer is not yet implemented.', type:'warning', time: 3, marginTop: '80px'});
 
                 }
 
