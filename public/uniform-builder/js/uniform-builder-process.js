@@ -579,7 +579,7 @@ $(document).ready(function() {
 
     ub.funcs.reload = function () {
 
-        window.location = ub.config.host;;
+        window.location = ub.config.host;
 
     }
 

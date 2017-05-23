@@ -11997,12 +11997,6 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Crew Socks (Apparel)',    
             },
-            {
-                sport: 'Compression (Apparel)',    
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',    
-            }
         ],
 
         isHidden: function (sport) {
