@@ -100,6 +100,10 @@
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Men">Men</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Women">Women</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Youth">Youth</span>
+            
+            <span class="slink main-picker-items loading" data-picker-type="gender" data-item="Loading">
+               <img src="/images/loading.gif" width="50" height="50" />
+            </span>
 
             <span class="slink-search">
                 

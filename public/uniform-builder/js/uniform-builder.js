@@ -16,9 +16,15 @@ $(document).ready(function () {
             ub.current_material.id = window.ub.config.material_id;
             ub.current_material.code = window.ub.config.code;
 
+            // Hide Main Links on Load
+            ub.funcs.hideMainLinks();
+
+            // Set Feature Flags
+            ub.config.setFeatureFlags();
+
             if (ub.current_material.id !== -1) { ub.funcs.initCanvas(); }
 
-           if (window.ub.config.material_id !== -1) {
+            if (window.ub.config.material_id !== -1) {
 
                 ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
                 ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
@@ -286,7 +292,7 @@ $(document).ready(function () {
 
                 if (e.state === "customize-uniform") {
 
-                    $.smkAlert({text: 'Ability to go back to the cuztomizer is not yet implemented.', type:'warning', time: 3, marginTop: '80px'});
+                    $.smkAlert({text: 'Ability to go back to the customizer is not yet implemented.', type:'warning', time: 3, marginTop: '80px'});
 
                 }
 
@@ -649,9 +655,17 @@ $(document).ready(function () {
 
             ub.convertToString(obj);
 
-//            if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories' || object_name === 'tailSweeps') {
+            var _createObjectList = [
+                'colors', 
+                'patterns',
+                'fonts',
+                'mascots',
+                'mascots_categories',
+                'mascots_groups_categories',
+                // 'tailsweeps',
+                ];
 
-              if (object_name === 'colors' || object_name === 'patterns' || object_name === 'fonts' || object_name === 'mascots' || object_name === 'mascots_categories' || object_name === 'mascots_groups_categories') {
+            if (_.contains(_createObjectList, object_name)) {
 
                 ub.data[object_name] = obj;
 
@@ -1057,6 +1071,20 @@ $(document).ready(function () {
 
         };
 
+        ub.funcs.hideMainLinks = function () {
+
+            $('span.slink').hide();
+            $('span.slink[data-item="Loading"]').fadeIn();
+
+        }        
+
+        ub.funcs.showMainLinks = function () {
+
+            $('span.slink').fadeIn();
+            $('span.slink[data-item="Loading"]').hide();
+
+        }
+
         ub.prepareTypeAhead = function () {
 
             if (typeof ub.user.id !== 'undefined') { // Logged In
@@ -1118,6 +1146,7 @@ $(document).ready(function () {
                     });
 
                     $('#search_field').attr("placeholder","Search: Style or Saved Designs");
+                    ub.funcs.showMainLinks();
 
                 }
 
@@ -1158,6 +1187,7 @@ $(document).ready(function () {
                     });
 
                     $('#search_field').attr("placeholder","Search: Style");
+                    ub.funcs.showMainLinks();
                     
 
                 }
@@ -6153,7 +6183,7 @@ $(document).ready(function () {
         var _sport = _.find(a.sports, {code: code});
 
         _sport.active = "1";
-        _sport.tooltip = "";
+        _sport.tooltip = "BETA";
         _sport.disabledClass = "";
 
     }
@@ -6169,19 +6199,11 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.initSportsPicker = function (sport) {
+    ub.funcs.enableBetaSports = function () {
 
-        ub.funcs.fadeOutBackgrounds();
+        var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
 
-        $('body').addClass('pickers-enabled');
-
-        $('div#main-row').hide();
-        $('div.special_modifiers').hide();
-
-        var $searchField = $('input#search_field');
-        $searchField.fadeIn();
-
-        if (_.contains(ub.fontGuideIDs, ub.user.id)) {
+        if (_betaUniformsOk) {
 
             ub.funcs.enableSport(ub.data.sports, 'Men', 'baseball');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'tech_tee');
@@ -6196,6 +6218,22 @@ $(document).ready(function () {
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'cinch_sack');
 
         }
+
+    }
+
+    ub.funcs.initSportsPicker = function (sport) {
+
+        ub.funcs.fadeOutBackgrounds();
+
+        $('body').addClass('pickers-enabled');
+
+        $('div#main-row').hide();
+        $('div.special_modifiers').hide();
+
+        var $searchField = $('input#search_field');
+        $searchField.fadeIn();
+
+        ub.funcs.enableBetaSports();
 
         var _apparel = _.find(ub.data.apparel, {gender: 'Men'});
 

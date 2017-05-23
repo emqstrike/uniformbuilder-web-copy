@@ -7889,16 +7889,17 @@ $(document).ready(function() {
                _size = 2;      
             }
 
-            if (ub.funcs.isCurrentSport('Wrestling'))                                            { _size = 5;    }
-            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))   { _size = 4;    }
-            if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                              { _size = 1.75; }
-            if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                { _size = 2;    }
-            if (ub.funcs.isCurrentSport("Crew Socks (Apparel)"))                                 { _size = 2.5;  }
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.type === "upper")                  { _size =  5;    }
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short")     { _size =  5;    }
+            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))                          { _size = 4;    }
+            if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                                                     { _size = 1.75; }
+            if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                                       { _size = 2;    }
+            if (ub.funcs.isCurrentSport("Crew Socks (Apparel)"))                                                        { _size = 2.5;  }
             
-            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )               { _size = 3;    }
-            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )               { _size = 2;    }
-            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )               { _size = 3;    }
-            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )               { _size = 2;    }
+            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )                                      { _size = 3;    }
+            if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )                                      { _size = 2;    }
+            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )                                      { _size = 3;    }
+            if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )                                      { _size = 2;    }
 
             ub.funcs.setAppSize(_id, _size);
 
@@ -10333,8 +10334,10 @@ $(document).ready(function() {
             if (typeof _extra === "undefined") { 
                 ub.utilities.error('Extra Layer not detected!'); 
             } 
+
             if (typeof _extra !== "undefined") { 
-                if (_part === "Body" || _part === "Back Body") { 
+
+                if (_part === "Body" || _part === "Back Body" || _part === "Body Left" || _part === "Body Right") { 
                     _part = 'Extra'; 
                 } 
             }
@@ -10517,7 +10520,7 @@ $(document).ready(function() {
         var _submimatedSport = ub.data.freeFormToolEnabledSports.get(ub.current_material.material.uniform_category);
         if (typeof _submimatedSport === "undefined") { return; }
 
-        // End Guard 
+        // End Guard
 
         // Select Perspective
 
@@ -10648,7 +10651,9 @@ $(document).ready(function() {
             });
 
             var _part = 'Body';
+
             if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { _part = "Sublimated" }
+            if(ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short") { _part = "Body Left" }
 
             $('div.part-container > span.part[data-id="' + _part + '"]').addClass('active');
             $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');

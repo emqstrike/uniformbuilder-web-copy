@@ -520,7 +520,7 @@ $(document).ready(function() {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function (response) {
 
-                console.log(response);
+                ub.funcs.reload();
 
             }
             
@@ -529,6 +529,9 @@ $(document).ready(function() {
     }
  
     ub.funcs.feedbackForm = function (initMessage, imgFront, imgLeft, imgRight, imgBack) {
+
+        // unbind before opening window
+        window.onbeforeunload = null;
 
         var data = {
             message: initMessage,
@@ -561,14 +564,22 @@ $(document).ready(function() {
             }
 
             $('div.feedback-form').remove();
+            ub.funcs.reload(); 
 
         });
 
         $('span.cancel-btn').on('click', function () {
 
             $('div.feedback-form').remove();
+            ub.funcs.reload();
 
         });
+
+    }
+
+    ub.funcs.reload = function () {
+
+        window.location = ub.config.host;
 
     }
 
@@ -643,7 +654,6 @@ $(document).ready(function() {
                 }
 
                 ub.funcs.feedbackForm(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
-                ub.funcs.initGenderPicker();
 
             }
             
@@ -1765,8 +1775,11 @@ $(document).ready(function() {
         switch(_location) {
         
             case 'my-saved-designs':
-          
+                
+                // unbind before opening window
+                window.onbeforeunload = null;
                 window.location.href = '/my-saved-designs';
+                
                 break;
           
             default:
