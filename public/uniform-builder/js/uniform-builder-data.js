@@ -11645,6 +11645,7 @@ ub.funcs.fontOffSets = [
             'Hoodie (Apparel)',
             'Polo (Apparel)',
             'Hockey',
+            '1-4 Zip Jacket (Apparel)',
         ],
         options: [
             'Fight Short'
@@ -11773,6 +11774,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Hockey',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                sublimatedPart: 'Extra',
+            }, 
         ],
 
         get: function (sport) {
