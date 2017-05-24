@@ -5621,7 +5621,8 @@ $(document).ready(function () {
                 if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
                 if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
 
-                if (ub.data.tempSports.isSportOK(_item) && !_.contains(ub.fontGuideIDs, ub.user.id)) { return; }
+                var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+                if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
 
                 ub.funcs.initUniformsPicker(_item);
 
