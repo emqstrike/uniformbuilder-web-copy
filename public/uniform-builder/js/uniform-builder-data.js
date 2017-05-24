@@ -10579,6 +10579,69 @@ ub.funcs.fontOffSets = [
             },
             // End "Hoodie (Apparel)"
 
+            // "Polo (Apparel)"
+            {
+                sport: 'Polo (Apparel)',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 2,
+                scale: {x: 0.2, y: 0.2 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 3,
+                scale: {x: 0.3, y: 0.3 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 4,
+                scale: {x: 0.4, y: 0.4 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 5,
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 8,
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 9,
+                scale: {x: 0.9, y: 0.9},
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 10,
+                scale: {x: 1.0, y: 1.0 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 11,
+                scale: {x: 1.10, y: 1.10 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 12,
+                scale: {x: 1.20, y: 1.20 },
+            },
+            // End "Polo (Apparel)"
+
             // Defaults 
 
             {
@@ -11517,6 +11580,7 @@ ub.funcs.fontOffSets = [
             'Crew Socks (Apparel)',
             'Volleyball',
             'Hoodie (Apparel)',
+            'Polo (Apparel)',
         ],
         options: [
             'Fight Short'
@@ -11635,6 +11699,10 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Hoodie (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Polo (Apparel)',
                 sublimatedPart: 'Extra',
             },
         ],
