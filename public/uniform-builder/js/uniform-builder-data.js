@@ -10516,6 +10516,69 @@ ub.funcs.fontOffSets = [
             
             // End "Volleyball"
 
+            // "Hoodie (Apparel)"
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 1,
+                scale: {x: 0.9, y: 0.9 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 2,
+                scale: {x: 0.18, y: 0.18 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 3,
+                scale: {x: 0.27, y: 0.27 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 4,
+                scale: {x: 0.36, y: 0.36 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 5,
+                scale: {x: 0.45, y: 0.45 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 6,
+                scale: {x: 0.54, y: 0.54 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 7,
+                scale: {x: 0.63, y: 0.63 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 8,
+                scale: {x: 0.72, y: 0.72 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 9,
+                scale: {x: 0.81, y: 0.81},
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 10,
+                scale: {x: 0.9, y: 0.9 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 11,
+                scale: {x: 0.99, y: 0.99 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 12,
+                scale: {x: 1.08, y: 1.08 },
+            },
+            // End "Hoodie (Apparel)"
+
             // Defaults 
 
             {
@@ -11453,6 +11516,7 @@ ub.funcs.fontOffSets = [
             'Hoodie (Apparel)',
             'Crew Socks (Apparel)',
             'Volleyball',
+            'Hoodie (Apparel)',
         ],
         options: [
             'Fight Short'
@@ -11567,6 +11631,10 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Volleyball',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Hoodie (Apparel)',
                 sublimatedPart: 'Extra',
             },
         ],
