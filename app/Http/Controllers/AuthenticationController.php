@@ -1,14 +1,15 @@
 <?php
 namespace App\Http\Controllers;
 
-use Session;
-use Redirect;
-use App\Utilities\Log;
-use Illuminate\Http\Request;
-use Webmozart\Json\JsonDecoder;
-use GuzzleHttp\Exception\ClientException;
 use App\APIClients\UsersAPIClient as APIClient;
 use App\Http\Controllers\Administration\AuthenticationController as AdminAuthController;
+use App\TeamStoreClient\UserTeamStoreClient;
+use App\Utilities\Log;
+use GuzzleHttp\Exception\ClientException;
+use Illuminate\Http\Request;
+use Redirect;
+use Session;
+use Webmozart\Json\JsonDecoder;
 
 class AuthenticationController extends AdminAuthController
 {
@@ -111,6 +112,12 @@ class AuthenticationController extends AdminAuthController
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
+
+                $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+
+                if ($response->success) {
+                    Session::put('userHasTeamStoreAccount', true);
+                }
 
                 return [
                     'success' => true, 

@@ -78,6 +78,11 @@
 
                   <!-- <li><a href="#"><i class="fa fa-comments" aria-hidden="true"></i> MY MESSAGES</a></li> -->
                   <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
+
+                    @if (Session::get('userHasTeamStoreAccount'))
+                        <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> VISIT TEAM STORE ACCOUNT</a></li>
+                    @endif
+
                   <li class="divider"></li>
                   <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
                   <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
