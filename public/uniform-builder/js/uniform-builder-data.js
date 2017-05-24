@@ -10705,6 +10705,69 @@ ub.funcs.fontOffSets = [
             },
             // End "Hockey"
 
+            // "1-4 Zip Jacket (Apparel)"
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 2,
+                scale: {x: 0.2, y: 0.2 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 3,
+                scale: {x: 0.3, y: 0.3 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 4,
+                scale: {x: 0.4, y: 0.4 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 5,
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 8,
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 9,
+                scale: {x: 0.9, y: 0.9},
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 10,
+                scale: {x: 1.0, y: 1.0 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 11,
+                scale: {x: 1.10, y: 1.10 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 12,
+                scale: {x: 1.20, y: 1.20 },
+            },
+            // End "1-4 Zip Jacket (Apparel)"
+
             // Defaults 
 
             {
