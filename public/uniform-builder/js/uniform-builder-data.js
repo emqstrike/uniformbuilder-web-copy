@@ -3213,7 +3213,8 @@ $(document).ready(function() {
                                 },
                                 {
                                     size: 4,
-                                },                            ],
+                                },                            
+                            ],
                     type: 'adult',
                 },
 
@@ -11418,6 +11419,7 @@ ub.funcs.fontOffSets = [
             'Polo (Apparel)',
             'Hoodie (Apparel)',
             'Crew Socks (Apparel)',
+            'Volleyball',
         ],
         options: [
             'Fight Short'
@@ -11526,8 +11528,12 @@ ub.funcs.fontOffSets = [
                 sport: 'Football',
                 sublimatedPart: 'Body',
             },
-          {
+            {
                 sport: 'Baseball',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Volleyball',
                 sublimatedPart: 'Extra',
             },
         ],
