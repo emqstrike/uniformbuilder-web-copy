@@ -158,6 +158,44 @@ class AuthenticationController extends AdminAuthController
 
     }
 
+    public function remoteLogin($id, $accessToken)
+    {
+        try {
+            $response = $this->client->get("user/remote-login/{$id}/{$accessToken}");
+
+            $decoder = new JsonDecoder();
+            $result = $decoder->decode($response->getBody());
+
+            if ($result->success) {
+                $fullname = $result->user->first_name . ' ' . $result->user->last_name;
+
+                Session::put('userId', $result->user->id);
+                Session::put('isLoggedIn', $result->success);
+                Session::put('fullname', $fullname);
+                Session::put('first_name', $result->user->first_name);
+                Session::put('firstName', $result->user->first_name);
+                Session::put('lastName', $result->user->last_name);
+                Session::put('email', $result->user->email);
+                Session::put('accountType', $result->user->type);
+                Session::put('accessToken', base64_encode($result->access_token));
+
+                Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
+
+                return Redirect::to('/index')->with('message', 'Welcome back ' . $fullname);
+
+            } else {
+                Session::flash('flash_message', $result->message);
+            }
+
+        } catch (ClientException $e) {
+            $error = $e->getMessage();
+            Log::info('Login Attempt Error : ' . $error, 'FRONT END');
+        }
+
+        return Redirect::to('/index')
+                        ->with('message', "The email and password you entered don't match.");
+    }
+
     public function logout()
     {
         $this->clearLoginSession();
