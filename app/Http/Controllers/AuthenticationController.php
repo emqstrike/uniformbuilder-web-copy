@@ -177,7 +177,7 @@ class AuthenticationController extends AdminAuthController
                 Session::put('lastName', $result->user->last_name);
                 Session::put('email', $result->user->email);
                 Session::put('accountType', $result->user->type);
-                Session::put('accessToken', base64_encode($result->access_token));
+                Session::put('accessToken', $result->access_token);
 
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
