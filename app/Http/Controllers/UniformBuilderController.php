@@ -121,6 +121,7 @@ class UniformBuilderController extends Controller
         if (isset($config['team_name']))
         {
             $params['team_name'] = $config['team_name'];
+            Log::info('Team Name = ' . $config['team_name']);
         }
 
         // @param Team Colors - comma separated list
@@ -130,6 +131,7 @@ class UniformBuilderController extends Controller
             $color_array = StringUtility::strToArray($config['team_colors']);
             $color_array = StringUtility::surroundElementsDQ($color_array);
             $params['team_colors'] = implode(',', $color_array);
+            Log::info('Team Colors = ' . $config['team_colors']);
         }
 
         $params['builder_customizations'] = null;
@@ -185,6 +187,10 @@ class UniformBuilderController extends Controller
             
         }
 
+        Log::info('***********************');
+        Log::info('Customizer Params');
+        Log::info(print_r($params, true));
+        Log::info('***********************');
         return view('editor.uniform-builder-index', $params);
 
     }
