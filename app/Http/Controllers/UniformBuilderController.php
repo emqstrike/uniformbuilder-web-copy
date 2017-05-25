@@ -187,10 +187,6 @@ class UniformBuilderController extends Controller
             
         }
 
-        Log::info('***********************');
-        Log::info('Customizer Params');
-        Log::info(print_r($params, true));
-        Log::info('***********************');
         return view('editor.uniform-builder-index', $params);
 
     }
