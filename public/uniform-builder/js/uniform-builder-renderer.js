@@ -36,7 +36,7 @@ $(document).ready(function() {
         
         if (ub.render) {
             if (ub.return_rendered_code) {
-                ub.funcs.prepareThumbnails(ub.funcs.saveThumbnails);
+                ub.funcs.prepareThumbnails(ub.funcs.savePerspectives);
             } else {
                 ub.funcs.prepareThumbnails();
             }
@@ -61,24 +61,28 @@ $(document).ready(function() {
             
             ub.front = _frontThumb;
             ub.back = _backThumb;
-            ub.left = _frontThumb;
+            ub.left = _leftThumb;
             ub.right = _rightThumb;
 
         // End Prepare thumbnails 
 
         if (callback) {
-            callback();
+            setTimeout(function() {
+                callback();
+            }, 20000);
         }
     };
 
-    ub.funcs.saveThumbnails = function () {
+    ub.funcs.savePerspectives = function () {
         $.ajax({
-            url: ub.config.team_store_api_host + '/product/save_thumbnails',
+            url: '/save_uniform_perspectives',
             data: {
                 product_id: ub.config.material_id,
                 code: ub.return_rendered_code,
                 front: ub.front,
                 back: ub.back,
+                right: ub.right,
+                left: ub.left,
                 team_store: ub.team_store
             },
             method: 'POST',
@@ -87,6 +91,8 @@ $(document).ready(function() {
                     ub.utilities.info('Saved as images');
                     ub.utilities.info('Front: ' + response.front);
                     ub.utilities.info('Back: ' + response.back);
+                    ub.utilities.info('Right: ' + response.right);
+                    ub.utilities.info('Left: ' + response.left);
                 }
             }
         });

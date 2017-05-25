@@ -38,6 +38,34 @@ class FileUploader
         return null;
     }
 
+    public static function uploadImageToAWS($filepath, $sub_folder, $bucket = null)
+    {
+        $ext = substr($filepath, strpos($filepath, ".") + 1);
+        $filename = str_random() . '.' . $ext;
+
+        $folder = 'dev/' . $sub_folder . '/';
+        Log::info('Folder: ' . $folder);
+        $s3_target_path = "{$folder}{$filename}";
+        Log::info('S3 Target Path: ' . $s3_target_path);
+
+        $s3 = Storage::disk('s3');
+        if ($s3->put($s3_target_path, file_get_contents($filepath)))
+        {
+            // Build the Path
+            $protocol = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getScheme();
+            $host = $s3->getDriver()->getAdapter()->getClient()->getEndpoint()->getHost();
+            if (is_null($bucket))
+            {
+                $bucket = $s3->getDriver()->getAdapter()->getBucket();
+            }
+
+            Log::info('S3 Path: ' . "{$protocol}://{$host}/{$bucket}/{$s3_target_path}");
+            return "{$protocol}://{$host}/{$bucket}/{$s3_target_path}";
+        }
+
+        return false;
+    }
+
     public static function makeSlug($name)
     {
         return str_replace(' ', '-', strtolower($name));
