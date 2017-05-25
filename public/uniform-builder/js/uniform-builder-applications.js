@@ -7897,6 +7897,9 @@ $(document).ready(function() {
             if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )                                      { _size = 3;    }
             if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )                                      { _size = 2;    }
 
+            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "lower")                 { _size = 1;    }
+
+
             ub.funcs.setAppSize(_id, _size);
 
             var _matchingSide;
@@ -10299,7 +10302,7 @@ $(document).ready(function() {
         var con = new ub.Contour();
 
         if (typeof _partObject === "undefined") { return undefined; }
-        if (typeof _polygon === "undefined") { ub.utilities.warn('No Bounding Box Defined for ' + part); }
+        if (typeof _polygon === "undefined")    { ub.utilities.warn('No Bounding Box Defined for ' + part); }
     
         if (typeof _polygon !== "undefined") {
 
@@ -10322,15 +10325,15 @@ $(document).ready(function() {
         var _primaryView    = ub.funcs.getPrimaryView(_phaSettings.application);
         var _primaryViewObject = ub.funcs.getPrimaryViewObject(_phaSettings.application);
 
-        // Process Uniforms with Extra Layer 
+        // Process Uniforms with Extra Layer
 
         if (ub.data.sportsWithExtraLayer.isValid(ub.sport)) {
 
             var _extra = ub.objects[perspective + '_view']['extra'];
 
-            if (typeof _extra === "undefined") { 
-                ub.utilities.error('Extra Layer not detected!'); 
-            } 
+            if (typeof _extra === "undefined") {
+                ub.utilities.error('Extra Layer not detected!');
+            }
 
             if (typeof _extra !== "undefined") { 
 
@@ -10352,8 +10355,6 @@ $(document).ready(function() {
             var _perspective = _perspectiveView.perspective;
 
             // Get Center of Polygon 
-
-
 
             var _cx = ub.funcs.getCentoid(_perspective, _part);
 
