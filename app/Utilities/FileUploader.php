@@ -43,7 +43,7 @@ class FileUploader
         $ext = substr($filepath, strpos($filepath, ".") + 1);
         $filename = str_random() . '.' . $ext;
 
-        $folder = 'dev/' . $sub_folder . '/';
+        $folder = 'team-stores/' . $sub_folder . '/';
         Log::info('Folder: ' . $folder);
         $s3_target_path = "{$folder}{$filename}";
         Log::info('S3 Target Path: ' . $s3_target_path);
