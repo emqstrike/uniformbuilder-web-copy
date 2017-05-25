@@ -387,8 +387,8 @@
         
         @if(!empty($team_colors))
             ub.team_colors = [{!! $team_colors !!}];
-        @else
-            ub.team_colors = [];
+        // @else
+        //     ub.team_colors = [];
         @endif
 
         ub.team_store = "{{ isset($store) ? $store : false }}";
