@@ -239,7 +239,14 @@
             app_env: "{{ env('APP_ENV') }}", 
             api_host: "http://{{ env('API_HOST') }}",
             team_store_api_host: "http://{{ env('TEAM_STORE_API_BASE') }}",
+            
             material_id: {{ $material_id }},
+            uniform_name: "{{ isset($material->name) ? $material->name : 'none' }}",
+            uniform_application_type: "{{ isset($material->uniform_application_type) ? $material->uniform_application_type : 'none' }}",
+            sport: "{{ isset($material->uniform_category) ? $material->uniform_category : 'none' }}",
+            option: "{{ isset($material->neck_options) ? $material->neck_options : 'none' }}",
+            type: "{{ isset($material->type) ? $material->type : 'none' }}",
+
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/'

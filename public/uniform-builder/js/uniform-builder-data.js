@@ -2212,7 +2212,33 @@ $(document).ready(function() {
                                 size: 1.75,
                             },
                 ],
-            }
+            },
+
+            // Volleyball
+            {
+                name: 'mascot',
+                sport: 'volleyball',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            }
+
+                ],
+            },
+           
         ], 
         getSize: function (applicationType, sport, id) {
 
@@ -2228,7 +2254,9 @@ $(document).ready(function() {
                 return _.contains(item.applicationNumbers, id);
 
             });
-
+ 
+            if (sport === "volleyball") { return _result[0]; }
+          
             if (typeof _object === "undefined") {
 
                 ub.utilities.warn('Mascot sizes for ' + sport + ' #' + id  + ' not found.');

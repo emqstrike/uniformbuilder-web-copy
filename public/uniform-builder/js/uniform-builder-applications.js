@@ -10298,8 +10298,9 @@ $(document).ready(function() {
         var _cx = undefined;
         var con = new ub.Contour();
 
-        if (typeof _polygon === "undefined") { ub.utilities.warn('No Bouding Box Defined for ' + part); }
-        
+        if (typeof _partObject === "undefined") { return undefined; }
+        if (typeof _polygon === "undefined") { ub.utilities.warn('No Bounding Box Defined for ' + part); }
+    
         if (typeof _polygon !== "undefined") {
 
             con.pts = _partObject.polygon;
@@ -10351,6 +10352,9 @@ $(document).ready(function() {
             var _perspective = _perspectiveView.perspective;
 
             // Get Center of Polygon 
+
+
+
             var _cx = ub.funcs.getCentoid(_perspective, _part);
 
             // CX Override 
@@ -10397,8 +10401,7 @@ $(document).ready(function() {
 
                     var _bounds = ub.funcs.getBoundaries(_perspectiveView.perspective, _part, false);
                     var _overrideX = undefined;
-                    var _overrideY = _bounds.minMax.centoid.y;
-
+                    
                     if (_primaryView === "front") {
 
                         if (typeof _bounds !== "undefined") {

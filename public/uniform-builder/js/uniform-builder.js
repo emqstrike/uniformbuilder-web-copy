@@ -590,6 +590,10 @@ $(document).ready(function () {
 
             if (ub.data.fonts.length > 0) {
 
+
+                console.log(' ');
+                ub.utilities.info("Fonts: ");
+
                 ub.utilities.info(ub.data.fonts.length + " fonts loaded.");
                 ub.utilities.info('Preloading ' + ub.data.fonts[0].name);
 
