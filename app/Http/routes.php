@@ -28,6 +28,7 @@ Route::post('saveChangedPassword', ['middleware' => 'adminAccess', 'uses' => 'Au
 Route::get('activateUser/{activationCode}', 'RegistrationController@activateUser');
 Route::get('index', 'UniformBuilderController@showBuilder');
 Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
+Route::get('/render/{designSetId}/{materialId}/{code?}', 'UniformBuilderController@loadDesignSetRender');
 Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilderController@loadDesignSetRender');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
