@@ -1,6 +1,9 @@
 <?php
 namespace App\Utilities;
 
+use Log;
+use Intervention\Image\ImageManagerStatic as Image;
+
 class FileUtility
 {
 
@@ -32,5 +35,50 @@ class FileUtility
             return false;
         }
         return $filePath;
+    }
+
+    public static function resizeImage($image, $filename, $size = 40)
+    {
+        // General variables
+        $PIXEL_PER_BOX = 8;
+
+        // uniform variables
+        $UNIFORM_SIZE = $size / 100;
+        $TRIM_TOP = 0 * $PIXEL_PER_BOX;
+        $TRIM_BOTTOM = 50 * $PIXEL_PER_BOX;
+
+        $uniform = Image::make($image);
+        $uniform_w = $uniform->getWidth();
+        $uniform_h = $uniform->getHeight();
+        $uniform_w = $uniform_w;
+        $uniform_h = ($uniform_h - ($TRIM_TOP + $TRIM_BOTTOM));
+
+        $uniform->crop($uniform_w, $uniform_h, 0, 0);
+        $uniform->resize($uniform_w * $UNIFORM_SIZE, $uniform_h * $UNIFORM_SIZE);
+
+        // finally we save the image as a new file
+        $save_to_file_path = sys_get_temp_dir() . '/' . $filename;
+        Log::info('Saved to ' . $save_to_file_path);
+        $uniform->save($save_to_file_path);
+        return $save_to_file_path;
+    }
+
+    public static function saveSvgToS3($svg, $perspective = 'front')
+    {
+        Log::info(strtoupper($perspective) . ' perspective');
+
+        // Convert SVG (front) to PNG
+        $image = static::saveBase64Image($svg);
+        $code = sha1(rand() . time());
+        $filename = "{$perspective}-{$code}.png";
+        $resized_image = static::resizeImage($image, $filename);
+
+        // Upload to TeamStore bucket
+        $bucket = 'team-stores';
+        $url = FileUploader::uploadImageToAWS($resized_image, 'products');
+
+        Log::info('Uploaded to s3 ' . $url);
+
+        return $url;
     }
 }
