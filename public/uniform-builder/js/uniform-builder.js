@@ -1766,7 +1766,8 @@ $(document).ready(function () {
         var uniform_type                = ub.current_material.material.type;
 
         // For Team Stores
-        if (ub.team_colors.length > 0) { ub.current_material.settings = ub.prepareForTeamStoresMaterialOptions(ub.current_material.settings) }
+
+        if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { ub.current_material.settings = ub.prepareForTeamStoresMaterialOptions(ub.current_material.settings) }
 
         _.each(ub.current_material.settings[uniform_type], function (e) {
 
@@ -1803,7 +1804,7 @@ $(document).ready(function () {
                             if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
                                 
                                 e.pattern = ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
-                                if (ub.team_colors.length > 0) { e.pattern = ub.prepareForTeamStoresPatterns(e.pattern); }
+                                if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { e.pattern = ub.prepareForTeamStoresPatterns(e.pattern); }
 
                             }    
 
@@ -1901,7 +1902,7 @@ $(document).ready(function () {
 
         // For Team Stores
         // 
-        if (ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
+        if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
             
