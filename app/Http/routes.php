@@ -28,10 +28,9 @@ Route::post('saveChangedPassword', ['middleware' => 'adminAccess', 'uses' => 'Au
 Route::get('activateUser/{activationCode}', 'RegistrationController@activateUser');
 Route::get('index', 'UniformBuilderController@showBuilder');
 Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
+Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilderController@loadDesignSetRender');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
-
-Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilderController@loadDesignSetRender');
 
 // Save uniform perspectives
 Route::post('/save_uniform_perspectives', 'ProductController@savePerspectives');
