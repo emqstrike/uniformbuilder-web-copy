@@ -2347,6 +2347,15 @@ $(document).ready(function() {
 
             _.each(views, function (view) {
 
+                var _withBodyLeftRight = ub.data.withBodyLeftRight.isOk(ub.sport, ub.neckOption);
+
+                if (_withBodyLeftRight) {
+
+                    if (mat_option === "Body Left" && view.perspective === "right") { return; }
+                    if (mat_option === "Body Right" && view.perspective === "left") { return; }
+
+                }
+
                 args.perspective = view.perspective;
 
                 var point = sprite_function(args);
@@ -7891,13 +7900,14 @@ $(document).ready(function() {
             if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                                                     { _size = 1.75; }
             if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                                       { _size = 2;    }
             if (ub.funcs.isCurrentSport("Crew Socks (Apparel)"))                                                        { _size = 2.5;  }
-            
+
             if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )                                      { _size = 3;    }
             if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )                                      { _size = 2;    }
             if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )                                      { _size = 3;    }
             if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )                                      { _size = 2;    }
 
             if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "lower")                 { _size = 1;    }
+            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "upper")                 { _size = 2;    }
 
 
             ub.funcs.setAppSize(_id, _size);
@@ -7988,7 +7998,7 @@ $(document).ready(function() {
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
-            } 
+            }
 
             _settingsObject.accent_obj          = ub.funcs.getSampleAccent();
             _settingsObject.text                = ub.funcs.getSampleNumber();
@@ -10382,6 +10392,7 @@ $(document).ready(function() {
 
         });
 
+
         _.each(_phaSettings.application.views, function (_perspectiveView) {
 
             // Get Center of Polygon 
@@ -10471,6 +10482,7 @@ $(document).ready(function() {
         if (ub.data.placeHolderOverrideSports.isValid(ub.sport)) {
 
             var _tmp = [];
+
             _.each(_newApplication.application.views, function (view) {
 
                 view.application.id = _newIDStr;
@@ -10481,6 +10493,29 @@ $(document).ready(function() {
             _newApplication.application.views = _tmp;
 
         }
+
+        var _withBodyLeftRight = ub.data.withBodyLeftRight.isOk(ub.sport, ub.neckOption);
+
+        if (_withBodyLeftRight) {
+
+            if (_part === "Body Left") {
+
+                _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                    return view.perspective !== "right";
+                });
+
+            }
+
+            if (_part === "Body Right") {
+
+                _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                    return view.perspective !== "left";
+                });
+
+            }
+            
+        }
+
         
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
 

@@ -3125,6 +3125,136 @@ $(document).ready(function() {
 
                 // end compression
 
+                /// Volleyball
+
+                  // compression
+
+                 {
+                    name: 'text_tech-tee',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+                {
+                    name: 'team_name',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'shoulder_number',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    type: 'adult',
+                },
+
+                // end volleyball
+
+                /// End Volleyball
+
                 // cinch-sack
 
                 {
@@ -12738,5 +12868,19 @@ ub.funcs.fontOffSets = [
         },
 
     };
+
+    ub.data.withBodyLeftRight = {
+
+        items: [
+            { sport: 'Volleyball', neckOption: 'Compression Shorts', },
+        ],
+        isOk: function (sport, neckOption) {
+            
+            var _result = _.find(this.items, { sport: sport, neckOption: neckOption });
+            return typeof _result !== "undefined";
+
+        }
+
+    }
 
 });
