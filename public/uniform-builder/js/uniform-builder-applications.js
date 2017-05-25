@@ -7998,7 +7998,7 @@ $(document).ready(function() {
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
-            } 
+            }
 
             _settingsObject.accent_obj          = ub.funcs.getSampleAccent();
             _settingsObject.text                = ub.funcs.getSampleNumber();
@@ -10392,15 +10392,8 @@ $(document).ready(function() {
 
         });
 
+
         _.each(_phaSettings.application.views, function (_perspectiveView) {
-
-            // console.log('Part: ');
-            // console.log(_part)
-
-            // console.log('View: ');
-            // console.log(view);
-
-            // console.log(view.perspective);
 
             // Get Center of Polygon 
             var _cx = ub.funcs.getCentoid(_perspectiveView.perspective, _part);
@@ -10500,6 +10493,29 @@ $(document).ready(function() {
             _newApplication.application.views = _tmp;
 
         }
+
+        var _withBodyLeftRight = ub.data.withBodyLeftRight.isOk(ub.sport, ub.neckOption);
+
+        if (_withBodyLeftRight) {
+
+            if (_part === "Body Left") {
+
+                _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                    return view.perspective !== "right";
+                });
+
+            }
+
+            if (_part === "Body Right") {
+
+                _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                    return view.perspective !== "left";
+                });
+
+            }
+            
+        }
+
         
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
 
