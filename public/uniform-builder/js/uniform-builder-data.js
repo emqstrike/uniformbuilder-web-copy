@@ -12739,4 +12739,18 @@ ub.funcs.fontOffSets = [
 
     };
 
+    ub.data.withBodyLeftRight = {
+
+        items: [
+            { sport: 'Volleyball', neckOption: 'Compression Shorts', },
+        ],
+        isOk: function (sport, neckOption) {
+            
+            var _result = _.find(this.items, { sport: sport, neckOption: neckOption });
+            return typeof _result !== "undefined";
+
+        }
+
+    }
+
 });
