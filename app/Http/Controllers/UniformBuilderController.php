@@ -113,7 +113,7 @@ class UniformBuilderController extends Controller
         if (isset($config['code']))
         {
             $params['return_rendered_code'] = $config['code'];
-            Log::info('return_rendered_code = ' . $config['code']);
+            Log::info(__METHOD__ . ':return_rendered_code = ' . $config['code']);
         }
 
         // @param Team Name
@@ -121,7 +121,7 @@ class UniformBuilderController extends Controller
         if (isset($config['team_name']))
         {
             $params['team_name'] = $config['team_name'];
-            Log::info('Team Name = ' . $config['team_name']);
+            Log::info(__METHOD__ . ': Team Name = ' . $config['team_name']);
         }
 
         // @param Team Colors - comma separated list
@@ -131,7 +131,7 @@ class UniformBuilderController extends Controller
             $color_array = StringUtility::strToArray($config['team_colors']);
             $color_array = StringUtility::surroundElementsDQ($color_array);
             $params['team_colors'] = implode(',', $color_array);
-            Log::info('Team Colors = ' . $config['team_colors']);
+            Log::info(__METHOD__ . ': Team Colors = ' . $config['team_colors']);
         }
 
         $params['builder_customizations'] = null;
@@ -321,7 +321,7 @@ class UniformBuilderController extends Controller
             {
                 $config['store'] = $request->store;
             }
-            Log::info('Render using this code ' . $code);
+            Log::info(__METHOD__ . ': Render using this code ' . $code);
         }
 
         return $this->showBuilder($config);
