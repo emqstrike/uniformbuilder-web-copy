@@ -80,7 +80,7 @@
                   <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li>
 
                     @if (Session::get('userHasTeamStoreAccount'))
-                        <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i> VISIT TEAM STORE ACCOUNT</a></li>
+                        <li><a href="{{ env('TEAM_STORE_REMOTE_LOGIN_URL') }}/{{ Session::get('userId') }}/{{ Session::get('accessToken') }}" target="_blank"><i class="fa fa-user" aria-hidden="true"></i> VISIT TEAM STORE ACCOUNT</a></li>
                     @endif
 
                   <li class="divider"></li>
