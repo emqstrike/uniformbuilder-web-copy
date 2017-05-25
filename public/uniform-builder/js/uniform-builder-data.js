@@ -10768,8 +10768,196 @@ ub.funcs.fontOffSets = [
             },
             // End "1-4 Zip Jacket (Apparel)"
 
-            // Defaults 
+            // "Fan Replica Jersey (Apparel)"
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 2,
+                scale: {x: 0.2, y: 0.2 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 3,
+                scale: {x: 0.3, y: 0.3 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 4,
+                scale: {x: 0.4, y: 0.4 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 5,
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 8,
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 9,
+                scale: {x: 0.9, y: 0.9},
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 10,
+                scale: {x: 1.0, y: 1.0 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 11,
+                scale: {x: 1.10, y: 1.10 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 12,
+                scale: {x: 1.20, y: 1.20 },
+            },
+            // End "Fan Replica Jersey (Apparel)"
 
+            // "Basketball"
+            {
+                sport: 'Basketball',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
+                sport: 'Basketball',
+                size: 2,
+                scale: {x: 0.2, y: 0.2 },
+            },
+            {
+                sport: 'Basketball',
+                size: 3,
+                scale: {x: 0.3, y: 0.3 },
+            },
+            {
+                sport: 'Basketball',
+                size: 4,
+                scale: {x: 0.4, y: 0.4 },
+            },
+            {
+                sport: 'Basketball',
+                size: 5,
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: 'Basketball',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: 'Basketball',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
+            },
+            {
+                sport: 'Basketball',
+                size: 8,
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: 'Basketball',
+                size: 9,
+                scale: {x: 0.9, y: 0.9},
+            },
+            {
+                sport: 'Basketball',
+                size: 10,
+                scale: {x: 1.0, y: 1.0 },
+            },
+            {
+                sport: 'Basketball',
+                size: 11,
+                scale: {x: 1.10, y: 1.10 },
+            },
+            {
+                sport: 'Basketball',
+                size: 12,
+                scale: {x: 1.20, y: 1.20 },
+            },
+            // End "Basketball"
+
+            // "Lacrosse"
+            {
+                sport: 'Lacrosse',
+                size: 1,
+                scale: {x: 0.12, y: 0.12 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 2,
+                scale: {x: 0.24, y: 0.24 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 3,
+                scale: {x: 0.36, y: 0.36 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 4,
+                scale: {x: 0.48, y: 0.48 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 5,
+                scale: {x: 0.60, y: 0.60 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 6,
+                scale: {x: 0.72, y: 0.72 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 7,
+                scale: {x: 0.84, y: 0.84 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 8,
+                scale: {x: 0.96, y: 0.96 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 9,
+                scale: {x: 1.08, y: 1.08},
+            },
+            {
+                sport: 'Lacrosse',
+                size: 10,
+                scale: {x: 1.2, y: 1.2 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 11,
+                scale: {x: 1.32, y: 1.32 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 12,
+                scale: {x: 1.44, y: 1.44 },
+            },
+            // End "Lacrosse"
+
+            // Defaults 
             {
                 sport: 'Default',
                 size: 2,
@@ -11709,6 +11897,9 @@ ub.funcs.fontOffSets = [
             'Polo (Apparel)',
             'Hockey',
             '1-4 Zip Jacket (Apparel)',
+            'Fan Replica Jersey (Apparel)',
+            'Basketball (Apparel)',
+            'Lacrosse',
         ],
         options: [
             'Fight Short'
@@ -11841,6 +12032,20 @@ ub.funcs.fontOffSets = [
                 sport: '1-4 Zip Jacket (Apparel)',
                 sublimatedPart: 'Extra',
             }, 
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                sublimatedPart: 'Extra',
+            }, 
+            {
+                sport: 'Basketball (Apparel)',
+                sublimatedPart: 'Extra',
+            }, 
+            {
+                sport: 'Lacrosse',
+                sublimatedPart: 'Extra',
+            }, 
+
+            // 
         ],
 
         get: function (sport) {
