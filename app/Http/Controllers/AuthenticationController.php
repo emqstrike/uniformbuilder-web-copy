@@ -188,6 +188,12 @@ class AuthenticationController extends AdminAuthController
 
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
+                $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+
+                if ($response->success) {
+                    Session::put('userHasTeamStoreAccount', true);
+                }
+
                 return Redirect::to('/index')->with('message', 'Welcome back ' . $fullname);
 
             } else {
