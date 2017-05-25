@@ -10392,13 +10392,13 @@ $(document).ready(function() {
 
         _.each(_phaSettings.application.views, function (_perspectiveView) {
 
-            console.log('Part: ');
-            console.log(_part)
+            // console.log('Part: ');
+            // console.log(_part)
 
-            console.log('View: ');
-            console.log(view);
+            // console.log('View: ');
+            // console.log(view);
 
-            console.log(view.perspective);
+            // console.log(view.perspective);
 
             // Get Center of Polygon 
             var _cx = ub.funcs.getCentoid(_perspectiveView.perspective, _part);

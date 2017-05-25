@@ -329,7 +329,7 @@ $(document).ready(function () {
                 $('a.change-view[data-view="open-design"]').removeClass('disabled');
             }
 
-            if(ub.funcs.isCurrentSport('Baseball')) {
+            if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
                 $('a.change-view[data-view="pipings"]').removeClass('hidden');                                
             } else {
                 $('a.change-view[data-view="pipings"]').addClass('hidden');                
