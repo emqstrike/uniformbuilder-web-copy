@@ -12,11 +12,7 @@
 */
 
 Route::get('/', function () {
-
     return redirect('/index');
-
-  
-    
 });
 
 Route::post('lrest', 'AuthenticationController@lrest');
@@ -32,11 +28,13 @@ Route::post('saveChangedPassword', ['middleware' => 'adminAccess', 'uses' => 'Au
 Route::get('activateUser/{activationCode}', 'RegistrationController@activateUser');
 Route::get('index', 'UniformBuilderController@showBuilder');
 Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
+Route::get('/render/{designSetId}/{materialId}/{code?}', 'UniformBuilderController@loadDesignSetRender');
+Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilderController@loadDesignSetRender');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
 
-Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilderController@loadDesignSetRender');
-
+// Save uniform perspectives
+Route::post('/save_uniform_perspectives', 'ProductController@savePerspectives');
 
 // Orders and Profile
 
@@ -320,10 +318,6 @@ Route::group(array('prefix' => 'administration'), function() {
       // Mockup set
      Route::get('mockup_sets', 'Administration\MockupSetsController@index');
      Route::get('mockup_set/{id}', 'Administration\MockupSetsController@show');
-//     Route::get('mockup_sets', function()
-// {
-//     return 'Hello World';
-// });
 
     // Price Item Templates
     Route::get('price_item_templates', 'Administration\PriceItemTemplatesController@index');
@@ -356,10 +350,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('application_size/add', 'Administration\ApplicationSizesController@store');
     Route::get('application_size/edit/{id}', 'Administration\ApplicationSizesController@editForm');
     Route::post('application_size/update', 'Administration\ApplicationSizesController@store');
-
-    // Route::get('price_item_template/edit/{id}', 'Administration\PriceItemTemplatesController@editMascotSizeForm');
-    // Route::post('price_item_template/update', 'Administration\PriceItemTemplatesController@store');
-
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

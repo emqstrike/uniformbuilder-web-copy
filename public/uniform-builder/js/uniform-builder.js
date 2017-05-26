@@ -329,7 +329,7 @@ $(document).ready(function () {
                 $('a.change-view[data-view="open-design"]').removeClass('disabled');
             }
 
-            if(ub.funcs.isCurrentSport('Baseball')) {
+            if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
                 $('a.change-view[data-view="pipings"]').removeClass('hidden');                                
             } else {
                 $('a.change-view[data-view="pipings"]').addClass('hidden');                
@@ -589,6 +589,10 @@ $(document).ready(function () {
             });
 
             if (ub.data.fonts.length > 0) {
+
+
+                console.log(' ');
+                ub.utilities.info("Fonts: ");
 
                 ub.utilities.info(ub.data.fonts.length + " fonts loaded.");
                 ub.utilities.info('Preloading ' + ub.data.fonts[0].name);
@@ -1762,7 +1766,8 @@ $(document).ready(function () {
         var uniform_type                = ub.current_material.material.type;
 
         // For Team Stores
-        if (ub.team_colors.length > 0) { ub.current_material.settings = ub.prepareForTeamStoresMaterialOptions(ub.current_material.settings) }
+
+        if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { ub.current_material.settings = ub.prepareForTeamStoresMaterialOptions(ub.current_material.settings) }
 
         _.each(ub.current_material.settings[uniform_type], function (e) {
 
@@ -1799,7 +1804,7 @@ $(document).ready(function () {
                             if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
                                 
                                 e.pattern = ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
-                                if (ub.team_colors.length > 0) { e.pattern = ub.prepareForTeamStoresPatterns(e.pattern); }
+                                if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { e.pattern = ub.prepareForTeamStoresPatterns(e.pattern); }
 
                             }    
 
@@ -1897,7 +1902,7 @@ $(document).ready(function () {
 
         // For Team Stores
         // 
-        if (ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
+        if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
             
@@ -5611,7 +5616,7 @@ $(document).ready(function () {
 
                 }
                 
-                if (_item !== "Men") { return; }
+                if (_item !== "Men" && _item !== "Women") { return; }
                 ub.funcs.initSportsPicker(_item);
 
             }
@@ -5621,7 +5626,8 @@ $(document).ready(function () {
                 if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
                 if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
 
-                if (ub.data.tempSports.isSportOK(_item) && !_.contains(ub.fontGuideIDs, ub.user.id)) { return; }
+                var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+                if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
 
                 ub.funcs.initUniformsPicker(_item);
 
@@ -6205,12 +6211,17 @@ $(document).ready(function () {
 
         if (_betaUniformsOk) {
 
+            ub.funcs.enableSport(ub.data.sports, 'Women', 'volleyball');
+
             ub.funcs.enableSport(ub.data.sports, 'Men', 'baseball');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'tech_tee');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'compression');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'cinch_sack');
 
+
         } else {
+
+            ub.funcs.disableSport(ub.data.sports, 'Women', 'volleyball');
 
             ub.funcs.disableSport(ub.data.sports, 'Men', 'baseball');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'tech_tee');
@@ -6235,7 +6246,7 @@ $(document).ready(function () {
 
         ub.funcs.enableBetaSports();
 
-        var _apparel = _.find(ub.data.apparel, {gender: 'Men'});
+        var _apparel = _.find(ub.data.apparel, {gender: sport});
 
         var items = _.find(ub.data.sports, {gender: sport});
         ub.funcs.initScroller('sports', items.sports,undefined,undefined,_apparel.sports);
