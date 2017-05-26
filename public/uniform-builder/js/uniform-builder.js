@@ -5606,7 +5606,6 @@ $(document).ready(function () {
 
     ub.funcs.reBindEventsPickers = function () {
 
-        $('div.main-picker-items, span.main-picker-items').unbind('click');
         $('div.main-picker-items, span.main-picker-items').on('click', function () {
 
             $picker_item = $(this);
