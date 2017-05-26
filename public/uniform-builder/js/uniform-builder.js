@@ -5595,8 +5595,18 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.setActiveGender = function (gender) {
+
+        var _activeClass = 'active'
+
+        $('span.slink').removeClass('active');
+        $('span.slink[data-item="' +  gender +'"]').addClass(_activeClass);
+
+    }
+
     ub.funcs.reBindEventsPickers = function () {
 
+        $('div.main-picker-items, span.main-picker-items').unbind('click');
         $('div.main-picker-items, span.main-picker-items').on('click', function () {
 
             $picker_item = $(this);
@@ -5607,7 +5617,10 @@ $(document).ready(function () {
 
             if (_picker_type === 'gender') {
 
+
                 if (_item === "Home") {
+
+                    ub.funcs.setActiveGender(_item);
 
                     ub.funcs.initGenderPicker();
                     ub.funcs.hideSecondaryBar();
@@ -5617,6 +5630,8 @@ $(document).ready(function () {
                 }
                 
                 if (_item !== "Men" && _item !== "Women") { return; }
+
+                ub.funcs.setActiveGender(_item);
                 ub.funcs.initSportsPicker(_item);
 
             }
