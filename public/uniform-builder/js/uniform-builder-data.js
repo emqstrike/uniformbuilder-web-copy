@@ -4113,7 +4113,15 @@ $(document).ready(function() {
         },
         {
             gender: 'Women',
-            sports: [],
+            sports: [
+                {
+                    code: 'tech_tee',
+                    name: 'Tech-Tee (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+            ],
         },
         {
             gender: 'Youth',
@@ -12725,7 +12733,11 @@ ub.funcs.fontOffSets = [
             },
             {
                sport: 'Cinch Sack (Apparel)',    
+            },
+            {
+               sport: 'Volleyball',    
             }
+
         ],
 
         isHidden: function (sport) {
@@ -12755,6 +12767,10 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: '1-4 Zip Jacket (Apparel)',
+                code: 'body',
+            },
+            {
+                sport: 'Hoodie (Apparel)',
                 code: 'body',
             },
             {

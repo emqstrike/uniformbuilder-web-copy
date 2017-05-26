@@ -5613,6 +5613,7 @@ $(document).ready(function () {
             var _picker_type = $(this).data('picker-type');
             var _item        = $(this).data('item');
             var _id          = $(this).data('id');
+            var _gender      = $(this).data('gender');
 
             if (_picker_type === 'gender') {
 
@@ -5643,7 +5644,7 @@ $(document).ready(function () {
                 var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
                 if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
 
-                ub.funcs.initUniformsPicker(_item);
+                ub.funcs.initUniformsPicker(_item, _gender);
 
             }
 
@@ -5722,7 +5723,15 @@ $(document).ready(function () {
 
     };
 
-    ub.funcs.prepareSecondaryBar = function (sport) {
+    ub.funcs.prepareSecondaryBar = function (sport, gender) {
+
+        $('span.slink.primary-filters[data-item="All"]').attr('data-gender', gender);
+        $('span.slink.secondary-filters[data-item="All"]').attr('data-gender', gender);
+
+        $('span.slink[data-item="Jersey"]').attr('data-gender', gender);
+        $('span.slink[data-item="Pant"]').attr('data-gender', gender);
+        $('span.slink[data-item="Twill"]').attr('data-gender', gender);
+        $('span.slink[data-item="Sublimated"]').data('gender', gender);
 
         $('span.slink[data-item="Jersey"]').html("Jersey");
         $('span.slink[data-item="Pant"]').html("Pant");
@@ -5794,9 +5803,11 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel) {
+    ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender) {
 
         ub.funcs.fadeOutElements();
+
+        actualGender = $('span.slink.main-picker-items.active[data-picker-type="gender"]').data('item').toLowerCase();
 
         var $scrollerElement = $('#main-picker-scroller');
         var $uniformDetailsElement = $('div.uniform_details');
@@ -5886,7 +5897,7 @@ $(document).ready(function () {
 
             var _sport = gender;
 
-            ub.funcs.prepareSecondaryBar(_sport);
+            ub.funcs.prepareSecondaryBar(_sport, actualGender);
             
             $('div.secondary-bar').fadeIn();
             $('div.secondary-bar').css('margin-top', "0px");
@@ -5971,7 +5982,6 @@ $(document).ready(function () {
                     $('.tertiary-bar').css('margin-top','-50px');
 
                     var t = $('#m-tertiary-links').html();
-
                     var _str = '';
                     
                     var d = {
@@ -6025,6 +6035,7 @@ $(document).ready(function () {
             $('span.secondary-filters').on('click', function () {
 
                 var _dataItem = $(this).data('item');
+                var _gender = $(this).data('gender').toLowerCase();
 
                 if (_dataItem === "separator") { return; }
 
@@ -6049,11 +6060,13 @@ $(document).ready(function () {
 
                     if (ub.filters.primary !== 'All') {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary });    
+
+                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, gender: actualGender });    
 
                     } else {
+
                         
-                        items = _.filter(ub.materials, { uniform_category: gender});    
+                        items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender });    
 
                     }
 
@@ -6061,11 +6074,11 @@ $(document).ready(function () {
 
                     if (ub.filters.primary !== 'All') {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary,  type: ub.filters.primary });    
+                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary,  type: ub.filters.primary, gender: actualGender });    
 
                     } else {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary });
+                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });
 
                     }
 
@@ -6077,6 +6090,8 @@ $(document).ready(function () {
             });
 
             $('span.primary-filters').on('click', function () {
+
+                var _gender = $(this).data('gender').toLowerCase();
 
                 $('span.primary-filters').removeClass('active');
                 $(this).addClass('active');
@@ -6101,11 +6116,13 @@ $(document).ready(function () {
 
                     if (ub.filters.secondary !== 'All') {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary  });    
+                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });    
 
                     } else {
+
+                        console.log('_gender: ' + _gender);
                         
-                        items = _.filter(ub.materials, { uniform_category: gender }); 
+                        items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender }); 
 
                     }
 
@@ -6113,11 +6130,11 @@ $(document).ready(function () {
 
                     if (ub.filters.secondary !== 'All') {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, uniform_application_type: ub.filters.secondary  });    
+                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, uniform_application_type: ub.filters.secondary, gender: actualGender });    
 
                     } else {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary });
+                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, gender: actualGender });
 
                     }
 
@@ -6236,16 +6253,17 @@ $(document).ready(function () {
         if (_betaUniformsOk) {
 
             ub.funcs.enableSport(ub.data.sports, 'Women', 'volleyball');
+            ub.funcs.enableSport(ub.data.apparel, 'Women', 'tech_tee');
 
             ub.funcs.enableSport(ub.data.sports, 'Men', 'baseball');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'tech_tee');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'compression');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'cinch_sack');
 
-
         } else {
 
             ub.funcs.disableSport(ub.data.sports, 'Women', 'volleyball');
+            ub.funcs.disableSport(ub.data.apparel, 'Women', 'tech_tee');
 
             ub.funcs.disableSport(ub.data.sports, 'Men', 'baseball');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'tech_tee');
@@ -6271,13 +6289,13 @@ $(document).ready(function () {
         ub.funcs.enableBetaSports();
 
         var _apparel = _.find(ub.data.apparel, {gender: sport});
-
         var items = _.find(ub.data.sports, {gender: sport});
-        ub.funcs.initScroller('sports', items.sports,undefined,undefined,_apparel.sports);
+
+        ub.funcs.initScroller('sports', items.sports,sport,undefined,_apparel.sports);
 
     };
 
-    ub.funcs.initUniformsPicker = function (sport) {
+    ub.funcs.initUniformsPicker = function (sport, gender) {
 
         $('body').addClass('pickers-enabled');
 
@@ -6285,8 +6303,10 @@ $(document).ready(function () {
         $('div.special_modifiers').hide();
         $('div#main-picker-container').show();
 
-        var items = _.filter(ub.materials, {uniform_category: sport });
-        ub.funcs.initScroller('uniforms', items, sport);
+        var _actualGender = gender;
+
+        var items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
+        ub.funcs.initScroller('uniforms', items, sport, undefined, undefined, _actualGender);
 
     };
 
