@@ -5616,7 +5616,7 @@ $(document).ready(function () {
 
                 }
                 
-                if (_item !== "Men") { return; }
+                if (_item !== "Men" && _item !== "Women") { return; }
                 ub.funcs.initSportsPicker(_item);
 
             }
@@ -6211,12 +6211,17 @@ $(document).ready(function () {
 
         if (_betaUniformsOk) {
 
+            ub.funcs.enableSport(ub.data.sports, 'Women', 'volleyball');
+
             ub.funcs.enableSport(ub.data.sports, 'Men', 'baseball');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'tech_tee');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'compression');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'cinch_sack');
 
+
         } else {
+
+            ub.funcs.disableSport(ub.data.sports, 'Women', 'volleyball');
 
             ub.funcs.disableSport(ub.data.sports, 'Men', 'baseball');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'tech_tee');
@@ -6241,7 +6246,7 @@ $(document).ready(function () {
 
         ub.funcs.enableBetaSports();
 
-        var _apparel = _.find(ub.data.apparel, {gender: 'Men'});
+        var _apparel = _.find(ub.data.apparel, {gender: sport});
 
         var items = _.find(ub.data.sports, {gender: sport});
         ub.funcs.initScroller('sports', items.sports,undefined,undefined,_apparel.sports);

@@ -4032,29 +4032,12 @@ $(document).ready(function() {
             gender: 'Women',
             sports: [
                 {
-                    name: 'Baseball',
-                    active: "1",
-                },
-                {
-                    name: 'Softball',
-                    active: "1",
-                },
-                {
-                    name: 'Hockey',
-                    active: "1",
-                },
-                {
-                    name: 'Lacrosse',
-                    active: "1",
-                },
-                {
+                    code: 'volleyball',
                     name: 'Volleyball',
                     active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
                 },
-                {
-                    name: 'Soccer',
-                    active: "1",
-                }, 
             ],
         },
         {
@@ -9455,6 +9438,10 @@ ub.funcs.fontOffSets = [
             sport: 'Cinch Sack (Apparel)',
             filters: ['All'],
         }, 
+       {
+            sport: 'Volleyball',
+            filters: ['All'],
+        }, 
 
     ];
 
@@ -12636,6 +12623,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Compression (Apparel)' },
             { sport: 'Tech-Tee (Apparel)' },
             { sport: 'Cinch Sack (Apparel)' },
+            { sport: 'Volleyball' },
 
         ],
 
