@@ -54,7 +54,8 @@ class FontsController extends Controller
         $fonts = $this->client->getDefaultFonts();
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
-        
+
+        $font->block_pattern_options = str_replace('"', "", $font->block_pattern_options);
         return view('administration.fonts.font-edit', [
             'fonts' => $fonts,
             'font' => $font,
@@ -86,6 +87,7 @@ class FontsController extends Controller
         $fontSizeTables = $request->input('font_size_tables');
         $sublimatedFontSizeTables = $request->input('sublimated_font_size_tables');
         $alias = $request->input('alias');
+        $blockPatternOptions = $request->input('block_pattern_options_value');
 
         $userID = $request->input('user_id');
         
@@ -108,7 +110,8 @@ class FontsController extends Controller
             'font_size_tables' => $fontSizeTables,
             'sublimated_font_size_tables' => $sublimatedFontSizeTables,
             'updated_by' => $userID,
-            'alias' =>$alias
+            'alias' =>$alias,
+            'block_pattern_options' => $blockPatternOptions
         ];
 
         if ($fontType != 'default')
