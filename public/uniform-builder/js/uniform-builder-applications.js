@@ -10516,6 +10516,15 @@ $(document).ready(function() {
             
         }
 
+        // Cinch Sack doens't have a left and right perspective
+        if (ub.sport === "Cinch Sack (Apparel)") {
+
+            _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                return view.perspective !== "left" && view.perspective !== "right" ;
+            });
+
+        }
+
         
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
 
@@ -10689,6 +10698,11 @@ $(document).ready(function() {
 
             if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { _part = "Sublimated" }
             if(ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short") { _part = "Body Left" }
+
+            // Catch all expression when nothing is selected, just select first
+            if(!$('span.part').hasClass('active')) {
+                $('span.part').first().addClass('active');
+            }
 
             $('div.part-container > span.part[data-id="' + _part + '"]').addClass('active');
             $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');
