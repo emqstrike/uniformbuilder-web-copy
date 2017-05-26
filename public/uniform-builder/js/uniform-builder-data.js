@@ -12758,6 +12758,10 @@ ub.funcs.fontOffSets = [
                 code: 'body',
             },
             {
+                sport: 'Hoodie (Apparel)',
+                code: 'body',
+            },
+            {
                 sport: 'Volleyball',
                 code: 'body',
             },
