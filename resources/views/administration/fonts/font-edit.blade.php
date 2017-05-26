@@ -161,6 +161,23 @@ li.select2-selection__choice {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-5 control-label">Target Block Pattern Option</label>
+                            <div class="col-md-4">
+                                <input type="hidden" class="block-pattern-options-val" id="block_pattern_options_value" name="block_pattern_options_value" value="{{ $font->block_pattern_options }}">
+                                <select name="block_pattern_options[]" class="form-control block-pattern-options" multiple="multiple">
+                                    {{-- @foreach ($categories as $category)
+                                        @if ($category->active)
+                                        <option value='{{ $category->name }}'>
+                                            {{ $category->name }}
+                                        </option>
+                                        @endif
+                                    @endforeach --}}
+                                    <!-- <option value="All">All</option> -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-5 control-label">Tail Sweep Properties</label>
                             <div class="col-md-4">
                                 <textarea class="form-control tail-sweep-properties animated" name="tail_sweep_properties"><?php echo substr(stripslashes($font->tail_sweep_properties), 1, -1); ?></textarea>
@@ -607,6 +624,7 @@ li.select2-selection__choice {
 
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/fonts.js"></script>
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript" src="/js/libs/autosize.js"></script>
@@ -615,6 +633,105 @@ $(document).ready(function(){
     var fields = []; // to be used in fst updater
     window.backup = null;
     window.sublimated_backup = null;
+    window.block_patterns = null;
+
+    getBlockPatterms(function(block_patterns){ window.block_patterns = block_patterns; });
+
+    function getBlockPatterms(callback){
+        var block_patterns;
+        var url = "//api-dev.qstrike.com/api/block_patterns";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                block_patterns = data['block_patterns'];
+                if(typeof callback === "function") callback(block_patterns);
+            }
+        });
+    }
+
+    console.log(window.block_patterns);
+    bindBPOS();
+    function bindBPOS(){
+        // $('.block-pattern-options').html('');
+        // var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
+        var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
+        var sports_arr = null;
+        var block_pattern_options = [];
+        console.log('[[SPORTS]]');
+        console.log(sports);
+        if(sports != null){
+            sports_arr = sports.split(",");
+            console.log(sports_arr);
+            sports_arr.forEach(function(entry) {
+                console.log('ENTRY: ' + entry);
+                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category === entry; });
+                console.log(x);
+                x.forEach(function(entry) {
+                    var y = JSON.parse(entry.neck_options);
+
+                    var list = [];
+                    _.each(y, function(item){
+                        list.push(_.omit(item, 'children'));
+                        list.push(_.flatten(_.pick(item, 'children')));
+                    });
+                    var result = _.flatten(list);
+                    // console.log('[ RESULT ]');
+                    // console.log(result);
+                    // console.log(_.flatten(y, true));
+                    // for(var i = 0; i <= 10; i++){
+                    //     console.log(y[i]);
+                    //     if( y[i] !== 'undefined' ){
+                    //         console.log('gets in');
+                    //         block_pattern_options.push(y[i].name);
+                    //     }
+                        // }
+                    result.forEach(function(i) {
+                        block_pattern_options.push(i.name);
+                        // $('.block-pattern-options').append('<option value="'+i.name+'">'+i.name+'</option>');
+                    });
+                });
+                // var z = _.uniq(block_pattern_options);
+                
+                // z.forEach(function(i) {
+                //     $('.block-pattern-options').append('<option value="'+i+'">'+i+'</option>');
+                // });
+                // console.log(y);
+                // x = _.flatten(y, true);
+                // block_pattern_options.push(x.neck_options);
+            });
+            var z = _.sortBy(_.uniq(block_pattern_options));
+            $('.block-pattern-options').html('');
+            z.forEach(function(i) {
+                $('.block-pattern-options').append('<option value="'+i+'">'+i+'</option>');
+            });
+        }
+
+    }
+
+
+    if($('#block_pattern_options_value').val()){
+        // var bpos = JSON.parse($('#block_pattern_options_value').val());
+        var xx = $('#block_pattern_options_value').val().split(",");
+        var bpos = xx;
+    }
+    // var sports = JSON.parse($('#sports_value').val());
+
+    $('.block-pattern-options').select2({
+        placeholder: "Select block pattern option",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".block-pattern-options").change(function() {
+        $('#block_pattern_options_value').val($(this).val());
+    });
+
+    $('.block-pattern-options').select2('val', bpos);
 
     $( "#static_row" ).hide();
 
