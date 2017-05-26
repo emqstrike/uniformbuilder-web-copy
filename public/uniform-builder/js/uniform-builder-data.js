@@ -12725,6 +12725,9 @@ ub.funcs.fontOffSets = [
             },
             {
                sport: 'Cinch Sack (Apparel)',    
+            },
+            {
+               sport: 'Volleyball',    
             }
         ],
 
@@ -12755,6 +12758,10 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: '1-4 Zip Jacket (Apparel)',
+                code: 'body',
+            },
+            {
+                sport: 'Hoodie (Apparel)',
                 code: 'body',
             },
             {
