@@ -416,7 +416,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items sports grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+            <div class="main-picker-items sports grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
@@ -434,7 +434,7 @@
 
         @{{#apparel}}
             
-            <div class="main-picker-items apparel grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+            <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>

@@ -4113,7 +4113,15 @@ $(document).ready(function() {
         },
         {
             gender: 'Women',
-            sports: [],
+            sports: [
+                {
+                    code: 'tech_tee',
+                    name: 'Tech-Tee (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+            ],
         },
         {
             gender: 'Youth',
@@ -12729,6 +12737,7 @@ ub.funcs.fontOffSets = [
             {
                sport: 'Volleyball',    
             }
+
         ],
 
         isHidden: function (sport) {
