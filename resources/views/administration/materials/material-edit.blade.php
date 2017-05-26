@@ -103,7 +103,14 @@
                                 <select class="form-control material-asset-target" name="asset_target" id="asset_target">
                                     <option value="web" @if( $material->asset_target == "web" ) selected="selected"@endif>Web</option>
                                     <option value="ipad" @if( $material->asset_target == "ipad" ) selected="selected"@endif>iPad</option>
+                                    <option value="team_stores" @if( $material->asset_target == "team_stores" ) selected="selected"@endif>Team Stores</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Style Group</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control material-style-group" name="style_group" value="{{ $material->style_group }}">
                             </div>
                         </div>
 <hr>

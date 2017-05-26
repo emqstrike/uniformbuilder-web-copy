@@ -104,7 +104,14 @@
                                 <select class="form-control material-asset-target" name="asset_target" id="asset_target">
                                     <option value="web">Web</option>
                                     <option value="ipad">iPad</option>
+                                    <option value="team_stores">Team Stores</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Style Group</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control material-style-group" name="style_group">
                             </div>
                         </div>
 <hr>
