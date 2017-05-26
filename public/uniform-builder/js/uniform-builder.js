@@ -5922,6 +5922,16 @@ $(document).ready(function () {
 
                 $('.main-picker-items').each(function(item) {
 
+                    var imgt = $(this).find('img');
+
+                    // If the uniform doesnt have a thumbnail use the sports picker thumb
+                    if (imgt.attr('src') === ("?v=" + ub.config.asset_version)) {
+
+                        var _filename =  '/images/main-ui/pickers/' + gender.toLowerCase() + '.png';
+                        imgt.attr('src', _filename);
+
+                    }
+
                     var _resultPrice = $(this).find('span.calculatedPrice').html();
 
                     if (_resultPrice === "Call for Pricing") {
