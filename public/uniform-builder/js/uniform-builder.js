@@ -355,7 +355,7 @@ $(document).ready(function () {
 
             var _sport = ub.current_material.material.uniform_category;
 
-            if (ub.data.sportsWithHiddenYouthPrices.isHidden(_sport)) {
+            if (ub.data.sportsWithHiddenYouthPrices.isHidden(_sport) || ub.current_material.material.neck_option === "Fight Short") {
 
                 $('span.youthPriceCustomizer').hide();
                 $('span.youthPriceCustomizerSale').hide();
@@ -5807,6 +5807,11 @@ $(document).ready(function () {
 
         }
 
+        // Temp Fight Shorts
+        $('div.main-picker-items[data-option="Fight Short"]').find('span.youthPrice').hide();
+        $('div.main-picker-items[data-option="Fight Short"]').find('span.youthPriceSale').hide();
+        $('div.main-picker-items[data-option="Fight Short"]').find('span.adult-label').html('Price starts from ');
+
     }
 
     ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender) {
@@ -5913,6 +5918,7 @@ $(document).ready(function () {
             ub.tempItems = ub.funcs.sortPickerItems(items);
 
             var data = {
+
                 sport: gender,
                 picker_type: type,
                 picker_items: ub.tempItems,
@@ -5974,13 +5980,47 @@ $(document).ready(function () {
             });
 
             /* Tertiary Links */
+            var _blockPatterns = [];
+            var itemsWOUpper = items;
+            var _options = []; 
 
-            var itemsWOUpper = _.filter(items, {type: 'lower'});
-            var _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
+            if (gender === "Football") {
+            
+                itemsWOUpper = _.filter(items, {type: 'lower'});
+                _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
+
+            } else {
+
+                _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
+                _options = _.uniq(_.pluck(itemsWOUpper,'neck_option'));  
+
+            }
+
+            var _tertiaryOptions = _.union(_blockPatterns, _options);  // leaving this here, maybe they will change their mind
+
+            _tertiaryOptionsCollection = [];
+
+            var _tertiaryFiltersBlackList = ['BASEBALL', 'WRESTLING', 'Singlet', 'Fight Short', 'Baseball Pants'];
+
+            _.each(_tertiaryOptions, function (option) {
+                console.log(option);
+
+                if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
+
+                if (option === null) { return; }
+
+                _tertiaryOptionsCollection.push({
+
+                    alias: option.replace('Baseball Jersey','').toTitleCase(),
+                    item: option,
+
+                })
+
+            });
 
             if (typeof fromTertiary !== 'boolean') {
             
-                setTimeout(function () { 
+                setTimeout(function () {
 
                     $('.tertiary-bar').html('');
 
@@ -5992,7 +6032,7 @@ $(document).ready(function () {
                     
                     var d = {
 
-                        block_patterns: _blockPatterns,
+                        block_patterns: _tertiaryOptionsCollection,
                 
                     }
 
@@ -6015,11 +6055,16 @@ $(document).ready(function () {
 
                         } else {
 
-                            _newSet = _.filter(window.origItems, {block_pattern: _dataItem});
+                            //_newSet = _.filter(window.origItems, {block_pattern: _dataItem});
+
+                            _newSet = _.filter(window.origItems, function (item) {
+
+                                return item.block_pattern === _dataItem || item.neck_option === _dataItem;
+
+                            });
                             
                         }
 
-                        
                         ub.funcs.initScroller('uniforms', _newSet, gender, true);
 
                         $('span.slink-small').removeClass('active');
@@ -6027,7 +6072,7 @@ $(document).ready(function () {
 
                     });
 
-                }, 1000);
+                }, 100);
 
             }
 

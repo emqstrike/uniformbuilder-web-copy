@@ -12738,13 +12738,15 @@ ub.funcs.fontOffSets = [
             },
             {
                sport: 'Volleyball',    
-            }
-
+            },
+            
         ],
 
-        isHidden: function (sport) {
+        isHidden: function (sport, option) {
 
-            var _result = _.find(this.items, {sport: sport});
+            var _result = undefined;
+
+            _result = _.find(this.items, {sport: sport});
 
             return (typeof _result !== "undefined");
 
