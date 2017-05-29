@@ -152,6 +152,7 @@
 
 </div>
 
+@yield('create-team-store-account')
 @yield('my-saved-designs')
 @yield('my-orders')
 @yield('my-messages')
@@ -223,6 +224,7 @@
 <script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/vanilla-color-picker/dist/vanilla-color-picker.min.js?v={{$asset_version}}"></script>
 
 <!-- End Third Party Scripts -->
 
@@ -466,6 +468,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-generators.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/team-store-registration.js?v={{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
 

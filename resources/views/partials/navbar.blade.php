@@ -57,6 +57,12 @@
 
             </a>
 
+            @if (! Session::get('userHasTeamStoreAccount'))
+                <a href="/create-team-store-account" id="messages">
+                    <i class="fa  fa-shopping-bag" aria-hidden="true"></i> Create Team Store
+                </a>
+            @endif
+
             <a href="#" id="feedback">
 
                 <i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?

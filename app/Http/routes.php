@@ -38,6 +38,9 @@ Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@load
 
 Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilderController@loadDesignSetRender');
 
+Route::get('create-team-store-account', 'TeamStoreController@create');
+Route::post('create-team-store-account', 'TeamStoreController@store')->name('create-team-store-account');
+
 
 // Orders and Profile
 
