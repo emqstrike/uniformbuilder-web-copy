@@ -459,7 +459,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-item="@{{name}}" data-id="@{{id}}">
+            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}">
 
                 <img src="@{{thumbnail_path}}?v={{$asset_version}}">
 
@@ -1604,7 +1604,7 @@
 
     @{{#block_patterns}}
 
-        <span class="slink-small main-picker-items" data-picker-type="gender" data-item="@{{.}}">@{{.}}</span>
+        <span class="slink-small main-picker-items" data-picker-type="gender" data-item="@{{item}}">@{{alias}}</span>
 
     @{{/block_patterns}}
 
