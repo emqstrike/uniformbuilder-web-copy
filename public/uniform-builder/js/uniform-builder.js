@@ -5591,6 +5591,7 @@ $(document).ready(function () {
         $('div.secondary-bar').css('margin-top', "-50px");
 
         $('div.tertiary-bar').hide();
+        $('div.quarternary-bar').hide();
         $('div.secondary-bar').css('margin-top', "-50px");
 
     }
@@ -5795,7 +5796,7 @@ $(document).ready(function () {
 
     }
     
-    ub.funcs.cleanupPricesPerSport = function (sport) {
+    ub.funcs.cleanupPricesPerSport = function (sport, gender) {
 
         var _sport = sport;
 
@@ -5811,6 +5812,131 @@ $(document).ready(function () {
         $('div.main-picker-items[data-option="Fight Short"]').find('span.youthPrice').hide();
         $('div.main-picker-items[data-option="Fight Short"]').find('span.youthPriceSale').hide();
         $('div.main-picker-items[data-option="Fight Short"]').find('span.adult-label').html('Price starts from ');
+
+    }
+
+    ub.funcs.updateTertiaryBar = function (items, gender) {
+
+        setTimeout(function () {
+
+            $('.tertiary-bar').html('');
+
+            $('.tertiary-bar').hide();
+            $('.tertiary-bar').css('margin-top','-50px');
+
+            var t = $('#m-tertiary-links').html();
+            var _str = '';
+            var d = { block_patterns: _blockPatternsCollection, }
+
+            var m = Mustache.render(t, d);
+            $('.tertiary-bar').html(m);
+        
+            $('div.tertiary-bar').fadeIn();        
+            $('div.tertiary-bar').css('margin-top', "0px");
+
+            window.origItems = items;
+            
+            $('span.slink-small.tertiary').unbind('click');
+            $('span.slink-small.tertiary').on('click', function () {
+
+                var _dataItem = $(this).data('item');
+
+                if (_dataItem === "All") {
+
+                    _newSet = window.origItems;
+
+                } else {
+
+                    _newSet = _.filter(window.origItems, function (item) {
+
+                        return item.block_pattern === _dataItem;
+
+                    });
+                    
+                }
+
+                ub.funcs.initScroller('uniforms', _newSet, gender, true);
+
+                $('span.slink-small.tertiary').removeClass('active');
+                $(this).addClass('active');
+
+                ub.funcs.updateQuarternaryBar(items, gender);
+
+            });
+
+        }, 100);
+
+    }
+
+    ub.funcs.updateQuarternaryBar = function (items, gender) {
+
+        setTimeout(function () {
+
+            $('.quarternary-bar').html('');
+
+            $('.quarternary-bar').hide();
+            $('.quarternary-bar').css('margin-top','-50px');
+
+            var t = $('#m-quarternary-links').html();
+            var _str = '';
+            
+            var d = { block_patterns: _optionsCollection, }
+
+            var m = Mustache.render(t, d);
+            $('.quarternary-bar').html(m);
+        
+            $('div.quarternary-bar').fadeIn();        
+            $('div.quarternary-bar').css('margin-top', "0px");
+
+            window.origItems = items;
+            
+            $('span.slink-small.quarternary').unbind('click');
+            $('span.slink-small.quarternary').on('click', function () {
+
+                var _dataItem = $(this).data('item');
+                var _activeBlockPattern = $('span.tertiary.active').data('item');
+
+                if (_dataItem === "All") {
+
+                    _newSet = _.filter(window.origItems, function (item) {
+
+                        return item.block_pattern === _activeBlockPattern;
+
+                    });
+
+                } else {
+
+                    console.log('Active Block Pattern: ' + _activeBlockPattern);
+                    console.log('Neck Option: ' + _dataItem);
+
+                    if (_activeBlockPattern === "All") {
+
+                        _newSet = _.filter(window.origItems, function (item) {
+
+                            return item.neck_option === _dataItem;
+
+                        });
+
+                    } else {
+
+                        _newSet = _.filter(window.origItems, function (item) {
+
+                            return item.block_pattern === _activeBlockPattern && item.neck_option === _dataItem;
+
+                        });
+
+                    }
+ 
+                }
+
+                ub.funcs.initScroller('uniforms', _newSet, gender, true);
+
+                $('span.slink-small.quarternary').removeClass('active');
+                $(this).addClass('active');
+
+            });
+
+        }, 100);
 
     }
 
@@ -5980,6 +6106,7 @@ $(document).ready(function () {
             });
 
             /* Tertiary Links */
+            
             var _blockPatterns = [];
             var itemsWOUpper = items;
             var _options = []; 
@@ -5998,18 +6125,33 @@ $(document).ready(function () {
 
             var _tertiaryOptions = _.union(_blockPatterns, _options);  // leaving this here, maybe they will change their mind
 
-            _tertiaryOptionsCollection = [];
+            _blockPatternsCollection = [];
+            _optionsCollection = [];
 
-            var _tertiaryFiltersBlackList = ['BASEBALL', 'WRESTLING', 'Singlet', 'Fight Short', 'Baseball Pants'];
+            var _tertiaryFiltersBlackList = ['BASEBALL', 'WRESTLING', 'Singlet', 'Fight Short', 'Baseball Pants', 'Compression', 'Volleyball'];
 
-            _.each(_tertiaryOptions, function (option) {
-                console.log(option);
+            _.each(_blockPatterns, function (option) {
 
                 if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
 
                 if (option === null) { return; }
 
-                _tertiaryOptionsCollection.push({
+                _blockPatternsCollection.push({
+
+                    alias: option.replace('Baseball Jersey','').toTitleCase(),
+                    item: option,
+
+                })
+
+            });
+
+            _.each(_options, function (option) {
+
+                if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
+
+                if (option === null) { return; }
+
+                _optionsCollection.push({
 
                     alias: option.replace('Baseball Jersey','').toTitleCase(),
                     item: option,
@@ -6020,59 +6162,8 @@ $(document).ready(function () {
 
             if (typeof fromTertiary !== 'boolean') {
             
-                setTimeout(function () {
-
-                    $('.tertiary-bar').html('');
-
-                    $('.tertiary-bar').hide();
-                    $('.tertiary-bar').css('margin-top','-50px');
-
-                    var t = $('#m-tertiary-links').html();
-                    var _str = '';
-                    
-                    var d = {
-
-                        block_patterns: _tertiaryOptionsCollection,
-                
-                    }
-
-                    var m = Mustache.render(t, d);
-                    $('.tertiary-bar').html(m);
-                
-                    $('div.tertiary-bar').fadeIn();        
-                    $('div.tertiary-bar').css('margin-top', "0px");
-
-                    window.origItems = items;
-                    
-                    $('span.slink-small').unbind('click');
-                    $('span.slink-small').on('click', function () {
-
-                        var _dataItem = $(this).data('item');
-
-                        if (_dataItem === "All") {
-
-                            _newSet = window.origItems;
-
-                        } else {
-
-                            //_newSet = _.filter(window.origItems, {block_pattern: _dataItem});
-
-                            _newSet = _.filter(window.origItems, function (item) {
-
-                                return item.block_pattern === _dataItem || item.neck_option === _dataItem;
-
-                            });
-                            
-                        }
-
-                        ub.funcs.initScroller('uniforms', _newSet, gender, true);
-
-                        $('span.slink-small').removeClass('active');
-                        $(this).addClass('active');
-
-                    });
-
-                }, 100);
+                ub.funcs.updateTertiaryBar(items, gender);
+                ub.funcs.updateQuarternaryBar(items, gender);
 
             }
 

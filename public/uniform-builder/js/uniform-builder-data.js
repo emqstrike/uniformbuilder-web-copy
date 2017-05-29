@@ -12655,6 +12655,13 @@ ub.funcs.fontOffSets = [
             //  tackleTwillHidden: true,        // Use this in the future
             },
             {
+                sport: 'Volleyball',
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Compression Shorts',
+            //  tackleTwillHidden: true,        // Use this in the future
+            },
+            {
                 sport: 'Crew Socks (Apparel)',
                 type: 'lower',
                 lowerLabel: 'Crew Sock',
