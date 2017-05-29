@@ -5755,6 +5755,12 @@ $(document).ready(function () {
                 $('span.slink[data-item="Pant"]').html(_secondaryBarLabels.lowerLabel);
                 $('span.slink[data-item="Twill"]').hide();
 
+            } else if (_secondaryBarLabels.type === "both") {
+
+                $('span.slink[data-item="Jersey"]').html(_secondaryBarLabels.upperLabel);
+                $('span.slink[data-item="Pant"]').html(_secondaryBarLabels.lowerLabel);
+                $('span.slink[data-item="Twill"]').hide();
+
             }
 
         }
@@ -6159,8 +6165,8 @@ $(document).ready(function () {
             });
 
             if (!_.contains(ub.fontGuideIDs, ub.user.id)) {
-                uniques = _.reject(uniques, function (item) { 
-                    return item.uniform_category === "Baseball"; 
+                uniques = _.reject(uniques, function (item) {
+                    return item.uniform_category === "Baseball";
                 });
             }
 
@@ -6168,7 +6174,7 @@ $(document).ready(function () {
                 picker_type: type,
                 picker_items: uniques,
             }
-            
+
             var markup = Mustache.render(template, data);
             $scrollerElement.html(markup);
 
@@ -6176,7 +6182,7 @@ $(document).ready(function () {
 
             $('div.back-link').on('click', function () {
 
-                ub.funcs.initGenderPicker();        
+                ub.funcs.initGenderPicker();
 
             });
 

@@ -9428,7 +9428,7 @@ ub.funcs.fontOffSets = [
         }, 
         {
             sport: 'Wrestling',
-            filters: ['All'],
+            filters: ['All', 'Singlet', 'Fight Shorts'],
         }, 
         {
             sport: 'Crew Socks (Apparel)',
@@ -12649,8 +12649,10 @@ ub.funcs.fontOffSets = [
         items: [
             {
                 sport: 'Wrestling',
-                type: 'upper',
+                type: 'both',
                 upperLabel: 'Singlet',
+                lowerLabel: 'Fight Shorts',
+            //  tackleTwillHidden: true,        // Use this in the future
             },
             {
                 sport: 'Crew Socks (Apparel)',
