@@ -1600,17 +1600,33 @@
 
     <script type="text/mustache" id="m-tertiary-links">
 
-    <span class="slink-small main-picker-items active" data-picker-type="gender" data-item="All">All</span>
+    <span class="slink-small tertiary main-picker-items active" data-picker-type="gender" data-item="All">All</span>
 
     @{{#block_patterns}}
 
-        <span class="slink-small main-picker-items" data-picker-type="gender" data-item="@{{item}}">@{{alias}}</span>
+        <span class="slink-small tertiary main-picker-items" data-picker-type="gender" data-item="@{{item}}">@{{alias}}</span>
 
     @{{/block_patterns}}
 
     </script>   
 
 <!-- End Tertiary links -->
+
+<!-- Quarternary links -->
+
+    <script type="text/mustache" id="m-quarternary-links">
+
+    <!-- <span class="slink-small quarternary main-picker-items active" data-picker-type="gender" data-item="All">All</span> -->
+
+    @{{#block_patterns}}
+
+        <span class="slink-small quarternary main-picker-items" data-picker-type="gender" data-item="@{{item}}">@{{alias}}</span>
+
+    @{{/block_patterns}}
+
+    </script>   
+
+<!-- End Quarternary links -->
 
 <!-- Save Design -->
 
