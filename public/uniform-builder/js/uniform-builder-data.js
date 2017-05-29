@@ -2212,7 +2212,33 @@ $(document).ready(function() {
                                 size: 1.75,
                             },
                 ],
-            }
+            },
+
+            // Volleyball
+            {
+                name: 'mascot',
+                sport: 'volleyball',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            }
+
+                ],
+            },
+           
         ], 
         getSize: function (applicationType, sport, id) {
 
@@ -2228,7 +2254,9 @@ $(document).ready(function() {
                 return _.contains(item.applicationNumbers, id);
 
             });
-
+ 
+            if (sport === "volleyball") { return _result[0]; }
+          
             if (typeof _object === "undefined") {
 
                 ub.utilities.warn('Mascot sizes for ' + sport + ' #' + id  + ' not found.');
@@ -3097,6 +3125,136 @@ $(document).ready(function() {
 
                 // end compression
 
+                /// Volleyball
+
+                  // compression
+
+                 {
+                    name: 'text_tech-tee',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                },
+                {
+                    name: 'team_name',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'shoulder_number',
+                    sport: 'volleyball',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    type: 'adult',
+                },
+
+                // end volleyball
+
+                /// End Volleyball
+
                 // cinch-sack
 
                 {
@@ -3213,7 +3371,8 @@ $(document).ready(function() {
                                 },
                                 {
                                     size: 4,
-                                },                            ],
+                                },                            
+                            ],
                     type: 'adult',
                 },
 
@@ -3873,29 +4032,12 @@ $(document).ready(function() {
             gender: 'Women',
             sports: [
                 {
-                    name: 'Baseball',
-                    active: "1",
-                },
-                {
-                    name: 'Softball',
-                    active: "1",
-                },
-                {
-                    name: 'Hockey',
-                    active: "1",
-                },
-                {
-                    name: 'Lacrosse',
-                    active: "1",
-                },
-                {
+                    code: 'volleyball',
                     name: 'Volleyball',
                     active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
                 },
-                {
-                    name: 'Soccer',
-                    active: "1",
-                }, 
             ],
         },
         {
@@ -3971,7 +4113,15 @@ $(document).ready(function() {
         },
         {
             gender: 'Women',
-            sports: [],
+            sports: [
+                {
+                    code: 'tech_tee',
+                    name: 'Tech-Tee (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+            ],
         },
         {
             gender: 'Youth',
@@ -9278,7 +9428,7 @@ ub.funcs.fontOffSets = [
         }, 
         {
             sport: 'Wrestling',
-            filters: ['All'],
+            filters: ['All', 'Singlet', 'Fight Shorts'],
         }, 
         {
             sport: 'Crew Socks (Apparel)',
@@ -9294,6 +9444,10 @@ ub.funcs.fontOffSets = [
         },
         {
             sport: 'Cinch Sack (Apparel)',
+            filters: ['All'],
+        }, 
+       {
+            sport: 'Volleyball',
             filters: ['All'],
         }, 
 
@@ -10266,6 +10420,39 @@ ub.funcs.fontOffSets = [
                 scale: {x: 1.6, y: 1.6},
             },
 
+            /// Volleyball Compression Shorts
+
+            {
+                sport: 'Volleyball',
+                option: ['Compression Shorts',],
+                size: 1,
+                scale: {x: 0.24, y: 0.24},
+            },
+            {
+                sport: 'Volleyball',
+                option: ['Compression Shorts',],
+                size: 2,
+                scale: {x: 0.48, y: 0.48},
+            },
+                        {
+                sport: 'Volleyball',
+                option: ['Compression Shorts',],
+                size: 3,
+                scale: {x: 0.72, y: 0.72},
+            },
+                        {
+                sport: 'Volleyball',
+                option: ['Compression Shorts',],
+                size: 4,
+                scale: {x: 0.96, y: 0.96},
+            },
+            {
+                sport: 'Volleyball',
+                option: ['Compression Shorts',],
+                size: 5,
+                scale: {x: 1.2, y: 1.2},
+            },
+
         ],
 
         getSize: function (sport, size, option) {
@@ -10418,8 +10605,512 @@ ub.funcs.fontOffSets = [
             
             // End "Crew Socks (Apparel)"
 
-            // Defaults 
+            // "Volleyball"
+            {
+                sport: 'Volleyball',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
+                sport: 'Volleyball',
+                size: 2,
+                scale: {x: 0.2, y: 0.2 },
+            },
+            {
+                sport: 'Volleyball',
+                size: 3,
+                scale: {x: 0.3, y: 0.3 },
+            },
+            {
+                sport: 'Volleyball',
+                size: 4,
+                scale: {x: 0.4, y: 0.4 },
+            },
+            {
+                sport: 'Volleyball',
+                size: 5,
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: 'Volleyball',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: 'Volleyball',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
+            },
+            {
+                sport: 'Volleyball',
+                size: 8,
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: 'Volleyball',
+                size: 9,
+                scale: {x: 0.9, y: 0.9},
+            },
+            {
+                sport: 'Volleyball',
+                size: 10,
+                scale: {x: 1.0, y: 1.0 },
+            },
+            {
+                sport: 'Volleyball',
+                size: 11,
+                scale: {x: 1.11, y: 1.11 },
+            },
+            {
+                sport: 'Volleyball',
+                size: 12,
+                scale: {x: 1.12, y: 1.12 },
+            },
+            
+            // End "Volleyball"
 
+            // "Hoodie (Apparel)"
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 1,
+                scale: {x: 0.9, y: 0.9 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 2,
+                scale: {x: 0.18, y: 0.18 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 3,
+                scale: {x: 0.27, y: 0.27 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 4,
+                scale: {x: 0.36, y: 0.36 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 5,
+                scale: {x: 0.45, y: 0.45 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 6,
+                scale: {x: 0.54, y: 0.54 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 7,
+                scale: {x: 0.63, y: 0.63 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 8,
+                scale: {x: 0.72, y: 0.72 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 9,
+                scale: {x: 0.81, y: 0.81},
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 10,
+                scale: {x: 0.9, y: 0.9 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 11,
+                scale: {x: 0.99, y: 0.99 },
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                size: 12,
+                scale: {x: 1.08, y: 1.08 },
+            },
+            // End "Hoodie (Apparel)"
+
+            // "Polo (Apparel)"
+            {
+                sport: 'Polo (Apparel)',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 2,
+                scale: {x: 0.2, y: 0.2 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 3,
+                scale: {x: 0.3, y: 0.3 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 4,
+                scale: {x: 0.4, y: 0.4 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 5,
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 8,
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 9,
+                scale: {x: 0.9, y: 0.9},
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 10,
+                scale: {x: 1.0, y: 1.0 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 11,
+                scale: {x: 1.10, y: 1.10 },
+            },
+            {
+                sport: 'Polo (Apparel)',
+                size: 12,
+                scale: {x: 1.20, y: 1.20 },
+            },
+            // End "Polo (Apparel)"
+
+            // "Hockey"
+            {
+                sport: 'Hockey',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
+                sport: 'Hockey',
+                size: 2,
+                scale: {x: 0.2, y: 0.2 },
+            },
+            {
+                sport: 'Hockey',
+                size: 3,
+                scale: {x: 0.3, y: 0.3 },
+            },
+            {
+                sport: 'Hockey',
+                size: 4,
+                scale: {x: 0.4, y: 0.4 },
+            },
+            {
+                sport: 'Hockey',
+                size: 5,
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: 'Hockey',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: 'Hockey',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
+            },
+            {
+                sport: 'Hockey',
+                size: 8,
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: 'Hockey',
+                size: 9,
+                scale: {x: 0.9, y: 0.9},
+            },
+            {
+                sport: 'Hockey',
+                size: 10,
+                scale: {x: 1.0, y: 1.0 },
+            },
+            {
+                sport: 'Hockey',
+                size: 11,
+                scale: {x: 1.10, y: 1.10 },
+            },
+            {
+                sport: 'Hockey',
+                size: 12,
+                scale: {x: 1.20, y: 1.20 },
+            },
+            // End "Hockey"
+
+            // "1-4 Zip Jacket (Apparel)"
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 2,
+                scale: {x: 0.2, y: 0.2 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 3,
+                scale: {x: 0.3, y: 0.3 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 4,
+                scale: {x: 0.4, y: 0.4 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 5,
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 8,
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 9,
+                scale: {x: 0.9, y: 0.9},
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 10,
+                scale: {x: 1.0, y: 1.0 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 11,
+                scale: {x: 1.10, y: 1.10 },
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                size: 12,
+                scale: {x: 1.20, y: 1.20 },
+            },
+            // End "1-4 Zip Jacket (Apparel)"
+
+            // "Fan Replica Jersey (Apparel)"
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 2,
+                scale: {x: 0.2, y: 0.2 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 3,
+                scale: {x: 0.3, y: 0.3 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 4,
+                scale: {x: 0.4, y: 0.4 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 5,
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 8,
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 9,
+                scale: {x: 0.9, y: 0.9},
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 10,
+                scale: {x: 1.0, y: 1.0 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 11,
+                scale: {x: 1.10, y: 1.10 },
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                size: 12,
+                scale: {x: 1.20, y: 1.20 },
+            },
+            // End "Fan Replica Jersey (Apparel)"
+
+            // "Basketball"
+            {
+                sport: 'Basketball',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
+                sport: 'Basketball',
+                size: 2,
+                scale: {x: 0.2, y: 0.2 },
+            },
+            {
+                sport: 'Basketball',
+                size: 3,
+                scale: {x: 0.3, y: 0.3 },
+            },
+            {
+                sport: 'Basketball',
+                size: 4,
+                scale: {x: 0.4, y: 0.4 },
+            },
+            {
+                sport: 'Basketball',
+                size: 5,
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: 'Basketball',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: 'Basketball',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
+            },
+            {
+                sport: 'Basketball',
+                size: 8,
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: 'Basketball',
+                size: 9,
+                scale: {x: 0.9, y: 0.9},
+            },
+            {
+                sport: 'Basketball',
+                size: 10,
+                scale: {x: 1.0, y: 1.0 },
+            },
+            {
+                sport: 'Basketball',
+                size: 11,
+                scale: {x: 1.10, y: 1.10 },
+            },
+            {
+                sport: 'Basketball',
+                size: 12,
+                scale: {x: 1.20, y: 1.20 },
+            },
+            // End "Basketball"
+
+            // "Lacrosse"
+            {
+                sport: 'Lacrosse',
+                size: 1,
+                scale: {x: 0.12, y: 0.12 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 2,
+                scale: {x: 0.24, y: 0.24 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 3,
+                scale: {x: 0.36, y: 0.36 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 4,
+                scale: {x: 0.48, y: 0.48 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 5,
+                scale: {x: 0.60, y: 0.60 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 6,
+                scale: {x: 0.72, y: 0.72 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 7,
+                scale: {x: 0.84, y: 0.84 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 8,
+                scale: {x: 0.96, y: 0.96 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 9,
+                scale: {x: 1.08, y: 1.08},
+            },
+            {
+                sport: 'Lacrosse',
+                size: 10,
+                scale: {x: 1.2, y: 1.2 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 11,
+                scale: {x: 1.32, y: 1.32 },
+            },
+            {
+                sport: 'Lacrosse',
+                size: 12,
+                scale: {x: 1.44, y: 1.44 },
+            },
+            // End "Lacrosse"
+
+            // Defaults 
             {
                 sport: 'Default',
                 size: 2,
@@ -11354,6 +12045,14 @@ ub.funcs.fontOffSets = [
             'Polo (Apparel)',
             'Hoodie (Apparel)',
             'Crew Socks (Apparel)',
+            'Volleyball',
+            'Hoodie (Apparel)',
+            'Polo (Apparel)',
+            'Hockey',
+            '1-4 Zip Jacket (Apparel)',
+            'Fan Replica Jersey (Apparel)',
+            'Basketball (Apparel)',
+            'Lacrosse',
         ],
         options: [
             'Fight Short'
@@ -11462,10 +12161,44 @@ ub.funcs.fontOffSets = [
                 sport: 'Football',
                 sublimatedPart: 'Body',
             },
-          {
+            {
                 sport: 'Baseball',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Volleyball',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Polo (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Hockey',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                sublimatedPart: 'Extra',
+            }, 
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                sublimatedPart: 'Extra',
+            }, 
+            {
+                sport: 'Basketball (Apparel)',
+                sublimatedPart: 'Extra',
+            }, 
+            {
+                sport: 'Lacrosse',
+                sublimatedPart: 'Extra',
+            }, 
+
+            // 
         ],
 
         get: function (sport) {
@@ -11898,6 +12631,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Compression (Apparel)' },
             { sport: 'Tech-Tee (Apparel)' },
             { sport: 'Cinch Sack (Apparel)' },
+            { sport: 'Volleyball' },
 
         ],
 
@@ -11915,8 +12649,10 @@ ub.funcs.fontOffSets = [
         items: [
             {
                 sport: 'Wrestling',
-                type: 'upper',
+                type: 'both',
                 upperLabel: 'Singlet',
+                lowerLabel: 'Fight Shorts',
+            //  tackleTwillHidden: true,        // Use this in the future
             },
             {
                 sport: 'Crew Socks (Apparel)',
@@ -11995,13 +12731,22 @@ ub.funcs.fontOffSets = [
 
         items: [
             {
-                sport: 'Crew Socks (Apparel)',    
+                sport: 'Crew Socks (Apparel)',
             },
+            {
+               sport: 'Cinch Sack (Apparel)',    
+            },
+            {
+               sport: 'Volleyball',    
+            },
+            
         ],
 
-        isHidden: function (sport) {
+        isHidden: function (sport, option) {
 
-            var _result = _.find(this.items, {sport: sport});
+            var _result = undefined;
+
+            _result = _.find(this.items, {sport: sport});
 
             return (typeof _result !== "undefined");
 
@@ -12026,6 +12771,10 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: '1-4 Zip Jacket (Apparel)',
+                code: 'body',
+            },
+            {
+                sport: 'Hoodie (Apparel)',
                 code: 'body',
             },
             {
@@ -12127,5 +12876,19 @@ ub.funcs.fontOffSets = [
         },
 
     };
+
+    ub.data.withBodyLeftRight = {
+
+        items: [
+            { sport: 'Volleyball', neckOption: 'Compression Shorts', },
+        ],
+        isOk: function (sport, neckOption) {
+            
+            var _result = _.find(this.items, { sport: sport, neckOption: neckOption });
+            return typeof _result !== "undefined";
+
+        }
+
+    }
 
 });

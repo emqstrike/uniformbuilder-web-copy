@@ -11,6 +11,8 @@ $(document).ready(function () {
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
+        console.log('');
+        ub.utilities.info('----- Base Uniform Info -----');
         ub.utilities.info('ID: ' + material.id);
         ub.utilities.info('Uniform: ' + material.name);
         ub.utilities.info('Neck Option: ' + material.neck_option);
@@ -19,6 +21,10 @@ $(document).ready(function () {
         ub.utilities.info('Sport: ' + material.uniform_category);
         ub.utilities.info('Type: ' + material.type);
         ub.utilities.info('Factory Code: ' + material.factory_code);
+        ub.utilities.info('Uniform Application Type: ' + ub.current_material.material.uniform_application_type);
+        ub.utilities.info('One Inch In px: ' + ub.current_material.material.one_inch_in_px);
+        ub.utilities.info('-----------------------------');
+        console.log('');
 
         ub.utilities.info('Applications: ');    
         _.each(settings.applications, function (app) { ub.utilities.info(app.code + ' - ' + app.type); });

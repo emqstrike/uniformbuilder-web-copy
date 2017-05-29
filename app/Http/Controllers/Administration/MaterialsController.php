@@ -369,6 +369,7 @@ class MaterialsController extends Controller
         $isInfused = $request->input('is_infused');
         $status = $request->input('status');
         $slug = FileUploader::makeSlug($materialName);
+        $styleGroup = $request->input('style_group');
 
         if (empty($isSublimated))
         {
@@ -457,7 +458,8 @@ class MaterialsController extends Controller
             'status' => $status,
             'twill_price_item_template_id' => $twillPriceItemTemplateID,
             'sublimated_price_item_template_id' => $sublimatedPriceItemTemplateID,
-            'infused_price_item_template_id' => $infusedPriceItemTemplateID
+            'infused_price_item_template_id' => $infusedPriceItemTemplateID,
+            'style_group' => $styleGroup
         ];
 
         try {

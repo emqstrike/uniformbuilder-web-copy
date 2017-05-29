@@ -2347,6 +2347,15 @@ $(document).ready(function() {
 
             _.each(views, function (view) {
 
+                var _withBodyLeftRight = ub.data.withBodyLeftRight.isOk(ub.sport, ub.neckOption);
+
+                if (_withBodyLeftRight) {
+
+                    if (mat_option === "Body Left" && view.perspective === "right") { return; }
+                    if (mat_option === "Body Right" && view.perspective === "left") { return; }
+
+                }
+
                 args.perspective = view.perspective;
 
                 var point = sprite_function(args);
@@ -3955,7 +3964,6 @@ $(document).ready(function() {
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
 
             ub.current_part = _ctr;
-
             ub.funcs.clearPatternUI();
 
             if (!ub.funcs.activatePatterns()) {
@@ -4565,9 +4573,6 @@ $(document).ready(function() {
     }
 
      ub.funcs.createPatternPopupApplications = function (settingsObj) {
-
-        console.log('Settings Object: ');
-        console.log(settingsObj);
 
         if ($('div#primaryPatternPopup').length === 0) {
 
@@ -7895,11 +7900,15 @@ $(document).ready(function() {
             if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                                                     { _size = 1.75; }
             if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                                       { _size = 2;    }
             if (ub.funcs.isCurrentSport("Crew Socks (Apparel)"))                                                        { _size = 2.5;  }
-            
+
             if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )                                      { _size = 3;    }
             if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )                                      { _size = 2;    }
             if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([37,38], _id) )                                      { _size = 3;    }
             if (ub.funcs.isCurrentSport("Fastpitch") && _.contains([39,40], _id) )                                      { _size = 2;    }
+
+            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "lower")                 { _size = 1;    }
+            if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "upper")                 { _size = 2;    }
+
 
             ub.funcs.setAppSize(_id, _size);
 
@@ -7989,7 +7998,7 @@ $(document).ready(function() {
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
-            } 
+            }
 
             _settingsObject.accent_obj          = ub.funcs.getSampleAccent();
             _settingsObject.text                = ub.funcs.getSampleNumber();
@@ -10302,8 +10311,9 @@ $(document).ready(function() {
         var _cx = undefined;
         var con = new ub.Contour();
 
-        if (typeof _polygon === "undefined") { ub.utilities.warn('No Bouding Box Defined for ' + part); }
-        
+        if (typeof _partObject === "undefined") { return undefined; }
+        if (typeof _polygon === "undefined")    { ub.utilities.warn('No Bounding Box Defined for ' + part); }
+    
         if (typeof _polygon !== "undefined") {
 
             con.pts = _partObject.polygon;
@@ -10325,15 +10335,15 @@ $(document).ready(function() {
         var _primaryView    = ub.funcs.getPrimaryView(_phaSettings.application);
         var _primaryViewObject = ub.funcs.getPrimaryViewObject(_phaSettings.application);
 
-        // Process Uniforms with Extra Layer 
+        // Process Uniforms with Extra Layer
 
         if (ub.data.sportsWithExtraLayer.isValid(ub.sport)) {
 
             var _extra = ub.objects[perspective + '_view']['extra'];
 
-            if (typeof _extra === "undefined") { 
-                ub.utilities.error('Extra Layer not detected!'); 
-            } 
+            if (typeof _extra === "undefined") {
+                ub.utilities.error('Extra Layer not detected!');
+            }
 
             if (typeof _extra !== "undefined") { 
 
@@ -10355,6 +10365,7 @@ $(document).ready(function() {
             var _perspective = _perspectiveView.perspective;
 
             // Get Center of Polygon 
+
             var _cx = ub.funcs.getCentoid(_perspective, _part);
 
             // CX Override 
@@ -10381,6 +10392,7 @@ $(document).ready(function() {
 
         });
 
+
         _.each(_phaSettings.application.views, function (_perspectiveView) {
 
             // Get Center of Polygon 
@@ -10401,8 +10413,7 @@ $(document).ready(function() {
 
                     var _bounds = ub.funcs.getBoundaries(_perspectiveView.perspective, _part, false);
                     var _overrideX = undefined;
-                    var _overrideY = _bounds.minMax.centoid.y;
-
+                    
                     if (_primaryView === "front") {
 
                         if (typeof _bounds !== "undefined") {
@@ -10471,6 +10482,7 @@ $(document).ready(function() {
         if (ub.data.placeHolderOverrideSports.isValid(ub.sport)) {
 
             var _tmp = [];
+
             _.each(_newApplication.application.views, function (view) {
 
                 view.application.id = _newIDStr;
@@ -10481,6 +10493,38 @@ $(document).ready(function() {
             _newApplication.application.views = _tmp;
 
         }
+
+        var _withBodyLeftRight = ub.data.withBodyLeftRight.isOk(ub.sport, ub.neckOption);
+
+        if (_withBodyLeftRight) {
+
+            if (_part === "Body Left") {
+
+                _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                    return view.perspective !== "right";
+                });
+
+            }
+
+            if (_part === "Body Right") {
+
+                _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                    return view.perspective !== "left";
+                });
+
+            }
+            
+        }
+
+        // Cinch Sack doens't have a left and right perspective
+        if (ub.sport === "Cinch Sack (Apparel)") {
+
+            _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                return view.perspective !== "left" && view.perspective !== "right" ;
+            });
+
+        }
+
         
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
 
@@ -10654,6 +10698,11 @@ $(document).ready(function() {
 
             if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { _part = "Sublimated" }
             if(ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short") { _part = "Body Left" }
+
+            // Catch all expression when nothing is selected, just select first
+            if(!$('span.part').hasClass('active')) {
+                $('span.part').first().addClass('active');
+            }
 
             $('div.part-container > span.part[data-id="' + _part + '"]').addClass('active');
             $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');

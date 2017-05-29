@@ -240,8 +240,16 @@
         window.ub.config = {
             app_env: "{{ env('APP_ENV') }}", 
             api_host: "http://{{ env('API_HOST') }}",
+            asset_version: "{{$asset_version}}",
             team_store_api_host: "http://{{ env('TEAM_STORE_API_BASE') }}",
+            
             material_id: {{ $material_id }},
+            uniform_name: "{{ isset($material->name) ? $material->name : 'none' }}",
+            uniform_application_type: "{{ isset($material->uniform_application_type) ? $material->uniform_application_type : 'none' }}",
+            sport: "{{ isset($material->uniform_category) ? $material->uniform_category : 'none' }}",
+            option: "{{ isset($material->neck_options) ? $material->neck_options : 'none' }}",
+            type: "{{ isset($material->type) ? $material->type : 'none' }}",
+
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/'
@@ -382,8 +390,8 @@
         
         @if(!empty($team_colors))
             ub.team_colors = [{!! $team_colors !!}];
-        @else
-            ub.team_colors = [];
+        // @else
+        //     ub.team_colors = [];
         @endif
 
         ub.team_store = "{{ isset($store) ? $store : false }}";
