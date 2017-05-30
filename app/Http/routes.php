@@ -37,9 +37,6 @@ Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@load
 
 Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilderController@loadDesignSetRender');
 
-Route::get('create-team-store-account', 'TeamStoreController@create');
-Route::post('create-team-store-account', 'TeamStoreController@store')->name('create-team-store-account');
-
 // Save uniform perspectives
 Route::post('/save_uniform_perspectives', 'ProductController@savePerspectives');
 
