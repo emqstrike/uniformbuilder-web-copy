@@ -139,7 +139,6 @@
             
         </div>
 
-
         <div id="main-picker-scroller">
             
         </div>
