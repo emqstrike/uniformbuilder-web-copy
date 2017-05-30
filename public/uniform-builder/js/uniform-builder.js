@@ -6102,17 +6102,17 @@ $(document).ready(function () {
             var itemsWOUpper = items;
             var _options = []; 
 
-            // if (gender === "Football") {
+            if (gender === "Football") {
             
-            //     itemsWOUpper = _.filter(items, {type: 'lower'});
-            //     _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
+                itemsWOUpper = _.filter(items, {type: 'lower'});
+                _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
 
-            // } else {
+            } else {
 
                 _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
                 _options = _.uniq(_.pluck(itemsWOUpper,'neck_option'));  
 
-            // }
+            }
 
             var _tertiaryOptions = _.union(_blockPatterns, _options);  // leaving this here, maybe they will change their mind
 
