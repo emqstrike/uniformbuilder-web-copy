@@ -555,12 +555,29 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.initFonts = function () {
+        ub.funcs.initFonts = function (sport, option) {
 
             ub.data.fonts = _.filter(ub.data.fonts, function (font) {
 
                 var sports = JSON.parse(font.sports);
+                var options = undefined;
+                var optionOK = true;
 
+                if (font.block_pattern_options !== null) {
+                    options = JSON.parse(font.block_pattern_options);    
+                    
+                    if (options !== '') {
+
+                        optionOK = _.contains(options, option);
+
+                        // console.log('With Option Detected: ' + options);
+                        // console.log('Result: ' );
+                        // console.log('Load?: ' + optionOK);
+
+                    }
+
+                }
+                
                 if (sports === null) {
 
                     return true;
@@ -573,8 +590,8 @@ $(document).ready(function () {
 
                     } else { 
 
-                        var _result = _.contains(sports,ub.current_material.material.uniform_category);
-                        return _result;
+                        var _result = _.contains(sports, sport);
+                        return _result && optionOK;
 
                     }
 
@@ -587,29 +604,6 @@ $(document).ready(function () {
                 font.caption = font.alias;
 
             });
-
-            if (ub.data.fonts.length > 0) {
-
-
-                console.log(' ');
-                ub.utilities.info("Fonts: ");
-
-                ub.utilities.info(ub.data.fonts.length + " fonts loaded.");
-                ub.utilities.info('Preloading ' + ub.data.fonts[0].name);
-
-                WebFont.load({
-
-                    custom: {
-                      families: [ub.data.fonts[0].name,]
-                    },
-
-                });    
-
-            } else {
-
-                ub.utilities.error('No fonts loaded for ' + ub.current_material.material.uniform_category + "!");
-
-            }
 
         };
 
@@ -713,8 +707,6 @@ $(document).ready(function () {
 
             if (object_name === 'fonts') {
 
-                ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
-                ub.data.fonts = _.sortBy(ub.data.fonts, "name");
                 ub.funcs.processFonts();
 
             }
@@ -756,8 +748,7 @@ $(document).ready(function () {
                 ub.funcs.get_modifier_labels();
                 ub.init_settings_object();
                 ub.init_style();
-                ub.funcs.initFonts();
-
+                
                 ub.funcs.optimize();
 
             }
