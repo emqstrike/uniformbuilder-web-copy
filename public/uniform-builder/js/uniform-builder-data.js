@@ -12315,7 +12315,26 @@ ub.funcs.fontOffSets = [
                     sport: 'Fan Replica Jersey (Apparel)',
                     option: "Women's",
                 },
-
+                {
+                    sport: 'Lacrosse',
+                    option: "4ARW6R~6 Jersey",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "Side Seam Jersey",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "4MH8Z5~G Short",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "Side seam Short",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "2 Panel Short",
+                },
 
         ],
         currentUniformOk: function () {
