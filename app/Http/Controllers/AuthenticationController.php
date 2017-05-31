@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\APIClients\UsersAPIClient as APIClient;
 use App\Http\Controllers\Administration\AuthenticationController as AdminAuthController;
 use App\TeamStoreClient\UserTeamStoreClient;
+use App\Utilities\Crypt;
 use App\Utilities\Log;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
@@ -100,8 +101,8 @@ class AuthenticationController extends AdminAuthController
             $result = $decoder->decode($response->getBody());
 
             if ($result->success) {
-
                 $fullname = $result->user->first_name . ' ' . $result->user->last_name;
+
                 Session::put('userId', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $fullname);
@@ -117,6 +118,13 @@ class AuthenticationController extends AdminAuthController
 
                 if ($response->success) {
                     Session::put('userHasTeamStoreAccount', true);
+                } else {
+                    $response = $this->client->get('encrypt/' . $password);
+                    $response = $decoder->decode($response->getBody());
+
+                    if ($response->success) {
+                        Session::put('password', $response->hashedString);
+                    }
                 }
 
                 return [
