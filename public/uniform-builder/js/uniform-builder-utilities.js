@@ -48,9 +48,11 @@ $(document).ready(function() {
 
         // Uniform Pickers Loader
         
-             ub.pickersDialog = undefined;
+            ub.pickersDialog = undefined;
 
             ub.pickersStartTime = function () {
+
+                if (ub.page !== "builder") { return; }
 
                 ub.startTime = new Date();
                 
