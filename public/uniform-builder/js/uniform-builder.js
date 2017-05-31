@@ -23,9 +23,10 @@ $(document).ready(function () {
             // Set Feature Flags
             ub.config.setFeatureFlags();
 
-            if (ub.current_material.id !== -1) { ub.funcs.initCanvas(); }
+            if (ub.config.material_id !== -1) {
 
-            if (window.ub.config.material_id !== -1) {
+                ub.funcs.initCanvas();
+                ub.startTime();
 
                 ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
                 ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
@@ -45,7 +46,7 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
                 ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
                 ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-                ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
+                //ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
 
                 // Disable Tailsweeps for now
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
@@ -54,10 +55,13 @@ $(document).ready(function () {
 
             if (window.ub.config.material_id === -1) {
 
-                ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
-                ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
+                ub.pickersStartTime();
+
+                // ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
+                // ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 
                 ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
+                ub.displayDoneAt('Loading Uniforms...');
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
             }
@@ -420,6 +424,8 @@ $(document).ready(function () {
             }
             
             ub.funcs.prepareBottomTabs();
+
+
             ub.funcs.loadOtherFonts();
 
             var _blockPattern = ub.current_material.material.block_pattern;
@@ -437,8 +443,6 @@ $(document).ready(function () {
             // End Block Pattern Widths
 
             ub.funcs.setupEventHandlers();
-            ub.utilities.info('Setting up event handlers ... done at ' + ub.getElapsedTime() + ' sec.');
-
 
             var orig_query_string = location.search;
             var suffix_query_string = '';
@@ -469,8 +473,7 @@ $(document).ready(function () {
                 $('div#saved_design_name').hide();
             }
 
-            ub.utilities.info();
-            ub.displayDoneAt('Completed loading ... ');
+            ub.displayDoneAt('Uniform loading completed.');
 
         };
 
@@ -654,8 +657,9 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
-            ub.displayDoneAt('Loading ' + object_name);
+            var _alias = ub.data.loadingOptionsAlias.getAlias(object_name);
 
+            ub.displayDoneAt(_alias + ' loaded.');
             ub.convertToString(obj);
 
             var _createObjectList = [
@@ -745,7 +749,10 @@ $(document).ready(function () {
 
             if (ok) {
 
+                ub.displayDoneAt('Loading assets completed');
+
                 ub.load_assets();
+                ub.displayDoneAt('Configuration of style - ' + ub.config.uniform_name + ' started');
 
                 ub.funcs.init_team_colors();
                 ub.funcs.transformedApplications();
@@ -755,6 +762,9 @@ $(document).ready(function () {
                 ub.init_style();
                 
                 ub.funcs.optimize();
+
+                ub.displayDoneAt('Configuration of style done.');
+                ub.displayDoneAt('Rendering ...');
 
             }
             
@@ -1148,6 +1158,10 @@ $(document).ready(function () {
                     $('#search_field').attr("placeholder","Search: Style or Saved Designs");
                     ub.funcs.showMainLinks();
 
+                    setTimeout(function(){ 
+                        ub.pickersDialog.modal('hide');
+                    }, 1000);
+                    
                 }
 
             }
@@ -1259,6 +1273,8 @@ $(document).ready(function () {
 
         ub.load_materials = function (obj, object_name){
 
+            ub.displayDoneAt('Uniforms loaded.');
+            ub.displayDoneAt('Preparing Prices.');
             ub.materials = {};
             ub.convertToString(obj);
 
@@ -1272,6 +1288,8 @@ $(document).ready(function () {
             });
 
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
+            ub.displayDoneAt('Price Preparation Complete.');
+            ub.displayDoneAt('Preparing Search...');
             ub.prepareTypeAhead();
 
         }
@@ -1346,7 +1364,6 @@ $(document).ready(function () {
             ub.funcs.load_fonts();
             ub.setup_views();
             ub.setup_material_options(); 
-            ub.displayDoneAt('Setting Up Layers ...'); 
             requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
 

@@ -2010,3 +2010,15 @@
     </div>
     
 </script>
+
+<script type="text/mustache" id="m-loading-screen">
+    
+    <div class="loading-screen">
+
+        <div class="loading-messages">
+            <!-- <strong>@{{startTime}}</strong><br /> -->
+        </div>
+
+    </div>
+    
+</script>

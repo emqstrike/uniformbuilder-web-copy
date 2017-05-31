@@ -46,10 +46,47 @@ $(document).ready(function() {
 
     /// Benchmarks
 
+        // Uniform Pickers Loader
+        
+             ub.pickersDialog = undefined;
+
+            ub.pickersStartTime = function () {
+
+                ub.startTime = new Date();
+                
+                var template = $('#m-loading-screen').html();
+                var data = { startTime: ub.startTime };
+                var markup = Mustache.render(template, data);
+
+                ub.pickersDialog = bootbox.dialog({
+                    title: 'Preparing Uniform List',
+                    message: markup,
+                    backdrop: true,
+                    className: 'loading-dialog-pickers',
+                });
+
+            }
+
+        // End Uniform Pickers Loader
+
+
+
+        var loadingDialog = undefined;
+
         ub.startTime = function () {
 
             ub.startTime = new Date();
-            ub.utilities.info('Start Time: ' + ub.startTime);
+            
+            var template = $('#m-loading-screen').html();
+            var data = { startTime: ub.startTime };
+            var markup = Mustache.render(template, data);
+
+            loadingDialog = bootbox.dialog({
+                title: 'Loading ' + ub.config.uniform_name + ' - ' + ub.config.sport,
+                message: markup,
+                backdrop: true,
+                className: 'loading-dialog',
+            });
 
         }
 
@@ -64,19 +101,41 @@ $(document).ready(function() {
             // get seconds (Original had 'round' which incorrectly counts 0:28, 0:29, 1:30 ... 1:59, 1:0)
             var seconds = Math.round(timeDiff);
 
-            return seconds / 1000;
+            seconds = (seconds / 1000);
+            seconds = seconds.toString().lpad('&nbsp;', 7);
+
+            return seconds;
 
         }
-
-        ub.funcs
 
         ub.displayDoneAt = function (str) {
 
-            ub.utilities.info(ub.getElapsedTime() + ' sec.\t' + (typeof str !== "undefined" ? str + ' ' : '') + 'done at ');  
+            var _line;
+
+            if (str === 'Uniform loading completed.') {
+
+                /// Hide loading after 1 sec done
+                setTimeout(function(){ 
+                  loadingDialog.modal('hide');
+                }, 1000);
+
+                _line = '<br /> ' + str + "<strong> " +  ub.getElapsedTime() + ' secs.</strong>';  
+
+            } else {
+
+                _line = ub.getElapsedTime() + ' sec.\t' + (typeof str !== "undefined" ? str + ' ' : '');  
+
+            }
+
+            ub.utilities.info(_line.replace('&nbsp;', ' '));
+            
+            var _a = '<span class="load-line">' + '<br />' + _line + '</span>';
+
+            $('div.loading-messages').append(_a);
+
+            $('span.load-line').fadeIn(); 
 
         }
-
-        ub.startTime();
 
     /// End Benchmarks
 

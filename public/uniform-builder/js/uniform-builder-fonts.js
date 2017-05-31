@@ -74,8 +74,7 @@ $(document).ready(function() {
             ub.utilities.info("Fonts: ");
 
             ub.utilities.info(ub.data.fonts.length + " fonts loaded.");
-            ub.utilities.info('Preloading ' + ub.data.fonts[0].name);
-            ub.displayDoneAt(); 
+            ub.displayDoneAt( ub.data.fonts[0].name + ' preloaded.');
 
             WebFont.load({
 
