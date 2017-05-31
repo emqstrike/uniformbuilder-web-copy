@@ -5905,8 +5905,8 @@ $(document).ready(function () {
             var _str = '';
             
             var d = { block_patterns: _optionsCollection, }
-
             var m = Mustache.render(t, d);
+            
             $('.quarternary-bar').html(m);
         
             $('div.quarternary-bar').fadeIn();        
@@ -5929,9 +5929,6 @@ $(document).ready(function () {
                     });
 
                 } else {
-
-                    console.log('Active Block Pattern: ' + _activeBlockPattern);
-                    console.log('Neck Option: ' + _dataItem);
 
                     if (_activeBlockPattern === "All") {
 
@@ -6133,7 +6130,7 @@ $(document).ready(function () {
             
             var _blockPatterns = [];
             var itemsWOUpper = items;
-            var _options = []; 
+            var _options = [];
 
             if (gender === "Football") {
             
@@ -6165,7 +6162,7 @@ $(document).ready(function () {
                     alias: option.replace('Baseball Jersey','').toTitleCase(),
                     item: option,
 
-                })
+                });
 
             });
 
@@ -6175,12 +6172,16 @@ $(document).ready(function () {
 
                 if (option === null) { return; }
 
+                var _alias = option.replace('Baseball Jersey','').toTitleCase(); 
+
+                _alias = ub.data.neckOptionsAlias.getAlias(_alias);
+
                 _optionsCollection.push({
 
-                    alias: option.replace('Baseball Jersey','').toTitleCase(),
+                    alias: _alias,
                     item: option,
 
-                })
+                });
 
             });
 
