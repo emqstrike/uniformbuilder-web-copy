@@ -12984,4 +12984,60 @@ ub.funcs.fontOffSets = [
 
     }
 
+    ub.data.loadingOptionsAlias = {
+
+        items: [
+
+            {
+                name: 'block_options',
+                alias: 'Block Options',
+            },
+            {
+                name: 'material',
+                alias: 'Uniform details',
+            },
+            {
+                name: 'materials_options',
+                alias: 'Uniform parts',
+            },
+            {
+                name: 'mascots_categories',
+                alias: 'Mascot categories',
+            },
+            {
+                name: 'mascots_groups_categories',
+                alias: 'Mascot groups',
+            },
+            {
+                name: 'mascots',
+                alias: 'Mascots',
+            },
+            {
+                name: 'patterns',
+                alias: 'Patterns',
+            },
+            {
+                name: 'fonts',
+                alias: 'Fonts',
+            },
+            {
+                name: 'colors',
+                alias: 'Colors',
+            },
+    
+        ],
+
+        getAlias: function (name) {
+
+            var _result = _.find(this.items, {name: name});
+            var _value = name;
+
+            if (typeof _result !== "undefined") { _value = _result.alias }
+
+            return _value;
+
+        }
+
+    }
+
 });
