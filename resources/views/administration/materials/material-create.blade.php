@@ -181,6 +181,15 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Is Blank</label>
+                            <div class="col-md-2">
+                                <select name='is_blank' class="form-control is-blank">
+                                    <option value='0'>No</option>
+                                    <option value='1'>Yes</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Is Sublimated</label>
