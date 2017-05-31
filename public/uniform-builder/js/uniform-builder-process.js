@@ -1773,6 +1773,14 @@ $(document).ready(function() {
         var _location = location;
 
         switch(_location) {
+
+            case 'home':
+                
+                // unbind before opening window
+                window.onbeforeunload = null;
+                window.location.href = '/';
+                
+                break;
         
             case 'my-saved-designs':
                 
@@ -1795,9 +1803,51 @@ $(document).ready(function() {
 
             var _designName = $('input.design-name').val();
             $('div.save-design').fadeOut();
-            alert('Design ' + _designName + ' Saved!');
+            
+            var template = $('#m-save-design-ok').html();
+            var data = { title: 'Save Design', designName: _designName };
+            var markup = Mustache.render(template, data);
 
-            ub.funcs.goto('my-saved-designs');
+            var dialog = bootbox.dialog({
+                title: 'What do you want to do next?',
+                message: markup,
+            });
+
+            dialog.init(function() {
+
+                $('button.stay').unbind('click');
+                $('button.stay').on('click', function () {
+                   
+                    dialog.modal('hide');
+
+                });
+
+                $('button.my-saved-designs').unbind('click');
+                $('button.my-saved-designs').on('click', function () {
+                    
+                    dialog.modal('hide');
+                   
+                    var dialog1 = bootbox.dialog({
+                        message: 'Loading My Saved Design...',
+                    });
+
+                    ub.funcs.goto('my-saved-designs');
+
+                });
+
+                $('button.select-another-uniform').unbind('click');
+                $('button.select-another-uniform').on('click', function () {
+                    
+                    dialog.modal('hide');
+                    var dialog2 = bootbox.dialog({
+                        message: 'Loading the Uniform Pickers...',
+                    });
+                    
+                    ub.funcs.goto('home');
+                    
+                });
+
+            });
 
          };
 
@@ -1868,12 +1918,11 @@ $(document).ready(function() {
 
                         ub.funcs.updatePopup();
 
-                    }
-                    else {
+                    } else {
 
                         console.log('Error Saving Design.');
                         console.log(response.message);
-                        
+
                     }
 
                 }

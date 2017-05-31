@@ -133,6 +133,11 @@
 
         </div>
 
+        <div class="quarternary-bar">
+
+            <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="All">All</span>
+            
+        </div>
 
         <div id="main-picker-scroller">
             
@@ -238,6 +243,7 @@
         window.ub.config = {
             app_env: "{{ env('APP_ENV') }}", 
             api_host: "http://{{ env('API_HOST') }}",
+            asset_version: "{{$asset_version}}",
             team_store_api_host: "http://{{ env('TEAM_STORE_API_BASE') }}",
             
             material_id: {{ $material_id }},

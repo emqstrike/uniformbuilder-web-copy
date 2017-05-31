@@ -4113,7 +4113,15 @@ $(document).ready(function() {
         },
         {
             gender: 'Women',
-            sports: [],
+            sports: [
+                {
+                    code: 'tech_tee',
+                    name: 'Tech-Tee (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+            ],
         },
         {
             gender: 'Youth',
@@ -9420,7 +9428,7 @@ ub.funcs.fontOffSets = [
         }, 
         {
             sport: 'Wrestling',
-            filters: ['All'],
+            filters: ['All', 'Singlet', 'Fight Shorts'],
         }, 
         {
             sport: 'Crew Socks (Apparel)',
@@ -12258,7 +12266,7 @@ ub.funcs.fontOffSets = [
 
     ub.data.hiddenBody = {
 
-        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "1-4 Zip Jacket (Apparel)"],
+        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "1-4 Zip Jacket (Apparel)", "Fan Replica Jersey (Apparel)"],
         options: [
                 {
                     sport: 'Wrestling',
@@ -12298,6 +12306,34 @@ ub.funcs.fontOffSets = [
                 {
                     sport: 'Hockey',
                     option: "Sublimated Jersey",
+                },
+                {
+                    sport: 'Fan Replica Jersey (Apparel)',
+                    option: "Men's",
+                },
+                {
+                    sport: 'Fan Replica Jersey (Apparel)',
+                    option: "Women's",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "4ARW6R~6 Jersey",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "Side Seam Jersey",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "4MH8Z5~G Short",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "Side seam Short",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "2 Panel Short",
                 },
 
         ],
@@ -12641,8 +12677,24 @@ ub.funcs.fontOffSets = [
         items: [
             {
                 sport: 'Wrestling',
-                type: 'upper',
+                type: 'both',
                 upperLabel: 'Singlet',
+                lowerLabel: 'Fight Shorts',
+            //  tackleTwillHidden: true,        // Use this in the future
+            },
+            {
+                sport: 'Baseball',
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Pant',
+            //  tackleTwillHidden: true,        // Use this in the future
+            },
+            {
+                sport: 'Volleyball',
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Compression Shorts',
+            //  tackleTwillHidden: true,        // Use this in the future
             },
             {
                 sport: 'Crew Socks (Apparel)',
@@ -12725,12 +12777,18 @@ ub.funcs.fontOffSets = [
             },
             {
                sport: 'Cinch Sack (Apparel)',    
-            }
+            },
+            {
+               sport: 'Volleyball',    
+            },
+            
         ],
 
-        isHidden: function (sport) {
+        isHidden: function (sport, option) {
 
-            var _result = _.find(this.items, {sport: sport});
+            var _result = undefined;
+
+            _result = _.find(this.items, {sport: sport});
 
             return (typeof _result !== "undefined");
 
@@ -12755,6 +12813,10 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: '1-4 Zip Jacket (Apparel)',
+                code: 'body',
+            },
+            {
+                sport: 'Hoodie (Apparel)',
                 code: 'body',
             },
             {
@@ -12866,6 +12928,63 @@ ub.funcs.fontOffSets = [
             
             var _result = _.find(this.items, { sport: sport, neckOption: neckOption });
             return typeof _result !== "undefined";
+
+        }
+
+    }
+
+    ub.data.withBodyLeftRight = {
+
+        items: [
+            { sport: 'Volleyball', neckOption: 'Compression Shorts', },
+        ],
+        isOk: function (sport, neckOption) {
+            
+            var _result = _.find(this.items, { sport: sport, neckOption: neckOption });
+            return typeof _result !== "undefined";
+
+        }
+
+    }
+
+    ub.data.neckOptionsAlias = {
+
+        items: [
+            {
+                sport: 'Baseball',
+                name: 'Fullcut Open Full',
+                alias: 'Full Cut, Open Cut, Full Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Open Full',
+                alias: 'Traditional Cut, Open Cut, Full Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Elastic Full',
+                alias: 'Traditional Cut, Elastic Cut, Full Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Elastic Knicker',
+                alias: 'Traditional Cut, Elastic Cut, Knicker Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Elastic Mid',
+                alias: 'Traditional Cut, Elastic Cut, Mid-Calf Length',
+            },
+        ],
+
+        getAlias: function (name) {
+
+            var _result = _.find(this.items, {name: name});
+            var _value = name;
+
+            if (typeof _result !== "undefined") { _value = _result.alias }
+
+            return _value;
 
         }
 

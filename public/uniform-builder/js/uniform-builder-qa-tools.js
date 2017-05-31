@@ -20,6 +20,7 @@ $(document).ready(function () {
         ub.utilities.info('Block Pattern: ' + material.block_pattern);
         ub.utilities.info('Sport: ' + material.uniform_category);
         ub.utilities.info('Type: ' + material.type);
+        ub.utilities.info('Gender: ' + material.gender);
         ub.utilities.info('Factory Code: ' + material.factory_code);
         ub.utilities.info('Uniform Application Type: ' + ub.current_material.material.uniform_application_type);
         ub.utilities.info('One Inch In px: ' + ub.current_material.material.one_inch_in_px);

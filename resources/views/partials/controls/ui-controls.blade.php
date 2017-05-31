@@ -416,7 +416,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items sports grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+            <div class="main-picker-items sports grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
@@ -434,7 +434,7 @@
 
         @{{#apparel}}
             
-            <div class="main-picker-items apparel grow @{{disabledClass}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
+            <div class="main-picker-items apparel grow @{{disabledClass}}" data-gender="@{{gender}}" data-picker-type="sports" data-item="@{{name}}" title="@{{name}} Uniforms @{{tooltip}}">
 
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
@@ -459,7 +459,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-item="@{{name}}" data-id="@{{id}}">
+            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}">
 
                 <img src="@{{thumbnail_path}}?v={{$asset_version}}">
 
@@ -1600,17 +1600,33 @@
 
     <script type="text/mustache" id="m-tertiary-links">
 
-    <span class="slink-small main-picker-items active" data-picker-type="gender" data-item="All">All</span>
+    <span class="slink-small tertiary main-picker-items active" data-picker-type="gender" data-item="All">All</span>
 
     @{{#block_patterns}}
 
-        <span class="slink-small main-picker-items" data-picker-type="gender" data-item="@{{.}}">@{{.}}</span>
+        <span class="slink-small tertiary main-picker-items" data-picker-type="gender" data-item="@{{item}}">@{{alias}}</span>
 
     @{{/block_patterns}}
 
     </script>   
 
 <!-- End Tertiary links -->
+
+<!-- Quarternary links -->
+
+    <script type="text/mustache" id="m-quarternary-links">
+
+    <!-- <span class="slink-small quarternary main-picker-items active" data-picker-type="gender" data-item="All">All</span> -->
+
+    @{{#block_patterns}}
+
+        <span class="slink-small quarternary main-picker-items" data-picker-type="gender" data-item="@{{item}}">@{{alias}}</span>
+
+    @{{/block_patterns}}
+
+    </script>   
+
+<!-- End Quarternary links -->
 
 <!-- Save Design -->
 
@@ -1963,7 +1979,7 @@
 
             <div class="footer-buttons">
 
-                <span class="button okButton" >Ok</span> <span class="button cancelButton">Cancel</span>
+                <span class="button okButton">Ok</span> <span class="button cancelButton">Cancel</span>
 
             </div>
             
@@ -1972,3 +1988,25 @@
     </script>
 
 <!-- End Add New Free-Form Location -->
+
+<script type="text/mustache" id="m-save-design-ok">
+    
+    <div class="save-design-post-dialog">
+
+        <p class='left'>
+            Your design '<strong>@{{designName}}</strong>' was saved successfully! You can stay and continue working with this style, or go to other sections using one of the options below. Thank you! 
+        </p>
+
+        <p>
+            <button class="btn save-dialog stay">Stay and Continue working on this Uniform</button>   
+        </p>
+        
+        <br />
+        <p>
+            Or do any of the following: <br />
+            <button class="btn save-dialog select-another-uniform">Select a New Uniform Style to work on</button> <br />
+            <button class="btn save-dialog my-saved-designs">Go to 'My Saved Designs'</button> 
+        </p>
+    </div>
+    
+</script>

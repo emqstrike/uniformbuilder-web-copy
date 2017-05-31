@@ -22,6 +22,25 @@
 
 @main_window_pane_height: 550px;
 
+div.save-design-post-dialog {
+    
+    p {
+        text-align: center;
+    }
+
+    p.left {
+
+        text-align: left;
+
+    }
+
+    button.save-dialog {
+        width: 290px;
+        margin: 7px;
+    }
+
+}
+    
 .pagePanelShadow() {
     
     -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
@@ -2337,7 +2356,7 @@ div#main-picker-container {
             display: inline-block;
             padding: 5px;
             font-size: 0.7em;
-            width: 120px;
+            width: 170px;
             text-transform: uppercase;
 
         }
@@ -2373,7 +2392,9 @@ div#main-picker-container {
 
     }
 
-    div.tertiary-bar {
+/// Tertiary Bar 
+
+    div.tertiary-bar, div.quarternary-bar  {
 
         -moz-transition: all .2s;
         -webkit-transition: all .2s;
@@ -2442,6 +2463,22 @@ div#main-picker-container {
         }
 
     }
+
+/// End Tertiary Bar
+
+/// Quarternary Bar Overrides
+
+div.quarternary-bar  {
+
+    span.slink-small.active {
+
+        // Overrides here...
+
+    }
+
+}
+
+/// End Quarternary Bar Overrides
 
     div.uniform_details {
 
