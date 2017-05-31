@@ -1979,7 +1979,7 @@
 
             <div class="footer-buttons">
 
-                <span class="button okButton" >Ok</span> <span class="button cancelButton">Cancel</span>
+                <span class="button okButton">Ok</span> <span class="button cancelButton">Cancel</span>
 
             </div>
             
@@ -1988,3 +1988,25 @@
     </script>
 
 <!-- End Add New Free-Form Location -->
+
+<script type="text/mustache" id="m-save-design-ok">
+    
+    <div class="save-design-post-dialog">
+
+        <p class='left'>
+            Your design '<strong>@{{designName}}</strong>' was saved successfully! You can stay and continue working with this style, or go to other sections using one of the options below. Thank you! 
+        </p>
+
+        <p>
+            <button class="btn save-dialog stay">Stay and Continue working on this Uniform</button>   
+        </p>
+        
+        <br />
+        <p>
+            Or do any of the following: <br />
+            <button class="btn save-dialog select-another-uniform">Select a New Uniform Style to work on</button> <br />
+            <button class="btn save-dialog my-saved-designs">Go to 'My Saved Designs'</button> 
+        </p>
+    </div>
+    
+</script>
