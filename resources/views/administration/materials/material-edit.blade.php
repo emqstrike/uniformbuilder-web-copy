@@ -188,6 +188,16 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Is Blank</label>
+                            <div class="col-md-2">
+                                <select name='is_blank' class="form-control is-blank">
+                                    <option value='0' @if($material->is_blank == 0) selected="selected"@endif>No</option>
+                                    <option value='1' @if($material->is_blank == 1) selected="selected"@endif>Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Is Sublimated</label>
                             <div class="col-md-2">
                                 <select name='is_sublimated' class="form-control is-sublimated">
