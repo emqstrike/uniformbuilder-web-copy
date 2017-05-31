@@ -12682,13 +12682,7 @@ ub.funcs.fontOffSets = [
                 lowerLabel: 'Fight Shorts',
             //  tackleTwillHidden: true,        // Use this in the future
             },
-            {
-                sport: 'Baseball',
-                type: 'both',
-                upperLabel: 'Jersey',
-                lowerLabel: 'Pant',
-            //  tackleTwillHidden: true,        // Use this in the future
-            },
+
             {
                 sport: 'Volleyball',
                 type: 'both',

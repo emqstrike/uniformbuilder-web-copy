@@ -4,38 +4,8 @@ $(document).ready(function () {
 
         /// Initialize Uniform Builder
 
-        ub.startTime = function () {
-
-            ub.startTime = new Date();
-            ub.utilities.info('Start Time: ' + ub.startTime);
-
-        }
-
-        ub.getElapsedTime = function () {
-
-            var dateNow = new Date();
-            var timeDiff = dateNow - ub.startTime;
-
-            // strip the ms
-            // timeDiff /= 1000;
-
-            // get seconds (Original had 'round' which incorrectly counts 0:28, 0:29, 1:30 ... 1:59, 1:0)
-            var seconds = Math.round(timeDiff);
-
-            return seconds / 1000;
-
-        }
-
-        ub.funcs.displayDoneAt = function (str) {
-
-            ub.utilities.info( (typeof str !== "undefined" ? str + ' ' : '') + 'Done at ' + ub.getElapsedTime() + ' sec.');  
-            ub.utilities.info(' ');  
-
-        }
         
         window.ub.initialize = function () {
-
-            ub.startTime();
 
             if (parseInt(ub.render) === 1) { ub.funcs.removePanels(); }
 
@@ -467,6 +437,8 @@ $(document).ready(function () {
             // End Block Pattern Widths
 
             ub.funcs.setupEventHandlers();
+            ub.utilities.info('Setting up event handlers ... done at ' + ub.getElapsedTime() + ' sec.');
+
 
             var orig_query_string = location.search;
             var suffix_query_string = '';
@@ -497,7 +469,8 @@ $(document).ready(function () {
                 $('div#saved_design_name').hide();
             }
 
-            ub.funcs.displayDoneAt('Completed loading ... ')
+            ub.utilities.info();
+            ub.displayDoneAt('Completed loading ... ');
 
         };
 
@@ -681,7 +654,7 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
-            ub.utilities.info('Loading ' + object_name.toTitleCase() + " ... done at " + ub.getElapsedTime() + ' sec.');
+            ub.displayDoneAt('Loading ' + object_name);
 
             ub.convertToString(obj);
 
@@ -1373,7 +1346,7 @@ $(document).ready(function () {
             ub.funcs.load_fonts();
             ub.setup_views();
             ub.setup_material_options(); 
-            ub.funcs.displayDoneAt('Setting Up Layers ...'); 
+            ub.displayDoneAt('Setting Up Layers ...'); 
             requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
 

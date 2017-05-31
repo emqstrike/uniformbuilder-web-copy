@@ -44,4 +44,41 @@ $(document).ready(function() {
 
     };
 
+    /// Benchmarks
+
+        ub.startTime = function () {
+
+            ub.startTime = new Date();
+            ub.utilities.info('Start Time: ' + ub.startTime);
+
+        }
+
+        ub.getElapsedTime = function () {
+
+            var dateNow = new Date();
+            var timeDiff = dateNow - ub.startTime;
+
+            // strip the ms
+            // timeDiff /= 1000;
+
+            // get seconds (Original had 'round' which incorrectly counts 0:28, 0:29, 1:30 ... 1:59, 1:0)
+            var seconds = Math.round(timeDiff);
+
+            return seconds / 1000;
+
+        }
+
+        ub.funcs
+
+        ub.displayDoneAt = function (str) {
+
+            ub.utilities.info(ub.getElapsedTime() + ' sec.\t' + (typeof str !== "undefined" ? str + ' ' : '') + 'done at ');  
+
+        }
+
+        ub.startTime();
+
+    /// End Benchmarks
+
+
 });

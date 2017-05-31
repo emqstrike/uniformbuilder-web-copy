@@ -33,7 +33,7 @@ $(document).ready(function(){
 
             this[section][property] = state;
 
-            ub.utilities.info('Setting the feature [' + section + ' / ' + property + '] to ' + state);
+            ub.displayDoneAt('Setting the feature [' + section + ' / ' + property + '] to ' + state);
 
             return this[section][property];
 
