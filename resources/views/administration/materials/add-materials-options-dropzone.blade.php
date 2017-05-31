@@ -49,7 +49,7 @@
 		    </select>
     	</div>
     </div>
-    <table class="table table-bordered col-md-12">
+    <table class="table table-bordered col-md-12" id="image_table">
     	<thead>
     		<tr>
     			<td>Name</td>
@@ -151,6 +151,19 @@ function generateColorsDropdown(color_code){
         }
     });
     return colors_dropdown;
+}
+function refreshFields(){
+    $('.mo-name').keyup(function(){
+        refreshJSON();
+    });
+
+    $('.mo-setting-type').change(function(){
+        refreshJSON();
+    });
+
+    $('.mo-layer-number').change(function(){
+        refreshJSON();
+    });
 }
 
 $('.mo-allow-all-pattern').change(function(){
@@ -335,6 +348,7 @@ function buildRows(filesData){
 					<tr>`;
 		$('.material-options-rows').append(elem);
 		refreshColorBG();
+        refreshFields();
 	});
 	refreshJSON();
 }
