@@ -1918,12 +1918,11 @@ $(document).ready(function() {
 
                         ub.funcs.updatePopup();
 
-                    }
-                    else {
+                    } else {
 
                         console.log('Error Saving Design.');
                         console.log(response.message);
-                        
+
                     }
 
                 }

@@ -12683,6 +12683,13 @@ ub.funcs.fontOffSets = [
             //  tackleTwillHidden: true,        // Use this in the future
             },
             {
+                sport: 'Baseball',
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Pant',
+            //  tackleTwillHidden: true,        // Use this in the future
+            },
+            {
                 sport: 'Volleyball',
                 type: 'both',
                 upperLabel: 'Jersey',
@@ -12921,6 +12928,63 @@ ub.funcs.fontOffSets = [
             
             var _result = _.find(this.items, { sport: sport, neckOption: neckOption });
             return typeof _result !== "undefined";
+
+        }
+
+    }
+
+    ub.data.withBodyLeftRight = {
+
+        items: [
+            { sport: 'Volleyball', neckOption: 'Compression Shorts', },
+        ],
+        isOk: function (sport, neckOption) {
+            
+            var _result = _.find(this.items, { sport: sport, neckOption: neckOption });
+            return typeof _result !== "undefined";
+
+        }
+
+    }
+
+    ub.data.neckOptionsAlias = {
+
+        items: [
+            {
+                sport: 'Baseball',
+                name: 'Fullcut Open Full',
+                alias: 'Full Cut, Open Cut, Full Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Open Full',
+                alias: 'Traditional Cut, Open Cut, Full Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Elastic Full',
+                alias: 'Traditional Cut, Elastic Cut, Full Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Elastic Knicker',
+                alias: 'Traditional Cut, Elastic Cut, Knicker Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Elastic Mid',
+                alias: 'Traditional Cut, Elastic Cut, Mid-Calf Length',
+            },
+        ],
+
+        getAlias: function (name) {
+
+            var _result = _.find(this.items, {name: name});
+            var _value = name;
+
+            if (typeof _result !== "undefined") { _value = _result.alias }
+
+            return _value;
 
         }
 
