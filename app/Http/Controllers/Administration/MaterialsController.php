@@ -364,6 +364,7 @@ class MaterialsController extends Controller
         $debugMode = $request->input('debug_mode');
         $assetTarget = $request->input('asset_target');
         $inchInPx = $request->input('one_inch_in_px');
+        $isBlank = $request->input('is_blank');
         $isSublimated = $request->input('is_sublimated');
         $isTwill = $request->input('is_twill');
         $isInfused = $request->input('is_infused');
@@ -452,6 +453,7 @@ class MaterialsController extends Controller
             'asset_target' => $assetTarget,
             'price_item_template_id' => $priceItemTemplateID,
             'one_inch_in_px' => $inchInPx,
+            'is_blank' => $isBlank,
             'is_sublimated' => $isSublimated,
             'is_twill' => $isTwill,
             'is_infused' => $isInfused,
