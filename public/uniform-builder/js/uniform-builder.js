@@ -1202,8 +1202,11 @@ $(document).ready(function () {
 
                     $('#search_field').attr("placeholder","Search: Style");
                     ub.funcs.showMainLinks();
-                    
 
+                    setTimeout(function(){ 
+                        ub.pickersDialog.modal('hide');
+                    }, 1000);
+                    
                 }
 
             }
