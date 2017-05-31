@@ -58,7 +58,7 @@
             </a>
 
             @if (! Session::get('userHasTeamStoreAccount'))
-                <a href="/create-team-store-account" id="messages">
+                <a href="{{ env('TEAM_STORE_REGISTRATION_URL') }}/{{ Session::get('userId') }}/{{ Session::get('first_name') }}/{{ Session::get('lastName') }}/{{ Session::get('email') }}/{{ Session::get('accessToken') }}/{{ Session::get('password') }}" id="messages">
                     <i class="fa  fa-shopping-bag" aria-hidden="true"></i> Create Team Store
                 </a>
             @endif
