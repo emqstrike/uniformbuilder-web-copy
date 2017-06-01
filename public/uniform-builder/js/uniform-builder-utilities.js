@@ -57,11 +57,10 @@ $(document).ready(function() {
                 ub.startTime = new Date();
                 
                 var template = $('#m-loading-screen').html();
-                var data = { startTime: ub.startTime };
+                var data = { startTime: ub.startTime, title: 'Preparing Style List', };
                 var markup = Mustache.render(template, data);
 
                 ub.pickersDialog = bootbox.dialog({
-                    title: 'Preparing Uniform List',
                     message: markup,
                     backdrop: true,
                     className: 'loading-dialog-pickers',
@@ -78,13 +77,16 @@ $(document).ready(function() {
         ub.startTime = function () {
 
             ub.startTime = new Date();
-            
+
             var template = $('#m-loading-screen').html();
-            var data = { startTime: ub.startTime };
+            var data = {
+                startTime: ub.startTime,
+                title: 'Loading ' + ub.config.uniform_name + ' - ' + ub.config.sport,
+            };
+
             var markup = Mustache.render(template, data);
 
             loadingDialog = bootbox.dialog({
-                title: 'Loading ' + ub.config.uniform_name + ' - ' + ub.config.sport,
                 message: markup,
                 backdrop: true,
                 className: 'loading-dialog',
@@ -114,12 +116,14 @@ $(document).ready(function() {
 
             var _line;
 
-            if (str === 'Uniform loading completed.') {
+            if (str === 'Awesomess loading completed.') {
 
                 /// Hide loading after 1 sec done
-                setTimeout(function(){ 
-                  loadingDialog.modal('hide');
-                }, 1000);
+                setTimeout(function() { 
+
+                    loadingDialog.modal('hide');
+
+                }, 500);
 
                 _line = '<br /> ' + str + "<strong> " +  ub.getElapsedTime() + ' secs.</strong>';  
 

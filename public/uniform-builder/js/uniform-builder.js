@@ -61,7 +61,7 @@ $(document).ready(function () {
                 // ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 
                 ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
-                ub.displayDoneAt('Loading Uniforms...');
+                ub.displayDoneAt('Loading Styles ...');
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
             }
@@ -473,7 +473,7 @@ $(document).ready(function () {
                 $('div#saved_design_name').hide();
             }
 
-            ub.displayDoneAt('Uniform loading completed.');
+            ub.displayDoneAt('Awesomess loading completed.');
 
         };
 
@@ -764,7 +764,7 @@ $(document).ready(function () {
                 ub.funcs.optimize();
 
                 ub.displayDoneAt('Configuration of style done.');
-                ub.displayDoneAt('Rendering ...');
+                ub.displayDoneAt('Rendering awesomeness ...');
 
             }
             
@@ -1160,7 +1160,7 @@ $(document).ready(function () {
 
                     setTimeout(function(){ 
                         ub.pickersDialog.modal('hide');
-                    }, 1000);
+                    }, 500);
                     
                 }
 
@@ -1205,7 +1205,7 @@ $(document).ready(function () {
 
                     setTimeout(function(){ 
                         ub.pickersDialog.modal('hide');
-                    }, 1000);
+                    }, 500);
                     
                 }
 
@@ -1276,8 +1276,7 @@ $(document).ready(function () {
 
         ub.load_materials = function (obj, object_name){
 
-            ub.displayDoneAt('Uniforms loaded.');
-            ub.displayDoneAt('Preparing Prices.');
+            ub.displayDoneAt('Styles loaded.');
             ub.materials = {};
             ub.convertToString(obj);
 
