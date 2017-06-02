@@ -5799,10 +5799,13 @@ $(document).ready(function () {
     // Group by block pattern and also group upper and lower uniforms
     ub.funcs.sortPickerItems = function (items) {
 
-        var _sorted = _.sortBy(items, function(item) { 
+        var _sorted = _.sortBy(items, function (item) { 
 
             var _weight = parseInt(item.block_pattern_id);
             (item.type === 'upper') ? _weight += 100 : _weight += 200;
+
+            // Blank styles goes to the bottom ...
+            if (parseInt(item.isBlank) === 1) { _weight += 300; }
 
             return _weight;
 
@@ -5811,7 +5814,7 @@ $(document).ready(function () {
         return _sorted;
 
     }
-    
+
     ub.funcs.cleanupPricesPerSport = function (sport, gender) {
 
         var _sport = sport;
@@ -6003,6 +6006,7 @@ $(document).ready(function () {
             ub.funcs.hideSecondaryBar();
             
             var template = $('#m-picker-items-sport').html();
+
             var data = {
                 gender: gender,
                 picker_type: type,
@@ -6023,7 +6027,7 @@ $(document).ready(function () {
 
             });
 
-            $( ".cSoon" ).each(function() {
+            $( ".cSoon" ).each(function () {
                 var cText = $(this).text();
                 if(!cText){
                     $(this).hide();
@@ -6043,7 +6047,7 @@ $(document).ready(function () {
                 
         }
 
-        if(type === 'uniforms') {
+        if (type === 'uniforms') {
 
             var _sport = gender;
 
@@ -6278,8 +6282,6 @@ $(document).ready(function () {
                         items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });    
 
                     } else {
-
-                        console.log('_gender: ' + _gender);
                         
                         items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender }); 
 
@@ -6450,7 +6452,7 @@ $(document).ready(function () {
         var _apparel = _.find(ub.data.apparel, {gender: sport});
         var items = _.find(ub.data.sports, {gender: sport});
 
-        ub.funcs.initScroller('sports', items.sports,sport,undefined,_apparel.sports);
+        ub.funcs.initScroller('sports', items.sports, sport, undefined, _apparel.sports);
 
     };
 
