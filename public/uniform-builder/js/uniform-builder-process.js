@@ -1977,6 +1977,11 @@ $(document).ready(function() {
             ub.funcs.showSaveDialogBox();
             ub.funcs.turnLocationsOff();
 
+            $('img.front_view').attr('src', '');
+            $('img.back_view').attr('src', '');
+            $('img.left_view').attr('src', '');
+            $('img.right_view').attr('src', '');
+
             ub.current_material.settings.thumbnails = {
             
                 front_view: "",

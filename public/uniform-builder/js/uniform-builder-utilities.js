@@ -133,7 +133,13 @@ $(document).ready(function() {
 
             }
 
-            ub.utilities.info(_line.replace('&nbsp;', ' '));
+            var _consoleLine = _line.replace('&nbsp;', ' ')
+            
+            _consoleLine = _consoleLine.replace('<br />', '');
+            _consoleLine = _consoleLine.replace('<strong>', '');
+            _consoleLine = _consoleLine.replace('</strong>', '');
+
+            ub.utilities.info(_consoleLine);
             
             var _a = '<span class="load-line">' + '<br />' + _line + '</span>';
 
