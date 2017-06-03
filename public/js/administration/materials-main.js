@@ -228,9 +228,7 @@ $(document).ready(function() {
        console.log($(this).text());
         if($(this).text() == "All"){
             $("#filters button").show();
-        }
-        else{
-           
+        } else {
             $("#filters button[data-category='"+ $(this).text() +"']").show();
         }
 
