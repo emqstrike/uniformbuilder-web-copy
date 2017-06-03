@@ -12682,13 +12682,7 @@ ub.funcs.fontOffSets = [
                 lowerLabel: 'Fight Shorts',
             //  tackleTwillHidden: true,        // Use this in the future
             },
-            {
-                sport: 'Baseball',
-                type: 'both',
-                upperLabel: 'Jersey',
-                lowerLabel: 'Pant',
-            //  tackleTwillHidden: true,        // Use this in the future
-            },
+
             {
                 sport: 'Volleyball',
                 type: 'both',
@@ -12975,6 +12969,62 @@ ub.funcs.fontOffSets = [
                 name: 'Trad Elastic Mid',
                 alias: 'Traditional Cut, Elastic Cut, Mid-Calf Length',
             },
+        ],
+
+        getAlias: function (name) {
+
+            var _result = _.find(this.items, {name: name});
+            var _value = name;
+
+            if (typeof _result !== "undefined") { _value = _result.alias }
+
+            return _value;
+
+        }
+
+    }
+
+    ub.data.loadingOptionsAlias = {
+
+        items: [
+
+            {
+                name: 'block_options',
+                alias: 'Block Options',
+            },
+            {
+                name: 'material',
+                alias: 'Uniform details',
+            },
+            {
+                name: 'materials_options',
+                alias: 'Uniform parts',
+            },
+            {
+                name: 'mascots_categories',
+                alias: 'Mascot categories',
+            },
+            {
+                name: 'mascots_groups_categories',
+                alias: 'Mascot groups',
+            },
+            {
+                name: 'mascots',
+                alias: 'Mascots',
+            },
+            {
+                name: 'patterns',
+                alias: 'Patterns',
+            },
+            {
+                name: 'fonts',
+                alias: 'Fonts',
+            },
+            {
+                name: 'colors',
+                alias: 'Colors',
+            },
+    
         ],
 
         getAlias: function (name) {

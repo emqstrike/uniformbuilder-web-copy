@@ -4,38 +4,8 @@ $(document).ready(function () {
 
         /// Initialize Uniform Builder
 
-        ub.startTime = function () {
-
-            ub.startTime = new Date();
-            ub.utilities.info('Start Time: ' + ub.startTime);
-
-        }
-
-        ub.getElapsedTime = function () {
-
-            var dateNow = new Date();
-            var timeDiff = dateNow - ub.startTime;
-
-            // strip the ms
-            // timeDiff /= 1000;
-
-            // get seconds (Original had 'round' which incorrectly counts 0:28, 0:29, 1:30 ... 1:59, 1:0)
-            var seconds = Math.round(timeDiff);
-
-            return seconds / 1000;
-
-        }
-
-        ub.funcs.displayDoneAt = function (str) {
-
-            ub.utilities.info( (typeof str !== "undefined" ? str + ' ' : '') + 'Done at ' + ub.getElapsedTime() + ' sec.');  
-            ub.utilities.info(' ');  
-
-        }
         
         window.ub.initialize = function () {
-
-            ub.startTime();
 
             if (parseInt(ub.render) === 1) { ub.funcs.removePanels(); }
 
@@ -53,9 +23,10 @@ $(document).ready(function () {
             // Set Feature Flags
             ub.config.setFeatureFlags();
 
-            if (ub.current_material.id !== -1) { ub.funcs.initCanvas(); }
+            if (ub.config.material_id !== -1) {
 
-            if (window.ub.config.material_id !== -1) {
+                ub.funcs.initCanvas();
+                ub.startTime();
 
                 ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
                 ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
@@ -75,7 +46,7 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
                 ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
                 ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-                ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
+                //ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
 
                 // Disable Tailsweeps for now
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
@@ -84,10 +55,13 @@ $(document).ready(function () {
 
             if (window.ub.config.material_id === -1) {
 
-                ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
-                ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
+                ub.pickersStartTime();
+
+                // ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
+                // ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 
                 ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
+                ub.displayDoneAt('Loading Styles ...');
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
 
             }
@@ -450,6 +424,8 @@ $(document).ready(function () {
             }
             
             ub.funcs.prepareBottomTabs();
+
+
             ub.funcs.loadOtherFonts();
 
             var _blockPattern = ub.current_material.material.block_pattern;
@@ -497,7 +473,7 @@ $(document).ready(function () {
                 $('div#saved_design_name').hide();
             }
 
-            ub.funcs.displayDoneAt('Completed loading ... ')
+            ub.displayDoneAt('Awesomess loading completed.');
 
         };
 
@@ -681,8 +657,9 @@ $(document).ready(function () {
  
         ub.callback = function (obj, object_name) {
 
-            ub.utilities.info('Loading ' + object_name.toTitleCase() + " ... done at " + ub.getElapsedTime() + ' sec.');
+            var _alias = ub.data.loadingOptionsAlias.getAlias(object_name);
 
+            ub.displayDoneAt(_alias + ' loaded.');
             ub.convertToString(obj);
 
             var _createObjectList = [
@@ -772,7 +749,10 @@ $(document).ready(function () {
 
             if (ok) {
 
+                ub.displayDoneAt('Loading assets completed');
+
                 ub.load_assets();
+                ub.displayDoneAt('Configuration of style - ' + ub.config.uniform_name + ' started');
 
                 ub.funcs.init_team_colors();
                 ub.funcs.transformedApplications();
@@ -782,6 +762,9 @@ $(document).ready(function () {
                 ub.init_style();
                 
                 ub.funcs.optimize();
+
+                ub.displayDoneAt('Configuration of style done.');
+                ub.displayDoneAt('Rendering awesomeness ...');
 
             }
             
@@ -1175,6 +1158,10 @@ $(document).ready(function () {
                     $('#search_field').attr("placeholder","Search: Style or Saved Designs");
                     ub.funcs.showMainLinks();
 
+                    setTimeout(function(){ 
+                        ub.pickersDialog.modal('hide');
+                    }, 500);
+                    
                 }
 
             }
@@ -1215,8 +1202,11 @@ $(document).ready(function () {
 
                     $('#search_field').attr("placeholder","Search: Style");
                     ub.funcs.showMainLinks();
-                    
 
+                    setTimeout(function(){ 
+                        ub.pickersDialog.modal('hide');
+                    }, 500);
+                    
                 }
 
             }
@@ -1286,6 +1276,7 @@ $(document).ready(function () {
 
         ub.load_materials = function (obj, object_name){
 
+            ub.displayDoneAt('Styles loaded.');
             ub.materials = {};
             ub.convertToString(obj);
 
@@ -1299,6 +1290,8 @@ $(document).ready(function () {
             });
 
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
+            ub.displayDoneAt('Price Preparation Complete.');
+            ub.displayDoneAt('Preparing Search...');
             ub.prepareTypeAhead();
 
         }
@@ -1373,7 +1366,6 @@ $(document).ready(function () {
             ub.funcs.load_fonts();
             ub.setup_views();
             ub.setup_material_options(); 
-            ub.funcs.displayDoneAt('Setting Up Layers ...'); 
             requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
 
@@ -5807,10 +5799,13 @@ $(document).ready(function () {
     // Group by block pattern and also group upper and lower uniforms
     ub.funcs.sortPickerItems = function (items) {
 
-        var _sorted = _.sortBy(items, function(item) { 
+        var _sorted = _.sortBy(items, function (item) { 
 
             var _weight = parseInt(item.block_pattern_id);
             (item.type === 'upper') ? _weight += 100 : _weight += 200;
+
+            // Blank styles goes to the bottom ...
+            if (parseInt(item.isBlank) === 1) { _weight += 300; }
 
             return _weight;
 
@@ -5819,7 +5814,7 @@ $(document).ready(function () {
         return _sorted;
 
     }
-    
+
     ub.funcs.cleanupPricesPerSport = function (sport, gender) {
 
         var _sport = sport;
@@ -6011,6 +6006,7 @@ $(document).ready(function () {
             ub.funcs.hideSecondaryBar();
             
             var template = $('#m-picker-items-sport').html();
+
             var data = {
                 gender: gender,
                 picker_type: type,
@@ -6031,7 +6027,7 @@ $(document).ready(function () {
 
             });
 
-            $( ".cSoon" ).each(function() {
+            $( ".cSoon" ).each(function () {
                 var cText = $(this).text();
                 if(!cText){
                     $(this).hide();
@@ -6051,7 +6047,7 @@ $(document).ready(function () {
                 
         }
 
-        if(type === 'uniforms') {
+        if (type === 'uniforms') {
 
             var _sport = gender;
 
@@ -6286,8 +6282,6 @@ $(document).ready(function () {
                         items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });    
 
                     } else {
-
-                        console.log('_gender: ' + _gender);
                         
                         items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender }); 
 
@@ -6458,7 +6452,7 @@ $(document).ready(function () {
         var _apparel = _.find(ub.data.apparel, {gender: sport});
         var items = _.find(ub.data.sports, {gender: sport});
 
-        ub.funcs.initScroller('sports', items.sports,sport,undefined,_apparel.sports);
+        ub.funcs.initScroller('sports', items.sports, sport, undefined, _apparel.sports);
 
     };
 

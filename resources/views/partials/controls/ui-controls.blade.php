@@ -1998,15 +1998,43 @@
         </p>
 
         <p>
-            <button class="btn save-dialog stay">Stay and Continue working on this Uniform</button>   
+            <button class="btn save-dialog stay">Stay and Continue working on this style.</button>   
         </p>
         
         <br />
         <p>
             Or do any of the following: <br />
-            <button class="btn save-dialog select-another-uniform">Select a New Uniform Style to work on</button> <br />
+            <button class="btn save-dialog select-another-uniform">Select a New Style to work on</button> <br />
             <button class="btn save-dialog my-saved-designs">Go to 'My Saved Designs'</button> 
         </p>
+    </div>
+    
+</script>
+
+<script type="text/mustache" id="m-loading-screen">
+    
+    <div class="loading-screen">
+
+        <div class="logo-container">
+            
+            <img src="/images/pl-logo-white.png" class="logo-white" /> <br />
+
+            <div class="qoute">
+                I don't count my situps, i only start counting when it starts hurting. When i feel pain, that's when i start counting, because that's when it really counts. 
+                
+                - Muhammad Ali
+            </div>
+           
+        </div>
+
+        
+        <div class="loading-messages">
+            <!-- <strong>@{{startTime}}</strong><br /> -->
+
+            <span class="title">@{{title}}</span><br />
+
+        </div>
+
     </div>
     
 </script>
