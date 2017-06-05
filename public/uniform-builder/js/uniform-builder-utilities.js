@@ -131,7 +131,7 @@ $(document).ready(function() {
 
                 }, 500);
 
-                _line = '<br />' + str + "<strong> " +  ub.getElapsedTime() + ' secs.</strong>';  
+                _line = '<br />' + str + "<strong>" +  ub.getElapsedTime() + ' secs.</strong>';  
                 _class = 'awesomeness';
 
             } else {
@@ -157,6 +157,20 @@ $(document).ready(function() {
         }
 
     /// End Benchmarks
+
+    /// After Load Scripts 
+
+        ub.afterLoadScripts = function () { 
+        
+            if (ub.config.app_env === "local") {
+                ub.utilities.info('Local environment detected, skipping afterload scripts.');
+            } else {
+               $.getScript('/uniform-builder/js/uniform-builder-after-load-scripts.js');     
+            }
+            
+        }
+
+    /// End After Load Scripts
 
 
 });

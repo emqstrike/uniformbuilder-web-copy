@@ -62,6 +62,7 @@ $(document).ready(function () {
                 ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
                 ub.displayDoneAt('Loading Styles ...');
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
+                ub.afterLoadScripts();
 
             }
 
@@ -82,6 +83,7 @@ $(document).ready(function () {
             ub.zoom_off();
 
             if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
+
 
         };
 
@@ -473,7 +475,8 @@ $(document).ready(function () {
             ub.funcs.initUniformSizesAndPrices();
 
             ub.displayDoneAt('Awesomess loading completed.');
-
+            ub.afterLoadScripts();
+            
         };
 
         ub.funcs.loadOtherFonts = function () {
