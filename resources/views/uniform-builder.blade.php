@@ -248,6 +248,8 @@
             
             material_id: {{ $material_id }},
             uniform_name: "{{ isset($material->name) ? $material->name : 'none' }}",
+            gender: "{{ isset($material->gender) ? $material->gender : 'none' }}",
+
             uniform_application_type: "{{ isset($material->uniform_application_type) ? $material->uniform_application_type : 'none' }}",
             sport: "{{ isset($material->uniform_category) ? $material->uniform_category : 'none' }}",
             option: "{{ isset($material->neck_options) ? $material->neck_options : 'none' }}",

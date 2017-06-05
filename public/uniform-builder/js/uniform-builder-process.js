@@ -1596,7 +1596,107 @@ $(document).ready(function() {
             $('span.adult-header').html('Shoe Sizes: '); 
         }
 
-    };
+    }
+
+    ub.funcs.initUniformSizesAndPrices = function () {
+
+        var _youth = [];
+        var _adult = [];
+        var _youthPrices = undefined;
+
+        ub.current_material.material.parsedPricingTable;
+
+        ub.utilities.info('');
+        ub.utilities.info('----- Valid Size / Price -----');
+       
+        if (typeof ub.current_material.material.parsedPricingTable.properties !== "undefined") {
+
+            // Youth 
+            ub.utilities.info('Youth: ');
+
+            _.each(ub.current_material.material.parsedPricingTable.properties.youth, function (item) {
+
+                ub.utilities.info(item.size.lpad(' ', 7) + ' / ' + item.msrp);
+                _youth.push(item.size);
+
+            });
+            
+            _youthPrices = ub.current_material.material.parsedPricingTable.properties.youth
+            
+            if (typeof _youthPrices === "undefined" || typeof _youthPrices === 0) {
+
+                ub.utilities.info('No Youth Prices defined.');
+
+            }
+
+            var _youthSizeConfig = _.find(ub.data.sizes.items, {sport: ub.config.sport, type: 'youth', gender: ub.config.gender });
+
+            if (typeof _youthSizeConfig === "undefined") { 
+
+                _youthSizeConfig = {
+
+                    sport: ub.config.sport,
+                    type: 'youth',
+                    gender: ub.config.gender,
+
+                };
+
+                ub.data.sizes.items.push(_youthSizeConfig);
+
+            } 
+
+            _youthSizeConfig.sizes = _youth; 
+
+            // Adult 
+            ub.utilities.info('');
+            ub.utilities.info('Adult: ');
+            
+            _.each(ub.current_material.material.parsedPricingTable.properties.adult, function (item) {
+
+                ub.utilities.info(item.size.lpad(' ', 7) + ' / ' + item.msrp);
+                _adult.push(item.size);
+                
+            });
+
+            _adultPrices = ub.current_material.material.parsedPricingTable.properties.adult
+            
+            if (typeof _adultPrices === "undefined" || typeof _adultPrices === 0) {
+
+                ub.utilities.info('No Adult Prices defined.');
+                _adultPrices = [];
+
+            }
+
+            var _adultSizesConfig = _.find(ub.data.sizes.items, {sport: ub.config.sport, type: 'adult', gender: ub.config.gender });
+            
+            if (typeof _adultSizesConfig === "undefined") { 
+
+                _adultSizesConfig = {
+
+                    sport: ub.config.sport,
+                    type: 'adult',
+                    gender: ub.config.gender,
+
+                };
+
+                ub.data.sizes.items.push(_adultSizesConfig);
+
+            } 
+
+            _adultSizesConfig.sizes = _adult; 
+
+        } else {
+
+            ub.utilities.info('No Pricing Table Detected.');
+            // disable order form
+            $('a[data-view="team-info"]').addClass('disabled');
+
+        }
+
+        ub.utilities.info('-----------------------------');
+        ub.utilities.info('');
+
+    }
 
     ub.funcs.prepareUniformSizes = function () {
 

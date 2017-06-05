@@ -28,7 +28,7 @@ $(document).ready(function() {
 
             // TODO: Persist / Log to storage
             // TODO: (Refactor) Funnel all info messages through here
-
+        
             console.info(msg);
 
         },
@@ -78,10 +78,14 @@ $(document).ready(function() {
 
             ub.startTime = new Date();
 
+            ub.utilities.info(ub.config.uniform_name + ' - ' + ub.config.sport);
+            ub.utilities.info('');
+
             var template = $('#m-loading-screen').html();
             var data = {
                 startTime: ub.startTime,
-                title: 'Loading ' + ub.config.uniform_name + ' - ' + ub.config.sport,
+                title: '',
+                uniformName: ub.config.uniform_name + ' - ' + ub.config.sport,
             };
 
             var markup = Mustache.render(template, data);
@@ -106,6 +110,7 @@ $(document).ready(function() {
             var seconds = Math.round(timeDiff);
 
             seconds = (seconds / 1000);
+            seconds = seconds.toFixed(4)
             seconds = seconds.toString().lpad('&nbsp;', 7);
 
             return seconds;
@@ -115,21 +120,23 @@ $(document).ready(function() {
         ub.displayDoneAt = function (str) {
 
             var _line;
+            var _class = '';
 
             if (str === 'Awesomess loading completed.') {
 
                 /// Hide loading after 1 sec done
                 setTimeout(function() { 
 
-                    loadingDialog.modal('hide');
+                   loadingDialog.modal('hide');
 
                 }, 500);
 
-                _line = '<br /> ' + str + "<strong> " +  ub.getElapsedTime() + ' secs.</strong>';  
+                _line = '<br />' + str + "<strong> " +  ub.getElapsedTime() + ' secs.</strong>';  
+                _class = 'awesomeness';
 
             } else {
 
-                _line = ub.getElapsedTime() + ' sec.\t' + (typeof str !== "undefined" ? str + ' ' : '');  
+                _line = '[<strong>' + ub.getElapsedTime() + ' sec.</strong>]\t' + (typeof str !== "undefined" ? str + ' ' : '');  
 
             }
 
@@ -141,7 +148,7 @@ $(document).ready(function() {
 
             ub.utilities.info(_consoleLine);
             
-            var _a = '<span class="load-line">' + '<br />' + _line + '</span>';
+            var _a = '<span class="load-line ' + _class + '">' + '<br />' + _line + '</span>';
 
             $('div.loading-messages').append(_a);
 
