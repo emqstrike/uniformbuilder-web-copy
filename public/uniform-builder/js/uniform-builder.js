@@ -618,7 +618,7 @@ $(document).ready(function () {
         // Fix for returned ints, ub expects string
         ub.convertToString = function (obj) {
 
-            var _toConverList = ['id', 'active', 'debug_mode', 'sublimation_only']; 
+            var _toConverList = ['id', 'active', 'debug_mode', 'sublimation_only', 'is_blank']; 
 
             _.each(obj, function (item) {
 
@@ -1270,7 +1270,6 @@ $(document).ready(function () {
                     }
                     
                 }
-                
 
         }
 
@@ -5871,7 +5870,17 @@ $(document).ready(function () {
                         return item.block_pattern === _dataItem;
 
                     });
-                    
+
+                    if (_dataItem === "Blank Styles") {
+
+                         _newSet = _.filter(window.origItems, function (item) {
+                            
+                            return item.is_blank === '1';
+
+                        });
+
+                    }
+
                 }
 
                 ub.funcs.initScroller('uniforms', _newSet, gender, true);
@@ -6161,6 +6170,17 @@ $(document).ready(function () {
                 });
 
             });
+
+            // Add Blank
+
+            _blockPatternsCollection.push({
+
+                alias: 'Blank Styles',
+                item: 'Blank Styles',
+
+            });
+
+            // End Add Blank 
 
             _.each(_options, function (option) {
 
