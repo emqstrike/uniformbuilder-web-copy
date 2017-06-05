@@ -9,7 +9,6 @@ $(document).ready(function() {
             // TODO: Persist / Log warnings to storage
             // TODO: (Refactor) Funnel all warnings through here
 
-            console.trace();
             console.warn(msg);
 
         },
@@ -131,12 +130,12 @@ $(document).ready(function() {
 
                 }, 500);
 
-                _line = '<br />' + str + "<strong>" +  ub.getElapsedTime() + ' secs.</strong>';  
+                _line = '<br />' + str + " <strong>" +  ub.getElapsedTime() + ' secs.</strong>';  
                 _class = 'awesomeness';
 
             } else {
 
-                _line = '[<strong>' + ub.getElapsedTime() + ' sec.</strong>]\t' + (typeof str !== "undefined" ? str + ' ' : '');  
+                _line = '[<strong>' + ub.getElapsedTime() + ' sec.</strong> ]\t' + (typeof str !== "undefined" ? str + ' ' : '');  
 
             }
 

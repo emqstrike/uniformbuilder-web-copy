@@ -182,10 +182,13 @@ $(document).ready(function() {
 
             _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
 
-            console.log('');
-            console.error('No font size record found for location ' + location.toString() + ', size: ' + fontSize + ', perspective ' + perspective);
-            console.error('Temporary using settings for location #' + _offsetResult.application_number);
-            console.error(_offsetResult);
+            ub.utilities.info('');
+            ub.utilities.info('No font size record found for location ' + location.toString() + ', size: ' + fontSize + ', perspective ' + perspective);
+            
+            console.groupCollapsed();
+            ub.utilities.info('Temporary using settings for location #' + _offsetResult.application_number);
+            ub.utilities.info('{inputSize: ' +  _offsetResult.inputSize + ', outputSize: ' + _offsetResult.outputSize + ', offset: (x:' + _offsetResult.x_offset + ', y: ' + _offsetResult.y_offset + '), scale: (x: ' + _offsetResult.x_scale + ', y: ' + _offsetResult.y_scale + ')');
+            console.groupEnd();
             
         }
 
