@@ -11,7 +11,7 @@ $(document).ready(function () {
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
-        console.log('');
+        ub.utilities.info('');
         ub.utilities.info('----- Base Uniform Info -----');
         ub.utilities.info('ID: ' + material.id);
         ub.utilities.info('Uniform: ' + material.name);
@@ -25,10 +25,23 @@ $(document).ready(function () {
         ub.utilities.info('Uniform Application Type: ' + ub.current_material.material.uniform_application_type);
         ub.utilities.info('One Inch In px: ' + ub.current_material.material.one_inch_in_px);
         ub.utilities.info('-----------------------------');
-        console.log('');
 
-        ub.utilities.info('Applications: ');    
-        _.each(settings.applications, function (app) { ub.utilities.info(app.code + ' - ' + app.type); });
+        ub.utilities.info('');
+        
+        ub.utilities.info('-------- Applications -------');
+        _.each(settings.applications, function (app) { 
+            ub.utilities.info(app.code + ' - ' + app.type); 
+        });
+        
+        if (_.size(ub.current_material.settings.applications) === 0) { 
+            ub.utilities.info('No Applications set.'); 
+        } else {
+            ub.utilities.info('');
+            ub.utilities.info('Total # of applications: ' + _.size(ub.current_material.settings.applications));
+        }
+
+        ub.utilities.info('-----------------------------');
+        ub.utilities.info('');
 
     }
 

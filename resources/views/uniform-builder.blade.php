@@ -248,10 +248,12 @@
             
             material_id: {{ $material_id }},
             uniform_name: "{{ isset($material->name) ? $material->name : 'none' }}",
+
             uniform_application_type: "{{ isset($material->uniform_application_type) ? $material->uniform_application_type : 'none' }}",
             sport: "{{ isset($material->uniform_category) ? $material->uniform_category : 'none' }}",
             option: "{{ isset($material->neck_options) ? $material->neck_options : 'none' }}",
             type: "{{ isset($material->type) ? $material->type : 'none' }}",
+            gender: "{{ isset($material->gender) ? $material->gender : 'none' }}",
 
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
@@ -518,44 +520,6 @@
 <!-- End Modal -->
 
 </body>
-
-<!-- /// Old Analytics --- Remove This -->
-<script>
-
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-75629672-2', 'auto');
-  ga('send', 'pageview');
-
-</script>
-
-<!-- /// New Analytics -->
-<script>
-
-     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-     ga('create', 'UA-3860127-1', 'auto');
-     ga('send', 'pageview');
-
-</script>
-
-@if (env('APP_ENV') !== "local")
-<script type="text/javascript">
-window.__lc = window.__lc || {};
-window.__lc.license = 7737151;
-(function() {
- var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
- lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
- var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
-})();
-</script>
-@endif
 
 @include('partials.detect-mobile')
 

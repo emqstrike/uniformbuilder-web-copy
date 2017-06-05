@@ -2017,7 +2017,7 @@
 
         <div class="logo-container">
             
-            <img src="/images/pl-logo-white.png" class="logo-white" /> <br />
+            <img src="/images/pl-logo-dark.png" class="logo-white" /> <br />
 
             <div class="qoute">
                 I don't count my situps, i only start counting when it starts hurting. When i feel pain, that's when i start counting, because that's when it really counts. 
@@ -2031,7 +2031,7 @@
         <div class="loading-messages">
             <!-- <strong>@{{startTime}}</strong><br /> -->
 
-            <span class="title">@{{title}}</span><br />
+            <span class="title">@{{title}}<strong>@{{uniformName}}</strong></span><br />
 
         </div>
 

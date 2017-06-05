@@ -3,7 +3,6 @@ $(document).ready(function () {
     /// NEW RENDERER ///
 
         /// Initialize Uniform Builder
-
         
         window.ub.initialize = function () {
 
@@ -63,6 +62,7 @@ $(document).ready(function () {
                 ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
                 ub.displayDoneAt('Loading Styles ...');
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
+                ub.afterLoadScripts();
 
             }
 
@@ -83,6 +83,7 @@ $(document).ready(function () {
             ub.zoom_off();
 
             if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
+
 
         };
 
@@ -424,8 +425,6 @@ $(document).ready(function () {
             }
             
             ub.funcs.prepareBottomTabs();
-
-
             ub.funcs.loadOtherFonts();
 
             var _blockPattern = ub.current_material.material.block_pattern;
@@ -473,8 +472,11 @@ $(document).ready(function () {
                 $('div#saved_design_name').hide();
             }
 
-            ub.displayDoneAt('Awesomess loading completed.');
+            ub.funcs.initUniformSizesAndPrices();
 
+            ub.displayDoneAt('Awesomess loading completed.');
+            ub.afterLoadScripts();
+            
         };
 
         ub.funcs.loadOtherFonts = function () {
@@ -618,7 +620,7 @@ $(document).ready(function () {
         // Fix for returned ints, ub expects string
         ub.convertToString = function (obj) {
 
-            var _toConverList = ['id', 'active', 'debug_mode', 'sublimation_only']; 
+            var _toConverList = ['id', 'active', 'debug_mode', 'sublimation_only', 'is_blank']; 
 
             _.each(obj, function (item) {
 
@@ -760,7 +762,7 @@ $(document).ready(function () {
                 ub.funcs.get_modifier_labels();
                 ub.init_settings_object();
                 ub.init_style();
-                
+
                 ub.funcs.optimize();
 
                 ub.displayDoneAt('Configuration of style done.');
@@ -1270,7 +1272,6 @@ $(document).ready(function () {
                     }
                     
                 }
-                
 
         }
 
@@ -4866,6 +4867,11 @@ $(document).ready(function () {
 
         var _exit = false;
 
+        if (typeof ub.current_material.material.parsedPricingTable.properties === "undefined") {
+            ub.utilities.warn('No Price Table set for this uniform, cancelling order form.'); 
+            return;
+        }
+
         bootbox.confirm("Are you sure you want to go to the order form?", function (result) { 
         
             if (!result) {
@@ -5871,7 +5877,17 @@ $(document).ready(function () {
                         return item.block_pattern === _dataItem;
 
                     });
-                    
+
+                    if (_dataItem === "Blank Styles") {
+
+                         _newSet = _.filter(window.origItems, function (item) {
+                            
+                            return item.is_blank === '1';
+
+                        });
+
+                    }
+
                 }
 
                 ub.funcs.initScroller('uniforms', _newSet, gender, true);
@@ -5903,8 +5919,12 @@ $(document).ready(function () {
             var m = Mustache.render(t, d);
             
             $('.quarternary-bar').html(m);
-        
-            $('div.quarternary-bar').fadeIn();        
+
+            // Don't show quarternary bar if there's no items
+            if (_optionsCollection.length > 0) {
+                $('div.quarternary-bar').fadeIn();            
+            }
+
             $('div.quarternary-bar').css('margin-top', "0px");
 
             window.origItems = items;
@@ -6161,6 +6181,17 @@ $(document).ready(function () {
                 });
 
             });
+
+            // Add Blank
+
+            _blockPatternsCollection.push({
+
+                alias: 'Blank Styles',
+                item: 'Blank Styles',
+
+            });
+
+            // End Add Blank 
 
             _.each(_options, function (option) {
 
