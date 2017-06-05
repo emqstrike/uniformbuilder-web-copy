@@ -423,8 +423,6 @@ $(document).ready(function () {
             }
             
             ub.funcs.prepareBottomTabs();
-
-
             ub.funcs.loadOtherFonts();
 
             var _blockPattern = ub.current_material.material.block_pattern;
@@ -471,6 +469,8 @@ $(document).ready(function () {
                 $('button#button-return-to-customizer').hide();
                 $('div#saved_design_name').hide();
             }
+
+            ub.funcs.initUniformSizesAndPrices();
 
             ub.displayDoneAt('Awesomess loading completed.');
 
@@ -759,7 +759,7 @@ $(document).ready(function () {
                 ub.funcs.get_modifier_labels();
                 ub.init_settings_object();
                 ub.init_style();
-                
+
                 ub.funcs.optimize();
 
                 ub.displayDoneAt('Configuration of style done.');
@@ -4863,6 +4863,11 @@ $(document).ready(function () {
         ub.funcs.resetHighlights();
 
         var _exit = false;
+
+        if (typeof ub.current_material.material.parsedPricingTable.properties === "undefined") {
+            ub.utilities.warn('No Price Table set for this uniform, cancelling order form.'); 
+            return;
+        }
 
         bootbox.confirm("Are you sure you want to go to the order form?", function (result) { 
         

@@ -2031,7 +2031,7 @@
         <div class="loading-messages">
             <!-- <strong>@{{startTime}}</strong><br /> -->
 
-            <span class="title">@{{title}}</span><br />
+            <span class="title">@{{title}}<strong>@{{uniformName}}</strong></span><br />
 
         </div>
 
