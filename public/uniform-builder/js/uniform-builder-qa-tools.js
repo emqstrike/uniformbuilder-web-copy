@@ -32,6 +32,14 @@ $(document).ready(function () {
         _.each(settings.applications, function (app) { 
             ub.utilities.info(app.code + ' - ' + app.type); 
         });
+        
+        if (_.size(ub.current_material.settings.applications) === 0) { 
+            ub.utilities.info('No Applications set.'); 
+        } else {
+            ub.utilities.info('');
+            ub.utilities.info('Total # of applications: ' + _.size(ub.current_material.settings.applications));
+        }
+
         ub.utilities.info('-----------------------------');
         ub.utilities.info('');
 
