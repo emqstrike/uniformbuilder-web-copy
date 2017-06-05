@@ -3,7 +3,6 @@ $(document).ready(function () {
     /// NEW RENDERER ///
 
         /// Initialize Uniform Builder
-
         
         window.ub.initialize = function () {
 
@@ -5912,8 +5911,12 @@ $(document).ready(function () {
             var m = Mustache.render(t, d);
             
             $('.quarternary-bar').html(m);
-        
-            $('div.quarternary-bar').fadeIn();        
+
+            // Don't show quarternary bar if there's no items
+            if (_optionsCollection.length > 0) {
+                $('div.quarternary-bar').fadeIn();            
+            }
+
             $('div.quarternary-bar').css('margin-top', "0px");
 
             window.origItems = items;
