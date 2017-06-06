@@ -19,7 +19,6 @@ class AuthenticationController extends AdminAuthController
     {
         $rep_emails_raw = env('REP_EMAILS');
         $rep_emails = explode(",", $rep_emails_raw);
-        dd($rep_emails);
 
         $email = $request->input('email');
         $password = $request->input('password');

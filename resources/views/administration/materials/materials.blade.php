@@ -83,6 +83,7 @@
                                 <th>Gender</th>
                                 <th>Active</th>
                                 <th>Asset Target</th>
+                                <th>Blank</th>
                                 <th>Uniform Application Type</th>
                                 <th>Actions</th>
                             </tr>
@@ -127,6 +128,9 @@
                     {{ $material->asset_target }}
                 </td>
                 <td>
+                    {{ $material->is_blank }}
+                </td>
+                <td>
                     {{ $material->uniform_application_type }}
                 </td>
                 <td class="td-buttons">
@@ -168,6 +172,7 @@
                 <td id="sports-filter"></td>
                 <td id="block-patterns-filter"></td>
                 <td id="necks-filter"></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
