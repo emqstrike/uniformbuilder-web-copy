@@ -159,8 +159,10 @@ $(document).ready(function() {
 
         ub.funcs.closePickersDialog = function () {
 
-            setTimeout(function(){ 
+            setTimeout(function(){
+
                 ub.pickersDialog.modal('hide');
+                
             }, 500);
 
         }

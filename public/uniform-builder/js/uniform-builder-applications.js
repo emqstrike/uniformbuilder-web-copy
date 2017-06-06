@@ -1184,6 +1184,7 @@ $(document).ready(function() {
                         _locationMarker.position = _obj.position;
 
                         ub.funcs.updateCoordinates(_application);
+                        ub.updatePanel(_application.code, view.application);
 
                     }
 
@@ -1206,6 +1207,8 @@ $(document).ready(function() {
                         move_point.rotation = angleRadians;
                         scale_point.rotation = angleRadians;
                         ub.objects[view.perspective + '_view'].manipulatorTool.rotation = angleRadians;
+
+                        ub.updatePanel(_application.code, view.application);
 
                     }
 
@@ -1250,6 +1253,8 @@ $(document).ready(function() {
                         ub.appObj = application_obj;
                         ub.appObjSettings = view.application;
 
+                        ub.updatePanel(_application.code, view.application);
+
                         var _start;
                         if (application_type !== "mascot") {
 
@@ -1269,6 +1274,8 @@ $(document).ready(function() {
                         if (_start === '1' || _start === '0') { _start += '.00'; }
                         
                         $('span.custom_text.scale').html(_start);
+
+                        ub.updatePanel(_application.code, view.application);
 
                     }
 

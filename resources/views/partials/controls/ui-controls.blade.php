@@ -2042,3 +2042,21 @@
     </div>
     
 </script>
+
+<script type="text/mustache" id="m-preview-panel-rotation">
+    
+    <div class="rotation-container">
+
+        <label>Code:</label><strong class="number">@{{applicationCode}}</strong> 
+        <br /><br />
+
+        <label>Position:</label><strong class="number">x: @{{positionX}}, y: @{{positionY}}</strong> 
+        <br />
+        <label>Scale:</label><strong class="number">x: @{{scaleX}}, y: @{{scaleY}} </strong> 
+        <br />
+        <label>Rotation:</label><strong class="number">Radians: @{{radians}}, Degrees: @{{degrees}}</strong> 
+        <br />
+
+    </div>
+    
+</script>
