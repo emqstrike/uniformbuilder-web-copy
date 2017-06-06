@@ -9974,7 +9974,7 @@ span.load-line.awesomeness {
     div.preview-panel {
 
         position: absolute;
-        width: 500px;
+        width: 550px;
         height: 170px;
         bottom: 0;
         left: 120px;
@@ -9984,16 +9984,22 @@ span.load-line.awesomeness {
         padding: 7px;
         z-index: 1000;
 
+        cursor: move;
+
         div.title {
+
+            cursor: move;
 
             height: 30px;
 
-            span.caption { float: left; }
-            span.close { float: right; }
+            span.caption { float: left; padding: 3px;}
+            span.close { float: right; padding: 3px;}
 
         }
 
         div.body {
+
+            cursor: move;
 
             div.rotation-container {
 
@@ -10008,6 +10014,13 @@ span.load-line.awesomeness {
             }
 
         }
+
+    }
+
+    div.preview-panel:hover {
+
+        color: white;
+        background-color: #3d3d3d;
 
     }
 
