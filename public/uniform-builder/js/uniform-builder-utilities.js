@@ -143,6 +143,7 @@ $(document).ready(function() {
             
             _consoleLine = _consoleLine.replace('<br />', '');
             _consoleLine = _consoleLine.replace('<strong>', '');
+            _consoleLine = _consoleLine.replace('<strong class="light">', '');
             _consoleLine = _consoleLine.replace('</strong>', '');
             _consoleLine = _consoleLine.replace('class="light"', '');
 
