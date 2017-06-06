@@ -7799,8 +7799,6 @@ $(document).ready(function() {
 
     ub.funcs.getMascotObj = function () {
 
-        
-
     }
 
     ub.funcs.getAccentByName = function (name) {
@@ -8303,7 +8301,7 @@ $(document).ready(function() {
 
         return ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(application_id) > 70;
 
-    } 
+    }
 
     ub.funcs.setAUIActiveSize = function (size) {
 
@@ -8461,8 +8459,7 @@ $(document).ready(function() {
 
                 _settingsObject.font_size = 4;
 
-            }
-            else {
+            } else {
 
                 _settingsObject.font_size = 10;
 
@@ -8506,7 +8503,6 @@ $(document).ready(function() {
         // _htmlBuilder        +=                 '<div class="colorContainer">';
         // _htmlBuilder        +=                 '</div>';
         // _htmlBuilder        +=              '</div>';
-
   
         _htmlBuilder        +=              '<div class="column1 applications colors">'
         _htmlBuilder        +=                 '<div class="sub1"><br />';
@@ -8960,7 +8956,7 @@ $(document).ready(function() {
                         ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
 
                     }
-     
+
                 });
 
             // End Small Color Pickers
@@ -9530,10 +9526,15 @@ $(document).ready(function() {
         // adjustment to tools on text
 
         var _xAnchor = -3;
+
         if (_applicationObj.application_type !== "mascot") {
+
             if (!_applicationObj.verticalText) {
+            
                 _xAnchor = -5;
+
             }
+
         }
 
         ///
@@ -9541,8 +9542,8 @@ $(document).ready(function() {
         // --- Move --- //
 
         var _filenameMove = "/images/builder-ui/move-icon-on.png";
-        var _spriteMove = ub.pixi.new_sprite(_filenameMove);
-        var _perspective = _primaryView + '_view';
+        var _spriteMove   = ub.pixi.new_sprite(_filenameMove);
+        var _perspective  = _primaryView + '_view';
 
         ub.objects[_perspective].move_tool = _spriteMove;
         ub[_perspective].addChild(_spriteMove);
@@ -9564,7 +9565,7 @@ $(document).ready(function() {
 
         // End Turn Off Location 
 
-        /// Start Manipulator Group  
+        /// Start Manipulator Group
 
             if (typeof _appObj === "undefined") { return; }
 
@@ -9574,51 +9575,53 @@ $(document).ready(function() {
 
             // Add additional 20% to width and height to have some allowance
 
-            var _adjW    = _width * 0.35;
-            var _adjH    = _height * 0.35;
+            var _adjW    = _width * 0.01;
+            var _adjH    = _height * 0.01;
 
             _width       = _width + _adjW;
             _height      = _height + _adjH;
 
-            var _corners = [
-                {
-                    filename: 'top-left',
-                    position: {x: -_width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
-                },
-                {
-                    filename: 'top-right',
-                    position: {x: _width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
-                },
-                {
-                    filename: 'bottom-left',
-                    position: {x: -_width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
-                },
-                {
-                    filename: 'bottom-right',
-                    position: {x: _width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
-                },
-            ];
+            var _centerX = _view.application.center.x;
+            var _centerY = _view.application.center.y;
+
+            // var _corners = [
+            //     {
+            //         filename: 'top-left',
+            //         // position: {x: -_width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
+            //         position: {x: 0, y: 0},
+            //     },
+            //     {
+            //         filename: 'top-right',
+            //         position: {x: _width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
+            //     },
+            //     {
+            //         filename: 'bottom-left',
+            //         position: {x: -_width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
+            //     },
+            //     {
+            //         filename: 'bottom-right',
+            //         position: {x: _width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
+            //     },
+            // ];
            
-            
-            _.each(_corners, function (corner) {
+            // _.each(_corners, function (corner) {
 
-                var _cornerFilename = "/images/manipulators/" + corner.filename + ".png";
-                var _sprite = ub.pixi.new_sprite(_cornerFilename);
+            //     var _cornerFilename = "/images/manipulators/" + corner.filename + ".png";
+            //     var _sprite = ub.pixi.new_sprite(_cornerFilename);
 
-                _sprite.tint = parseInt('888888', 16);
-                _sprite.position.x = corner.position.x;
-                _sprite.position.y = corner.position.y;
+            //     _sprite.tint = parseInt('888888', 16);
+            //     _sprite.position.x = corner.position.x;
+            //     _sprite.position.y = corner.position.y;
 
-                _tools.addChild(_sprite);
+            //     _tools.addChild(_sprite);
 
-            });
+            // });
 
             ub.objects[_perspective].manipulatorTool = _tools;
             ub[_perspective].addChild(_tools);
 
             _tools.position.x  = _view.application.center.x;
             _tools.position.y  = _view.application.center.y;
-
             _tools.rotation    = _view.application.rotation;
 
             _tools.zIndex      = -1000;
