@@ -363,8 +363,8 @@ $(document).ready(function () {
 
             var data = {
                 applicationCode: code,
-                radians: ((app.rotation * Math.PI) / 180).toFixed(4),
-                degrees: app.rotation.toFixed(4),
+                radians: ((parseFloat(app.rotation) * Math.PI) / 180).toFixed(4),
+                degrees: parseFloat(app.rotation).toFixed(4),
                 positionX: app.center.x.toFixed(4),
                 positionY: app.center.y.toFixed(4),
                 scaleX: typeof app.scale === "undefined" ? 1: app.scale.x.toFixed(4),
