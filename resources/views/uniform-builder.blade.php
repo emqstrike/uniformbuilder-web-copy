@@ -503,6 +503,14 @@
 
 <!-- End QA Tools -->
 
+<!-- Preview Panel -->
+
+    @include('partials.panels.preview-panel')
+
+<!-- End Preview Panel -->
+
+
+
 <!-- Modal -->
 
 <button id="modalButton" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>

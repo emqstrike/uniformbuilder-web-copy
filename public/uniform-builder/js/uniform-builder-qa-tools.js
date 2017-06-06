@@ -331,4 +331,51 @@ $(document).ready(function () {
 
     // End Font Guides 
 
+    // Preview Panel
+
+        ub.showPreviewPanel = function () {
+
+            var $previewPanel = $('div.preview-panel');
+            $previewPanel.fadeIn();
+
+        }
+
+        ub.updatePanel = function (code, app) {
+
+            if (!_.contains(ub.fontGuideIDs, window.ub.valid)) { return; }
+
+            var $previewPanelBody = $('div.preview-panel');
+
+            if (!$previewPanelBody.is(':visible')) { 
+                $previewPanelBody.fadeIn(); 
+
+                var $close = $('div.preview-panel > div.title > span.close');
+                $close.unbind('click');
+                $close.on('click', function () {
+
+                    $previewPanelBody.hide();
+
+                });
+
+            }
+
+            var template = $('#m-preview-panel-rotation').html();
+
+            var data = {
+                applicationCode: code,
+                radians: ((app.rotation * Math.PI) / 180).toFixed(4),
+                degrees: app.rotation.toFixed(4),
+                positionX: app.center.x.toFixed(4),
+                positionY: app.center.y.toFixed(4),
+                scaleX: typeof app.scale === "undefined" ? 1: app.scale.x.toFixed(4),
+                scaleY: typeof app.scale === "undefined" ? 1: app.scale.y.toFixed(4),
+            };
+
+            var markup = Mustache.render(template, data);
+            $('div.preview-panel > div.body').html(markup);
+
+        }
+
+    // End Preview Panel
+
 });
