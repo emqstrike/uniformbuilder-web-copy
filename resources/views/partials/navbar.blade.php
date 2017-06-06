@@ -57,12 +57,6 @@
 
             </a>
 
-            @if (! Session::get('userHasTeamStoreAccount'))
-                <a href="{{ env('TEAM_STORE_REGISTRATION_URL') }}/{{ Session::get('userId') }}/{{ Session::get('first_name') }}/{{ Session::get('lastName') }}/{{ Session::get('email') }}/{{ Session::get('accessToken') }}/{{ Session::get('password') }}" id="messages">
-                    <i class="fa  fa-shopping-bag" aria-hidden="true"></i> Create Team Store
-                </a>
-            @endif
-
             <a href="#" id="feedback">
 
                 <i class="fa fa-comment" aria-hidden="true"></i> Have Feedback?
@@ -93,6 +87,16 @@
                   <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
                   <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
                   <li class="divider"></li>
+
+                    @if (! Session::get('userHasTeamStoreAccount'))
+                        <li>
+                            <a href="{{ env('TEAM_STORE_REGISTRATION_URL') }}/{{ Session::get('userId') }}/{{ Session::get('first_name') }}/{{ Session::get('lastName') }}/{{ Session::get('email') }}/{{ Session::get('accessToken') }}/{{ Session::get('password') }}">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i> CREATE TEAM STORE
+                            </a>
+                        </li>
+                    @endif
+                  <li class="divider"></li>
+
                   <!-- <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li> -->
                   <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
                   <li class="divider"></li>
