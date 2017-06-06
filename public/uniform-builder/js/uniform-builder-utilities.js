@@ -126,7 +126,7 @@ $(document).ready(function() {
                 /// Hide loading after 1 sec done
                 setTimeout(function() { 
 
-                   loadingDialog.modal('hide');
+                  loadingDialog.modal('hide');
 
                 }, 500);
 
@@ -135,7 +135,7 @@ $(document).ready(function() {
 
             } else {
 
-                _line = '[<strong>' + ub.getElapsedTime() + ' sec.</strong> ]\t' + (typeof str !== "undefined" ? str + ' ' : '');  
+                _line = '[<strong class="light">' + ub.getElapsedTime() + ' sec.</strong> ]\t' + (typeof str !== "undefined" ? str + ' ' : '');  
 
             }
 
@@ -144,6 +144,7 @@ $(document).ready(function() {
             _consoleLine = _consoleLine.replace('<br />', '');
             _consoleLine = _consoleLine.replace('<strong>', '');
             _consoleLine = _consoleLine.replace('</strong>', '');
+            _consoleLine = _consoleLine.replace('class="light"', '');
 
             ub.utilities.info(_consoleLine);
             
@@ -154,6 +155,15 @@ $(document).ready(function() {
             $('span.load-line').fadeIn(); 
 
         }
+
+        ub.funcs.closePickersDialog = function () {
+
+            setTimeout(function(){ 
+                ub.pickersDialog.modal('hide');
+            }, 500);
+
+        }
+
 
     /// End Benchmarks
 

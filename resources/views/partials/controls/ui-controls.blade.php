@@ -2020,9 +2020,13 @@
             <img src="/images/pl-logo-dark.png" class="logo-white" /> <br />
 
             <div class="qoute">
-                I don't count my situps, i only start counting when it starts hurting. When i feel pain, that's when i start counting, because that's when it really counts. 
+                <span class='qoute-symbol'><i class="fa fa-quote-left" aria-hidden="true"></i></span>
+                <span class='qoute-text'>I don't count my situps, i only start counting when it starts hurting. When i feel pain, that's when i start counting, because that's when it really counts.</span>
+                <br />
+                <div class="author-container">
+                    -<span class="author"> Muhammad Ali</span>    
+                </div>
                 
-                - Muhammad Ali
             </div>
            
         </div>

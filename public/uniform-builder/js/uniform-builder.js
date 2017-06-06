@@ -1160,9 +1160,7 @@ $(document).ready(function () {
                     $('#search_field').attr("placeholder","Search: Style or Saved Designs");
                     ub.funcs.showMainLinks();
 
-                    setTimeout(function(){ 
-                        ub.pickersDialog.modal('hide');
-                    }, 500);
+                    ub.funcs.closePickersDialog();
                     
                 }
 
@@ -1205,9 +1203,7 @@ $(document).ready(function () {
                     $('#search_field').attr("placeholder","Search: Style");
                     ub.funcs.showMainLinks();
 
-                    setTimeout(function(){ 
-                        ub.pickersDialog.modal('hide');
-                    }, 500);
+                    ub.funcs.closePickersDialog();
                     
                 }
 

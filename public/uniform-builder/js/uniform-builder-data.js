@@ -12897,27 +12897,27 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Baseball',
                 name: 'Fullcut Open Full',
-                alias: 'Full Cut, Open Cut, Full Length',
+                alias: 'Full Cut, Open Cuff, Full Length',
             },
             {
                 sport: 'Baseball',
                 name: 'Trad Open Full',
-                alias: 'Traditional Cut, Open Cut, Full Length',
+                alias: 'Traditional Cut, Open Cuff, Full Length',
             },
             {
                 sport: 'Baseball',
                 name: 'Trad Elastic Full',
-                alias: 'Traditional Cut, Elastic Cut, Full Length',
+                alias: 'Traditional Cut, Elastic Cuff, Full Length',
             },
             {
                 sport: 'Baseball',
                 name: 'Trad Elastic Knicker',
-                alias: 'Traditional Cut, Elastic Cut, Knicker Length',
+                alias: 'Traditional Cut, Elastic Cuff, Knicker Length',
             },
             {
                 sport: 'Baseball',
                 name: 'Trad Elastic Mid',
-                alias: 'Traditional Cut, Elastic Cut, Mid-Calf Length',
+                alias: 'Traditional Cut, Elastic Cuff, Mid-Calf Length',
             },
         ],
 
@@ -12944,11 +12944,11 @@ ub.funcs.fontOffSets = [
             },
             {
                 name: 'material',
-                alias: 'Uniform details',
+                alias: 'Style details',
             },
             {
                 name: 'materials_options',
-                alias: 'Uniform parts',
+                alias: 'Style parts',
             },
             {
                 name: 'mascots_categories',
