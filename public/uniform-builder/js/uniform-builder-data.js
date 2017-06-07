@@ -12303,6 +12303,10 @@ ub.funcs.fontOffSets = [
                     sport: 'Basketball',
                     option: "USA Short (W)",
                 },
+                {
+                    sport: 'Soccer',
+                    option: "Short (W)",
+                },
         ],
         currentUniformOk: function () {
 
