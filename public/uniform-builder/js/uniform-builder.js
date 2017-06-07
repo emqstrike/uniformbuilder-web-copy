@@ -1782,6 +1782,8 @@ $(document).ready(function () {
 
         if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { ub.current_material.settings = ub.prepareForTeamStoresMaterialOptions(ub.current_material.settings) }
 
+        var _patternLog = "";
+
         _.each(ub.current_material.settings[uniform_type], function (e) {
 
             if (e.setting_type === 'highlights' || 
@@ -1817,17 +1819,21 @@ $(document).ready(function () {
                             if (typeof _materialOption.pattern_properties !== 'undefined' && _materialOption.pattern_properties.length !== 0 ) { 
                                 
                                 e.pattern = ub.funcs.getPatternObjectFromMaterialOption(_materialOption);
+
                                 if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { e.pattern = ub.prepareForTeamStoresPatterns(e.pattern); }
 
                             }    
 
                         }
+
+                        _patternLog += e.pattern.pattern_id + ' set for ' + _materialOption.name + '\n';
                         
-                    }
-                    else {
+                    } else {
 
-                        e.pattern = undefined;
+                        _patternLog += 'No Default Pattern is set for ' + _materialOption.name + ' using Blank.\n';
 
+                        e.pattern = ub.funcs.getPatternObjectFromMaterialOptionBlank(_materialOption);
+                        
                     }
                     
                 }
@@ -1882,6 +1888,11 @@ $(document).ready(function () {
             }
 
         });
+    
+        ub.utilities.info('');
+        ub.utilities.info('----- Patterns -----');
+        ub.utilities.info(_patternLog);
+        ub.utilities.info('--------------------');
 
         /// Transform Applications
 
@@ -5170,8 +5181,8 @@ $(document).ready(function () {
             return undefined;
         }
 
-        var _patternProperties          = ub.funcs.cleanPatternProperties(_materialOption.pattern_properties);
-        var patternPropertiesParsed     = JSON.parse(_patternProperties);
+        // var _patternProperties          = ub.funcs.cleanPatternProperties(_materialOption.pattern_properties);
+        // var patternPropertiesParsed     = JSON.parse(_patternProperties);
 
         var _obj                        = {
 

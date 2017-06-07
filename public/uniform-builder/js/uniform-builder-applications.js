@@ -4201,7 +4201,7 @@ $(document).ready(function() {
 
     };
 
-    ub.data.getPatternByID = function (id) {
+    ub.funcs.getPatternByID = function (id) {
 
       var _patternObject = _.find(ub.data.patterns.items, {id: id.toString()});
       return _patternObject;
@@ -5065,7 +5065,7 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.getPatternObjectFromMaterialOption = function (materialOption) {
+     ub.funcs.getPatternObjectFromMaterialOption = function (materialOption) {
 
         var patternProperties           = '';
         var _patternProperties          = ub.funcs.cleanPatternProperties(materialOption.pattern_properties);
@@ -5078,7 +5078,9 @@ $(document).ready(function() {
 
         }
 
-        var _patternObject  = ub.data.getPatternByID(materialOption.pattern_id);
+        if (materialOption.pattern_id === '33') { return ub.funcs.getPatternObjectFromMaterialOptionBlank(materialOption); }
+
+        var _patternObject  = ub.funcs.getPatternByID(materialOption.pattern_id);
 
         if (typeof _patternObject === 'undefined') {
 
@@ -5121,8 +5123,6 @@ $(document).ready(function() {
                 container_position: {
                     x: 248 + ub.offset.x * 0.9,
                     y: 308 + ub.offset.y * 3.3,
-                    
-
                 },
                 container_opacity: 1,
                 container_rotation: ub.funcs.translateAngle(_materialOption.angle),
@@ -5132,6 +5132,63 @@ $(document).ready(function() {
             _patternObject.pattern_obj.layers.push(_layer);
 
         });
+
+        return _patternObject;
+
+    }
+
+    ub.funcs.getPatternObjectFromMaterialOptionBlank = function (materialOption) {
+
+        var patternProperties       = '';
+        var _rotationAngle          = ub.funcs.translateAngle(materialOption.angle);
+
+        materialOption.pattern_id   = '33'; // Blank
+        var _patternDefaultObject   = ub.funcs.getPatternByID(materialOption.pattern_id);
+
+        if (typeof _patternDefaultObject === 'undefined') { ub.utilities.error('Pattern Object with id: 33 not found!'); }
+
+        var _materialOption = materialOption;
+
+        var _patternObject  = {
+                pattern_id: _patternDefaultObject.code,
+                scale: 0,
+                rotation: ub.funcs.translateAngle(_materialOption.angle),
+                opacity: 0,
+                position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+                pattern_obj : {
+                    pattern_id: _patternDefaultObject.id,
+                    active: _patternDefaultObject.active,
+                    name: _patternDefaultObject.name,
+                    code: _patternDefaultObject.code,
+                    icon: _patternDefaultObject.icon,
+                    layers: [],
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+                }    
+        };
+
+        
+        var _defaultColor = ub.funcs.getColorByColorCode('W');
+
+        var _layer = { 
+            default_color: _defaultColor.hex_code,
+            color_code: ub.funcs.getColorObjByHexCode(_defaultColor.hex_code).color_code,
+            layer_no: '1', 
+            team_color_id: '1',
+            filename: _patternDefaultObject.layers[0].filename,
+            color: parseInt(_defaultColor.hex_code, 16),
+            container_position: {
+                x: 248 + ub.offset.x * 0.9,
+                y: 308 + ub.offset.y * 3.3,
+            },
+            container_opacity: 1,
+            container_rotation: ub.funcs.translateAngle(_materialOption.angle),
+            container_scale: { x:1,y:1 },
+        }
+
+        _patternObject.pattern_obj.layers.push(_layer);
 
         return _patternObject;
 
