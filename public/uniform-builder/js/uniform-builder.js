@@ -7362,8 +7362,21 @@ $(document).ready(function () {
                     ub.user.firstName = firstName;
                     ub.user.lastName = lastName;
 
-                    window.location.href = '/my-profile';
+                    var _url = ub.config.team_store_api_host + '/team-store-user/' + ub.user.id + '/update';
 
+                    $.ajax({
+                        url: _url,
+                        type: "PATCH",
+                        data: JSON.stringify(_postData),
+                        datatype: "json",
+                        crossDomain: true,
+                        contentType: "applicatin/json",
+                        headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                        success: function(response) {
+                            window.location.href = '/my-profile';
+                        }
+                    });
                 }
                 
             });
@@ -7392,7 +7405,6 @@ $(document).ready(function () {
                 var _lastName = $('input[name="last-name"]').val();
 
                 ub.funcs.updateProfile(_firstName, _lastName);
-
             });
 
         }

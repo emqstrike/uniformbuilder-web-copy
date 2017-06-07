@@ -1,14 +1,16 @@
 <?php
 namespace App\Http\Controllers;
 
-use Session;
-use Redirect;
-use App\Utilities\Log;
-use Illuminate\Http\Request;
-use Webmozart\Json\JsonDecoder;
-use GuzzleHttp\Exception\ClientException;
 use App\APIClients\UsersAPIClient as APIClient;
 use App\Http\Controllers\Administration\AuthenticationController as AdminAuthController;
+use App\TeamStoreClient\UserTeamStoreClient;
+use App\Utilities\Crypt;
+use App\Utilities\Log;
+use GuzzleHttp\Exception\ClientException;
+use Illuminate\Http\Request;
+use Redirect;
+use Session;
+use Webmozart\Json\JsonDecoder;
 
 class AuthenticationController extends AdminAuthController
 {
@@ -98,8 +100,8 @@ class AuthenticationController extends AdminAuthController
             $result = $decoder->decode($response->getBody());
 
             if ($result->success) {
-
                 $fullname = $result->user->first_name . ' ' . $result->user->last_name;
+
                 Session::put('userId', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $fullname);
@@ -110,6 +112,19 @@ class AuthenticationController extends AdminAuthController
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
+
+                $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+
+                if ($response->success) {
+                    Session::put('userHasTeamStoreAccount', true);
+                } else {
+                    $response = $this->client->get('encrypt/' . $password);
+                    $response = $decoder->decode($response->getBody());
+
+                    if ($response->success) {
+                        Session::put('password', $response->hashedString);
+                    }
+                }
 
                 return [
                     'success' => true, 
@@ -155,6 +170,50 @@ class AuthenticationController extends AdminAuthController
 
         ];
 
+    }
+
+    public function remoteLogin($id, $accessToken)
+    {
+        try {
+            $response = $this->client->get("user/remote-login/{$id}/{$accessToken}");
+
+            $decoder = new JsonDecoder();
+            $result = $decoder->decode($response->getBody());
+
+            if ($result->success) {
+                $fullname = $result->user->first_name . ' ' . $result->user->last_name;
+
+                Session::put('userId', $result->user->id);
+                Session::put('isLoggedIn', $result->success);
+                Session::put('fullname', $fullname);
+                Session::put('first_name', $result->user->first_name);
+                Session::put('firstName', $result->user->first_name);
+                Session::put('lastName', $result->user->last_name);
+                Session::put('email', $result->user->email);
+                Session::put('accountType', $result->user->type);
+                Session::put('accessToken', $result->access_token);
+
+                Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
+
+                $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+
+                if ($response->success) {
+                    Session::put('userHasTeamStoreAccount', true);
+                }
+
+                return Redirect::to('/index')->with('message', 'Welcome back ' . $fullname);
+
+            } else {
+                Session::flash('flash_message', $result->message);
+            }
+
+        } catch (ClientException $e) {
+            $error = $e->getMessage();
+            Log::info('Login Attempt Error : ' . $error, 'FRONT END');
+        }
+
+        return Redirect::to('/index')
+                        ->with('message', "The email and password you entered don't match.");
     }
 
     public function logout()
