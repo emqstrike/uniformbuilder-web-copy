@@ -34,9 +34,6 @@ Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilder
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
 
-
-Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilderController@loadDesignSetRender');
-
 // Save uniform perspectives
 Route::post('/save_uniform_perspectives', 'ProductController@savePerspectives');
 
