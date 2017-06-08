@@ -1826,6 +1826,12 @@ $(document).ready(function () {
 
                         }
 
+                        if (typeof e.pattern === "undefined") {
+
+                            e.pattern = ub.funcs.getPatternObjectFromMaterialOptionBlank(_materialOption);
+
+                        }
+
                         _patternLog += e.pattern.pattern_id + ' set for ' + _materialOption.name + '\n';
                         
                     } else {
