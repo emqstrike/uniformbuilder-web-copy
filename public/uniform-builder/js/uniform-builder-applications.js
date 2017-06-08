@@ -1184,6 +1184,7 @@ $(document).ready(function() {
                         _locationMarker.position = _obj.position;
 
                         ub.funcs.updateCoordinates(_application);
+                        ub.updatePanel(_application.code, view.application);
 
                     }
 
@@ -1206,6 +1207,8 @@ $(document).ready(function() {
                         move_point.rotation = angleRadians;
                         scale_point.rotation = angleRadians;
                         ub.objects[view.perspective + '_view'].manipulatorTool.rotation = angleRadians;
+
+                        ub.updatePanel(_application.code, view.application);
 
                     }
 
@@ -1250,6 +1253,8 @@ $(document).ready(function() {
                         ub.appObj = application_obj;
                         ub.appObjSettings = view.application;
 
+                        ub.updatePanel(_application.code, view.application);
+
                         var _start;
                         if (application_type !== "mascot") {
 
@@ -1269,6 +1274,8 @@ $(document).ready(function() {
                         if (_start === '1' || _start === '0') { _start += '.00'; }
                         
                         $('span.custom_text.scale').html(_start);
+
+                        ub.updatePanel(_application.code, view.application);
 
                     }
 
@@ -4194,7 +4201,7 @@ $(document).ready(function() {
 
     };
 
-    ub.data.getPatternByID = function (id) {
+    ub.funcs.getPatternByID = function (id) {
 
       var _patternObject = _.find(ub.data.patterns.items, {id: id.toString()});
       return _patternObject;
@@ -5058,7 +5065,7 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.getPatternObjectFromMaterialOption = function (materialOption) {
+     ub.funcs.getPatternObjectFromMaterialOption = function (materialOption) {
 
         var patternProperties           = '';
         var _patternProperties          = ub.funcs.cleanPatternProperties(materialOption.pattern_properties);
@@ -5071,7 +5078,9 @@ $(document).ready(function() {
 
         }
 
-        var _patternObject  = ub.data.getPatternByID(materialOption.pattern_id);
+        if (materialOption.pattern_id === '33') { return ub.funcs.getPatternObjectFromMaterialOptionBlank(materialOption); }
+
+        var _patternObject  = ub.funcs.getPatternByID(materialOption.pattern_id);
 
         if (typeof _patternObject === 'undefined') {
 
@@ -5114,8 +5123,6 @@ $(document).ready(function() {
                 container_position: {
                     x: 248 + ub.offset.x * 0.9,
                     y: 308 + ub.offset.y * 3.3,
-                    
-
                 },
                 container_opacity: 1,
                 container_rotation: ub.funcs.translateAngle(_materialOption.angle),
@@ -5125,6 +5132,63 @@ $(document).ready(function() {
             _patternObject.pattern_obj.layers.push(_layer);
 
         });
+
+        return _patternObject;
+
+    }
+
+    ub.funcs.getPatternObjectFromMaterialOptionBlank = function (materialOption) {
+
+        var patternProperties       = '';
+        var _rotationAngle          = ub.funcs.translateAngle(materialOption.angle);
+
+        materialOption.pattern_id   = '33'; // Blank
+        var _patternDefaultObject   = ub.funcs.getPatternByID(materialOption.pattern_id);
+
+        if (typeof _patternDefaultObject === 'undefined') { ub.utilities.error('Pattern Object with id: 33 not found!'); }
+
+        var _materialOption = materialOption;
+
+        var _patternObject  = {
+                pattern_id: _patternDefaultObject.code,
+                scale: 0,
+                rotation: ub.funcs.translateAngle(_materialOption.angle),
+                opacity: 0,
+                position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+                pattern_obj : {
+                    pattern_id: _patternDefaultObject.id,
+                    active: _patternDefaultObject.active,
+                    name: _patternDefaultObject.name,
+                    code: _patternDefaultObject.code,
+                    icon: _patternDefaultObject.icon,
+                    layers: [],
+                    scale: 0,
+                    rotation: 0,
+                    opacity: 0,
+                    position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+                }    
+        };
+
+        
+        var _defaultColor = ub.funcs.getColorByColorCode('W');
+
+        var _layer = { 
+            default_color: _defaultColor.hex_code,
+            color_code: ub.funcs.getColorObjByHexCode(_defaultColor.hex_code).color_code,
+            layer_no: '1', 
+            team_color_id: '1',
+            filename: _patternDefaultObject.layers[0].filename,
+            color: parseInt(_defaultColor.hex_code, 16),
+            container_position: {
+                x: 248 + ub.offset.x * 0.9,
+                y: 308 + ub.offset.y * 3.3,
+            },
+            container_opacity: 1,
+            container_rotation: ub.funcs.translateAngle(_materialOption.angle),
+            container_scale: { x:1,y:1 },
+        }
+
+        _patternObject.pattern_obj.layers.push(_layer);
 
         return _patternObject;
 
@@ -7799,8 +7863,6 @@ $(document).ready(function() {
 
     ub.funcs.getMascotObj = function () {
 
-        
-
     }
 
     ub.funcs.getAccentByName = function (name) {
@@ -8303,7 +8365,7 @@ $(document).ready(function() {
 
         return ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) && parseInt(application_id) > 70;
 
-    } 
+    }
 
     ub.funcs.setAUIActiveSize = function (size) {
 
@@ -8461,8 +8523,7 @@ $(document).ready(function() {
 
                 _settingsObject.font_size = 4;
 
-            }
-            else {
+            } else {
 
                 _settingsObject.font_size = 10;
 
@@ -8506,7 +8567,6 @@ $(document).ready(function() {
         // _htmlBuilder        +=                 '<div class="colorContainer">';
         // _htmlBuilder        +=                 '</div>';
         // _htmlBuilder        +=              '</div>';
-
   
         _htmlBuilder        +=              '<div class="column1 applications colors">'
         _htmlBuilder        +=                 '<div class="sub1"><br />';
@@ -8960,7 +9020,7 @@ $(document).ready(function() {
                         ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
 
                     }
-     
+
                 });
 
             // End Small Color Pickers
@@ -9530,10 +9590,15 @@ $(document).ready(function() {
         // adjustment to tools on text
 
         var _xAnchor = -3;
+
         if (_applicationObj.application_type !== "mascot") {
+
             if (!_applicationObj.verticalText) {
+            
                 _xAnchor = -5;
+
             }
+
         }
 
         ///
@@ -9541,8 +9606,8 @@ $(document).ready(function() {
         // --- Move --- //
 
         var _filenameMove = "/images/builder-ui/move-icon-on.png";
-        var _spriteMove = ub.pixi.new_sprite(_filenameMove);
-        var _perspective = _primaryView + '_view';
+        var _spriteMove   = ub.pixi.new_sprite(_filenameMove);
+        var _perspective  = _primaryView + '_view';
 
         ub.objects[_perspective].move_tool = _spriteMove;
         ub[_perspective].addChild(_spriteMove);
@@ -9564,7 +9629,7 @@ $(document).ready(function() {
 
         // End Turn Off Location 
 
-        /// Start Manipulator Group  
+        /// Start Manipulator Group
 
             if (typeof _appObj === "undefined") { return; }
 
@@ -9574,51 +9639,53 @@ $(document).ready(function() {
 
             // Add additional 20% to width and height to have some allowance
 
-            var _adjW    = _width * 0.35;
-            var _adjH    = _height * 0.35;
+            var _adjW    = _width * 0.01;
+            var _adjH    = _height * 0.01;
 
             _width       = _width + _adjW;
             _height      = _height + _adjH;
 
-            var _corners = [
-                {
-                    filename: 'top-left',
-                    position: {x: -_width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
-                },
-                {
-                    filename: 'top-right',
-                    position: {x: _width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
-                },
-                {
-                    filename: 'bottom-left',
-                    position: {x: -_width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
-                },
-                {
-                    filename: 'bottom-right',
-                    position: {x: _width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
-                },
-            ];
+            var _centerX = _view.application.center.x;
+            var _centerY = _view.application.center.y;
+
+            // var _corners = [
+            //     {
+            //         filename: 'top-left',
+            //         // position: {x: -_width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
+            //         position: {x: 0, y: 0},
+            //     },
+            //     {
+            //         filename: 'top-right',
+            //         position: {x: _width - _adjW - _leftOffset, y: -_height - _adjH + _topOffset},
+            //     },
+            //     {
+            //         filename: 'bottom-left',
+            //         position: {x: -_width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
+            //     },
+            //     {
+            //         filename: 'bottom-right',
+            //         position: {x: _width - _adjW - _leftOffset, y: _height - _adjH + _topOffset},
+            //     },
+            // ];
            
-            
-            _.each(_corners, function (corner) {
+            // _.each(_corners, function (corner) {
 
-                var _cornerFilename = "/images/manipulators/" + corner.filename + ".png";
-                var _sprite = ub.pixi.new_sprite(_cornerFilename);
+            //     var _cornerFilename = "/images/manipulators/" + corner.filename + ".png";
+            //     var _sprite = ub.pixi.new_sprite(_cornerFilename);
 
-                _sprite.tint = parseInt('888888', 16);
-                _sprite.position.x = corner.position.x;
-                _sprite.position.y = corner.position.y;
+            //     _sprite.tint = parseInt('888888', 16);
+            //     _sprite.position.x = corner.position.x;
+            //     _sprite.position.y = corner.position.y;
 
-                _tools.addChild(_sprite);
+            //     _tools.addChild(_sprite);
 
-            });
+            // });
 
             ub.objects[_perspective].manipulatorTool = _tools;
             ub[_perspective].addChild(_tools);
 
             _tools.position.x  = _view.application.center.x;
             _tools.position.y  = _view.application.center.y;
-
             _tools.rotation    = _view.application.rotation;
 
             _tools.zIndex      = -1000;

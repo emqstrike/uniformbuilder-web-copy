@@ -1600,17 +1600,33 @@
 
     <script type="text/mustache" id="m-tertiary-links">
 
-    <span class="slink-small main-picker-items active" data-picker-type="gender" data-item="All">All</span>
+    <span class="slink-small tertiary main-picker-items active" data-picker-type="gender" data-item="All">All</span>
 
     @{{#block_patterns}}
 
-        <span class="slink-small main-picker-items" data-picker-type="gender" data-item="@{{item}}">@{{alias}}</span>
+        <span class="slink-small tertiary main-picker-items" data-picker-type="gender" data-item="@{{item}}">@{{alias}}</span>
 
     @{{/block_patterns}}
 
     </script>   
 
 <!-- End Tertiary links -->
+
+<!-- Quarternary links -->
+
+    <script type="text/mustache" id="m-quarternary-links">
+
+    <!-- <span class="slink-small quarternary main-picker-items active" data-picker-type="gender" data-item="All">All</span> -->
+
+    @{{#block_patterns}}
+
+        <span class="slink-small quarternary main-picker-items" data-picker-type="gender" data-item="@{{item}}">@{{alias}}</span>
+
+    @{{/block_patterns}}
+
+    </script>   
+
+<!-- End Quarternary links -->
 
 <!-- Save Design -->
 
@@ -1963,7 +1979,7 @@
 
             <div class="footer-buttons">
 
-                <span class="button okButton" >Ok</span> <span class="button cancelButton">Cancel</span>
+                <span class="button okButton">Ok</span> <span class="button cancelButton">Cancel</span>
 
             </div>
             
@@ -1972,3 +1988,75 @@
     </script>
 
 <!-- End Add New Free-Form Location -->
+
+<script type="text/mustache" id="m-save-design-ok">
+    
+    <div class="save-design-post-dialog">
+
+        <p class='left'>
+            Your design '<strong>@{{designName}}</strong>' was saved successfully! You can stay and continue working with this style, or go to other sections using one of the options below. Thank you! 
+        </p>
+
+        <p>
+            <button class="btn save-dialog stay">Stay and Continue working on this style.</button>   
+        </p>
+        
+        <br />
+        <p>
+            Or do any of the following: <br />
+            <button class="btn save-dialog select-another-uniform">Select a New Style to work on</button> <br />
+            <button class="btn save-dialog my-saved-designs">Go to 'My Saved Designs'</button> 
+        </p>
+    </div>
+    
+</script>
+
+<script type="text/mustache" id="m-loading-screen">
+    
+    <div class="loading-screen">
+
+        <div class="logo-container">
+            
+            <img src="/images/pl-logo-dark.png" class="logo-white" /> <br />
+
+            <div class="qoute">
+                <span class='qoute-symbol'><i class="fa fa-quote-left" aria-hidden="true"></i></span>
+                <span class='qoute-text'>I don't count my situps, i only start counting when it starts hurting. When i feel pain, that's when i start counting, because that's when it really counts.</span>
+                <br />
+                <div class="author-container">
+                    -<span class="author"> Muhammad Ali</span>    
+                </div>
+                
+            </div>
+           
+        </div>
+
+        
+        <div class="loading-messages">
+            <!-- <strong>@{{startTime}}</strong><br /> -->
+
+            <span class="title">@{{title}}<strong>@{{uniformName}}</strong></span><br />
+
+        </div>
+
+    </div>
+    
+</script>
+
+<script type="text/mustache" id="m-preview-panel-rotation">
+    
+    <div class="rotation-container">
+
+        <label>Code:</label><strong class="number">@{{applicationCode}}</strong> 
+        <br /><br />
+
+        <label>Position:</label><strong class="number">x: @{{positionX}}, y: @{{positionY}}</strong> 
+        <br />
+        <label>Scale:</label><strong class="number">x: @{{scaleX}}, y: @{{scaleY}} </strong> 
+        <br />
+        <label>Rotation:</label><strong class="number">Radians: @{{radians}}, Degrees: @{{degrees}}</strong> 
+        <br />
+
+    </div>
+    
+</script>

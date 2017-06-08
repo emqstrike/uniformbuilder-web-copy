@@ -27,6 +27,8 @@ $(document).ready(function() {
 
     ub.funcs.processFonts = function () {
 
+        ub.funcs.initFonts(ub.config.sport, ub.config.option);
+
         ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
         ub.data.fonts = _.sortBy(ub.data.fonts, "name");
 
@@ -35,17 +37,60 @@ $(document).ready(function() {
             if (font.name === "") { return; }
 
             var _fontSizeTables = font.font_size_tables;
+            var _sublimatedFontSizeTables = font.sublimated_font_size_tables;
             var _parsedFontSizeTables = undefined;
+            var _parsedSublimatedFontSizeTables = undefined;
 
             if (typeof _fontSizeTables !== "undefined" && _fontSizeTables !== null && _fontSizeTables !== "") {
 
                _parsedFontSizeTables = JSON.parse(_fontSizeTables);
+
+            }
+
+            if (typeof _sublimatedFontSizeTables !== "undefined" && _sublimatedFontSizeTables !== null && _sublimatedFontSizeTables !== "") {
+
+                _parsedSublimatedFontSizeTables = JSON.parse(_sublimatedFontSizeTables);
                 
             }
 
+            if (ub.config.uniform_application_type === "sublimated") {
+                _parsedFontSizeTables = _parsedSublimatedFontSizeTables;
+            }
+
             font.parsedFontSizeTables = _parsedFontSizeTables;
-            
+            font.sublimatedParsedFontSizeTables = _parsedSublimatedFontSizeTables;
+
+            // console.log('Parsed Font Size Table')
+            // console.log(font.parsedFontSizeTables);
+
+            // console.log('Sublimated Parsed Font Size Table: ');
+            // console.log(font.sublimatedParsedFontSizeTables);
+
         });
+
+        if (ub.data.fonts.length > 0) {
+
+            console.log(' ');
+            ub.utilities.info("Fonts: ");
+
+            ub.utilities.info(ub.data.fonts.length + " fonts loaded.");
+            ub.displayDoneAt( ub.data.fonts[0].name + ' preloaded.');
+
+            WebFont.load({
+
+                custom: {
+                  families: [ub.data.fonts[0].name,]
+                },
+
+            });
+
+            console.log(' ');    
+
+        } else {
+
+            ub.utilities.error('No fonts loaded for ' + sport + " / " + option + "!");
+
+        }
 
     }
 
@@ -137,10 +182,13 @@ $(document).ready(function() {
 
             _offsetResult = _.find(_perspectiveData.sizes, { inputSize: fontSize.toString() });
 
-            console.log('');
-            console.error('No font size record found for location ' + location.toString() + ', size: ' + fontSize + ', perspective ' + perspective);
-            console.error('Temporary using settings for location #' + _offsetResult.application_number);
-            console.error(_offsetResult);
+            ub.utilities.info('');
+            ub.utilities.info('No font size record found for location ' + location.toString() + ', size: ' + fontSize + ', perspective ' + perspective);
+            
+            console.groupCollapsed();
+            ub.utilities.info('Temporary using settings for location #' + _offsetResult.application_number);
+            ub.utilities.info('{inputSize: ' +  _offsetResult.inputSize + ', outputSize: ' + _offsetResult.outputSize + ', offset: (x:' + _offsetResult.x_offset + ', y: ' + _offsetResult.y_offset + '), scale: (x: ' + _offsetResult.x_scale + ', y: ' + _offsetResult.y_scale + ')');
+            console.groupEnd();
             
         }
 
@@ -464,18 +512,15 @@ $(document).ready(function() {
 
         }
 
-        if (ub.data.sportsMain.currentOk()) {
+        if (ub.data.sportsMain.currentOk() ) {
 
-            if(ub.current_material.material.one_inch_in_px === null) {
-
-                ub.utilities.warn('No one_inch_in_px set for this uniform.');
-
+            if (ub.current_material.material.one_inch_in_px === null) { 
+                ub.utilities.warn('No one_inch_in_px set for this uniform.'); 
             }
 
             _fontSizeData.pixelFontSize = fontSize * parseInt(ub.current_material.material.one_inch_in_px);
                 
         }
-
 
         return _fontSizeData;
 

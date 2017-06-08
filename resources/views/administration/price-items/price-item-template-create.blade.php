@@ -105,8 +105,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','5-7','8-12','13-14','YXS','YS','YM','YL','YXL','Y2XL','Y3XL','1 Size'];
-var adult_sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','5-7','8-12','13-14','1 Size'];
+var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','5-7','8-12','13-14','YXS','YS','YM','YL','YXL','Y2XL','Y3XL','1 Size','22-30','32-44','46-54','24-34','36-48','50-54'];
+var adult_sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','5-7','8-12','13-14','1 Size','22-30','32-44','46-54','24-34','36-48','50-54'];
 var youth_sizes = ['YXS','YS','YM','YL','YXL','Y2XL','Y3XL'];
 var size_properties = {};
 

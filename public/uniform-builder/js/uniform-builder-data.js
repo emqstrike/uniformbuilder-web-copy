@@ -2097,6 +2097,10 @@ $(document).ready(function() {
                 name: "Cinch Sack (Apparel)",
                 alias: "cinch-sack",
             },
+            { 
+                name: "Volleyball",
+                alias: "volleyball",
+            },
 
         ],
 
@@ -11839,61 +11843,7 @@ ub.funcs.fontOffSets = [
         
         items: [
 
-            // Football
-            {
-                sport: 'Football',
-                type: 'adult',
-                gender: 'men',
-                sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'],
-            },
-            {
-                sport: 'Football',
-                type: 'youth',
-                gender: 'men',
-                sizes: ['YXS', 'YS', 'YM', 'YL', 'YXL', 'Y2XL', 'Y3XL'],
-            },
-
-            // Wrestling
-            {
-                sport: 'Wrestling',
-                type: 'adult',
-                gender: 'men',
-                sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'],
-            },
-            {
-                sport: 'Wrestling',
-                type: 'youth',
-                gender: 'men',
-                sizes: ['YS', 'YM', 'YL'],
-            },
-
-            // Baseball 
-            {
-                sport: 'Baseball',
-                type: 'adult',
-                gender: 'men',
-                sizes: [ '36/S', '38/M', '40', '42/L', '44', '46/XL', '48', '50/2XL', '52', '54/3XL'],
-            },
-            {
-                sport: 'Baseball',
-                type: 'youth',
-                gender: 'men',
-                sizes: ['24/YXS', '26/YS', '28/YM', '30', '32/YL', '34/YXL'],
-            },
-
-            // Crew Socks 
-            {
-                sport: 'Crew Socks (Apparel)',
-                type: 'adult',
-                gender: 'men',
-                sizes: ['5-7', '8-12', '13-14',],
-            },
-            {
-                sport: 'Crew Socks (Apparel)',
-                type: 'youth',
-                gender: 'men',
-                sizes: [],
-            }
+            // Reset to empty, values will be provided from ub.current_material.material.parsedPricingTable
 
         ],
 
@@ -12266,7 +12216,7 @@ ub.funcs.fontOffSets = [
 
     ub.data.hiddenBody = {
 
-        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "1-4 Zip Jacket (Apparel)"],
+        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "1-4 Zip Jacket (Apparel)", "Fan Replica Jersey (Apparel)"],
         options: [
                 {
                     sport: 'Wrestling',
@@ -12307,7 +12257,56 @@ ub.funcs.fontOffSets = [
                     sport: 'Hockey',
                     option: "Sublimated Jersey",
                 },
+                {
+                    sport: 'Fan Replica Jersey (Apparel)',
+                    option: "Men's",
+                },
+                {
+                    sport: 'Fan Replica Jersey (Apparel)',
+                    option: "Women's",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "4ARW6R~6 Jersey",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "Side Seam Jersey",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "4MH8Z5~G Short",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "Side seam Short",
+                },
+                {
+                    sport: 'Lacrosse',
+                    option: "2 Panel Short",
+                },
 
+                // 
+                {
+                    sport: 'Basketball',
+                    option: "USA Jersey (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "USA Jersey (W)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "USA Short (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "USA Short (W)",
+                },
+                {
+                    sport: 'Soccer',
+                    option: "Short (W)",
+                },
         ],
         currentUniformOk: function () {
 
@@ -12654,6 +12653,14 @@ ub.funcs.fontOffSets = [
                 lowerLabel: 'Fight Shorts',
             //  tackleTwillHidden: true,        // Use this in the future
             },
+
+            {
+                sport: 'Volleyball',
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Compression Shorts',
+            //  tackleTwillHidden: true,        // Use this in the future
+            },
             {
                 sport: 'Crew Socks (Apparel)',
                 type: 'lower',
@@ -12886,6 +12893,119 @@ ub.funcs.fontOffSets = [
             
             var _result = _.find(this.items, { sport: sport, neckOption: neckOption });
             return typeof _result !== "undefined";
+
+        }
+
+    }
+
+    ub.data.withBodyLeftRight = {
+
+        items: [
+            { sport: 'Volleyball', neckOption: 'Compression Shorts', },
+        ],
+        isOk: function (sport, neckOption) {
+            
+            var _result = _.find(this.items, { sport: sport, neckOption: neckOption });
+            return typeof _result !== "undefined";
+
+        }
+
+    }
+
+    ub.data.neckOptionsAlias = {
+
+        items: [
+            {
+                sport: 'Baseball',
+                name: 'Fullcut Open Full',
+                alias: 'Full Cut, Open Cuff, Full Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Open Full',
+                alias: 'Traditional Cut, Open Cuff, Full Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Elastic Full',
+                alias: 'Traditional Cut, Elastic Cuff, Full Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Elastic Knicker',
+                alias: 'Traditional Cut, Elastic Cuff, Knicker Length',
+            },
+            {
+                sport: 'Baseball',
+                name: 'Trad Elastic Mid',
+                alias: 'Traditional Cut, Elastic Cuff, Mid-Calf Length',
+            },
+        ],
+
+        getAlias: function (name) {
+
+            var _result = _.find(this.items, {name: name});
+            var _value = name;
+
+            if (typeof _result !== "undefined") { _value = _result.alias }
+
+            return _value;
+
+        }
+
+    }
+
+    ub.data.loadingOptionsAlias = {
+
+        items: [
+
+            {
+                name: 'block_options',
+                alias: 'Block Options',
+            },
+            {
+                name: 'material',
+                alias: 'Style details',
+            },
+            {
+                name: 'materials_options',
+                alias: 'Style parts',
+            },
+            {
+                name: 'mascots_categories',
+                alias: 'Mascot categories',
+            },
+            {
+                name: 'mascots_groups_categories',
+                alias: 'Mascot groups',
+            },
+            {
+                name: 'mascots',
+                alias: 'Mascots',
+            },
+            {
+                name: 'patterns',
+                alias: 'Patterns',
+            },
+            {
+                name: 'fonts',
+                alias: 'Fonts',
+            },
+            {
+                name: 'colors',
+                alias: 'Colors',
+            },
+    
+        ],
+
+        getAlias: function (name) {
+
+            var _result = _.find(this.items, {name: name});
+            var _value = name;
+
+            if (typeof _result !== "undefined") { _value = _result.alias }
+
+            return _value;
 
         }
 

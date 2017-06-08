@@ -1596,7 +1596,107 @@ $(document).ready(function() {
             $('span.adult-header').html('Shoe Sizes: '); 
         }
 
-    };
+    }
+
+    ub.funcs.initUniformSizesAndPrices = function () {
+
+        var _youth = [];
+        var _adult = [];
+        var _youthPrices = undefined;
+
+        ub.current_material.material.parsedPricingTable;
+
+        ub.utilities.info('');
+        ub.utilities.info('----- Valid Size / Price -----');
+       
+        if (typeof ub.current_material.material.parsedPricingTable.properties !== "undefined") {
+
+            // Youth 
+            ub.utilities.info('Youth: ');
+
+            _.each(ub.current_material.material.parsedPricingTable.properties.youth, function (item) {
+
+                ub.utilities.info(item.size.lpad(' ', 7) + ' / ' + item.msrp);
+                _youth.push(item.size);
+
+            });
+            
+            _youthPrices = ub.current_material.material.parsedPricingTable.properties.youth
+            
+            if (typeof _youthPrices === "undefined" || typeof _youthPrices === 0) {
+
+                ub.utilities.info('No Youth Prices defined.');
+
+            }
+
+            var _youthSizeConfig = _.find(ub.data.sizes.items, {sport: ub.config.sport, type: 'youth', gender: ub.config.gender });
+
+            if (typeof _youthSizeConfig === "undefined") { 
+
+                _youthSizeConfig = {
+
+                    sport: ub.config.sport,
+                    type: 'youth',
+                    gender: ub.config.gender,
+
+                };
+
+                ub.data.sizes.items.push(_youthSizeConfig);
+
+            } 
+
+            _youthSizeConfig.sizes = _youth; 
+
+            // Adult 
+            ub.utilities.info('');
+            ub.utilities.info('Adult: ');
+            
+            _.each(ub.current_material.material.parsedPricingTable.properties.adult, function (item) {
+
+                ub.utilities.info(item.size.lpad(' ', 7) + ' / ' + item.msrp);
+                _adult.push(item.size);
+                
+            });
+
+            _adultPrices = ub.current_material.material.parsedPricingTable.properties.adult
+            
+            if (typeof _adultPrices === "undefined" || typeof _adultPrices === 0) {
+
+                ub.utilities.info('No Adult Prices defined.');
+                _adultPrices = [];
+
+            }
+
+            var _adultSizesConfig = _.find(ub.data.sizes.items, {sport: ub.config.sport, type: 'adult', gender: ub.config.gender });
+            
+            if (typeof _adultSizesConfig === "undefined") { 
+
+                _adultSizesConfig = {
+
+                    sport: ub.config.sport,
+                    type: 'adult',
+                    gender: ub.config.gender,
+
+                };
+
+                ub.data.sizes.items.push(_adultSizesConfig);
+
+            } 
+
+            _adultSizesConfig.sizes = _adult; 
+
+        } else {
+
+            ub.utilities.info('No Pricing Table Detected.');
+            // disable order form
+            $('a[data-view="team-info"]').addClass('disabled');
+
+        }
+
+        ub.utilities.info('-----------------------------');
+        ub.utilities.info('');
+
+    }
 
     ub.funcs.prepareUniformSizes = function () {
 
@@ -1773,6 +1873,14 @@ $(document).ready(function() {
         var _location = location;
 
         switch(_location) {
+
+            case 'home':
+                
+                // unbind before opening window
+                window.onbeforeunload = null;
+                window.location.href = '/';
+                
+                break;
         
             case 'my-saved-designs':
                 
@@ -1795,9 +1903,51 @@ $(document).ready(function() {
 
             var _designName = $('input.design-name').val();
             $('div.save-design').fadeOut();
-            alert('Design ' + _designName + ' Saved!');
+            
+            var template = $('#m-save-design-ok').html();
+            var data = { title: 'Save Design', designName: _designName };
+            var markup = Mustache.render(template, data);
 
-            ub.funcs.goto('my-saved-designs');
+            var dialog = bootbox.dialog({
+                title: 'What do you want to do next?',
+                message: markup,
+            });
+
+            dialog.init(function() {
+
+                $('button.stay').unbind('click');
+                $('button.stay').on('click', function () {
+                   
+                    dialog.modal('hide');
+
+                });
+
+                $('button.my-saved-designs').unbind('click');
+                $('button.my-saved-designs').on('click', function () {
+                    
+                    dialog.modal('hide');
+                   
+                    var dialog1 = bootbox.dialog({
+                        message: 'Loading My Saved Design...',
+                    });
+
+                    ub.funcs.goto('my-saved-designs');
+
+                });
+
+                $('button.select-another-uniform').unbind('click');
+                $('button.select-another-uniform').on('click', function () {
+                    
+                    dialog.modal('hide');
+                    var dialog2 = bootbox.dialog({
+                        message: 'Loading the Uniform Pickers...',
+                    });
+                    
+                    ub.funcs.goto('home');
+                    
+                });
+
+            });
 
          };
 
@@ -1868,12 +2018,11 @@ $(document).ready(function() {
 
                         ub.funcs.updatePopup();
 
-                    }
-                    else {
+                    } else {
 
                         console.log('Error Saving Design.');
                         console.log(response.message);
-                        
+
                     }
 
                 }
@@ -1927,6 +2076,11 @@ $(document).ready(function() {
 
             ub.funcs.showSaveDialogBox();
             ub.funcs.turnLocationsOff();
+
+            $('img.front_view').attr('src', '');
+            $('img.back_view').attr('src', '');
+            $('img.left_view').attr('src', '');
+            $('img.right_view').attr('src', '');
 
             ub.current_material.settings.thumbnails = {
             

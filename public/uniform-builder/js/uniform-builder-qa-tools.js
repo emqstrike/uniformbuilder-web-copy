@@ -7,11 +7,11 @@ $(document).ready(function () {
     ub.ga = {};
     ub.devtools = {};
 
-    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 71, 190, 1, 89];
+    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 190, 1];
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
-        console.log('');
+        ub.utilities.info('');
         ub.utilities.info('----- Base Uniform Info -----');
         ub.utilities.info('ID: ' + material.id);
         ub.utilities.info('Uniform: ' + material.name);
@@ -20,14 +20,28 @@ $(document).ready(function () {
         ub.utilities.info('Block Pattern: ' + material.block_pattern);
         ub.utilities.info('Sport: ' + material.uniform_category);
         ub.utilities.info('Type: ' + material.type);
+        ub.utilities.info('Gender: ' + material.gender);
         ub.utilities.info('Factory Code: ' + material.factory_code);
         ub.utilities.info('Uniform Application Type: ' + ub.current_material.material.uniform_application_type);
         ub.utilities.info('One Inch In px: ' + ub.current_material.material.one_inch_in_px);
         ub.utilities.info('-----------------------------');
-        console.log('');
 
-        ub.utilities.info('Applications: ');    
-        _.each(settings.applications, function (app) { ub.utilities.info(app.code + ' - ' + app.type); });
+        ub.utilities.info('');
+        
+        ub.utilities.info('-------- Applications -------');
+        _.each(settings.applications, function (app) { 
+            ub.utilities.info(app.code + ' - ' + app.type); 
+        });
+        
+        if (_.size(ub.current_material.settings.applications) === 0) { 
+            ub.utilities.info('No Applications set.'); 
+        } else {
+            ub.utilities.info('');
+            ub.utilities.info('Total # of applications: ' + _.size(ub.current_material.settings.applications));
+        }
+
+        ub.utilities.info('-----------------------------');
+        ub.utilities.info('');
 
     }
 
@@ -316,5 +330,55 @@ $(document).ready(function () {
     }
 
     // End Font Guides 
+
+    // Preview Panel
+
+        ub.showPreviewPanel = function () {
+
+            var $previewPanel = $('div.preview-panel');
+            $previewPanel.fadeIn();
+
+        }
+
+        ub.updatePanel = function (code, app) {
+
+            if (!_.contains(ub.fontGuideIDs, window.ub.valid)) { return; }
+
+            var $previewPanelBody = $('div.preview-panel');
+
+            if (!$previewPanelBody.is(':visible')) { 
+                $previewPanelBody.fadeIn(); 
+
+                var $close = $('div.preview-panel > div.title > span.close');
+                $close.unbind('click');
+                $close.on('click', function () {
+
+                    $previewPanelBody.hide();
+
+                });
+
+                $('div.preview-panel').draggable();
+
+
+            }
+
+            var template = $('#m-preview-panel-rotation').html();
+
+            var data = {
+                applicationCode: code,
+                radians: ((parseFloat(app.rotation) * Math.PI) / 180).toFixed(4),
+                degrees: parseFloat(app.rotation).toFixed(4),
+                positionX: app.center.x.toFixed(4),
+                positionY: app.center.y.toFixed(4),
+                scaleX: typeof app.scale === "undefined" ? 1: app.scale.x.toFixed(4),
+                scaleY: typeof app.scale === "undefined" ? 1: app.scale.y.toFixed(4),
+            };
+
+            var markup = Mustache.render(template, data);
+            $('div.preview-panel > div.body').html(markup);
+
+        }
+
+    // End Preview Panel
 
 });
