@@ -1796,7 +1796,7 @@ $(document).ready(function () {
                     ub.utilities.info(e.code.toTitleCase() + ' layer detected, skipping add to Team Colors...');     
                 }
                 
-                return; 
+                return;
 
             }
 
@@ -1808,7 +1808,7 @@ $(document).ready(function () {
                 e.team_color_id     = _team_color_id;
 
                 var _allowPattern   =  parseInt(_materialOption.allow_pattern);
-                e.has_pattern = _allowPattern;
+                e.has_pattern       = _allowPattern;
 
                 if (e.has_pattern === 1) {
 
@@ -1826,18 +1826,14 @@ $(document).ready(function () {
 
                         }
 
-                        if (typeof e.pattern === "undefined") {
-
-                            e.pattern = ub.funcs.getPatternObjectFromMaterialOptionBlank(_materialOption);
-
-                        }
+                        // For unprocessed pattern
+                        if (typeof e.pattern === "undefined") { e.pattern = ub.funcs.getPatternObjectFromMaterialOptionBlank(_materialOption); }
 
                         _patternLog += e.pattern.pattern_id + ' set for ' + _materialOption.name + '\n';
                         
                     } else {
 
                         _patternLog += 'No Default Pattern is set for ' + _materialOption.name + ' using Blank.\n';
-
                         e.pattern = ub.funcs.getPatternObjectFromMaterialOptionBlank(_materialOption);
                         
                     }
