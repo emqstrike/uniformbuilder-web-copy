@@ -10351,6 +10351,8 @@ $(document).ready(function() {
 
             _list = _.reject(_list, function (item)     { return item.name.indexOf('Trim') > -1 || 
                                                                  item.name.indexOf('Piping') > -1 || 
+                                                                 item.name.indexOf('Stripe') > -1 ||
+                                                                 item.name.indexOf('Front Insert') > -1 ||
                                                                  item.name.indexOf('Prolook') > -1; });
 
             if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { 
