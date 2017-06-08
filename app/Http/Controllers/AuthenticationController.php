@@ -113,7 +113,7 @@ class AuthenticationController extends AdminAuthController
                 Session::put('accessToken', $result->access_token);
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
-                $response = $this->client->get('feature/6');
+                $response = $this->client->get('get_feature_by_name/Team_Stores');
                 $response = $decoder->decode($response->getBody());
 
                 if ($response->success) {
@@ -220,7 +220,7 @@ class AuthenticationController extends AdminAuthController
 
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
-                $response = $this->client->get('feature/6');
+                $response = $this->client->get('get_feature_by_name/Team_Stores');
                 $response = $decoder->decode($response->getBody());
 
                 if ($response->success) {
