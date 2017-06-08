@@ -114,16 +114,41 @@ class AuthenticationController extends AdminAuthController
                 Session::put('accessToken', $result->access_token);
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
-                $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+                $response = $this->client->get('feature/6');
+                $response = $decoder->decode($response->getBody());
 
                 if ($response->success) {
-                    Session::put('userHasTeamStoreAccount', true);
-                } else {
-                    $response = $this->client->get('encrypt/' . $password);
-                    $response = $decoder->decode($response->getBody());
+                    if (filter_var($response->feature->active, FILTER_VALIDATE_BOOLEAN)) { 
+                        if ($response->feature->switch != 'disable') {
+                            $user_ids = str_replace('"', '', $response->feature->user_ids);
+                            $user_ids = str_replace('"', '', substr($user_ids, 1, -1));
 
-                    if ($response->success) {
-                        Session::put('password', $response->hashedString);
+                            if ($user_ids) {
+                                $user_ids = explode(",", $user_ids);
+                            } else {
+                                $user_ids = [];
+                            }
+
+                            Log::info(count($user_ids));
+
+
+                            if ((in_array($result->user->id, $user_ids)) || (count($user_ids) == 0)) {
+                                $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+
+                                if ($response->success) {
+                                    Session::put('userHasTeamStoreAccount', true);
+                                } else {
+                                    $response = $this->client->get('encrypt/' . $password);
+                                    $response = $decoder->decode($response->getBody());
+
+                                    if ($response->success) {
+                                        Session::put('password', $response->hashedString);
+                                    }
+                                }
+
+                                Session::put('teamStoreFeatureIsEnabled', true);
+                            }
+                        }
                     }
                 }
 
@@ -196,10 +221,21 @@ class AuthenticationController extends AdminAuthController
 
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
-                $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+                $response = $this->client->get('feature/6');
+                $response = $decoder->decode($response->getBody());
 
                 if ($response->success) {
-                    Session::put('userHasTeamStoreAccount', true);
+                    if (filter_var($response->feature->active, FILTER_VALIDATE_BOOLEAN)) {
+                        if ($response->feature->switch != 'disable') {
+                            $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+
+                            if ($response->success) {
+                                Session::put('userHasTeamStoreAccount', true);
+                            }
+
+                            Session::put('teamStoreFeatureIsEnabled', true);
+                        }
+                    }
                 }
 
                 return Redirect::to('/index')->with('message', 'Welcome back ' . $fullname);

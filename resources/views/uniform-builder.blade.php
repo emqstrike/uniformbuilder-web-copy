@@ -240,6 +240,7 @@
             api_host: "http://{{ env('API_HOST') }}",
             asset_version: "{{$asset_version}}",
             team_store_api_host: "http://{{ env('TEAM_STORE_API_BASE') }}",
+            is_team_store_enable: @if (Session::get('teamStoreFeatureIsEnabled')) true, @else false, @endif
             
             material_id: {{ $material_id }},
             uniform_name: "{{ isset($material->name) ? $material->name : 'none' }}",
