@@ -66,6 +66,9 @@ $(document).ready(function () {
         _.each(_names, function (name) {
 
             ub.funcs.setMaterialOptionSettingsColor(name, colorObj, source);
+
+            if (ub.data.afterLoadCalled !== 1) { return; }
+
             ub.change_material_option_color16(name, parseInt(colorObj.hex_code, 16));
 
         });
