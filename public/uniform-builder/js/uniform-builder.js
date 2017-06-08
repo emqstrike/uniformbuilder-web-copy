@@ -4966,10 +4966,12 @@ $(document).ready(function () {
 
                 if (view === 'patterns') {
 
-                    if (ub.current_part === 0) { return; }
+                    if (_.size(ub.current_material.settings.team_colors) <= 1) { return; }
+                    if (ub.current_part === 0) {  $('div.pd-dropdown-links[data-ctr="1"]').trigger('click'); } // Trigger First Part
 
                     ub.funcs.hideOtherPanels();
                     ub.funcs.activatePatterns();
+
                     return;
                     
                 }
