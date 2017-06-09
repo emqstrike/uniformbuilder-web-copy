@@ -38,7 +38,7 @@ class MaterialsOptionsController extends Controller
         $teamColorIDs = $request->input('team_color_id');
         $deafaultColors = $request->input('default_color');
         $allowPatterns = $request->input('allow_pattern');
-
+// dd($optionNames);
         $ctr = 0;
         foreach ($optionIds as $optionId) {
             $idx = $ctr;
@@ -98,6 +98,7 @@ class MaterialsOptionsController extends Controller
         }
 
         $data['input'] = json_encode($data['info']);
+        // dd($data);
         $response = null;
 
         $response = $this->client->updateMaterialOptions($data);
@@ -247,7 +248,7 @@ class MaterialsOptionsController extends Controller
             'default_display' => $default_display,
             'build_type' => $build_type
         ];
-// dd($data);
+// dd(json_encode($data));
         try
         {
 
