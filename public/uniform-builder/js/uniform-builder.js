@@ -476,6 +476,7 @@ $(document).ready(function () {
 
             ub.displayDoneAt('Awesomess loading completed.');
             ub.afterLoadScripts();
+            ub.errorCodes.prepareShortcuts();
             
         };
 
@@ -754,7 +755,9 @@ $(document).ready(function () {
                 ub.displayDoneAt('Loading assets completed');
 
                 ub.load_assets();
+
                 ub.displayDoneAt('Configuration of style - ' + ub.config.uniform_name + ' started');
+                ub.utilities.info(' ');
 
                 ub.funcs.init_team_colors();
                 ub.funcs.transformedApplications();
@@ -1856,6 +1859,8 @@ $(document).ready(function () {
 
                     ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};    
 
+                    if (_paddedHex === "000000") { ub.utilities.errorWithCode(ub.errorCode.namesDontMatch, e.code); }
+
                 } else {
                     
                     if (_modLabelName === "Extra") {
@@ -2397,6 +2402,7 @@ $(document).ready(function () {
 
         ub.maxLayers = 0;
 
+        ub.utilities.info(' ');
         _.each(ub.views, function (view) {
 
             var material_options = _.where(ub.current_material.material.options, {perspective: view});
@@ -2512,7 +2518,9 @@ $(document).ready(function () {
 
             ub.updateLayersOrder(ub[view + '_view']);
 
-        });    
+        });
+
+        ub.utilities.info(' ');   
 
         /// Manual Color Test 
 
@@ -2666,7 +2674,7 @@ $(document).ready(function () {
                 var parsed_color = color;
 
                 //ub.save_color(material_option, parsed_color);
-
+                
                 _.each(ub.views, function (v) {
 
                     var objects_in_view = ub.objects[v + '_view']
@@ -4960,6 +4968,7 @@ $(document).ready(function () {
 
                     ub.funcs.activateColorPickers();
                     ub.funcs.activeStyle('colors');
+                    
                     return;
                     
                 }
