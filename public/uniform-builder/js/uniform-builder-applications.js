@@ -4579,7 +4579,7 @@ $(document).ready(function() {
 
     }
 
-     ub.funcs.createPatternPopupApplications = function (settingsObj) {
+    ub.funcs.createPatternPopupApplications = function (settingsObj) {
 
         if ($('div#primaryPatternPopup').length === 0) {
 
@@ -5370,7 +5370,7 @@ $(document).ready(function() {
         if (_accentObj.layers.length >= 4) {
 
             var _secondLayer = _.find(_accentObj.layers, {layer_no: 1});
-            var _color = _color = ub.funcs.getColorByColorCode('B').hex_code;
+            var _color = ub.funcs.getColorByColorCode('B').hex_code;
 
             if (ub.current_material.settings.team_colors.length >= 3) {
                 _color = ub.current_material.settings.team_colors[2].hex_code;
@@ -5394,11 +5394,12 @@ $(document).ready(function() {
 
     ub.funcs.changeSize = function (size, settingsObj) {
 
-        var _id         = settingsObj.id;
+        var _id                 = settingsObj.id;
         ub.funcs.removeApplicationByID(_id);
 
-        settingsObj.font_size = parseFloat(size);
-        settingsObj.size = parseFloat(size);
+        settingsObj.font_size   = parseFloat(size);
+        settingsObj.size        = parseFloat(size);
+        
         ub.create_application(settingsObj, undefined);
 
     }
