@@ -2260,6 +2260,7 @@ $(document).ready(function() {
             });
  
             if (sport === "volleyball") { return _result[0]; }
+            if (sport === "fastpitch") { return _result[0]; }
           
             if (typeof _object === "undefined") {
 
@@ -12003,6 +12004,7 @@ ub.funcs.fontOffSets = [
             'Fan Replica Jersey (Apparel)',
             'Basketball (Apparel)',
             'Lacrosse',
+            'Fastpitch',
         ],
         options: [
             'Fight Short'
@@ -12146,6 +12148,10 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Lacrosse',
                 sublimatedPart: 'Extra',
+            }, 
+            {
+                sport: 'Fastpitch',
+                sublimatedPart: 'Body',
             }, 
 
             // 
