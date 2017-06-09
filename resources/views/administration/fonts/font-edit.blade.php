@@ -161,6 +161,15 @@ li.select2-selection__choice {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-5 control-label">Block Pattern</label>
+                            <div class="col-md-4">
+                                <input type="hidden" class="block-patterns-val" id="block_patterns_value" name="block_patterns_value" value="{{ $font->block_patterns }}">
+                                <select name="block_patterns[]" class="form-control block-patterns" multiple="multiple">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-5 control-label">Target Block Pattern Option</label>
                             <div class="col-md-4">
                                 <input type="hidden" class="block-pattern-options-val" id="block_pattern_options_value" name="block_pattern_options_value" value="{{ $font->block_pattern_options }}">
@@ -713,10 +722,60 @@ $(document).ready(function(){
 
     }
 
+    bindBPs();
+    function bindBPs(){
+        console.log('>>>>>>>>>>>>>>>>>>>> Bind Block Patterns');
+        var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
+        var sports_arr = null;
+        var block_patterns = [];
+        // console.log('[[SPORTS]]');
+        // console.log(sports);
+        if(sports != null){
+            sports_arr = sports.split(",");
+            // console.log(sports_arr);
+            sports_arr.forEach(function(entry) {
+                // console.log('ENTRY: ' + entry);
+                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category === entry; });
+                // console.log(x);
+                x.forEach(function(entry) {
+                    block_patterns.push(entry.name);
+                });
+            });
+            var z = _.sortBy(_.uniq(block_patterns));
+            $('.block-patterns').html('');
+            z.forEach(function(i) {
+                $('.block-patterns').append('<option value="'+i+'">'+i+'</option>');
+            });
+        }
+
+    }
+
+    if($('#block_patterns_value').val()){
+        // var bpos = JSON.parse($('#block_patterns').val());
+        var x = ($('#block_patterns_value').val().slice(1, -1)).split(",");
+        console.log('[[BLOCK PATTERNS]]');
+        console.log(x);
+        var bps = x;
+    }
+    // var sports = JSON.parse($('#sports_value').val());
+
+    $('.block-patterns').select2({
+        placeholder: "Select block patterns",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".block-patterns").change(function() {
+        $('#block_patterns_value').val($(this).val());
+    });
+
+    $('.block-patterns').select2('val', bps);
 
     if($('#block_pattern_options_value').val()){
         // var bpos = JSON.parse($('#block_pattern_options_value').val());
         var xx = $('#block_pattern_options_value').val().split(",");
+        console.log('[[BLOCK PATTERN OPTIONS]]');
+        console.log(xx);
         var bpos = xx;
     }
     // var sports = JSON.parse($('#sports_value').val());
@@ -744,12 +803,12 @@ $(document).ready(function(){
     if(fstbls != ""){
         var old_font_size_tables = JSON.parse(fstbls);
         window.backup = old_font_size_tables;
-        console.log(old_font_size_tables);
+        // console.log(old_font_size_tables);
         old_font_size_tables.forEach(function(entry) {
 
             var tbl_class = '.'+entry.perspective+'-fst-body';
             entry.sizes.forEach(function(item) {
-                console.log(item.inputSize);
+                // console.log(item.inputSize);
                 var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                 $(tbl_class).append(elem);
             });
@@ -763,12 +822,12 @@ $(document).ready(function(){
     if(sblmtdfstbls != ""){
         var old_font_size_tables = JSON.parse(sblmtdfstbls);
         window.sublimated_backup = old_font_size_tables;
-        console.log(old_font_size_tables);
+        // console.log(old_font_size_tables);
         old_font_size_tables.forEach(function(entry) {
 
             var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
             entry.sizes.forEach(function(item) {
-                console.log(item.inputSize);
+                // console.log(item.inputSize);
                 var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                 $(tbl_class).append(elem);
             });

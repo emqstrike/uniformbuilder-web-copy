@@ -88,6 +88,7 @@ class FontsController extends Controller
         $sublimatedFontSizeTables = $request->input('sublimated_font_size_tables');
         $alias = $request->input('alias');
         $blockPatternOptions = $request->input('block_pattern_options_value');
+        $blockPatterns = $request->input('block_patterns_value');
 
         $userID = $request->input('user_id');
         
@@ -111,7 +112,8 @@ class FontsController extends Controller
             'sublimated_font_size_tables' => $sublimatedFontSizeTables,
             'updated_by' => $userID,
             'alias' =>$alias,
-            'block_pattern_options' => $blockPatternOptions
+            'block_pattern_options' => $blockPatternOptions,
+            'block_patterns' => $blockPatterns
         ];
 
         if ($fontType != 'default')
