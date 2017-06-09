@@ -475,8 +475,10 @@ $(document).ready(function () {
             ub.funcs.initUniformSizesAndPrices();
 
             ub.displayDoneAt('Awesomess loading completed.');
+
             ub.afterLoadScripts();
             ub.errorCodes.prepareShortcuts();
+            ub.funcs.afterLoadChecks();
             
         };
 
@@ -565,58 +567,6 @@ $(document).ready(function () {
             }
 
         }
-
-        ub.funcs.initFonts = function (sport, option) {
-
-            ub.data.fonts = _.filter(ub.data.fonts, function (font) {
-
-                var sports = JSON.parse(font.sports);
-                var options = undefined;
-                var optionOK = true;
-
-                if (font.block_pattern_options !== null) {
-                    options = JSON.parse(font.block_pattern_options);    
-                    
-                    if (options !== '') {
-
-                        optionOK = _.contains(options, option);
-
-                        // console.log('With Option Detected: ' + options);
-                        // console.log('Result: ' );
-                        // console.log('Load?: ' + optionOK);
-
-                    }
-
-                }
-                
-                if (sports === null) {
-
-                    return true;
-
-                } else {
-
-                    if (sports[0] === "" || sports[0] === "All") {
-
-                        return true;
-
-                    } else { 
-
-                        var _result = _.contains(sports, sport);
-                        return _result && optionOK;
-
-                    }
-
-                }
-
-            });
-
-            _.each(ub.data.fonts, function (font) {
-
-                font.caption = font.alias;
-
-            });
-
-        };
 
         // Fix for returned ints, ub expects string
         ub.convertToString = function (obj) {
