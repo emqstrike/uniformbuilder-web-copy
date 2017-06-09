@@ -147,6 +147,7 @@ $(document).ready(function () {
 
         });
 
+        ub.funcs.drawColorPickers();
         ub.front_view.alpha = 1;
 
     }
@@ -516,7 +517,8 @@ $(document).ready(function () {
 
         if (typeof cancelColorPickerUpdate === "undefined") {
 
-            ub.funcs.drawColorPickers();
+            if (ub.data.afterLoadCalled) { ub.funcs.drawColorPickers(); }
+            
             ub.funcs.updatePatterns();
         
         }

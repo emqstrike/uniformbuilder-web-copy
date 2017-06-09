@@ -2260,6 +2260,7 @@ $(document).ready(function() {
             });
  
             if (sport === "volleyball") { return _result[0]; }
+            if (sport === "fastpitch") { return _result[0]; }
           
             if (typeof _object === "undefined") {
 
@@ -10498,6 +10499,83 @@ ub.funcs.fontOffSets = [
                 scale: {x: 0.53 ,y: 0.53 },
             },
 
+            // Cage Jackets
+
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 1,
+                scale: {x: 0.1 ,y: 0.1 },
+            },
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 2,
+                scale: {x: 0.2 ,y: 0.2 },
+            },
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 3,
+                scale: {x: 0.3 ,y: 0.3 },
+            },
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 4,
+                scale: {x: 0.4 ,y: 0.4 },
+            },
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 5,
+                scale: {x: 0.5 ,y: 0.5 },
+            },
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 6,
+                scale: {x: 0.6 ,y: 0.6 },
+            },
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 7,
+                scale: {x: 0.7 ,y: 0.7 },
+            },
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 8,
+                scale: {x: 0.8 ,y: 0.8 },
+            },
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 9,
+                scale: {x: 0.9 ,y: 0.9 },
+            },
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 10,
+                scale: {x: 1.00 ,y: 1.00 },
+            },
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 11,
+                scale: {x: 1.11 ,y: 1.11 },
+            },
+            {
+                sport: 'Baseball',
+                blockPattern: 'Cage Jacket',
+                size: 12,
+                scale: {x: 1.12 ,y: 1.12 },
+            },
+
+            // End Cage Jackets 
+
             // Tech-Tee
             {
                 sport: 'Tech-Tee (Apparel)',
@@ -11152,8 +11230,17 @@ ub.funcs.fontOffSets = [
 
             var _result = _.find(this.items, {sport: sport, size: size});
             
+            var _blockPattern = ub.current_material.material.block_pattern;
+            var _blockPatternOptions = ['Cage Jacket'];
+
+            if (sport === 'Baseball' && _.contains(_blockPatternOptions, _blockPattern)) {
+
+                _result = _.find(this.items, {sport: sport, size: size, blockPattern: _blockPattern});
+
+            }
+            
             if (typeof _result === "undefined") { 
-                
+
                 ub.utilities.warn('mascotSize for ' + sport + ' not found. Using default'); 
 
                 _result = _.find(this.items, {sport: 'Default', size: size });
@@ -12003,6 +12090,7 @@ ub.funcs.fontOffSets = [
             'Fan Replica Jersey (Apparel)',
             'Basketball (Apparel)',
             'Lacrosse',
+            'Fastpitch',
         ],
         options: [
             'Fight Short'
@@ -12146,6 +12234,10 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Lacrosse',
                 sublimatedPart: 'Extra',
+            }, 
+            {
+                sport: 'Fastpitch',
+                sublimatedPart: 'Body',
             }, 
 
             // 
