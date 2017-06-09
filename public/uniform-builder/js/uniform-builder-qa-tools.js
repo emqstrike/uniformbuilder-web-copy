@@ -295,6 +295,17 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.afterLoadChecks = function () {
+
+        if (ub.current_material.material.one_inch_in_px === "0.00" && 
+            ub.data.sportsMain.currentOk()) {
+
+            ub.utilities.errorWithCode(ub.errorCode.zeroOneInchInPX, '');
+
+        }
+
+    }
+
     ub.showFontGuides = function () {
 
         _.each (ub.views, function (view) {

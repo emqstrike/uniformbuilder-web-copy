@@ -8,9 +8,14 @@ $(document).ready(function() {
 
             console.log('');
             console.error('Error Code: ' + _errorCode.errorCode);
-            console.error(_errorCode.captionForInput + ': ' + input);
+
+            if (typeof _errorCode.captionForInput !== "undefined") { console.error(_errorCode.captionForInput + ': ' + input); }
+            
             console.error(_errorCode.message);
-            console.error('Example:', _errorCode.example);
+
+            if (typeof _errorCode.example !== "undefined") { console.error('Example:', _errorCode.example); }
+            
+            console.error('Solution: ', _errorCode.solutions);
             console.log('');
 
         }
@@ -23,11 +28,18 @@ $(document).ready(function() {
 
             {
                 errorCode: "namesDontMatch",
-                message: "Please check the name of the material option for correct casing.",
+                message: "Names of Material Option don't match (invalid case)",
                 example: "Right Arm trim when in other perspective it's Right Arm Trim",
-                solutions: "",
+                solutions: "Check the name of the material option for correct casing.",
                 captionForInput: "Material Option",
-            }
+            },
+            {
+                errorCode: "zeroOneInchInPX",
+                message: "One Inch In PX field is zero.",
+                example: undefined,
+                solutions: "Add a value to one_inch_in_px",
+                captionForInput: undefined,
+            },
 
         ],
         getCode: function (errorCode, input) {
@@ -50,9 +62,10 @@ $(document).ready(function() {
             _.each(this.items, function (item) {
 
                 ub.errorCode[item.errorCode] = item;
-                ub.utilities.info('Error Codes prepared.');
 
             });
+
+            ub.utilities.info('Error Codes prepared.');
 
             return true;
 
