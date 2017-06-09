@@ -662,13 +662,17 @@ $(document).ready(function(){
             }
         });
     }
-
+    var cond = false;
     console.log(window.block_patterns);
-    bindBPOS();
-    function bindBPOS(){
+    bindBPOS(cond);
+    function bindBPOS(cond){
         // $('.block-pattern-options').html('');
         // var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
-        var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
+        if( cond ){
+            var sports = $('.sports-val').val().split('"').join('');
+        }else {
+            var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
+        }
         var sports_arr = null;
         var block_pattern_options = [];
         console.log('[[SPORTS]]');
@@ -722,14 +726,18 @@ $(document).ready(function(){
 
     }
 
-    bindBPs();
-    function bindBPs(){
+    bindBPs(cond);
+    function bindBPs(cond){
         console.log('>>>>>>>>>>>>>>>>>>>> Bind Block Patterns');
-        var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
+        if( cond ){
+            var sports = $('.sports-val').val().split('"').join('');
+        }else {
+            var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
+        }
         var sports_arr = null;
         var block_patterns = [];
         // console.log('[[SPORTS]]');
-        // console.log(sports);
+        console.log(sports);
         if(sports != null){
             sports_arr = sports.split(",");
             // console.log(sports_arr);
@@ -1060,6 +1068,9 @@ $(document).ready(function(){
 
     $(".sports").change(function() {
         $('#sports_value').val($(this).val());
+        cond = true;
+        bindBPs(cond);
+        bindBPOS(cond);
     });
 
     $('.sports').select2('val', sports);
