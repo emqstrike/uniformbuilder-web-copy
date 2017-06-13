@@ -8823,13 +8823,12 @@ strong.hello {
 
 /* Left Side Toolbar */
 
-    div#left-side-toolbar {
+    div#left-side-toolbar, div#top-left-side-toolbar  {
 
         z-index: 1000;
         position: absolute;
         width: 115px;
         bottom: 115px;
-
 
         span.undo-btn, span.fullscreen-btn { display: none; }
 
@@ -8870,7 +8869,20 @@ strong.hello {
             color: #acacac;
 
         }
+
+        span.favorite-btn {
+
+            margin-bottom: 33px;
+
+        }
      
+    }
+
+    div#top-left-side-toolbar  {
+
+        
+        top: 115px;
+
     }
 
 /* End Left Side Toolbar */

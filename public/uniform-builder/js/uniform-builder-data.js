@@ -4114,6 +4114,13 @@ $(document).ready(function() {
                     tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 },
+                {
+                    code: '1-4 zip',
+                    name: '1-4 Zip Jacket (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
             ],
         },
         {
@@ -9451,10 +9458,22 @@ ub.funcs.fontOffSets = [
             sport: 'Cinch Sack (Apparel)',
             filters: ['All'],
         }, 
-       {
+        {
             sport: 'Volleyball',
             filters: ['All'],
         }, 
+        {
+            sport: 'Hoodie (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: '1-4 Zip Jacket (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Polo (Apparel)',
+            filters: ['All'],
+        },
 
     ];
 
@@ -12724,6 +12743,9 @@ ub.funcs.fontOffSets = [
             { sport: 'Tech-Tee (Apparel)' },
             { sport: 'Cinch Sack (Apparel)' },
             { sport: 'Volleyball' },
+            { sport: '1-4 Zip Jacket (Apparel)' },
+            { sport: 'Hoodie (Apparel)' },
+            { sport: 'Polo (Apparel)' },
 
         ],
 
@@ -12773,6 +12795,21 @@ ub.funcs.fontOffSets = [
                 sport: 'Cinch Sack (Apparel)',
                 type: 'upper',
                 upperLabel: 'Cinch Sack',
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                type: 'upper',
+                upperLabel: 'Hoodie',
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                type: 'upper',
+                upperLabel: '1-4 Zip Jacket',
+            },
+           {
+                sport: 'Polo (Apparel)',
+                type: 'upper',
+                upperLabel: 'Polo',
             },
             {
                 sport: 'Default', // Football
