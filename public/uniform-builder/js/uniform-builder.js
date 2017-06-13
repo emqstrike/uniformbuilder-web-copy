@@ -22,6 +22,9 @@ $(document).ready(function () {
             // Set Feature Flags
             ub.config.setFeatureFlags();
 
+            ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
+            ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callback);
+
             if (ub.config.material_id !== -1) {
 
                 ub.funcs.initCanvas();
@@ -484,9 +487,30 @@ $(document).ready(function () {
 
         };
 
+        ub.funcs.isAFavoriteItem = function (uniformID) {
+
+            var _result = _.find(ub.data.tagged_styles, {uniform_id: uniformID.toString()});
+
+            if (typeof _result !== "undefined") {
+
+                ub.config.favoriteID = _result.id;
+
+            }
+
+            return typeof  _result !== "undefined";
+
+        }
+
         ub.funcs.initMiscUIEvents = function () {
 
             var $favoriteBtn = $('span.favorite-btn');
+
+            if (ub.funcs.isAFavoriteItem(ub.current_material.material.id)) {
+
+                ub.utilities.info('This is a favorite item! [' + ub.config.favoriteID + ']');
+                ub.funcs.setFavoriteStatusOn();
+
+            }
 
             $favoriteBtn.unbind('click');
             $favoriteBtn.on('click', function (e) {
@@ -533,11 +557,8 @@ $(document).ready(function () {
 
                     $.smkAlert({text: 'Added [' + ub.config.uniform_name + '] To Favorites!', type:'warning', time: 3, marginTop: '80px'});
                    
-                    var _favString = ' <i class="fa fa-star" aria-hidden="true"></i><span class="toolbar-item-label">THIS IS A<br />FAVORITE!</span>';
+                    ub.funcs.setFavoriteStatusOn();
 
-                    $favoriteBtn.html(_favString);
-
-                    $favoriteBtn.addClass('added');
                     $favoriteBtn.fadeIn();
 
                 }
@@ -546,9 +567,55 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.setFavoriteStatusOn = function () {
+
+            var $favoriteBtn = $('span.favorite-btn');
+            var _favString = ' <i class="fa fa-star" aria-hidden="true"></i><span class="toolbar-item-label">THIS IS A<br />FAVORITE!</span>';
+
+            $favoriteBtn.html(_favString);
+            $favoriteBtn.addClass('added');
+
+        }
+
+        ub.funcs.setFavoriteStatusOff = function () {
+
+            var $favoriteBtn = $('span.favorite-btn');
+            var _favString = ' <i class="fa fa-star-o" aria-hidden="true"></i><span class="toolbar-item-label">ADD TO<br />FAVORITES!</span>';
+
+            $favoriteBtn.html(_favString);
+            $favoriteBtn.removeClass('added');
+
+        }
+
         ub.funcs.removeFromFavorites = function () {
 
-            console.log('Remove from favorites...');
+            var $favoriteBtn = $('span.favorite-btn');
+            $favoriteBtn.fadeOut();
+
+            var _postData = { "id": ub.config.favoriteID, }
+
+            var _url = ub.config.api_host + '/api/tagged_style/delete';
+
+            $.ajax({
+                        
+                url: _url,
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response) {
+
+                    $.smkAlert({text: 'Removed [' + ub.config.uniform_name + '] from Favorites!', type:'warning', time: 3, marginTop: '80px'});
+                   
+                    ub.funcs.setFavoriteStatusOff();
+
+                    $favoriteBtn.fadeIn();
+
+                }
+                        
+            });
 
         }
 
@@ -691,6 +758,7 @@ $(document).ready(function () {
                 'fonts',
                 'mascots',
                 'mascots_categories',
+                'tagged_styles',
                 'mascots_groups_categories',
                 // 'tailsweeps',
                 ];
@@ -743,6 +811,12 @@ $(document).ready(function () {
 
             }
 
+            if (object_name === 'tagged_styles') {
+
+                ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
+
+            }
+
             if (object_name === 'colors') {
 
                 ub.data.colors = _.filter(ub.data.colors, {active: "1"});
@@ -768,6 +842,7 @@ $(document).ready(function () {
                      typeof(ub.data.fonts) !== 'undefined' && 
                      typeof(ub.data.mascots) !== 'undefined' && 
                      typeof(ub.data.mascots_categories) !== 'undefined' &&
+                     typeof(ub.data.tagged_styles) !== 'undefined' &&
                      typeof(ub.data.mascots_groups_categories) !== 'undefined';
 
             if (ok) {
