@@ -50,12 +50,12 @@
             </div>
 
             <div id="top-left-side-toolbar">
-
+            <!-- 
                 <span class="toolbar-item favorite-btn">
                     <i class="fa fa-star-o" aria-hidden="true"></i>
                     <span class="toolbar-item-label">ADD TO<br />FAVORITES</span>
                 </span>    
-
+            -->
             </div>
 
             <div class="canvas-views" id="main_view">
