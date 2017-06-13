@@ -811,10 +811,14 @@ $(document).ready(function () {
 
             }
 
-            if (object_name === 'tagged_styles') {
+            if (typeof ub.user.id !== "undefined") {
 
-                ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
+                if (object_name === 'tagged_styles') {
 
+                    ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
+
+                }
+                
             }
 
             if (object_name === 'colors') {
@@ -6240,6 +6244,27 @@ $(document).ready(function () {
                         $(this).find('span.callForTeamPricing').html('');
 
                     }
+
+                    var _uid = $(this).data('id');
+
+
+                    if (typeof _uid !== "undefined") {
+
+                        _uid = _uid.toString();
+
+                    }
+                    console.log('uid: ', _uid)
+
+                    _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
+                    if (typeof _result !== "undefined") {
+
+                        console.log('found favorite: ' + _uid);
+
+                        $(this).find('div.favorite').show();
+
+                    }
+
+
 
                 })
 
