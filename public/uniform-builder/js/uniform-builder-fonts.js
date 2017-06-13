@@ -30,11 +30,14 @@ $(document).ready(function() {
         ub.data.fonts = _.filter(ub.data.fonts, function (font) {
 
             var sports = JSON.parse(font.sports);
+            
             var options = undefined;
             var optionOK = true;
+
+            var blockPatterns = undefined;
             var blockPatternOK = true;
 
-            if (font.block_pattern_options !== null) {
+            if (font.block_pattern_options !== null && font.block_pattern_options !== '""' ) {
 
                 options = JSON.parse(font.block_pattern_options);    
                 
@@ -50,7 +53,9 @@ $(document).ready(function() {
 
                 if (blockPattern !== '') {
 
-                    blockPatternOK = _.contains(font.block_patterns.split(','), blockPattern);
+                    blockPatterns = JSON.parse(font.block_patterns);
+                    blockPatterns = blockPatterns.split(',');
+                    blockPatternOK = _.contains(blockPatterns, blockPattern);
 
                 }
 
@@ -69,6 +74,7 @@ $(document).ready(function() {
                 } else { 
 
                     var _result = _.contains(sports, sport);
+
                     return _result && optionOK && blockPatternOK;
 
                 }
