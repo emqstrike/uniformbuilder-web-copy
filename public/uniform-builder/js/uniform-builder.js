@@ -388,6 +388,7 @@ $(document).ready(function () {
             ub.funcs.activatePartByIndex(0);
 
             $('div.left-pane-column-full').fadeIn();
+            $('span.favorite-btn').fadeIn();
             $('span.fullscreen-btn').fadeIn();
 
             if (_.contains(ub.fontGuideIDs, window.ub.valid)) {
@@ -6421,6 +6422,8 @@ $(document).ready(function () {
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'tech_tee');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'compression');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'cinch_sack');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', '1-4 zip');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'hoodie');
 
         } else {
 
@@ -6431,6 +6434,9 @@ $(document).ready(function () {
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'tech_tee');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'compression');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'cinch_sack');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', '1-4 zip');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'hoodie');
+
 
         }
 
