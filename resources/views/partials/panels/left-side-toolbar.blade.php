@@ -1,6 +1,11 @@
 <div id="left-side-toolbar">
 
     <span class="toolbar-item undo-btn">
+        <i class="fa fa-star-o" aria-hidden="true"></i>
+        <span class="toolbar-item-label">Favorite</span>
+    </span>    
+
+    <span class="toolbar-item undo-btn">
         <i class="fa fa-undo" aria-hidden="true"></i><br />
         <span class="toolbar-item-label">UNDO</span>
     </span>    
