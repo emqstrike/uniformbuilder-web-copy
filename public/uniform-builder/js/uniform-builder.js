@@ -6424,6 +6424,7 @@ $(document).ready(function () {
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'cinch_sack');
             ub.funcs.enableSport(ub.data.apparel, 'Men', '1-4 zip');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'hoodie');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'polo');
 
         } else {
 
@@ -6436,7 +6437,7 @@ $(document).ready(function () {
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'cinch_sack');
             ub.funcs.disableSport(ub.data.apparel, 'Men', '1-4 zip');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'hoodie');
-
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'polo');
 
         }
 

@@ -9470,6 +9470,10 @@ ub.funcs.fontOffSets = [
             sport: '1-4 Zip Jacket (Apparel)',
             filters: ['All'],
         },
+        {
+            sport: 'Polo (Apparel)',
+            filters: ['All'],
+        },
 
     ];
 
@@ -12741,6 +12745,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Volleyball' },
             { sport: '1-4 Zip Jacket (Apparel)' },
             { sport: 'Hoodie (Apparel)' },
+            { sport: 'Polo (Apparel)' },
 
         ],
 
@@ -12800,6 +12805,11 @@ ub.funcs.fontOffSets = [
                 sport: '1-4 Zip Jacket (Apparel)',
                 type: 'upper',
                 upperLabel: '1-4 Zip Jacket',
+            },
+           {
+                sport: 'Polo (Apparel)',
+                type: 'upper',
+                upperLabel: 'Polo',
             },
             {
                 sport: 'Default', // Football
