@@ -474,14 +474,83 @@ $(document).ready(function () {
             }
 
             ub.funcs.initUniformSizesAndPrices();
+            ub.funcs.initMiscUIEvents();
 
             ub.displayDoneAt('Awesomess loading completed.');
 
             ub.afterLoadScripts();
             ub.errorCodes.prepareShortcuts();
             ub.funcs.afterLoadChecks();
-            
+
         };
+
+        ub.funcs.initMiscUIEvents = function () {
+
+            var $favoriteBtn = $('span.favorite-btn');
+
+            $favoriteBtn.unbind('click');
+            $favoriteBtn.on('click', function (e) {
+
+                if ($favoriteBtn.hasClass('added')) {
+
+                    ub.funcs.removeFromFavorites();    
+
+                } else {
+                
+                    ub.funcs.addToFavorites();    
+                
+                }
+                
+            });
+
+        }
+
+        ub.funcs.addToFavorites = function () {
+
+             var $favoriteBtn = $('span.favorite-btn');
+             $favoriteBtn.fadeOut();
+
+             var _postData = {
+
+                "uniform_id": ub.config.material_id.toString(),
+                "type": 'stock',
+                "tags": 'favorites',
+
+            }
+
+            var _url = ub.config.api_host + '/api/tagged_style';
+
+            $.ajax({
+                        
+                url: _url,
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response) {
+
+                    $.smkAlert({text: 'Added [' + ub.config.uniform_name + '] To Favorites!', type:'warning', time: 3, marginTop: '80px'});
+                   
+                    var _favString = ' <i class="fa fa-star" aria-hidden="true"></i><span class="toolbar-item-label">THIS IS A<br />FAVORITE!</span>';
+
+                    $favoriteBtn.html(_favString);
+
+                    $favoriteBtn.addClass('added');
+                    $favoriteBtn.fadeIn();
+
+                }
+                        
+            });
+
+        }
+
+        ub.funcs.removeFromFavorites = function () {
+
+            console.log('Remove from favorites...');
+
+        }
 
         ub.funcs.loadOtherFonts = function () {
 

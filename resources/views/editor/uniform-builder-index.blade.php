@@ -49,18 +49,18 @@
                 <button id="button-return-to-customizer">Return to Customizer</button>
             </div>
 
-            <div id="top-left-side-toolbar">
+            <!-- 
 
-                <!-- 
+            <div id="top-left-side-toolbar">
 
                 <span class="toolbar-item favorite-btn">
                     <i class="fa fa-star-o" aria-hidden="true"></i>
-                    <span class="toolbar-item-label">FAVORITE</span>
+                    <span class="toolbar-item-label">ADD TO<br />FAVORITE</span>
                 </span>    
 
-                -->
-
             </div>
+
+            -->
 
             <div class="canvas-views" id="main_view">
             </div>

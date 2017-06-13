@@ -12111,12 +12111,16 @@ ub.funcs.fontOffSets = [
             'Lacrosse',
         ],
         options: [
-            'Fight Short'
+            'Fight Short',
         ],
+        blockPatterns: [
+            'Cage Jacket',
+        ],
+
 
         currentOk: function () {
 
-            return _.contains(this.items, ub.current_material.material.uniform_category) || _.contains(this.options, ub.current_material.material.neck_option);
+            return _.contains(this.items, ub.current_material.material.uniform_category) || _.contains(this.options, ub.current_material.material.neck_option) || _.contains(this.blockPatterns, ub.current_material.material.block_pattern);
 
         }
 
