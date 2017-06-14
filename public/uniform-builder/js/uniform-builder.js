@@ -826,12 +826,8 @@ $(document).ready(function () {
 
                     ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
 
-                }
+                } 
                 
-            } else {
-
-                ub.data.tagged_styles = {};
-
             }
 
             if (object_name === 'colors') {

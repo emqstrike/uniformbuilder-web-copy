@@ -188,6 +188,7 @@ $(document).ready(function() {
     ub.data.colors                  = {};
     ub.data.fonts                   = undefined;
     ub.data.pipings                 = undefined;
+    ub.data.tagged_styles           = {};
 
     ub.data.backTabLayer            = -100;
     ub.data.prolookLayer            = -100; 
