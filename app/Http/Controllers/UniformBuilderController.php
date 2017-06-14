@@ -409,7 +409,7 @@ class UniformBuilderController extends Controller
 
     private function getS3PathDecodedImageResized($base64string $width, $height)
     {
-        $path = FileUtility::saveBase64ImageResized($base64string $width, $height);
+        $path = FileUtility::saveBase64ImageResized($base64string, $width, $height);
         $s3path = S3Uploader::uploadToS3($path);
         return $s3path;
     }
