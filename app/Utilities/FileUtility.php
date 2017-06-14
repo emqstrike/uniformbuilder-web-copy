@@ -37,6 +37,31 @@ class FileUtility
         return $filePath;
     }
 
+    public static function saveBase64ImageResized($data, $width, $height)
+    {
+        // This lines extracts the base64 encoded data from the string
+        list($type, $data) = explode(';', $data);
+        list($tmp, $data) = explode(',', $data);
+
+        $filePath = '/tmp/' . Random::randomize(16) . '.png';
+
+        try
+        {
+            $image = Image::make(base64_decode($data))->resize($width, $height);
+        }
+        catch (Exception $e)
+        {
+            return false;
+        }
+
+        if (file_put_contents($filePath, $image) === false)
+        {
+            return false;
+        }
+
+        return $filePath;
+    }
+
     public static function resizeImage($image, $filename, $size = 40)
     {
         // General variables

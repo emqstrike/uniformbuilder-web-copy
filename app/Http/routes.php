@@ -60,6 +60,7 @@ Route::post('generateOrderForm', 'UniformBuilderController@generateOrderForm');
 
 // Save Logo 
 Route::post('saveLogo', 'UniformBuilderController@saveLogo');
+Route::post('saveImageResized', 'UniformBuilderController@saveImageResized');
 
 // help Routes
 Route::group(array('prefix' => 'help'), function() {

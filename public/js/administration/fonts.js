@@ -583,9 +583,8 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.multiple-delete-font', function() {
-     
+
         modalConfirm('Remove font', 'Are you sure you want to delete the fonts?', multipleRemove);
- 
 
     });
     $(document).on('click', '#filterSports button', function() {
@@ -599,7 +598,6 @@ $(document).ready(function(){
                  $(this).parent("tr").fadeIn( "slow" );
                 }
             // $(this).find(":contains("+ Sports +")").parent("tr").show();
-
         });
     });
 

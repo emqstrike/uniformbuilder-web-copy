@@ -56,6 +56,8 @@ class FontsController extends Controller
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
         $font->block_pattern_options = str_replace('"', "", $font->block_pattern_options);
+        $font->block_patterns = str_replace('"', "", $font->block_patterns);
+        // dd($font->block_pattern_options);
         return view('administration.fonts.font-edit', [
             'fonts' => $fonts,
             'font' => $font,
@@ -93,6 +95,14 @@ class FontsController extends Controller
         $userID = $request->input('user_id');
         
         $myJson = json_decode($fontProperties, true);
+
+        if( $blockPatternOptions != '' ){
+            $blockPatternOptions = null;
+        }
+
+        if( $blockPatterns != '' ){
+            $blockPatterns = null;
+        }
 
         $fontId = null;
         if (!empty($request->input('font_id')))
