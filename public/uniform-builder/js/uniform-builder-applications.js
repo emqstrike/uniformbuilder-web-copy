@@ -2252,8 +2252,13 @@ $(document).ready(function() {
 
                             var _parentSize             =  parseInt(_app1.font_size);
                             var _applicationNumber      = '26'
-                            var _originalPosition       = _app26['originalPosition_' + _view];
 
+                            var _originalPosition 
+
+                            if (typeof _app26 !== "undefined") {
+                                _originalPosition       = _app26['originalPosition_' + _view];
+                            }
+                            
                             if (_currentSport === "Baseball" || _currentSport === "Fastpitch") {
 
                                 var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
@@ -11110,7 +11115,7 @@ $(document).ready(function() {
 
         });
 
-        if (!ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category)) {
+        if (!ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) ) {
 
             $('span.add-application').addClass('inactive');
             $('em.dragMessage').remove();
@@ -11722,6 +11727,8 @@ $(document).ready(function() {
     }
 
     ub.funcs.getBoundarySettings = function (perspective, materialOption) {
+
+
 
         var _result =  _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: materialOption.toTitleCase()});
         return _result;
