@@ -22,6 +22,9 @@ $(document).ready(function () {
             // Set Feature Flags
             ub.config.setFeatureFlags();
 
+            ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
+            ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callback);
+
             if (ub.config.material_id !== -1) {
 
                 ub.funcs.initCanvas();
@@ -67,9 +70,6 @@ $(document).ready(function () {
             }
 
             if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
-
-                ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
-                ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callback);
 
                 ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);
@@ -502,9 +502,13 @@ $(document).ready(function () {
 
         ub.funcs.initMiscUIEvents = function () {
 
+            $('span.undo-btn').fadeIn();
+
             if (typeof ub.user.id !== 'undefined') {
 
                 $('span.favorite-btn').fadeIn();
+                $('hr.left-side-divider').fadeIn();
+                // $('hr.left-side-divider.middle').hide();
 
                 var $favoriteBtn = $('span.favorite-btn');
 
@@ -533,6 +537,8 @@ $(document).ready(function () {
             } else {
 
                 $('span.favorite-btn').hide();
+                $('hr.left-side-divider.bottom').fadeIn();
+                $('hr.left-side-divider.middle').fadeIn();
 
             }
 
@@ -579,7 +585,7 @@ $(document).ready(function () {
         ub.funcs.setFavoriteStatusOn = function () {
 
             var $favoriteBtn = $('span.favorite-btn');
-            var _favString = ' <i class="fa fa-star" aria-hidden="true"></i><span class="toolbar-item-label">THIS IS A<br />FAVORITE!</span>';
+            var _favString = ' <i class="fa fa-star" aria-hidden="true"></i><span class="toolbar-item-label">FAVORITE!</span>';
 
             $favoriteBtn.html(_favString);
             $favoriteBtn.addClass('added');
@@ -5939,7 +5945,7 @@ $(document).ready(function () {
             (item.type === 'upper') ? _weight += 100 : _weight += 200;
 
             // Blank styles goes to the bottom ...
-            if (parseInt(item.isBlank) === 1) { _weight += 300; }
+            if (parseInt(item.is_blank) === 1) { _weight += 1000; } 
 
             return _weight;
 
@@ -6547,7 +6553,7 @@ $(document).ready(function () {
         $('.main_viewport').hide();
 
         $('div#main-row').hide();
-        $('span.undo-btn').hide();
+        // $('span.undo-btn').hide();
         $('div.special_modifiers').hide();
         $('div#main-picker-container').show();
 
