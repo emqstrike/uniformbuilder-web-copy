@@ -313,7 +313,7 @@ $(document).ready(function () {
             if (typeof ub.objects[view + '_view']['guide'] === "object") {
 
                 ub.objects[view + '_view']['guide'].alpha = 1;
-                ub.objects[view + '_view']['guide'].zIndex = -1000;
+                ub.objects[view + '_view']['guide'].zIndex = -170;
 
             }
 
