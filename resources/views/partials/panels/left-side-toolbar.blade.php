@@ -1,16 +1,14 @@
 <div id="left-side-toolbar">
 
-    <hr class="left-side-divider middle middle-top" />
     <hr class="left-side-divider middle middle-bottom" />
 
     <span class="toolbar-item favorite-btn">
         <i class="fa fa-star-o" aria-hidden="true"></i>
-        <span class="toolbar-item-label">ADD TO<br />FAVORITES</span>
+        <span class="toolbar-item-label">FAVORITE</span>
     </span>    
     
     <br />
 
-    <hr class="left-side-divider middle middle-top" />
     <hr class="left-side-divider middle middle-bottom" />
 
     <span class="toolbar-item fullscreen-btn">
@@ -25,7 +23,6 @@
         <span class="toolbar-item-label">UNDO</span>
     </span>
 
-    <hr class="left-side-divider middle middle-top" />
     <hr class="left-side-divider middle middle-bottom" />
 
 </div>
