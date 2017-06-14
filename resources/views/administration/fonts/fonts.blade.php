@@ -61,7 +61,8 @@
                             <th>Script</th>
                             <th>Block Font</th>
                             <th>Sports</th>  
-                            <th>Sample</th>
+                            <th>Block Patterns</th>
+                            <th>Options</th>
                             <th>Active Status</th>
                             <th>Last Updated</th>
                             <th>Actions</th>
@@ -76,7 +77,7 @@
                                 {{ $font->id }}
                             </td>
 
-                             <td>
+                            <td>
                                 <div class="checkbox">
                                   <input type="checkbox" id="multipleDelete" name="remove[]" data-font-id="{{ $font->id }}" value="">
                                 </div>
@@ -117,9 +118,10 @@
                                 {{ $font->sports }}
                             </td>
                             <td>
-                                <span style="font-family: '{{ $font->name }}'; font-size: 30px;">
-                                    {{ env('WEBSITE_NAME') }}
-                                </span>
+                                {{ $font->block_patterns }}
+                            </td>
+                            <td>
+                                {{ $font->block_pattern_options }}
                             </td>
                             <td>
                                 <a href="#" class="btn btn-default btn-xs disable-font" data-font-id="{{ $font->id }}" role="button" {{ ($font->active) ? : 'disabled="disabled"' }}>

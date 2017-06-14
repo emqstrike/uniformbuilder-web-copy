@@ -386,9 +386,30 @@ class UniformBuilderController extends Controller
 
     }
 
+    public function saveImageResized(Request $request){
+
+        $r = $request->all();
+        $dataUrl = $r['dataUrl'];
+        // $height = $r['height'];
+        // $width = $r['width'];
+        $height = 420;
+        $width = 388;
+
+        $fname = $this->getS3PathDecodedImageResized($dataUrl, $width, $height);
+        return response()->json([ 'success' => true, 'filename' => $fname ]);
+
+    }
+
     private function getS3PathDecodedImage($base64string)
     {
         $path = FileUtility::saveBase64Image($base64string);
+        $s3path = S3Uploader::uploadToS3($path);
+        return $s3path;
+    }
+
+    private function getS3PathDecodedImageResized($base64string $width, $height)
+    {
+        $path = FileUtility::saveBase64ImageResized($base64string $width, $height);
         $s3path = S3Uploader::uploadToS3($path);
         return $s3path;
     }

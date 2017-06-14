@@ -670,7 +670,7 @@ $(document).ready(function(){
         // var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
         if( cond ){
             var sports = $('.sports-val').val().split('"').join('');
-        }else {
+        } else {
             var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
         }
         var sports_arr = null;
@@ -760,7 +760,7 @@ $(document).ready(function(){
 
     if($('#block_patterns_value').val()){
         // var bpos = JSON.parse($('#block_patterns').val());
-        var x = ($('#block_patterns_value').val().slice(1, -1)).split(",");
+        var x = $('#block_patterns_value').val().split(",");
         console.log('[[BLOCK PATTERNS]]');
         console.log(x);
         var bps = x;
@@ -1078,7 +1078,7 @@ $(document).ready(function(){
     $(document).on('change', 'input, select', function() {
         var newLength = $('.layers-row').length;
         renumberRows(newLength);
-    });
+    });''
 
     $( "tbody" ).disableSelection();
     $( "tbody.sortable-rows" ).sortable({
