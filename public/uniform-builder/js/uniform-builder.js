@@ -22,9 +22,6 @@ $(document).ready(function () {
             // Set Feature Flags
             ub.config.setFeatureFlags();
 
-            ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
-            ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callback);
-
             if (ub.config.material_id !== -1) {
 
                 ub.funcs.initCanvas();
@@ -70,6 +67,9 @@ $(document).ready(function () {
             }
 
             if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
+
+                ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
+                ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callback);
 
                 ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);
@@ -391,7 +391,6 @@ $(document).ready(function () {
             ub.funcs.activatePartByIndex(0);
 
             $('div.left-pane-column-full').fadeIn();
-            $('span.favorite-btn').fadeIn();
             $('span.fullscreen-btn').fadeIn();
 
             if (_.contains(ub.fontGuideIDs, window.ub.valid)) {
@@ -503,29 +502,39 @@ $(document).ready(function () {
 
         ub.funcs.initMiscUIEvents = function () {
 
-            var $favoriteBtn = $('span.favorite-btn');
+            if (typeof ub.user.id !== 'undefined') {
 
-            if (ub.funcs.isAFavoriteItem(ub.current_material.material.id)) {
+                $('span.favorite-btn').fadeIn();
 
-                ub.utilities.info('This is a favorite item! [' + ub.config.favoriteID + ']');
-                ub.funcs.setFavoriteStatusOn();
+                var $favoriteBtn = $('span.favorite-btn');
+
+                if (ub.funcs.isAFavoriteItem(ub.current_material.material.id)) {
+
+                    ub.utilities.info('This is a favorite item! [' + ub.config.favoriteID + ']');
+                    ub.funcs.setFavoriteStatusOn();
+
+                }
+
+                $favoriteBtn.unbind('click');
+                $favoriteBtn.on('click', function (e) {
+
+                    if ($favoriteBtn.hasClass('added')) {
+
+                        ub.funcs.removeFromFavorites();    
+
+                    } else {
+                    
+                        ub.funcs.addToFavorites();    
+                    
+                    }
+                    
+                });
+
+            } else {
+
+                $('span.favorite-btn').hide();
 
             }
-
-            $favoriteBtn.unbind('click');
-            $favoriteBtn.on('click', function (e) {
-
-                if ($favoriteBtn.hasClass('added')) {
-
-                    ub.funcs.removeFromFavorites();    
-
-                } else {
-                
-                    ub.funcs.addToFavorites();    
-                
-                }
-                
-            });
 
         }
 
@@ -819,6 +828,10 @@ $(document).ready(function () {
 
                 }
                 
+            } else {
+
+                ub.data.tagged_styles = {};
+
             }
 
             if (object_name === 'colors') {
@@ -6245,26 +6258,26 @@ $(document).ready(function () {
 
                     }
 
-                    var _uid = $(this).data('id');
+
+                    if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
 
-                    if (typeof _uid !== "undefined") {
+                        var _uid = $(this).data('id');
 
-                        _uid = _uid.toString();
 
+                        if (typeof _uid !== "undefined") {
+
+                            _uid = _uid.toString();
+
+                        }
+
+                        _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
+                        if (typeof _result !== "undefined") {
+
+                            $(this).find('div.favorite').show();
+
+                        }
                     }
-                    console.log('uid: ', _uid)
-
-                    _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
-                    if (typeof _result !== "undefined") {
-
-                        console.log('found favorite: ' + _uid);
-
-                        $(this).find('div.favorite').show();
-
-                    }
-
-
 
                 })
 
