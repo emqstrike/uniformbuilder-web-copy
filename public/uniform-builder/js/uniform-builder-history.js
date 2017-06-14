@@ -202,9 +202,9 @@ $(document).ready(function () {
 
         var _size = _.size(ub.data.undoHistory);
 
-        if (_size === 0) { 
+        if (_size === 0) {
             $('span.undo-btn').hide();
-            return; 
+            return;
         }
 
     }

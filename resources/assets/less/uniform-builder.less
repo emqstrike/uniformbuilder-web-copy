@@ -2584,9 +2584,23 @@ div.quarternary-bar  {
             margin-left: 25px;
             margin-top: 30px;
 
+            div.favorite { 
+                position: absolute;
+                font-size: 0.9em;
+                background-color: #000;
+                color: white;
+                padding: 7px;
+                width: 100%;
+                text-align: center;
+                z-index: 1;
+                margin-top: -210px;
+                display: none;
+             }
+
             img {
                 height: 370px;
                 margin-bottom: 30px;
+                z-index: 2;
             }
 
             span.main-picker-item-caption {
@@ -8823,13 +8837,12 @@ strong.hello {
 
 /* Left Side Toolbar */
 
-    div#left-side-toolbar {
+    div#left-side-toolbar, div#top-left-side-toolbar  {
 
         z-index: 1000;
         position: absolute;
         width: 115px;
         bottom: 115px;
-
 
         span.undo-btn, span.fullscreen-btn { display: none; }
 
@@ -8870,7 +8883,31 @@ strong.hello {
             color: #acacac;
 
         }
+
+        span.favorite-btn {
+
+            margin-bottom: 33px;
+
+        }
      
+    }
+
+    div#top-left-side-toolbar  {
+        
+        top: 170px;
+
+        span.toolbar-item {
+
+            color: #1d1d1d;  
+
+        }
+
+        span.added {
+
+            color: white;
+
+        }
+
     }
 
 /* End Left Side Toolbar */

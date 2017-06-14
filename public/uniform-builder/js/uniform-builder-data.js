@@ -188,6 +188,7 @@ $(document).ready(function() {
     ub.data.colors                  = {};
     ub.data.fonts                   = undefined;
     ub.data.pipings                 = undefined;
+    ub.data.tagged_styles           = {};
 
     ub.data.backTabLayer            = -100;
     ub.data.prolookLayer            = -100; 
@@ -4110,6 +4111,13 @@ $(document).ready(function() {
                 {
                     code: 'tech_tee',
                     name: 'Tech-Tee (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: '1-4 zip',
+                    name: '1-4 Zip Jacket (Apparel)',
                     active: "1",
                     tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
@@ -9451,10 +9459,22 @@ ub.funcs.fontOffSets = [
             sport: 'Cinch Sack (Apparel)',
             filters: ['All'],
         }, 
-       {
+        {
             sport: 'Volleyball',
             filters: ['All'],
         }, 
+        {
+            sport: 'Hoodie (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: '1-4 Zip Jacket (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Polo (Apparel)',
+            filters: ['All'],
+        },
 
     ];
 
@@ -12071,7 +12091,7 @@ ub.funcs.fontOffSets = [
 
     }
 
-    // Sports using the new Font Metrics 
+    // Sports using the new Font Metrics (one_inch_in_px)
     ub.data.sportsMain = {
 
         items: [
@@ -12090,15 +12110,18 @@ ub.funcs.fontOffSets = [
             'Fan Replica Jersey (Apparel)',
             'Basketball (Apparel)',
             'Lacrosse',
-            'Fastpitch',
         ],
         options: [
-            'Fight Short'
+            'Fight Short',
         ],
+        blockPatterns: [
+            'Cage Jacket',
+        ],
+
 
         currentOk: function () {
 
-            return _.contains(this.items, ub.current_material.material.uniform_category) || _.contains(this.options, ub.current_material.material.neck_option);
+            return _.contains(this.items, ub.current_material.material.uniform_category) || _.contains(this.options, ub.current_material.material.neck_option) || _.contains(this.blockPatterns, ub.current_material.material.block_pattern);
 
         }
 
@@ -12258,7 +12281,7 @@ ub.funcs.fontOffSets = [
 
             }
 
-            if (sport === "Baseball") {
+            if (sport === "Baseball" || sport === "Fastpitch") {
 
                 // Disable free-form tool on football if block pattern is not infused 14
                 if (ub.current_material.material.uniform_application_type !== "sublimated") {
@@ -12287,14 +12310,12 @@ ub.funcs.fontOffSets = [
 
             }
 
-            if (sport === "Baseball") {
+            if (sport === "Baseball" || sport === "Fastpitch") {
 
                 // Disable free-form tool on football if block pattern is not infused 14
                 if (ub.current_material.material.uniform_application_type !== "sublimated") {
 
                     _result = undefined;
-
-
 
                 }
 
@@ -12308,7 +12329,7 @@ ub.funcs.fontOffSets = [
 
     ub.data.hiddenBody = {
 
-        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "1-4 Zip Jacket (Apparel)", "Fan Replica Jersey (Apparel)"],
+        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "1-4 Zip Jacket (Apparel)", "Fan Replica Jersey (Apparel)", 'Soccer'],
         options: [
                 {
                     sport: 'Wrestling',
@@ -12398,6 +12419,10 @@ ub.funcs.fontOffSets = [
                 {
                     sport: 'Soccer',
                     option: "Short (W)",
+                },
+                {
+                    sport: 'Soccer',
+                    option: "Goalie (W)",
                 },
         ],
         currentUniformOk: function () {
@@ -12723,6 +12748,9 @@ ub.funcs.fontOffSets = [
             { sport: 'Tech-Tee (Apparel)' },
             { sport: 'Cinch Sack (Apparel)' },
             { sport: 'Volleyball' },
+            { sport: '1-4 Zip Jacket (Apparel)' },
+            { sport: 'Hoodie (Apparel)' },
+            { sport: 'Polo (Apparel)' },
 
         ],
 
@@ -12772,6 +12800,21 @@ ub.funcs.fontOffSets = [
                 sport: 'Cinch Sack (Apparel)',
                 type: 'upper',
                 upperLabel: 'Cinch Sack',
+            },
+            {
+                sport: 'Hoodie (Apparel)',
+                type: 'upper',
+                upperLabel: 'Hoodie',
+            },
+            {
+                sport: '1-4 Zip Jacket (Apparel)',
+                type: 'upper',
+                upperLabel: '1-4 Zip Jacket',
+            },
+           {
+                sport: 'Polo (Apparel)',
+                type: 'upper',
+                upperLabel: 'Polo',
             },
             {
                 sport: 'Default', // Football

@@ -68,6 +68,9 @@ $(document).ready(function () {
 
             if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
+                ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
+                ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callback);
+
                 ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);
 
@@ -473,12 +476,157 @@ $(document).ready(function () {
             }
 
             ub.funcs.initUniformSizesAndPrices();
+            ub.funcs.initMiscUIEvents();
 
             ub.displayDoneAt('Awesomess loading completed.');
+
             ub.afterLoadScripts();
             ub.errorCodes.prepareShortcuts();
-            
+            ub.funcs.afterLoadChecks();
+
         };
+
+        ub.funcs.isAFavoriteItem = function (uniformID) {
+
+            var _result = _.find(ub.data.tagged_styles, {uniform_id: uniformID.toString()});
+
+            if (typeof _result !== "undefined") {
+
+                ub.config.favoriteID = _result.id;
+
+            }
+
+            return typeof  _result !== "undefined";
+
+        }
+
+        ub.funcs.initMiscUIEvents = function () {
+
+            if (typeof ub.user.id !== 'undefined') {
+
+                $('span.favorite-btn').fadeIn();
+
+                var $favoriteBtn = $('span.favorite-btn');
+
+                if (ub.funcs.isAFavoriteItem(ub.current_material.material.id)) {
+
+                    ub.utilities.info('This is a favorite item! [' + ub.config.favoriteID + ']');
+                    ub.funcs.setFavoriteStatusOn();
+
+                }
+
+                $favoriteBtn.unbind('click');
+                $favoriteBtn.on('click', function (e) {
+
+                    if ($favoriteBtn.hasClass('added')) {
+
+                        ub.funcs.removeFromFavorites();    
+
+                    } else {
+                    
+                        ub.funcs.addToFavorites();    
+                    
+                    }
+                    
+                });
+
+            } else {
+
+                $('span.favorite-btn').hide();
+
+            }
+
+        }
+
+        ub.funcs.addToFavorites = function () {
+
+             var $favoriteBtn = $('span.favorite-btn');
+             $favoriteBtn.fadeOut();
+
+             var _postData = {
+
+                "uniform_id": ub.config.material_id.toString(),
+                "type": 'stock',
+                "tags": 'favorites',
+
+            }
+
+            var _url = ub.config.api_host + '/api/tagged_style';
+
+            $.ajax({
+                        
+                url: _url,
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response) {
+
+                    $.smkAlert({text: 'Added [' + ub.config.uniform_name + '] To Favorites!', type:'warning', time: 3, marginTop: '80px'});
+                   
+                    ub.funcs.setFavoriteStatusOn();
+
+                    $favoriteBtn.fadeIn();
+
+                }
+                        
+            });
+
+        }
+
+        ub.funcs.setFavoriteStatusOn = function () {
+
+            var $favoriteBtn = $('span.favorite-btn');
+            var _favString = ' <i class="fa fa-star" aria-hidden="true"></i><span class="toolbar-item-label">THIS IS A<br />FAVORITE!</span>';
+
+            $favoriteBtn.html(_favString);
+            $favoriteBtn.addClass('added');
+
+        }
+
+        ub.funcs.setFavoriteStatusOff = function () {
+
+            var $favoriteBtn = $('span.favorite-btn');
+            var _favString = ' <i class="fa fa-star-o" aria-hidden="true"></i><span class="toolbar-item-label">ADD TO<br />FAVORITES!</span>';
+
+            $favoriteBtn.html(_favString);
+            $favoriteBtn.removeClass('added');
+
+        }
+
+        ub.funcs.removeFromFavorites = function () {
+
+            var $favoriteBtn = $('span.favorite-btn');
+            $favoriteBtn.fadeOut();
+
+            var _postData = { "id": ub.config.favoriteID, }
+
+            var _url = ub.config.api_host + '/api/tagged_style/delete';
+
+            $.ajax({
+                        
+                url: _url,
+                type: "POST", 
+                data: JSON.stringify(_postData),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                success: function (response) {
+
+                    $.smkAlert({text: 'Removed [' + ub.config.uniform_name + '] from Favorites!', type:'warning', time: 3, marginTop: '80px'});
+                   
+                    ub.funcs.setFavoriteStatusOff();
+
+                    $favoriteBtn.fadeIn();
+
+                }
+                        
+            });
+
+        }
 
         ub.funcs.loadOtherFonts = function () {
 
@@ -566,58 +714,6 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.initFonts = function (sport, option) {
-
-            ub.data.fonts = _.filter(ub.data.fonts, function (font) {
-
-                var sports = JSON.parse(font.sports);
-                var options = undefined;
-                var optionOK = true;
-
-                if (font.block_pattern_options !== null) {
-                    options = JSON.parse(font.block_pattern_options);    
-                    
-                    if (options !== '') {
-
-                        optionOK = _.contains(options, option);
-
-                        // console.log('With Option Detected: ' + options);
-                        // console.log('Result: ' );
-                        // console.log('Load?: ' + optionOK);
-
-                    }
-
-                }
-                
-                if (sports === null) {
-
-                    return true;
-
-                } else {
-
-                    if (sports[0] === "" || sports[0] === "All") {
-
-                        return true;
-
-                    } else { 
-
-                        var _result = _.contains(sports, sport);
-                        return _result && optionOK;
-
-                    }
-
-                }
-
-            });
-
-            _.each(ub.data.fonts, function (font) {
-
-                font.caption = font.alias;
-
-            });
-
-        };
-
         // Fix for returned ints, ub expects string
         ub.convertToString = function (obj) {
 
@@ -671,6 +767,7 @@ $(document).ready(function () {
                 'fonts',
                 'mascots',
                 'mascots_categories',
+                'tagged_styles',
                 'mascots_groups_categories',
                 // 'tailsweeps',
                 ];
@@ -723,6 +820,16 @@ $(document).ready(function () {
 
             }
 
+            if (typeof ub.user.id !== "undefined") {
+
+                if (object_name === 'tagged_styles') {
+
+                    ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
+
+                } 
+                
+            }
+
             if (object_name === 'colors') {
 
                 ub.data.colors = _.filter(ub.data.colors, {active: "1"});
@@ -748,6 +855,7 @@ $(document).ready(function () {
                      typeof(ub.data.fonts) !== 'undefined' && 
                      typeof(ub.data.mascots) !== 'undefined' && 
                      typeof(ub.data.mascots_categories) !== 'undefined' &&
+                     typeof(ub.data.tagged_styles) !== 'undefined' &&
                      typeof(ub.data.mascots_groups_categories) !== 'undefined';
 
             if (ok) {
@@ -6146,6 +6254,27 @@ $(document).ready(function () {
 
                     }
 
+
+                    if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
+
+
+                        var _uid = $(this).data('id');
+
+
+                        if (typeof _uid !== "undefined") {
+
+                            _uid = _uid.toString();
+
+                        }
+
+                        _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
+                        if (typeof _result !== "undefined") {
+
+                            $(this).find('div.favorite').show();
+
+                        }
+                    }
+
                 })
 
             );
@@ -6471,6 +6600,9 @@ $(document).ready(function () {
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'tech_tee');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'compression');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'cinch_sack');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', '1-4 zip');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'hoodie');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'polo');
 
         } else {
 
@@ -6481,6 +6613,9 @@ $(document).ready(function () {
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'tech_tee');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'compression');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'cinch_sack');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', '1-4 zip');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'hoodie');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'polo');
 
         }
 

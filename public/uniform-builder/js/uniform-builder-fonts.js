@@ -25,9 +25,75 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.initFonts = function (sport, option, blockPattern) {
+
+        ub.data.fonts = _.filter(ub.data.fonts, function (font) {
+
+            var sports = JSON.parse(font.sports);
+            
+            var options = undefined;
+            var optionOK = true;
+
+            var blockPatterns = undefined;
+            var blockPatternOK = true;
+
+            if (font.block_pattern_options !== null && font.block_pattern_options !== '""' ) {
+
+                options = JSON.parse(font.block_pattern_options);    
+                
+                if (options !== '') {
+
+                    optionOK = _.contains(options, option);
+
+                }
+
+            }
+
+            if (font.block_patterns !== null) {
+
+                if (blockPattern !== '') {
+
+                    blockPatterns = JSON.parse(font.block_patterns);
+                    blockPatterns = blockPatterns.split(',');
+                    blockPatternOK = _.contains(blockPatterns, blockPattern);
+
+                }
+
+            }
+
+            if (sports === null) {
+
+                return true;
+
+            } else {
+
+                if (sports[0] === "" || sports[0] === "All") {
+
+                    return true;
+
+                } else { 
+
+                    var _result = _.contains(sports, sport);
+
+                    return _result && optionOK && blockPatternOK;
+
+                }
+
+            }
+
+        });
+
+        _.each(ub.data.fonts, function (font) {
+
+            font.caption = font.alias;
+
+        });
+
+    };
+
     ub.funcs.processFonts = function () {
 
-        ub.funcs.initFonts(ub.config.sport, ub.config.option);
+        ub.funcs.initFonts(ub.config.sport, ub.config.option, ub.config.blockPattern);
 
         ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
         ub.data.fonts = _.sortBy(ub.data.fonts, "name");
@@ -184,11 +250,8 @@ $(document).ready(function() {
 
             ub.utilities.info('');
             ub.utilities.info('No font size record found for location ' + location.toString() + ', size: ' + fontSize + ', perspective ' + perspective);
-            
-            console.groupCollapsed();
             ub.utilities.info('Temporary using settings for location #' + _offsetResult.application_number);
             ub.utilities.info('{inputSize: ' +  _offsetResult.inputSize + ', outputSize: ' + _offsetResult.outputSize + ', offset: (x:' + _offsetResult.x_offset + ', y: ' + _offsetResult.y_offset + '), scale: (x: ' + _offsetResult.x_scale + ', y: ' + _offsetResult.y_scale + ')');
-            console.groupEnd();
             
         }
 
