@@ -6055,11 +6055,7 @@ $(document).ready(function () {
 
                     if (_dataItem === "Blank Styles") {
 
-                         _newSet = _.filter(window.origItems, function (item) {
-                            
-                            return item.is_blank === '1';
-
-                        });
+                         _newSet = _.filter(window.origItems, function (item) { return item.is_blank === '1'; });
 
                     }
 
@@ -6070,7 +6066,7 @@ $(document).ready(function () {
                 $('span.slink-small.tertiary').removeClass('active');
                 $(this).addClass('active');
 
-                ub.funcs.updateQuarternaryBar(items, gender);
+                ub.funcs.updateQuarternaryBar(items, gender, _dataItem);
 
             });
 
@@ -6078,7 +6074,7 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.updateQuarternaryBar = function (items, gender) {
+    ub.funcs.updateQuarternaryBar = function (items, gender, dataItem) {
 
         setTimeout(function () {
 
@@ -6136,6 +6132,16 @@ $(document).ready(function () {
 
                         });
 
+                        if (dataItem === "Blank Styles") {
+
+                            _newSet = _.filter(window.origItems, function (item) {
+
+                                return item.neck_option === _dataItem && item.is_blank === "1";
+
+                            });
+
+                        }
+
                     }
  
                 }
@@ -6144,6 +6150,7 @@ $(document).ready(function () {
 
                 $('span.slink-small.quarternary').removeClass('active');
                 $(this).addClass('active');
+
 
             });
 
