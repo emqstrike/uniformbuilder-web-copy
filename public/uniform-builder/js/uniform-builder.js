@@ -6,6 +6,8 @@ $(document).ready(function () {
         
         window.ub.initialize = function () {
 
+            ub.errorCodes.prepareShortcuts();
+
             if (parseInt(ub.render) === 1) { ub.funcs.removePanels(); }
 
             ub.funcs.beforeLoad();
@@ -482,7 +484,6 @@ $(document).ready(function () {
             ub.displayDoneAt('Awesomess loading completed.');
 
             ub.afterLoadScripts();
-            ub.errorCodes.prepareShortcuts();
             ub.funcs.afterLoadChecks();
 
         };
@@ -2013,7 +2014,7 @@ $(document).ready(function () {
 
                     ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(e.color, 6), teamColorID: _team_color_id};    
 
-                    if (_paddedHex === "000000") { ub.utilities.errorWithCode(ub.errorCode.namesDontMatch, e.code); }
+                   if (_paddedHex === "000000") { ub.utilities.errorWithCode(ub.errorCode.namesDontMatch, e.code); }
 
                 } else {
                     
