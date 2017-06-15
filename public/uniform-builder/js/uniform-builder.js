@@ -6648,6 +6648,7 @@ $(document).ready(function () {
         if (_betaUniformsOk) {
 
             ub.funcs.enableSport(ub.data.sports, 'Women', 'volleyball');
+            ub.funcs.enableSport(ub.data.sports, 'Women', 'fastpitch');
             ub.funcs.enableSport(ub.data.apparel, 'Women', 'tech_tee');
             ub.funcs.enableSport(ub.data.apparel, 'Women', 'polo');
 
@@ -6662,6 +6663,7 @@ $(document).ready(function () {
         } else {
 
             ub.funcs.disableSport(ub.data.sports, 'Women', 'volleyball');
+            ub.funcs.disableSport(ub.data.sports, 'Women', 'fastpitch');
             ub.funcs.disableSport(ub.data.apparel, 'Women', 'tech_tee');
             ub.funcs.disableSport(ub.data.apparel, 'Women', 'polo');
 
