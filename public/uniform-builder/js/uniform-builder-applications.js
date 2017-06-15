@@ -7977,6 +7977,7 @@ $(document).ready(function() {
             if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "lower")                 { _size = 1;    }
             if (ub.funcs.isCurrentSport('Volleyball') && ub.current_material.material.type === "upper")                 { _size = 2;    }
 
+            if (ub.funcs.isCurrentSport("Hockey") && _.contains([2,5], _id) )                                           { _size = 6;    }
 
             ub.funcs.setAppSize(_id, _size);
 
