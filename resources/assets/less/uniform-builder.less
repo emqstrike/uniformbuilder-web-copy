@@ -3252,15 +3252,19 @@ div.header-container.main {
     div#uniform_name, div#saved_design_name {
 
         position: absolute;
-        color: white;
+        color: #acacac;
         margin: 10px;
         font-size: 1.7em;
         text-transform: uppercase;
         text-align: left;
 
         span.type {
-            font-size: 0.5em;
-            color: lightgray;
+            
+            font-size: 0.45em;
+            background-color: #1e1e1e;
+            font-family: 'Avenir Next LT W04 Bold';
+            padding: 3px 7px 3px 7px;
+
         }
 
     }
@@ -3277,12 +3281,15 @@ div.header-container.main {
     div#uniform-price-youth, div#uniform-price-adult, div#uniform-price-call-for-team-pricing, div#return-to-customizer {
 
         position: absolute;
-        color: white;
+        color: @ubBlack;
         margin: 10px;
-        font-size: 1em;
+        font-size: 0.9em;
         text-transform: uppercase;
-        margin-top: 5.3em;
+        margin-top: 5.9em;
         text-align: left;
+
+        font-family: 'Avenir Next LT W04 Bold';
+
 
         span.youthPriceCustomizer.sale, span.adultPriceCustomizer.sale {
 
@@ -3314,28 +3321,22 @@ div.header-container.main {
 
     } 
 
-    div#uniform-price-adult {
+    div#uniform-price-adult { margin-top: 7em; }
 
-        margin-top: 6.4em;
-
-    }
-
-    div#uniform-price-adult.single { margin-top: 5.5em; }
+    div#uniform-price-adult.single { margin-top: 5.7em; }
 
     div#uniform-price-call-for-team-pricing {
 
-        margin-top: 8.2em;
-        color: lightgray;
+        margin-top: 8.5em;
+        color: @ubBlack;
         
         text-transform: lowercase;
+        font-family: 'Avenir Next LT W04 Thin';
+
 
     }
 
-    div#uniform-price-call-for-team-pricing.single {
-
-        margin-top: 6.7em;
-        
-    }
+    div#uniform-price-call-for-team-pricing.single { margin-top: 6.8em; }
 
     div#return-to-customizer {
 
@@ -8847,7 +8848,7 @@ strong.hello {
 
         z-index: 1000;
         position: absolute;
-        width: 115px;
+        width: 80px;
         top: 220px;
         color: #222;
 
@@ -8862,17 +8863,17 @@ strong.hello {
             width: 83%; 
             color: #222; 
             border: 0;
-            border-top: solid 1px #1e1e1e;
+            border-top: solid 1px @ubBlack;
             display: none;
         }
 
         
-        hr.left-side-divider.middle-bottom  { margin-top: 20px; margin-bottom: 20px; }
+        hr.left-side-divider.middle-bottom  { margin-top: 20px; margin-bottom: 20px; opacity: 0.3 }
         hr.left-side-divider.fav-top        { display: none; }
 
-        div.spacer { margin-top: 10px; margin-bottom: 10px; }
+        div.spacer                          { margin-top: 10px; margin-bottom: 10px; }
 
-        span.undo-btn, span.fullscreen-btn { display: none; }
+        span.undo-btn, span.fullscreen-btn  { display: none; }
 
         span.toolbar-item {
 
@@ -8882,13 +8883,13 @@ strong.hello {
 
                 text-align: center;
                 width: 100%;
-                font-size: 1.8em;
+                font-size: 1.4em;
 
             }
 
             span.toolbar-item-label {
 
-                font-size: 0.8em;
+                font-size: 0.7em;
 
                 text-align: center;
                 width: 100%;
