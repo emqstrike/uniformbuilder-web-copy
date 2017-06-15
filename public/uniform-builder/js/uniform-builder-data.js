@@ -2803,6 +2803,9 @@ $(document).ready(function() {
                                 {
                                     size: 3,
                                 },
+                                {
+                                    size: 4,
+                                },
                             ],
                     factory: 'BLB',
                 },
@@ -2811,10 +2814,7 @@ $(document).ready(function() {
                     sport: 'hockey',
                     sizes:  [
                                 {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
+                                    size: 2.5,
                                 },
                             ],
                     factory: 'PMP'
@@ -2835,10 +2835,35 @@ $(document).ready(function() {
                 {
                     name: 'mascot',
                     sport: 'hockey',
-                    applicationNumbers: [7,6],
+                    applicationNumbers: [6],
                     sizes: [
-                        {size: 2},
+                        {size: 2.5},
+                    ],
+                },
+                {
+                    name: 'player_name',
+                    sport: 'hockey',
+                    applicationNumbers: [6],
+                    sizes: [
+                        {size: 2.5},
+                    ],
+                },
+                {
+                    name: 'mascot',
+                    sport: 'hockey',
+                    applicationNumbers: [9, 10, 33, 32],
+                    sizes: [
                         {size: 3},
+                        {size: 4},
+                    ],
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'hockey',
+                    applicationNumbers: [9, 10, 33, 32],
+                    sizes: [
+                        {size: 3},
+                        {size: 4},
                     ],
                 },
                 {
@@ -2856,10 +2881,36 @@ $(document).ready(function() {
                     sport: 'hockey',
                     sizes:  [
                                 {
-                                    size: 4,
+                                    size: 6,
                                 },
                                 {
-                                    size: 5,
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                                {
+                                    size: 12,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'mascot',
+                    applicationNumbers: [2, 5],
+                    sport: 'hockey',
+                    sizes:  [
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                                {
+                                    size: 12,
                                 },
                             ],
                     type: 'adult',
@@ -2869,11 +2920,18 @@ $(document).ready(function() {
                     sport: 'hockey',
                     sizes:  [
                                 {
+                                    size: 6,
+                                },
+                                {
                                     size: 8,
                                 },
                                 {
                                     size: 10,
                                 },
+                                {
+                                    size: 12,
+                                },
+
                             ],
                     type: 'adult',
                 },
@@ -3383,6 +3441,8 @@ $(document).ready(function() {
                 },
 
                 // end cinch-sack
+
+               
 
                 // defaults 
 
