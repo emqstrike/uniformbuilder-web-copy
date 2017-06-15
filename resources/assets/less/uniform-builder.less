@@ -8,6 +8,7 @@
 @forecolor: #acacac;
 @text_color: #3d3d3d;
 @border_color: #d7d7d7;
+@ubBlack: #1e1e1e;
 
 @customizer_bg: #e6e6e6;
 @customizer_forecolor: #808080;
@@ -2586,15 +2587,17 @@ div.quarternary-bar  {
 
             div.favorite { 
                 position: absolute;
-                font-size: 0.9em;
-                background-color: #000;
-                color: white;
-                padding: 7px;
-                width: 50%;
+                font-size: 0.7em;
+                background-color: #acacac;
+                color: @ubBlack;
+                padding: 5px;
+                width: 70%;
                 text-align: center;
                 z-index: 1;
                 margin-top: -210px;
                 display: none;
+                margin-left: 15%;
+                margin-right: 15%;
              }
 
             img {
@@ -2617,11 +2620,12 @@ div.quarternary-bar  {
                 margin-top: -10px !important;
                 text-transform: uppercase;
 
-
                 strong.uniform-name {
+
                     font-size: 1em;
                     color: black;
                     text-transform: uppercase;
+                    
                 }
 
                 strong.type {
@@ -2643,8 +2647,9 @@ div.quarternary-bar  {
             }  
 
             .cSoon {
+
                 color: white;
-                background: #3d3d3d;
+                background: @ubBlack;
                 font-size: 0.9em;
                 padding: 5px;
                 text-align: center;
@@ -2654,6 +2659,7 @@ div.quarternary-bar  {
                 opacity: 0.8;
                 z-index: 1000;
                 font-family: "Avenir Next LT W04 Bold";
+
             }
 
         }  
