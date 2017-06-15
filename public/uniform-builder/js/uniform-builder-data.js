@@ -4117,7 +4117,15 @@ $(document).ready(function() {
                     tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 },
+                {
+                    code: 'fastpitch',
+                    name: 'Fastpitch',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
             ],
+            
         },
         {
             gender: 'Youth',
@@ -12874,6 +12882,7 @@ ub.funcs.fontOffSets = [
             { sport: '1-4 Zip Jacket (Apparel)' },
             { sport: 'Hoodie (Apparel)' },
             { sport: 'Polo (Apparel)' },
+            { sport: 'Fastpitch' },
 
         ],
 
