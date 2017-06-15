@@ -1476,6 +1476,14 @@
 
             ///
 
+            if (font_size === "0") {
+    
+                font_size = 100;
+                ub.utilities.error('No Output Size set for ' + input_object.fontSize + ' / ' + input_object.applicationObj.font_obj.name + ', using 100');
+
+            }
+
+            
             var style = "";
             var lineHeight = font_size;
             var _padding = 40;
