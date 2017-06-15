@@ -272,12 +272,13 @@ $(document).ready(function () {
 
         ub.funcs.reShowRosterInput = function () {
 
-            $('div#order-form').fadeIn();
             $('div#roster-input').fadeIn();
+            $('div#validate-order-form, div#order-form').hide();
 
         }
 
         ub.funcs.reShowOrderFrom = function () {
+
 
             $('div#roster-input').fadeOut();
             $('div#validate-order-form').fadeOut();
@@ -490,13 +491,64 @@ $(document).ready(function () {
 
             var _result = _.find(ub.data.tagged_styles, {uniform_id: uniformID.toString()});
 
-            if (typeof _result !== "undefined") {
+            if (typeof _result !== "undefined") { ub.config.favoriteID = _result.id; }
 
-                ub.config.favoriteID = _result.id;
+            return typeof  _result !== "undefined";
+
+        }
+
+        ub.funcs.initFavorite = function () {
+
+            var $favoriteBtn = $('span.favorite-btn');
+
+            $favoriteBtn.fadeIn();
+            $('hr.left-side-divider').fadeIn();
+
+            if (ub.funcs.isAFavoriteItem(ub.current_material.material.id)) {
+
+                ub.utilities.info('This is a favorite item! [' + ub.config.favoriteID + ']');
+                ub.funcs.setFavoriteStatusOn();
 
             }
 
-            return typeof  _result !== "undefined";
+            $favoriteBtn.unbind('click');
+            $favoriteBtn.on('click', function (e) {
+
+                if ($favoriteBtn.hasClass('added')) {
+
+                    ub.funcs.removeFromFavorites();    
+
+                } else {
+                
+                    ub.funcs.addToFavorites();    
+                
+                }
+                
+            });
+
+        }
+
+        ub.funcs.ok = function (postLoad) {
+
+            if (typeof postLoad !== "undefined") {
+
+                ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
+                ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callBackPostLoad);
+
+            } else {
+
+                ub.funcs.initFavorite();
+
+            }
+
+        }
+
+        ub.funcs.notOk = function () {
+
+            $('span.favorite-btn').hide();
+            $('hr.left-side-divider.bottom').fadeIn();
+            $('hr.left-side-divider.middle').fadeIn();
+            $('hr.left-side-divider.fav-top').hide();
 
         }
 
@@ -506,39 +558,11 @@ $(document).ready(function () {
 
             if (typeof ub.user.id !== 'undefined') {
 
-                $('span.favorite-btn').fadeIn();
-                $('hr.left-side-divider').fadeIn();
-                // $('hr.left-side-divider.middle').hide();
-
-                var $favoriteBtn = $('span.favorite-btn');
-
-                if (ub.funcs.isAFavoriteItem(ub.current_material.material.id)) {
-
-                    ub.utilities.info('This is a favorite item! [' + ub.config.favoriteID + ']');
-                    ub.funcs.setFavoriteStatusOn();
-
-                }
-
-                $favoriteBtn.unbind('click');
-                $favoriteBtn.on('click', function (e) {
-
-                    if ($favoriteBtn.hasClass('added')) {
-
-                        ub.funcs.removeFromFavorites();    
-
-                    } else {
-                    
-                        ub.funcs.addToFavorites();    
-                    
-                    }
-                    
-                });
+                ub.funcs.ok();
 
             } else {
 
-                $('span.favorite-btn').hide();
-                $('hr.left-side-divider.bottom').fadeIn();
-                $('hr.left-side-divider.middle').fadeIn();
+                ub.funcs.notOk();
 
             }
 
@@ -759,6 +783,22 @@ $(document).ready(function () {
             }
             
         };
+
+        ub.callBackPostLoad = function (obj, object_name) {
+
+            var _alias = ub.data.loadingOptionsAlias.getAlias(object_name);
+
+            ub.displayDoneAt(_alias + ' loaded.');
+            ub.convertToString(obj);
+
+            if (object_name === 'tagged_styles') {
+
+                ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
+                ub.funcs.initFavorite();
+
+            } 
+
+        }
  
         ub.callback = function (obj, object_name) {
 

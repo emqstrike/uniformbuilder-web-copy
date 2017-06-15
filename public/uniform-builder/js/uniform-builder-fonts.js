@@ -49,7 +49,7 @@ $(document).ready(function() {
 
             }
 
-            if (font.block_patterns !== null) {
+            if (font.block_patterns !== null && font.block_patterns !== '""') {
 
                 if (blockPattern !== '') {
 

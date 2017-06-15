@@ -1,6 +1,6 @@
 <div id="left-side-toolbar">
 
-    <hr class="left-side-divider middle middle-bottom" />
+    <hr class="left-side-divider middle middle-bottom fav-top" />
 
     <span class="toolbar-item favorite-btn">
         <i class="fa fa-star-o" aria-hidden="true"></i>
@@ -16,7 +16,7 @@
         <span class="toolbar-item-label">PREVIEW</span>
     </span>        
 
-    <hr class="left-side-divider " />
+    <div class="spacer"> </div>  
 
     <span class="toolbar-item undo-btn">
         <i class="fa fa-undo" aria-hidden="true"></i><br />

@@ -6,11 +6,11 @@
         
         <hr />
 
-            <div class='mascot_drop btn' data-id='@{{application_id}}'>
-                Choose a Mascot: <i class='fa fa-caret-down'></i>
-            </div>
-            
-            <div class='mascot-controls' id='controls-@{{application_id}}' data-id='@{{application_id}}'>
+        <div class='mascot_drop btn' data-id='@{{application_id}}'>
+            Choose a Mascot: <i class='fa fa-caret-down'></i>
+        </div>
+        
+        <div class='mascot-controls' id='controls-@{{application_id}}' data-id='@{{application_id}}'>
 
         <hr />
         
