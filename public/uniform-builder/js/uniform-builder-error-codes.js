@@ -65,11 +65,29 @@ $(document).ready(function() {
 
             });
 
-            ub.utilities.info('Error Codes prepared.');
-
             return true;
 
         }
+    }
+
+    ub.errorLogs = {
+        
+        items: [], // Item = { msg: "Material Option do not match", input: 'right_armtrim' };
+
+        push: function (item) {
+
+            this.items.push(item);
+            this.print(item)
+
+        }, 
+
+        print: function (item) {
+
+            str = item.msg + ': ' + item.input;
+            ub.utilities.info(str);
+
+        }
+
     }
 
 });
