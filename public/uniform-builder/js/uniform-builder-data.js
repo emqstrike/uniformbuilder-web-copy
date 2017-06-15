@@ -12118,10 +12118,9 @@ ub.funcs.fontOffSets = [
             'Cage Jacket',
         ],
 
-
         currentOk: function () {
 
-            return _.contains(this.items, ub.current_material.material.uniform_category) || _.contains(this.options, ub.current_material.material.neck_option) || _.contains(this.blockPatterns, ub.current_material.material.block_pattern);
+            return (_.contains(this.items, ub.current_material.material.uniform_category) || _.contains(this.options, ub.current_material.material.neck_option) || _.contains(this.blockPatterns, ub.current_material.material.block_pattern)) && ub.current_material.material.uniform_application_type === "sublimated";
 
         }
 
