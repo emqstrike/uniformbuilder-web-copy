@@ -2,23 +2,6 @@ $(document).ready(function() {
 
     ub.funcs.fadeOutCustomizer = function () {
 
-        $('div#right-pane-column').fadeOut();        
-        $('div#left-pane-column').fadeOut();
-        $('div#roster-input').fadeIn();
-
-        if (ub.funcs.getCurrentUniformCategory() === "Wrestling" || ub.current_material.material.type === "lower") {
-
-            $('div.defaultTypes').hide();
-
-        }
-
-        $('button.change-all').unbind('click');
-        $('button.change-all').on('click', function () {
-
-            $('select.sleeve-type').val($('select.default-sleeve-type').val());
-            $('select.lastname-application').val($('select.default-lastname-application').val());
-                
-        });
 
     }
 
@@ -1754,6 +1737,20 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.uiPrepBeforeOrderForm = function () {
+
+        $('div#left-side-toolbar').fadeOut();
+
+        ub.funcs.deactivateMoveTool();
+        ub.funcs.turnLocationsOff();
+
+        ub.funcs.resetHighlights();
+
+        $('div#right-pane-column').fadeOut();        
+        $('div#left-pane-column').fadeOut();
+
+    }
+
     ub.data.rosterInitialized = false;
     ub.funcs.initRoster = function (orderInfo) {
     
@@ -1764,16 +1761,12 @@ $(document).ready(function() {
         if (ub.funcs.initRosterCalled) { return; }
         if (typeof ub.user.id === "undefined") { return; }
 
+        ub.funcs.uiPrepBeforeOrderForm();
+
         ub.data.orderFormInitialized = true;
         ub.funcs.pushState({data: 'roster-form', title: 'Enter Roster', url: '?roster-form'});
-
-        $('span.undo-btn').hide();
-        $('span.fullscreen-btn').hide();
-        
-        ub.funcs.deactivateMoveTool();
-        ub.funcs.turnLocationsOff();
+       
         ub.funcs.initRosterCalled = true;
-        ub.funcs.resetHighlights();
 
         ub.current_material.settings.thumbnails = {
             front_view: "",
@@ -1788,7 +1781,22 @@ $(document).ready(function() {
         ub.uploadThumbnail('right_view');
 
         ub.funcs.prepareUniformSizes();
-        ub.funcs.fadeOutCustomizer();
+
+        if (ub.funcs.getCurrentUniformCategory() === "Wrestling" || ub.current_material.material.type === "lower") {
+
+            $('div.defaultTypes').hide();
+
+        }
+
+        $('button.change-all').unbind('click');
+        $('button.change-all').on('click', function () {
+
+            $('select.sleeve-type').val($('select.default-sleeve-type').val());
+            $('select.lastname-application').val($('select.default-lastname-application').val());
+                
+        });
+
+        $('div#roster-input').fadeIn();
 
         ub.funcs.hideColumns();
 
@@ -2193,6 +2201,10 @@ $(document).ready(function() {
                         if(typeof ub.current_material.material === "undefined") {
 
                             window.location.href = "/";
+
+                        } else { 
+
+                            ub.funcs.ok();
 
                         }
 

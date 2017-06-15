@@ -13153,6 +13153,10 @@ ub.funcs.fontOffSets = [
                 name: 'colors',
                 alias: 'Colors',
             },
+            {
+                name: 'tagged_styles',
+                alias: 'Tags',
+            },
     
         ],
 
