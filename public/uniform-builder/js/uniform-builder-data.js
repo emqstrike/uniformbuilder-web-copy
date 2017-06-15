@@ -2833,6 +2833,19 @@ $(document).ready(function() {
                     factory: 'BLB',
                 },
                 {
+                    name: 'shoulder_number',
+                    sport: 'hockey',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
                     name: 'mascot',
                     sport: 'hockey',
                     applicationNumbers: [6],
@@ -12052,7 +12065,21 @@ ub.funcs.fontOffSets = [
                         font_size: 4,
                         sport: ['Default','Baseball', 'Fastpitch'],
                     },
-                   {
+                    {
+                        applicationNumbers: [32,33],
+                        resultApplicationType: 'shoulder_number',
+                        size: 4,
+                        font_size: 4,
+                        sport: ['Hockey',],
+                    },
+                    {
+                        applicationNumbers: [9,10],
+                        resultApplicationType: 'sleeve_number',
+                        size: 4,
+                        font_size: 4,
+                        sport: ['Hockey',],
+                    },
+                    {
                         applicationNumbers: [2,6],
                         resultApplicationType: 'front_number',
                         size: 6,
