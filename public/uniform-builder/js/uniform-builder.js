@@ -6625,7 +6625,7 @@ $(document).ready(function () {
         var _sport = _.find(a.sports, {code: code});
 
         _sport.active = "1";
-        _sport.tooltip = "BETA";
+        _sport.tooltip = 'BETA';
         _sport.disabledClass = "";
 
     }
