@@ -152,8 +152,8 @@ div.save-design-post-dialog {
 @font-face {
    font-family: "Avenir";
    font-weight: 400;
-   src: url("./css/Fonts/1491474/069faa0e-9913-48c4-9ef7-89a4bc080b65.eot?#iefix");
-   src: url("./css/Fonts/1491474/069faa0e-9913-48c4-9ef7-89a4bc080b65.eot?#iefix") format("eot"), url("./css/Fonts/1491474/7db1f672-3a8f-4d19-9c49-7f61aed450b5.woff2") format("woff2"), url("./css/Fonts/1491474/4ab86b35-c0c2-42b5-98ad-4b6eba66b197.woff") format("woff"), url("./css/Fonts/1491474/276b3566-1c3b-4bc1-8915-15314f091f29.ttf") format("truetype");
+   src: url("/Fonts/1491474/069faa0e-9913-48c4-9ef7-89a4bc080b65.eot?#iefix");
+   src: url("/Fonts/1491474/069faa0e-9913-48c4-9ef7-89a4bc080b65.eot?#iefix") format("eot"), url("/Fonts/1491474/7db1f672-3a8f-4d19-9c49-7f61aed450b5.woff2") format("woff2"), url("/Fonts/1491474/4ab86b35-c0c2-42b5-98ad-4b6eba66b197.woff") format("woff"), url("/Fonts/1491474/276b3566-1c3b-4bc1-8915-15314f091f29.ttf") format("truetype");
 }
 
 /* End Fonts */
@@ -163,7 +163,7 @@ body, button, a, p {
 }
 
 strong, h1, h2, h3, h4, h5, h6 {
-    font-family: 'Avenir Next LT W04 Bold', sans-serif;
+    font-family: 'Avenir', sans-serif;
 }
 
 /* TODO: This should be Tested */
@@ -2552,7 +2552,7 @@ div.quarternary-bar  {
 
                 strong.uniform-name {
 
-                    border-bottom: dashed 1px #3d3d3d;
+                    border-bottom: dashed 1px @ubBlack;
 
                 }
 
@@ -2608,7 +2608,7 @@ div.quarternary-bar  {
 
             span.main-picker-item-caption {
 
-                color: @text_color;
+                color: @ubBlack;
                 width: 100%;
                 height: 30px;
                 display: block;
@@ -2622,8 +2622,8 @@ div.quarternary-bar  {
 
                 strong.uniform-name {
 
-                    font-size: 1em;
-                    color: black;
+                    font-size: 1.3em;
+                    color: @ubBlack;
                     text-transform: uppercase;
                     
                 }
@@ -2640,7 +2640,7 @@ div.quarternary-bar  {
                     font-size: 0.9em;
                     text-transform: uppercase;
 
-                    font-family: 'Avenir Next LT W04 Thin';
+                    font-family: 'Avenir';
 
                 }
                 
@@ -2649,16 +2649,17 @@ div.quarternary-bar  {
             .cSoon {
 
                 color: white;
-                background: @ubBlack;
-                font-size: 0.9em;
+                background: #1e1e1e;
+                font-size: 0.7em;
                 padding: 5px;
                 text-align: center;
                 position: absolute;
-                top: 35%;
-                width: 100%;
+                top: 40%;
+                width: 70%;
                 opacity: 0.8;
                 z-index: 1000;
                 font-family: "Avenir Next LT W04 Bold";
+                margin-left: 15%;
 
             }
 
@@ -3257,6 +3258,7 @@ div.header-container.main {
         font-size: 1.7em;
         text-transform: uppercase;
         text-align: left;
+        font-family: 'Avenir', sans-serif;
 
         span.type {
             
@@ -3288,7 +3290,7 @@ div.header-container.main {
         margin-top: 5.9em;
         text-align: left;
 
-        font-family: 'Avenir Next LT W04 Bold';
+        font-family: 'Avenir';
 
 
         span.youthPriceCustomizer.sale, span.adultPriceCustomizer.sale {
@@ -3331,8 +3333,7 @@ div.header-container.main {
         color: @ubBlack;
         
         text-transform: lowercase;
-        font-family: 'Avenir Next LT W04 Thin';
-
+        font-family: 'Avenir', sans-serif;
 
     }
 
@@ -7394,7 +7395,7 @@ div.header-container.main {
 
     .callForTeamPricing {
 
-        font-family: "Avenir Next LT W04 Thin";
+        font-family: "Avenir";
 
     }
 
@@ -8849,7 +8850,7 @@ strong.hello {
         z-index: 1000;
         position: absolute;
         width: 80px;
-        top: 220px;
+        top: 200px;
         color: #222;
 
         hr.left-side-divider { 
@@ -9936,7 +9937,7 @@ div.loading-dialog, div.loading-dialog-pickers {
        
        div.modal-content {
 
-            height: 650px;
+            height: 670px;
             color: #3d3e3d;
             background-color: #fff;
 
@@ -9974,7 +9975,7 @@ div.logo-container {
         margin: 0 auto;
         margin-top: 17px;
         margin-bottom: 17px;
-        color: #3d3e3d;
+        color: @ubBlack;
         font-size: 1.3em;
 
         span.qoute-symbol {
@@ -9997,8 +9998,8 @@ div.logo-container {
 
             span.author {
 
-                color: #888888;
-                font-family: "Avenir Next LT W04 Bold";
+                color: @ubBlack;
+                font-family: "Avenir";
                 font-size: 0.9em;
 
             }
@@ -10023,7 +10024,7 @@ div.loading-screen {}
 span.load-line {
     
     display: none;
-    strong.light { color: #888888; }
+    strong.light { color: @ubBlack; }
 
 }
 

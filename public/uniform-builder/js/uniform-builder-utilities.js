@@ -123,10 +123,10 @@ $(document).ready(function() {
 
             if (str === 'Awesomess loading completed.') {
 
-                /// Hide loading after 1 sec done
-                setTimeout(function() { 
+                /// Hide loading after .5 sec done
+                setTimeout(function () { 
 
-                  loadingDialog.modal('hide');
+                    loadingDialog.modal('hide');
 
                 }, 500);
 
