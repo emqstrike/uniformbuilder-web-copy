@@ -926,6 +926,7 @@ $(document).ready(function () {
                 ub.displayDoneAt('Configuration of style done.');
                 ub.displayDoneAt('Rendering awesomeness ...');
 
+
             }
             
         };
@@ -1515,14 +1516,12 @@ $(document).ready(function () {
             ub.assets.pattern = {};
             ub.assets.pattern.layers = [];
             ub.objects.pattern_view = {};
-            
-            /// Begin Rendering after assets are loaded
 
             ub.funcs.load_fonts();
             ub.setup_views();
             ub.setup_material_options(); 
-            requestAnimationFrame(ub.render_frames);
             ub.pass = 0;
+            requestAnimationFrame(ub.render_frames);
 
             var material_name = ub.current_material.material.name
             $('span#design_name_input').text(material_name);
