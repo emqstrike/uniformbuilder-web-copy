@@ -187,6 +187,14 @@ class UniformBuilderController extends Controller
             
         }
 
+        if (isset($config['styles'])) {
+
+            $params['styles'] = $config['styles'];
+            $params['sport'] = $config['sport'];
+            $params['gender'] = $config['gender'];
+
+        }
+
         return view('editor.uniform-builder-index', $params);
 
     }
@@ -294,6 +302,20 @@ class UniformBuilderController extends Controller
             'material_id' => $materialId,
             'type' => 'Design Set',
         ];
+
+        return $this->showBuilder($config);
+
+    }
+
+    public function styles($gender = null, $sport = null)
+    {
+
+        $config = [
+            'styles' => true,
+            'sport' => $sport,
+            'gender' => $gender,
+        ];
+        
         return $this->showBuilder($config);
 
     }

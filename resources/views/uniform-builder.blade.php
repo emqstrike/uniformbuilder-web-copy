@@ -260,7 +260,16 @@
 
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
-            thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/'
+            thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
+
+            @if (isset($styles)) 
+            styles: {
+                load: "{{ isset($styles) ? $styles : false }}",
+                gender: "{{ isset($gender) ? $gender : undefined }}",
+                sport: "{{ isset($sport) ? $sport : undefined }}",
+            },
+            @endif
+
         };
 
         @if (Session::get('isLoggedIn'))
