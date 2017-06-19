@@ -505,7 +505,7 @@
             
             <div class="main-picker-items grow" data-picker-type="search-result" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
 
-                <img width='280' src="@{{thumbnail}}?v={{$asset_version}}">
+                <img src="@{{thumbnail}}?v={{$asset_version}}">
 
                 <span class="main-picker-item-caption">
                     @{{name}}
