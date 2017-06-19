@@ -594,6 +594,8 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response) {
 
+                    ub.config.favoriteID = response.id;
+
                     $.smkAlert({text: 'Added [' + ub.config.uniform_name + '] To Favorites!', type:'warning', time: 3, marginTop: '80px'});
                    
                     ub.funcs.setFavoriteStatusOn();
