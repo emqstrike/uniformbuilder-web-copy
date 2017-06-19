@@ -2103,3 +2103,14 @@
     </div>
     
 </script>
+
+<script type="text/mustache" id="m-no-favorite">
+    
+    <div class="no-favorite-styles">
+
+        You have no favorite styles.
+
+    </div>
+    
+</script>
+
