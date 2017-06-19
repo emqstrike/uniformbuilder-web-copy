@@ -13285,4 +13285,55 @@ ub.funcs.fontOffSets = [
 
     }
 
+    ub.data.urlAlias = {
+
+        items: [
+            {
+                shortCode: 'tech-tee',
+                urlAlias: 'Tech-Tee (Apparel)',    
+            },
+            {
+                shortCode: 'polo',
+                urlAlias: 'Polo (Apparel)',    
+            },
+            {
+                shortCode: 'crew socks',
+                urlAlias: 'Crew Socks (Apparel)',    
+            },
+            {
+                shortCode: 'hoodie',
+                urlAlias: 'Hoodie (Apparel)',    
+            },
+            {
+                shortCode: 'cinch-sack',
+                urlAlias: 'Cinch Sack (Apparel)',    
+            },
+            {
+                shortCode: 'one-fourth-zip-jacket',
+                urlAlias: '1-4 Zip Jacket (Apparel)',    
+            },
+            
+        ],
+
+        getAlias: function (shortCode)  {
+
+            var _result = undefined;
+
+            _result = _.find(this.items, {shortCode: shortCode});
+
+            if (typeof _result === "undefined") {
+
+                _result =  {
+                    shortCode: shortCode,
+                    urlAlias: shortCode.toTitleCase(),
+                }
+
+            }
+
+            return _result;
+
+        }
+
+    }
+
 });
