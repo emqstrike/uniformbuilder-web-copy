@@ -6552,12 +6552,14 @@ $(document).ready(function () {
               return grouped[0];
             });
 
-            if (!_.contains(ub.fontGuideIDs, ub.user.id)) {
-                uniques = _.reject(uniques, function (item) {
-                    return item.uniform_category === "Baseball";
-                });
-            }
+            var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
 
+            if (!_betaUniformsOk ) {
+
+                uniques = _.reject(uniques, function (item) { return ub.data.tempSports.isSportOK(item.uniform_category); });
+
+            } 
+                
             var data = {
                 picker_type: type,
                 picker_items: uniques,
