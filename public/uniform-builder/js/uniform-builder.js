@@ -5815,35 +5815,10 @@ $(document).ready(function () {
             var _id          = $(this).data('id');
             var _gender      = $(this).data('gender');
 
-            if (_picker_type === 'gender') {
 
-                if (_item === "My-Favorites") {
+            if (_picker_type === 'my-favorites') { return; }
 
-                    ub.funcs.initGenderPicker();
-                    ub.funcs.initFavoritesPicker();
-
-                    return; 
-
-                }
-
-
-                if (_item === "Home") {
-
-                    ub.funcs.setActiveGender(_item);
-
-                    ub.funcs.initGenderPicker();
-                    ub.funcs.hideSecondaryBar();
-
-                    return; 
-
-                }
-                
-                if (_item !== "Men" && _item !== "Women") { return; }
-
-                ub.funcs.setActiveGender(_item);
-                ub.funcs.initSportsPicker(_item);
-
-            }
+            if (_picker_type === 'gender') { return; }
 
             if (_picker_type === 'sports') {
 
@@ -5933,6 +5908,57 @@ $(document).ready(function () {
             }
 
         );
+
+
+        /// Refactored Handler starts here ... 
+
+        // Gender Picker 
+
+        $('div#topbar > span.slink[data-picker-type="gender"]').unbind('click');
+        $('div#topbar > span.slink[data-picker-type="gender"]').on('click', function () {
+
+            $picker_item = $(this);
+
+            var _picker_type = $(this).data('picker-type');
+            var _item        = $(this).data('item');
+            var _id          = $(this).data('id');
+            var _gender      = $(this).data('gender');
+
+            if (_item === "My-Favorites") { return; }
+            
+            if (_item === "Home") {
+
+                ub.funcs.setActiveGender(_item);
+
+                ub.funcs.initGenderPicker();
+                ub.funcs.hideSecondaryBar();
+
+                return; 
+
+            }
+            
+            if (_item !== "Men" && _item !== "Women") { return; }
+
+            ub.funcs.setActiveGender(_item);
+            ub.funcs.initSportsPicker(_item);
+
+        });
+
+        // End Gender Picker 
+
+        // Favorites
+
+        $('span.slink.my-favorites').unbind('click');
+        $('span.slink.my-favorites').on('click', function () {
+
+            ub.funcs.initGenderPicker();
+            ub.funcs.initFavoritesPicker();
+
+        });
+
+        // End Favorites 
+
+
         
         // ub.funcs.scrollize ('div#main-picker-container', 'div#main-picker-scroller', 'div.main-picker-items', 280)
 
@@ -6195,8 +6221,10 @@ $(document).ready(function () {
 
         ub.funcs.fadeOutElements();
 
-        actualGender = $('span.slink.main-picker-items.active[data-picker-type="gender"]').data('item').toLowerCase();
-
+        var $active = $('span.slink.main-picker-items.active[data-picker-type="gender"]');
+    
+        actualGender = $active.data('item').toLowerCase();    
+    
         var $scrollerElement = $('#main-picker-scroller');
         var $uniformDetailsElement = $('div.uniform_details');
         var $pickerHeader = $('.picker-header');
@@ -6705,7 +6733,8 @@ $(document).ready(function () {
 
             );
 
-            $('span.slink.favorites').addClass('active');
+            $('span.slink').removeClass('active');
+            $('span.slink.my-favorites').addClass('active');
 
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
 
