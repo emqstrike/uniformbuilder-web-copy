@@ -497,7 +497,7 @@
 
 <!-- End Uniforms Pickers -->
 
-<!-- Uniforms Picker -->
+<!-- Search Resuls Picker -->
 
     <script type="text/mustache" id="m-picker-items-search-results">
 
@@ -508,7 +508,10 @@
                 <img src="@{{thumbnail}}?v={{$asset_version}}">
 
                 <span class="main-picker-item-caption">
-                    @{{name}}
+    
+                    <strong>@{{name}}</strong><br />
+                    <strong class="type">@{{#uniform_type}}@{{uniform_application_type}}@{{/uniform_type}}</strong>
+
                 </span>
 
             </div>
@@ -529,7 +532,44 @@
 
     </script>
 
-<!-- End Uniforms Pickers -->
+<!-- End Search Results Pickers -->
+
+<!-- Favorites Resuls Picker -->
+
+    <script type="text/mustache" id="m-picker-items-favorites">
+
+        @{{#picker_items}}
+            
+            <div class="main-picker-items grow" data-picker-type="search-result" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
+
+                <img src="@{{thumbnail_path}}?v={{$asset_version}}">
+
+                <span class="main-picker-item-caption">
+                    <strong>@{{name}}</strong> <br />
+                    <strong class="type">@{{#uniform_type}}@{{uniform_application_type}}@{{/uniform_type}}</strong>
+
+                    <div class="favorite"><i class="fa fa-star" aria-hidden="true"></i> Favorite <i class="fa fa-star" aria-hidden="true"></i></div>
+                </span>
+
+            </div>
+
+        @{{/picker_items}}
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+    </script>
+
+<!-- End Favorites Pickers -->
 
 <!-- Pattern Picker -->
     
