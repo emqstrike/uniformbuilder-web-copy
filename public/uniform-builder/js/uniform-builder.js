@@ -89,7 +89,6 @@ $(document).ready(function () {
 
             if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
 
-
         };
 
         ub.funcs.initCanvas = function () {
@@ -6227,7 +6226,17 @@ $(document).ready(function () {
 
             $('.picker-header').html('Choose a Gender');
             $('div.back-link').html('');
-            
+
+            if (typeof ub.user.id !== 'undefined')   { 
+
+                $('span.slink.my-favorites').show(); 
+
+            } else { 
+
+                $('span.slink.my-favorites').addClass('hidden'); 
+
+            }
+
         }
 
         if (type !== 'gender') {
