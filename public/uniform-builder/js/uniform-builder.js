@@ -874,6 +874,8 @@ $(document).ready(function () {
 
                     ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
 
+                    $('span.slink > span.count').html(_.size(ub.data.tagged_styles));
+
                 } 
                 
             }
@@ -6712,7 +6714,6 @@ $(document).ready(function () {
 
                     if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
-
                         var _uid = $(this).data('id');
 
 
@@ -6734,6 +6735,16 @@ $(document).ready(function () {
                 })
 
             );
+
+            // No Favorite
+            if(_.size(uniques) === 0) {
+
+                var template = $('#m-no-favorite').html();
+                var markup = Mustache.render(template, {});
+
+                $scrollerElement.html(markup);
+
+            }
 
             $('span.slink').removeClass('active');
             $('span.slink.my-favorites').addClass('active');
