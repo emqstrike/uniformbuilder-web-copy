@@ -1232,7 +1232,7 @@ $(document).ready(function () {
                 name: data,
                 thumbnail: _object.thumbnail,
                 uniform_category: _object.object.uniform_category,
-
+                uniform_application_type: _object.object.uniform_application_type,
                 id: _object.id,
             });
 
@@ -1442,6 +1442,10 @@ $(document).ready(function () {
 
                 material.calculatedPrice = ub.funcs.getPrice(material);
                 ub.funcs.processMaterialPrice(material);
+
+                _result = _.find(ub.data.tagged_styles, {uniform_id: material.id});
+                        
+                material.is_favorite = (typeof _result !== "undefined"); // Mark Favorite items
 
             });
 
@@ -5814,6 +5818,15 @@ $(document).ready(function () {
 
             if (_picker_type === 'gender') {
 
+                if (_item === "My-Favorites") {
+
+                    ub.funcs.initGenderPicker();
+                    ub.funcs.initFavoritesPicker();
+
+                    return; 
+
+                }
+
 
                 if (_item === "Home") {
 
@@ -5857,7 +5870,7 @@ $(document).ready(function () {
 
             }
 
-            if (_picker_type === 'search-result') {
+            if (_picker_type === 'search-result' || _picker_type === 'favorites') {
 
                 var $searchField = $('input#search_field');
                 $searchField.hide();
@@ -5867,15 +5880,21 @@ $(document).ready(function () {
 
                 var _item_type = $(this).data('uniform-type');
                 var _id = $(this).data('id');
+                var _baseURL = window.ub.config.host;
 
                 if (_item_type === 'materials') {
 
-                    window.location.href = window.ub.config.host + '/builder/0/' + _id;
+                    window.location.href = _baseURL + '/builder/0/' + _id;
 
                 }
                 else if (_item_type === 'orders') {
 
-                    window.location.href = window.ub.config.host + '/orders/' + _id;
+                    window.location.href = _baseURL + '/orders/' + _id;
+
+                } else {
+                    
+                    // Favorites 
+                    window.location.href = _baseURL + '/builder/0/' + _id;
 
                 }
                 
@@ -6058,6 +6077,12 @@ $(document).ready(function () {
 
                     }
 
+                    if (_dataItem === "Favorites") {
+
+                         _newSet = _.filter(window.origItems, function (item) { return item.is_favorite === true; });
+
+                    }
+
                 }
 
                 ub.funcs.initScroller('uniforms', _newSet, gender, true);
@@ -6136,6 +6161,16 @@ $(document).ready(function () {
                             _newSet = _.filter(window.origItems, function (item) {
 
                                 return item.neck_option === _dataItem && item.is_blank === "1";
+
+                            });
+
+                        }
+
+                        if (dataItem === "Favorites") {
+
+                            _newSet = _.filter(window.origItems, function (item) {
+
+                                return item.neck_option === _dataItem && item.is_favorite === true;
 
                             });
 
@@ -6321,6 +6356,7 @@ $(document).ready(function () {
                         }
 
                         _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
+                        
                         if (typeof _result !== "undefined") {
 
                             $(this).find('div.favorite').show();
@@ -6384,7 +6420,7 @@ $(document).ready(function () {
 
             });
 
-            // Add Blank
+            // Add Blanks
 
             _blockPatternsCollection.push({
 
@@ -6393,7 +6429,14 @@ $(document).ready(function () {
 
             });
 
-            // End Add Blank 
+            // Add Favorites
+            _blockPatternsCollection.push({
+
+                alias: 'Favorites',
+                item: 'Favorites',
+
+            });
+
 
             _.each(_options, function (option) {
 
@@ -6541,7 +6584,7 @@ $(document).ready(function () {
 
         }
 
-        if(type === 'search_results') {
+        if (type === 'search_results') {
 
             ub.funcs.hideSecondaryBar();
 
@@ -6563,10 +6606,97 @@ $(document).ready(function () {
             var data = {
                 picker_type: type,
                 picker_items: uniques,
+                uniform_type: function () {
+
+                    return function (text, render) {
+
+                        var _type = '';
+
+                        _type  = render(text).replace('_', ' '); 
+
+                        return "<b>" + render(_type) + "</b>";
+
+                    }
+
+                }
             }
 
             var markup = Mustache.render(template, data);
             $scrollerElement.html(markup);
+
+            $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
+
+            $('div.back-link').on('click', function () {
+
+                ub.funcs.initGenderPicker();
+
+            });
+
+        }
+
+        if (type === 'favorites') {
+
+            ub.funcs.hideSecondaryBar();
+
+            var template = $('#m-picker-items-favorites').html();
+            var uniques = items;
+            var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+
+            if (!_betaUniformsOk ) {
+
+                uniques = _.reject(uniques, function (item) { return ub.data.tempSports.isSportOK(item.uniform_category); });
+
+            } 
+                
+            var data = {
+                picker_type: type,
+                picker_items: uniques,
+                uniform_type: function () {
+
+                    return function (text, render) {
+
+                        var _type = '';
+
+                        _type  = render(text).replace('_', ' '); 
+
+                        return "<b>" + render(_type) + "</b>";
+
+                    }
+
+                }
+            }
+
+            var markup = Mustache.render(template, data);
+            $.when($scrollerElement.html(markup)).then(
+
+                $('.main-picker-items').each(function(item) {
+
+                    if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
+
+
+                        var _uid = $(this).data('id');
+
+
+                        if (typeof _uid !== "undefined") {
+
+                            _uid = _uid.toString();
+
+                        }
+
+                        _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
+                        
+                        if (typeof _result !== "undefined") {
+
+                            $(this).find('div.favorite').show();
+
+                        }
+                    }
+
+                })
+
+            );
+
+            $('span.slink.favorites').addClass('active');
 
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
 
@@ -6698,6 +6828,24 @@ $(document).ready(function () {
         var items = _.find(ub.data.sports, {gender: sport});
 
         ub.funcs.initScroller('sports', items.sports, sport, undefined, _apparel.sports);
+
+    };
+
+    ub.funcs.initFavoritesPicker = function () {
+        
+        ub.funcs.fadeOutBackgrounds();
+
+        $('div#main-row').hide();
+        $('div.special_modifiers').hide();
+
+        $('body').addClass('pickers-enabled');
+
+        $('div#main-row').hide();
+        $('div.special_modifiers').hide();
+        $('div#main-picker-container').show();
+
+        var items = _.filter(ub.materials, {is_favorite: true});
+        ub.funcs.initScroller('favorites', items, "", undefined, undefined);
 
     };
 
