@@ -122,7 +122,11 @@ class UniformBuilderController extends Controller
         if (isset($config['team_name']))
         {
             $params['team_name'] = $config['team_name'];
-            Log::info(__METHOD__ . ': Team Name = ' . $config['team_name']);
+            if (empty($config['team_name']))
+            {
+                $params['team_name'] = Session::get('team_name');
+            }
+            Log::info(__METHOD__ . ': Team Name = ' . $params['team_name']);
         }
 
         // @param Team Colors - comma separated list
@@ -132,7 +136,13 @@ class UniformBuilderController extends Controller
             $color_array = StringUtility::strToArray($config['team_colors']);
             $color_array = StringUtility::surroundElementsDQ($color_array);
             $params['team_colors'] = implode(',', $color_array);
-            Log::info(__METHOD__ . ': Team Colors = ' . $config['team_colors']);
+            if (empty($config['team_colors']))
+            {
+                $color_array = StringUtility::strToArray(Session::get('team_colors'));
+                $color_array = StringUtility::surroundElementsDQ($color_array);
+                $params['team_colors'] = $color_array;
+            }
+            Log::info(__METHOD__ . ': Team Colors = ' . $params['team_colors']);
         }
 
         // @param Jersey Name
@@ -140,7 +150,11 @@ class UniformBuilderController extends Controller
         if (isset($config['jersey_name']))
         {
             $params['jersey_name'] = $config['jersey_name'];
-            Log::info(__METHOD__ . ': Jersey Name = ' . $config['jersey_name']);
+            if (empty($config['jersey_name']))
+            {
+                $params['jersey_name'] = Session::get('jersey_name');
+            }
+            Log::info(__METHOD__ . ': Jersey Name = ' . $params['jersey_name']);
         }
 
         // @param Jersey Number
@@ -148,7 +162,11 @@ class UniformBuilderController extends Controller
         if (isset($config['jersey_number']))
         {
             $params['jersey_number'] = $config['jersey_number'];
-            Log::info(__METHOD__ . ': Jersey Number = ' . $config['jersey_number']);
+            if (empty($config['jersey_number']))
+            {
+                $params['jersey_number'] = Session::get('jersey_number');
+            }
+            Log::info(__METHOD__ . ': Jersey Number = ' . $params['jersey_number']);
         }
 
         // @param Mascot ID
@@ -156,7 +174,11 @@ class UniformBuilderController extends Controller
         if (isset($config['mascot_id']))
         {
             $params['mascot_id'] = $config['mascot_id'];
-            Log::info(__METHOD__ . ': Mascot ID = ' . $config['mascot_id']);
+            if (empty($config['mascot_id']))
+            {
+                $params['mascot_id'] = Session::get('mascot_id');
+            }
+            Log::info(__METHOD__ . ': Mascot ID = ' . $params['mascot_id']);
         }
 
         $params['builder_customizations'] = null;
@@ -359,26 +381,32 @@ class UniformBuilderController extends Controller
             if ($request->has('team_name'))
             {
                 $config['team_name'] = $request->team_name;
+                Session::put('team_name', $request->team_name);
             }
             if ($request->has('team_colors'))
             {
                 $config['team_colors'] = $request->team_colors;
+                Session::put('team_colors', $request->team_colors);
             }
             if ($request->has('store'))
             {
                 $config['store'] = $request->store;
+                Session::put('store', $request->store);
             }
             if ($request->has('jersey_name'))
             {
                 $config['jersey_name'] = $request->jersey_name;
+                Session::put('jersey_name', $request->jersey_name);
             }
             if ($request->has('jersey_number'))
             {
                 $config['jersey_number'] = $request->jersey_number;
+                Session::put('jersey_number', $request->jersey_number);
             }
             if ($request->has('mascot_id'))
             {
                 $config['mascot_id'] = $request->mascot_id;
+                Session::put('mascot_id', $request->mascot_id);
             }
             Log::info(__METHOD__ . ': Render using this code ' . $code);
         }
@@ -397,26 +425,32 @@ class UniformBuilderController extends Controller
         if ($request->has('team_name'))
         {
             $config['team_name'] = $request->team_name;
+            Session::put('team_name', $request->team_name);
         }
         if ($request->has('team_colors'))
         {
             $config['team_colors'] = $request->team_colors;
+            Session::put('team_colors', $request->team_colors);
         }
         if ($request->has('store'))
         {
             $config['store'] = $request->store;
+            Session::put('store', $request->store);
         }
         if ($request->has('jersey_name'))
         {
             $config['jersey_name'] = $request->jersey_name;
+            Session::put('jersey_name', $request->jersey_name);
         }
         if ($request->has('jersey_number'))
         {
             $config['jersey_number'] = $request->jersey_number;
+            Session::put('jersey_number', $request->jersey_number);
         }
         if ($request->has('mascot_id'))
         {
             $config['mascot_id'] = $request->mascot_id;
+            Session::put('mascot_id', $request->mascot_id);
         }
         return $this->showBuilder($config);
     }
