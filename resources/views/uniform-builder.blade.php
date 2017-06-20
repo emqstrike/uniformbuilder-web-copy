@@ -30,6 +30,7 @@
 
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 
+
 </head>
 <body>
 
@@ -230,6 +231,10 @@
 <script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
+
+<script src="{{$asset_storage}}/natural/natural.js"></script>
+<script src="{{$asset_storage}}/natural/all.js"></script>
+
 
 <!-- End Third Party Scripts -->
 
@@ -467,7 +472,10 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-utilities.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-error-codes.js?v={{$asset_version}}"></script>
+
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
+
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-nlp.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-mock-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-status.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-math.js?v={{$asset_version}}"></script>

@@ -91,18 +91,6 @@ $(document).ready(function () {
 
         };
 
-        ub.funcs.directLinks = function (gender, sport) {
-
-            ub.funcs.prepFilters();
-            ub.funcs.prepPickers();
-
-            $('span.slink[data-item="' + gender + '"]').addClass('active');
-
-            ub.funcs.initUniformsPicker(sport, gender);
-            ub.funcs.setupEvents();
-
-        }
-
         ub.funcs.preprocessGenderTerm = function (gender) {
 
             return gender.toTitleCase();
@@ -117,12 +105,8 @@ $(document).ready(function () {
 
         ub.funcs.callDirectLinks = function () {
 
-            ub.utilities.info('Calling Direct Links...');
-
             var _gender = ub.data.urlAlias.getAlias(ub.config.styles.gender);
             var _sport = ub.data.urlAlias.getAlias(ub.config.styles.sport);
-
-            console.log(_gender, _sport);
 
             ub.funcs.directLinks(_gender.urlAlias, _sport.urlAlias);
 
@@ -5874,7 +5858,7 @@ $(document).ready(function () {
 
         $('span.slink[data-item="' + gender + '"]').addClass('active');
 
-        ub.funcs.initUniformsPicker(sport, gender);
+        ub.funcs.initUniformsPicker(sport, gender, true);
         ub.funcs.setupEvents();
 
     }
@@ -6970,7 +6954,17 @@ $(document).ready(function () {
 
     };
 
-    ub.funcs.initUniformsPicker = function (sport, gender) {
+    ub.funcs.showPickerMessage = function (obj) { // obj = {msg: 'msg', didYouMean: '', link: ''}
+
+        var $scrollerElement = $('#main-picker-scroller');
+        var template = $('#m-picker-message').html();
+        var markup = Mustache.render(template, obj);
+
+        $scrollerElement.html(markup);
+
+    }
+
+    ub.funcs.initUniformsPicker = function (sport, gender, fromDirectLink) {
 
         $('body').addClass('pickers-enabled');
 
@@ -6981,6 +6975,46 @@ $(document).ready(function () {
         var _actualGender = gender;
 
         var items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
+
+        if (typeof fromDirectLink !== "undefined" && _.size(items) === 0) {
+
+            var _msg = 'No Styles Found for ' + ub.config.styles.gender + ' / ' + ub.config.styles.sport;
+            var _didYouMean = '';
+            var _markup = ''
+            var _template = '';
+
+            ub.nlp.query(ub.config.styles.sport, function(output){ 
+                
+                if (_.size(output.result) > 0) {
+
+                    var _firstResult = output.result[0][0];
+                    var _alias;
+
+                    _didYouMean = 'Did you mean ' + _firstResult + '?';
+
+                    var _alias = ub.data.urlAlias.getAlias(_firstResult);
+                    
+                    if (typeof _alias !== "undefined") {
+
+                        _template = $('#m-did-you-mean-link-templates').html();
+                        _markup = Mustache.render(_template, {
+                            alias: _alias,
+                            gender: _alias.gender,
+                        });
+
+                    }
+
+                }
+
+            });
+        
+            ub.funcs.showPickerMessage({message: _msg, didYouMean: _didYouMean });
+            $('div.generic-message').append(_markup);
+
+            return;
+
+        }
+
         ub.funcs.initScroller('uniforms', items, sport, undefined, undefined, _actualGender);
 
     };
