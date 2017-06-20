@@ -135,6 +135,30 @@ class UniformBuilderController extends Controller
             Log::info(__METHOD__ . ': Team Colors = ' . $config['team_colors']);
         }
 
+        // @param Jersey Name
+        $params['jersey_name'] = '';
+        if (isset($config['jersey_name']))
+        {
+            $params['jersey_name'] = $config['jersey_name'];
+            Log::info(__METHOD__ . ': Jersey Name = ' . $config['jersey_name']);
+        }
+
+        // @param Jersey Number
+        $params['jersey_number'] = '';
+        if (isset($config['jersey_number']))
+        {
+            $params['jersey_number'] = $config['jersey_number'];
+            Log::info(__METHOD__ . ': Jersey Number = ' . $config['jersey_number']);
+        }
+
+        // @param Mascot ID
+        $params['mascot_id'] = '';
+        if (isset($config['mascot_id']))
+        {
+            $params['mascot_id'] = $config['mascot_id'];
+            Log::info(__METHOD__ . ': Mascot ID = ' . $config['mascot_id']);
+        }
+
         $params['builder_customizations'] = null;
         $params['order'] = null;
 
@@ -296,7 +320,7 @@ class UniformBuilderController extends Controller
      * @param Integer $materialId
      */
 
-    public function loadDesignSet($designSetId = null, $materialId = null, $code = null)
+    public function loadDesignSet($designSetId = null, $materialId = null)
     {
         $config = [
             'design_set_id' => $designSetId,
@@ -344,6 +368,18 @@ class UniformBuilderController extends Controller
             {
                 $config['store'] = $request->store;
             }
+            if ($request->has('jersey_name'))
+            {
+                $config['jersey_name'] = $request->jersey_name;
+            }
+            if ($request->has('jersey_number'))
+            {
+                $config['jersey_number'] = $request->jersey_number;
+            }
+            if ($request->has('mascot_id'))
+            {
+                $config['mascot_id'] = $request->mascot_id;
+            }
             Log::info(__METHOD__ . ': Render using this code ' . $code);
         }
 
@@ -369,6 +405,18 @@ class UniformBuilderController extends Controller
         if ($request->has('store'))
         {
             $config['store'] = $request->store;
+        }
+        if ($request->has('jersey_name'))
+        {
+            $config['jersey_name'] = $request->jersey_name;
+        }
+        if ($request->has('jersey_number'))
+        {
+            $config['jersey_number'] = $request->jersey_number;
+        }
+        if ($request->has('mascot_id'))
+        {
+            $config['mascot_id'] = $request->mascot_id;
         }
         return $this->showBuilder($config);
     }

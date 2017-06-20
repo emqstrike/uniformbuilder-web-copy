@@ -412,11 +412,11 @@
         
         @if(!empty($team_colors))
             ub.team_colors = [{!! $team_colors !!}];
-        // @else
-        //     ub.team_colors = [];
         @endif
-
         ub.team_store = "{{ isset($store) ? $store : false }}";
+        ub.jersey_name = "{{ isset($jersey_name) ? $jersey_name : false }}";
+        ub.jersey_number = "{{ isset($jersey_number) ? $jersey_number : false }}";
+        ub.mascot_id = "{{ isset($mascot_id) ? $mascot_id : false }}";
 
         ub.savedDesignName = "{{ isset($saved_design_name) ? $saved_design_name : '' }}";
 
