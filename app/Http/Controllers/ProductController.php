@@ -18,8 +18,6 @@ class ProductController extends Controller
         $right = FileUtility::saveSvgToS3($request->right, 'right');
         $left = FileUtility::saveSvgToS3($request->left, 'left');
 
-        $referrer = $_SERVER['HTTP_REFERER'];
-
         return response()->json([
             'success' => true,
             'front' => $front,
