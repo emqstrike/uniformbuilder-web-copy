@@ -73,6 +73,7 @@ class UniformBuilderController extends Controller
         {
             if (!is_null($materialId))
             {
+                // To do: Pull material data from memory
                 $material = $this->materialsClient->getMaterial($materialId);
             }
 
@@ -157,7 +158,7 @@ class UniformBuilderController extends Controller
                 $params['saved_design_name'] = $config['saved_design_name'];              
 
             } elseif ($pageType['page'] === "order") {
-                
+
                 $order = Session::get('order');
                 Session::put('design', null);
 
@@ -295,7 +296,7 @@ class UniformBuilderController extends Controller
      * @param Integer $materialId
      */
 
-    public function loadDesignSet($designSetId = null, $materialId = null)
+    public function loadDesignSet($designSetId = null, $materialId = null, $code = null)
     {
         $config = [
             'design_set_id' => $designSetId,
@@ -348,6 +349,28 @@ class UniformBuilderController extends Controller
 
         return $this->showBuilder($config);
 
+    }
+
+    public function load_material(Request $request, $material_id)
+    {
+        $config = [
+            'design_set_id' => 0,
+            'material_id' => $material_id,
+            'render' => true
+        ];
+        if ($request->has('team_name'))
+        {
+            $config['team_name'] = $request->team_name;
+        }
+        if ($request->has('team_colors'))
+        {
+            $config['team_colors'] = $request->team_colors;
+        }
+        if ($request->has('store'))
+        {
+            $config['store'] = $request->store;
+        }
+        return $this->showBuilder($config);
     }
 
     public function fileUpload (Request $request) {
