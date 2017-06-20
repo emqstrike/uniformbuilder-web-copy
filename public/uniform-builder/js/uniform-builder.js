@@ -7000,6 +7000,17 @@ $(document).ready(function () {
                         _markup = Mustache.render(_template, {
                             alias: _alias,
                             gender: _alias.gender,
+                            toUpper : function () {
+                              return function(val, render) {
+                                
+                                var str = render(val);
+                                str = (str === "men") ? "Men": "Women";
+
+                                return render(str);
+                                
+                              };
+                            }
+
                         });
 
                     }
