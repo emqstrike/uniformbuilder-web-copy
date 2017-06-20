@@ -28,6 +28,8 @@ $(document).ready(function() {
 
     ub.uiTools = {};
 
+    ub.nlp = {};
+
     ub.totalWidth = 1000;
 
     /// Search
@@ -13294,31 +13296,75 @@ ub.funcs.fontOffSets = [
         items: [
             {
                 shortCode: 'tech-tee',
-                urlAlias: 'Tech-Tee (Apparel)',    
+                urlAlias: 'Tech-Tee (Apparel)',
+                thumbFilename: 'tech_tee.png',
+                gender: ['men', 'women'],
             },
             {
                 shortCode: 'polo',
-                urlAlias: 'Polo (Apparel)',    
+                urlAlias: 'Polo (Apparel)',
+                thumbFilename: 'polo.png',
+                gender: ['men', 'women'],
             },
             {
-                shortCode: 'crew socks',
-                urlAlias: 'Crew Socks (Apparel)',    
+                shortCode: 'volleyball',
+                urlAlias: 'Volleyball',
+                thumbFilename: 'volleyball.png',
+                gender: ['women'],
+            },
+            {
+                shortCode: 'fastpitch',
+                urlAlias: 'Fastpitch',
+                thumbFilename: 'fastpitch.png',
+                gender: ['women'],
+            },
+            {
+                shortCode: 'crew-socks',
+                urlAlias: 'Crew Socks (Apparel)',
+                thumbFilename: 'crew_sock.png',
+                gender: ['men',],    
             },
             {
                 shortCode: 'hoodie',
                 urlAlias: 'Hoodie (Apparel)',    
+                thumbFilename: 'hoodie.png',
+                gender: ['men',],    
+            },
+            {
+                shortCode: 'football',
+                urlAlias: 'Football',    
+                thumbFilename: 'football.png',
+                gender: ['men',],    
+            },
+            {
+                shortCode: 'baseball',
+                urlAlias: 'Baseball',  
+                thumbFilename: 'baseball.png',  
+                gender: ['men',],    
+            },
+            {
+                shortCode: 'wrestling',
+                urlAlias: 'Wrestling',  
+                thumbFilename: 'wrestling.png',  
+                gender: ['men',],    
             },
             {
                 shortCode: 'cinch-sack',
-                urlAlias: 'Cinch Sack (Apparel)',    
+                urlAlias: 'Cinch Sack (Apparel)',
+                thumbFilename: 'cinch_sack.png',
+                gender: ['men',],    
             },
             {
                 shortCode: 'one-fourth-zip-jacket',
-                urlAlias: '1-4 Zip Jacket (Apparel)',    
+                urlAlias: '1-4 Zip Jacket (Apparel)',
+                thumbFilename: '1-4 zip.png',
+                gender: ['men',],       
             },
             {
                 shortCode: 'fan-replica-jersey',
-                urlAlias: 'Fan Replica Jersey (Apparel)',    
+                urlAlias: 'Fan Replica Jersey (Apparel)',
+                thumbFilename: 'fan_replica.png',
+                gender: ['men',],    
             },
             
         ],
@@ -13339,6 +13385,11 @@ ub.funcs.fontOffSets = [
             }
 
             return _result;
+
+        }, 
+        getArray: function () {
+
+            return _.pluck(this.items, 'shortCode');
 
         }
 

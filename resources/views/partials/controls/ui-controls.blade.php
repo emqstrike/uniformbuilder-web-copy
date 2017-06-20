@@ -2114,3 +2114,35 @@
     
 </script>
 
+<script type="text/mustache" id="m-picker-message">
+    
+    <div class="generic-message">
+
+       @{{message}} <br />
+       @{{didYouMean}} <br /><br />
+       
+    </div>
+    
+</script>
+
+<script type="text/mustache" id="m-did-you-mean-link-templates">
+    
+    <div class="did-you-mean-links">
+
+       @{{#gender}}
+
+            <a href ="/styles/@{{.}}/@{{alias.shortCode}}" class="">
+
+                <img class="grow" src = "/images/main-ui/pickers/@{{.}}/@{{alias.thumbFilename}}" />
+                <div class="link-text">@{{.}} / @{{alias.urlAlias}}</div>
+
+            </a>
+
+       @{{/gender}}
+
+    </div>
+
+
+    
+</script>
+
