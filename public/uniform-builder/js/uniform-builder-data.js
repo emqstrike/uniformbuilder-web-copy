@@ -9563,6 +9563,10 @@ ub.funcs.fontOffSets = [
             sport: 'Polo (Apparel)',
             filters: ['All'],
         },
+        {
+            sport: 'Fan Replica Jersey (Apparel)',
+            filters: ['All'],
+        }, 
 
     ];
 
@@ -13311,6 +13315,10 @@ ub.funcs.fontOffSets = [
             {
                 shortCode: 'one-fourth-zip-jacket',
                 urlAlias: '1-4 Zip Jacket (Apparel)',    
+            },
+            {
+                shortCode: 'fan-replica-jersey',
+                urlAlias: 'Fan Replica Jersey (Apparel)',    
             },
             
         ],
