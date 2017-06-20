@@ -7002,7 +7002,12 @@ $(document).ready(function () {
                             gender: _alias.gender,
                             toUpper : function () {
                               return function(val, render) {
-                                return render(val.toTitleCase());
+                                
+                                var str = render(val);
+                                str = (str === "men") ? "Men": "Women";
+
+                                return render(str);
+                                
                               };
                             }
 

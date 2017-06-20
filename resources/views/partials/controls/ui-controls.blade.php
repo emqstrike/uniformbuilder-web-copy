@@ -2131,9 +2131,9 @@
 
        @{{#gender}}
 
-            <a href ="/styles/@{{#toUpper}}@{{.}}@{{/toUpper}}/@{{alias.shortCode}}" class="">
+            <a href ="/styles/@{{.}}/@{{alias.shortCode}}" class="">
 
-                <img class="grow" src = "/images/main-ui/pickers/@{{.}}/@{{alias.thumbFilename}}" />
+                <img class="grow" src = "/images/main-ui/pickers/@{{#toUpper}}@{{.}}@{{/toUpper}}/@{{alias.thumbFilename}}" />
                 <div class="link-text">@{{.}} / @{{alias.urlAlias}}</div>
 
             </a>
