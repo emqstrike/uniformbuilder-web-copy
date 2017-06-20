@@ -122,7 +122,16 @@ class AuthenticationController extends AdminAuthController
                     $response = $decoder->decode($response->getBody());
 
                     if ($response->success) {
-                        Session::put('password', $response->hashedString);
+                        $params = [
+                            'userId' => $result->user->id,
+                            'firstName' => $result->user->first_name,
+                            'lastName' => $result->user->last_name,
+                            'email' => $result->user->email,
+                            'accessToken' => base64_encode($result->access_token),
+                            'password' => $response->hashedString
+                        ];
+                        $teamstore_registration_params = base64_encode( json_encode($params) );
+                        Session::put('teamstore_registration_params', $teamstore_registration_params);
                     }
                 }
 
