@@ -122,7 +122,6 @@ class AuthenticationController extends AdminAuthController
                     $response = $decoder->decode($response->getBody());
 
                     if ($response->success) {
-                        Session::put('password', $response->hashedString);
                         $params = [
                             'userId' => $result->user->id,
                             'firstName' => $result->user->first_name,
