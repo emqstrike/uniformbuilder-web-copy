@@ -8140,7 +8140,9 @@ $(document).ready(function() {
 
             ub.create_application(_settingsObject, undefined);
             ub.funcs.activateApplications(_settingsObject.code);
-            ub.current_material.settings.applications[_id] = _settingsObject;          
+            ub.current_material.settings.applications[_id] = _settingsObject;  
+
+            ub.funcs.LSRSBSFS(parseInt(_id));
 
         }
 
