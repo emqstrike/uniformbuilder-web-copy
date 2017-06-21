@@ -252,9 +252,9 @@ $(document).ready(function () {
 
                     ub.data.unreadMessages = response.messages;
 
-                    $('a#messages > span.badge').hide();
-                    $('a#messages > span.badge').html(_count);
-                    $('a#messages > span.badge').fadeIn();
+                    $('a#messages > span.message-badge').hide();
+                    $('a#messages > span.message-badge').html(_count);
+                    $('a#messages > span.message-badge').fadeIn();
 
                     _.each(ub.data.messageTypes, ub.funcs.updateMessageBadges);
 

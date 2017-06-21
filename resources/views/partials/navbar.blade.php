@@ -53,7 +53,7 @@
 
             <a href="/messages" id="messages">
 
-                <i class="fa fa-envelope-o" aria-hidden="true"></i> My Notifications <span class="badge"></span>
+                <i class="fa fa-envelope-o" aria-hidden="true"></i> My Notifications (<span class="message-badge"></span>)
 
             </a>
 
