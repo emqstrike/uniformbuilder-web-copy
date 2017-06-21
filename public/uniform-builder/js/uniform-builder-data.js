@@ -2105,7 +2105,7 @@ $(document).ready(function() {
                 alias: "volleyball",
             },
             { 
-                name: "Fan Replica Jerset (Apparel)",
+                name: "Fan Replica Jersey (Apparel)",
                 alias: "fan-replica-jersey",
             },
 
