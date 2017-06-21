@@ -11058,8 +11058,12 @@ $(document).ready(function() {
                _.each(_app.application.views, function (view) {
 
                     var _obj = ub.objects[view.perspective + '_view']['objects_' + _locID];
-                    _obj.zIndex = -(ub.funcs.generateZindex('applications') + _index);
 
+                    if (_obj.zIndex !== 0) { // Skip changing zIndex if application is disabled
+
+                        _obj.zIndex = -(ub.funcs.generateZindex('applications') + _index);
+
+                    }
                     
                });
 
