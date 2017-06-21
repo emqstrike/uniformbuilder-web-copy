@@ -6441,7 +6441,7 @@ $(document).ready(function () {
                     // If the uniform doesnt have a thumbnail use the sports picker thumb
                     if (imgt.attr('src') === ("?v=" + ub.config.asset_version)) {
 
-                        var _filename =  '/images/main-ui/pickers/' + actualGender + '/' + ub.data.sportAliases.getAlias(gender).alias + '.png';
+                        var _filename =  '/images/main-ui/pickers/' + actualGender.toTitleCase() + '/' + ub.data.sportAliases.getAlias(gender).alias + '.png';
                         imgt.attr('src', _filename);
 
                     }
