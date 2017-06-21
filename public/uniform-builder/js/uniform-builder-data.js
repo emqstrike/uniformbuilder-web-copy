@@ -2104,6 +2104,10 @@ $(document).ready(function() {
                 name: "Volleyball",
                 alias: "volleyball",
             },
+            { 
+                name: "Fan Replica Jerset (Apparel)",
+                alias: "fan-replica-jersey",
+            },
 
         ],
 
@@ -4205,6 +4209,13 @@ $(document).ready(function() {
                     tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 },
+                {
+                    code: 'fan-replica-jersey',
+                    name: 'Fan Replica Jersey (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
             ],
         },
         {
@@ -4224,6 +4235,14 @@ $(document).ready(function() {
                     tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 },
+                {
+                    code: 'fan-replica-jersey',
+                    name: 'Fan Replica Jersey (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+
             ],
         },
         {
@@ -12889,6 +12908,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Hoodie (Apparel)' },
             { sport: 'Polo (Apparel)' },
             { sport: 'Fastpitch' },
+            { sport: 'Fan Replica Jersey (Apparel)' },
 
         ],
 
