@@ -6400,7 +6400,7 @@ $(document).ready(function () {
             var _sport = gender;
 
             ub.funcs.prepareSecondaryBar(_sport, actualGender);
-            
+
             $('div.secondary-bar').fadeIn();
             $('div.secondary-bar').css('margin-top', "0px");
 
@@ -6441,7 +6441,7 @@ $(document).ready(function () {
                     // If the uniform doesnt have a thumbnail use the sports picker thumb
                     if (imgt.attr('src') === ("?v=" + ub.config.asset_version)) {
 
-                        var _filename =  '/images/main-ui/pickers/' + gender.toLowerCase() + '.png';
+                        var _filename =  '/images/main-ui/pickers/' + actualGender + '/' + ub.data.sportAliases.getAlias(gender).alias + '.png';
                         imgt.attr('src', _filename);
 
                     }
