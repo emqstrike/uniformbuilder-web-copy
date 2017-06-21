@@ -6019,6 +6019,12 @@ $(document).ready(function() {
     ub.status.mascotPopupVisible = false;
     ub.funcs.createMascotPopup = function (applicationType, mascot, settingsObj) {
 
+        var mascot_category = undefined;
+        var mascots_group_category = undefined;
+
+        mascot_category = _.find(ub.data.mascots_categories, {name: mascot.category});
+        mascots_group_category = _.find(ub.data.mascots_groups_categories, { name: mascot_category.group_name });
+
         ub.status.mascotPopupVisible = true;
 
         var sampleSize = '1.9em';
@@ -6134,8 +6140,6 @@ $(document).ready(function() {
 
         $('span.groups_category_item').on('click', function () {
 
-
-
             var _groups_category_id = ($(this).data('category')).toString();
             var _groups_category_name = $(this).data('category-name');
             var _categories = _.filter(ub.data.mascots_categories, {mascots_group_category_id: _groups_category_id});
@@ -6174,6 +6178,9 @@ $(document).ready(function() {
                 var _category_id = $(this).data('category');
                 var _category_name = $(this).data('category-name');
                 var _current = $('div.popup_header').html();
+
+                $('span.category_item').removeClass('active');
+                $(this).addClass('active');
 
                 $('div.popup_header').html('MASCOTS: ' + _groups_category_name + ', ' + _category_name );
 
@@ -6340,6 +6347,14 @@ $(document).ready(function() {
             }); 
 
         /// End Custom Artwork Request 
+
+        /// Select current mascot
+
+            $('span.groups_category_item[data-category-name="' + mascots_group_category.name + '"]').click();
+            $('span.category_item[data-category-name="' + mascot_category.name + '"]').click();
+            $('div.item[data-mascot-id="' + mascot.id + '"]').addClass('active');
+
+        /// End After load Events
 
     }
 
