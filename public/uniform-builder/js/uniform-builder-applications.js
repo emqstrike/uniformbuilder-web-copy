@@ -1895,7 +1895,6 @@ $(document).ready(function() {
 
                     // start
                     sprite.ubHover  = true;
-                    baseSprite.tint = parseInt("3d3d3d",16);
                     ub.data.applicationAccumulator = _sizeOfApplications;
                     ub.funcs.setPointer();
                    
@@ -1905,7 +1904,6 @@ $(document).ready(function() {
 
                     // restore
                     sprite.ubHover  = false;
-                    baseSprite.tint = baseSprite.oldTint;
                     ub.data.applicationAccumulator -= 1;
                     ub.funcs.setPointer();
 
@@ -3488,6 +3486,7 @@ $(document).ready(function() {
 
         ub.stage.on('mousedown', function (mousedata) {
 
+
             if (ub.status.fullView.getStatus()) { 
 
                 if (ub.status.fullViewZoom.getStatus()) {
@@ -3550,7 +3549,9 @@ $(document).ready(function() {
 
             /// Check if CW if empty, draw Pickers if it is
             if ($('div#cw').html().length === 0) {
+
                 ub.funcs.drawColorPickers();
+
             }
 
             var current_coodinates = mousedata.data.global;
@@ -5902,6 +5903,8 @@ $(document).ready(function() {
         settingsObj.size = parseFloat(size);
         settingsObj.font_size = parseFloat(size);
 
+
+
         ub.funcs.update_application_mascot(settingsObj.application, settingsObj.mascot);
 
     }
@@ -6849,6 +6852,7 @@ $(document).ready(function() {
             if (_layerNo > _noOfLayers) { return; }
 
             $layer = $('span.colorItem[data-layer-no="' + _layerNo + '"][data-color-code="' + color.color_code + '"]');
+
             $layer.click();
 
         });
