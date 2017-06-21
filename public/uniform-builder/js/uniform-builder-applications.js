@@ -4172,8 +4172,12 @@ $(document).ready(function() {
 
         _.each(_group_items, function (group_item) {
 
-            ub.funcs.ui.setMaterialOptionColor(group_item.name, colorObj);
-          
+            if (typeof ub.data.materialOptionWithLimitedColors.getLimitedColorSet(group_item.name) === "undefined") {
+
+                ub.funcs.ui.setMaterialOptionColor(group_item.name, colorObj);
+
+            }
+
         });
 
         var _applications = ub.current_material.settings.applications;
