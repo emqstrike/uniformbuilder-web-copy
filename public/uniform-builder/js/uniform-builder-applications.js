@@ -10361,7 +10361,11 @@ $(document).ready(function() {
 
     ub.funcs.activateBody = function () {
 
-        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
+        if (ub.data.hiddenBody.currentUniformOk()) {
+            $('div.pd-dropdown-links[data-name="Front Body"]').trigger('click');    
+        } else {
+            $('div.pd-dropdown-links[data-name="Body"]').trigger('click');    
+        }
 
     }
 
@@ -11134,9 +11138,6 @@ $(document).ready(function() {
         ub.funcs.updateLayerTool();
         // End Populate Layer Tool
 
-        ub.funcs.gotoFirstApplication();
-        ub.funcs.activeStyle('layers');
-
         $('div.layers-header > span.close').on('click', function () {
 
             ub.funcs.hideLayerTool();
@@ -11190,6 +11191,12 @@ $(document).ready(function() {
             ub.funcs.showLayerTool();   
         });
 
+        /// After Load
+
+        ub.funcs.gotoFirstApplication();
+        ub.funcs.activeStyle('layers');
+
+        /// End After Load
 
     }
 
