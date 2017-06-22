@@ -4178,8 +4178,6 @@ $(document).ready(function() {
                     code: 'polo',
                     name: 'Polo (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'hoodie',
@@ -4232,8 +4230,6 @@ $(document).ready(function() {
                     code: 'polo',
                     name: 'Polo (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'fan-replica-jersey',
@@ -12883,6 +12879,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Football' },
             { sport: 'Wrestling' },
             { sport: 'Crew Socks (Apparel)' },
+            { sport: 'Polo (Apparel)' },
 
         ],
 
@@ -12906,7 +12903,6 @@ ub.funcs.fontOffSets = [
             { sport: 'Volleyball' },
             { sport: '1-4 Zip Jacket (Apparel)' },
             { sport: 'Hoodie (Apparel)' },
-            { sport: 'Polo (Apparel)' },
             { sport: 'Fastpitch' },
             { sport: 'Fan Replica Jersey (Apparel)' },
 
