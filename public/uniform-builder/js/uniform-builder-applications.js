@@ -5859,16 +5859,19 @@ $(document).ready(function() {
 
         var _html       = "";
         var _cObj       = ub.funcs.getColorByColorCode(activeColorCode);
+        var _teamColors = ub.current_material.settings.team_colors;
 
         _html = '<div class="smallPickerContainer" data-layer-no="' + layer_no + '">';
-
         _html += '<label class="smallColorPickerLabel" >' + layer_name + ' </label>';
 
-        _.each(ub.current_material.settings.team_colors, function (_color) {
+        _teamColors = _.sortBy(_teamColors, "order");
+
+        _.each(_teamColors, function (_color) {
 
             var _checkMark  = '&nbsp;';
             var _style      = "25px";
             var _class      = '';
+            var _colorObj   = '';
 
             if (activeColorCode === _color.color_code) {
                 _checkMark  = '<i class="fa fa-check" aria-hidden="true"></i>';
@@ -5876,7 +5879,7 @@ $(document).ready(function() {
                 _class      = 'activeColorItem';
             }
 
-            var _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
+            _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
             _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '">' + _checkMark + '</span>';
 
         });
@@ -8537,7 +8540,7 @@ $(document).ready(function() {
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text: " + '</label>';                       
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">' + "Sample Text" + '</label>';                       
         _htmlBuilder        +=              '<input type="text" name="sampleText" class="sampleText" value="' + _sampleText + '" maxlength="' + _maxLength + '">';                       
         _htmlBuilder        +=          '</div>';        
         _htmlBuilder        +=          '<div class="ui-row">';
