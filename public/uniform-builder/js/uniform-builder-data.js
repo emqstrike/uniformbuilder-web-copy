@@ -4165,8 +4165,6 @@ $(document).ready(function() {
                     code: 'cinch_sack',
                     name: 'Cinch Sack (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'crew_sock',
@@ -12880,6 +12878,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Wrestling' },
             { sport: 'Crew Socks (Apparel)' },
             { sport: 'Polo (Apparel)' },
+            { sport: 'Cinch Sack (Apparel)' },
 
         ],
 
@@ -12899,7 +12898,6 @@ ub.funcs.fontOffSets = [
             { sport: 'Baseball' },
             { sport: 'Compression (Apparel)' },
             { sport: 'Tech-Tee (Apparel)' },
-            { sport: 'Cinch Sack (Apparel)' },
             { sport: 'Volleyball' },
             { sport: '1-4 Zip Jacket (Apparel)' },
             { sport: 'Hoodie (Apparel)' },
