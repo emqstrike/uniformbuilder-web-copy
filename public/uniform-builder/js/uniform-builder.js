@@ -5858,6 +5858,15 @@ $(document).ready(function () {
 
         $('span.slink[data-item="' + gender + '"]').addClass('active');
 
+        if (sport === '') {
+
+            ub.funcs.setActiveGender(gender.toTitleCase());
+            ub.funcs.initSportsPicker(gender.toTitleCase());
+
+            return;
+
+        }
+
         ub.funcs.initUniformsPicker(sport, gender, true);
         ub.funcs.setupEvents();
 
