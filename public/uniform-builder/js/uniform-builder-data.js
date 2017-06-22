@@ -4194,8 +4194,6 @@ $(document).ready(function() {
                     code: '1-4 zip',
                     name: '1-4 Zip Jacket (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'fan-replica-jersey',
@@ -12873,6 +12871,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Compression (Apparel)' },
             { sport: 'Tech-Tee (Apparel)' },
             { sport: 'Hoodie (Apparel)' },
+            { sport: '1-4 Zip Jacket (Apparel)' },
 
         ],
 
@@ -12890,7 +12889,6 @@ ub.funcs.fontOffSets = [
         items: [
 
             { sport: 'Volleyball' },
-            { sport: '1-4 Zip Jacket (Apparel)' },
             { sport: 'Fastpitch' },
             { sport: 'Fan Replica Jersey (Apparel)' },
 
