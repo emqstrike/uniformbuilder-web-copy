@@ -4094,8 +4094,6 @@ $(document).ready(function() {
                     code: 'baseball',
                     name: 'Baseball',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'lacrosse',
@@ -12879,6 +12877,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Crew Socks (Apparel)' },
             { sport: 'Polo (Apparel)' },
             { sport: 'Cinch Sack (Apparel)' },
+            { sport: 'Baseball' },
 
         ],
 
@@ -12895,7 +12894,6 @@ ub.funcs.fontOffSets = [
 
         items: [
 
-            { sport: 'Baseball' },
             { sport: 'Compression (Apparel)' },
             { sport: 'Tech-Tee (Apparel)' },
             { sport: 'Volleyball' },

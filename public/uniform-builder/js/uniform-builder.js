@@ -6914,7 +6914,6 @@ $(document).ready(function () {
             ub.funcs.enableSport(ub.data.apparel, 'Women', 'tech_tee');
             ub.funcs.enableSport(ub.data.apparel, 'Women', 'fan-replica-jersey');
 
-            ub.funcs.enableSport(ub.data.sports, 'Men', 'baseball');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'tech_tee');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'compression');
             ub.funcs.enableSport(ub.data.apparel, 'Men', '1-4 zip');
@@ -6928,7 +6927,6 @@ $(document).ready(function () {
             ub.funcs.disableSport(ub.data.apparel, 'Women', 'tech_tee');
             ub.funcs.disableSport(ub.data.apparel, 'Women', 'fan-replica-jersey');
 
-            ub.funcs.disableSport(ub.data.sports, 'Men', 'baseball');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'tech_tee');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'compression');
             ub.funcs.disableSport(ub.data.apparel, 'Men', '1-4 zip');
