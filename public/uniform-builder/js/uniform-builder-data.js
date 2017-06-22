@@ -4197,8 +4197,6 @@ $(document).ready(function() {
                     code: 'fan-replica-jersey',
                     name: 'Fan Replica Jersey (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
             ],
         },
@@ -4219,8 +4217,6 @@ $(document).ready(function() {
                     code: 'fan-replica-jersey',
                     name: 'Fan Replica Jersey (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
 
             ],
@@ -12871,6 +12867,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Hoodie (Apparel)' },
             { sport: '1-4 Zip Jacket (Apparel)' },
             { sport: 'Volleyball' },
+            { sport: 'Fan Replica Jersey (Apparel)' },
 
         ],
 
@@ -12888,7 +12885,6 @@ ub.funcs.fontOffSets = [
         items: [
 
             { sport: 'Fastpitch' },
-            { sport: 'Fan Replica Jersey (Apparel)' },
 
         ],
 

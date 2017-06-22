@@ -6910,17 +6910,10 @@ $(document).ready(function () {
         if (_betaUniformsOk) {
 
             ub.funcs.enableSport(ub.data.sports, 'Women', 'fastpitch');
-            ub.funcs.enableSport(ub.data.apparel, 'Women', 'tech_tee');
-            ub.funcs.enableSport(ub.data.apparel, 'Women', 'fan-replica-jersey');
-
-            ub.funcs.enableSport(ub.data.apparel, 'Men', 'fan-replica-jersey');
 
         } else {
 
             ub.funcs.disableSport(ub.data.sports, 'Women', 'fastpitch');
-            ub.funcs.disableSport(ub.data.apparel, 'Women', 'fan-replica-jersey');
-
-            ub.funcs.disableSport(ub.data.apparel, 'Men', 'fan-replica-jersey');
 
         }
 
