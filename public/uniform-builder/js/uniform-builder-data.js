@@ -4191,8 +4191,6 @@ $(document).ready(function() {
                     code: 'tech_tee',
                     name: 'Tech-Tee (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: '1-4 zip',
@@ -4217,8 +4215,6 @@ $(document).ready(function() {
                     code: 'tech_tee',
                     name: 'Tech-Tee (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'polo',
@@ -12877,6 +12873,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Cinch Sack (Apparel)' },
             { sport: 'Baseball' },
             { sport: 'Compression (Apparel)' },
+            { sport: 'Tech-Tee (Apparel)' },
 
         ],
 
@@ -12893,7 +12890,6 @@ ub.funcs.fontOffSets = [
 
         items: [
 
-            { sport: 'Tech-Tee (Apparel)' },
             { sport: 'Volleyball' },
             { sport: '1-4 Zip Jacket (Apparel)' },
             { sport: 'Hoodie (Apparel)' },
