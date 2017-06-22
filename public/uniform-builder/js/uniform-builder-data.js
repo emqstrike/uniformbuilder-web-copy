@@ -4094,8 +4094,6 @@ $(document).ready(function() {
                     code: 'baseball',
                     name: 'Baseball',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'lacrosse',
@@ -4120,8 +4118,6 @@ $(document).ready(function() {
                     code: 'volleyball',
                     name: 'Volleyball',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'fastpitch',
@@ -4165,8 +4161,6 @@ $(document).ready(function() {
                     code: 'cinch_sack',
                     name: 'Cinch Sack (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'crew_sock',
@@ -4178,43 +4172,31 @@ $(document).ready(function() {
                     code: 'polo',
                     name: 'Polo (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'hoodie',
                     name: 'Hoodie (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'compression',
                     name: 'Compression (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'tech_tee',
                     name: 'Tech-Tee (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: '1-4 zip',
                     name: '1-4 Zip Jacket (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'fan-replica-jersey',
                     name: 'Fan Replica Jersey (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
             ],
         },
@@ -4225,22 +4207,16 @@ $(document).ready(function() {
                     code: 'tech_tee',
                     name: 'Tech-Tee (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'polo',
                     name: 'Polo (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'fan-replica-jersey',
                     name: 'Fan Replica Jersey (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
 
             ],
@@ -12883,6 +12859,15 @@ ub.funcs.fontOffSets = [
             { sport: 'Football' },
             { sport: 'Wrestling' },
             { sport: 'Crew Socks (Apparel)' },
+            { sport: 'Polo (Apparel)' },
+            { sport: 'Cinch Sack (Apparel)' },
+            { sport: 'Baseball' },
+            { sport: 'Compression (Apparel)' },
+            { sport: 'Tech-Tee (Apparel)' },
+            { sport: 'Hoodie (Apparel)' },
+            { sport: '1-4 Zip Jacket (Apparel)' },
+            { sport: 'Volleyball' },
+            { sport: 'Fan Replica Jersey (Apparel)' },
 
         ],
 
@@ -12899,16 +12884,7 @@ ub.funcs.fontOffSets = [
 
         items: [
 
-            { sport: 'Baseball' },
-            { sport: 'Compression (Apparel)' },
-            { sport: 'Tech-Tee (Apparel)' },
-            { sport: 'Cinch Sack (Apparel)' },
-            { sport: 'Volleyball' },
-            { sport: '1-4 Zip Jacket (Apparel)' },
-            { sport: 'Hoodie (Apparel)' },
-            { sport: 'Polo (Apparel)' },
             { sport: 'Fastpitch' },
-            { sport: 'Fan Replica Jersey (Apparel)' },
 
         ],
 
