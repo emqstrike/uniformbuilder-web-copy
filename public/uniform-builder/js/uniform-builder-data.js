@@ -4179,8 +4179,6 @@ $(document).ready(function() {
                     code: 'hoodie',
                     name: 'Hoodie (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'compression',
@@ -12874,6 +12872,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Baseball' },
             { sport: 'Compression (Apparel)' },
             { sport: 'Tech-Tee (Apparel)' },
+            { sport: 'Hoodie (Apparel)' },
 
         ],
 
@@ -12892,7 +12891,6 @@ ub.funcs.fontOffSets = [
 
             { sport: 'Volleyball' },
             { sport: '1-4 Zip Jacket (Apparel)' },
-            { sport: 'Hoodie (Apparel)' },
             { sport: 'Fastpitch' },
             { sport: 'Fan Replica Jersey (Apparel)' },
 
