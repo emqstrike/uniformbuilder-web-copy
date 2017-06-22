@@ -4186,8 +4186,6 @@ $(document).ready(function() {
                     code: 'compression',
                     name: 'Compression (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'tech_tee',
@@ -12878,6 +12876,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Polo (Apparel)' },
             { sport: 'Cinch Sack (Apparel)' },
             { sport: 'Baseball' },
+            { sport: 'Compression (Apparel)' },
 
         ],
 
@@ -12894,7 +12893,6 @@ ub.funcs.fontOffSets = [
 
         items: [
 
-            { sport: 'Compression (Apparel)' },
             { sport: 'Tech-Tee (Apparel)' },
             { sport: 'Volleyball' },
             { sport: '1-4 Zip Jacket (Apparel)' },
