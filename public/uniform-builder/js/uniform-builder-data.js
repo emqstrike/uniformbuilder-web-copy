@@ -4118,8 +4118,6 @@ $(document).ready(function() {
                     code: 'volleyball',
                     name: 'Volleyball',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'fastpitch',
@@ -12872,6 +12870,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Tech-Tee (Apparel)' },
             { sport: 'Hoodie (Apparel)' },
             { sport: '1-4 Zip Jacket (Apparel)' },
+            { sport: 'Volleyball' },
 
         ],
 
@@ -12888,7 +12887,6 @@ ub.funcs.fontOffSets = [
 
         items: [
 
-            { sport: 'Volleyball' },
             { sport: 'Fastpitch' },
             { sport: 'Fan Replica Jersey (Apparel)' },
 
