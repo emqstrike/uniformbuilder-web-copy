@@ -2819,6 +2819,9 @@ $(document).ready(function() {
 
             ub.funcs.runAfterUpdate(app_id, _fromChangeColor);
 
+            ub.funcs.fixAlignments();
+            ub.funcs.mirrorRotation();
+
             return sprite_collection;
 
         };

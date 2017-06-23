@@ -4190,7 +4190,7 @@ $(document).ready(function() {
                 },
                 {
                     code: '1-4 zip',
-                    name: '1-4 Zip Jacket (Apparel)',
+                    name: 'Quarter Zip Jacket (Apparel)',
                     active: "1",
                 },
                 {
@@ -9515,7 +9515,7 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Basketball',
             filters: ['All', 'Jersey', 'Shorts'],
-        }, 
+        },
         {
             sport: 'Baseball',
             filters: ['All', 'Jersey', 'Pant'],
@@ -9527,15 +9527,15 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Wrestling',
             filters: ['All', 'Singlet', 'Fight Shorts'],
-        }, 
+        },
         {
             sport: 'Crew Socks (Apparel)',
             filters: ['All'],
-        }, 
+        },
         {
             sport: 'Compression (Apparel)',
             filters: ['All'],
-        }, 
+        },
         {
             sport: 'Tech-Tee (Apparel)',
             filters: ['All'],
@@ -9543,17 +9543,17 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Cinch Sack (Apparel)',
             filters: ['All'],
-        }, 
+        },
         {
             sport: 'Volleyball',
             filters: ['All'],
-        }, 
+        },
         {
             sport: 'Hoodie (Apparel)',
             filters: ['All'],
         },
         {
-            sport: '1-4 Zip Jacket (Apparel)',
+            sport: 'Quarter Zip Jacket (Apparel)',
             filters: ['All'],
         },
         {
@@ -11049,68 +11049,68 @@ ub.funcs.fontOffSets = [
             },
             // End "Hockey"
 
-            // "1-4 Zip Jacket (Apparel)"
+            // "Quarter Zip Jacket (Apparel)"
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 1,
                 scale: {x: 0.1, y: 0.1 },
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 2,
                 scale: {x: 0.2, y: 0.2 },
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 3,
                 scale: {x: 0.3, y: 0.3 },
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 4,
                 scale: {x: 0.4, y: 0.4 },
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 5,
                 scale: {x: 0.5, y: 0.5 },
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 6,
                 scale: {x: 0.6, y: 0.6 },
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 7,
                 scale: {x: 0.7, y: 0.7 },
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 8,
                 scale: {x: 0.8, y: 0.8 },
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 9,
                 scale: {x: 0.9, y: 0.9},
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 10,
                 scale: {x: 1.0, y: 1.0 },
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 11,
                 scale: {x: 1.10, y: 1.10 },
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 size: 12,
                 scale: {x: 1.20, y: 1.20 },
             },
-            // End "1-4 Zip Jacket (Apparel)"
+            // End "Quarter Zip Jacket (Apparel)"
 
             // "Fan Replica Jersey (Apparel)"
             {
@@ -12216,7 +12216,7 @@ ub.funcs.fontOffSets = [
             'Hoodie (Apparel)',
             'Polo (Apparel)',
             'Hockey',
-            '1-4 Zip Jacket (Apparel)',
+            'Quarter Zip Jacket (Apparel)',
             'Fan Replica Jersey (Apparel)',
             'Basketball (Apparel)',
             'Lacrosse',
@@ -12352,7 +12352,7 @@ ub.funcs.fontOffSets = [
                 sublimatedPart: 'Extra',
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 sublimatedPart: 'Extra',
             }, 
             {
@@ -12461,7 +12461,7 @@ ub.funcs.fontOffSets = [
 
     ub.data.hiddenBody = {
 
-        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "1-4 Zip Jacket (Apparel)", "Fan Replica Jersey (Apparel)", 'Soccer'],
+        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "Quarter Zip Jacket (Apparel)", "Fan Replica Jersey (Apparel)", 'Soccer'],
         options: [
                 {
                     sport: 'Wrestling',
@@ -12613,7 +12613,7 @@ ub.funcs.fontOffSets = [
     ub.data.materialOptionWithLimitedColors = {
         items: [
             {
-                block_pattern: '1-4 Zip Jacket',
+                block_pattern: 'Quarter Zip Jacket',
                 neck_options: ['Long Sleeve', 'Short Sleeve'],
                 material_option: 'Zipper',
                 valid_colors: [
@@ -12865,7 +12865,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Compression (Apparel)' },
             { sport: 'Tech-Tee (Apparel)' },
             { sport: 'Hoodie (Apparel)' },
-            { sport: '1-4 Zip Jacket (Apparel)' },
+            { sport: 'Quarter Zip Jacket (Apparel)' },
             { sport: 'Volleyball' },
             { sport: 'Fan Replica Jersey (Apparel)' },
 
@@ -12941,9 +12941,9 @@ ub.funcs.fontOffSets = [
                 upperLabel: 'Hoodie',
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 type: 'upper',
-                upperLabel: '1-4 Zip Jacket',
+                upperLabel: 'Quarter Zip Jacket',
             },
            {
                 sport: 'Polo (Apparel)',
@@ -13049,7 +13049,7 @@ ub.funcs.fontOffSets = [
                 code: 'body',
             },
             {
-                sport: '1-4 Zip Jacket (Apparel)',
+                sport: 'Quarter Zip Jacket (Apparel)',
                 code: 'body',
             },
             {
@@ -13352,7 +13352,7 @@ ub.funcs.fontOffSets = [
             },
             {
                 shortCode: 'one-fourth-zip-jacket',
-                urlAlias: '1-4 Zip Jacket (Apparel)',
+                urlAlias: 'Quarter Zip Jacket (Apparel)',
                 thumbFilename: '1-4 zip.png',
                 gender: ['men',],       
             },
