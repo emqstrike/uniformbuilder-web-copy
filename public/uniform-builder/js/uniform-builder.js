@@ -1555,7 +1555,9 @@ $(document).ready(function () {
             ub.setup_views();
             ub.setup_material_options(); 
             ub.pass = 0;
+
             requestAnimationFrame(ub.render_frames);
+            
 
             var material_name = ub.current_material.material.name
             $('span#design_name_input').text(material_name);
@@ -1566,19 +1568,23 @@ $(document).ready(function () {
             $('#main-row').fadeIn();
             $('div#design_name_container').fadeIn();
 
+            setTimeout(function () {
+                ub.funcs.afterLoad(); 
+            }, 100);
+
         }
 
         /// Main Render Loop
 
-        var frames_to_refresh = 3 * 60; // 60 frames in one sec, average
+        // var frames_to_refresh = 1 * 10; // 60 frames in one sec, average
 
         window.ub.render_frames = function () {
 
             if (ub.data.rosterInitialized) { return }
-            if (!ub.status.render.getRenderStatus()) { return; }
+            // if (!ub.status.render.getRenderStatus()) { return; }
 
-            requestAnimationFrame(ub.render_frames);
             ub.renderer.render(ub.stage);
+            requestAnimationFrame(ub.render_frames);
 
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
 
@@ -1587,17 +1593,18 @@ $(document).ready(function () {
             // }   
             
 
-            if (ub.pass < frames_to_refresh) {
+            // if (ub.pass < frames_to_refresh) {
 
-                if (ub.pass > (frames_to_refresh - 10)) {
+            //     if (ub.pass > (frames_to_refresh - 2)) {
             
-                    ub.funcs.afterLoad(); 
+            //         ub.funcs.afterLoad(); 
+            //         console.log('Calling Afterload....')
 
-                }
+            //     }
             
-                ub.pass += 1; 
+            //     ub.pass += 1; 
 
-            }
+            // }
 
         }
 
@@ -1608,8 +1615,8 @@ $(document).ready(function () {
                 _.each(ub.views, function (view) {
 
                     var view_name = view + '_view';
-                    var shape = ub.pixi.new_sprite(ub.assets[view_name].shape);
-                    var shape_mask = ub.pixi.new_sprite(ub.assets[view_name].shape);
+                    // var shape = ub.pixi.new_sprite(ub.assets[view_name].shape);
+                    // var shape_mask = ub.pixi.new_sprite(ub.assets[view_name].shape);
 
                     ub.objects[view_name] = {};
                     // ub.objects[view_name].shape = shape;
