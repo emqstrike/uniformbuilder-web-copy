@@ -12613,7 +12613,7 @@ ub.funcs.fontOffSets = [
     ub.data.materialOptionWithLimitedColors = {
         items: [
             {
-                block_pattern: '1-4 Zip Jacket',
+                block_pattern: 'Quarter Zip Jacket',
                 neck_options: ['Long Sleeve', 'Short Sleeve'],
                 material_option: 'Zipper',
                 valid_colors: [
