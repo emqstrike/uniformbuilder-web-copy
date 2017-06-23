@@ -3489,6 +3489,7 @@ $(document).ready(function() {
 
         ub.stage.on('mousedown', function (mousedata) {
 
+            if (ub.tools.activeTool.active()) { return; }
 
             if (ub.status.fullView.getStatus()) { 
 
@@ -3597,6 +3598,16 @@ $(document).ready(function() {
 
     ub.funcs.stageMouseMove = function (mousedata) {
 
+        if (ub.tools.activeTool.active()) {
+            ub.funcs.resetHighlights();
+            $('body').css('cursor', 'pointer');
+            return; 
+        } else {
+
+            $('body').css('cursor', 'auto');
+
+        }
+        
         if (!ub.status.render.getRenderStatus()) { return; }
         if (ub.funcs.popupTest()) { return; }
         
@@ -3651,15 +3662,7 @@ $(document).ready(function() {
 
         }
 
-        if (ub.tools.activeTool.active()) {
-
-            $('body').css('cursor', 'pointer');
-
-        } else {
-
-            $('body').css('cursor', 'auto');
-
-        }
+        
 
         if (typeof ub.activeApplication !== "undefined") {
 
