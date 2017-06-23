@@ -12613,6 +12613,17 @@ ub.funcs.fontOffSets = [
     ub.data.materialOptionWithLimitedColors = {
         items: [
             {
+                block_pattern: 'Soccer',
+                neck_options: ['Goalie (M)', 'Goalie (W)', 'Jersey (M)', 'Jersey (W)', 'Short (W)'],
+                material_option: 'Pro-Dry',
+                valid_colors: [
+                    'B',
+                    'W',
+                    'GR',
+                ]
+            }, 
+
+            {
                 block_pattern: 'Quarter Zip Jacket',
                 neck_options: ['Long Sleeve', 'Short Sleeve'],
                 material_option: 'Zipper',
@@ -13282,6 +13293,34 @@ ub.funcs.fontOffSets = [
             if (typeof _result !== "undefined") { _value = _result.alias }
 
             return _value;
+
+        }
+
+    }
+
+    ub.data.specialCodes = {
+
+        items: [
+            {
+
+                name: 'Pro-dry',
+                alias: 'Pro-Dry',
+
+            },
+        ],
+
+        getCode: function (code) {
+
+            var _result = _.find(this.items, {name: code});
+            var _returnValue = code;
+
+            if (typeof _result !== "undefined") {
+
+                _returnValue = _result.alias;
+                
+            }
+
+            return _returnValue;
 
         }
 
