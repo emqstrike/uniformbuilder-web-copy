@@ -1570,6 +1570,8 @@ $(document).ready(function () {
 
         /// Main Render Loop
 
+        var frames_to_refresh = 3 * 60; // 60 frames in one sec, average
+
         window.ub.render_frames = function () {
 
             if (ub.data.rosterInitialized) { return }
@@ -1578,25 +1580,23 @@ $(document).ready(function () {
             requestAnimationFrame(ub.render_frames);
             ub.renderer.render(ub.stage);
 
-            ub.funcs.fixAlignments();
-            ub.funcs.mirrorRotation();
-
             /// Refresh Thumbnail Initially only on (-10) frames after 3 seconds (3 * 60)
 
             // if (ub.pass > (frames_to_refresh - 10) && (ub.pass < frames_to_refresh)) {
             //     // ub.refresh_thumbnails();
             // }   
             
-            var frames_to_refresh = 3 * 60; // 60 frames in one sec, average
 
-            if (ub.pass > (frames_to_refresh - 10) && (ub.pass < frames_to_refresh)) {
-            
-                ub.funcs.afterLoad(); 
-
-            }
-            
             if (ub.pass < frames_to_refresh) {
+
+                if (ub.pass > (frames_to_refresh - 10)) {
+            
+                    ub.funcs.afterLoad(); 
+
+                }
+            
                 ub.pass += 1; 
+
             }
 
         }
@@ -6984,6 +6984,7 @@ $(document).ready(function () {
                     if (typeof _alias !== "undefined") {
 
                         _template = $('#m-did-you-mean-link-templates').html();
+
                         _markup = Mustache.render(_template, {
                             alias: _alias,
                             gender: _alias.gender,
