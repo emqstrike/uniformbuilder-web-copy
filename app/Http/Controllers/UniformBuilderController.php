@@ -411,6 +411,8 @@ class UniformBuilderController extends Controller
             Log::info(__METHOD__ . ': Render using this code ' . $code);
         }
 
+        Log::info('(Request) Team Colors  ' . $request->team_colors);
+
         return $this->showBuilder($config);
 
     }
