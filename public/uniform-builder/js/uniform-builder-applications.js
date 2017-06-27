@@ -10857,6 +10857,10 @@ $(document).ready(function() {
 
                 }
 
+            } else {
+
+                $('div.part-container > span.part[data-id="' + _part + '"]').addClass('active');
+
             }
 
             // Catch all expression when nothing is selected, just select first
@@ -10864,7 +10868,6 @@ $(document).ready(function() {
                 $('span.part').first().addClass('active');
             }
 
-            $('div.part-container > span.part[data-id="' + _part + '"]').addClass('active');
             $('div.application-container').find('span.optionButton[data-type="mascot"]').addClass('active');
 
             // Footer Buttons 
