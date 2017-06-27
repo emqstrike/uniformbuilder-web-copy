@@ -9527,6 +9527,8 @@ $(document).ready(function() {
                 s = 'on';
             }
 
+            if (s === "on") { ub.funcs.LSRSBSFS(parseInt(_id)); }
+
             ub.funcs.toggleApplication(_id,s);    
 
              var _matchingID = undefined;
