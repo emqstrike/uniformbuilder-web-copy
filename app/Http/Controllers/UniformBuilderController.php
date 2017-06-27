@@ -424,42 +424,56 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function load_material(Request $request, $material_id)
+    public function load_material(
+        Request $request,
+        $material_id,
+        $store_code = null,
+        $team_name = null,
+        $team_colors = null,
+        $jersey_name = null,
+        $jersey_number = null,
+        $mascot_id = null
+    )
     {
         $config = [
             'design_set_id' => 0,
             'material_id' => $material_id,
             'render' => true
         ];
-        if ($request->has('team_name'))
+        if (!is_null('store_code'))
         {
-            $config['team_name'] = $request->team_name;
-            Session::put('team_name', $request->team_name);
+            $config['store_code'] = $store_code;
+            Session::put('store_code', $store_code);
         }
-        if ($request->has('team_colors'))
+        if (!is_null('team_name'))
         {
-            $config['team_colors'] = $request->team_colors;
-            Session::put('team_colors', $request->team_colors);
+            $config['team_name'] = $team_name;
+            Session::put('team_name', $team_name);
         }
-        if ($request->has('store'))
+        if (!is_null('team_colors'))
         {
-            $config['store'] = $request->store;
-            Session::put('store', $request->store);
+            $config['team_colors'] = $team_colors;
+            Session::put('team_colors', $team_colors);
         }
-        if ($request->has('jersey_name'))
+        if (!is_null('store_code'))
         {
-            $config['jersey_name'] = $request->jersey_name;
-            Session::put('jersey_name', $request->jersey_name);
+            $config['store_code'] = $store_code;
+            Session::put('store_code', $store_code);
         }
-        if ($request->has('jersey_number'))
+        if (!is_null('jersey_name'))
         {
-            $config['jersey_number'] = $request->jersey_number;
-            Session::put('jersey_number', $request->jersey_number);
+            $config['jersey_name'] = $jersey_name;
+            Session::put('jersey_name', $jersey_name);
         }
-        if ($request->has('mascot_id'))
+        if (!is_null('jersey_number'))
         {
-            $config['mascot_id'] = $request->mascot_id;
-            Session::put('mascot_id', $request->mascot_id);
+            $config['jersey_number'] = $jersey_number;
+            Session::put('jersey_number', $jersey_number);
+        }
+        if (!is_null('mascot_id'))
+        {
+            $config['mascot_id'] = $mascot_id;
+            Session::put('mascot_id', $mascot_id);
         }
         return $this->showBuilder($config);
     }
