@@ -380,6 +380,7 @@ class UniformBuilderController extends Controller
         Log::info('(Request Before) !isNull  ' . !is_null($code));
         Log::info('(Request Before) has Team Colors  ' . $request->has('team_colors'));
         Log::info('(Request Before) Team Colors  ' . $request->team_colors);
+        Log::info('Request Object ' . $request);
         
         if (!is_null($code))
         {
