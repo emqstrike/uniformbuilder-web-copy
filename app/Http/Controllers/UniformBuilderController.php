@@ -375,6 +375,12 @@ class UniformBuilderController extends Controller
             'type' => 'Design Set',
             'render' => true
         ];
+
+        Log::info('(Request Before) Code  ' . $code);
+        Log::info('(Request Before) !isNull  ' . !is_null($code));
+        Log::info('(Request Before) has Team Colors  ' . $request->has('team_colors'));
+        Log::info('(Request Before) Team Colors  ' . $request->team_colors);
+        
         if (!is_null($code))
         {
             $config['code'] = $code;
