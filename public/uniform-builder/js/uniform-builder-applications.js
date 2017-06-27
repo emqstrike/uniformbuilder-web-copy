@@ -10459,7 +10459,7 @@ $(document).ready(function() {
 
         // Process Uniforms with Extra Layer
 
-        if (ub.data.sportsWithExtraLayer.isValid(ub.sport)) {
+        if (ub.data.sportsWithExtraLayer.isValid(ub.current_material.materials_options)) {
 
             var _extra = ub.objects[perspective + '_view']['extra'];
 
@@ -10701,13 +10701,6 @@ $(document).ready(function() {
 
         dialog.init(function() {
 
-            if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
-
-                $('span.optionButton[data-type="player_number"]').hide();
-                $('span.optionButton[data-type="player_name"]').hide();
-
-            }
-
             // Perspectives
 
             $('div.perspective-container > span.perspective').unbind('click');
@@ -10720,11 +10713,24 @@ $(document).ready(function() {
                 
                 ub.funcs.setActiveView(_perspective);
 
+                if (ub.data.sportsWithExtraLayer.isValid(ub.current_material.materials_options)) {
+
+                    var _partToMakeActive = '';
+
+                    $('span.part').removeClass('active');
+
+                    if (_perspective === "back" || _perspective === "front") {
+
+                        _partToMakeActive =  _perspective.toTitleCase() + " Body";
+                        $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                    }
+
+                }
+
             });
 
-            $('div.perspective-container > span.perspective[data-id="' + ub.active_view + '"]').addClass('active');
-            
-            // Parts 
+            // Parts
 
             $('div.part-container > span.part').unbind('click');
             $('div.part-container > span.part').on('click', function () {
@@ -10771,6 +10777,11 @@ $(document).ready(function() {
                         $('span.perspective[data-id="back"]').addClass('active'); 
                     }
 
+                    if (_part === "Front Body") { 
+                        $('span.perspective').removeClass('active');
+                        $('span.perspective[data-id="front"]').addClass('active'); 
+                    }
+
                     if (_part === "Body") { 
                         $('span.perspective').removeClass('active');
                         $('span.perspective[data-id="front"]').addClass('active'); 
@@ -10784,7 +10795,6 @@ $(document).ready(function() {
                 }
 
             });
-
 
             // Sides
 
@@ -10816,10 +10826,38 @@ $(document).ready(function() {
                 
             });
 
+            /// Init Code
+
+            if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+                $('span.optionButton[data-type="player_number"]').hide();
+                $('span.optionButton[data-type="player_name"]').hide();
+
+            }
+
+            $('div.perspective-container > span.perspective[data-id="' + ub.active_view + '"]').addClass('active');
+
             var _part = 'Body';
 
             if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { _part = "Sublimated" }
             if(ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short") { _part = "Body Left" }
+
+            /// Acitvate Part / Perspective
+
+            if (ub.data.sportsWithExtraLayer.isValid(ub.current_material.materials_options)) {
+
+                var _partToMakeActive = '';
+
+                $('span.part').removeClass('active');
+
+                if (ub.active_view === "back" || ub.active_view === "front") {
+
+                    _partToMakeActive =  ub.active_view.toTitleCase() + " Body";
+                    $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
+
+                }
+
+            }
 
             // Catch all expression when nothing is selected, just select first
             if(!$('span.part').hasClass('active')) {
@@ -10858,6 +10896,8 @@ $(document).ready(function() {
                 $('span.perspective[data-id="left"], span.perspective[data-id="right"]').hide();
 
             }
+
+            /// End Init Code
 
         });
 
