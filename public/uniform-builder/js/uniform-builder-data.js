@@ -12983,30 +12983,26 @@ ub.funcs.fontOffSets = [
     // Todo: Detect this at runtime instead
     ub.data.sportsWithExtraLayer = {
 
-        items: [
-            {
-                sport: 'Compression (Apparel)',
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-            },
-            {
-                sport: 'Baseball',
-            },
-            {
-                sport: 'Wrestling',
-            }
-        ],
+        // items: [
+        //     {
+        //         sport: 'Compression (Apparel)',
+        //     },
+        //     {
+        //         sport: 'Tech-Tee (Apparel)',
+        //     },
+        //     {
+        //         sport: 'Baseball',
+        //     },
+        //     {
+        //         sport: 'Wrestling',
+        //     }
+        // ],
 
-        isValid: function (sport) {
+        isValid: function (materialsOptions) {
 
-            var _result = _.find(this.items, {sport: sport});
+            var _result = _.find(materialsOptions, {name: 'Extra'});
 
-            if (sport === "Wrestling" && ub.current_material.material.neck_option !== "Fight Short") {
-
-                _result = undefined;
-
-            }
+            if (typeof _result !== "undefined") { console.log('Extra Layer detected for ' + ub.sport); }
 
             return typeof _result !== "undefined";
 
@@ -13245,6 +13241,10 @@ ub.funcs.fontOffSets = [
             {
                 name: 'block_options',
                 alias: 'Block Options',
+            },
+            {
+                name: 'block_patterns',
+                alias: 'Block Patterns',
             },
             {
                 name: 'material',
