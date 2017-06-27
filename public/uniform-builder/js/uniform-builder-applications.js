@@ -11945,4 +11945,11 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.getMascotByID = function (id) { 
+        
+        var _result = _.find(ub.data.mascots, {id: id.toString()}); 
+        return _result;
+
+    }
+
 });
