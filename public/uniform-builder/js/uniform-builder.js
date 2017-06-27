@@ -50,7 +50,7 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.colors_url, 'colors', ub.callback);
                 ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
                 ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
-                //ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
+                ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
 
                 // Disable Tailsweeps for now
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
