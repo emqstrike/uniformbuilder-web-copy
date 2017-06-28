@@ -167,6 +167,14 @@ class UniformBuilderController extends Controller
             Log::info(__METHOD__ . ': Save Rendered Image = ' . $params['save_rendered']);
         }
 
+        // @param Save Rendered image
+        $params['save_rendered_timeout'] = null;
+        if (isset($config['save_rendered_timeout']))
+        {
+            $params['save_rendered_timeout'] = $config['save_rendered_timeout'];
+            Log::info(__METHOD__ . ': Seconds timeout before rendering = ' . $params['save_rendered_timeout']);
+        }
+
         $params['builder_customizations'] = null;
         $params['order'] = null;
 
@@ -333,6 +341,7 @@ class UniformBuilderController extends Controller
      * @param String $jersey_number
      * @param Integer $mascot_id
      * @param Boolean $save_rendered
+     * @param Integer $save_rendered_timeout
      */
 
     public function loadDesignSet(
@@ -344,7 +353,8 @@ class UniformBuilderController extends Controller
         $jersey_name = null,
         $jersey_number = null,
         $mascot_id = null,
-        $save_rendered = false
+        $save_rendered = false,
+        $save_rendered_timeout = 10
     )
     {
         $config = [
@@ -360,7 +370,8 @@ class UniformBuilderController extends Controller
             $jersey_name,
             $jersey_number,
             $mascot_id,
-            $save_rendered
+            $save_rendered,
+            $save_rendered_timeout
         );
 
         return $this->showBuilder($config);
@@ -407,7 +418,8 @@ class UniformBuilderController extends Controller
         $jersey_name = null,
         $jersey_number = null,
         $mascot_id = null,
-        $save_rendered = false
+        $save_rendered = false,
+        $save_rendered_timeout = 10
     )
     {
         $config = [
@@ -422,7 +434,8 @@ class UniformBuilderController extends Controller
             $jersey_name,
             $jersey_number,
             $mascot_id,
-            $save_rendered
+            $save_rendered,
+            $save_rendered_timeout
         );
         return $this->showBuilder($config);
     }
@@ -435,7 +448,8 @@ class UniformBuilderController extends Controller
         $jersey_name = null,
         $jersey_number = null,
         $mascot_id = null,
-        $save_rendered = false
+        $save_rendered = false,
+        $save_rendered_timeout = 10
     )
     {
         if (!is_null('store_code'))
@@ -470,10 +484,14 @@ class UniformBuilderController extends Controller
         {
             $config['save_rendered'] = $save_rendered;
         }
+        if (!is_null('save_rendered_timeout'))
+        {
+            $config['save_rendered_timeout'] = $save_rendered_timeout;
+        }
         Log::info(print_r($config, true));
     }
 
-    public function fileUpload (Request $request) {
+    public function fileUpload(Request $request) {
 
         $data = [];
         $folder_name = "uploaded_files";
