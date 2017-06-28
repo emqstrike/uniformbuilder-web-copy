@@ -54,7 +54,6 @@ class UniformBuilderController extends Controller
 
     public function showBuilder($config = [])
     {
-
         $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))
             ? $config['design_set_id']
             : null;
@@ -122,7 +121,7 @@ class UniformBuilderController extends Controller
         if (isset($config['store_code']))
         {
             $params['store_code'] = $config['store_code'];
-            Log::info(__METHOD__ . ': Team Name = ' . $params['store_code']);
+            Log::info(__METHOD__ . ': Store Code = ' . $params['store_code']);
         }
 
         // @param Team Name
@@ -351,35 +350,14 @@ class UniformBuilderController extends Controller
             'type' => 'Design Set',
         ];
 
-
-        if (!is_null('store_code'))
-        {
-            $config['store_code'] = $store_code;
-        }
-        if (!is_null('team_name'))
-        {
-            $config['team_name'] = $team_name;
-        }
-        if (!is_null('team_colors'))
-        {
-            $config['team_colors'] = $team_colors;
-        }
-        if (!is_null('store_code'))
-        {
-            $config['store_code'] = $store_code;
-        }
-        if (!is_null('jersey_name'))
-        {
-            $config['jersey_name'] = $jersey_name;
-        }
-        if (!is_null('jersey_number'))
-        {
-            $config['jersey_number'] = $jersey_number;
-        }
-        if (!is_null('mascot_id'))
-        {
-            $config['mascot_id'] = $mascot_id;
-        }
+        $this->injectParameters($config,
+            $store_code,
+            $team_name,
+            $team_colors,
+            $jersey_name,
+            $jersey_number,
+            $mascot_id
+        );
 
         return $this->showBuilder($config);
 
@@ -387,13 +365,12 @@ class UniformBuilderController extends Controller
 
     public function styles($gender = null, $sport = null)
     {
-
         $config = [
             'styles' => true,
             'sport' => $sport,
             'gender' => $gender,
         ];
-        
+
         return $this->showBuilder($config);
 
     }
@@ -433,6 +410,27 @@ class UniformBuilderController extends Controller
             'material_id' => $material_id,
             'render' => true
         ];
+        $this->injectParameters($config,
+            $store_code,
+            $team_name,
+            $team_colors,
+            $jersey_name,
+            $jersey_number,
+            $mascot_id
+        );
+        return $this->showBuilder($config);
+    }
+
+    protected function injectParameters(
+        &$config,
+        $store_code = null,
+        $team_name = null,
+        $team_colors = null,
+        $jersey_name = null,
+        $jersey_number = null,
+        $mascot_id = null
+    )
+    {
         if (!is_null('store_code'))
         {
             $config['store_code'] = $store_code;
@@ -461,7 +459,7 @@ class UniformBuilderController extends Controller
         {
             $config['mascot_id'] = $mascot_id;
         }
-        return $this->showBuilder($config);
+        Log::info(print_r($config, true));
     }
 
     public function fileUpload (Request $request) {
