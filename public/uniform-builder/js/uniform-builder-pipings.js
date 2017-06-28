@@ -763,7 +763,8 @@ $(document).ready(function () {
 
 
                 // Force one color when going to 1/2
-                if (_size === "1/2") { $('span.piping-colors-buttons[data-value="1"]').click(); }
+
+                if (_type === "Neck Piping 1/2") { $('span.piping-colors-buttons[data-value="1"]').click(); }
 
             });
 
