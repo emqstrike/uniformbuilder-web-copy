@@ -407,7 +407,7 @@
 
         // Team Store Parameters
         // Flag for returning the requested images
-        ub.return_rendered_code = "{{ isset($return_rendered_code) ? $return_rendered_code : false }}";
+        ub.save_rendered = "{{ isset($save_rendered) ? $save_rendered : false }}";
         ub.team_name = "{{ isset($team_name) ? $team_name : false }}";
 
     @if(!empty($team_colors))

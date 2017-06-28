@@ -36,7 +36,7 @@ $(document).ready(function() {
         
         if (ub.render) {
             ub.utilities.info('Render images');
-            if (ub.store_code) {
+            if (ub.save_rendered) {
                 ub.funcs.prepareThumbnails(ub.funcs.savePerspectives);
             } else {
                 ub.funcs.prepareThumbnails();
@@ -59,7 +59,7 @@ $(document).ready(function() {
             var _rightThumb = ub.getThumbnailImage2('right_view');
 
             ub.utilities.info('Thumbnails Generated!');
-            
+
             ub.front = _frontThumb;
             ub.back = _backThumb;
             ub.left = _leftThumb;
