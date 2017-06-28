@@ -30,9 +30,8 @@ Route::get('activateUser/{activationCode}', 'RegistrationController@activateUser
 Route::get('index', 'UniformBuilderController@showBuilder');
 Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
-Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
-Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilderController@loadDesignSetRender');
-Route::get('/render/{designSetId}/{materialId}/{code?}', 'UniformBuilderController@loadDesignSetRender');
+Route::get('/builder/{designSetId}/{materialId}/{store_code?}/{team_name?}/{team_colors?}/{jerysey_name?}/{jersey_number?}/{mascot_id?}', 'UniformBuilderController@loadDesignSet');
+Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderController@loadDesignSetRender');
 Route::get('/styles/{gender}/{sport?}', 'UniformBuilderController@styles');
 
 Route::group([
