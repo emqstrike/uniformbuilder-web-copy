@@ -2932,7 +2932,7 @@ $(document).ready(function () {
 
                 ub.funcs.resetHighlights();
 
-                var texture = new PIXI.RenderTexture(ub.renderer, 1000, 1500);
+                var texture = new PIXI.RenderTexture(ub.renderer, 1000, 1100);
                 texture.render(ub[view]);
                 
                 return texture.getImage().src;
@@ -2941,7 +2941,7 @@ $(document).ready(function () {
 
             ub.getThumbnailImage2 = function (view, rotate) {
 
-                var texture = new PIXI.RenderTexture(ub.renderer, 1000, 1500);
+                var texture = new PIXI.RenderTexture(ub.renderer, 1000, 1100);
                 texture.render(ub[view]);
                 
                 return texture.getImage().src;
