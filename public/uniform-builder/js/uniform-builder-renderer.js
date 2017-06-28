@@ -35,11 +35,15 @@ $(document).ready(function() {
         ub.bg.alpha = 0.7;
         
         if (ub.render) {
-            ub.utilities.info('Render images');
+            ub.funcs.prepareThumbnails();
+
+            // Save perspectives when set to save rendered images
             if (ub.save_rendered) {
-                ub.funcs.prepareThumbnails(ub.funcs.savePerspectives);
-            } else {
-                ub.funcs.prepareThumbnails();
+                setTimeout(function() {
+                    // Call method once again due to rendering addendums
+                    ub.funcs.prepareThumbnails();
+                    ub.funcs.savePerspectives();
+                }, 10000);
             }
         }
         
@@ -47,7 +51,7 @@ $(document).ready(function() {
 
     };
 
-    ub.funcs.prepareThumbnails = function (callback) {
+    ub.funcs.prepareThumbnails = function () {
 
         // Prepare thumbnails 
 
@@ -67,11 +71,6 @@ $(document).ready(function() {
 
         // End Prepare thumbnails 
 
-        if (callback) {
-            setTimeout(function() {
-                callback();
-            }, 20000);
-        }
     };
 
     ub.funcs.savePerspectives = function () {
