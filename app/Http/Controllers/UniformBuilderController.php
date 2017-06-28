@@ -458,11 +458,20 @@ class UniformBuilderController extends Controller
         }
         if (!is_null('team_name'))
         {
+            // Use default team_name when 'DEFAULT' is passed
+            if ($team_name !== 'DEFAULT')
+            {
+                $config['team_name'] = $team_name;
+            }
             $config['team_name'] = $team_name;
         }
         if (!is_null('team_colors'))
         {
-            $config['team_colors'] = $team_colors;
+            // Use default colors when 'DEFAULT' is passed
+            if ($team_colors !== 'DEFAULT')
+            {
+                $config['team_colors'] = $team_colors;
+            }
         }
         if (!is_null('store_code'))
         {
@@ -470,14 +479,29 @@ class UniformBuilderController extends Controller
         }
         if (!is_null('jersey_name'))
         {
+            // Use default jersey_name when 'DEFAULT' is passed
+            if ($jersey_name !== 'DEFAULT')
+            {
+                $config['jersey_name'] = $jersey_name;
+            }
             $config['jersey_name'] = $jersey_name;
         }
         if (!is_null('jersey_number'))
         {
+            // Use default jersey_number when 'DEFAULT' is passed
+            if ($jersey_number !== 'DEFAULT')
+            {
+                $config['jersey_number'] = $jersey_number;
+            }
             $config['jersey_number'] = $jersey_number;
         }
         if (!is_null('mascot_id'))
         {
+            // Use default mascot_id when 'DEFAULT' is passed
+            if ($mascot_id !== 'DEFAULT')
+            {
+                $config['mascot_id'] = $mascot_id;
+            }
             $config['mascot_id'] = $mascot_id;
         }
         if (!is_null('save_rendered'))
