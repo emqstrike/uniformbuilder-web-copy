@@ -485,7 +485,7 @@ $(document).ready(function () {
                 ub.funcs.pushState({
                     data: 'customize-uniform',
                     title: 'Customize Uniform',
-                    url: '?customize-uniform' + suffix_query_string
+                    url: '?customize-uniform',
                 });
 
             }
