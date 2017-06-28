@@ -109,13 +109,6 @@ class UniformBuilderController extends Controller
             'render' => $render
         ];
 
-        // @param Render request code - parameter passed by team store
-        if (isset($config['code']))
-        {
-            $params['return_rendered_code'] = $config['code'];
-            Log::info(__METHOD__ . ':return_rendered_code = ' . $config['code']);
-        }
-
         // @param Store Code
         $params['store_code'] = '';
         if (isset($config['store_code']))
