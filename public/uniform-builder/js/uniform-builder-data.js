@@ -12371,6 +12371,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Fastpitch',
                 sublimatedPart: 'Body',
             }, 
+            {
+                sport: 'Soccer',
+                sublimatedPart: 'Extra',
+            }, 
 
             // 
         ],
