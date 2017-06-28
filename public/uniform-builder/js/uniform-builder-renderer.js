@@ -74,8 +74,12 @@ $(document).ready(function() {
     };
 
     ub.funcs.savePerspectives = function () {
+        var save_uniform_perspectives_url = '/save_uniform_perspectives';
+        if (ub.store_code == 'TEAMSTORE-DEFAULT-TEMPLATE') {
+            save_uniform_perspectives_url = '//teamstore.prolook.com/api/product/save_customized_thumbnails';
+        }
         $.ajax({
-            url: '/save_uniform_perspectives',
+            url: save_uniform_perspectives_url,
             data: {
                 product_id: ub.config.material_id,
                 store_code: ub.store_code,
