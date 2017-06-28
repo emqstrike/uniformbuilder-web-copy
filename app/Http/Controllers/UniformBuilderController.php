@@ -159,6 +159,14 @@ class UniformBuilderController extends Controller
             Log::info(__METHOD__ . ': Mascot ID = ' . $params['mascot_id']);
         }
 
+        // @param Save Rendered image
+        $params['save_rendered'] = '';
+        if (isset($config['save_rendered']))
+        {
+            $params['save_rendered'] = $config['save_rendered'];
+            Log::info(__METHOD__ . ': Save Rendered Image = ' . $params['save_rendered']);
+        }
+
         $params['builder_customizations'] = null;
         $params['order'] = null;
 
@@ -324,6 +332,7 @@ class UniformBuilderController extends Controller
      * @param String $jersey_name
      * @param String $jersey_number
      * @param Integer $mascot_id
+     * @param Boolean $save_rendered
      */
 
     public function loadDesignSet(
@@ -334,7 +343,8 @@ class UniformBuilderController extends Controller
         $team_colors = null,
         $jersey_name = null,
         $jersey_number = null,
-        $mascot_id = null
+        $mascot_id = null,
+        $save_rendered = false
     )
     {
         $config = [
@@ -349,7 +359,8 @@ class UniformBuilderController extends Controller
             $team_colors,
             $jersey_name,
             $jersey_number,
-            $mascot_id
+            $mascot_id,
+            $save_rendered
         );
 
         return $this->showBuilder($config);
@@ -395,7 +406,8 @@ class UniformBuilderController extends Controller
         $team_colors = null,
         $jersey_name = null,
         $jersey_number = null,
-        $mascot_id = null
+        $mascot_id = null,
+        $save_rendered = false
     )
     {
         $config = [
@@ -409,7 +421,8 @@ class UniformBuilderController extends Controller
             $team_colors,
             $jersey_name,
             $jersey_number,
-            $mascot_id
+            $mascot_id,
+            $save_rendered
         );
         return $this->showBuilder($config);
     }
@@ -421,7 +434,8 @@ class UniformBuilderController extends Controller
         $team_colors = null,
         $jersey_name = null,
         $jersey_number = null,
-        $mascot_id = null
+        $mascot_id = null,
+        $save_rendered = false
     )
     {
         if (!is_null('store_code'))
@@ -451,6 +465,10 @@ class UniformBuilderController extends Controller
         if (!is_null('mascot_id'))
         {
             $config['mascot_id'] = $mascot_id;
+        }
+        if (!is_null('save_rendered'))
+        {
+            $config['save_rendered'] = $save_rendered;
         }
         Log::info(print_r($config, true));
     }

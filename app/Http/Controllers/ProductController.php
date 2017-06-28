@@ -23,7 +23,10 @@ class ProductController extends Controller
             'front' => $front,
             'back' => $back,
             'right' => $right,
-            'left' => $left
+            'left' => $left,
+            'product_id' => $request->product_id,
+            'store_code' => $request->store_code,
+            'team_colors' => $request->team_colors
         ]);
     }
 }
