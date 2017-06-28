@@ -1475,6 +1475,10 @@ $(document).ready(function () {
                         
                 material.is_favorite = (typeof _result !== "undefined"); // Mark Favorite items
 
+                if (material.thumbnail_path_left === "") {
+                    material.thumbnail_path_left = material.thumbnail_path;
+                }
+   
             });
 
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');

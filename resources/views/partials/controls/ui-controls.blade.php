@@ -461,7 +461,8 @@
             
             <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}">
 
-                <img src="@{{thumbnail_path}}?v={{$asset_version}}">
+                <img class='front' src="@{{thumbnail_path}}?v={{$asset_version}}">
+                <img class='left' src="@{{thumbnail_path_left}}?v={{$asset_version}}">
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
