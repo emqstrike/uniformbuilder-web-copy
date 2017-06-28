@@ -10802,6 +10802,7 @@ $(document).ready(function() {
             $('div.side-container > span.side').on('click', function () {
 
                 var _side = $(this).data('id');
+                var _previousPart = $('span.part.active').data("id");
 
                 $('div.side-container > span.side').removeClass('active');
                 $(this).addClass('active');
@@ -10809,6 +10810,9 @@ $(document).ready(function() {
                 if (_side === "left" || _side === "right") {
 
                     $('span.perspective[data-id="' + _side + '"]').trigger('click');
+
+                    // Restore Previous Part
+                    if (typeof _previousPart !== "undefined") { $('span.part[data-id="' + _previousPart + '"]').addClass('active'); }
 
                 }
 
