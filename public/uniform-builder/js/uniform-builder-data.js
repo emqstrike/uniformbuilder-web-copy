@@ -12220,6 +12220,7 @@ ub.funcs.fontOffSets = [
             'Fan Replica Jersey (Apparel)',
             'Basketball (Apparel)',
             'Lacrosse',
+            'Soccer',
         ],
         options: [
             'Fight Short',
@@ -12370,6 +12371,10 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Fastpitch',
                 sublimatedPart: 'Body',
+            }, 
+            {
+                sport: 'Soccer',
+                sublimatedPart: 'Extra',
             }, 
 
             // 
