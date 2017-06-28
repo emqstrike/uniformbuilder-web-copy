@@ -1476,7 +1476,23 @@ $(document).ready(function () {
                 material.is_favorite = (typeof _result !== "undefined"); // Mark Favorite items
 
                 if (material.thumbnail_path_left === "") {
+                    
                     material.thumbnail_path_left = material.thumbnail_path;
+
+                }
+
+                if ((material.uniform_category === "Baseball" && material.type === "lower") || 
+                    (material.uniform_category === "Football" && material.type === "lower") ||
+                    (material.uniform_category === "Crew Socks (Apparel)")) {
+
+                    material.thumbnail_path_left = material.thumbnail_path_front;
+
+                }
+
+                 if (material.uniform_category === "Cinch Sack (Apparel)") {
+
+                    material.thumbnail_path_left = material.thumbnail_path_back;
+
                 }
    
             });
