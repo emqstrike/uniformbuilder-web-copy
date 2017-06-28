@@ -408,6 +408,13 @@
         // Team Store Parameters
         // Flag for returning the requested images
         ub.save_rendered = "{{ isset($save_rendered) ? $save_rendered : false }}";
+        // Timeout to render images
+    @if(!empty($save_rendered_timeout))
+        ub.save_rendered_timeout = 10; // 10 seconds default
+    @else
+        ub.save_rendered_timeout = {{ $save_rendered_timeout }}; // 10 seconds default
+    @endif
+
         ub.team_name = "{{ isset($team_name) ? $team_name : false }}";
 
     @if(!empty($team_colors))

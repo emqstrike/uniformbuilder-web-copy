@@ -43,10 +43,10 @@ $(document).ready(function() {
                     // Call method once again due to rendering addendums
                     ub.funcs.prepareThumbnails();
                     ub.funcs.savePerspectives();
-                }, 10000);
+                }, ub.save_rendered_timeout * 1000);
             }
         }
-        
+
         ub.status.fullView.setStatus(true);
 
     };
