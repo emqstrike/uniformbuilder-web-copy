@@ -409,11 +409,13 @@
         // Flag for returning the requested images
         ub.return_rendered_code = "{{ isset($return_rendered_code) ? $return_rendered_code : false }}";
         ub.team_name = "{{ isset($team_name) ? $team_name : false }}";
-        
-        @if(!empty($team_colors))
-            ub.team_colors = [{!! $team_colors !!}];
-        @endif
-        ub.team_store = "{{ isset($store) ? $store : false }}";
+
+    @if(!empty($team_colors))
+        ub.team_colors = [{!! $team_colors !!}];
+    @else
+        ub.team_colors = [];
+    @endif
+        ub.store_code = "{{ isset($store_code) ? $store_code : false }}";
         ub.jersey_name = "{{ isset($jersey_name) ? $jersey_name : false }}";
         ub.jersey_number = "{{ isset($jersey_number) ? $jersey_number : false }}";
         ub.mascot_id = "{{ isset($mascot_id) ? $mascot_id : false }}";

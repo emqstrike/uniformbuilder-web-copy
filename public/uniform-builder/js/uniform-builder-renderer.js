@@ -35,7 +35,8 @@ $(document).ready(function() {
         ub.bg.alpha = 0.7;
         
         if (ub.render) {
-            if (ub.return_rendered_code) {
+            ub.utilities.info('Render images');
+            if (ub.store_code) {
                 ub.funcs.prepareThumbnails(ub.funcs.savePerspectives);
             } else {
                 ub.funcs.prepareThumbnails();
@@ -78,12 +79,12 @@ $(document).ready(function() {
             url: '/save_uniform_perspectives',
             data: {
                 product_id: ub.config.material_id,
-                code: ub.return_rendered_code,
+                store_code: ub.store_code,
+                team_colors: ub.team_colors,
                 front: ub.front,
                 back: ub.back,
                 right: ub.right,
-                left: ub.left,
-                team_store: ub.team_store
+                left: ub.left
             },
             method: 'POST',
             success: function(response) {
