@@ -2131,7 +2131,6 @@ $(document).ready(function() {
 
                 ub.utilities.warn(sportName + ' not found.');
                 ub.utilities.warn('Forcing lowercase instead. Using (' + sportName.toLowerCase() + ')');
-                console.trace();
 
                 var _result = {
                     name: sportName,
@@ -2357,15 +2356,11 @@ $(document).ready(function() {
                             {
                                 size: 12,
                             }
-
                 ],
             },
            
         ], 
         getSize: function (applicationType, sport, id) {
-
-            console.error(sport);
-            console.error(applicationType);
 
             var _result = _.filter(this.items, {name: applicationType, sport: sport});
             var _object = undefined;
@@ -2382,7 +2377,6 @@ $(document).ready(function() {
  
             if (sport === "volleyball")                         { return _result[0]; }
             if (sport === "fastpitch")                          { return _result[0]; }
-
             if (sport === "team-short")                         { return _result[0]; }
             if (sport === "signature-coaches-short")            { return _result[0]; }
             if (sport === "soccer")                             { return _result[0]; }
