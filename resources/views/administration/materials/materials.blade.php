@@ -85,6 +85,7 @@
                                 <th>Asset Target</th>
                                 <th>Blank</th>
                                 <th>Uniform Application Type</th>
+                                <th>SKU</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -133,10 +134,13 @@
                 <td>
                     {{ $material->uniform_application_type }}
                 </td>
+                <td>
+                    {{ $material->sku }}
+                </td>
                 <td class="td-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-xs btn-primary">Edit</a>
                     <a href="/administration/material/view_material_options/{{ $material->id }}" class="btn btn-xs btn-default">Material Options</a>
-         <!--            <a href="#" class="btn btn-xs btn-primary toggle-material" data-material-id="{{ $material->id }}">Toggle</a>-->               
+        <!--            <a href="#" class="btn btn-xs btn-primary toggle-material" data-material-id="{{ $material->id }}">Toggle</a>-->               
                     <a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-xs btn-default" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
@@ -155,11 +159,8 @@
                     <a href="#" class="btn btn-xs btn-danger delete-material" data-material-id="{{ $material->id }}">
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
- 
-               
                 </td>
             </tr>
-
         @empty
             <p>No Materials</p>
         @break
@@ -172,6 +173,7 @@
                 <td id="sports-filter"></td>
                 <td id="block-patterns-filter"></td>
                 <td id="necks-filter"></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

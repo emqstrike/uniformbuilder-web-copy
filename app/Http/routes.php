@@ -358,6 +358,10 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('application_size/add', 'Administration\ApplicationSizesController@store');
     Route::get('application_size/edit/{id}', 'Administration\ApplicationSizesController@editForm');
     Route::post('application_size/update', 'Administration\ApplicationSizesController@store');
+
+    // Parts Aliases
+    Route::get('parts_aliases', 'Administration\PartsAliasesController@index');
+    Route::get('parts_aliases/add', 'Administration\PartsAliasesController@addForm');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

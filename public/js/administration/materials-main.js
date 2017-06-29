@@ -49,6 +49,7 @@ $(document).ready(function() {
         $.each(xdata, function(i, item) {
             ids.push(item[0]);
         });
+
         console.log(JSON.stringify(ids));
     });
 
