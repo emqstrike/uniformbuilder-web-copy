@@ -8015,6 +8015,10 @@ $(document).ready(function() {
 
             if (ub.funcs.isCurrentSport("Hockey") && _.contains([2,5], _id) )                                           { _size = 6;    }
 
+            if (ub.funcs.isCurrentSport("2017 Team Short with Pockets (Apparel)"))                                      { _size = 4;    }
+            if (ub.funcs.isCurrentSport("Signature Coaches Short (Apparel)"))                                           { _size = 4;    }
+
+
             ub.funcs.setAppSize(_id, _size);
 
             var _matchingSide;
