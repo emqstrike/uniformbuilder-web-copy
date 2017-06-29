@@ -2108,6 +2108,14 @@ $(document).ready(function() {
                 name: "Fan Replica Jersey (Apparel)",
                 alias: "fan-replica-jersey",
             },
+            { 
+                name: "2017 Team Short with Pockets (Apparel)",
+                alias: "team-short",
+            },
+            { 
+                name: "Signature Coaches Short (Apparel)",
+                alias: "signature-coaches-short",
+            },
 
         ],
 
@@ -2249,6 +2257,58 @@ $(document).ready(function() {
 
                 ],
             },
+            
+
+            // Signature Coaches Short (Apparel)
+            {
+                name: 'mascot',
+                sport: 'signature-coaches-short',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            }
+
+                ],
+            },
+
+
+            // 2017 Team Short with Pockets (Apparel)
+            {
+                name: 'mascot',
+                sport: 'team-short',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            }
+
+                ],
+            },
            
         ], 
         getSize: function (applicationType, sport, id) {
@@ -2266,8 +2326,11 @@ $(document).ready(function() {
 
             });
  
-            if (sport === "volleyball") { return _result[0]; }
-            if (sport === "fastpitch") { return _result[0]; }
+            if (sport === "volleyball")                         { return _result[0]; }
+            if (sport === "fastpitch")                          { return _result[0]; }
+
+            if (sport === "team-short")                         { return _result[0]; }
+            if (sport === "signature-coaches-short")            { return _result[0]; }
           
             if (typeof _object === "undefined") {
 
@@ -3209,10 +3272,7 @@ $(document).ready(function() {
                 // end compression
 
                 /// Volleyball
-
-                  // compression
-
-                 {
+                {
                     name: 'text_tech-tee',
                     sport: 'volleyball',
                     sizes:  [
@@ -3333,8 +3393,6 @@ $(document).ready(function() {
                             ],
                     type: 'adult',
                 },
-
-                // end volleyball
 
                 /// End Volleyball
 
@@ -3461,6 +3519,253 @@ $(document).ready(function() {
 
                 // end cinch-sack
 
+
+                // team-short
+
+                {
+                    name: 'team_name',
+                    sport: 'team-short',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'team-short',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'mascot',
+                    applicationNumbers: [56, 57],
+                    sport: 'team-short',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 7,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    applicationNumbers: [58, 59],
+                    sport: 'team-short',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'team-short',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'team-short',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },                            
+                            ],
+                    type: 'adult',
+                },
+
+                // end team-short
+
+
+                // signature-coaches-short
+
+                {
+                    name: 'team_name',
+                    sport: 'signature-coaches-short',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'signature-coaches-short',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'mascot',
+                    applicationNumbers: [56, 57],
+                    sport: 'signature-coaches-short',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 5,
+                                },
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 7,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    applicationNumbers: [58, 59],
+                    sport: 'signature-coaches-short',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                    ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'front_number',
+                    sport: 'signature-coaches-short',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'signature-coaches-short',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },                            
+                            ],
+                    type: 'adult',
+                },
+
+                // end signature-coaches-short
                
 
                 // defaults 
@@ -10534,6 +10839,7 @@ ub.funcs.fontOffSets = [
                 scale: {x: 1.6, y: 1.6},
             },
 
+           
             /// Volleyball Compression Shorts
 
             {
@@ -10565,6 +10871,162 @@ ub.funcs.fontOffSets = [
                 option: ['Compression Shorts',],
                 size: 5,
                 scale: {x: 1.2, y: 1.2},
+            },
+
+
+            /// 2017 Team Short with Pockets (Apparel)
+
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 1,
+                scale: {x: 0.14, y: 0.14},
+            },
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 2,
+                scale: {x: 0.26, y: 0.26},
+            },
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 3,
+                scale: {x: 0.39, y: 0.39},
+            },
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 4,
+                scale: {x: 0.52, y: 0.52},
+            },
+
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 5,
+                scale: {x: 0.66, y: 0.66},
+            },
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 6,
+                scale: {x: 0.79, y: 0.79},
+            },
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 7,
+                scale: {x: 0.93, y: 0.93},
+            },
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 8,
+                scale: {x: 1.06, y: 1.06},
+            },
+
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 9,
+                scale: {x: 1.20, y: 1.20},
+            },
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 10,
+                scale: {x: 1.33, y: 1.33},
+            },
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 11,
+                scale: {x: 1.47, y: 1.47},
+            },
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                option: ["Men's ", "Women's"],
+                size: 12,
+                scale: {x: 1.6, y: 1.6},
+            },
+
+
+            /// Signature Coaches Short (Apparel)
+
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 1,
+                scale: {x: 0.14, y: 0.14},
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 2,
+                scale: {x: 0.26, y: 0.26},
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 3,
+                scale: {x: 0.39, y: 0.39},
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 4,
+                scale: {x: 0.52, y: 0.52},
+            },
+
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 5,
+                scale: {x: 0.66, y: 0.66},
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 6,
+                scale: {x: 0.79, y: 0.79},
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 7,
+                scale: {x: 0.93, y: 0.93},
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 8,
+                scale: {x: 1.06, y: 1.06},
+            },
+
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 9,
+                scale: {x: 1.20, y: 1.20},
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 10,
+                scale: {x: 1.33, y: 1.33},
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 11,
+                scale: {x: 1.47, y: 1.47},
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                option: ["Men's", "Women's"],
+                size: 12,
+                scale: {x: 1.6, y: 1.6},
             },
 
         ],
@@ -11300,6 +11762,8 @@ ub.funcs.fontOffSets = [
                 scale: {x: 1.44, y: 1.44 },
             },
             // End "Lacrosse"
+
+
 
             // Defaults 
             {
@@ -12374,6 +12838,14 @@ ub.funcs.fontOffSets = [
             }, 
             {
                 sport: 'Soccer',
+                sublimatedPart: 'Extra',
+            }, 
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                sublimatedPart: 'Extra',
+            }, 
+            {
+                sport: 'Signature Coaches Short (Apparel)',
                 sublimatedPart: 'Extra',
             }, 
 
