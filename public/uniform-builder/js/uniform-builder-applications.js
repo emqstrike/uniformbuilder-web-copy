@@ -2743,12 +2743,14 @@ $(document).ready(function() {
 
                 if (view.application.flip === 1 && _applicationObj.type === "mascot") {
 
-                    point.scale.x *= -1;
+                    //point.scale.x *= -1;
+                    _.each(point.children, function (child) { child.scale.x *= -1; });
 
                 } else {
 
                     view.application.flip = 0;
-                    point.scale.x = Math.abs(point.scale.x);
+                    //point.scale.x = Math.abs(point.scale.x);
+                    _.each(point.children, function (child) { child.scale.x = Math.abs(child.scale.x); });
 
                 }
 
@@ -6485,12 +6487,18 @@ $(document).ready(function() {
                 if (view.application.flip === 1) {
 
                     $('span.flipButton').addClass('active');
-                    _obj.scale.x *= -1;
+
+                    // _obj.scale.x *= -1;
+                    _.each(_obj.children, function (child) { child.scale.x *= -1; });
+
+
 
                 } else {
 
                     $('span.flipButton').removeClass('active');
-                    _obj.scale.x = Math.abs(_obj.scale.x);
+                    // _obj.scale.x = Math.abs(_obj.scale.x);
+
+                    _.each(_obj.children, function (child) { child.scale.x = Math.abs(child.scale.x); });
 
                 }
                 
