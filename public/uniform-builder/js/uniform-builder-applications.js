@@ -10785,15 +10785,15 @@ $(document).ready(function() {
 
                 } else {
 
-                    if (_part === "Back Body") { 
-                        $('span.perspective').removeClass('active');
-                        $('span.perspective[data-id="back"]').addClass('active'); 
-                    }
+                    // if (_part === "Back Body") { 
+                    //     $('span.perspective').removeClass('active');
+                    //     $('span.perspective[data-id="back"]').addClass('active'); 
+                    // }
 
-                    if (_part === "Front Body") { 
-                        $('span.perspective').removeClass('active');
-                        $('span.perspective[data-id="front"]').addClass('active'); 
-                    }
+                    // if (_part === "Front Body") { 
+                    //     $('span.perspective').removeClass('active');
+                    //     $('span.perspective[data-id="front"]').addClass('active'); 
+                    // }
 
                     if (_part === "Body") { 
                         $('span.perspective').removeClass('active');
