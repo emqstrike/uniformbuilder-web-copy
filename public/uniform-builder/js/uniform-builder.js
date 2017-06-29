@@ -1594,7 +1594,7 @@ $(document).ready(function () {
 
             setTimeout(function () {
                 ub.funcs.afterLoad(); 
-            }, 100);
+            }, 1500);
 
         }
 
