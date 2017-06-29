@@ -1581,7 +1581,6 @@ $(document).ready(function () {
             ub.pass = 0;
 
             requestAnimationFrame(ub.render_frames);
-            
 
             var material_name = ub.current_material.material.name
             $('span#design_name_input').text(material_name);
@@ -1594,7 +1593,7 @@ $(document).ready(function () {
 
             setTimeout(function () {
                 ub.funcs.afterLoad(); 
-            }, 1500);
+            }, 3000);
 
         }
 
