@@ -10469,9 +10469,10 @@ $(document).ready(function() {
 
             if (typeof _extra !== "undefined") { 
 
-                if (_part === "Body" || _part === "Back Body" || _part === "Body Left" || _part === "Body Right") { 
-                    _part = 'Extra'; 
-                } 
+                var whiteList = ['Body', 'Front Body', 'Back Body', 'Body Left', 'Body Right'];
+                
+                if (_.contains(whiteList, _part)) { _part = 'Extra'; } 
+
             }
 
         }
