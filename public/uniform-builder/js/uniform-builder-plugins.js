@@ -1245,6 +1245,7 @@
             }
 
         } else if ((ub.funcs.isCurrentSport('Baseball') || 
+            ub.funcs.isCurrentSport('Soccer') || 
             ub.funcs.isCurrentSport('Fastpitch') || 
             ub.funcs.isCurrentSport('Wrestling') || 
             ub.funcs.isCurrentSport('Volleyball') || 
