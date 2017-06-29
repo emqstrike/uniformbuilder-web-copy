@@ -32,7 +32,7 @@ class ApplicationSizesController extends Controller
     public function index()
     {
         $application_sizes = $this->client->getAll();
-       
+
         return view('administration.applications.application-sizes', [
             'application_sizes' => $application_sizes
         ]);

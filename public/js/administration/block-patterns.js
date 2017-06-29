@@ -11,10 +11,33 @@ $(document).ready(function(){
 
 
     $(document).on('click', '.clone-row', function() {
-
-        $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
-        updater();
-        var length = $('.layers-row').length;
+        console.log('clone-row');
+        // if( $( ".layers-row" ) ){
+        //     console.log('if');
+        //     // $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
+        //     updater();
+        //     var length = $('.layers-row').length;
+        // } else {
+        //     console.log('else');
+            var elem = `<tr class="layers-row">
+                                            <td>
+                                                <input type="text" class="neck-option-name layer1" name="neck_option_name[]">
+                                            </td>
+                                            <td>
+                                                <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
+                                            </td>
+                                            <td>
+                                                <input type="file" class="neck-option-file layer1" name="neck_option_image[]">
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-danger btn-xs btn-remove-option"><i class="fa fa-remove"></i> Remove</a>
+                                            </td>
+                                        </tr>`;
+            $('#layers-row-container').append(elem);
+            updater();
+            var length = $('.layers-row').length;
+        // }
+        
 
     });
 
@@ -170,8 +193,14 @@ $(document).ready(function(){
     }
 
 
+    if( $( ".layers-row" ) ){
+        try{
+            buildLayers();
+        } catch(err){
+            console.log('failed to build layers');
+        }
+    }
 
-    buildLayers();
     function buildLayers(){
 
         neck_options = $('#neck_options').val();
