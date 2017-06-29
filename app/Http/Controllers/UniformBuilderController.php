@@ -54,7 +54,6 @@ class UniformBuilderController extends Controller
 
     public function showBuilder($config = [])
     {
-
         $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))
             ? $config['design_set_id']
             : null;
@@ -73,6 +72,7 @@ class UniformBuilderController extends Controller
         {
             if (!is_null($materialId))
             {
+                // To do: Pull material data from memory
                 $material = $this->materialsClient->getMaterial($materialId);
             }
 
@@ -109,11 +109,12 @@ class UniformBuilderController extends Controller
             'render' => $render
         ];
 
-        // @param Render request code - parameter passed by team store
-        if (isset($config['code']))
+        // @param Store Code
+        $params['store_code'] = '';
+        if (isset($config['store_code']))
         {
-            $params['return_rendered_code'] = $config['code'];
-            Log::info(__METHOD__ . ':return_rendered_code = ' . $config['code']);
+            $params['store_code'] = $config['store_code'];
+            Log::info(__METHOD__ . ': Store Code = ' . $params['store_code']);
         }
 
         // @param Team Name
@@ -121,7 +122,7 @@ class UniformBuilderController extends Controller
         if (isset($config['team_name']))
         {
             $params['team_name'] = $config['team_name'];
-            Log::info(__METHOD__ . ': Team Name = ' . $config['team_name']);
+            Log::info(__METHOD__ . ': Team Name = ' . $params['team_name']);
         }
 
         // @param Team Colors - comma separated list
@@ -131,7 +132,47 @@ class UniformBuilderController extends Controller
             $color_array = StringUtility::strToArray($config['team_colors']);
             $color_array = StringUtility::surroundElementsDQ($color_array);
             $params['team_colors'] = implode(',', $color_array);
-            Log::info(__METHOD__ . ': Team Colors = ' . $config['team_colors']);
+            Log::info(__METHOD__ . ': Team Colors = ' . $params['team_colors']);
+        }
+
+        // @param Jersey Name
+        $params['jersey_name'] = '';
+        if (isset($config['jersey_name']))
+        {
+            $params['jersey_name'] = $config['jersey_name'];
+            Log::info(__METHOD__ . ': Jersey Name = ' . $params['jersey_name']);
+        }
+
+        // @param Jersey Number
+        $params['jersey_number'] = '';
+        if (isset($config['jersey_number']))
+        {
+            $params['jersey_number'] = $config['jersey_number'];
+            Log::info(__METHOD__ . ': Jersey Number = ' . $params['jersey_number']);
+        }
+
+        // @param Mascot ID
+        $params['mascot_id'] = '';
+        if (isset($config['mascot_id']))
+        {
+            $params['mascot_id'] = $config['mascot_id'];
+            Log::info(__METHOD__ . ': Mascot ID = ' . $params['mascot_id']);
+        }
+
+        // @param Save Rendered image
+        $params['save_rendered'] = '';
+        if (isset($config['save_rendered']))
+        {
+            $params['save_rendered'] = $config['save_rendered'];
+            Log::info(__METHOD__ . ': Save Rendered Image = ' . $params['save_rendered']);
+        }
+
+        // @param Save Rendered image
+        $params['save_rendered_timeout'] = null;
+        if (isset($config['save_rendered_timeout']))
+        {
+            $params['save_rendered_timeout'] = $config['save_rendered_timeout'];
+            Log::info(__METHOD__ . ': Seconds timeout before rendering = ' . $params['save_rendered_timeout']);
         }
 
         $params['builder_customizations'] = null;
@@ -157,7 +198,7 @@ class UniformBuilderController extends Controller
                 $params['saved_design_name'] = $config['saved_design_name'];              
 
             } elseif ($pageType['page'] === "order") {
-                
+
                 $order = Session::get('order');
                 Session::put('design', null);
 
@@ -185,6 +226,14 @@ class UniformBuilderController extends Controller
                 
             }
             
+        }
+
+        if (isset($config['styles'])) {
+
+            $params['styles'] = $config['styles'];
+            $params['sport'] = $config['sport'];
+            $params['gender'] = $config['gender'];
+
         }
 
         return view('editor.uniform-builder-index', $params);
@@ -285,20 +334,63 @@ class UniformBuilderController extends Controller
      * Show the design set in the builder editor
      * @param Integer $designSetId
      * @param Integer $materialId
+     * @param String $store_code
+     * @param String $team_name
+     * @param String $team_colors
+     * @param String $jersey_name
+     * @param String $jersey_number
+     * @param Integer $mascot_id
+     * @param Boolean $save_rendered
+     * @param Integer $save_rendered_timeout
      */
 
-    public function loadDesignSet($designSetId = null, $materialId = null)
+    public function loadDesignSet(
+        $designSetId = null,
+        $materialId = null,
+        $store_code = null,
+        $team_name = null,
+        $team_colors = null,
+        $jersey_name = null,
+        $jersey_number = null,
+        $mascot_id = null,
+        $save_rendered = false,
+        $save_rendered_timeout = 10
+    )
     {
         $config = [
             'design_set_id' => $designSetId,
             'material_id' => $materialId,
             'type' => 'Design Set',
         ];
+
+        $this->injectParameters($config,
+            $store_code,
+            $team_name,
+            $team_colors,
+            $jersey_name,
+            $jersey_number,
+            $mascot_id,
+            $save_rendered,
+            $save_rendered_timeout
+        );
+
         return $this->showBuilder($config);
 
     }
 
-    public function loadDesignSetRender(Request $request, $designSetId = null, $materialId = null, $code = null)
+    public function styles($gender = null, $sport = null)
+    {
+        $config = [
+            'styles' => true,
+            'sport' => $sport,
+            'gender' => $gender,
+        ];
+
+        return $this->showBuilder($config);
+
+    }
+
+    public function loadDesignSetRender(Request $request, $designSetId = null, $materialId = null)
     {
         $config = [
             'design_set_id' => $designSetId,
@@ -306,29 +398,124 @@ class UniformBuilderController extends Controller
             'type' => 'Design Set',
             'render' => true
         ];
-        if (!is_null($code))
-        {
-            $config['code'] = $code;
-            if ($request->has('team_name'))
-            {
-                $config['team_name'] = $request->team_name;
-            }
-            if ($request->has('team_colors'))
-            {
-                $config['team_colors'] = $request->team_colors;
-            }
-            if ($request->has('store'))
-            {
-                $config['store'] = $request->store;
-            }
-            Log::info(__METHOD__ . ': Render using this code ' . $code);
-        }
+
+        Log::info('(Request Before) Code  ' . $code);
+        Log::info('(Request Before) !isNull  ' . !is_null($code));
+        Log::info('(Request Before) has Team Colors  ' . $request->has('team_colors'));
+        Log::info('(Request Before) Team Colors  ' . $request->team_colors);
+        Log::info('Request Object ' . $request);
 
         return $this->showBuilder($config);
 
     }
 
-    public function fileUpload (Request $request) {
+    public function load_material(
+        Request $request,
+        $material_id,
+        $store_code = null,
+        $team_name = null,
+        $team_colors = null,
+        $jersey_name = null,
+        $jersey_number = null,
+        $mascot_id = null,
+        $save_rendered = false,
+        $save_rendered_timeout = 10
+    )
+    {
+        $config = [
+            'design_set_id' => 0,
+            'material_id' => $material_id,
+            'render' => true
+        ];
+        $this->injectParameters($config,
+            $store_code,
+            $team_name,
+            $team_colors,
+            $jersey_name,
+            $jersey_number,
+            $mascot_id,
+            $save_rendered,
+            $save_rendered_timeout
+        );
+        return $this->showBuilder($config);
+    }
+
+    protected function injectParameters(
+        &$config,
+        $store_code = null,
+        $team_name = null,
+        $team_colors = null,
+        $jersey_name = null,
+        $jersey_number = null,
+        $mascot_id = null,
+        $save_rendered = false,
+        $save_rendered_timeout = 10
+    )
+    {
+        if (!is_null('store_code'))
+        {
+            $config['store_code'] = $store_code;
+        }
+        if (!is_null('team_name'))
+        {
+            // Use default team_name when 'DEFAULT' is passed
+            if ($team_name !== 'DEFAULT')
+            {
+                $config['team_name'] = $team_name;
+            }
+            $config['team_name'] = $team_name;
+        }
+        if (!is_null('team_colors'))
+        {
+            // Use default colors when 'DEFAULT' is passed
+            if ($team_colors !== 'DEFAULT')
+            {
+                $config['team_colors'] = $team_colors;
+            }
+        }
+        if (!is_null('store_code'))
+        {
+            $config['store_code'] = $store_code;
+        }
+        if (!is_null('jersey_name'))
+        {
+            // Use default jersey_name when 'DEFAULT' is passed
+            if ($jersey_name !== 'DEFAULT')
+            {
+                $config['jersey_name'] = $jersey_name;
+            }
+            $config['jersey_name'] = $jersey_name;
+        }
+        if (!is_null('jersey_number'))
+        {
+            // Use default jersey_number when 'DEFAULT' is passed
+            if ($jersey_number !== 'DEFAULT')
+            {
+                $config['jersey_number'] = $jersey_number;
+            }
+            $config['jersey_number'] = $jersey_number;
+        }
+        if (!is_null('mascot_id'))
+        {
+            // Use default mascot_id when 'DEFAULT' is passed
+            if ($mascot_id !== 'DEFAULT')
+            {
+                $config['mascot_id'] = $mascot_id;
+            }
+            $config['mascot_id'] = $mascot_id;
+        }
+        if (!is_null('save_rendered'))
+        {
+            $config['save_rendered'] = $save_rendered;
+        }
+        if (!is_null('save_rendered_timeout'))
+        {
+            $config['save_rendered_timeout'] = $save_rendered_timeout;
+        }
+        Log::info(print_r($config, true));
+    }
+
+    public function fileUpload(Request $request) {
 
         $data = [];
         $folder_name = "uploaded_files";
@@ -1408,7 +1595,8 @@ class UniformBuilderController extends Controller
             $message = $first_name.''.$last_name.'['.$user_id.']'.' has generated a designsheet for '.$firstOrderItem['description'].'. Link: '.'customizer.prolook.com'.$transformedPath;
         }
 
-        Slack::send($message);
+        if (env('APP_ENV') <> "local") { Slack::send($message); }
+
         return $transformedPath;
         
     }

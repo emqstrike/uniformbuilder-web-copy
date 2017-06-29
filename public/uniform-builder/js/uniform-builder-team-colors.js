@@ -854,7 +854,7 @@ $(document).ready(function () {
         _colorSet           = ub.funcs.getBaseColors();
 
         $("span.part_label").html('Team Colors');
-        $("span.nOf").html('Select the Colors you will use for your Uniform');
+        $("span.nOf").html('Select the colors you will use');
         $('div#primary_options_container').html('<div id="team-color-picker"></div><div id="cw"></div>');
 
         $('#team-color-picker').ubTeamColorPicker({

@@ -75,8 +75,8 @@ class FileUtility
         $uniform = Image::make($image);
         $uniform_w = $uniform->getWidth();
         $uniform_h = $uniform->getHeight();
-        $uniform_w = $uniform_w;
-        $uniform_h = ($uniform_h - ($TRIM_TOP + $TRIM_BOTTOM));
+
+        // $uniform_h = ($uniform_h - ($TRIM_TOP + $TRIM_BOTTOM));
 
         $uniform->crop($uniform_w, $uniform_h, 0, 0);
         $uniform->resize($uniform_w * $UNIFORM_SIZE, $uniform_h * $UNIFORM_SIZE);
@@ -94,13 +94,10 @@ class FileUtility
 
         // Convert SVG (front) to PNG
         $image = static::saveBase64Image($svg);
-        $code = sha1(rand() . time());
-        $filename = "{$perspective}-{$code}.png";
-        $resized_image = static::resizeImage($image, $filename);
 
         // Upload to TeamStore bucket
         $bucket = 'team-stores';
-        $url = FileUploader::uploadImageToAWS($resized_image, 'products');
+        $url = FileUploader::uploadImageToAWS($image, 'products');
 
         Log::info('Uploaded to s3 ' . $url);
 

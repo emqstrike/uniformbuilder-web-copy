@@ -35,18 +35,23 @@ $(document).ready(function() {
         ub.bg.alpha = 0.7;
         
         if (ub.render) {
-            if (ub.return_rendered_code) {
-                ub.funcs.prepareThumbnails(ub.funcs.savePerspectives);
-            } else {
-                ub.funcs.prepareThumbnails();
+            ub.funcs.prepareThumbnails();
+
+            // Save perspectives when set to save rendered images
+            if (ub.save_rendered) {
+                setTimeout(function() {
+                    // Call method once again due to rendering addendums
+                    ub.funcs.prepareThumbnails();
+                    ub.funcs.savePerspectives();
+                }, ub.save_rendered_timeout * 1000);
             }
         }
-        
+
         ub.status.fullView.setStatus(true);
 
     };
 
-    ub.funcs.prepareThumbnails = function (callback) {
+    ub.funcs.prepareThumbnails = function () {
 
         // Prepare thumbnails 
 
@@ -58,7 +63,7 @@ $(document).ready(function() {
             var _rightThumb = ub.getThumbnailImage2('right_view');
 
             ub.utilities.info('Thumbnails Generated!');
-            
+
             ub.front = _frontThumb;
             ub.back = _backThumb;
             ub.left = _leftThumb;
@@ -66,28 +71,30 @@ $(document).ready(function() {
 
         // End Prepare thumbnails 
 
-        if (callback) {
-            setTimeout(function() {
-                callback();
-            }, 20000);
-        }
     };
 
     ub.funcs.savePerspectives = function () {
+        var save_uniform_perspectives_url = '/save_uniform_perspectives';
+        if (ub.store_code == 'TEAMSTORE-DEFAULT-TEMPLATE') {
+            save_uniform_perspectives_url = '//teamstore.prolook.com/api/product/save_customized_thumbnails';
+        }
         $.ajax({
-            url: '/save_uniform_perspectives',
+            url: save_uniform_perspectives_url,
             data: {
                 product_id: ub.config.material_id,
-                code: ub.return_rendered_code,
+                store_code: ub.store_code,
+                team_colors: ub.team_colors,
                 front: ub.front,
                 back: ub.back,
                 right: ub.right,
-                left: ub.left,
-                team_store: ub.team_store
+                left: ub.left
             },
             method: 'POST',
             success: function(response) {
                 if (response.success) {
+                    ub.utilities.info('Store Code: ' + response.store_code);
+                    ub.utilities.info('Product ID: ' + response.product_id);
+                    ub.utilities.info('Team Colors: ' + response.team_colors);
                     ub.utilities.info('Saved as images');
                     ub.utilities.info('Front: ' + response.front);
                     ub.utilities.info('Back: ' + response.back);

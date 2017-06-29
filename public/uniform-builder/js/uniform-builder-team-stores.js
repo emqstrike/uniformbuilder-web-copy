@@ -113,6 +113,32 @@ $(document).ready(function () {
                 application_obj.text = ub.team_name;
             }
 
+            // Pre-load player_name parameter
+            if (application_obj.type === 'player_name') {
+                application_obj.text = ub.jersey_name;
+            }
+
+            // Pre-load player_name parameter
+            if (application_obj.type === 'front_number' || application_obj.type === 'back_number' || application_obj.type === 'shoulder_number' || application_obj.type === 'sleeve_number') {
+                application_obj.text = ub.jersey_number;
+            }
+
+            if (application_obj.type === "mascot") {
+
+                var _mascot = ub.funcs.getMascotByID (ub.mascot_id);
+
+                if (typeof _mascot !== "undefined") {
+
+                    application_obj.mascot = _mascot;
+
+                } else {
+
+                    ub.utilities.info('Mascot [' + ub.mascot_id + '] not found.');
+
+                }
+
+            }
+
         });
 
         return applications;
@@ -122,6 +148,8 @@ $(document).ready(function () {
     ub.data.teamStoresteamColors = {};
 
     ub.prepareForTeamStoresPatterns = function (settings) {
+
+        if (typeof settings === "undefined") { return; }
 
         if (settings.pattern_id !== "blank" && settings.pattern_id !== "none") {
 

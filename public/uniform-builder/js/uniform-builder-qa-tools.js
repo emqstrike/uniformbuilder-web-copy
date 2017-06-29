@@ -30,7 +30,30 @@ $(document).ready(function () {
         
         ub.utilities.info('-------- Applications -------');
         _.each(settings.applications, function (app) { 
-            ub.utilities.info(app.code + ' - ' + app.type); 
+            
+            var _str = app.code + ' - ' + app.type; 
+            var _primaryView = undefined; 
+            
+            _.each(app.application.views, function (view) {
+
+                if (view.application.isPrimary === 1) {
+
+                    _primaryView = view.perspective;
+                    return;
+
+                }
+
+            });
+
+            if (typeof _primaryView === "undefined") {
+
+                _primaryView = 'No Primary View Set!';
+
+            }
+
+            _str += ' - ' + _primaryView;
+            ub.utilities.info(_str);
+
         });
         
         if (_.size(ub.current_material.settings.applications) === 0) { 
@@ -313,7 +336,7 @@ $(document).ready(function () {
             if (typeof ub.objects[view + '_view']['guide'] === "object") {
 
                 ub.objects[view + '_view']['guide'].alpha = 1;
-                ub.objects[view + '_view']['guide'].zIndex = -29;
+                ub.objects[view + '_view']['guide'].zIndex = -170;
 
             }
 

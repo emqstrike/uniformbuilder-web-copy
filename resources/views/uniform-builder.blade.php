@@ -30,6 +30,7 @@
 
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 
+
 </head>
 <body>
 
@@ -95,6 +96,8 @@
     <div id="main-picker-container">
         
         <div id="topbar">
+
+            <span class="slink main-picker-items my-favorites" data-picker-type="gender" data-item="My-Favorites"><i class="fa fa-star" aria-hidden="true"></i> My Favorites (<span class="count">0</span>)</span>
 
             <span class="slink main-picker-items back-link" data-picker-type="gender" data-item="Home"><i class="fa fa-home" aria-hidden="true"></i></span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Men">Men</span>
@@ -229,6 +232,10 @@
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
 
+<script src="{{$asset_storage}}/natural/natural.js"></script>
+<script src="{{$asset_storage}}/natural/all.js"></script>
+
+
 <!-- End Third Party Scripts -->
 
 <!-- Uniform Builder Scripts -->
@@ -258,7 +265,16 @@
 
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
-            thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/'
+            thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
+
+            @if (isset($styles)) 
+            styles: {
+                load: "{{ isset($styles) ? $styles : false }}",
+                gender: "{{ isset($gender) ? $gender : undefined }}",
+                sport: "{{ isset($sport) ? $sport : null }}",
+            },
+            @endif
+
         };
 
         @if (Session::get('isLoggedIn'))
@@ -391,16 +407,25 @@
 
         // Team Store Parameters
         // Flag for returning the requested images
-        ub.return_rendered_code = "{{ isset($return_rendered_code) ? $return_rendered_code : false }}";
-        ub.team_name = "{{ isset($team_name) ? $team_name : false }}";
-        
-        @if(!empty($team_colors))
-            ub.team_colors = [{!! $team_colors !!}];
-        // @else
-        //     ub.team_colors = [];
-        @endif
+        ub.save_rendered = "{{ isset($save_rendered) ? $save_rendered : false }}";
+        // Timeout to render images
+    @if(empty($save_rendered_timeout))
+        ub.save_rendered_timeout = 10; // 10 seconds default
+    @else
+        ub.save_rendered_timeout = {{ $save_rendered_timeout }};
+    @endif
 
-        ub.team_store = "{{ isset($store) ? $store : false }}";
+        ub.team_name = "{{ isset($team_name) ? $team_name : false }}";
+
+    @if(!empty($team_colors))
+        ub.team_colors = [{!! $team_colors !!}];
+    @else
+        ub.team_colors = [];
+    @endif
+        ub.store_code = "{{ isset($store_code) ? $store_code : false }}";
+        ub.jersey_name = "{{ isset($jersey_name) ? $jersey_name : false }}";
+        ub.jersey_number = "{{ isset($jersey_number) ? $jersey_number : false }}";
+        ub.mascot_id = "{{ isset($mascot_id) ? $mascot_id : false }}";
 
         ub.savedDesignName = "{{ isset($saved_design_name) ? $saved_design_name : '' }}";
 
@@ -456,7 +481,10 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-utilities.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-error-codes.js?v={{$asset_version}}"></script>
+
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
+
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-nlp.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-mock-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-status.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-math.js?v={{$asset_version}}"></script>

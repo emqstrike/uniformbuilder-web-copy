@@ -18,14 +18,15 @@ class ProductController extends Controller
         $right = FileUtility::saveSvgToS3($request->right, 'right');
         $left = FileUtility::saveSvgToS3($request->left, 'left');
 
-        $referrer = $_SERVER['HTTP_REFERER'];
-
         return response()->json([
             'success' => true,
             'front' => $front,
             'back' => $back,
             'right' => $right,
-            'left' => $left
+            'left' => $left,
+            'product_id' => $request->product_id,
+            'store_code' => $request->store_code,
+            'team_colors' => $request->team_colors
         ]);
     }
 }

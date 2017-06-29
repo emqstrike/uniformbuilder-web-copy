@@ -6,11 +6,11 @@
         
         <hr />
 
-            <div class='mascot_drop btn' data-id='@{{application_id}}'>
-                Choose a Mascot: <i class='fa fa-caret-down'></i>
-            </div>
-            
-            <div class='mascot-controls' id='controls-@{{application_id}}' data-id='@{{application_id}}'>
+        <div class='mascot_drop btn' data-id='@{{application_id}}'>
+            Choose a Mascot: <i class='fa fa-caret-down'></i>
+        </div>
+        
+        <div class='mascot-controls' id='controls-@{{application_id}}' data-id='@{{application_id}}'>
 
         <hr />
         
@@ -461,7 +461,8 @@
             
             <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}">
 
-                <img src="@{{thumbnail_path}}?v={{$asset_version}}">
+                <img class='front' src="@{{thumbnail_path}}?v={{$asset_version}}">
+                <img class='left' src="@{{thumbnail_path_left}}?v={{$asset_version}}">
 
                 <span class="main-picker-item-caption"> 
                     <span class="type"></span>
@@ -497,7 +498,7 @@
 
 <!-- End Uniforms Pickers -->
 
-<!-- Uniforms Picker -->
+<!-- Search Resuls Picker -->
 
     <script type="text/mustache" id="m-picker-items-search-results">
 
@@ -505,10 +506,13 @@
             
             <div class="main-picker-items grow" data-picker-type="search-result" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
 
-                <img width='280' src="@{{thumbnail}}?v={{$asset_version}}">
+                <img src="@{{thumbnail}}?v={{$asset_version}}">
 
                 <span class="main-picker-item-caption">
-                    @{{name}}
+    
+                    <strong>@{{name}}</strong><br />
+                    <strong class="type">@{{#uniform_type}}@{{uniform_application_type}}@{{/uniform_type}}</strong>
+
                 </span>
 
             </div>
@@ -529,7 +533,44 @@
 
     </script>
 
-<!-- End Uniforms Pickers -->
+<!-- End Search Results Pickers -->
+
+<!-- Favorites Resuls Picker -->
+
+    <script type="text/mustache" id="m-picker-items-favorites">
+
+        @{{#picker_items}}
+            
+            <div class="main-picker-items grow" data-picker-type="search-result" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
+
+                <img src="@{{thumbnail_path}}?v={{$asset_version}}">
+
+                <span class="main-picker-item-caption">
+                    <strong>@{{name}}</strong> <br />
+                    <strong class="type">@{{#uniform_type}}@{{uniform_application_type}}@{{/uniform_type}}</strong>
+
+                    <div class="favorite"><i class="fa fa-star" aria-hidden="true"></i> Favorite <i class="fa fa-star" aria-hidden="true"></i></div>
+                </span>
+
+            </div>
+
+        @{{/picker_items}}
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+        <div class="main-picker-items grow disabled">
+
+        </div>
+
+    </script>
+
+<!-- End Favorites Pickers -->
 
 <!-- Pattern Picker -->
     
@@ -2020,16 +2061,16 @@
 
         <div class="logo-container">
             
-            <img src="/images/pl-logo-dark.png" class="logo-white" /> <br />
+          <!--  <img src="/images/pl-logo-dark.png" class="logo-white" /> <br /> -->
+          <img src="/images/rainbow-pl.png" class="logo-white" /> <br />
 
             <div class="qoute">
                 <span class='qoute-symbol'><i class="fa fa-quote-left" aria-hidden="true"></i></span>
-                <span class='qoute-text'>I don't count my situps, i only start counting when it starts hurting. When i feel pain, that's when i start counting, because that's when it really counts.</span>
+                <span class='qoute-text'>I don’t count my sit-ups. I only start counting when it starts hurting. When I feel pain, that’s when I start counting, because that’s when it really counts.</span>
                 <br />
                 <div class="author-container">
                     -<span class="author"> Muhammad Ali</span>    
                 </div>
-                
             </div>
            
         </div>
@@ -2063,3 +2104,46 @@
     </div>
     
 </script>
+
+<script type="text/mustache" id="m-no-favorite">
+    
+    <div class="no-favorite-styles">
+
+        You have no favorite styles.
+
+    </div>
+    
+</script>
+
+<script type="text/mustache" id="m-picker-message">
+    
+    <div class="generic-message">
+
+       @{{message}} <br />
+       @{{didYouMean}} <br /><br />
+       
+    </div>
+    
+</script>
+
+<script type="text/mustache" id="m-did-you-mean-link-templates">
+    
+    <div class="did-you-mean-links">
+
+       @{{#gender}}
+
+            <a href ="/styles/@{{.}}/@{{alias.shortCode}}" class="">
+
+                <img class="grow" src = "/images/main-ui/pickers/@{{#toUpper}}@{{.}}@{{/toUpper}}/@{{alias.thumbFilename}}" />
+                <div class="link-text">@{{.}} / @{{alias.urlAlias}}</div>
+
+            </a>
+
+       @{{/gender}}
+
+    </div>
+
+
+    
+</script>
+

@@ -49,7 +49,7 @@ $(document).ready(function() {
 
             }
 
-            if (font.block_patterns !== null) {
+            if (font.block_patterns !== null && font.block_patterns !== '""') {
 
                 if (blockPattern !== '') {
 
@@ -551,8 +551,10 @@ $(document).ready(function() {
             } else {
 
                 _fontSizeTable      = JSON.parse(_fontSizeTable.slice(1,-1));
-
                 _fontProperties     = _.find(_fontSizeTable, { inputSize: fontSize.toString()});
+
+                if (typeof _fontProperties === "undefined") { ub.utilities.error('Font settings for ' + _fontObj.name + ' / ' + fontSize + ' not found.'); }
+
                 _inputFontSize      = _fontProperties.inputSize;
                 _returnFontSize     = _fontProperties.outputSize;
                 _xOffset            = _fontProperties.xOffset;

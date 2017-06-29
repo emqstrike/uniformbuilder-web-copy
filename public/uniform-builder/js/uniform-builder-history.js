@@ -25,7 +25,7 @@ $(document).ready(function () {
         var _size = _.size(ub.data.undoHistory);
 
         if (_size === 0) { 
-            $('span.undo-btn').hide();
+            //$('span.undo-btn').hide();
             return; 
         }
 
@@ -203,7 +203,7 @@ $(document).ready(function () {
         var _size = _.size(ub.data.undoHistory);
 
         if (_size === 0) {
-            $('span.undo-btn').hide();
+            //$('span.undo-btn').hide();
             return;
         }
 
@@ -215,11 +215,11 @@ $(document).ready(function () {
 
         ub.funcs.pushOldState = function (operationType, objectType, settingsObject, oldValue, newValue) {
 
-        if (ub.current_material.material.uniform_category !== "Football") {            
+        //if (ub.current_material.material.uniform_category !== "Football") {            
 
             $('span.undo-btn').fadeIn();
 
-        }
+        // }
 
         // if (ub.current_material.material.uniform_category !== "Football") {
 

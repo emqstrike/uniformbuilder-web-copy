@@ -1244,7 +1244,12 @@
                 
             }
 
-        } else if ((ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || ub.funcs.isCurrentSport('Wrestling') || ub.funcs.isCurrentSport('Volleyball')) && ub.funcs.isCurrentType('lower')) {
+        } else if ((ub.funcs.isCurrentSport('Baseball') || 
+            ub.funcs.isCurrentSport('Fastpitch') || 
+            ub.funcs.isCurrentSport('Wrestling') || 
+            ub.funcs.isCurrentSport('Volleyball') || 
+            ub.funcs.isCurrentSport('2017 Team Short with Pockets (Apparel)') || 
+            ub.funcs.isCurrentSport('Signature Coaches Short (Apparel)')) && ub.funcs.isCurrentType('lower')) {
 
             var _scaleSettings = ub.data.mascotSizesPant.getSize(_uniformCategory, settings_obj.size, ub.current_material.material.neck_option); // Refactor this
 
@@ -1476,6 +1481,14 @@
 
             ///
 
+            if (font_size === "0") {
+    
+                font_size = 100;
+                ub.utilities.error('No Output Size detected for ' + input_object.fontSize + ' / ' + input_object.applicationObj.font_obj.name + ' / ' + input_object.perspective + ' using 100');
+
+            }
+
+            
             var style = "";
             var lineHeight = font_size;
             var _padding = 40;

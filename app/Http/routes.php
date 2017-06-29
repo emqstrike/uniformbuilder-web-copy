@@ -29,10 +29,16 @@ Route::post('saveChangedPassword', ['middleware' => 'adminAccess', 'uses' => 'Au
 Route::get('activateUser/{activationCode}', 'RegistrationController@activateUser');
 Route::get('index', 'UniformBuilderController@showBuilder');
 Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
-Route::get('/render/{designSetId}/{materialId}/{code?}', 'UniformBuilderController@loadDesignSetRender');
-Route::get('/builder/{designSetId}/{materialId}/render/{code?}', 'UniformBuilderController@loadDesignSetRender');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
-Route::get('/builder/{designSetId}/{materialId}', 'UniformBuilderController@loadDesignSet');
+Route::get('/builder/{designSetId}/{materialId}/{store_code?}/{team_name?}/{team_colors?}/{jerysey_name?}/{jersey_number?}/{mascot_id?}/{save_rendered?}/{save_rendered_timeout?}', 'UniformBuilderController@loadDesignSet');
+Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderController@loadDesignSetRender');
+Route::get('/styles/{gender}/{sport?}', 'UniformBuilderController@styles');
+
+Route::group([
+    'prefix' => 'teamstore'
+], function() {
+    Route::get('load_material/{material_id}/{store_code?}/{team_name?}/{team_colors?}/{jerysey_name?}/{jersey_number?}/{mascot_id?}/{save_rendered?}/{save_rendered_timeout?}', 'UniformBuilderController@load_material');
+});
 
 // Save uniform perspectives
 Route::post('/save_uniform_perspectives', 'ProductController@savePerspectives');
