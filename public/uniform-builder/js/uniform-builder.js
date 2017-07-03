@@ -6937,10 +6937,16 @@ $(document).ready(function () {
         if (_betaUniformsOk) {
 
             ub.funcs.enableSport(ub.data.sports, 'Women', 'fastpitch');
+            
+            ub.funcs.enableSport(ub.data.sports, 'Women', 'soccer');
+            ub.funcs.enableSport(ub.data.sports, 'Men', 'soccer');
 
         } else {
 
             ub.funcs.disableSport(ub.data.sports, 'Women', 'fastpitch');
+
+            ub.funcs.enableSport(ub.data.sports, 'Women', 'soccer');
+            ub.funcs.enableSport(ub.data.sports, 'Men', 'soccer');
 
         }
 

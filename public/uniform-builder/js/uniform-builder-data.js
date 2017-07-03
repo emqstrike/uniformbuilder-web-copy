@@ -4457,7 +4457,8 @@ $(document).ready(function() {
                 {
                     code: 'soccer',
                     name: 'Soccer',
-                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
                 }, 
             ],
         },
@@ -4479,7 +4480,8 @@ $(document).ready(function() {
                 {
                     code: 'soccer',
                     name: 'Soccer',
-                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
                 }, 
             ],
             
@@ -4552,6 +4554,20 @@ $(document).ready(function() {
                     code: 'fan-replica-jersey',
                     name: 'Fan Replica Jersey (Apparel)',
                     active: "1",
+                },
+                {
+                    code: 'team-short',
+                    name: '2017 Team Short with Pockets (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'signature-coaches-short',
+                    name: 'Signature Coaches Short (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
                 },
             ],
         },
@@ -13486,7 +13502,6 @@ ub.funcs.fontOffSets = [
             { sport: 'Quarter Zip Jacket (Apparel)' },
             { sport: 'Volleyball' },
             { sport: 'Fan Replica Jersey (Apparel)' },
-            { sport: 'Soccer' },
 
         ],
 
@@ -13504,6 +13519,7 @@ ub.funcs.fontOffSets = [
         items: [
 
             { sport: 'Fastpitch' },
+            { sport: 'Soccer' },
 
         ],
 
@@ -13574,6 +13590,16 @@ ub.funcs.fontOffSets = [
                 type: 'both',
                 upperLabel: 'Jersey',
                 lowerLabel: 'Shorts',
+            },
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                type: 'lower',
+                lowerLabel: ' Team Short',
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                type: 'lower',
+                lowerLabel: 'Coaches Short',
             },
             {
                 sport: 'Default', // Football
