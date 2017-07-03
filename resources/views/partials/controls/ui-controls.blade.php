@@ -852,7 +852,7 @@
         @{{#mascots}}
 
         <div class="item grow all @{{name}} @{{category}} category-@{{mascot_category_id}}" style="background-image: url('@{{icon}}')" data-mascot-id="@{{id}}">
-            <div class="name">@{{name}}</div>
+            <div class="name">@{{id}}: @{{name}}</div>
         </div>
 
         @{{/mascots}}
