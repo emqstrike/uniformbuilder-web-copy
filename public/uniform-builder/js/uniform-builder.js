@@ -5926,9 +5926,6 @@ $(document).ready(function () {
                 var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
                 if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
 
-                console.log('Item: ', _item);
-                console.log('Gender: ', _gender);
-
                 ub.funcs.initUniformsPicker(_item, _gender);
 
 
@@ -6453,7 +6450,7 @@ $(document).ready(function () {
                 picker_type: type,
                 picker_items: ub.tempItems,
                 filters: _.find(ub.data.sportFilters, {sport: gender}).filters,
-              
+
                 uniform_type: function () {
 
                     return function (text, render) {

@@ -66,7 +66,7 @@
             <div class = "btn-group">
 
               <button type="button" id="firstname" class="btn">
-                  <i class="fa fa-user" aria-hidden="true"></i> <span class="hello">Hello {{ Session::get('first_name') }}!</span>
+                  <i class="fa fa-user" aria-hidden="true"></i> <span class="hello">Hello {{ Session::get('firstName') }}!</span>
               </button>
 
               <button type = "button" class = "btn dropdown-toggle" data-toggle = "dropdown">

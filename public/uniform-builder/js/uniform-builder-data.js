@@ -141,8 +141,6 @@ $(document).ready(function() {
     ub.stage.addChild(ub.pattern_view);
     ub.stage.addChild(ub.gradient_preview);
 
-
-
     if (typeof ub.renderer !== "undefined" && ub.pCanvas !== null) {
         ub.pCanvas.appendChild(ub.renderer.view);
     }
@@ -4460,8 +4458,6 @@ $(document).ready(function() {
                     code: 'soccer',
                     name: 'Soccer',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 }, 
             ],
         },
@@ -4480,6 +4476,11 @@ $(document).ready(function() {
                     tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 },
+                {
+                    code: 'soccer',
+                    name: 'Soccer',
+                    active: "1",
+                }, 
             ],
             
         },
@@ -9918,6 +9919,11 @@ ub.funcs.fontOffSets = [
             sport: 'Fan Replica Jersey (Apparel)',
             filters: ['All'],
         }, 
+        {
+            sport: 'Soccer',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+
 
     ];
 
@@ -13480,6 +13486,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Quarter Zip Jacket (Apparel)' },
             { sport: 'Volleyball' },
             { sport: 'Fan Replica Jersey (Apparel)' },
+            { sport: 'Soccer' },
 
         ],
 
@@ -13557,10 +13564,16 @@ ub.funcs.fontOffSets = [
                 type: 'upper',
                 upperLabel: 'Quarter Zip Jacket',
             },
-           {
+            {
                 sport: 'Polo (Apparel)',
                 type: 'upper',
                 upperLabel: 'Polo',
+            },
+            {
+                sport: 'Soccer',
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Shorts',
             },
             {
                 sport: 'Default', // Football
