@@ -102,8 +102,6 @@ class AuthenticationController extends AdminAuthController
             if ($result->success) {
                 $fullname = $result->user->first_name . ' ' . $result->user->last_name;
 
-                // dd($result->user);
-
                 Session::put('userId', $result->user->id);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $fullname);
