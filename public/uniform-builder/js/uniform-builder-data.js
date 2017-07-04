@@ -13674,9 +13674,14 @@ ub.funcs.fontOffSets = [
                sport: 'Volleyball',    
             },
             {
-               sport: 'Baseball',    
+                sport: 'Baseball',    
             },
-            
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+            }
         ],
 
         isHidden: function (sport, option) {
