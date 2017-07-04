@@ -6941,12 +6941,18 @@ $(document).ready(function () {
             ub.funcs.enableSport(ub.data.sports, 'Women', 'soccer');
             ub.funcs.enableSport(ub.data.sports, 'Men', 'soccer');
 
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'team-short');
+            ub.funcs.enableSport(ub.data.apparel, 'Men', 'signature-coaches-short');
+
         } else {
 
             ub.funcs.disableSport(ub.data.sports, 'Women', 'fastpitch');
 
-            ub.funcs.enableSport(ub.data.sports, 'Women', 'soccer');
-            ub.funcs.enableSport(ub.data.sports, 'Men', 'soccer');
+            ub.funcs.disableSport(ub.data.sports, 'Women', 'soccer');
+            ub.funcs.disableSport(ub.data.sports, 'Men', 'soccer');
+
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'team-short');
+            ub.funcs.disableSport(ub.data.apparel, 'Men', 'signature-coaches-short');
 
         }
 
