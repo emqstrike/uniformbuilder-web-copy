@@ -7885,12 +7885,17 @@ $(document).ready(function () {
 
     /// Profile
 
-        ub.funcs.updateProfile = function (firstName, lastName) {
+        ub.funcs.updateProfile = function (obj) {
 
             var _postData = {
+
                 id: ub.user.id,
-                first_name: firstName,
-                last_name: lastName,
+                first_name: obj.firstName,
+                last_name: obj.lastName,
+                state: obj.state,
+                zip: obj.zip,
+                default_rep_id: obj.rep,
+
             }
 
             var _url = ub.config.api_host + '/api/user/update';
@@ -7905,14 +7910,15 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
-                success: function (response){
+                success: function (response) {
 
-                    ub.user.firstName = firstName;
-                    ub.user.lastName = lastName;
+                    ub.user.firstName = obj.firstName;
+                    ub.user.lastName = obj.lastName;
 
                     var _url = ub.config.team_store_api_host + '/team-store-user/' + ub.user.id + '/update';
 
                     $.ajax({
+                        
                         url: _url,
                         type: "PATCH",
                         data: JSON.stringify(_postData),
@@ -7924,7 +7930,9 @@ $(document).ready(function () {
                         success: function(response) {
                             window.location.href = '/my-profile';
                         }
+
                     });
+
                 }
                 
             });
@@ -7954,9 +7962,41 @@ $(document).ready(function () {
 
                 var _firstName = $('input[name="first-name"]').val();
                 var _lastName = $('input[name="last-name"]').val();
+                var _state = $('input[name="state"]').val();
+                var _zip = $('input[name="zip"]').val();
+                var _rep = $('select[name="_rep"]').val();
 
-                ub.funcs.updateProfile(_firstName, _lastName);
+                // ub.funcs.updateProfile(_firstName, _lastName);
+
+                ub.funcs.updateProfile({
+
+                    firstName: _firstName,
+                    lastName: _lastName,
+                    state: _state,
+                    zipCode: _zip,
+                    rep: _rep,
+
+                })
+
             });
+
+            // Rep Search 
+            $('input.findRep').unbind('click');
+            $('input.findRep').on('click', function () {
+
+                var _id = $('input[name="zip"]').val();
+
+                if (_id.trim().length === 0) {
+
+                    $('span.message-rep').html('Please enter a valid Zip Code!');
+                    return;
+
+                }
+
+                ub.funcs.getAgentsByZipCode(_id, ub.funcs.updateSalesAgenstList);
+
+            });
+            // End Rep Search
 
         }
 

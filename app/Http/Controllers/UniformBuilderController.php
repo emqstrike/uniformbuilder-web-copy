@@ -1949,7 +1949,7 @@ class UniformBuilderController extends Controller
         Session::put('state', $user->state);
         Session::put('zip', $user->zip);
         Session::put('default_rep_id', $user->default_rep_id);
-        
+
         $materialId = -1;
         $categoryId = -1;
 
