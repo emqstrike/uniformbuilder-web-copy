@@ -7972,22 +7972,77 @@ $(document).ready(function () {
         ub.funcs.displaySignup = function () {
 
             var $container = $('div.signup-container');
-          
             var template = $('#m-signup-page').html();
+
             var data = {
                 application_id: '1',
             }
 
             var markup = Mustache.render(template, data);
+    
+            $container.html(markup)
             
-            $container.html(markup);
-
         }
 
         if (ub.page === 'signup') {
 
             $('div#main-picker-container').remove();
             $('body').css('background-image', 'none');
+
+            $('input.findRep').unbind('click');
+            $('input.findRep').on('click', function () {
+
+                var _id = $('input[name="zip"]').val();
+
+                if (_id.trim().length === 0) {
+
+                    $('span.message-rep').html('Please enter a valid Zip Code!');
+                    return;
+
+                }
+
+                $('span.message-rep').html('Searching...');
+
+                $.ajax({
+
+                    url: ub.endpoints.getFullUrlString('getSalesRepByZipCode') + _id,
+                    type: "GET", 
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                    success: function (response) {
+
+                        if (response.success) {
+
+                            //22156
+
+                           var _string = ub.utilities.buildTemplateString('#m-sales-reps-options', {rep: response.sales_reps});
+                           $('select[name="rep"]').html(_string);
+
+                           console.log('Length of returned items: ');
+                           console.log(response.sales_reps.length);
+
+                            $('span.message-rep').html('Found: ' + response.sales_reps.length + ' reps.');
+                            
+                            if (response.sales_reps.length > 0) {
+
+                                $('select[name="rep"]').removeAttr("disabled");
+
+                            } else {
+
+                                $('select[name="rep"]').attr('disabled', 'disabled');
+                                $('span.message-rep').html('No reps found for your zip code [' + _id + '], It is still ok to proceed without a sales rep we will just assign a default rep to you in case you submit an order, you can still use the customizer but please double check that you entered a correct zip code.');
+
+                            }
+
+                        }
+
+                    }
+                    
+                });
+
+            });
 
             if (!window.ub.user) { 
                 //ub.funcs.displayLoginForm(); 

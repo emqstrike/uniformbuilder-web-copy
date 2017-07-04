@@ -2141,8 +2141,16 @@
        @{{/gender}}
 
     </div>
-
-
     
+</script>
+
+<script type="text/mustache" id="m-sales-reps-options">
+    
+    @{{#rep}}
+
+        <option value="@{{id}}"> @{{last_name}}, @{{first_name}}</option>
+        
+    @{{/rep}}
+
 </script>
 
