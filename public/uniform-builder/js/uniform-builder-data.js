@@ -9939,6 +9939,15 @@ ub.funcs.fontOffSets = [
             sport: 'Soccer',
             filters: ['All', 'Jersey', 'Shorts'],
         },
+        {
+            sport: '2017 Team Short with Pockets (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Signature Coaches Short (Apparel)',
+            filters: ['All'],
+        },
+
 
 
     ];
@@ -13520,6 +13529,8 @@ ub.funcs.fontOffSets = [
 
             { sport: 'Fastpitch' },
             { sport: 'Soccer' },
+            { sport: 'Signature Coaches Short (Apparel)' },
+            { sport: '2017 Team Short with Pockets (Apparel)' },
 
         ],
 
