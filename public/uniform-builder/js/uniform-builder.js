@@ -8038,7 +8038,7 @@ $(document).ready(function () {
                             } else {
 
                                 $('select[name="rep"]').attr('disabled', 'disabled');
-                                $('span.message-rep').html('No reps found for your zip code [' + _id + '], It is still ok to proceed without a sales rep we will just assign a default rep to you in case you submit an order, you can still use the customizer but please double check that you entered a correct zip code.');
+                                $('span.message-rep').html('No reps found for your zip code [' + _id + '], It is still ok to proceed without a sales rep, we will just assign a default rep to you in case you submit an order, you can still use the customizer, but please do check that you entered a correct zip code before proceeding.');
 
                             }
 

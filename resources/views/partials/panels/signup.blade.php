@@ -99,13 +99,10 @@
                                             <p>
                                                 <em>
 
-                                                    We have representatives to help you make the most of this site, just enter your zip code and click the <strong>[Find Rep]</strong> button, and we will check out who among our reps are near you. 
-                                                    <br />
-                                                    
-                                                    And select anyone that will appear on the dropdown. 
+                                                    We have representatives to help you make the most of this site, just enter your zip code and click the <strong>[Find Rep]</strong> button, and select anyone that will appear on the dropdown. 
                                                     <br /><br />
 
-                                                    NOTE:
+                                                    Note:
                                                     <br />
 
                                                     If you have worked with a Rep previously just select his name on the list. If you don't have any matching Rep's on your area we will just assign someone to work with you. It is still ok to proceed without a rep at this point and you can still use the customizer.

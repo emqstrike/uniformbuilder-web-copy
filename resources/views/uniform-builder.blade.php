@@ -285,7 +285,10 @@
                 firstName: "{{ Session::get('firstName') }}",
                 lastName: "{{ Session::get('lastName') }}",
                 email: "{{ Session::get('email') }}",
-                headerValue: "{{ base64_encode(Session::get('accessToken')) }}"
+                zip: "{{ Session::get('zip') }}",
+                state: "{{ Session::get('state') }}",
+                defaultRepID: "{{ Session::get('default_rep_id') }}",
+                headerValue: "{{ base64_encode(Session::get('accessToken')) }}",
             };
 
             window.ub.valid = {{ Session::get('userId') }};
