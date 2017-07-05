@@ -2118,6 +2118,10 @@ $(document).ready(function() {
                 name: "Soccer",
                 alias: "soccer",
             },
+            { 
+                name: "Basketball",
+                alias: "basketball",
+            },
 
         ],
 
@@ -2146,6 +2150,8 @@ $(document).ready(function() {
     ub.data.applicationSizesPant = {
 
         items: [
+
+        // Baseball
             {
                 name: 'mascot',
                 sport: 'baseball',
@@ -2354,6 +2360,29 @@ $(document).ready(function() {
                             {
                                 size: 12,
                             }
+                ],
+            },
+
+            // Basketball
+
+            {
+                name: 'mascot',
+                sport: 'basketball',
+                applicationNumbers: [16, 17],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
+
                 ],
             },
            
@@ -2792,7 +2821,7 @@ $(document).ready(function() {
                             ],
                 },
 
-                // Baseball
+                // Fastpitch
                 {
                     name: 'team_name',
                     sport: 'fastpitch',
@@ -2893,7 +2922,7 @@ $(document).ready(function() {
                             ],
                     type: 'adult',
                 },
-                // End Baseball
+                // End Fastpitch
 
                 // Crew Socks 
 
@@ -3813,6 +3842,107 @@ $(document).ready(function() {
                 },
 
                 // end signature-coaches-short
+
+                // Basketball
+                {
+                    name: 'team_name',
+                    sport: 'basketball',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'basketball',
+                    sizes:  [
+                                {
+                                    size: 2.5,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'basketball',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'basketball',
+                    applicationNumbers: [6],
+                    sizes: [
+                        {size: 2.5},
+                    ],
+                },
+
+                {
+                    name: 'mascot',
+                    sport: 'basketball',
+                    applicationNumbers: [7, 31, 30],
+                    sizes: [
+                        {size: 1},
+                        {size: 2},
+                        {size: 3},
+                        {size: 4},
+                    ],
+                },
+                {
+                    name: 'mascot',
+                    sport: 'basketball',
+                    applicationNumbers: [5],
+                    sizes: [
+                        {size: 6},
+                        {size: 8},
+                        {size: 10},
+                    ],
+                },
+                {
+                    name: 'front_number',
+                    sport: 'basketball',
+                    sizes:  [
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 6,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'basketball',
+                    sizes:  [
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                // End Basketball
                
 
                 // defaults 
