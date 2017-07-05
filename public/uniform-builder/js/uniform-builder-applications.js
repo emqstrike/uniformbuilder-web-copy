@@ -2304,14 +2304,28 @@ $(document).ready(function() {
 
                          if (typeof _app6 !== "undefined") {
 
+                            // No Pull up's on 2.5 because its fixed and free applications
+                            if (_app6.font_size === 2.5) { return; }
+                            if (_app1.application_type === "free") { return; }
+
                             var _parentSize             =  parseInt(_app6.font_size);
                             var _applicationNumber      = '5'
                             var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
-                            var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                            
+                            var  _calculatedPullUpHeight;
+
+                            if (typeof _pullUpHeightObj !== "undefined") {
+
+                                _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+
+                            }
+
                             var _originalPosition       = _app5['originalPosition_' + _view];
 
                             if (ub.data.sportsMain.currentOk()) {
+                                
                                 _calculatedPullUpHeight = 0;
+
                                 if (_parentSize === 2) {
                                     if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
                                     _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -1;
