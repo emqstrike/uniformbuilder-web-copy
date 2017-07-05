@@ -128,7 +128,7 @@
 
                                                 <br />
                                                 <label for="zip">Zip</label>
-                                                <input name="zip" class="form-control" type="text" placeholder="Zip Code" value="22156" required>                                
+                                                <input name="zip" class="form-control" type="text" placeholder="Zip Code" required>                                
 
                                             </div>
 
