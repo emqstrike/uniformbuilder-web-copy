@@ -2275,6 +2275,14 @@ $(document).ready(function() {
                                     _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -1;
 
                                 }
+
+                                if (_parentSize === 4) {
+
+                                    if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
+                                    _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px);
+
+                                }
+
                                
                             }
 
