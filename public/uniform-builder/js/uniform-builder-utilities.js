@@ -39,6 +39,15 @@ $(document).ready(function() {
 
             console.info(msg);
 
+        },
+
+        buildTemplateString: function (templateID, data) {
+
+            var template = $(templateID).html();
+            var markup = Mustache.render(template, data);
+
+            return markup;
+
         }
 
     };

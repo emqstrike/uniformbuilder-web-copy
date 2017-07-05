@@ -1612,6 +1612,106 @@
             <input type="text" class="form-control" id="email" placeholder="Email" name="email" value="@{{email}}" disabled>
         </div>
 
+        <br />
+
+        <!-- Start Row 2 -->
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="row">
+                    
+                    <div class="col-md-3"></div>
+
+                    <div class="col-md-6">
+
+                        <h3>Location and Assigned Rep</h3>
+                        <hr />
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-3"></div>
+
+                    <div class="col-md-2">
+                        
+                        <p>
+                            <em>
+
+                                We have representatives to help you make the most of this site, just enter your zip code and click the <strong>[Find Rep]</strong> button, and select anyone that will appear on the dropdown. 
+                                <br /><br />
+
+                                Note:
+                                <br />
+
+                                If you have worked with a Rep previously just select his name on the list. If you don't have any matching Rep's on your area we will just assign someone to work with you. It is still ok to proceed without a rep at this point and you can still use the customizer.
+                                <br /><br />
+
+                                Thanks for using PROLOOK!
+
+                            </em>
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <div class="col-md-12">
+
+                            <label for="state">State</label>
+                            <input name="state" class="form-control" type="text" placeholder="State" value="@{{state}}" required>                                
+
+                        </div>
+
+                        <div class="col-md-12">
+
+                            <br />
+                            <label for="zip">Zip</label>
+                            <input name="zip" class="form-control" type="text" placeholder="Zip Code" value="@{{zip}}" required>                                
+
+                        </div>
+
+                         <div class="col-md-12">
+
+                            <br />
+                            <input name="find-rep" class="form-control btn findRep" type="button" value="Find Rep" required>                                
+                            <br /><br />
+                            <span class="message-rep"></span>
+
+                        </div>                                            
+
+                        <div class="col-md-12">
+
+                            <br />
+                            <label for="rep">Rep</label>
+                            <select class="form-control" name="rep" disabled="">
+                            </select>
+                            
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    
+                    <div class="col-md-3"></div>
+
+                    <div class="col-md-6">
+
+                        <hr />
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- End Row 2 -->
+
         <div class="form-group btn-footer">
             <span class="btn update-profile">Update</span>
         </div>
@@ -2141,8 +2241,16 @@
        @{{/gender}}
 
     </div>
-
-
     
+</script>
+
+<script type="text/mustache" id="m-sales-reps-options">
+    
+    @{{#rep}}
+
+        <option value="@{{id}}"> @{{last_name}}, @{{first_name}}</option>
+        
+    @{{/rep}}
+
 </script>
 

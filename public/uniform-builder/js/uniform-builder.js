@@ -7883,14 +7883,131 @@ $(document).ready(function () {
 
     /// End Orders
 
+    /// Signup
+
+        ub.funcs.displaySignup = function () {
+
+            var $container = $('div.signup-container');
+            var template = $('#m-signup-page').html();
+
+            var data = {
+                application_id: '1',
+            }
+
+            var markup = Mustache.render(template, data);
+    
+            $container.html(markup);
+            
+        }
+
+
+        ub.funcs.updateSalesAgenstList = function (sales_reps, selectedID) {
+
+            var _string = ub.utilities.buildTemplateString('#m-sales-reps-options', {rep: sales_reps});
+                       
+            $('select[name="rep"]').html(_string);
+            $('span.message-rep').html('Found: ' + sales_reps.length + ' reps.');
+            
+            if (sales_reps.length > 0) {
+
+                // // Coming in from My Profile
+                // if (typeof selectedID !== "undefined") {
+                    
+
+                // } else {
+
+                $('select[name="rep"]').removeAttr("disabled");
+                        
+                // }
+
+            } else {
+
+                $('select[name="rep"]').attr('disabled', 'disabled');
+                $('span.message-rep').html('No reps found for your zip code [' + _id + '], It is still ok to proceed without a sales rep, we will just assign a default rep to you in case you submit an order, you can still use the customizer, but please do check that you entered a correct zip code before proceeding.');
+
+            }
+
+            if (typeof selectedID !== "undefined" && selectedID.length > 0) {
+
+               $('select[name="rep"]').val(selectedID);
+
+            } 
+
+        }
+
+        ub.funcs.getAgentsByZipCode = function (id, cb, selectedID) {
+
+            var _id = id;
+
+            $('span.message-rep').html('Searching...');
+
+            $.ajax({
+
+                url: ub.endpoints.getFullUrlString('getSalesRepByZipCode') + _id,
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    if (response.success) {
+
+                       cb(response.sales_reps, selectedID);
+
+                    }
+
+                }
+                
+            });
+
+        }
+
+        if (ub.page === 'signup') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            $('input.findRep').unbind('click');
+            $('input.findRep').on('click', function () {
+
+                var _id = $('input[name="zip"]').val();
+
+                if (_id.trim().length === 0) {
+
+                    $('span.message-rep').html('Please enter a valid Zip Code!');
+                    return;
+
+                }
+
+                ub.funcs.getAgentsByZipCode(_id, ub.funcs.updateSalesAgenstList);
+
+            });
+
+            if (!window.ub.user) { 
+                //ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.displaySignup();
+
+        }
+
+    /// End Signup
+
     /// Profile
 
-        ub.funcs.updateProfile = function (firstName, lastName) {
+        ub.funcs.updateProfile = function (obj) {
 
             var _postData = {
+
                 id: ub.user.id,
-                first_name: firstName,
-                last_name: lastName,
+                first_name: obj.firstName,
+                last_name: obj.lastName,
+                state: obj.state,
+                zip: obj.zip,
+                default_rep_id: parseInt(obj.repID),
+
             }
 
             var _url = ub.config.api_host + '/api/user/update';
@@ -7905,14 +8022,15 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
 
-                success: function (response){
+                success: function (response) {
 
-                    ub.user.firstName = firstName;
-                    ub.user.lastName = lastName;
+                    ub.user.firstName = obj.firstName;
+                    ub.user.lastName = obj.lastName;
 
                     var _url = ub.config.team_store_api_host + '/team-store-user/' + ub.user.id + '/update';
 
                     $.ajax({
+                        
                         url: _url,
                         type: "PATCH",
                         data: JSON.stringify(_postData),
@@ -7924,7 +8042,9 @@ $(document).ready(function () {
                         success: function(response) {
                             window.location.href = '/my-profile';
                         }
+
                     });
+
                 }
                 
             });
@@ -7934,12 +8054,15 @@ $(document).ready(function () {
         ub.funcs.displayMyProfile = function () {
 
             var $container = $('div.profile-container');
-          
             var template = $('#m-profile-page').html();
+
             var data = {
                 email: ub.user.email,
                 firstName: ub.user.firstName,
                 lastName: ub.user.lastName,
+                state: ub.user.state,
+                zip: ub.user.zip,
+
                 application_id: '1',
             }
 
@@ -7951,9 +8074,58 @@ $(document).ready(function () {
 
                 var _firstName = $('input[name="first-name"]').val();
                 var _lastName = $('input[name="last-name"]').val();
+                var _state = $('input[name="state"]').val();
+                var _zip = $('input[name="zip"]').val();
+                var _repID = $('select[name="rep"]').val();
 
-                ub.funcs.updateProfile(_firstName, _lastName);
+                // ub.funcs.updateProfile(_firstName, _lastName);
+
+                ub.funcs.updateProfile({
+
+                    firstName: _firstName,
+                    lastName: _lastName,
+                    state: _state,
+                    zip: _zip,
+                    repID: _repID,
+
+                })
+
             });
+
+            // Rep Search 
+
+            $('input.findRep').unbind('click');
+            $('input.findRep').on('click', function () {
+
+                var _id = $('input[name="zip"]').val();
+
+                if (_id.trim().length === 0) {
+
+                    $('span.message-rep').html('Please enter a valid Zip Code!');
+
+                    return;
+
+                }
+
+                ub.funcs.getAgentsByZipCode(_id, ub.funcs.updateSalesAgenstList);
+                
+            });
+
+            // End Rep Search
+
+            /// Init After Load 
+
+                // Load Reps for the users zip
+                if (typeof ub.user.zip && ub.user.zip.length > 0) {
+
+                    ub.funcs.getAgentsByZipCode(ub.user.zip, ub.funcs.updateSalesAgenstList, ub.user.defaultRepID);
+
+                }
+
+                // Lock down rep selection when the system detected that there's one that is already selected
+                // if (typeof ub.user.defaultRepID !== "undefined" && ub.user.defaultRepID.length > 0) { $('input[name="find-rep"]').attr('disabled', 'disabled'); // }
+
+            /// End Init After Load 
 
         }
 
@@ -7972,39 +8144,6 @@ $(document).ready(function () {
         }
 
     /// End Profile
-
-    /// Signup
-
-        ub.funcs.displaySignup = function () {
-
-            var $container = $('div.signup-container');
-          
-            var template = $('#m-signup-page').html();
-            var data = {
-                application_id: '1',
-            }
-
-            var markup = Mustache.render(template, data);
-            
-            $container.html(markup);
-
-        }
-
-        if (ub.page === 'signup') {
-
-            $('div#main-picker-container').remove();
-            $('body').css('background-image', 'none');
-
-            if (!window.ub.user) { 
-                //ub.funcs.displayLoginForm(); 
-                return;
-            } 
-
-            ub.funcs.displaySignup();
-
-        }
-
-    /// End Signup
 
     /// Change Password Post
 

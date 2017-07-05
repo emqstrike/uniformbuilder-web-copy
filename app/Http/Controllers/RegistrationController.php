@@ -28,11 +28,18 @@ class RegistrationController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
 
+        $state = $request->input('state');
+        $zip = $request->input('zip');
+        $rep = intval($request->input('rep'));
+
         $data = [
             'first_name' => $firstName,
             'last_name' => $lastName,
             'email' => $email,
-            'password' => $password
+            'password' => $password,
+            'state' => $state,
+            'zip' => $zip,
+            'default_rep_id' => $rep,
         ];
 
         // Does the User exist

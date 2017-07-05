@@ -285,7 +285,10 @@
                 firstName: "{{ Session::get('firstName') }}",
                 lastName: "{{ Session::get('lastName') }}",
                 email: "{{ Session::get('email') }}",
-                headerValue: "{{ base64_encode(Session::get('accessToken')) }}"
+                zip: "{{ Session::get('zip') }}",
+                state: "{{ Session::get('state') }}",
+                defaultRepID: "{{ Session::get('default_rep_id') }}",
+                headerValue: "{{ base64_encode(Session::get('accessToken')) }}",
             };
 
             window.ub.valid = {{ Session::get('userId') }};
@@ -481,6 +484,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-utilities.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-error-codes.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-endpoints.js?v={{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
 
