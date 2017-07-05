@@ -11762,7 +11762,7 @@ $(document).ready(function() {
             break;
           
           case 'applications':
-            _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 100;
+            _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 150;
             break;
 
           case 'randomFeeds': 
