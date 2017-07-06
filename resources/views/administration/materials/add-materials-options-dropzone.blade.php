@@ -38,6 +38,7 @@
     		ORIGIN <select class="form-control origin">
 		    	<option value="web">Web</option>
 		    	<option value="ipad">iPad</option>
+                <option value="team_stores">Team Stores</option>
 		    </select>
     	</div>
     	<div class="col-md-3">

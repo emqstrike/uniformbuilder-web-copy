@@ -23,7 +23,7 @@ li.select2-selection__choice {
 
 <div class="container-fluid main-content">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Parts Aliases</div>
                 <div class="panel-body">
@@ -43,23 +43,25 @@ li.select2-selection__choice {
                         <input type="hidden" name="configurations" id="configurations"><div class="form-group">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <textarea name="description" class="form-control"></textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
-                            <div class="col-md-6">
-                                <select name="uniform_category_id" class="form-control">
-                                    <option value="0"></option>
+                            <div class="col-md-4">
+                                <select name="uniform_category_id" class="form-control uniform-category-id">
+                                    @foreach($sports as $sport)
+                                        <option value="{{ $sport->id }}">{{ $sport->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Price Item Template</label>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <select name="price_item_template_id" class="form-control">
                                     <option value="0"></option>
                                 </select>
@@ -68,7 +70,7 @@ li.select2-selection__choice {
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern</label>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <select name="block_pattern_id" class="form-control">
                                     <option value="0"></option>
                                 </select>
@@ -76,20 +78,51 @@ li.select2-selection__choice {
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Type</label>
+                            <div class="col-md-4">
+                                <select name="price_item_template_id" class="form-control">
+                                    <option value="upper">Upper</option>
+                                    <option value="lower">Lower</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">Material ID</label>
+                            <div class="col-md-1">
+                                <input type="text" class="material-id-parts" value="92">
+                            </div>
+                            <div class="col-md-1">
+                                    <a href="#" class="btn btn-primary get-parts">Get Parts</a>
+                            </div>
+                        </div>
 
-                            <label class="col-md-4 control-label">Properties
+                        <div class="form-group">
+                            <label class="col-md-1 control-label">Qstrike Item ID</label>
+                            <div class="col-md-1">
+                                <input type="text" class="item-id" value="455"> 
+                            </div>
+                            <div class="col-md-1">
+                                    <a href="#" class="btn btn-primary get-questions">Get Questions</a>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="col-md-1 control-label">Properties
                                 <a href="#" class="btn btn-primary btn-xs add-props">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                 </a>
                             </label>
-                            <div class="col-md-6">
+                            <div class="col-md-11">
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
                                             <th>Part Name</th>
-                                            <th>Question ID</th>
+                                            <th>Question</th>
                                             <th>Edit Part Name</th>
                                             <th>Value</th>
+                                            <th>Type</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -120,7 +153,6 @@ li.select2-selection__choice {
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('custom-scripts')
@@ -129,44 +161,165 @@ li.select2-selection__choice {
 <script src="/jquery-ui/jquery-ui.min.js"></script>
 <script src="/js/libs/select2/select2.min.js"></script>
 <script src="/js/ddslick.min.js"></script>
+<script src="/underscore/underscore.js"></script>
 <script>
 $(document).ready(function(){
 
+    window.sport_id = null;
+    window.block_patterns = null;
 
+    window.parts = null;
+    window.material_id = null;
+    window.parts_options = null;
 
-    $('.add-props').on('click', function(){
+    window.questions_list = null;
+    window.item_id = null;
+    window.questions_options = null;
+    window.question_names = null;
+
+    $('.add-props').on('click', function(e){
+        e.preventDefault();
         var td_open = '<td>';
         var td_close = '</td>';
-        var input_part_name = '<input type="text" class="part-name">';
-        var input_question_id = '<input type="text" class="question-id">';
-        var input_edit_part_name = '<input type="text" class="edit-part-name">';
+        var input_part_name = '<select class="part-name">'+window.parts_options+'</select>';
+        var input_question_id = '<select class="part-questions">'+window.questions_options+'</select>';
+        var input_edit_part_name = '<select class="edit-part-name">'+window.question_names+'</select>';
         var input_edit_part_value = '<input type="text" class="edit-part-value">';
+        var input_type = `<select class="type from-control">
+                                <option>Pattern</option>
+                                <option>Color</option>
+                            </select>`;
         var delete_row = '<a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
-        var elem = '<tr>' + 
-                        td_open + 
-                            input_part_name + 
+        var elem = '<tr>' +
+                        td_open +
+                            input_part_name +
                         td_close +
-                        td_open + 
+                        td_open +
                             input_question_id +
                         td_close +
                         td_open +
                             input_edit_part_name +
                         td_close +
-                        td_open + 
+                        td_open +
                             input_edit_part_value +
+                        td_close +
+                        td_open +
+                            input_type +
                         td_close +
                         td_open +
                             delete_row +
                         td_close +
                     '</tr>';
         $('.properties-content').prepend(elem);
+        deleteButton();
     });
 
     function deleteButton(){
         $('.delete-row').on('click', function(){
-            
+            $(this).parent().parent().remove();
         });
     }
+
+    $('.get-parts').on('click', function(e){
+        e.preventDefault();
+        var material_id = $('.material-id-parts').val();
+        window.material_id = material_id;
+        getParts(function(parts){ window.parts = parts; });
+        var z = $.map(window.parts, function(value, index) {
+            return [value];
+        });
+
+        $('part-name').html();
+        var elem = '';
+        window.parts_options = null;
+        z.forEach(function(entry) {
+            elem += '<option value="'+entry+'">'+entry+'</option>';
+        });
+
+        window.parts_options = elem;
+
+    });
+
+    $('.get-questions').on('click', function(e){
+        e.preventDefault();
+        var item_id = $('.item-id').val();
+        window.item_id = item_id;
+
+        getQuestionsList(function(questions_list){ window.questions_list = questions_list; });
+
+        window.questions_options = null;
+
+        $('part-questions').html();
+        var elem = '';
+        var question_names = '';
+        window.questions_options = null;
+        var arranged_questions = _.sortBy(window.questions_list, function(e){ return e.QuestionID; });
+
+        arranged_questions.forEach(function(entry) {
+            elem += '<option value="'+entry.QuestionID+'">['+entry.QuestionID+'] '+entry.Question+' --- '+entry.QuestionGroup+'</option>';
+            question_names += '<option value="'+entry.Question+'">'+entry.Question+'</option>';
+        });
+        window.questions_options = elem;
+        window.question_names = question_names;
+    });
+
+    function getBlockPatternsBySportId(callback){
+        var block_patterns;
+        var url = "//api-dev.qstrike.com/api/block_pattern/sport/"+window.sport_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                block_patterns = data['block_patterns'];
+                if(typeof callback === "function") callback(block_patterns);
+            }
+        });
+    }
+
+    function getParts(callback){
+        var parts;
+        var url = "//localhost:8888/api/materials_options/list_parts_names/"+window.material_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                parts = data['parts'];
+                if(typeof callback === "function") callback(parts);
+            }
+        });
+    }
+
+    function getQuestionsList(callback){
+        var questions_list;
+        var url = "http://qx.azurewebsites.net/api/itemquestion?itemid="+window.item_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                questions_list = data;
+                if(typeof callback === "function") callback(questions_list);
+            }
+        });
+    }
+
+    $('.uniform-category-id').on('change', function(){
+        console.log($(this).val());
+        window.sport_id = $(this).val();
+        getBlockPatternsBySportId(function(colors){ window.block_patterns = block_patterns; });
+        console.log(window.sport_id);
+    });
 
 
 
