@@ -91,6 +91,14 @@ $(document).ready(function () {
 
         };
 
+        ub.funcs.loggedInUsers = function () {
+
+            if (typeof ub.user.id !== "undefined") { 
+                ub.funcs.checkDefaultRepID();  
+            }
+
+        }
+
         ub.funcs.preprocessGenderTerm = function (gender) {
 
             return gender.toTitleCase();
@@ -7900,8 +7908,111 @@ $(document).ready(function () {
             
         }
 
+        ub.funcs.sortRepsDropDown = function () {
+            
+            $selectOptionsTemp = $('select[name="rep"] > option');
 
-        ub.funcs.updateSalesAgenstList = function (sales_reps, selectedID) {
+            $selectOptionsTemp.sort(function(a,b){
+
+                aSort = $(a).data('sort');
+                bSort = $(b).data('sort');
+
+                return aSort-bSort;
+
+            });
+
+            $('select[name="rep"]').html($selectOptionsTemp);
+
+        }
+
+        ub.funcs.prependSeparators = function (noneFound, zipCode) {
+                
+            $('select[name="rep"]').append('<option data-sort="0" data-name="disabled" disabled>--- Local Reps (ZIP CODE: ' + zipCode + ') ---</option>');
+            
+            if (noneFound) {
+                $('select[name="rep"]').append('<option data-sort="1" value="-1" data-name="Anyone is ok (if no Rep is within the areas)">Anyone is ok for me (if no Rep is within the area)</option>');
+            }
+            
+            $('select[name="rep"]').append('<option data-sort="2" data-name="disabled" disabled>---------------------------</option>');
+
+        }
+
+        ub.funcs.markLocalReps = function (sales_reps, selectedID, zipCode) {
+
+            var _string = ub.utilities.buildTemplateString('#m-sales-reps-options', {rep: sales_reps});
+
+            var cleanup = function () { $('select[name="rep"]').find('option[data-sort="1"], option[data-sort="0"], option[data-sort="2"]').remove(); };
+
+            cleanup();
+
+            if (sales_reps.length > 0) {
+
+                var $selectOptions = $('select[name="rep"] > option');
+
+                // Reset Previous Local Marks
+                $selectOptions.each(function (i, val) {
+                
+                    $(this).html($(this).data('name'));
+                    $(this).data('sort', '3');
+
+                });
+                // End Reset
+
+                // Mark Local Reps
+                _.each(sales_reps, function (rep) {
+
+                    $option = $('select[name="rep"]').find('option[value="' + rep.id + '"]');
+                    $option.html($option.data('name') + ' (LOCAL REP)');
+                    $option.data('sort', '1');
+
+                });
+
+                ub.funcs.prependSeparators(false, zipCode);
+                // End Mark Local Reps
+
+                ub.funcs.sortRepsDropDown();
+
+                // Select First Rep
+                var firsRepID = sales_reps[0].id;
+                $('select[name="rep"]').val(firsRepID);
+                
+                // Misc
+                $('span.message-rep').html('Found: ' + sales_reps.length + ' local reps.');
+                $('select[name="rep"]').removeAttr("disabled");
+
+            } else {
+
+                ub.funcs.prependSeparators(true, zipCode);
+                ub.funcs.sortRepsDropDown();
+
+                $('select[name="rep"]').val(-1);         
+
+                $('span.message-rep').html('No reps found for your zip code [' + zipCode + '], It is still ok to proceed without a sales rep, we will just assign a default rep to you in case you submit an order, you can still use the customizer, but please do check that you entered a correct zip code before proceeding.');
+
+            }
+
+            // Highlight Selected ID
+            if (typeof selectedID !== "undefined" && selectedID.length > 0) { 
+
+                $('select[name="rep"]').val(selectedID); 
+                $('select[name="rep"]').attr('disabled','disabled');
+                $('input[name="find-rep"]').attr('disabled','disabled');
+                $('input[name="zip"]').attr('disabled','disabled');
+                $('span.message-rep').html('');
+
+            } 
+
+            // Displaying my profile and no valid rep is selected
+            if (selectedID === "0" || selectedID === '-1') { 
+                $('select[name="rep"]').val(-1); 
+                $('select[name="rep"]').removeAttr('disabled');
+                $('input[name="find-rep"]').removeAttr('disabled');
+                $('input[name="zip"]').removeAttr('disabled');
+            }
+
+        }
+
+        ub.funcs.updateRepsList = function (sales_reps, selectedID) {
 
             var _string = ub.utilities.buildTemplateString('#m-sales-reps-options', {rep: sales_reps});
                        
@@ -7910,15 +8021,7 @@ $(document).ready(function () {
             
             if (sales_reps.length > 0) {
 
-                // // Coming in from My Profile
-                // if (typeof selectedID !== "undefined") {
-                    
-
-                // } else {
-
                 $('select[name="rep"]').removeAttr("disabled");
-                        
-                // }
 
             } else {
 
@@ -7927,15 +8030,60 @@ $(document).ready(function () {
 
             }
 
-            if (typeof selectedID !== "undefined" && selectedID.length > 0) {
+            if (typeof selectedID !== "undefined" && selectedID.length > 0 & selectedID !== -1) {
 
                $('select[name="rep"]').val(selectedID);
+               $('select[name="rep"]').attr('disabled', 'disabled');
 
-            } 
+               $('input[name="zip"]').attr('disabled', 'disabled');
+               $('input[name="find-rep"]').attr('disabled', 'disabled');
+
+            }
+
+            if (ub.page === "signup") {
+
+                ub.funcs.prependSeparators(true, 'blank');
+                ub.funcs.sortRepsDropDown();
+                $('select[name="rep"]').val(-1); 
+
+            }
 
         }
 
-        ub.funcs.getAgentsByZipCode = function (id, cb, selectedID) {
+        ub.funcs.getAllReps = function (cb, id) {
+
+            var _id = id;
+
+            $('span.message-rep').html('Loading...');
+
+            $.ajax({
+
+                url: ub.endpoints.getFullUrlString('getAllSalesReps'),
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    if (response.success) {
+
+                        // Remove M and JS here ...
+                        var _reps = _.without(response.sales_reps, _.findWhere(response.sales_reps, {rep_id: '4321'})); // M
+                        _reps = _.without(_reps, _.findWhere(_reps, {rep_id: '179'})); // JS
+
+                        cb(_reps);
+
+                    }
+
+                }
+                
+            });
+
+
+        }
+
+        ub.funcs.getRepsByZipCode = function (id, cb, selectedID) {
 
             var _id = id;
 
@@ -7953,7 +8101,7 @@ $(document).ready(function () {
 
                     if (response.success) {
 
-                       cb(response.sales_reps, selectedID);
+                       cb(response.sales_reps, selectedID, id);
 
                     }
 
@@ -7979,10 +8127,12 @@ $(document).ready(function () {
                     return;
 
                 }
-
-                ub.funcs.getAgentsByZipCode(_id, ub.funcs.updateSalesAgenstList);
+                ub.funcs.getRepsByZipCode(_id, ub.funcs.markLocalReps);
 
             });
+
+            ub.funcs.getAllReps(ub.funcs.updateRepsList);
+
 
             if (!window.ub.user) { 
                 //ub.funcs.displayLoginForm(); 
@@ -8078,7 +8228,7 @@ $(document).ready(function () {
                 var _zip = $('input[name="zip"]').val();
                 var _repID = $('select[name="rep"]').val();
 
-                // ub.funcs.updateProfile(_firstName, _lastName);
+                $(this).attr('disabled', 'disabled');
 
                 ub.funcs.updateProfile({
 
@@ -8088,7 +8238,7 @@ $(document).ready(function () {
                     zip: _zip,
                     repID: _repID,
 
-                })
+                });
 
             });
 
@@ -8106,8 +8256,8 @@ $(document).ready(function () {
                     return;
 
                 }
-
-                ub.funcs.getAgentsByZipCode(_id, ub.funcs.updateSalesAgenstList);
+                
+                ub.funcs.getRepsByZipCode(_id, ub.funcs.markLocalReps);
                 
             });
 
@@ -8115,11 +8265,15 @@ $(document).ready(function () {
 
             /// Init After Load 
 
+                ub.funcs.getAllReps(ub.funcs.updateRepsList);
+                $('select[name="rep"]').removeAttr('disabled');
+
                 // Load Reps for the users zip
+
                 if (typeof ub.user.zip && ub.user.zip.length > 0) {
-
-                    ub.funcs.getAgentsByZipCode(ub.user.zip, ub.funcs.updateSalesAgenstList, ub.user.defaultRepID);
-
+                    ub.funcs.getRepsByZipCode(ub.user.zip, ub.funcs.markLocalReps, ub.user.defaultRepID);
+                } else {
+                    ub.funcs.getRepsByZipCode('blank', ub.funcs.markLocalReps, ub.user.defaultRepID);
                 }
 
                 // Lock down rep selection when the system detected that there's one that is already selected
