@@ -1473,6 +1473,7 @@ $(document).ready(function () {
             ub.convertToString(obj);
 
             ub.materials = _.filter(obj, {debug_mode: '0'});
+            ub.materials = _.filter(ub.materials, {asset_target: 'web'});
 
             _.each (ub.materials, function (material) {
 
