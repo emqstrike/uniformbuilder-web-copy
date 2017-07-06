@@ -11,6 +11,10 @@
     white-space: nowrap;
     width: 1%;
 }
+.box-body {
+    overflow-y: scroll;
+    max-height: 650px;
+}
 .zoomed-out {
     zoom: 0.9;
     -moz-transform: scale(0.9);
@@ -70,7 +74,8 @@
                     <a href="#" class="btn btn-xs btn-primary log-ids">Log ids</a>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered materials display'>   <thead>
+                    <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered materials display'>
+                     <thead>
                         <input type="hidden" id="materials-data" value="{{ $materials_string }}">
                             <tr>
                                 <th>ID</th>
