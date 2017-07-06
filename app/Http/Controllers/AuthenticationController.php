@@ -152,6 +152,10 @@ class AuthenticationController extends AdminAuthController
                     'fullname' => $fullname,
                     'email' => $result->user->email,
                     'accountType' => $result->user->type,
+                    'default_rep_id' => $result->user->default_rep_id,
+                    'state' => $result->user->state,
+                    'zip' => $result->user->zip,
+
                     'accessToken' => base64_encode($result->access_token),
                 ];
 
