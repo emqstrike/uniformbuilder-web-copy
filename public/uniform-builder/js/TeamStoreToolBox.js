@@ -5,42 +5,46 @@
 var TeamStoreToolBox = {
     
     init: function() {
-        
-        console.log('Prepare the Team Store Toolbox'); // Init Event handlers also, etc...
         $('#team-store-toolbox').show();
-      
+        $('#team-store-toolbox .create-team-store').on('click', TeamStoreToolBox.create_team_store);
+        $('#team-store-toolbox .open-team-store').on('click', TeamStoreToolBox.open_team_store);
+        $('#team-store-toolbox .update-images').on('click', TeamStoreToolBox.update_images);
+        $('#team-store-toolbox .add-to-team-store').on('click', TeamStoreToolBox.add_to_team_store);
+        $('#team-store-toolbox .view-product-page').on('click', TeamStoreToolBox.view_product_page);
+        $('#team-store-toolbox .open-products').on('click', TeamStoreToolBox.open_products);
     },
 
     show: function () {
-
-        $('#team-store-toolbox').addClass('visible')
-
+        $('#team-store-toolbox').addClass('visible');
     },
 
     close: function() {
 
-        console.log('Display the Team Store Toolbox');
-        $('#team-store-toolbox').removeClass('visible')
+        $('#team-store-toolbox').removeClass('visible');
         
     },
 
     create_team_store: function() {
-        //
+        console.log('create team store');
     },
 
     open_team_store: function() {
-        //
+        console.log('open team store');
     },
 
     update_images: function() {
-        //
+        console.log('update images');
     },
 
     add_to_team_store: function() {
-        //
+        console.log('add to team store');
+    },
+
+    view_product_page: function() {
+        console.log('view product page');
     },
 
     open_products: function() {
-        //
+        console.log('open products');
     }
 };

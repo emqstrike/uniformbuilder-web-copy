@@ -450,6 +450,10 @@ $(document).ready(function () {
             ub.data.afterLoadCalled = 1;
 
             ub.funcs.initToolBars();
+
+            TeamStoreToolBox.init();
+            TeamStoreToolBox.show();
+
             ub.data.undoHistory = [];
             ub.funcs.initUndo();
             ub.funcs.initTeamColors();
