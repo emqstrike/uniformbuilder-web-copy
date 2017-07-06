@@ -108,7 +108,7 @@
                                                     If you have worked with a Rep previously just select his name on the list. If you don't have any matching Rep's on your area we will just assign someone to work with you. It is still ok to proceed without a rep at this point and you can still use the customizer.
                                                     <br /><br />
 
-                                                    Thanks for using PROLOOK!
+                                                    Thank you for using PROLOOK!
 
                                                 </em>
                                             </p>

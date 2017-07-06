@@ -2141,6 +2141,22 @@ $(document).ready(function() {
 
     ///// End Save Design /////
 
+    ub.funcs.checkDefaultRepID = function () {
+
+        if (!_.contains(ub.fontGuideIDs, window.ub.valid)) {
+
+            if(typeof ub.user.defaultRepID === "undefined" || 
+                ub.user.defaultRepID === '-1' ||
+                ub.user.defaultRepID === '0')  {
+
+                $.smkAlert({text: "You don't have a Rep selected, you can go to your profile to select one.", type: 'warning', time: 10, marginTop: '10px'});
+
+            }
+
+        }
+
+    }
+
     /// LREST
 
     ub.funcs.lRest = function (e, p, fromMiddleScreen) {
@@ -2174,6 +2190,9 @@ $(document).ready(function() {
                         firstName: response.firstName,
                         lastName: response.lastName,
                         email: response.email,
+                        state: response.state,
+                        zip: response.zip,
+                        defaultRepID: response.default_rep_id,
                         headerValue: response.accessToken,
 
                     };
@@ -2205,6 +2224,7 @@ $(document).ready(function() {
                         } else { 
 
                             ub.funcs.ok();
+                            ub.funcs.checkDefaultRepID();
 
                         }
 
