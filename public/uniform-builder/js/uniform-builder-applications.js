@@ -2267,12 +2267,22 @@ $(document).ready(function() {
                                 _originalPosition       = _app2['originalPosition_' + _view];                                
                                 _calculatedPullUpHeight = 0;
 
+                                if (_app1.application_type === "free") { _parentSize = 2; }
+
                                 if (_parentSize === 2) {
 
                                     if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
                                     _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -1;
 
                                 }
+
+                                if (_parentSize === 4) {
+
+                                    if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
+                                    _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px);
+
+                                }
+
                                
                             }
 
@@ -2294,14 +2304,28 @@ $(document).ready(function() {
 
                          if (typeof _app6 !== "undefined") {
 
+                            // No Pull up's on 2.5 because its fixed and free applications
+                            if (_app6.font_size === 2.5) { return; }
+                            if (_app1.application_type === "free") { return; }
+
                             var _parentSize             =  parseInt(_app6.font_size);
                             var _applicationNumber      = '5'
                             var _pullUpHeightObj        = ub.data.applicationPullUps.getPullUp(_currentSport, _parentSize, _applicationNumber);
-                            var _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+                            
+                            var  _calculatedPullUpHeight;
+
+                            if (typeof _pullUpHeightObj !== "undefined") {
+
+                                _calculatedPullUpHeight = _pullUpHeightObj.pullUpHeight;
+
+                            }
+
                             var _originalPosition       = _app5['originalPosition_' + _view];
 
                             if (ub.data.sportsMain.currentOk()) {
+                                
                                 _calculatedPullUpHeight = 0;
+
                                 if (_parentSize === 2) {
                                     if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
                                     _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -1;
@@ -2743,12 +2767,14 @@ $(document).ready(function() {
 
                 if (view.application.flip === 1 && _applicationObj.type === "mascot") {
 
-                    point.scale.x *= -1;
+                    //point.scale.x *= -1;
+                    _.each(point.children, function (child) { child.scale.x *= -1; });
 
                 } else {
 
                     view.application.flip = 0;
-                    point.scale.x = Math.abs(point.scale.x);
+                    //point.scale.x = Math.abs(point.scale.x);
+                    _.each(point.children, function (child) { child.scale.x = Math.abs(child.scale.x); });
 
                 }
 
@@ -6485,12 +6511,18 @@ $(document).ready(function() {
                 if (view.application.flip === 1) {
 
                     $('span.flipButton').addClass('active');
-                    _obj.scale.x *= -1;
+
+                    // _obj.scale.x *= -1;
+                    _.each(_obj.children, function (child) { child.scale.x *= -1; });
+
+
 
                 } else {
 
                     $('span.flipButton').removeClass('active');
-                    _obj.scale.x = Math.abs(_obj.scale.x);
+                    // _obj.scale.x = Math.abs(_obj.scale.x);
+
+                    _.each(_obj.children, function (child) { child.scale.x = Math.abs(child.scale.x); });
 
                 }
                 
@@ -10777,15 +10809,15 @@ $(document).ready(function() {
 
                 } else {
 
-                    if (_part === "Back Body") { 
-                        $('span.perspective').removeClass('active');
-                        $('span.perspective[data-id="back"]').addClass('active'); 
-                    }
+                    // if (_part === "Back Body") { 
+                    //     $('span.perspective').removeClass('active');
+                    //     $('span.perspective[data-id="back"]').addClass('active'); 
+                    // }
 
-                    if (_part === "Front Body") { 
-                        $('span.perspective').removeClass('active');
-                        $('span.perspective[data-id="front"]').addClass('active'); 
-                    }
+                    // if (_part === "Front Body") { 
+                    //     $('span.perspective').removeClass('active');
+                    //     $('span.perspective[data-id="front"]').addClass('active'); 
+                    // }
 
                     if (_part === "Body") { 
                         $('span.perspective').removeClass('active');
@@ -11754,7 +11786,7 @@ $(document).ready(function() {
             break;
           
           case 'applications':
-            _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 100;
+            _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 150;
             break;
 
           case 'randomFeeds': 

@@ -1944,7 +1944,12 @@ class UniformBuilderController extends Controller
         Session::put('first_name', $user->first_name);
         Session::put('firstName', $user->first_name);
         Session::put('lastName', $user->last_name);
-        
+        Session::put('lastName', $user->last_name);
+
+        Session::put('state', $user->state);
+        Session::put('zip', $user->zip);
+        Session::put('default_rep_id', $user->default_rep_id);
+
         $materialId = -1;
         $categoryId = -1;
 

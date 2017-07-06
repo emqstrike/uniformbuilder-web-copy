@@ -141,8 +141,6 @@ $(document).ready(function() {
     ub.stage.addChild(ub.pattern_view);
     ub.stage.addChild(ub.gradient_preview);
 
-
-
     if (typeof ub.renderer !== "undefined" && ub.pCanvas !== null) {
         ub.pCanvas.appendChild(ub.renderer.view);
     }
@@ -2116,6 +2114,14 @@ $(document).ready(function() {
                 name: "Signature Coaches Short (Apparel)",
                 alias: "signature-coaches-short",
             },
+            { 
+                name: "Soccer",
+                alias: "soccer",
+            },
+            { 
+                name: "Basketball",
+                alias: "basketball",
+            },
 
         ],
 
@@ -2127,7 +2133,6 @@ $(document).ready(function() {
 
                 ub.utilities.warn(sportName + ' not found.');
                 ub.utilities.warn('Forcing lowercase instead. Using (' + sportName.toLowerCase() + ')');
-                console.trace();
 
                 var _result = {
                     name: sportName,
@@ -2145,6 +2150,8 @@ $(document).ready(function() {
     ub.data.applicationSizesPant = {
 
         items: [
+
+        // Baseball
             {
                 name: 'mascot',
                 sport: 'baseball',
@@ -2309,6 +2316,75 @@ $(document).ready(function() {
 
                 ],
             },
+
+
+            // Soccer
+            {
+                name: 'mascot',
+                sport: 'soccer',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            },
+                            {
+                                size: 6,
+                            },
+                            {
+                                size: 7,
+                            },
+                            {
+                                size: 8,
+                            },
+                            {
+                                size: 9,
+                            },
+                            {
+                                size: 10,
+                            },
+                            {
+                                size: 11,
+                            },
+                            {
+                                size: 12,
+                            }
+                ],
+            },
+
+            // Basketball
+
+            {
+                name: 'mascot',
+                sport: 'basketball',
+                applicationNumbers: [16, 17],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
+
+                ],
+            },
            
         ], 
         getSize: function (applicationType, sport, id) {
@@ -2328,9 +2404,9 @@ $(document).ready(function() {
  
             if (sport === "volleyball")                         { return _result[0]; }
             if (sport === "fastpitch")                          { return _result[0]; }
-
             if (sport === "team-short")                         { return _result[0]; }
             if (sport === "signature-coaches-short")            { return _result[0]; }
+            if (sport === "soccer")                             { return _result[0]; }
           
             if (typeof _object === "undefined") {
 
@@ -2745,7 +2821,7 @@ $(document).ready(function() {
                             ],
                 },
 
-                // Baseball
+                // Fastpitch
                 {
                     name: 'team_name',
                     sport: 'fastpitch',
@@ -2846,7 +2922,7 @@ $(document).ready(function() {
                             ],
                     type: 'adult',
                 },
-                // End Baseball
+                // End Fastpitch
 
                 // Crew Socks 
 
@@ -3766,6 +3842,107 @@ $(document).ready(function() {
                 },
 
                 // end signature-coaches-short
+
+                // Basketball
+                {
+                    name: 'team_name',
+                    sport: 'basketball',
+                    sizes:  [
+                                {
+                                    size: 2,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'basketball',
+                    sizes:  [
+                                {
+                                    size: 2.5,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'basketball',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'basketball',
+                    applicationNumbers: [6],
+                    sizes: [
+                        {size: 2.5},
+                    ],
+                },
+
+                {
+                    name: 'mascot',
+                    sport: 'basketball',
+                    applicationNumbers: [7, 31, 30],
+                    sizes: [
+                        {size: 1},
+                        {size: 2},
+                        {size: 3},
+                        {size: 4},
+                    ],
+                },
+                {
+                    name: 'mascot',
+                    sport: 'basketball',
+                    applicationNumbers: [5],
+                    sizes: [
+                        {size: 6},
+                        {size: 8},
+                        {size: 10},
+                    ],
+                },
+                {
+                    name: 'front_number',
+                    sport: 'basketball',
+                    sizes:  [
+                                {
+                                    size: 4,
+                                },
+                                {
+                                    size: 6,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'basketball',
+                    sizes:  [
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                // End Basketball
                
 
                 // defaults 
@@ -4410,7 +4587,6 @@ $(document).ready(function() {
                 {
                     code: 'soccer',
                     name: 'Soccer',
-                    active: "1",
                     tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 }, 
@@ -4431,6 +4607,12 @@ $(document).ready(function() {
                     tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 },
+                {
+                    code: 'soccer',
+                    name: 'Soccer',
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                }, 
             ],
             
         },
@@ -4502,6 +4684,20 @@ $(document).ready(function() {
                     code: 'fan-replica-jersey',
                     name: 'Fan Replica Jersey (Apparel)',
                     active: "1",
+                },
+                {
+                    code: 'team-short',
+                    name: '2017 Team Short with Pockets (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'signature-coaches-short',
+                    name: 'Signature Coaches Short (Apparel)',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
                 },
             ],
         },
@@ -9869,6 +10065,20 @@ ub.funcs.fontOffSets = [
             sport: 'Fan Replica Jersey (Apparel)',
             filters: ['All'],
         }, 
+        {
+            sport: 'Soccer',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: '2017 Team Short with Pockets (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Signature Coaches Short (Apparel)',
+            filters: ['All'],
+        },
+
+
 
     ];
 
@@ -11027,6 +11237,80 @@ ub.funcs.fontOffSets = [
                 option: ["Men's", "Women's"],
                 size: 12,
                 scale: {x: 1.6, y: 1.6},
+            },
+
+            // Soccer Shorts 
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 1,
+                scale: {x: 0.15, y: 0.15},
+            },
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 2,
+                scale: {x: 0.3, y: 0.3},
+            },
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 3,
+                scale: {x: 0.45, y: 0.45},
+            },
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 4,
+                scale: {x: 0.6, y: 0.6},
+            },
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 5,
+                scale: {x: 0.75, y: 0.75},
+            },
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 6,
+                scale: {x: 0.9, y: 0.9},
+            },
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 7,
+                scale: {x: 1.05, y: 1.05},
+            },
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 8,
+                scale: {x: 1.2, y: 1.2},
+            },
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 9,
+                scale: {x: 1.35, y: 1.35},
+            },
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 10,
+                scale: {x: 1.5, y: 1.5},
+            },
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 11,
+                scale: {x: 1.65, y: 1.65},
+            },
+            {
+                sport: 'Soccer',
+                option: ["Short (W)"],
+                size: 12,
+                scale: {x: 1.80, y: 1.80},
             },
 
         ],
@@ -12685,6 +12969,9 @@ ub.funcs.fontOffSets = [
             'Basketball (Apparel)',
             'Lacrosse',
             'Soccer',
+            '2017 Team Short with Pockets (Apparel)',
+            'Signature Coaches Short (Apparel)',
+            'Basketball',
         ],
         options: [
             'Fight Short',
@@ -13372,6 +13659,9 @@ ub.funcs.fontOffSets = [
         items: [
 
             { sport: 'Fastpitch' },
+            { sport: 'Soccer' },
+            { sport: 'Signature Coaches Short (Apparel)' },
+            { sport: '2017 Team Short with Pockets (Apparel)' },
 
         ],
 
@@ -13432,10 +13722,26 @@ ub.funcs.fontOffSets = [
                 type: 'upper',
                 upperLabel: 'Quarter Zip Jacket',
             },
-           {
+            {
                 sport: 'Polo (Apparel)',
                 type: 'upper',
                 upperLabel: 'Polo',
+            },
+            {
+                sport: 'Soccer',
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Shorts',
+            },
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+                type: 'lower',
+                lowerLabel: ' Team Short',
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+                type: 'lower',
+                lowerLabel: 'Coaches Short',
             },
             {
                 sport: 'Default', // Football
@@ -13499,9 +13805,14 @@ ub.funcs.fontOffSets = [
                sport: 'Volleyball',    
             },
             {
-               sport: 'Baseball',    
+                sport: 'Baseball',    
             },
-            
+            {
+                sport: '2017 Team Short with Pockets (Apparel)',
+            },
+            {
+                sport: 'Signature Coaches Short (Apparel)',
+            }
         ],
 
         isHidden: function (sport, option) {
