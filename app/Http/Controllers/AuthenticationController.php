@@ -133,7 +133,10 @@ class AuthenticationController extends AdminAuthController
                             'lastName' => $result->user->last_name,
                             'email' => $result->user->email,
                             'accessToken' => base64_encode($result->access_token),
-                            'password' => $response->hashedString
+                            'password' => $response->hashedString,
+                            'state' => $result->user->state,
+                            'zip' => $result->user->zip,
+                            'default_rep_id' => $result->user->default_rep_id,
                         ];
                         $teamstore_registration_params = base64_encode( json_encode($params) );
                         Session::put('teamstore_registration_params', $teamstore_registration_params);

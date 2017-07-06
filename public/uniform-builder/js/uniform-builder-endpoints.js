@@ -7,8 +7,14 @@ $(document).ready(function() {
             {
                 name: 'Get Sales Rep by Zip Code',
                 code: 'getSalesRepByZipCode',
-                url:  '/api/sales_reps/get_by_zipcode/',
-                desc: 'Concatenate Zip Code at the end of the url to get sales reps on those areas.',
+                url:  'api/sales_reps/get_by_zipcode/',
+                info: 'Concatenate Zip Code at the end of the url to get sales reps on those areas.',
+            },
+            {
+                name: 'Get All Sales Rep',
+                code: 'getAllSalesReps',
+                url:  'api/sales_reps/',
+                info: 'Get All Sales Rep (no parameters)',
             },
 
         ],
