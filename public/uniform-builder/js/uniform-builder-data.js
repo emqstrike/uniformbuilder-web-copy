@@ -2397,7 +2397,12 @@ $(document).ready(function() {
                 sport: 'lacrosse',
                 applicationNumbers: [12,13,16,17],
                 sizes:  [
-                          
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
                             {
                                 size: 3,
                             },
@@ -3977,10 +3982,10 @@ $(document).ready(function() {
                                     size: 1,
                                 },
                                 {
-                                    size: 3,
+                                    size: 2,
                                 },
                                 {
-                                    size: 4,
+                                    size: 3,
                                 },
                             ],
                     factory: 'BLB',
@@ -4011,9 +4016,12 @@ $(document).ready(function() {
                 {
                     name: 'mascot',
                     sport: 'lacrosse',
-                    applicationNumbers: [6],
+                    applicationNumbers: [1,6],
                     sizes: [
-                        {size: 2.5},
+                        {size: 1},
+                        {size: 2},
+                        {size: 3},
+                        {size: 4},
                     ],
                 },
 
