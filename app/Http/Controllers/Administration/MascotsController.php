@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Administration;
 
-use View;
-use \Redirect;
+use App\APIClients\ArtworksAPIClient;
+use App\APIClients\ColorsAPIClient;
+use App\APIClients\CustomArtworkRequestAPIClient;
+use App\APIClients\MascotsAPIClient as APIClient;
+use App\APIClients\MascotsCategoriesAPIClient;
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use App\Utilities\Log;
-use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
 use App\Utilities\FileUploaderV2;
+use App\Utilities\Log;
 use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
-use App\APIClients\ColorsAPIClient;
-use App\APIClients\MascotsCategoriesAPIClient;
-use App\APIClients\ArtworksAPIClient;
-use App\APIClients\MascotsAPIClient as APIClient;
+use Illuminate\Http\Request;
+use View;
+use \Redirect;
 
 class MascotsController extends Controller
 {
@@ -111,7 +112,7 @@ class MascotsController extends Controller
         $mascots_categories = array();
         $artwork_request = $this->artworksClient->getArtwork($artwork_request_id);
         $team_colors = $this->artworksClient->getOrderTeamColors($artwork_request->order_code);
-// dd($team_colors);
+        // dd($team_colors);
         foreach($raw_mascots_categories as $mascot_category){
             if($mascot_category->active == 1){
                 $mascots_categories[] = $mascot_category->name;
@@ -332,14 +333,21 @@ class MascotsController extends Controller
 
         $artworkRequestID = $request->input('artwork_request_id');
         $artworkIndex = $request->input('artwork_index');
-        $artwork_request = $this->artworksClient->getArtwork($artworkRequestID);
+
+        if ($request->input('custom_artwork_request')) {
+            $artwork_request = (new CustomArtworkRequestAPIClient())->getByID($artworkRequestID);
+        } else {
+            $artwork_request = $this->artworksClient->getArtwork($artworkRequestID);
+        }
+        
         $ar_json = json_decode($artwork_request->artworks, 1);
+
         $team_colors = array();
 
         /* Build colors, save to artwork json */
         $lpx = json_decode($layersProperties, 1);
-        foreach($lpx as $layer)
-        {
+
+        foreach($lpx as $layer) {
             array_push($team_colors, $layer);
         }
 
@@ -351,29 +359,23 @@ class MascotsController extends Controller
         ];
 
         $id = null;
-        if (!empty($request->input('mascot_id')))
-        {
+
+        if (!empty($request->input('mascot_id'))) {
             $id = $request->input('mascot_id');
             $data['id'] = $id;
         }
 
         $myJson = json_decode($layersProperties, true);
         $materialFolder = $mascotName;
-        try
-        {
+
+        try {
             $materialOptionFile = $request->file('icon');
-            if (!is_null($materialOptionFile))
-            {
-                if ($materialOptionFile->isValid())
-                {
+            
+            if (!is_null($materialOptionFile)) {
+                if ($materialOptionFile->isValid()) {
                     $filename = Random::randomize(12);
-                    $data['icon'] = FileUploader::upload(
-                                                            $materialOptionFile,
-                                                            $mascotName,
-                                                            'material_option',
-                                                            "materials",
-                                                            "{$materialFolder}/{$filename}.png"
-                                                        );
+
+                    $data['icon'] = FileUploader::upload($materialOptionFile, $mascotName, 'material_option', "materials", "{$materialFolder}/{$filename}.png");
                     // update artwork data
                     array_push($ar_json[$artworkIndex]['history'], $ar_json[$artworkIndex]['file']);
                     $ar_json[$artworkIndex]['updated'] = 1;
@@ -381,86 +383,65 @@ class MascotsController extends Controller
                     $ar_json[$artworkIndex]['colors'] = $team_colors;
                 }
             }
-        }
-        catch (S3Exception $e)
-        {
-
+        } catch (S3Exception $e) {
             $message = $e->getMessage();
-            return Redirect::to('/administration/mascots')
-                            ->with('message', 'There was a problem uploading your files');
+
+            return Redirect::to('/administration/mascots')->with('message', 'There was a problem uploading your files');
         }
 
-        try
-        {
+        try {
             $mascotLayerFiles = $request->file('ma_image');
             $ctr = count($mascotLayerFiles);
+           
             foreach ($mascotLayerFiles as $mascotLayerFile) {
-                if (!is_null($mascotLayerFile))
-                {
-                    if ($mascotLayerFile->isValid())
-                    {
+                if (!is_null($mascotLayerFile)) {
+                    if ($mascotLayerFile->isValid()) {
                         $filename = Random::randomize(12);
-                        $myJson[(string)$ctr]['filename'] = FileUploader::upload(
-                                                                    $mascotLayerFile,
-                                                                    $mascotName,
-                                                                    'material_option',
-                                                                    "materials",
-                                                                    "{$materialFolder}/{$filename}.png"
-                                                                );
+                        $myJson[(string)$ctr]['filename'] = FileUploader::upload($mascotLayerFile, $mascotName, 'material_option', "materials", "{$materialFolder}/{$filename}.png");
                     }
                 }
+
                 $ctr--;
             }
-        }
-
-        catch (S3Exception $e)
-        {
+        } catch (S3Exception $e) {
             $message = $e->getMessage();
-            return Redirect::to('/administration/mascots')
-                            ->with('message', 'There was a problem uploading your files');
+           
+            return Redirect::to('/administration/mascots')->with('message', 'There was a problem uploading your files');
         }
 
 
         $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
         $folder_name = "mascot_ai_files";
 
-        try // Upload Ai File
-        {
+        // Upload Ai File
+        try {
             $newFile = $request->file('ai_file');
-            if (!is_null($newFile))
-            {
-                if ($newFile->isValid())
-                {
 
+            if (!is_null($newFile)) {
+                if ($newFile->isValid()) {
                     $randstr = Random::randomize(12);
-                    $data['ai_file'] = FileUploaderV2::upload(
-                                                    $newFile,
-                                                    $randstr,
-                                                    'file',
-                                                    $folder_name
-                                                );
+                    $data['ai_file'] = FileUploaderV2::upload($newFile, $randstr, 'file', $folder_name);
                 }
             }
-        }
-        catch (S3Exception $e)
-        {
-
+        } catch (S3Exception $e) {
             $message = $e->getMessage();
-            return Redirect::to('/administration/mascots')
-                            ->with('message', 'There was a problem uploading your files');
+
+            return Redirect::to('/administration/mascots')->with('message', 'There was a problem uploading your files');
         }
 
         $response = null;
 
-        if (!empty($id))
-        {
+        if (!empty($id)) {
             Log::info('Attempts to update Mascot#' . $id);
-        }
-        else
-        {
+        } else {
             Log::info('Attempts to create a new Mascot ' . json_encode($data));
 
             $response = $this->client->createArtwork($data);
+
+            if ($response->success) {
+                (new CustomArtworkRequestAPIClient())->update($artworkRequestID, $response->art_id);
+            }
+
             $ar_json[$artworkIndex]['mascot_id'] = $response->art_id;
 
             $artwork_request->artworks = $ar_json;
@@ -468,17 +449,14 @@ class MascotsController extends Controller
             $this->artworksClient->updateArtwork($artwork_request);
         }
 
-        if ($response->success)
-        {
+        if ($response->success) {
             Log::info('Success');
-            return Redirect::to('administration/mascots')
-                            ->with('message', 'Successfully saved changes');
-        }
-        else
-        {
+
+            return Redirect::to('administration/mascots')->with('message', 'Successfully saved changes');
+        } else {
             Log::info('Failed');
-            return Redirect::to('administration/mascots')
-                            ->with('message', $response->message);
+            
+            return Redirect::to('administration/mascots')->with('message', $response->message);
         }
     }
 }

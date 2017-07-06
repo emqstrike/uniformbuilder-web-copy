@@ -77,6 +77,9 @@ Route::get('getting_started', 'Help\HelpController@getting_started');
 
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
+    Route::get('custom_artwork_requests', 'Administration\CustomArtworkRequestController@index')->name('indexCustomArtworkRequests');
+    Route::get('custom_artwork_requests/processing', 'Administration\CustomArtworkRequestController@getProcessing')->name('getProcessingCustomArtworkRequests');
+    Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
 
     Route::get('/', 'Administration\AdministrationController@dashboard');
 
