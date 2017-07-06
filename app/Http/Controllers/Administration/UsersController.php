@@ -126,6 +126,18 @@ class UsersController extends Controller
         {
             $data['created_by'] = $request->input('created_by');
         }
+        if (!empty($request->input('state')))
+        {
+            $data['state'] = $request->input('state');
+        }
+        if (!empty($request->input('zip')))
+        {
+            $data['zip'] = $request->input('zip');
+        }
+        if (!empty($request->input('default_rep_id')))
+        {
+            $data['default_rep_id'] = $request->input('default_rep_id');
+        }
 
         // Does the User exist
         if ($this->client->isEmailTaken($email, $userId))
