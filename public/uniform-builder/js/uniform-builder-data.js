@@ -2122,6 +2122,10 @@ $(document).ready(function() {
                 name: "Basketball",
                 alias: "basketball",
             },
+            { 
+                name: "Lacrosse",
+                alias: "lacrosse",
+            },
 
         ],
 
@@ -2385,6 +2389,25 @@ $(document).ready(function() {
 
                 ],
             },
+
+            // Lacrosse
+
+            {
+                name: 'mascot',
+                sport: 'lacrosse',
+                applicationNumbers: [12,13,16,17],
+                sizes:  [
+                          
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
+
+                ],
+            },
+
            
         ], 
         getSize: function (applicationType, sport, id) {
@@ -3943,8 +3966,112 @@ $(document).ready(function() {
                     type: 'adult',
                 },
                 // End Basketball
-               
 
+
+                // Lacrosse
+                {
+                    name: 'team_name',
+                    sport: 'lacrosse',
+                    sizes:  [
+                                {
+                                    size: 1,
+                                },
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'player_name',
+                    sport: 'lacrosse',
+                    sizes:  [
+                                {
+                                    size: 2.5,
+                                },
+                            ],
+                    factory: 'PMP'
+                },
+                {
+                    name: 'sleeve_number',
+                    sport: 'lacrosse',
+                    sizes:  [
+                                {
+                                    size: 3,
+                                },
+                                {
+                                    size: 4,
+                                },
+                            ],
+                    factory: 'BLB',
+                },
+                {
+                    name: 'mascot',
+                    sport: 'lacrosse',
+                    applicationNumbers: [6],
+                    sizes: [
+                        {size: 2.5},
+                    ],
+                },
+
+                {
+                    name: 'mascot',
+                    sport: 'lacrosse',
+                    applicationNumbers: [7, 31, 30],
+                    sizes: [
+                        {size: 1},
+                        {size: 2},
+                        {size: 3},
+                        {size: 4},
+                    ],
+                },
+                {
+                    name: 'mascot',
+                    sport: 'lacrosse',
+                    applicationNumbers: [5, 2],
+                    sizes: [
+                        {size: 6},
+                        {size: 8},
+                        {size: 10},
+                    ],
+                },
+                {
+                    name: 'front_number',
+                    sport: 'lacrosse',
+                    sizes:  [
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                {
+                    name: 'back_number',
+                    sport: 'lacrosse',
+                    sizes:  [
+                                {
+                                    size: 6,
+                                },
+                                {
+                                    size: 8,
+                                },
+                                {
+                                    size: 10,
+                                },
+                            ],
+                    type: 'adult',
+                },
+                // End Lacrosse
+               
                 // defaults 
 
                 {
@@ -11313,6 +11440,33 @@ ub.funcs.fontOffSets = [
                 scale: {x: 1.80, y: 1.80},
             },
 
+
+            // Lacrosse Shorts 
+            {
+                sport: 'Lacrosse',
+                option: ["2 Panel Short, 4MH8Z5~G Short, Side seam Short"],
+                size: 1,
+                scale: {x: 0.15, y: 0.15},
+            },
+            {
+                sport: 'Lacrosse',
+                option: ["2 Panel Short, 4MH8Z5~G Short, Side seam Short"],
+                size: 2,
+                scale: {x: 0.3, y: 0.3},
+            },
+            {
+                sport: 'Lacrosse',
+                option: ["2 Panel Short, 4MH8Z5~G Short, Side seam Short"],
+                size: 3,
+                scale: {x: 0.45, y: 0.45},
+            },
+            {
+                sport: 'Lacrosse',
+                option: ["2 Panel Short, 4MH8Z5~G Short, Side seam Short"],
+                size: 4,
+                scale: {x: 0.6, y: 0.6},
+            },
+
         ],
 
         getSize: function (sport, size, option) {
@@ -11988,27 +12142,27 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Lacrosse',
                 size: 1,
-                scale: {x: 0.12, y: 0.12 },
+                scale: {x: 0.15, y: 0.15 },
             },
             {
                 sport: 'Lacrosse',
                 size: 2,
-                scale: {x: 0.24, y: 0.24 },
+                scale: {x: 0.30, y: 0.30 },
             },
             {
                 sport: 'Lacrosse',
                 size: 3,
-                scale: {x: 0.36, y: 0.36 },
+                scale: {x: 0.45, y: 0.45 },
             },
             {
                 sport: 'Lacrosse',
                 size: 4,
-                scale: {x: 0.48, y: 0.48 },
+                scale: {x: 0.60, y: 0.60 },
             },
             {
                 sport: 'Lacrosse',
                 size: 5,
-                scale: {x: 0.60, y: 0.60 },
+                scale: {x: 0.75, y: 0.75 },
             },
             {
                 sport: 'Lacrosse',
