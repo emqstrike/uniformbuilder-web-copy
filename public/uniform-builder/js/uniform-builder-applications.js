@@ -2269,6 +2269,13 @@ $(document).ready(function() {
 
                                 if (_app1.application_type === "free") { _parentSize = 2; }
 
+                                if (_parentSize === 1) {
+
+                                    if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
+                                    _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px) * -2;
+
+                                }
+
                                 if (_parentSize === 2) {
 
                                     if (ub.current_material.material.one_inch_in_px === null) { ub.utilities.warn('one_inch_in_px not set.'); }
