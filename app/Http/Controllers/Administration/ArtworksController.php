@@ -33,18 +33,22 @@ class ArtworksController extends Controller
         foreach($orders as $order)
         {
             try {
-                $data = json_decode($order->items[0]->attached_files, 1);
-                try {
-                    if(isset($data[0]['code']) && $order->status === "new")
-                    {
-                        $order->artworks = $data;
-                    } else {
-                        unset($orders[$ctr]);
+                if(isset($order->items[0]))
+                {
+                    $order->artworks = null;
+                    $data = json_decode($order->items[0]->attached_files, 1);
+                    try {
+                        if(isset($data[0]['code']) && $order->status === "new")
+                        {
+                            $order->artworks = $data;
+                        } else {
+                            unset($orders[$ctr]);
+                        }
+                    } catch (Exception $e) {
+                        error_log($e->getMessage());
                     }
-                } catch (Exception $e) {
-                    error_log($e->getMessage());
+                    $ctr++;
                 }
-                $ctr++;
             } catch (Exception $e) {
                 error_log($e->getMessage());
             }
