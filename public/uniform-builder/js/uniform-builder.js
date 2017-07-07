@@ -7767,6 +7767,10 @@ $(document).ready(function () {
             $msgType.on('click', function () {
 
                 var _type = $(this).data('type');
+
+                $msgType.removeClass('active');
+                $(this).addClass('active');
+
                 $('div#messages > span.header').html(_type);
 
                 $('tr.message-row').remove();
@@ -7780,12 +7784,8 @@ $(document).ready(function () {
 
         ub.funcs.filterMessages = function (type) {
 
-            if (type !== "unread") {
-
-                var _message = _.find(ub.data.notificationMessage, {type: type});
-                $('div.notification-description').html(_message.description);
-
-            }
+            var _message = _.find(ub.data.notificationMessage, {type: type});
+            $('div.notification-description').html(_message.description);
 
             $('div#messages > span.header').html(type);
 

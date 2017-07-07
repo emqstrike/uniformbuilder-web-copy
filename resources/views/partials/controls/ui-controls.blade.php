@@ -1399,7 +1399,7 @@
 
                 <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">                
                     <td class="status-preview"><strong>@{{statusPreview}}</strong></td>
-                    <td>@{{type}}</td>
+                    <td class="type">@{{type}}</td>
                     <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
                     <td class="from"><strong>@{{sender_name}}</strong></td>
                     <td class="from"><strong>@{{recepient_name}}</strong></td>
