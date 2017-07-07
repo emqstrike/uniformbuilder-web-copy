@@ -11452,27 +11452,53 @@ ub.funcs.fontOffSets = [
             // Lacrosse Shorts 
             {
                 sport: 'Lacrosse',
-                option: ["2 Panel Short, 4MH8Z5~G Short, Side seam Short"],
+                option: ["2 Panel Short", "4MH8Z5~G Short", "Side seam Short"],
                 size: 1,
                 scale: {x: 0.15, y: 0.15},
             },
             {
                 sport: 'Lacrosse',
-                option: ["2 Panel Short, 4MH8Z5~G Short, Side seam Short"],
+                option: ["2 Panel Short", "4MH8Z5~G Short", "Side seam Short"],
                 size: 2,
                 scale: {x: 0.3, y: 0.3},
             },
             {
                 sport: 'Lacrosse',
-                option: ["2 Panel Short, 4MH8Z5~G Short, Side seam Short"],
+                option: ["2 Panel Short", "4MH8Z5~G Short", "Side seam Short"],
                 size: 3,
                 scale: {x: 0.45, y: 0.45},
             },
             {
                 sport: 'Lacrosse',
-                option: ["2 Panel Short, 4MH8Z5~G Short, Side seam Short"],
+                option: ["2 Panel Short", "4MH8Z5~G Short", "Side seam Short"],
                 size: 4,
                 scale: {x: 0.6, y: 0.6},
+            },
+
+             // Basketball Shorts 
+            {
+                sport: 'Basketball',
+                option: ["USA Short (M)", "USA Short (W)"],
+                size: 1,
+                scale: {x: 0.12, y: 0.12},
+            },
+            {
+                sport: 'Basketball',
+                option: ["USA Short (M)", "USA Short (W)"],
+                size: 2,
+                scale: {x: 0.24, y: 0.24},
+            },
+            {
+                sport: 'Basketball',
+                option: ["USA Short (M)", "USA Short (W)"],
+                size: 3,
+                scale: {x: 0.36, y: 0.36},
+            },
+            {
+                sport: 'Basketball',
+                option: ["USA Short (M)", "USA Short (W)"],
+                size: 4,
+                scale: {x: 0.48, y: 0.48},
             },
 
         ],
