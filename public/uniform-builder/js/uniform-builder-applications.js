@@ -6378,7 +6378,7 @@ $(document).ready(function() {
 
                     settingsObj.customLogo = true;
                     settingsObj.customFilename = window.uploaded_filename;
-
+                    settingsObj.additionalNotes = $('textarea[name="custom-artwork-additional-notes"]').val();
 
                     $popup = $('div#primaryMascotPopup');
                     $popup.remove();
@@ -6396,6 +6396,14 @@ $(document).ready(function() {
             $('span.category_item[data-category-name="' + mascot_category.name + '"]').click();
             $('div.item[data-mascot-id="' + mascot.id + '"]').addClass('active');
 
+            if (typeof settingsObj.customFilename !== "undefined" && settingsObj.customFilename.length > 0) {
+
+                $('textarea[name="custom-artwork-additional-notes"]').val(settingsObj.additionalNotes);
+                $('img#preview').attr('src', settingsObj.customFilename);
+                $('span[data-button="upload"]').trigger('click');
+
+            }
+            
         /// End After load Events
 
     }
@@ -7143,7 +7151,7 @@ $(document).ready(function() {
         if (_settingsObject.mascot.name === 'Custom Logo') {
 
             _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
-            _htmlBuilder        +=                  '<br />';
+            _htmlBuilder        +=                  '<br /><br />';
 
         }
 

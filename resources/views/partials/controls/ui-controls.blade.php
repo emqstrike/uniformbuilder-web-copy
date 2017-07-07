@@ -922,6 +922,15 @@
                                 <li>You will receive a notification via email once it is prepared. </li>
                             </ol>
 
+                            <br />
+                            <div class="col-md-12 notes-container">
+
+                                <label for="state">Notes:<br />( If you have any additional notes on how we should prepare the mascot, please type them below. Thank you! )</label>
+                                <br /><br />
+                                <textarea rows="7" name="custom-artwork-additional-notes" class="form-control" type="text" placeholder="Additional Notes" required></textarea>                               
+
+                            </div>
+
                             <div class="button_footer">
                                 <span class="ok_btn" data-status="processing">Processing...  <img src="/images/loading.gif" /></span> <span class="cancel_btn close-popup">Cancel</span>    
                             </div>
