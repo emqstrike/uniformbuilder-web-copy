@@ -7956,9 +7956,9 @@ div.header-container.main {
 
         div.messages-right-pane {
 
-            width: 27%;
+            width: 24%;
             float: left;
-            margin-top: 30px;
+            margin-top: 60px;
 
             margin-right: 10px;
             min-height: 700px;
@@ -7968,13 +7968,13 @@ div.header-container.main {
                 display: block;
                 cursor: pointer;
                 padding: 10px;
-                margin-left: 100px;
+                margin-left: 45px;
                 margin-right: 30px;
                 margin-bottom: 2px;
                 text-transform: uppercase;
 
-                color: #e7e7e7;
-                background-color: #888888;
+                color: @ubBlack;
+                background-color: #e7e7e7;
 
                 .linkShadow;
 
@@ -7982,7 +7982,15 @@ div.header-container.main {
 
             span.link:hover {
 
+                color: #e7e7e7;
                 background-color: #3d3d3d;
+
+            }
+
+            span.link.active {
+
+                color: #e7e7e7;
+                background-color: @ubBlack;
 
             }
 
@@ -7993,39 +8001,41 @@ div.header-container.main {
         div#messages {
 
             float: right;
-
-            width: 65%;
+            width: 71%;
             height: auto;
+            color: @ubBlack;
             background-color: white;
             padding: 30px;
             margin: 0 auto;
-            margin-right: 100px;
+            margin-right: 45px;
             margin-top: 30px;
             padding-top: 0px;
+            padding-left: 0px;
 
-            .pagePanelShadow;
-            
             span.header {
 
                 font-size: 2em;
-                text-align: center;
+                text-align: left;
                 width: 100%;
                 display: block;
                 text-transform: uppercase;
-                
-
                 padding: 30px;
                 margin-bottom: 40px;
-                border-bottom: dashed 1px #acacac;
                 margin-bottom: 0px;
+                padding-left: 0;
+                padding-bottom: 10px;
 
             }
 
             div.notification-description {
 
                 padding: 10px;
-                text-align: center;
+                text-align: left;
                 margin-top: 10px;
+                padding-left: 0px;
+
+                border-top: dashed 1px #acacac;
+                border-bottom: dashed 1px #acacac;
 
             }
 
@@ -8046,6 +8056,8 @@ div.header-container.main {
                         td {
 
                             text-align: center;
+                            border-top: none;
+                            border-bottom: none;
 
                         }
 
@@ -8057,7 +8069,12 @@ div.header-container.main {
 
                             text-align: center;
                             border: solid 1px #acacac;
-                            padding: 7px;
+                            padding: 10px;
+
+                            border-left: none;
+                            border-right: none;
+                            border-top: none;
+                            border-color: #e7e7e7;
 
                         }
 
@@ -8084,12 +8101,19 @@ div.header-container.main {
 
                             width: 40px;
                             color: #acacac;
+                            padding-left: 30px;
 
                         }
 
                         td.from {
 
                             color: #acacac;                            
+
+                        }
+
+                        td.type {
+
+                            text-transform: uppercase;
 
                         }
 
@@ -8102,7 +8126,7 @@ div.header-container.main {
                                 padding: 7px;
                                 background-color: #acacac;
                                 color: white;
-                                width: 120px;
+                                min-width: 170px;
                                 margin: 7px;
                                 display: inline-block;
                                 cursor: pointer;
@@ -8115,8 +8139,8 @@ div.header-container.main {
 
                             span.action-button:hover {
 
-                                background-color: #3d3d3d;
-                                color: white;
+                                background-color: @ubBlack;
+                                color: #e7e7e7;
 
                             }
 
@@ -8134,6 +8158,17 @@ div.header-container.main {
 
                         background-color: #eee;
 
+                        td.action {
+
+                            span.action-button {
+
+                                color: #e7e7e7;
+                                background-color: @ubBlack;
+
+                            }
+
+                        }
+
                     }
 
                 }
@@ -8141,6 +8176,24 @@ div.header-container.main {
                 tr[data-read="0"] {
 
                     background-color: #eee;
+
+                    td.action {
+
+                            span.action-button {
+
+                                color: #e7e7e7;
+                                background-color: #3d3d3d;
+
+                            }
+
+                            span.action-button:hover {
+
+                                color: #e7e7e7;
+                                background-color: @ubBlack;
+
+                            }
+
+                        }
 
                 }
 
@@ -8243,20 +8296,22 @@ div.header-container.main {
 
                         span.submit-reply {
 
-                            background-color: #acacac;
-                            color: white;
+                            background-color: #e7e7e7;
+                            color: @ubBlack;
                             float: right;
                             width: 100px;
-                            height: 30px;
                             padding: 5px;
                             text-align: center;
                             cursor: pointer;
+                            min-width: 170px;
+                            padding: 10px;
 
                         }
 
                         span.submit-reply:hover {
 
-                            background-color: #3d3d3d;
+                            background-color: @ubBlack;
+                            color: #e7e7e7;
 
                         }
 

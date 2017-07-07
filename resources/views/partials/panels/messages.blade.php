@@ -1,7 +1,7 @@
 
 <div class="messages-right-pane">
     
-    <span class="link message-type" data-type="unread">Unread </span>
+    <span class="link message-type active" data-type="unread">Unread </span>
 
     <br />
     
@@ -20,15 +20,11 @@
 
     <span class='header'>Unread</span>
 
+    <div class="notification-description"> If you have new messages it will be listed here. </div>
+
     <div class="messages-loading" style="text-align: center;">
 
         Loading Messages... Please wait. <img src="/images/loading.gif" style="width: 50px"/><br />
-
-    </div>
-
-    <div class="notification-description">
-
-        
 
     </div>
 

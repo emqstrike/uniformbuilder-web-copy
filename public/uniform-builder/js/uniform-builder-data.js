@@ -1931,16 +1931,15 @@ $(document).ready(function() {
         }, 
        
         /// End Left End of Sleeve Piping
-
         
     ];
 
-     ub.data.pipings                 = [];
-
+    ub.data.pipings                 = [];
 
     ub.data.searchSource            = {};
     
     ub.data.colorsUsed              = {};
+
     // This will contain default uniform settings when loading a uniform style,
     // when loading a uniform that is not from a customized order
 
@@ -12325,7 +12324,7 @@ ub.funcs.fontOffSets = [
 
         {
             type: 'unread',
-            description: 'UNREAD',
+            description: 'If you have new messages it will be listed here.',
         },
         {
             type: 'prolook',
@@ -12333,11 +12332,11 @@ ub.funcs.fontOffSets = [
         },
         {
             type: 'orders',
-            description: 'Notifications regarding the order you submitted goes here, such as custom artwork status and overall progress, where your order is now',
+            description: 'Notifications regarding the order you submitted goes here, such as custom artwork status and overall progress, where your order is now, etc.',
         },
         {
             type: 'pm',
-            description: "PM's from other users goes here",
+            description: "Direct messages sent to you by other users goes here.",
         },
         {
             type: 'feedback',
@@ -12345,7 +12344,7 @@ ub.funcs.fontOffSets = [
         },
         {
             type: 'sent',
-            description: '',
+            description: 'Messages that you sent goes here, if its not yet read by the recipient it is still marked as [New!].',
         }
 
     ];
