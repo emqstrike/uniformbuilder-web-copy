@@ -43,9 +43,11 @@ class CustomArtworkRequestController extends Controller
 
         $mascotColors = [];
 
-        foreach ($_mascotColors as $mascotColor) {
-            if ($mascotColor) {
-                $mascotColors[] = (new ColorsAPIClient())->getColorByCode($mascotColor);
+        if ($_mascotColors) {
+            foreach ($_mascotColors as $mascotColor) {
+                if ($mascotColor) {
+                    $mascotColors[] = (new ColorsAPIClient())->getColorByCode($mascotColor);
+                }
             }
         }
 
