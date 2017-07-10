@@ -127,7 +127,8 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     ub.utilities.info('Store Code: ' + response.store_code);
-                    ub.utilities.info('Product ID: ' + response.product_id);
+                    ub.utilities.info('Material ID: ' + response.material_id);
+                    ub.utilities.info('Product ID: ' + response.teamstore_product_id);
                     ub.utilities.info('Team Colors: ' + response.team_colors);
                     ub.utilities.info('Saved as images');
                     ub.utilities.info('Front: ' + response.front);

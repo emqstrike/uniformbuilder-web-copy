@@ -85,7 +85,7 @@
                   <li class="divider"></li>
                 @if (Session::get('userHasTeamStoreAccount'))
                   <li>
-                    <a href="{{ env('TEAM_STORE_REMOTE_LOGIN_URL') }}/{{ Session::get('userId') }}/{{ Session::get('accessToken') }}" target="_blank">
+                    <a href="#" id="show-team-store-toolbox">
                       <i class="fa fa-wrench" aria-hidden="true"></i> DISPLAY TEAM STORE TOOLBOX
                     </a>
                   </li>
