@@ -3,7 +3,7 @@
  */
 
 var TeamStoreToolBox = {
-    
+
     init: function() {
         $('#team-store-toolbox').show();
         $('#team-store-toolbox .create-team-store').on('click', TeamStoreToolBox.create_team_store);
