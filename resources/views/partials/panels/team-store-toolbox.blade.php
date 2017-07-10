@@ -1,4 +1,4 @@
-<div id="team-store-toolbox" data-teamstore-api="{{ env('TEAM_STORE_API_BASE_URL') }}">
+<div id="team-store-toolbox" data-teamstore-api="{{ env('TEAM_STORE_API_BASE_URL') }}" data-product-id="{{ $product_id }}">
     
     <div class="header">
 
@@ -24,26 +24,61 @@
                     <br>
                     Open Team Store
                 </li>
+                @if (!empty($product_id))
                 <li class="update-images">
                     <span class="fa fa-3 fa-floppy-o"></span>
                     <br>
                     Update Images
                 </li>
+                @else
+                <li class="disabled">
+                    <span class="fa fa-3 fa-floppy-o"></span>
+                    <br>
+                    Update Images
+                </li>
+                @endif
+
+                @if (!empty($product_id))
+                <li class="disabled">
+                    <span class="fa fa-3 fa-plus-square-o"></span>
+                    <br>
+                    Add to Team Store
+                </li>
+                @else
                 <li class="add-to-team-store">
                     <span class="fa fa-3 fa-plus-square-o"></span>
                     <br>
                     Add to Team Store
                 </li>
+                @endif
+
+                @if (!empty($product_id))
                 <li class="view-product-page" data-product="{{ env('TEAM_STORE_BASE_URL') }}/visit-product-by-code/{{ $store_code }}/{{ $product_id }}">
                     <span class="fa fa-3 fa-external-link"></span>
                     <br>
                     View Product Page
                 </li>
+                @else
+                <li class="disabled">
+                    <span class="fa fa-3 fa-external-link"></span>
+                    <br>
+                    View Product Page
+                </li>
+                @endif
+
+                @if (!empty($product_id))
                 <li class="open-team-store">
                     <span class="fa fa-3 fa-folder-open-o"></span>
                     <br>
                     Open Products
                 </li>
+                @else
+                <li class="disabled">
+                    <span class="fa fa-3 fa-folder-open-o"></span>
+                    <br>
+                    Open Products
+                </li>
+                @endif
 
             @else
 
@@ -54,22 +89,22 @@
                         Create Team Store
                     </a>
                 </li>
-                <li class="update-images disabled">
+                <li class="disabled">
                     <span class="fa fa-3 fa-floppy-o"></span>
                     <br>
                     Update Images
                 </li>
-                <li class="add-to-team-store disabled">
+                <li class="disabled">
                     <span class="fa fa-3 fa-plus-square-o"></span>
                     <br>
                     Add to Team Store
                 </li>
-                <li class="view-product-page disabled">
+                <li class="disabled">
                     <span class="fa fa-3 fa-external-link"></span>
                     <br>
                     View Product Page
                 </li>
-                <li class="open-team-store disabled">
+                <li class="disabled">
                     <span class="fa fa-3 fa-folder-open-o"></span>
                     <br>
                     Open Products

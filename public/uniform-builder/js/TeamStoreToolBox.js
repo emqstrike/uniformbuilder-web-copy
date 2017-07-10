@@ -32,8 +32,10 @@ var TeamStoreToolBox = {
     },
 
     update_images: function() {
-        var url = TeamStoreAPI.endpoints.save_customized_thumbnails;
-        console.log(url);
+        ub.funcs.prepareThumbnails();
+        setTimeout(function() {
+            ub.funcs.updateTeamStoreImages();
+        }, 3000);
     },
 
     add_to_team_store: function() {
