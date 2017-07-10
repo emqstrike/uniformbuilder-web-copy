@@ -19,9 +19,7 @@ var TeamStoreToolBox = {
     },
 
     close: function() {
-
         $('#team-store-toolbox').removeClass('visible');
-        
     },
 
     create_team_store: function() {
@@ -29,7 +27,8 @@ var TeamStoreToolBox = {
     },
 
     open_team_store: function() {
-        console.log('open team store');
+        var url = $('#team-store-toolbox .open-team-store').data('store');
+        window.open(url, '_blank');
     },
 
     update_images: function() {
@@ -41,7 +40,8 @@ var TeamStoreToolBox = {
     },
 
     view_product_page: function() {
-        console.log('view product page');
+        var url = $('#team-store-toolbox .view-product-page').data('product');
+        window.open(url, '_blank');
     },
 
     open_products: function() {

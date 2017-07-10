@@ -19,7 +19,7 @@
 
             @if (Session::get('userHasTeamStoreAccount'))
 
-                <li class="open-team-store" data-url="{{ env('TEAM_STORE_REMOTE_LOGIN_URL') }}/{{ Session::get('userId') }}/{{ Session::get('accessToken') }}">
+                <li class="open-team-store" data-store="{{ env('TEAM_STORE_BASE_URL') }}/visit-store-by-code/{{ $store_code }}">
                     <span class="fa fa-3 fa-eye"></span>
                     <br>
                     Open Team Store
@@ -34,7 +34,7 @@
                     <br>
                     Add to Team Store
                 </li>
-                <li class="view-product-page">
+                <li class="view-product-page" data-product="{{ env('TEAM_STORE_BASE_URL') }}/visit-product-by-code/{{ $store_code }}/{{ $product_id }}">
                     <span class="fa fa-3 fa-external-link"></span>
                     <br>
                     View Product Page
