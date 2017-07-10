@@ -4,7 +4,11 @@ $(document).ready(function () {
 
         var _inputPatternsObject = _.filter(inputPatternsObject, function (pattern) {
 
-            return pattern.asset_target === ub.config.asset_target || pattern.id === '33';
+            var _blankPatternID = 33; // Blank (Web)
+
+            if (ub.config.asset_target === 'team_stores') { _blankPatternID = 286; } // Blank (Team Stores)
+
+            return pattern.asset_target === ub.config.asset_target || pattern.id === _blankPatternID;
 
         });
 
