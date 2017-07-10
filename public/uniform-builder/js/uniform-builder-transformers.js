@@ -2,7 +2,12 @@ $(document).ready(function () {
 
     ub.funcs.transformPatterns = function (inputPatternsObject) {
 
-        var _inputPatternsObject = _.filter(inputPatternsObject, {asset_target: 'web'});
+        var _inputPatternsObject = _.filter(inputPatternsObject, function (pattern) {
+
+            return pattern.asset_target === ub.config.asset_target || pattern.id === '33';
+
+        });
+
         var _container           = [];
 
         _.each(_inputPatternsObject, function (_object, index) {

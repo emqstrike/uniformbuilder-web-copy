@@ -8164,7 +8164,7 @@ div.header-container.main {
 
                     tr.message-row:hover {
 
-                        background-color: #eee;
+                        background-color: #f8f8f8;
 
                         td.action {
 
@@ -8452,7 +8452,6 @@ div.header-container.main {
             margin: 0 auto;
             margin-top: 30px;
 
-            .pagePanelShadow;
             .pagePanelHeader;
             
             div.order-tabs {
@@ -8462,8 +8461,7 @@ div.header-container.main {
                     cursor: pointer;
 
                     display: inline-block;
-                    width: 150px;
-                    height: 40px;
+                    min-width: 170px;
                     background-color: #acacac;
                     color: white;
                     text-align: center;
@@ -8484,11 +8482,8 @@ div.header-container.main {
 
                 span.tab.active {
 
-                    font-family:"Avenir Next LT W04 Bold";
-
-                    background-color: #3d3d3d;
-                    padding-bottom: 7px;
                     .smallButtonHover;
+                    background-color: @ubBlack;
 
                 }
 
@@ -8510,27 +8505,31 @@ div.header-container.main {
 
                         td {
 
+                            padding: 10px;
+
                             text-align: center;
+                            border: none;
 
                         }
 
                     }
 
-                    tr {
+                    tr.saved-order-row {
 
                         td {
 
                             text-align: center;
-                            border: solid 1px #acacac;
-                            padding: 7px;
+                            padding: 20px;
+                            border: none;
+                            border-bottom: 1px solid #acacac;
 
                         }
 
                         td.order-info {
 
                             padding: 20px;
-                            padding-bottom: 0px;
                             text-align: center;
+
                             label {
 
                                 width: 30%;
@@ -8555,12 +8554,12 @@ div.header-container.main {
                                 padding: 7px;
                                 
                                 color: #3d3d3d;
-                                width: 120px;
+                                min-width: 170px;
                                 margin: 7px;
                                 display: inline-block;
                                 cursor: pointer;
                                 font-size: 0.8em;
-
+                                background-color: #e7e7e7;
 
                             }
 
@@ -8574,6 +8573,19 @@ div.header-container.main {
 
                     }
 
+                    tr.saved-order-row:hover {
+
+                        td {
+
+                            // border-top: solid 1px #acacac !important;
+                            border-bottom: solid 1px @ubBlack;
+                            background-color: #f8f8f8;
+
+                            // padding-bottom: 20px;
+
+                        }
+
+                    }
 
                 }
 

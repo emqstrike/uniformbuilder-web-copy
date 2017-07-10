@@ -262,6 +262,7 @@
             blockPattern: "{{ isset($material->block_pattern) ? $material->block_pattern : 'none' }}",
             type: "{{ isset($material->type) ? $material->type : 'none' }}",
             gender: "{{ isset($material->gender) ? $material->gender : 'none' }}",
+            asset_target: "{{ isset($material->asset_target) ? $material->asset_target : 'none' }}",
 
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
