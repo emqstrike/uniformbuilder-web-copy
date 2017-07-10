@@ -89,12 +89,6 @@
                       <i class="fa fa-wrench" aria-hidden="true"></i> DISPLAY TEAM STORE TOOLBOX
                     </a>
                   </li>
-                @else
-                  <li>
-                      <a href="{{ env('TEAM_STORE_REGISTRATION_URL') }}/{{ Session::get('teamstore_registration_params') }}">
-                          <i class="fa fa-shopping-cart" aria-hidden="true"></i> CREATE TEAM STORE
-                      </a>
-                  </li>
                 @endif
                   <li class="divider"></li>
 

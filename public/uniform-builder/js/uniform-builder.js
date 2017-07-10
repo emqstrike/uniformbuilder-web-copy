@@ -451,8 +451,10 @@ $(document).ready(function () {
 
             ub.funcs.initToolBars();
 
-            TeamStoreToolBox.init();
-            TeamStoreToolBox.show();
+            if (TeamStoreToolBox.is_enabled) {
+                TeamStoreToolBox.init();
+                // TeamStoreToolBox.show();
+            }
 
             ub.data.undoHistory = [];
             ub.funcs.initUndo();

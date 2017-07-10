@@ -4,10 +4,11 @@
 
 var TeamStoreToolBox = {
 
+    is_enabled: false,
+
     progress_modal: null,
 
     init: function() {
-        $('#team-store-toolbox').show();
         $('#team-store-toolbox .create-team-store').on('click', TeamStoreToolBox.create_team_store);
         $('#team-store-toolbox .open-team-store').on('click', TeamStoreToolBox.open_team_store);
         $('#team-store-toolbox .update-images').on('click', TeamStoreToolBox.update_images);
