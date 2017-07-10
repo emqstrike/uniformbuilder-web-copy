@@ -4,6 +4,8 @@
 
 var TeamStoreToolBox = {
 
+    progress_modal: null,
+
     init: function() {
         $('#team-store-toolbox').show();
         $('#team-store-toolbox .create-team-store').on('click', TeamStoreToolBox.create_team_store);
@@ -36,15 +38,26 @@ var TeamStoreToolBox = {
         window.open(url, '_blank');
     },
 
-    update_images: function() {
-        // To do: show progress bar animation
+    update_images: function(show_update_progress_modal) {
+        if (show_update_progress_modal) {
+            TeamStoreToolBox.progress_modal = bootbox.dialog({
+                title: 'Updating your product images',
+                message: '<p><i class="fa fa-spin fa-spinner"></i> preparing images...</p>'
+            });
+        }
         ub.funcs.prepareThumbnails();
+
         setTimeout(function() {
             ub.funcs.updateTeamStoreImages();
-        }, 3000);
+            TeamStoreToolBox.progress_modal.find('.bootbox-body').html('Finished processing.');
+        }, 5000);
     },
 
     add_to_team_store: function(material) {
+        TeamStoreToolBox.progress_modal = bootbox.dialog({
+            title: 'Adding new product to your team store',
+            message: '<p><i class="fa fa-spin fa-spinner"></i> preparing images...</p>'
+        });
         TeamStoreToolBox.get_material(ub.config.material_id);
     },
 
@@ -110,7 +123,7 @@ var TeamStoreToolBox = {
             material_data,
             function(response) {
                 if (response.success) {
-                    TeamStoreToolBox.update_images();
+                    TeamStoreToolBox.update_images(false);
                 }
             }
         );
