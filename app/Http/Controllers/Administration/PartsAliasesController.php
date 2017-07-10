@@ -14,6 +14,7 @@ use App\APIClients\UniformCategoriesAPIClient;
 use App\APIClients\PriceItemTemplatesAPIClient;
 use App\APIClients\PartsAliasesAPIClient as APIClient;
 
+
 class PartsAliasesController extends Controller
 {
     protected $client;
@@ -53,4 +54,30 @@ class PartsAliasesController extends Controller
         ]);
     }
 
+    public function store(Request $request)
+    {
+
+        
+        $description = $request->input('description');
+        $sport = $request->input('uniform_category_id');
+        $price = $request->input('price_item_template_id');
+        $block = $request->input('block_pattern_id'); 
+        $properties = $request->input('properties');
+        $type = $request->input('type');  
+       
+    
+
+        $data = [
+
+            'description' => $description,
+            'uniform_category_id' => $sport,
+            'price_item_template_id' => $price,
+            'block_pattern_id' => $block,
+            'properties' => $properties,
+            'type' => $type
+        ];
+
+        dd($data);
+    }
 }
+

@@ -38,8 +38,11 @@ li.select2-selection__choice {
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/parts_aliases/add" enctype="multipart/form-data" id='create_application_size'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/parts_aliases/add" enctype="multipart/form-data" id='part_aliases_form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                        <input type="hidden" name="properties" value="testing">
+
                         <input type="hidden" name="configurations" id="configurations"><div class="form-group">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
@@ -153,6 +156,33 @@ li.select2-selection__choice {
         </div>
     </div>
 </div>
+
+<!-- Trigger the modal with a button -->
+{{--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> --}}
+
+<!-- Modal -->
+<div id="getPartsModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" align="center">Please Wait</h4>
+      </div>
+      <div class="modal-body" align="center">
+            <div class="progress">
+                <div class="progress-bar progress-bar-info progress-bar-striped" style="width: 100%;">Loading...</div>
+            </div>
+      </div>
+      <div class="modal-footer" >
+        {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
+      </div>
+    </div>
+
+  </div>
+</div>
+
 @endsection
 
 @section('custom-scripts')
@@ -177,6 +207,37 @@ $(document).ready(function(){
     window.questions_options = null;
     window.question_names = null;
 
+    function updateJSON(){
+       var temp =[];
+        $(".layer-row").each(function(i) {
+            var x = {
+                    "part_name" : $(this).find('.part-name').val(),
+                    "part_questions" : $(this).find('.part-questions').val(),
+                    "edit_part_name" : $(this).find('.edit-part-name').val(),
+                    "edit_part_value" : $(this).find('.edit-part-value').val(),
+                    "input_type" : $(this).find('.type').val(),
+                 };
+                temp.push(x);
+        });
+        console.log( JSON.stringify(temp) );
+    }
+   
+    $("#part_aliases_form").on("keyup", ".edit-part-value", function(e){    
+        e.preventDefault();
+        updateJSON();
+    });         
+                
+    $("#part_aliases_form").on("change", ".type", function(e){
+            e.preventDefault();
+            updateJSON();
+    });
+    
+    $("#part_aliases_form").on("click", ".delete-row", function(e){
+            e.preventDefault();
+            $(this).parent().parent().remove();
+            updateJSON();
+    });
+
     $('.add-props').on('click', function(e){
         e.preventDefault();
         var td_open = '<td>';
@@ -186,11 +247,11 @@ $(document).ready(function(){
         var input_edit_part_name = '<select class="edit-part-name">'+window.question_names+'</select>';
         var input_edit_part_value = '<input type="text" class="edit-part-value">';
         var input_type = `<select class="type from-control">
-                                <option>Pattern</option>
-                                <option>Color</option>
+                                <option value="Pattern">Pattern</option>
+                                <option value="Color">Color</option>
                             </select>`;
         var delete_row = '<a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
-        var elem = '<tr>' +
+        var elem = '<tr class="layer-row">' +
                         td_open +
                             input_part_name +
                         td_close +
@@ -211,56 +272,68 @@ $(document).ready(function(){
                         td_close +
                     '</tr>';
         $('.properties-content').prepend(elem);
-        deleteButton();
+        updateJSON();
     });
 
     function deleteButton(){
-        $('.delete-row').on('click', function(){
+        $('.delete-row').on('click', function(e){
+            e.preventDefault();
             $(this).parent().parent().remove();
+            updateJSON();
         });
     }
 
     $('.get-parts').on('click', function(e){
         e.preventDefault();
-        var material_id = $('.material-id-parts').val();
-        window.material_id = material_id;
-        getParts(function(parts){ window.parts = parts; });
-        var z = $.map(window.parts, function(value, index) {
-            return [value];
-        });
+        //Load modal
+        $('#getPartsModal').modal('toggle');
 
-        $('part-name').html();
-        var elem = '';
-        window.parts_options = null;
-        z.forEach(function(entry) {
-            elem += '<option value="'+entry+'">'+entry+'</option>';
-        });
+        setTimeout(function(){
+            var material_id = $('.material-id-parts').val();
+            window.material_id = material_id;
+            getParts(function(parts){ window.parts = parts; });
+            var z = $.map(window.parts, function(value, index) {
+                return [value];
+            });
 
-        window.parts_options = elem;
+            $('part-name').html();
+            var elem = '';
+            window.parts_options = null;
+            z.forEach(function(entry) {
+                elem += '<option value="'+entry+'">'+entry+'</option>';
+            });
+
+            window.parts_options = elem;
+        }, 1000);
+        
 
     });
 
     $('.get-questions').on('click', function(e){
         e.preventDefault();
-        var item_id = $('.item-id').val();
-        window.item_id = item_id;
+         //Load modal
+        $('#getPartsModal').modal('toggle');
+        setTimeout(function(){
+            var item_id = $('.item-id').val();
+            window.item_id = item_id;
 
-        getQuestionsList(function(questions_list){ window.questions_list = questions_list; });
+            getQuestionsList(function(questions_list){ window.questions_list = questions_list; });
 
-        window.questions_options = null;
+            window.questions_options = null;
 
-        $('part-questions').html();
-        var elem = '';
-        var question_names = '';
-        window.questions_options = null;
-        var arranged_questions = _.sortBy(window.questions_list, function(e){ return e.QuestionID; });
+            $('part-questions').html();
+            var elem = '';
+            var question_names = '';
+            window.questions_options = null;
+            var arranged_questions = _.sortBy(window.questions_list, function(e){ return e.QuestionID; });
 
-        arranged_questions.forEach(function(entry) {
-            elem += '<option value="'+entry.QuestionID+'">['+entry.QuestionID+'] '+entry.Question+' --- '+entry.QuestionGroup+'</option>';
-            question_names += '<option value="'+entry.Question+'">'+entry.Question+'</option>';
-        });
-        window.questions_options = elem;
-        window.question_names = question_names;
+            arranged_questions.forEach(function(entry) {
+                elem += '<option value="'+entry.QuestionID+'">['+entry.QuestionID+'] '+entry.Question+' --- '+entry.QuestionGroup+'</option>';
+                question_names += '<option value="'+entry.Question+'">'+entry.Question+'</option>';
+            });
+            window.questions_options = elem;
+            window.question_names = question_names;
+            }, 1000);
     });
 
     function getBlockPatternsBySportId(callback){
@@ -282,7 +355,7 @@ $(document).ready(function(){
 
     function getParts(callback){
         var parts;
-        var url = "//localhost:8888/api/materials_options/list_parts_names/"+window.material_id;
+        var url = "//api-dev.qstrike.com/api/materials_options/list_parts_names/"+window.material_id;
         $.ajax({
             url: url,
             async: false,
@@ -293,6 +366,8 @@ $(document).ready(function(){
             success: function(data){
                 parts = data['parts'];
                 if(typeof callback === "function") callback(parts);
+                //Close Modal
+                $('#getPartsModal').modal('toggle');
             }
         });
     }
@@ -310,6 +385,8 @@ $(document).ready(function(){
             success: function(data){
                 questions_list = data;
                 if(typeof callback === "function") callback(questions_list);
+                //Close Modal
+                $('#getPartsModal').modal('toggle');
             }
         });
     }
@@ -319,6 +396,7 @@ $(document).ready(function(){
         window.sport_id = $(this).val();
         getBlockPatternsBySportId(function(colors){ window.block_patterns = block_patterns; });
         console.log(window.sport_id);
+
     });
 
 
