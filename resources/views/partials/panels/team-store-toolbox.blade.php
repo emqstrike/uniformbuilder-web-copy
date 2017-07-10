@@ -1,4 +1,4 @@
-<div id="team-store-toolbox">
+<div id="team-store-toolbox" data-teamstore-api="{{ env('TEAM_STORE_API_BASE_URL') }}">
     
     <div class="header">
 
