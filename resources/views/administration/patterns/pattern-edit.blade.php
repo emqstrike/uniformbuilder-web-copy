@@ -92,6 +92,7 @@ li.select2-selection__choice {
                                 <select class="form-control pattern-asset-target" name="asset_target" id="asset_target">
                                     <option value="web" @if( $pattern->asset_target == "web" ) selected="selected"@endif>Web</option>
                                     <option value="ipad" @if( $pattern->asset_target == "ipad" ) selected="selected"@endif>iPad</option>
+                                    <option value="team_stores" @if( $pattern->asset_target == "team_stores" ) selected="selected"@endif>Team Stores</option>
                                 </select>
                             </div>
                         </div>

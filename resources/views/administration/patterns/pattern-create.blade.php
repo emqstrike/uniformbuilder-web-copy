@@ -76,6 +76,7 @@ li.select2-selection__choice {
                                 <select class="form-control pattern-asset-target" name="asset_target" id="asset_target">
                                     <option value="web">Web</option>
                                     <option value="ipad">iPad</option>
+                                    <option value="team_stores">Team Stores</option>
                                 </select>
                             </div>
                         </div>
