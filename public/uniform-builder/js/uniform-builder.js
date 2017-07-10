@@ -7705,6 +7705,8 @@ $(document).ready(function () {
 
             });
 
+            $('span.message-count').html('Messages: ' + _.size(_messages));
+
             var $viewMessageButton = $('span.action-button.view-message');
             
             $viewMessageButton.unbind('click');

@@ -903,4 +903,12 @@ $(document).ready(function () {
         }
     }
 
+    ub.funcs.isInTeamColor = function (colorCode) {
+    
+        var _result = _.find(ub.current_material.settings.team_colors, {color_code: colorCode});
+
+        return (typeof _result !== 'undefined');
+
+    };
+
 });

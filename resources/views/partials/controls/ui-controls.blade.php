@@ -1413,6 +1413,8 @@
 
         </table>
 
+        <span class="message-count">Messages: n</span>
+
     </script>   
 
 <!-- End Messages Table -->
