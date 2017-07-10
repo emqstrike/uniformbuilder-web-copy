@@ -50,7 +50,7 @@ var TeamStoreToolBox = {
         setTimeout(function() {
             ub.funcs.updateTeamStoreImages();
             TeamStoreToolBox.progress_modal.find('.bootbox-body').html('Finished processing.');
-        }, 5000);
+        }, 3000);
     },
 
     add_to_team_store: function(material) {
@@ -123,7 +123,11 @@ var TeamStoreToolBox = {
             material_data,
             function(response) {
                 if (response.success) {
+                    $('#team-store-toolbox').data('product-id', response.product.id);
                     TeamStoreToolBox.update_images(false);
+                    setTimeout(function() {
+                        location.href = location.protocol + '//' + location.host + location.pathname + '/' + response.product.id;
+                    }, 5000);
                 }
             }
         );
