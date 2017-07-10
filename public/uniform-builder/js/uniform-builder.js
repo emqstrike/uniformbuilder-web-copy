@@ -7567,6 +7567,7 @@ $(document).ready(function () {
                     $containerSaved.html(markup);
                     var $containerSubmitted     = $('div.order-list.submitted');
                     var template                = $('#m-orders-table').html();
+
                     var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
 
                     dataSubmitted.orders.forEach(function (value, i) {
@@ -7576,13 +7577,15 @@ $(document).ready(function () {
                         value.created_at_time = value.created_at_time.split(' ').slice(3, 5).join(' ');
 
                     }); 
-                    console.log(dataSubmitted.orders);                   
+
+
                     var markup                  = Mustache.render(template, dataSubmitted);
                     $containerSubmitted.html(markup);
 
                     ub.funcs.runDataTable();
 
-                    $('div.order-list.submitted').find('span.action-button.delete').hide();
+                    $('div.order-list.submitted').find('span.action-button.delete, span.action-button.edit').hide();
+                    $('div.order-list.saved').find('span.action-button.delete, span.action-button.view').hide();
 
                     var $imgThumbs = $('img.thumbs');
                     
@@ -7596,6 +7599,7 @@ $(document).ready(function () {
 
                     });
 
+                    // Edit Order
                     $('span.action-button.edit').unbind('click');
                     $('span.action-button.edit').on('click', function () {
 
@@ -7606,6 +7610,7 @@ $(document).ready(function () {
 
                     });
 
+                    // Delete Order
                     $('span.action-button.delete').unbind('click');
                     $('span.action-button.delete').on('click', function () {
 
@@ -7615,6 +7620,22 @@ $(document).ready(function () {
                         ub.funcs.deleteSavedOrder(_ID, _dataID);
 
                     });
+
+                    // View Order Details
+                    $('span.action-button.view').unbind('click');
+                    $('span.action-button.view').on('click', function () {
+
+                        var _dataID = $(this).data('order-id');
+                        var _ID     = $(this).data('id');
+
+                        $('div.order-list.submitted').hide();
+                        $('div.order-list.saved').hide();
+                        $('div.my-orders-loading').fadeIn();
+
+                        window.location.href =  '/order/view/' + _dataID;
+
+                    });
+
 
                     $('div.order-tabs > span.tab').unbind('click');
                     $('div.order-tabs > span.tab').on('click', function () {
@@ -7631,11 +7652,10 @@ $(document).ready(function () {
 
                     });
 
-
-
                     // Init 
 
                     $('div.order-list.submitted').hide();
+                    $('span.tab[data-type="submitted"]').trigger('click');
 
                 }
                 
@@ -8522,6 +8542,87 @@ $(document).ready(function () {
         }
 
     });
+
+    /// Order Info
+
+        ub.funcs.displayOrderDetails = function (order) {
+
+            var _bc = JSON.parse(order.builder_customizations);
+
+            $('span.order-id').html(order.order_id);
+            $('span.description').html(order.description);
+
+            $('a.pdfOrderForm').html(_bc.pdfOrderForm);
+            $('a.pdfOrderForm').attr('href', _bc.pdfOrderForm);
+
+        };
+
+        ub.funcs.displayOrderInfo = function () {
+
+            
+            // Get Order Info 
+
+            var _url = ub.endpoints.getFullUrlString('getOrderInfoByOrderID') + ub.config.orderID;
+
+            $.ajax({
+                
+                url: _url,
+                type: "Get", 
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    $('span.status').html(response.order.status);
+                    $('span.custom-artwork-status').html(response.order.artwork_status);
+
+                }
+                
+            });
+
+
+            // Get Order Items 
+
+            var _url = ub.endpoints.getFullUrlString('getOrderItemsByOrderID') + ub.config.orderID;
+
+            $.ajax({
+                
+                url: _url,
+                type: "Get", 
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    ub.funcs.displayOrderDetails(response.order[0]);
+
+                  $('div.my-orders-loading').hide();
+
+                }
+                
+            });
+
+        }
+
+        if (ub.page === 'view-order-info') {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            if (!window.ub.user) { 
+                ub.funcs.displayLoginForm(); 
+                return;
+            } 
+
+            ub.funcs.displayOrderInfo();
+
+        }
+
+    /// End Order Info
 
     // Remove Uniform Design Trigger
     function bindDeleteUniformDesign() {

@@ -162,6 +162,7 @@
 
 @yield('my-saved-designs')
 @yield('my-orders')
+@yield('view-order-info')
 @yield('my-messages')
 @yield('my-profile')
 @yield('signup')
@@ -267,6 +268,8 @@
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
+
+            orderID: "{{ isset($order_id) ? $order_id : 'none' }}",
 
             @if (isset($styles)) 
             styles: {
