@@ -9307,6 +9307,9 @@ strong.hello {
         -webkit-user-select: none; /* Chrome/Safari */        
         -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* IE10+ */
+    }
+
+    div#layers-order {
 
         em.dragMessage {
 
@@ -9536,6 +9539,66 @@ strong.hello {
     }
 
 /* End Layers Order */
+
+/* Team Store Tools */ 
+
+div#team-store-toolbox {
+
+    cursor: grab;
+    position: absolute;
+    display: none;
+    width: 160px;
+    height: 490px;
+    background-color: #acacac;
+
+    padding: 10px;
+
+    border: solid 1px #888888;
+
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+    text-align: center;
+    z-index: 1000;
+
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+
+    .header-text {
+        font-weight: bold;
+    }
+
+    .navbar-nav>li {
+        margin-top: 30px;
+
+    }
+
+
+    div.menu {
+        li.disabled {
+            color: #888888;
+        }
+
+        li {
+            a {
+                text-decoration: none;
+            }
+        }
+    }
+
+}
+
+
+div#team-store-toolbox.visible {
+
+    margin-top: 100px;
+    margin-left: 200px;
+
+}
+
+
+/* End Team Store Tools */
 
 /* Pipings Panel */
 

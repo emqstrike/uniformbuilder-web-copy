@@ -156,7 +156,8 @@
 
     @include('partials.panels.roster-input')
     @include('partials.panels.order-form')
-    @include('partials.panels.validate-order-form')    
+    @include('partials.panels.validate-order-form')
+    @include('partials.panels.team-store-toolbox')
 
 </div>
 
@@ -519,6 +520,8 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-generators.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/TeamStoreAPI.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/TeamStoreToolBox.js?v={{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
 
