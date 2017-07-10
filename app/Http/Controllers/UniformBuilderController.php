@@ -278,6 +278,72 @@ class UniformBuilderController extends Controller
     }
 
     /**
+     * View order details / status
+     * @param String $orderId
+     */
+
+    public function viewOrder($orderId)
+    {
+
+        $order = $this->ordersClient->getOrderItems($orderId);
+        $orderInfo = $this->ordersClient->getOrderByOrderId($orderId);
+        $orderDetails = $this->ordersClient->getOrderItems($orderId);
+
+        if( isset($order[0]) ) {
+
+            $order = $order[0]; 
+            $orderID = $order->order_id;
+            $builder_customizations = json_decode($order->builder_customizations);
+
+            if (isset($builder_customizations->upper->material_id)) {
+                $materialID = $builder_customizations->upper->material_id;
+            } else {
+                $materialID = $builder_customizations->lower->material_id;
+            }
+
+            //$material = $this->materialsClient->getMaterial($materialID);
+
+            Session::put('page-type', [
+                'page' => 'view-order-info',
+            ]);
+
+            Session::put('order', [
+                'id' => $order->id,
+                'order_id' => $orderID,
+                'material_id' => $materialID,
+            ]);
+
+            $params = [
+                'page_title' => 'Order Info: ' . $orderId,
+                'material_id' => $materialID,
+                'order_id' => $orderId,
+                'description' => $order->description,
+                'order_code' => $orderId,
+                'order_id_short' => $order->id,
+                'type' => 'Order',
+                'pdfOrderForm' => $builder_customizations->pdfOrderForm,
+
+                'page_title' => env('APP_TITLE'),
+                'app_title' => env('APP_TITLE'),
+                'asset_version' => env('ASSET_VERSION'),
+                'asset_storage' => env('ASSET_STORAGE'),
+                'material_id' => -1,
+                'category_id' => -1,
+                'builder_customizations' => null,
+                'page' => 'view-order-info',
+                'type' => 'view-order-info',
+            
+            ];
+            
+            return view('editor.view-order-info', $params);
+
+        }
+
+        return redirect('index');
+
+    }
+
+    /**
      * Show the order in the builder editor
      * @param String $orderId
      */
@@ -1995,6 +2061,7 @@ class UniformBuilderController extends Controller
         $categoryId = -1;
 
         $params = [
+
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
             'asset_version' => env('ASSET_VERSION'),
@@ -2003,6 +2070,7 @@ class UniformBuilderController extends Controller
             'category_id' => -1,
             'builder_customizations' => null,
             'page' => 'forgot-password',
+        
         ];
 
         return view('editor.forgot-password', $params);

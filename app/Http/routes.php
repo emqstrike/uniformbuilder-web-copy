@@ -61,6 +61,9 @@ Route::get('/forgot-password', 'UniformBuilderController@forgotPassword');
 // Display the Order
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
+
+Route::get('order/view/{orderId}', 'UniformBuilderController@viewOrder');
+
 Route::post('saveUniformDesign', 'UniformBuilderController@saveOrder');
 Route::post('generateOrderForm', 'UniformBuilderController@generateOrderForm');
 
