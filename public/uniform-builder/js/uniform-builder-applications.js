@@ -5430,7 +5430,88 @@ $(document).ready(function() {
         }
 
         /// End Set Default Colors 
+        
 
+        /// Process new Colors
+
+            var _toggle = false;
+
+            var colorArray = [];
+            var colorArrayText = [];
+
+            _.each(_accentObj.layers, function (layer) {
+
+                var _hexCode = layer.default_color;
+                var _color   = ub.funcs.getColorObjByHexCode(_hexCode);
+                var _layerNo = layer.layer_no - 1;
+
+                if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') { return; }
+
+                if (typeof _color === 'undefined') {
+
+                    _color = settingsObj.color_array[_layerNo];
+
+                }
+
+                if (typeof _color === "undefined" || !ub.funcs.isInTeamColor(_color.color_code)) {
+
+                    var _index = _toggle ? 1 : 0;
+                    _toggle = !_toggle;
+
+                    _color = ub.current_material.settings.team_colors[_index]; 
+                    settingsObj.color_array[_layerNo] = _color; 
+
+                    layer.default_color = _color.hex_code;
+
+                    if (typeof settingsObj.colorArrayText === 'undefined') {
+
+                        settingsObj.colorArrayText = [_color.color_code];
+
+                    } else {
+
+                        settingsObj.colorArrayText[_layerNo] = _color.color_code;
+
+                    }
+
+                }
+
+                colorArray.push(_color);
+                colorArrayText.push(_color.color_code);
+
+            });
+
+        /// End Process new Colors 
+
+        settingsObj.color_array = colorArray;
+        settingsObj.colorArrayText = colorArrayText;
+
+        /// trim new colors 
+
+        var _accentObjLength = (_accentObj.layers.length - 1);
+
+        ub.accentObj = _accentObj;
+
+        /// end trim new colors
+
+        /// Matching Colors 
+
+        _matchingCode = ub.data.matchingIDs.getMatchingID(settingsObj.code);
+
+        if (typeof _matchingCode !== "undefined") {
+
+             _matchingSettingsObject = ub.funcs.getApplicationSettings(_matchingCode.toString());
+
+            if (typeof _matchingSettingsObject !== 'undefined') {
+
+                _matchingSettingsObject.color_array = settingsObj.color_array;
+                _matchingSettingsObject.colorArrayText = settingsObj.colorArrayText;
+
+            }
+
+        }
+
+        /// End Matching Colors
+  
         settingsObj.accent_obj = _accentObj
 
         ub.create_application(settingsObj, undefined);
@@ -8675,7 +8756,6 @@ $(document).ready(function() {
         _htmlBuilder        +=                 '</div>';
         _htmlBuilder        +=                 '<div class="colorContainer">';
 
-
         _.each(_settingsObject.accent_obj.layers, function (layer) {
 
             var _hexCode = layer.default_color;
@@ -8684,59 +8764,6 @@ $(document).ready(function() {
 
             if (layer.name === 'Mask' || layer.name === 'Pseudo Shadow') { return; }
 
-            if (typeof _color === 'undefined') {
-
-                _color = _settingsObject.color_array[_layerNo];
-
-            }
-
-            var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
-
-            // Auto Add Black
-            if (!exists && _color.color_code !== 'SG' && _settingsObject.accent_obj.name !== 'Drop Shadow' && layer.name !== 'Base Color') {
-
-                $('button.change-color[data-color-label="' + _color.color_code + '"]').trigger('click');
-                $.smkAlert({text: '[' + _color.color_code + '] ' +  _color.name + ' added to team colors for text ' + layer.name + ', you can still change this to other colors using the color pickers.' , type:'success', time: 10, marginTop: '80px'});
-                _settingsObject.color_array[_layerNo] = _color;
-                _settingsObject.colorArrayText = _.pluck(_settingsObject.color_array, 'color_code');
-
-                var _matchingCode = undefined;
-                var _matchingSettingsObject = undefined;
-
-                ub.funcs.changeFontFromPopup(_settingsObject.font_obj.id, _settingsObject); // Force rerendering when a color is added
-                ub.funcs.activateApplications(application_id);
-
-            }
-
-            if (_settingsObject.color_array.length < layer.layer_no) {
-
-                _settingsObject.color_array[_layerNo] = _color;
-
-                if (typeof _settingsObject.colorArrayText === 'undefined') {
-
-                    _settingsObject.colorArrayText = [_settingsObject.color_array[0].color_code];
-
-                }
-
-                _settingsObject.colorArrayText[_layerNo] = _color.color_code;
-
-            }
-
-            _matchingCode = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
-
-            if (typeof _matchingCode !== "undefined") {
-
-                 _matchingSettingsObject = ub.funcs.getApplicationSettings(_matchingCode.toString());
-
-                if (typeof _matchingSettingsObject !== 'undefined') {
-
-                    _matchingSettingsObject.color_array = _settingsObject.color_array;
-                    _matchingSettingsObject.colorArrayText = _settingsObject.colorArrayText;
-
-                }
-
-            }
-
             _color = _settingsObject.color_array[_layerNo];
 
             // Use default color if team color is short
@@ -8744,6 +8771,8 @@ $(document).ready(function() {
 
                 _hexCode = layer.default_color;
                 _color   = ub.funcs.getColorObjByHexCode(_hexCode);
+
+                ub.utilities.error('Undefined color found here!!!');
 
             }
 
