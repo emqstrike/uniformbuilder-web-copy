@@ -5134,6 +5134,7 @@ $(document).ready(function() {
         if (typeof _patternObject === 'undefined') {
 
             return undefined;
+
         }
 
         var _materialOption = materialOption;
@@ -5191,7 +5192,10 @@ $(document).ready(function() {
         var patternProperties       = '';
         var _rotationAngle          = ub.funcs.translateAngle(materialOption.angle);
 
-        materialOption.pattern_id   = '33'; // Blank
+        materialOption.pattern_id   = '33'; // Blank (web)
+
+        if (ub.config.asset_target === 'team_stores') { materialOption.pattern_id = '286'; } // Blank (Team Stores)
+
         var _patternDefaultObject   = ub.funcs.getPatternByID(materialOption.pattern_id);
 
         if (typeof _patternDefaultObject === 'undefined') { ub.utilities.error('Pattern Object with id: 33 not found!'); }
