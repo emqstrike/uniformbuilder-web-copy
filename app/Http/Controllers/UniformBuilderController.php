@@ -944,6 +944,10 @@ class UniformBuilderController extends Controller
         $html .=   '<strong>QUANTITY</strong>';
         $html .=   '</td>';
 
+        $html .=   '<td align="center">';
+        $html .=   '<strong>NUMBER</strong>';
+        $html .=   '</td>';
+
         if ($sport !== "Crew Socks (Apparel)") {
 
             $html .=   '<td align="center">';
@@ -952,11 +956,7 @@ class UniformBuilderController extends Controller
 
         }    
 
-        if ($sport !== "Wrestling" and $sport !== "Crew Socks (Apparel)") {
-
-            $html .=   '<td align="center">';
-            $html .=   '<strong>NUMBER</strong>';
-            $html .=   '</td>';
+        if ($sport === "Football") {
 
             $html .=   '<td align="center">';
             $html .=   '<strong>LASTNAME APPLICATION</strong>';
