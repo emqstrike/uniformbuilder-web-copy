@@ -160,22 +160,33 @@ var TeamStoreToolBox = {
     open_products: function() {
 
         if (TeamStoreToolBox.products_modal == null) {
+            var template = $('#team-store-products-picker-template').html();
+
+            $('body').append(template);
+
+            TeamStoreToolBox.products_modal = $('div#team-store-products-picker');
+            TeamStoreToolBox.products_modal.center();
+            TeamStoreToolBox.open_products_modal();
+
+            // Modal should be closable
+            $('div#team-store-products-picker .close-popup').on('click', TeamStoreToolBox.close_products_modal);
+
             var url = TeamStoreAPI.endpoints.get_team_store_products + '/' + ub.store_code;
             ub.utilities.getJSON(url,
                 function(response) {
                     if (response.success) {
-                        var template = $('#team-store-products-picker-template').html();
+                        var template = $('#team-store-products-template').html();
                         var data = {
                             products: response.products
                         };
                         var markup = Mustache.render(template, response);
-                        $('body').append(markup);
-
-                        // Modal should be closable
-                        $('div#team-store-products-picker .close-popup').on('click', TeamStoreToolBox.close_products_modal);
-
-                        TeamStoreToolBox.products_modal = $('div#team-store-products-picker');
-                        TeamStoreToolBox.open_products_modal();
+                        $('div#team-store-products-picker .team-store-products-list').html(markup);
+                        $('div#team-store-products-picker .team-store-products-list .name').on('mousemove', function() {
+                            $(this).addClass('pullUp');
+                        });
+                        $('div#team-store-products-picker .team-store-products-list .name').on('mouseout', function() {
+                            $(this).removeClass('pullUp');
+                        });
                     }
                 }
             );

@@ -1,3 +1,21 @@
+<!-- Team Store Products -->
+<script type="text/mustache" id="team-store-products-template">
+
+@{{#products}}
+
+    <div class="item grow" style="background-image: url('@{{ image_front }}')" data-product-id="@{{ id }}">
+
+        <div class="name" data-product-id="@{{ id }}">
+            @{{ name }}
+        </div>
+
+    </div>
+
+@{{/products}}
+
+</script>
+<!-- End Team Store Products -->
+
 <!-- Team Store Product Picker -->
 <script type="text/mustache" id="team-store-products-picker-template">
 
@@ -19,19 +37,8 @@
                 
                 <div class="team-store-products-list">
 
-                    @{{#products}}
-
-                        <div class="item grow" style="background-image: url('@{{ image_front }}')" data-pattern-id="@{{ id }}">
-
-                            <div class="name">
-                                <a href="/builder/0/@{{material_id}}/{{$store_code}}/{{$team_name}}/{{$csv_team_colors}}/PLAYER/23/0/0/0/@{{ id }}">
-                                    @{{ name }}
-                                </a>
-                            </div>
-
-                        </div>
-
-                    @{{/products}}
+                    <span>Loading...</span>
+                    <i class="fa fa-circle-o-notch fa-spin fa-6 fa-fw"></i>
 
                 </div>
 
