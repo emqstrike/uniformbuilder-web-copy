@@ -30,6 +30,7 @@
                                         <th>File</th>
                                         <th>Origin</th>
                                         <th>Status</th>
+                                        <th>Approved By</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -45,12 +46,18 @@
                                                 </td>
                                                 <td>{{ $customArtworkRequest->origin }}</td>
                                                 <td>{{ $customArtworkRequest->status }}</td>
+
+                                                <td>{{ $customArtworkRequest->approved_by }}</td>
+
                                                 <td>
-                                                    @if ($customArtworkRequest->status != "processing" )
+                                                    @if ($customArtworkRequest->status == "Pending" )
                                                         <button class="btn btn-primary btn-xs assign-custom-artwork" data-custom-artwork-id="{{ $customArtworkRequest->id }}" data-ga-id="{{ $user_id }}">
+                                                    @else
+                                                        <button class="btn btn-primary btn-xs assign-custom-artwork" data-custom-artwork-id="{{ $customArtworkRequest->id }}" data-ga-id="{{ $user_id }}" disabled="disabled">
+                                                    @endif       
                                                             Assign
-                                                        </button>
-                                                    @endif
+                                                    </button>
+
 
                                                     <button class="btn btn-danger btn-xs reject-artwork">
                                                         Reject

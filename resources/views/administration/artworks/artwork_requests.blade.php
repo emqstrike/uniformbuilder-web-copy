@@ -134,7 +134,6 @@
 <script type="text/javascript" src="/js/administration/artworks.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-console.log(api_host);
 
 $('.reject-artwork').on('click', function(e){
     e.preventDefault();

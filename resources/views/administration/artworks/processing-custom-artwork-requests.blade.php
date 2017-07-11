@@ -45,7 +45,7 @@
                                             <td>{{ $customArtworkRequest->origin }}</td>
                                             <td>{{ $customArtworkRequest->status }}</td>
                                             <td>
-                                                <button class="btn btn-primary btn-xs mark-as-done-custom-artwork" data-custom-artwork-id="{{ $customArtworkRequest->id }}">Mark as done</button>
+                                                <button class="btn btn-primary btn-xs mark-as-done-custom-artwork" data-custom-artwork-id="{{ $customArtworkRequest->id }}" data-user-id="{{ $customArtworkRequest->ga_id }}">Mark as done</button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -73,6 +73,7 @@
             var data = {};
 
             data.custom_artwork_id = $(this).data('custom-artwork-id');
+            data.approved_by = $(this).data('user-id');
 
             bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
 

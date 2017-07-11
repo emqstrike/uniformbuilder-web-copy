@@ -112,7 +112,7 @@ class MascotsController extends Controller
         $mascots_categories = array();
         $artwork_request = $this->artworksClient->getArtwork($artwork_request_id);
         $team_colors = $this->artworksClient->getOrderTeamColors($artwork_request->order_code);
-        // dd($team_colors);
+
         foreach($raw_mascots_categories as $mascot_category){
             if($mascot_category->active == 1){
                 $mascots_categories[] = $mascot_category->name;
