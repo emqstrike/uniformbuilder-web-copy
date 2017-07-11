@@ -1796,7 +1796,8 @@ $(document).ready(function() {
 
         ub.funcs.prepareUniformSizes();
 
-        if (ub.funcs.getCurrentUniformCategory() === "Wrestling" || ub.current_material.material.type === "lower") {
+        // Hide Last Name Application and Sleeve Type when not tackle twill football
+        if (!(ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "PMP")) {
 
             $('div.defaultTypes').hide();
 
