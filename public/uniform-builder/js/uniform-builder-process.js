@@ -134,15 +134,25 @@ $(document).ready(function() {
 
     ub.funcs.hideColumns = function () {
 
-        if (ub.funcs.getCurrentUniformCategory() !== "Football") {
 
-            $('td.PlayerNumberInput, th.thPlayerNumberInput, td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
+        // Hide lastname, sleevetype and lastname application on everything except football
+        if (!ub.funcs.isCurrentSport('Football')) {
+
+            $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
             
         }
 
+        // Hide Lastname on Socks
         if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
 
             $('td.PlayerLastNameInput, th.thlastname').hide();
+
+        }
+
+        // Hide Player Number on Wrestling and Socks
+        if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+            $('td.PlayerNumberInput, th.thPlayerNumberInput').show();
 
         }
 
