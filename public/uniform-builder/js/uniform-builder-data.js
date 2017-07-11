@@ -10735,6 +10735,32 @@ ub.funcs.fontOffSets = [
                 pullUpHeight: 0,
             },
 
+            // "Basketball"
+            {
+                sport: 'Basketball',
+                applicationNumber: '2',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Basketball',
+                applicationNumber: '2',
+                size: 2,
+                pullUpHeight: -21,
+            },
+            {
+                sport: 'Basketball',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -21,
+            },
+            {
+                sport: 'Basketball',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+
         ], 
 
         getPullUp: function (sport, parentSize, applicationNumber) {
