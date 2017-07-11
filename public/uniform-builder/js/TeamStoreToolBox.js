@@ -21,6 +21,7 @@ var TeamStoreToolBox = {
         if ($('#show-team-store-toolbox')) {
             $('#show-team-store-toolbox').on('click', TeamStoreToolBox.show);
         }
+        $('#team-store-toolbox').draggable();
     },
 
     show: function () {
@@ -166,6 +167,7 @@ var TeamStoreToolBox = {
 
             TeamStoreToolBox.products_modal = $('div#team-store-products-picker');
             TeamStoreToolBox.products_modal.center();
+            TeamStoreToolBox.products_modal.draggable();
             TeamStoreToolBox.open_products_modal();
 
             // Modal should be closable
