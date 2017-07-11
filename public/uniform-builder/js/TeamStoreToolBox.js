@@ -6,6 +6,8 @@ var TeamStoreToolBox = {
 
     is_enabled: true,
 
+    products_modal: null,
+
     progress_modal: null,
 
     init: function() {
@@ -14,7 +16,7 @@ var TeamStoreToolBox = {
         $('#team-store-toolbox .update-images').on('click', TeamStoreToolBox.update_images);
         $('#team-store-toolbox .add-to-team-store').on('click', TeamStoreToolBox.add_to_team_store);
         $('#team-store-toolbox .view-product-page').on('click', TeamStoreToolBox.view_product_page);
-        $('#team-store-toolbox .open-products').on('click', TeamStoreToolBox.open_products);
+        $('#team-store-toolbox .open-team-store-products').on('click', TeamStoreToolBox.open_products);
         $('#team-store-toolbox .close').on('click', TeamStoreToolBox.close);
         if ($('#show-team-store-toolbox')) {
             $('#show-team-store-toolbox').on('click', TeamStoreToolBox.show);
@@ -40,6 +42,9 @@ var TeamStoreToolBox = {
         window.open(url, '_blank');
     },
 
+    /**
+     * Updates the team store product images
+     */
     update_images: function(show_update_progress_modal) {
         if (show_update_progress_modal) {
             TeamStoreToolBox.progress_modal = bootbox.dialog({
@@ -55,6 +60,9 @@ var TeamStoreToolBox = {
         }, 3000);
     },
 
+    /**
+     * Wrapper method for the actual AJAX call to add product to team store
+     */
     add_to_team_store: function(material) {
         TeamStoreToolBox.progress_modal = bootbox.dialog({
             title: 'Adding new product to your team store',
@@ -91,6 +99,9 @@ var TeamStoreToolBox = {
         );
     },
 
+    /**
+     * Add to team store
+     */
     offer_product_to_team_store: function(material) {
         var url = TeamStoreAPI.endpoints.add_product_to_team_store;
         var material_data = {
@@ -135,12 +146,53 @@ var TeamStoreToolBox = {
         );
     },
 
+    /**
+     * Open teamstore product page
+     */
     view_product_page: function() {
         var url = $('#team-store-toolbox .view-product-page').data('product');
         window.open(url, '_blank');
     },
 
+    /**
+     * Retrieve list of products and populate modal
+     */
     open_products: function() {
-        console.log('open products');
+
+        if (TeamStoreToolBox.products_modal == null) {
+            var url = TeamStoreAPI.endpoints.get_team_store_products + '/' + ub.store_code;
+            ub.utilities.getJSON(url,
+                function(response) {
+                    if (response.success) {
+                        var template = $('#team-store-products-picker-template').html();
+                        var data = {
+                            products: response.products
+                        };
+                        var markup = Mustache.render(template, response);
+                        $('body').append(markup);
+
+                        // Modal should be closable
+                        $('div#team-store-products-picker .close-popup').on('click', TeamStoreToolBox.close_products_modal);
+
+                        TeamStoreToolBox.products_modal = $('div#team-store-products-picker');
+                        TeamStoreToolBox.open_products_modal();
+                    }
+                }
+            );
+
+        } else {
+
+            TeamStoreToolBox.open_products_modal();
+
+        }
+
+    },
+
+    open_products_modal: function() {
+        TeamStoreToolBox.products_modal.fadeIn();
+    },
+
+    close_products_modal: function() {
+        TeamStoreToolBox.products_modal.fadeOut();
     }
 };

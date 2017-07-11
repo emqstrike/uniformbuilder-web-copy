@@ -2266,3 +2266,4 @@
 
 </script>
 
+@include('partials.controls.team-store-products-picker')

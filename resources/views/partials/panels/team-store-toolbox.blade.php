@@ -67,7 +67,7 @@
                 @endif
 
                 @if (!empty($product_id))
-                <li class="open-team-store">
+                <li class="open-team-store-products">
                     <span class="fa fa-3 fa-folder-open-o"></span>
                     <br>
                     Open Products
