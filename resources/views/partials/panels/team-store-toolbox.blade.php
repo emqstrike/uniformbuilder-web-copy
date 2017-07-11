@@ -1,4 +1,8 @@
-<div id="team-store-toolbox" data-teamstore-api="{{ env('TEAM_STORE_API_BASE_URL') }}" data-product-id="{{ $product_id }}">
+<div id="team-store-toolbox"
+    data-teamstore-api="{{ env('TEAM_STORE_API_BASE_URL') }}"
+    data-product-id="{{ $product_id }}"
+    data-team-name="{{ $team_name }}"
+    data-team-colors="{{ $csv_team_colors }}">
     
     <div class="header">
 

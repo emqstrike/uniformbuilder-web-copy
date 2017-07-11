@@ -1,9 +1,9 @@
 <!-- Team Store Products -->
 <script type="text/mustache" id="team-store-products-template">
 
-@{{#products}}
+@{{# products }}
 
-    <div class="item grow" style="background-image: url('@{{ image_front }}')" data-product-id="@{{ id }}">
+    <div class="item grow" style="background-image: url('@{{ image_front }}')" data-material-id="@{{ material_id }}" data-product-id="@{{ id }}">
 
         <div class="name" data-product-id="@{{ id }}">
             @{{ name }}
@@ -11,7 +11,7 @@
 
     </div>
 
-@{{/products}}
+@{{ /products }}
 
 </script>
 <!-- End Team Store Products -->
