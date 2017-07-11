@@ -37,8 +37,10 @@
                 
                 <div class="team-store-products-list">
 
-                    <span>Loading...</span>
-                    <i class="fa fa-circle-o-notch fa-spin fa-6 fa-fw"></i>
+                    <h3 style="text-align: center">
+                        Loading...
+                        <i class="fa fa-circle-o-notch fa-6 fa-spin" aria-hidden="true"></i>
+                    </h3>
 
                 </div>
 
