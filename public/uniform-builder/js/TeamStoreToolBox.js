@@ -4,7 +4,7 @@
 
 var TeamStoreToolBox = {
 
-    is_enabled: false,
+    is_enabled: true,
 
     progress_modal: null,
 
@@ -31,7 +31,8 @@ var TeamStoreToolBox = {
     },
 
     create_team_store: function() {
-        console.log('create team store');
+        var url = $('#team-store-toolbox .create-team-store').data('create-store');
+        window.open(url, '_blank');
     },
 
     open_team_store: function() {

@@ -82,12 +82,10 @@
 
             @else
 
-                <li class="active" class="create-team-store">
-                    <a href="{{ env('TEAM_STORE_REGISTRATION_URL') }}/{{ Session::get('teamstore_registration_params') }}">
-                        <span class="fa fa-3 fa-eye"></span>
-                        <br>
-                        Create Team Store
-                    </a>
+                <li class="create-team-store" data-create-store="{{ env('TEAM_STORE_REGISTRATION_URL') }}/{{ Session::get('teamstore_registration_params') }}">
+                    <span class="fa fa-3 fa-eye"></span>
+                    <br>
+                    Create Team Store
                 </li>
                 <li class="disabled">
                     <span class="fa fa-3 fa-floppy-o"></span>

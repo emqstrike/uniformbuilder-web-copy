@@ -453,7 +453,7 @@ $(document).ready(function () {
 
             if (TeamStoreToolBox.is_enabled) {
                 TeamStoreToolBox.init();
-                // TeamStoreToolBox.show();
+                TeamStoreToolBox.show();
             }
 
             ub.data.undoHistory = [];
