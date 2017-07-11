@@ -1,4 +1,8 @@
-<div id="team-store-toolbox" data-teamstore-api="{{ env('TEAM_STORE_API_BASE_URL') }}" data-product-id="{{ $product_id }}">
+<div id="team-store-toolbox"
+    data-teamstore-api="{{ env('TEAM_STORE_API_BASE_URL') }}"
+    data-product-id="{{ $product_id }}"
+    data-team-name="{{ $team_name }}"
+    data-team-colors="{{ $csv_team_colors }}">
     
     <div class="header">
 
@@ -67,7 +71,7 @@
                 @endif
 
                 @if (!empty($product_id))
-                <li class="open-team-store">
+                <li class="open-team-store-products">
                     <span class="fa fa-3 fa-folder-open-o"></span>
                     <br>
                     Open Products
@@ -82,12 +86,10 @@
 
             @else
 
-                <li class="active" class="create-team-store">
-                    <a href="{{ env('TEAM_STORE_REGISTRATION_URL') }}/{{ Session::get('teamstore_registration_params') }}">
-                        <span class="fa fa-3 fa-eye"></span>
-                        <br>
-                        Create Team Store
-                    </a>
+                <li class="create-team-store" data-create-store="{{ env('TEAM_STORE_REGISTRATION_URL') }}/{{ Session::get('teamstore_registration_params') }}">
+                    <span class="fa fa-3 fa-eye"></span>
+                    <br>
+                    Create Team Store
                 </li>
                 <li class="disabled">
                     <span class="fa fa-3 fa-floppy-o"></span>

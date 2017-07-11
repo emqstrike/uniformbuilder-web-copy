@@ -83,15 +83,15 @@
                   <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
                   <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
                   <li class="divider"></li>
-                @if (Session::get('userHasTeamStoreAccount'))
+<!--
                   <li>
                     <a href="#" id="show-team-store-toolbox">
                       <i class="fa fa-wrench" aria-hidden="true"></i> DISPLAY TEAM STORE TOOLBOX
                     </a>
                   </li>
-                @endif
-                  <li class="divider"></li>
 
+                  <li class="divider"></li>
+ -->
                   <!-- <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li> -->
                   <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
                   <li class="divider"></li>

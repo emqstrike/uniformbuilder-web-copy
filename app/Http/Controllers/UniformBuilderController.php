@@ -127,8 +127,10 @@ class UniformBuilderController extends Controller
 
         // @param Team Colors - comma separated list
         $params['team_colors'] = null;
+        $params['csv_team_colors'] = null;
         if (isset($config['team_colors']))
         {
+            $params['csv_team_colors'] = $config['team_colors'];
             $color_array = StringUtility::strToArray($config['team_colors']);
             $color_array = StringUtility::surroundElementsDQ($color_array);
             $params['team_colors'] = implode(',', $color_array);
