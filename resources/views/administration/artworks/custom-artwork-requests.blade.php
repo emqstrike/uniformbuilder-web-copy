@@ -47,7 +47,12 @@
                                                 <td>{{ $customArtworkRequest->origin }}</td>
                                                 <td>{{ $customArtworkRequest->status }}</td>
 
-                                                <td>{{ $customArtworkRequest->approved_by }}</td>
+                                                <td>
+                                                    @if ($customArtworkRequest->admin)
+                                                        {{ ucwords($customArtworkRequest->admin->first_name) }} {{ ucwords($customArtworkRequest->admin->last_name) }}
+                                                        &lt;{{ $customArtworkRequest->admin->email }}&gt;
+                                                    @endif
+                                                </td>
 
                                                 <td>
                                                     @if ($customArtworkRequest->status == "Pending" )
