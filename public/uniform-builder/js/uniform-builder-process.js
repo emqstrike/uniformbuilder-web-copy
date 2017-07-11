@@ -154,6 +154,10 @@ $(document).ready(function() {
 
             $('td.PlayerNumberInput, th.thPlayerNumberInput').show();
 
+        } else {
+
+            $('td.PlayerNumberInput, th.thPlayerNumberInput').hide();            
+            
         }
 
     }
