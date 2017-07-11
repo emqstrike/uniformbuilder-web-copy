@@ -1821,7 +1821,7 @@ $(document).ready(function() {
 
             _size           = $(this).data('size');
 
-            if (ub.funcs.isCurrentSport('Football')) {
+            if (!ub.funcs.isCurrentSport('Wrestling')) {
 
                 _numbers         = ub.funcs.createNumbersSelectionPopup(_size);
 
@@ -1830,8 +1830,6 @@ $(document).ready(function() {
                 ub.funcs.AddRosterRow(_size);
 
             }
-
-
 
         });
 
