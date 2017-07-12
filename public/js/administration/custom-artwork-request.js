@@ -13,7 +13,7 @@ function assignGA(data)
     bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
     $.ajax({
         url: '//' + api_host + '/api/custom_artwork_requests/update',
-        type: "PATCH",
+        type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',
         success: function (data) {
