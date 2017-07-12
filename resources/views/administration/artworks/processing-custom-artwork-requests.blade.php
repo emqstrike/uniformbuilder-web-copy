@@ -79,7 +79,7 @@
 
             $.ajax({
                 url: '//' + api_host + '/api/custom_artwork_requests/mark_as_done',
-                type: "PATCH",
+                type: "POST",
                 data: JSON.stringify(data),
                 contentType: 'application/json;',
                 success: function (data) {
