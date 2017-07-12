@@ -41,6 +41,8 @@
                         </div>
                     </div>
 
+                    <br />
+
                     <h3>Order Description</h3>
                     <hr />
 
@@ -57,6 +59,27 @@
                             <br />
                             <label for="email">Description</label><br />
                             <span class="field-value description"></span>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <h3>Additional Notes and Attachments</h3>
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br />
+                            <label for="orderID">Additional Notes </label><br />
+                            <span class="field-value notes"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br />
+                            <label for="email">Attachments</label><br />
+                            <span class="field-value attachments"></span>
                         </div>
                     </div>
     
