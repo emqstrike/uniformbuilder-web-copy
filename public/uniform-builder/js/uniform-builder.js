@@ -8562,6 +8562,9 @@ $(document).ready(function () {
             $('a.pdfOrderForm').html('View Order Form PDF (' + _bc.pdfOrderForm + ')');
             $('a.pdfOrderForm').attr('href', _bc.pdfOrderForm);
 
+            $('span.notes').html(order.notes);
+            $('span.additional-attachments').html(order.additional_attachments);
+
             // PDF
             var _url = "/pdfjs/web/viewer.html?file=" + _bc.pdfOrderForm;
             $('iframe#pdfViewer').attr('src', _url)
