@@ -981,6 +981,10 @@ class UniformBuilderController extends Controller
             $html .=   $roster['quantity'];
             $html .=   '</td>';
 
+            $html .=   '<td align="center">';
+            $html .=   $roster['number'];
+            $html .=   '</td>';
+
             if ($sport !== "Crew Socks (Apparel)") {
 
                 $html .=   '<td align="center">';
@@ -989,11 +993,8 @@ class UniformBuilderController extends Controller
 
             }
 
-            if ($sport !== "Wrestling" and $sport !== "Crew Socks (Apparel)") {
+            if ($sport === "Football") {
 
-                $html .=   '<td align="center">';
-                $html .=   $roster['number'];
-                $html .=   '</td>';
                 $html .=   '<td align="center">';
                 $html .=   $roster['lastNameApplication'];
                 $html .=   '</td>';
