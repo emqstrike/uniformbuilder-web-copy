@@ -7637,6 +7637,8 @@ $(document).ready(function () {
                         $('div.order-list.submitted').hide();
                         $('div.order-list.saved').hide();
                         $('div.my-orders-loading').fadeIn();
+                        $('span.orders.header').hide();
+                        $('div.order-tabs').hide();
 
                         window.location.href =  '/order/view/' + _dataID;
 
@@ -8558,14 +8560,72 @@ $(document).ready(function () {
             $('span.order-id').html(order.order_id);
             $('span.description').html(order.description);
 
-            $('a.pdfOrderForm').html(_bc.pdfOrderForm);
+            $('a.pdfOrderForm').html('View Order Form PDF (' + _bc.pdfOrderForm + ')');
             $('a.pdfOrderForm').attr('href', _bc.pdfOrderForm);
+
+            // PDF
+            var _url = "/pdfjs/web/viewer.html?file=" + _bc.pdfOrderForm;
+            $('iframe#pdfViewer').attr('src', _url)
+            // End PDF
 
         };
 
+        ub.funcs.hightlightItemInGroup = function (group, item) {
+
+            $(group).removeClass('active');
+            $(item).addClass('active')
+
+        }
+
+        ub.funcs.showTab = function (group, item) {
+
+            $(group).hide();
+            $(item).show();
+
+        }
+
+        ub.funcs.displayMessagesForOrder = function (messages, orderID) {
+
+            var _messages = _.filter(messages, {order_code: orderID});
+            var _markup = ub.utilities.buildTemplateString('#m-order-info-messages', {messages: _messages});
+
+            $.when($('div.order-info-messages').html(_markup)).then($('span.message-count').html('Messages: ' + _.size(_messages)));
+
+        }
+
+        ub.funcs.setupOrderInfoEvents = function () {
+
+            // Main Info
+            $('span.tab[data-type="main-info"]').unbind('click');
+            $('span.tab[data-type="main-info"]').on('click', function () {
+
+                ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="main-info"]');
+                ub.funcs.showTab('div.order-info', 'div.order-info.main-info');
+
+            });
+
+            // Status Thread
+            $('span.tab[data-type="status-thread"]').unbind('click');
+            $('span.tab[data-type="status-thread"]').on('click', function () {
+
+                ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="status-thread"]');
+                ub.funcs.showTab('div.order-info', 'div.order-info.status-thread');
+
+            });
+
+            // PDF            
+            $('span.tab[data-type="pdf"]').unbind('click');
+            $('span.tab[data-type="pdf"]').on('click', function () {
+
+                ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="pdf"]');
+                ub.funcs.showTab('div.order-info', 'div.order-info.pdf');
+
+            });
+
+        }
+
         ub.funcs.displayOrderInfo = function () {
 
-            
             // Get Order Info 
 
             var _url = ub.endpoints.getFullUrlString('getOrderInfoByOrderID') + ub.config.orderID;
@@ -8608,9 +8668,34 @@ $(document).ready(function () {
 
                   $('div.my-orders-loading').hide();
 
+                  ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="main-info"]');
+                  ub.funcs.showTab('div.order-info', 'div.order-info.main-info');
+
                 }
                 
             });
+
+
+            // Messages
+
+            $.ajax({
+                
+                url: ub.endpoints.getFullUrlString('getMessagesByRecipientID') + ub.user.id,
+                type: "Get", 
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    ub.funcs.displayMessagesForOrder(response.messages, ub.config.orderID);
+
+                }
+                
+            });
+
+            ub.funcs.setupOrderInfoEvents();
 
         }
 

@@ -1,10 +1,15 @@
 <div id="view-order-info">
 
+
+    <a class="btn" href="/my-orders"><< back to My Orders</a>  
+
     <div class="header">
 
-        Order Info<span class="orderID"></span>
+        Order Info (Beta)<span class="orderID"></span>
 
     </div>
+
+
 
     <div class="order-tabs">
         
@@ -16,12 +21,7 @@
 
     </div>    
 
-    <div class="my-orders-loading" style="text-align: center;">
-
-        Loading Order Info... Please wait. <img src="/images/loading.gif" style="width: 50px"/><br />
-
-    </div>
-
+    <!-- Main Info -->
     <div class="order-info main-info">
 
         <div class="row"> <!-- Start Row -->
@@ -29,8 +29,6 @@
             <div class="col-md-12"> 
 
                  <div class="col-md-6">
-
-                    <br />
 
                     <h3>Order Description</h3>
                     <hr />
@@ -87,6 +85,55 @@
         </div> <!-- End Row -->
         
     </div>
+    <!-- End Main Info -->
+
+    <!-- Status Thread -->
+    <div class="order-info status-thread">
+
+        <!-- Start Row -->
+         <div class="row"> 
+
+            <div class="col-md-12"> 
+
+                <div class="col-md-12">
+
+                    <br />
+                    <div class="order-info-messages message-list">
+                        
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- End Row -->
+
+    </div>
+    <!-- End Status Thread -->
+
+    <!-- PDF -->
+    <div class="order-info pdf">
+
+        <!-- Start Row -->
+        <div class="row"> 
+
+            <div class="col-md-12"> 
+
+                <div class="col-md-12">
+
+                    <br />
+                    <iframe class="pdfViewer" id="pdfViewer"> </iframe>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- End Row -->
+
+    </div>
+    <!-- End Status Thread -->
 
     <div class="order-info status-thread">
         
@@ -95,5 +142,12 @@
     <div class="order-info pdf">
         
     </div>
+
+    <div class="my-orders-loading" style="text-align: center;">
+
+        Loading Order Info... Please wait. <img src="/images/loading.gif" style="width: 50px"/><br />
+
+    </div>
+
 
 </div>
