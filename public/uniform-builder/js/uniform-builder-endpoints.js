@@ -28,6 +28,18 @@ $(document).ready(function() {
                 url:  'api/order/items/',
                 info: 'Concatenate Order Code at the end of the url to get order items.',
             },
+            {
+                name: 'Get Order Items',
+                code: 'getOrderItemsByOrderID',
+                url:  'api/order/items/',
+                info: 'Concatenate Order Code at the end of the url to get order items.',
+            },
+            {
+                name: 'Get Messages By Recipient ID',
+                code: 'getMessagesByRecipientID',
+                url:  'api/messages/recipient/',
+                info: 'Concatenate Recepient ID at the end of the URL to get the messages .',
+            },
 
         ],
 

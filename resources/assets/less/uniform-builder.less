@@ -23,6 +23,178 @@
 
 @main_window_pane_height: 550px;
 
+.message-list () {
+
+    div.message-list {
+
+        span.message-count {
+            
+            margin-top: 10px;
+            display: inline-block;
+            float: right;
+            
+        }
+
+        table {
+
+            width: 100%;
+            margin: 0 auto;
+
+            tr.header {
+
+                text-transform: uppercase;
+                
+                background-color: #e7e7e7;
+                color: #3d3d3d;
+
+                td {
+
+                    text-align: center;
+                    border-top: none;
+                    border-bottom: none;
+
+                }
+
+            }
+
+            tr {
+
+                td {
+
+                    text-align: center;
+                    border: solid 1px #acacac;
+                    padding: 10px;
+
+                    border-left: none;
+                    border-right: none;
+                    border-top: none;
+                    border-color: #e7e7e7;
+
+                }
+
+                td.order-info {
+
+                    padding: 30px;
+
+                    text-align: center;
+                    label {
+
+                        width: 30%;
+
+                    }
+
+                    img.thumbs {
+
+                        width: 100px;
+
+                    }
+
+                }
+
+                td.status-preview {
+
+                    width: 40px;
+                    color: #acacac;
+                    padding-left: 30px;
+
+                }
+
+                td.from {
+
+                    color: #acacac;                            
+
+                }
+
+                td.type {
+
+                    text-transform: uppercase;
+
+                }
+
+                td.action {
+
+                    width: 20%;
+
+                    span.action-button {
+
+                        padding: 7px;
+                        background-color: #acacac;
+                        color: white;
+                        min-width: 170px;
+                        margin: 7px;
+                        display: inline-block;
+                        cursor: pointer;
+                        font-size: 0.8em;
+
+                        background-color: #e7e7e7;
+                        color: #3d3d3d;
+
+                    }
+
+                    span.action-button:hover {
+
+                        background-color: @ubBlack;
+                        color: #e7e7e7;
+
+                    }
+
+                }
+
+            }
+
+            tr.message-row {
+
+
+
+            }
+
+            tr.message-row:hover {
+
+                background-color: #f8f8f8;
+
+                td.action {
+
+                    span.action-button {
+
+                        color: #e7e7e7;
+                        background-color: @ubBlack;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        tr[data-read="0"] {
+
+            background-color: #eee;
+
+            td.action {
+
+                    span.action-button {
+
+                        color: #e7e7e7;
+                        background-color: #3d3d3d;
+
+                    }
+
+                    span.action-button:hover {
+
+                        color: #e7e7e7;
+                        background-color: @ubBlack;
+
+                    }
+
+                }
+
+        }
+
+    }
+
+}
+
 div.save-design-post-dialog {
     
     p {
@@ -8154,173 +8326,7 @@ div.header-container.main {
 
             }
 
-            div.message-list {
-
-                span.message-count {
-                    
-                    margin-top: 10px;
-                    display: inline-block;
-                    float: right;
-                    
-                }
-
-                table {
-
-                    width: 100%;
-                    margin: 0 auto;
-
-                    tr.header {
-
-                        text-transform: uppercase;
-                        
-                        background-color: #e7e7e7;
-                        color: #3d3d3d;
-
-                        td {
-
-                            text-align: center;
-                            border-top: none;
-                            border-bottom: none;
-
-                        }
-
-                    }
-
-                    tr {
-
-                        td {
-
-                            text-align: center;
-                            border: solid 1px #acacac;
-                            padding: 10px;
-
-                            border-left: none;
-                            border-right: none;
-                            border-top: none;
-                            border-color: #e7e7e7;
-
-                        }
-
-                        td.order-info {
-
-                            padding: 30px;
-
-                            text-align: center;
-                            label {
-
-                                width: 30%;
-
-                            }
-
-                            img.thumbs {
-
-                                width: 100px;
-
-                            }
-
-                        }
-
-                        td.status-preview {
-
-                            width: 40px;
-                            color: #acacac;
-                            padding-left: 30px;
-
-                        }
-
-                        td.from {
-
-                            color: #acacac;                            
-
-                        }
-
-                        td.type {
-
-                            text-transform: uppercase;
-
-                        }
-
-                        td.action {
-
-                            width: 20%;
-
-                            span.action-button {
-
-                                padding: 7px;
-                                background-color: #acacac;
-                                color: white;
-                                min-width: 170px;
-                                margin: 7px;
-                                display: inline-block;
-                                cursor: pointer;
-                                font-size: 0.8em;
-
-                                background-color: #e7e7e7;
-                                color: #3d3d3d;
-
-                            }
-
-                            span.action-button:hover {
-
-                                background-color: @ubBlack;
-                                color: #e7e7e7;
-
-                            }
-
-                        }
-
-                    }
-
-                    tr.message-row {
-
-
-
-                    }
-
-                    tr.message-row:hover {
-
-                        background-color: #f8f8f8;
-
-                        td.action {
-
-                            span.action-button {
-
-                                color: #e7e7e7;
-                                background-color: @ubBlack;
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                tr[data-read="0"] {
-
-                    background-color: #eee;
-
-                    td.action {
-
-                            span.action-button {
-
-                                color: #e7e7e7;
-                                background-color: #3d3d3d;
-
-                            }
-
-                            span.action-button:hover {
-
-                                color: #e7e7e7;
-                                background-color: @ubBlack;
-
-                            }
-
-                        }
-
-                }
-
-            }
+            .message-list;
 
         }
 
@@ -8722,6 +8728,30 @@ div.header-container.main {
             margin: 0 auto;
             margin-top: 30px;
 
+            a.btn {
+
+                position: absolute;
+                float: left;
+                border-bottom: dashed 1px transparent;
+                padding: 0;
+                color: #3d3d3d;
+
+            }
+
+            a.btn:hover {
+
+                background-color: white;
+                color: @ubBlack;
+                border-bottom: dashed 1px @ubBlack;
+
+            }
+
+            div.header {
+
+
+
+            }
+
             .pagePanelHeader;
             
             div.order-tabs {
@@ -8754,6 +8784,22 @@ div.header-container.main {
 
                     .smallButtonHover;
                     background-color: @ubBlack;
+
+                }
+
+            }
+
+            div.order-info { display: none; }
+
+            div.order-info.status-thread { .message-list; }
+
+            div.order-info.pdf {
+
+                iframe.pdfViewer {
+
+                    width: 100%;
+                    height: 700px;
+                    display: block;
 
                 }
 
