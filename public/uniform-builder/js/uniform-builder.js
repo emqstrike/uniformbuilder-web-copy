@@ -7555,7 +7555,6 @@ $(document).ready(function () {
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
    
-
                     $('div.my-orders-loading').hide();
 
                     var $containerSaved         = $('div.order-list.saved');
@@ -8624,7 +8623,7 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.displayOrderInfo = function () {
+        ub.funcs.viewOrderInfo = function () {
 
             // Get Order Info 
 
@@ -8642,7 +8641,6 @@ $(document).ready(function () {
                 success: function (response) {
 
                     $('span.status').html(response.order.status);
-                    $('span.custom-artwork-status').html(response.order.artwork_status);
 
                 }
                 
@@ -8666,10 +8664,10 @@ $(document).ready(function () {
 
                     ub.funcs.displayOrderDetails(response.order[0]);
 
-                  $('div.my-orders-loading').hide();
+                    $('div.my-orders-loading').hide();
 
-                  ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="main-info"]');
-                  ub.funcs.showTab('div.order-info', 'div.order-info.main-info');
+                    ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="main-info"]');
+                    ub.funcs.showTab('div.order-info', 'div.order-info.main-info');
 
                 }
                 
@@ -8695,6 +8693,26 @@ $(document).ready(function () {
                 
             });
 
+
+            // Custom Artwork Request
+
+            $.ajax({
+                
+                url: ub.config.api_host + '/' + 'api/order/' + ub.config.orderID + '/artworkStatus',
+                type: "Get", 
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    $('span.custom-artwork-status').html(response.order.artwork_status);
+
+                }
+                
+            });
+
             ub.funcs.setupOrderInfoEvents();
 
         }
@@ -8709,7 +8727,7 @@ $(document).ready(function () {
                 return;
             } 
 
-            ub.funcs.displayOrderInfo();
+            ub.funcs.viewOrderInfo();
 
         }
 

@@ -28,7 +28,18 @@
 
             <div class="col-md-12"> 
 
-                 <div class="col-md-6">
+                <div class="col-md-6">
+
+                    <h3>STATUS</h3>
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <br />
+                            <label for="status">Status</label><br />
+                            <span class="field-value status"></span>
+                        </div>
+                    </div>
 
                     <h3>Order Description</h3>
                     <hr />
@@ -37,7 +48,7 @@
                         <div class="col-md-12">
                             <br />
                             <label for="orderID">Order ID </label><br />
-                            <span class="order-id"></span>
+                            <span class="field-value order-id"></span>
                         </div>
                     </div>
 
@@ -45,38 +56,27 @@
                         <div class="col-md-12">
                             <br />
                             <label for="email">Description</label><br />
-                            <span class="description"></span>
+                            <span class="field-value description"></span>
                         </div>
                     </div>
+    
+                </div>
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <br />
-                            <label for="pdf">PDF</label><br />
-                            <span class="pdf"><a href='' class="pdfOrderForm"></a></span>
-                        </div>
-                    </div>
+                <div class="col-md-6">
 
-                    <br />
-
-                    <h3>Status</h3>
+                    <h3>Custom Artwork Request</h3>
                     <hr />
-
                     <div class="row">
-                        <div class="col-md-12">
-                            <br />
-                            <label for="status">Status</label><br />
-                            <span class="status"></span>
-                        </div>
-                    </div>
-
-                    <div class="row">
+        
                         <div class="col-md-12">
                             <br />
                             <label for="status">Custom Artwork Status</label><br />
-                            <span class="custom-artwork-status"></span>
+                            <span class="field-value custom-artwork-status"></span>
                         </div>
+    
                     </div>
+
+                    <br />
 
                 </div>
 

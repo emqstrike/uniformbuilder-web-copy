@@ -1494,11 +1494,11 @@ class UniformBuilderController extends Controller
         $table .= $firstOrderItem['notes'];
         $table .= '</p>';
         
-        if ($firstOrderItem['attached_files'] !== "") {
+        if ($firstOrderItem['additional_attachments'] !== "") {
             $table .= '<br /><br />';
             $table .= '<strong>ATTACHMENT</strong>';
             $table .= '<p>'; 
-            $table .= '<a href="' . $firstOrderItem['attached_files'] . '" target="_new">Open Attachment</a>';    
+            $table .= '<a href="' . $firstOrderItem['additional_attachments'] . '" target="_new">Open Attachment</a>';    
             $table .= '</p>'; 
         }
         
