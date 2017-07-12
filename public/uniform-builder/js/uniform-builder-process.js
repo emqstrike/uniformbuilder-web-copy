@@ -823,7 +823,7 @@ $(document).ready(function() {
                     roster: _transformedRoster,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
-                    attached_files: ub.data.orderAttachment,
+                    additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
 
                 },
@@ -1029,7 +1029,7 @@ $(document).ready(function() {
                     url: ub.config.host + window.document.location.pathname,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
-                    attached_files: ub.data.orderAttachment,
+                    additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
                 },
             ]
