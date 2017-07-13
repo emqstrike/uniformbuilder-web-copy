@@ -8,15 +8,18 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\APIClients\SalesRepresentativesAPIClient;
 use App\APIClients\UsersAPIClient as APIClient;
 
 class UsersController extends Controller
 {
     protected $client;
+    protected $salesRepresentativesAPIClient;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct(APIClient $apiClient, SalesRepresentativesAPIClient $salesRepresentativesAPIClient)
     {
         $this->client = $apiClient;
+        $this->salesRepresentativesAPIClient = $salesRepresentativesAPIClient;
     }
 
     public function index()
@@ -38,8 +41,10 @@ class UsersController extends Controller
     public function editUserForm($id)
     {
         $user = $this->client->getUser($id);
+        $sales_reps = $this->salesRepresentativesAPIClient->getSalesReps();
         return view('administration.users.user-edit', [
-            'user' => $user
+            'user' => $user,
+            'sales_reps' => $sales_reps
         ]);
     }
 

@@ -77,19 +77,9 @@
                             <div class="col-md-6">
                                 <select name='default_rep_id' class="form-control default-rep-id">
                                     <option value="">none</option>
-                                    <option value='13' {{ ($user->default_rep_id == 13) ? 'selected':'' }}>Courtney Overstreet</option>
-                                    <option value='14' {{ ($user->default_rep_id == 14) ? 'selected':'' }}>Dave Dahlke</option>
-                                    <option value='8' {{ ($user->default_rep_id == 8) ? 'selected':'' }}>Eric Fogle</option>
-                                    <option value='10' {{ ($user->default_rep_id == 10) ? 'selected':'' }}>Glenn Williams</option>
-                                    <option value='4' {{ ($user->default_rep_id == 4) ? 'selected':'' }}>Mark Elmblade</option>
-                                    <option value='11' {{ ($user->default_rep_id == 11) ? 'selected':'' }}>Mickey St. Pierre</option>
-                                    <option value='6' {{ ($user->default_rep_id == 6) ? 'selected':'' }}>Michael Wells</option>
-                                    <option value='9' {{ ($user->default_rep_id == 9) ? 'selected':'' }}>Neil Vonkeman</option>
-                                    <option value='15' {{ ($user->default_rep_id == 15) ? 'selected':'' }}>Ralph Parks</option>
-                                    <option value='5' {{ ($user->default_rep_id == 5) ? 'selected':'' }}>Steve Sakovitz</option>
-                                    <option value='7' {{ ($user->default_rep_id == 7) ? 'selected':'' }}>Thom Sigel</option>
-                                    <option value='2' {{ ($user->default_rep_id == 2) ? 'selected':'' }}>Tony Bentley</option>
-                                    <option value='12' {{ ($user->default_rep_id == 12) ? 'selected':'' }}>TJ Schenbeck</option>
+                                    @foreach($sales_reps as $rep)
+                                        <option value="{{ $rep->id }}" @if($rep->id == $user->default_rep_id) selected="selected"@endif>{{ $rep->last_name }}, {{ $rep->first_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

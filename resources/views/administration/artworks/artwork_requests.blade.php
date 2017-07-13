@@ -143,7 +143,7 @@ $('.reject-artwork').on('click', function(e){
     e.preventDefault();
 
     var data = {};
-    data.subject = "Custom Artwork: Rejected";
+    data.subject = "This order was rejected because of the following reasons: ";
     data.order_code = $(this).data('order-code');
     data.status = "rejected";
     data.type = "PM";
@@ -169,7 +169,9 @@ $('.reject-artwork').on('click', function(e){
         callback: function(result){ /* result is a boolean; true = OK, false = Cancel*/ 
             if(result){
                 bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
-                data.content = result; // message content
+                var order_link = 'http://customizer.prolook.com/order/'+data.order_code;
+                var message = "Please edit the order and submit it again using this link: "+order_link;
+                data.content = result+". "+message; // message content
                 console.log(data);
                 insertMessage(data);
             } else {
