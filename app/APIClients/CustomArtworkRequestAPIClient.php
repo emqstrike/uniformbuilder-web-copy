@@ -55,7 +55,7 @@ class CustomArtworkRequestAPIClient extends APIClient
             'mascot_id'         => $mascotID
         );
 
-        $response = $this->patch('custom_artwork_requests/update', [
+        $response = $this->post('custom_artwork_requests/update', [
             'json' => $data
         ]);
 
