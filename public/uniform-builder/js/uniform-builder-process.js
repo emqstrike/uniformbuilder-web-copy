@@ -134,16 +134,30 @@ $(document).ready(function() {
 
     ub.funcs.hideColumns = function () {
 
-        if (ub.funcs.getCurrentUniformCategory() !== "Football") {
 
-            $('td.PlayerNumberInput, th.thPlayerNumberInput, td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
+        // Hide lastname, sleevetype and lastname application on everything except football
+        if (!ub.funcs.isCurrentSport('Football')) {
+
+            $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
             
         }
 
+        // Hide Lastname on Socks
         if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
 
             $('td.PlayerLastNameInput, th.thlastname').hide();
 
+        }
+
+        // Hide Player Number on Wrestling and Socks
+        if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+
+            $('td.PlayerNumberInput, th.thPlayerNumberInput').show();
+
+        } else {
+
+            $('td.PlayerNumberInput, th.thPlayerNumberInput').hide();            
+            
         }
 
     }
@@ -809,7 +823,7 @@ $(document).ready(function() {
                     roster: _transformedRoster,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
-                    attached_files: ub.data.orderAttachment,
+                    additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
 
                 },
@@ -1015,7 +1029,7 @@ $(document).ready(function() {
                     url: ub.config.host + window.document.location.pathname,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
-                    attached_files: ub.data.orderAttachment,
+                    additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
                 },
             ]
@@ -1782,7 +1796,8 @@ $(document).ready(function() {
 
         ub.funcs.prepareUniformSizes();
 
-        if (ub.funcs.getCurrentUniformCategory() === "Wrestling" || ub.current_material.material.type === "lower") {
+        // Hide Last Name Application and Sleeve Type when not tackle twill football
+        if (!(ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "PMP")) {
 
             $('div.defaultTypes').hide();
 
@@ -1807,7 +1822,7 @@ $(document).ready(function() {
 
             _size           = $(this).data('size');
 
-            if (ub.funcs.isCurrentSport('Football')) {
+            if (!ub.funcs.isCurrentSport('Wrestling')) {
 
                 _numbers         = ub.funcs.createNumbersSelectionPopup(_size);
 
@@ -1816,8 +1831,6 @@ $(document).ready(function() {
                 ub.funcs.AddRosterRow(_size);
 
             }
-
-
 
         });
 

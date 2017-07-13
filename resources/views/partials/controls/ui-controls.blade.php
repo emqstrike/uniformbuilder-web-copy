@@ -1286,9 +1286,10 @@
                         
                         <td class="action">
 
-                            <span class="action-button edit" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span> <br />
+                            <span class="action-button edit" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span>
                             <span class="action-button delete" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-remove" aria-hidden="true"></i> Delete Order </span>
-                            
+                            <span class="action-button view" data-id="@{{id}}" data-order-id="@{{order_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Order Status and Details </span>
+
                         </td>
 
                     </tr>
@@ -2265,3 +2266,40 @@
 
 </script>
 
+<script type="text/mustache" id="m-order-info-messages">
+    
+    <table>
+
+        <tr class="header">
+
+            <td></td>
+            <td>Date</td>
+            <td>From</td>
+            <td>Subject</td>
+            <td>Message</td>
+            <td>Action</td>
+
+        </tr>
+
+        @{{#messages}}
+
+            <tr class="message-row" data-id="@{{id}}" data-read="@{{read}}">
+
+                <td class="status-preview"><strong>@{{statusPreview}}</strong></td>
+                <td class="time" data-time="@{{created_at}}">@{{created_at}}</td>
+                <td class="from"><strong>@{{sender_name}}</strong></td>
+                <td class="subject">@{{subject}}</td>
+                <td class="message-info">@{{content}}</td>
+                <td class="action"><span class="action-button view-message" data-id="@{{id}}" data-type= "@{{type}}">View</span></td> 
+
+            </tr>
+
+        @{{/messages}}
+
+    </table>
+
+    <span class="message-count">Messages: n</span>
+    
+</script>
+
+@include('partials.controls.team-store-products-picker')

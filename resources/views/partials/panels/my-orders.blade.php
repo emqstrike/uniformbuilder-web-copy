@@ -2,17 +2,13 @@
 
     <div class="order-tabs">
         
-        <span class="tab active" data-type="saved">
-            Saved
-        </span>
+        <span class="tab active" data-type="submitted"> Submitted </span>
 
-        <span class="tab" data-type="submitted">
-            Submitted
-        </span>
+        <span class="tab" data-type="saved"> Saved </span>
 
     </div>    
 
-    <span class='orders header'>My Saved Orders</span>
+    <span class='orders header'>My Submitted Orders</span>
 
     <div class="my-orders-loading" style="text-align: center;">
 

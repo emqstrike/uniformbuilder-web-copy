@@ -156,12 +156,19 @@
 
     @include('partials.panels.roster-input')
     @include('partials.panels.order-form')
-    @include('partials.panels.validate-order-form')    
+    @include('partials.panels.validate-order-form')
+
+    @if (!isset($page)) {
+
+        @include('partials.panels.team-store-toolbox')
+        
+    @endif 
 
 </div>
 
 @yield('my-saved-designs')
 @yield('my-orders')
+@yield('view-order-info')
 @yield('my-messages')
 @yield('my-profile')
 @yield('signup')
@@ -262,10 +269,13 @@
             blockPattern: "{{ isset($material->block_pattern) ? $material->block_pattern : 'none' }}",
             type: "{{ isset($material->type) ? $material->type : 'none' }}",
             gender: "{{ isset($material->gender) ? $material->gender : 'none' }}",
+            asset_target: "{{ isset($material->asset_target) ? $material->asset_target : 'none' }}",
 
             category_id: {{ $category_id }}, 
             host: 'http://{{ Request::server ("HTTP_HOST") }}',
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
+
+            orderID: "{{ isset($order_id) ? $order_id : 'none' }}",
 
             @if (isset($styles)) 
             styles: {
@@ -276,6 +286,16 @@
             @endif
 
         };
+
+        /**
+         * Extends jQuery - adds a center() reusable function
+         */
+        jQuery.fn.center = function () {
+            this.css("position","absolute");
+            this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
+            this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+            return this;
+        }
 
         @if (Session::get('isLoggedIn'))
 
@@ -515,6 +535,8 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-generators.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/TeamStoreAPI.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/TeamStoreToolBox.js?v={{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
 

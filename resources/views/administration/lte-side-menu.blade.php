@@ -53,11 +53,28 @@
       </li>
     </ul>
   </li>
-  <li data-position='right'>
-    <a href="/administration/artwork_requests" >
-      <i class="glyphicon glyphicon-picture"></i> <span>Artwork Requests</span>
-    </a>
-  </li>
+
+    <li class="treeview" data-position='right'>
+        <a href="#" >
+            <i class="glyphicon glyphicon-picture"></i>
+            <span>Artworks</span>
+        </a>
+
+        <ul class="treeview-menu">
+            <li>
+                <a href="/administration/artwork_requests" >
+                    <i class="glyphicon glyphicon-picture"></i> <span>Artwork Requests</span>
+                </a>
+            </li>
+            <li>
+                <a href="/administration/custom_artwork_requests">
+                    <i class="glyphicon glyphicon-picture"></i>
+                    <span>Custom Artwork Requests</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+
   <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
     <a href="#" >
       <i class="fa fa-gear"></i>
