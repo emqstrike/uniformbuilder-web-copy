@@ -90,7 +90,9 @@
                         <div class="col-md-12">
                             <br />
                             <label for="email">Attachments</label><br />
-                            <span class="field-value attachments"></span>
+                            <span class="field-value attachments">
+                                <img class="attachments" src="" />
+                            </span>
                         </div>
                     </div>
     
