@@ -561,14 +561,12 @@ $(document).ready(function() {
             }
 
             $('div.feedback-form').remove();
-            ub.funcs.reload(); 
-
+            
         });
 
         $('span.cancel-btn').on('click', function () {
 
             $('div.feedback-form').remove();
-            ub.funcs.reload();
 
         });
 
@@ -638,18 +636,23 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            success: function (response){
+            success: function (response) {
+
+                var _viewOrderLink = ub.config.host + '/order/view/' + response.order_code;
+                var _message = '';
 
                 $('div#validate-order-form').remove();
                 $('span.processing').fadeOut();
 
-                var _message = "Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.";
+                _message = "Your order is now submitted for processing. A ProLook representative will be reaching out shortly to confirm your order and help finish the ordering process.";
 
                 if (data.order.submitted === 0) {
                     _message = "Your order is now saved. You can work on it later by going to [My Orders] and submit it when you are done.";
                 }
 
-                // ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view, orderID);
+                ub.funcs.feedbackFormFromOrder(_message, ub.current_material.settings.thumbnails.front_view, ub.current_material.settings.thumbnails.left_view, ub.current_material.settings.thumbnails.right_view, ub.current_material.settings.thumbnails.back_view);
+
+                window.location = _viewOrderLink;
 
             }
             
