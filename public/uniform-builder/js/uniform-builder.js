@@ -8560,6 +8560,9 @@ $(document).ready(function () {
             var _applicationSrc = '';
             var _strBuilder = '';
 
+            var _table = '<table class="">';
+            _table     += '<thead><tr> <td>Application #</td> <td>Images / Link</td> <td class="notes">Notes</td></tr> </thead>';
+
             _.each (_bc.applications, function (application) {
 
                 if (application.customLogo) {
@@ -8567,23 +8570,34 @@ $(document).ready(function () {
                     var _extension = application.customFilename.substr(application.customFilename.length - 3);
                     var _validImages = ['png', 'jpg', 'bmp', 'gif'];
 
-                    _applicationSrc = '';
-                    _applicationSrc += "<div class='application-container'>";
-                    _applicationSrc += 'Application<br />#' + application.code + "<br /><br />";
+                    _applicationSrc = '<tr >';
 
-                    if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='customFilename' src='" + application.customFilename + "' /><br /><br />"; }
+                    _applicationSrc += '<td>';
+                    _applicationSrc +=      application.code + "<br /><br />";
+                    _applicationSrc += '</td>';
 
-                    _applicationSrc += "<a href='" + application.customFilename + "' target='new'>Link To File Attached</a><br /><br />";
-                    _applicationSrc += "Note:<br />" + application.additionalNotes + "<br />";
-                    _applicationSrc += "</div>";
+                    _applicationSrc += '<td>';
 
-                    _strBuilder += _applicationSrc;
+                    if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='customFilename' src='" + application.customFilename + "' /><br />"; }
+
+                    _applicationSrc +=      "<a href='" + application.customFilename + "' target='new'>Link to attached file</a><br />";
+                    _applicationSrc += '</td>';
+
+                    _applicationSrc += '<td class="notes">';
+                    _applicationSrc +=      application.additionalNotes + "<br />";
+                    _applicationSrc += '</td>';
+
+                    _applicationSrc += "</tr>";
+
+                    _table += _applicationSrc;
 
                 }
                 
             });
 
-            $('span.custom-artwork-applications').html(_strBuilder);
+            _table += '</table>';
+
+            $('span.custom-artwork-applications').html(_table);
             $('img.attachments').attr('src', _fileName);
             $('span.order-id').html(order.order_id);
             $('span.description').html(order.description);
