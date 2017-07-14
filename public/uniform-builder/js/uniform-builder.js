@@ -8555,6 +8555,9 @@ $(document).ready(function () {
         ub.funcs.displayOrderDetails = function (order) {
 
             var _bc = JSON.parse(order.builder_customizations);
+            var _fileName = JSON.parse(order.additional_attachments);
+
+            $('img.attachments').attr('src', _fileName);
 
             $('span.order-id').html(order.order_id);
             $('span.description').html(order.description);
@@ -8567,7 +8570,7 @@ $(document).ready(function () {
 
             // PDF
             var _url = "/pdfjs/web/viewer.html?file=" + _bc.pdfOrderForm;
-            $('iframe#pdfViewer').attr('src', _url)
+            $('iframe#pdfViewer').attr('src', _url);
             // End PDF
 
         };
@@ -8643,7 +8646,11 @@ $(document).ready(function () {
 
                 success: function (response) {
 
+                    var _orderLink = ub.config.host + "/order/" + ub.config.orderID;
+
                     $('span.status').html(response.order.status);
+                    $('a.view-submitted-design').attr('src', _orderLink);
+                    $('a.view-submitted-design').html(_orderLink);
 
                 }
                 
@@ -8671,6 +8678,7 @@ $(document).ready(function () {
 
                     ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="main-info"]');
                     ub.funcs.showTab('div.order-info', 'div.order-info.main-info');
+
 
                 }
                 

@@ -24,6 +24,17 @@
     <!-- Main Info -->
     <div class="order-info main-info">
 
+        <div class="row">
+            
+            <div class="col-md-12 view-order-link-container">
+
+                <label>View submitted design for this order</label><br />
+                <a href="" class="view-submitted-design" target="_new"></a>
+
+            </div>
+
+        </div>
+
         <div class="row"> <!-- Start Row -->
 
             <div class="col-md-12"> 
@@ -79,7 +90,9 @@
                         <div class="col-md-12">
                             <br />
                             <label for="email">Attachments</label><br />
-                            <span class="field-value attachments"></span>
+                            <span class="field-value attachments">
+                                <img class="attachments" src="" />
+                            </span>
                         </div>
                     </div>
     
