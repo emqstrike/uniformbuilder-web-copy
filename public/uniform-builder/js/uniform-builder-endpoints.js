@@ -16,6 +16,30 @@ $(document).ready(function() {
                 url:  'api/sales_reps/',
                 info: 'Get All Sales Rep (no parameters)',
             },
+            {
+                name: 'Get Order Info',
+                code: 'getOrderInfoByOrderID',
+                url:  'api/order/orderId/',
+                info: 'Concatenate Order Code at the end of the url to get order info.',
+            },
+            {
+                name: 'Get Order Items',
+                code: 'getOrderItemsByOrderID',
+                url:  'api/order/items/',
+                info: 'Concatenate Order Code at the end of the url to get order items.',
+            },
+            {
+                name: 'Get Order Items',
+                code: 'getOrderItemsByOrderID',
+                url:  'api/order/items/',
+                info: 'Concatenate Order Code at the end of the url to get order items.',
+            },
+            {
+                name: 'Get Messages By Recipient ID',
+                code: 'getMessagesByRecipientID',
+                url:  'api/messages/recipient/',
+                info: 'Concatenate Recepient ID at the end of the URL to get the messages .',
+            },
 
         ],
 

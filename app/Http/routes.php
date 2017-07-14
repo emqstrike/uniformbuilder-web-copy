@@ -30,14 +30,14 @@ Route::get('activateUser/{activationCode}', 'RegistrationController@activateUser
 Route::get('index', 'UniformBuilderController@showBuilder');
 Route::get('uniform-builder', 'UniformBuilderController@showBuilder');
 Route::get('/builder/{designSetId}', 'UniformBuilderController@loadDesignSet');
-Route::get('/builder/{designSetId}/{materialId}/{store_code?}/{team_name?}/{team_colors?}/{jerysey_name?}/{jersey_number?}/{mascot_id?}/{save_rendered?}/{save_rendered_timeout?}', 'UniformBuilderController@loadDesignSet');
+Route::get('/builder/{designSetId}/{materialId}/{store_code?}/{team_name?}/{team_colors?}/{jerysey_name?}/{jersey_number?}/{mascot_id?}/{save_rendered?}/{save_rendered_timeout?}/{product_id?}', 'UniformBuilderController@loadDesignSet');
 Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderController@loadDesignSetRender');
 Route::get('/styles/{gender}/{sport?}', 'UniformBuilderController@styles');
 
 Route::group([
     'prefix' => 'teamstore'
 ], function() {
-    Route::get('load_material/{material_id}/{store_code?}/{team_name?}/{team_colors?}/{jerysey_name?}/{jersey_number?}/{mascot_id?}/{save_rendered?}/{save_rendered_timeout?}', 'UniformBuilderController@load_material');
+    Route::get('load_material/{material_id}/{store_code?}/{team_name?}/{team_colors?}/{jerysey_name?}/{jersey_number?}/{mascot_id?}/{save_rendered?}/{save_rendered_timeout?}/{product_id?}', 'UniformBuilderController@load_material');
 });
 
 // Save uniform perspectives
@@ -61,6 +61,9 @@ Route::get('/forgot-password', 'UniformBuilderController@forgotPassword');
 // Display the Order
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
+
+Route::get('order/view/{orderId}', 'UniformBuilderController@viewOrder');
+
 Route::post('saveUniformDesign', 'UniformBuilderController@saveOrder');
 Route::post('generateOrderForm', 'UniformBuilderController@generateOrderForm');
 
@@ -77,6 +80,9 @@ Route::get('getting_started', 'Help\HelpController@getting_started');
 
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
+    Route::get('custom_artwork_requests', 'Administration\CustomArtworkRequestController@index')->name('indexCustomArtworkRequests');
+    Route::get('custom_artwork_requests/processing', 'Administration\CustomArtworkRequestController@getProcessing')->name('getProcessingCustomArtworkRequests');
+    Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
 
     Route::get('/', 'Administration\AdministrationController@dashboard');
 

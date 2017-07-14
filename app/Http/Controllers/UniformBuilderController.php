@@ -127,8 +127,10 @@ class UniformBuilderController extends Controller
 
         // @param Team Colors - comma separated list
         $params['team_colors'] = null;
+        $params['csv_team_colors'] = null;
         if (isset($config['team_colors']))
         {
+            $params['csv_team_colors'] = $config['team_colors'];
             $color_array = StringUtility::strToArray($config['team_colors']);
             $color_array = StringUtility::surroundElementsDQ($color_array);
             $params['team_colors'] = implode(',', $color_array);
@@ -173,6 +175,14 @@ class UniformBuilderController extends Controller
         {
             $params['save_rendered_timeout'] = $config['save_rendered_timeout'];
             Log::info(__METHOD__ . ': Seconds timeout before rendering = ' . $params['save_rendered_timeout']);
+        }
+
+        // @param Team Store Product ID
+        $params['product_id'] = null;
+        if (isset($config['product_id']))
+        {
+            $params['product_id'] = $config['product_id'];
+            Log::info(__METHOD__ . ': Team Store Product ID = ' . $params['product_id']);
         }
 
         $params['builder_customizations'] = null;
@@ -278,6 +288,72 @@ class UniformBuilderController extends Controller
     }
 
     /**
+     * View order details / status
+     * @param String $orderId
+     */
+
+    public function viewOrder($orderId)
+    {
+
+        $order = $this->ordersClient->getOrderItems($orderId);
+        $orderInfo = $this->ordersClient->getOrderByOrderId($orderId);
+        $orderDetails = $this->ordersClient->getOrderItems($orderId);
+
+        if( isset($order[0]) ) {
+
+            $order = $order[0]; 
+            $orderID = $order->order_id;
+            $builder_customizations = json_decode($order->builder_customizations);
+
+            if (isset($builder_customizations->upper->material_id)) {
+                $materialID = $builder_customizations->upper->material_id;
+            } else {
+                $materialID = $builder_customizations->lower->material_id;
+            }
+
+            //$material = $this->materialsClient->getMaterial($materialID);
+
+            Session::put('page-type', [
+                'page' => 'view-order-info',
+            ]);
+
+            Session::put('order', [
+                'id' => $order->id,
+                'order_id' => $orderID,
+                'material_id' => $materialID,
+            ]);
+
+            $params = [
+                'page_title' => 'Order Info: ' . $orderId,
+                'material_id' => $materialID,
+                'order_id' => $orderId,
+                'description' => $order->description,
+                'order_code' => $orderId,
+                'order_id_short' => $order->id,
+                'type' => 'Order',
+                'pdfOrderForm' => $builder_customizations->pdfOrderForm,
+
+                'page_title' => env('APP_TITLE'),
+                'app_title' => env('APP_TITLE'),
+                'asset_version' => env('ASSET_VERSION'),
+                'asset_storage' => env('ASSET_STORAGE'),
+                'material_id' => -1,
+                'category_id' => -1,
+                'builder_customizations' => null,
+                'page' => 'view-order-info',
+                'type' => 'view-order-info',
+            
+            ];
+            
+            return view('editor.view-order-info', $params);
+
+        }
+
+        return redirect('index');
+
+    }
+
+    /**
      * Show the order in the builder editor
      * @param String $orderId
      */
@@ -342,6 +418,7 @@ class UniformBuilderController extends Controller
      * @param Integer $mascot_id
      * @param Boolean $save_rendered
      * @param Integer $save_rendered_timeout
+     * @param Integer $product_id
      */
 
     public function loadDesignSet(
@@ -354,7 +431,8 @@ class UniformBuilderController extends Controller
         $jersey_number = null,
         $mascot_id = null,
         $save_rendered = false,
-        $save_rendered_timeout = 10
+        $save_rendered_timeout = 10,
+        $product_id = null
     )
     {
         $config = [
@@ -371,7 +449,8 @@ class UniformBuilderController extends Controller
             $jersey_number,
             $mascot_id,
             $save_rendered,
-            $save_rendered_timeout
+            $save_rendered_timeout,
+            $product_id
         );
 
         return $this->showBuilder($config);
@@ -419,7 +498,8 @@ class UniformBuilderController extends Controller
         $jersey_number = null,
         $mascot_id = null,
         $save_rendered = false,
-        $save_rendered_timeout = 10
+        $save_rendered_timeout = 10,
+        $product_id = null
     )
     {
         $config = [
@@ -435,7 +515,8 @@ class UniformBuilderController extends Controller
             $jersey_number,
             $mascot_id,
             $save_rendered,
-            $save_rendered_timeout
+            $save_rendered_timeout,
+            $product_id
         );
         return $this->showBuilder($config);
     }
@@ -449,14 +530,15 @@ class UniformBuilderController extends Controller
         $jersey_number = null,
         $mascot_id = null,
         $save_rendered = false,
-        $save_rendered_timeout = 10
+        $save_rendered_timeout = 10,
+        $product_id = null
     )
     {
-        if (!is_null('store_code'))
+        if (!is_null($store_code))
         {
             $config['store_code'] = $store_code;
         }
-        if (!is_null('team_name'))
+        if (!is_null($team_name))
         {
             // Use default team_name when 'DEFAULT' is passed
             if ($team_name !== 'DEFAULT')
@@ -465,7 +547,7 @@ class UniformBuilderController extends Controller
             }
             $config['team_name'] = $team_name;
         }
-        if (!is_null('team_colors'))
+        if (!is_null($team_colors))
         {
             // Use default colors when 'DEFAULT' is passed
             if ($team_colors !== 'DEFAULT')
@@ -473,11 +555,11 @@ class UniformBuilderController extends Controller
                 $config['team_colors'] = $team_colors;
             }
         }
-        if (!is_null('store_code'))
+        if (!is_null($store_code))
         {
             $config['store_code'] = $store_code;
         }
-        if (!is_null('jersey_name'))
+        if (!is_null($jersey_name))
         {
             // Use default jersey_name when 'DEFAULT' is passed
             if ($jersey_name !== 'DEFAULT')
@@ -486,7 +568,7 @@ class UniformBuilderController extends Controller
             }
             $config['jersey_name'] = $jersey_name;
         }
-        if (!is_null('jersey_number'))
+        if (!is_null($jersey_number))
         {
             // Use default jersey_number when 'DEFAULT' is passed
             if ($jersey_number !== 'DEFAULT')
@@ -495,7 +577,7 @@ class UniformBuilderController extends Controller
             }
             $config['jersey_number'] = $jersey_number;
         }
-        if (!is_null('mascot_id'))
+        if (!is_null($mascot_id))
         {
             // Use default mascot_id when 'DEFAULT' is passed
             if ($mascot_id !== 'DEFAULT')
@@ -504,13 +586,17 @@ class UniformBuilderController extends Controller
             }
             $config['mascot_id'] = $mascot_id;
         }
-        if (!is_null('save_rendered'))
+        if (!is_null($save_rendered))
         {
             $config['save_rendered'] = $save_rendered;
         }
-        if (!is_null('save_rendered_timeout'))
+        if (!is_null($save_rendered_timeout))
         {
             $config['save_rendered_timeout'] = $save_rendered_timeout;
+        }
+        if (!is_null($product_id))
+        {
+            $config['product_id'] = $product_id;
         }
         Log::info(print_r($config, true));
     }
@@ -860,6 +946,10 @@ class UniformBuilderController extends Controller
         $html .=   '<strong>QUANTITY</strong>';
         $html .=   '</td>';
 
+        $html .=   '<td align="center">';
+        $html .=   '<strong>NUMBER</strong>';
+        $html .=   '</td>';
+
         if ($sport !== "Crew Socks (Apparel)") {
 
             $html .=   '<td align="center">';
@@ -868,11 +958,7 @@ class UniformBuilderController extends Controller
 
         }    
 
-        if ($sport !== "Wrestling" and $sport !== "Crew Socks (Apparel)") {
-
-            $html .=   '<td align="center">';
-            $html .=   '<strong>NUMBER</strong>';
-            $html .=   '</td>';
+        if ($sport === "Football") {
 
             $html .=   '<td align="center">';
             $html .=   '<strong>LASTNAME APPLICATION</strong>';
@@ -895,6 +981,10 @@ class UniformBuilderController extends Controller
             $html .=   $roster['quantity'];
             $html .=   '</td>';
 
+            $html .=   '<td align="center">';
+            $html .=   $roster['number'];
+            $html .=   '</td>';
+
             if ($sport !== "Crew Socks (Apparel)") {
 
                 $html .=   '<td align="center">';
@@ -903,11 +993,8 @@ class UniformBuilderController extends Controller
 
             }
 
-            if ($sport !== "Wrestling" and $sport !== "Crew Socks (Apparel)") {
+            if ($sport === "Football") {
 
-                $html .=   '<td align="center">';
-                $html .=   $roster['number'];
-                $html .=   '</td>';
                 $html .=   '<td align="center">';
                 $html .=   $roster['lastNameApplication'];
                 $html .=   '</td>';
@@ -1407,11 +1494,11 @@ class UniformBuilderController extends Controller
         $table .= $firstOrderItem['notes'];
         $table .= '</p>';
         
-        if ($firstOrderItem['attached_files'] !== "") {
+        if ($firstOrderItem['additional_attachments'] !== "") {
             $table .= '<br /><br />';
             $table .= '<strong>ATTACHMENT</strong>';
             $table .= '<p>'; 
-            $table .= '<a href="' . $firstOrderItem['attached_files'] . '" target="_new">Open Attachment</a>';    
+            $table .= '<a href="' . $firstOrderItem['additional_attachments'] . '" target="_new">Open Attachment</a>';    
             $table .= '</p>'; 
         }
         
@@ -1995,6 +2082,7 @@ class UniformBuilderController extends Controller
         $categoryId = -1;
 
         $params = [
+
             'page_title' => env('APP_TITLE'),
             'app_title' => env('APP_TITLE'),
             'asset_version' => env('ASSET_VERSION'),
@@ -2003,6 +2091,7 @@ class UniformBuilderController extends Controller
             'category_id' => -1,
             'builder_customizations' => null,
             'page' => 'forgot-password',
+        
         ];
 
         return view('editor.forgot-password', $params);

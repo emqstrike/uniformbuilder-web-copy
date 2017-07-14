@@ -2,7 +2,16 @@ $(document).ready(function () {
 
     ub.funcs.transformPatterns = function (inputPatternsObject) {
 
-        var _inputPatternsObject = _.filter(inputPatternsObject, {asset_target: 'web'});
+        var _inputPatternsObject = _.filter(inputPatternsObject, function (pattern) {
+
+            var _blankPatternID = 33; // Blank (Web)
+
+            if (ub.config.asset_target === 'team_stores') { _blankPatternID = 286; } // Blank (Team Stores)
+
+            return pattern.asset_target === ub.config.asset_target || pattern.id === _blankPatternID;
+
+        });
+
         var _container           = [];
 
         _.each(_inputPatternsObject, function (_object, index) {

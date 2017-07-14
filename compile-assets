@@ -1,0 +1,2 @@
+#!/bin/bash
+gulp && php artisan asset_version:upgrade
