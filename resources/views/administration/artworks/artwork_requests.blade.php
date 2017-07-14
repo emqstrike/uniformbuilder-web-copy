@@ -52,14 +52,21 @@
                             </td>
                             <td></td>
                             <td>
+                            <table class="table table-striped">
+                                <tbody>
                                 @if ( isset($order->artworks) )
                                     @foreach( $order->artworks as $art )
-                                        <div>Application #{{ $art['code'] }}
-                                            <img src="{{ $art['file'] }}" style="height: 30px; width: 30px;">
-                                            <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $art['file'] }}">Link</a>
-                                        </div><br>
+                                        <tr>
+                                            <td>
+                                            Application #{{ $art['code'] }}
+                                                <img src="{{ $art['file'] }}" style="height: 30px; width: 30px;">
+                                                <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $art['file'] }}">Link</a>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 @endif
+                                </tbody>
+                            </table>
                                 {{-- @foreach( $order->items as $item )
                                 <a href="#" class="btn btn-default btn-xs" style="width: 200px; text-align: left;">{{ $item->item_id }} - {{ $item->description }}</a>
                                 <a href="#" class="btn btn-default btn-xs view-roster-details" data-roster="{{ $item->roster }}" data-item="{{ $item->description }}">Roster</a>
@@ -68,7 +75,19 @@
                                 @endforeach --}}
                             </td>
                             <td>
-                                {{ $order->artwork_status }}
+                            <table class="table table-striped">
+                                <tbody>
+                                @if ( isset($order->artworks) )
+                                    @foreach( $order->artworks as $art )
+                                    <tr>
+                                        <td>
+                                            {{ $art['notes'] }}
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
+                                </tbody>
+                            </table>
                             </td>
                             <td>
                                 {{ $order->artwork_status }}
