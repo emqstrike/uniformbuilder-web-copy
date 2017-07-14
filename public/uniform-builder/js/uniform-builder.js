@@ -8643,7 +8643,11 @@ $(document).ready(function () {
 
                 success: function (response) {
 
+                    var _orderLink = ub.config.host + "/order/" + ub.config.orderID;
+
                     $('span.status').html(response.order.status);
+                    $('a.view-submitted-design').attr('src', _orderLink);
+                    $('a.view-submitted-design').html(_orderLink);
 
                 }
                 
