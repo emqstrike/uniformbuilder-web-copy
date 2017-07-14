@@ -105,9 +105,17 @@
                     <div class="row">
         
                         <div class="col-md-12">
+                            
                             <br />
-                            <label for="status">Custom Artwork Status</label><br />
+                            <label for="status">Custom Artwork Status</label>
+                            <br />
+                            
                             <span class="field-value custom-artwork-status"></span>
+                            <br />
+
+                            <span class="custom-artwork-applications"></span>
+                            <br />
+
                         </div>
     
                     </div>

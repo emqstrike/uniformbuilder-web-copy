@@ -8557,8 +8557,34 @@ $(document).ready(function () {
             var _bc = JSON.parse(order.builder_customizations);
             var _fileName = JSON.parse(order.additional_attachments);
 
-            $('img.attachments').attr('src', _fileName);
+            var _applicationSrc = '';
+            var _strBuilder = '';
 
+            _.each (_bc.applications, function (application) {
+
+                if (application.customLogo) {
+
+                    var _extension = application.customFilename.substr(application.customFilename.length - 3);
+                    var _validImages = ['png', 'jpg', 'bmp', 'gif'];
+
+                    _applicationSrc = '';
+                    _applicationSrc += "<div class='application-container'>";
+                    _applicationSrc += 'Application<br />#' + application.code + "<br /><br />";
+
+                    if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='customFilename' src='" + application.customFilename + "' /><br /><br />"; }
+
+                    _applicationSrc += "<a href='" + application.customFilename + "' target='new'>Link To File Attached</a><br /><br />";
+                    _applicationSrc += "Note:<br />" + application.additionalNotes + "<br />";
+                    _applicationSrc += "</div>";
+
+                    _strBuilder += _applicationSrc;
+
+                }
+                
+            });
+
+            $('span.custom-artwork-applications').html(_strBuilder);
+            $('img.attachments').attr('src', _fileName);
             $('span.order-id').html(order.order_id);
             $('span.description').html(order.description);
 
