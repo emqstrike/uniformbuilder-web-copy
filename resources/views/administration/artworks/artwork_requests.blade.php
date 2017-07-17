@@ -164,7 +164,7 @@ $('.reject-artwork').on('click', function(e){
     var data = {};
     data.subject = "This order was rejected because of the following reasons: ";
     data.order_code = $(this).data('order-code');
-    data.status = "rejected";
+    // data.status = "rejected";
     data.type = "ORDERS";
     data.sender_id = "0";
     data.recipient_id = $(this).data('user-id').toString();
@@ -202,14 +202,16 @@ $('.reject-artwork').on('click', function(e){
 
 function insertMessage(data){
     var order_code = data.order_code;
+    var content = data.content;
+    console.log(data);
     $.ajax({
         url: '//api-dev.qstrike.com/api/message',
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',
         success: function (data) {
-            // alert(data);
-            rejectArtwork(order_code)
+            // alert(data['message']);
+            rejectArtwork(order_code, content);
             // window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -217,9 +219,10 @@ function insertMessage(data){
     });
 }
 
-function rejectArtwork(order_code){
+function rejectArtwork(order_code, content){
     var data = {};
     data.order_code = order_code;
+    data.content = content;
     $.ajax({
         url: '//api-dev.qstrike.com/api/artwork_request/reject',
         type: "POST",
