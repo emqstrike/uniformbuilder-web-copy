@@ -16,17 +16,38 @@
                     </a>
                 </div>
                 <div class="box-body">
-                    <table class='data-table table table-bordered table-striped table-hover'>
+                    <table class='data-table table table-bordered table-striped table-hover col-lg-8'>
                     <thead>
                         <tr>
-                            <th>TEST</th>
+                            <th>ID</th>
+                            <th>Description</th>
+                            <th>Sport</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                     @forelse ($parts_aliases as $item)
-                        <tr>
+                        <tr class='part-{{ $item->id }}'>
                             <td>
-                                Hello
+                               {{$item->id}}
+                            </td>
+                            <td>
+                                {{$item->description}}    
+                            </td>
+                            <td>
+                                {{$item->uniform_category_id}}
+                            </td>
+                            <td class="td-buttons">
+                                <a href="#" class="btn btn-default btn-xs " >
+                                    <i class="glyphicon glyphicon-info-sign"> Info</i>
+                                </a>
+                                <a href="/administration/parts_aliases/edit/{{$item->id}}" class="edit-part btn btn-info btn-xs">
+                                    <i class="glyphicon glyphicon-edit"> Edit</i>
+                                </a>
+                                <a href="#" class="delete-part btn btn-xs btn-danger" data-part-id="{{ $item->id }}" role="button">
+                                    <i class="glyphicon glyphicon-trash"> Remove</i>
+                                </a>
+                                
                             </td>
                         </tr>
 
@@ -48,11 +69,13 @@
     </div>
 </section>
 
+@include('partials.confirmation-modal')
 @endsection
 
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
+<script type="text/javascript" src="/js/administration/parts-aliases.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 
