@@ -13,6 +13,7 @@ $(document).ready(function(){
     window.question_names = null;
     window.type = null;
     window.types = ['Color', 'Pattern'];
+    
 
 
 $('.delete-part').on('click', function(){
@@ -82,8 +83,18 @@ $('.delete-part').on('click', function(){
         var data = JSON.parse(properties);
 
         
+         
+        
     }
 
+    function setValue(thisObj){
+      var value_part_name = thisObj.parent().parent().find('.part-name').val();
+      var row_type = thisObj.parent().parent().find('.type').val();
+      var part_value = value_part_name+'_'+row_type;
+      part_value = part_value.toLowerCase();
+      part_value = part_value.replace(/ /g, "_");
+      thisObj.parent().parent().find('.edit-part-value').val(part_value);
+      }
 
     $('.load-props').on('click', function(e){
       e.preventDefault();
@@ -100,8 +111,7 @@ $('.delete-part').on('click', function(){
           {
               var part_name = entry.part_name;
               //part name loop
-                //$('#getPartsModal').modal('toggle');
-
+                
                 var material_id = $('.material-id-parts').val();
                 window.material_id = material_id;
                 getParts(function(parts){ window.parts = parts; });
@@ -211,6 +221,7 @@ $('.delete-part').on('click', function(){
                 
     $("#part_aliases_form").on("change", ".part-name", function(e){
             e.preventDefault();
+            setValue($(this));
             updateJSON();
     });
 
@@ -226,6 +237,7 @@ $('.delete-part').on('click', function(){
 
     $("#part_aliases_form").on("change", ".type", function(e){
             e.preventDefault();
+            setValue($(this));
             updateJSON();
     });
 
@@ -242,7 +254,7 @@ $('.delete-part').on('click', function(){
         var input_part_name = '<select class="part-name">'+window.parts_options+'</select>';
         var input_question_id = '<select class="part-questions">'+window.questions_options+'</select>';
         var input_edit_part_name = '<select class="edit-part-name">'+window.question_names+'</select>';
-        var input_edit_part_value = '<input type="text" class="edit-part-value">';
+        var input_edit_part_value = '<input type="text" class="edit-part-value" value="">';
         var input_type = `<select class="type from-control">
                                 <option value="Pattern">Pattern</option>
                                 <option value="Color">Color</option>
@@ -270,6 +282,7 @@ $('.delete-part').on('click', function(){
                     '</tr>';
         $('.properties-content').prepend(elem);
         updateJSON();
+
     });
 
     function deleteButton(){
@@ -300,7 +313,6 @@ $('.delete-part').on('click', function(){
             window.parts_options = elem;
         }, 1000);
         
-
     });
 
     $('.get-questions').on('click', function(e){

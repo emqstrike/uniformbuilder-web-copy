@@ -25,7 +25,7 @@ li.select2-selection__choice {
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-info">
-                <div class="panel-heading">Edit New Parts Aliases</div>
+                <div class="panel-heading"><h4>Edit Parts Aliases</h4></div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -139,10 +139,7 @@ li.select2-selection__choice {
                                     <tbody class="properties-content"></tbody>
 
                                 </table>
-                                 <div class="testproperties">
-                                    <ol class="testol">
-                                        
-                                    </ol>
+                                
                                 </div>
                                 <!-- <select name="block_pattern_id" class="form-control">
                                     <option value="0"></option>
