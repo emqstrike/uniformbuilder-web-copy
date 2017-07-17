@@ -239,7 +239,7 @@
     </ul>
   </li>
   <li data-position='right'>
-    <a href="administration/parts_aliases">
+    <a href="/administration/parts_aliases">
       <i class="fa fa-list-alt"></i>
       <span>Aliases</span>
       </a>
