@@ -165,7 +165,7 @@ $('.reject-artwork').on('click', function(e){
     data.subject = "This order was rejected because of the following reasons: ";
     data.order_code = $(this).data('order-code');
     data.status = "rejected";
-    data.type = "PM";
+    data.type = "orders";
     data.sender_id = "0";
     data.recipient_id = $(this).data('user-id').toString();
 
