@@ -8734,7 +8734,7 @@ div.header-container.main {
                 float: left;
                 border-bottom: dashed 1px transparent;
                 padding: 0;
-                color: #3d3d3d;
+                color: #acacac;
 
             }
 
@@ -8809,6 +8809,20 @@ div.header-container.main {
 
             div.order-info.main-info { 
 
+                div.view-order-thumbnails {
+
+                    padding-top: 30px;
+                    text-align: center;
+
+                    img.thumbs {
+
+                        width: 10%;
+                        cursor: pointer;
+
+                    }
+
+                }
+
                 div.view-order-link-container {
 
                     text-align: center;
@@ -8838,8 +8852,88 @@ div.header-container.main {
                     display: block;
 
                     img.attachments {
+                        cursor: pointer;
+                    }
+
+                }
+
+                span.custom-artwork-applications {
+
+                    font-size: 1.3em;
+
+                    img.customFilename { width: 150px; cursor: pointer; }
+
+                    table {
+
+                        width: 100%;
+                        margin-top: 30px;
+
+                        tr {
+
+                            td {
+
+                                color: @ubBlack;
+                                padding: 10px;
+                                text-align: center;
+                                vertical-align: top;
+
+                                a {
+
+                                    font-size: 0.8em;
+                                    color: @ubBlack;
+                                    text-decoration: none;
+
+                                }
+
+                                a:hover { border-bottom: dashed 1px @ubBlack; }
+                                border-bottom: solid 1px #acacac;
+
+                            }
+
+                            td.notes {
+
+                                text-align: left;
+                                font-size: 0.8em;
+
+                            }
+
+                        }
+
+                        tr:hover {
+
+                            background-color: #f8f8f8;
+
+                        }
+
+                        thead {
+
+                            tr {
+
+                                td {
+
+                                    background-color: #e7e7e7;
+                                    color: @ubBlack;
+                                    padding: 7px;
+                                    vertical-align: middle;
+                                    text-transform: uppercase;
+                                    font-size: 0.8em;
+
+                                }
+
+                            }
+
+                        }
 
                     }
+
+                }
+
+                .application-container {
+
+                    padding: 10px;
+                    border-top: dashed 1px #acacac;
+                    border-bottom: dashed 1px #acacac;
+                    margin-top: 10px;
 
                 }
 
