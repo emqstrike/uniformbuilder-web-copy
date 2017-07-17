@@ -25,7 +25,7 @@ li.select2-selection__choice {
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-info">
-                <div class="panel-heading">Add New Parts Aliases</div>
+                <div class="panel-heading"><h4>Add New Parts Aliases</h4></div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
