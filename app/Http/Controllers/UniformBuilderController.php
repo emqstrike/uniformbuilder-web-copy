@@ -844,6 +844,8 @@ class UniformBuilderController extends Controller
 
                     }
 
+                    $html .= "<br />" . $application['additionalNotes'] . "<br />";
+
                 } else {
 
                     $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    

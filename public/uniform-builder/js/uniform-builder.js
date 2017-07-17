@@ -8556,8 +8556,75 @@ $(document).ready(function () {
 
             var _bc = JSON.parse(order.builder_customizations);
             var _fileName = JSON.parse(order.additional_attachments);
+            var _applicationSrc = '';
+            var _strBuilder = '';
+
+            var _table = '<table class="">';
+            _table     += '<thead><tr> <td>Application #</td> <td>Images / Link</td> <td class="notes">Notes</td></tr> </thead>';
+
+            _.each (_bc.applications, function (application) {
+
+                if (application.customLogo) {
+
+                    var _extension = application.customFilename.substr(application.customFilename.length - 3);
+                    var _validImages = ['png', 'jpg', 'bmp', 'gif'];
+
+                    _applicationSrc = '<tr >';
+
+                    _applicationSrc += '<td>';
+                    _applicationSrc +=      application.code + "<br /><br />";
+                    _applicationSrc += '</td>';
+
+                    _applicationSrc += '<td>';
+
+                    if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='customFilename' data-src='" + application.customFilename + "' src='" + application.customFilename + "' /><br />"; }
+
+                    _applicationSrc +=      "<a href='" + application.customFilename + "' target='new'>Open In New Tab</a><br />";
+                    _applicationSrc += '</td>';
+
+                    _applicationSrc += '<td class="notes">';
+                    _applicationSrc +=      application.additionalNotes + "<br />";
+                    _applicationSrc += '</td>';
+
+                    _applicationSrc += "</tr>";
+
+                    _table += _applicationSrc;
+
+                }
+                
+            });
+
+            _table += '</table>';
+
+            // Thumbnails 
+
+                $('img.right').attr('src', _bc.thumbnails.right_view);
+                $('img.front').attr('src', _bc.thumbnails.front_view);
+                $('img.back').attr('src', _bc.thumbnails.back_view);
+                $('img.left').attr('src', _bc.thumbnails.left_view);
+
+                $('img.right').attr('data-src', _bc.thumbnails.right_view);
+                $('img.front').attr('data-src', _bc.thumbnails.front_view);
+                $('img.back').attr('data-src', _bc.thumbnails.back_view);
+                $('img.left').attr('data-src', _bc.thumbnails.left_view);
+
+                $('img.thumbs').unbind('click');
+                $('img.thumbs').on('click', function () {
+
+                    var _dtSrc = $(this).attr('data-src');
+                    var _str = "<img src ='" + _dtSrc + "' />";
+
+                    ub.showModalTool(_str);
+
+                });
+
+
+            // End Thumbnails
+
+            $('span.custom-artwork-applications').html(_table);
 
             $('img.attachments').attr('src', _fileName);
+            $('img.attachments').attr('data-src', _fileName);
 
             $('span.order-id').html(order.order_id);
             $('span.description').html(order.description);
@@ -8567,6 +8634,16 @@ $(document).ready(function () {
 
             $('span.notes').html(order.notes);
             $('span.additional-attachments').html(order.additional_attachments);
+            
+            $('img.customFilename, img.attachments').unbind('click');
+            $('img.customFilename, img.attachments').on('click', function () {
+
+                var _dtSrc = $(this).attr('data-src');
+                var _str = "<img src ='" + _dtSrc + "' />";
+
+                ub.showModalTool(_str);
+
+             });
 
             // PDF
             var _url = "/pdfjs/web/viewer.html?file=" + _bc.pdfOrderForm;

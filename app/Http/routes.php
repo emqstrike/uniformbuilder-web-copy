@@ -368,6 +368,9 @@ Route::group(array('prefix' => 'administration'), function() {
     // Parts Aliases
     Route::get('parts_aliases', 'Administration\PartsAliasesController@index');
     Route::get('parts_aliases/add', 'Administration\PartsAliasesController@addForm');
+    Route::post('parts_aliases/add', 'Administration\PartsAliasesController@store');
+    Route::post('parts_aliases/update', 'Administration\PartsAliasesController@store');
+    Route::get('parts_aliases/edit/{id}', 'Administration\PartsAliasesController@edit');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

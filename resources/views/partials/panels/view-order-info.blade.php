@@ -26,6 +26,23 @@
 
         <div class="row">
             
+            <div class="col-md-12 view-order-thumbnails">
+
+                <img class='thumbs right' /> 
+
+                <img class='thumbs front' /> 
+
+                <img class='thumbs back' /> 
+
+                <img class='thumbs eft' /> 
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            
             <div class="col-md-12 view-order-link-container">
 
                 <label>View submitted design for this order</label><br />
@@ -105,9 +122,17 @@
                     <div class="row">
         
                         <div class="col-md-12">
+                            
                             <br />
-                            <label for="status">Custom Artwork Status</label><br />
+                            <label for="status">Custom Artwork Status</label>
+                            <br />
+                            
                             <span class="field-value custom-artwork-status"></span>
+                            <br />
+
+                            <span class="custom-artwork-applications"></span>
+                            <br />
+
                         </div>
     
                     </div>

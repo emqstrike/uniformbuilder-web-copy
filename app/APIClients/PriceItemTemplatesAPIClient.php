@@ -2,7 +2,7 @@
 namespace App\APIClients;
 
 class PriceItemTemplatesAPIClient extends APIClient
-{
+{     
     public function __construct()
     {
         parent::__construct();
