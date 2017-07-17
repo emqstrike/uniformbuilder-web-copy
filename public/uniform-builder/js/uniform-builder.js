@@ -7902,7 +7902,7 @@ $(document).ready(function () {
 
                         if (_typeConverted === 'Pm') { _typeConverted = "PM"; }
 
-                        var _filteredMessages = _.filter (response.messages, {type: _typeConverted});
+                        var _filteredMessages = _.filter (_messages, {type: _typeConverted});
                         ub.funcs.messagesCallBack(_filteredMessages);
 
                     }

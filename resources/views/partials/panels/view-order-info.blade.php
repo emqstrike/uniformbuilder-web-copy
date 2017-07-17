@@ -32,7 +32,7 @@
 
                 <img class='grow thumbs back' /> 
 
-                <img class='grow thumbs eft' /> 
+                <img class='grow thumbs left' /> 
 
             </div>
 
