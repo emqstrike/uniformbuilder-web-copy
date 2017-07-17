@@ -1270,10 +1270,10 @@
 
                                 <strong> @{{description}}</strong> / <a href="@{{design_sheet}}" target="_new">View PDF</a> <br /><br />
                                 
-                                <img class="thumbs" src="@{{thumbnails.front_view}}" data-file="@{{thumbnails.front_view}}" />
-                                <img class="thumbs" src="@{{thumbnails.left_view}}"  data-file="@{{thumbnails.left_view}}"  />
-                                <img class="thumbs" src="@{{thumbnails.right_view}}" data-file="@{{thumbnails.right_view}}" />
-                                <img class="thumbs" src="@{{thumbnails.back_view}}"  data-file="@{{thumbnails.back_view}}"  />
+                                <img class="thumbs grow" src="@{{thumbnails.front_view}}" data-file="@{{thumbnails.front_view}}" />
+                                <img class="thumbs grow" src="@{{thumbnails.left_view}}"  data-file="@{{thumbnails.left_view}}"  />
+                                <img class="thumbs grow" src="@{{thumbnails.right_view}}" data-file="@{{thumbnails.right_view}}" />
+                                <img class="thumbs grow" src="@{{thumbnails.back_view}}"  data-file="@{{thumbnails.back_view}}"  />
 
                                 <br />
 
@@ -2300,6 +2300,30 @@
 
     <span class="message-count">Messages: n</span>
     
+</script>
+
+<script type="text/mustache" id="m-car-notification-thread-container">
+    
+    @{{#messages}}
+
+        <div class='msg'>
+
+            <span class='date-time'>
+                @{{created_at}}
+            </span>
+
+            <br /><br />
+
+            <span class='content'>
+                @{{content}}
+            </span>
+            
+        </div>
+
+        <hr class='thread-container'>
+        
+    @{{/messages}}
+
 </script>
 
 @include('partials.controls.team-store-products-picker')

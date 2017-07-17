@@ -7890,11 +7890,19 @@ $(document).ready(function () {
 
                     } else {
 
-                        var _typeConverted = type.toTitleCase();
+                        var _typeConverted = type.toUpperCase();
+
+                        // Force uppercase on message types 
+                        var _messages = _.map(response.messages, function (message){
+
+                            message.type = message.type.toUpperCase();
+                            return message;
+
+                        });
 
                         if (_typeConverted === 'Pm') { _typeConverted = "PM"; }
 
-                        var _filteredMessages = _.filter (response.messages, {type: _typeConverted});
+                        var _filteredMessages = _.filter (_messages, {type: _typeConverted});
                         ub.funcs.messagesCallBack(_filteredMessages);
 
                     }
@@ -8558,9 +8566,9 @@ $(document).ready(function () {
             var _fileName = JSON.parse(order.additional_attachments);
             var _applicationSrc = '';
             var _strBuilder = '';
-
             var _table = '<table class="">';
-            _table     += '<thead><tr> <td>Application #</td> <td>Images / Link</td> <td class="notes">Notes</td></tr> </thead>';
+
+            _table += '<thead><tr> <td>Application #</td> <td class="notes">Notes</td> <td>Images / Link</td> <td class="action"></td></tr> </thead>';
 
             _.each (_bc.applications, function (application) {
 
@@ -8575,15 +8583,19 @@ $(document).ready(function () {
                     _applicationSrc +=      application.code + "<br /><br />";
                     _applicationSrc += '</td>';
 
+                    _applicationSrc += '<td class="notes">';
+                    _applicationSrc +=      application.additionalNotes + "<br />";
+                    _applicationSrc += '</td>';
+
                     _applicationSrc += '<td>';
 
-                    if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='customFilename' data-src='" + application.customFilename + "' src='" + application.customFilename + "' /><br />"; }
+                    if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='grow customFilename' data-src='" + application.customFilename + "' src='" + application.customFilename + "' /><br />"; }
 
                     _applicationSrc +=      "<a href='" + application.customFilename + "' target='new'>Open In New Tab</a><br />";
                     _applicationSrc += '</td>';
 
-                    _applicationSrc += '<td class="notes">';
-                    _applicationSrc +=      application.additionalNotes + "<br />";
+                    _applicationSrc += '<td class="action">';
+                    _applicationSrc +=      "<span class='btn update-image'>Update Image</span><br />";
                     _applicationSrc += '</td>';
 
                     _applicationSrc += "</tr>";
@@ -8618,14 +8630,23 @@ $(document).ready(function () {
 
                 });
 
-
             // End Thumbnails
 
             $('span.custom-artwork-applications').html(_table);
 
-            $('img.attachments').attr('src', _fileName);
-            $('img.attachments').attr('data-src', _fileName);
+            if (typeof _fileName !== "undefined" && _fileName.length > 0) {
 
+                $('img.attachments').attr('src', _fileName);
+                $('img.attachments').attr('data-src', _fileName);
+                $('a.download-attachment').attr('href', _fileName);
+
+            } else {
+
+                $('img.attachments').hide();
+                $('a.download-attachment').hide();
+
+            }
+            
             $('span.order-id').html(order.order_id);
             $('span.description').html(order.description);
 
@@ -8666,12 +8687,26 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.customArtworkRequestNotificationThread = function (messages) {
+
+            //TODO: Request message subtype field here (subtype:'CUSTOM ARTWORK REQUESTS')
+            var _messagesForCarFilter = 'This order was rejected because of the following reasons: ';
+            var _messagesForCar = _.filter(messages, {subject: _messagesForCarFilter});
+            var _content = ub.utilities.buildTemplateString('#m-car-notification-thread-container', {messages: _messagesForCar});
+
+            $('div.car-notification-thread-container').html(_content);
+
+        }
+
         ub.funcs.displayMessagesForOrder = function (messages, orderID) {
 
             var _messages = _.filter(messages, {order_code: orderID});
             var _markup = ub.utilities.buildTemplateString('#m-order-info-messages', {messages: _messages});
 
             $.when($('div.order-info-messages').html(_markup)).then($('span.message-count').html('Messages: ' + _.size(_messages)));
+
+            // get all messages for Custom Artwork Requests
+            ub.funcs.customArtworkRequestNotificationThread(_messages);
 
         }
 
@@ -8683,6 +8718,15 @@ $(document).ready(function () {
 
                 ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="main-info"]');
                 ub.funcs.showTab('div.order-info', 'div.order-info.main-info');
+
+            });
+
+            // Custom Artwork Request Status
+            $('span.tab[data-type="custom-artwork-request-status"]').unbind('click');
+            $('span.tab[data-type="custom-artwork-request-status"]').on('click', function () {
+
+                ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="custom-artwork-request-status"]');
+                ub.funcs.showTab('div.order-info', 'div.order-info.custom-artwork-request-status');
 
             });
 
@@ -8706,6 +8750,23 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.processCustomArtworkRequestStatus = function (status) {
+
+            console.log('Inside processCustomArtworkRequestStatus: ' + status);
+
+            if(status === "rejected") {
+
+                $('td.action').show();
+                $('span.custom-artwork-status').addClass('rejected')
+
+            } else {
+
+                $('td.action').hide();
+
+            }
+            
+        }
+
         ub.funcs.viewOrderInfo = function () {
 
             // Get Order Info 
@@ -8715,7 +8776,7 @@ $(document).ready(function () {
             $.ajax({
                 
                 url: _url,
-                type: "Get", 
+                type: "Get",
                 dataType: "json",
                 crossDomain: true,
                 contentType: 'application/json',
@@ -8732,7 +8793,6 @@ $(document).ready(function () {
                 }
                 
             });
-
 
             // Get Order Items 
 
@@ -8755,7 +8815,6 @@ $(document).ready(function () {
 
                     ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="main-info"]');
                     ub.funcs.showTab('div.order-info', 'div.order-info.main-info');
-
 
                 }
                 
@@ -8796,6 +8855,7 @@ $(document).ready(function () {
                 success: function (response) {
 
                     $('span.custom-artwork-status').html(response.order.artwork_status);
+                    ub.funcs.processCustomArtworkRequestStatus(response.order.artwork_status);
 
                 }
                 
