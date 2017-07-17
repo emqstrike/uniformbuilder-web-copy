@@ -9,8 +9,6 @@
 
     </div>
 
-
-
     <div class="order-tabs">
         
         <span class="tab active" data-type="main-info"> Main Info </span>
@@ -28,13 +26,13 @@
             
             <div class="col-md-12 view-order-thumbnails">
 
-                <img class='thumbs right' /> 
+                <img class='grow thumbs right' /> 
 
-                <img class='thumbs front' /> 
+                <img class='grow thumbs front' /> 
 
-                <img class='thumbs back' /> 
+                <img class='grow thumbs back' /> 
 
-                <img class='thumbs eft' /> 
+                <img class='grow thumbs eft' /> 
 
             </div>
 
@@ -108,7 +106,7 @@
                             <br />
                             <label for="email">Attachments</label><br />
                             <span class="field-value attachments">
-                                <img class="attachments" src="" />
+                                <img class="grow attachments" src="" />
                             </span>
                         </div>
                     </div>
@@ -210,5 +208,12 @@
 
     </div>
 
+    <div class="row">
+
+        <br /><br />
+        <hr />
+        <em class="note">Note: You can click on the thumbnails to view a larger a version of the images.</em>
+
+    </div>
 
 </div>

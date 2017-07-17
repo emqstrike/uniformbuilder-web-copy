@@ -7890,7 +7890,15 @@ $(document).ready(function () {
 
                     } else {
 
-                        var _typeConverted = type.toTitleCase();
+                        var _typeConverted = type.toUpperCase();
+
+                        // Force uppercase on message types 
+                        var _messages = _.map(response.messages, function (message){
+
+                            message.type = message.type.toUpperCase();
+                            return message;
+
+                        });
 
                         if (_typeConverted === 'Pm') { _typeConverted = "PM"; }
 
@@ -8577,7 +8585,7 @@ $(document).ready(function () {
 
                     _applicationSrc += '<td>';
 
-                    if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='customFilename' data-src='" + application.customFilename + "' src='" + application.customFilename + "' /><br />"; }
+                    if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='grow customFilename' data-src='" + application.customFilename + "' src='" + application.customFilename + "' /><br />"; }
 
                     _applicationSrc +=      "<a href='" + application.customFilename + "' target='new'>Open In New Tab</a><br />";
                     _applicationSrc += '</td>';
