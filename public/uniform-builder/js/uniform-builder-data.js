@@ -4719,6 +4719,21 @@ $(document).ready(function() {
                     disabledClass: 'disabledClass',
                 },
                 {
+                    code: 'basketball',
+                    name: 'Basketball',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+                {
+                    code: 'hockey',
+                    name: 'Hockey',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+
+                {
                     code: 'soccer',
                     name: 'Soccer',
                     tooltip: 'COMING SOON',
@@ -4747,6 +4762,14 @@ $(document).ready(function() {
                     tooltip: 'COMING SOON',
                     disabledClass: 'disabledClass',
                 }, 
+                {
+                    code: 'basketball',
+                    name: 'Basketball',
+                    active: "1",
+                    tooltip: 'COMING SOON',
+                    disabledClass: 'disabledClass',
+                },
+
             ],
             
         },
@@ -10204,6 +10227,14 @@ ub.funcs.fontOffSets = [
             filters: ['All', 'Jersey', 'Shorts'],
         },
         {
+            sport: 'Lacrosse',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Hockey',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
             sport: '2017 Team Short with Pockets (Apparel)',
             filters: ['All'],
         },
@@ -13890,6 +13921,10 @@ ub.funcs.fontOffSets = [
             { sport: 'Signature Coaches Short (Apparel)' },
             { sport: '2017 Team Short with Pockets (Apparel)' },
 
+            { sport: 'Lacrosse' },
+            { sport: 'Basketball' },
+            { sport: 'Hockey' },
+
         ],
 
         isSportOK: function (sport) {
@@ -13960,6 +13995,19 @@ ub.funcs.fontOffSets = [
                 upperLabel: 'Jersey',
                 lowerLabel: 'Shorts',
             },
+            {
+                sport: 'Basketball',
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Shorts',
+            },
+            {
+                sport: 'Lacrosse',
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Shorts',
+            },
+
             {
                 sport: '2017 Team Short with Pockets (Apparel)',
                 type: 'lower',

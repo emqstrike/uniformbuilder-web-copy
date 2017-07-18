@@ -1535,6 +1535,7 @@ $(document).ready(function () {
                 }
 
                 if ((material.uniform_category === "Baseball" && material.type === "lower") || 
+                    (material.uniform_category === "Basketball" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Crew Socks (Apparel)")) {
 
@@ -6997,6 +6998,12 @@ $(document).ready(function () {
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'team-short');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'signature-coaches-short');
 
+            ub.funcs.enableSport(ub.data.sports, 'Men', 'basketball');
+            ub.funcs.enableSport(ub.data.sports, 'Men', 'lacrosse');
+            ub.funcs.enableSport(ub.data.sports, 'Men', 'hockey');
+
+            ub.funcs.enableSport(ub.data.sports, 'Women', 'basketball');
+
         } else {
 
             ub.funcs.disableSport(ub.data.sports, 'Women', 'fastpitch');
@@ -7006,6 +7013,12 @@ $(document).ready(function () {
 
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'team-short');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'signature-coaches-short');
+
+            ub.funcs.disableSport(ub.data.sports, 'Men', 'basketball');
+            ub.funcs.disableSport(ub.data.sports, 'Men', 'lacrosse');
+            ub.funcs.disableSport(ub.data.sports, 'Men', 'hockey');
+
+            ub.funcs.disableSport(ub.data.sports, 'Women', 'basketball');
 
         }
 
