@@ -8568,7 +8568,7 @@ $(document).ready(function () {
             var _strBuilder = '';
             var _table = '<table class="">';
 
-            _table += '<thead><tr> <td>Application #</td> <td class="notes">Notes</td> <td>Images / Link</td> <td class="action"></td></tr> </thead>';
+            _table += '<thead><tr> <td>Application #</td> <td class="notes">Notes</td> <td>Images / Link</td> <td class="custom-artwork-requests action"></td></tr> </thead>';
 
             _.each (_bc.applications, function (application) {
 
