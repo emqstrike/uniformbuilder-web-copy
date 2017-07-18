@@ -8594,7 +8594,7 @@ $(document).ready(function () {
                     _applicationSrc +=      "<a href='" + application.customFilename + "' target='new'>Open In New Tab</a><br />";
                     _applicationSrc += '</td>';
 
-                    _applicationSrc += '<td class="action">';
+                    _applicationSrc += '<td class="custom-artwork-requests action">';
                     _applicationSrc +=      "<span class='btn update-image'>Update Image</span><br />";
                     _applicationSrc += '</td>';
 
@@ -8752,16 +8752,14 @@ $(document).ready(function () {
 
         ub.funcs.processCustomArtworkRequestStatus = function (status) {
 
-            console.log('Inside processCustomArtworkRequestStatus: ' + status);
-
             if(status === "rejected") {
 
-                $('td.action').show();
+                $('td.custom-artwork-requests.action').show();
                 $('span.custom-artwork-status').addClass('rejected')
 
             } else {
 
-                $('td.action').hide();
+                $('td.custom-artwork-requests.action').hide();
 
             }
             
