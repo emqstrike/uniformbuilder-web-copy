@@ -1536,6 +1536,7 @@ $(document).ready(function () {
 
                 if ((material.uniform_category === "Baseball" && material.type === "lower") || 
                     (material.uniform_category === "Basketball" && material.type === "lower") || 
+                    (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Crew Socks (Apparel)")) {
 
@@ -8762,6 +8763,31 @@ $(document).ready(function () {
 
             $('div.car-notification-thread-container').html(_content);
 
+            //<span class="field-value custom-artwork-status"></span>
+
+            ub.content = _messagesForCar;
+
+            if (_.size(_messagesForCar) > 0) {
+
+                // Sorted by max id 
+                var _firstContent = _.first(_messagesForCar);
+
+                if (typeof _firstContent !== "undefined") {
+
+                    $('span.last-message').html(_firstContent.content);
+                    $('a.edit-order-link').show();
+
+                } else {
+
+                    $('span.last-message').hide();
+                    $('a.edit-order-link').hide();
+
+                    $('span.edit-order-link').hide();
+
+                }
+
+            }
+
         }
 
         ub.funcs.displayMessagesForOrder = function (messages, orderID) {
@@ -8818,14 +8844,16 @@ $(document).ready(function () {
 
         ub.funcs.processCustomArtworkRequestStatus = function (status) {
 
-            if(status === "rejected") {
-
-                $('td.custom-artwork-requests.action').show();
-                $('span.custom-artwork-status').addClass('rejected')
+            $('td.custom-artwork-requests.action').hide();
+            if(status === "rejected") { 
+                $('span.custom-artwork-status').addClass('rejected'); 
 
             } else {
 
-                $('td.custom-artwork-requests.action').hide();
+                $('span.last-message').hide();
+                $('a.edit-order-link').hide();
+
+                $('span.edit-order-link').hide();
 
             }
             
