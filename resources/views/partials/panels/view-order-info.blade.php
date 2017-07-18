@@ -1,11 +1,11 @@
 <div id="view-order-info">
 
-
     <a class="btn" href="/my-orders"><< back to My Orders</a>  
 
     <div class="header">
 
-        Order Info (Beta)<span class="orderID"></span>
+        Order Info (Beta)<span class="orderID"></span> <br />
+        <em>This customizer is still under development. You can use most of the facilities of the customizer, but if you saved or submitted an order please make sure that your Prolook sales rep knows about the submission.</em>
 
     </div>
 
@@ -80,8 +80,16 @@
                             
                             <br />
                             <label for="status">Custom Artwork Status</label>
+                            
                             <br />
-                            <span class="field-value custom-artwork-status"></span>
+
+                            <span class="field-value custom-artwork-status"></span><br /><br />
+                            <span class="field-value last-message"></span> <br /><br />
+                            
+                            <span class="field-value edit-order-link">
+                                Edit Link:
+                                <a href="" class="view-submitted-design edit-order-link" target="_new"></a>
+                            </span>
 
                         </div>
 
