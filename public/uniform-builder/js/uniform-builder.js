@@ -1001,6 +1001,44 @@ $(document).ready(function () {
 
         };
 
+        // For transaction pages
+        ub.callbackSimple = function (obj, object_name) {
+
+            var _alias = ub.data.loadingOptionsAlias.getAlias(object_name);
+
+            ub.displayDoneAt(_alias + ' loaded.');
+            ub.convertToString(obj);
+
+            var _createObjectList = [
+                'mascots',
+                'mascots_categories',
+                'mascots_groups_categories',
+            ];
+
+            if (_.contains(_createObjectList, object_name)) {
+
+                ub.data[object_name] = obj;
+
+            } else {
+
+                ub.current_material[object_name] = obj;
+
+            }
+            
+            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
+
+            var ok = typeof(ub.data.mascots) !== 'undefined' && 
+                     typeof(ub.data.mascots_categories) !== 'undefined' &&
+                     typeof(ub.data.mascots_groups_categories) !== 'undefined';
+
+            if (ok) {
+
+                ub.displayDoneAt('Loading mascots completed');
+
+            }
+            
+        };
+
         ub.saveLogo = function (dataUrl, applicationCode) {
 
             $.ajaxSetup({
@@ -8567,6 +8605,10 @@ $(document).ready(function () {
             var _applicationSrc = '';
             var _strBuilder = '';
             var _table = '<table class="">';
+            var _applications = _bc.applications;
+
+            console.log('Builder Configuration: ');
+            console.log(_bc);
 
             _table += '<thead><tr> <td>Application #</td> <td class="notes">Notes</td> <td>Images / Link</td> <td class="custom-artwork-requests action"></td></tr> </thead>';
 
@@ -8595,7 +8637,7 @@ $(document).ready(function () {
                     _applicationSrc += '</td>';
 
                     _applicationSrc += '<td class="custom-artwork-requests action">';
-                    _applicationSrc +=      "<span class='btn update-image'>Update Image</span><br />";
+                    _applicationSrc +=      "<span class='btn update-image' data-application-code='" + application.code + "'>Update Image</span><br />";
                     _applicationSrc += '</td>';
 
                     _applicationSrc += "</tr>";
@@ -8665,6 +8707,17 @@ $(document).ready(function () {
                 ub.showModalTool(_str);
 
              });
+
+            // Update Image Button when Artwork is rejected
+            $('span.update-image').unbind('click');
+            $('span.update-image').on('click', function () {
+
+                var _code = $(this).data('application-code');
+            
+                // ub.funcs.createMascotPopupUpload 
+                // continue here ...
+
+            });
 
             // PDF
             var _url = "/pdfjs/web/viewer.html?file=" + _bc.pdfOrderForm;
@@ -8766,6 +8819,18 @@ $(document).ready(function () {
         }
 
         ub.funcs.viewOrderInfo = function () {
+
+            // Prep Mascots
+
+                ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
+                ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
+                ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
+
+                ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
+                ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callbackSimple);
+                ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callbackSimple);
+                
+            // End Prep Mascots
 
             // Get Order Info 
 
