@@ -86,7 +86,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     Route::get('/', 'Administration\AdministrationController@dashboard');
 
-    // Login
+    // Logins
     Route::get('login', 'Administration\AuthenticationController@loginForm');
     Route::post('login', 'Administration\AuthenticationController@administrationLogin');
     Route::get('logout', 'Administration\AuthenticationController@administrationLogout');
@@ -371,6 +371,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('parts_aliases/add', 'Administration\PartsAliasesController@store');
     Route::post('parts_aliases/update', 'Administration\PartsAliasesController@store');
     Route::get('parts_aliases/edit/{id}', 'Administration\PartsAliasesController@edit');
+
+    //Sales Reps
+    Route::get('sales_reps/add' , 'Administration\SalesRepresentativesController@create' );
+    Route::post('sales_reps/add' , 'Administration\SalesRepresentativesController@store');
+    Route::get('sales_reps' , 'Administration\SalesRepresentativesController@index');
+    Route::get('sales_reps/edit/{id}' , 'Administration\SalesRepresentativesController@edit');
+    Route::post('sales_reps/update' , 'Administration\SalesRepresentativesController@store');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
