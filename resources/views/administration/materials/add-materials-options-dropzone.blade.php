@@ -133,9 +133,13 @@ function buildSettingTypeDD(name){
 	var elem = '<select class="mo-setting-type">';
 	setting_types.forEach(function(entry) {
 		if(entry == name.toLowerCase()){
-			elem += '<option value="'+entry+'" selected>'+entry+'</option>';
+            if( name.toLowerCase() == "piping" || name.toLowerCase() == "body_inside" || name.toLowerCase() == "panel" ){
+                elem += '<option value="shape" selected>shape</option>';
+            } else {
+                elem += '<option value="'+entry+'" selected>'+entry+'</option>';
+            }
 		} else {
-			elem += '<option value="'+entry+'">'+entry+'</option>';
+            elem += '<option value="'+entry+'">'+entry+'</option>';
 		}
 	});
 	elem += '</select>';
