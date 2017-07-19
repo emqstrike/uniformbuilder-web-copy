@@ -85,7 +85,27 @@ li.select2-selection__choice {
                                 </select>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Rep ID Manager</label>
+                            <div class="col-md-1">
+                                <input type="number" name="rep_id_manager" class="form-control" value="{{$rep->rep_id_manager}}">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-4 control-label" >Is corporate? </label>
+                           <div class="col-md-1">
+                                <select name="is_corporate" class="form-control">
+                                        <option value="1" @if($rep->is_corporate == 1) selected="selected"@endif>Yes</option>
+                                        <option value="0" @if($rep->is_corporate == 0) selected="selected"@endif>No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Dealer ID : </label>
+                           <div class="col-md-1">
+                                <input type="number" name="dealer_id" class="form-control" value="{{$rep->dealer_id}}">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Dealer : </label>
                            <div class="col-md-2">

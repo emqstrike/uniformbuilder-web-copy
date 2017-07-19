@@ -48,7 +48,6 @@ li.select2-selection__choice {
                                 <input type="text" name="first_name" class="form-control">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">Lastname : </label>
                             <div class="col-md-4">
@@ -62,14 +61,12 @@ li.select2-selection__choice {
                                 <input type="number" name="rep_id" class="form-control">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">Email : </label>
                             <div class="col-md-4">
                                 <input type="email" name="user_id" class="form-control">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">ZIP Codes : </label>
                            <div class="col-md-4">
@@ -85,7 +82,27 @@ li.select2-selection__choice {
                                 </select>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Rep ID Manager</label>
+                            <div class="col-md-1">
+                                <input type="number" name="rep_id_manager" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" >Is corporate? </label>
+                           <div class="col-md-1">
+                                <select name="is_corporate" class="form-control">
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Dealer ID : </label>
+                           <div class="col-md-1">
+                                <input type="number" name="dealer_id" class="form-control">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Dealer : </label>
                            <div class="col-md-2">
@@ -96,9 +113,7 @@ li.select2-selection__choice {
                                 </select>
                             </div>
                         </div>
-                        <br>
-                        <hr>                               
-                        <br>    
+                        <hr>                                                        
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-5">
                                 <button type="submit" class="btn btn-primary create-sales-rep">

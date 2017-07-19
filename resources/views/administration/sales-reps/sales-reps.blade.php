@@ -25,9 +25,12 @@
                             <th>Representative ID</th>
                             <th>User ID</th>
                             <th>ZIP Codes</th>
-                            <th>Status</th>
                             <th>Manager</th>
+                            <th>Rep ID Manager</th>
                             <th>Dealer</th>
+                            <th>Dealer ID</th>
+                            <th>Corporate</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -51,13 +54,6 @@
                                 <button class="view-zip-codes btn btn-default btn-sm">View</button>
                             </td>
                             <td>
-                                @if($rep->active == 1) 
-                                    <font color="green">Active</font>                              
-                                @else 
-                                    {{'Inactive'}}
-                                @endif
-                            </td>
-                            <td>
                                 @if($rep->is_manager == 1) 
                                     {{'Yes'}}
                                 @else 
@@ -65,9 +61,28 @@
                                 @endif
                             </td>
                             <td>
+                                {{$rep->rep_id_manager}}
+                            </td>
+                            <td>
                                 {{$rep->dealer}}
                             </td>
-
+                            <td>
+                                {{$rep->dealer_id}}
+                            </td>
+                            <td>
+                                @if($rep->is_corporate == 1) 
+                                    {{'Corporate'}}                              
+                                @else 
+                                    {{'Not Corporate'}}
+                                @endif
+                            </td>
+                            <td>
+                                @if($rep->active == 1) 
+                                    <font color="green">Active</font>                              
+                                @else 
+                                    {{'Inactive'}}
+                                @endif
+                            </td>
                             <td class="td-buttons">
                                 <a href="#" class="btn btn-default btn-xs " >
                                     <i class="glyphicon glyphicon-info-sign">Profile</i>
