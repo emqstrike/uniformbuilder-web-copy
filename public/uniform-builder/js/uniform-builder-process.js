@@ -661,6 +661,65 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.setToPending = function () {
+
+        var _url = ub.endpoints.getFullUrlString('updateArtworkStatus');
+
+        $.ajax({
+                
+                url: _url,
+                data: JSON.stringify({id: parseInt(ub.config.orderID), artwork_status: 'pending' }), 
+                type: "POST",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    ub.utilities.info('Sucessfully reset artwork status');
+
+                }
+                
+            });
+
+    }
+
+    ub.funcs.hasCustomArtworkRequests = function () {
+
+        _.each(ub.current_material.settings.applications, function (app) {
+
+            if (app.customLogo) { return true; }
+
+        });
+
+        return false;
+
+    }
+
+    ub.funcs.resetArtworkStatusToPending = function () {
+
+        if (ub.funcs.hasCustomArtworkRequests()) {
+
+            ub.funcs.setToPending();
+
+        }
+
+    }
+
+    ub.funcs.resubmitOrderForm = function (save) {
+
+        // Change Fields 
+        // 1. Builder Configuration
+        // 2. Attached Files 
+
+        // TO DO: Here now!!! ...
+
+        // Reset to pending 
+        ub.funcs.resetArtworkStatusToPending();
+
+    }
+
     ub.funcs.submitOrderForm = function (save) {
 
         var _rosterFormValid    = ub.funcs.isOrderFormValid();
@@ -766,6 +825,7 @@ $(document).ready(function() {
         }
 
         var _submitted = '1';
+
         if (typeof save === "number") {
 
             _submitted = 0;
@@ -775,11 +835,13 @@ $(document).ready(function() {
         var orderInput = {
 
             order: {
+
                 client: _clientName,  
                 submitted: _submitted,
                 user_id: _user_id,
                 user_name: ub.user.fullname,
                 origin: ub.config.app_env,
+
             },
             athletic_director: {
 
@@ -788,6 +850,7 @@ $(document).ready(function() {
                 email: _clientEmail,
                 phone: _clientPhone,
                 fax: _clientFax,
+
             },
             billing: {
 
@@ -817,6 +880,7 @@ $(document).ready(function() {
             },
             order_items: [
                 {
+
                     item_id: _itemID,
                     description: _uniformName,
                     type: ub.current_material.material.type,
@@ -833,6 +897,9 @@ $(document).ready(function() {
                 },
             ]
         };
+
+        // If Rejected submit this
+        // if (ub.config.orderCode !== "none") { orderInput.order_code = ub.config.orderCode; }
 
         var _url =  ub.config.api_host + '/api/order';
 
@@ -854,6 +921,7 @@ $(document).ready(function() {
 
         var _qty = ub.funcs.getOrderQty();
         var _sport = ub.current_material.material.uniform_category;
+
         _result = ub.data.minimumOrder.getQty(_sport);
 
         // Show submit order only if qty is greater or equal than required per style
@@ -869,13 +937,20 @@ $(document).ready(function() {
         $('span.submit-confirmed-order').unbind('click');
         $('span.submit-confirmed-order').on('click', function () {
 
-            if ($('span.submit-confirmed-order').html() === 'Submitting Order...') {
-                return;
+            if ($('span.submit-confirmed-order').html() === 'Submitting Order...' || $('span.submit-confirmed-order').html() === 'Resubmitting Order...') { return; }
+
+            if (ub.config.orderArtworkStatus === "rejected") {
+
+                ub.funcs.resubmitOrderForm();
+                $('span.submit-confirmed-order').html('Resubmitting Order...');
+
+            } else {
+
+                ub.funcs.submitOrderForm();
+                $('span.submit-confirmed-order').html('Submitting Order...');
+
             }
-
-            ub.funcs.submitOrderForm();
-            $('span.submit-confirmed-order').html('Submitting Order...');
-
+            
         });
 
         $('span.save-order').unbind('click');
@@ -1085,8 +1160,16 @@ $(document).ready(function() {
                 
                 if(response.success) {
                     ub.funcs.displayLinks(response.filename);
+
+                    if (ub.config.orderArtworkStatus === "rejected") {
+
+                        $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+                        $('span.save-order').hide();
+
+                    }
+
                 }
-                else{
+                else {
                     console.log('error: ');
                     console.log(response.message);
                 }
@@ -1333,6 +1416,12 @@ $(document).ready(function() {
             ub.funcs.duplicateClientInfo();
 
         });
+
+        if (typeof ub.data.orderInfo.items[0].notes !== "undefined") { 
+
+            $('textarea#additional-notes').val(orderInfo.items[0].notes);
+
+        }
 
     }
 
@@ -1772,7 +1861,9 @@ $(document).ready(function() {
     ub.data.rosterInitialized = false;
     ub.funcs.initRoster = function (orderInfo) {
     
-        if (typeof orderInfo !== "undefined") { orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); }
+        if (typeof orderInfo !== "undefined") { 
+            orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); 
+        }
 
         ub.data.rosterInitialized = true;
 
@@ -1874,8 +1965,6 @@ $(document).ready(function() {
 
         });
 
-        if (typeof orderInfo !== "undefined") { ub.funcs.prepopulateRoster(orderInfo.items[0]); }
-
         $('span.back-to-customizer-button').on('click', function (){
 
             ub.funcs.fadeInCustomizer();
@@ -1888,6 +1977,15 @@ $(document).ready(function() {
             ub.funcs.submitUniform(ub.data.orderInfo);
 
         });
+
+        if (typeof orderInfo !== "undefined") { 
+
+            // Reinit using previous roster  
+            ub.funcs.prepopulateRoster(orderInfo.items[0]); 
+
+            $('textarea#additional-notes').val(orderInfo.items[0].notes);
+
+        }
 
         ub.funcs.reInitHover();
         

@@ -494,6 +494,24 @@ $(document).ready(function () {
             //     suffix_query_string = '&' + suffix_query_string.slice(1);
             // }
 
+            // 
+            if (ub.config.pageType === "Order") {
+
+                ub.funcs.getCustomArtworRequestStatus(function (status) {
+
+                    ub.config.orderArtworkStatus = status;
+
+                    if (status === "rejected") {
+
+                        $('a[data-view="team-info"]').find('span').html('Resubmit Order');
+
+                    }
+
+                });
+
+
+            }
+
             if (ub.render !== "1") {
 
                 ub.funcs.pushState({
@@ -519,7 +537,7 @@ $(document).ready(function () {
             ub.funcs.initUniformSizesAndPrices();
             ub.funcs.initMiscUIEvents();
 
-            ub.displayDoneAt('Awesomess loading completed.');
+            ub.displayDoneAt('Awesomness loading completed.');
 
             ub.afterLoadScripts();
             ub.funcs.afterLoadChecks();
@@ -1842,7 +1860,7 @@ $(document).ready(function () {
 
                     });
 
-                    if (typeof _fontObj === "undefined") { ub.utilities.warn('Invalid Font ID detected for ' + _application.id); }
+                    if (typeof _fontObj === "undefined") { ub.utilities.warn('Invalid Font ID detected for #' + _application.id + ' (font ID: ' + view.application.defaultFont + ')'); }
 
                     var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0], view.perspective, { id: _application.id }); 
 
@@ -7712,7 +7730,6 @@ $(document).ready(function () {
                     });
 
                     // Init 
-
                     $('div.order-list.submitted').hide();
                     $('span.tab[data-type="submitted"]').trigger('click');
 
@@ -8874,7 +8891,6 @@ $(document).ready(function () {
             // End Prep Mascots
 
             // Get Order Info 
-
             var _url = ub.endpoints.getFullUrlString('getOrderInfoByOrderID') + ub.config.orderID;
 
             $.ajax({
@@ -8892,6 +8908,8 @@ $(document).ready(function () {
 
                     $('span.status').html(response.order.status);
                     $('a.view-submitted-design').attr('src', _orderLink);
+                    $('a.view-submitted-design').attr('href', _orderLink);
+
                     $('a.view-submitted-design').html(_orderLink);
 
                 }
@@ -8899,7 +8917,6 @@ $(document).ready(function () {
             });
 
             // Get Order Items 
-
             var _url = ub.endpoints.getFullUrlString('getOrderItemsByOrderID') + ub.config.orderID;
 
             $.ajax({
@@ -8915,6 +8932,8 @@ $(document).ready(function () {
 
                     ub.funcs.displayOrderDetails(response.order[0]);
 
+                    ub.data.orderInfo = response.order[0];
+
                     $('div.my-orders-loading').hide();
 
                     ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="main-info"]');
@@ -8926,7 +8945,6 @@ $(document).ready(function () {
 
 
             // Messages
-
             $.ajax({
                 
                 url: ub.endpoints.getFullUrlString('getMessagesByRecipientID') + ub.user.id,
@@ -8946,10 +8964,22 @@ $(document).ready(function () {
 
 
             // Custom Artwork Request
+            ub.funcs.getCustomArtworRequestStatus(function (status) {
 
-            $.ajax({
+                $('span.custom-artwork-status').html(status);
+                ub.funcs.processCustomArtworkRequestStatus(status);
+
+            });
+
+            ub.funcs.setupOrderInfoEvents();
+
+        }
+
+        ub.funcs.getCustomArtworRequestStatus = function (cb) {
+
+             $.ajax({
                 
-                url: ub.config.api_host + '/' + 'api/order/' + ub.config.orderID + '/artworkStatus',
+                url: ub.config.api_host + '/' + 'api/order/' + ub.config.orderCode + '/artworkStatus',
                 type: "Get", 
                 dataType: "json",
                 crossDomain: true,
@@ -8958,14 +8988,11 @@ $(document).ready(function () {
 
                 success: function (response) {
 
-                    $('span.custom-artwork-status').html(response.order.artwork_status);
-                    ub.funcs.processCustomArtworkRequestStatus(response.order.artwork_status);
+                    cb(response.order.artwork_status);
 
                 }
                 
             });
-
-            ub.funcs.setupOrderInfoEvents();
 
         }
 

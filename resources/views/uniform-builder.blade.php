@@ -276,7 +276,8 @@
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
 
             orderID: "{{ isset($order_id) ? $order_id : 'none' }}",
-
+            orderCode: "{{ isset($order_id) ? $order_id : 'none' }}",
+            
             @if (isset($styles)) 
             styles: {
                 load: "{{ isset($styles) ? $styles : false }}",

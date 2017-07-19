@@ -40,6 +40,12 @@ $(document).ready(function() {
                 url:  'api/messages/recipient/',
                 info: 'Concatenate Recepient ID at the end of the URL to get the messages .',
             },
+            {
+                name: 'Update Artwork Status',
+                code: 'updateArtworkStatus',
+                url:  'api/order/updateArtworkStatus',
+                info: 'Pass Order ID and Status.',
+            },
 
         ],
 
