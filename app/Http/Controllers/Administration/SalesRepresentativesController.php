@@ -59,6 +59,9 @@ class SalesRepresentativesController extends Controller
         $manager = $request->input('is_manager');
         $dealer = $request->input('dealer');
         $active = $request->input('active');
+        $corporate = $request->input('is_corporate');
+        $dealerid = $request->input('dealer_id');
+        $repidmanager = $request->input('rep_id_manager');
 
         $data = [
             'id' => $id,
@@ -70,7 +73,10 @@ class SalesRepresentativesController extends Controller
             'zip_codes' => $zip,
             'is_manager' => $manager,
             'dealer' => $dealer,
-            'active' => $active
+            'active' => $active,
+            'is_corporate' => $corporate,
+            'dealer_id' => $dealerid,
+            'rep_id_manager' => $repidmanager
         ];
 
         if (!empty($id))
