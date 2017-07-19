@@ -20,14 +20,13 @@ $(document).ready(function(){
        var id = [];
        id.push( $(this).data('rep-id'));
        
-   	   modalConfirm('Remove part', 'Are you sure you want to remove this Sales Rep?', id);
+   	   modalConfirm('Remove Sales Rep', 'Are you sure you want to remove this Sales Rep?', id);
    });
 
    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        console.log(id);
-        
-        var url = "//localhost:8888/api/sales_rep/delete/";
+        var url = "//api-dev.qstrike.com/api/sales_rep/delete/";
+        //var url = "//localhost:8888/api/sales_rep/delete/";
        
         $.ajax({
            url: url,
