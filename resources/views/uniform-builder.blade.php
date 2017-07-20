@@ -158,7 +158,7 @@
     @include('partials.panels.order-form')
     @include('partials.panels.validate-order-form')
 
-    @if (!isset($page)) {
+    @if (!isset($page))
 
         @include('partials.panels.team-store-toolbox')
         
