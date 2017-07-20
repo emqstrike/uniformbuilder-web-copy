@@ -84,12 +84,9 @@
                                 @endif
                             </td>
                             <td class="td-buttons">
-<<<<<<< HEAD
+
                                 <a href="#" class="rep-info btn btn-default btn-xs " >
-=======
-                                <a href="#" class="btn btn-default btn-xs " >
->>>>>>> ad84a18c4149db49acaa37a64495415c9d97252c
-                                    <i class="glyphicon glyphicon-info-sign">Profile</i>
+                                   <i class="glyphicon glyphicon-info-sign">Profile</i>
                                 </a>
                                 <a href="/administration/sales_reps/edit/{{$rep->id}}" class="edit-part btn btn-info btn-xs">
                                     <i class="glyphicon glyphicon-edit">Edit</i>
@@ -164,10 +161,6 @@ $(document).ready(function(){
         "autoWidth": false
     });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> ad84a18c4149db49acaa37a64495415c9d97252c
 });
 </script>
 @endsection
