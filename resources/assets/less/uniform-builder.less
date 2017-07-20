@@ -4022,7 +4022,7 @@ div.header-container.main {
 
                     
                     float: left;
-                    height: 422px;
+                    height: 567px;
                     overflow-y: scroll;
                     position: absolute;
                     border-right: solid 1px;
@@ -8738,6 +8738,8 @@ div.header-container.main {
 
             }
 
+            em.note { float: right; }
+
             a.btn:hover {
 
                 background-color: white;
@@ -8748,9 +8750,17 @@ div.header-container.main {
 
             div.header {
 
+                em {
 
+                    font-size: 0.4em;
+                    color: #3d3d3d;
+                    vertical-align: middle;
+
+                }
 
             }
+
+            span.custom-artwork-status.rejected { color: red; }
 
             .pagePanelHeader;
             
@@ -8761,7 +8771,7 @@ div.header-container.main {
                     cursor: pointer;
 
                     display: inline-block;
-                    min-width: 170px;
+                    min-width: 250px;
                     background-color: #acacac;
                     color: white;
                     text-align: center;
@@ -8802,6 +8812,114 @@ div.header-container.main {
                 span.field-value {
 
                     font-size: 1.3em;
+                    padding-left: 30px;
+
+                }
+
+                span.field-value.last-message       { font-size: 1.0em; }
+                span.field-value.edit-order-link    { font-size: 1em; }
+
+            }
+
+            div.order-info.custom-artwork-request-status {
+
+                span.custom-artwork-applications {
+
+                    font-size: 1.3em;
+
+                    img.customFilename { width: 150px; cursor: pointer; }
+
+                    table {
+
+                        width: 100%;
+                        margin-top: 30px;
+
+                        tr {
+
+                            td {
+
+                                color: @ubBlack;
+                                padding: 10px;
+                                text-align: center;
+                                vertical-align: top;
+
+                                a {
+
+                                    font-size: 0.8em;
+                                    color: @ubBlack;
+                                    text-decoration: none;
+
+                                }
+
+                                a:hover { border-bottom: dashed 1px @ubBlack; }
+                                border-bottom: solid 1px #acacac;
+
+                            }
+
+                            td.notes {
+
+                                text-align: left;
+                                font-size: 0.8em;
+
+                            }
+
+                            td.action {
+
+                                vertical-align: middle;
+
+                                span.update-image {
+
+                                    background-color: #e7e7e7;
+                                    color: #3d3d3d;
+
+                                }
+
+                                span.update-image:hover {
+
+                                    background-color: @ubBlack;
+                                    color: white;
+
+                                }
+
+                            }
+
+                        }
+
+                        tr:hover {
+
+                            background-color: #f8f8f8;
+
+                        }
+
+                        thead {
+
+                            tr {
+
+                                td {
+
+                                    background-color: #e7e7e7;
+                                    color: @ubBlack;
+                                    padding: 7px;
+                                    vertical-align: middle;
+                                    text-transform: uppercase;
+                                    font-size: 0.8em;
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                .application-container {
+
+                    padding: 10px;
+                    border-top: dashed 1px #acacac;
+                    border-bottom: dashed 1px #acacac;
+                    margin-top: 10px;
 
                 }
 
@@ -8854,86 +8972,6 @@ div.header-container.main {
                     img.attachments {
                         cursor: pointer;
                     }
-
-                }
-
-                span.custom-artwork-applications {
-
-                    font-size: 1.3em;
-
-                    img.customFilename { width: 150px; cursor: pointer; }
-
-                    table {
-
-                        width: 100%;
-                        margin-top: 30px;
-
-                        tr {
-
-                            td {
-
-                                color: @ubBlack;
-                                padding: 10px;
-                                text-align: center;
-                                vertical-align: top;
-
-                                a {
-
-                                    font-size: 0.8em;
-                                    color: @ubBlack;
-                                    text-decoration: none;
-
-                                }
-
-                                a:hover { border-bottom: dashed 1px @ubBlack; }
-                                border-bottom: solid 1px #acacac;
-
-                            }
-
-                            td.notes {
-
-                                text-align: left;
-                                font-size: 0.8em;
-
-                            }
-
-                        }
-
-                        tr:hover {
-
-                            background-color: #f8f8f8;
-
-                        }
-
-                        thead {
-
-                            tr {
-
-                                td {
-
-                                    background-color: #e7e7e7;
-                                    color: @ubBlack;
-                                    padding: 7px;
-                                    vertical-align: middle;
-                                    text-transform: uppercase;
-                                    font-size: 0.8em;
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                .application-container {
-
-                    padding: 10px;
-                    border-top: dashed 1px #acacac;
-                    border-bottom: dashed 1px #acacac;
-                    margin-top: 10px;
 
                 }
 

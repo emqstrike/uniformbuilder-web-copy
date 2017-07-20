@@ -20,4 +20,33 @@ class SalesRepresentativesAPIClient extends APIClient
         }
         return $sales_reps;
     }
+
+    public function createSalesRep($data)
+    {
+        $response = $this->post('sales_reps/store', [
+                'json' => $data
+            ]);
+        return $this->decoder->decode($response->getBody());
+    }
+
+    public function show($id)
+    {
+        $response = $this->get('sales_rep/get_by_id/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+
+        if ($result->success)
+        {
+            $rep = $result->sales_rep;
+            return $rep;
+        }
+        return null;
+    }
+
+    public function updateSalesRep($data)
+    {
+        $response = $this->post('sales_rep/update', [
+                'json' => $data
+            ]);
+        return $this->decoder->decode($response->getBody());
+    }
 }

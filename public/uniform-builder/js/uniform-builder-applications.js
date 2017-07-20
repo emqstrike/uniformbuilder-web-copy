@@ -2772,7 +2772,16 @@ $(document).ready(function() {
 
                 }
 
-                if (view.application.flip === 1 && _applicationObj.type === "mascot") {
+                // Mascot Facing Override 
+
+                var _mov = false;
+                if (typeof args.mascot !== "undefined")  {
+                
+                    _mov = (args.mascot.id === "356") && (app_id === '9' || app_id === '10');    
+
+                }
+                
+                if (view.application.flip === 1 && _applicationObj.type === "mascot" || _mov) {
 
                     //point.scale.x *= -1;
                     _.each(point.children, function (child) { child.scale.x *= -1; });
@@ -6082,7 +6091,7 @@ $(document).ready(function() {
       };
     };
 
-    ub.funcs.changeMascotByID = function (mascotID, settingsObj, customFilename) {
+    ub.funcs.changeMascotByID = function (mascotID, settingsObj, customFilename, additionalNotes) {
         
         var _id = mascotID;
 
@@ -6093,16 +6102,19 @@ $(document).ready(function() {
         /// Uploaded Artwork
         var _customLogo = false;
         var _customFilename = '';
+        var _additionalNotes = '';
 
         if (typeof customFilename !== 'undefined') {
-            
+
             _customLogo = true;
             _customFilename = customFilename;
+            _additionalNotes = additionalNotes;
 
         }
 
         settingsObj.customLogo = _customLogo;
         settingsObj.customFilename = _customFilename;
+        settingsObj.additionalNotes = _additionalNotes;
 
         /// Uploaded Artwork
 
@@ -6134,6 +6146,7 @@ $(document).ready(function() {
 
                 _matchingSettingsObject.customLogo = _customLogo;
                 _matchingSettingsObject.customFilename = _customFilename;
+                _matchingSettingsObject.additionalNotes = _additionalNotes;
 
             }
 
@@ -6461,13 +6474,15 @@ $(document).ready(function() {
 
                     ub.current_material.settings.custom_artwork = window.uploaded_filename;
 
+                    var _additionalNotes = $('textarea[name="custom-artwork-additional-notes"]').val();
+
                     settingsObj.customLogo = true;
                     settingsObj.customFilename = window.uploaded_filename;
-                    settingsObj.additionalNotes = $('textarea[name="custom-artwork-additional-notes"]').val();
+                    settingsObj.additionalNotes = _additionalNotes;
 
                     $popup = $('div#primaryMascotPopup');
                     $popup.remove();
-                    ub.funcs.changeMascotByID('1038', settingsObj, window.uploaded_filename);
+                    ub.funcs.changeMascotByID('1038', settingsObj, window.uploaded_filename, _additionalNotes);
 
                 }
                 

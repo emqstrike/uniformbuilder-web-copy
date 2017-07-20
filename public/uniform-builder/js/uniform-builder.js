@@ -1001,6 +1001,44 @@ $(document).ready(function () {
 
         };
 
+        // For transaction pages
+        ub.callbackSimple = function (obj, object_name) {
+
+            var _alias = ub.data.loadingOptionsAlias.getAlias(object_name);
+
+            ub.displayDoneAt(_alias + ' loaded.');
+            ub.convertToString(obj);
+
+            var _createObjectList = [
+                'mascots',
+                'mascots_categories',
+                'mascots_groups_categories',
+            ];
+
+            if (_.contains(_createObjectList, object_name)) {
+
+                ub.data[object_name] = obj;
+
+            } else {
+
+                ub.current_material[object_name] = obj;
+
+            }
+            
+            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
+
+            var ok = typeof(ub.data.mascots) !== 'undefined' && 
+                     typeof(ub.data.mascots_categories) !== 'undefined' &&
+                     typeof(ub.data.mascots_groups_categories) !== 'undefined';
+
+            if (ok) {
+
+                ub.displayDoneAt('Loading mascots completed');
+
+            }
+            
+        };
+
         ub.saveLogo = function (dataUrl, applicationCode) {
 
             $.ajaxSetup({
@@ -1497,6 +1535,8 @@ $(document).ready(function () {
                 }
 
                 if ((material.uniform_category === "Baseball" && material.type === "lower") || 
+                    (material.uniform_category === "Basketball" && material.type === "lower") || 
+                    (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Crew Socks (Apparel)")) {
 
@@ -6959,6 +6999,12 @@ $(document).ready(function () {
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'team-short');
             ub.funcs.enableSport(ub.data.apparel, 'Men', 'signature-coaches-short');
 
+            ub.funcs.enableSport(ub.data.sports, 'Men', 'basketball');
+            ub.funcs.enableSport(ub.data.sports, 'Men', 'lacrosse');
+            ub.funcs.enableSport(ub.data.sports, 'Men', 'hockey');
+
+            ub.funcs.enableSport(ub.data.sports, 'Women', 'basketball');
+
         } else {
 
             ub.funcs.disableSport(ub.data.sports, 'Women', 'fastpitch');
@@ -6968,6 +7014,12 @@ $(document).ready(function () {
 
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'team-short');
             ub.funcs.disableSport(ub.data.apparel, 'Men', 'signature-coaches-short');
+
+            ub.funcs.disableSport(ub.data.sports, 'Men', 'basketball');
+            ub.funcs.disableSport(ub.data.sports, 'Men', 'lacrosse');
+            ub.funcs.disableSport(ub.data.sports, 'Men', 'hockey');
+
+            ub.funcs.disableSport(ub.data.sports, 'Women', 'basketball');
 
         }
 
@@ -7890,11 +7942,19 @@ $(document).ready(function () {
 
                     } else {
 
-                        var _typeConverted = type.toTitleCase();
+                        var _typeConverted = type.toUpperCase();
+
+                        // Force uppercase on message types 
+                        var _messages = _.map(response.messages, function (message){
+
+                            message.type = message.type.toUpperCase();
+                            return message;
+
+                        });
 
                         if (_typeConverted === 'Pm') { _typeConverted = "PM"; }
 
-                        var _filteredMessages = _.filter (response.messages, {type: _typeConverted});
+                        var _filteredMessages = _.filter (_messages, {type: _typeConverted});
                         ub.funcs.messagesCallBack(_filteredMessages);
 
                     }
@@ -8558,9 +8618,13 @@ $(document).ready(function () {
             var _fileName = JSON.parse(order.additional_attachments);
             var _applicationSrc = '';
             var _strBuilder = '';
-
             var _table = '<table class="">';
-            _table     += '<thead><tr> <td>Application #</td> <td>Images / Link</td> <td class="notes">Notes</td></tr> </thead>';
+            var _applications = _bc.applications;
+
+            console.log('Builder Configuration: ');
+            console.log(_bc);
+
+            _table += '<thead><tr> <td>Application #</td> <td class="notes">Notes</td> <td>Images / Link</td> <td class="custom-artwork-requests action"></td></tr> </thead>';
 
             _.each (_bc.applications, function (application) {
 
@@ -8575,15 +8639,19 @@ $(document).ready(function () {
                     _applicationSrc +=      application.code + "<br /><br />";
                     _applicationSrc += '</td>';
 
+                    _applicationSrc += '<td class="notes">';
+                    _applicationSrc +=      application.additionalNotes + "<br />";
+                    _applicationSrc += '</td>';
+
                     _applicationSrc += '<td>';
 
-                    if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='customFilename' data-src='" + application.customFilename + "' src='" + application.customFilename + "' /><br />"; }
+                    if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='grow customFilename' data-src='" + application.customFilename + "' src='" + application.customFilename + "' /><br />"; }
 
                     _applicationSrc +=      "<a href='" + application.customFilename + "' target='new'>Open In New Tab</a><br />";
                     _applicationSrc += '</td>';
 
-                    _applicationSrc += '<td class="notes">';
-                    _applicationSrc +=      application.additionalNotes + "<br />";
+                    _applicationSrc += '<td class="custom-artwork-requests action">';
+                    _applicationSrc +=      "<span class='btn update-image' data-application-code='" + application.code + "'>Update Image</span><br />";
                     _applicationSrc += '</td>';
 
                     _applicationSrc += "</tr>";
@@ -8618,14 +8686,23 @@ $(document).ready(function () {
 
                 });
 
-
             // End Thumbnails
 
             $('span.custom-artwork-applications').html(_table);
 
-            $('img.attachments').attr('src', _fileName);
-            $('img.attachments').attr('data-src', _fileName);
+            if (typeof _fileName !== "undefined" && _fileName.length > 0) {
 
+                $('img.attachments').attr('src', _fileName);
+                $('img.attachments').attr('data-src', _fileName);
+                $('a.download-attachment').attr('href', _fileName);
+
+            } else {
+
+                $('img.attachments').hide();
+                $('a.download-attachment').hide();
+
+            }
+            
             $('span.order-id').html(order.order_id);
             $('span.description').html(order.description);
 
@@ -8644,6 +8721,17 @@ $(document).ready(function () {
                 ub.showModalTool(_str);
 
              });
+
+            // Update Image Button when Artwork is rejected
+            $('span.update-image').unbind('click');
+            $('span.update-image').on('click', function () {
+
+                var _code = $(this).data('application-code');
+            
+                // ub.funcs.createMascotPopupUpload 
+                // continue here ...
+
+            });
 
             // PDF
             var _url = "/pdfjs/web/viewer.html?file=" + _bc.pdfOrderForm;
@@ -8666,12 +8754,51 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.customArtworkRequestNotificationThread = function (messages) {
+
+            //TODO: Request message subtype field here (subtype:'CUSTOM ARTWORK REQUESTS')
+            var _messagesForCarFilter = 'This order was rejected because of the following reasons: ';
+            var _messagesForCar = _.filter(messages, {subject: _messagesForCarFilter});
+            var _content = ub.utilities.buildTemplateString('#m-car-notification-thread-container', {messages: _messagesForCar});
+
+            $('div.car-notification-thread-container').html(_content);
+
+            //<span class="field-value custom-artwork-status"></span>
+
+            ub.content = _messagesForCar;
+
+            if (_.size(_messagesForCar) > 0) {
+
+                // Sorted by max id 
+                var _firstContent = _.first(_messagesForCar);
+
+                if (typeof _firstContent !== "undefined") {
+
+                    $('span.last-message').html(_firstContent.content);
+                    $('a.edit-order-link').show();
+
+                } else {
+
+                    $('span.last-message').hide();
+                    $('a.edit-order-link').hide();
+
+                    $('span.edit-order-link').hide();
+
+                }
+
+            }
+
+        }
+
         ub.funcs.displayMessagesForOrder = function (messages, orderID) {
 
             var _messages = _.filter(messages, {order_code: orderID});
             var _markup = ub.utilities.buildTemplateString('#m-order-info-messages', {messages: _messages});
 
             $.when($('div.order-info-messages').html(_markup)).then($('span.message-count').html('Messages: ' + _.size(_messages)));
+
+            // get all messages for Custom Artwork Requests
+            ub.funcs.customArtworkRequestNotificationThread(_messages);
 
         }
 
@@ -8683,6 +8810,15 @@ $(document).ready(function () {
 
                 ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="main-info"]');
                 ub.funcs.showTab('div.order-info', 'div.order-info.main-info');
+
+            });
+
+            // Custom Artwork Request Status
+            $('span.tab[data-type="custom-artwork-request-status"]').unbind('click');
+            $('span.tab[data-type="custom-artwork-request-status"]').on('click', function () {
+
+                ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="custom-artwork-request-status"]');
+                ub.funcs.showTab('div.order-info', 'div.order-info.custom-artwork-request-status');
 
             });
 
@@ -8706,7 +8842,36 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.processCustomArtworkRequestStatus = function (status) {
+
+            $('td.custom-artwork-requests.action').hide();
+            if(status === "rejected") { 
+                $('span.custom-artwork-status').addClass('rejected'); 
+
+            } else {
+
+                $('span.last-message').hide();
+                $('a.edit-order-link').hide();
+
+                $('span.edit-order-link').hide();
+
+            }
+            
+        }
+
         ub.funcs.viewOrderInfo = function () {
+
+            // Prep Mascots
+
+                ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
+                ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
+                ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
+
+                ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
+                ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callbackSimple);
+                ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callbackSimple);
+                
+            // End Prep Mascots
 
             // Get Order Info 
 
@@ -8715,7 +8880,7 @@ $(document).ready(function () {
             $.ajax({
                 
                 url: _url,
-                type: "Get", 
+                type: "Get",
                 dataType: "json",
                 crossDomain: true,
                 contentType: 'application/json',
@@ -8732,7 +8897,6 @@ $(document).ready(function () {
                 }
                 
             });
-
 
             // Get Order Items 
 
@@ -8755,7 +8919,6 @@ $(document).ready(function () {
 
                     ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="main-info"]');
                     ub.funcs.showTab('div.order-info', 'div.order-info.main-info');
-
 
                 }
                 
@@ -8796,6 +8959,7 @@ $(document).ready(function () {
                 success: function (response) {
 
                     $('span.custom-artwork-status').html(response.order.artwork_status);
+                    ub.funcs.processCustomArtworkRequestStatus(response.order.artwork_status);
 
                 }
                 
