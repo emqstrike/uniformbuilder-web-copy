@@ -35,7 +35,7 @@
                                 {{$item->description}}    
                             </td>
                             <td>
-                                {{$item->uniform_category_id}}
+                                {{$item->sport_name}}
                             </td>
                             <td class="td-buttons">
                                 <a href="#" class="btn btn-default btn-xs " >

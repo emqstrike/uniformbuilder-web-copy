@@ -84,8 +84,9 @@
                                 @endif
                             </td>
                             <td class="td-buttons">
-                                <a href="#" class="btn btn-default btn-xs " >
-                                    <i class="glyphicon glyphicon-info-sign">Profile</i>
+
+                                <a href="#" class="rep-info btn btn-default btn-xs " >
+                                   <i class="glyphicon glyphicon-info-sign">Profile</i>
                                 </a>
                                 <a href="/administration/sales_reps/edit/{{$rep->id}}" class="edit-part btn btn-info btn-xs">
                                     <i class="glyphicon glyphicon-edit">Edit</i>

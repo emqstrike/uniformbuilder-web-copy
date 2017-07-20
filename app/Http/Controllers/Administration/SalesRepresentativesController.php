@@ -37,7 +37,9 @@ class SalesRepresentativesController extends Controller
      */
     public function create()
     {
-        $dealers = ['Prolook', 'Valley Athletics'];
+
+        $dealers = ["Bentleys Pro Look","Brents Uniform Factory","Kai Athletic","Dan Mullins","Team Works","Devri Fitzgerald","Dusty Rhodes","jared","Big Mountain Sales","Jaxon Karren","Hillock Team Sports","Joshua Swick Azure","2988 Athletic Apparel","Level 42 Sports","Armorzone","Nicole Carlin","PLS Level 1","PLS Level 2","PLS Level 3","PLS Level 4XXX","Pro Look Admin","Sakovitz Sports","First String","Big Game Sports Apparel","Jeremy Hill","Jordan Hillock","Corporate","Cat Sports & Marketing","Valley Athletics","Hauff Mid-America Sports","Steve Angeline Sales","Kyler Johnson","Mickey St. Pierre","TJ Schenbeck","qStrike DevTeam","Larry Green","QStrike Geeks","BJ Chandler","Tyler Higbee","Kory Drew","Jeff Gagon","Test Uniform Company","Burgandy Fisher","Beau Hamilton","Shige Yamamoto","Dave Dahlke","Ralph Parks","Rodney Putnam","Richard Vossen","Penisimani Latu","Dustin Poulsen","Kawika Akina","Jonathan Castro","Tom Barrera","Parker Overly","Jerry","Riki Sanford","Russell Christensen","Jeremy Schlosser","Yves Dossous","Robbie Rathburn","David Van Gend","Myla Rhodes","Heather McCormack","Raymond Khalif"];
+
         return view('administration.sales-reps.create-sales-reps', compact ('dealers'));        
     }
 
