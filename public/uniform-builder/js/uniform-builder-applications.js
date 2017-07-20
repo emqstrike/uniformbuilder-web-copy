@@ -2772,7 +2772,16 @@ $(document).ready(function() {
 
                 }
 
-                if (view.application.flip === 1 && _applicationObj.type === "mascot") {
+                // Mascot Facing Override 
+
+                var _mov = false;
+                if (typeof args.mascot !== "undefined")  {
+                
+                    _mov = (args.mascot.id === "356") && (app_id === '9' || app_id === '10');    
+
+                }
+                
+                if (view.application.flip === 1 && _applicationObj.type === "mascot" || _mov) {
 
                     //point.scale.x *= -1;
                     _.each(point.children, function (child) { child.scale.x *= -1; });
