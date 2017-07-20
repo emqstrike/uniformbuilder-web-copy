@@ -1573,8 +1573,9 @@ $(document).ready(function () {
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
             ub.displayDoneAt('Price Preparation Complete.');
             ub.displayDoneAt('Preparing Search...');
-            ub.prepareTypeAhead();
 
+            if (ub.page === "builder") { ub.prepareTypeAhead(); }
+            
             if (ub.config.styles) {
 
                 ub.funcs.callDirectLinks();
