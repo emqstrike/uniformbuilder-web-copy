@@ -715,6 +715,8 @@ $(document).ready(function() {
 
         // TO DO: Here now!!! ...
 
+
+
         // Reset to pending 
         ub.funcs.resetArtworkStatusToPending();
 
@@ -1295,6 +1297,22 @@ $(document).ready(function() {
 
         // Notes
         $('textarea[name="additional-notes"]').val(orderInfo.notes.content);
+
+        console.log('Order Info: ');
+        console.log(orderInfo);
+
+        // Additional Attachment Link
+        var _filename = JSON.parse(orderInfo.items[0].additional_attachments);
+
+        if (util.isImage(_filename)) { 
+        
+            $('img#additional-attachment-preview').attr('src', _filename); 
+            $('a#additional-attachment-link').attr('href', _filename); 
+            $('span#additional-attachment-label').html(_filename); 
+
+        }
+
+        $('span#additional-attachment-link').html(JSON.parse(orderInfo.items[0].additional_attachments));
 
     };
 

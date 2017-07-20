@@ -5,7 +5,7 @@
     <div class="header">
 
         Order Info (Beta)<span class="orderID"></span> <br />
-        <em>This customizer is still under development. You can use most of the facilities of the customizer, but if you saved or submitted an order please make sure that your Prolook sales rep knows about the submission.</em>
+        <em>This customizer is still under development. You can use most of the facilities of the customizer, but if you saved or submitted an order that is ready for processing, please make sure that your Prolook sales rep knows about the submission.</em>
 
     </div>
 
