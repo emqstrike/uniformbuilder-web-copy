@@ -11678,65 +11678,125 @@ ub.funcs.fontOffSets = [
             // Tech-Tee
             {
                 sport: 'Tech-Tee (Apparel)',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
                 size: 2,
-                scale: {x: 0.18, y: 0.18 },
+                scale: {x: 0.2, y: 0.2 },
             },
             {
                 sport: 'Tech-Tee (Apparel)',
                 size: 3,
-                scale: {x: 0.27, y: 0.27 },
+                scale: {x: 0.3, y: 0.3 },
             },
             {
                 sport: 'Tech-Tee (Apparel)',
                 size: 4,
-                scale: {x: 0.36, y: 0.36 },
+                scale: {x: 0.4, y: 0.4 },
             },
             {
                 sport: 'Tech-Tee (Apparel)',
                 size: 5,
-                scale: {x: 0.44, y: 0.44 },
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
             },
             {
                 sport: 'Tech-Tee (Apparel)',
                 size: 8,
-                scale: {x: 0.72, y: 0.72 },
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 9,
+                scale: {x: 0.9, y: 0.9 },
             },
             {
                 sport: 'Tech-Tee (Apparel)',
                 size: 10,
-                scale: {x: 0.90, y: 0.90 },
+                scale: {x: 1., y: 1 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 11,
+                scale: {x: 1.11, y: 1.11 },
+            },
+            {
+                sport: 'Tech-Tee (Apparel)',
+                size: 12,
+                scale: {x: 1.12, y: 1.12 },
             },
 
-            // Compression
-             {
+            // Tech-Tee
+            {
+                sport: 'Compression (Apparel)',
+                size: 1,
+                scale: {x: 0.1, y: 0.1 },
+            },
+            {
                 sport: 'Compression (Apparel)',
                 size: 2,
-                scale: {x: 0.18, y: 0.18 },
+                scale: {x: 0.2, y: 0.2 },
             },
             {
                 sport: 'Compression (Apparel)',
                 size: 3,
-                scale: {x: 0.27, y: 0.27 },
+                scale: {x: 0.3, y: 0.3 },
             },
             {
                 sport: 'Compression (Apparel)',
                 size: 4,
-                scale: {x: 0.36, y: 0.36 },
+                scale: {x: 0.4, y: 0.4 },
             },
             {
                 sport: 'Compression (Apparel)',
                 size: 5,
-                scale: {x: 0.44, y: 0.44 },
+                scale: {x: 0.5, y: 0.5 },
+            },
+            {
+                sport: 'Compression (Apparel)',
+                size: 6,
+                scale: {x: 0.6, y: 0.6 },
+            },
+            {
+                sport: 'Compression (Apparel)',
+                size: 7,
+                scale: {x: 0.7, y: 0.7 },
             },
             {
                 sport: 'Compression (Apparel)',
                 size: 8,
-                scale: {x: 0.72, y: 0.72 },
+                scale: {x: 0.8, y: 0.8 },
+            },
+            {
+                sport: 'Compression (Apparel)',
+                size: 9,
+                scale: {x: 0.9, y: 0.9 },
             },
             {
                 sport: 'Compression (Apparel)',
                 size: 10,
-                scale: {x: 0.90, y: 0.90 },
+                scale: {x: 1., y: 1 },
+            },
+            {
+                sport: 'Compression (Apparel)',
+                size: 11,
+                scale: {x: 1.11, y: 1.11 },
+            },
+            {
+                sport: 'Compression (Apparel)',
+                size: 12,
+                scale: {x: 1.12, y: 1.12 },
             },
 
              // Cinch Sack

@@ -100,7 +100,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-1 control-label">Material ID</label>
                             <div class="col-md-1">
-                                <input type="text" class="material-id-parts" value="92">
+                                <input type="text" class="material-id-parts" name="ref_customizer_mat_id" value="{{ $part->ref_customizer_mat_id }}">
                             </div>
                             <div class="col-md-1">
                                     <a href="#" class="btn btn-primary get-parts">Get Parts</a>
@@ -110,7 +110,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-1 control-label">Qstrike Item ID</label>
                             <div class="col-md-1">
-                                <input type="text" class="item-id" value="455"> 
+                                <input type="text" class="item-id" name="ref_qstrike_mat_id" value="{{ $part->ref_qstrike_mat_id }}"> 
                             </div>
                             <div class="col-md-1">
                                     <a href="#" class="btn btn-primary get-questions">Get Questions</a>
