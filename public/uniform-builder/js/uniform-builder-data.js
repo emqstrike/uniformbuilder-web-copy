@@ -13761,7 +13761,7 @@ ub.funcs.fontOffSets = [
 
             if (typeof _result === "undefined") { 
                 
-                ub.utilities.warn ('Sport [' + sport + '] not found. Using Default'); 
+                ub.utilities.warn ('Min. Order QTY for [' + sport + '] not found. Using Default'); 
                 _result = _.find(this.items, {sport: 'Default'});
                 
             }

@@ -276,7 +276,9 @@
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
 
             orderID: "{{ isset($order_id) ? $order_id : 'none' }}",
-
+            orderCode: "{{ isset($order_code) ? $order_code : 'none' }}",
+            orderIDParent: "{{ isset($order_id_parent) ? $order_id_parent: 'undefined' }}",
+            
             @if (isset($styles)) 
             styles: {
                 load: "{{ isset($styles) ? $styles : false }}",
@@ -461,9 +463,10 @@
 
             if (ub.config.pageType == "Order") {
 
-                ub.config.orderCode       = "{{ isset($orderCode) ? $orderCode: 'undefined' }}";
-                ub.config.orderID         = "{{ isset($orderIdShort) ? $orderIdShort: 'undefined' }}";
-              
+                ub.config.orderCode       = "{{ isset($order_code) ? $order_code: 'undefined' }}";
+                ub.config.orderID         = "{{ isset($order_id_short) ? $order_id_short: 'undefined' }}";
+                ub.config.orderIDParent   = "{{ isset($order_id_parent) ? $order_id_parent: 'undefined' }}";
+
             }
 
             window.ub.temp = s;

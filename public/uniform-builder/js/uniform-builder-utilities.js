@@ -176,7 +176,7 @@ $(document).ready(function() {
             var _line;
             var _class = '';
 
-            if (str === 'Awesomess loading completed.') {
+            if (str === 'Awesomness loading completed.') {
 
                 /// Hide loading after .5 sec done
                 setTimeout(function () { 

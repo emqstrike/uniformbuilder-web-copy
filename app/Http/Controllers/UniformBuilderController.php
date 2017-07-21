@@ -217,8 +217,10 @@ class UniformBuilderController extends Controller
 
                     $params['page'] = 'order';
                     $bc = $config['builder_customizations'];
-                    $params['order_id'] = $config['order_id'];
+                    $params['order_id'] = $config['order_id_short'];
+                    $params['order_code'] = $config['order_code'];
                     $params['order'] = $order;
+
                     $params['builder_customizations'] = $config['builder_customizations'];
 
                 } else {
@@ -231,8 +233,9 @@ class UniformBuilderController extends Controller
 
             if ($config['type'] == 'Order') {
 
-                $params['orderCode']    = $config['order_code'];
-                $params['orderIdShort'] = $config['order_id_short'];
+                $params['order_code']    = $config['order_code'];
+                $params['order_id_short'] = $config['order_id_short'];
+                $params['order_id_parent'] = $config['order_id_parent'];
                 
             }
             
@@ -324,12 +327,15 @@ class UniformBuilderController extends Controller
             ]);
 
             $params = [
+            
                 'page_title' => 'Order Info: ' . $orderId,
                 'material_id' => $materialID,
                 'order_id' => $orderId,
                 'description' => $order->description,
                 'order_code' => $orderId,
                 'order_id_short' => $order->id,
+                'order_id_parent' => $orderInfo->id, 
+
                 'type' => 'Order',
                 'pdfOrderForm' => $builder_customizations->pdfOrderForm,
 
@@ -396,6 +402,7 @@ class UniformBuilderController extends Controller
                 'order_id_short' => $order->id,
                 'builder_customizations' => $orderID,
                 'type' => 'Order',
+                'order_id_parent' => $orderInfo->id, 
             ];
             
             return $this->showBuilder($config);
