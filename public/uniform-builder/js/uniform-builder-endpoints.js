@@ -46,6 +46,12 @@ $(document).ready(function() {
                 url:  'api/order/updateArtworkStatus',
                 info: 'Pass Order ID and Status.',
             },
+            {
+                name: 'Update Order Item',
+                code: 'updateOrderItem',
+                url:  'api/orders/updateOrderItem',
+                info: 'Pass the key value pair',
+            },
 
         ],
 
