@@ -6558,12 +6558,7 @@ $(document).ready(function () {
 
                     var _resultPrice = $(this).find('span.calculatedPrice').html();
 
-                    if (_resultPrice === "Call for Pricing") {
-
-                        $(this).find('span.callForTeamPricing').html('');
-
-                    }
-
+                    // if (_resultPrice === "Call for Pricing") { $(this).find('span.callForTeamPricing').html(''); }
 
                     if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
