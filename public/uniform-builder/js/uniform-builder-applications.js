@@ -2615,7 +2615,7 @@ $(document).ready(function() {
                 var _isPant = ub.current_material.material.type === 'lower';
                 var _isMascot = _applicationObj.type === 'mascot';
                 
-                if ( _isValidPantLocation && _isFootballUniform && _isPant && _isMascot) {
+                if (_isFootballUniform && _isPant && _isMascot) {
 
                     var _scale = point.scale;
 
