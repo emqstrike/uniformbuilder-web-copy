@@ -6804,6 +6804,8 @@ $(document).ready(function () {
 
             });
 
+            $(window).scrollTop(0);
+
         }
 
         if (type === 'search_results') {

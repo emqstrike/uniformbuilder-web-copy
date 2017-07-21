@@ -1303,9 +1303,6 @@
         settings_obj.layer_order    = layer_order;
         sprite.scale                = scale_settings;
 
-        console.log('Scale: ');
-        console.log(sprite.scale);
-
         /// Set Colors
 
             var children = container.children;
