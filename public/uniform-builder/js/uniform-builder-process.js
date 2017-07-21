@@ -1465,9 +1465,13 @@ $(document).ready(function() {
 
         });
 
-        if (typeof ub.data.orderInfo.items[0].notes !== "undefined") { 
+        if (typeof ub.data.orderInfo !== "undefined") {
 
-            $('textarea#additional-notes').val(orderInfo.items[0].notes);
+            if (typeof ub.data.orderInfo.items[0].notes !== "undefined") { 
+
+                $('textarea#additional-notes').val(orderInfo.items[0].notes);
+
+            }
 
         }
 
@@ -1979,7 +1983,7 @@ $(document).ready(function() {
 
                 _size           = $(this).data('size');
 
-                if (!ub.funcs.isCurrentSport('Wrestling')) {
+                if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
 
                     _numbers    = ub.funcs.createNumbersSelectionPopup(_size);
 
