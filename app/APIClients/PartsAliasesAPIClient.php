@@ -46,11 +46,8 @@ class PartsAliasesAPIClient extends APIClient
         if ($result->success)
         {
             $part = $result->part_alias;
-
             return $part;
-
         }
-
         return null;
     }
 

@@ -72,7 +72,9 @@ class PartsAliasesController extends Controller
         $price = $request->input('price_item_template_id');
         $block = $request->input('block_pattern_id'); 
         $properties = $request->input('properties');
-        $type = $request->input('type');  
+        $type = $request->input('type');
+        $materialid = $request->input('ref_customizer_mat_id');
+        $qstrikematid = $request->input('ref_qstrike_mat_id');
           
 
         $data = [
@@ -82,7 +84,9 @@ class PartsAliasesController extends Controller
             'price_item_template_id' => $price,
             'block_pattern_id' => $block,
             'properties' => $properties,
-            'type' => $type
+            'type' => $type,
+            'ref_customizer_mat_id' => $materialid,
+            'ref_qstrike_mat_id' => $qstrikematid
 
         ];
         $response=null;

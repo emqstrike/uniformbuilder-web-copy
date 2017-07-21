@@ -204,10 +204,25 @@
       </li>
     </ul>
   </li>
-  <li  data-step="21" data-intro="For User settings.">
-    <a href="/administration/users">
-      <i class="glyphicon glyphicon-user"></i> <span>Users</span>
-    </a>
+
+  <li class="treeview" data-step="3" data-intro="For Accounts settings." data-position='right'>
+      <a href="#">
+      <i class="glyphicon glyphicon-user"></i>
+      <span>Accounts</span>
+        <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li  data-step="17" data-intro="For User settings.">
+            <a href="/administration/users">
+            <i class="glyphicon glyphicon-user"></i> <span>Users</span>
+            </a>
+          </li>
+          <li  data-step="17" data-intro="For SalesReps settings.">
+            <a href="/administration/sales_reps">
+          <i class="glyphicon glyphicon-user"></i> <span>Sales Reps</span>
+          </a>
+          </li>
+        </ul>
   </li>
   <li data-position='right'>
     <a href="/administration/feedbacks" >
