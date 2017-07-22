@@ -1475,6 +1475,14 @@ $(document).ready(function() {
 
         }
 
+        // In case the user just goes back then shows the orderform preview again, show the submit order button
+        if (ub.funcs.thumbnailsUploaded()) {
+
+            $('span.processing').fadeOut();
+            $('span.submit-order').fadeIn();
+
+        }
+        
     }
 
     ub.funcs.getOrderQty = function () {
