@@ -10096,8 +10096,16 @@ $(document).ready(function() {
             _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_wrestling'});            
         }
 
-        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
+        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling')) {
+
             _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias});                
+
+            if (ub.config.sport === "Lacrosse" && ub.config.type === "lower") {
+
+                _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias);
+
+            }
+
         }
 
         if (applicationType === 'team_name' && ub.funcs.isCurrentSport('Wrestling')) {
