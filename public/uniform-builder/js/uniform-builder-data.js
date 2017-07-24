@@ -13325,12 +13325,14 @@ ub.funcs.fontOffSets = [
             '2017 Team Short with Pockets (Apparel)',
             'Signature Coaches Short (Apparel)',
             'Basketball',
+            'Cage Jacket (Apparel)',
         ],
         options: [
             'Fight Short',
         ],
         blockPatterns: [
             'Cage Jacket',
+            'Cage Jacket (Apparel)',
         ],
 
         currentOk: function () {

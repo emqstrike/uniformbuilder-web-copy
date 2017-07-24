@@ -43,7 +43,12 @@ $(document).ready(function() {
                 
                 if (options !== '') {
 
-                    optionOK = _.contains(options, option);
+                    if (options !== null)  {
+
+                        options = options.split(',');
+                        optionOK = _.contains(options, option);
+
+                    }
 
                 }
 
@@ -99,12 +104,14 @@ $(document).ready(function() {
 
         });
 
+       
+
     };
 
     ub.funcs.processFonts = function () {
 
         ub.funcs.initFonts(ub.config.sport, ub.config.option, ub.config.blockPattern);
-
+        
         ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
         ub.data.fonts = _.sortBy(ub.data.fonts, "name");
 
