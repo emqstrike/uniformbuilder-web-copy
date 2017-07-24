@@ -11,7 +11,7 @@ select:hover {
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
-                <div class="panel-heading">Add New mascot [Custom Artwork]</div>
+                <div class="panel-heading">Select existing mascot to bind</div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -24,148 +24,32 @@ select:hover {
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/artwork/add" enctype="multipart/form-data" id='create-mascot-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/artwork/add_existing" enctype="multipart/form-data" id='create-mascot-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="layers_properties" id="layers-properties">
                         <input type="hidden" name="artwork_request_id" value="{{ $artwork_request_id }}">
                         <input type="hidden" name="artwork_index" value="{{ $artwork_index }}">
                         <input type="hidden" name="artwork_user_id" value="{{ $artwork_request_user_id }}">
-                        <div>
-                            <h3>Order Team Color(s):</h3>
-                            <table class="table table-bordered table-striped">
-                            @foreach ($team_colors as $color)
-                                <tr style="width: 100px;">
-                                    <td style="width: 30px; height: 30px; background-color: #{{ $color->hex_code }};"></td>
-                                    <td>{{ $color->name }}</td>
-                                </tr>
-                            @endforeach
-                            </table>
-                        </div>
                         <hr>
-                        <a href="/administration/upload_existing_artwork/{{ $artwork_request_id }}/{{ $artwork_index }}/{{ $artwork_request_user_id }}" class="btn btn-primary">Choose existing mascot</a>
                         <h3>Select existing mascot/artwork:</h3>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Mascot Name</label>
+                            <label class="col-md-4 control-label">Filter</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-name" name="name" value="{{ old('name') }}">
+                                <input type="name" class="form-control mascot-filter" name="mascot_filter" value="">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Code</label>
+                            <label class="col-md-4 control-label">Mascot</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-code" name="code" value="{{ old('code') }}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Icon</label>
-                            <div class="col-md-6 front-view">
-                                <input type="file" class="form-control icon" name="icon" accept="image/*">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">File</label>
-                            <div class="col-md-6 front-view">
-                                <input type="file" class="form-control ai-file" name="ai_file" accept=".ai,.pdf">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Category</label>
-                            <div class="col-md-6">
-                                <select name='category' class="form-control mascot-category">
-                                @foreach ($mascots_categories as $mascot_category)
-                                    <option value='{{ $mascot_category }}'>{{ $mascot_category }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-<!--                         <div class="form-group">
-                            <label class="col-md-4 control-label">Team Color ID</label>
-                            <div class="col-md-6">
-                                <select name='team_color_id' class="form-control mascot-team-color-id">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
-                            </div>
-                        </div> -->
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Layers
-                            <div>
-                                <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Layer</a>
-                            </div>
-                            </label>
-                            <div class="col-md-8">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Layer</th>
-                                            <th>Team Color ID</th>
-                                            <th>File</th>
-                                            <th>Default Color</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="layers-row-container">
-                                        <tr class="layers-row">
-                                            <td>
-                                                <select class="ma-layer layer1"  name="ma_layer[]" disabled>
-                                                    <option value = '1' class="layer-number">1</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select class="ma-team-color-id layer1" name="ma_team_color_id[]">
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                    <option value="5">5</option>
-                                                    <option value="6">6</option>
-                                                    <option value="7">7</option>
-                                                    <option value="8">8</option>
-                                                    <option value="9">9</option>
-                                                    <option value="10">10</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="file" class="ma-options-src layer1" name="ma_image[]">
-                                            </td>
-                                            <td>
-                                                <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                                @foreach ($colors as $color)
-                                                    @if ($color->active)
-                                                    <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }}; text-shadow: 1px 1px #000;" value="{{ $color->color_code }}">
-                                                        {{ $color->name }}
-                                                    </option>
-                                                    @endif
-                                                @endforeach
-                                                <option data-color="" value="" id="saved-default-color"></option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-danger btn-xs btn-remove-layer"><i class="fa fa-remove"></i> Remove</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <select id="mascots" class="app-default-mascot"></select>
+                                <input type="hidden" name="mascot_id" id="mascot_id">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary create-mascot">
+                                <button type="submit" class="btn btn-primary submit-record">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Mascot
                                 </button>
@@ -186,14 +70,105 @@ select:hover {
 
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/js/administration/mascots.js"></script>
+<script type="text/javascript" src="/js/ddslick.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    $('select:not(:has(option))').attr('visible', false);
 
-    $('.ma-default-color').change(function(){
-        var color = $('option:selected', this).data('color');
-        $(this).css('background-color', color);
+    window.mascots = null;
+    getMascots(function(mascots){ window.mascots = mascots; });
+    function getMascots(callback){
+        var mascots;
+        var url = "//api-dev.qstrike.com/api/mascots";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                mascots = data['mascots'];
+                if(typeof callback === "function") callback(mascots);
+            }
+        });
+    }
+
+    $(document).on('click', '.submit-record', function(e) {
+        var val = $('.dd-selected-value').val();
+        console.log(val);
+        $('#mascot_id').val(val);
+    });
+
+    $.each(window.mascots, function(i, item) {
+        item['text'] = item.name;
+        item['value'] = item.id;
+        item['selected'] = false;
+        var c = 0;
+        var xdata = JSON.parse(item.layers_properties);
+        $.each(xdata, function(i, item) {
+            c++;
+        });
+        item['description'] = item.category + ' [ ' + c + ' ]';
+        item['imageSrc'] = item.icon;
+        item['layers'] = c ;
+
+    });
+
+    mascotsData = window.mascots;
+
+    $(document).on('change', '#mascots', function() {
+        var val = $('.dd-selected-value').val();
+        $('#mascot_id').val(val);
+    });
+
+    $('#mascots').ddslick({
+        data: mascotsData,
+        width: 250,
+        height: 300,
+        imagePosition: "left",
+        selectText: "Select Mascot",
+        onSelected: function (data) {
+
+
+        var rowIndex = data.original[0].outerHTML;
+        rowIndex = $.parseHTML(rowIndex);
+        rowIndex = $(rowIndex).data("id");
+
+        if($('.app-def-item').eq(rowIndex).val()=="mascot"){
+            accentMascotSelect(data,"mascot",rowIndex);
+        }
+
+        }
+    });
+
+    $(document).on('change', '.mascot-filter', function() {
+
+        var filteredMascots=[];        
+        var mascotValue = $(this).val();
+     
+            jQuery.each(mascots, function(index, item) {    
+              
+                if(((item.name).toLowerCase()).indexOf(mascotValue.toLowerCase()) > -1)
+                {
+                    filteredMascots.push( index );
+
+                }
+
+            });
+
+        var mascotFilterIndex=$(".mascot-filter").index(this);
+            if($(this).val()){             
+           
+                $('.msc:eq('+ mascotFilterIndex +') .dd-container li').hide();
+                jQuery.each(filteredMascots, function(index, item) {
+                    
+                    $('.msc:eq('+ mascotFilterIndex +') .dd-container li:eq('+item+')').show();
+                });
+            }else{
+                 $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
+            }
+         
+       console.log(filteredMascots);
     });
 });
 </script>

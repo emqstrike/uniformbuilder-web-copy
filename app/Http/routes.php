@@ -159,6 +159,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('upload_artwork/{artwork_request_id}/{artwork_index}/{artwork_user_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addArtworkForm']);
     Route::get('upload_existing_artwork/{artwork_request_id}/{artwork_index}/{artwork_user_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addExistingArtworkForm']);
     Route::post('artwork/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeArtwork']);
+    Route::post('artwork/add_existing', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeExistingArtwork']);
 
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);
