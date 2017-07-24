@@ -2757,7 +2757,9 @@ $(document).ready(function() {
                 if ( (app_id === '9' || app_id === '33')  && _applicationObj.type === 'mascot') {
 
                     if (args.mascot.typographic === "0") {
-                        point.scale.x = point.scale.x * -1;
+                       
+                        point.scale.x = Math.abs(point.scale.x) * -1;
+
                     }
 
                 }
@@ -2775,16 +2777,20 @@ $(document).ready(function() {
                 // Mascot Facing Override 
 
                 var _mov = false;
-                if (typeof args.mascot !== "undefined")  {
-                
-                    _mov = (args.mascot.id === "356") && (app_id === '9' || app_id === '10');    
+
+                if (typeof args.mascot !== "undefined" && ub.config.sport === "Football")  { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '10' || app_id === '9'); }
+                if (typeof args.mascot !== "undefined" && ub.config.sport === "Fastpitch") { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '9'); }
+
+                if (_mov) {
+
+                    view.application.flip = 1;
 
                 }
                 
-                if (view.application.flip === 1 && _applicationObj.type === "mascot" || _mov) {
+                if (view.application.flip === 1) {
 
                     //point.scale.x *= -1;
-                    _.each(point.children, function (child) { child.scale.x *= -1; });
+                    _.each(point.children, function (child) { child.scale.x = Math.abs(child.scale.x) * -1; });
 
                 } else {
 
@@ -2860,7 +2866,6 @@ $(document).ready(function() {
             // End do not run from change color
 
             ub.funcs.runAfterUpdate(app_id, _fromChangeColor);
-
             ub.funcs.fixAlignments();
             ub.funcs.mirrorRotation();
 
