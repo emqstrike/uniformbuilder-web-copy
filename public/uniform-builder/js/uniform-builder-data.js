@@ -194,6 +194,8 @@ $(document).ready(function() {
     ub.data.prolookLayer            = -100; 
 
     ub.data.maxLength               = 12;
+    ub.data.maxLengthNumbers        = 2;
+    ub.data.maxLengthSublimated     = 32;
 
     // Mock Object for Pipings 
 
