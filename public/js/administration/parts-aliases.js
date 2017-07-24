@@ -12,7 +12,7 @@ $(document).ready(function(){
     window.questions_options = null;
     window.question_names = null;
     window.type = null;
-    window.types = ['Color', 'Pattern'];
+    window.types = ['color', 'pattern'];
     
 
 
