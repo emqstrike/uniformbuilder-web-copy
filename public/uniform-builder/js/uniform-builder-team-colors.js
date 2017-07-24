@@ -740,7 +740,7 @@ $(document).ready(function () {
     };
 
     ub.funcs.getColorObjByHexCode = function (hexCode) {
-        
+
         var _baseColors = ub.funcs.getBaseColors();
         var _colorObj;
 
@@ -800,6 +800,11 @@ $(document).ready(function () {
         var _intColor           = _materialSettings.color;
         var _hexCode            = (_intColor).toString(16);
         var colorObj            = ub.funcs.getColorObjByHexCode(_hexCode);
+
+        // search by color code instead (hexcode changed fix)
+        if (typeof colorObj === "undefined") {
+            colorObj            =  ub.funcs.getColorByColorCode(_materialSettings.colorObj.color_code);
+        }
 
         if (typeof colorObj === 'undefined') {
 
