@@ -98,6 +98,9 @@ $(document).ready(function() {
         ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
         ub.data.fonts = _.sortBy(ub.data.fonts, "name");
 
+        sport = ub.config.sport;
+        option = ub.config.option;
+
         _.each (ub.data.fonts, function (font) {
 
             if (font.name === "") { return; }
