@@ -54,9 +54,19 @@ $(document).ready(function() {
                 if (blockPattern !== '') {
 
                     blockPatterns = JSON.parse(font.block_patterns);
-                    blockPatterns = blockPatterns.split(',');
-                    blockPatternOK = _.contains(blockPatterns, blockPattern);
 
+                    if (blockPatterns !== null)  {
+
+                        blockPatterns = blockPatterns.split(',');
+                        blockPatternOK = _.contains(blockPatterns, blockPattern);
+
+                    } else {
+                        
+                        console.log('');
+                        ub.utilities.error('Block Pattern Null for ' + font.name  + '(' + font.id + ')');
+
+                    }
+                
                 }
 
             }
@@ -126,7 +136,7 @@ $(document).ready(function() {
             font.parsedFontSizeTables = _parsedFontSizeTables;
             font.sublimatedParsedFontSizeTables = _parsedSublimatedFontSizeTables;
 
-            // console.log('Parsed Font Size Table')
+            // console.log('Parsed Font Size Table');
             // console.log(font.parsedFontSizeTables);
 
             // console.log('Sublimated Parsed Font Size Table: ');
@@ -154,7 +164,7 @@ $(document).ready(function() {
 
         } else {
 
-            ub.utilities.error('No fonts loaded for ' + sport + " / " + option + "!");
+            ub.utilities.error('No fonts loaded for ' + ub.config.sport + " / " + ub.config.option + "!");
 
         }
 

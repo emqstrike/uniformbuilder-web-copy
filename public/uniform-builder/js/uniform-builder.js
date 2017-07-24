@@ -439,7 +439,7 @@ $(document).ready(function () {
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             $('div#uniform-price-adult').html(_adultStr + "<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
-            $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
+            // $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
 
             $('div.header-container').css('display','none !important');
 
@@ -494,6 +494,24 @@ $(document).ready(function () {
             //     suffix_query_string = '&' + suffix_query_string.slice(1);
             // }
 
+            // 
+            if (ub.config.pageType === "Order") {
+
+                ub.funcs.getCustomArtworRequestStatus(function (status) {
+
+                    ub.config.orderArtworkStatus = status;
+
+                    if (status === "rejected") {
+
+                        $('a[data-view="team-info"]').find('span').html('Resubmit Order');
+
+                    }
+
+                });
+
+
+            }
+
             if (ub.render !== "1") {
 
                 ub.funcs.pushState({
@@ -519,7 +537,7 @@ $(document).ready(function () {
             ub.funcs.initUniformSizesAndPrices();
             ub.funcs.initMiscUIEvents();
 
-            ub.displayDoneAt('Awesomess loading completed.');
+            ub.displayDoneAt('Awesomness loading completed.');
 
             ub.afterLoadScripts();
             ub.funcs.afterLoadChecks();
@@ -1555,8 +1573,9 @@ $(document).ready(function () {
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
             ub.displayDoneAt('Price Preparation Complete.');
             ub.displayDoneAt('Preparing Search...');
-            ub.prepareTypeAhead();
 
+            if (ub.page === "builder") { ub.prepareTypeAhead(); }
+            
             if (ub.config.styles) {
 
                 ub.funcs.callDirectLinks();
@@ -1842,7 +1861,7 @@ $(document).ready(function () {
 
                     });
 
-                    if (typeof _fontObj === "undefined") { ub.utilities.warn('Invalid Font ID detected for ' + _application.id); }
+                    if (typeof _fontObj === "undefined") { ub.utilities.warn('Invalid Font ID detected for #' + _application.id + ' (font ID: ' + view.application.defaultFont + ')'); }
 
                     var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0], view.perspective, { id: _application.id }); 
 
@@ -6539,12 +6558,7 @@ $(document).ready(function () {
 
                     var _resultPrice = $(this).find('span.calculatedPrice').html();
 
-                    if (_resultPrice === "Call for Pricing") {
-
-                        $(this).find('span.callForTeamPricing').html('');
-
-                    }
-
+                    // if (_resultPrice === "Call for Pricing") { $(this).find('span.callForTeamPricing').html(''); }
 
                     if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
@@ -6784,6 +6798,8 @@ $(document).ready(function () {
                 ub.funcs.initScroller('uniforms', items, gender);
 
             });
+
+            $(window).scrollTop(0);
 
         }
 
@@ -7712,7 +7728,6 @@ $(document).ready(function () {
                     });
 
                     // Init 
-
                     $('div.order-list.submitted').hide();
                     $('span.tab[data-type="submitted"]').trigger('click');
 
@@ -8874,7 +8889,6 @@ $(document).ready(function () {
             // End Prep Mascots
 
             // Get Order Info 
-
             var _url = ub.endpoints.getFullUrlString('getOrderInfoByOrderID') + ub.config.orderID;
 
             $.ajax({
@@ -8892,6 +8906,8 @@ $(document).ready(function () {
 
                     $('span.status').html(response.order.status);
                     $('a.view-submitted-design').attr('src', _orderLink);
+                    $('a.view-submitted-design').attr('href', _orderLink);
+
                     $('a.view-submitted-design').html(_orderLink);
 
                 }
@@ -8899,7 +8915,6 @@ $(document).ready(function () {
             });
 
             // Get Order Items 
-
             var _url = ub.endpoints.getFullUrlString('getOrderItemsByOrderID') + ub.config.orderID;
 
             $.ajax({
@@ -8915,6 +8930,8 @@ $(document).ready(function () {
 
                     ub.funcs.displayOrderDetails(response.order[0]);
 
+                    ub.data.orderInfo = response.order[0];
+
                     $('div.my-orders-loading').hide();
 
                     ub.funcs.hightlightItemInGroup('div.order-tabs > span.tab', 'span.tab[data-type="main-info"]');
@@ -8926,7 +8943,6 @@ $(document).ready(function () {
 
 
             // Messages
-
             $.ajax({
                 
                 url: ub.endpoints.getFullUrlString('getMessagesByRecipientID') + ub.user.id,
@@ -8946,10 +8962,22 @@ $(document).ready(function () {
 
 
             // Custom Artwork Request
+            ub.funcs.getCustomArtworRequestStatus(function (status) {
 
-            $.ajax({
+                $('span.custom-artwork-status').html(status);
+                ub.funcs.processCustomArtworkRequestStatus(status);
+
+            });
+
+            ub.funcs.setupOrderInfoEvents();
+
+        }
+
+        ub.funcs.getCustomArtworRequestStatus = function (cb) {
+
+             $.ajax({
                 
-                url: ub.config.api_host + '/' + 'api/order/' + ub.config.orderID + '/artworkStatus',
+                url: ub.config.api_host + '/' + 'api/order/' + ub.config.orderCode + '/artworkStatus',
                 type: "Get", 
                 dataType: "json",
                 crossDomain: true,
@@ -8958,14 +8986,11 @@ $(document).ready(function () {
 
                 success: function (response) {
 
-                    $('span.custom-artwork-status').html(response.order.artwork_status);
-                    ub.funcs.processCustomArtworkRequestStatus(response.order.artwork_status);
+                    cb(response.order.artwork_status);
 
                 }
                 
             });
-
-            ub.funcs.setupOrderInfoEvents();
 
         }
 

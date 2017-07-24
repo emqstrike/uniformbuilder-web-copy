@@ -193,6 +193,10 @@ $(document).ready(function() {
     ub.data.backTabLayer            = -100;
     ub.data.prolookLayer            = -100; 
 
+    ub.data.maxLength               = 12;
+    ub.data.maxLengthNumbers        = 2;
+    ub.data.maxLengthSublimated     = 32;
+
     // Mock Object for Pipings 
 
     ub.folders                      = { piping: '/images/pipings' } ;
@@ -2267,7 +2271,6 @@ $(document).ready(function() {
 
                 ],
             },
-            
 
             // Signature Coaches Short (Apparel)
             {
@@ -2397,21 +2400,52 @@ $(document).ready(function() {
                 applicationNumbers: [12,13,16,17],
                 sizes:  [
                             {
-                                size: 1,
+                                size: 3,
                             },
                             {
-                                size: 2,
-                            },
+                                size: 4,
+                            }
+                ],
+            },
+            {
+                name: 'front_number',
+                sport: 'lacrosse',
+                applicationNumbers: [12,13,16,17],
+                sizes:  [
                             {
                                 size: 3,
                             },
                             {
                                 size: 4,
                             }
-
                 ],
             },
-
+            {
+                name: 'back_number',
+                sport: 'lacrosse',
+                applicationNumbers: [12,13,16,17],
+                sizes:  [
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
+                ],
+            },
+            {
+                name: 'shoulder_number',
+                sport: 'lacrosse',
+                applicationNumbers: [12,13,16,17],
+                sizes:  [
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
+                ],
+            },
            
         ], 
         getSize: function (applicationType, sport, id) {
@@ -2434,6 +2468,8 @@ $(document).ready(function() {
             if (sport === "team-short")                         { return _result[0]; }
             if (sport === "signature-coaches-short")            { return _result[0]; }
             if (sport === "soccer")                             { return _result[0]; }
+            if (sport === "lacrosse")                           { return _result[0]; }
+
           
             if (typeof _object === "undefined") {
 
@@ -4023,7 +4059,6 @@ $(document).ready(function() {
                         {size: 4},
                     ],
                 },
-
                 {
                     name: 'mascot',
                     sport: 'lacrosse',
@@ -13761,7 +13796,7 @@ ub.funcs.fontOffSets = [
 
             if (typeof _result === "undefined") { 
                 
-                ub.utilities.warn ('Sport [' + sport + '] not found. Using Default'); 
+                ub.utilities.warn ('Min. Order QTY for [' + sport + '] not found. Using Default'); 
                 _result = _.find(this.items, {sport: 'Default'});
                 
             }
@@ -14443,6 +14478,23 @@ ub.funcs.fontOffSets = [
             }
 
             return _returnValue;
+
+        }
+
+    };
+
+    ub.data.flippedMascots = {
+
+        items: [
+            {
+                code: '356',
+            },
+        ],
+
+        getCode: function (code) {
+
+            var _result = _.find(this.items, {code: code});
+            return (typeof _result !== "undefined");
 
         }
 

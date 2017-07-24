@@ -2615,7 +2615,7 @@ $(document).ready(function() {
                 var _isPant = ub.current_material.material.type === 'lower';
                 var _isMascot = _applicationObj.type === 'mascot';
                 
-                if ( _isValidPantLocation && _isFootballUniform && _isPant && _isMascot) {
+                if (_isFootballUniform && _isPant && _isMascot) {
 
                     var _scale = point.scale;
 
@@ -2757,7 +2757,9 @@ $(document).ready(function() {
                 if ( (app_id === '9' || app_id === '33')  && _applicationObj.type === 'mascot') {
 
                     if (args.mascot.typographic === "0") {
-                        point.scale.x = point.scale.x * -1;
+                       
+                        point.scale.x = Math.abs(point.scale.x) * -1;
+
                     }
 
                 }
@@ -2775,16 +2777,20 @@ $(document).ready(function() {
                 // Mascot Facing Override 
 
                 var _mov = false;
-                if (typeof args.mascot !== "undefined")  {
-                
-                    _mov = (args.mascot.id === "356") && (app_id === '9' || app_id === '10');    
+
+                if (typeof args.mascot !== "undefined" && ub.config.sport === "Football")  { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '10' || app_id === '9'); }
+                if (typeof args.mascot !== "undefined" && ub.config.sport === "Fastpitch") { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '9'); }
+
+                if (_mov) {
+
+                    view.application.flip = 1;
 
                 }
                 
-                if (view.application.flip === 1 && _applicationObj.type === "mascot" || _mov) {
+                if (view.application.flip === 1) {
 
                     //point.scale.x *= -1;
-                    _.each(point.children, function (child) { child.scale.x *= -1; });
+                    _.each(point.children, function (child) { child.scale.x = Math.abs(child.scale.x) * -1; });
 
                 } else {
 
@@ -2860,7 +2866,6 @@ $(document).ready(function() {
             // End do not run from change color
 
             ub.funcs.runAfterUpdate(app_id, _fromChangeColor);
-
             ub.funcs.fixAlignments();
             ub.funcs.mirrorRotation();
 
@@ -8683,9 +8688,10 @@ $(document).ready(function() {
 
         var _htmlBuilder        = "";
         var _appActive          = 'checked';
-        var _maxLength          = 12;
+        var _maxLength          = ub.data.maxLength; 
 
-        if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
+        if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = ub.data.maxLengthNumbers; }
+        if (ub.config.uniform_application_type === 'sublimated') { _maxLength = ub.data.maxLengthSublimated; }
 
         var _status = 'on';
         if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; }
@@ -10096,8 +10102,16 @@ $(document).ready(function() {
             _sizes = _.find(ub.data.applicationSizes.items, {name: 'text_wrestling'});            
         }
 
-        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
+        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling')) {
+
             _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias});                
+
+            if (ub.config.sport === "Lacrosse" && ub.config.type === "lower") {
+
+                _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias);
+
+            }
+
         }
 
         if (applicationType === 'team_name' && ub.funcs.isCurrentSport('Wrestling')) {
