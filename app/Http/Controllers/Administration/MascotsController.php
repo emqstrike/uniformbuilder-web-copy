@@ -523,6 +523,8 @@ class MascotsController extends Controller
         $ar_json[$artworkIndex]['mascot_id'] = $mascotId;
 
         $artwork_request->artworks = $ar_json;
+        $artwork_request->status = "for_review";
+        $artwork_request->user_id = $artworkUserId;
 
         $response = $this->artworksClient->updateArtwork($artwork_request);
 
