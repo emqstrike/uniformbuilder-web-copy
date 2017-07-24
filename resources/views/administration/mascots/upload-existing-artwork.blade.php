@@ -43,7 +43,7 @@ select:hover {
                         </div>
                         <hr>
                         <a href="/administration/upload_existing_artwork/{{ $artwork_request_id }}/{{ $artwork_index }}/{{ $artwork_request_user_id }}" class="btn btn-primary">Choose existing mascot</a>
-                        <h3>Upload mascot details:</h3>
+                        <h3>Select existing mascot/artwork:</h3>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Mascot Name</label>
                             <div class="col-md-6">

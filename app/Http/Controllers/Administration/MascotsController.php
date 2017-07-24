@@ -140,6 +140,41 @@ class MascotsController extends Controller
 
     }
 
+    public function addExistingArtworkForm($artwork_request_id, $artwork_index, $artwork_user_id)
+    {
+        $colors = $this->colorsClient->getColors();
+        $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
+        $mascots_categories = array();
+        $artwork_request = $this->artworksClient->getArtwork($artwork_request_id);
+        $team_colors = $this->artworksClient->getOrderTeamColors($artwork_request->order_code);
+
+        foreach($raw_mascots_categories as $mascot_category){
+            if($mascot_category->active == 1){
+                $mascots_categories[] = $mascot_category->name;
+            }
+        }
+
+        $ordersAPIClient = new \App\APIClients\ordersAPIClient();
+        $order = $ordersAPIClient->getOrderByOrderId($artwork_request->order_code);
+        $artwork_request_user_id = $order->user_id;
+
+        $mascots_categories = array_sort($mascots_categories, function($value) {
+            return sprintf('%s,%s', $value[0], $value[1]);
+        });
+
+        return view('administration.mascots.upload-existing-artwork', [
+
+            'colors' => $colors,
+            'mascots_categories' => $mascots_categories,
+            'artwork_request_id' => $artwork_request_id,
+            'artwork_index' => $artwork_index,
+            'team_colors' => $team_colors,
+            'artwork_request_user_id' => $artwork_request_user_id,
+
+        ]);
+
+    }
+
     public function editMascotForm($id)
     {
         $colors = $this->colorsClient->getColors();
