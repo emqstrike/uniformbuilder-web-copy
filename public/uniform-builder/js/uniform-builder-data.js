@@ -2267,7 +2267,6 @@ $(document).ready(function() {
 
                 ],
             },
-            
 
             // Signature Coaches Short (Apparel)
             {
@@ -2397,21 +2396,52 @@ $(document).ready(function() {
                 applicationNumbers: [12,13,16,17],
                 sizes:  [
                             {
-                                size: 1,
+                                size: 3,
                             },
                             {
-                                size: 2,
-                            },
+                                size: 4,
+                            }
+                ],
+            },
+            {
+                name: 'front_number',
+                sport: 'lacrosse',
+                applicationNumbers: [12,13,16,17],
+                sizes:  [
                             {
                                 size: 3,
                             },
                             {
                                 size: 4,
                             }
-
                 ],
             },
-
+            {
+                name: 'back_number',
+                sport: 'lacrosse',
+                applicationNumbers: [12,13,16,17],
+                sizes:  [
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
+                ],
+            },
+            {
+                name: 'shoulder_number',
+                sport: 'lacrosse',
+                applicationNumbers: [12,13,16,17],
+                sizes:  [
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
+                ],
+            },
            
         ], 
         getSize: function (applicationType, sport, id) {
@@ -2434,6 +2464,8 @@ $(document).ready(function() {
             if (sport === "team-short")                         { return _result[0]; }
             if (sport === "signature-coaches-short")            { return _result[0]; }
             if (sport === "soccer")                             { return _result[0]; }
+            if (sport === "lacrosse")                           { return _result[0]; }
+
           
             if (typeof _object === "undefined") {
 
@@ -4023,7 +4055,6 @@ $(document).ready(function() {
                         {size: 4},
                     ],
                 },
-
                 {
                     name: 'mascot',
                     sport: 'lacrosse',
