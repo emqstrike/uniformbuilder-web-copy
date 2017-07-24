@@ -43,8 +43,12 @@ $(document).ready(function() {
                 
                 if (options !== '') {
 
-                    options = options.split(',');
-                    optionOK = _.contains(options, option);
+                    if (options !== null)  {
+
+                        options = options.split(',');
+                        optionOK = _.contains(options, option);
+
+                    }
 
                 }
 
