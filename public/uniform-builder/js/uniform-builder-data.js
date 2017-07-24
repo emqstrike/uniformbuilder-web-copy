@@ -13332,6 +13332,7 @@ ub.funcs.fontOffSets = [
         ],
         blockPatterns: [
             'Cage Jacket',
+            'Cage Jacket (Apparel)',
         ],
 
         currentOk: function () {
