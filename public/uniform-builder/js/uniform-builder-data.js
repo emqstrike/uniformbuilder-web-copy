@@ -14477,6 +14477,23 @@ ub.funcs.fontOffSets = [
 
         }
 
+    };
+
+    ub.data.flippedMascots = {
+
+        items: [
+            {
+                code: '356',
+            },
+        ],
+
+        getCode: function (code) {
+
+            var _result = _.find(this.items, {code: code});
+            return (typeof _result !== "undefined");
+
+        }
+
     }
 
     ub.data.urlAlias = {
