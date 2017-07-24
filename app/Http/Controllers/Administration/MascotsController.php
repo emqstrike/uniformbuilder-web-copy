@@ -119,7 +119,7 @@ class MascotsController extends Controller
             }
         }
 
-        $ordersAPIClient = new \App\APIClients\ordersAPIClient();
+        $ordersAPIClient = new \App\APIClients\OrdersAPIClient();
         $order = $ordersAPIClient->getOrderByOrderId($artwork_request->order_code);
         $artwork_request_user_id = $order->user_id;
 
