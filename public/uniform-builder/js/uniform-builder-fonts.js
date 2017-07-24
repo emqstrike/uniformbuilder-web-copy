@@ -60,6 +60,11 @@ $(document).ready(function() {
                         blockPatterns = blockPatterns.split(',');
                         blockPatternOK = _.contains(blockPatterns, blockPattern);
 
+                    } else {
+                        
+                        console.log('');
+                        ub.utilities.error('Block Pattern Null for ' + font.name  + '(' + font.id + ')');
+
                     }
                 
                 }
