@@ -29,6 +29,7 @@ select:hover {
                         <input type="hidden" name="layers_properties" id="layers-properties">
                         <input type="hidden" name="artwork_request_id" value="{{ $artwork_request_id }}">
                         <input type="hidden" name="artwork_index" value="{{ $artwork_index }}">
+                        <input type="hidden" name="artwork_user_id" value="{{ $artwork_request_user_id }}">
                         <div>
                             <h3>Order Team Color(s):</h3>
                             <table class="table table-bordered table-striped">
@@ -41,6 +42,7 @@ select:hover {
                             </table>
                         </div>
                         <hr>
+                        <a href="/administration/upload_existing_artwork/{{ $artwork_request_id }}/{{ $artwork_index }}/{{ $artwork_request_user_id }}" class="btn btn-primary">Choose existing mascot</a>
                         <h3>Upload mascot details:</h3>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Mascot Name</label>

@@ -110,8 +110,8 @@
                                 {{ $order->factory_order_id }}
                             </td>
                             <td>
-                                @if ( $order->artwork_status != "rejected" )
-                                {{-- @if ( !isset($order->factory_order_id) ) --}}
+                                {{-- @if ( $order->artwork_status != "rejected" )
+                                ( !isset($order->factory_order_id) ) --}}
                                 <a href="#"
                                     class="btn btn-primary btn-xs send-to-factory"
                                     data-order-id="{{ $order->id }}"
@@ -131,7 +131,11 @@
                                     data-bill-phone="{{ $order->bill_phone }}"
                                     data-bill-address="{{ $order->bill_address }}"
                                     >Send to Edit</a>
-                                    @endif
+                                <a href="#"
+                                    class="btn btn-primary btn-xs translate-values"
+                                    data-api-order-id="{{ $order->order_id }}"
+                                    >Translate</a>
+                                    {{-- @endif --}}
                                     <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                         Remove

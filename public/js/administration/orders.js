@@ -1,5 +1,45 @@
 $(document).ready(function(){
 
+    window.colors = null;
+    window.patterns = null;
+
+    getColors(function(colors){ window.colors = colors; });
+    getPatterns(function(patterns){ window.patterns = patterns; });
+
+    function getColors(callback){
+        var colors;
+        var url = "//api-dev.qstrike.com/api/colors";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                colors = data['colors'];
+                if(typeof callback === "function") callback(colors);
+            }
+        });
+    }
+
+    function getPatterns(callback){
+        var patterns;
+        var url = "//api-dev.qstrike.com/api/patterns";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                patterns = data['patterns'];
+                if(typeof callback === "function") callback(patterns);
+            }
+        });
+    }
+
     $('.change-order-status').on('change', function(){
         var id = $(this).data('order-id');
         var status = this.value;
@@ -529,15 +569,6 @@ function updateItemsPID(parts){
     });
 }
 
-function translatePattern(body_pattern_raw){
-    var pattern = null;
-    if(body_pattern_raw == "stripe"){
-        pattern = "Stripes"
-    }
-
-    return pattern;
-}
-
 function upperOrLower(bc){
     var test;
     try { // check if the BC is upper
@@ -771,4 +802,111 @@ function buildQuestions( utpi, questionsValues ){
     return questions;
 }
 
+// Implement Parts Aliases Configs
+window.pa_id = 5;
+window.pa = null;
+
+getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
+
+function applyConfigs(api_order_id){
+    getOrderParts(function(order_parts){ window.order_parts = order_parts; });
+    function getOrderParts(callback){
+        var order_parts;
+        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                order_parts = data['order'];
+                if(typeof callback === "function") callback(order_parts);
+            }
+        });
+    }
+    // use the parts alias config for assign correct values to correct parts
+    var sport_id = window.pa.uniform_category_id;
+    var type = window.pa.type.toLowerCase();
+
+
+    var properties = JSON.parse(window.pa.properties);
+    var questions = [];
+
+
+    properties.forEach(function(entry) {
+
+        console.log(entry.input_type);
+
+        var question_id = entry.part_questions;
+        var value = null;
+        var name = null;
+        var color_code = null;
+        var color_name = null;
+        var color = null;
+        var pattern = null;
+        var builder_customizations = JSON.parse(window.order_parts[0]['builder_customizations']);
+        // RESUME HERE
+        console.log(builder_customizations);
+        var trace = 'colorObj'; // set default to color
+
+        if( entry.input_type == "Pattern" ){
+            trace = 'pattern';
+
+            try {
+                pattern = builder_customizations[type][entry.part_name][trace]['pattern_obj']['name'];
+                value = pattern;
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        } else if( entry.input_type == "Color" ){
+
+            try {
+                color_code = builder_customizations[type][entry.part_name][trace]['color_code'];
+                color_name = builder_customizations[type][entry.part_name][trace]['name'];
+                value = color_name + " " + "(" + color_code + ")";
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        }
+
+        var data = {
+            "QuestionID" : question_id,
+            "Value" : value
+        };
+
+        questions.push(JSON.stringify(data));
+
+    });
+
+
+    console.log(questions);
+}
+
+function getPAConfigs(callback){
+    var parts_aliases;
+    var url = "//api-dev.qstrike.com/api/parts_alias/"+window.pa_id;
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            parts_aliases = data['part_alias'];
+            if(typeof callback === "function") callback(parts_aliases);
+        }
+    });
+}
+
+$('.translate-values').on('click', function(e){
+    api_order_id = $(this).data('api-order-id');
+    applyConfigs(api_order_id);
 });
+
+});
+
