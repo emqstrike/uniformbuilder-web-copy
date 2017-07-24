@@ -193,6 +193,8 @@ $(document).ready(function() {
     ub.data.backTabLayer            = -100;
     ub.data.prolookLayer            = -100; 
 
+    ub.data.maxLength               = 12;
+
     // Mock Object for Pipings 
 
     ub.folders                      = { piping: '/images/pipings' } ;

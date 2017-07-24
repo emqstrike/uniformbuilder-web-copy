@@ -8688,9 +8688,10 @@ $(document).ready(function() {
 
         var _htmlBuilder        = "";
         var _appActive          = 'checked';
-        var _maxLength          = 12;
+        var _maxLength          = ub.data.maxLength; 
 
         if (_settingsObject.type.indexOf('number') !== -1) { _maxLength = 2; }
+        if (ub.config.uniform_application_type === 'sublimated') { _maxLength = 32; }
 
         var _status = 'on';
         if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; }
