@@ -569,15 +569,6 @@ function updateItemsPID(parts){
     });
 }
 
-function translatePattern(body_pattern_raw){
-    var pattern = null;
-    if(body_pattern_raw == "stripe"){
-        pattern = "Stripes"
-    }
-
-    return pattern;
-}
-
 function upperOrLower(bc){
     var test;
     try { // check if the BC is upper
@@ -812,12 +803,10 @@ function buildQuestions( utpi, questionsValues ){
 }
 
 // Implement Parts Aliases Configs
-window.pa_id = 3;
+window.pa_id = 5;
 window.pa = null;
 
 getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
-
-// applyConfigs();
 
 function applyConfigs(api_order_id){
     getOrderParts(function(order_parts){ window.order_parts = order_parts; });
@@ -859,21 +848,29 @@ function applyConfigs(api_order_id){
         var pattern = null;
         var builder_customizations = JSON.parse(window.order_parts[0]['builder_customizations']);
         // RESUME HERE
+        console.log(builder_customizations);
         var trace = 'colorObj'; // set default to color
 
         if( entry.input_type == "Pattern" ){
             trace = 'pattern';
-            getPatternName();
-            console.log('is---pattern');
+
+            try {
+                pattern = builder_customizations[type][entry.part_name][trace]['pattern_obj']['name'];
+                value = pattern;
+            } catch(err) {
+                console.log(err.message);
+            }
+
         } else if( entry.input_type == "Color" ){
+
             try {
                 color_code = builder_customizations[type][entry.part_name][trace]['color_code'];
                 color_name = builder_customizations[type][entry.part_name][trace]['name'];
                 value = color_name + " " + "(" + color_code + ")";
-                console.log('is---color');
             } catch(err) {
-                // console.log(err.message);
+                console.log(err.message);
             }
+
         }
 
         var data = {
