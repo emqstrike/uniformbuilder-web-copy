@@ -54,9 +54,14 @@ $(document).ready(function() {
                 if (blockPattern !== '') {
 
                     blockPatterns = JSON.parse(font.block_patterns);
-                    blockPatterns = blockPatterns.split(',');
-                    blockPatternOK = _.contains(blockPatterns, blockPattern);
 
+                    if (blockPatterns !== null)  {
+
+                        blockPatterns = blockPatterns.split(',');
+                        blockPatternOK = _.contains(blockPatterns, blockPattern);
+
+                    }
+                
                 }
 
             }
@@ -98,9 +103,6 @@ $(document).ready(function() {
         ub.data.fonts = _.filter(ub.data.fonts, {active: "1"});
         ub.data.fonts = _.sortBy(ub.data.fonts, "name");
 
-        sport = ub.config.sport;
-        option = ub.config.option;
-
         _.each (ub.data.fonts, function (font) {
 
             if (font.name === "") { return; }
@@ -129,7 +131,7 @@ $(document).ready(function() {
             font.parsedFontSizeTables = _parsedFontSizeTables;
             font.sublimatedParsedFontSizeTables = _parsedSublimatedFontSizeTables;
 
-            // console.log('Parsed Font Size Table')
+            // console.log('Parsed Font Size Table');
             // console.log(font.parsedFontSizeTables);
 
             // console.log('Sublimated Parsed Font Size Table: ');
@@ -157,7 +159,7 @@ $(document).ready(function() {
 
         } else {
 
-            ub.utilities.error('No fonts loaded for ' + sport + " / " + option + "!");
+            ub.utilities.error('No fonts loaded for ' + ub.config.sport + " / " + ub.config.option + "!");
 
         }
 
