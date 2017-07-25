@@ -803,7 +803,7 @@ function buildQuestions( utpi, questionsValues ){
 }
 
 // Implement Parts Aliases Configs
-window.pa_id = 5;
+window.pa_id = 14;
 window.pa = null;
 
 getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
@@ -909,4 +909,3 @@ $('.translate-values').on('click', function(e){
 });
 
 });
-
