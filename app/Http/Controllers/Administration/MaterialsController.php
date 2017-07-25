@@ -776,4 +776,10 @@ class MaterialsController extends Controller
         }
 
     }
+
+    public function singlePage()
+    {
+
+        return view('administration.materials.materials-single-page');
+    } 
 }
