@@ -16,35 +16,21 @@ var url = "//api-dev.qstrike.com/api/materials";
             }
         });
 
-    function sortMaterialsByTarget(item)
-    {
-        return item.asset_target;
-    }
-    function sortMaterialsBySport(item)
-    {
-        return item.uniform_category;
-    }
-    function sortMaterialsByType(item)
-    {
-        return item.uniform_application_type;
-    }
-    function sortMaterialsByPrice(item)
-    {
-        return item.price_item_template_id;
-    }
-    function sortMaterialsByPattern(item)
-    {
+    var sortedMaterials = _(window.materials).chain().sortBy(function(item){
+        return item.name;
+    }).sortBy(function(item){
         return item.block_pattern;
-    }
-   
+    }).sortBy(function(item){
+        return item.price_item_template_id;
+    }).sortBy(function(item){
+        return item.uniform_application_type;
+    }).sortBy(function(item){
+        return item.uniform_category;
+    }).reverse().sortBy(function(item){
+        return item.asset_target;
+    }).reverse().value();
 
-    var sortedMaterialsPattern = _.sortBy(window.materials, sortMaterialsByPattern);
-    var sortedMaterialsPrice = _.sortBy(sortedMaterialsPattern, sortMaterialsByPrice);
-    var sortedMaterialsType = _.sortBy(sortedMaterialsPrice, sortMaterialsByType);
-    var sortedMaterialsSport = _.sortBy(sortedMaterialsType, sortMaterialsBySport);
-    var sortedMaterialsTarget = _.sortBy(sortedMaterialsSport, sortMaterialsByTarget);
-
-    _.each(sortedMaterialsTarget, function(element, index, list){
+    _.each(sortedMaterials, function(element, index, list){
         var result =`<tr>
                         <td class="m-id">`+element.id+`</td>
                         <td class="m-name">`+element.name+`</td>
