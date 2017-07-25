@@ -119,7 +119,7 @@ class MascotsController extends Controller
             }
         }
 
-        $ordersAPIClient = new \App\APIClients\ordersAPIClient();
+        $ordersAPIClient = new \App\APIClients\OrdersAPIClient();
         $order = $ordersAPIClient->getOrderByOrderId($artwork_request->order_code);
         $artwork_request_user_id = $order->user_id;
 
@@ -144,7 +144,7 @@ class MascotsController extends Controller
     {
         $artwork_request = $this->artworksClient->getArtwork($artwork_request_id);
 
-        $ordersAPIClient = new \App\APIClients\ordersAPIClient();
+        $ordersAPIClient = new \App\APIClients\OrdersAPIClient();
         $order = $ordersAPIClient->getOrderByOrderId($artwork_request->order_code);
         $artwork_request_user_id = $order->user_id;
 
@@ -523,6 +523,8 @@ class MascotsController extends Controller
         $ar_json[$artworkIndex]['mascot_id'] = $mascotId;
 
         $artwork_request->artworks = $ar_json;
+        $artwork_request->status = "for_review";
+        $artwork_request->user_id = $artworkUserId;
 
         $response = $this->artworksClient->updateArtwork($artwork_request);
 
