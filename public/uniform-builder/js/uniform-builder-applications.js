@@ -2780,6 +2780,9 @@ $(document).ready(function() {
 
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Football")  { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '10' || app_id === '9'); }
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Fastpitch") { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '9'); }
+                if (typeof args.mascot !== "undefined" && ub.config.sport === "Basketball" && ub.data.flippedMascots.getCode(args.mascot.id)) { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '16'); }
+                if (typeof args.mascot !== "undefined" && ub.config.sport === "Basketball" && args.mascot.id === '1096') { _mov = args.mascot.id === '1096' && (app_id === '17'); }
+
 
                 if (_mov) {
 
