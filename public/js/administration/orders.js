@@ -407,44 +407,47 @@ $('.send-to-factory').on('click', function(e){
             "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
         };
 
-        var entryQuestions = null;
-        getQuestions(function(questions){ entryQuestions = questions; });
+        // var entryQuestions = null;
+        // getQuestions(function(questions){ entryQuestions = questions; });
 
+        var questions_valid = applyConfigs(api_order_id);
 
+        // function getQuestions(callback){
+        //     var questions;
+        //     var url = "//qx.azurewebsites.net/api/itemquestion/getitemquestions/"+entry.item_id;
+        //     $.ajax({
+        //         url: url,
+        //         async: false,
+        //         type: "GET",
+        //         dataType: "json",
+        //         crossDomain: true,
+        //         contentType: 'application/json',
+        //         success: function(data){
+        //             questions = data;
+        //             if(typeof callback === "function") callback(questions);
+        //         }
+        //     });
+        // }
 
-        function getQuestions(callback){
-            var questions;
-            var url = "//qx.azurewebsites.net/api/itemquestion/getitemquestions/"+entry.item_id;
-            $.ajax({
-                url: url,
-                async: false,
-                type: "GET",
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                success: function(data){
-                    questions = data;
-                    if(typeof callback === "function") callback(questions);
-                }
-            });
-        }
+        // var utpi = null; // Uniform Type & PriceItem // price item not yet used zzz
+        // $.each(entryQuestions, function(i, item) { // CHANGE THIS CODE BLOCK
+        //     if( item.QuestionID == 267 ){
+        //         utpi = "fbij";
+        //     } else if( item.QuestionID == 14 ){
+        //         utpi = "fbgj";
+        //     }
+        // });
 
-        var utpi = null; // Uniform Type & PriceItem // price item not yet used zzz
-        $.each(entryQuestions, function(i, item) { // CHANGE THIS CODE BLOCK
-            if( item.QuestionID == 267 ){
-                utpi = "fbij";
-            } else if( item.QuestionID == 14 ){
-                utpi = "fbgj";
-            }
-        });
+        // var bc = JSON.parse(entry.builder_customizations);
+        // delete bc.attached_files;
 
-        var bc = JSON.parse(entry.builder_customizations);
-        delete bc.attached_files;
-
-        var position = upperOrLower(bc);
-        console.log("Uniform :"+position);
-        var questionsValues = extractPartValues(bc, position);
-        var questions_valid = buildQuestions(utpi, questionsValues);
+        // var position = upperOrLower(bc);
+        // console.log("Uniform :"+position);
+        // var questionsValues = extractPartValues(bc, position);
+        // var questions_valid = buildQuestions(utpi, questionsValues);
+        // var questions_validx = applyConfigs(api_order_id);
+        console.log(questions_valid);
+        // console.log(questions_validx);
         entry.orderQuestions = {
             "OrderQuestion": questions_valid
         };
@@ -487,7 +490,7 @@ $('.send-to-factory').on('click', function(e){
             "BillingPhone": billing_phone,
             "APICode": 1,
             "Gender": 0,
-            "RepID": 154,
+            "RepID": 1148,
             "RepIDEnteredBy": 0,
             "Sport": "All",
             "TeamName": "Wildcats"
@@ -500,7 +503,7 @@ $('.send-to-factory').on('click', function(e){
         };
 
     strResult = JSON.stringify(orderEntire);
-    // console.log(strResult);
+    console.log(strResult);
 
     // console.log(JSON.stringify(orderEntire['orderParts']));
     $.ajax({
@@ -519,7 +522,7 @@ $('.send-to-factory').on('click', function(e){
                 parts.push(orderEntire['orderParts'][index]['orderPart']);
             });
             console.log(JSON.stringify(parts));
-            updateFOID(order_id, factory_order_id, parts);
+            updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
             // console.log(data[0].OrderID);
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -803,13 +806,14 @@ function buildQuestions( utpi, questionsValues ){
 }
 
 // Implement Parts Aliases Configs
-window.pa_id = 14;
+window.pa_id = 3;
 window.pa = null;
+window.order_parts_b;
 
 getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
 
 function applyConfigs(api_order_id){
-    getOrderParts(function(order_parts){ window.order_parts = order_parts; });
+    getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
     function getOrderParts(callback){
         var order_parts;
         var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
@@ -839,14 +843,14 @@ function applyConfigs(api_order_id){
 
         console.log(entry.input_type);
 
-        var question_id = entry.part_questions;
+        var question_id = parseInt(entry.part_questions);
         var value = null;
         var name = null;
         var color_code = null;
         var color_name = null;
         var color = null;
         var pattern = null;
-        var builder_customizations = JSON.parse(window.order_parts[0]['builder_customizations']);
+        var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
         // RESUME HERE
         console.log(builder_customizations);
         var trace = 'colorObj'; // set default to color
@@ -878,12 +882,13 @@ function applyConfigs(api_order_id){
             "Value" : value
         };
 
-        questions.push(JSON.stringify(data));
+        questions.push(data);
 
     });
 
 
     console.log(questions);
+    return questions;
 }
 
 function getPAConfigs(callback){
