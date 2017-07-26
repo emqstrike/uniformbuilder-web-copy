@@ -190,8 +190,8 @@ $(document).ready(function() {
     ub.data.pipings                 = undefined;
     ub.data.tagged_styles           = {};
 
-    ub.data.backTabLayer            = -100;
-    ub.data.prolookLayer            = -100; 
+    ub.data.backTabLayer            = -100 * 3;
+    ub.data.prolookLayer            = -100 * 3; 
 
     ub.data.maxLength               = 12;
     ub.data.maxLengthNumbers        = 2;
