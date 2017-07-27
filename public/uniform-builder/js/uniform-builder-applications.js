@@ -6506,9 +6506,16 @@ $(document).ready(function() {
 
             if (typeof settingsObj.customFilename !== "undefined" && settingsObj.customFilename.length > 0) {
 
-                $('textarea[name="custom-artwork-additional-notes"]').val(settingsObj.additionalNotes);
-                $('img#preview').attr('src', settingsObj.customFilename);
-                $('span[data-button="upload"]').trigger('click');
+                // display uploaded file if preview is not set
+                // Preview is true if theres a custom artwork but was replaced with a temp from the prepared mascot
+                // see ubj@ub.funcs.customArtworkRequestCheck 
+                if (typeof settingsObj.preview === "undefined") { 
+
+                    $('textarea[name="custom-artwork-additional-notes"]').val(settingsObj.additionalNotes);
+                    $('img#preview').attr('src', settingsObj.customFilename);
+                    $('span[data-button="upload"]').trigger('click');
+
+                }
 
             }
             

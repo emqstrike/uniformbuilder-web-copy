@@ -698,7 +698,9 @@ $(document).ready(function() {
 
         var _url = ub.endpoints.getFullUrlString('updateOrderItem');
         
-        delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+        if (typeof $.ajaxSettings.headers !== "undefined" && typeof $.ajaxSettings.headers["X-CSRF-TOKEN"] !== "undefined") {
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];    
+        }
 
         $.ajax({
                 
@@ -742,14 +744,12 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.resubmitOrderForm = function (save) {
+    ub.funcs.resubmitOrderForm = function () {
 
         ub.funcs.updateOrderItemField({
             id: parseInt(ub.config.orderID),
             builder_customizations: JSON.stringify(ub.current_material.settings),
         });
-
-
 
     }
 
