@@ -7,8 +7,8 @@ $(document).ready(function(){
 
         $('#confirmation-modal .confirm-yes').on('click', function(){
             var id = $(this).data('value');
-            var url = "//localhost:8888/api/fabric/delete/";
-            //var url = "//api-dev.qstrike.com/api/fabric/delete/";
+            //var url = "//localhost:8888/api/fabric/delete/";
+            var url = "//api-dev.qstrike.com/api/fabric/delete/";
             $.ajax({
                 url: url,
                 type: "POST",
