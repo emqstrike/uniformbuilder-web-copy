@@ -73,12 +73,20 @@ class ArtworksController extends Controller
             foreach($artworks as $artwork)
             {
                 $order = $this->client->getOrderByOrderId($artwork->order_code);
-                // dd($order);
-                $artwork->user_id = $order->user_id;
-                // dd($artwork);
-                if($artwork->artworks != '""'){
-                    $data = json_decode($artwork->artworks, 1);
-                    $artwork->artworks = $data;
+// dd($order);
+                if($order){
+                    $artwork->user_id = $order->user_id;
+
+                    if($artwork->artworks != '""'){
+                        $data = json_decode($artwork->artworks, 1);
+                        if(is_array($data)){
+                            $artwork->artworks = $data;
+                        } else {
+                            unset($artworks[$ctr]);
+                        }
+                    } else {
+                        unset($artworks[$ctr]);
+                    }
                 } else {
                     unset($artworks[$ctr]);
                 }
