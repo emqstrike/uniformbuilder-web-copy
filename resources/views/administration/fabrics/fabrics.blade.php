@@ -28,10 +28,10 @@
                     <table data-toggle='table' class='data-table table table-bordered fabrics'>
                     <thead>
                         <tr>
-                            <th>Thumbnail</th>
-                            <th>Fabric Name</th>
-                            <th>Code</th>
-                            <th>Active Status</th>
+                            <th>ID</th>
+                            <th>Material ID</th>
+                            <th>Material</th>
+                            <th>Material Abbreviation</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -41,33 +41,16 @@
 
                         <tr class='fabric-{{ $fabric->id }} {{ (!$fabric->active) ? ' inactive' : '' }}'>
                             <td>
-                                @if ($fabric->fabric_path)
-                                <a href="{{ $fabric->fabric_path }}">
-                                    <img src="{{ $fabric->fabric_path }}" height='100px' width='100px'>
-                                </a>
-                                <a href="{{ $fabric->fabric_path }}" class="btn btn-default btn-xs show-fabric" role="button" target="_blank">
-                                    <li class="glyphicon glyphicon-info-sign"></li>
-                                    View
-                                </a>
-                                @else
-                                <img src="http://dummyimage.com/100" height='100px' width='100px'>
-                                @endif
+                             {{ $fabric->id }}
                             </td>
                             <td>
-                                {{ $fabric->name }}
+                                {{ $fabric->factory_material_id }}
                             </td>
                             <td>
-                                <span class="badge">{{ $fabric->code }}</span>
+                                {{ $fabric->material }}
                             </td>
                             <td>
-                                <a href="#" class="btn btn-default btn-xs disable-fabric" data-fabric-id="{{ $fabric->id }}" role="button" {{ ($fabric->active) ? : 'disabled="disabled"' }}>
-                                    <i class="glyphicon glyphicon-eye-close"></i>
-                                    Disable
-                                </a>
-                                <a href="#" class="btn btn-info btn-xs enable-fabric" data-fabric-id="{{ $fabric->id }}" role="button" {{ ($fabric->active) ? 'disabled="disabled"' : '' }}>
-                                    <i class="glyphicon glyphicon-eye-open"></i>
-                                    Enable
-                                </a>
+                                {{ $fabric->material_abbreviation }}
                             </td>
                             <td>
                                 <a href="/administration/fabric/edit/{{ $fabric->id }}" class="btn btn-primary btn-xs edit-fabric" data-fabric-id="{{ $fabric->id }}" role="button">
@@ -80,17 +63,13 @@
                                 </a>
                             </td>
                         </tr>
-
                     @empty
-
                         <tr>
                             <td colspan='5'>
                                 No Fabrics
                             </td>
                         </tr>
-
                     @endforelse
-
                     </tbody>
                     </table>
                 </div>
@@ -98,50 +77,6 @@
         </div>
     </div>
 </section>
-
-<!-- Information Modal -->
-<div class="modal fade" id="view-fabric-modal" aria-hidden="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title">Title</h4>
-            </div>
-            <div class="modal-body">
-                <div class='tabbable'>
-                    <ul class="nav nav-tabs">
-                        <li class="tab-menu-layer-1 active"><a href="#tab-fabric-layer-1" data-toggle="tab">Layer 1</a></li>
-                        <li class="tab-menu-layer-2"><a href="#tab-fabric-layer-2" data-toggle="tab">Layer 2</a></li>
-                        <li class="tab-menu-layer-3"><a href="#tab-fabric-layer-3" data-toggle="tab">Layer 3</a></li>
-                        <li class="tab-menu-layer-4"><a href="#tab-fabric-layer-4" data-toggle="tab">Layer 4</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab-fabric-layer-1" align='center'>
-                            <span class="badge fabric-layer-1-path"></span>
-                            <img src="" class="fabric-layer-1" width="300px" height="300px">
-                        </div>
-                        <div class="tab-pane" id="tab-fabric-layer-2" align='center'>
-                            <span class="badge fabric-layer-2-path"></span>
-                            <img src="" class="fabric-layer-2" width="300px" height="300px">
-                        </div>
-                        <div class="tab-pane" id="tab-fabric-layer-3" align='center'>
-                            <span class="badge fabric-layer-3-path"></span>
-                            <img src="" class="fabric-layer-3" width="300px" height="300px">
-                        </div>
-                        <div class="tab-pane" id="tab-fabric-layer-4" align='center'>
-                            <span class="badge fabric-layer-4-path"></span>
-                            <img src="" class="fabric-layer-4" width="300px" height="300px">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-default confirm-no" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-@include('partials.confirmation-modal')
 
 @endsection
 
