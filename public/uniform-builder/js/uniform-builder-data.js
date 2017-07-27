@@ -190,8 +190,8 @@ $(document).ready(function() {
     ub.data.pipings                 = undefined;
     ub.data.tagged_styles           = {};
 
-    ub.data.backTabLayer            = -100;
-    ub.data.prolookLayer            = -100; 
+    ub.data.backTabLayer            = -100 * 3;
+    ub.data.prolookLayer            = -100 * 3; 
 
     ub.data.maxLength               = 12;
     ub.data.maxLengthNumbers        = 2;
@@ -13763,7 +13763,23 @@ ub.funcs.fontOffSets = [
                     'NB',
                     'RB',
                 ]
-        }],
+            },
+
+            // Team Store
+            {
+                block_pattern: 'Cage Jacket (Apparel)',
+                neck_options: ['Long Sleeve', 'Short Sleeve'],
+                material_option: 'Zipper', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
+        ],
         getLimitedColorSet: function (materialOption) {
 
             var _result = _.find(this.items, function (item) {

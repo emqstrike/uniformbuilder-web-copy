@@ -23,23 +23,23 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Name</label>
+                            <label class="col-md-4 control-label">Material ID</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control fabric-name" name="name" value="{{ old('name') }}">
+                                <input type="number" class="form-control factory-material-id" name="factory_material_id" >
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Code</label>
+                            <label class="col-md-4 control-label">Material</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control fabric-code" name="code" value="{{ old('code') }}">
+                                <input type="text" class="form-control material" name="material">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Fabric File</label>
+                            <label class="col-md-4 control-label">Material Abbreviation</label>
                             <div class="col-md-6 material">
-                                <input type="file" class="form-control fabric-file" name="fabric_path" accept="image/*">
+                               <input type="text" class="form-control material-abbreviation" name="material_abbreviation">
                             </div>
                         </div>
 

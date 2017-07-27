@@ -11,7 +11,7 @@ select:hover {
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
-                <div class="panel-heading">Add New mascot</div>
+                <div class="panel-heading">Modify Fabric Factory</div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -23,24 +23,29 @@ select:hover {
                             </ul>
                         </div>
                     @endif
-
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/materials_fabric/add" enctype="multipart/form-data" id='create-mascot-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/materials_fabric/update" enctype="multipart/form-data" >
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="materials_fabric_id" id="materials_fabric_id" value="{{ $materials_fabric->id }}">  
+                        <input type="hidden" name="id" id="id" value="{{ $materials_fabric->id }}">  
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Material Id</label>
+
+                            <label class="col-md-4 control-label">Material</label>
                             <div class="col-md-6">
-                                <input type="number" class="form-control materials-id" name="material_id" value="{{ $materials_fabric->material_id }}">
+                                  <select name='material_id' class="form-control factory-id">
+                                    @foreach ($fabrics as $fabric)
+                                        @if ($fabric->active)
+                                            @if( ($fabric ->factory_material_id) == $materials_fabric->material_id) 
+                                                 <option  selected="selected" value='{{ $fabric->factory_material_id }}'>{{ $fabric->material }}</option>
+                                             @else if
+                                                <option value='{{ $fabric->factory_material_id }}'>{{ $fabric->material }}</option>
+                                             @endif
+                                        @endif
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
+                      
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Materials</label>
-                            <div class="col-md-6">
-                                <input type="name" class="form-control materials" name="material_name" value="{{ $materials_fabric->material }}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Factorys</label>
+                            <label class="col-md-4 control-label">Factory</label>
                             <div class="col-md-6">
                                 <select name='factory_id' class="form-control factory-id">
                                     @foreach ($factories as $factory)
@@ -59,10 +64,10 @@ select:hover {
                  
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <div class="btn btn-primary create-materials-fabrics">
+                                <button type="submit" class="btn btn-primary update-materials-fabricsy">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Add New Material Fabric
-                                </div>
+                                    Update Fabric Factory
+                                </button>
                                 <a href="/administration/materials_fabrics" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
@@ -80,73 +85,5 @@ select:hover {
 
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/js/administration/mascots.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    $('select:not(:has(option))').attr('visible', false);
 
-    $('.ma-default-color').change(function(){
-        var color = $('option:selected', this).data('color');
-        $(this).css('background-color', color);
-    });
-});
-
-
-window.data = {};
-data.id = $("#materials_fabric_id").val();
-$(document).on('change', '.materials-id', function(){
-    data.material_id = $(this).val();
- });
-$(document).on('change', '.materials', function(){
-
-    data.material = $(this).val();
- });
-$(document).on('change', '.factory-id', function(){
-
-        data.factory_id = $(this).val();
-
-
-
-        console.log(data);
-  
-  
- });
-
-$(document).on('click', '.create-materials-fabrics', function(){
-
-  
-
-
-     //var url = "http://localhost:8888/api/materials_fabric/update";
-    var url = "//" + api_host + "/api/materials_fabric/update";
-               
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: JSON.stringify(data),
-        dataType: "json",
-        crossDomain: true,
-        contentType: 'application/json',
-        headers: {"accessToken": atob(headerValue)},
-        success: function(response){
-            if (response.success) {
-                new PNotify({
-                    title: 'Success',
-                    text: response.message,
-                    type: 'success',
-                    hide: true
-                });
-                // $('#confirmation-modal').modal('hide');
-            
-
-            }
-        }
-    });
-  
- });
-
-
-
-
-</script>
 @endsection
