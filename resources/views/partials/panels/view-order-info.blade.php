@@ -184,6 +184,24 @@
                 <h3>Custom Artwork Requests</h3>
                 <hr />
 
+                <div class="row link-row">
+    
+                    <div class="col-md-12 center">
+
+                        <span class='icon'>
+                            <i class="fa fa-comment" aria-hidden="true"></i>
+                        </span>
+
+                        <br />
+
+                        <em>Mascots from your custom artwork requests are ready for preview, click the link below to see it:</em>
+                        <br /><br />
+                        <a class="show-design" href="" target="_new">View your design with the new Mascots</a>
+
+                    </div>
+
+                </div>
+
                 <div class="row">
     
                     <div class="col-md-12">
@@ -239,7 +257,7 @@
             <!-- Column 2 -->
             <div class="col-md-3">
 
-                <h3>Notification Thread</h3>
+                <h3><i class="fa fa-envelope-o" aria-hidden="true"></i> Notification Thread</h3>
 
                 <hr />
             
@@ -269,7 +287,7 @@
 
                 <p>      
                     <br />
-                    <em>All Notification messages and status changes to inform you of your orders .</em>
+                    <em>All Notification messages and status changes to inform you of your orders.</em>
                 </p>
 
                 <br />
