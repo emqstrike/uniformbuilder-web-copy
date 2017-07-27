@@ -66,13 +66,14 @@
         </div>
     </div>
 </section>
-    
+@include('partials.confirmation-modal')
 @endsection
 
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript">
-    $(document).on('click', '.delete-materials-fabric', function(){
+    $(document).on('click', '.delete-materials-fabric', function(e){
+    e.preventDefault();
       $.confirm({
       title: 'Materials Fabrics',
       content: 'Are you want to delete Materials Fabrics?',
@@ -86,7 +87,7 @@
     });
     
     $(document).on('click', '.confirmButtonYes', function(){
-      
+        
         var id = $(this).data('materials-fabric-id');
 
         //var url = "http://localhost:8888/api/materials_fabric/delete";

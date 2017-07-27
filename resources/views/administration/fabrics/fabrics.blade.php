@@ -57,7 +57,7 @@
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
-                                <a href="#" class="btn btn-danger pull-right btn-xs delete-fabric" data-fabric-id="{{ $fabric->id }}" role="button">
+                                <a href="#" class="delete-fabric btn btn-danger pull-right btn-xs " data-fabric-id="{{ $fabric->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
                                 </a>
@@ -77,7 +77,7 @@
         </div>
     </div>
 </section>
-
+@include('partials.confirmation-modal')
 @endsection
 
 @section('scripts')
@@ -85,16 +85,5 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/fabrics.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function(){
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
-    });
-});
-</script>
+
 @endsection
