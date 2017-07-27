@@ -1,22 +1,17 @@
 @extends('administration.lte-main')
 
-
-
 @section('content')
-    <script src=""></script>
-
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        
-                        Materials Fabrics
+                        Fabrics Factory 
                         <small>
                             <a href="/administration/materials_fabric/add" class='btn btn-xs btn-success'>
                                 <span class="glyphicon glyphicon-plus-sign"></span>
-                                Add New Material Fabric
+                                Add New Fabrics Factory 
                             </a>
                         </small>
                     </h1>
@@ -27,18 +22,17 @@
                         <tr>
                             <th>Material Id</th>
                             <th>Material</th>
-                            <th>Factory Id</th>
+                            <th>Factory</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-
-                        @forelse ($materials_fabrics as $key => $materials_fabric)
-                        
+                        {{-- @forelse ($materials_fabrics as $key => $materials_fabric) --}}
+                        @forelse ($materials_fabrics as $materials_fabric)
                           <tr class='materials-fabric-{{ $materials_fabric->id }} '>
                             <td>{{ $materials_fabric->material_id }}</td>
-                            <td>{{ $materials_fabric->material }}</td>
-                            <td>{{ $materials_fabric->factory_id }}</td>
+                            <td>{{ $materials_fabric->material_name }}</td>
+                            <td>{{ $materials_fabric->factory_name }}</td>
                             <td>
                                 <a href="/administration/materials_fabric/edit/{{ $materials_fabric->id }}" class="btn btn-primary btn-xs edit-materials-fabric" data-materials-fabric-id="{{ $materials_fabric->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
@@ -88,17 +82,15 @@
       cancelButtonClass: 'confirmButtonNo btn-success',
       });
       $(".confirmButtonYes").attr('data-materials-fabric-id',$(this).data('materials-fabric-id'));
-     
-
-     
+          
     });
     
     $(document).on('click', '.confirmButtonYes', function(){
       
         var id = $(this).data('materials-fabric-id');
 
-         //var url = "http://localhost:8888/api/materials_fabric/delete";
-        var url = "//" + api_host + "/api/materials_fabric/delete/";
+        var url = "http://localhost:8888/api/materials_fabric/delete";
+        //var url = "//api-dev.qstrike.com/api/materials_fabric/delete/";
                    
         $.ajax({
             url: url,
@@ -107,7 +99,7 @@
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
+        
             success: function(response){
                 if (response.success) {
                     new PNotify({
@@ -116,7 +108,6 @@
                         type: 'success',
                         hide: true
                     });
-                    // $('#confirmation-modal').modal('hide');
                     $('.font-' + id).fadeOut();
                      $( ".box-body" ).load( location+" .materials_fabrics" );  
 
@@ -125,6 +116,5 @@
         });
      });
 </script>
-<!-- <script type="text/javascript" src="/js/administration/materials_fabrics.js"></script> -->
 
 @endsection

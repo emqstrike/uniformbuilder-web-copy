@@ -24,33 +24,23 @@
                         <input type="hidden" name="fabric_id" value="{{ $fabric->id }}">
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Fabric Name</label>
+                            <label class="col-md-4 control-label">Material ID</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control fabric-name" name="name" value="{{ $fabric->name }}">
+                                <input type="number" class="form-control factory-material-id" name="factory_material_id" value="{{ $fabric->factory_material_id }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Fabric Code</label>
+                            <label class="col-md-4 control-label">Material</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control fabric-code" name="code" value="{{ $fabric->code }}">
+                                <input type="text" class="form-control material" name="material" value="{{ $fabric->material }}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Fabric File</label>
-                            <div class="col-md-6 fabric">
-                                <input type="file" class="form-control fabric-file" name="fabric_path" accept="image/*">
-                                @if ($fabric->fabric_path)
-                                <img src="{{ $fabric->fabric_path }}" class="fabric_path" width="100px" height="100px">
-                                <a href="#" class="btn btn-danger btn-xs delete-fabric-path fabric_path"
-                                    data-fabric-id="{{ $fabric->id }}"
-                                    data-fabric-path="{{ $fabric->fabric_path }}"
-                                    role="button">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                    Delete Layer
-                                </a>
-                                @endif
+                            <label class="col-md-4 control-label">Material Abbreviation</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control material-abbreviation" name="material_abbreviation" value="{{ $fabric->material_abbreviation }}">
                             </div>
                         </div>
 

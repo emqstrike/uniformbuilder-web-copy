@@ -15,13 +15,12 @@ class MaterialsFabricsAPIClient extends APIClient
         ]);
         return $this->decoder->decode($response->getBody());
     }
-     public function updateMaterialsFabrics($data)
+     public function updateMaterialsFabric($data)
     {  
         $response = $this->post('materials_fabric/update', [
 
             'json' => $data
         ]);
-
         return $this->decoder->decode($response->getBody());
     }
 

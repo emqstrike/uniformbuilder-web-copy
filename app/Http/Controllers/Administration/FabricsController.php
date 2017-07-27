@@ -43,12 +43,14 @@ class FabricsController extends Controller
 
     public function store(Request $request)
     {
-        $fabricName = $request->input('name');
-        $fabricCode = $request->input('code');
+        $fabricMaterialID = $request->input('factory_material_id');
+        $fabricMaterial = $request->input('material');
+        $fabricAbbreviation = $request->input('material_abbreviation');
 
         $data = [
-            'name' => $fabricName,
-            'code' => $fabricCode
+            'factory_material_id' => $fabricMaterialID,
+            'material' => $fabricMaterial,
+            'material_abbreviation' => $fabricAbbreviation
         ];
 
         $fabricId = null;
@@ -57,42 +59,7 @@ class FabricsController extends Controller
             $fabricId = $request->input('fabric_id');
             $data['id'] = $fabricId;
         }
-
-        // Does the Fabric Name exist
-        if ($this->client->isFabricNameTaken($fabricName, $fabricId))
-        {
-            return Redirect::to('administration/fabrics')
-                            ->with('message', 'Fabric name already exist');
-        }
-        // Does the Fabric Name exist
-        if ($this->client->isFabricCodeTaken($fabricCode, $fabricId))
-        {
-            return Redirect::to('administration/fabrics')
-                            ->with('message', 'Fabric code already exist');
-        }
-
-        try
-        {
-            $fabricFile = $request->file('fabric_path');
-            if (isset($fabricFile))
-            {
-                if ($fabricFile->isValid())
-                {
-                    $data['fabric_path'] = FileUploader::upload(
-                        $fabricFile,
-                        $fabricName,
-                        'fabric',   // Type
-                        'fabrics'   // S3 Folder
-                    );
-                }
-            }
-        }
-        catch (S3Exception $e)
-        {
-            $message = $e->getMessage();
-            return Redirect::to('/administration/fabrics')
-                            ->with('message', 'There was a problem uploading your files');
-        }
+     
 
         $response = null;
         if (!empty($fabricId))

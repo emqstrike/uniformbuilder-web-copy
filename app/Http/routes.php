@@ -321,7 +321,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('materials_fabric/edit/{id}', 'Administration\MaterialsFabricsController@editMaterialFabricForm');
     Route::post('materials_fabric/delete', 'Administration\MaterialsFabricsController@delete');
     Route::get('materials_fabric/{id}', 'Administration\MaterialsFabricsController@show');
-    Route::post('materials_fabric/update', 'Administration\MaterialsFabricsController@update');
+    Route::post('materials_fabric/update', 'Administration\MaterialsFabricsController@store');
 
     // Artworks
     Route::get('artwork_requests', 'Administration\ArtworksController@index');
