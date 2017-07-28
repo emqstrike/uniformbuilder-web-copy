@@ -29,8 +29,8 @@ $('.delete-part').on('click', function(){
 
    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        //var url = "//api-dev.qstrike.com/api/parts_alias/delete/";
-        var url = "//localhost:8888/api/parts_alias/delete/";
+        var url = "//api-dev.qstrike.com/api/parts_alias/delete/";
+        //var url = "//localhost:8888/api/parts_alias/delete/";
        
         $.ajax({
            url: url,
