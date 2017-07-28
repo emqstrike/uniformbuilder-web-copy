@@ -78,8 +78,13 @@ class ArtworksController extends Controller
                 if($order){
                     $artwork->user_id = $order->user_id;
                     $data = json_decode($artwork->artworks, 1);
-                    $datax = json_decode($data, 1);
-                    $artwork->artworks = $datax;
+                    if(is_string($data)){
+                        $datax = json_decode($data, 1);
+                        $artwork->artworks = $datax;
+                    } else {
+                        $artwork->artworks = $data;
+                    }
+                    
                     if(empty($datax)){
                         unset($artworks[$ctr]);
                     }

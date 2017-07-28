@@ -402,7 +402,8 @@ $('.send-to-factory').on('click', function(e){
         console.log(bcx.applications);
         entry.orderPart = {
             "ID" : entry.id,
-            "ItemID" : entry.item_id,
+            // "ItemID" : entry.item_id,
+            "ItemID" : window.qx_item_ref,
             "Description" : entry.description,
             "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
         };
@@ -806,11 +807,13 @@ function buildQuestions( utpi, questionsValues ){
 }
 
 // Implement Parts Aliases Configs
-window.pa_id = 3;
+window.pa_id = 16;
 window.pa = null;
 window.order_parts_b;
 
 getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
+
+window.qx_item_ref = window.pa.ref_qstrike_mat_id;
 
 function applyConfigs(api_order_id){
     getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
@@ -840,7 +843,8 @@ function applyConfigs(api_order_id){
 
 
     properties.forEach(function(entry) {
-
+        console.log("<<<<<< ENTRY >>>>>>");
+        console.log(entry);
         console.log(entry.input_type);
 
         var question_id = parseInt(entry.part_questions);
@@ -871,6 +875,24 @@ function applyConfigs(api_order_id){
                 color_code = builder_customizations[type][entry.part_name][trace]['color_code'];
                 color_name = builder_customizations[type][entry.part_name][trace]['name'];
                 value = color_name + " " + "(" + color_code + ")";
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        } else if( entry.input_type == "Color" ){
+
+            try {
+                color_code = builder_customizations[type][entry.part_name][trace]['color_code'];
+                color_name = builder_customizations[type][entry.part_name][trace]['name'];
+                value = color_name + " " + "(" + color_code + ")";
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        } else if( entry.input_type == "Material" ){
+
+            try {
+                value = entry.edit_part_value;
             } catch(err) {
                 console.log(err.message);
             }
