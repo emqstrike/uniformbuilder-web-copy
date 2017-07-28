@@ -81,13 +81,17 @@ class ArtworksController extends Controller
                     if(is_string($data)){
                         $datax = json_decode($data, 1);
                         $artwork->artworks = $datax;
+                        if(empty($datax)){
+                            unset($artworks[$ctr]);
+                        }
                     } else {
                         $artwork->artworks = $data;
+                        if(empty($data)){
+                            unset($artworks[$ctr]);
+                        }
                     }
                     
-                    if(empty($datax)){
-                        unset($artworks[$ctr]);
-                    }
+                    
                 } else {
                     unset($artworks[$ctr]);
                 }
