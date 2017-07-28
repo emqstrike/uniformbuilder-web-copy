@@ -118,34 +118,30 @@ class AuthenticationController extends AdminAuthController
                 Session::put('accessToken', $result->access_token);
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
-                $response->success = false;
-                try {
-                    $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
-                }catch (ClientException $e){
-                }
+                // $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
 
-                if ($response->success) {
-                    Session::put('userHasTeamStoreAccount', true);
-                } else {
-                    $response = $this->client->get('encrypt/' . $password);
-                    $response = $decoder->decode($response->getBody());
+                // if ($response->success) {
+                //     Session::put('userHasTeamStoreAccount', true);
+                // } else {
+                //     $response = $this->client->get('encrypt/' . $password);
+                //     $response = $decoder->decode($response->getBody());
 
-                    if ($response->success) {
-                        $params = [
-                            'userId' => $result->user->id,
-                            'firstName' => $result->user->first_name,
-                            'lastName' => $result->user->last_name,
-                            'email' => $result->user->email,
-                            'accessToken' => base64_encode($result->access_token),
-                            'password' => $response->hashedString,
-                            'state' => $result->user->state,
-                            'zip' => $result->user->zip,
-                            'default_rep_id' => $result->user->default_rep_id,
-                        ];
-                        $teamstore_registration_params = base64_encode( json_encode($params) );
-                        Session::put('teamstore_registration_params', $teamstore_registration_params);
-                    }
-                }
+                //     if ($response->success) {
+                //         $params = [
+                //             'userId' => $result->user->id,
+                //             'firstName' => $result->user->first_name,
+                //             'lastName' => $result->user->last_name,
+                //             'email' => $result->user->email,
+                //             'accessToken' => base64_encode($result->access_token),
+                //             'password' => $response->hashedString,
+                //             'state' => $result->user->state,
+                //             'zip' => $result->user->zip,
+                //             'default_rep_id' => $result->user->default_rep_id,
+                //         ];
+                //         $teamstore_registration_params = base64_encode( json_encode($params) );
+                //         Session::put('teamstore_registration_params', $teamstore_registration_params);
+                //     }
+                // }
 
                 return [
                     'success' => true, 
