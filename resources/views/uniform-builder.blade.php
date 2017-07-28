@@ -28,8 +28,10 @@
 <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.pips.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.tooltips.css?v={{$asset_version}}">
 
-<script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
+<link rel="stylesheet" href="{{$asset_storage}}/intro-js/introjs.min.css?v={{$asset_version}}">
 
+
+<script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 <body>
@@ -238,10 +240,10 @@
 <script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/intro-js/intro.min.js?v={{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/natural/natural.js"></script>
 <script src="{{$asset_storage}}/natural/all.js"></script>
-
 
 <!-- End Third Party Scripts -->
 
@@ -568,7 +570,11 @@
 
 <!-- End Preview Panel -->
 
+<!-- Messages Panel -->
 
+    @include('partials.panels.messages-panel')
+
+<!-- End Messages Panel -->
 
 <!-- Modal -->
 

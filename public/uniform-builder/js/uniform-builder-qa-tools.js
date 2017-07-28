@@ -365,6 +365,17 @@ $(document).ready(function () {
 
     // End Font Guides 
 
+    // Messages Panel 
+
+        ub.showMessagesPanel = function () {
+
+            var $messagesPanel = $('div.messages-panel');
+            $messagesPanel.fadeIn();
+
+        }
+
+    // End Messages Panel
+
     // Preview Panel
 
         ub.showPreviewPanel = function () {
