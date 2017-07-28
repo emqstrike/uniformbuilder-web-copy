@@ -12,7 +12,8 @@ $(document).ready(function(){
     window.questions_options = null;
     window.question_names = null;
     window.type = null;
-    window.types = ['Color', 'Pattern'];
+    window.types = ['Color', 'Pattern', 'Material'];
+    window.fabrics = null;
     
 
 
@@ -71,6 +72,7 @@ $('.delete-part').on('click', function(){
                     "part_questions" : $(this).find('.part-questions').val(),
                     "edit_part_name" : $(this).find('.edit-part-name').val(),
                     "edit_part_value" : $(this).find('.edit-part-value').val(),
+                    "fabrics" : $(this).find('.fabrics').val(),
                     "input_type" : $(this).find('.type').val(),
                  };
                 temp.push(x);
@@ -80,11 +82,7 @@ $('.delete-part').on('click', function(){
         console.log(properties);
         $('#properties').val(properties);
         
-        var data = JSON.parse(properties);
-
-        
-         
-        
+        var data = JSON.parse(properties);              
     }
 
     function setValue(thisObj){
@@ -174,13 +172,40 @@ $('.delete-part').on('click', function(){
                   }
                 });
                 window.type = type_elem;
-                //end edit part value loop
+              //end edit part value loop
+              //fabrics loop
+              window.fabrics = null;
+              var fabric;
+              var url = "http://api-dev.qstrike.com/api/materials_fabrics/";
+              $.ajax({
+              url: url,
+              async: false,
+              type: "GET",
+              dataType: "json",
+              crossDomain: true,
+              contentType: 'application/json',
+              success: function(data){
+                fabric = data['materials_fabrics'];
+                    }
+              });
+              var fabric_elem = '<option value="null"></option>';
+              $.each(fabric, function (i, item){
+                if(item.material_name == entry.fabrics) {
+                  fabric_elem += `<option value="`+item.material_name+`" selected>`+item.material_name+` [`+item.factory_name+`]</option>`;
+                } else {
+                  fabric_elem += `<option value="`+item.material_name+`">`+item.material_name+` [`+item.factory_name+`]</option>`;    
+                }                           
+              });
+              window.fabrics = fabric_elem;
+
+
             var td_open = '<td>';
             var td_close = '</td>';
             var input_part_name = '<select class="part-name">'+window.parts_options_names+'</select>';                   
             var input_question_id = '<select class="part-questions">'+window.questions_options+'</select>';
             var input_edit_part_name = '<select class="edit-part-name">'+window.question_names+'</select>';
             var input_edit_part_value = '<input type="text" class="edit-part-value" value="'+entry.edit_part_value+'">';
+            var fabrics = '<select class="fabrics from-control">'+window.fabrics+'</select>';
             var input_type = '<select class="type from-control">'+window.type+'</select>';
             var delete_row = '<a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
             var elem = '<tr class="layer-row">' +
@@ -195,6 +220,9 @@ $('.delete-part').on('click', function(){
                             td_close +
                             td_open +
                                 input_edit_part_value +
+                            td_close +
+                            td_open +
+                                fabrics +
                             td_close +
                             td_open +
                                 input_type +
@@ -230,6 +258,10 @@ $('.delete-part').on('click', function(){
             updateJSON();
     });
 
+    $("#part_aliases_form").on("change", ".fabrics", function(e){
+            e.preventDefault();
+            updateJSON();
+    });
     $("#part_aliases_form").on("change", ".edit-part-name", function(e){
             e.preventDefault();
             updateJSON();
@@ -255,9 +287,11 @@ $('.delete-part').on('click', function(){
         var input_question_id = '<select class="part-questions">'+window.questions_options+'</select>';
         var input_edit_part_name = '<select class="edit-part-name">'+window.question_names+'</select>';
         var input_edit_part_value = '<input type="text" class="edit-part-value" value="">';
+        var fabrics = '<select class="fabrics from-control">'+window.fabrics+'</select>';
         var input_type = `<select class="type from-control">
                                 <option value="Pattern">Pattern</option>
                                 <option value="Color">Color</option>
+                                <option value="Material">Material</option>
                             </select>`;
         var delete_row = '<a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
         var elem = '<tr class="layer-row">' +
@@ -272,6 +306,9 @@ $('.delete-part').on('click', function(){
                         td_close +
                         td_open +
                             input_edit_part_value +
+                        td_close +
+                        td_open +
+                            fabrics +
                         td_close +
                         td_open +
                             input_type +
@@ -317,6 +354,7 @@ $('.delete-part').on('click', function(){
 
     $('.get-questions').on('click', function(e){
         e.preventDefault();
+        getFabrics();
          //Open loading modal
         $('#getPartsModal').modal('show');
 
@@ -396,6 +434,29 @@ $('.delete-part').on('click', function(){
                 $('#getPartsModal').modal('hide');
             }
         });
+    }
+
+    function getFabrics(){
+      window.fabrics = null;
+      var fabric;
+      var url = "http://api-dev.qstrike.com/api/materials_fabrics/";
+      $.ajax({
+          url: url,
+          async: false,
+          type: "GET",
+          dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                fabric = data['materials_fabrics'];
+            }
+        });
+      var elem = '<option value="null"></option>';
+      $.each(fabric, function (i, item){
+          elem += `<option value="`+item.material_name+`">`+item.material_name+` [`+item.factory_name+`]</option>`;
+               
+      });
+      window.fabrics = elem;
     }
 
     $('.uniform-category-id').on('change', function(){

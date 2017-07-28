@@ -98,7 +98,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-1 control-label">Material ID</label>
                             <div class="col-md-1">
-                                <input type="text" class="material-id-parts" name="ref_customizer_mat_id">
+                                <input type="text" class="form-control material-id-parts" name="ref_customizer_mat_id">
                             </div>
                             <div class="col-md-1">
                                     <a href="#" class="btn btn-primary get-parts">Get Parts</a>
@@ -108,20 +108,22 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-1 control-label">Qstrike Item ID</label>
                             <div class="col-md-1">
-                                <input type="text" class="item-id" name="ref_qstrike_mat_id"> 
+                                <input type="text" class="form-control item-id" name="ref_qstrike_mat_id"> 
                             </div>
                             <div class="col-md-1">
                                     <a href="#" class="btn btn-primary get-questions">Get Questions</a>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="row form-group">
 
                             <label class="col-md-1 control-label">Properties
                                 <a href="#" class="btn btn-primary btn-xs add-props">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                 </a>
                             </label>
+                        </div>
+                        <div class="row form-group">   
                             <div class="col-md-11">
                                 <table class="table table-striped table-bordered">
                                     <thead>
@@ -130,6 +132,7 @@ li.select2-selection__choice {
                                             <th>Question</th>
                                             <th>Edit Part Name</th>
                                             <th>Value</th>
+                                            <th>Fabric</th>
                                             <th>Type</th>
                                             <th></th>
                                         </tr>
@@ -199,6 +202,12 @@ li.select2-selection__choice {
 <script src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/parts-aliases.js"></script>
 <script>
+$(function(){
+    
+    //Load Props
+  
+   
 
+});   
 </script>
 @endsection
