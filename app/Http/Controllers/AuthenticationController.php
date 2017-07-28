@@ -121,7 +121,7 @@ class AuthenticationController extends AdminAuthController
                 $response->success = false;
                 try {
                     $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
-                catch (ClientException $e){
+                }catch (ClientException $e){
                 }
 
                 if ($response->success) {
