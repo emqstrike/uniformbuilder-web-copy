@@ -2784,6 +2784,7 @@ $(document).ready(function() {
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Basketball" && args.mascot.id === '1096') { _mov = args.mascot.id === '1096' && (app_id === '17'); }
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Baseball") { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '9'); }
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Crew Socks (Apparel)" && args.mascot.id === '1096') { _mov = (app_id === '72'); }
+                if (typeof args.mascot !== "undefined" && ub.config.sport === "Crew Socks (Apparel)" && ub.data.flippedMascots.getCode(args.mascot.id)) { _mov = (app_id === '71'); } // 71 should always be in left perspective
 
                 if (_mov) {
 
