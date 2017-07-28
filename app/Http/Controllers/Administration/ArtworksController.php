@@ -69,6 +69,7 @@ class ArtworksController extends Controller
         $artworks = $this->artworksClient->getArtworks('processing');
 
         $ctr = 0;
+        // dd($artworks);
         if($artworks){
             foreach($artworks as $artwork)
             {
@@ -76,20 +77,16 @@ class ArtworksController extends Controller
 // dd($order);
                 if($order){
                     $artwork->user_id = $order->user_id;
-
-                    if($artwork->artworks != '""'){
-                        $data = json_decode($artwork->artworks, 1);
-                        if(is_array($data)){
-                            $artwork->artworks = $data;
-                        } else {
-                            unset($artworks[$ctr]);
-                        }
-                    } else {
+                    $data = json_decode($artwork->artworks, 1);
+                    $datax = json_decode($data, 1);
+                    $artwork->artworks = $datax;
+                    if(empty($datax)){
                         unset($artworks[$ctr]);
                     }
                 } else {
                     unset($artworks[$ctr]);
                 }
+                // dd($artworks);
                 $ctr++;
             }
         }
