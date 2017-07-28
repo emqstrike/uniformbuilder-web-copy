@@ -499,16 +499,37 @@ $(document).ready(function () {
 
                 ub.funcs.getCustomArtworRequestStatus(function (status) {
 
-                    ub.config.orderArtworkStatus = status;
+                    ub.config.orderArtworkStatus = status.order.artwork_status;
 
-                    if (status === "rejected") {
+                    if (ub.config.orderArtworkStatus === "rejected") {
 
-                        $('a[data-view="team-info"]').find('span').html('Resubmit Order');
+                        // $('a[data-view="team-info"]').find('span').html('Resubmit Order');
+                        $('span.resubmit-order-btn').show();
+                        $('div#order-status').html('Artwork Rejected, please upload a new one.');
+
+                        $('div#order-status').addClass('rejected');
+                        $('div#order-status').show();
+
+                        $('div#order-status').attr('data-intro', 'This order has a rejected custom artwork, please upload a new file and resubmit the order.');
+                        $('div#order-status').attr('data-position', 'right');
+
+                        $('a[data-view="layers"]').attr('data-step', '2');
+                        $('a[data-view="layers"]').attr('data-position', 'left');
+                        $('a[data-view="layers"]').attr('data-intro', 'Please select the application here where you have previously uploaded the custom artwork request to reupload a new image.');
+
+                        $('span.resubmit-order-btn').attr('data-step', '3');
+                        $('span.resubmit-order-btn').attr('data-position', 'right');
+                        $('span.resubmit-order-btn').attr('data-intro', 'After uploading a new one, please click here to resubmit your order.');
+
+                        // $('a[data-view="layers"]').show();
+
+                        introJs().start();
+
+                        // console.log('Here ....')
 
                     }
 
                 });
-
 
             }
 
@@ -2186,6 +2207,34 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.initGuide = function () {
+
+        // If the artwork has been processed already 
+
+        console.log('Has Processed Artworks: ');
+        console.log(ub.data.hasProcessedArtworks);
+
+        if (ub.data.hasProcessedArtworks) {
+            
+            $('span.approve-reject-artwork-btn').show();
+            $('div#order-status').html('Artwork Processed, please review and approve or reject.');
+            $('div#order-status').show();
+
+            $('div#order-status').attr('data-intro', 'This order has its artwork ready for your review.');
+            $('div#order-status').attr('data-position', 'right');
+
+            $('span.approve-reject-artwork-btn').attr('data-step', '2');
+            $('span.approve-reject-artwork-btn').attr('data-position', 'right');
+            $('span.approve-reject-artwork-btn').attr('data-intro', 'After reviewing the mascots, please click here to approve or reject, so we can make the necessary changes or if you approve we can submit this order for processing.');
+
+            introJs().start();
+
+        } else {
+            console.log('No Processed Artworks...');
+        }
+
+    }
+
     ub.funcs.customArtworkRequestCheck = function (applicationObj) {
 
         ub.funcs.getOrdersWItems(function (response) {
@@ -2208,7 +2257,11 @@ $(document).ready(function () {
                         if (typeof parseInt(_artworkEntry.mascot_id) === "number") {
 
                             var _mascot = ub.funcs.getMascotByID(_artworkEntry.mascot_id);
-                           
+                            ub.data.hasProcessedArtworks = _hasProcessedArtworks;
+
+                            console.log('Has Processed Artworks: ');
+                            console.log(ub.data.hasProcessedArtworks);
+
                             applicationObj.mascotOld = applicationObj.mascot;
                             applicationObj.mascot = _mascot;
                             applicationObj.preview = true;
@@ -2220,10 +2273,10 @@ $(document).ready(function () {
                             // Approve Artwork
                             $('span.approve-reject-artwork-btn').unbind('click');
                             $('span.approve-reject-artwork-btn').on('click', function () {
-
-                               ub.funcs.approveRejectArtwork(_artWorks, _parsedArtworks);
-
+                                ub.funcs.approveRejectArtwork(_artWorks, _parsedArtworks);
                             });
+
+                            ub.funcs.initGuide();
 
                         }
 
@@ -5344,9 +5397,16 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.cleanupBeforeOrder = function () {
+
+        $('div.preview-panel').hide();
+        ub.funcs.resetHighlights();
+
+    }
+
     ub.funcs.initOrderProcess = function () {
 
-        ub.funcs.resetHighlights();
+        ub.funcs.cleanupBeforeOrder();
 
         var _exit = false;
 
@@ -8880,6 +8940,7 @@ $(document).ready(function () {
             var _messagesForCarFilter = [
                                             'Custom Artwork Request Received.', 
                                             'Artwork finished.',
+                                            "This order was rejected because of the following reasons: ",
                                         ];
 
             var _messagesForCar = _.filter(messages, function (message) {
@@ -8901,6 +8962,7 @@ $(document).ready(function () {
             if (_.size(_messagesForCar) > 0) {
 
                 // Sorted by max id 
+
                 var _firstContent = _.first(_messagesForCar);
 
                 if (typeof _firstContent !== "undefined") {
@@ -9092,7 +9154,17 @@ $(document).ready(function () {
                 if (typeof response.order_info.artworks[0] !== "undefined") {
 
                     var _parsedArtworks = JSON.parse(response.order_info.artworks[0].artworks);
-                    _hasProcessedArtworks = true;
+
+                    _.each(_parsedArtworks, function (parsedArtwork) {
+
+                        if(parsedArtwork.mascot_id !== null) {
+
+                            _hasProcessedArtworks = true;
+                            $('span.custom-artwork-status').html('Mascot Ready for Review');
+
+                        }
+
+                    });
 
                 }
 
