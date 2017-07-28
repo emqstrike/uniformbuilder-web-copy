@@ -52,6 +52,18 @@ $(document).ready(function() {
                 url:  'api/orders/updateOrderItem',
                 info: 'Pass the key value pair',
             },
+            {
+                name: 'Get Orders w/ Items',
+                code: 'getOrdersWItems',
+                url:  'api/order/orderswItems/',
+                info: 'Concatenate Order ID at the end of the URL to get the order details.',
+            },
+            {
+                name: 'Update Artwork Request',
+                code: 'updateArtworkRequest',
+                url:  'api/artwork_request/update/',
+                info: 'Post artwork id, order code and approve value',
+            },
 
         ],
 

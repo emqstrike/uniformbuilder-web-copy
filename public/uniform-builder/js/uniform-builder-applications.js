@@ -2783,6 +2783,7 @@ $(document).ready(function() {
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Basketball" && ub.data.flippedMascots.getCode(args.mascot.id)) { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '16'); }
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Basketball" && args.mascot.id === '1096') { _mov = args.mascot.id === '1096' && (app_id === '17'); }
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Baseball") { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '9'); }
+                if (typeof args.mascot !== "undefined" && ub.config.sport === "Crew Socks (Apparel)" && args.mascot.id === '1096') { _mov = (app_id === '72'); }
 
                 if (_mov) {
 
@@ -6506,9 +6507,16 @@ $(document).ready(function() {
 
             if (typeof settingsObj.customFilename !== "undefined" && settingsObj.customFilename.length > 0) {
 
-                $('textarea[name="custom-artwork-additional-notes"]').val(settingsObj.additionalNotes);
-                $('img#preview').attr('src', settingsObj.customFilename);
-                $('span[data-button="upload"]').trigger('click');
+                // display uploaded file if preview is not set
+                // Preview is true if theres a custom artwork but was replaced with a temp from the prepared mascot
+                // see ubj@ub.funcs.customArtworkRequestCheck 
+                if (typeof settingsObj.preview === "undefined") { 
+
+                    $('textarea[name="custom-artwork-additional-notes"]').val(settingsObj.additionalNotes);
+                    $('img#preview').attr('src', settingsObj.customFilename);
+                    $('span[data-button="upload"]').trigger('click');
+
+                }
 
             }
             

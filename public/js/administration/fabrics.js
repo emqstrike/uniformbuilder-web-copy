@@ -1,12 +1,14 @@
 $(document).ready(function(){
 
-         $('.delete-fabric').on('click', function(){
+         $('.delete-fabric').on('click', function(e){
+            e.preventDefault();
             var id = $(this).data('fabric-id');
             modalConfirm('Remove Fabric', 'Are you sure you want to delete the fabric?', id);
         });
 
         $('#confirmation-modal .confirm-yes').on('click', function(){
             var id = $(this).data('value');
+            console.log(id);
             //var url = "//localhost:8888/api/fabric/delete/";
             var url = "//api-dev.qstrike.com/api/fabric/delete/";
             $.ajax({
@@ -31,6 +33,14 @@ $(document).ready(function(){
                 }
             });
         });
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false
+    });
     // $('.enable-fabric').on('click', function(){
     //     var id = $(this).data('fabric-id');
     //     var url = "//" + api_host + "/api/fabric/enable/";

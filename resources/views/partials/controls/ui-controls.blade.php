@@ -2326,4 +2326,70 @@
 
 </script>
 
+
+<script type="text/mustache" id="m-car-approve-dialog">
+    
+    <div class="approve-dialog">
+        
+        <p class="notice">
+            <em>
+                Click the approve or reject button for the custom artwork request so that we can adjust the mascot if it was rejected or proceed to the order processing if everthing is ok. You can use the notes field to enter your comment to give the reason why you rejected the processed mascot.
+            </em>
+        </p>
+        
+        <table class="approve-reject-table">
+     
+            <tr class="header-row">
+                    
+                <td>Location #</td>
+                <td>Mascot ID</td>
+                <td>Thumbnail</td>
+                <td>Link To PDF</td>
+                <td>Approve / Reject</td>
+                <td>Notes</td>
+
+            </tr>
+            
+            @{{#artworks}}
+
+            <tr class="content-row">
+
+                <td class="location">@{{code}}</td>
+                <td class="mascot-id">@{{mascot_id}}</td>
+                <td class="thumb">Thumbnail</td>
+                <td class="link-to-pdf"><a href=""></a></td>
+                <td class="approve-reject">
+                        
+                    <span class="btn approve active" data-state="approve" data-code="@{{code}}">Approve</span>
+                    <span class="btn reject" data-state="reject" data-code="@{{code}}">Reject</span>
+
+                </td>
+                <td class="notes">
+                    
+                    <textarea class="notes" rows=3 cols=30 data-code="@{{code}}"></textarea>
+
+                </td>
+                
+            </tr>
+                
+            @{{/artworks}}
+
+        </table>
+
+        <hr />
+
+        <div class="footer-buttons">
+                
+            <span class="btn submit">Submit</span>
+            <span class="btn cancel">Cancel</span>
+
+        </div>
+
+    </div>
+            
+</script>
+
+
+
+
 @include('partials.controls.team-store-products-picker')
