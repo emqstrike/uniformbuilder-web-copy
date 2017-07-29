@@ -525,7 +525,7 @@ $('.send-to-factory').on('click', function(e){
                 parts.push(orderEntire['orderParts'][index]['orderPart']);
             });
             console.log(JSON.stringify(parts));
-            // updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+            updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
             // console.log(data[0].OrderID);
         },
         error: function (xhr, ajaxOptions, thrownError) {
