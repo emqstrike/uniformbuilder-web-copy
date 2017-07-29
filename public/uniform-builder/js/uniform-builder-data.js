@@ -197,6 +197,8 @@ $(document).ready(function() {
     ub.data.maxLengthNumbers        = 2;
     ub.data.maxLengthSublimated     = 32;
 
+    ub.data.hasProcessedArtworks    = false;
+
     // Mock Object for Pipings 
 
     ub.folders                      = { piping: '/images/pipings' } ;

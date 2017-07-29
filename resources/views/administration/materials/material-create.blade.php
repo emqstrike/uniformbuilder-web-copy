@@ -376,18 +376,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary create-user">
-                                    <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Add New Material
-                                </button>
-                                <a href="/administration/materials" class="btn btn-danger">
-                                    <span class="glyphicon glyphicon-arrow-left"></span>
-                                    Cancel
-                                </a>
-                            </div>
-                        </div>
                         <textarea id="block_patterns_data"><?php echo json_encode($block_patterns, JSON_FORCE_OBJECT);?></textarea>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Price Item Template</label>
@@ -399,6 +387,30 @@
                                 @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Part Aliases</label>
+                            <div class="col-md-6">
+                                <select class="form-control part-aliases" name="part_alias_id" id="part_alias_id">
+                                    <option value="null"></option>
+                                @foreach ($part_aliases as $part_alias)
+                                    <option value='{{ $part_alias->id }}'>{{ $part_alias->description }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary create-user">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                    Add New Material
+                                </button>
+                                <a href="/administration/materials" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>
+                                    Cancel
+                                </a>
+                            </div>
+                        </div>
                         </div>
                     </form>
                 </div>
