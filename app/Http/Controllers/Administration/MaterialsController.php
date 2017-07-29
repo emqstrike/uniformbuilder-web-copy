@@ -18,6 +18,7 @@ use App\APIClients\FontsAPIClient;
 use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\PriceItemTemplatesAPIClient;
+use App\APIClients\PartsAliasesAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 use Illuminate\Support\Facades\Input;
 
@@ -33,6 +34,7 @@ class MaterialsController extends Controller
     protected $fontClient;
     protected $blockPatternClient;
     protected $priceItemTemplateClient;
+    protected $partAliasesAPIClient;
 
     public function __construct(
         APIClient $apiClient,
@@ -44,7 +46,8 @@ class MaterialsController extends Controller
         BoundariesAPIClient $boundariesAPIClient,
         FontsAPIClient $fontsAPIClient,
         BlockPatternsAPIClient $blockPatternsAPIClient,
-        PriceItemTemplatesAPIClient $priceItemTemplatesClient
+        PriceItemTemplatesAPIClient $priceItemTemplatesClient,
+        PartsAliasesAPIClient $partAliasesAPIClient
     )
     {
         $this->client = $apiClient;
@@ -57,6 +60,7 @@ class MaterialsController extends Controller
         $this->fontClient = $fontsAPIClient;
         $this->blockPatternClient = $blockPatternsAPIClient;
         $this->priceItemTemplateClient = $priceItemTemplatesClient;
+        $this->partAliasesAPIClient = $partAliasesAPIClient;
     }
 
     /**
@@ -210,7 +214,7 @@ class MaterialsController extends Controller
         $factories = $this->factoriesClient->getFactories();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
         $price_item_templates = $this->priceItemTemplateClient->getAll();
-
+        $partAliases = $this->partAliasesAPIClient->getAll();
         $material = $this->client->getMaterial($id);
         return view('administration.materials.material-edit', [
             'material' => $material,
@@ -218,7 +222,8 @@ class MaterialsController extends Controller
             'colors' => $colors,
             'factories' => $factories,
             'block_patterns' => $block_patterns,
-            'price_item_templates' => $price_item_templates
+            'price_item_templates' => $price_item_templates,
+            'part_aliases' => $partAliases
         ]);
     }
 
@@ -285,13 +290,14 @@ class MaterialsController extends Controller
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
         $piTemplates = $this->priceItemTemplateClient->getAll();
-
+        $partAliases = $this->partAliasesAPIClient->getAll();
         $factories = $this->factoriesClient->getFactories();
         return view('administration.materials.material-create', [
             'uniform_categories' => $uniformCategories,
             'factories' => $factories,
             'block_patterns' => $block_patterns,
-            'price_item_templates' => $piTemplates
+            'price_item_templates' => $piTemplates,
+            'part_aliases' => $partAliases
         ]);
     }
 
@@ -408,6 +414,7 @@ class MaterialsController extends Controller
         $twillPriceItemTemplateID = $request->input('twill_price_item_template_id');
         $sublimatedPriceItemTemplateID = $request->input('sublimated_price_item_template_id');
         $infusedPriceItemTemplateID = $request->input('infused_price_item_template_id');
+        $partAliasID = $request->input('part_alias_id');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -461,7 +468,8 @@ class MaterialsController extends Controller
             'twill_price_item_template_id' => $twillPriceItemTemplateID,
             'sublimated_price_item_template_id' => $sublimatedPriceItemTemplateID,
             'infused_price_item_template_id' => $infusedPriceItemTemplateID,
-            'style_group' => $styleGroup
+            'style_group' => $styleGroup,
+            'parts_alias_id' => $partAliasID
         ];
 
         try {
