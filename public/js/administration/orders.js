@@ -2,6 +2,7 @@ $(document).ready(function(){
 
     window.colors = null;
     window.patterns = null;
+    window.pa_id = null;
 
     getColors(function(colors){ window.colors = colors; });
     getPatterns(function(patterns){ window.patterns = patterns; });
@@ -398,15 +399,65 @@ $('.send-to-factory').on('click', function(e){
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
-        // console.log(JSON.parse(bcx.order_items));
+        console.log('+ +  ++ + + + ++ + + ++ + ++ ');
+        console.log( bcx.upper.material_id );
         console.log(bcx.applications);
+        window.pa_id = entry.id;
+        window.customizer_material_id = bcx.upper.material_id;
         entry.orderPart = {
             "ID" : entry.id,
             // "ItemID" : entry.item_id,
-            "ItemID" : window.qx_item_ref,
+            // "ItemID" : window.qx_item_ref,
             "Description" : entry.description,
             "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
         };
+
+        console.log('* * * * * *  ENTRY ID');
+        console.log(entry.id);
+        getMaterial(function(material){ window.material = material; });
+        function getMaterial(callback){
+            var material;
+            var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    material = data['material'];
+                    if(typeof callback === "function") callback(material);
+                }
+            });
+        }
+        window.pa = null;
+        getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
+        console.log('* * * * * *  WINDOW MATERIAL');
+        console.log(window.material);
+        window.qx_item_ref = window.pa.ref_qstrike_mat_id;
+        entry.orderPart.ItemID = window.qx_item_ref;
+
+        function getPAConfigs(callback){
+            var parts_aliases;
+            var url = "//api-dev.qstrike.com/api/parts_alias/"+window.material.parts_alias_id;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    parts_aliases = data['part_alias'];
+                    if(typeof callback === "function") callback(parts_aliases);
+                }
+            });
+        }
+
+        console.log('% % % % % % % %   WINDOW MATERIAL')
+        console.log(window.material);
+        // console.log(entry.orderPart);
 
         // var entryQuestions = null;
         // getQuestions(function(questions){ entryQuestions = questions; });
@@ -523,7 +574,7 @@ $('.send-to-factory').on('click', function(e){
                 parts.push(orderEntire['orderParts'][index]['orderPart']);
             });
             console.log(JSON.stringify(parts));
-            updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+            // updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
             // console.log(data[0].OrderID);
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -807,13 +858,13 @@ function buildQuestions( utpi, questionsValues ){
 }
 
 // Implement Parts Aliases Configs
-window.pa_id = 16;
-window.pa = null;
+// window.pa_id = 16;
+
 window.order_parts_b;
 
-getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
+// getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
 
-window.qx_item_ref = window.pa.ref_qstrike_mat_id;
+// window.qx_item_ref = window.pa.ref_qstrike_mat_id;
 
 function applyConfigs(api_order_id){
     getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
@@ -913,22 +964,22 @@ function applyConfigs(api_order_id){
     return questions;
 }
 
-function getPAConfigs(callback){
-    var parts_aliases;
-    var url = "//api-dev.qstrike.com/api/parts_alias/"+window.pa_id;
-    $.ajax({
-        url: url,
-        async: false,
-        type: "GET",
-        dataType: "json",
-        crossDomain: true,
-        contentType: 'application/json',
-        success: function(data){
-            parts_aliases = data['part_alias'];
-            if(typeof callback === "function") callback(parts_aliases);
-        }
-    });
-}
+// function getPAConfigs(callback){
+//     var parts_aliases;
+//     var url = "//api-dev.qstrike.com/api/parts_alias/"+window.pa_id;
+//     $.ajax({
+//         url: url,
+//         async: false,
+//         type: "GET",
+//         dataType: "json",
+//         crossDomain: true,
+//         contentType: 'application/json',
+//         success: function(data){
+//             parts_aliases = data['part_alias'];
+//             if(typeof callback === "function") callback(parts_aliases);
+//         }
+//     });
+// }
 
 $('.translate-values').on('click', function(e){
     api_order_id = $(this).data('api-order-id');
