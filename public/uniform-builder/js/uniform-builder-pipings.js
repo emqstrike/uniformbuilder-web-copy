@@ -917,9 +917,12 @@ $(document).ready(function () {
                 if (piping.color3) { _colorCount +=1 }; 
 
                 // Skip setup of piping settings is coming from saved design, so the saved data will be rendered instead of the default piping style
-                if (typeof ub.current_material.settings.pipings[piping.set] !== "undefined") { return; }
 
-                if (piping.enabled === 1) {
+                var _hasSavedPipingData = (typeof ub.current_material.settings.pipings[piping.set] !== "undefined");
+
+                if (_hasSavedPipingData) { return; }
+
+                if (!_hasSavedPipingData && piping.enabled === 1) {
 
                     ub.current_material.settings.pipings[piping.set] = {
 
