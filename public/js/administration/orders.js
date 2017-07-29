@@ -399,21 +399,15 @@ $('.send-to-factory').on('click', function(e){
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
-        console.log('+ +  ++ + + + ++ + + ++ + ++ ');
-        console.log( bcx.upper.material_id );
-        console.log(bcx.applications);
+
         window.pa_id = entry.id;
         window.customizer_material_id = bcx.upper.material_id;
         entry.orderPart = {
             "ID" : entry.id,
-            // "ItemID" : entry.item_id,
-            // "ItemID" : window.qx_item_ref,
             "Description" : entry.description,
             "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
         };
 
-        console.log('* * * * * *  ENTRY ID');
-        console.log(entry.id);
         getMaterial(function(material){ window.material = material; });
         function getMaterial(callback){
             var material;
@@ -433,8 +427,7 @@ $('.send-to-factory').on('click', function(e){
         }
         window.pa = null;
         getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
-        console.log('* * * * * *  WINDOW MATERIAL');
-        console.log(window.material);
+
         window.qx_item_ref = window.pa.ref_qstrike_mat_id;
         entry.orderPart.ItemID = window.qx_item_ref;
 
@@ -455,51 +448,9 @@ $('.send-to-factory').on('click', function(e){
             });
         }
 
-        console.log('% % % % % % % %   WINDOW MATERIAL')
-        console.log(window.material);
-        // console.log(entry.orderPart);
-
-        // var entryQuestions = null;
-        // getQuestions(function(questions){ entryQuestions = questions; });
-
         var questions_valid = applyConfigs(api_order_id);
 
-        // function getQuestions(callback){
-        //     var questions;
-        //     var url = "//qx.azurewebsites.net/api/itemquestion/getitemquestions/"+entry.item_id;
-        //     $.ajax({
-        //         url: url,
-        //         async: false,
-        //         type: "GET",
-        //         dataType: "json",
-        //         crossDomain: true,
-        //         contentType: 'application/json',
-        //         success: function(data){
-        //             questions = data;
-        //             if(typeof callback === "function") callback(questions);
-        //         }
-        //     });
-        // }
-
-        // var utpi = null; // Uniform Type & PriceItem // price item not yet used zzz
-        // $.each(entryQuestions, function(i, item) { // CHANGE THIS CODE BLOCK
-        //     if( item.QuestionID == 267 ){
-        //         utpi = "fbij";
-        //     } else if( item.QuestionID == 14 ){
-        //         utpi = "fbgj";
-        //     }
-        // });
-
-        // var bc = JSON.parse(entry.builder_customizations);
-        // delete bc.attached_files;
-
-        // var position = upperOrLower(bc);
-        // console.log("Uniform :"+position);
-        // var questionsValues = extractPartValues(bc, position);
-        // var questions_valid = buildQuestions(utpi, questionsValues);
-        // var questions_validx = applyConfigs(api_order_id);
         console.log(questions_valid);
-        // console.log(questions_validx);
         entry.orderQuestions = {
             "OrderQuestion": questions_valid
         };
@@ -963,23 +914,6 @@ function applyConfigs(api_order_id){
     console.log(questions);
     return questions;
 }
-
-// function getPAConfigs(callback){
-//     var parts_aliases;
-//     var url = "//api-dev.qstrike.com/api/parts_alias/"+window.pa_id;
-//     $.ajax({
-//         url: url,
-//         async: false,
-//         type: "GET",
-//         dataType: "json",
-//         crossDomain: true,
-//         contentType: 'application/json',
-//         success: function(data){
-//             parts_aliases = data['part_alias'];
-//             if(typeof callback === "function") callback(parts_aliases);
-//         }
-//     });
-// }
 
 $('.translate-values').on('click', function(e){
     api_order_id = $(this).data('api-order-id');
