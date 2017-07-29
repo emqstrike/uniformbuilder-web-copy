@@ -399,9 +399,24 @@ $('.send-to-factory').on('click', function(e){
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
-
+        // console.log('***** BUILDER CUSTOMIZATIONS ****');
+        // console.log(bcx.upper.material_id);
+        // console.log(bcx.lower.material_id);
+        // console.log(bcx.upper['Neck Trim']['colorObj']);
+        window.customizer_material_id = null;
         window.pa_id = entry.id;
-        window.customizer_material_id = bcx.upper.material_id;
+        console.log(JSON.stringify(bcx.lower));
+        // if(bcx.upper.material_id !== 'undefined'){
+        if('material_id' in bcx.upper){
+            window.customizer_material_id = bcx.upper.material_id;
+            console.log("HAS UPPER ID");
+            console.log(window.customizer_material_id);
+        } else {
+            window.customizer_material_id = bcx.lower.material_id;
+            console.log("HAS LOWER ID");
+            console.log(window.customizer_material_id);
+        }
+        // window.customizer_material_id = bcx.upper.material_id;
         entry.orderPart = {
             "ID" : entry.id,
             "Description" : entry.description,
@@ -876,6 +891,9 @@ function applyConfigs(api_order_id){
             try {
                 color_code = builder_customizations[type][entry.part_name][trace]['color_code'];
                 color_name = builder_customizations[type][entry.part_name][trace]['name'];
+                if(color_name == "Charcoal Grey"){
+                    color_name = "Charcoal Gray";
+                }
                 value = color_name + " " + "(" + color_code + ")";
             } catch(err) {
                 console.log(err.message);
