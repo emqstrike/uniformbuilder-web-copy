@@ -4752,8 +4752,6 @@ $(document).ready(function() {
                     code: 'lacrosse',
                     name: 'Lacrosse',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'basketball',
@@ -4883,15 +4881,11 @@ $(document).ready(function() {
                     code: 'team-short',
                     name: '2017 Team Short with Pockets (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'signature-coaches-short',
                     name: 'Signature Coaches Short (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
             ],
         },
@@ -14026,6 +14020,9 @@ ub.funcs.fontOffSets = [
             { sport: 'Quarter Zip Jacket (Apparel)' },
             { sport: 'Volleyball' },
             { sport: 'Fan Replica Jersey (Apparel)' },
+            { sport: 'Lacrosse' },
+            { sport: 'Signature Coaches Short (Apparel)' },
+            { sport: '2017 Team Short with Pockets (Apparel)' },
 
         ],
 
@@ -14044,10 +14041,7 @@ ub.funcs.fontOffSets = [
 
             { sport: 'Fastpitch' },
             { sport: 'Soccer' },
-            { sport: 'Signature Coaches Short (Apparel)' },
-            { sport: '2017 Team Short with Pockets (Apparel)' },
-
-            { sport: 'Lacrosse' },
+            
             { sport: 'Basketball' },
             { sport: 'Hockey' },
 

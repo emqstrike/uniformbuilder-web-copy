@@ -12,7 +12,7 @@ $(document).ready(function(){
     window.questions_options = null;
     window.question_names = null;
     window.type = null;
-    window.types = ['Color', 'Pattern', 'Material' , 'Team_Color', 'Piping'];
+    window.types = ['Color', 'Pattern', 'Material' , 'Team_Color', 'Piping', 'Sock_Color'];
     window.fabrics = null;
     
 
@@ -294,6 +294,7 @@ $('.delete-part').on('click', function(){
                                 <option value="Material">Material</option>
                                 <option value="Team_Color">Team Color</option>
                                 <option value="Piping">Piping</option>
+                                <option value="Sock_Color">Sock Color</option>
                             </select>`;
         var delete_row = '<a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
         var elem = '<tr class="layer-row">' +
@@ -453,7 +454,7 @@ $('.delete-part').on('click', function(){
                 fabric = data['materials_fabrics'];
             }
         });
-      var elem = '<option value="null"></option>';
+      var elem = '<option value="" selected></option>';
       $.each(fabric, function (i, item){
           elem += `<option value="`+item.material_name+`">`+item.material_name+` [`+item.factory_name+`]</option>`;
                
@@ -467,4 +468,5 @@ $('.delete-part').on('click', function(){
         getBlockPatternsBySportId(function(colors){ window.block_patterns = block_patterns; });
         console.log(window.sport_id);
     });
+
 });
