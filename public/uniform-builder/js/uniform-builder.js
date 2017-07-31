@@ -1578,7 +1578,6 @@ $(document).ready(function () {
                     (material.uniform_category === "Basketball" && material.type === "lower") || 
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
-                    (material.uniform_category === "Football" && material.type === "lower") ||
 
                     (material.uniform_category === "Crew Socks (Apparel)")) {
 
