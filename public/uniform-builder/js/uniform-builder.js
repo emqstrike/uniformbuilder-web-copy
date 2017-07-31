@@ -506,7 +506,7 @@ $(document).ready(function () {
                         // $('a[data-view="team-info"]').find('span').html('Resubmit Order');
                         $('span.resubmit-order-btn').show();
                         $('div#order-status').html('Artwork Rejected, please upload a new one.');
-
+    
                         $('div#order-status').addClass('rejected');
                         $('div#order-status').show();
 
@@ -1686,9 +1686,34 @@ $(document).ready(function () {
             $('#main-row').fadeIn();
             $('div#design_name_container').fadeIn();
 
+            var _hold = 500;
+
+            if (ub.render !== "1" && ub.status.fullView.getStatus()) {
+                ub.funcs.setVisibleView('front');    
+            } else {
+                _hold = 3000;
+            }
+            
             setTimeout(function () {
                 ub.funcs.afterLoad(); 
-            }, 3000);
+            }, _hold);
+
+        }
+
+        ub.funcs.setVisibleView = function (viewStr) {
+
+            _.each(ub.views, function (view) {
+
+                if (view === viewStr) { 
+
+                    ub[view + '_view'].visible = true;
+                    return;
+
+                }
+
+                ub[view + '_view'].visible = false;
+
+            });
 
         }
 
@@ -5669,6 +5694,10 @@ $(document).ready(function () {
                 var w = window.innerWidth * 5;
                 var _newX  = w;
 
+                ub.funcs.setVisibleView(view);
+
+                ////
+
                 ub.left_view.position.x     = _newX;
                 ub.right_view.position.x    = _newX;
                 ub.front_view.position.x    = _newX;
@@ -5677,6 +5706,8 @@ $(document).ready(function () {
 
                 ub[view + '_view'].position.set(ub.offset.x, ub.offset.y);
                 ub.funcs.setActiveIcon(view);
+
+                ////
 
                 $('#main_view').fadeIn();
 
