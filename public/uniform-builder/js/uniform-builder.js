@@ -1574,9 +1574,12 @@ $(document).ready(function () {
                 }
 
                 if ((material.uniform_category === "Baseball" && material.type === "lower") || 
+                    (material.uniform_category === "Fastpitch" && material.type === "lower") || 
                     (material.uniform_category === "Basketball" && material.type === "lower") || 
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
+                    (material.uniform_category === "Football" && material.type === "lower") ||
+
                     (material.uniform_category === "Crew Socks (Apparel)")) {
 
                     material.thumbnail_path_left = material.thumbnail_path_front;
