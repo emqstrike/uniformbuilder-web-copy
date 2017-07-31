@@ -24,6 +24,7 @@ $(document).ready(function () {
         ub.utilities.info('Factory Code: ' + material.factory_code);
         ub.utilities.info('Uniform Application Type: ' + ub.current_material.material.uniform_application_type);
         ub.utilities.info('One Inch In px: ' + ub.current_material.material.one_inch_in_px);
+        ub.utilities.info('Asset Target: ' + ub.config.asset_target);
         ub.utilities.info('-----------------------------');
 
         ub.utilities.info('');
