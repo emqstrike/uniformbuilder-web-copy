@@ -2455,6 +2455,8 @@ $(document).ready(function() {
 
                     }
 
+                    ub.id = response.userID;
+
                 } else {
 
                     if (typeof fromMiddleScreen !== 'undefined') {
