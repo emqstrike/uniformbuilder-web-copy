@@ -1860,7 +1860,8 @@ $(document).ready(function() {
 
             if (ub.funcs.popupTest()) { return; }
             if (ub.status.fullView.getStatus()) { return; }
-
+            if (ub.zoom) { return; }
+            
             var this_data = interactionData.data;
             window.sprite = sprite;
 
@@ -2782,6 +2783,8 @@ $(document).ready(function() {
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Fastpitch") { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '9'); }
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Basketball" && ub.data.flippedMascots.getCode(args.mascot.id)) { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '16'); }
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Basketball" && args.mascot.id === '1096') { _mov = args.mascot.id === '1096' && (app_id === '17'); }
+                if (typeof args.mascot !== "undefined" && ub.config.sport === "Basketball" && args.mascot.id === '584') { _mov = (app_id === '16'); }
+
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Baseball") { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '9'); }
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Crew Socks (Apparel)" && args.mascot.id === '1096') { _mov = (app_id === '72'); }
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Crew Socks (Apparel)" && ub.data.flippedMascots.getCode(args.mascot.id)) { _mov = (app_id === '71'); } // 71 should always be in left perspective
@@ -3650,6 +3653,24 @@ $(document).ready(function() {
 
     ub.funcs.stageMouseMove = function (mousedata) {
 
+        var current_coodinates = mousedata.data.global;
+
+        if (ub.zoom) {
+
+            if (current_coodinates.x < (ub.front_view.width/2)) {
+
+                ub[ub.active_view + '_view'].position.set( -current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
+             
+            } else {
+
+                ub[ub.active_view + '_view'].position.set( -(ub.front_view.width/2) + ub.offset.x, -current_coodinates.y + ub.offset.y);
+            
+            }
+
+            return;
+
+        }
+
         if (ub.tools.activeTool.active()) {
             ub.funcs.resetHighlights();
             $('body').css('cursor', 'pointer');
@@ -3734,24 +3755,8 @@ $(document).ready(function() {
         };
 
         if (ub.status.manipulatorDown) { return; }
-
-        var current_coodinates = mousedata.data.global;
-
-        if (ub.zoom) {
-
-            if (current_coodinates.x < (ub.front_view.width/2)) {
-
-                ub[ub.active_view + '_view'].position.set( -current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
-             
-            } else {
-
-                ub[ub.active_view + '_view'].position.set( -(ub.front_view.width/2) + ub.offset.x, -current_coodinates.y + ub.offset.y);
-            
-            }
-
-        }
-
-        if (ub.active_lock === true) { return; }
+        if (ub.active_lock) { return; }
+        if (ub.zoom) { return; }
 
         var results = ub.funcs.withinMaterialOption(current_coodinates);
 
@@ -6206,6 +6211,18 @@ $(document).ready(function() {
 
         );
 
+        var $myMascotItem = $('span.groups_category_item[data-category-name="My Mascots"]');
+        if (typeof ub.user.id !== "number")  {
+
+            $myMascotItem.hide();
+
+        } else {
+
+            var _appendage = "<br /><em>Mascots that went through custom artwork requests will appear on the [My Mascots] category after we have processed it, so that you can use it on your other designs.</em>";
+            $myMascotItem.append(_appendage);
+
+        }
+
         /// Type Ahead
 
         var _mascotNames = _.pluck(ub.data.mascots, "name");
@@ -6310,6 +6327,7 @@ $(document).ready(function() {
 
             $('div.popup_header').html("Mascots: " + _groups_category_name);
             $('div.categories').html(markup);
+
             $('div.groups_categories').hide();
             $('div.categories').fadeIn();
 
@@ -6323,6 +6341,7 @@ $(document).ready(function() {
 
             );
 
+            $('span.category_item').unbind('click');
             $('span.category_item').on('click', function () {
 
                 var _category_id = $(this).data('category');
@@ -6347,6 +6366,25 @@ $(document).ready(function() {
 
                 var _mascots = _.filter(ub.data.mascots, {category: _category_name});
 
+                if (_category_name === "My Mascots") {
+
+                    var _id = ub.user.id;
+
+                    if (typeof ub.user.id === "number")  {
+                        _mascots = _.filter(_mascots, function (mascot){
+                            return mascot.user_id === _id || _.contains(ub.fontGuideIDs, _id);
+                        });
+
+                    } else {
+
+                        _mascots = _.filter(_mascots, function (mascot) {
+                            return typeof mascot.user_id !== 'string';
+                        });
+
+                    }
+                    
+                }
+
                 var data = {
                     category: _category_name,
                     mascot_category_id: _category_id,
@@ -6356,9 +6394,8 @@ $(document).ready(function() {
                 var template = $('#m-new-mascot-items').html();
                 var markup = Mustache.render(template, data);
 
+                $('div.patternPopupResults').html(markup)
                 $('div.main-content').scrollTo(0);
-
-                $('div.patternPopupResults').html(markup);
 
                 $('div.patternPopupResults > div.item').hover(
 
@@ -6379,6 +6416,12 @@ $(document).ready(function() {
                 });
 
             });
+
+            if(_groups_category_name === "My Mascots") {
+                
+                $('span.category_item[data-category-name="My Mascots"]').trigger('click');
+
+            }
 
         });
 
@@ -11564,6 +11607,8 @@ $(document).ready(function() {
     /// End Locations and Free Application Types
 
      ub.uploadThumbnail = function (view) {
+
+        ub[view].visible = true;
 
         ub.funcs.fullResetHighlights();
 

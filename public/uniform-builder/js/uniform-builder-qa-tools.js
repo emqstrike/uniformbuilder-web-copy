@@ -7,7 +7,7 @@ $(document).ready(function () {
     ub.ga = {};
     ub.devtools = {};
 
-    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 190, 1, 588];
+    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 190, 1, 588, 2];
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
@@ -24,6 +24,7 @@ $(document).ready(function () {
         ub.utilities.info('Factory Code: ' + material.factory_code);
         ub.utilities.info('Uniform Application Type: ' + ub.current_material.material.uniform_application_type);
         ub.utilities.info('One Inch In px: ' + ub.current_material.material.one_inch_in_px);
+        ub.utilities.info('Asset Target: ' + ub.config.asset_target);
         ub.utilities.info('-----------------------------');
 
         ub.utilities.info('');
