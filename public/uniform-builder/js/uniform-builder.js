@@ -796,7 +796,7 @@ $(document).ready(function () {
 
         ub.funcs.transformMascots = function () {
 
-            _.each(ub.data.mascots, function (mascot) {
+            _.each(ub.data.mascots, function (mascot, index) {
 
                 mascot.layers_properties = JSON.parse(mascot.layers_properties);
 
