@@ -349,6 +349,8 @@ function OpenInNewTab(url) {
 
 $('.send-to-factory').on('click', function(e){
 
+    window.team_colors = null;
+
     e.preventDefault();
     bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
     // PostOrder();
@@ -410,12 +412,15 @@ $('.send-to-factory').on('click', function(e){
         if('material_id' in bcx.upper){
             window.customizer_material_id = bcx.upper.material_id;
             console.log("HAS UPPER ID");
-            console.log(window.customizer_material_id);
+            console.log(bcx.upper);
         } else {
             window.customizer_material_id = bcx.lower.material_id;
             console.log("HAS LOWER ID");
-            console.log(window.customizer_material_id);
+            console.log(bcx.upper);
         }
+
+        var teamcolors = bcx.team_colors;
+
         // window.customizer_material_id = bcx.upper.material_id;
         entry.orderPart = {
             "ID" : entry.id,
@@ -523,7 +528,7 @@ $('.send-to-factory').on('click', function(e){
     strResult = JSON.stringify(orderEntire);
     console.log(strResult);
 
-    // console.log(JSON.stringify(orderEntire['orderParts']));
+    console.log(JSON.stringify(orderEntire['orderParts']));
     $.ajax({
         url: url,
         type: "POST",
@@ -540,7 +545,8 @@ $('.send-to-factory').on('click', function(e){
                 parts.push(orderEntire['orderParts'][index]['orderPart']);
             });
             console.log(JSON.stringify(parts));
-            updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+            // updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+            // document.location.reload(); // UNCOMMENT
             // console.log(data[0].OrderID);
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -899,22 +905,35 @@ function applyConfigs(api_order_id){
                 console.log(err.message);
             }
 
-        } else if( entry.input_type == "Color" ){
-
-            try {
-                color_code = builder_customizations[type][entry.part_name][trace]['color_code'];
-                color_name = builder_customizations[type][entry.part_name][trace]['name'];
-                value = color_name + " " + "(" + color_code + ")";
-            } catch(err) {
-                console.log(err.message);
-            }
-
         } else if( entry.input_type == "Material" ){
 
             try {
                 value = entry.edit_part_value;
             } catch(err) {
                 console.log(err.message);
+            }
+
+        } else if( entry.input_type == "Team_Color" ){
+            var idx = 0;
+            console.log(">>>>>>> IS TEAM COLOR");
+            console.log(entry);
+            if(entry.part_questions == "347"){
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "348"){
+                idx = 1;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "349"){
+                idx = 2;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "350"){
+                idx = 3;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "465"){
+                idx = 4;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "466"){
+                idx = 5;
+                value = getQuestionColorValue(builder_customizations, idx);
             }
 
         }
@@ -931,6 +950,20 @@ function applyConfigs(api_order_id){
 
     console.log(questions);
     return questions;
+}
+
+function getQuestionColorValue(builder_customizations, idx){
+    try {
+        color_code = builder_customizations['team_colors'][idx]['color_code'];
+        color_name = builder_customizations['team_colors'][idx]['name'];
+        if(color_name == "Charcoal Grey"){
+            color_name = "Charcoal Gray";
+        }
+        value = color_name + " " + "(" + color_code + ")";
+        return value;
+    } catch(err) {
+        console.log(err.message);
+    }
 }
 
 $('.translate-values').on('click', function(e){
