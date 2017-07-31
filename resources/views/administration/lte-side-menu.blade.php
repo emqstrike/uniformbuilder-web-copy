@@ -264,4 +264,10 @@
       <span>Aliases</span>
       </a>
   </li>
+  <li data-position='right'>
+    <a href="/administration/cuts_links">
+      <i class="fa fa-link"></i>
+      <span>Cuts Links</span>
+      </a>
+  </li>
 </ul>
