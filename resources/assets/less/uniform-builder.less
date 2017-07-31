@@ -3521,7 +3521,7 @@ div.header-container.main {
 
     }
 
-    div#uniform-price-youth, div#uniform-price-adult, div#uniform-price-call-for-team-pricing, div#return-to-customizer {
+    div#uniform-price-youth, div#uniform-price-adult, div#uniform-price-call-for-team-pricing, div#return-to-customizer, div#order-status {
 
         position: absolute;
         color: @ubBlack;
@@ -3610,6 +3610,23 @@ div.header-container.main {
     div#uniform-price-call-for-team-pricing.callForPricingOff {
 
         display: none;
+
+    }
+
+    div#order-status {
+
+        position: absolute;
+        margin-top: 10.5em;
+        text-transform: none;
+
+        display:none;
+
+    }
+
+    div#order-status.rejected {
+
+        color: #1e1e1e;
+        border-bottom: dashed 1px #1e1e1e;
 
     }
 
@@ -7238,6 +7255,12 @@ div.header-container.main {
 
                 }
 
+                img#additional-attachment-preview {
+
+                    width: 300px;
+
+                }
+
             }
 
             span.processing {
@@ -8823,6 +8846,20 @@ div.header-container.main {
 
             div.order-info.custom-artwork-request-status {
 
+                div.link-row {
+
+                    text-align: center;
+                    background-color: #f7f7f7;
+                    margin: 10px;
+                    padding: 30px;
+                    border: dashed 1px #1e1e1e;
+
+                    span.icon { font-size: 3.3em; }
+                    em { font-size: 1.3em; }
+                    a.show-design { font-size: 1.3em; }
+
+                }
+
                 span.custom-artwork-applications {
 
                     font-size: 1.3em;
@@ -8867,14 +8904,14 @@ div.header-container.main {
 
                                 vertical-align: middle;
 
-                                span.update-image {
+                                span.approve-artwork {
 
                                     background-color: #e7e7e7;
                                     color: #3d3d3d;
 
                                 }
 
-                                span.update-image:hover {
+                                span.approve-artwork:hover {
 
                                     background-color: @ubBlack;
                                     color: white;
@@ -9536,7 +9573,7 @@ strong.hello {
         z-index: 1000;
         position: absolute;
         width: 80px;
-        top: 200px;
+        top: 250px;
         color: #222;
 
         hr.left-side-divider { 
@@ -9605,12 +9642,29 @@ strong.hello {
             margin-bottom: 33px;
             display: none;
 
-
         }
 
         span.added {
 
             color: #acacac;
+
+        }
+
+        span.approve-reject-artwork-btn {
+
+            margin-bottom: 33px;
+            display: none;
+
+            color: #e7e7e7;
+
+        }
+
+        span.resubmit-order-btn {
+
+            margin-bottom: 33px;
+            display: none;
+
+            color: #e7e7e7;
 
         }
      
@@ -10786,6 +10840,8 @@ span.load-line.awesomeness {
 
 /* End Loading Dialog */
 
+
+
 /* Preview Panel */
 
     div.preview-panel {
@@ -10842,3 +10898,146 @@ span.load-line.awesomeness {
     }
 
 /* End Preview Panel */
+
+
+
+/* Message Panel */
+
+    div.messages-panel {
+
+        position: absolute;
+        width: 550px;
+        height: 170px;
+        bottom: 0;
+        left: 120px;
+        background-color: #f7f7f7;
+        display: none;
+
+        padding: 7px;
+        z-index: 1000;
+
+        cursor: move;
+
+        div.title {
+
+            cursor: move;
+
+            height: 30px;
+
+            span.caption { float: left; padding: 3px;}
+            span.close { float: right; padding: 3px;}
+
+        }
+
+        div.body {
+
+            cursor: move;
+
+            div.rotation-container {
+
+                label { width: 70px; }
+                strong.number {
+
+                    width: 300px;
+                    display: inline-block;
+
+                }
+
+            }
+
+        }
+
+    }
+
+    div.preview-panel:hover {
+
+        color: white;
+        background-color: #3d3d3d;
+
+    }
+
+/* End Message Panel */
+
+/* Approve / Reject Panel */
+
+    div.approve-dialog {
+
+        p.notice {
+
+            padding: 10px;
+            text-align: center;
+
+        }
+
+        table.approve-reject-table {
+
+            width: 100%;
+            padding: 30px;
+
+            tr.header-row {
+
+                td { 
+                    align: center; 
+                    font-size: 1.3em;
+                }
+
+                height: 50px;
+
+            }
+
+            tr.content-row { height: 90px; }
+
+            td { text-align: center; }
+
+            td.approve-reject {
+
+                span.btn { 
+                    background-color: #e7e7e7; 
+                    min-width: 100px;
+                }
+
+                span.btn.active {
+                    background-color: #1e1e1e;
+                    color: #fff;
+                }
+
+            }
+
+             td.notes {
+
+                textarea { width: 100%; }
+
+            }
+
+        }
+
+        div.footer-buttons { 
+
+            text-align: right;
+            
+            span.btn { 
+                background-color: #e7e7e7; 
+                min-width: 170px;
+            }
+
+            span.btn:hover {
+                background-color: #3d3d3d;
+                color: #fff;
+            }
+
+        }
+
+    }
+
+    
+/* End Approve / Reject Panel */
+
+/* Overrrides */
+    
+    .introjs-helperLayer {
+
+        opacity: 0.2;
+
+    }
+
+/* End Overrides */

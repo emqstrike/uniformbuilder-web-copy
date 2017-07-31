@@ -1,5 +1,46 @@
 $(document).ready(function(){
 
+    window.colors = null;
+    window.patterns = null;
+    window.pa_id = null;
+
+    getColors(function(colors){ window.colors = colors; });
+    getPatterns(function(patterns){ window.patterns = patterns; });
+
+    function getColors(callback){
+        var colors;
+        var url = "//api-dev.qstrike.com/api/colors";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                colors = data['colors'];
+                if(typeof callback === "function") callback(colors);
+            }
+        });
+    }
+
+    function getPatterns(callback){
+        var patterns;
+        var url = "//api-dev.qstrike.com/api/patterns";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                patterns = data['patterns'];
+                if(typeof callback === "function") callback(patterns);
+            }
+        });
+    }
+
     $('.change-order-status').on('change', function(){
         var id = $(this).data('order-id');
         var status = this.value;
@@ -358,23 +399,34 @@ $('.send-to-factory').on('click', function(e){
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
-        // console.log(JSON.parse(bcx.order_items));
-        console.log(bcx.applications);
+        // console.log('***** BUILDER CUSTOMIZATIONS ****');
+        // console.log(bcx.upper.material_id);
+        // console.log(bcx.lower.material_id);
+        // console.log(bcx.upper['Neck Trim']['colorObj']);
+        window.customizer_material_id = null;
+        window.pa_id = entry.id;
+        console.log(JSON.stringify(bcx.lower));
+        // if(bcx.upper.material_id !== 'undefined'){
+        if('material_id' in bcx.upper){
+            window.customizer_material_id = bcx.upper.material_id;
+            console.log("HAS UPPER ID");
+            console.log(window.customizer_material_id);
+        } else {
+            window.customizer_material_id = bcx.lower.material_id;
+            console.log("HAS LOWER ID");
+            console.log(window.customizer_material_id);
+        }
+        // window.customizer_material_id = bcx.upper.material_id;
         entry.orderPart = {
             "ID" : entry.id,
-            "ItemID" : entry.item_id,
             "Description" : entry.description,
             "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
         };
 
-        var entryQuestions = null;
-        getQuestions(function(questions){ entryQuestions = questions; });
-
-
-
-        function getQuestions(callback){
-            var questions;
-            var url = "//qx.azurewebsites.net/api/itemquestion/getitemquestions/"+entry.item_id;
+        getMaterial(function(material){ window.material = material; });
+        function getMaterial(callback){
+            var material;
+            var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
             $.ajax({
                 url: url,
                 async: false,
@@ -383,28 +435,37 @@ $('.send-to-factory').on('click', function(e){
                 crossDomain: true,
                 contentType: 'application/json',
                 success: function(data){
-                    questions = data;
-                    if(typeof callback === "function") callback(questions);
+                    material = data['material'];
+                    if(typeof callback === "function") callback(material);
+                }
+            });
+        }
+        window.pa = null;
+        getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
+
+        window.qx_item_ref = window.pa.ref_qstrike_mat_id;
+        entry.orderPart.ItemID = window.qx_item_ref;
+
+        function getPAConfigs(callback){
+            var parts_aliases;
+            var url = "//api-dev.qstrike.com/api/parts_alias/"+window.material.parts_alias_id;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    parts_aliases = data['part_alias'];
+                    if(typeof callback === "function") callback(parts_aliases);
                 }
             });
         }
 
-        var utpi = null; // Uniform Type & PriceItem // price item not yet used zzz
-        $.each(entryQuestions, function(i, item) { // CHANGE THIS CODE BLOCK
-            if( item.QuestionID == 267 ){
-                utpi = "fbij";
-            } else if( item.QuestionID == 14 ){
-                utpi = "fbgj";
-            }
-        });
+        var questions_valid = applyConfigs(api_order_id);
 
-        var bc = JSON.parse(entry.builder_customizations);
-        delete bc.attached_files;
-
-        var position = upperOrLower(bc);
-        console.log("Uniform :"+position);
-        var questionsValues = extractPartValues(bc, position);
-        var questions_valid = buildQuestions(utpi, questionsValues);
+        console.log(questions_valid);
         entry.orderQuestions = {
             "OrderQuestion": questions_valid
         };
@@ -447,7 +508,7 @@ $('.send-to-factory').on('click', function(e){
             "BillingPhone": billing_phone,
             "APICode": 1,
             "Gender": 0,
-            "RepID": 154,
+            "RepID": 1148,
             "RepIDEnteredBy": 0,
             "Sport": "All",
             "TeamName": "Wildcats"
@@ -460,7 +521,7 @@ $('.send-to-factory').on('click', function(e){
         };
 
     strResult = JSON.stringify(orderEntire);
-    // console.log(strResult);
+    console.log(strResult);
 
     // console.log(JSON.stringify(orderEntire['orderParts']));
     $.ajax({
@@ -479,7 +540,7 @@ $('.send-to-factory').on('click', function(e){
                 parts.push(orderEntire['orderParts'][index]['orderPart']);
             });
             console.log(JSON.stringify(parts));
-            updateFOID(order_id, factory_order_id, parts);
+            updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
             // console.log(data[0].OrderID);
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -527,15 +588,6 @@ function updateItemsPID(parts){
             }
         }
     });
-}
-
-function translatePattern(body_pattern_raw){
-    var pattern = null;
-    if(body_pattern_raw == "stripe"){
-        pattern = "Stripes"
-    }
-
-    return pattern;
 }
 
 function upperOrLower(bc){
@@ -770,5 +822,120 @@ function buildQuestions( utpi, questionsValues ){
 
     return questions;
 }
+
+// Implement Parts Aliases Configs
+// window.pa_id = 16;
+
+window.order_parts_b;
+
+// getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
+
+// window.qx_item_ref = window.pa.ref_qstrike_mat_id;
+
+function applyConfigs(api_order_id){
+    getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
+    function getOrderParts(callback){
+        var order_parts;
+        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                order_parts = data['order'];
+                if(typeof callback === "function") callback(order_parts);
+            }
+        });
+    }
+    // use the parts alias config for assign correct values to correct parts
+    var sport_id = window.pa.uniform_category_id;
+    var type = window.pa.type.toLowerCase();
+
+
+    var properties = JSON.parse(window.pa.properties);
+    var questions = [];
+
+
+    properties.forEach(function(entry) {
+        console.log("<<<<<< ENTRY >>>>>>");
+        console.log(entry);
+        console.log(entry.input_type);
+
+        var question_id = parseInt(entry.part_questions);
+        var value = null;
+        var name = null;
+        var color_code = null;
+        var color_name = null;
+        var color = null;
+        var pattern = null;
+        var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
+        // RESUME HERE
+        console.log(builder_customizations);
+        var trace = 'colorObj'; // set default to color
+
+        if( entry.input_type == "Pattern" ){
+            trace = 'pattern';
+
+            try {
+                pattern = builder_customizations[type][entry.part_name][trace]['pattern_obj']['name'];
+                value = pattern;
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        } else if( entry.input_type == "Color" ){
+
+            try {
+                color_code = builder_customizations[type][entry.part_name][trace]['color_code'];
+                color_name = builder_customizations[type][entry.part_name][trace]['name'];
+                if(color_name == "Charcoal Grey"){
+                    color_name = "Charcoal Gray";
+                }
+                value = color_name + " " + "(" + color_code + ")";
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        } else if( entry.input_type == "Color" ){
+
+            try {
+                color_code = builder_customizations[type][entry.part_name][trace]['color_code'];
+                color_name = builder_customizations[type][entry.part_name][trace]['name'];
+                value = color_name + " " + "(" + color_code + ")";
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        } else if( entry.input_type == "Material" ){
+
+            try {
+                value = entry.edit_part_value;
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        }
+
+        var data = {
+            "QuestionID" : question_id,
+            "Value" : value
+        };
+
+        questions.push(data);
+
+    });
+
+
+    console.log(questions);
+    return questions;
+}
+
+$('.translate-values').on('click', function(e){
+    api_order_id = $(this).data('api-order-id');
+    applyConfigs(api_order_id);
+});
 
 });

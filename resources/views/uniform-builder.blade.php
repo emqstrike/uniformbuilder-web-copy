@@ -28,8 +28,10 @@
 <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.pips.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.tooltips.css?v={{$asset_version}}">
 
-<script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
+<link rel="stylesheet" href="{{$asset_storage}}/intro-js/introjs.min.css?v={{$asset_version}}">
 
+
+<script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 <body>
@@ -158,7 +160,7 @@
     @include('partials.panels.order-form')
     @include('partials.panels.validate-order-form')
 
-    @if (!isset($page)) {
+    @if (!isset($page))
 
         @include('partials.panels.team-store-toolbox')
         
@@ -238,10 +240,10 @@
 <script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/intro-js/intro.min.js?v={{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/natural/natural.js"></script>
 <script src="{{$asset_storage}}/natural/all.js"></script>
-
 
 <!-- End Third Party Scripts -->
 
@@ -265,7 +267,7 @@
 
             uniform_application_type: "{{ isset($material->uniform_application_type) ? $material->uniform_application_type : 'none' }}",
             sport: "{{ isset($material->uniform_category) ? $material->uniform_category : 'none' }}",
-            option: "{{ isset($material->neck_options) ? $material->neck_options : 'none' }}",
+            option: "{{ isset($material->neck_option) ? $material->neck_option: 'none' }}",
             blockPattern: "{{ isset($material->block_pattern) ? $material->block_pattern : 'none' }}",
             type: "{{ isset($material->type) ? $material->type : 'none' }}",
             gender: "{{ isset($material->gender) ? $material->gender : 'none' }}",
@@ -276,7 +278,9 @@
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
 
             orderID: "{{ isset($order_id) ? $order_id : 'none' }}",
-
+            orderCode: "{{ isset($order_code) ? $order_code : 'none' }}",
+            orderIDParent: "{{ isset($order_id_parent) ? $order_id_parent: 'undefined' }}",
+            
             @if (isset($styles)) 
             styles: {
                 load: "{{ isset($styles) ? $styles : false }}",
@@ -461,9 +465,10 @@
 
             if (ub.config.pageType == "Order") {
 
-                ub.config.orderCode       = "{{ isset($orderCode) ? $orderCode: 'undefined' }}";
-                ub.config.orderID         = "{{ isset($orderIdShort) ? $orderIdShort: 'undefined' }}";
-              
+                ub.config.orderCode       = "{{ isset($order_code) ? $order_code: 'undefined' }}";
+                ub.config.orderID         = "{{ isset($order_id_short) ? $order_id_short: 'undefined' }}";
+                ub.config.orderIDParent   = "{{ isset($order_id_parent) ? $order_id_parent: 'undefined' }}";
+
             }
 
             window.ub.temp = s;
@@ -565,7 +570,11 @@
 
 <!-- End Preview Panel -->
 
+<!-- Messages Panel -->
 
+    @include('partials.panels.messages-panel')
+
+<!-- End Messages Panel -->
 
 <!-- Modal -->
 

@@ -127,9 +127,14 @@
           <i class="fa fa-cubes"></i> <span>Materials</span>
         </a>
       </li>
+      <li data-step="9" data-intro="For Materials settings.">
+        <a href="/administration/material/single_page">
+          <i class="fa fa-cubes"></i> <span>Materials (Single Page)</span>
+        </a>
+      </li>
       <li data-step="9" data-intro="For Materials Fabric settings.">
         <a href="/administration/materials_fabrics">
-          <i class="fa fa-cubes"></i> <span>Materials Fabrics</span>
+          <i class="fa fa-cubes"></i> <span>Fabric Factory</span>
         </a>
       </li>
       <li data-step="9" data-intro="For Mockup Sets.">

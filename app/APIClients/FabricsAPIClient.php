@@ -126,7 +126,7 @@ class FabricsAPIClient extends APIClient
         $response = $this->post('fabric/update', [
             'json' => $data
         ]);
-
+        
         return $this->decoder->decode($response->getBody());
     }
 }

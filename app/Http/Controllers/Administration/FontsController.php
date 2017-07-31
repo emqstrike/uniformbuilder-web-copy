@@ -91,16 +91,17 @@ class FontsController extends Controller
         $alias = $request->input('alias');
         $blockPatternOptions = $request->input('block_pattern_options_value');
         $blockPatterns = $request->input('block_patterns_value');
+        // dd($request->input('block_patterns_value'));
 
         $userID = $request->input('user_id');
         
         $myJson = json_decode($fontProperties, true);
 
-        if( $blockPatternOptions != '' ){
+        if( $blockPatternOptions == '' ){
             $blockPatternOptions = null;
         }
 
-        if( $blockPatterns != '' ){
+        if( $blockPatterns == '' ){
             $blockPatterns = null;
         }
 

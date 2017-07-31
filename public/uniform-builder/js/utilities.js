@@ -21,6 +21,18 @@ $( document ).ready(function() {
 
         },
 
+        isImage: function (filename) {
+
+            var _ext = this.getExtension(filename);
+            var _validExtensions = ['gif', 'jpg', 'png', 'jpeg', 'bmp'];
+            var _result = false;
+
+            if (_.contains(_validExtensions, _ext)) { _result = true; }
+
+            return _result;
+
+        },
+
         decimalToHex: function(d, padding) {
             var hex = Number(d).toString(16);
             padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;

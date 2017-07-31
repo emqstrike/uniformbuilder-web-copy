@@ -661,6 +661,98 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.setToPending = function () {
+
+        var _url = ub.endpoints.getFullUrlString('updateArtworkStatus');
+
+        $.ajax({
+                
+                url: _url,
+                data: JSON.stringify({id: ub.config.orderIDParent, artwork_status: 'pending' }), 
+                type: "POST",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    ub.utilities.info('Sucessfully reset artwork status');
+
+                    var _viewOrderLink = ub.config.host + '/order/view/' + ub.config.orderCode;
+                    var _message = '';
+
+                    $('div#validate-order-form').remove();
+                    $('span.processing').fadeOut();
+
+                    // Go to view order details form after submission
+                    window.location = _viewOrderLink;
+
+                }
+                
+            });
+
+    }
+
+    ub.funcs.updateOrderItemField = function (object) {
+
+        var _url = ub.endpoints.getFullUrlString('updateOrderItem');
+        
+        if (typeof $.ajaxSettings.headers !== "undefined" && typeof $.ajaxSettings.headers["X-CSRF-TOKEN"] !== "undefined") {
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];    
+        }
+
+        $.ajax({
+                
+            url: _url,
+            data: JSON.stringify(object), 
+            type: "POST",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+            success: function (response) {
+
+                ub.utilities.info('Updated!');
+                ub.funcs.resetArtworkStatusToPending();
+
+            }
+            
+        });
+
+    }
+
+    ub.funcs.hasCustomArtworkRequests = function () {
+
+        var _result = false;
+        _.each(ub.current_material.settings.applications, function (app) {
+
+            if (app.customLogo) { _result = true; }
+
+        });
+
+        return _result;
+
+    }
+
+    ub.funcs.resetArtworkStatusToPending = function () {
+
+        if (ub.funcs.hasCustomArtworkRequests()) {
+            ub.funcs.setToPending();
+        }
+
+    }
+
+    ub.funcs.resubmitOrderForm = function () {
+
+        ub.funcs.updateOrderItemField({
+            id: parseInt(ub.config.orderID),
+            builder_customizations: JSON.stringify(ub.current_material.settings),
+        });
+
+    }
+
     ub.funcs.submitOrderForm = function (save) {
 
         var _rosterFormValid    = ub.funcs.isOrderFormValid();
@@ -766,6 +858,7 @@ $(document).ready(function() {
         }
 
         var _submitted = '1';
+
         if (typeof save === "number") {
 
             _submitted = 0;
@@ -775,11 +868,13 @@ $(document).ready(function() {
         var orderInput = {
 
             order: {
+
                 client: _clientName,  
                 submitted: _submitted,
                 user_id: _user_id,
                 user_name: ub.user.fullname,
                 origin: ub.config.app_env,
+
             },
             athletic_director: {
 
@@ -788,6 +883,7 @@ $(document).ready(function() {
                 email: _clientEmail,
                 phone: _clientPhone,
                 fax: _clientFax,
+
             },
             billing: {
 
@@ -817,6 +913,7 @@ $(document).ready(function() {
             },
             order_items: [
                 {
+
                     item_id: _itemID,
                     description: _uniformName,
                     type: ub.current_material.material.type,
@@ -833,6 +930,9 @@ $(document).ready(function() {
                 },
             ]
         };
+
+        // If Rejected submit this
+        // if (ub.config.orderCode !== "none") { orderInput.order_code = ub.config.orderCode; }
 
         var _url =  ub.config.api_host + '/api/order';
 
@@ -854,6 +954,7 @@ $(document).ready(function() {
 
         var _qty = ub.funcs.getOrderQty();
         var _sport = ub.current_material.material.uniform_category;
+
         _result = ub.data.minimumOrder.getQty(_sport);
 
         // Show submit order only if qty is greater or equal than required per style
@@ -869,13 +970,20 @@ $(document).ready(function() {
         $('span.submit-confirmed-order').unbind('click');
         $('span.submit-confirmed-order').on('click', function () {
 
-            if ($('span.submit-confirmed-order').html() === 'Submitting Order...') {
-                return;
+            if ($('span.submit-confirmed-order').html() === 'Submitting Order...' || $('span.submit-confirmed-order').html() === 'Resubmitting Order...') { return; }
+
+            if (ub.config.orderArtworkStatus === "rejected") {
+
+                ub.funcs.resubmitOrderForm();
+                $('span.submit-confirmed-order').html('Resubmitting Order...');
+
+            } else {
+
+                ub.funcs.submitOrderForm();
+                $('span.submit-confirmed-order').html('Submitting Order...');
+
             }
-
-            ub.funcs.submitOrderForm();
-            $('span.submit-confirmed-order').html('Submitting Order...');
-
+            
         });
 
         $('span.save-order').unbind('click');
@@ -1085,8 +1193,16 @@ $(document).ready(function() {
                 
                 if(response.success) {
                     ub.funcs.displayLinks(response.filename);
+
+                    if (ub.config.orderArtworkStatus === "rejected") {
+
+                        $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+                        $('span.save-order').hide();
+
+                    }
+
                 }
-                else{
+                else {
                     console.log('error: ');
                     console.log(response.message);
                 }
@@ -1213,6 +1329,19 @@ $(document).ready(function() {
         // Notes
         $('textarea[name="additional-notes"]').val(orderInfo.notes.content);
 
+        // Additional Attachment Link
+        var _filename = JSON.parse(orderInfo.items[0].additional_attachments);
+
+        if (util.isImage(_filename)) { 
+        
+            $('img#additional-attachment-preview').attr('src', _filename); 
+            $('a#additional-attachment-link').attr('href', _filename); 
+            $('span#additional-attachment-label').html(_filename); 
+
+        }
+
+        $('span#additional-attachment-link').html(JSON.parse(orderInfo.items[0].additional_attachments));
+
     };
 
     ub.funcs.showOrderForm = function (orderInfo) {
@@ -1319,6 +1448,8 @@ $(document).ready(function() {
 
         $('div.order-tab-button').on('click', function () {
 
+            if (ub.config.orderArtworkStatus === "rejected") { return; }
+
             var _name = $(this).data('name');
 
             $('div.order-tab-button').removeClass('active-tab');
@@ -1334,6 +1465,24 @@ $(document).ready(function() {
 
         });
 
+        if (typeof ub.data.orderInfo !== "undefined") {
+
+            if (typeof ub.data.orderInfo.items[0].notes !== "undefined") { 
+
+                $('textarea#additional-notes').val(orderInfo.items[0].notes);
+
+            }
+
+        }
+
+        // In case the user just goes back then shows the orderform preview again, show the submit order button
+        if (ub.funcs.thumbnailsUploaded()) {
+
+            $('span.processing').fadeOut();
+            $('span.submit-order').fadeIn();
+
+        }
+        
     }
 
     ub.funcs.getOrderQty = function () {
@@ -1367,6 +1516,18 @@ $(document).ready(function() {
     }
 
     ub.funcs.perUniformValidation = function (orderInfo) {
+
+        $('span.submit-order').hide();
+
+        if (ub.config.orderArtworkStatus === "rejected") {
+
+            $('span.back-to-roster-form-button').hide();
+
+            $('input.form-control').attr('disabled','disabled');
+            $('textarea').attr('disabled', 'disabled');
+            $('input#additional-attachment').attr('disabled','disabled');
+
+        }
 
         var _result = true;
         var _qty = ub.funcs.getOrderQty();
@@ -1772,7 +1933,9 @@ $(document).ready(function() {
     ub.data.rosterInitialized = false;
     ub.funcs.initRoster = function (orderInfo) {
     
-        if (typeof orderInfo !== "undefined") { orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); }
+        if (typeof orderInfo !== "undefined") { 
+            orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); 
+        }
 
         ub.data.rosterInitialized = true;
 
@@ -1780,7 +1943,7 @@ $(document).ready(function() {
         if (typeof ub.user.id === "undefined") { return; }
 
         ub.funcs.uiPrepBeforeOrderForm();
-
+        
         ub.data.orderFormInitialized = true;
         ub.funcs.pushState({data: 'roster-form', title: 'Enter Roster', url: '?roster-form'});
        
@@ -1799,6 +1962,7 @@ $(document).ready(function() {
         ub.uploadThumbnail('right_view');
 
         ub.funcs.prepareUniformSizes();
+        ub.funcs.hideColumns();
 
         // Hide Last Name Application and Sleeve Type when not tackle twill football
         if (!(ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "PMP")) {
@@ -1807,58 +1971,74 @@ $(document).ready(function() {
 
         }
 
-        $('button.change-all').unbind('click');
-        $('button.change-all').on('click', function () {
-
-            $('select.sleeve-type').val($('select.default-sleeve-type').val());
-            $('select.lastname-application').val($('select.default-lastname-application').val());
-                
-        });
-
         $('div#roster-input').fadeIn();
 
-        ub.funcs.hideColumns();
+        // Setup Events if this is not rejected
+        if (ub.config.orderArtworkStatus !== "rejected") {
 
-        $('span.add-player').on('click', function () {
+            $('button.change-all').unbind('click');
+            $('button.change-all').on('click', function () {
 
-            var _numbers    = ''; 
-            var _size       = '';
+                $('select.sleeve-type').val($('select.default-sleeve-type').val());
+                $('select.lastname-application').val($('select.default-lastname-application').val());
+                    
+            });
 
-            _size           = $(this).data('size');
+            $('span.add-player').on('click', function () {
 
-            if (!ub.funcs.isCurrentSport('Wrestling')) {
+                var _numbers    = ''; 
+                var _size       = '';
 
-                _numbers         = ub.funcs.createNumbersSelectionPopup(_size);
+                _size           = $(this).data('size');
 
-            } else {
+                if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
 
-                ub.funcs.AddRosterRow(_size);
+                    _numbers    = ub.funcs.createNumbersSelectionPopup(_size);
 
-            }
+                } else {
 
-        });
+                    ub.funcs.AddRosterRow(_size);
 
-        $('span.size').on('click', function () {
+                }
 
-            if ($('div#numbersPopup').is(':visible')) { return; }
+            });
 
-            var _status = $(this).data('status');
-            var _size   = $(this).data('size');
+            $('span.size').on('click', function () {
 
-            if (_status === 'off') {
+                if ($('div#numbersPopup').is(':visible')) { return; }
 
-                $(this).addClass('active');
-                $(this).data('status', 'on');
-                ub.funcs.addSizesTabs(_size);
+                var _status = $(this).data('status');
+                var _size   = $(this).data('size');
 
-            }
-            else {
+                if (_status === 'off') {
 
-                $(this).removeClass('active');
-                $(this).data('status', 'off');
-                ub.funcs.removeSizesTabs(_size);
+                    $(this).addClass('active');
+                    $(this).data('status', 'on');
+                    ub.funcs.addSizesTabs(_size);
 
-            }
+                }
+                else {
+
+                    $(this).removeClass('active');
+                    $(this).data('status', 'off');
+                    ub.funcs.removeSizesTabs(_size);
+
+                }
+
+            });
+
+            $('span.back-to-customizer-button').on('click', function () {
+
+                ub.funcs.fadeInCustomizer();
+
+            });
+
+        }
+
+        $('span.add-item-to-order').unbind('click');
+        $('span.add-item-to-order').on('click', function () {
+
+            ub.funcs.submitUniform(ub.data.orderInfo);
 
         });
 
@@ -1874,23 +2054,17 @@ $(document).ready(function() {
 
         });
 
-        if (typeof orderInfo !== "undefined") { ub.funcs.prepopulateRoster(orderInfo.items[0]); }
+        if (typeof orderInfo !== "undefined") { 
 
-        $('span.back-to-customizer-button').on('click', function (){
+            // Reinit using previous roster  
+            ub.funcs.prepopulateRoster(orderInfo.items[0]); 
 
-            ub.funcs.fadeInCustomizer();
+            $('textarea#additional-notes').val(orderInfo.items[0].notes);
 
-        });
-
-        $('span.add-item-to-order').unbind('click');
-        $('span.add-item-to-order').on('click', function () {
-
-            ub.funcs.submitUniform(ub.data.orderInfo);
-
-        });
+        }
 
         ub.funcs.reInitHover();
-        
+
     }
 
     ub.funcs.goto = function (location) {
@@ -2097,10 +2271,44 @@ $(document).ready(function() {
 
         };
 
+        ub.funcs.cleanupsBeforeSave = function () {
+
+            // Remove Disabled Pipings
+            var _disabledPipings = {};
+            
+            _.each(ub.current_material.settings.pipings, function (piping, key) {
+                
+                if (piping.enabled === 0) {
+
+                    _disabledPipings[key] = piping;
+                    delete ub.current_material.settings.pipings[key];
+
+                }
+
+            });
+
+            // Remove Disabled Random Feeds
+            var _disabledRandomFeed = {};
+            
+            _.each(ub.current_material.settings.randomFeeds, function (randomFeed, key) {
+                
+                if (randomFeed.enabled === 0) {
+
+                    _disabledRandomFeed[key] = randomFeed;
+                    delete ub.current_material.settings.randomFeeds[key];
+
+                }
+
+            });
+
+        }
+
         ub.funcs.initSaveDesign = function () {
 
             ub.funcs.showSaveDialogBox();
             ub.funcs.turnLocationsOff();
+
+            ub.funcs.cleanupsBeforeSave();
 
             $('img.front_view').attr('src', '');
             $('img.back_view').attr('src', '');

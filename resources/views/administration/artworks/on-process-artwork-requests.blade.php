@@ -26,6 +26,7 @@
                             <th>GA ID</th>
                             <th>Status</th>
                             <th>Artwork</th>
+                            <th>Status / Notes</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -51,16 +52,44 @@
                                 </div>
                             </td>
                             <td>
-                                <div>
+                                <!-- <div> -->
+                                <table class="table table-striped">
+                                <tbody>
                                     @if ( isset($artwork->artworks) )
                                         {{--*/ $ctr = 0 /*--}}
                                         @foreach ($artwork->artworks as $art)
+                                        <tr>
+                                            <td>
                                             Application #{{ $art['code'] }}
-                                            <a href="{{ $art['file'] }}">File</a> <a href="../upload_artwork/{{ $artwork->id }}/{{ $ctr }}">Upload Artwork</a></br>
+                                            <img src="{{ $art['file'] }}" style="height: 30px; width: 30px;">
+                                            <a href="../upload_artwork/{{ $artwork->id }}/{{ $ctr }}/{{ $artwork->user_id }}" class="btn btn-xs btn-primary">Upload Artwork</a></br>
                                         {{--*/ $ctr++ /*--}}
+                                            </td>
+                                        </tr>
                                         @endforeach
                                     @endif
-                                </div>
+                                </tbody>
+                                </table>
+                                <!-- </div> -->
+                            </td>
+                            <td>
+                                @if ( isset($artwork->artworks) )
+                                    {{--*/ $ctr = 0 /*--}}
+                                    @foreach ($artwork->artworks as $art)
+                                        @if( isset($art['user_rejected']) )
+                                            <div class="alert alert-danger">
+                                                Rejected
+                                            </div>
+                                            <a href="#" class="btn btn-xs btn-default">View notes</a>
+                                        @elseif( isset($art['mascot_id']) && $art['approved'] == 1 )
+                                            <div class="alert alert-success">
+                                                Approved
+                                            </div>
+                                        @else
+                                        @endif
+                                    {{--*/ $ctr++ /*--}}
+                                    @endforeach
+                                @endif
                             </td>
                             <td>
                                 <a href="#" class="btn btn-success btn-xs">Mark Done</a>

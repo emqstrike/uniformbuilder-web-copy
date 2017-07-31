@@ -439,7 +439,7 @@ $(document).ready(function () {
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             $('div#uniform-price-adult').html(_adultStr + "<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
-            $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
+            // $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
 
             $('div.header-container').css('display','none !important');
 
@@ -494,6 +494,45 @@ $(document).ready(function () {
             //     suffix_query_string = '&' + suffix_query_string.slice(1);
             // }
 
+            // 
+            if (ub.config.pageType === "Order") {
+
+                ub.funcs.getCustomArtworRequestStatus(function (status) {
+
+                    ub.config.orderArtworkStatus = status.order.artwork_status;
+
+                    if (ub.config.orderArtworkStatus === "rejected") {
+
+                        // $('a[data-view="team-info"]').find('span').html('Resubmit Order');
+                        $('span.resubmit-order-btn').show();
+                        $('div#order-status').html('Artwork Rejected, please upload a new one.');
+
+                        $('div#order-status').addClass('rejected');
+                        $('div#order-status').show();
+
+                        $('div#order-status').attr('data-intro', 'This order has a rejected custom artwork, please upload a new file and resubmit the order.');
+                        $('div#order-status').attr('data-position', 'right');
+
+                        $('a[data-view="layers"]').attr('data-step', '2');
+                        $('a[data-view="layers"]').attr('data-position', 'left');
+                        $('a[data-view="layers"]').attr('data-intro', 'Please select the application here where you have previously uploaded the custom artwork request to reupload a new image.');
+
+                        $('span.resubmit-order-btn').attr('data-step', '3');
+                        $('span.resubmit-order-btn').attr('data-position', 'right');
+                        $('span.resubmit-order-btn').attr('data-intro', 'After uploading a new one, please click here to resubmit your order.');
+
+                        // $('a[data-view="layers"]').show();
+
+                        introJs().start();
+
+                        // console.log('Here ....')
+
+                    }
+
+                });
+
+            }
+
             if (ub.render !== "1") {
 
                 ub.funcs.pushState({
@@ -519,7 +558,7 @@ $(document).ready(function () {
             ub.funcs.initUniformSizesAndPrices();
             ub.funcs.initMiscUIEvents();
 
-            ub.displayDoneAt('Awesomess loading completed.');
+            ub.displayDoneAt('Awesomness loading completed.');
 
             ub.afterLoadScripts();
             ub.funcs.afterLoadChecks();
@@ -1555,8 +1594,9 @@ $(document).ready(function () {
             ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
             ub.displayDoneAt('Price Preparation Complete.');
             ub.displayDoneAt('Preparing Search...');
-            ub.prepareTypeAhead();
 
+            if (ub.page === "builder") { ub.prepareTypeAhead(); }
+            
             if (ub.config.styles) {
 
                 ub.funcs.callDirectLinks();
@@ -1842,7 +1882,7 @@ $(document).ready(function () {
 
                     });
 
-                    if (typeof _fontObj === "undefined") { ub.utilities.warn('Invalid Font ID detected for ' + _application.id); }
+                    if (typeof _fontObj === "undefined") { ub.utilities.warn('Invalid Font ID detected for #' + _application.id + ' (font ID: ' + view.application.defaultFont + ')'); }
 
                     var _fontSizeData = ub.data.getPixelFontSize(_fontObj.id,_fontSizesArray[0], view.perspective, { id: _application.id }); 
 
@@ -2049,6 +2089,207 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.applicationObjHasCustomArtwork = function (code) {
+
+        var _applicationObj = ub.funcs.getApplicationSettings(code)
+
+        return (typeof _applicationObj.customFilename !== "undefined" && _applicationObj.customFilename !== "" &  _applicationObj.customFilename.length > 0);
+
+    };
+    
+    ub.funcs.updateArtworkRequest = function (data, cb) {
+
+         $.ajax({
+            
+            url: ub.endpoints.getFullUrlString('updateArtworkRequest'),
+            type: "POST", 
+            dataType: "json",
+            data: JSON.stringify(data),
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+            success: function (response) {
+                
+                cb(response);
+
+            }
+            
+        });
+
+    }
+
+    ub.funcs.approveRejectArtwork = function (artworks, parsedArtworks) {
+
+        var _data = { artworks: parsedArtworks };
+        
+        var _markup = ub.utilities.buildTemplateString('#m-car-approve-dialog', _data);
+
+        var dialog = bootbox.dialog({
+            title: 'Approve / Reject Artwork',
+            message: _markup,
+            size: 'large',
+        });
+
+        dialog.init(function() {
+
+            $('span.approve').unbind('click');
+            $('span.approve').on('click', function () {
+
+                var _code = $(this).data('code');
+
+                $('span.btn[data-code="' + _code +'"]').removeClass('active');
+                $(this).addClass('active');
+
+            });
+
+            $('span.reject').unbind('click');
+            $('span.reject').on('click', function () {
+
+                var _code = $(this).data('code');
+
+                $('span.btn[data-code="' + _code +'"]').removeClass('active');
+                $(this).addClass('active');
+
+            });
+
+            $('span.btn.cancel').unbind('click');
+            $('span.btn.cancel').on('click', function () {
+                
+                dialog.modal('hide')
+
+            });
+
+            $('span.btn.submit').unbind('click');
+            $('span.btn.submit').on('click', function () {
+
+                dialog.modal('hide');
+
+                _artworksField = JSON.parse(artworks.artworks);
+                artworks.item = 'test';
+                artworks.user_id = ub.user.id;
+
+                var _artWorksTemp = [];
+                $('td.approve-reject').find('span.btn.active').each(function (index) {
+
+                    var _code = $(this).data('code');
+                    var _state = $(this).data('state'); 
+                    var _item = _.find(_artworksField, {code: _code.toString()});
+
+                    if (typeof _item !== "undefined") {
+
+                        _item.approved = _state === "approve" ? '1': '0';
+
+                        if (_state === "reject") {
+                            _item.user_rejected = '1';
+                        }
+
+                        _item.user_notes = $('textarea[data-code="' + _code + '"]').val();
+                        _artWorksTemp.push(_item);
+                        
+                    }
+
+                });
+
+                artworks.artworks =  JSON.stringify(_artWorksTemp);
+                ub.funcs.updateArtworkRequest(artworks, function () {
+
+                    ub.funcs.resubmitOrderForm();
+
+                    $('span.approve-reject-artwork-btn').hide();
+                    $.smkAlert({text: 'Artwork Status updated', type:'info', time: 3, marginTop: '80px'});
+
+                });
+
+            });
+
+        });
+
+    };
+
+    ub.funcs.initGuide = function () {
+
+        // If the artwork has been processed already 
+
+        console.log('Has Processed Artworks: ');
+        console.log(ub.data.hasProcessedArtworks);
+
+        if (ub.data.hasProcessedArtworks) {
+            
+            $('span.approve-reject-artwork-btn').show();
+            $('div#order-status').html('Artwork Processed, please review and approve or reject.');
+            $('div#order-status').show();
+
+            $('div#order-status').attr('data-intro', 'This order has its artwork ready for your review.');
+            $('div#order-status').attr('data-position', 'right');
+
+            $('span.approve-reject-artwork-btn').attr('data-step', '2');
+            $('span.approve-reject-artwork-btn').attr('data-position', 'right');
+            $('span.approve-reject-artwork-btn').attr('data-intro', 'After reviewing the mascots, please click here to approve or reject, so we can make the necessary changes or if you approve we can submit this order for processing.');
+
+            introJs().start();
+
+        } else {
+            console.log('No Processed Artworks...');
+        }
+
+    }
+
+    ub.funcs.customArtworkRequestCheck = function (applicationObj) {
+
+        ub.funcs.getOrdersWItems(function (response) {
+
+            var _hasProcessedArtworks = false;
+
+            if (typeof response.order_info.artworks[0] !== "undefined") {
+
+                var _artWorks = response.order_info.artworks[0];
+                var _parsedArtworks = JSON.parse(_artWorks.artworks);
+
+                _hasProcessedArtworks = true;
+
+                if (ub.funcs.applicationObjHasCustomArtwork(applicationObj.code)) {
+
+                    var _artworkEntry = _.find(_parsedArtworks, {code: applicationObj.code});
+
+                    if (typeof _artworkEntry !== "undefined") {
+
+                        if (typeof parseInt(_artworkEntry.mascot_id) === "number") {
+
+                            var _mascot = ub.funcs.getMascotByID(_artworkEntry.mascot_id);
+                            ub.data.hasProcessedArtworks = _hasProcessedArtworks;
+
+                            console.log('Has Processed Artworks: ');
+                            console.log(ub.data.hasProcessedArtworks);
+
+                            applicationObj.mascotOld = applicationObj.mascot;
+                            applicationObj.mascot = _mascot;
+                            applicationObj.preview = true;
+
+                            ub.funcs.update_application_mascot(applicationObj.application, _mascot);
+
+                            $('span.approve-reject-artwork-btn').fadeIn();
+
+                            // Approve Artwork
+                            $('span.approve-reject-artwork-btn').unbind('click');
+                            $('span.approve-reject-artwork-btn').on('click', function () {
+                                ub.funcs.approveRejectArtwork(_artWorks, _parsedArtworks);
+                            });
+
+                            ub.funcs.initGuide();
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
     ub.loadSettings = function (settings) {
 
         ub.current_material.settings    = settings;
@@ -2239,6 +2480,8 @@ $(document).ready(function () {
             if (application_obj.type === "mascot"){
 
                 ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
+
+                if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
 
             }
 
@@ -2867,6 +3110,9 @@ $(document).ready(function () {
                         if (window.ub.page === "order") {
 
                             _settings = JSON.parse(response.order[0].builder_customizations);
+
+                            console.log('response (from Get Customizations) ---- ');
+                            console.log(response);
 
                         }
                         else if (window.ub.page === "saved-design") {
@@ -5151,9 +5397,16 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.cleanupBeforeOrder = function () {
+
+        $('div.preview-panel').hide();
+        ub.funcs.resetHighlights();
+
+    }
+
     ub.funcs.initOrderProcess = function () {
 
-        ub.funcs.resetHighlights();
+        ub.funcs.cleanupBeforeOrder();
 
         var _exit = false;
 
@@ -6539,12 +6792,7 @@ $(document).ready(function () {
 
                     var _resultPrice = $(this).find('span.calculatedPrice').html();
 
-                    if (_resultPrice === "Call for Pricing") {
-
-                        $(this).find('span.callForTeamPricing').html('');
-
-                    }
-
+                    // if (_resultPrice === "Call for Pricing") { $(this).find('span.callForTeamPricing').html(''); }
 
                     if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
@@ -6784,6 +7032,8 @@ $(document).ready(function () {
                 ub.funcs.initScroller('uniforms', items, gender);
 
             });
+
+            $(window).scrollTop(0);
 
         }
 
@@ -7712,7 +7962,6 @@ $(document).ready(function () {
                     });
 
                     // Init 
-
                     $('div.order-list.submitted').hide();
                     $('span.tab[data-type="submitted"]').trigger('click');
 
@@ -8617,52 +8866,6 @@ $(document).ready(function () {
             var _bc = JSON.parse(order.builder_customizations);
             var _fileName = JSON.parse(order.additional_attachments);
             var _applicationSrc = '';
-            var _strBuilder = '';
-            var _table = '<table class="">';
-            var _applications = _bc.applications;
-
-            console.log('Builder Configuration: ');
-            console.log(_bc);
-
-            _table += '<thead><tr> <td>Application #</td> <td class="notes">Notes</td> <td>Images / Link</td> <td class="custom-artwork-requests action"></td></tr> </thead>';
-
-            _.each (_bc.applications, function (application) {
-
-                if (application.customLogo) {
-
-                    var _extension = application.customFilename.substr(application.customFilename.length - 3);
-                    var _validImages = ['png', 'jpg', 'bmp', 'gif'];
-
-                    _applicationSrc = '<tr >';
-
-                    _applicationSrc += '<td>';
-                    _applicationSrc +=      application.code + "<br /><br />";
-                    _applicationSrc += '</td>';
-
-                    _applicationSrc += '<td class="notes">';
-                    _applicationSrc +=      application.additionalNotes + "<br />";
-                    _applicationSrc += '</td>';
-
-                    _applicationSrc += '<td>';
-
-                    if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='grow customFilename' data-src='" + application.customFilename + "' src='" + application.customFilename + "' /><br />"; }
-
-                    _applicationSrc +=      "<a href='" + application.customFilename + "' target='new'>Open In New Tab</a><br />";
-                    _applicationSrc += '</td>';
-
-                    _applicationSrc += '<td class="custom-artwork-requests action">';
-                    _applicationSrc +=      "<span class='btn update-image' data-application-code='" + application.code + "'>Update Image</span><br />";
-                    _applicationSrc += '</td>';
-
-                    _applicationSrc += "</tr>";
-
-                    _table += _applicationSrc;
-
-                }
-                
-            });
-
-            _table += '</table>';
 
             // Thumbnails 
 
@@ -8688,8 +8891,6 @@ $(document).ready(function () {
 
             // End Thumbnails
 
-            $('span.custom-artwork-applications').html(_table);
-
             if (typeof _fileName !== "undefined" && _fileName.length > 0) {
 
                 $('img.attachments').attr('src', _fileName);
@@ -8712,27 +8913,6 @@ $(document).ready(function () {
             $('span.notes').html(order.notes);
             $('span.additional-attachments').html(order.additional_attachments);
             
-            $('img.customFilename, img.attachments').unbind('click');
-            $('img.customFilename, img.attachments').on('click', function () {
-
-                var _dtSrc = $(this).attr('data-src');
-                var _str = "<img src ='" + _dtSrc + "' />";
-
-                ub.showModalTool(_str);
-
-             });
-
-            // Update Image Button when Artwork is rejected
-            $('span.update-image').unbind('click');
-            $('span.update-image').on('click', function () {
-
-                var _code = $(this).data('application-code');
-            
-                // ub.funcs.createMascotPopupUpload 
-                // continue here ...
-
-            });
-
             // PDF
             var _url = "/pdfjs/web/viewer.html?file=" + _bc.pdfOrderForm;
             $('iframe#pdfViewer').attr('src', _url);
@@ -8757,8 +8937,20 @@ $(document).ready(function () {
         ub.funcs.customArtworkRequestNotificationThread = function (messages) {
 
             //TODO: Request message subtype field here (subtype:'CUSTOM ARTWORK REQUESTS')
-            var _messagesForCarFilter = 'This order was rejected because of the following reasons: ';
-            var _messagesForCar = _.filter(messages, {subject: _messagesForCarFilter});
+            var _messagesForCarFilter = [
+                                            'Custom Artwork Request Received.', 
+                                            'Artwork finished.',
+                                            "This order was rejected because of the following reasons: ",
+                                        ];
+
+            var _messagesForCar = _.filter(messages, function (message) {
+
+                return _.contains(_messagesForCarFilter, message.subject);
+
+            });
+
+            _messagesForCar = _.sortBy(_messagesForCar, function(message){ return parseInt(message.id); }).reverse();
+
             var _content = ub.utilities.buildTemplateString('#m-car-notification-thread-container', {messages: _messagesForCar});
 
             $('div.car-notification-thread-container').html(_content);
@@ -8770,6 +8962,7 @@ $(document).ready(function () {
             if (_.size(_messagesForCar) > 0) {
 
                 // Sorted by max id 
+
                 var _firstContent = _.first(_messagesForCar);
 
                 if (typeof _firstContent !== "undefined") {
@@ -8874,7 +9067,6 @@ $(document).ready(function () {
             // End Prep Mascots
 
             // Get Order Info 
-
             var _url = ub.endpoints.getFullUrlString('getOrderInfoByOrderID') + ub.config.orderID;
 
             $.ajax({
@@ -8892,6 +9084,8 @@ $(document).ready(function () {
 
                     $('span.status').html(response.order.status);
                     $('a.view-submitted-design').attr('src', _orderLink);
+                    $('a.view-submitted-design').attr('href', _orderLink);
+
                     $('a.view-submitted-design').html(_orderLink);
 
                 }
@@ -8899,7 +9093,6 @@ $(document).ready(function () {
             });
 
             // Get Order Items 
-
             var _url = ub.endpoints.getFullUrlString('getOrderItemsByOrderID') + ub.config.orderID;
 
             $.ajax({
@@ -8914,6 +9107,7 @@ $(document).ready(function () {
                 success: function (response) {
 
                     ub.funcs.displayOrderDetails(response.order[0]);
+                    ub.data.orderInfo = response.order[0];
 
                     $('div.my-orders-loading').hide();
 
@@ -8926,7 +9120,6 @@ $(document).ready(function () {
 
 
             // Messages
-
             $.ajax({
                 
                 url: ub.endpoints.getFullUrlString('getMessagesByRecipientID') + ub.user.id,
@@ -8946,10 +9139,173 @@ $(document).ready(function () {
 
 
             // Custom Artwork Request
+            ub.funcs.getCustomArtworRequestStatus(function (response, status) {
 
-            $.ajax({
+                $('span.custom-artwork-status').html(status);
+                ub.funcs.processCustomArtworkRequestStatus(status);
+
+            });
+
+            // Get Orders w/ items
+            ub.funcs.getOrdersWItems(function (response) {
+
+                var _hasProcessedArtworks = false;
+
+                if (typeof response.order_info.artworks[0] !== "undefined") {
+
+                    var _parsedArtworks = JSON.parse(response.order_info.artworks[0].artworks);
+
+                    _.each(_parsedArtworks, function (parsedArtwork) {
+
+                        if(parsedArtwork.mascot_id !== null) {
+
+                            _hasProcessedArtworks = true;
+                            $('span.custom-artwork-status').html('Mascot Ready for Review');
+
+                        }
+
+                    });
+
+                }
+
+                var _bc = JSON.parse(response.order_info.items[0].builder_customizations);
+                var _applicationSrc = '';
+                var _table = '<table class="">';
+                var _applications = _bc.applications;
+                var carColumnHeader = '<td>Mscot</td>';
+
+                _table += '<thead><tr> <td>Application #</td> <td class="notes">Notes</td> <td>Images / Link</td> <td>Status / Mascot ID</td> <td class="custom-artwork-requests action"></td></tr> </thead>';
+
+                _.each (_bc.applications, function (application) {
+
+                    if (application.customLogo) {
+
+                        var _extension = application.customFilename.substr(application.customFilename.length - 3);
+                        var _validImages = ['png', 'jpg', 'bmp', 'gif'];
+
+                        _applicationSrc = '<tr >';
+
+                        _applicationSrc += '<td>';
+                        _applicationSrc +=      application.code + "<br /><br />";
+                        _applicationSrc += '</td>';
+
+                        _applicationSrc += '<td class="notes">';
+                        _applicationSrc +=      application.additionalNotes + "<br />";
+                        _applicationSrc += '</td>';
+
+                        _applicationSrc += '<td>';
+
+                        if (_.contains(_validImages,_extension)) { _applicationSrc += "<img class='grow customFilename' data-src='" + application.customFilename + "' src='" + application.customFilename + "' /><br />"; }
+
+                        _applicationSrc +=      "<a href='" + application.customFilename + "' target='new'>Open In New Tab</a><br />";
+                        _applicationSrc += '</td>';
+
+                        if (_hasProcessedArtworks) {
+
+                            var _result = _.find(_parsedArtworks, {code: application.code });
+
+                            _applicationSrc += '<td class="status">';
+
+                            if (typeof _result !== "undefined") {
+
+                                _applicationSrc += _result.mascot_id;
+
+                            }
+
+                            _applicationSrc += '</td>';
+
+                            _applicationSrc += '<td class="custom-artwork-requests action">';
+                            _applicationSrc +=      "<span class='btn approve-artwork' data-application-code='" + application.code + "'>Approve</span><br />";
+                            _applicationSrc += '</td>';
+
+                        } else {
+
+                            _applicationSrc += '<td class="status">';
+                            _applicationSrc +=      "Processing" + "<br />";
+                            _applicationSrc += '</td>';
+
+                            _applicationSrc += '<td class="custom-artwork-requests action">';
+                            _applicationSrc +=      "";
+                            _applicationSrc += '</td>';
+
+                        }
+
+                        _applicationSrc += "</tr>";
+
+                        _table += _applicationSrc;
+
+                    }
+                    
+                });
+
+                _table += '</table>';
+
+                $('span.custom-artwork-applications').html(_table);
+
+                // Show View Design with the new mascot
+                if (_hasProcessedArtworks) {
+
+                    var _orderLink = ub.config.host + "/order/" + ub.config.orderID;
+                    $('a.show-design').attr('href', _orderLink);
+
+                } else {
+
+                    // hide the link
+                    $('div.link-row').hide();
+
+                }
+
+                // Approve Artwork
+                $('span.btn.approve-artwork').unbind('click');
+                $('span.btn.approve-artwork').on('click', function () {
+
+                    var _applicationCode = $(this).data('application-code');
+
+                });
+
+                $('span.btn.approve-artwork').hide();
+
+                $('img.customFilename, img.attachments').unbind('click');
+                $('img.customFilename, img.attachments').on('click', function () {
+
+                    var _dtSrc = $(this).attr('data-src');
+                    var _str = "<img src ='" + _dtSrc + "' />";
+
+                    ub.showModalTool(_str);
+
+                });
+
+            });
+
+            ub.funcs.setupOrderInfoEvents();
+
+        }
+
+        ub.funcs.updateArtworkRequestStatus = function (data, cb) {
+
+             $.ajax({
                 
-                url: ub.config.api_host + '/' + 'api/order/' + ub.config.orderID + '/artworkStatus',
+                url: ub.config.api_host + ub.endpoints.getFullUrlString('updateArtworkRequest'),
+                type: "POST", 
+                data: JSON.stringify(data),
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                }
+                
+            });
+
+        }
+
+        ub.funcs.getCustomArtworRequestStatus = function (cb) {
+
+             $.ajax({
+                
+                url: ub.config.api_host + '/' + 'api/order/' + ub.config.orderCode + '/artworkStatus',
                 type: "Get", 
                 dataType: "json",
                 crossDomain: true,
@@ -8958,14 +9314,32 @@ $(document).ready(function () {
 
                 success: function (response) {
 
-                    $('span.custom-artwork-status').html(response.order.artwork_status);
-                    ub.funcs.processCustomArtworkRequestStatus(response.order.artwork_status);
+                    cb(response, response.order.artwork_status);
 
                 }
                 
             });
 
-            ub.funcs.setupOrderInfoEvents();
+        }
+
+        ub.funcs.getOrdersWItems = function (cb) {
+
+             $.ajax({
+                
+                url: ub.endpoints.getFullUrlString('getOrdersWItems') + ub.config.orderCode,
+                type: "Get", 
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    cb(response);
+
+                }
+                
+            });
 
         }
 

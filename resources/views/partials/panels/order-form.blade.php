@@ -227,8 +227,17 @@
         </div>
 
         <div class="form-group">
+
             <label for="client-name" class="additional-notes-label">ATTACHMENT</label>                    
             <input id="additional-attachment" name="additional-attachment" type="file" />
+            
+            <br />
+
+            <img id="additional-attachment-preview" /><br /><br />
+            <a id='additional-attachment-link'>
+                <span id="additional-attachment-label"></span>
+            </a>
+
         </div>
 
         <div class="form-group">

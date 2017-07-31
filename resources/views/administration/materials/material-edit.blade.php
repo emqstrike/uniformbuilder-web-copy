@@ -635,7 +635,17 @@
                                 </select>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Part Aliases</label>
+                            <div class="col-md-6">
+                                <select class="form-control part-aliases" name="part_alias_id" id="part_alias_id">
+                                    <option value="null"></option>
+                                @foreach ($part_aliases as $part_alias)
+                                    <option value='{{ $part_alias->id }}'@if($material->parts_alias_id == $part_alias->id) selected="selected"@endif>{{ $part_alias->description }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary edit-material">

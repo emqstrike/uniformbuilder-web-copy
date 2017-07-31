@@ -113,7 +113,7 @@
                                    data-bill-email="{{ $order->bill_email }}"
                                    data-bill-phone="{{ $order->bill_phone }}"
                                    data-bill-address="{{ $order->bill_address }}"
-                                   data-artwork-json="{{-- {{ json_encode($order->artworks) }} --}}"
+                                   data-artwork-json="{{ json_encode($order->artworks) }}"
                                    data-user-id="{{ $user_id }}"
                                    >Assign</a>
                                 @endif

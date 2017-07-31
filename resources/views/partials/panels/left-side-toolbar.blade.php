@@ -25,4 +25,16 @@
 
     <hr class="left-side-divider middle middle-bottom" />
 
+    <br />
+
+    <span class="toolbar-item resubmit-order-btn">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        <span class="toolbar-item-label">RE-SUBMIT ORDER</span>
+    </span>
+
+    <span class="toolbar-item approve-reject-artwork-btn">
+        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+        <span class="toolbar-item-label">APPROVE REJECT ARTWORK</span>
+    </span>
+
 </div>

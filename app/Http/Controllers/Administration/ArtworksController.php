@@ -69,11 +69,37 @@ class ArtworksController extends Controller
         $artworks = $this->artworksClient->getArtworks('processing');
 
         $ctr = 0;
-        foreach($artworks as $artwork)
-        {
-            $data = json_decode($artwork->artworks, 1);
-            $artwork->artworks = $data;
+        // dd($artworks);
+        if($artworks){
+            foreach($artworks as $artwork)
+            {
+                $order = $this->client->getOrderByOrderId($artwork->order_code);
+// dd($order);
+                if($order){
+                    $artwork->user_id = $order->user_id;
+                    $data = json_decode($artwork->artworks, 1);
+                    if(is_string($data)){
+                        $datax = json_decode($data, 1);
+                        $artwork->artworks = $datax;
+                        if(empty($datax)){
+                            unset($artworks[$ctr]);
+                        }
+                    } else {
+                        $artwork->artworks = $data;
+                        if(empty($data)){
+                            unset($artworks[$ctr]);
+                        }
+                    }
+                    
+                    
+                } else {
+                    unset($artworks[$ctr]);
+                }
+                // dd($artworks);
+                $ctr++;
+            }
         }
+        // dd($artworks);
         $account_type = Session::get('accountType');
         $user_id = Session::get('userId');
 
