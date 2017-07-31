@@ -407,7 +407,7 @@ $('.send-to-factory').on('click', function(e){
         // console.log(bcx.upper['Neck Trim']['colorObj']);
         window.customizer_material_id = null;
         window.pa_id = entry.id;
-        console.log(JSON.stringify(bcx.lower));
+        // console.log(JSON.stringify(bcx.lower));
         // if(bcx.upper.material_id !== 'undefined'){
         if('material_id' in bcx.upper){
             window.customizer_material_id = bcx.upper.material_id;
@@ -545,7 +545,7 @@ $('.send-to-factory').on('click', function(e){
                 parts.push(orderEntire['orderParts'][index]['orderPart']);
             });
             console.log(JSON.stringify(parts));
-            // updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+            updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
             // document.location.reload(); // UNCOMMENT
             // console.log(data[0].OrderID);
         },
@@ -867,7 +867,7 @@ function applyConfigs(api_order_id){
 
     properties.forEach(function(entry) {
         console.log("<<<<<< ENTRY >>>>>>");
-        console.log(entry);
+        // console.log(entry);
         console.log(entry.input_type);
 
         var question_id = parseInt(entry.part_questions);
@@ -880,14 +880,12 @@ function applyConfigs(api_order_id){
         var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
         // RESUME HERE
         console.log(builder_customizations);
-        var trace = 'colorObj'; // set default to color
 
         if( entry.input_type == "Pattern" ){
-            trace = 'pattern';
 
             try {
-                pattern = builder_customizations[type][entry.part_name][trace]['pattern_obj']['name'];
-                value = pattern;
+                pattern = builder_customizations[type][entry.part_name]['pattern']['pattern_obj']['name'];
+                value = pattern.replace(/[0-9]/g, '');
             } catch(err) {
                 console.log(err.message);
             }
@@ -895,8 +893,8 @@ function applyConfigs(api_order_id){
         } else if( entry.input_type == "Color" ){
 
             try {
-                color_code = builder_customizations[type][entry.part_name][trace]['color_code'];
-                color_name = builder_customizations[type][entry.part_name][trace]['name'];
+                color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
+                color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
                 if(color_name == "Charcoal Grey"){
                     color_name = "Charcoal Gray";
                 }
@@ -915,8 +913,7 @@ function applyConfigs(api_order_id){
 
         } else if( entry.input_type == "Team_Color" ){
             var idx = 0;
-            console.log(">>>>>>> IS TEAM COLOR");
-            console.log(entry);
+
             if(entry.part_questions == "347"){
                 value = getQuestionColorValue(builder_customizations, idx);
             } else if(entry.part_questions == "348"){
@@ -935,7 +932,22 @@ function applyConfigs(api_order_id){
                 idx = 5;
                 value = getQuestionColorValue(builder_customizations, idx);
             }
+        } else if( entry.input_type == "Sock_Color" ){
+            var idx = 0;
 
+            try {
+                console.log(">>>>>>> BUILDER CUSTOMIZATIONS");
+                console.log(builder_customizations['lower'][entry.part_name]);
+                color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
+                color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
+                if(color_name == "Charcoal Grey"){
+                    color_name = "Charcoal Gray";
+                }
+                value = translateToSocksColor(color_name, color_code);
+
+            } catch(err) {
+                console.log(err.message);
+            }
         }
 
         var data = {
@@ -970,5 +982,128 @@ $('.translate-values').on('click', function(e){
     api_order_id = $(this).data('api-order-id');
     applyConfigs(api_order_id);
 });
+
+function translateToSocksColor(color_name, color_code){
+    // custom colors for crew socks only
+    var value = null;
+    var socks_color_code = null;
+
+    if(color_name == "Brick Red"){
+
+        socks_color_code = "19-1557TPX";
+    } else if(color_name == "Brown"){
+
+        socks_color_code = "18-1031TPX";
+
+    } else if(color_name == "Cardinal"){
+
+        socks_color_code = "19-1934TPX";
+
+    } else if(color_name == "Carolina Blue"){
+
+        socks_color_code = "14-4318TPX";
+
+    } else if(color_name == "Charcoal Gray"){
+
+        socks_color_code = "18-0601TPX";
+
+    } else if(color_name == "Columbia Blue"){
+
+        socks_color_code = "14-4121TPX";
+
+    } else if(color_name == "Dark Purple"){
+
+        socks_color_code = "19-3731TPX";
+
+    } else if(color_name == "Dark Royal Blue"){
+
+        socks_color_code = "19-5057TPX";
+
+    } else if(color_name == "Forest Green"){
+
+        socks_color_code = "19-6311TPX";
+
+    } else if(color_name == "Gold"){
+
+        socks_color_code = "14-0955TPX";
+
+    } else if(color_name == "Gray"){
+
+        socks_color_code = "16-0000TPX";
+
+    } else if(color_name == "Kelly Green"){
+
+        socks_color_code = "15-5534TPX";
+
+    } else if(color_name == "Marlin Blue"){
+
+        socks_color_code = "17-4919TPX";
+
+    } else if(color_name == "Maroon"){
+
+        socks_color_code = "19-1725TPX";
+
+    } else if(color_name == "Navy Blue"){
+
+        socks_color_code = "19-3920TPX";
+
+    } else if(color_name == "Neon Pink"){
+
+        socks_color_code = "17-1937TPX";
+
+    } else if(color_name == "Orange"){
+
+        socks_color_code = "17-1464TPX";
+
+    } else if(color_name == "Pink"){
+
+        socks_color_code = "15-2216TPX";
+
+    } else if(color_name == "Purple"){
+
+        socks_color_code = "19-3642TPX";
+
+    } else if(color_name == "Red"){
+
+        socks_color_code = "19-1763TPX";
+
+    } else if(color_name == "Royal Blue"){
+
+        socks_color_code = "18-4051TPX";
+
+    } else if(color_name == "Seminole"){
+
+        socks_color_code = "19-1940TPX";
+
+    } else if(color_name == "Silver Gray"){
+
+        socks_color_code = "14-4102TPX";
+
+    } else if(color_name == "Tennessee Orange"){
+
+        socks_color_code = "16-1356TPX";
+
+    } else if(color_name == "Texas Orange"){
+
+        socks_color_code = "16-1448TPX";
+
+    } else if(color_name == "Vegas Gold"){
+
+        socks_color_code = "15-1119TPX";
+
+    } else if(color_name == "Yellow"){
+
+        socks_color_code = "13-0858TPX";
+
+    }
+
+    if(socks_color_code != null){
+        value = color_name + " " + "(" + color_code + ")" + " " + socks_color_code;
+    } else {
+        value = color_name + " " + "(" + color_code + ")";
+    }
+    
+    return value;
+}
 
 });
