@@ -53,7 +53,7 @@ class PartsAliasesController extends Controller
         $sports = $this->uniformCategoriesClient->getUniformCategories();
         $price_item_templates = $this->priceItemTemplatesAPIClient->getAll();
         $block_patterns = $this->blockPatternsAPIClient->getBlockPatterns();
-        $types = ['Upper', 'Lower' ];
+        $types = ['Upper', 'Lower'];
 
         return view('administration.parts-aliases.parts-aliases-create', [
             'price_item_templates' => $price_item_templates,
@@ -125,7 +125,7 @@ class PartsAliasesController extends Controller
         $sports = $this->uniformCategoriesClient->getUniformCategories();
         $price_item_templates = $this->priceItemTemplatesAPIClient->getAll();
         $block_patterns = $this->blockPatternsAPIClient->getBlockPatterns();
-        $types = [ 'Upper', 'Lower' ];
+        $types = ['Upper', 'Lower'];
 
         return view('administration.parts-aliases.edit-parts-aliases', compact('part' , 'sports', 'price_item_templates', 'block_patterns', 'types'));
     }
