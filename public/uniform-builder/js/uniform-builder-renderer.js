@@ -29,6 +29,11 @@ $(document).ready(function() {
 
     ub.funcs.removeUI = function () {
 
+        ub.front_view.visible = true;
+        ub.back_view.visible = true;
+        ub.left_view.visible = true;
+        ub.right_view.visible = true;
+
         ub.funcs.removePanels();
         ub.funcs.resetZoom();
 
@@ -175,6 +180,7 @@ $(document).ready(function() {
         ub.status.fullView.setStatus(false);
         ub.status.fullViewZoom.setStatus(false, undefined);
         ub.funcs.restorePointer();
+        ub.funcs.setVisibleView('front');
 
     };
 
@@ -266,6 +272,12 @@ $(document).ready(function() {
 
             ub.funcs.restorePointer();
 
+            ub.front_view.visible = true;
+            ub.back_view.visible = true;
+            ub.left_view.visible = true;
+            ub.right_view.visible = true;
+
+
         }
 
         ub.funcs.hideViews = function () {
@@ -274,6 +286,11 @@ $(document).ready(function() {
             ub.back_view.alpha = 0;
             ub.left_view.alpha = 0;
             ub.right_view.alpha = 0;
+
+            ub.front_view.visible = false;
+            ub.back_view.visible = false;
+            ub.left_view.visible = false;
+            ub.right_view.visible = false;
 
         }
 
@@ -289,6 +306,8 @@ $(document).ready(function() {
 
             ub.funcs.setZoomOutPointer();
 
+            viewObj.visible = true;
+
         }
 
         ub.funcs.partialZoomOut = function () {
@@ -301,7 +320,7 @@ $(document).ready(function() {
             ub.back_view.alpha = _level;
             ub.left_view.alpha = _level;
             ub.right_view.alpha = _level;
-            
+
         }
 
         ub.funcs.partialZoomView = function (viewObj) { 
@@ -310,7 +329,6 @@ $(document).ready(function() {
             viewObj.alpha = 1; 
 
         }
-
         
         // Utility Functions 
 

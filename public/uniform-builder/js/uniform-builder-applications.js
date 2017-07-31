@@ -1860,7 +1860,8 @@ $(document).ready(function() {
 
             if (ub.funcs.popupTest()) { return; }
             if (ub.status.fullView.getStatus()) { return; }
-
+            if (ub.zoom) { return; }
+            
             var this_data = interactionData.data;
             window.sprite = sprite;
 
@@ -3650,6 +3651,24 @@ $(document).ready(function() {
 
     ub.funcs.stageMouseMove = function (mousedata) {
 
+        var current_coodinates = mousedata.data.global;
+
+        if (ub.zoom) {
+
+            if (current_coodinates.x < (ub.front_view.width/2)) {
+
+                ub[ub.active_view + '_view'].position.set( -current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
+             
+            } else {
+
+                ub[ub.active_view + '_view'].position.set( -(ub.front_view.width/2) + ub.offset.x, -current_coodinates.y + ub.offset.y);
+            
+            }
+
+            return;
+
+        }
+
         if (ub.tools.activeTool.active()) {
             ub.funcs.resetHighlights();
             $('body').css('cursor', 'pointer');
@@ -3734,24 +3753,8 @@ $(document).ready(function() {
         };
 
         if (ub.status.manipulatorDown) { return; }
-
-        var current_coodinates = mousedata.data.global;
-
-        if (ub.zoom) {
-
-            if (current_coodinates.x < (ub.front_view.width/2)) {
-
-                ub[ub.active_view + '_view'].position.set( -current_coodinates.x + ub.offset.x, -current_coodinates.y + ub.offset.y);
-             
-            } else {
-
-                ub[ub.active_view + '_view'].position.set( -(ub.front_view.width/2) + ub.offset.x, -current_coodinates.y + ub.offset.y);
-            
-            }
-
-        }
-
-        if (ub.active_lock === true) { return; }
+        if (ub.active_lock) { return; }
+        if (ub.zoom) { return; }
 
         var results = ub.funcs.withinMaterialOption(current_coodinates);
 
@@ -11564,6 +11567,8 @@ $(document).ready(function() {
     /// End Locations and Free Application Types
 
      ub.uploadThumbnail = function (view) {
+
+        ub[view].visible = true;
 
         ub.funcs.fullResetHighlights();
 

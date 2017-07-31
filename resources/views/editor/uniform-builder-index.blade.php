@@ -45,7 +45,7 @@
             <div id="uniform-price-call-for-team-pricing">(Call for Team Pricing)</div>
             <div id="saved_design_name"></div>
 
-            <div id="order-status" class="rejected">Artwork Rejected, please upload a new one.</div>
+            <div id="order-status"></div>
 
             <div id="return-to-customizer">
                 <button id="button-return-to-customizer">Return to Customizer</button>
