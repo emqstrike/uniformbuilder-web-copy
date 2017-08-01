@@ -2467,6 +2467,7 @@ $(document).ready(function() {
  
             if (sport === "volleyball")                         { return _result[0]; }
             if (sport === "fastpitch")                          { return _result[0]; }
+            if (sport === "baseball")                           { return _result[0]; }
             if (sport === "team-short")                         { return _result[0]; }
             if (sport === "signature-coaches-short")            { return _result[0]; }
             if (sport === "soccer")                             { return _result[0]; }
@@ -4752,29 +4753,21 @@ $(document).ready(function() {
                     code: 'lacrosse',
                     name: 'Lacrosse',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'basketball',
                     name: 'Basketball',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'hockey',
                     name: 'Hockey',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
-
                 {
                     code: 'soccer',
                     name: 'Soccer',
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
+                    active: "1",
                 }, 
             ],
         },
@@ -4790,21 +4783,15 @@ $(document).ready(function() {
                     code: 'fastpitch',
                     name: 'Fastpitch',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'soccer',
                     name: 'Soccer',
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 }, 
                 {
                     code: 'basketball',
                     name: 'Basketball',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
 
             ],
@@ -4883,15 +4870,11 @@ $(document).ready(function() {
                     code: 'team-short',
                     name: '2017 Team Short with Pockets (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'signature-coaches-short',
                     name: 'Signature Coaches Short (Apparel)',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
             ],
         },
@@ -14026,6 +14009,14 @@ ub.funcs.fontOffSets = [
             { sport: 'Quarter Zip Jacket (Apparel)' },
             { sport: 'Volleyball' },
             { sport: 'Fan Replica Jersey (Apparel)' },
+            { sport: 'Lacrosse' },
+            { sport: 'Signature Coaches Short (Apparel)' },
+            { sport: '2017 Team Short with Pockets (Apparel)' },
+
+            { sport: 'Fastpitch' },
+            { sport: 'Soccer' },            
+            { sport: 'Basketball' },
+            { sport: 'Hockey' },
 
         ],
 
@@ -14041,15 +14032,6 @@ ub.funcs.fontOffSets = [
     ub.data.tempSports = {
 
         items: [
-
-            { sport: 'Fastpitch' },
-            { sport: 'Soccer' },
-            { sport: 'Signature Coaches Short (Apparel)' },
-            { sport: '2017 Team Short with Pockets (Apparel)' },
-
-            { sport: 'Lacrosse' },
-            { sport: 'Basketball' },
-            { sport: 'Hockey' },
 
         ],
 

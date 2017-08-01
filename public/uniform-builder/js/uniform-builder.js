@@ -36,6 +36,7 @@ $(document).ready(function () {
                 ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
                 ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
+                ub.current_material.cutlinks_url = window.ub.config.api_host + '/api/cut_links/';
 
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
@@ -51,6 +52,7 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
                 ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
+                ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
 
                 // Disable Tailsweeps for now
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
@@ -895,6 +897,7 @@ $(document).ready(function () {
                 'mascots_categories',
                 'tagged_styles',
                 'mascots_groups_categories',
+                'cuts_links',
                 // 'tailsweeps',
                 ];
 
@@ -943,6 +946,18 @@ $(document).ready(function () {
             if (object_name === 'fonts') {
 
                 ub.funcs.processFonts();
+
+            }
+
+            if (object_name === 'cuts_links') {
+
+                ub.current_material.settings.cut_pdf = "";
+                ub.current_material.settings.cuts_links = undefined;
+                ub.current_material.settings.cuts_links = _.find(obj, {sport_name: ub.config.sport, block_pattern: ub.config.blockPattern, neck_option: ub.config.option});
+
+                if (typeof ub.current_material.settings.cuts_links !== "undefined") {
+                    ub.current_material.settings.cut_pdf = ub.current_material.settings.cuts_links.cuts_pdf; 
+                }
 
             }
 
@@ -7274,35 +7289,7 @@ $(document).ready(function () {
 
         if (_betaUniformsOk) {
 
-            ub.funcs.enableSport(ub.data.sports, 'Women', 'fastpitch');
-            
-            ub.funcs.enableSport(ub.data.sports, 'Women', 'soccer');
-            ub.funcs.enableSport(ub.data.sports, 'Men', 'soccer');
-
-            ub.funcs.enableSport(ub.data.apparel, 'Men', 'team-short');
-            ub.funcs.enableSport(ub.data.apparel, 'Men', 'signature-coaches-short');
-
-            ub.funcs.enableSport(ub.data.sports, 'Men', 'basketball');
-            ub.funcs.enableSport(ub.data.sports, 'Men', 'lacrosse');
-            ub.funcs.enableSport(ub.data.sports, 'Men', 'hockey');
-
-            ub.funcs.enableSport(ub.data.sports, 'Women', 'basketball');
-
         } else {
-
-            ub.funcs.disableSport(ub.data.sports, 'Women', 'fastpitch');
-
-            ub.funcs.disableSport(ub.data.sports, 'Women', 'soccer');
-            ub.funcs.disableSport(ub.data.sports, 'Men', 'soccer');
-
-            ub.funcs.disableSport(ub.data.apparel, 'Men', 'team-short');
-            ub.funcs.disableSport(ub.data.apparel, 'Men', 'signature-coaches-short');
-
-            ub.funcs.disableSport(ub.data.sports, 'Men', 'basketball');
-            ub.funcs.disableSport(ub.data.sports, 'Men', 'lacrosse');
-            ub.funcs.disableSport(ub.data.sports, 'Men', 'hockey');
-
-            ub.funcs.disableSport(ub.data.sports, 'Women', 'basketball');
 
         }
 
@@ -8324,7 +8311,7 @@ $(document).ready(function () {
                 // Reset Previous Local Marks
                 $selectOptions.each(function (i, val) {
                 
-                    $(this).html($(this).data('name'));
+                    $(this).html($(this).data('name') + ' - (' + $(this).data('dealer') + ')');
                     $(this).data('sort', '3');
 
                 });
@@ -8334,7 +8321,7 @@ $(document).ready(function () {
                 _.each(sales_reps, function (rep) {
 
                     $option = $('select[name="rep"]').find('option[value="' + rep.id + '"]');
-                    $option.html($option.data('name') + ' (LOCAL REP)');
+                    $option.html($option.data('name') + ' - (' + rep.dealer + ') (LOCAL REP)');
                     $option.data('sort', '1');
 
                 });

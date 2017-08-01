@@ -1416,7 +1416,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateItemTable ($itemData, $fname) {
+    function generateItemTable ($itemData, $fname, $mainInfo) {
 
         $html = '';
         $html .= "<table>";
@@ -1452,7 +1452,24 @@ class UniformBuilderController extends Controller
         $html .= "<tr>";
         $html .=     "<td width='20%'>";
         $html .=        "PDF URL:<br />";
-        $html .=       "<strong>" . env('WEBSITE_URL') . $fname . "</strong><br />";
+        $html .=       "<strong style='font-size: 0.8em;'>" . env('WEBSITE_URL') . $fname . "</strong><br />";
+        $html .=     "</td>";
+        $html .= "</tr>";
+
+        $html .= "<tr>";
+        $html .=     "<td width='20%'>";
+        $html .=        "CUT PDF URL: <br />";
+
+        if ($itemData['builder_customizations']['cut_pdf'] <> "") {
+
+            $html .= "<strong style='font-size: 0.8em;'>" . $itemData['builder_customizations']['cut_pdf'] . '</strong>';
+
+        } else {
+
+            $html .= "No Cut PDF detected.";
+
+        }
+
         $html .=     "</td>";
         $html .= "</tr>";
 
@@ -1465,9 +1482,11 @@ class UniformBuilderController extends Controller
 
         $sizeBreakDown = $firstOrderItem['builder_customizations']['size_breakdown'];
 
-        $table = '<strong>SIZES BREAKDOWN</strong><br /><br />';
+        $table = '';
 
+        $table .= '<strong>SIZES BREAKDOWN</strong><br /><br />';
         $table .= '<table>';
+
         $total  = 0;
 
         foreach ($sizeBreakDown as &$size) {
@@ -1564,7 +1583,7 @@ class UniformBuilderController extends Controller
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
         $html .=     '<td>';
-        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf');
+        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo);
         $html .=     '</td>';
         $html .=     '</tr>';
         $html .=   '</table>';
@@ -1573,12 +1592,15 @@ class UniformBuilderController extends Controller
         $html .=   '<tr>';
         $html .=   '<td width="50%" style="text-align=center;">';
         $html .=   '<br /><br />';
-        $html .=   $this->generateClientDetailsTable($mainInfo);
+
+        $html .=   $this->generateSizeBreakDownTable($firstOrderItem);
+
+//        $html .=   $this->generateClientDetailsTable($mainInfo);
         $html .=   '<br /><br />';
         $html .=   '</td>';
         $html .=   '<td width="30%">';
         $html .=   '<br /><br />';
-        $html .=   $this->generateSizeBreakDownTable($firstOrderItem);
+//        $html .=   $this->generateSizeBreakDownTable($firstOrderItem);
         $html .=   '<br /><br />';
         $html .=   '</td>';
         $html .=   '</tr>';

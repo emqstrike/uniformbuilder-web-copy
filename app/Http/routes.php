@@ -381,6 +381,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('sales_reps' , 'Administration\SalesRepresentativesController@index');
     Route::get('sales_reps/edit/{id}' , 'Administration\SalesRepresentativesController@edit');
     Route::post('sales_reps/update' , 'Administration\SalesRepresentativesController@store');
+
+    //Cuts Links
+    Route::get('cuts_links/add', 'Administration\CutsLinksController@create');
+    Route::post('cuts_links/add', 'Administration\CutsLinksController@store');
+    Route::get('cuts_links', 'Administration\CutsLinksController@index');
+    Route::get('cuts_links/edit/{id}', 'Administration\CutsLinksController@edit');
+    Route::post('cuts_links/update', 'Administration\CutsLinksController@store');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
