@@ -64,6 +64,12 @@ $(document).ready(function() {
                 url:  'api/artwork_request/update/',
                 info: 'Post artwork id, order code and approve value',
             },
+            {
+                name: 'Get Cut Links',
+                code: 'getCutLinks',
+                url:  'api/cut_links/',
+                info: 'Get PDF Urls',
+            },
 
         ],
 
