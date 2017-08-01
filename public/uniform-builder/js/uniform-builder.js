@@ -453,9 +453,14 @@ $(document).ready(function () {
 
             ub.funcs.initToolBars();
 
-            if (TeamStoreToolBox.is_enabled) {
+            // TEAM STORE TOOLBOX INITIALIZER
+            if (TeamStoreToolBox.is_enabled)
+            {
                 TeamStoreToolBox.init();
-                TeamStoreToolBox.show();
+                if (window.is_show_teamstore_toolbox)
+                {
+                    TeamStoreToolBox.show();
+                }
             }
 
             ub.data.undoHistory = [];
