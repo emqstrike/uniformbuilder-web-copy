@@ -2260,7 +2260,7 @@
 
     @{{#rep}}
 
-        <option value="@{{id}}" data-sort='3' data-name="@{{last_name}}, @{{first_name}}"> @{{last_name}}, @{{first_name}}</option>
+        <option value="@{{id}}" data-sort='3' data-name="@{{last_name}}, @{{first_name}}"> @{{last_name}}, @{{first_name}} - (@{{dealer}})</option>
         
     @{{/rep}}
 
