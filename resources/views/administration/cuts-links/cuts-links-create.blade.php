@@ -127,7 +127,7 @@ $(function(){
             }
         });
       });  
-
+    $('#block_pattern').trigger('change');
 
 });   
 </script>
