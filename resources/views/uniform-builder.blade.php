@@ -5,15 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Uniform Builder">
 <meta name="author" content="Engineering">
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <title>Prolook Sports | Uniform Customizer</title>
 <meta name="description" content="Design your own custom uniforms using the Prolook Uniform Customizer. We offer tons of designs for all sports. Create your custom uniform today.">
 <meta name="keywords" content="custom uniform, custom football uniform, custom basketball uniform, custom baseball uniform, custom volleyball uniform, uniform builder, prolook unifom builder, team uniforms">
-
-<title>{{ $page_title }}</title>
 
 <link rel="icon" type="image/png" href="/images/branding/favicon.ico" />
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
@@ -33,7 +30,6 @@
 <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.tooltips.css?v={{$asset_version}}">
 
 <link rel="stylesheet" href="{{$asset_storage}}/intro-js/introjs.min.css?v={{$asset_version}}">
-
 
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 
