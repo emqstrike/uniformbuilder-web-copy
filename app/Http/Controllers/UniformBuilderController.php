@@ -1462,7 +1462,7 @@ class UniformBuilderController extends Controller
 
         if ($itemData['builder_customizations']['cut_pdf'] <> "") {
 
-            $html .= "<strong style='font-size: 0.8em;'>" . $itemData['builder_customizations']['cut_pdf'] . '</strong>';
+            $html .= "<strong style='font-size: 0.8em;'>" . $itemData['builder_customizations']['cut_pdf'] . "</strong>";
 
         } else {
 
@@ -1618,10 +1618,10 @@ class UniformBuilderController extends Controller
         $html .=       '<table>';
         $html .=         '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=         '<tr>';
-        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/></td>';
-        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/></td>';
-        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/></td>';
-        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
         $html .=         '</tr>';
         $html .=        '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=   '</table>';
