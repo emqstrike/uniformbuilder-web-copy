@@ -8331,7 +8331,7 @@ $(document).ready(function () {
                 // Reset Previous Local Marks
                 $selectOptions.each(function (i, val) {
                 
-                    $(this).html($(this).data('name'));
+                    $(this).html($(this).data('name') + ' - (' + $(this).data('dealer') + ')');
                     $(this).data('sort', '3');
 
                 });
