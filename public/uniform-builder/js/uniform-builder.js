@@ -8341,7 +8341,7 @@ $(document).ready(function () {
                 _.each(sales_reps, function (rep) {
 
                     $option = $('select[name="rep"]').find('option[value="' + rep.id + '"]');
-                    $option.html($option.data('name') + ' (LOCAL REP)');
+                    $option.html($option.data('name') + ' - (' + rep.dealer + ') (LOCAL REP)');
                     $option.data('sort', '1');
 
                 });
