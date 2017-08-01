@@ -4,7 +4,7 @@
 
 var TeamStoreToolBox = {
 
-    is_enabled: false,
+    is_enabled: true,
 
     products_modal: null,
 

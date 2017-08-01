@@ -79,12 +79,9 @@ class AuthenticationController extends AdminAuthController
         if (strlen (trim($email)) == 0 || strlen (trim($password)) == 0) {
 
             return [
-
                 'sucess' => false, 
                 'message' => 'Invalid Email / Password Combination',
-
             ];
-
         } 
 
         try {
@@ -118,31 +115,64 @@ class AuthenticationController extends AdminAuthController
                 Session::put('accessToken', $result->access_token);
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
-                // $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+                #
+                # TEAM STORE LOGIN HANDLER
+                #
 
-                // if ($response->success) {
-                //     Session::put('userHasTeamStoreAccount', true);
-                // } else {
-                //     $response = $this->client->get('encrypt/' . $password);
-                //     $response = $decoder->decode($response->getBody());
+                $teamstore_is_beta = config('teamstores.is_beta');
 
-                //     if ($response->success) {
-                //         $params = [
-                //             'userId' => $result->user->id,
-                //             'firstName' => $result->user->first_name,
-                //             'lastName' => $result->user->last_name,
-                //             'email' => $result->user->email,
-                //             'accessToken' => base64_encode($result->access_token),
-                //             'password' => $response->hashedString,
-                //             'state' => $result->user->state,
-                //             'zip' => $result->user->zip,
-                //             'default_rep_id' => $result->user->default_rep_id,
-                //         ];
-                //         $teamstore_registration_params = base64_encode( json_encode($params) );
-                //         Session::put('teamstore_registration_params', $teamstore_registration_params);
-                //     }
-                // }
+                if ($teamstore_is_beta)
+                {
 
+                    Log::info('TEAM STORE is in BETA');
+
+                    /**
+                     * For this BETA launch - August 1, 2017. We have restricted access to some users only
+                     */
+
+                    $allowed_users = [
+                        'administrator',
+                        'dealer'
+                    ];
+                    if (in_array($result->user->type, $allowed_users))
+                    {
+                        Log::info('User #' . $result->user->email . ' (' . $result->user->type . ') is entitled to open TEAM STORE (beta) version');
+
+                        $teamstore_account_response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+
+                        if ($teamstore_account_response->success)
+                        {
+                            // Team Store Session - Entry point
+                            Session::put('userHasTeamStoreAccount', true);
+                            Log::info('Session: userHasTeamStoreAccount = true');
+                        }
+                        else
+                        {
+                            $response = $this->client->get('encrypt/' . $password);
+                            $response = $decoder->decode($response->getBody());
+
+                            if ($response->success) {
+                                $params = [
+                                    'userId' => $result->user->id,
+                                    'firstName' => $result->user->first_name,
+                                    'lastName' => $result->user->last_name,
+                                    'email' => $result->user->email,
+                                    'accessToken' => base64_encode($result->access_token),
+                                    'password' => $response->hashedString,
+                                    'state' => $result->user->state,
+                                    'zip' => $result->user->zip,
+                                    'default_rep_id' => $result->user->default_rep_id,
+                                ];
+                                $teamstore_registration_params = base64_encode( json_encode($params) );
+                                Session::put('teamstore_registration_params', $teamstore_registration_params);
+                            }
+                        }
+                    }
+                }
+
+                #
+                # CUSTOMIZER LOGIN HANDLER
+                #
                 return [
                     'success' => true, 
                     'message' => 'Welcome back ' . $result->user->first_name,
