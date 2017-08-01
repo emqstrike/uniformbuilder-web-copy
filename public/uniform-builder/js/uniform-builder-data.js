@@ -2467,6 +2467,7 @@ $(document).ready(function() {
  
             if (sport === "volleyball")                         { return _result[0]; }
             if (sport === "fastpitch")                          { return _result[0]; }
+            if (sport === "baseball")                           { return _result[0]; }
             if (sport === "team-short")                         { return _result[0]; }
             if (sport === "signature-coaches-short")            { return _result[0]; }
             if (sport === "soccer")                             { return _result[0]; }
