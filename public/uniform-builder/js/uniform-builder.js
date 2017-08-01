@@ -7289,27 +7289,7 @@ $(document).ready(function () {
 
         if (_betaUniformsOk) {
 
-            ub.funcs.enableSport(ub.data.sports, 'Women', 'fastpitch');
-            
-            ub.funcs.enableSport(ub.data.sports, 'Women', 'soccer');
-            ub.funcs.enableSport(ub.data.sports, 'Men', 'soccer');
-
-            ub.funcs.enableSport(ub.data.sports, 'Men', 'basketball');
-            ub.funcs.enableSport(ub.data.sports, 'Men', 'hockey');
-
-            ub.funcs.enableSport(ub.data.sports, 'Women', 'basketball');
-
         } else {
-
-            ub.funcs.disableSport(ub.data.sports, 'Women', 'fastpitch');
-
-            ub.funcs.disableSport(ub.data.sports, 'Women', 'soccer');
-            ub.funcs.disableSport(ub.data.sports, 'Men', 'soccer');
-
-            ub.funcs.disableSport(ub.data.sports, 'Men', 'basketball');
-            ub.funcs.disableSport(ub.data.sports, 'Men', 'hockey');
-
-            ub.funcs.disableSport(ub.data.sports, 'Women', 'basketball');
 
         }
 

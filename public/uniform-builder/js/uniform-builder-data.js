@@ -4758,22 +4758,16 @@ $(document).ready(function() {
                     code: 'basketball',
                     name: 'Basketball',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'hockey',
                     name: 'Hockey',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
-
                 {
                     code: 'soccer',
                     name: 'Soccer',
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
+                    active: "1",
                 }, 
             ],
         },
@@ -4789,21 +4783,15 @@ $(document).ready(function() {
                     code: 'fastpitch',
                     name: 'Fastpitch',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
                 {
                     code: 'soccer',
                     name: 'Soccer',
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 }, 
                 {
                     code: 'basketball',
                     name: 'Basketball',
                     active: "1",
-                    tooltip: 'COMING SOON',
-                    disabledClass: 'disabledClass',
                 },
 
             ],
@@ -14025,6 +14013,11 @@ ub.funcs.fontOffSets = [
             { sport: 'Signature Coaches Short (Apparel)' },
             { sport: '2017 Team Short with Pockets (Apparel)' },
 
+            { sport: 'Fastpitch' },
+            { sport: 'Soccer' },            
+            { sport: 'Basketball' },
+            { sport: 'Hockey' },
+
         ],
 
         isSportOK: function (sport) {
@@ -14039,12 +14032,6 @@ ub.funcs.fontOffSets = [
     ub.data.tempSports = {
 
         items: [
-
-            { sport: 'Fastpitch' },
-            { sport: 'Soccer' },
-            
-            { sport: 'Basketball' },
-            { sport: 'Hockey' },
 
         ],
 
