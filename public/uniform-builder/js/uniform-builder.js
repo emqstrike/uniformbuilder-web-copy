@@ -36,6 +36,7 @@ $(document).ready(function () {
                 ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
                 ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
                 ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
+                ub.current_material.cutlinks_url = window.ub.config.api_host + '/api/cut_links/';
 
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
@@ -51,6 +52,7 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.fonts_url, 'fonts', ub.callback);
                 ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
+                ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
 
                 // Disable Tailsweeps for now
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
@@ -895,6 +897,7 @@ $(document).ready(function () {
                 'mascots_categories',
                 'tagged_styles',
                 'mascots_groups_categories',
+                'cuts_links',
                 // 'tailsweeps',
                 ];
 
@@ -943,6 +946,18 @@ $(document).ready(function () {
             if (object_name === 'fonts') {
 
                 ub.funcs.processFonts();
+
+            }
+
+            if (object_name === 'cuts_links') {
+
+                ub.current_material.settings.cut_pdf = "";
+                ub.current_material.settings.cuts_links = undefined;
+                ub.current_material.settings.cuts_links = _.find(obj, {sport_name: ub.config.sport, block_pattern: ub.config.blockPattern, neck_option: ub.config.option});
+
+                if (typeof ub.current_material.settings.cuts_links !== "undefined") {
+                    ub.current_material.settings.cut_pdf = ub.current_material.settings.cuts_links.cuts_pdf; 
+                }
 
             }
 
