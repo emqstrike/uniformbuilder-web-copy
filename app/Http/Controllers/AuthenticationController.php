@@ -136,6 +136,7 @@ class AuthenticationController extends AdminAuthController
                     ];
                     if (in_array($result->user->type, $allowed_users))
                     {
+                        Session::put('is_show_teamstore_toolbox', true);
                         Log::info('User #' . $result->user->email . ' (' . $result->user->type . ') is entitled to open TEAM STORE (beta) version');
 
                         $teamstore_account_response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
