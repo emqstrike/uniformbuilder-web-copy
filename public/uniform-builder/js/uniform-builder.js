@@ -511,7 +511,12 @@ $(document).ready(function () {
                     if (ub.config.orderArtworkStatus === "rejected") {
 
                         // $('a[data-view="team-info"]').find('span').html('Resubmit Order');
-                        $('span.resubmit-order-btn').show();
+                        
+                        $('a[data-view="team-info"]').hide();
+
+                        var $resubmitOrderButton = $('span.resubmit-order-btn')
+                        $resubmitOrderButton.show();
+
                         $('div#order-status').html('Artwork Rejected, please upload a new one.');
     
                         $('div#order-status').addClass('rejected');
@@ -524,15 +529,22 @@ $(document).ready(function () {
                         $('a[data-view="layers"]').attr('data-position', 'left');
                         $('a[data-view="layers"]').attr('data-intro', 'Please select the application here where you have previously uploaded the custom artwork request to reupload a new image.');
 
-                        $('span.resubmit-order-btn').attr('data-step', '3');
-                        $('span.resubmit-order-btn').attr('data-position', 'right');
-                        $('span.resubmit-order-btn').attr('data-intro', 'After uploading a new one, please click here to resubmit your order.');
+                        $resubmitOrderButton.attr('data-step', '3');
+                        $resubmitOrderButton.attr('data-position', 'right');
+                        $resubmitOrderButton.attr('data-intro', 'After uploading a new one, please click here to resubmit your order.');
 
                         // $('a[data-view="layers"]').show();
 
                         introJs().start();
 
-                        // console.log('Here ....')
+                        // Initialize Events
+
+                        $resubmitOrderButton.unbind('click');
+                        $resubmitOrderButton.on('click', function () {
+
+                            ub.funcs.initOrderProcess();
+
+                        });
 
                     }
 
