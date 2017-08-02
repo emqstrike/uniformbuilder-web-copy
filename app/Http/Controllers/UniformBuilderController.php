@@ -1419,61 +1419,62 @@ class UniformBuilderController extends Controller
     function generateItemTable ($itemData, $fname, $mainInfo) {
 
         $html = '';
-        $html .= "<table>";
+        $html .= '<table>';
 
-        $html .= "<tr>";
-        $html .=     "<td width='30%'>";
-        $html .=        "UNIFORM NAME:<br />";
-        $html .=       "<strong>" . $itemData['description'] . " (" . $itemData['applicationType']  .") </strong><br />";
-        $html .=     "</td>";
-        $html .= "</tr>";
+        $html .= '<tr>';
+        $html .=     '<td width="100%">';
+        $html .=        'UNIFORM NAME:<br />';
+        $html .=       '<strong>' . $itemData["description"] . ' (' . $itemData["applicationType"]  .') </strong><br />';
+        $html .=     '</td>';
+        $html .= '</tr>';
 
-        $html .= "<tr>";
-        $html .=     "<td width='20%'>";
-        $html .=        "SKU:<br />";
-        $html .=       "<strong>" .  $itemData['sku']  . "</strong><br />";
-        $html .=     "</td>";
-        $html .= "</tr>";
+        $html .= '<tr>';
+        $html .=     '<td width="100%">';
+        $html .=        'SKU:<br />';
+        $html .=       '<strong>' .  $itemData["sku"]  . '</strong><br />';
+        $html .=     '</td>';
+        $html .= '</tr>';
 
-        $html .= "<tr>";
-        $html .=     "<td width='20%'>";
-        $html .=        "PRICE:<br />";
-        $html .=       "<strong>" . $itemData['price'] . "</strong><br />";
-        $html .=     "</td>";
-        $html .= "</tr>";
+        $html .= '<tr>';
+        $html .=     '<td width="100%">';
+        $html .=        'PRICE:<br />';
+        $html .=       '<strong>' . $itemData["price"] . '</strong><br />';
+        $html .=     '</td>';
+        $html .= '</tr>';
 
-        $html .= "<tr>";
-        $html .=     "<td width='20%'>";
-        $html .=        "BUILDER URL:<br />";
-        $html .=       "<strong>" . $itemData['url'] . "</strong><br />";
-        $html .=     "</td>";
-        $html .= "</tr>";
+        $html .= '<tr>';
+        $html .=     '<td width="100%">';
+        $html .=        'BUILDER URL:<br />';
+        $html .=       '<strong>' . $itemData["url"] . '</strong><br />';
+        $html .=     '</td>';
+        $html .= '</tr>';
 
-        $html .= "<tr>";
-        $html .=     "<td width='20%'>";
-        $html .=        "PDF URL:<br />";
-        $html .=       "<strong style='font-size: 0.8em;'>" . env('WEBSITE_URL') . $fname . "</strong><br />";
-        $html .=     "</td>";
-        $html .= "</tr>";
+        $html .= '<tr>';
+        $html .=     '<td width="100%">';
+        $html .=        'PDF URL:<br />';
+        $html .=       '<a href="' . env("WEBSITE_URL") . $fname . '"><strong style="font-size: 0.8em;">' . env("WEBSITE_URL") . $fname . '</strong></a><br />';
+        $html .=     '</td>';
+        $html .= '</tr>';
 
-        $html .= "<tr>";
-        $html .=     "<td width='20%'>";
-        $html .=        "CUT PDF URL: <br />";
+        $html .= '<tr>';
+        $html .=     '<td width="100%">';
+        $html .=        'CUT PDF URL: <br />';
 
-        if ($itemData['builder_customizations']['cut_pdf'] <> "") {
+        if ($itemData["builder_customizations"]["cut_pdf"] <> '') {
 
-            $html .= "<strong style='font-size: 0.8em;'>" . $itemData['builder_customizations']['cut_pdf'] . "</strong>";
+            $html .= '<a href="' . $itemData["builder_customizations"]["cut_pdf"] . '"><strong style="font-size: 0.8em;">' . $itemData["builder_customizations"]["cut_pdf"] . '</strong></a>';
 
         } else {
 
-            $html .= "No Cut PDF detected.";
+            $html .= 'No Cut PDF detected.';
 
         }
 
-        $html .=     "</td>";
-        $html .= "</tr>";
+        $html .=     '</td>';
+        $html .= '</tr>';
 
-        $html .= "</table>";
+        $html .= '</table>';
+
         return $html;
 
     }
