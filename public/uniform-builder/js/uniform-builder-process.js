@@ -1929,8 +1929,22 @@ $(document).ready(function() {
         $('div#left-pane-column').fadeOut();
 
         TeamStoreToolBox.close();
-    
 
+        // Disable Buttons when the order is being resubmitted from a rejected order
+        if (ub.config.orderArtworkStatus === "rejected") {
+
+            $('select.default-sleeve-type').attr('disabled', 'disabled');
+            $('select.default-lastname-application').attr('disabled', 'disabled');
+            $('input[name="lastname"]').attr('disabled', 'disabled');
+            $('input[name="number"]').attr('disabled', 'disabled');
+            $('input[name="qty"]').attr('disabled', 'disabled');
+            $('select.sleevetype').attr('disabled', 'disabled');
+            $('select.lastname-application').attr('disabled', 'disabled');
+            $('span.clear-row').hide();
+            $('span.add-player').hide();
+
+        }
+    
     }
 
     ub.data.rosterInitialized = false;
@@ -2036,7 +2050,7 @@ $(document).ready(function() {
 
             });
 
-        }
+        } 
 
         $('span.add-item-to-order').unbind('click');
         $('span.add-item-to-order').on('click', function () {
