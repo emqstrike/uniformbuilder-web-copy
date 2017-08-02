@@ -5474,7 +5474,11 @@ $(document).ready(function () {
             return;
         }
 
-        bootbox.confirm("Are you sure you want to go to the order form?", function (result) { 
+        var _msg = "Are you sure you want to go to the order form?";
+
+        if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
+
+        bootbox.confirm(_msg, function (result) { 
         
             if (!result) {
 
