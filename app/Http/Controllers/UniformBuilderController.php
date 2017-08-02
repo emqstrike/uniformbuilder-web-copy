@@ -1618,10 +1618,10 @@ class UniformBuilderController extends Controller
         $html .=       '<table>';
         $html .=         '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=         '<tr>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
         $html .=         '</tr>';
         $html .=        '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=   '</table>';
