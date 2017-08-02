@@ -1928,6 +1928,9 @@ $(document).ready(function() {
         $('div#right-pane-column').fadeOut();        
         $('div#left-pane-column').fadeOut();
 
+        TeamStoreToolBox.close();
+    
+
     }
 
     ub.data.rosterInitialized = false;
