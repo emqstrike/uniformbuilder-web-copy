@@ -1445,7 +1445,7 @@ class UniformBuilderController extends Controller
         $html .= '<tr>';
         $html .=     '<td width="100%">';
         $html .=        'BUILDER URL:<br />';
-        $html .=       '<strong>' . $itemData["url"] . '</strong><br />';
+        $html .=       '<a href="' . $itemData["url"]  . '"><strong>' . $itemData["url"] . '</strong></a><br />';
         $html .=     '</td>';
         $html .= '</tr>';
 
