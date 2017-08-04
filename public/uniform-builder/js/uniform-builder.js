@@ -9204,7 +9204,7 @@ $(document).ready(function () {
 
                             _hasProcessedArtworks = true;
                             $('span.custom-artwork-status').html('Mascot Ready for Review');
-                            $('span.last-message').html('You can now review to approve / reject the mascot/s you submitted for custom artwork processing in your design, <br /> Click this link to load the design: <a target="_new" href="' + _orderLink + '">' + _orderLink + '</a>');
+                            $('span.last-message').html('You can now review to approve / reject the mascot/s you submitted for custom artwork processing in your design. <br /> Click this link to load the design: <a target="_new" href="' + _orderLink + '">' + _orderLink + '</a>');
                             $('span.last-message').show();
 
                         }
