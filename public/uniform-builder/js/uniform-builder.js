@@ -2158,6 +2158,8 @@ $(document).ready(function () {
     
     ub.funcs.updateArtworkRequest = function (data, cb) {
 
+        delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
          $.ajax({
             
             url: ub.endpoints.getFullUrlString('updateArtworkRequest'),
@@ -2229,6 +2231,8 @@ $(document).ready(function () {
                 artworks.user_id = ub.user.id;
 
                 var _artWorksTemp = [];
+
+                
                 $('td.approve-reject').find('span.btn.active').each(function (index) {
 
                     var _code = $(this).data('code');
@@ -2251,14 +2255,10 @@ $(document).ready(function () {
                 });
 
                 artworks.artworks =  JSON.stringify(_artWorksTemp);
-                ub.funcs.updateArtworkRequest(artworks, function () {
+                ub.data.artworks = artworks;
+                $('span.approve-reject-artwork-btn').hide();
 
-                    ub.funcs.resubmitOrderForm();
-
-                    $('span.approve-reject-artwork-btn').hide();
-                    $.smkAlert({text: 'Artwork Status updated', type:'info', time: 3, marginTop: '80px'});
-
-                });
+                ub.funcs.initOrderProcess()
 
             });
 
@@ -2269,9 +2269,6 @@ $(document).ready(function () {
     ub.funcs.initGuide = function () {
 
         // If the artwork has been processed already 
-
-        console.log('Has Processed Artworks: ');
-        console.log(ub.data.hasProcessedArtworks);
 
         if (ub.data.hasProcessedArtworks) {
             
@@ -2289,7 +2286,9 @@ $(document).ready(function () {
             introJs().start();
 
         } else {
+
             console.log('No Processed Artworks...');
+
         }
 
     }
@@ -2318,8 +2317,7 @@ $(document).ready(function () {
                             var _mascot = ub.funcs.getMascotByID(_artworkEntry.mascot_id);
                             ub.data.hasProcessedArtworks = _hasProcessedArtworks;
 
-                            console.log('Has Processed Artworks: ');
-                            console.log(ub.data.hasProcessedArtworks);
+                            ub.config.orderArtworkStatus = 'artwork processed';
 
                             applicationObj.mascotOld = applicationObj.mascot;
                             applicationObj.mascot = _mascot;
@@ -5438,11 +5436,19 @@ $(document).ready(function () {
 
     ub.funcs.getOrderAndDetailsInfo = function () {
 
-        var _url = window.ub.config.api_host + '/api/order/user/orderswItems/' + ub.user.id;
+        ub.funcs.uiPrepBeforeOrderForm();
 
-        ub.loader(_url, 'orders', function (result) {
+        var dialog = bootbox.dialog({
+            message: ub.utilities.buildTemplateString('#m-loading', { type: 'Order Form' }),
+        });
 
-            var _orderInfo = _.find(result, {'order_id': ub.config.orderCode});
+        var _url = window.ub.config.api_host + '/api/order/orderswItems/' + ub.config.orderCode;
+
+        ub.loader(_url, 'order_info', function (result) {
+
+            dialog.modal('hide');
+
+            var _orderInfo = result;
             ub.data.orderInfo = _orderInfo;
             ub.funcs.initRoster(_orderInfo);
             
@@ -5477,6 +5483,7 @@ $(document).ready(function () {
         var _msg = "Are you sure you want to go to the order form?";
 
         if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
+        if (ub.data.hasProcessedArtworks) { _msg = "Press OK to resubmit this order with your new artwork."; }
 
         bootbox.confirm(_msg, function (result) { 
         
@@ -9195,7 +9202,8 @@ $(document).ready(function () {
                 if (typeof response.order_info.artworks[0] !== "undefined") {
 
                     var _parsedArtworks = JSON.parse(response.order_info.artworks[0].artworks);
-
+                    
+                    if (typeof _parsedArtworks === "string") { _parsedArtworks = JSON.parse(_parsedArtworks); }
                     _.each(_parsedArtworks, function (parsedArtwork) {
 
                         if(parsedArtwork.mascot_id !== null) {

@@ -2326,7 +2326,6 @@
 
 </script>
 
-
 <script type="text/mustache" id="m-car-approve-dialog">
     
     <div class="approve-dialog">
@@ -2389,7 +2388,11 @@
             
 </script>
 
+<script type="text/mustache" id="m-loading">
+    
+    <div class="text-center">Loading @{{type}} ... <img width="50" src="/images/loading.gif" /></div>
 
+</script>
 
 
 @include('partials.controls.team-store-products-picker')
