@@ -9200,8 +9200,12 @@ $(document).ready(function () {
 
                         if(parsedArtwork.mascot_id !== null) {
 
+                            var _orderLink = ub.config.host + "/order/" + ub.config.orderID;
+
                             _hasProcessedArtworks = true;
                             $('span.custom-artwork-status').html('Mascot Ready for Review');
+                            $('span.last-message').html('You can now review to approve / reject the mascot/s you submitted for custom artwork processing in your design, <br /> Click this link to load the design: <a target="_new" href="' + _orderLink + '">' + _orderLink + '</a>');
+                            $('span.last-message').show();
 
                         }
 
