@@ -8068,16 +8068,14 @@ $(document).ready(function () {
                 $messagesContainer.html(_messagesMarkup)
             ).then (function () {
 
-                $.each($('td.time'), function (index, value){
+                // $.each($('td.time'), function (index, value){
 
-                    var _utcDate = $(value).data('time');
-                    var date = new Date(_utcDate);
+                //     var _utcDate = $(value).data('time');
+                //     var date = new Date(_utcDate);
+                //     // var _d = moment.utc(_utcDate).tz(moment.tz.guess()).format('MMMM d, YYYY ha z');
+                //     // $(value).html(_d);
 
-                    var _d = moment.utc(_utcDate).tz(moment.tz.guess()).format('MMMM d, YYYY ha z');
-
-                    $(value).html(_d);
-
-                });
+                // });
 
             });
 
