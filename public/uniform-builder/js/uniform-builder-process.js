@@ -977,6 +977,17 @@ $(document).ready(function() {
                 ub.funcs.resubmitOrderForm();
                 $('span.submit-confirmed-order').html('Resubmitting Order...');
 
+            } if (ub.data.hasProcessedArtworks) {
+
+                ub.funcs.updateArtworkRequest(ub.data.artworks, function () {
+
+                    $('span.submit-confirmed-order').html('Resubmitting Order...');
+
+                    $.smkAlert({text: 'Artwork Status updated', type:'info', time: 3, marginTop: '80px'});
+                    ub.funcs.resubmitOrderForm();
+
+                });
+
             } else {
 
                 ub.funcs.submitOrderForm();
@@ -1192,12 +1203,20 @@ $(document).ready(function() {
             success: function (response){
                 
                 if(response.success) {
+
                     ub.funcs.displayLinks(response.filename);
 
                     if (ub.config.orderArtworkStatus === "rejected") {
 
                         $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
                         $('span.save-order').hide();
+
+                    } 
+
+                    if (ub.data.hasProcessedArtworks) {
+
+                        $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+                        $('span.save-order').hide();                        
 
                     }
 
@@ -1976,7 +1995,7 @@ $(document).ready(function() {
         $('div#roster-input').fadeIn();
 
         // Setup Events if this is not rejected
-        if (ub.config.orderArtworkStatus !== "rejected") {
+        if (ub.config.orderArtworkStatus !== "rejected" && !ub.data.hasProcessedArtworks) {
 
             $('button.change-all').unbind('click');
             $('button.change-all').on('click', function () {
@@ -2068,7 +2087,7 @@ $(document).ready(function() {
         ub.funcs.reInitHover();
 
         // Disable Buttons when the order is being resubmitted from a rejected order
-        if (ub.config.orderArtworkStatus === "rejected") {
+        if (ub.config.orderArtworkStatus === "rejected" || ub.data.hasProcessedArtworks) {
             
             $('select.default-sleeve-type').attr('disabled', 'disabled');
             $('select.default-lastname-application').attr('disabled', 'disabled');
