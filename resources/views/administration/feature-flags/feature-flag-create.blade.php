@@ -87,16 +87,27 @@ li.select2-selection__choice {
                                 <input type="hidden" class="users-types-val" name="users_types_value">
                                 <select name="user_types[]" id="users" class="form-control user-types" multiple="multiple">
                                     <option value='normal'>Normal</option>
-                                    <option value='qa'>QA</option>
-                                    <option value='ga'>Graphic Artist</option>
-                                    <option value='rep'>Sales Rep</option>
-                                    <option value='manager'>Manager</option>
-                                    <option value='dealer'>Dealer</option>
                                     <option value='administrator'>Administrator</option>
                                 </select>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Roles</label>
+                            <div class="col-md-6">
+                                <input type="hidden" class="users-roles-val" name="users_roles_value">
+                                <select name="user_roles[]" id="users" class="form-control user-roles" multiple="multiple">
+                                    <option value="default">Default</option>
+                                    <option value="ga">Graphics Artist</option>
+                                    <option value="qa">QA</option>
+                                    <option value="rep">Sales Rep</option>
+                                    <option value="rep_manager">Manager</option>
+                                    <option value="dealer">Dealer</option>
+                                    <option value="coach">Coach</option>
+                                    <option value="dev">Developer</option>
+                                    <option value="executive">Executive</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Users</label>
                             <div class="col-md-6">
@@ -165,7 +176,7 @@ li.select2-selection__choice {
 $(document).ready(function(){
     $('.user-types').select2({
         placeholder: "Select User Types",
-        multiple: true,
+        multiple: false,
         allowClear: true
     });
 
@@ -173,6 +184,15 @@ $(document).ready(function(){
         $('.users-types-val').val($(this).val());
     });
 
+    $('.user-roles').select2({
+        placeholder: "Select User Roles",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".user-roles").change(function() {
+        $('.users-roles-val').val($(this).val());
+    });
     $('.users').select2({
         placeholder: "Select Users",
         multiple: true,
