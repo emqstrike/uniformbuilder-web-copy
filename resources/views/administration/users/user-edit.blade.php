@@ -89,16 +89,20 @@
                             <div class="col-md-6">
                                 <select name='type' class="form-control user-type">
                                     <option value='normal' {{ ($user->type == 'normal') ? 'selected':'' }}>Normal</option>
-                                    <option value='qa' {{ ($user->type == 'qa') ? 'selected':'' }}>QA</option>
-                                    <option value='ga' {{ ($user->type == 'ga') ? 'selected':'' }}>GA</option>
-                                    <option value='rep' {{ ($user->type == 'rep') ? 'selected':'' }}>Rep</option>
-                                    <option value='dealer' {{ ($user->type == 'dealer') ? 'selected':'' }}>Dealer</option>
-                                    <option value='manager' {{ ($user->type == 'manager') ? 'selected':'' }}>Manager</option>
                                     <option value='administrator' {{ ($user->type == 'administrator') ? 'selected':'' }}>Administrator</option>
                                 </select>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Role</label>
+                            <div class="col-md-6">
+                                <select name='role' class="form-control user-role">
+                                    @foreach($roles as $role)
+                                    <option value='{{$role}}' @if($role == $user->role) selected="selected"@endif>{{$role}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary update-user">
