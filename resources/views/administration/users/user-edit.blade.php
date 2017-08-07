@@ -156,6 +156,15 @@ function isReady() {
                 });
                 return false;
             }
+            else if (password.val() == confirm.val()) {
+            new PNotify({
+                title: 'Success',
+                text: 'Passwords matched',
+                type: 'success',
+                hide: true
+            });
+            return true;
+        }
         }
         return true;
     }
