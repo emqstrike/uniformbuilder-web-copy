@@ -152,28 +152,27 @@ function isReady() {
             });
             return false;
         }
-        else {
+        else if (password.val() == confirm.val()) {
             new PNotify({
                 title: 'Success',
                 text: 'Passwords matched',
                 type: 'success',
                 hide: true
             });
-            return false;
+            return true;
         }
-
-        return true;
+        //return true;
     }
     return false;
 }
 
-// $('#create-user-form input').on('change', function(){
-//     if (isReady()) {
-//         $('#create-user-form .create-user').fadeIn();
-//     } else {
-//         $('#create-user-form .create-user').fadeOut()
-//     }
-// });
+$('#create-user-form input').on('change', function(){
+    if (isReady()) {
+        $('#create-user-form .create-user').fadeIn();
+    } else {
+        $('#create-user-form .create-user').fadeOut()
+    }
+});
 
 </script>
 @endsection
