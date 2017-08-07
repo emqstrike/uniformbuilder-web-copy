@@ -51,32 +51,52 @@
                                 <input type="password" class="form-control user-password" name="password" required>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">Confirm Password</label>
                             <div class="col-md-6 shadow">
                                 <input type="password" class="form-control user-confirm-password" name="confirm_password" required>
                             </div>
                         </div>
-
+                         <div class="form-group">
+                            <label class="col-md-4 control-label">Zip Code</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control zip" name="zip">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Assigned Sales Rep</label>
+                            <div class="col-md-6">
+                                <select name='default_rep_id' class="form-control default-rep-id">
+                                    <option value="">none</option>
+                                    @foreach($sales_reps as $rep)
+                                        <option value="{{ $rep->id }}">{{ $rep->last_name }}, {{ $rep->first_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
                                 <select name='type' class="form-control user-type">
                                     <option value='normal'>Normal</option>
-                                    <option value='qa'>QA</option>
-                                    <option value='ga'>GA</option>
-                                    <option value='rep'>Rep</option>
-                                    <option value='dealer'>Dealer</option>
-                                    <option value='manager'>Manager</option>
                                     <option value='administrator'>Administrator</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Role</label>
+                            <div class="col-md-6">
+                                <select name='role' class="form-control user-role">
+                                    @foreach($roles as $role)
+                                    <option value='{{$role}}'>{{$role}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary create-user" style="display: none">
+                                <button type="submit" class="btn btn-primary create-user">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New User
                                 </button>
@@ -132,18 +152,28 @@ function isReady() {
             });
             return false;
         }
+        else {
+            new PNotify({
+                title: 'Success',
+                text: 'Passwords matched',
+                type: 'success',
+                hide: true
+            });
+            return false;
+        }
+
         return true;
     }
     return false;
 }
 
-$('#create-user-form input').on('change', function(){
-    if (isReady()) {
-        $('#create-user-form .create-user').fadeIn();
-    } else {
-        $('#create-user-form .create-user').fadeOut()
-    }
-});
+// $('#create-user-form input').on('change', function(){
+//     if (isReady()) {
+//         $('#create-user-form .create-user').fadeIn();
+//     } else {
+//         $('#create-user-form .create-user').fadeOut()
+//     }
+// });
 
 </script>
 @endsection
