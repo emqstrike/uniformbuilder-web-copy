@@ -2394,5 +2394,53 @@
 
 </script>
 
+<script type="text/mustache" id="m-sizing-table">
+
+    <center>
+
+    <table>
+
+        <tr>
+
+            @{{#entries}}
+
+            <td>
+            
+                <table border="1" cellpadding="3">
+                    
+                    <tr>
+                        <td colspan="3" align="center">SLEEVES: @{{sleeveType}}</td>
+                    </tr>
+
+                    <tr>
+                        <td align="center" width="20%">SIZE</td>
+                        <td align="center" width="60%">NUMBERS</td> 
+                        <td align="right" width="20%">COUNT</td>
+                    </tr>
+
+                    @{{#sizes}}
+                        <tr>
+                            <td align="center">@{{size}}</td>
+                            <td align="center">@{{sizeString}}</td>
+                            <td align="right">@{{total}}</td>
+                        </tr>
+                    @{{/sizes}}
+
+                </table>
+
+                <br />
+                <br />
+
+                </td>
+
+            @{{/entries}}
+
+        </tr>
+
+    </table>
+
+    </center>
+
+</script>
 
 @include('partials.controls.team-store-products-picker')
