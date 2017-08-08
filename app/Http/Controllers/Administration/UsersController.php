@@ -42,19 +42,16 @@ class UsersController extends Controller
     {
         $user = $this->client->getUser($id);
         $sales_reps = $this->salesRepresentativesAPIClient->getSalesReps();
-        $roles = ['default','ga', 'qa', 'rep', 'rep_manager', 'dealer', 'coach', 'dev', 'executive'];
         return view('administration.users.user-edit', [
             'user' => $user,
-            'sales_reps' => $sales_reps,
-            'roles' => $roles
+            'sales_reps' => $sales_reps            
         ]);
     }
 
     public function addUserForm()
     {
         $sales_reps = $this->salesRepresentativesAPIClient->getSalesReps();
-        $roles = ['default','ga', 'qa', 'rep', 'rep_manager', 'dealer', 'coach', 'dev', 'executive'];
-        return view('administration.users.user-create', compact ('roles', 'sales_reps'));
+        return view('administration.users.user-create', compact ('sales_reps'));
     }
 
     public function accountSettings($id)

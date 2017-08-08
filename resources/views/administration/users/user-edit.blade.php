@@ -97,9 +97,15 @@
                             <label class="col-md-4 control-label">Role</label>
                             <div class="col-md-6">
                                 <select name='role' class="form-control user-role">
-                                    @foreach($roles as $role)
-                                    <option value='{{$role}}' @if($role == $user->role) selected="selected"@endif>{{$role}}</option>
-                                    @endforeach
+                                    <option value="default" {{ ($user->role == 'default') ? 'selected':'' }}>Default</option>
+                                    <option value="ga" {{ ($user->role == 'ga') ? 'selected':'' }}>Graphics Artist</option>
+                                    <option value="qa" {{ ($user->role == 'qa') ? 'selected':'' }}>QA</option>
+                                    <option value="rep" {{ ($user->role == 'rep') ? 'selected':'' }}>Sales Rep</option>
+                                    <option value="rep_manager" {{ ($user->role == 'rep_manager') ? 'selected':'' }}>Manager</option>
+                                    <option value="dealer" {{ ($user->role == 'dealer') ? 'selected':'' }}>Dealer</option>
+                                    <option value="coach" {{ ($user->role == 'coach') ? 'selected':'' }}>Coach</option>
+                                    <option value="dev" {{ ($user->role == 'dev') ? 'selected':'' }}>Developer</option>
+                                    <option value="executive" {{ ($user->role == 'executive') ? 'selected':'' }}>Executive</option>
                                 </select>
                             </div>
                         </div>

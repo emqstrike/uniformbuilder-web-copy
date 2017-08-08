@@ -87,9 +87,15 @@
                             <label class="col-md-4 control-label">Role</label>
                             <div class="col-md-6">
                                 <select name='role' class="form-control user-role">
-                                    @foreach($roles as $role)
-                                    <option value='{{$role}}'>{{$role}}</option>
-                                    @endforeach
+                                    <option value="default">Default</option>
+                                    <option value="ga">Graphics Artist</option>
+                                    <option value="qa">QA</option>
+                                    <option value="rep">Sales Rep</option>
+                                    <option value="rep_manager">Manager</option>
+                                    <option value="dealer">Dealer</option>
+                                    <option value="coach">Coach</option>
+                                    <option value="dev">Developer</option>
+                                    <option value="executive">Executive</option>
                                 </select>
                             </div>
                         </div>
