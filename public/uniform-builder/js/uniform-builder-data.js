@@ -14199,6 +14199,9 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Lacrosse',    
             },
+            {
+                sport: 'Polo (Apparel)',    
+            },
         ],
 
         isHidden: function (sport, option) {
