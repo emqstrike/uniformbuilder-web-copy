@@ -51,7 +51,7 @@ class FeatureFlagsController extends Controller
         return view('administration.feature-flags.feature-flag-edit', [
             'feature_flag' => $feature_flag,
             'sports' => $sports,
-            'users' => $users
+            'users' => $users,        
         ]);
     }
 
@@ -61,7 +61,7 @@ class FeatureFlagsController extends Controller
         $users = $this->usersClient->getUsers();
         return view('administration.feature-flags.feature-flag-create', [
             'sports' => $sports,
-            'users' => $users
+            'users' => $users            
         ]);
     }
 
@@ -73,6 +73,7 @@ class FeatureFlagsController extends Controller
         $description = $request->input('description');
         $active = $request->input('active');
         $user_types = explode(",", $request->input('users_types_value'));
+        $roles = explode(",", $request->input('users_roles_value'));
         $sports = explode(",", $request->input('sports_value'));
         $switch = $request->input('switch');
         $state = $request->input('state');
@@ -84,19 +85,20 @@ class FeatureFlagsController extends Controller
             'description' => $description,
             'active' => $active,
             'user_types' => $user_types,
+            'roles' => $roles,
             'switch' => $switch,
             'state' => $state,
             'sports' => $sports,
             'user_ids' => $users,
         ];
-
+        
         $id = null;
         if (!empty($request->input('feature_flag_id')))
         {
             $id = $request->input('feature_flag_id');
             $data['id'] = $id;
         }
-// dd($data);
+
         $response = null;
         if (!empty($request->input('feature_flag_id')))
         {
