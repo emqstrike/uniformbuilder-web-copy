@@ -487,6 +487,7 @@
                     <strong class="type">@{{#uniform_type}}@{{uniform_application_type}}@{{/uniform_type}}</strong>
                     <!-- <strong class="type">@{{block_pattern}}</strong> -->
                     <div class="favorite"><i class="fa fa-star" aria-hidden="true"></i> Favorite <i class="fa fa-star" aria-hidden="true"></i></div>
+                    <br />
                     
                 </span> 
 
@@ -2440,6 +2441,32 @@
     </table>
 
     </center>
+
+</script>
+
+<script type="text/mustache" id="m-name-drop-dialog">
+
+    <div class="svg-dialog-container">
+
+        <div class="row">
+            
+            <div class="col-md-8">
+                
+                <div id="namedrop-container" class="svg-container">
+                    
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+                
+                Sidebar
+
+            </div>
+
+        </div>
+        
+    </div>
 
 </script>
 

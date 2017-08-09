@@ -11931,6 +11931,10 @@ $(document).ready(function() {
             _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 50;  
             break;
 
+          case 'namedrops':
+            _val = (ub.maxLayers * (ub.zIndexMultiplier)) + 55;  
+            break;
+
           default:
             _val = 0;
 

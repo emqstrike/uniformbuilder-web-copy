@@ -241,6 +241,7 @@
 <script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/intro-js/intro.min.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/svgjs/svg.min.js"></script>
 
 <script src="{{$asset_storage}}/natural/natural.js"></script>
 <script src="{{$asset_storage}}/natural/all.js"></script>
@@ -516,9 +517,8 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-utilities.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-error-codes.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-endpoints.js?v={{$asset_version}}"></script>
-
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
-
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-name-drops.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-nlp.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-mock-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-status.js?v={{$asset_version}}"></script>
@@ -547,6 +547,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-generators.js?v={{$asset_version}}"></script>
+
 <script src="{{$asset_storage}}/uniform-builder/js/TeamStoreAPI.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/TeamStoreToolBox.js?v={{$asset_version}}"></script>
 
