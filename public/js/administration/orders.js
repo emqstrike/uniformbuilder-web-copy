@@ -967,6 +967,7 @@ function applyConfigs(api_order_id){
 function getQuestionColorValue(builder_customizations, idx){
     try {
         color_code = builder_customizations['team_colors'][idx]['color_code'];
+        
         color_name = builder_customizations['team_colors'][idx]['name'];
         if(color_name == "Charcoal Grey"){
             color_name = "Charcoal Gray";

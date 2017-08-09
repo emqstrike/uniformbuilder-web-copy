@@ -174,7 +174,7 @@ $(document).ready(function(){
     var user_roles = JSON.parse($('#user_roles_value').val());
     $('.user-types').select2({
         placeholder: "Select user types",
-        multiple: false,
+        multiple: true,
         allowClear: true
     });
 

@@ -42,7 +42,7 @@ class ArtworksController extends Controller
                         {
                             $order->artworks = $data;
                         } else {
-                            unset($orders[$ctr]);
+                            // unset($orders[$ctr]);
                         }
                     } catch (Exception $e) {
                         error_log($e->getMessage());
