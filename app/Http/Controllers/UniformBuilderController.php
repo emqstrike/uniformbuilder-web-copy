@@ -1418,105 +1418,49 @@ class UniformBuilderController extends Controller
 
     function generateItemTable ($itemData, $fname, $mainInfo) {
 
+        $styleURL = '<a href="' . $itemData["url"]  . '"><strong>BUILDER URL</strong></a>';
+        $pdfURL   = '<a href="' . env("WEBSITE_URL") . $fname . '"><strong>PDF URL</strong></a>';
+        $cutURL   = '<a href="' . $itemData["builder_customizations"]["cut_pdf"] . '"><strong>CUT PDF URL</strong></a>';
+
+        if ($itemData["builder_customizations"]["cut_pdf"] === '') { $cutURL = 'No Cut PDF detected.'; } 
+
         $html = '';
-        $html .= "<table>";
+        $html .= '<table>';
 
-        $html .= "<tr>";
-        $html .=     "<td width='30%'>";
-        $html .=        "UNIFORM NAME:<br />";
-        $html .=       "<strong>" . $itemData['description'] . " (" . $itemData['applicationType']  .") </strong><br />";
-        $html .=     "</td>";
-        $html .= "</tr>";
+        $html .= '<tr>';
+        $html .=     '<td width="100%" style="font-size: 1.0em;">';
+        $html .=       '<strong>' . $itemData["description"] . ' (' . $itemData["applicationType"]  .') </strong><br />';
+        $html .=       '<strong>' .  $itemData["sku"]  . '</strong><br />';
+        $html .=     '</td>';
+        $html .= '</tr>';
 
-        $html .= "<tr>";
-        $html .=     "<td width='20%'>";
-        $html .=        "SKU:<br />";
-        $html .=       "<strong>" .  $itemData['sku']  . "</strong><br />";
-        $html .=     "</td>";
-        $html .= "</tr>";
+        // $html .= '<tr>';
+        // $html .=     '<td width="100%">';
+        // $html .=        'PRICE:<br />';
+        // $html .=       '<strong>' . $itemData["price"] . '</strong><br />';
+        // $html .=     '</td>';
+        // $html .= '</tr>';
 
-        $html .= "<tr>";
-        $html .=     "<td width='20%'>";
-        $html .=        "PRICE:<br />";
-        $html .=       "<strong>" . $itemData['price'] . "</strong><br />";
-        $html .=     "</td>";
-        $html .= "</tr>";
+        $html .= '<tr>';
+        $html .=     '<td width="100%" style="font-size: 1.0em;">';
+        $html .=       'URLS: <br />';
+        $html .=       $styleURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $pdfURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $cutURL;
+        $html .=     '</td>';
+        $html .= '</tr>';
 
-        $html .= "<tr>";
-        $html .=     "<td width='20%'>";
-        $html .=        "BUILDER URL:<br />";
-        $html .=       "<strong>" . $itemData['url'] . "</strong><br />";
-        $html .=     "</td>";
-        $html .= "</tr>";
+        $html .= '</table>';
 
-        $html .= "<tr>";
-        $html .=     "<td width='20%'>";
-        $html .=        "PDF URL:<br />";
-        $html .=       "<strong style='font-size: 0.8em;'>" . env('WEBSITE_URL') . $fname . "</strong><br />";
-        $html .=     "</td>";
-        $html .= "</tr>";
-
-        $html .= "<tr>";
-        $html .=     "<td width='20%'>";
-        $html .=        "CUT PDF URL: <br />";
-
-        if ($itemData['builder_customizations']['cut_pdf'] <> "") {
-
-            $html .= "<strong style='font-size: 0.8em;'>" . $itemData['builder_customizations']['cut_pdf'] . '</strong>';
-
-        } else {
-
-            $html .= "No Cut PDF detected.";
-
-        }
-
-        $html .=     "</td>";
-        $html .= "</tr>";
-
-        $html .= "</table>";
         return $html;
 
     }
 
     function generateSizeBreakDownTable ($firstOrderItem) {
 
+        $bc = $firstOrderItem['builder_customizations'];
         $sizeBreakDown = $firstOrderItem['builder_customizations']['size_breakdown'];
 
         $table = '';
 
-        $table .= '<strong>SIZES BREAKDOWN</strong><br /><br />';
-        $table .= '<table>';
-
-        $total  = 0;
-
-        foreach ($sizeBreakDown as &$size) {
-
-            $table .= '<tr>';
-            $table .=   '<td>';
-            $table .=   $size['size'];
-            $table .=   '</td>';
-            $table .=   '<td style="text-align: right;">';
-            $table .=   $size['quantity'];
-            $table .=   '</td>';
-            $table .= '</tr>';
-
-            $total += intval($size['quantity']);
-
-        }
-
-        $table .= '<tr>';
-        $table .=   '<td>';
-        $table .=   '<strong>TOTAL</strong>';
-        $table .=   '</td>';
-        $table .=   '<td style="text-align: right;">';
-        $table .=   '<br />';
-        $table .=   '<strong>'. $total . '</strong>';
-        $table .=   '</td>';
-        $table .= '</tr>';
-
-        $table .= '</table>';
-
-        $table .= '<br /><br />';
         $table .= '<strong>ADDITIONAL NOTES</strong>';
         $table .= '<p style="font-size: 0.8em">';
         $table .= $firstOrderItem['notes'];
@@ -1529,7 +1473,46 @@ class UniformBuilderController extends Controller
             $table .= '<a href="' . $firstOrderItem['additional_attachments'] . '" target="_new">Open Attachment</a>';    
             $table .= '</p>'; 
         }
-        
+
+        $table .= '<strong>SIZING TABLE</strong><br /><br />';
+        $table .= '<table style="font-size: 1.5em">';
+        $table .= '<tr><td colspan="2">' . $bc['sizingTableHTML'] . '</td></tr>';
+        $table .= '</table>';
+
+        $table .= '<table width="90%">';
+
+        $total  = 0;
+
+        foreach ($sizeBreakDown as &$size) {
+
+            $table .= '<tr>';
+
+            $table .=   '<td width="65%"></td>';
+            $table .=   '<td align="right">';
+            $table .=   $size['size'];
+            $table .=   '</td>';
+            $table .=   '<td width="10%" style="text-align: right;">';
+            $table .=   $size['quantity'];
+            $table .=   '</td>';
+            $table .= '</tr>';
+
+            $total += intval($size['quantity']);
+
+        }
+
+        $table .= '<tr>';
+        $table .=   '<td width="65%"></td>';
+        $table .=   '<td align="right">';
+        $table .=   '<strong>TOTAL</strong>';
+        $table .=   '</td>';
+        $table .=   '<td width="10%" style="text-align: right;">';
+        $table .=   '<br />';
+        $table .=   '<strong>'. $total . '</strong>';
+        $table .=   '</td>';
+        $table .= '</tr>';
+
+        $table .= '</table>';
+
         return $table;
 
     }
@@ -1564,7 +1547,7 @@ class UniformBuilderController extends Controller
 
         $pdf->setPrintHeader(false);
         $pdf->SetTitle('Order Form');
-        $pdf->AddPage("P");
+        $pdf->AddPage("L");
 
         //$fontname = $pdf->addTTFfont('/fonts/avenir_next.ttf', 'TrueTypeUnicode', '', 96);
         $pdf->SetFont('avenir_next', '', 14, '', false);
@@ -1590,25 +1573,24 @@ class UniformBuilderController extends Controller
 
         $html .=   '<table width="100%" style="height: 750px">';
         $html .=   '<tr>';
-        $html .=   '<td width="50%" style="text-align=center;">';
+        $html .=   '<td style="text-align=center;">';
         $html .=   '<br /><br />';
 
         $html .=   $this->generateSizeBreakDownTable($firstOrderItem);
 
-//        $html .=   $this->generateClientDetailsTable($mainInfo);
-        $html .=   '<br /><br />';
+        //$html .=   $this->generateClientDetailsTable($mainInfo);
         $html .=   '</td>';
-        $html .=   '<td width="30%">';
-        $html .=   '<br /><br />';
-//        $html .=   $this->generateSizeBreakDownTable($firstOrderItem);
-        $html .=   '<br /><br />';
-        $html .=   '</td>';
+        // $html .=   '<td width="30%">';
+        // //$html .=   $this->generateSizeBreakDownTable($firstOrderItem);
+        // $html .=   '</td>';
         $html .=   '</tr>';
         $html .=   '</table>';
         $html .=   '</div>';
 
-        $pdf->writeHTML($html, true, false, true, false, '');
+        //$pdf->AddPage("L");
 
+        $pdf->writeHTML($html, true, false, true, false, '');
+        
         $html  = '';
         $html .=   '<div>';
         $html .=      '<div style ="width: 100%; text-align: center;">';
@@ -1618,10 +1600,10 @@ class UniformBuilderController extends Controller
         $html .=       '<table>';
         $html .=         '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=         '<tr>';
-        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/></td>';
-        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/></td>';
-        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/></td>';
-        $html .=            '<td><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
         $html .=         '</tr>';
         $html .=        '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=   '</table>';

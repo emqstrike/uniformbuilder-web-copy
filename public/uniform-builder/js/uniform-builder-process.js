@@ -333,13 +333,19 @@ $(document).ready(function() {
 
     ub.funcs.extractFields = function (row) {
 
-        var _index              = row.data('index');
-        var _size               = row.find('input.size').val();
-        var _lastname           = row.find('input.lastname').val();
-        var _number             = row.find('input.number').val();
-        var _quantity           = row.find('input.quantity').val();
-        var _sleeveType         = row.find('select.sleeve-type').val();
+        var _index               = row.data('index');
+        var _size                = row.find('input.size').val();
+        var _lastname            = row.find('input.lastname').val();
+        var _number              = row.find('input.number').val();
+        var _quantity            = row.find('input.quantity').val();
+        var _sleeveType          = row.find('select.sleeve-type').val();
         var _lastNameApplication = row.find('select.lastname-application').val();
+
+        if (!ub.funcs.isCurrentSport('Football')) {
+
+            _sleeveType = 'N/A';
+            
+        }
 
         return {
 
@@ -445,13 +451,71 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.prepareSizingTable = function () {
+
+        var _footballSizingTable = [];
+
+        _.each (ub.current_material.settings.roster, function (roster) {
+
+            var _sleeveType = roster.sleeveType.toUpperCase();
+
+            var _cutEntry = _.find(_footballSizingTable, {sleeveType: _sleeveType});
+            var _rosterSize;
+
+            if (typeof _cutEntry === "undefined") {
+                
+                _footballSizingTable.push({
+                    sleeveType: _sleeveType,
+                    sizes: [],
+                });
+
+                _cutEntry = _.find(_footballSizingTable, {sleeveType: _sleeveType});
+
+            }
+
+           _rosterSize = _.find(_cutEntry.sizes, {size: roster.size});
+
+            if (typeof _rosterSize === "undefined") {
+
+                _cutEntry.sizes.push({size: roster.size, items: [], total: 0, sizeString: "" });
+                _rosterSize = _.find(_cutEntry.sizes, {size: roster.size});
+
+            }
+
+            _rosterSize.items.push({ 
+            
+                sleeveType: _sleeveType, 
+                size: roster.size,
+                number: roster.number,
+
+            });
+
+            _rosterSize.total += 1;
+            _rosterSize.sizeString += roster.number + ", ";
+
+        });
+
+        _.each(_footballSizingTable, function (entry, entryKey) {
+
+            _.each(_footballSizingTable[entryKey].sizes, function (record, recordKey) {
+
+                record.sizeString = record.sizeString.substring(0, record.sizeString.length - 2);
+
+            });
+
+        });      
+
+        ub.current_material.settings.sizingTable = _footballSizingTable;
+        ub.current_material.settings.sizingTableHTML = ub.utilities.buildTemplateString("#m-sizing-table", {entries: ub.current_material.settings.sizingTable});
+
+    }
+
     ub.funcs.getTotalQuantity = function () {
 
         var _total = 0;
-
         var _prepareSize = [];
 
-        _.each (ub.current_material.settings.roster, function (roster){
+        _.each (ub.current_material.settings.roster, function (roster) {
 
             _total += parseInt(roster.quantity);
 
@@ -977,6 +1041,17 @@ $(document).ready(function() {
                 ub.funcs.resubmitOrderForm();
                 $('span.submit-confirmed-order').html('Resubmitting Order...');
 
+            } if (ub.data.hasProcessedArtworks) {
+
+                ub.funcs.updateArtworkRequest(ub.data.artworks, function () {
+
+                    $('span.submit-confirmed-order').html('Resubmitting Order...');
+
+                    $.smkAlert({text: 'Artwork Status updated', type:'info', time: 3, marginTop: '80px'});
+                    ub.funcs.resubmitOrderForm();
+
+                });
+
             } else {
 
                 ub.funcs.submitOrderForm();
@@ -1192,12 +1267,20 @@ $(document).ready(function() {
             success: function (response){
                 
                 if(response.success) {
+
                     ub.funcs.displayLinks(response.filename);
 
                     if (ub.config.orderArtworkStatus === "rejected") {
 
                         $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
                         $('span.save-order').hide();
+
+                    } 
+
+                    if (ub.data.hasProcessedArtworks) {
+
+                        $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+                        $('span.save-order').hide();                        
 
                     }
 
@@ -1352,6 +1435,7 @@ $(document).ready(function() {
         window.scrollTo(0,0);
         
         ub.funcs.prepareOrderForm(orderInfo);
+        ub.funcs.prepareSizingTable(); 
 
         var _total = ub.funcs.getTotalQuantity();
         $('td.uniform-name').html(ub.current_material.material.name);
@@ -1566,7 +1650,6 @@ $(document).ready(function() {
     ub.funcs.initRosterCalled = false;
 
     ub.funcs.AddRosterRow = function (_size) {
-
 
         var _returnValue = [];
         var _currentCount = $('tr.roster-row').length;
@@ -1928,6 +2011,8 @@ $(document).ready(function() {
         $('div#right-pane-column').fadeOut();        
         $('div#left-pane-column').fadeOut();
 
+        TeamStoreToolBox.close();
+
     }
 
     ub.data.rosterInitialized = false;
@@ -1974,7 +2059,7 @@ $(document).ready(function() {
         $('div#roster-input').fadeIn();
 
         // Setup Events if this is not rejected
-        if (ub.config.orderArtworkStatus !== "rejected") {
+        if (ub.config.orderArtworkStatus !== "rejected" && !ub.data.hasProcessedArtworks) {
 
             $('button.change-all').unbind('click');
             $('button.change-all').on('click', function () {
@@ -2033,7 +2118,7 @@ $(document).ready(function() {
 
             });
 
-        }
+        } 
 
         $('span.add-item-to-order').unbind('click');
         $('span.add-item-to-order').on('click', function () {
@@ -2064,6 +2149,21 @@ $(document).ready(function() {
         }
 
         ub.funcs.reInitHover();
+
+        // Disable Buttons when the order is being resubmitted from a rejected order
+        if (ub.config.orderArtworkStatus === "rejected" || ub.data.hasProcessedArtworks) {
+            
+            $('select.default-sleeve-type').attr('disabled', 'disabled');
+            $('select.default-lastname-application').attr('disabled', 'disabled');
+            $('input[name="lastname"]').attr('disabled', 'disabled');
+            $('input[name="number"]').attr('disabled', 'disabled');
+            $('input[name="quantity"]').attr('disabled', 'disabled');
+            $('select.sleeve-type').attr('disabled', 'disabled');
+            $('select.lastname-application').attr('disabled', 'disabled');
+            $('span.clear-row').hide();
+            $('span.add-player').hide();
+
+        }
 
     }
 

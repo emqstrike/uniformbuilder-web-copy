@@ -44,13 +44,14 @@ class UsersController extends Controller
         $sales_reps = $this->salesRepresentativesAPIClient->getSalesReps();
         return view('administration.users.user-edit', [
             'user' => $user,
-            'sales_reps' => $sales_reps
+            'sales_reps' => $sales_reps            
         ]);
     }
 
     public function addUserForm()
     {
-        return view('administration.users.user-create');
+        $sales_reps = $this->salesRepresentativesAPIClient->getSalesReps();
+        return view('administration.users.user-create', compact ('sales_reps'));
     }
 
     public function accountSettings($id)
@@ -103,10 +104,11 @@ class UsersController extends Controller
         $password = $request->input('password');
         $userCreateOrigin = $request->input('user_create_origin');
         $createdBy = $request->input('created_by');
-
+        $role = $request->input('role');
         $data = [
             'first_name' => $firstName,
-            'last_name' => $lastName
+            'last_name' => $lastName,
+            'role' => $role
         ];
 
         $userId = null;
@@ -122,6 +124,10 @@ class UsersController extends Controller
         if (!empty($request->input('password')))
         {
             $data['password'] = $request->input('password');
+        }
+        if (!empty($request->input('role')))
+        {
+            $data['role'] = $request->input('role');
         }
         if (!empty($request->input('user_create_origin')))
         {
@@ -173,6 +179,8 @@ class UsersController extends Controller
         if ($response->success)
         {
             Log::info('Save or Modify User: Success');
+            return Redirect::to('/administration/users');
+                            
             if (isset($data['id']))
             {
                 if (Session::get('userId') == $data['id'])
@@ -180,14 +188,16 @@ class UsersController extends Controller
                     Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
                 }
             }
-            return redirect()->back()
-                            ->with('message', 'Successfully updated user information');
+            // return redirect()->back()
+            //                 ->with('message', 'Successfully updated user information');
         }
         else
         {
             Log::info('Save or Modify User: Failed');
-            return redirect()->back()
-                            ->with('message', $response->message);
+            return Redirect::to('/administration/users');
+                            
+            // return redirect()->back()
+            //                 ->with('message', $response->message);
         }
     }
 

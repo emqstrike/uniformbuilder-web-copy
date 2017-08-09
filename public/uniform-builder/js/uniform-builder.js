@@ -453,9 +453,14 @@ $(document).ready(function () {
 
             ub.funcs.initToolBars();
 
-            if (TeamStoreToolBox.is_enabled) {
+            // TEAM STORE TOOLBOX INITIALIZER
+            if (TeamStoreToolBox.is_enabled)
+            {
                 TeamStoreToolBox.init();
-                TeamStoreToolBox.show();
+                if (window.is_show_teamstore_toolbox)
+                {
+                    TeamStoreToolBox.show();
+                }
             }
 
             ub.data.undoHistory = [];
@@ -506,7 +511,12 @@ $(document).ready(function () {
                     if (ub.config.orderArtworkStatus === "rejected") {
 
                         // $('a[data-view="team-info"]').find('span').html('Resubmit Order');
-                        $('span.resubmit-order-btn').show();
+                        
+                        $('a[data-view="team-info"]').hide();
+
+                        var $resubmitOrderButton = $('span.resubmit-order-btn')
+                        $resubmitOrderButton.show();
+
                         $('div#order-status').html('Artwork Rejected, please upload a new one.');
     
                         $('div#order-status').addClass('rejected');
@@ -519,15 +529,22 @@ $(document).ready(function () {
                         $('a[data-view="layers"]').attr('data-position', 'left');
                         $('a[data-view="layers"]').attr('data-intro', 'Please select the application here where you have previously uploaded the custom artwork request to reupload a new image.');
 
-                        $('span.resubmit-order-btn').attr('data-step', '3');
-                        $('span.resubmit-order-btn').attr('data-position', 'right');
-                        $('span.resubmit-order-btn').attr('data-intro', 'After uploading a new one, please click here to resubmit your order.');
+                        $resubmitOrderButton.attr('data-step', '3');
+                        $resubmitOrderButton.attr('data-position', 'right');
+                        $resubmitOrderButton.attr('data-intro', 'After uploading a new one, please click here to resubmit your order.');
 
                         // $('a[data-view="layers"]').show();
 
                         introJs().start();
 
-                        // console.log('Here ....')
+                        // Initialize Events
+
+                        $resubmitOrderButton.unbind('click');
+                        $resubmitOrderButton.on('click', function () {
+
+                            ub.funcs.initOrderProcess();
+
+                        });
 
                     }
 
@@ -2141,6 +2158,8 @@ $(document).ready(function () {
     
     ub.funcs.updateArtworkRequest = function (data, cb) {
 
+        delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
          $.ajax({
             
             url: ub.endpoints.getFullUrlString('updateArtworkRequest'),
@@ -2212,6 +2231,8 @@ $(document).ready(function () {
                 artworks.user_id = ub.user.id;
 
                 var _artWorksTemp = [];
+
+                
                 $('td.approve-reject').find('span.btn.active').each(function (index) {
 
                     var _code = $(this).data('code');
@@ -2234,14 +2255,10 @@ $(document).ready(function () {
                 });
 
                 artworks.artworks =  JSON.stringify(_artWorksTemp);
-                ub.funcs.updateArtworkRequest(artworks, function () {
+                ub.data.artworks = artworks;
+                $('span.approve-reject-artwork-btn').hide();
 
-                    ub.funcs.resubmitOrderForm();
-
-                    $('span.approve-reject-artwork-btn').hide();
-                    $.smkAlert({text: 'Artwork Status updated', type:'info', time: 3, marginTop: '80px'});
-
-                });
+                ub.funcs.initOrderProcess()
 
             });
 
@@ -2252,9 +2269,6 @@ $(document).ready(function () {
     ub.funcs.initGuide = function () {
 
         // If the artwork has been processed already 
-
-        console.log('Has Processed Artworks: ');
-        console.log(ub.data.hasProcessedArtworks);
 
         if (ub.data.hasProcessedArtworks) {
             
@@ -2272,7 +2286,9 @@ $(document).ready(function () {
             introJs().start();
 
         } else {
+
             console.log('No Processed Artworks...');
+
         }
 
     }
@@ -2301,8 +2317,7 @@ $(document).ready(function () {
                             var _mascot = ub.funcs.getMascotByID(_artworkEntry.mascot_id);
                             ub.data.hasProcessedArtworks = _hasProcessedArtworks;
 
-                            console.log('Has Processed Artworks: ');
-                            console.log(ub.data.hasProcessedArtworks);
+                            ub.config.orderArtworkStatus = 'artwork processed';
 
                             applicationObj.mascotOld = applicationObj.mascot;
                             applicationObj.mascot = _mascot;
@@ -5421,11 +5436,19 @@ $(document).ready(function () {
 
     ub.funcs.getOrderAndDetailsInfo = function () {
 
-        var _url = window.ub.config.api_host + '/api/order/user/orderswItems/' + ub.user.id;
+        ub.funcs.uiPrepBeforeOrderForm();
 
-        ub.loader(_url, 'orders', function (result) {
+        var dialog = bootbox.dialog({
+            message: ub.utilities.buildTemplateString('#m-loading', { type: 'Order Form' }),
+        });
 
-            var _orderInfo = _.find(result, {'order_id': ub.config.orderCode});
+        var _url = window.ub.config.api_host + '/api/order/orderswItems/' + ub.config.orderCode;
+
+        ub.loader(_url, 'order_info', function (result) {
+
+            dialog.modal('hide');
+
+            var _orderInfo = result;
             ub.data.orderInfo = _orderInfo;
             ub.funcs.initRoster(_orderInfo);
             
@@ -5457,7 +5480,12 @@ $(document).ready(function () {
             return;
         }
 
-        bootbox.confirm("Are you sure you want to go to the order form?", function (result) { 
+        var _msg = "Are you sure you want to go to the order form?";
+
+        if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
+        if (ub.data.hasProcessedArtworks) { _msg = "Press OK to resubmit this order with your new artwork."; }
+
+        bootbox.confirm(_msg, function (result) { 
         
             if (!result) {
 
@@ -8040,16 +8068,14 @@ $(document).ready(function () {
                 $messagesContainer.html(_messagesMarkup)
             ).then (function () {
 
-                $.each($('td.time'), function (index, value){
+                // $.each($('td.time'), function (index, value){
 
-                    var _utcDate = $(value).data('time');
-                    var date = new Date(_utcDate);
+                //     var _utcDate = $(value).data('time');
+                //     var date = new Date(_utcDate);
+                //     // var _d = moment.utc(_utcDate).tz(moment.tz.guess()).format('MMMM d, YYYY ha z');
+                //     // $(value).html(_d);
 
-                    var _d = moment.utc(_utcDate).tz(moment.tz.guess()).format('MMMM d, YYYY ha z');
-
-                    $(value).html(_d);
-
-                });
+                // });
 
             });
 
@@ -9174,13 +9200,18 @@ $(document).ready(function () {
                 if (typeof response.order_info.artworks[0] !== "undefined") {
 
                     var _parsedArtworks = JSON.parse(response.order_info.artworks[0].artworks);
-
+                    
+                    if (typeof _parsedArtworks === "string") { _parsedArtworks = JSON.parse(_parsedArtworks); }
                     _.each(_parsedArtworks, function (parsedArtwork) {
 
                         if(parsedArtwork.mascot_id !== null) {
 
+                            var _orderLink = ub.config.host + "/order/" + ub.config.orderID;
+
                             _hasProcessedArtworks = true;
                             $('span.custom-artwork-status').html('Mascot Ready for Review');
+                            $('span.last-message').html('You can now review to approve / reject the mascot/s you submitted for custom artwork processing in your design. <br /> Click this link to load the design: <a target="_new" href="' + _orderLink + '">' + _orderLink + '</a>');
+                            $('span.last-message').show();
 
                         }
 

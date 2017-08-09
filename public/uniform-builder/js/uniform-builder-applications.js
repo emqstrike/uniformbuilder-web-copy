@@ -6371,8 +6371,8 @@ $(document).ready(function() {
                     var _id = ub.user.id;
 
                     if (typeof ub.user.id === "number")  {
-                        _mascots = _.filter(_mascots, function (mascot){
-                            return mascot.user_id === _id || _.contains(ub.fontGuideIDs, _id);
+                        _mascots = _.filter(_mascots, function (mascot) {
+                            return mascot.user_id.toString() === _id.toString() || _.contains(ub.fontGuideIDs, _id);
                         });
 
                     } else {

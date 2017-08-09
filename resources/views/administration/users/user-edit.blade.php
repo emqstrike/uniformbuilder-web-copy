@@ -89,16 +89,26 @@
                             <div class="col-md-6">
                                 <select name='type' class="form-control user-type">
                                     <option value='normal' {{ ($user->type == 'normal') ? 'selected':'' }}>Normal</option>
-                                    <option value='qa' {{ ($user->type == 'qa') ? 'selected':'' }}>QA</option>
-                                    <option value='ga' {{ ($user->type == 'ga') ? 'selected':'' }}>GA</option>
-                                    <option value='rep' {{ ($user->type == 'rep') ? 'selected':'' }}>Rep</option>
-                                    <option value='dealer' {{ ($user->type == 'dealer') ? 'selected':'' }}>Dealer</option>
-                                    <option value='manager' {{ ($user->type == 'manager') ? 'selected':'' }}>Manager</option>
                                     <option value='administrator' {{ ($user->type == 'administrator') ? 'selected':'' }}>Administrator</option>
                                 </select>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Role</label>
+                            <div class="col-md-6">
+                                <select name='role' class="form-control user-role">
+                                    <option value="default" {{ ($user->role == 'default') ? 'selected':'' }}>Default</option>
+                                    <option value="ga" {{ ($user->role == 'ga') ? 'selected':'' }}>Graphics Artist</option>
+                                    <option value="qa" {{ ($user->role == 'qa') ? 'selected':'' }}>QA</option>
+                                    <option value="rep" {{ ($user->role == 'rep') ? 'selected':'' }}>Sales Rep</option>
+                                    <option value="rep_manager" {{ ($user->role == 'rep_manager') ? 'selected':'' }}>Manager</option>
+                                    <option value="dealer" {{ ($user->role == 'dealer') ? 'selected':'' }}>Dealer</option>
+                                    <option value="coach" {{ ($user->role == 'coach') ? 'selected':'' }}>Coach</option>
+                                    <option value="dev" {{ ($user->role == 'dev') ? 'selected':'' }}>Developer</option>
+                                    <option value="executive" {{ ($user->role == 'executive') ? 'selected':'' }}>Executive</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary update-user">
@@ -152,6 +162,15 @@ function isReady() {
                 });
                 return false;
             }
+            else if (password.val() == confirm.val()) {
+            new PNotify({
+                title: 'Success',
+                text: 'Passwords matched',
+                type: 'success',
+                hide: true
+            });
+            return true;
+        }
         }
         return true;
     }

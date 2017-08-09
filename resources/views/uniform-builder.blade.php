@@ -301,6 +301,12 @@
             return this;
         }
 
+        @if (\Session::has('is_show_teamstore_toolbox'))
+        window.is_show_teamstore_toolbox = {{ (\Session::get('is_show_teamstore_toolbox')) ? '1' : '0' }};
+        @else
+        window.is_show_teamstore_toolbox = 0;
+        @endif
+
         @if (Session::get('isLoggedIn'))
 
             window.ub.user = {
