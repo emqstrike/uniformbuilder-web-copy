@@ -5503,7 +5503,7 @@ $(document).ready(function () {
 
                 }
 
-                if (typeof ub.temp !== "undefined") {
+                if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
 
                     ub.funcs.getOrderAndDetailsInfo();
                     
