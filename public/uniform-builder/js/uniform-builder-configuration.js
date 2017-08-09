@@ -23,8 +23,9 @@ $(document).ready(function(){
     ub.config.features = {
 
         uniforms: {
-                betaSportUniforms: false,
-            },
+            betaSportUniforms: false,
+            priceItemName: false,
+        },
 
         setState: function (section, property, state) {
 
@@ -89,6 +90,7 @@ $(document).ready(function(){
     ub.config.setFeatureFlags = function () {
 
         ub.config.setFeatureFlag('Beta Sport Uniforms');
+        ub.config.setFeatureFlag('Show price items of uniforms');
         
     }
 
