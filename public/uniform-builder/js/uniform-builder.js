@@ -3,7 +3,7 @@ $(document).ready(function () {
     /// NEW RENDERER ///
 
         /// Initialize Uniform Builder
-        
+
         window.ub.initialize = function () {
 
             ub.errorCodes.prepareShortcuts();
@@ -22,6 +22,7 @@ $(document).ready(function () {
             ub.funcs.hideMainLinks();
 
             // Set Feature Flags
+
             ub.config.setFeatureFlags();
 
             ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
@@ -6297,7 +6298,6 @@ $(document).ready(function () {
             var _id          = $(this).data('id');
             var _gender      = $(this).data('gender');
 
-
             if (_picker_type === 'my-favorites') { return; }
 
             if (_picker_type === 'gender') { return; }
@@ -6305,13 +6305,13 @@ $(document).ready(function () {
             if (_picker_type === 'sports') {
 
                 if (!ub.data.activeSports.isSportOK(_item) && !ub.data.tempSports.isSportOK(_item)) { return; }
-                if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...') { return; }
+                if ($('#search_field').attr('placeholder') === 'Preparing search, please wait...')  { return; }
 
                 var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
+
                 if (ub.data.tempSports.isSportOK(_item) && (!_betaUniformsOk)) { return; }
 
                 ub.funcs.initUniformsPicker(_item, _gender);
-
 
             }
 
@@ -6322,6 +6322,7 @@ $(document).ready(function () {
 
                 $('#main-picker-container').hide();
                 $('.header-container').removeClass('forceHide');
+
 
                 window.location.href = window.ub.config.host + '/builder/0/' + _id;
 
@@ -6872,9 +6873,7 @@ $(document).ready(function () {
 
                     if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
-
                         var _uid = $(this).data('id');
-
 
                         if (typeof _uid !== "undefined") {
 
@@ -6889,6 +6888,20 @@ $(document).ready(function () {
                             $(this).find('div.favorite').show();
 
                         }
+
+
+                    }
+
+                    _priceItemName = ub.config.features.isOn('uniforms','priceItemName');
+
+                    if (typeof _priceItemName !== "undefined") {
+
+                        if (_priceItemName) {
+                            $(this).find('div.price_item_template_name').show();
+                        } else {
+                            $(this).find('div.price_item_template_name').hide();    
+                        }
+
                     }
 
                 })
