@@ -57,9 +57,9 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-4">
                                 <select name="block_pattern_id" class="form-control" id="block_pattern">
-                                   @foreach($block_patterns as $block_pattern)
+                                   {{-- @foreach($block_patterns as $block_pattern)
                                         <option value="{{ $block_pattern->id }}">{{ $block_pattern->name }}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -102,15 +102,49 @@ li.select2-selection__choice {
 @endsection
 
 @section('custom-scripts')
-<script src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script src="/js/administration/common.js"></script>
-<script src="/jquery-ui/jquery-ui.min.js"></script>
-<script src="/js/libs/select2/select2.min.js"></script>
-<script src="/js/ddslick.min.js"></script>
-<script src="/underscore/underscore.js"></script>
+<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+<script type="text/javascript" src="/js/ddslick.min.js"></script>
+
 <script>
 $(function(){
- 
+        window.block_patterns = null;
+
+        getBlockPatterns(function(block_patterns){ 
+            window.block_patterns = block_patterns; 
+        });
+
+        function getBlockPatterns(callback){
+            var block_patterns;
+            var url = "//api-dev.qstrike.com/api/block_patterns";
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    block_patterns = data['block_patterns'];
+                    if(typeof callback === "function") callback(block_patterns);
+                }
+            });
+        }
+        var sport = null; 
+        $(document).on('change', '.sport', function() {
+        sport = $('.sport').val();
+            getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; }); 
+            var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id === sport; });
+                    $( '#block_pattern' ).html('');
+                    $.each(x, function(i, item) {
+                        $('#block_pattern' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
+                    });
+        $('#block_pattern').trigger('change');           
+        });        
+        $('.sport').trigger('change');
         var block_patterns_array = $('#block_patterns_data').text();
         var z = JSON.parse(block_patterns_array);
         window.block_patterns = _.flatten(z, true);
@@ -126,7 +160,7 @@ $(function(){
             } else {
             }
         });
-      });  
+      });          
     $('#block_pattern').trigger('change');
 
 });   
