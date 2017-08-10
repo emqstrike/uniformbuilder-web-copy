@@ -2444,4 +2444,30 @@
 
 </script>
 
+<script type="text/mustache" id="m-name-drop-dialog">
+
+    <div class="svg-dialog-container">
+
+        <div class="row">
+            
+            <div class="col-md-8">
+                
+                <div id="namedrop-container" class="svg-container">
+                    
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+                
+                Sidebar
+
+            </div>
+
+        </div>
+        
+    </div>
+
+</script>
+
 @include('partials.controls.team-store-products-picker')
