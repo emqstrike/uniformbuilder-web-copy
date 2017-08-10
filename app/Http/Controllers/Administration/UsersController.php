@@ -170,6 +170,7 @@ class UsersController extends Controller
         }
         else
         {
+
             $logData = $data;
             unset($logData['password']);
             Log::info('Attempts to create a new User ' . json_encode($logData));
