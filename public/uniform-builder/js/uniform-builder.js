@@ -583,6 +583,11 @@ $(document).ready(function () {
             ub.afterLoadScripts();
             ub.funcs.afterLoadChecks();
 
+            // Cut PDF when coming from a saved design
+            if (typeof ub.current_material.settings.cut_pdf === "undefined") { 
+                ub.current_material.settings.cut_pdf = ub.config.cut_pdf;
+            }
+
         };
 
         ub.funcs.isAFavoriteItem = function (uniformID) {
@@ -974,7 +979,10 @@ $(document).ready(function () {
                 ub.current_material.settings.cuts_links = _.find(obj, {sport_name: ub.config.sport, block_pattern: ub.config.blockPattern, neck_option: ub.config.option});
 
                 if (typeof ub.current_material.settings.cuts_links !== "undefined") {
+                    
                     ub.current_material.settings.cut_pdf = ub.current_material.settings.cuts_links.cuts_pdf; 
+                    ub.config.cut_pdf = ub.current_material.settings.cuts_links.cuts_pdf;
+
                 }
 
             }
