@@ -1,8 +1,5 @@
 $(document).ready(function() {
 
-    console.log('UB Data inside namedrops ...');
-    console.log(ub.data);
-
     ub.data.namedrops = {
 
         items: [

@@ -1212,6 +1212,7 @@
                             <option value="Motion Cut">Motion Cut</option>
                             <option value="Quarterback Cut">Quarterback Cut</option>
                             <option value="Lineman Cut">Lineman Cut</option>
+                            <option value="Specialist Cut">Specialist Cut</option>
                         </select>
                     </td>
 
