@@ -170,7 +170,6 @@ class UsersController extends Controller
         }
         else
         {
-
             $logData = $data;
             unset($logData['password']);
             Log::info('Attempts to create a new User ' . json_encode($logData));
@@ -202,4 +201,16 @@ class UsersController extends Controller
         }
     }
 
+    public function getRejectedUsers()
+    {
+        $users = $this->client->getRejectedUsers();
+        foreach($users as $user)
+        {
+            $user->created_at = date('M-d-Y', strtotime($user->created_at));
+        }
+
+        return view('administration.users.rejected-users', [
+            'users' => $users
+        ]);
+    }
 }

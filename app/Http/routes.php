@@ -111,6 +111,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);
     Route::get('account_settings/change_password/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePasswordForm']);
     Route::post('account_settings/change_password', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePassword']);
+    Route::get('rejected_users' , 'Administration\UsersController@getRejectedUsers');
 
     // Factories
     Route::get('factories', ['middleware' => 'adminAccess', 'uses' => 'Administration\FactoriesController@index']);

@@ -182,4 +182,16 @@ class UsersAPIClient extends APIClient
             'message' => $result->message
         ];
     }
+    public function getRejectedUsers()
+    {
+        $response = $this->get('rejected_users');
+        $result = $this->decoder->decode($response->getBody());
+
+        $users = [];
+        if ($result->success)
+        {
+            $users = $result->rejected_users;
+        }
+        return $users;
+    }
 }
