@@ -282,7 +282,8 @@ $(document).ready(function() {
             });
             
             if (
-                (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "PMP") || 
+                !ub.funcs.isCurrentSport('Football') ||
+                (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "BLB") || 
                 ub.current_material.material.price_item_code !== "FBMJ"
             )
             {
@@ -2055,7 +2056,8 @@ $(document).ready(function() {
         // // Hide Last Name Application and Sleeve Type when not tackle twill football
                 
         if (
-            (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "PMP") || 
+            !ub.funcs.isCurrentSport('Football') ||
+            (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "BLB") || 
             ub.current_material.material.price_item_code !== "FBMJ"
         )
         {
