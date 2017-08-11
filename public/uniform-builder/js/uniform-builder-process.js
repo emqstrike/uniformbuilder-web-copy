@@ -284,7 +284,7 @@ $(document).ready(function() {
             if (
                 !ub.funcs.isCurrentSport('Football') ||
                 (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "BLB") || 
-                ub.current_material.material.price_item_code !== "FBMJ"
+                ub.current_material.material.price_item_code === "FBMJ"
             )
             {
                 $('select.lastname-application').attr('disabled','disabled');
@@ -2058,7 +2058,7 @@ $(document).ready(function() {
         if (
             !ub.funcs.isCurrentSport('Football') ||
             (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "BLB") || 
-            ub.current_material.material.price_item_code !== "FBMJ"
+            ub.current_material.material.price_item_code === "FBMJ"
         )
         {
 
