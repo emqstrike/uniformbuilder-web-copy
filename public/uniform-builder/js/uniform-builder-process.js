@@ -280,9 +280,13 @@ $(document).ready(function() {
                 _length += 1;
 
             });
-
-            if (ub.current_material.material.factory_code === "BLB") {
-
+            
+            if (
+                !ub.funcs.isCurrentSport('Football') ||
+                (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "BLB") || 
+                ub.current_material.material.price_item_code === "FBMJ"
+            )
+            {
                 $('select.lastname-application').attr('disabled','disabled');
                 $('select.lastname-application').val('None');
 
@@ -2049,10 +2053,20 @@ $(document).ready(function() {
         ub.funcs.prepareUniformSizes();
         ub.funcs.hideColumns();
 
-        // Hide Last Name Application and Sleeve Type when not tackle twill football
-        if (!(ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "PMP")) {
+        // // Hide Last Name Application and Sleeve Type when not tackle twill football
+                
+        if (
+            !ub.funcs.isCurrentSport('Football') ||
+            (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "BLB") || 
+            ub.current_material.material.price_item_code === "FBMJ"
+        )
+        {
 
             $('div.defaultTypes').hide();
+
+        } else {
+
+            $('div.defaultTypes').show();
 
         }
 

@@ -13565,7 +13565,7 @@ ub.funcs.fontOffSets = [
 
     ub.data.hiddenBody = {
 
-        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "Quarter Zip Jacket (Apparel)", "Fan Replica Jersey (Apparel)", 'Soccer', '2017 Team Short with Pockets (Apparel)', 'Signature Coaches Short (Apparel)'],
+        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "Quarter Zip Jacket (Apparel)", "Fan Replica Jersey (Apparel)", 'Soccer', '2017 Team Short with Pockets (Apparel)', 'Signature Coaches Short (Apparel)', 'Baseball', 'Fastpitch', 'Compression (Apparel)', 'Tech-Tee (Apparel)'],
         options: [
                 {
                     sport: 'Wrestling',
@@ -13670,11 +13670,19 @@ ub.funcs.fontOffSets = [
                     sport: 'Soccer',
                     option: "Goalie (W)",
                 },
+
         ],
         currentUniformOk: function () {
 
-            return _.contains(this.sports, ub.current_material.material.uniform_category) || 
-                   (typeof _.find(this.options, {sport: ub.current_material.material.uniform_category, option: ub.current_material.material.neck_option}) !== "undefined");
+            return  (
+                        _.contains(this.sports, ub.current_material.material.uniform_category) || 
+                        (typeof _.find(this.options, {sport: ub.current_material.material.uniform_category, option: ub.current_material.material.neck_option}) !== "undefined")
+                    ) &&
+
+                    // Hidden Body for baseball and fastpitch except when its a lower uniform
+                    (
+                        ( ub.config.sport !== "Baseball" || ub.config.sport !== "Fastpitch") && ub.config.type !== "lower"
+                    );
 
         } 
 
@@ -14300,7 +14308,9 @@ ub.funcs.fontOffSets = [
 
         items: [
             { name: 'Beta Sport Uniforms', code: 'betaSportUniforms', section: 'uniforms' },
+            { name: 'Show price items of uniforms', code: 'priceItemName', section: 'uniforms' },
         ],
+
         
         getCode: function (featureFlag) {
             

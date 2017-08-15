@@ -487,6 +487,7 @@
                     <strong class="type">@{{#uniform_type}}@{{uniform_application_type}}@{{/uniform_type}}</strong>
                     <!-- <strong class="type">@{{block_pattern}}</strong> -->
                     <div class="favorite"><i class="fa fa-star" aria-hidden="true"></i> Favorite <i class="fa fa-star" aria-hidden="true"></i></div>
+                    <div class="price_item_template_name">@{{price_item_template_name}}</div>
                     
                 </span> 
 
@@ -1211,6 +1212,7 @@
                             <option value="Motion Cut">Motion Cut</option>
                             <option value="Quarterback Cut">Quarterback Cut</option>
                             <option value="Lineman Cut">Lineman Cut</option>
+                            <option value="Specialist Cut">Specialist Cut</option>
                         </select>
                     </td>
 
@@ -2440,6 +2442,32 @@
     </table>
 
     </center>
+
+</script>
+
+<script type="text/mustache" id="m-name-drop-dialog">
+
+    <div class="svg-dialog-container">
+
+        <div class="row">
+            
+            <div class="col-md-8">
+                
+                <div id="namedrop-container" class="svg-container">
+                    
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+                
+                Sidebar
+
+            </div>
+
+        </div>
+        
+    </div>
 
 </script>
 

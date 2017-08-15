@@ -201,4 +201,16 @@ class UsersController extends Controller
         }
     }
 
+    public function getRejectedUsers()
+    {
+        $users = $this->client->getRejectedUsers();
+        foreach($users as $user)
+        {
+            $user->created_at = date('M-d-Y', strtotime($user->created_at));
+        }
+
+        return view('administration.users.rejected-users', [
+            'users' => $users
+        ]);
+    }
 }

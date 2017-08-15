@@ -53,6 +53,7 @@
                         <option value="Motion Cut">Motion Cut</option>   
                         <option value="Quarterback Cut">Quarterback Cut</option>   
                         <option value="Lineman Cut">Lineman Cut</option>   
+                        <option value="Specialist">Specialist Cut</option>   
 
                     </select><br />
 

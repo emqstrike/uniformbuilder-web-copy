@@ -59,9 +59,9 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-4">
                                 <select name="block_pattern_id" class="form-control" id="block_pattern">
-                                    @foreach($block_patterns as $block_pattern)
+                                    {{-- @foreach($block_patterns as $block_pattern)
                                         <option value="{{$block_pattern->id}}" @if($cut_links->block_pattern_id == $block_pattern->id) selected="selected"@endif>{{ $block_pattern->name }}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                             </div>
                         </div>
@@ -141,9 +141,25 @@ $(function(){
             }
         });
     }    
+    var sport = null;
     var block_pattern_id = $('#pattern_id').val();
-    var existing_neck_option = $('#existing_neck_option').val();
-
+    var existing_neck_option = $('#existing_neck_option').val(); 
+    $(document).on('change', '.sport', function() {
+    sport = $('.sport').val();
+        getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; }); 
+        var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id === sport; });
+                $( '#block_pattern' ).html('');
+                $.each(x, function(i, item) {
+                    if( block_pattern_id == item.id ){
+                    $('#block_pattern' ).append( '<option value="' + item.id + '" selected>' + item.name + '</option>' );
+                    }
+                    else {
+                    $('#block_pattern' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
+                    }
+                });
+    $('#block_pattern').trigger('change');           
+    });  
+    $('.sport').trigger('change');
     $.each(window.block_patterns, function(i, item) {
         if( item.id === block_pattern_id ){
             window.neck_options = JSON.parse(item.neck_options);

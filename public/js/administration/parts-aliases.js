@@ -12,7 +12,7 @@ $(document).ready(function(){
     window.questions_options = null;
     window.question_names = null;
     window.type = null;
-    window.types = ['Color', 'Pattern', 'Material' , 'Team_Color', 'Piping', 'Sock_Color'];
+    window.types = ['Color', 'Pattern', 'Material' , 'Team_Color', 'Piping', 'Sock_Color', 'Allowed_Fabrics'];
     window.fabrics = null;
     
 
@@ -295,6 +295,7 @@ $('.delete-part').on('click', function(){
                                 <option value="Team_Color">Team Color</option>
                                 <option value="Piping">Piping</option>
                                 <option value="Sock_Color">Sock Color</option>
+                                <option value="Allowed_Fabrics">Allowed Fabrics</option>
                             </select>`;
         var delete_row = '<a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
         var elem = '<tr class="layer-row">' +
