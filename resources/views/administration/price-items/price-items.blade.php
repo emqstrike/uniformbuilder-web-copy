@@ -1,4 +1,4 @@
-@extends('administration.lte-main')
+\@extends('administration.lte-main')
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
@@ -21,6 +21,9 @@
                             </a>
                             <a href="/administration/price_item/materials" class='btn btn-xs btn-primary'>
                                 View Uniforms (List)
+                            </a>
+                            <a href="/administration/price_items/manual_update" class='btn btn-xs btn-primary'>
+                                Update Prices
                             </a>
                         </small>
                     </h1>
