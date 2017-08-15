@@ -35,4 +35,9 @@ class PriceItemsController extends Controller
         return view('administration.price-items.list-materials');
     }
 
+    public function manualUpdate()
+    {
+        return view('administration.price-items.manual-update');
+    }
+
 }

@@ -513,12 +513,14 @@ $('.send-to-factory').on('click', function(e){
             "BillingPhone": billing_phone,
             "APICode": 1,
             "Gender": 0,
-            "RepID": 1148,
+            "RepID": 154,
             "RepIDEnteredBy": 0,
             "Sport": "All",
             "TeamName": "Wildcats"
         };
 
+        // "RepID": 154, Jeremy
+        // "RepID": 1148, Geeks
         var orderEntire = {
             "order": order,
             "orderParts" : window.order_parts
