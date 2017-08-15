@@ -77,8 +77,22 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-2 col-md-offset-5">
-                                <a href="#" class="btn btn-primary update-data">Update Data</a>
+                                <center><a href="#" class="btn btn-primary update-data">Update Data</a></center>
                             </div>
+                        </div>
+                        <hr>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Generate Preview</label>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control preview-index" placeholder="Enter record index">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2 col-md-offset-5">
+                                <center><a href="#" class="btn btn-primary generate-preview">Generate</a></center>
+                            </div>
+                        </div>
+                        <div class="form-group preview-div col-md-12">
                         </div>
                     </form>
                 </div>
@@ -103,7 +117,27 @@ window.items_to_update = null;
 window.source_data_dd = null;
 window.items_to_update_dd = null;
 
+$('.generate-preview').on('click', function(e){
+    e.preventDefault();
+    var transfer_format = generateTransferFormat();
+    updateData(transfer_format, true);
+});
+
 $('.update-data').on('click', function(e){
+    var transfer_format = generateTransferFormat();
+    // var transfer_format = [];
+    // $(".data-row").each(function(i) {
+    //     var x = {
+    //         'source' : $(this).find('.source').val(),
+    //         'destination' : $(this).find('.destination').val(),
+    //     };
+    //     transfer_format.push(x);
+    // });
+    console.log(transfer_format);
+    updateData(transfer_format, false);
+});
+
+function generateTransferFormat(){
     var transfer_format = [];
     $(".data-row").each(function(i) {
         var x = {
@@ -112,29 +146,27 @@ $('.update-data').on('click', function(e){
         };
         transfer_format.push(x);
     });
-    // console.log(transfer_format);
-    updateData(transfer_format);
-});
+    return transfer_format;
+}
 
-function updateData(transfer_format){
+function updateData(transfer_format, generate_preview){
+    var ctr = 0;
     window.items_to_update.forEach(function(entry) {
         var destination_val = parseInt(entry[$('.destination-field').val()]);
         var source_field = $('.source-field').val();
-        // console.log('destination val: '+destination_val);
-        
-        // var data = findObjectByKey(window.source_data, source_field, destination_val);
-        // var data = window.source_data.find(function (obj) { return obj[source_field] === destination_val; });
+
         var data = _.find(window.source_data, function (obj) { return obj[source_field] === destination_val; });
-        var updated_entry = new Object();
-        updated_entry.id = entry.id;
-        updated_entry.price_item = entry.price_item;
-        updated_entry.factory_price_item_id = entry.factory_price_item_id;
-        updated_entry.factory_id = entry.factory_id;
-        updated_entry.dealer_id = entry.dealer_id;
-        updated_entry.msrp = entry.msrp;
-        updated_entry.uniform_category_id = entry.uniform_category_id;
-        updated_entry.web_price_sale = entry.web_price_sale;
-        // console.log(data);
+        var updated_entry = JSON.parse(JSON.stringify(entry));
+        // var updated_entry = new Object();
+        // updated_entry.id = entry.id;
+        // updated_entry.price_item = entry.price_item;
+        // updated_entry.factory_price_item_id = entry.factory_price_item_id;
+        // updated_entry.factory_id = entry.factory_id;
+        // updated_entry.dealer_id = entry.dealer_id;
+        // updated_entry.msrp = entry.msrp;
+        // updated_entry.uniform_category_id = entry.uniform_category_id;
+        // updated_entry.web_price_sale = entry.web_price_sale;
+
         try {
             transfer_format.forEach(function(x) {
                 updated_entry[x.destination] = data[x.source];
@@ -143,14 +175,98 @@ function updateData(transfer_format){
         catch(err) {
             console.log(err.message);
         }
-        console.log('DATA');
-        console.log(data);
-        console.log('ENTRY');
-        console.log(entry);
-        console.log('UPDATED ENTRY');
-        console.log(updated_entry);
+        // console.log('DATA');
+        // console.log(data);
+        // console.log('ENTRY');
+        // console.log(entry);
+        // console.log('UPDATED ENTRY');
+        // console.log(updated_entry);
         // return false;
-    });
+    // });
+    console.log("ctr> "+ctr+" PREVIEW INDEX> "+$('.preview-index').val());
+    if( generate_preview == true && ctr == $('.preview-index').val() ){
+        console.log('gets here');
+        var source_elem = `<div class="col-md-4">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">QX API</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Price Item ID</td>
+                                        <td>`+data.PriceItemID+`</td>
+                                    </tr><tr>
+                                        <td>Dealer ID</td>
+                                        <td>`+data.DealerID+`</td>
+                                    </tr><tr>
+                                        <td>MSRP</td>
+                                        <td>`+data.MSRPPrice+`</td>
+                                    </tr><tr>
+                                        <td>Web Price Sale</td>
+                                        <td>`+data.WebPriceSale+`</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>`;
+
+        var destination_elem = `<div class="col-md-4">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">Customizer API (RAW)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Price Item ID (F)</td>
+                                        <td>`+entry.factory_price_item_id+`</td>
+                                    </tr><tr>
+                                        <td>Dealer ID</td>
+                                        <td>`+entry.dealer_id+`</td>
+                                    </tr><tr>
+                                        <td>MSRP</td>
+                                        <td>`+entry.msrp+`</td>
+                                    </tr><tr>
+                                        <td>Web Price Sale</td>
+                                        <td>`+entry.web_price_sale+`</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>`;
+
+        var updated_destination_elem = `<div class="col-md-4">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">Customizer API (UPDATED)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Price Item ID (F)</td>
+                                        <td>`+updated_entry.factory_price_item_id+`</td>
+                                    </tr><tr>
+                                        <td>Dealer ID</td>
+                                        <td>`+updated_entry.dealer_id+`</td>
+                                    </tr><tr>
+                                        <td>MSRP</td>
+                                        <td>`+updated_entry.msrp+`</td>
+                                    </tr><tr>
+                                        <td>Web Price Sale</td>
+                                        <td>`+updated_entry.web_price_sale+`</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>`;
+
+        $('.preview-div').append(source_elem);
+        $('.preview-div').append(destination_elem);
+        $('.preview-div').append(updated_destination_elem);
+    }
+    ctr++;
+}); // here
 }
 
 $('.add-fields').on('click', function(e){
