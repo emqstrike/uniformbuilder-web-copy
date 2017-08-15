@@ -184,10 +184,14 @@ function updateData(transfer_format, generate_preview){
         // return false;
     // });
     console.log("ctr> "+ctr+" PREVIEW INDEX> "+$('.preview-index').val());
-    if( generate_preview == true && ctr == $('.preview-index').val() ){
-        console.log('gets here');
-        var source_elem = `<div class="col-md-4">
-                            <table class="table">
+    // if( generate_preview == true && ctr == $('.preview-index').val() ){
+        // console.log('gets here');
+        // var alert_class = '';
+        // if(data.MSRPPrice != entry.msrp){
+        //     alert_class = "alert alert-danger";
+        // }
+        var source_elem = `<div class="col-md-4" style="margin-top: 50px;">
+                            <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th colspan="3">QX API</th>
@@ -195,15 +199,22 @@ function updateData(transfer_format, generate_preview){
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td>Price Item</td>
+                                        <td>`+data.PriceItemName+`</td>
+                                    </tr>
+                                    <tr>
                                         <td>Price Item ID</td>
                                         <td>`+data.PriceItemID+`</td>
-                                    </tr><tr>
+                                    </tr>
+                                    <tr>
                                         <td>Dealer ID</td>
                                         <td>`+data.DealerID+`</td>
-                                    </tr><tr>
+                                    </tr>
+                                    <tr>
                                         <td>MSRP</td>
                                         <td>`+data.MSRPPrice+`</td>
-                                    </tr><tr>
+                                    </tr>
+                                    <tr>
                                         <td>Web Price Sale</td>
                                         <td>`+data.WebPriceSale+`</td>
                                     </tr>
@@ -211,8 +222,8 @@ function updateData(transfer_format, generate_preview){
                             </table>
                             </div>`;
 
-        var destination_elem = `<div class="col-md-4">
-                            <table class="table">
+        var destination_elem = `<div class="col-md-4" style="margin-top: 50px;">
+                            <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th colspan="3">Customizer API (RAW)</th>
@@ -220,15 +231,22 @@ function updateData(transfer_format, generate_preview){
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td>Price Item</td>
+                                        <td>`+entry.price_item+`</td>
+                                    </tr>
+                                    <tr>
                                         <td>Price Item ID (F)</td>
                                         <td>`+entry.factory_price_item_id+`</td>
-                                    </tr><tr>
+                                    </tr>
+                                    <tr>
                                         <td>Dealer ID</td>
                                         <td>`+entry.dealer_id+`</td>
-                                    </tr><tr>
+                                    </tr>
+                                    <tr>
                                         <td>MSRP</td>
                                         <td>`+entry.msrp+`</td>
-                                    </tr><tr>
+                                    </tr>
+                                    <tr>
                                         <td>Web Price Sale</td>
                                         <td>`+entry.web_price_sale+`</td>
                                     </tr>
@@ -236,8 +254,8 @@ function updateData(transfer_format, generate_preview){
                             </table>
                             </div>`;
 
-        var updated_destination_elem = `<div class="col-md-4">
-                            <table class="table">
+        var updated_destination_elem = `<div class="col-md-4" style="margin-top: 50px;">
+                            <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th colspan="3">Customizer API (UPDATED)</th>
@@ -245,15 +263,22 @@ function updateData(transfer_format, generate_preview){
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td>Price Item</td>
+                                        <td>`+updated_entry.price_item+`</td>
+                                    </tr>
+                                    <tr>
                                         <td>Price Item ID (F)</td>
                                         <td>`+updated_entry.factory_price_item_id+`</td>
-                                    </tr><tr>
+                                    </tr>
+                                    <tr>
                                         <td>Dealer ID</td>
                                         <td>`+updated_entry.dealer_id+`</td>
-                                    </tr><tr>
+                                    </tr>
+                                    <tr>
                                         <td>MSRP</td>
                                         <td>`+updated_entry.msrp+`</td>
-                                    </tr><tr>
+                                    </tr>
+                                    <tr>
                                         <td>Web Price Sale</td>
                                         <td>`+updated_entry.web_price_sale+`</td>
                                     </tr>
@@ -264,7 +289,7 @@ function updateData(transfer_format, generate_preview){
         $('.preview-div').append(source_elem);
         $('.preview-div').append(destination_elem);
         $('.preview-div').append(updated_destination_elem);
-    }
+    // }
     ctr++;
 }); // here
 }
