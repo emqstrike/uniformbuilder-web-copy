@@ -194,7 +194,7 @@ function updateData(transfer_format, generate_preview){
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th colspan="3">QX API</th>
+                                        <th colspan="3">QX API <span class="label label-default">SOURCE</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -226,7 +226,7 @@ function updateData(transfer_format, generate_preview){
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th colspan="3">Customizer API (RAW)</th>
+                                        <th colspan="3">Customizer API <span class="label label-primary">RAW</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -258,7 +258,7 @@ function updateData(transfer_format, generate_preview){
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th colspan="3">Customizer API (UPDATED)</th>
+                                        <th colspan="3">Customizer API <span class="label label-success">UPDATED</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
