@@ -2698,26 +2698,42 @@
 
     };
 
-    $.ub.mvChangePattern = function(application, target, clone, sprite_collection){
+    $.ub.mvChangePattern = function (application, target, clone, sprite_collection){
+
+        console.log('Application: ');
+        console.log(application)
+
+        console.log('Target: ');
+        console.log(target);
+
+        console.log('Clone: ');
+        console.log(clone);
+
+        console.log('Sprite Collection: ');
+        console.log(sprite_collection);
 
         var uniform_type = ub.current_material.material.type;
         var app = ub.current_material.settings.applications[application.id];
         var app_containers = ub.current_material.containers[uniform_type].application_containers;
+        var _primaryView = ub.funcs.getPrimaryView(application);
 
-        if(typeof sprite_collection === 'object'){
+        if(typeof sprite_collection === 'object') {
             s = sprite_collection;
         }
-        else{
+        else {
             s = app_containers[application.id].object.sprite;    
         }
         
         ub.current_material.containers[application.id] = {};
+        ub.objects[_primaryView + '_view']['pattern_' + application.id] = {};
 
-        _.each(s, function(text, index) {
+        _.each(s.children, function (text, index) {
 
             text_sprite = text;
 
-            var main_text_obj = _.find(text.children, {ubName: 'Mask'});
+            ub.sp = sprite_collection;
+
+            var main_text_obj = _.find(sprite_collection.children, {ubName: 'Mask'});
             main_text_obj.alpha = 1;
 
             var uniform_type = ub.current_material.material.type;
@@ -2768,7 +2784,10 @@
                 var sprite = container.sprites[index];
 
                 sprite.zIndex = layer.layer_number * -1;
-                sprite.tint = parseInt(layer.default_color,16);
+
+                if (clone.name !== "Flag") {
+                    sprite.tint = parseInt(layer.default_color,16);    
+                }
                 
                 if (typeof sprite_collection === 'object') {
                 
@@ -2830,10 +2849,10 @@
 
             }
 
+            ub.objects[_primaryView + '_view']['pattern_' + application.id] = container;
             ub.refresh_thumbnails();
 
         });
-
 
     };
 
