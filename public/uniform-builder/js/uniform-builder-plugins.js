@@ -2698,29 +2698,41 @@
 
     };
 
-    $.ub.mvChangePattern = function(application, target, clone, sprite_collection){
+    $.ub.mvChangePattern = function (application, target, clone, sprite_collection){
 
         var uniform_type = ub.current_material.material.type;
-        var app = ub.current_material.settings.applications[application.id];
+        var applicationSettings = ub.current_material.settings.applications[application.id];
+        var app = applicationSettings;
         var app_containers = ub.current_material.containers[uniform_type].application_containers;
+        var _primaryView = ub.funcs.getPrimaryView(application);
 
-        if(typeof sprite_collection === 'object'){
+        if(typeof sprite_collection === 'object') {
             s = sprite_collection;
         }
-        else{
+        else {
             s = app_containers[application.id].object.sprite;    
         }
         
         ub.current_material.containers[application.id] = {};
+    
+        if (typeof ub.objects[_primaryView + '_view']['pattern_' + application.id] === "object") {
 
-        _.each(s, function(text, index) {
+            ub[_primaryView + '_view'].removeChild('pattern_' + application.id);
+            
+        }
 
-            text_sprite = text;
+        ub.objects[_primaryView + '_view']['pattern_' + application.id] = {};
 
-            var main_text_obj = _.find(text.children, {ubName: 'Mask'});
+        _.each(s.children, function (text, mainIndex) {
+
+            if (text.ubName !== "Base Color") { return; }
+
+            var text_sprite = text;
+            var uniform_type = ub.current_material.material.type
+            var applicationContainer = ub.current_material.containers[application.id];
+            var main_text_obj = _.find(sprite_collection.children, {ubName: 'Mask'});
+
             main_text_obj.alpha = 1;
-
-            var uniform_type = ub.current_material.material.type;
 
             // Slider Values
 
@@ -2730,16 +2742,15 @@
             var val_scale = $('#' + 'scale_pattern_slider_' + target).limitslider('values')[0];
             var val_x_position = $('#' + 'position_x_slider_' + target).limitslider('values')[0];
             var val_y_position = $('#' + 'position_y_slider_' + target).limitslider('values')[0];
-            var application_settings = ub.current_material.containers[application.id];
 
-            if(typeof application_settings.pattern === 'undefined') {
+            if(typeof applicationContainer.pattern === 'undefined') {
 
-                application_settings.pattern = [];
+                applicationContainer.pattern = [];
 
             }
 
             var c = new PIXI.Container();
-            application_settings.pattern[index] = c;
+            applicationContainer.pattern[mainIndex] = c;
 
             if(typeof text_sprite.pattern_layer === "object" ){
 
@@ -2748,31 +2759,89 @@
 
             }
 
-            var container = application_settings.pattern[index];
+            var container = applicationContainer.pattern[mainIndex];
             var v = application.perspective;
             container.sprites = {};
 
             _.each(clone.layers, function (layer, index) {
 
-                var team_color = ub.funcs.getColorUsedByIndex(layer.team_color_id);
+                /// Color Fixes
 
-                if (typeof team_color !== 'undefined') {
+                if (typeof layer.default_color === "undefined" && typeof layer.color_code !== "undefined") {
 
-                    layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
+                    var _colorObj = ub.funcs.getColorByColorCode(layer.color_code);
+
+                    if (typeof _colorObj !== "undefined") {
+
+                        ub.utilities.info('Assigning default color: ' + _colorObj.color_code);
+                        layer.default_color =  _colorObj.hex_code;
+                        layer.color_code = _colorObj.color_code;
+
+                    } else {
+
+                        ub.utilities.warn('Color not Found ' + layer.color_code);
+
+                    }
+                    
+                } 
+
+                if (typeof layer.default_color === "undefined" && typeof layer.color_code === "undefined") {
+
+                    var team_color = ub.funcs.getColorUsedByIndex(layer.team_color_id);
+
+                    if (typeof team_color !== 'undefined') {
+
+                        layer.default_color = team_color.hexCode; // Assign New Team Color if not just use default 
+                        
+                        var _colorObj = ub.funcs.getColorObjByHexCode(team_color.hexCode);
+
+                        if (typeof _colorObj !== "undefined") {
+
+                            layer.color_code = _colorObj.color_code;
+
+                        } else {
+
+                            ub.utilities.warn('Color Object not found for ' + team_color.hexCode);
+
+                        }
+
+                    }
 
                 }
 
-                var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                if (typeof layer.default_color !== "undefined" && typeof layer.color_code === "undefined") {
+
+                    var _color = ub.funcs.getColorObjByHexCode(layer.default_color);
+
+                    if (typeof _color !== "undefined") {
+
+                        layer.color_code = _color.color_code;
+
+                    } else {
+
+                        ub.utilities.warn('Color not found ' + layer.default_color);
+
+                    }
+
+                }
+
+                /// End Color Fixes
+
+
+                //var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
                 container.sprites[index] = ub.pixi.new_sprite(layer.filename);
 
                 var sprite = container.sprites[index];
 
                 sprite.zIndex = layer.layer_number * -1;
-                sprite.tint = parseInt(layer.default_color,16);
+
+                if (clone.name !== "Flag") {
+                    sprite.tint = parseInt(layer.default_color,16);    
+                }
                 
                 if (typeof sprite_collection === 'object') {
                 
-                    val = ub.current_material.settings.applications[application.id].pattern_obj.layers[0].default_color;
+                    val = applicationSettings.pattern_obj.layers[0].default_color;
                 
                 }
 
@@ -2820,20 +2889,37 @@
 
             ub.updateLayersOrder(text_sprite);
 
-            ub.current_material.settings.applications[application.id].pattern_obj = clone;
-            ub.current_material.settings.applications[application.id].pattern_settings = {
+            applicationSettings.pattern_obj = clone;
+
+            if (typeof applicationSettings.pattern_settings === "undefined") {
+
+                applicationSettings.pattern_settings = [];
+                applicationSettings[[_primaryView]] = {};
+
+            }
+
+            applicationSettings.pattern_settings[_primaryView] = {
 
                 rotation: container.rotation,
                 scale: container.scale,
                 position: container.position,
-                opcity: container.opacity, 
+                opacity: container.opacity, 
 
             }
 
+            // ub.current_material.settings.applications[application.id].pattern_settings = {
+
+            //     rotation: container.rotation,
+            //     scale: container.scale,
+            //     position: container.position,
+            //     opcity: container.opacity, 
+
+            // }
+
+            ub.objects[_primaryView + '_view']['pattern_' + application.id] = container;
             ub.refresh_thumbnails();
 
         });
-
 
     };
 
