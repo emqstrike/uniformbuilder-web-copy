@@ -494,7 +494,7 @@ $(document).ready(function() {
 
             });
 
-            _rosterSize.total += 1;
+            _rosterSize.total += parseInt(roster.quantity);
             _rosterSize.sizeString += roster.number + ", ";
 
         });
