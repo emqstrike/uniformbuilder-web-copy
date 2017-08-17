@@ -4731,10 +4731,6 @@ $(document).ready(function () {
                     
                 }
 
-                console.log('----');
-                console.log(input_object.applicationObj);
-                console.log('----')
-
                 if (typeof input_object.applicationObj === 'object') {
 
                     if(typeof input_object.applicationObj.gradient_obj === 'object') {
@@ -4745,30 +4741,12 @@ $(document).ready(function () {
 
                     if(typeof input_object.applicationObj.pattern_obj === 'object') {
 
-                        console.log('This is working (Patterns: )');
-                        console.log(input_object.applicationObj.pattern_obj);
-
-                        console.log('Sprite Collection from Callee...');
-                        console.log(sprite_collection);
-
                         var _primaryView = ub.funcs.getPrimaryView(ub.current_material.settings.applications[input_object.applicationObj.code].application);
                         var _spriteCollection = ub.objects[_primaryView + '_view']['objects_' + input_object.applicationObj.code];
-                        // Original is in sprite_collection (all views);
 
                         $.ub.mvChangePattern(input_object.applicationObj.application, input_object.applicationObj.code, input_object.applicationObj.pattern_obj, _spriteCollection);
 
                     }
-
-                    // Does not work or disable, crossing_sword, line fade body (use line fade sleeve instead)
-
-                    // var _patternObj = _.find(ub.data.patterns.items, {code: "referee_stripes"});
-                    // input_object.applicationObj.pattern_obj = _patternObj;
-
-                    // if (typeof input_object.applicationObj.pattern_obj === 'object') {
-
-                    //     $.ub.mvChangePattern(input_object.applicationObj.application, input_object.applicationObj.id, _patternObj, sprite_collection);
-
-                    // }
 
                 }
 

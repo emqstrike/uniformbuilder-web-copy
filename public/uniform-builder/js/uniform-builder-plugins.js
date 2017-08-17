@@ -2700,20 +2700,9 @@
 
     $.ub.mvChangePattern = function (application, target, clone, sprite_collection){
 
-        console.log('Application: ');
-        console.log(application)
-
-        console.log('Target: ');
-        console.log(target);
-
-        console.log('Clone: ');
-        console.log(clone);
-
-        console.log('Sprite Collection: ');
-        console.log(sprite_collection);
-
         var uniform_type = ub.current_material.material.type;
-        var app = ub.current_material.settings.applications[application.id];
+        var applicationSettings = ub.current_material.settings.applications[application.id];
+        var app = applicationSettings;
         var app_containers = ub.current_material.containers[uniform_type].application_containers;
         var _primaryView = ub.funcs.getPrimaryView(application);
 
@@ -2727,16 +2716,19 @@
         ub.current_material.containers[application.id] = {};
         ub.objects[_primaryView + '_view']['pattern_' + application.id] = {};
 
-        _.each(s.children, function (text, index) {
+        console.log('Application Inside mvChangePattern: ');
+        console.log(application);
 
-            text_sprite = text;
+        _.each(s.children, function (text, mainIndex) {
 
-            ub.sp = sprite_collection;
+            if (text.ubName !== "Base Color") { return; }
 
+            var text_sprite = text;
+            var uniform_type = ub.current_material.material.type
+            var applicationContainer = ub.current_material.containers[application.id];
             var main_text_obj = _.find(sprite_collection.children, {ubName: 'Mask'});
-            main_text_obj.alpha = 1;
 
-            var uniform_type = ub.current_material.material.type;
+            main_text_obj.alpha = 1;
 
             // Slider Values
 
@@ -2746,16 +2738,15 @@
             var val_scale = $('#' + 'scale_pattern_slider_' + target).limitslider('values')[0];
             var val_x_position = $('#' + 'position_x_slider_' + target).limitslider('values')[0];
             var val_y_position = $('#' + 'position_y_slider_' + target).limitslider('values')[0];
-            var application_settings = ub.current_material.containers[application.id];
 
-            if(typeof application_settings.pattern === 'undefined') {
+            if(typeof applicationContainer.pattern === 'undefined') {
 
-                application_settings.pattern = [];
+                applicationContainer.pattern = [];
 
             }
 
             var c = new PIXI.Container();
-            application_settings.pattern[index] = c;
+            applicationContainer.pattern[mainIndex] = c;
 
             if(typeof text_sprite.pattern_layer === "object" ){
 
@@ -2764,7 +2755,7 @@
 
             }
 
-            var container = application_settings.pattern[index];
+            var container = applicationContainer.pattern[mainIndex];
             var v = application.perspective;
             container.sprites = {};
 
@@ -2778,7 +2769,7 @@
 
                 }
 
-                var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
+                //var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
                 container.sprites[index] = ub.pixi.new_sprite(layer.filename);
 
                 var sprite = container.sprites[index];
@@ -2791,7 +2782,7 @@
                 
                 if (typeof sprite_collection === 'object') {
                 
-                    val = ub.current_material.settings.applications[application.id].pattern_obj.layers[0].default_color;
+                    val = applicationSettings.pattern_obj.layers[0].default_color;
                 
                 }
 
@@ -2839,15 +2830,32 @@
 
             ub.updateLayersOrder(text_sprite);
 
-            ub.current_material.settings.applications[application.id].pattern_obj = clone;
-            ub.current_material.settings.applications[application.id].pattern_settings = {
+            applicationSettings.pattern_obj = clone;
+
+            if (typeof applicationSettings.pattern_settings === "undefined") {
+
+                applicationSettings.pattern_settings = [];
+                applicationSettings[[_primaryView]] = {};
+
+            }
+
+            applicationSettings.pattern_settings[_primaryView] = {
 
                 rotation: container.rotation,
                 scale: container.scale,
                 position: container.position,
-                opcity: container.opacity, 
+                opacity: container.opacity, 
 
             }
+
+            // ub.current_material.settings.applications[application.id].pattern_settings = {
+
+            //     rotation: container.rotation,
+            //     scale: container.scale,
+            //     position: container.position,
+            //     opcity: container.opacity, 
+
+            // }
 
             ub.objects[_primaryView + '_view']['pattern_' + application.id] = container;
             ub.refresh_thumbnails();
