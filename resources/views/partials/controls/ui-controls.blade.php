@@ -2487,6 +2487,10 @@
 
     </div>
 
+    <div class="info">
+        <em>This feature is still under developent, please use the feedback form to send us comments regarding this feature.</em>
+    </div>
+
 </script>
 
 <script type="text/mustache" id="m-tailsweep-panel">

@@ -294,8 +294,6 @@ $(document).ready(function () {
 
     ub.funcs.changePatternFromPopupApplications = function (settingsObj, patternID) {
 
-        console.log('from ub.funcs.changePatternFromPopupApplications');
-
         var _code = settingsObj.code;
 
         var _patternID                  = patternID.toString();

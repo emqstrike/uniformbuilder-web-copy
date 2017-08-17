@@ -8010,27 +8010,23 @@ $(document).ready(function() {
             _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="11">11</span>';        
             _htmlBuilder        +=                      '<span class="sizeItem sizeItem2" data-size="12">12</span>';        
 
-            _htmlBuilder        +=      '<label class="applicationLabels">Rotated</label>';
-            _htmlBuilder        +=      '<span class="angleItem" data-angle="straight">Straight</span>';        
-            _htmlBuilder        +=      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
+            _htmlBuilder        +=                      '<label class="applicationLabels">Rotated</label>';
+            _htmlBuilder        +=                      '<span class="angleItem" data-angle="straight">Straight</span>';        
+            _htmlBuilder        +=                      '<span class="angleItem" data-angle="rotated">Rotated</span>';        
 
             _htmlBuilder        +=                 '</div>';
             _htmlBuilder        +=              '</div>';
 
         }
 
-        if (parseInt(ub.current_material.material.id) === 394 || parseInt(ub.current_material.material.id) === 1143) {
-
-            var _templateStr   = '';
-            var _patternObject = _settingsObject.pattern_obj;
-            
-            _templateStr       = ub.funcs.updateTextPatternPanel(_patternObject);
-            
-            _htmlBuilder       += '<div class="column1 applications patterns">';
-            _htmlBuilder       +=       _templateStr;
-            _htmlBuilder       += '</div>';
-
-        }
+        var _templateStr   = '';
+        var _patternObject = _settingsObject.pattern_obj;
+        
+        _templateStr        = ub.funcs.updateTextPatternPanel(_patternObject);
+        
+        _htmlBuilder        +=                  '<div class="column1 applications patterns">';
+        _htmlBuilder        +=                      _templateStr;
+        _htmlBuilder        +=                  '</div>';
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
@@ -8794,6 +8790,7 @@ $(document).ready(function() {
              var _matchingID = undefined;
             
             _matchingID = ub.data.matchingIDs.getMatchingID(_id);
+            
             if (typeof _matchingID !== "undefined") {
 
                 ub.funcs.toggleApplication(_matchingID.toString(), s); 
@@ -8809,9 +8806,9 @@ $(document).ready(function() {
             if (parseInt(ub.current_material.material.id) !== 394 && parseInt(ub.current_material.material.id) !== 1143) {
 
                 $('div.column1.tailsweeps').hide();
-                $('div.column1.patterns').hide();
+                //$('div.column1.patterns').hide();
                 $('span.tab[data-item="tailsweeps"]').hide();
-                $('span.tab[data-item="patterns"]').hide();
+                //$('span.tab[data-item="patterns"]').hide();
 
             }
 

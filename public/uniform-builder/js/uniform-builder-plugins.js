@@ -2714,10 +2714,14 @@
         }
         
         ub.current_material.containers[application.id] = {};
-        ub.objects[_primaryView + '_view']['pattern_' + application.id] = {};
+    
+        if (typeof ub.objects[_primaryView + '_view']['pattern_' + application.id] === "object") {
 
-        console.log('Application Inside mvChangePattern: ');
-        console.log(application);
+            ub[_primaryView + '_view'].removeChild('pattern_' + application.id);
+            
+        }
+
+        ub.objects[_primaryView + '_view']['pattern_' + application.id] = {};
 
         _.each(s.children, function (text, mainIndex) {
 
@@ -2761,13 +2765,68 @@
 
             _.each(clone.layers, function (layer, index) {
 
-                var team_color = ub.funcs.getColorUsedByIndex(layer.team_color_id);
+                /// Color Fixes
 
-                if (typeof team_color !== 'undefined') {
+                if (typeof layer.default_color === "undefined" && typeof layer.color_code !== "undefined") {
 
-                    layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
+                    var _colorObj = ub.funcs.getColorByColorCode(layer.color_code);
+
+                    if (typeof _colorObj !== "undefined") {
+
+                        ub.utilities.info('Assigning default color: ' + _colorObj.color_code);
+                        layer.default_color =  _colorObj.hex_code;
+                        layer.color_code = _colorObj.color_code;
+
+                    } else {
+
+                        ub.utilities.warn('Color not Found ' + layer.color_code);
+
+                    }
+                    
+                } 
+
+                if (typeof layer.default_color === "undefined" && typeof layer.color_code === "undefined") {
+
+                    var team_color = ub.funcs.getColorUsedByIndex(layer.team_color_id);
+
+                    if (typeof team_color !== 'undefined') {
+
+                        layer.default_color = team_color.hexCode; // Assign New Team Color if not just use default 
+                        
+                        var _colorObj = ub.funcs.getColorObjByHexCode(team_color.hexCode);
+
+                        if (typeof _colorObj !== "undefined") {
+
+                            layer.color_code = _colorObj.color_code;
+
+                        } else {
+
+                            ub.utilities.warn('Color Object not found for ' + team_color.hexCode);
+
+                        }
+
+                    }
 
                 }
+
+                if (typeof layer.default_color !== "undefined" && typeof layer.color_code === "undefined") {
+
+                    var _color = ub.funcs.getColorObjByHexCode(layer.default_color);
+
+                    if (typeof _color !== "undefined") {
+
+                        layer.color_code = _color.color_code;
+
+                    } else {
+
+                        ub.utilities.warn('Color not found ' + layer.default_color);
+
+                    }
+
+                }
+
+                /// End Color Fixes
+
 
                 //var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
                 container.sprites[index] = ub.pixi.new_sprite(layer.filename);
