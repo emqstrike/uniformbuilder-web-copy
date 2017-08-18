@@ -27,6 +27,7 @@
                             <th>Items</th>
                             <th>Artwork Status</th>
                             <th>Order Status</th>
+                            <th>Rep ID</th>
                             <th>FOID</th>
                             <th>Actions</th>
                         </tr>
@@ -105,6 +106,9 @@
                                     <option value="{{ $status }}"@if ($status == $order->status) selected @endif>{{ ucfirst($status) }}</option>
                                 @endforeach
                                 </select>
+                            </td>
+                            <td>
+                                <input type="number" name="rep-id" class="form-control rep-id" >
                             </td>
                             <td>
                                 {{ $order->factory_order_id }}

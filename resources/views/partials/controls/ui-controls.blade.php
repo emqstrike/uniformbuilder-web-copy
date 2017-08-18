@@ -2471,4 +2471,68 @@
 
 </script>
 
+<script type="text/mustache" id="m-patterns-panel">
+
+    <div class="sub1 patternThumb">
+
+        <span class="patternThumb"><img src="@{{thumbnail}}"/></span><br />                                                             
+        <span class="pattern">@{{name}}</span>
+        <br />
+
+    </div>
+
+    <div class="colorContainer">
+
+        @{{{colorString}}}
+
+    </div>
+
+    <div class="info">
+        <em>This feature is still under developent, please use the feedback form to send us comments regarding this feature.</em>
+    </div>
+
+</script>
+
+<script type="text/mustache" id="m-tailsweep-panel">
+
+     <div class="column1 applications tailsweeps">
+
+        <div class="sub1 tailSweepThumb"><br />
+            <span class="tailSweepThumb"><img src="/images/tailsweeps/thumbnails/@{{thumbnail}}"/></span><br />                                                             
+            <span class="tailsweep">@{{code}}</span>
+            <span class="flipButton">Vertical</span>        
+        </div>
+
+        <div class="sizeContainer">
+
+            <span class="sizeLabel">LENGTH</span>
+            <span class="sizeItem" data-size="short">Short</span>        
+            <span class="sizeItem" data-size="medium">Medium</span>        
+            <span class="sizeItem" data-size="long">Long</span>        
+
+            <span class="sizeLabel">LENGTH 2</span>
+            <span class="sizeItem sizeItem2" data-size="1">1</span>        
+            <span class="sizeItem sizeItem2" data-size="2">2</span>        
+            <span class="sizeItem sizeItem2" data-size="3">3</span>        
+            <span class="sizeItem sizeItem2" data-size="4">4</span>        
+            <span class="sizeItem sizeItem2" data-size="5">5</span>        
+            <span class="sizeItem sizeItem2" data-size="6">6</span>        
+            <br />        
+            <span class="sizeItem sizeItem2" data-size="7">7</span>        
+            <span class="sizeItem sizeItem2" data-size="8">8</span>        
+            <span class="sizeItem sizeItem2" data-size="9">9</span>        
+            <span class="sizeItem sizeItem2" data-size="10">10</span>        
+            <span class="sizeItem sizeItem2" data-size="11">11</span>        
+            <span class="sizeItem sizeItem2" data-size="12">12</span>        
+
+            <label class="applicationLabels">Rotated</label>
+            <span class="angleItem" data-angle="straight">Straight</span>        
+            <span class="angleItem" data-angle="rotated">Rotated</span>        
+
+        </div>
+
+    </div>
+    
+</script>
+
 @include('partials.controls.team-store-products-picker')

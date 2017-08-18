@@ -199,6 +199,8 @@ $(document).ready(function() {
 
     ub.data.hasProcessedArtworks    = false;
 
+    ub.config.switchToFrontBody       = new Date('Fri Aug 14 2017 17:08:32 GMT+0800 (+08)');
+
     // Mock Object for Pipings 
 
     ub.folders                      = { piping: '/images/pipings' } ;

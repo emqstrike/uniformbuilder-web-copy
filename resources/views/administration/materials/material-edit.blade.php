@@ -668,12 +668,19 @@
         </div>
     </div>
 </div>
-@include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
+</section>
+
+@include('partials.confirmation-modal')
+{{-- @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field']) --}}
+
+
 
 @endsection
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/autosize.js"></script>
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <script>
 $( document ).ready(function() {
@@ -871,6 +878,37 @@ $( document ).ready(function() {
         });
 
     });
+
+    $('.delete-material-image').on('click', function(e){
+        e.preventDefault();
+        var id =  $(this).data('material-id');
+        var field = $(this).data('field');
+        $('#confirmation-modal .confirm-yes').data('field', field);
+        modalConfirm('Remove Image', 'Are you sure you want to remove this Image?', id);
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+      
+        var id = $(this).data('value');
+        var field = $(this).data('field');
+        var url = "//" + api_host + "/api/material/deleteImage/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id, field: field}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    $('.' + field).fadeOut();
+                }
+            }
+        });
+    });
+
 
 });
 </script>

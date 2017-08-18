@@ -2360,7 +2360,25 @@ $(document).ready(function () {
 
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
+        var _hasFrontBody               = false;
+        var _hasBody                    = false;
 
+        if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
+
+            _hasFrontBody = typeof ub.current_material.settings[uniform_type]['Front Body'] === "object";
+            _hasBody = typeof ub.current_material.settings[uniform_type]['Body'] === "object";
+
+            if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+
+                ub.current_material.settings[uniform_type]['Front Body'] = JSON.parse(JSON.stringify(ub.current_material.settings[uniform_type]['Body']));
+                ub.current_material.settings[uniform_type]['Front Body'].code = 'front_body';
+
+            }
+
+            delete ub.current_material.settings[uniform_type]['Body'];
+
+        }
+        
         // For Team Stores
 
         if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { ub.current_material.settings = ub.prepareForTeamStoresMaterialOptions(ub.current_material.settings) }
@@ -2383,8 +2401,10 @@ $(document).ready(function () {
 
             }
 
+            
             if (typeof e.code !== 'undefined') {
 
+                
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
                 var _team_color_id  =  parseInt(_materialOption.team_color_id);
 
@@ -2516,6 +2536,21 @@ $(document).ready(function () {
         if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
+
+            if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
+
+                if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+
+                    if (application_obj.application.layer === "Body") {
+
+                        application_obj.application.layer = "Front Body";
+
+                    }
+
+                }
+
+            }
+
             
             if (application_obj.type !== "mascot" && application_obj.type !== "logo" && application_obj.type !== "free") {
 
@@ -4741,21 +4776,12 @@ $(document).ready(function () {
 
                     if(typeof input_object.applicationObj.pattern_obj === 'object') {
 
-                        $.ub.mvChangePattern(input_object.applicationObj.application, input_object.applicationObj.id, input_object.applicationObj.pattern_obj, sprite_collection);
+                        var _primaryView = ub.funcs.getPrimaryView(ub.current_material.settings.applications[input_object.applicationObj.code].application);
+                        var _spriteCollection = ub.objects[_primaryView + '_view']['objects_' + input_object.applicationObj.code];
+
+                        $.ub.mvChangePattern(input_object.applicationObj.application, input_object.applicationObj.code, input_object.applicationObj.pattern_obj, _spriteCollection);
 
                     }
-
-
-                    // Does not work or disable, crossing_sword, line fade body (use line fade sleeve instead)
-
-                    // var _patternObj = _.find(ub.data.patterns.items, {code: "referee_stripes"});
-                    // input_object.applicationObj.pattern_obj = _patternObj;
-
-                    // if (typeof input_object.applicationObj.pattern_obj === 'object') {
-
-                    //     $.ub.mvChangePattern(input_object.applicationObj.application, input_object.applicationObj.id, _patternObj, sprite_collection);
-
-                    // }
 
                 }
 
@@ -5705,6 +5731,11 @@ $(document).ready(function () {
                 }
 
                 if (view === 'team-info') {
+
+                    ub['front_view'].visible = true;
+                    ub['left_view'].visible = true;
+                    ub['right_view'].visible = true;
+                    ub['back_view'].visible = true;
 
                     ub.funcs.initOrderProcess()
                     return;

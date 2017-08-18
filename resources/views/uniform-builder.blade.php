@@ -437,6 +437,26 @@
 
         window.ub.page = "{{ isset($page) ? $page : 'builder' }}";
 
+        @if (isset($page) and $page === "saved-design")
+
+            ub.config.switchToFrontBody = new Date('Fri Aug 14 2017 17:08:32 GMT+0800 (+08)');
+
+            ub.config.savedDesignInfo = {
+
+                createdAt: "{{$created_at}}",
+
+            }
+
+            if(new Date(ub.config.savedDesignInfo.createdAt) < ub.config.switchToFrontBody &&
+                (ub.config.sport === "Baseball" || ub.config.sport === "Fastpitch") 
+            ) {
+
+                ub.config.savedDesignInfo.frontBodyOverride = true;
+
+            }
+
+        @endif
+
         ub.render = "{{ isset($render) ? $render : false }}";
 
         // Team Store Parameters
@@ -527,6 +547,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-placeholder-applications.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-process.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-dialogs.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-patterns.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-getters-setters.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-pipings.js?v={{$asset_version}}"></script>

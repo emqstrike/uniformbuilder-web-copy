@@ -241,6 +241,10 @@ class UniformBuilderController extends Controller
             
         }
 
+        if (isset($config['type']) && $config['type'] === 'Saved Design' && isset($config['created_at'])) { 
+            $params['created_at'] = $config['created_at'];
+        }
+
         if (isset($config['styles'])) {
 
             $params['styles'] = $config['styles'];
@@ -805,7 +809,7 @@ class UniformBuilderController extends Controller
         $html .=   '<strong>SIZE</strong>';
         $html .=   '</td>';
         $html .=   '<td align="center">';
-        $html .=   '<strong>COLORS</strong>';
+        $html .=   '<strong>COLORS / PATTERNS</strong>';
         $html .=   '</td>';
 
         $html .= '</tr>';
@@ -831,6 +835,17 @@ class UniformBuilderController extends Controller
                 $html .=   'Accent: ' . $application['accent_obj']['title'] . "<br />";
                 $html .=   'Font: ' . $application['font_obj']['name'] . "<br />";
                 $html .=   'Text: ' . strtoupper($application['text']) . "<br />";
+
+                if (isset($application['pattern_obj'])) {
+
+                    if ($application['pattern_obj']['name'] !== "Blank") {
+
+                        $html .= "Pattern: " . $application['pattern_obj']['name'] . "<br />";
+
+                    }
+
+                }
+
                 $html .=   '</td>';
 
             } else if ($appType == "MASCOT" ) {
@@ -919,14 +934,35 @@ class UniformBuilderController extends Controller
 
             $html .=   '<td align="center">';
 
-                $colors = '';
-                foreach ($application['color_array'] as &$color) {
-                    $colors .= $color['color_code'] . ",";
-                }
+            $colors = '';
+            foreach ($application['color_array'] as &$color) {
+                $colors .= $color['color_code'] . ",";
+            }
 
-                $colorsTrimmed = rtrim($colors, ",");
+            $colorsTrimmed = 'Accent: ' . rtrim($colors, ",");
+            $colorsTrimmed .= "<br />";
 
             $html .= $colorsTrimmed;
+
+            $colorsTrimmed = '';
+            
+            if (isset($application['pattern_obj'])) {
+
+                if ($application['pattern_obj']['name'] !== "Blank") {
+
+                    $colors = '';
+                    foreach ($application['pattern_obj']['layers'] as &$layer) {
+                        $colors .= $layer['color_code'] . ",";
+                    }
+
+                    $colorsTrimmed = 'Pattern: ' . rtrim($colors, ",");
+
+                }
+
+                $html .= $colorsTrimmed;
+
+            }
+
             $html .=   '</td>';
 
             $html .= '</tr>';
@@ -1893,6 +1929,7 @@ class UniformBuilderController extends Controller
         $savedDesign = $this->savedDesignsClient->getSavedDesign($id);
         if (isset($savedDesign))
         {
+
             $builder_customizations = json_decode($savedDesign->builder_customizations);
             $materialId = $savedDesign->material_id;
 
@@ -1911,6 +1948,7 @@ class UniformBuilderController extends Controller
                 'builder_customizations' => $savedDesign->id,
                 'type' => 'Saved Design',
                 'saved_design_name' => $savedDesign->name,
+                'created_at' => $savedDesign->created_at,
             ];
 
             if ($render) { $config['render'] = true; }

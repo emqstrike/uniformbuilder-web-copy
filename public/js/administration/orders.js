@@ -355,10 +355,12 @@ $('.send-to-factory').on('click', function(e){
     bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
     // PostOrder();
     console.log('send to edit');
+    var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
     api_order_id = $(this).data('api-order-id');
     order_id = $(this).data('order-id');
     client = $(this).data('client');
-
+    
+    
     ship_contact = $(this).data('ship-contact');
     ship_address = $(this).data('ship-address');
     ship_phone = $(this).data('ship-phone');
@@ -513,12 +515,12 @@ $('.send-to-factory').on('click', function(e){
             "BillingPhone": billing_phone,
             "APICode": 1,
             "Gender": 0,
-            "RepID": 154,
+            "RepID": rep_id,
             "RepIDEnteredBy": 0,
             "Sport": "All",
             "TeamName": "Wildcats"
         };
-
+        console.log(order);
         // "RepID": 154, Jeremy
         // "RepID": 1148, Geeks
         var orderEntire = {
