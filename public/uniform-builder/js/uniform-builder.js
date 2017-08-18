@@ -5508,11 +5508,6 @@ $(document).ready(function () {
 
         ub.funcs.cleanupBeforeOrder();
 
-        ub['front_view'].visible = true;
-        ub['left_view'].visible = true;
-        ub['right_view'].visible = true;
-        ub['back_view'].visible = true;
-
         var _exit = false;
 
         if (typeof ub.current_material.material.parsedPricingTable.properties === "undefined") {
@@ -5736,6 +5731,11 @@ $(document).ready(function () {
                 }
 
                 if (view === 'team-info') {
+
+                    ub['front_view'].visible = true;
+                    ub['left_view'].visible = true;
+                    ub['right_view'].visible = true;
+                    ub['back_view'].visible = true;
 
                     ub.funcs.initOrderProcess()
                     return;
