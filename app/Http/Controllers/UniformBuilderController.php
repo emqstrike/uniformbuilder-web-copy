@@ -241,6 +241,10 @@ class UniformBuilderController extends Controller
             
         }
 
+        if (isset($config['type']) && $config['type'] === 'Saved Design' && isset($config['created_at'])) { 
+            $params['created_at'] = $config['created_at'];
+        }
+
         if (isset($config['styles'])) {
 
             $params['styles'] = $config['styles'];
@@ -1925,6 +1929,7 @@ class UniformBuilderController extends Controller
         $savedDesign = $this->savedDesignsClient->getSavedDesign($id);
         if (isset($savedDesign))
         {
+
             $builder_customizations = json_decode($savedDesign->builder_customizations);
             $materialId = $savedDesign->material_id;
 
@@ -1943,6 +1948,7 @@ class UniformBuilderController extends Controller
                 'builder_customizations' => $savedDesign->id,
                 'type' => 'Saved Design',
                 'saved_design_name' => $savedDesign->name,
+                'created_at' => $savedDesign->created_at,
             ];
 
             if ($render) { $config['render'] = true; }
