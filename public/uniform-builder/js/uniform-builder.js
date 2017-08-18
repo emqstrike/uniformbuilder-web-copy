@@ -2360,7 +2360,25 @@ $(document).ready(function () {
 
         ub.current_material.settings    = settings;
         var uniform_type                = ub.current_material.material.type;
+        var _hasFrontBody               = false;
+        var _hasBody                    = false;
 
+        if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride) {
+
+            _hasFrontBody = typeof ub.current_material.settings[uniform_type]['Front Body'] === "object";
+            _hasBody = typeof ub.current_material.settings[uniform_type]['Body'] === "object";
+
+            if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+
+                ub.current_material.settings[uniform_type]['Front Body'] = JSON.parse(JSON.stringify(ub.current_material.settings[uniform_type]['Body']));
+                ub.current_material.settings[uniform_type]['Front Body'].code = 'front_body';
+
+            }
+
+            delete ub.current_material.settings[uniform_type]['Body'];
+
+        }
+        
         // For Team Stores
 
         if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { ub.current_material.settings = ub.prepareForTeamStoresMaterialOptions(ub.current_material.settings) }
@@ -2383,6 +2401,7 @@ $(document).ready(function () {
 
             }
 
+            
             if (typeof e.code !== 'undefined') {
 
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
@@ -2516,6 +2535,21 @@ $(document).ready(function () {
         if (typeof ub.team_colors !== "undefined" && ub.team_colors.length > 0) { ub.current_material.settings.applications = ub.prepareForTeamStoresApplications(ub.current_material.settings.applications); }
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
+
+            if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride) {
+
+                if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
+
+                    if (application_obj.application.layer === "Body") {
+
+                        application_obj.application.layer = "Front Body";
+
+                    }
+
+                }
+
+            }
+
             
             if (application_obj.type !== "mascot" && application_obj.type !== "logo" && application_obj.type !== "free") {
 

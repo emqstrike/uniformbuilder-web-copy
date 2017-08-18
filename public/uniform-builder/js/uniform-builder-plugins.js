@@ -2725,8 +2725,6 @@
 
         _.each(s.children, function (text, mainIndex) {
 
-            if (text.ubName !== "Base Color") { return; }
-
             var text_sprite = text;
             var uniform_type = ub.current_material.material.type
             var applicationContainer = ub.current_material.containers[application.id];
