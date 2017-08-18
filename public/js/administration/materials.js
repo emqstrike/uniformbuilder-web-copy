@@ -1202,6 +1202,11 @@ $(document).ready(function() {
         $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
 
+        $('#is_blend').prop('checked', false);
+        $('#allow_pattern').prop('checked', false);
+        $('#allow_gradient').prop('checked', false);
+        $('#allow_color').prop('checked', false);
+
         if(material.option.blend){
             $('#is_blend').prop('checked','checked');
         }
