@@ -1309,7 +1309,7 @@ $(document).ready(function() {
         var _frontViewOk    = _thumbs.front_view !== '';
         var _backViewOk     = _thumbs.back_view !== '';
         var _leftViewOk     = _thumbs.left_view !== '';
-        var _rightViewOk    = _thumbs.left_view !== '';
+        var _rightViewOk    = _thumbs.right_view !== '';
         
         _uploaded = _frontViewOk && _backViewOk && _leftViewOk && _rightViewOk;
 
@@ -2289,7 +2289,7 @@ $(document).ready(function() {
 
                         ub.current_material.settings.thumbnails[view] = response.filename;
                         $('img.' + view).attr('src', response.filename);
-                        
+
                         if (ub.funcs.thumbnailsUploaded()) {
 
                             $('div.save-design-footer').fadeIn();
@@ -2418,6 +2418,11 @@ $(document).ready(function() {
         }
 
         ub.funcs.initSaveDesign = function () {
+
+            ub['front_view'].visible = true;
+            ub['left_view'].visible = true;
+            ub['right_view'].visible = true;
+            ub['back_view'].visible = true;
 
             ub.funcs.showSaveDialogBox();
             ub.funcs.turnLocationsOff();

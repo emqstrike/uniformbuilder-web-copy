@@ -112,15 +112,83 @@
 <script>
 $(document).ready(function(){
 
+_.mixin({
+    chunk : function (array, unit) {
+        if (!_.isArray(array)) return array;
+        unit = Math.abs(unit);
+        var results = [],
+        length = Math.ceil(array.length / unit);
+
+        for (var i = 0; i < length; i++) {
+            results.push(array.slice( i * unit, (i + 1) * unit));
+        }
+        return results;
+    }
+});
+
 window.source_data = null;
 window.items_to_update = null;
 window.source_data_dd = null;
 window.items_to_update_dd = null;
+window.updated_entry = [];
 
 $('.generate-preview').on('click', function(e){
     e.preventDefault();
     var transfer_format = generateTransferFormat();
     updateData(transfer_format, true);
+
+    // var chunked_data = _.chunk(window.updated_entry, 10);
+    // var chunked_data = chunkArray(transfer_format);
+    console.log('CHUNKED DATA');
+    var chunked_data = _.chunk(window.updated_entry, 10);
+    console.log( chunked_data );
+    var z = window.updated_entry;
+    // console.log(z.length);
+    var total_chunk = z;
+    var chunks_uploaded = 0;
+
+    submitChunks();
+
+    // Pass parameter to function if needed or get it from higher scope
+    function submitChunks() {
+        if ( total_chunk == chunks_uploaded ) return;
+        $.ajax({
+            url: "//api-dev.qstrike.com/api/price_items/updatePIManual",
+            type: "POST",
+            data: JSON.stringify(chunked_data[chunks_uploaded]),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    chunks_uploaded++;
+                    submitChunks();
+                } else {
+                    console.log(response);
+                }
+            }
+        });
+
+        // $.ajax({
+        //     type: 'POST',
+        //     url: 'uploading.php',
+        //     context: $(this),
+        //     dataType: 'json',
+        //     cache: false,
+        //     contentType: false,
+        //     processData: false,
+        //     data: data_string,
+        //     success: function(datas) {
+        //         // if finished, do another round of upload
+        //         $chunks_uploaded++;
+        //         uploadFile();
+        //     },
+        //     error: function(e){
+        //         alert('error, try again');
+        //     }
+        // });
+    }
 });
 
 $('.update-data').on('click', function(e){
@@ -151,6 +219,7 @@ function generateTransferFormat(){
 
 function updateData(transfer_format, generate_preview){
     var ctr = 0;
+    window.updated_entry = [];
     window.items_to_update.forEach(function(entry) {
         var destination_val = parseInt(entry[$('.destination-field').val()]);
         var source_field = $('.source-field').val();
@@ -194,7 +263,7 @@ function updateData(transfer_format, generate_preview){
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th colspan="3">QX API</th>
+                                        <th colspan="3">QX API <span class="label label-default">SOURCE</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -226,7 +295,7 @@ function updateData(transfer_format, generate_preview){
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th colspan="3">Customizer API (RAW)</th>
+                                        <th colspan="3">Customizer API <span class="label label-primary">RAW</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -258,7 +327,7 @@ function updateData(transfer_format, generate_preview){
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th colspan="3">Customizer API (UPDATED)</th>
+                                        <th colspan="3">Customizer API <span class="label label-success">UPDATED</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -290,8 +359,10 @@ function updateData(transfer_format, generate_preview){
         $('.preview-div').append(destination_elem);
         $('.preview-div').append(updated_destination_elem);
     // }
+    window.updated_entry.push(updated_entry);
     ctr++;
 }); // here
+console.log( window.updated_entry);
 }
 
 $('.add-fields').on('click', function(e){

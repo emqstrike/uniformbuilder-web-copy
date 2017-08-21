@@ -2363,7 +2363,7 @@ $(document).ready(function () {
         var _hasFrontBody               = false;
         var _hasBody                    = false;
 
-        if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride) {
+        if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
             _hasFrontBody = typeof ub.current_material.settings[uniform_type]['Front Body'] === "object";
             _hasBody = typeof ub.current_material.settings[uniform_type]['Body'] === "object";
@@ -2404,6 +2404,7 @@ $(document).ready(function () {
             
             if (typeof e.code !== 'undefined') {
 
+                
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
                 var _team_color_id  =  parseInt(_materialOption.team_color_id);
 
@@ -2536,7 +2537,7 @@ $(document).ready(function () {
 
         _.each(ub.current_material.settings.applications, function (application_obj) {
 
-            if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride) {
+            if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
                 if (ub.data.hiddenBody.currentUniformOk() && (_hasBody && !_hasFrontBody)) {
 
@@ -5730,6 +5731,11 @@ $(document).ready(function () {
                 }
 
                 if (view === 'team-info') {
+
+                    ub['front_view'].visible = true;
+                    ub['left_view'].visible = true;
+                    ub['right_view'].visible = true;
+                    ub['back_view'].visible = true;
 
                     ub.funcs.initOrderProcess()
                     return;
