@@ -193,8 +193,8 @@ $(document).ready(function(){
 
     function updateColor(data){
 
-        //var url = "//api-dev.qstrike.com/api/color_set";
-        var url = "//localhost:8888/api/color/update";
+        var url = "//api-dev.qstrike.com/api/color/update";
+        //var url = "//localhost:8888/api/color/update";
         $.ajax({
             url: url,
             type: "POST",
