@@ -156,7 +156,7 @@ $('.generate-preview').on('click', function(e){
     function submitChunks() {
         if ( window.total_chunk == window.chunks_uploaded ) return;
         $.ajax({
-            url: "//localhost:8888/api/price_items/updatePIManual",
+            url: "//api-dev.qstrike.com/api/price_items/updatePIManual",
             type: "POST",
             data: JSON.stringify(window.chunked_data[window.chunks_uploaded]),
             dataType: "json",
