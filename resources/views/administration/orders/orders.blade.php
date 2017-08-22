@@ -108,7 +108,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="number" name="rep-id" class="form-control rep-id" >
+                                <input type="number" name="rep-id" class="form-control rep-id" value="154">
                             </td>
                             <td>
                                 {{ $order->factory_order_id }}

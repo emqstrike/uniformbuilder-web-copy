@@ -131,6 +131,9 @@ window.items_to_update = null;
 window.source_data_dd = null;
 window.items_to_update_dd = null;
 window.updated_entry = [];
+window.total_chunk = 0;
+window.chunked_data = null;
+window.chunks_uploaded = 0
 
 $('.generate-preview').on('click', function(e){
     e.preventDefault();
@@ -140,30 +143,32 @@ $('.generate-preview').on('click', function(e){
     // var chunked_data = _.chunk(window.updated_entry, 10);
     // var chunked_data = chunkArray(transfer_format);
     console.log('CHUNKED DATA');
-    var chunked_data = _.chunk(window.updated_entry, 10);
+    window.chunked_data = _.chunk(window.updated_entry, 10);
     console.log( chunked_data );
     var z = window.updated_entry;
     // console.log(z.length);
-    var total_chunk = z;
-    var chunks_uploaded = 0;
+    window.total_chunk = chunked_data.length;
+    window.chunks_uploaded = 0;
 
     submitChunks();
 
     // Pass parameter to function if needed or get it from higher scope
     function submitChunks() {
-        if ( total_chunk == chunks_uploaded ) return;
+        if ( window.total_chunk == window.chunks_uploaded ) return;
         $.ajax({
-            url: "//api-dev.qstrike.com/api/price_items/updatePIManual",
+            url: "//localhost:8888/api/price_items/updatePIManual",
             type: "POST",
-            data: JSON.stringify(chunked_data[chunks_uploaded]),
+            data: JSON.stringify(window.chunked_data[window.chunks_uploaded]),
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    chunks_uploaded++;
                     submitChunks();
+                    console.log(window.chunks_uploaded+' / '+window.total_chunk);
+                    console.log(JSON.stringify(window.chunked_data[window.chunks_uploaded]));
+                    window.chunks_uploaded++;
                 } else {
                     console.log(response);
                 }
