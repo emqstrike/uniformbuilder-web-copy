@@ -47,6 +47,17 @@ class ColorsSetsController extends Controller
         ]);
     }
 
+    public function editColorsSetForm($id)
+    {
+        $colors_sets = $this->client->show($id);
+        $colors = $this->colorsClient->getColors();
+        // dd($colors);
+        return view('administration.colors.colors-set-edit', [
+            'colors' => $colors,
+            'colors_sets' => $colors_sets
+        ]);
+    }
+
     public function store(Request $request){
         $name = $request->input('name');
         $uniformType = $request->input('uniform_type');

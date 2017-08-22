@@ -30,5 +30,18 @@ class ColorsSetsAPIClient extends APIClient
         ]);
         return $this->decoder->decode($response->getBody());
     }
+
+    public function show($id)
+    {
+        $response = $this->get('color_set/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        
+        if ($result->success)
+        {
+            $color_set = $result->color_set;
+            return $color_set;
+        }
+        return null;
+    }
     
 }

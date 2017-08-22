@@ -47,6 +47,19 @@
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
     right: 0px; 
 }
+
+.li{
+    display: inline-block;
+    max-width:50%; 
+    width:50px;
+    font-size:10px;
+    text-align: center;
+    word-break:break-all; 
+    margin: 0;
+    padding: 0;
+}
+
+
 </style>
 <section class="content">
     <div class="row">
@@ -112,7 +125,10 @@
                             </td>        
                         </td>
                             <td>
-                                <a href="#" class="btn btn-danger delete-color-set" data-color-set-id="{{ $set->id }}">Remove</a>
+                                <a href="/administration/colors_set/edit/{{$set->id}}" class="edit-color-set btn btn-info btn-xs">
+                                    <i class="glyphicon glyphicon-edit">Edit</i>
+                                </a>
+                                <a href="#" class="btn btn-danger delete-color-set btn-xs pull-right" data-color-set-id="{{ $set->id }}">Remove</a>
                             </td>
 
                         </tr>
@@ -158,7 +174,7 @@ $(document).ready(function(){
         strColors.forEach(function(entry) {
             $.each(all_colors, function(i, item) {
                 if( entry == item.color_code ){
-                    elem += '<li style="background-color: #' + item.hex_code +'"><a href="#" style="text-shadow: 1px 1px #000; color: #fff; ">' + item.name + '</a></li>';
+                    elem += '<li class="li" style="background-color: #' + item.hex_code +'"><a href="#" style="text-shadow: 1px 1px #000; color: #fff; ">' + item.color_code + '</a></li>';
                 }
             });
         });
