@@ -47,16 +47,23 @@
                                 {{ $design->sport }}
                             </td>
                             <td>
-                                <img src="{{ $design->front_thumbnail }}" height="100px" width="80px">
+                               <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $design->front_thumbnail }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                                {{-- <img src="{{ $design->front_thumbnail }}" height="100px" width="80px"> --}}
+                                
                             </td>
                             <td>
-                                <img src="{{ $design->back_thumbnail }}" height="100px" width="80px">
+                                <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $design->back_thumbnail }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                                {{-- <img src="{{ $design->back_thumbnail }}" height="100px" width="80px"> --}}
+                                
                             </td>
                             <td>
-                                <img src="{{ $design->left_thumbnail }}" height="100px" width="80px">
+                                <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $design->left_thumbnail }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                                {{-- <img src="{{ $design->left_thumbnail }}" height="100px" width="80px"> --}}
+                                
                             </td>
                             <td>
-                                <img src="{{ $design->right_thumbnail }}" height="100px" width="80px">
+                                <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $design->right_thumbnail }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                                {{-- <img src="{{ $design->right_thumbnail }}" height="100px" width="80px"> --}}
                             </td>
                             <td>
                                 {{ $design->first_name }} {{ $design->last_name }}
@@ -97,14 +104,27 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
+    $('.file-link').on('click', function(e){
+    console.log('file link');
+    var url = $(this).data('link');
+    OpenInNewTab(url);
+    });
+
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": true,
-        "ordering": true,
+        "ordering": false,
         "info": true,
         "autoWidth": false
     });
+
+    function OpenInNewTab(url) {
+    var win = window.open(url, '_blank');
+    win.focus();
+}
+
 });
 </script>
 @endsection
