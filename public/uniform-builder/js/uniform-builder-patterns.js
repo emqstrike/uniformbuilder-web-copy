@@ -225,32 +225,46 @@ $(document).ready(function () {
             _layer.default_color = _colorObj.hex_code;
             _layer.color_code = _color_code;
 
-            _layer = _patternContainer.children[_layer_no - 1];
-            _layer.tint = parseInt(_colorObj.hex_code, 16);
-
-            // Reenable this again
-            // settingsObj.color_array[_layer_no - 1] = _colorObj;
-            // ub.funcs.changeFontFromPopup(settingsObj.font_obj.id, settingsObj);
-
-            ub.objects[_primaryView + '_view']['pattern_' + settingsObj.application.id].children;
             ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj, 'text-patterns');
+
+            _applicationSettings = ub.current_material.settings.applications[settingsObj.application.id];
+            _applicationViewObjects = ub.funcs.getApplicationViewObjects(settingsObj.application.id);
+
+            _.each(_applicationViewObjects, function (viewObject) {
+
+                _primaryView = viewObject.perspective;
+                _primaryViewStr = _primaryView + '_view';
+                _patternIDStr = 'pattern_' + settingsObj.application.id;
+                _sprites = ub.objects[_primaryViewStr][_patternIDStr];
+
+                _layer = _sprites.children[_layer_no - 1];
+                _layer.tint = parseInt(_colorObj.hex_code, 16);
+
+            });
 
             var _matchingID;
             var _matchingSide;
+            var _matchingSettingsObject;
 
             _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
 
             if (typeof _matchingID !== "undefined") {
 
-                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
-                var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
-                
-                _layer.default_color = _colorObj.hex_code;
-                _layer.color_code = _color_code;
+                _applicationSettings = ub.current_material.settings.applications[_matchingID];
+                _applicationViewObjects = ub.funcs.getApplicationViewObjects(_matchingID);
+                _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
 
-                // Reenable this again 
-                // _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
-                // ub.funcs.changeFontFromPopup(_matchingSettingsObject.font_obj.id, _matchingSettingsObject);
+                _.each(_applicationViewObjects, function (viewObject) {
+
+                    _primaryView = viewObject.perspective;
+                    _primaryViewStr = _primaryView + '_view';
+                    _patternIDStr = 'pattern_' + _matchingSettingsObject.application.id;
+                    _sprites = ub.objects[_primaryViewStr][_patternIDStr];
+
+                    _layer = _sprites.children[_layer_no - 1];
+                    _layer.tint = parseInt(_colorObj.hex_code, 16);
+
+                });
 
             }
 
@@ -374,6 +388,16 @@ $(document).ready(function () {
 
             ub.funcs.changePatternFromPopupApplications(settingsObj, _id);
             $popup.remove();
+
+            var _matchingID = undefined;
+            _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
+
+            if (typeof _matchingID !== "undefined") {
+
+                var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                ub.funcs.changePatternFromPopupApplications(_matchingSettingsObject, _id);
+
+            }
 
         });
 

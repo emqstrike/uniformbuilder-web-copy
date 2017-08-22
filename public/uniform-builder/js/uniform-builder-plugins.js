@@ -2698,217 +2698,155 @@
 
     };
 
-    $.ub.mvChangePattern = function (application, target, clone, sprite_collection){
+    function removePatternFromApplicationViewObject(applicationID, perspective) {
 
-        var uniform_type = ub.current_material.material.type;
-        var applicationSettings = ub.current_material.settings.applications[application.id];
-        var app = applicationSettings;
-        var app_containers = ub.current_material.containers[uniform_type].application_containers;
-        var _primaryView = ub.funcs.getPrimaryView(application);
+        var _perpectiveStr = perspective + '_view';
+        var _patternStr = 'pattern_' + applicationID;
 
-        if(typeof sprite_collection === 'object') {
-            s = sprite_collection;
+        if (typeof ub.objects[_perpectiveStr][_patternStr] === "object") {
+
+            ub.objects[_perpectiveStr][_patternStr]
+            ub[_perpectiveStr].removeChild(_patternStr);
+
         }
-        else {
-            s = app_containers[application.id].object.sprite;    
-        }
-        
-        ub.current_material.containers[application.id] = {};
-    
-        if (typeof ub.objects[_primaryView + '_view']['pattern_' + application.id] === "object") {
 
-            ub[_primaryView + '_view'].removeChild('pattern_' + application.id);
+    }
+
+    function fixLayerColor (layer) {
+
+        if (typeof layer.default_color === "undefined" && typeof layer.color_code !== "undefined") {
+
+            _colorObj = ub.funcs.getColorByColorCode(layer.color_code);
+
+            if (typeof _colorObj !== "undefined") {
+                layer.default_color =  _colorObj.hex_code;
+                layer.color_code = _colorObj.color_code;
+            } else {
+                ub.utilities.warn('Color not Found ' + layer.color_code);
+            }
             
-        }
+        } 
 
-        ub.objects[_primaryView + '_view']['pattern_' + application.id] = {};
+        if (typeof layer.default_color === "undefined" && typeof layer.color_code === "undefined") {
 
-    // Create Pattern
+            _teamColor = ub.funcs.getColorUsedByIndex(layer.team_color_id);
 
-        var mainIndex = 0;
-        var text_sprite = _.find(s.children, {ubName: 'Base Color'});
-        var uniform_type = ub.current_material.material.type
-        var applicationContainer = ub.current_material.containers[application.id];
-        var main_text_obj = _.find(sprite_collection.children, {ubName: 'Mask'});
+            if (typeof _teamColor !== 'undefined') {
 
-        main_text_obj.alpha = 1;
-
-        // Slider Values
-
-        var $rotation_slider = $('div#rotation_pattern_slider_' + target);
-        var val_rotation = parseInt($rotation_slider.find('span.edit').html());
-        var val_opacity = $('#' + 'opacity_pattern_slider_' + target).limitslider('values')[0];
-        var val_scale = $('#' + 'scale_pattern_slider_' + target).limitslider('values')[0];
-        var val_x_position = $('#' + 'position_x_slider_' + target).limitslider('values')[0];
-        var val_y_position = $('#' + 'position_y_slider_' + target).limitslider('values')[0];
-
-        if(typeof applicationContainer.pattern === 'undefined') {
-
-            applicationContainer.pattern = [];
-
-        }
-
-        var c = new PIXI.Container();
-        applicationContainer.pattern[mainIndex] = c;
-
-        if(typeof text_sprite.pattern_layer === "object" ){
-
-            text_sprite.pattern_layer.removeChildren();
-            text_sprite.removeChild(text_sprite.pattern_layer);
-
-        }
-
-        var container = applicationContainer.pattern[mainIndex];
-        var v = application.perspective;
-        container.sprites = {};
-
-        _.each(clone.layers, function (layer, index) {
-
-            /// Color Fixes
-
-            if (typeof layer.default_color === "undefined" && typeof layer.color_code !== "undefined") {
-
-                var _colorObj = ub.funcs.getColorByColorCode(layer.color_code);
+                _colorObj = ub.funcs.getColorObjByHexCode(_teamColor.hexCode);
 
                 if (typeof _colorObj !== "undefined") {
-
-                    ub.utilities.info('Assigning default color: ' + _colorObj.color_code);
-                    layer.default_color =  _colorObj.hex_code;
+                    layer.default_color = _colorObj.hex_code;
                     layer.color_code = _colorObj.color_code;
-
                 } else {
+                    ub.utilities.warn('Color Object not found for ' + _teamColor.hexCode);
+                }
 
-                    ub.utilities.warn('Color not Found ' + layer.color_code);
+            }
 
+        }
+
+        if (typeof layer.default_color !== "undefined" && typeof layer.color_code === "undefined") {
+
+            var _color = ub.funcs.getColorObjByHexCode(layer.default_color);
+
+            if (typeof _colorObj !== "undefined") {
+                layer.default_color = _color.hex_code;
+                layer.color_code = _color.color_code;
+            } else {
+                ub.utilities.warn('Color not found ' + layer.default_color);
+            }
+
+        }
+
+    }
+
+    $.ub.mvChangePattern = function (application, target, clone, sprite_collection){
+
+        var _container = undefined;
+        var _textSprite = undefined;
+        var _maskSprite = undefined; 
+        var _sprites = undefined;
+        var _primaryView = undefined;
+        var _applicationSettings = undefined;
+        var _colorObj = undefined;
+        var _teamColor = undefined;
+        var _primaryViewStr = '';
+        var _patternIDStr = '';        
+        var _applicationViewObjects = undefined;
+
+        _applicationSettings = ub.current_material.settings.applications[application.id];
+        _applicationViewObjects = ub.funcs.getApplicationViewObjects(application.id);
+
+        _.each(_applicationViewObjects, function (viewObject) {
+
+            // _primaryView = ub.funcs.getPrimaryView(application);
+            _primaryView = viewObject.perspective;
+            _primaryViewStr = _primaryView + '_view';
+            _patternIDStr = 'pattern_' + application.id;
+            _sprites = ub.objects[_primaryViewStr]['objects_' + application.id];
+            _textSprite = _.find(_sprites.children, {ubName: 'Base Color'});
+            _maskSprite = _.find(_sprites.children, {ubName: 'Mask'});
+            _maskSprite.alpha = 1;
+
+            removePatternFromApplicationViewObject(application.id, _primaryView);
+
+            ub.current_material.containers[application.id] = {};
+            ub.objects[_primaryViewStr][_patternIDStr] = {};
+
+            _container = new PIXI.Container();
+            _container.sprites = {};
+     
+            _.each(clone.layers, function (layer, index) {
+
+                var sprite = ub.pixi.new_sprite(layer.filename);            
+                sprite.zIndex = layer.layer_number * -1;
+
+                fixLayerColor(layer);
+
+                if (clone.name !== "Flag") {
+                    sprite.tint = parseInt(layer.default_color,16);    
                 }
                 
-            } 
-
-            if (typeof layer.default_color === "undefined" && typeof layer.color_code === "undefined") {
-
-                var team_color = ub.funcs.getColorUsedByIndex(layer.team_color_id);
-
-                if (typeof team_color !== 'undefined') {
-
-                    layer.default_color = team_color.hexCode; // Assign New Team Color if not just use default 
-                    
-                    var _colorObj = ub.funcs.getColorObjByHexCode(team_color.hexCode);
-
-                    if (typeof _colorObj !== "undefined") {
-
-                        layer.color_code = _colorObj.color_code;
-
-                    } else {
-
-                        ub.utilities.warn('Color Object not found for ' + team_color.hexCode);
-
-                    }
-
+                if (typeof sprite_collection === 'object') {
+                    val = _applicationSettings.pattern_obj.layers[0].default_color;            
                 }
 
+                sprite.anchor.set(0.5, 0.5);
+                _container.addChild(sprite);
+
+            });
+
+            _container.alpha = 1;
+            _container.scale = new PIXI.Point(1, 1);
+            _container.mask = _maskSprite;
+            _container.zIndex = -12;
+
+            if(typeof _textSprite.pattern_layer === "object" ){
+                _textSprite.pattern_layer.removeChildren();
+                _textSprite.removeChild(_textSprite.pattern_layer);
             }
 
-            if (typeof layer.default_color !== "undefined" && typeof layer.color_code === "undefined") {
+            _textSprite.pattern_layer = _container;
+            _textSprite.addChild(_textSprite.pattern_layer);
 
-                var _color = ub.funcs.getColorObjByHexCode(layer.default_color);
+            ub.updateLayersOrder(_textSprite);
 
-                if (typeof _color !== "undefined") {
-
-                    layer.color_code = _color.color_code;
-
-                } else {
-
-                    ub.utilities.warn('Color not found ' + layer.default_color);
-
-                }
-
+            if (typeof _applicationSettings.pattern_settings === "undefined") {
+                _applicationSettings.pattern_settings = [];
+                _applicationSettings[_primaryView] = {};
             }
 
-            /// End Color Fixes
-
-
-            //var s = $('[data-index="' + index + '"][data-target="' + target + '"]');
-            container.sprites[index] = ub.pixi.new_sprite(layer.filename);
-
-            var sprite = container.sprites[index];
-
-            sprite.zIndex = layer.layer_number * -1;
-
-            if (clone.name !== "Flag") {
-                sprite.tint = parseInt(layer.default_color,16);    
-            }
-            
-            if (typeof sprite_collection === 'object') {
-            
-                val = applicationSettings.pattern_obj.layers[0].default_color;
-            
+            _applicationSettings.pattern_settings[_primaryView] = {
+                rotation: _container.rotation,
+                scale: _container.scale,
+                position: _container.position,
+                opacity: _container.opacity, 
             }
 
-            sprite.anchor.set(0.5, 0.5);
-            //sprite.tint = parseInt(val, 16);
-            container.addChild(sprite);
-
-            // var opacity_value = $('#' + 'opacity_pattern_slider_' + target).limitslider("values")[0];
-            // container.alpha = opacity_value / 100;
-
-            // var x_value = $('#' + 'position_x_slider_' + target).limitslider("values")[0];
-            // var y_value = $('#' + 'position_y_slider_' + target).limitslider("values")[0];
-            // var x = ub.dimensions.width * (x_value / 100);
-            // var y = ub.dimensions.height * (y_value / 100);
-
-            // container.position = new PIXI.Point(x,y);
-
-        // End Create Pattern    
-
-            ub.updateLayersOrder(container);
-
-            var view = v + '_view';
-            var mask = main_text_obj;
-
-            if(typeof mask === 'undefined') {
-                return;
-            }
-
-            container.rotation = val_rotation / 100;
-            container.scale = new PIXI.Point(val_scale / 100, val_scale / 100);
-            container.position = new PIXI.Point(val_x_position, val_y_position);
-
-            container.alpha = 1;
-            container.scale = new PIXI.Point(1, 1);
-            
-            var mask = main_text_obj;
-
-            text_sprite.pattern_layer = container;
-            container.mask = mask;
-            container.zIndex = -12;
-
-            ub.pl = container;
-
-            text_sprite.addChild(text_sprite.pattern_layer);
-
-            ub.updateLayersOrder(text_sprite);
-
-            applicationSettings.pattern_obj = clone;
-
-            if (typeof applicationSettings.pattern_settings === "undefined") {
-
-                applicationSettings.pattern_settings = [];
-                applicationSettings[[_primaryView]] = {};
-
-            }
-
-            applicationSettings.pattern_settings[_primaryView] = {
-
-                rotation: container.rotation,
-                scale: container.scale,
-                position: container.position,
-                opacity: container.opacity, 
-
-            }
-
-            ub.objects[_primaryView + '_view']['pattern_' + application.id] = container;
-            ub.refresh_thumbnails();
-
+            _applicationSettings.pattern_obj = clone;
+            ub.objects[_primaryViewStr][_patternIDStr] = _container;
+     
         });
 
     };
