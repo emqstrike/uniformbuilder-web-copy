@@ -14,22 +14,28 @@
 
 <link rel="icon" type="image/png" href="/images/branding/favicon.ico" />
 <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/jquery-ui/jquery-ui.min.css?v={{$asset_version}}">
-<link rel="stylesheet" href="{{$asset_storage}}/round-slider/roundslider.min.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/drop/css/drop-theme-basic.css?v={{$asset_version}}">
-<link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/js/libs/smoke/smoke.min.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/colorpicker/css/bootstrap-colorpicker.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/dropdown/jquery.dropdown.css?v={{$asset_version}}">
 
+<link rel="stylesheet" href="{{$asset_storage}}/round-slider/roundslider.min.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.pips.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/noUiSlider/nouislider.tooltips.css?v={{$asset_version}}">
 
 <link rel="stylesheet" href="{{$asset_storage}}/intro-js/introjs.min.css?v={{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/rangeSlider.css?v={{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/normalize.css?v={{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/skinModern.css?v={{$asset_version}}">
+
+<link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css?v={{$asset_version}}">
+
 
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 
@@ -215,8 +221,6 @@
 <script src="{{$asset_storage}}/opentype/js/opentype.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/scrollTo/jquery.scrollTo.js?v={{$asset_version}}"></script>
 
-<script src="{{$asset_storage}}/slider/jquery.limitslider.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/round-slider/roundslider.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/mustache/mustache.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/smoke/smoke.js?v={{$asset_version}}"></script>
@@ -238,10 +242,16 @@
 <script src="{{$asset_storage}}/sortable/jquery.fn.sortable.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/moment/moment.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
+
+<script src="{{$asset_storage}}/slider/jquery.limitslider.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/round-slider/roundslider.min.js?v={{$asset_version}}"></script> 
+<script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script> 
+
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/intro-js/intro.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/svgjs/svg.min.js"></script>
+
+<script src="{{$asset_storage}}/rangeSlider/js/rangeSlider.js"></script>
 
 <script src="{{$asset_storage}}/natural/natural.js"></script>
 <script src="{{$asset_storage}}/natural/all.js"></script>
@@ -539,6 +549,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-error-codes.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-endpoints.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-ui-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-name-drops.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-nlp.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-mock-data.js?v={{$asset_version}}"></script>
