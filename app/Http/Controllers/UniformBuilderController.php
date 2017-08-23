@@ -1572,8 +1572,8 @@ class UniformBuilderController extends Controller
         $backViewImage = $bc['thumbnails']['back_view'];
         $leftViewImage = $bc['thumbnails']['left_view'];
         $rightViewImage = $bc['thumbnails']['right_view'];
-        $image = @file_get_contents($frontViewImage);
-
+        
+        //$image = @file_get_contents($frontViewImage);
         // $outputFilenameFront = '';
         // if ($image != '') {
         //     $fname = 'front.png';
