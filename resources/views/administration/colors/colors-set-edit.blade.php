@@ -31,7 +31,7 @@
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/colors_set/update" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
+                        <input type="hidden" name="id" value="{{ $colors_sets->id }}">
                         @if (Session::has('flash_message'))
                         <div class="alert alert-error">{{ Session::get('flash_message') }}</div>
                         @endif

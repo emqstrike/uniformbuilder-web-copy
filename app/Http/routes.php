@@ -139,6 +139,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('colors_sets', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsSetsController@index']);
     Route::get('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsSetsController@addColorsSetForm']);
     Route::post('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsSetsController@store']);
+    Route::post('colors_set/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsSetsController@store']);
     Route::get('colors_set/edit/{id}', 'Administration\ColorsSetsController@editColorsSetForm');
 
     // Mascots

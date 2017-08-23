@@ -59,18 +59,44 @@ class ColorsSetsController extends Controller
     }
 
     public function store(Request $request){
+        $id = $request->input('id');
         $name = $request->input('name');
         $uniformType = $request->input('uniform_type');
         $colors = $request->input('colors');
 
         $data = [
+            'id' => $id,
             'name' => $name,
             'uniform_type' => $uniformType,
             'colors' => $colors
         ];
+        
+        $response = null;
 
-        $response = $this->client->createColorsSet($data);
-        // dd($data);
+        if (!empty($id))
+        {
+            Log::info('Attempts to update Colors Set#' . $id);
+            $response = $this->client->updateColorsSet($data);
+        }
+        else
+        {            
+            Log::info('Attempts to create a new Colors Set' . json_encode($data));
+            $response = $this->client->createColorsSet($data);
+        }
+        if ($response->success)
+        {
+            Log::info('Success');
+            return Redirect::to('/administration/colors_sets')
+                            ->with('message', $response->message);
+        }
+        else
+        {
+            Log::info('Failed');
+            return Redirect::to('/administration/colors_sets')
+                            ->with('message', 'There was a problem saving.');
+        }
+        
+        
     }
 
 }

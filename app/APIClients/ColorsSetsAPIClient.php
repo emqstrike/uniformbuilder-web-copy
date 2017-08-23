@@ -31,6 +31,14 @@ class ColorsSetsAPIClient extends APIClient
         return $this->decoder->decode($response->getBody());
     }
 
+    public function updateColorsSet($data)
+    {
+        $response = $this->post('color_set/update', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+    }
+
     public function show($id)
     {
         $response = $this->get('color_set/' . $id);
