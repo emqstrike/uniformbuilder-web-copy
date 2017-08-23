@@ -2832,16 +2832,34 @@
 
             ub.updateLayersOrder(_textSprite);
 
-            if (typeof _applicationSettings.pattern_settings === "undefined") {
-                _applicationSettings.pattern_settings = [];
-                _applicationSettings[_primaryView] = {};
-            }
+            if (typeof _applicationSettings.pattern_settings !== "undefined" && _applicationSettings.pattern_settings.length > 0) {
 
-            _applicationSettings.pattern_settings[_primaryView] = {
-                rotation: _container.rotation,
-                scale: _container.scale,
-                position: _container.position,
-                opacity: _container.opacity, 
+                _container.position.y = _applicationSettings.pattern_settings.position.y;
+
+
+            } else {
+
+               _position = {x: 0, y: 0};
+
+                var _startsAt350 = ['NK Stripe', 'Line Fade Body', 'Halftone Fade Sleeve', ];
+
+                if (_.contains(_startsAt350, _applicationSettings.pattern_obj.name)) {
+
+                    _position.y = ub.uiData.patternSliderRange.adjustedStart;
+
+                }
+
+                 pattern_settings = {
+
+                    rotation: 0,
+                    scale: {x: 1, y: 1},
+                    position: _position,
+                    opacity: 1, 
+
+                };
+
+                _container.position.y = _position.y;
+
             }
 
             _applicationSettings.pattern_obj = clone;

@@ -194,6 +194,54 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.changePatternPosition = function (id, position) {
+
+        var _value = parseInt(position);
+        var _patternStr = "pattern_" + id;
+        var _perspectiveStr = '';
+        var _viewObjects = ub.funcs.getApplicationViewObjects(id);
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: id.toString()});
+
+        _.each(_viewObjects, function (viewObject) {
+
+            _perspectiveStr = viewObject.perspective + '_view';
+
+            var _patternObject = ub.objects[_perspectiveStr][_patternStr];
+            var _positionY = (0 + parseInt(position));
+
+            _patternObject.position.y = (0 + parseInt(position));
+            _settingsObject.pattern_settings.position = {x: 0, y: _positionY};
+
+        });
+
+        var _matchingID;
+        var _matchingSide;
+        var _matchingSettingsObject;
+
+        _matchingID = ub.data.matchingIDs.getMatchingID(id);
+
+        if (typeof _matchingID !== "undefined") {
+
+            _applicationSettings = ub.current_material.settings.applications[_matchingID];
+            _applicationViewObjects = ub.funcs.getApplicationViewObjects(_matchingID);
+            _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+
+            _.each(_applicationViewObjects, function (viewObject) {
+
+                var _patternObject = ub.objects[_perspectiveStr][_patternStr];
+                var _positionY = (0 + parseInt(position));
+
+                _perspectiveStr = viewObject.perspective + '_view';
+                _patternStr = "pattern_" + _matchingID;
+
+                _patternObject.position.y = (0 + parseInt(position));
+                _matchingSettingsObject.pattern_settings.position = {x: 0, y: _positionY};
+
+            });
+
+        }
+
+    }
 
     ub.funcs.setupPatternsAndSmallColorPickerEvents = function (settingsObj) {
 
@@ -204,7 +252,59 @@ $(document).ready(function () {
 
         });
 
-        if (typeof settingsObj.pattern_obj === "undefined") { return; }
+        if (typeof settingsObj.pattern_obj === "undefined") { 
+        
+            $('input#pattern-slider').hide();
+            return; 
+
+        }
+
+        if (settingsObj.pattern_obj.name === "Blank") {
+
+            $('input#pattern-slider').hide();
+
+        } else {
+
+            var _from = ub.uiData.patternSliderRange.starts;
+
+            var _startsAt350 = ['NK Stripe', 'Line Fade Body', 'Halftone Fade Sleeve', ];
+
+            if (_.contains(_startsAt350, settingsObj.pattern_obj.name)) {
+
+                _from = ub.uiData.patternSliderRange.adjustedStart;
+
+            }
+
+            if (settingsObj.pattern_obj.name === "")
+
+            if (typeof settingsObj.pattern_settings !== "undefined" && settingsObj.pattern_settings.length) {
+
+                _from = settingsObj.pattern_settings.position.y;
+
+            }
+
+            $('input#pattern-slider').show();
+
+            if (typeof $("#pattern-slider").destroy === "function") { 
+                $("#pattern-slider").destroy(); 
+            }
+            
+            $("#pattern-slider").ionRangeSlider({
+
+                min: ub.uiData.patternSliderRange.min,
+                max: ub.uiData.patternSliderRange.max,
+                from: _from,
+                onChange: function (data) {
+
+                    ub.funcs.changePatternPosition(settingsObj.code, data.from);
+
+                },
+
+            });
+
+        }
+        
+        /// End Range Slider 
 
         var $sp = $('div.column1.applications.patterns > div.colorContainer > div.smallPickerContainer > span.colorItem[data-object-type="text-patterns"]');
         var _primaryView = ub.funcs.getPrimaryView(ub.current_material.settings.applications[settingsObj.code].application);
@@ -293,7 +393,9 @@ $(document).ready(function () {
                 _colorContainer += ub.funcs.createSmallColorPickers(_colorObj.color_code, layer.layer_no, layer.layer_no, layer.default_color, 'text-patterns');
 
                 // No Color Pickers when pattern is Blank
-                if (_patternObj.name === "Blank") { _colorContainer = ""; }
+                if (_patternObj.name === "Blank") { 
+                    _colorContainer = ""; 
+                }
 
             });
 
@@ -338,6 +440,19 @@ $(document).ready(function () {
 
             var $patternPanelContainer = $('div.column1.applications.patterns');
             var _templateStr = '';
+
+            if (typeof settingsObj.pattern_settings === "undefined") {
+
+                settingsObj.pattern_settings = {
+
+                    rotation: 0,
+                    scale: {x: 1, y: 1},
+                    position: {x: 1, y: 1},
+                    opacity: 1, 
+
+                };
+
+            }
 
             $.ub.mvChangePattern(settingsObj.application, settingsObj.application.id, _patternObj, _spriteCollection);
 
