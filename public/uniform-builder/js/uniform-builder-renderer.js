@@ -80,20 +80,23 @@ $(document).ready(function() {
 
     ub.funcs.savePerspectives = function () {
         var save_uniform_perspectives_url = '/save_uniform_perspectives';
+        var material_data = {
+            material_id: ub.config.material_id,
+            store_code: ub.store_code,
+            team_colors: ub.team_colors,
+            front: ub.front,
+            back: ub.back,
+            right: ub.right,
+            left: ub.left
+        };
         if (ub.store_code == 'TEAMSTORE-DEFAULT-TEMPLATE') {
             save_uniform_perspectives_url = TeamStoreAPI.endpoints.save_customized_thumbnails;
+            material_data.settings = JSON.stringify(ub.current_material.settings);
         }
+
         $.ajax({
             url: save_uniform_perspectives_url,
-            data: {
-                material_id: ub.config.material_id,
-                store_code: ub.store_code,
-                team_colors: ub.team_colors,
-                front: ub.front,
-                back: ub.back,
-                right: ub.right,
-                left: ub.left
-            },
+            data: material_data,
             method: 'POST',
             success: function(response) {
                 if (response.success) {
@@ -112,22 +115,25 @@ $(document).ready(function() {
 
     ub.funcs.updateTeamStoreImages = function () {
         var save_uniform_perspectives_url = TeamStoreAPI.endpoints.save_customized_thumbnails;
+        var material_data = {
+            teamstore_product_id: teamstore_product_id,
+            material_id: ub.config.material_id,
+            store_code: ub.store_code,
+            team_colors: ub.team_colors,
+            front: ub.front,
+            back: ub.back,
+            right: ub.right,
+            left: ub.left
+        };
         var teamstore_product_id = 0;
         if ($('#team-store-toolbox').data('product-id')) {
             teamstore_product_id = $('#team-store-toolbox').data('product-id');
+            material_data.settings = JSON.stringify(ub.current_material.settings);
         }
+
         $.ajax({
             url: save_uniform_perspectives_url,
-            data: {
-                teamstore_product_id: teamstore_product_id,
-                material_id: ub.config.material_id,
-                store_code: ub.store_code,
-                team_colors: ub.team_colors,
-                front: ub.front,
-                back: ub.back,
-                right: ub.right,
-                left: ub.left
-            },
+            data: material_data,
             method: 'POST',
             success: function(response) {
                 if (response.success) {
