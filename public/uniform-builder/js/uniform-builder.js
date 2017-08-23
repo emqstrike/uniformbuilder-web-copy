@@ -2569,7 +2569,12 @@ $(document).ready(function () {
                         active: function () {
 
                             ub.create_application(application_obj, undefined);
-
+                            
+                            if (application_obj.status === "off") {
+                                ub.utilities.info('Disabled application detected: #' + application_obj.code);
+                                ub.funcs.toggleApplication(application_obj.code, "off"); 
+                            }
+                            
                         },
 
                     });
