@@ -427,6 +427,7 @@ $(document).ready(function () {
             if (typeof team_color !== 'undefined') {
 
                 layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
+                layer.color_code = team_color.color_code;
 
             }
             
