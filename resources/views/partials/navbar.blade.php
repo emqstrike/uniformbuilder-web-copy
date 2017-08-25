@@ -11,7 +11,6 @@
                         <li><a href="/styles/men/football" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/football.svg"> Football</a></li>
                         <li><a href="/styles/men/baseball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/baseball.svg"> Baseball</a></li>
                         <li><a href="/styles/men/basketball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/basketball.svg"> Basketball</a></li>
-                        <li><a href="/styles/men/baseball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/baseball.svg"> Basketball</a></li>
                         <li><a href="/styles/men/wrestling" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/wrestling.svg"> Wrestling</a></li>
                         <li><a href="/styles/men/lacrosse" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/lacrosse.svg"> Lacrosse</a></li>
                         <li><a href="/styles/men/hockey" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/hockey.svg"> Hockey</a></li>
