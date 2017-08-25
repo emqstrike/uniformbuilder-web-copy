@@ -1,11 +1,44 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
-        <div class="navbar-header" id="navbar-header">
-            <a class="navbar-brand" href="/"><img src="{{ env('LOGO_URL') }}" height="50em"></a>
+
+        <div class="navbar-header btn-group" id="navbar-header">
+            <a class="navbar-brand btn dropdown-toggle" data-toggle="dropdown" href="/"><img src="{{ env('LOGO_URL') }}" height="50em"></a>
+                <ul class="dropdown-menu" role="menu">
+
+                    <li><a href="/"><i class="fa fa-home" aria-hidden="true"></i> Customizer Home</a></li>
+                  
+                    <li><a href="/styles/men">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-male" aria-hidden="true"></i> Styles > Men</a></li>
+                        <li><a href="/styles/men/football" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/football.svg"> Football</a></li>
+                        <li><a href="/styles/men/baseball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/baseball.svg"> Baseball</a></li>
+                        <li><a href="/styles/men/basketball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/basketball.svg"> Basketball</a></li>
+                        <li><a href="/styles/men/baseball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/baseball.svg"> Basketball</a></li>
+                        <li><a href="/styles/men/wrestling" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/wrestling.svg"> Wrestling</a></li>
+                        <li><a href="/styles/men/lacrosse" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/lacrosse.svg"> Lacrosse</a></li>
+                        <li><a href="/styles/men/hockey" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/hockey.svg"> Hockey</a></li>
+                        <li><a href="/styles/men/soccer" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/soccer.svg"> Soccer</a></li>
+
+                    <li><a href="/styles/women">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-female" aria-hidden="true"></i> Styles > Women</a></li>
+                        <li><a href="/styles/women/volleyball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/volleyball.svg"> Volleyball</a></li>
+                        <li><a href="/styles/women/fastpitch" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/baseball.svg"> Fastpitch</a></li>
+                        <li><a href="/styles/women/soccer" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/soccer.svg"> Soccer</a></li>
+                        <li><a href="/styles/women/basketball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/basketball.svg"> Basketball</a></li>
+
+
+                    <li class="divider"></li>
+                    <li><a href="http://www.prolook.com"><i class="fa fa-globe" aria-hidden="true"></i> Official Prolook Website</a></li>
+                    <li><a href="http://blog.prolook.com/"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Prolook Blog</a></li>
+                    <li class="divider"></li>
+                    <li><a href="https://www.facebook.com/ProLookSports/"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></li>
+                    <li><a href="https://www.instagram.com/prolooksports/"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+                    <li><a href="https://www.pinterest.com/prolooksports/"><i class="fa fa-pinterest" aria-hidden="true"></i> Pinterent</a></li>
+                    
+                </ul>
         </div>
+    
         <div>
             <h1 class="text-center" id="header_text">{{ $app_title }}</h1>
         </div>
+
         <div class='user-profile pull-right'>
 
             <div class="activate_qa_tools">Activate QA Tools</div>
