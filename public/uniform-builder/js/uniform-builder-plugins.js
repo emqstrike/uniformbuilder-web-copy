@@ -2832,24 +2832,27 @@
 
             ub.updateLayersOrder(_textSprite);
 
+            var _calibration = 0;
+
+            if (_.contains(ub.uiData.patternSliderRange.forCalibration, _applicationSettings.pattern_obj.name)) {
+
+                _calibration = ub.uiData.patternSliderRange.adjustedStart;
+
+            }
+
             if (typeof _applicationSettings.pattern_settings !== "undefined" && _applicationSettings.pattern_settings.length > 0) {
 
-                _container.position.y = _applicationSettings.pattern_settings.position.y;
-
+                _container.position.y = _applicationSettings.pattern_settings.position.y + _calibration;
 
             } else {
 
                _position = {x: 0, y: 0};
 
-                var _startsAt350 = ['NK Stripe', 'Line Fade Body', 'Halftone Fade Sleeve', ];
-
-                if (_.contains(_startsAt350, _applicationSettings.pattern_obj.name)) {
-
-                    _position.y = ub.uiData.patternSliderRange.adjustedStart;
-
+                if (_.contains(ub.uiData.patternSliderRange.forCalibration, _applicationSettings.pattern_obj.name)) {
+                    _position.y += _calibration;
                 }
 
-                 pattern_settings = {
+                pattern_settings = {
 
                     rotation: 0,
                     scale: {x: 1, y: 1},
