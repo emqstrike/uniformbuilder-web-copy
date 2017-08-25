@@ -30,7 +30,7 @@
                     <li class="divider"></li>
                     <li><a href="https://www.facebook.com/ProLookSports/"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></li>
                     <li><a href="https://www.instagram.com/prolooksports/"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>
-                    <li><a href="https://www.pinterest.com/prolooksports/"><i class="fa fa-pinterest" aria-hidden="true"></i> Pinterent</a></li>
+                    <li><a href="https://www.pinterest.com/prolooksports/"><i class="fa fa-pinterest" aria-hidden="true"></i> Pinterest</a></li>
                     
                 </ul>
         </div>
