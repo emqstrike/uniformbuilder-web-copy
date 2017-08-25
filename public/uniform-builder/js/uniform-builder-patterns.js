@@ -201,6 +201,13 @@ $(document).ready(function () {
         var _perspectiveStr = '';
         var _viewObjects = ub.funcs.getApplicationViewObjects(id);
         var _settingsObject = _.find(ub.current_material.settings.applications, {code: id.toString()});
+        var _calibration = 0;
+
+        if (_.contains(ub.uiData.patternSliderRange.forCalibration, _settingsObject.pattern_obj.name)) {
+
+            _calibration = ub.uiData.patternSliderRange.adjustedStart;
+
+        }
 
         _.each(_viewObjects, function (viewObject) {
 
@@ -209,7 +216,7 @@ $(document).ready(function () {
             var _patternObject = ub.objects[_perspectiveStr][_patternStr];
             var _positionY = (0 + parseInt(position));
 
-            _patternObject.position.y = (0 + parseInt(position));
+            _patternObject.position.y = (0 + parseInt(position) + _calibration);
             _settingsObject.pattern_settings.position = {x: 0, y: _positionY};
 
         });
@@ -234,7 +241,7 @@ $(document).ready(function () {
                 _perspectiveStr = viewObject.perspective + '_view';
                 _patternStr = "pattern_" + _matchingID;
 
-                _patternObject.position.y = (0 + parseInt(position));
+                _patternObject.position.y = (0 + parseInt(position) + _calibration);
                 _matchingSettingsObject.pattern_settings.position = {x: 0, y: _positionY};
 
             });
@@ -266,18 +273,22 @@ $(document).ready(function () {
         } else {
 
             var _from = ub.uiData.patternSliderRange.starts;
+            var _calibration = ub.uiData.patternSliderRange.adjustedStart;
+            var _patternIsForCalibration = false; 
+ 
+            _patternIsForCalibration = _.contains(ub.uiData.patternSliderRange.forCalibration, settingsObj.pattern_obj.name);
 
-            var _startsAt350 = ['NK Stripe', 'Line Fade Body', 'Halftone Fade Sleeve', ];
+            if (typeof settingsObj.pattern_settings !== "undefined" && settingsObj.pattern_settings.length > 0) {
 
-            if (_.contains(_startsAt350, settingsObj.pattern_obj.name)) {
+                _from = settingsObj.pattern_settings.position.y;
 
-                _from = ub.uiData.patternSliderRange.adjustedStart;
+                if (_patternIsForCalibration) {
 
-            }
+                    _from -= _patternIsForCalibration;
 
-            if (settingsObj.pattern_obj.name === "")
+                }
 
-            if (typeof settingsObj.pattern_settings !== "undefined" && settingsObj.pattern_settings.length) {
+            } else {
 
                 _from = settingsObj.pattern_settings.position.y;
 
@@ -448,7 +459,7 @@ $(document).ready(function () {
 
                     rotation: 0,
                     scale: {x: 1, y: 1},
-                    position: {x: 1, y: 1},
+                    position: {x: 0, y: 0},
                     opacity: 1, 
 
                 };
