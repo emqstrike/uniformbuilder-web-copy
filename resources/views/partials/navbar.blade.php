@@ -48,12 +48,16 @@
                       </li>
 
                     <li class="divider"></li>
-                    <li><a href="http://www.prolook.com"><i class="fa fa-globe" aria-hidden="true"></i> Official Prolook Website</a></li>
-                    <li><a href="http://blog.prolook.com/"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Prolook Blog</a></li>
+                    <h6 class="dropdown-header">About Us</h6>
+                    <li><a href="http://www.prolook.com" target="_new"><i class="fa fa-globe" aria-hidden="true"></i> Official Prolook Website</a></li>
+                    <li><a href="http://blog.prolook.com/" target="_new"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Prolook Blog</a></li>
+                    <li><a href="http://www.prolook.com/contact/" target="_new"><i class="fa fa-envelope-o" aria-hidden="true"></i> Contact Us</a></li>
+
                     <li class="divider"></li>
-                    <li><a href="https://www.facebook.com/ProLookSports/"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></li>
-                    <li><a href="https://www.instagram.com/prolooksports/"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>
-                    <li><a href="https://www.pinterest.com/prolooksports/"><i class="fa fa-pinterest" aria-hidden="true"></i> Pinterest</a></li>
+                    <h6 class="dropdown-header">Social Media</h6>
+                    <li><a href="https://www.facebook.com/ProLookSports/"  target="_new"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></li>
+                    <li><a href="https://www.instagram.com/prolooksports/" target="_new"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+                    <li><a href="https://www.pinterest.com/prolooksports/" target="_new"><i class="fa fa-pinterest" aria-hidden="true"></i> Pinterest</a></li>
                     
                 </ul>
         </div>
