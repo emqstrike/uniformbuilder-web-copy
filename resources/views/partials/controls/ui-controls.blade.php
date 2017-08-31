@@ -2475,7 +2475,7 @@
 
     <div class="sub1 patternThumb">
 
-        <span class="patternThumb"><img src="@{{thumbnail}}"/></span><br />                                                             
+        <span class="patternThumb"><img src="@{{thumbnail}}"/></span><br />
         <span class="pattern">@{{name}}</span>
         <br />
 
@@ -2487,9 +2487,7 @@
 
     </div>
 
-    <div class="info">
-        <em>This feature is still under developent, please use the feedback form to send us comments regarding this feature.</em>
-    </div>
+    <input type="text" id="pattern-slider" value="" />
 
 </script>
 

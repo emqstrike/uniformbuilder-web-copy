@@ -2569,7 +2569,12 @@ $(document).ready(function () {
                         active: function () {
 
                             ub.create_application(application_obj, undefined);
-
+                            
+                            if (application_obj.status === "off") {
+                                ub.utilities.info('Disabled application detected: #' + application_obj.code);
+                                ub.funcs.toggleApplication(application_obj.code, "off"); 
+                            }
+                            
                         },
 
                     });
@@ -4776,8 +4781,22 @@ $(document).ready(function () {
 
                     if(typeof input_object.applicationObj.pattern_obj === 'object') {
 
-                        var _primaryView = ub.funcs.getPrimaryView(ub.current_material.settings.applications[input_object.applicationObj.code].application);
+                        var _settingsObj = ub.current_material.settings.applications[input_object.applicationObj.code];
+                        var _primaryView = ub.funcs.getPrimaryView(_settingsObj.application);
                         var _spriteCollection = ub.objects[_primaryView + '_view']['objects_' + input_object.applicationObj.code];
+
+                        if (typeof _settingsObj.pattern_settings === "undefined" || _settingsObj.pattern_settings.length > 0) {
+
+                            _settingsObj.pattern_settings = {
+
+                                rotation: 0,
+                                scale: {x: 1, y: 1},
+                                position: {x: 1, y: 1},
+                                opacity: 1, 
+
+                            };
+
+                        }
 
                         $.ub.mvChangePattern(input_object.applicationObj.application, input_object.applicationObj.code, input_object.applicationObj.pattern_obj, _spriteCollection);
 

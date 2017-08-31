@@ -14544,6 +14544,12 @@ ub.funcs.fontOffSets = [
                 gender: ['men', 'women'],
             },
             {
+                shortCode: 'compression',
+                urlAlias: 'Compression (Apparel)',
+                thumbFilename: 'compression.png',
+                gender: ['men', 'women'],
+            },
+            {
                 shortCode: 'polo',
                 urlAlias: 'Polo (Apparel)',
                 thumbFilename: 'polo.png',
@@ -14607,6 +14613,18 @@ ub.funcs.fontOffSets = [
                 shortCode: 'fan-replica-jersey',
                 urlAlias: 'Fan Replica Jersey (Apparel)',
                 thumbFilename: 'fan_replica.png',
+                gender: ['men',],    
+            },
+            {
+                shortCode: 'team-shorts',
+                urlAlias: '2017 Team Short with Pockets (Apparel)',
+                thumbFilename: 'team-short.png',
+                gender: ['men',],    
+            },
+            {
+                shortCode: 'signature-coaches-short',
+                urlAlias: 'Signature Coaches Short (Apparel)',
+                thumbFilename: 'signature-coaches-short.png',
                 gender: ['men',],    
             },
             

@@ -1,6 +1,6 @@
 
-@navbar-height: 76px; 
-@main-container-margin: 75px;
+@navbar-height: 68px; 
+@main-container-margin: 67px;
 @micro_spacer: 2px;
 
 /* G: #3d3d3d or R: #b71500 or B: #002e62; or P: #ee2375 
@@ -763,6 +763,8 @@ div.options_panel  {
             text-align: center;
             padding-right: 15px;
 
+            color: #474747;
+
         }
 
         div.double-header:hover {
@@ -786,6 +788,7 @@ div.options_panel  {
                 margin-top: 15px;
                 border-top: solid 1px;
                 margin-left: -20px;
+                color: #474747;
 
             }
 
@@ -807,13 +810,14 @@ div.options_panel  {
             padding-left: 15px;
 
             span.part_label {
-                font-size: 1.3em;
-                font-weight:bold;
+                font-size: 1.2em;
+                text-transform: uppercase;
             }
 
             span.nOf {
-                color: @customizer_forecolor;
-                font-size: 1em;
+                color: #474747;
+                font-size: 0.85em;
+                text-transform: uppercase;
             }
         }
 
@@ -3337,6 +3341,8 @@ div.header-container.main {
         position: absolute;
         margin-left: -250px;
 
+        font-size: 0.85em;
+        text-transform: uppercase;
     }
 
 /* End QA Tools */
@@ -3391,7 +3397,7 @@ div.header-container.main {
 
         .footer-buttons {
 
-            color: @customizer_forecolor;
+            color: #474747;
             float: left;
             width: 90px;
             height: 90px;
@@ -3402,8 +3408,10 @@ div.header-container.main {
             cursor: pointer;
             text-decoration: none;
 
-
-            span { font-size: 75%; }
+            span { 
+                font-size: 0.75em;
+                text-transform: uppercase;
+            }
 
         }
 
@@ -3494,7 +3502,7 @@ div.header-container.main {
     div#uniform_name, div#saved_design_name {
 
         position: absolute;
-        color: #acacac;
+        color: #f8f8f8;
         margin: 10px;
         font-size: 1.7em;
         text-transform: uppercase;
@@ -5739,10 +5747,8 @@ div.header-container.main {
 
                         div.sub1.patternThumb {
 
-                            padding: 30px;
-                            
-                            padding-top: 15px;
-                            padding-bottom: 0px;
+                            padding: 30px;                            
+                            padding-top: 20px;
 
                             span.patternThumb { 
 
@@ -8036,6 +8042,9 @@ div.header-container.main {
         margin-right: 10px;
         text-decoration: none;
 
+        font-size: 0.85em;
+        text-transform: uppercase;
+
         span.badge {
 
             background-color: #3d3d3d;
@@ -8060,6 +8069,9 @@ div.header-container.main {
         min-width: 30px;
         text-align: center;
         margin-right: 10px;
+
+        font-size: 0.85em;
+        text-transform: uppercase;
         
     }
 
@@ -11102,6 +11114,154 @@ span.load-line.awesomeness {
 
     }
 
+    div.ui-row > div.column1 > span.irs {
+
+        margin-top: -40px;
+        width: 50%;
+        float: right;
+
+    }
+
+    .irs-from, .irs-to, .irs-single {
+        color: #fff;
+        font-size: 10px;
+        line-height: 1.333;
+        text-shadow: none;
+        padding: 1px 5px;
+        background: #3d3d3d;
+        -moz-border-radius: 0px;
+        border-radius: 0px;
+    }
+
+    .irs-from:after, .irs-to:after, .irs-single:after {
+        position: absolute;
+        display: block;
+        content: "";
+        bottom: -6px;
+        left: 50%;
+        width: 0;
+        height: 0;
+        margin-left: -3px;
+        overflow: hidden;
+        border: 3px solid transparent;
+        border-top-color: #3d3d3d;
+    }
+
+    .irs-min, .irs-max {
+        color: #3d3d3d;
+        font-size: 10px;
+        line-height: 1.333;
+        text-shadow: none;
+        top: 0;
+        padding: 3px;
+        background: none;
+        border-radius: 0px;
+    }
+
+    .irs-from, .irs-to, .irs-single {
+        color: #fff;
+        font-size: 10px;
+        line-height: 1.333;
+        text-shadow: none;
+        padding: 2px 7px;
+        background: #3d3d3d;
+        border-radius: 0px;
+    }
+
 /* End Overrides */
+
+/* Navbar Toggle */
+
+    div.navbar-header.btn-group.open > a.navbar-brand.dropdown-toggle {
+        box-shadow: none;
+        background-color: #f8f8f8 !important;
+    }
+
+    div.navbar-header {
+
+        ul.dropdown-menu {
+            right: auto;
+            margin-top: 30px;
+
+            li > a {
+
+                img {
+
+                    color: white;
+                    height: 20px;
+                    
+                }
+                
+            }
+
+            .dropdown-submenu {
+                position: relative;
+            }
+
+            .dropdown-submenu>.dropdown-menu {
+                top: 0;
+                left: 100%;
+                margin-top: -6px;
+                margin-left: -1px;
+                -webkit-border-radius: 0 6px 6px 6px;
+                -moz-border-radius: 0 6px 6px;
+                border-radius: 0 6px 6px 6px;
+            }
+
+            .dropdown-submenu:hover>.dropdown-menu {
+                display: block;
+            }
+
+            .dropdown-submenu>a:after {
+                display: block;
+                content: " ";
+                float: right;
+                width: 0;
+                height: 0;
+                border-color: transparent;
+                border-style: solid;
+                border-width: 5px 0 5px 5px;
+                border-left-color: #ccc;
+                margin-top: 5px;
+                margin-right: -10px;
+            }
+
+            .dropdown-submenu:hover>a:after {
+                border-left-color: #fff;
+            }
+
+            .dropdown-submenu.pull-left {
+                float: none;
+            }
+
+            .dropdown-submenu.pull-left>.dropdown-menu {
+                left: -100%;
+                margin-left: 10px;
+                -webkit-border-radius: 6px 0 6px 6px;
+                -moz-border-radius: 6px 0 6px 6px;
+                border-radius: 6px 0 6px 6px;
+            }
+
+        }
+
+
+
+    }
+
+/* End Navbar Toggle */
+
+/* Sport Links */
+    
+    a.sport-link-icons  {
+
+        img {
+
+            height: 20px;
+
+        }
+
+    }
+
+/* End Sport Links */
 
 
