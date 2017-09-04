@@ -2179,7 +2179,7 @@
           
             <div class="qoute">
                 <span class='qoute-symbol'><i class="fa fa-quote-left" aria-hidden="true"></i></span>
-                <span class='qoute-text'>The most valuable player is the one that makes the most players valuable.</span>
+                <span class='qoute-text'>One thing that can never be sacrificed is your preparation and your work ethic.</span>
                 <br />
                 <div class="author-container">
                     -<span class="author"> Peyton Manning</span>    
