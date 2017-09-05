@@ -588,6 +588,10 @@ $(document).ready(function () {
                 ub.current_material.settings.cut_pdf = ub.config.cut_pdf;
             }
 
+            if (typeof ub.current_material.settings.styles_pdf === "undefined") {
+                ub.current_material.settings.styles_pdf = (ub.current_material.material.styles_pdf !== null) ? ub.current_material.material.styles_pdf : '';
+            }
+
         };
 
         ub.funcs.isAFavoriteItem = function (uniformID) {
@@ -2358,11 +2362,13 @@ $(document).ready(function () {
 
     ub.loadSettings = function (settings) {
 
-        ub.current_material.settings    = settings;
-        var uniform_type                = ub.current_material.material.type;
-        var _hasFrontBody               = false;
-        var _hasBody                    = false;
+        ub.current_material.settings            = settings;
+        var uniform_type                        = ub.current_material.material.type;
+        var _hasFrontBody                       = false;
+        var _hasBody                            = false;
 
+        ub.current_material.settings.styles_pdf = (ub.current_material.material.styles_pdf !== null) ? ub.current_material.material.styles_pdf : '';
+        
         if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
             _hasFrontBody = typeof ub.current_material.settings[uniform_type]['Front Body'] === "object";

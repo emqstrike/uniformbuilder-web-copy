@@ -1457,8 +1457,14 @@ class UniformBuilderController extends Controller
         $styleURL = '<a href="' . $itemData["url"]  . '"><strong>BUILDER URL</strong></a>';
         $pdfURL   = '<a href="' . env("WEBSITE_URL") . $fname . '"><strong>PDF URL</strong></a>';
         $cutURL   = '<a href="' . $itemData["builder_customizations"]["cut_pdf"] . '"><strong>CUT PDF URL</strong></a>';
+        $stylesPDFURL   = '<a href="' . $itemData["builder_customizations"]["styles_pdf"] . '"><strong>STYLE PDF URL</strong></a>';
+
 
         if ($itemData["builder_customizations"]["cut_pdf"] === '') { $cutURL = 'No Cut PDF detected.'; } 
+        if ($itemData["builder_customizations"]["styles_pdf"] === '') { $stylesPDFURL = 'No STYLE PDF detected.'; } 
+
+
+
 
         $html = '';
         $html .= '<table>';
@@ -1480,7 +1486,7 @@ class UniformBuilderController extends Controller
         $html .= '<tr>';
         $html .=     '<td width="100%" style="font-size: 1.0em;">';
         $html .=       'URLS: <br />';
-        $html .=       $styleURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $pdfURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $cutURL;
+        $html .=       $styleURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $pdfURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $cutURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $stylesPDFURL;
         $html .=     '</td>';
         $html .= '</tr>';
 
