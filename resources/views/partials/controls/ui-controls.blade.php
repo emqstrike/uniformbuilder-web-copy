@@ -2179,10 +2179,10 @@
           
             <div class="qoute">
                 <span class='qoute-symbol'><i class="fa fa-quote-left" aria-hidden="true"></i></span>
-                <span class='qoute-text'>I don’t count my sit-ups. I only start counting when it starts hurting. When I feel pain, that’s when I start counting, because that’s when it really counts.</span>
+                <span class='qoute-text'>One thing that can never be sacrificed is your preparation and your work ethic.</span>
                 <br />
                 <div class="author-container">
-                    -<span class="author"> Muhammad Ali</span>    
+                    -<span class="author"> Peyton Manning</span>    
                 </div>
             </div>
            
