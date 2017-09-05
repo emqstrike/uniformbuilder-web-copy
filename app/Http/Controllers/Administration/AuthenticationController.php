@@ -47,7 +47,7 @@ class AuthenticationController extends Controller
             ]);
 
             $decoder = new JsonDecoder();
-       
+
             $result = $decoder->decode($response->getBody());
 
             // Only 'administrator' Account Type can login
@@ -59,6 +59,7 @@ class AuthenticationController extends Controller
                 Session::put('email', $result->user->email);
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
+                Session::put('role', $result->user->role);
                 Session::flash('flash_message', 'Welcome to ' . env('BUILDER_NAME'));
 
                 Log::info('Successful User Login');
