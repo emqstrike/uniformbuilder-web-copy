@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
+use App\Utilities\FileUploaderV2;
 use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
@@ -756,6 +757,23 @@ class MaterialsController extends Controller
             $message = $e->getMessage();
             return Redirect::to('/administration/materials')
                             ->with('message', 'There was a problem uploading your files');
+        }
+
+        $folder_name = "styles_pdf";
+
+        // Upload PDF file
+        try {
+            $newFile = $request->file('styles_pdf');          
+            if (isset($newFile)) {                
+                if ($newFile->isValid()) {
+                    $randstr = Random::randomize(12);
+                    $data['styles_pdf'] = FileUploaderV2::upload($newFile, $randstr, 'file', $folder_name);                  
+                }
+            }
+        } catch (S3Exception $e) {
+            $message = $e->getMessage();
+
+            return Redirect::to('/administration/materials')->with('message', 'There was a problem uploading your files');
         }
 
         $response = null;
