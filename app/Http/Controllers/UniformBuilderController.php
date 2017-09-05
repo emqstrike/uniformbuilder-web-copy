@@ -736,6 +736,9 @@ class UniformBuilderController extends Controller
         $html .=   '<strong>TYPE</strong>';
         $html .=   '</td>';
         $html .=   '<td align="center">';
+        $html .=   '<strong>Size</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
         $html .=   '<strong>Number of Colors</strong>';
         $html .=   '</td>';
         $html .=   '<td align="center">';
@@ -755,6 +758,9 @@ class UniformBuilderController extends Controller
             $html .=   $pipingType;
             $html .=   '</td>';
 
+            $html .=   '<td align="center">';
+            $html .=   $piping['size'];
+            $html .=   '</td>';
 
             $html .=   '<td align="center">';
             $html .=   $piping['numberOfColors'];
