@@ -148,7 +148,9 @@
                   @if (\Session::get('is_show_teamstore_toolbox'))
                   <li>
                     <a href="#" id="show-team-store-toolbox">
-                      <i class="fa fa-wrench" aria-hidden="true"></i> DISPLAY TEAM STORE TOOLBOX {{ \Session::get('accountType') }}
+                      <i class="fa fa-wrench" aria-hidden="true"></i>
+                      TEAM STORE TOOLBOX
+                      <label class="badge">BETA</label>
                     </a>
                   </li>
 
