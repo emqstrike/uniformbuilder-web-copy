@@ -7298,6 +7298,7 @@ $(document).ready(function() {
             if (ub.funcs.isCurrentSport("2017 Team Short with Pockets (Apparel)"))                                      { _size = 4;    }
             if (ub.funcs.isCurrentSport("Signature Coaches Short (Apparel)"))                                           { _size = 4;    }
 
+            if (ub.funcs.isCurrentSport('Football') && ub.current_material.material.type === "lower" && ub.config.uniform_application_type === "sublimated") { _size =  4;    }
 
             ub.funcs.setAppSize(_id, _size);
 
