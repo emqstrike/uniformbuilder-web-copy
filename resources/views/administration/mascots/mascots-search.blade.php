@@ -24,7 +24,7 @@
 
                 </div>
                 <div class="box-body">
-                    <table class='data-table table table-bordered table-hover mascots-table display'>
+                    <table id="mascots_search_table" class='data-table table table-bordered table-hover mascots-table display'>
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -77,7 +77,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-$('.file-link').on('click', function(e){
+// $('.file-link').on('click', function(e){
+// $(document).on('click', '.file-link', function() {
+$('#mascots_search_table .file-link').on('click', function(){
     console.log('file link');
     var url = $(this).data('link');
     OpenInNewTab(url);
