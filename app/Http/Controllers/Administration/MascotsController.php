@@ -52,6 +52,16 @@ class MascotsController extends Controller
         ]);
     }
 
+    public function searchPage()
+    {
+
+        $mascots = $this->client->getMascots();
+
+        return view('administration.mascots.mascots-search', [
+            'mascots' => $mascots
+        ]);
+    }
+
     public function indexFiltered(Request $request)
     {
 // dd($request->category);
