@@ -3,6 +3,7 @@ $(document).ready(function() {
     ub.funcs.fadeOutCustomizer = function () {
 
 
+
     }
 
     ub.funcs.fadeInCustomizer = function () {
@@ -1522,6 +1523,19 @@ $(document).ready(function() {
 
         $('span.submit-order').unbind('click');
         $('span.submit-order').on('click', function () {
+
+            if ($('input#client-name').val().trim() === "") {
+
+                $(window).scrollTop(0);
+                $('input#client-name').addClass('is-invalid');
+                $.smkAlert({text: 'Please enter client name!', type: 'warning', time: 3, marginTop: '80px'});
+                return;
+
+            } else {
+
+                $('input#client-name').removeClass('.is-invalid');
+
+            }
 
             if(ub.data.uploading) {  
 
