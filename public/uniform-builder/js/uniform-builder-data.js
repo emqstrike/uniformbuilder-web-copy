@@ -13673,6 +13673,7 @@ ub.funcs.fontOffSets = [
                     option: "Goalie (W)",
                 },
 
+
         ],
         currentUniformOk: function () {
 
@@ -13683,7 +13684,7 @@ ub.funcs.fontOffSets = [
 
                     // Hidden Body for baseball and fastpitch except when its a lower uniform
                     (
-                        ( ub.config.sport !== "Baseball" || ub.config.sport !== "Fastpitch") && ub.config.type !== "lower"
+                        !((ub.config.sport === "Baseball" || ub.config.sport === "Fastpitch") && ub.config.type === "lower")
                     );
 
         } 
