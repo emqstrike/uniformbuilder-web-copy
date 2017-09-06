@@ -451,7 +451,8 @@ $('.send-to-factory').on('click', function(e){
         getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
 
         window.qx_item_ref = window.pa.ref_qstrike_mat_id;
-        entry.orderPart.ItemID = window.qx_item_ref;
+        // entry.orderPart.ItemID = window.qx_item_ref;
+        entry.orderPart.ItemID = window.material.item_id;
 
         function getPAConfigs(callback){
             var parts_aliases;
@@ -533,31 +534,34 @@ $('.send-to-factory').on('click', function(e){
     console.log(strResult);
 
     console.log(JSON.stringify(orderEntire['orderParts']));
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: JSON.stringify(orderEntire),
-        contentType: 'application/json;',
-        success: function (data) {
-            alert('Order was sent to EDIT!');
-            // console.log('return data: ' + JSON.stringify(data));
-            var factory_order_id = data[0].OrderID;
-            var parts = [];
-            $.each(data, function( index, value ) {
-                orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-                console.log(JSON.stringify(orderEntire));
-                parts.push(orderEntire['orderParts'][index]['orderPart']);
-            });
-            console.log(JSON.stringify(parts));
-            updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
-            // document.location.reload(); // UNCOMMENT
-            // console.log(data[0].OrderID);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //Error Code Here
-        }
-    });
-
+    if(window.material.item_id !== undefined){
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify(orderEntire),
+            contentType: 'application/json;',
+            success: function (data) {
+                alert('Order was sent to EDIT!');
+                // console.log('return data: ' + JSON.stringify(data));
+                var factory_order_id = data[0].OrderID;
+                var parts = [];
+                $.each(data, function( index, value ) {
+                    orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+                    console.log(JSON.stringify(orderEntire));
+                    parts.push(orderEntire['orderParts'][index]['orderPart']);
+                });
+                console.log(JSON.stringify(parts));
+                updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+                // document.location.reload(); // UNCOMMENT
+                // console.log(data[0].OrderID);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                //Error Code Here
+            }
+        });
+    } else {
+        console.log('Material has no item_id')
+    }
 });
 
 function updateFOID(id, factory_order_id, parts){

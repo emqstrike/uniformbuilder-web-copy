@@ -34,7 +34,7 @@
                 <button type="button" class="close" data-dismiss="modal">×</button> 
                 <h4 class="modal-title">Title</h4> 
             </div> 
-            <div class="modal-body">Message</div> 
+            <div class="modal-body">Message</div>
             <div class="modal-footer">
                 <button class="btn btn-danger @if (isset($yes_class_name)) {{ $yes_class_name }} @else confirm-yes @endif" data-value=''
                 @if (isset($attributes))
