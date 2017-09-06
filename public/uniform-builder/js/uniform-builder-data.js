@@ -4747,6 +4747,11 @@ $(document).ready(function() {
                     disabledClass: '',
                 }, 
                 {
+                    code: 'basketball',
+                    name: 'Basketball',
+                    active: "1",
+                },
+                {
                     code: 'baseball',
                     name: 'Baseball',
                     active: "1",
@@ -4754,11 +4759,6 @@ $(document).ready(function() {
                 {
                     code: 'lacrosse',
                     name: 'Lacrosse',
-                    active: "1",
-                },
-                {
-                    code: 'basketball',
-                    name: 'Basketball',
                     active: "1",
                 },
                 {
