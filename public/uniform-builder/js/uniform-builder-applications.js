@@ -3561,7 +3561,6 @@ $(document).ready(function() {
                 } else {
 
                     // Zoom View Depending on the area that was clicked
-                    ub.funcs.getZoomView(mousedata.data.global);
                     ub.funcs.resetZoom();
 
                     var _view = ub.funcs.getZoomView(mousedata.data.global)

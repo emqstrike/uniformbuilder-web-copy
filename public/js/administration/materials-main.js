@@ -39,7 +39,6 @@ $(document).ready(function() {
             return '<img src="'+$(this).attr('src') + '" style="width: 220px; height: 300px; background-color: #525252;"/>';
         }
     });
-
     $('.log-ids').on('click', function(){
         var ids = [];
 
