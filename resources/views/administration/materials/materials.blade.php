@@ -91,6 +91,7 @@
                                 <th>Blank</th>
                                 <th>Uniform Application Type</th>
                                 <th>SKU</th>
+                               {{--  <th>Customizer Available</th> --}}
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -142,6 +143,15 @@
                 <td>
                     {{ $material->sku }}
                 </td>
+               {{--  <td>
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox customizer-available" id="customizer-available-{{ $material->id }}" data-material-id="{{ $material->id }}" {{ ($material->customizer_available) ? 'checked' : '' }}>
+                        <label class="onoffswitch-label" for="customizer-available-{{ $material->id }}">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </td> --}}
                 <td class="td-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-xs btn-primary">Edit</a>
                     <a href="/administration/material/view_material_options/{{ $material->id }}" class="btn btn-xs btn-default">Material Options</a>

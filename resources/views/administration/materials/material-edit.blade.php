@@ -653,6 +653,15 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label" >Customizer Available</label>
+                           <div class="col-md-2">
+                                <select name="customizer_available" class="form-control">
+                                        <option value="1" @if($material->customizer_available == 1) selected="selected"@endif>Yes</option>
+                                        <option value="0" @if($material->customizer_available == 0) selected="selected"@endif>No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary edit-material">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
