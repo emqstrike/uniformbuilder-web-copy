@@ -1267,6 +1267,24 @@ class UniformBuilderController extends Controller
 
     function generateClientDetailsTable ($itemData) {
 
+        $table = "";
+
+        $table .= '<table cellpadding="2">';
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'CLIENT NAME<br />';
+        $table .=     $itemData['order']['client'];
+        $table .=     '<br />';
+        $table .=   '</td>';
+        $table .= '</tr>';
+        $table .= '</table>';
+
+        return $table;
+
+    }
+
+    function generateClientDetailsTableDetailed ($itemData) {
+
         $table = '<strong>CLIENT INFO / ORGANIZATION</strong><br /><br />';
         $table .= '<table cellpadding="2">';
         $table .= '<tr>';
@@ -1514,29 +1532,19 @@ class UniformBuilderController extends Controller
         $cutURL   = '<a href="' . $itemData["builder_customizations"]["cut_pdf"] . '"><strong>CUT PDF URL</strong></a>';
         $stylesPDFURL   = '<a href="' . $itemData["builder_customizations"]["styles_pdf"] . '"><strong>STYLE PDF URL</strong></a>';
 
-
         if ($itemData["builder_customizations"]["cut_pdf"] === '') { $cutURL = 'No Cut PDF detected.'; } 
         if ($itemData["builder_customizations"]["styles_pdf"] === '') { $stylesPDFURL = 'No STYLE PDF detected.'; } 
-
-
-
 
         $html = '';
         $html .= '<table>';
 
         $html .= '<tr>';
         $html .=     '<td width="100%" style="font-size: 1.0em;">';
+        $html .=       'STYLE<br />'; 
         $html .=       '<strong>' . $itemData["description"] . ' (' . $itemData["applicationType"]  .') </strong><br />';
         $html .=       '<strong>' .  $itemData["sku"]  . '</strong><br />';
         $html .=     '</td>';
         $html .= '</tr>';
-
-        // $html .= '<tr>';
-        // $html .=     '<td width="100%">';
-        // $html .=        'PRICE:<br />';
-        // $html .=       '<strong>' . $itemData["price"] . '</strong><br />';
-        // $html .=     '</td>';
-        // $html .= '</tr>';
 
         $html .= '<tr>';
         $html .=     '<td width="100%" style="font-size: 1.0em;">';
@@ -1660,6 +1668,9 @@ class UniformBuilderController extends Controller
         $html .=    '<h4>PROLOOK UNIFORM CUSTOMIZER - ORDER FORM</h2>';
         $html .=    '<h3>' . $uniform_category . '</h3>';
         $html .= '</div>';
+
+        $html .=   $this->generateClientDetailsTable($mainInfo);
+
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
         $html .=     '<td>';
