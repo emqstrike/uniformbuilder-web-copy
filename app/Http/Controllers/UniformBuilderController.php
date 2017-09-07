@@ -729,7 +729,7 @@ class UniformBuilderController extends Controller
         $html = '';
         $html .= '<br /><br />';
         $html .= '<h3>PIPINGS</h3>';
-        $html .= '<table>';
+        $html .= '<table border="1" cellpadding="3">';
 
         $html .= '<tr>';
         $html .=   '<td align="center">';
@@ -746,14 +746,22 @@ class UniformBuilderController extends Controller
         $html .=   '</td>';
         $html .= '</tr>';
 
+        $ctrPipings = 0;
+
         foreach ($pipings as $key => &$piping) {
 
             $pipingType = $key;
 
             if ($piping["enabled"] == "0") { continue; }
 
-            $html .= '<tr>';
-            
+            $ctrPipings += 1;
+            $bgcolor = '#fff';
+
+            if ($ctrPipings % 2 !== 0) {
+                $bgcolor = '#e7e7e7';
+            }
+
+            $html .= '<tr bgcolor="' . $bgcolor . '">';
             $html .=   '<td align="center">';
             $html .=   $pipingType;
             $html .=   '</td>';
@@ -799,7 +807,7 @@ class UniformBuilderController extends Controller
         $html = '';
         $html .= '<br /><br />';
         $html .= '<h3>APPLICATIONS</h3>';
-        $html .= '<table>';
+        $html .= '<table border="1" cellpadding="3">';
 
         $html .= '<tr>';
         $html .=   '<td align="center">';
@@ -820,13 +828,22 @@ class UniformBuilderController extends Controller
 
         $html .= '</tr>';
 
+        $ctrApplications = 0;
+
         foreach ($applications as &$application) {
 
             $appType = strtoupper(str_replace("_"," ",$application['application_type']));
 
             if ($appType == "FREE") { continue; }
+            
+            $ctrApplications += 1;
+            $bgcolor = '#fff';
 
-            $html .= '<tr>';
+            if ($ctrApplications % 2 !== 0) {
+                $bgcolor = '#e7e7e7';
+            }
+
+            $html .= '<tr bgcolor="' . $bgcolor . '">';
             $html .=   '<td align="center">';
             $html .=   $application['code'];
             $html .=   '</td>';
@@ -986,7 +1003,7 @@ class UniformBuilderController extends Controller
         $html = '';
         $html .= '<br /><br />';
         $html .= '<h3>ROSTER</h3>';
-        $html .= '<table>';
+        $html .= '<table border="1" cellpadding="3">';
 
         $html .= '<tr>';
         $html .=   '<td align="center">';
@@ -1022,9 +1039,18 @@ class UniformBuilderController extends Controller
 
         $html .= '</tr>';
 
+        $ctrRoster = 0;
+
         foreach ($rosters as &$roster) {
 
-            $html .= '<tr>';
+            $ctrRoster += 1;
+            $bgcolor = '#fff';
+
+            if ($ctrRoster % 2 !== 0) {
+                $bgcolor = '#e7e7e7';
+            }
+
+            $html .= '<tr bgcolor="' . $bgcolor . '">';
             $html .=   '<td align="center">';
             $html .=   $roster['size'];
             $html .=   '</td>';
@@ -1076,7 +1102,7 @@ class UniformBuilderController extends Controller
         $html = '';
         $html .= '<br /><br />';
         $html .= '<h3>PARTS</h3>';
-        $html .= '<table>';
+        $html .= '<table border="1" cellpadding="3">';
 
         $html .= '<tr>';
         $html .=   '<td align="right" width="40%">';
@@ -1098,14 +1124,8 @@ class UniformBuilderController extends Controller
         }
 
         $html .= '</tr>';
-        $html .= '<tr>';
-        $html .=   '<td>';
-        $html .=       '';
-        $html .=   '</td>';
-        $html .=   '<td>';
-        $html .=       ''; 
-        $html .=   '</td>';
-        $html .= '</tr>';
+        
+        $ctrParts = 0;
 
         foreach ($parts as &$part) {
 
@@ -1125,16 +1145,45 @@ class UniformBuilderController extends Controller
 
             Log::info('---' . $code);
 
-            $html .= '<tr>';
+            $ctrParts += 1;
+            $bgcolor = '#fff';
+
+            if ($ctrParts % 2 !== 0) {
+                $bgcolor = '#e7e7e7';
+            }
+
+            $html .= '<tr bgcolor="' . $bgcolor . '">';
             $html .=   '<td align="right">';
             $html .=   $code;
             $html .=   '</td>';
             $html .=   '<td align="center">';
 
-            if (array_key_exists('colorObj', $part)) {
-                $html .=   $part['colorObj']['color_code'];
+            if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+
+                $titledPart = $part['code'];
+                $titledPart = str_replace('_', ' ', $titledPart);
+                $titledPart = ucwords($titledPart);
+
+                if (array_key_exists($titledPart, $randomFeeds)) {
+
+                    if ($randomFeeds[$titledPart]['enabled'] != '0') {
+                         $html .= "Use Random Feed Color";
+                    } else {
+                        $html .=   $part['colorObj']['color_code'];                        
+                    }
+
+                } else {
+                    $html .=   $part['colorObj']['color_code'];                        
+                }
+
             } else {
-                $html .=   'Default';
+
+                if (array_key_exists('colorObj', $part)) {
+                    $html .=   $part['colorObj']['color_code'];                        
+                } else {
+                    $html .=   'Default';    
+                }
+
             }
 
             $html .=   '</td>';
