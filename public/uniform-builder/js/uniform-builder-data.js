@@ -14296,6 +14296,14 @@ ub.funcs.fontOffSets = [
                 sport: 'Volleyball', 
                 blockPatternOption: 'Compression Shorts',            
             },
+            {
+                sport: 'Soccer', 
+                blockPatternOption: 'Short (M)',            
+            },
+            {
+                sport: 'Soccer', 
+                blockPatternOption: 'Short (W)',            
+            },
         ],
         usesSmallerPattern: function (sport, blockPatternOption) {
 
