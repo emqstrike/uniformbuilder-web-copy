@@ -6,15 +6,15 @@ $(document).ready(function () {
         var _sport = ub.current_material.material.uniform_category;
         var _patternList = _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'); 
 
-        _patternList = _.filter(_patternList, function (pattern) {
+        // _patternList = _.filter(_patternList, function (pattern) {
 
-            var _expression = (_.contains(pattern.blockPatternOptions, ub.config.option) || pattern.name === "Blank") ||
-                pattern.blockPatternOptions === null || 
-                (typeof pattern.blockPatternOptions === "object" && pattern.blockPatternOptions[0] === "");
+        //     var _expression = (_.contains(pattern.blockPatternOptions, ub.config.option) || pattern.name === "Blank") ||
+        //         pattern.blockPatternOptions === null || 
+        //         (typeof pattern.blockPatternOptions === "object" && pattern.blockPatternOptions[0] === "");
 
-            return _expression;
+        //     return _expression;
 
-        });
+        // });
 
         if (ub.data.smallerPatterns.usesSmallerPattern(ub.sport, ub.neckOption)) {
 

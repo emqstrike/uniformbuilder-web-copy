@@ -9,13 +9,42 @@ $(document).ready(function () {
             if (ub.config.asset_target === 'team_stores') { _blankPatternID = 286; } // Blank (Team Stores)
 
             var _blockPatternOptions = JSON.parse(pattern.block_pattern_options);
+            var _sports = JSON.parse(pattern.sports);
+            var _sportOk = _.contains(_sports, ub.config.sport);
             var _neckOptionOk = _.contains(_blockPatternOptions, ub.config.option) || 
                     _blockPatternOptions === null ||
                     (typeof _blockPatternOptions === "object" && _blockPatternOptions[0] === "");
 
+            // Diagnostics
+            // if  (   
+            //         _neckOptionOk && 
+            //         _sportOk &&
+            //         pattern.asset_target === ub.config.asset_target
+            //     ) {
+
+            //     console.log(' ');
+            //     console.log("===");
+            //     console.log(pattern);
+            //     console.log('Sports OK:' + _sportOk )
+            //     console.log(pattern.name);
+            //     console.log('Neck Option OK: ' + _neckOptionOk);
+            //     console.log(pattern.asset_target, ub.config.asset_target);
+            //     console.log(pattern.asset_target === ub.config.asset_target);
+            //     console.log("===");
+            //     console.log(' ');
+
+            // } else {
+            //     console.log(' ');
+            //     console.log('-----');
+            //     console.log(pattern);
+            //     console.log('-----');
+            //     console.log(' ');
+            // }
+
             return (
                     (   
                         _neckOptionOk && 
+                        _sportOk &&
                         pattern.asset_target === ub.config.asset_target
                     ) || 
                     parseInt(pattern.id) === parseInt(_blankPatternID)
