@@ -416,6 +416,7 @@ class MaterialsController extends Controller
         $sublimatedPriceItemTemplateID = $request->input('sublimated_price_item_template_id');
         $infusedPriceItemTemplateID = $request->input('infused_price_item_template_id');
         $partAliasID = $request->input('part_alias_id');
+        $customizer_available = $request->input('customizer_available');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -470,7 +471,8 @@ class MaterialsController extends Controller
             'sublimated_price_item_template_id' => $sublimatedPriceItemTemplateID,
             'infused_price_item_template_id' => $infusedPriceItemTemplateID,
             'style_group' => $styleGroup,
-            'parts_alias_id' => $partAliasID
+            'parts_alias_id' => $partAliasID,
+            'customizer_available' => $customizer_available
         ];
 
         try {
