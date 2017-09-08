@@ -4069,7 +4069,12 @@ $(document).ready(function() {
 
             ub.active_part = _fullname;
 
-            if (typeof _.find(ub.data.modifierLabels, {'name': _ht}) !== 'undefined') {
+            var _htTemp = _ht;
+
+            if (_ht === "Left Body")    { _htTemp = 'Body Left'};
+            if (_ht === "Right Body")   { _htTemp = 'Body Right'};
+
+            if (typeof _.find(ub.data.modifierLabels, {'name': _htTemp}) !== 'undefined') {
                 
                 _group_id = _group_id;
 
