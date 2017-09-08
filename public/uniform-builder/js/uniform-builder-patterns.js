@@ -8,7 +8,11 @@ $(document).ready(function () {
 
         _patternList = _.filter(_patternList, function (pattern) {
 
-            return _.contains(pattern.sports, ub.current_material.material.uniform_category) || pattern.name === "Blank" ;
+            var _expression = (_.contains(pattern.blockPatternOptions, ub.config.option) || pattern.name === "Blank") ||
+                pattern.blockPatternOptions === null || 
+                (typeof pattern.blockPatternOptions === "object" && pattern.blockPatternOptions[0] === "");
+
+            return _expression;
 
         });
 
@@ -1072,7 +1076,7 @@ $(document).ready(function () {
 
         var _patternDefaultObject   = ub.funcs.getPatternByID(materialOption.pattern_id);
 
-        if (typeof _patternDefaultObject === 'undefined') { ub.utilities.error('Pattern Object with id: 33 not found!'); }
+        if (typeof _patternDefaultObject === 'undefined') { ub.utilities.error('Pattern Object with id: ' + materialOption.pattern_id + ' not found!'); }
 
         var _materialOption = materialOption;
 

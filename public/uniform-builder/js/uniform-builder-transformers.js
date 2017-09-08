@@ -8,7 +8,18 @@ $(document).ready(function () {
 
             if (ub.config.asset_target === 'team_stores') { _blankPatternID = 286; } // Blank (Team Stores)
 
-            return pattern.asset_target === ub.config.asset_target || pattern.id === _blankPatternID;
+            var _blockPatternOptions = JSON.parse(pattern.block_pattern_options);
+            var _neckOptionOk = _.contains(_blockPatternOptions, ub.config.option) || 
+                    _blockPatternOptions === null ||
+                    (typeof _blockPatternOptions === "object" && _blockPatternOptions[0] === "");
+
+            return (
+                    (   
+                        _neckOptionOk && 
+                        pattern.asset_target === ub.config.asset_target
+                    ) || 
+                    parseInt(pattern.id) === parseInt(_blankPatternID)
+                );
 
         });
 
@@ -32,6 +43,7 @@ $(document).ready(function () {
                 sports: JSON.parse(_object.sports),
                 blockPatternOptions: JSON.parse(_object.block_pattern_options),
                 layers: [],
+                asset_target: _object.asset_target,
             };
 
             var _patternProperties = JSON.parse(_object.pattern_properties);
