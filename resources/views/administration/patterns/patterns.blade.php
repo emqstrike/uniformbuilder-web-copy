@@ -71,6 +71,7 @@
                     <button class="button btn-primary filter" value=".all">All</button>
                     <button class="button filter" value=".web">Web</button>
                     <button class="button filter" value=".ipad">Ipad</button>
+                    <button class="button filter" value=".team_stores">Team Stores</button>
 
 
 
@@ -90,6 +91,7 @@
                                 </th>
                                 <th>Thumbnail</th>
                                 <th>Pattern</th>
+                                <th>Block Pattern Option</th>
                                  <th>Sports</th>
                                 <th>Asset Target</th>
                                 <th>Active</th>
@@ -121,7 +123,10 @@
                         <td>
                             {{ $pattern->name }}
                         </td>
-                         <td>
+                        <td>
+                            {{ $pattern->block_pattern_options }}
+                        </td>
+                        <td>
 
                            {{ $pattern->sports }}
 
