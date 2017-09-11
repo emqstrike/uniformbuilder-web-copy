@@ -651,6 +651,9 @@
                             <div class="col-md-4 material">
                                 <input type="file" class="form-control styles-pdf" name="styles_pdf" accept=".ai,.pdf" >
                             </div>
+                            <div class="col-md-4 material">
+                                <input type="text" class="form-control styles-pdf-text" name="styles-pdf-text" value="{{ $material->styles_pdf }}">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label" >Customizer Available</label>
