@@ -73,9 +73,6 @@
                     <button class="button filter" value=".ipad">Ipad</button>
                     <button class="button filter" value=".team_stores">Team Stores</button>
 
-
-
-       
                 </div>
 
                 <div class="box-body">
