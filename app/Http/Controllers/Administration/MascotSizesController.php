@@ -66,7 +66,7 @@ class MascotSizesController extends Controller
         if( $request->input('block_pattern_options_value') ){
             $blockPatternOptions = explode(",", $request->input('block_pattern_options_value'));
         } else {
-            $blockPatternOptions = '""';
+            $blockPatternOptions = "";
         }
 
         $mascot_size_id = null;

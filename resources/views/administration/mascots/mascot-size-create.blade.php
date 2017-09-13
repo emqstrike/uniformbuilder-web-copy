@@ -57,7 +57,6 @@ select:hover {
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
                                 <select name="type" class="form-control type">
-                                    <option value="">None</option>
                                     <option value="lower">Lower</option>
                                     <option value="upper">Upper</option>
                                 </select>

@@ -62,7 +62,6 @@ select:hover {
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
                                 <select name="type" class="form-control type">
-                                    <option value="">None</option>
                                     <option value="lower" @if($mascot_size->type == "lower") selected @endif>Lower</option>
                                     <option value="upper" @if($mascot_size->type == "upper") selected @endif>Upper</option>
                                 </select>
