@@ -6,11 +6,15 @@ $(document).ready(function () {
         var _sport = ub.current_material.material.uniform_category;
         var _patternList = _.sortBy(_.filter(ub.data.patterns.items,{active: "1"}), 'sortID'); 
 
-        _patternList = _.filter(_patternList, function (pattern) {
+        // _patternList = _.filter(_patternList, function (pattern) {
 
-            return _.contains(pattern.sports, ub.current_material.material.uniform_category) || pattern.name === "Blank" ;
+        //     var _expression = (_.contains(pattern.blockPatternOptions, ub.config.option) || pattern.name === "Blank") ||
+        //         pattern.blockPatternOptions === null || 
+        //         (typeof pattern.blockPatternOptions === "object" && pattern.blockPatternOptions[0] === "");
 
-        });
+        //     return _expression;
+
+        // });
 
         if (ub.data.smallerPatterns.usesSmallerPattern(ub.sport, ub.neckOption)) {
 
@@ -1072,7 +1076,7 @@ $(document).ready(function () {
 
         var _patternDefaultObject   = ub.funcs.getPatternByID(materialOption.pattern_id);
 
-        if (typeof _patternDefaultObject === 'undefined') { ub.utilities.error('Pattern Object with id: 33 not found!'); }
+        if (typeof _patternDefaultObject === 'undefined') { ub.utilities.error('Pattern Object with id: ' + materialOption.pattern_id + ' not found!'); }
 
         var _materialOption = materialOption;
 
