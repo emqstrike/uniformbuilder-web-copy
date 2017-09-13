@@ -32,7 +32,7 @@ select:hover {
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="/administration/mascot_size/add" enctype="multipart/form-data" id='create-mascot-size-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="layers_properties" id="layers-properties">
+                        <input type="hidden" id="props_data" value="" name="props_data">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">
@@ -42,18 +42,6 @@ select:hover {
                                 @endforeach
                                 </select>
 
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Size</label>
-                            <div class="col-md-6">
-                                <input type="number" step="0.01" class="form-control" name="size" value="{{ old('size') }}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Scale</label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="scale" value="{{ old('scale') }}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -73,6 +61,23 @@ select:hover {
                                     <option value="lower">Lower</option>
                                     <option value="upper">Upper</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Size & Scale Properties</label>
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-xs btn-primary add-prop">Add</a>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Size</th>
+                                            <th>Scale</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="props-content">
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
@@ -104,6 +109,86 @@ select:hover {
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
+window.properties = [];
+
+$('.add-prop').on('click', function(e){
+    e.preventDefault();
+    var elem = `<tr class="prop-row">
+                    <td>
+                        <input type="number" class="prop-size prop-data" step="0.01">
+                    </td>
+                    <td>
+                        <input type="number" class="prop-scale prop-data" step="0.01">
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-xs btn-danger remove-prop">Remove</a>
+                    </td>
+                </tr>`;
+    $('.props-content').prepend(elem);
+    removeButton();
+    updateFields();
+    updateData();
+});
+
+function loadProperties(){
+    if( $('#old_props_data').val() ){
+        var properties = JSON.parse($('#old_props_data').val());
+        properties.forEach(function(entry) {
+            var elem = `<tr class="prop-row">
+                    <td>
+                        <input type="number" class="prop-size prop-data" step="0.01" value="` + entry.size + `">
+                    </td>
+                    <td>
+                        <input type="number" class="prop-scale prop-data" step="0.01" value="` + entry.scale + `">
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-xs btn-danger remove-prop">Remove</a>
+                    </td>
+                </tr>`;
+            $('.props-content').append(elem);
+            removeButton();
+            updateFields();
+            updateData();
+        });
+    }
+}
+
+function removeButton(){
+    $('.remove-prop').on('click', function(e){
+        e.preventDefault();
+        $(this).parent().parent().remove();
+        updateData();
+    });
+}
+
+function updateData(){
+    window.properties = [];
+    $(".prop-row").each(function(i) {
+        var x = {
+            size: $(this).find('.prop-size').val(),
+            scale: $(this).find('.prop-scale').val()
+        };
+        window.properties.push(x);
+    });
+    console.log(JSON.stringify(window.properties));
+    $('#props_data').val(JSON.stringify(window.properties));
+}
+
+function updateFields(){
+    $('.prop-data').on('keyup', function(){
+        updateData();
+        // window.properties = [];
+        // $(".prop-row").each(function(i) {
+        //     var x = {
+        //         size: $(this).find('.prop-size').val(),
+        //         scale: $(this).find('.prop-scale').val()
+        //     };
+        //     window.properties.push(x);
+        // });
+    });
+    // console.log(JSON.stringify(window.properties));
+}
 
 $(document).on("change",".sport",function(){     
     bindBPOS();
