@@ -393,11 +393,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('cuts_links', 'Administration\CutsLinksController@index');
     Route::get('cuts_links/edit/{id}', 'Administration\CutsLinksController@edit');
     Route::post('cuts_links/update', 'Administration\CutsLinksController@store');
-
-    //Brandings
-    Route::get('brandings', 'Administration\BrandingsController@index');
-    Route::get('brandings/edit/{id}', 'Administration\BrandingsController@edit');
-    Route::post('brandings/update', 'Administration\BrandingsController@store');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
