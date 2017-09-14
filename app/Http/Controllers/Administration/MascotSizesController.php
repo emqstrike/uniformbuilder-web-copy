@@ -61,11 +61,13 @@ class MascotSizesController extends Controller
 
 
         $sport = $request->input('sport');
-        $size = $request->input('size');
-        $scale = $request->input('scale');
-        $blockPatternOptions = explode(",", $request->input('block_pattern_options_value'));
+        $properties = $request->input('props_data');
         $type = $request->input('type');
-        
+        if( $request->input('block_pattern_options_value') ){
+            $blockPatternOptions = explode(",", $request->input('block_pattern_options_value'));
+        } else {
+            $blockPatternOptions = "";
+        }
 
         $mascot_size_id = null;
         if (!empty($request->input('mascot_size_id')))
@@ -75,8 +77,7 @@ class MascotSizesController extends Controller
 
         $data = [
             'sport' => $sport,
-            'size' => $size,
-            'scale' => $scale,
+            'properties' => $properties,
             'block_pattern_options' => $blockPatternOptions,
             'type' => $type
         ];
