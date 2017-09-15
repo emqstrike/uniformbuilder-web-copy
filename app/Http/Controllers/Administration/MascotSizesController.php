@@ -26,8 +26,6 @@ class MascotSizesController extends Controller
      */
     public function index()
     {
-
-     
         $mascot_sizes = $this->client->getMascotSizes();
         return view('administration.mascots.mascot-size', [
             'mascot_sizes' => $mascot_sizes
@@ -63,6 +61,7 @@ class MascotSizesController extends Controller
         $sport = $request->input('sport');
         $properties = $request->input('props_data');
         $type = $request->input('type');
+        $active = $request->input('active');
         if( $request->input('block_pattern_options_value') ){
             $blockPatternOptions = explode(",", $request->input('block_pattern_options_value'));
         } else {
@@ -79,7 +78,8 @@ class MascotSizesController extends Controller
             'sport' => $sport,
             'properties' => $properties,
             'block_pattern_options' => $blockPatternOptions,
-            'type' => $type
+            'type' => $type,
+            'active' => $active
         ];
 // dd($data);
         $response = null;
