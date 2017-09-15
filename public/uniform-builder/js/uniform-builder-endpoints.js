@@ -73,7 +73,7 @@ $(document).ready(function() {
             {
                 name: 'Get Mascot Scales',
                 code: 'getMascotScales',
-                url: 'api/mascot_sizes',
+                url: 'api/v1-0/mascot_sizes',
                 info: 'Get Mascot Scales',
             },
         ],
