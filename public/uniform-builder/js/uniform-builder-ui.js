@@ -210,7 +210,6 @@ $(document).ready(function () {
         }
 
         _offsetX = (($(window).width() - $('#right-pane-column').width()) - ub.data.adjustmentX) / ub.data.divisor;
-
             
         if (_windowSize.height > 800) {
             _yDivisor = 5;
