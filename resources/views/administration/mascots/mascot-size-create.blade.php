@@ -63,6 +63,15 @@ select:hover {
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Active</label>
+                            <div class="col-md-6">
+                                <select name="active" class="form-control active">
+                                    <option value="1">Yes</option>
+                                    <option value="0"f>No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Size & Scale Properties</label>
                             <div class="col-md-6">
                                 <a href="#" class="btn btn-xs btn-primary add-prop">Add</a>
