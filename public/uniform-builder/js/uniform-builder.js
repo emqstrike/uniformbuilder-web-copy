@@ -5882,7 +5882,14 @@ $(document).ready(function () {
 
         // Recalculate Offset 
 
-            var _offsetX = (($(window).width() - $('#right-pane-column').width()) - 550) / 2;
+            ub.data.adjustmentX = 550; 
+            ub.data.divisor = 2.3;
+
+            if ($(window).width() <= 1440) { 
+                ub.data.divisor = 2.2; 
+            }
+
+            _offsetX = (($(window).width() - $('#right-pane-column').width()) - ub.data.adjustmentX) / ub.data.divisor;
             var _yDivisor = 3;
                 
             if ($(window).height() > 800) {
