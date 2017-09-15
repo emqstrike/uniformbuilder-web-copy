@@ -33,6 +33,8 @@ $(document).ready(function () {
                 ub.funcs.initCanvas();
                 ub.startTime();
 
+                ubsv.mascotScales.fetchValues();
+
                 ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
                 ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
                 ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
