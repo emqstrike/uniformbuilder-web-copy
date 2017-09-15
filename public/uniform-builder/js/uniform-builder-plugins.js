@@ -1257,19 +1257,29 @@
             var _scaleSettings = ub.data.mascotSizesPant.getSize(_uniformCategory, settings_obj.size, ub.current_material.material.neck_option); // Refactor this
 
             if (typeof _scaleSettings === "undefined") {
-
                 console.warn('Scale Settings Not Found.');
-
             } else {
-    
                 scale_settings = _scaleSettings.scale;
-                
             }
 
         } else if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
 
             _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
             scale_settings = _scaleSettings.scale;
+
+        }
+
+        if (ub.styleValues.mascotScales.hasValues()) {
+
+            var _result = ub.styleValues.mascotScales.getScale(settings_obj.size);
+
+            if(typeof _result === "undefined") {
+                ub.utilities.warn('No Scale settings found for: ' + settings_obj.size);
+            } else {
+                ub.utilities.info('Found Scale Settings: '); 
+            }
+
+            scale_settings = _result;
 
         }
 
