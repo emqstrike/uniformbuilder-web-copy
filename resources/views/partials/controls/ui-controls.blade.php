@@ -2175,7 +2175,7 @@
 
         <div class="logo-container">
             
-            <img src="/images/pl-logo-dark.png" class="logo-white" /> <br />
+            <img src="@{{logo}}" class="logo-white" /> <br />
           
             <div class="qoute">
                 <span class='qoute-symbol'><i class="fa fa-quote-left" aria-hidden="true"></i></span>

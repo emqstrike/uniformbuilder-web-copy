@@ -834,8 +834,12 @@ class UniformBuilderController extends Controller
 
             $appType = strtoupper(str_replace("_"," ",$application['application_type']));
 
+            // Skip free / unused applications
             if ($appType == "FREE") { continue; }
             
+            // Skip applications that are turned off
+            if (isset($application['status']) and $application['status'] === "off") { continue; }
+
             $ctrApplications += 1;
             $bgcolor = '#fff';
 
