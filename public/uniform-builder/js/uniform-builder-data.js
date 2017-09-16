@@ -11451,79 +11451,79 @@ ub.funcs.fontOffSets = [
             //     scale: {x: 1.6, y: 1.6},
             // },
 
-            // Soccer Shorts 
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 1,
-                scale: {x: 0.15, y: 0.15},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 2,
-                scale: {x: 0.3, y: 0.3},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 3,
-                scale: {x: 0.45, y: 0.45},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 4,
-                scale: {x: 0.6, y: 0.6},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 5,
-                scale: {x: 0.75, y: 0.75},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 6,
-                scale: {x: 0.9, y: 0.9},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 7,
-                scale: {x: 1.05, y: 1.05},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 8,
-                scale: {x: 1.2, y: 1.2},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 9,
-                scale: {x: 1.35, y: 1.35},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 10,
-                scale: {x: 1.5, y: 1.5},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 11,
-                scale: {x: 1.65, y: 1.65},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 12,
-                scale: {x: 1.80, y: 1.80},
-            },
+            // // Soccer Shorts 
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 1,
+            //     scale: {x: 0.15, y: 0.15},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 2,
+            //     scale: {x: 0.3, y: 0.3},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 3,
+            //     scale: {x: 0.45, y: 0.45},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 4,
+            //     scale: {x: 0.6, y: 0.6},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 5,
+            //     scale: {x: 0.75, y: 0.75},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 6,
+            //     scale: {x: 0.9, y: 0.9},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 7,
+            //     scale: {x: 1.05, y: 1.05},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 8,
+            //     scale: {x: 1.2, y: 1.2},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 9,
+            //     scale: {x: 1.35, y: 1.35},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 10,
+            //     scale: {x: 1.5, y: 1.5},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 11,
+            //     scale: {x: 1.65, y: 1.65},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 12,
+            //     scale: {x: 1.80, y: 1.80},
+            // },
 
 
             // Lacrosse Shorts 
