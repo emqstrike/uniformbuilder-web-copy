@@ -11187,80 +11187,80 @@ ub.funcs.fontOffSets = [
 
             /// Wrestling, Fight Short
 
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 1,
-                scale: {x: 0.14, y: 0.14},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 2,
-                scale: {x: 0.26, y: 0.26},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 3,
-                scale: {x: 0.39, y: 0.39},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 4,
-                scale: {x: 0.52, y: 0.52},
-            },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 1,
+            //     scale: {x: 0.14, y: 0.14},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 2,
+            //     scale: {x: 0.26, y: 0.26},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 3,
+            //     scale: {x: 0.39, y: 0.39},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 4,
+            //     scale: {x: 0.52, y: 0.52},
+            // },
 
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 5,
-                scale: {x: 0.66, y: 0.66},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 6,
-                scale: {x: 0.79, y: 0.79},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 7,
-                scale: {x: 0.93, y: 0.93},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 8,
-                scale: {x: 1.06, y: 1.06},
-            },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 5,
+            //     scale: {x: 0.66, y: 0.66},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 6,
+            //     scale: {x: 0.79, y: 0.79},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 7,
+            //     scale: {x: 0.93, y: 0.93},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 8,
+            //     scale: {x: 1.06, y: 1.06},
+            // },
 
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 9,
-                scale: {x: 1.20, y: 1.20},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 10,
-                scale: {x: 1.33, y: 1.33},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 11,
-                scale: {x: 1.47, y: 1.47},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 12,
-                scale: {x: 1.6, y: 1.6},
-            },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 9,
+            //     scale: {x: 1.20, y: 1.20},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 10,
+            //     scale: {x: 1.33, y: 1.33},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 11,
+            //     scale: {x: 1.47, y: 1.47},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 12,
+            //     scale: {x: 1.6, y: 1.6},
+            // },
 
            
             // /// Volleyball Compression Shorts
