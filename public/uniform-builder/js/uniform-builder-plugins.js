@@ -1245,12 +1245,12 @@
             }
 
         } else if ((ub.funcs.isCurrentSport('Baseball') || 
-            ub.funcs.isCurrentSport('Soccer') || 
+//            ub.funcs.isCurrentSport('Soccer') || 
             ub.funcs.isCurrentSport('Fastpitch') || 
             ub.funcs.isCurrentSport('Wrestling') || 
             ub.funcs.isCurrentSport('Volleyball') || 
-            ub.funcs.isCurrentSport('2017 Team Short with Pockets (Apparel)') || 
-            ub.funcs.isCurrentSport('Signature Coaches Short (Apparel)') || 
+//            ub.funcs.isCurrentSport('2017 Team Short with Pockets (Apparel)') || 
+//            ub.funcs.isCurrentSport('Signature Coaches Short (Apparel)') || 
             ub.funcs.isCurrentSport('Basketball') || 
             ub.funcs.isCurrentSport('Lacrosse')) && ub.funcs.isCurrentType('lower')) {
 
@@ -1262,12 +1262,13 @@
                 scale_settings = _scaleSettings.scale;
             }
 
-        } else if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
+        } 
+        // else if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
 
-            _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
-            scale_settings = _scaleSettings.scale;
+        //     _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
+        //     scale_settings = _scaleSettings.scale;
 
-        }
+        // }
 
         if (ub.styleValues.mascotScales.hasValues()) {
 

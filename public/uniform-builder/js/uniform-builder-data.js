@@ -11299,80 +11299,80 @@ ub.funcs.fontOffSets = [
 
             /// 2017 Team Short with Pockets (Apparel)
 
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 1,
-                scale: {x: 0.14, y: 0.14},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 2,
-                scale: {x: 0.26, y: 0.26},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 3,
-                scale: {x: 0.39, y: 0.39},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 4,
-                scale: {x: 0.52, y: 0.52},
-            },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 1,
+            //     scale: {x: 0.14, y: 0.14},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 2,
+            //     scale: {x: 0.26, y: 0.26},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 3,
+            //     scale: {x: 0.39, y: 0.39},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 4,
+            //     scale: {x: 0.52, y: 0.52},
+            // },
 
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 5,
-                scale: {x: 0.66, y: 0.66},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 6,
-                scale: {x: 0.79, y: 0.79},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 7,
-                scale: {x: 0.93, y: 0.93},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 8,
-                scale: {x: 1.06, y: 1.06},
-            },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 5,
+            //     scale: {x: 0.66, y: 0.66},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 6,
+            //     scale: {x: 0.79, y: 0.79},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 7,
+            //     scale: {x: 0.93, y: 0.93},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 8,
+            //     scale: {x: 1.06, y: 1.06},
+            // },
 
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 9,
-                scale: {x: 1.20, y: 1.20},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 10,
-                scale: {x: 1.33, y: 1.33},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 11,
-                scale: {x: 1.47, y: 1.47},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 12,
-                scale: {x: 1.6, y: 1.6},
-            },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 9,
+            //     scale: {x: 1.20, y: 1.20},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 10,
+            //     scale: {x: 1.33, y: 1.33},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 11,
+            //     scale: {x: 1.47, y: 1.47},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 12,
+            //     scale: {x: 1.6, y: 1.6},
+            // },
 
 
             /// Signature Coaches Short (Apparel)
