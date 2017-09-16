@@ -34,7 +34,7 @@ $(document).ready(function () {
         ub.utilities.info('-------- Applications -------');
         _.each(settings.applications, function (app) { 
             
-            var _str = '#' + app.code.rpad(' ', 5) + ' - ' + app.type.rpad(' ', 15); 
+            var _str = '#' + app.code.rpad(' ', 5) + ' ' + app.type.rpad(' ', 15); 
             var _primaryView = undefined; 
             
             _.each(app.application.views, function (view) {
@@ -54,7 +54,7 @@ $(document).ready(function () {
 
             }
 
-            _str += ' - ' + _primaryView.rpad(' ', 7) + ' - ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "NA")).lpad(' ', 5);
+            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "NA")).lpad(' ', 5);
             ub.utilities.info(_str);
 
         });
