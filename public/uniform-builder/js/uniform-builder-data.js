@@ -11553,30 +11553,30 @@ ub.funcs.fontOffSets = [
             },
 
              // Basketball Shorts 
-            {
-                sport: 'Basketball',
-                option: ["USA Short (M)", "USA Short (W)"],
-                size: 1,
-                scale: {x: 0.12, y: 0.12},
-            },
-            {
-                sport: 'Basketball',
-                option: ["USA Short (M)", "USA Short (W)"],
-                size: 2,
-                scale: {x: 0.24, y: 0.24},
-            },
-            {
-                sport: 'Basketball',
-                option: ["USA Short (M)", "USA Short (W)"],
-                size: 3,
-                scale: {x: 0.36, y: 0.36},
-            },
-            {
-                sport: 'Basketball',
-                option: ["USA Short (M)", "USA Short (W)"],
-                size: 4,
-                scale: {x: 0.48, y: 0.48},
-            },
+            // {
+            //     sport: 'Basketball',
+            //     option: ["USA Short (M)", "USA Short (W)"],
+            //     size: 1,
+            //     scale: {x: 0.12, y: 0.12},
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     option: ["USA Short (M)", "USA Short (W)"],
+            //     size: 2,
+            //     scale: {x: 0.24, y: 0.24},
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     option: ["USA Short (M)", "USA Short (W)"],
+            //     size: 3,
+            //     scale: {x: 0.36, y: 0.36},
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     option: ["USA Short (M)", "USA Short (W)"],
+            //     size: 4,
+            //     scale: {x: 0.48, y: 0.48},
+            // },
 
         ],
 
