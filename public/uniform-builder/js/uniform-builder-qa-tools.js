@@ -34,7 +34,7 @@ $(document).ready(function () {
         ub.utilities.info('-------- Applications -------');
         _.each(settings.applications, function (app) { 
             
-            var _str = '#' + app.code.rpad(' ', 5) + ' - ' + (app.font_size + '"').lpad(' ', 5) + ' - ' + app.type.rpad(' ', 10); 
+            var _str = '#' + app.code.rpad(' ', 5) + ' - ' + app.type.rpad(' ', 10); 
             var _primaryView = undefined; 
             
             _.each(app.application.views, function (view) {
@@ -54,7 +54,7 @@ $(document).ready(function () {
 
             }
 
-            _str += ' - ' + _primaryView;
+            _str += ' - ' + _primaryView.rpad(' ', 7) + ' - ' + (app.font_size + '"').lpad(' ', 5);
             ub.utilities.info(_str);
 
         });
