@@ -11113,36 +11113,36 @@ ub.funcs.fontOffSets = [
             // 2"       - 0.27
             // 3"       - 0.42
             // 4"       - 0.56
-            {
-                sport: 'Fastpitch',
-                option: ['Knicker', 'Elastic_Knicker'],
-                size: 1,
-                scale: {x: 0.17 ,y: 0.17},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Knicker', 'Elastic_Knicker'],
-                size: 1.75,
-                scale: {x: 0.23 ,y: 0.23},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Knicker', 'Elastic_Knicker'],
-                size: 2,
-                scale: {x: 0.27 ,y: 0.27},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Knicker', 'Elastic_Knicker'],
-                size: 3,
-                scale: {x: 0.42 ,y: 0.42},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Knicker', 'Elastic_Knicker'],
-                size: 4,
-                scale: {x: 0.56 ,y: 0.56},
-            },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Knicker', 'Elastic_Knicker'],
+            //     size: 1,
+            //     scale: {x: 0.17 ,y: 0.17},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Knicker', 'Elastic_Knicker'],
+            //     size: 1.75,
+            //     scale: {x: 0.23 ,y: 0.23},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Knicker', 'Elastic_Knicker'],
+            //     size: 2,
+            //     scale: {x: 0.27 ,y: 0.27},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Knicker', 'Elastic_Knicker'],
+            //     size: 3,
+            //     scale: {x: 0.42 ,y: 0.42},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Knicker', 'Elastic_Knicker'],
+            //     size: 4,
+            //     scale: {x: 0.56 ,y: 0.56},
+            // },
 
             // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
             // 1"       - 0.15
@@ -11153,36 +11153,36 @@ ub.funcs.fontOffSets = [
 
             
 
-            {
-                sport: 'Fastpitch',
-                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
-                size: 1,
-                scale: {x: 0.15, y: 0.15},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
-                size: 1.75,
-                scale: {x: 0.18, y: 0.18},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
-                size: 2,
-                scale: {x: 0.2, y: 0.2},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
-                size: 3,
-                scale: {x: 0.3, y: 0.3},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
-                size: 4,
-                scale: {x: 0.42, y: 0.42},
-            },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+            //     size: 1,
+            //     scale: {x: 0.15, y: 0.15},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+            //     size: 1.75,
+            //     scale: {x: 0.18, y: 0.18},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+            //     size: 2,
+            //     scale: {x: 0.2, y: 0.2},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+            //     size: 3,
+            //     scale: {x: 0.3, y: 0.3},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+            //     size: 4,
+            //     scale: {x: 0.42, y: 0.42},
+            // },
 
 
             /// Wrestling, Fight Short
