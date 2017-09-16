@@ -11263,38 +11263,38 @@ ub.funcs.fontOffSets = [
             },
 
            
-            /// Volleyball Compression Shorts
+            // /// Volleyball Compression Shorts
 
-            {
-                sport: 'Volleyball',
-                option: ['Compression Shorts',],
-                size: 1,
-                scale: {x: 0.24, y: 0.24},
-            },
-            {
-                sport: 'Volleyball',
-                option: ['Compression Shorts',],
-                size: 2,
-                scale: {x: 0.48, y: 0.48},
-            },
-                        {
-                sport: 'Volleyball',
-                option: ['Compression Shorts',],
-                size: 3,
-                scale: {x: 0.72, y: 0.72},
-            },
-                        {
-                sport: 'Volleyball',
-                option: ['Compression Shorts',],
-                size: 4,
-                scale: {x: 0.96, y: 0.96},
-            },
-            {
-                sport: 'Volleyball',
-                option: ['Compression Shorts',],
-                size: 5,
-                scale: {x: 1.2, y: 1.2},
-            },
+            // {
+            //     sport: 'Volleyball',
+            //     option: ['Compression Shorts',],
+            //     size: 1,
+            //     scale: {x: 0.24, y: 0.24},
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     option: ['Compression Shorts',],
+            //     size: 2,
+            //     scale: {x: 0.48, y: 0.48},
+            // },
+            //             {
+            //     sport: 'Volleyball',
+            //     option: ['Compression Shorts',],
+            //     size: 3,
+            //     scale: {x: 0.72, y: 0.72},
+            // },
+            //             {
+            //     sport: 'Volleyball',
+            //     option: ['Compression Shorts',],
+            //     size: 4,
+            //     scale: {x: 0.96, y: 0.96},
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     option: ['Compression Shorts',],
+            //     size: 5,
+            //     scale: {x: 1.2, y: 1.2},
+            // },
 
 
             /// 2017 Team Short with Pockets (Apparel)
