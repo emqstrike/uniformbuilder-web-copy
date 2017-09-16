@@ -30,7 +30,7 @@ $(document).ready(function () {
 
                 return  item.sport === sport && 
                     item.type === item.type && 
-                    (_.contains(_blockPatternOptions, neckOption) || item.block_pattern_options === "") && 
+                    (_.contains(_blockPatternOptions, ub.utilities.domParserDecoder(neckOption)) || item.block_pattern_options === "") && 
                     item.active === "1";
 
             });
