@@ -54,7 +54,7 @@ $(document).ready(function () {
 
             }
 
-            _str += ' - ' + _primaryView.rpad(' ', 7) + ' - ' + (app.font_size + '"').lpad(' ', 5);
+            _str += ' - ' + _primaryView.rpad(' ', 7) + ' - ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "NA")).lpad(' ', 5);
             ub.utilities.info(_str);
 
         });
