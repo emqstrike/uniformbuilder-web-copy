@@ -11376,81 +11376,80 @@ ub.funcs.fontOffSets = [
 
 
             /// Signature Coaches Short (Apparel)
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 1,
+            //     scale: {x: 0.14, y: 0.14},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 2,
+            //     scale: {x: 0.26, y: 0.26},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 3,
+            //     scale: {x: 0.39, y: 0.39},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 4,
+            //     scale: {x: 0.52, y: 0.52},
+            // },
 
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 1,
-                scale: {x: 0.14, y: 0.14},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 2,
-                scale: {x: 0.26, y: 0.26},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 3,
-                scale: {x: 0.39, y: 0.39},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 4,
-                scale: {x: 0.52, y: 0.52},
-            },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 5,
+            //     scale: {x: 0.66, y: 0.66},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 6,
+            //     scale: {x: 0.79, y: 0.79},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 7,
+            //     scale: {x: 0.93, y: 0.93},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 8,
+            //     scale: {x: 1.06, y: 1.06},
+            // },
 
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 5,
-                scale: {x: 0.66, y: 0.66},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 6,
-                scale: {x: 0.79, y: 0.79},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 7,
-                scale: {x: 0.93, y: 0.93},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 8,
-                scale: {x: 1.06, y: 1.06},
-            },
-
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 9,
-                scale: {x: 1.20, y: 1.20},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 10,
-                scale: {x: 1.33, y: 1.33},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 11,
-                scale: {x: 1.47, y: 1.47},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 12,
-                scale: {x: 1.6, y: 1.6},
-            },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 9,
+            //     scale: {x: 1.20, y: 1.20},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 10,
+            //     scale: {x: 1.33, y: 1.33},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 11,
+            //     scale: {x: 1.47, y: 1.47},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 12,
+            //     scale: {x: 1.6, y: 1.6},
+            // },
 
             // Soccer Shorts 
             {
