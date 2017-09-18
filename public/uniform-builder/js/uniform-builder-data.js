@@ -12309,66 +12309,66 @@ ub.funcs.fontOffSets = [
             // End "Basketball"
 
             // "Lacrosse"
-            {
-                sport: 'Lacrosse',
-                size: 1,
-                scale: {x: 0.15, y: 0.15 },
-            },
-            {
-                sport: 'Lacrosse',
-                size: 2,
-                scale: {x: 0.30, y: 0.30 },
-            },
-            {
-                sport: 'Lacrosse',
-                size: 3,
-                scale: {x: 0.45, y: 0.45 },
-            },
-            {
-                sport: 'Lacrosse',
-                size: 4,
-                scale: {x: 0.60, y: 0.60 },
-            },
-            {
-                sport: 'Lacrosse',
-                size: 5,
-                scale: {x: 0.75, y: 0.75 },
-            },
-            {
-                sport: 'Lacrosse',
-                size: 6,
-                scale: {x: 0.72, y: 0.72 },
-            },
-            {
-                sport: 'Lacrosse',
-                size: 7,
-                scale: {x: 0.84, y: 0.84 },
-            },
-            {
-                sport: 'Lacrosse',
-                size: 8,
-                scale: {x: 0.96, y: 0.96 },
-            },
-            {
-                sport: 'Lacrosse',
-                size: 9,
-                scale: {x: 1.08, y: 1.08},
-            },
-            {
-                sport: 'Lacrosse',
-                size: 10,
-                scale: {x: 1.2, y: 1.2 },
-            },
-            {
-                sport: 'Lacrosse',
-                size: 11,
-                scale: {x: 1.32, y: 1.32 },
-            },
-            {
-                sport: 'Lacrosse',
-                size: 12,
-                scale: {x: 1.44, y: 1.44 },
-            },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 1,
+            //     scale: {x: 0.15, y: 0.15 },
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 2,
+            //     scale: {x: 0.30, y: 0.30 },
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 3,
+            //     scale: {x: 0.45, y: 0.45 },
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 4,
+            //     scale: {x: 0.60, y: 0.60 },
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 5,
+            //     scale: {x: 0.75, y: 0.75 },
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 6,
+            //     scale: {x: 0.72, y: 0.72 },
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 7,
+            //     scale: {x: 0.84, y: 0.84 },
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 8,
+            //     scale: {x: 0.96, y: 0.96 },
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 9,
+            //     scale: {x: 1.08, y: 1.08},
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 10,
+            //     scale: {x: 1.2, y: 1.2 },
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 11,
+            //     scale: {x: 1.32, y: 1.32 },
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     size: 12,
+            //     scale: {x: 1.44, y: 1.44 },
+            // },
             // End "Lacrosse"
 
 
