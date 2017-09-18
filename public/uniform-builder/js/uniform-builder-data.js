@@ -11035,75 +11035,74 @@ ub.funcs.fontOffSets = [
             // 3"       - 0.42
             // 4"       - 0.56
 
-            {
-                sport: 'Baseball',
-                option: ['Trad_Elastic_Knicker'],
-                size: 1,
-                scale: {x: 0.17 ,y: 0.17},
-            },
-            {
-                sport: 'Baseball',
-                option: ['Trad_Elastic_Knicker'],
-                size: 1.75,
-                scale: {x: 0.23 ,y: 0.23},
-            },
-            {
-                sport: 'Baseball',
-                option: ['Trad_Elastic_Knicker'],
-                size: 2,
-                scale: {x: 0.27 ,y: 0.27},
-            },
-            {
-                sport: 'Baseball',
-                option: ['Trad_Elastic_Knicker'],
-                size: 3,
-                scale: {x: 0.42 ,y: 0.42},
-            },
-            {
-                sport: 'Baseball',
-                option: ['Trad_Elastic_Knicker'],
-                size: 4,
-                scale: {x: 0.56 ,y: 0.56},
-            },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['Trad_Elastic_Knicker'],
+            //     size: 1,
+            //     scale: {x: 0.17 ,y: 0.17},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['Trad_Elastic_Knicker'],
+            //     size: 1.75,
+            //     scale: {x: 0.23 ,y: 0.23},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['Trad_Elastic_Knicker'],
+            //     size: 2,
+            //     scale: {x: 0.27 ,y: 0.27},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['Trad_Elastic_Knicker'],
+            //     size: 3,
+            //     scale: {x: 0.42 ,y: 0.42},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['Trad_Elastic_Knicker'],
+            //     size: 4,
+            //     scale: {x: 0.56 ,y: 0.56},
+            // },
 
-            // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
-            // 1"       - 0.15
-            // 1.75"    - 0.18
-            // 2"       - 0.2
-            // 3"       - 0.3
-            // 4"       - 0.42
+        // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
+        // 1"       - 0.15
+        // 1.75"    - 0.18
+        // 2"       - 0.2
+        // 3"       - 0.3
+        // 4"       - 0.42
 
-            {
-                sport: 'Baseball',
-                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 1,
-                scale: {x: 0.15, y: 0.15},
-            },
-            {
-                sport: 'Baseball',
-                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 1.75,
-                scale: {x: 0.18, y: 0.18},
-            },
-            {
-                sport: 'Baseball',
-                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 2,
-                scale: {x: 0.2, y: 0.2},
-            },
-            {
-                sport: 'Baseball',
-                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 3,
-                scale: {x: 0.3, y: 0.3},
-            },
-            {
-                sport: 'Baseball',
-                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 4,
-                scale: {x: 0.42, y: 0.42},
-            },
-
+            // {
+            //     sport: 'Baseball',
+            //     option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+            //     size: 1,
+            //     scale: {x: 0.15, y: 0.15},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+            //     size: 1.75,
+            //     scale: {x: 0.18, y: 0.18},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+            //     size: 2,
+            //     scale: {x: 0.2, y: 0.2},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+            //     size: 3,
+            //     scale: {x: 0.3, y: 0.3},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+            //     size: 4,
+            //     scale: {x: 0.42, y: 0.42},
+            // },
 
             // Fast Pitch 
 
