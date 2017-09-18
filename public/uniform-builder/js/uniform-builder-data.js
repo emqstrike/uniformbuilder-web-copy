@@ -12120,66 +12120,66 @@ ub.funcs.fontOffSets = [
             // End "Hockey"
 
             // "Quarter Zip Jacket (Apparel)"
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 1,
-                scale: {x: 0.1, y: 0.1 },
-            },
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 2,
-                scale: {x: 0.2, y: 0.2 },
-            },
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 3,
-                scale: {x: 0.3, y: 0.3 },
-            },
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 4,
-                scale: {x: 0.4, y: 0.4 },
-            },
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 5,
-                scale: {x: 0.5, y: 0.5 },
-            },
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 6,
-                scale: {x: 0.6, y: 0.6 },
-            },
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 7,
-                scale: {x: 0.7, y: 0.7 },
-            },
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 8,
-                scale: {x: 0.8, y: 0.8 },
-            },
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 9,
-                scale: {x: 0.9, y: 0.9},
-            },
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 10,
-                scale: {x: 1.0, y: 1.0 },
-            },
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 11,
-                scale: {x: 1.10, y: 1.10 },
-            },
-            {
-                sport: 'Quarter Zip Jacket (Apparel)',
-                size: 12,
-                scale: {x: 1.20, y: 1.20 },
-            },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 1,
+            //     scale: {x: 0.1, y: 0.1 },
+            // },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 2,
+            //     scale: {x: 0.2, y: 0.2 },
+            // },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 3,
+            //     scale: {x: 0.3, y: 0.3 },
+            // },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 4,
+            //     scale: {x: 0.4, y: 0.4 },
+            // },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 5,
+            //     scale: {x: 0.5, y: 0.5 },
+            // },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 6,
+            //     scale: {x: 0.6, y: 0.6 },
+            // },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 7,
+            //     scale: {x: 0.7, y: 0.7 },
+            // },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 8,
+            //     scale: {x: 0.8, y: 0.8 },
+            // },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 9,
+            //     scale: {x: 0.9, y: 0.9},
+            // },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 10,
+            //     scale: {x: 1.0, y: 1.0 },
+            // },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 11,
+            //     scale: {x: 1.10, y: 1.10 },
+            // },
+            // {
+            //     sport: 'Quarter Zip Jacket (Apparel)',
+            //     size: 12,
+            //     scale: {x: 1.20, y: 1.20 },
+            // },
             // End "Quarter Zip Jacket (Apparel)"
 
             // "Fan Replica Jersey (Apparel)"
