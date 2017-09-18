@@ -11867,66 +11867,66 @@ ub.funcs.fontOffSets = [
             // End "Crew Socks (Apparel)"
 
             // "Volleyball"
-            {
-                sport: 'Volleyball',
-                size: 1,
-                scale: {x: 0.1, y: 0.1 },
-            },
-            {
-                sport: 'Volleyball',
-                size: 2,
-                scale: {x: 0.2, y: 0.2 },
-            },
-            {
-                sport: 'Volleyball',
-                size: 3,
-                scale: {x: 0.3, y: 0.3 },
-            },
-            {
-                sport: 'Volleyball',
-                size: 4,
-                scale: {x: 0.4, y: 0.4 },
-            },
-            {
-                sport: 'Volleyball',
-                size: 5,
-                scale: {x: 0.5, y: 0.5 },
-            },
-            {
-                sport: 'Volleyball',
-                size: 6,
-                scale: {x: 0.6, y: 0.6 },
-            },
-            {
-                sport: 'Volleyball',
-                size: 7,
-                scale: {x: 0.7, y: 0.7 },
-            },
-            {
-                sport: 'Volleyball',
-                size: 8,
-                scale: {x: 0.8, y: 0.8 },
-            },
-            {
-                sport: 'Volleyball',
-                size: 9,
-                scale: {x: 0.9, y: 0.9},
-            },
-            {
-                sport: 'Volleyball',
-                size: 10,
-                scale: {x: 1.0, y: 1.0 },
-            },
-            {
-                sport: 'Volleyball',
-                size: 11,
-                scale: {x: 1.11, y: 1.11 },
-            },
-            {
-                sport: 'Volleyball',
-                size: 12,
-                scale: {x: 1.12, y: 1.12 },
-            },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 1,
+            //     scale: {x: 0.1, y: 0.1 },
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 2,
+            //     scale: {x: 0.2, y: 0.2 },
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 3,
+            //     scale: {x: 0.3, y: 0.3 },
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 4,
+            //     scale: {x: 0.4, y: 0.4 },
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 5,
+            //     scale: {x: 0.5, y: 0.5 },
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 6,
+            //     scale: {x: 0.6, y: 0.6 },
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 7,
+            //     scale: {x: 0.7, y: 0.7 },
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 8,
+            //     scale: {x: 0.8, y: 0.8 },
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 9,
+            //     scale: {x: 0.9, y: 0.9},
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 10,
+            //     scale: {x: 1.0, y: 1.0 },
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 11,
+            //     scale: {x: 1.11, y: 1.11 },
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     size: 12,
+            //     scale: {x: 1.12, y: 1.12 },
+            // },
             
             // End "Volleyball"
 
