@@ -56,12 +56,12 @@ class MascotSizesController extends Controller
 
     public function store(Request $request)
     {
-
-
         $sport = $request->input('sport');
         $properties = $request->input('props_data');
         $type = $request->input('type');
         $active = $request->input('active');
+        $notes = $request->input('notes');
+
         if( $request->input('block_pattern_options_value') ){
             $blockPatternOptions = explode(",", $request->input('block_pattern_options_value'));
         } else {
@@ -74,24 +74,22 @@ class MascotSizesController extends Controller
             $mascot_size_id = $request->input('mascot_size_id');
         }
 
-        $data = [
+        $data = [            
             'sport' => $sport,
             'properties' => $properties,
             'block_pattern_options' => $blockPatternOptions,
             'type' => $type,
-            'active' => $active
+            'active' => $active,
+            'notes' => $notes
         ];
 // dd($data);
         $response = null;
         if (!empty($mascot_size_id))
         {
             Log::info('Attempts to update MascotSize#' . $mascot_size_id);
-            $data['id'] = $mascot_size_id;
-
+            $data['id'] = $mascot_size_id;          
            
-            $response = $this->client->updateMascotSize($data);
-            return Redirect::to('administration/mascot_size/edit/' . $data['id'])
-                            ->with('message', $response->message);
+            $response = $this->client->updateMascotSize($data);         
         }
         else
         {
