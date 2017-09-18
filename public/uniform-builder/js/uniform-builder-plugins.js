@@ -1262,8 +1262,6 @@
 //                 console.warn('Scale Settings Not Found.');
 //             } else {
 //                 scale_settings = _scaleSettings.scale;
-//             }
-
 //         } 
         // else if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
 
