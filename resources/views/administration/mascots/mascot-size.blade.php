@@ -30,8 +30,9 @@
                         <tr>
                             <th>ID</th>
                             <th>Sport</th>
-                            <th>Size</th>
-                            <th>Scale</th>
+                            <th>Block Pattern Option</th>
+                            <th>Type</th>
+                            <th>Active</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -46,11 +47,19 @@
                                 {{ $mascot_size->sport }}
                             </td>
                             <td>
-                                {{ $mascot_size->size }}
+                                {{ $mascot_size->block_pattern_options }}
                             </td>
                             <td>
-                                {{ $mascot_size->scale }}
-                            </td>                                                       <td>
+                                {{ $mascot_size->type }}
+                            </td>
+                            <td>
+                                @if( $mascot_size->active )
+                                    Yes
+                                @else
+                                    No
+                                @endif
+                            </td>
+                            <td>
                                 <a href="/administration/mascot_size/edit/{{ $mascot_size->id }}" class="btn btn-primary btn-xs edit-mascot-size" data-mascot-size-id="{{ $mascot_size->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit

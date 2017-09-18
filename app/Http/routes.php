@@ -145,6 +145,7 @@ Route::group(array('prefix' => 'administration'), function() {
     // Mascots
     Route::get('mascots', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@index']);
     Route::post('mascots_filter', 'Administration\MascotsController@indexFiltered');
+    Route::get('mascot/search', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@searchPage']);
     Route::post('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@store']);
     Route::post('mascot/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@store']);
     Route::get('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addMascotForm']);
@@ -392,6 +393,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('cuts_links', 'Administration\CutsLinksController@index');
     Route::get('cuts_links/edit/{id}', 'Administration\CutsLinksController@edit');
     Route::post('cuts_links/update', 'Administration\CutsLinksController@store');
+
+    //Dealers
+    Route::get('dealers/add', 'Administration\DealersController@create');
+    Route::post('dealers/add', 'Administration\DealersController@store');
+    Route::get('dealers', 'Administration\DealersController@index');
+    Route::get('dealers/edit/{id}', 'Administration\DealersController@edit');
+    Route::post('dealers/update', 'Administration\DealersController@store');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

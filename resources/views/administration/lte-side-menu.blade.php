@@ -63,7 +63,12 @@
         <ul class="treeview-menu">
             <li>
                 <a href="/administration/artwork_requests" >
-                    <i class="glyphicon glyphicon-picture"></i> <span>Artwork Requests</span>
+                    <i class="glyphicon glyphicon-picture"></i> <span>Artwork Requests (Orders)</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" >
+                    <i class="glyphicon glyphicon-picture"></i> <span>Artwork Requests (Saved Designs)</span>
                 </a>
             </li>
             <li>

@@ -3561,7 +3561,6 @@ $(document).ready(function() {
                 } else {
 
                     // Zoom View Depending on the area that was clicked
-                    ub.funcs.getZoomView(mousedata.data.global);
                     ub.funcs.resetZoom();
 
                     var _view = ub.funcs.getZoomView(mousedata.data.global)
@@ -4070,7 +4069,12 @@ $(document).ready(function() {
 
             ub.active_part = _fullname;
 
-            if (typeof _.find(ub.data.modifierLabels, {'name': _ht}) !== 'undefined') {
+            var _htTemp = _ht;
+
+            if (_ht === "Left Body")    { _htTemp = 'Body Left'};
+            if (_ht === "Right Body")   { _htTemp = 'Body Right'};
+
+            if (typeof _.find(ub.data.modifierLabels, {'name': _htTemp}) !== 'undefined') {
                 
                 _group_id = _group_id;
 
@@ -7298,6 +7302,7 @@ $(document).ready(function() {
             if (ub.funcs.isCurrentSport("2017 Team Short with Pockets (Apparel)"))                                      { _size = 4;    }
             if (ub.funcs.isCurrentSport("Signature Coaches Short (Apparel)"))                                           { _size = 4;    }
 
+            if (ub.funcs.isCurrentSport('Football') && ub.current_material.material.type === "lower" && ub.config.uniform_application_type === "sublimated") { _size =  4;    }
 
             ub.funcs.setAppSize(_id, _size);
 

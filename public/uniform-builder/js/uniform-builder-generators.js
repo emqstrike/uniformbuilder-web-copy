@@ -37,7 +37,7 @@ $(document).ready(function() {
                 _markup += tabAndNewline('blockPattern: "' + ub.current_material.material.block_pattern + '",');
                 _markup += tabAndNewline('part: "' + applicationObj.application.layer + '",');
                 _markup += tabAndNewline('perspective: "' + view.perspective + '",');
-                _markup += tabAndNewline('position: {x: ' + view.application.pivot.x + ', y: ' + view.application.pivot.y + '},');
+                _markup += tabAndNewline('position: {x: ' + view.application.center.x + ', y: ' + view.application.center.y + '},');
                 _markup += tabAndNewline('rotation: ' + view.application.rotation + ',');
                 _markup += '},';
 
@@ -47,7 +47,7 @@ $(document).ready(function() {
                     blockPattern: ub.current_material.material.block_pattern,
                     part: applicationObj.application.layer,
                     perspective: view.perspective,
-                    position: {x: view.application.pivot.x, y: view.application.pivot.y},
+                    position: {x: view.application.center.x, y: view.application.center.y},
                     rotation: view.application.rotation,
                 }
 

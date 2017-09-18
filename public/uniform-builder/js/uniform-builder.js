@@ -33,6 +33,8 @@ $(document).ready(function () {
                 ub.funcs.initCanvas();
                 ub.startTime();
 
+                ubsv.mascotScales.fetchValues();
+
                 ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
                 ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
                 ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
@@ -586,6 +588,10 @@ $(document).ready(function () {
             // Cut PDF when coming from a saved design
             if (typeof ub.current_material.settings.cut_pdf === "undefined") { 
                 ub.current_material.settings.cut_pdf = ub.config.cut_pdf;
+            }
+
+            if (typeof ub.current_material.settings.styles_pdf === "undefined") {
+                ub.current_material.settings.styles_pdf = (ub.current_material.material.styles_pdf !== null) ? ub.current_material.material.styles_pdf : '';
             }
 
         };
@@ -2358,11 +2364,13 @@ $(document).ready(function () {
 
     ub.loadSettings = function (settings) {
 
-        ub.current_material.settings    = settings;
-        var uniform_type                = ub.current_material.material.type;
-        var _hasFrontBody               = false;
-        var _hasBody                    = false;
+        ub.current_material.settings            = settings;
+        var uniform_type                        = ub.current_material.material.type;
+        var _hasFrontBody                       = false;
+        var _hasBody                            = false;
 
+        ub.current_material.settings.styles_pdf = (ub.current_material.material.styles_pdf !== null) ? ub.current_material.material.styles_pdf : '';
+        
         if (typeof ub.config.savedDesignInfo !== "undefined" && ub.config.savedDesignInfo.frontBodyOverride && ub.current_material.material.type === "upper") {
 
             _hasFrontBody = typeof ub.current_material.settings[uniform_type]['Front Body'] === "object";
@@ -5876,7 +5884,14 @@ $(document).ready(function () {
 
         // Recalculate Offset 
 
-            var _offsetX = (($(window).width() - $('#right-pane-column').width()) - 550) / 2;
+            ub.data.adjustmentX = 550; 
+            ub.data.divisor = 2.3;
+
+            if ($(window).width() <= 1440) { 
+                ub.data.divisor = 2.2; 
+            }
+
+            _offsetX = (($(window).width() - $('#right-pane-column').width()) - ub.data.adjustmentX) / ub.data.divisor;
             var _yDivisor = 3;
                 
             if ($(window).height() > 800) {

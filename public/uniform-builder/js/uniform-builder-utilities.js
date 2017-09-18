@@ -94,6 +94,18 @@ $(document).ready(function() {
             };
             var data = JSON.stringify(params);
             xhr.send(data);
+        },
+
+        domParserDecoder: function (str) {
+
+            var parser = new DOMParser;
+            var dom = parser.parseFromString(
+                '<!doctype html><body>' + str,
+                'text/html');
+            var decodedString = dom.body.textContent;
+
+            return decodedString;
+
         }
 
     };
@@ -111,7 +123,12 @@ $(document).ready(function() {
                 ub.startTime = new Date();
                 
                 var template = $('#m-loading-screen').html();
-                var data = { startTime: ub.startTime, title: 'Preparing Style List', };
+                var data = { 
+                    startTime: ub.startTime, 
+                    title: 'Preparing Style List', 
+                    logo: ub.branding.logoUrl 
+                };
+
                 var markup = Mustache.render(template, data);
 
                 ub.pickersDialog = bootbox.dialog({
@@ -140,6 +157,7 @@ $(document).ready(function() {
                 startTime: ub.startTime,
                 title: '',
                 uniformName: ub.config.uniform_name + ' - ' + ub.config.sport,
+                logo: ub.branding.logoUrl
             };
 
             var markup = Mustache.render(template, data);

@@ -2,7 +2,7 @@
     <div class="container-fluid">
 
         <div class="navbar-header btn-group" id="navbar-header">
-            <a class="navbar-brand btn dropdown-toggle" data-toggle="dropdown" href="/"><img src="{{ env('LOGO_URL') }}" height="50em"></a>
+            <a class="navbar-brand btn dropdown-toggle" data-toggle="dropdown" href="/"><img src="/images/branding/pl-logo-black-1e1e1e.png" height="50em"></a>
                 <ul class="dropdown-menu" role="menu">
 
                     <li><a href="/"><i class="fa fa-home" aria-hidden="true"></i> Customizer Home</a></li>

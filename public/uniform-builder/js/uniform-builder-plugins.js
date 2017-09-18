@@ -1230,46 +1230,51 @@
         if (settings_obj.size === 1)   { scale_settings = {x: 0.08, y: 0.08}; }
         if (settings_obj.size === 0.5) { scale_settings = {x: 0.04, y: 0.04}; }
 
-        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') && ub.funcs.isCurrentType('upper')) {
+       
+// //     else if (ub.funcs.isCurrentSport('Lacrosse') && ub.funcs.isCurrentType('lower')) 
+// //            ((ub.funcs.isCurrentSport('Baseball') || 
+// //            ub.funcs.isCurrentSport('Soccer') || 
+// //            ub.funcs.isCurrentSport('Fastpitch') || 
+// //            ub.funcs.isCurrentSport('Wrestling') || 
+// //            ub.funcs.isCurrentSport('Volleyball') || 
+// //            ub.funcs.isCurrentSport('2017 Team Short with Pockets (Apparel)') || 
+// //            ub.funcs.isCurrentSport('Signature Coaches Short (Apparel)') || 
+// //            ub.funcs.isCurrentSport('Basketball') || 
+//            {
 
-            var _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
+//             var _scaleSettings = ub.data.mascotSizesPant.getSize(_uniformCategory, settings_obj.size, ub.current_material.material.neck_option); // Refactor this
 
-            if (typeof _scaleSettings === "undefined") {
+//             if (typeof _scaleSettings === "undefined") {
+//                 console.warn('Scale Settings Not Found.');
+//             } else {
+//                 scale_settings = _scaleSettings.scale;
+//         } 
+        // else if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
 
-                console.warn('Scale Settings Not Found.');
+        //     _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
+        //     scale_settings = _scaleSettings.scale;
 
-            } else {
-    
-                scale_settings = _scaleSettings.scale;
-                
+        // }
+
+        if (ub.styleValues.mascotScales.hasValues()) {
+
+            var _result = ub.styleValues.mascotScales.getScale(settings_obj.size);
+
+            if(typeof _result === "undefined") {
+
+                // Use Defaults if theres no record 
+                if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') && ub.funcs.isCurrentType('upper')) {
+
+                    var _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
+
+                    ub.utilties.info('Scale Settings Not Found for ' +  ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' +  ub.config.neckOption + ' ' + settings_obj.size + '. Using default.');    
+                    scale_settings = _scaleSettings.scale;
+
+                } 
+
             }
 
-        } else if ((ub.funcs.isCurrentSport('Baseball') || 
-            ub.funcs.isCurrentSport('Soccer') || 
-            ub.funcs.isCurrentSport('Fastpitch') || 
-            ub.funcs.isCurrentSport('Wrestling') || 
-            ub.funcs.isCurrentSport('Volleyball') || 
-            ub.funcs.isCurrentSport('2017 Team Short with Pockets (Apparel)') || 
-            ub.funcs.isCurrentSport('Signature Coaches Short (Apparel)') || 
-            ub.funcs.isCurrentSport('Basketball') || 
-            ub.funcs.isCurrentSport('Lacrosse')) && ub.funcs.isCurrentType('lower')) {
-
-            var _scaleSettings = ub.data.mascotSizesPant.getSize(_uniformCategory, settings_obj.size, ub.current_material.material.neck_option); // Refactor this
-
-            if (typeof _scaleSettings === "undefined") {
-
-                console.warn('Scale Settings Not Found.');
-
-            } else {
-    
-                scale_settings = _scaleSettings.scale;
-                
-            }
-
-        } else if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
-
-            _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
-            scale_settings = _scaleSettings.scale;
+            scale_settings = _result;
 
         }
 

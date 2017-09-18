@@ -87,8 +87,8 @@ $(document).ready(function () {
     ub.zoom_off = function () {
 
         var _windowSize = ub.funcs.getWindowSize();
-        var _xScale     = 0.5;
-        var _yScale     = 0.5;
+        var _xScale     = 0.55;
+        var _yScale     = 0.55;
 
         if (_windowSize.height > 800) {
 
@@ -190,6 +190,11 @@ $(document).ready(function () {
         var windowSize  = ub.funcs.getWindowSize();
         var w           = windowSize.width;
         var h           = windowSize.height;
+        var _left       = (w - 630);
+        var _offsetX;
+        var _offsetY;
+        var _windowSize = ub.funcs.getWindowSize();
+        var _yDivisor = 3;
 
         $('div.debugPanel').css('top', (h) + "px")
 
@@ -197,19 +202,20 @@ $(document).ready(function () {
         ub.renderer.view.style.width = w + "px";
         ub.renderer.view.style.height = h + "px";
 
-        var _left = (w - 630);
-        var _offsetX = (($(window).width() - $('#right-pane-column').width()) - 550) / 2;
+        ub.data.adjustmentX = 550; 
+        ub.data.divisor = 2.3;
 
-        var _windowSize = ub.funcs.getWindowSize();
-        var _yDivisor = 3;
-            
-        if (_windowSize.height > 800) {
-
-            _yDivisor = 5;
-        
+        if ($(window).width() <= 1440) { 
+            ub.data.divisor = 2.2; 
         }
 
-        var _offsetY = ($(window).height() - 580) / _yDivisor;
+        _offsetX = (($(window).width() - $('#right-pane-column').width()) - ub.data.adjustmentX) / ub.data.divisor;
+            
+        if (_windowSize.height > 800) {
+            _yDivisor = 5;
+        }
+
+        _offsetY = ($(window).height() - 580) / _yDivisor;
 
         ub.offset = {x: _offsetX, y: _offsetY};
 

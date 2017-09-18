@@ -31,6 +31,7 @@
                                 <th>Account Type</th>
                                 <th>Date registered</th>
                                 <th>Email</th>
+                                <th>Rep ID</th>
                                 <th>Last Login</th>
                                 <th>Active Status</th>
                                 <th></th>
@@ -55,6 +56,9 @@
                                 </td>
                                 <td>
                                     <span class="label label-primary">{{ $user->email }}</span>
+                                </td>
+                                <td>
+                                    {{ $user->default_rep_id }}
                                 </td>
                                 <td>
                                     {{ $user->last_login }}

@@ -729,11 +729,14 @@ class UniformBuilderController extends Controller
         $html = '';
         $html .= '<br /><br />';
         $html .= '<h3>PIPINGS</h3>';
-        $html .= '<table>';
+        $html .= '<table border="1" cellpadding="3">';
 
         $html .= '<tr>';
         $html .=   '<td align="center">';
         $html .=   '<strong>TYPE</strong>';
+        $html .=   '</td>';
+        $html .=   '<td align="center">';
+        $html .=   '<strong>Size</strong>';
         $html .=   '</td>';
         $html .=   '<td align="center">';
         $html .=   '<strong>Number of Colors</strong>';
@@ -743,18 +746,29 @@ class UniformBuilderController extends Controller
         $html .=   '</td>';
         $html .= '</tr>';
 
+        $ctrPipings = 0;
+
         foreach ($pipings as $key => &$piping) {
 
             $pipingType = $key;
 
             if ($piping["enabled"] == "0") { continue; }
 
-            $html .= '<tr>';
-            
+            $ctrPipings += 1;
+            $bgcolor = '#fff';
+
+            if ($ctrPipings % 2 !== 0) {
+                $bgcolor = '#e7e7e7';
+            }
+
+            $html .= '<tr bgcolor="' . $bgcolor . '">';
             $html .=   '<td align="center">';
             $html .=   $pipingType;
             $html .=   '</td>';
 
+            $html .=   '<td align="center">';
+            $html .=   $piping['size'];
+            $html .=   '</td>';
 
             $html .=   '<td align="center">';
             $html .=   $piping['numberOfColors'];
@@ -793,7 +807,7 @@ class UniformBuilderController extends Controller
         $html = '';
         $html .= '<br /><br />';
         $html .= '<h3>APPLICATIONS</h3>';
-        $html .= '<table>';
+        $html .= '<table border="1" cellpadding="3">';
 
         $html .= '<tr>';
         $html .=   '<td align="center">';
@@ -814,13 +828,26 @@ class UniformBuilderController extends Controller
 
         $html .= '</tr>';
 
+        $ctrApplications = 0;
+
         foreach ($applications as &$application) {
 
             $appType = strtoupper(str_replace("_"," ",$application['application_type']));
 
+            // Skip free / unused applications
             if ($appType == "FREE") { continue; }
+            
+            // Skip applications that are turned off
+            if (isset($application['status']) and $application['status'] === "off") { continue; }
 
-            $html .= '<tr>';
+            $ctrApplications += 1;
+            $bgcolor = '#fff';
+
+            if ($ctrApplications % 2 !== 0) {
+                $bgcolor = '#e7e7e7';
+            }
+
+            $html .= '<tr bgcolor="' . $bgcolor . '">';
             $html .=   '<td align="center">';
             $html .=   $application['code'];
             $html .=   '</td>';
@@ -980,7 +1007,7 @@ class UniformBuilderController extends Controller
         $html = '';
         $html .= '<br /><br />';
         $html .= '<h3>ROSTER</h3>';
-        $html .= '<table>';
+        $html .= '<table border="1" cellpadding="3">';
 
         $html .= '<tr>';
         $html .=   '<td align="center">';
@@ -1016,9 +1043,18 @@ class UniformBuilderController extends Controller
 
         $html .= '</tr>';
 
+        $ctrRoster = 0;
+
         foreach ($rosters as &$roster) {
 
-            $html .= '<tr>';
+            $ctrRoster += 1;
+            $bgcolor = '#fff';
+
+            if ($ctrRoster % 2 !== 0) {
+                $bgcolor = '#e7e7e7';
+            }
+
+            $html .= '<tr bgcolor="' . $bgcolor . '">';
             $html .=   '<td align="center">';
             $html .=   $roster['size'];
             $html .=   '</td>';
@@ -1070,7 +1106,7 @@ class UniformBuilderController extends Controller
         $html = '';
         $html .= '<br /><br />';
         $html .= '<h3>PARTS</h3>';
-        $html .= '<table>';
+        $html .= '<table border="1" cellpadding="3">';
 
         $html .= '<tr>';
         $html .=   '<td align="right" width="40%">';
@@ -1092,14 +1128,8 @@ class UniformBuilderController extends Controller
         }
 
         $html .= '</tr>';
-        $html .= '<tr>';
-        $html .=   '<td>';
-        $html .=       '';
-        $html .=   '</td>';
-        $html .=   '<td>';
-        $html .=       ''; 
-        $html .=   '</td>';
-        $html .= '</tr>';
+        
+        $ctrParts = 0;
 
         foreach ($parts as &$part) {
 
@@ -1119,16 +1149,45 @@ class UniformBuilderController extends Controller
 
             Log::info('---' . $code);
 
-            $html .= '<tr>';
+            $ctrParts += 1;
+            $bgcolor = '#fff';
+
+            if ($ctrParts % 2 !== 0) {
+                $bgcolor = '#e7e7e7';
+            }
+
+            $html .= '<tr bgcolor="' . $bgcolor . '">';
             $html .=   '<td align="right">';
             $html .=   $code;
             $html .=   '</td>';
             $html .=   '<td align="center">';
 
-            if (array_key_exists('colorObj', $part)) {
-                $html .=   $part['colorObj']['color_code'];
+            if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+
+                $titledPart = $part['code'];
+                $titledPart = str_replace('_', ' ', $titledPart);
+                $titledPart = ucwords($titledPart);
+
+                if (array_key_exists($titledPart, $randomFeeds)) {
+
+                    if ($randomFeeds[$titledPart]['enabled'] != '0') {
+                         $html .= "Use Random Feed Color";
+                    } else {
+                        $html .=   $part['colorObj']['color_code'];                        
+                    }
+
+                } else {
+                    $html .=   $part['colorObj']['color_code'];                        
+                }
+
             } else {
-                $html .=   'Default';
+
+                if (array_key_exists('colorObj', $part)) {
+                    $html .=   $part['colorObj']['color_code'];                        
+                } else {
+                    $html .=   'Default';    
+                }
+
             }
 
             $html .=   '</td>';
@@ -1211,6 +1270,24 @@ class UniformBuilderController extends Controller
     }
 
     function generateClientDetailsTable ($itemData) {
+
+        $table = "";
+
+        $table .= '<table cellpadding="2">';
+        $table .= '<tr>';
+        $table .=   '<td>';
+        $table .=     'CLIENT NAME<br />';
+        $table .=     $itemData['order']['client'];
+        $table .=     '<br />';
+        $table .=   '</td>';
+        $table .= '</tr>';
+        $table .= '</table>';
+
+        return $table;
+
+    }
+
+    function generateClientDetailsTableDetailed ($itemData) {
 
         $table = '<strong>CLIENT INFO / ORGANIZATION</strong><br /><br />';
         $table .= '<table cellpadding="2">';
@@ -1457,30 +1534,26 @@ class UniformBuilderController extends Controller
         $styleURL = '<a href="' . $itemData["url"]  . '"><strong>BUILDER URL</strong></a>';
         $pdfURL   = '<a href="' . env("WEBSITE_URL") . $fname . '"><strong>PDF URL</strong></a>';
         $cutURL   = '<a href="' . $itemData["builder_customizations"]["cut_pdf"] . '"><strong>CUT PDF URL</strong></a>';
+        $stylesPDFURL   = '<a href="' . $itemData["builder_customizations"]["styles_pdf"] . '"><strong>STYLE PDF URL</strong></a>';
 
         if ($itemData["builder_customizations"]["cut_pdf"] === '') { $cutURL = 'No Cut PDF detected.'; } 
+        if ($itemData["builder_customizations"]["styles_pdf"] === '') { $stylesPDFURL = 'No STYLE PDF detected.'; } 
 
         $html = '';
         $html .= '<table>';
 
         $html .= '<tr>';
         $html .=     '<td width="100%" style="font-size: 1.0em;">';
+        $html .=       'STYLE<br />'; 
         $html .=       '<strong>' . $itemData["description"] . ' (' . $itemData["applicationType"]  .') </strong><br />';
         $html .=       '<strong>' .  $itemData["sku"]  . '</strong><br />';
         $html .=     '</td>';
         $html .= '</tr>';
 
-        // $html .= '<tr>';
-        // $html .=     '<td width="100%">';
-        // $html .=        'PRICE:<br />';
-        // $html .=       '<strong>' . $itemData["price"] . '</strong><br />';
-        // $html .=     '</td>';
-        // $html .= '</tr>';
-
         $html .= '<tr>';
         $html .=     '<td width="100%" style="font-size: 1.0em;">';
         $html .=       'URLS: <br />';
-        $html .=       $styleURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $pdfURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $cutURL;
+        $html .=       $styleURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $pdfURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $cutURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $stylesPDFURL;
         $html .=     '</td>';
         $html .= '</tr>';
 
@@ -1599,6 +1672,9 @@ class UniformBuilderController extends Controller
         $html .=    '<h4>PROLOOK UNIFORM CUSTOMIZER - ORDER FORM</h2>';
         $html .=    '<h3>' . $uniform_category . '</h3>';
         $html .= '</div>';
+
+        $html .=   $this->generateClientDetailsTable($mainInfo);
+
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
         $html .=     '<td>';

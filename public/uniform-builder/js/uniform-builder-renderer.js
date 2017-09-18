@@ -199,15 +199,17 @@ $(document).ready(function() {
 
                 var _y = 190;
 
-                ub['left_view'].position.set(30, _y);
-                ub['front_view'].position.set(380, _y);
-                ub['back_view'].position.set(850, _y);
-                ub['right_view'].position.set(1200, _y);
+                var _scale = 0.45;
 
-                ub['front_view'].scale.set(0.5,0.5);
-                ub['back_view'].scale.set(0.5,0.5);
-                ub['left_view'].scale.set(0.5,0.5);
-                ub['right_view'].scale.set(0.5,0.5);
+                // ub['left_view'].position.set(30, _y);
+                // ub['front_view'].position.set(380, _y);
+                // ub['back_view'].position.set(850, _y);
+                // ub['right_view'].position.set(1200, _y);
+
+                ub['front_view'].scale.set(_scale,_scale);
+                ub['back_view'].scale.set(_scale,_scale);
+                ub['left_view'].scale.set(_scale,_scale);
+                ub['right_view'].scale.set(_scale,_scale);
 
             // End Rearrange UI
 
@@ -223,10 +225,10 @@ $(document).ready(function() {
                 
                 _windowWidth = window.innerWidth;
                 // _widthOfElement = ub['front_view'].width;
-                _widthOfElement = 500;
+                _widthOfElement = 400;
                 _totalWidthOfElements = _widthOfElement * 4;
                 _space = _windowWidth - _totalWidthOfElements;
-                _p1 = _space / 2;
+                _p1 = (_space / 2) - 30;
 
                 _fx = function (no) { return _p1 + ((no - 1)  * _widthOfElement) };
 
@@ -244,7 +246,7 @@ $(document).ready(function() {
 
         ub.funcs.hitTest = function (viewObjPositionX, coorsX) {
 
-            var _widthOfElement = 500; 
+            var _widthOfElement = 400; 
             var _margin = 50;
             return coorsX >= viewObjPositionX + _margin && coorsX <= viewObjPositionX + _widthOfElement - _margin;
 
