@@ -47,7 +47,7 @@
                                 {{ $mascot_size->sport }}
                             </td>
                             <td>
-                                {{ $mascot_size->block_pattern_option }}
+                                {{ $mascot_size->block_pattern_options }}
                             </td>
                             <td>
                                 {{ $mascot_size->type }}
