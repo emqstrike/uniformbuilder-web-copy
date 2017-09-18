@@ -393,6 +393,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('cuts_links', 'Administration\CutsLinksController@index');
     Route::get('cuts_links/edit/{id}', 'Administration\CutsLinksController@edit');
     Route::post('cuts_links/update', 'Administration\CutsLinksController@store');
+
+    //Dealers
+    Route::get('dealers/add', 'Administration\DealersController@create');
+    Route::post('dealers/add', 'Administration\DealersController@store');
+    Route::get('dealers', 'Administration\DealersController@index');
+    Route::get('dealers/edit/{id}', 'Administration\DealersController@edit');
+    Route::post('dealers/update', 'Administration\DealersController@store');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
