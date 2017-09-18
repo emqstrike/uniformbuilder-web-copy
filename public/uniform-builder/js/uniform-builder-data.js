@@ -11525,7 +11525,7 @@ ub.funcs.fontOffSets = [
             // },
 
 
-            // Lacrosse Shorts 
+            // Lacrosse Shorts
             // {
             //     sport: 'Lacrosse',
             //     option: ["2 Panel Short", "4-inch panel Short", "Side seam Short", ""],
@@ -11602,96 +11602,96 @@ ub.funcs.fontOffSets = [
 
         items: [
 
-            {
-                sport: 'Baseball',
-                size: 2,
-                scale: {x: 0.22 ,y: 0.22 },
-            },
-            {
-                sport: 'Baseball',
-                size: 3,
-                scale: {x: 0.38 ,y: 0.38 },
-            },
-            {
-                sport: 'Baseball',
-                size: 4,
-                scale: {x: 0.53 ,y: 0.53 },
-            },
+            // {
+            //     sport: 'Baseball',
+            //     size: 2,
+            //     scale: {x: 0.22 ,y: 0.22 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     size: 3,
+            //     scale: {x: 0.38 ,y: 0.38 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     size: 4,
+            //     scale: {x: 0.53 ,y: 0.53 },
+            // },
 
-            // Cage Jackets
+            // // Cage Jackets
 
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 1,
-                scale: {x: 0.1 ,y: 0.1 },
-            },
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 2,
-                scale: {x: 0.2 ,y: 0.2 },
-            },
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 3,
-                scale: {x: 0.3 ,y: 0.3 },
-            },
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 4,
-                scale: {x: 0.4 ,y: 0.4 },
-            },
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 5,
-                scale: {x: 0.5 ,y: 0.5 },
-            },
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 6,
-                scale: {x: 0.6 ,y: 0.6 },
-            },
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 7,
-                scale: {x: 0.7 ,y: 0.7 },
-            },
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 8,
-                scale: {x: 0.8 ,y: 0.8 },
-            },
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 9,
-                scale: {x: 0.9 ,y: 0.9 },
-            },
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 10,
-                scale: {x: 1.00 ,y: 1.00 },
-            },
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 11,
-                scale: {x: 1.11 ,y: 1.11 },
-            },
-            {
-                sport: 'Baseball',
-                blockPattern: 'Cage Jacket',
-                size: 12,
-                scale: {x: 1.12 ,y: 1.12 },
-            },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 1,
+            //     scale: {x: 0.1 ,y: 0.1 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 2,
+            //     scale: {x: 0.2 ,y: 0.2 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 3,
+            //     scale: {x: 0.3 ,y: 0.3 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 4,
+            //     scale: {x: 0.4 ,y: 0.4 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 5,
+            //     scale: {x: 0.5 ,y: 0.5 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 6,
+            //     scale: {x: 0.6 ,y: 0.6 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 7,
+            //     scale: {x: 0.7 ,y: 0.7 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 8,
+            //     scale: {x: 0.8 ,y: 0.8 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 9,
+            //     scale: {x: 0.9 ,y: 0.9 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 10,
+            //     scale: {x: 1.00 ,y: 1.00 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 11,
+            //     scale: {x: 1.11 ,y: 1.11 },
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     blockPattern: 'Cage Jacket',
+            //     size: 12,
+            //     scale: {x: 1.12 ,y: 1.12 },
+            // },
 
             // End Cage Jackets
 
