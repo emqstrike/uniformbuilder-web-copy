@@ -5,9 +5,21 @@
     <span class="toolbar-item favorite-btn">
         <i class="fa fa-star-o" aria-hidden="true"></i>
         <span class="toolbar-item-label">FAVORITE</span>
-    </span>    
-    
+    </span>
+
     <br />
+@if (\Session::has('is_show_teamstore_toolbox'))
+    @if (\Session::get('is_show_teamstore_toolbox'))
+    <hr class="left-side-divider middle middle-bottom fav-top" />
+
+    <span class="toolbar-item" id="show-team-store-toolbox">
+        <i class="fa fa-group" aria-hidden="true"></i>
+        <span class="toolbar-item-label">TEAM STORE</span>
+    </span>
+
+    <br />
+    @endif
+@endif
 
     <hr class="left-side-divider middle middle-bottom" />
 

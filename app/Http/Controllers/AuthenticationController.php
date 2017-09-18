@@ -7,9 +7,11 @@ use App\TeamStoreClient\UserTeamStoreClient;
 use App\Utilities\Crypt;
 use App\Utilities\Log;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Redirect;
 use Session;
+use \Exception;
 use Webmozart\Json\JsonDecoder;
 
 class AuthenticationController extends AdminAuthController
@@ -62,6 +64,16 @@ class AuthenticationController extends AdminAuthController
 
         }
         catch (ClientException $e)
+        {
+            $error = $e->getMessage();
+            Log::info('Login Attempt Error : ' . $error, 'FRONT END');
+        }
+        catch (RequestException $e)
+        {
+            $error = $e->getMessage();
+            Log::info('Login Attempt Error : ' . $error, 'FRONT END');
+        }
+        catch (Exception $e)
         {
             $error = $e->getMessage();
             Log::info('Login Attempt Error : ' . $error, 'FRONT END');

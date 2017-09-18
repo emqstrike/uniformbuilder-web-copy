@@ -144,20 +144,6 @@
                   <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
                   <li class="divider"></li>
 
-                @if (\Session::has('is_show_teamstore_toolbox'))
-                  @if (\Session::get('is_show_teamstore_toolbox'))
-                  <li>
-                    <a href="#" id="show-team-store-toolbox">
-                      <i class="fa fa-wrench" aria-hidden="true"></i>
-                      TEAM STORE TOOLBOX
-                      <label class="badge">BETA</label>
-                    </a>
-                  </li>
-
-                  <li class="divider"></li>
-                  @endif
-                @endif
-
                   <!-- <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li> -->
                   <li><a href="/changePassword"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> CHANGE PASSWORD</a></li>
                   <li class="divider"></li>
