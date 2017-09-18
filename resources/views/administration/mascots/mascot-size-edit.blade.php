@@ -68,6 +68,15 @@ select:hover {
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Active</label>
+                            <div class="col-md-6">
+                                <select name="active" class="form-control active">
+                                    <option value="0" @if($mascot_size->active == 0) selected @endif>No</option>
+                                    <option value="1" @if($mascot_size->active == 1) selected @endif>Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Size & Scale Properties</label>
                             <div class="col-md-6">
                                 <a href="#" class="btn btn-xs btn-primary add-prop">Add</a>

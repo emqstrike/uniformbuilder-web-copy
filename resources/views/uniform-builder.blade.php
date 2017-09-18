@@ -549,6 +549,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-error-codes.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-endpoints.js?v={{$asset_version}}"></script>
 
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-style-configuration.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-branding.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-dealership.js?v={{$asset_version}}"></script>
 

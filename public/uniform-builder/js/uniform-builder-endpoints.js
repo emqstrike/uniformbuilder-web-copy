@@ -70,7 +70,12 @@ $(document).ready(function() {
                 url:  'api/cut_links/',
                 info: 'Get PDF Urls',
             },
-
+            {
+                name: 'Get Mascot Scales',
+                code: 'getMascotScales',
+                url: 'api/v1-0/mascot_sizes',
+                info: 'Get Mascot Scales',
+            },
         ],
 
         getUrl: function (code) {
@@ -89,12 +94,38 @@ $(document).ready(function() {
             var _result = _.find(this.items, {code: code});
             var _url = '';
 
-            if (typeof _result === "undefined") {  ub.utilities.error("Can't find url for [" + name + "]");  }
+            if (typeof _result === "undefined") {  ub.utilities.error("Can't find url for [" + code + "]");  }
 
             return ub.config.api_host + '/' + _result.url;
 
         },
 
+        fetch: function (str, cb) {
+
+            $.ajax({
+
+                url: ub.endpoints.getFullUrlString(str),
+                type: "GET", 
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    if (response.success) {
+
+                        cb(response);
+
+                    }
+
+                }
+                
+            });
+
+        }
+
     };
+
+    window.ubep = ub.endpoints;
 
 });

@@ -25,6 +25,8 @@ $(document).ready(function () {
         ub.utilities.info('Uniform Application Type: ' + ub.current_material.material.uniform_application_type);
         ub.utilities.info('One Inch In px: ' + ub.current_material.material.one_inch_in_px);
         ub.utilities.info('Asset Target: ' + ub.config.asset_target);
+        ub.utilities.info('Uniform Group: ' + ub.current_material.material.uniform_group);
+        ub.utilities.info('Style Group: ' + ub.current_material.material.style_group);
         ub.utilities.info('-----------------------------');
 
         ub.utilities.info('');
@@ -32,7 +34,7 @@ $(document).ready(function () {
         ub.utilities.info('-------- Applications -------');
         _.each(settings.applications, function (app) { 
             
-            var _str = app.code + ' - ' + app.type; 
+            var _str = '#' + app.code.rpad(' ', 5) + ' ' + app.type.rpad(' ', 15); 
             var _primaryView = undefined; 
             
             _.each(app.application.views, function (view) {
@@ -52,7 +54,7 @@ $(document).ready(function () {
 
             }
 
-            _str += ' - ' + _primaryView;
+            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5);
             ub.utilities.info(_str);
 
         });
