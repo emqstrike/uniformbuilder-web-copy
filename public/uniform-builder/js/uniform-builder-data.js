@@ -11035,75 +11035,74 @@ ub.funcs.fontOffSets = [
             // 3"       - 0.42
             // 4"       - 0.56
 
-            {
-                sport: 'Baseball',
-                option: ['Trad_Elastic_Knicker'],
-                size: 1,
-                scale: {x: 0.17 ,y: 0.17},
-            },
-            {
-                sport: 'Baseball',
-                option: ['Trad_Elastic_Knicker'],
-                size: 1.75,
-                scale: {x: 0.23 ,y: 0.23},
-            },
-            {
-                sport: 'Baseball',
-                option: ['Trad_Elastic_Knicker'],
-                size: 2,
-                scale: {x: 0.27 ,y: 0.27},
-            },
-            {
-                sport: 'Baseball',
-                option: ['Trad_Elastic_Knicker'],
-                size: 3,
-                scale: {x: 0.42 ,y: 0.42},
-            },
-            {
-                sport: 'Baseball',
-                option: ['Trad_Elastic_Knicker'],
-                size: 4,
-                scale: {x: 0.56 ,y: 0.56},
-            },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['Trad_Elastic_Knicker'],
+            //     size: 1,
+            //     scale: {x: 0.17 ,y: 0.17},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['Trad_Elastic_Knicker'],
+            //     size: 1.75,
+            //     scale: {x: 0.23 ,y: 0.23},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['Trad_Elastic_Knicker'],
+            //     size: 2,
+            //     scale: {x: 0.27 ,y: 0.27},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['Trad_Elastic_Knicker'],
+            //     size: 3,
+            //     scale: {x: 0.42 ,y: 0.42},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['Trad_Elastic_Knicker'],
+            //     size: 4,
+            //     scale: {x: 0.56 ,y: 0.56},
+            // },
 
-            // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
-            // 1"       - 0.15
-            // 1.75"    - 0.18
-            // 2"       - 0.2
-            // 3"       - 0.3
-            // 4"       - 0.42
+        // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
+        // 1"       - 0.15
+        // 1.75"    - 0.18
+        // 2"       - 0.2
+        // 3"       - 0.3
+        // 4"       - 0.42
 
-            {
-                sport: 'Baseball',
-                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 1,
-                scale: {x: 0.15, y: 0.15},
-            },
-            {
-                sport: 'Baseball',
-                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 1.75,
-                scale: {x: 0.18, y: 0.18},
-            },
-            {
-                sport: 'Baseball',
-                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 2,
-                scale: {x: 0.2, y: 0.2},
-            },
-            {
-                sport: 'Baseball',
-                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 3,
-                scale: {x: 0.3, y: 0.3},
-            },
-            {
-                sport: 'Baseball',
-                option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
-                size: 4,
-                scale: {x: 0.42, y: 0.42},
-            },
-
+            // {
+            //     sport: 'Baseball',
+            //     option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+            //     size: 1,
+            //     scale: {x: 0.15, y: 0.15},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+            //     size: 1.75,
+            //     scale: {x: 0.18, y: 0.18},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+            //     size: 2,
+            //     scale: {x: 0.2, y: 0.2},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+            //     size: 3,
+            //     scale: {x: 0.3, y: 0.3},
+            // },
+            // {
+            //     sport: 'Baseball',
+            //     option: ['FullCut_Open_Full', 'Trad_Elastic_Full', 'Trad_Elastic_Mid', 'Trad_Open_Full'],
+            //     size: 4,
+            //     scale: {x: 0.42, y: 0.42},
+            // },
 
             // Fast Pitch 
 
@@ -11113,36 +11112,36 @@ ub.funcs.fontOffSets = [
             // 2"       - 0.27
             // 3"       - 0.42
             // 4"       - 0.56
-            {
-                sport: 'Fastpitch',
-                option: ['Knicker', 'Elastic_Knicker'],
-                size: 1,
-                scale: {x: 0.17 ,y: 0.17},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Knicker', 'Elastic_Knicker'],
-                size: 1.75,
-                scale: {x: 0.23 ,y: 0.23},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Knicker', 'Elastic_Knicker'],
-                size: 2,
-                scale: {x: 0.27 ,y: 0.27},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Knicker', 'Elastic_Knicker'],
-                size: 3,
-                scale: {x: 0.42 ,y: 0.42},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Knicker', 'Elastic_Knicker'],
-                size: 4,
-                scale: {x: 0.56 ,y: 0.56},
-            },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Knicker', 'Elastic_Knicker'],
+            //     size: 1,
+            //     scale: {x: 0.17 ,y: 0.17},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Knicker', 'Elastic_Knicker'],
+            //     size: 1.75,
+            //     scale: {x: 0.23 ,y: 0.23},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Knicker', 'Elastic_Knicker'],
+            //     size: 2,
+            //     scale: {x: 0.27 ,y: 0.27},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Knicker', 'Elastic_Knicker'],
+            //     size: 3,
+            //     scale: {x: 0.42 ,y: 0.42},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Knicker', 'Elastic_Knicker'],
+            //     size: 4,
+            //     scale: {x: 0.56 ,y: 0.56},
+            // },
 
             // FullCut_Open_Full, Trad_Elastic_Full, Trad_Elastic_Mid, Trad_Open_Full
             // 1"       - 0.15
@@ -11153,431 +11152,430 @@ ub.funcs.fontOffSets = [
 
             
 
-            {
-                sport: 'Fastpitch',
-                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
-                size: 1,
-                scale: {x: 0.15, y: 0.15},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
-                size: 1.75,
-                scale: {x: 0.18, y: 0.18},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
-                size: 2,
-                scale: {x: 0.2, y: 0.2},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
-                size: 3,
-                scale: {x: 0.3, y: 0.3},
-            },
-            {
-                sport: 'Fastpitch',
-                option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
-                size: 4,
-                scale: {x: 0.42, y: 0.42},
-            },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+            //     size: 1,
+            //     scale: {x: 0.15, y: 0.15},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+            //     size: 1.75,
+            //     scale: {x: 0.18, y: 0.18},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+            //     size: 2,
+            //     scale: {x: 0.2, y: 0.2},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+            //     size: 3,
+            //     scale: {x: 0.3, y: 0.3},
+            // },
+            // {
+            //     sport: 'Fastpitch',
+            //     option: ['Full', 'Elastic_Full', 'Open Cuff', 'Elastic_Mid', 'Elastic_Mid'],
+            //     size: 4,
+            //     scale: {x: 0.42, y: 0.42},
+            // },
 
 
             /// Wrestling, Fight Short
 
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 1,
-                scale: {x: 0.14, y: 0.14},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 2,
-                scale: {x: 0.26, y: 0.26},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 3,
-                scale: {x: 0.39, y: 0.39},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 4,
-                scale: {x: 0.52, y: 0.52},
-            },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 1,
+            //     scale: {x: 0.14, y: 0.14},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 2,
+            //     scale: {x: 0.26, y: 0.26},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 3,
+            //     scale: {x: 0.39, y: 0.39},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 4,
+            //     scale: {x: 0.52, y: 0.52},
+            // },
 
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 5,
-                scale: {x: 0.66, y: 0.66},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 6,
-                scale: {x: 0.79, y: 0.79},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 7,
-                scale: {x: 0.93, y: 0.93},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 8,
-                scale: {x: 1.06, y: 1.06},
-            },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 5,
+            //     scale: {x: 0.66, y: 0.66},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 6,
+            //     scale: {x: 0.79, y: 0.79},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 7,
+            //     scale: {x: 0.93, y: 0.93},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 8,
+            //     scale: {x: 1.06, y: 1.06},
+            // },
 
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 9,
-                scale: {x: 1.20, y: 1.20},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 10,
-                scale: {x: 1.33, y: 1.33},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 11,
-                scale: {x: 1.47, y: 1.47},
-            },
-            {
-                sport: 'Wrestling',
-                option: ['Fight Short',],
-                size: 12,
-                scale: {x: 1.6, y: 1.6},
-            },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 9,
+            //     scale: {x: 1.20, y: 1.20},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 10,
+            //     scale: {x: 1.33, y: 1.33},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 11,
+            //     scale: {x: 1.47, y: 1.47},
+            // },
+            // {
+            //     sport: 'Wrestling',
+            //     option: ['Fight Short',],
+            //     size: 12,
+            //     scale: {x: 1.6, y: 1.6},
+            // },
 
            
-            /// Volleyball Compression Shorts
+            // /// Volleyball Compression Shorts
 
-            {
-                sport: 'Volleyball',
-                option: ['Compression Shorts',],
-                size: 1,
-                scale: {x: 0.24, y: 0.24},
-            },
-            {
-                sport: 'Volleyball',
-                option: ['Compression Shorts',],
-                size: 2,
-                scale: {x: 0.48, y: 0.48},
-            },
-                        {
-                sport: 'Volleyball',
-                option: ['Compression Shorts',],
-                size: 3,
-                scale: {x: 0.72, y: 0.72},
-            },
-                        {
-                sport: 'Volleyball',
-                option: ['Compression Shorts',],
-                size: 4,
-                scale: {x: 0.96, y: 0.96},
-            },
-            {
-                sport: 'Volleyball',
-                option: ['Compression Shorts',],
-                size: 5,
-                scale: {x: 1.2, y: 1.2},
-            },
+            // {
+            //     sport: 'Volleyball',
+            //     option: ['Compression Shorts',],
+            //     size: 1,
+            //     scale: {x: 0.24, y: 0.24},
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     option: ['Compression Shorts',],
+            //     size: 2,
+            //     scale: {x: 0.48, y: 0.48},
+            // },
+            //             {
+            //     sport: 'Volleyball',
+            //     option: ['Compression Shorts',],
+            //     size: 3,
+            //     scale: {x: 0.72, y: 0.72},
+            // },
+            //             {
+            //     sport: 'Volleyball',
+            //     option: ['Compression Shorts',],
+            //     size: 4,
+            //     scale: {x: 0.96, y: 0.96},
+            // },
+            // {
+            //     sport: 'Volleyball',
+            //     option: ['Compression Shorts',],
+            //     size: 5,
+            //     scale: {x: 1.2, y: 1.2},
+            // },
 
 
             /// 2017 Team Short with Pockets (Apparel)
 
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 1,
-                scale: {x: 0.14, y: 0.14},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 2,
-                scale: {x: 0.26, y: 0.26},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 3,
-                scale: {x: 0.39, y: 0.39},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 4,
-                scale: {x: 0.52, y: 0.52},
-            },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 1,
+            //     scale: {x: 0.14, y: 0.14},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 2,
+            //     scale: {x: 0.26, y: 0.26},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 3,
+            //     scale: {x: 0.39, y: 0.39},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 4,
+            //     scale: {x: 0.52, y: 0.52},
+            // },
 
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 5,
-                scale: {x: 0.66, y: 0.66},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 6,
-                scale: {x: 0.79, y: 0.79},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 7,
-                scale: {x: 0.93, y: 0.93},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 8,
-                scale: {x: 1.06, y: 1.06},
-            },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 5,
+            //     scale: {x: 0.66, y: 0.66},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 6,
+            //     scale: {x: 0.79, y: 0.79},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 7,
+            //     scale: {x: 0.93, y: 0.93},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 8,
+            //     scale: {x: 1.06, y: 1.06},
+            // },
 
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 9,
-                scale: {x: 1.20, y: 1.20},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 10,
-                scale: {x: 1.33, y: 1.33},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 11,
-                scale: {x: 1.47, y: 1.47},
-            },
-            {
-                sport: '2017 Team Short with Pockets (Apparel)',
-                option: ["Men's ", "Women's"],
-                size: 12,
-                scale: {x: 1.6, y: 1.6},
-            },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 9,
+            //     scale: {x: 1.20, y: 1.20},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 10,
+            //     scale: {x: 1.33, y: 1.33},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 11,
+            //     scale: {x: 1.47, y: 1.47},
+            // },
+            // {
+            //     sport: '2017 Team Short with Pockets (Apparel)',
+            //     option: ["Men's ", "Women's"],
+            //     size: 12,
+            //     scale: {x: 1.6, y: 1.6},
+            // },
 
 
             /// Signature Coaches Short (Apparel)
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 1,
+            //     scale: {x: 0.14, y: 0.14},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 2,
+            //     scale: {x: 0.26, y: 0.26},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 3,
+            //     scale: {x: 0.39, y: 0.39},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 4,
+            //     scale: {x: 0.52, y: 0.52},
+            // },
 
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 1,
-                scale: {x: 0.14, y: 0.14},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 2,
-                scale: {x: 0.26, y: 0.26},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 3,
-                scale: {x: 0.39, y: 0.39},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 4,
-                scale: {x: 0.52, y: 0.52},
-            },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 5,
+            //     scale: {x: 0.66, y: 0.66},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 6,
+            //     scale: {x: 0.79, y: 0.79},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 7,
+            //     scale: {x: 0.93, y: 0.93},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 8,
+            //     scale: {x: 1.06, y: 1.06},
+            // },
 
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 5,
-                scale: {x: 0.66, y: 0.66},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 6,
-                scale: {x: 0.79, y: 0.79},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 7,
-                scale: {x: 0.93, y: 0.93},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 8,
-                scale: {x: 1.06, y: 1.06},
-            },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 9,
+            //     scale: {x: 1.20, y: 1.20},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 10,
+            //     scale: {x: 1.33, y: 1.33},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 11,
+            //     scale: {x: 1.47, y: 1.47},
+            // },
+            // {
+            //     sport: 'Signature Coaches Short (Apparel)',
+            //     option: ["Men's", "Women's"],
+            //     size: 12,
+            //     scale: {x: 1.6, y: 1.6},
+            // },
 
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 9,
-                scale: {x: 1.20, y: 1.20},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 10,
-                scale: {x: 1.33, y: 1.33},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 11,
-                scale: {x: 1.47, y: 1.47},
-            },
-            {
-                sport: 'Signature Coaches Short (Apparel)',
-                option: ["Men's", "Women's"],
-                size: 12,
-                scale: {x: 1.6, y: 1.6},
-            },
-
-            // Soccer Shorts 
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 1,
-                scale: {x: 0.15, y: 0.15},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 2,
-                scale: {x: 0.3, y: 0.3},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 3,
-                scale: {x: 0.45, y: 0.45},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 4,
-                scale: {x: 0.6, y: 0.6},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 5,
-                scale: {x: 0.75, y: 0.75},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 6,
-                scale: {x: 0.9, y: 0.9},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 7,
-                scale: {x: 1.05, y: 1.05},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 8,
-                scale: {x: 1.2, y: 1.2},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 9,
-                scale: {x: 1.35, y: 1.35},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 10,
-                scale: {x: 1.5, y: 1.5},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 11,
-                scale: {x: 1.65, y: 1.65},
-            },
-            {
-                sport: 'Soccer',
-                option: ["Short (W)"],
-                size: 12,
-                scale: {x: 1.80, y: 1.80},
-            },
+            // // Soccer Shorts 
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 1,
+            //     scale: {x: 0.15, y: 0.15},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 2,
+            //     scale: {x: 0.3, y: 0.3},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 3,
+            //     scale: {x: 0.45, y: 0.45},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 4,
+            //     scale: {x: 0.6, y: 0.6},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 5,
+            //     scale: {x: 0.75, y: 0.75},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 6,
+            //     scale: {x: 0.9, y: 0.9},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 7,
+            //     scale: {x: 1.05, y: 1.05},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 8,
+            //     scale: {x: 1.2, y: 1.2},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 9,
+            //     scale: {x: 1.35, y: 1.35},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 10,
+            //     scale: {x: 1.5, y: 1.5},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 11,
+            //     scale: {x: 1.65, y: 1.65},
+            // },
+            // {
+            //     sport: 'Soccer',
+            //     option: ["Short (W)"],
+            //     size: 12,
+            //     scale: {x: 1.80, y: 1.80},
+            // },
 
 
             // Lacrosse Shorts 
-            {
-                sport: 'Lacrosse',
-                option: ["2 Panel Short", "4-inch panel Short", "Side seam Short", ""],
-                size: 1,
-                scale: {x: 0.15, y: 0.15},
-            },
-            {
-                sport: 'Lacrosse',
-                option: ["2 Panel Short", "4-inch panel Short", "Side seam Short"],
-                size: 2,
-                scale: {x: 0.3, y: 0.3},
-            },
-            {
-                sport: 'Lacrosse',
-                option: ["2 Panel Short", "4-inch panel Short", "Side seam Short"],
-                size: 3,
-                scale: {x: 0.45, y: 0.45},
-            },
-            {
-                sport: 'Lacrosse',
-                option: ["2 Panel Short", "4-inch panel Short", "Side seam Short"],
-                size: 4,
-                scale: {x: 0.6, y: 0.6},
-            },
+            // {
+            //     sport: 'Lacrosse',
+            //     option: ["2 Panel Short", "4-inch panel Short", "Side seam Short", ""],
+            //     size: 1,
+            //     scale: {x: 0.15, y: 0.15},
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     option: ["2 Panel Short", "4-inch panel Short", "Side seam Short"],
+            //     size: 2,
+            //     scale: {x: 0.3, y: 0.3},
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     option: ["2 Panel Short", "4-inch panel Short", "Side seam Short"],
+            //     size: 3,
+            //     scale: {x: 0.45, y: 0.45},
+            // },
+            // {
+            //     sport: 'Lacrosse',
+            //     option: ["2 Panel Short", "4-inch panel Short", "Side seam Short"],
+            //     size: 4,
+            //     scale: {x: 0.6, y: 0.6},
+            // },
 
              // Basketball Shorts 
-            {
-                sport: 'Basketball',
-                option: ["USA Short (M)", "USA Short (W)"],
-                size: 1,
-                scale: {x: 0.12, y: 0.12},
-            },
-            {
-                sport: 'Basketball',
-                option: ["USA Short (M)", "USA Short (W)"],
-                size: 2,
-                scale: {x: 0.24, y: 0.24},
-            },
-            {
-                sport: 'Basketball',
-                option: ["USA Short (M)", "USA Short (W)"],
-                size: 3,
-                scale: {x: 0.36, y: 0.36},
-            },
-            {
-                sport: 'Basketball',
-                option: ["USA Short (M)", "USA Short (W)"],
-                size: 4,
-                scale: {x: 0.48, y: 0.48},
-            },
+            // {
+            //     sport: 'Basketball',
+            //     option: ["USA Short (M)", "USA Short (W)"],
+            //     size: 1,
+            //     scale: {x: 0.12, y: 0.12},
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     option: ["USA Short (M)", "USA Short (W)"],
+            //     size: 2,
+            //     scale: {x: 0.24, y: 0.24},
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     option: ["USA Short (M)", "USA Short (W)"],
+            //     size: 3,
+            //     scale: {x: 0.36, y: 0.36},
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     option: ["USA Short (M)", "USA Short (W)"],
+            //     size: 4,
+            //     scale: {x: 0.48, y: 0.48},
+            // },
 
         ],
 
@@ -11695,176 +11693,176 @@ ub.funcs.fontOffSets = [
                 scale: {x: 1.12 ,y: 1.12 },
             },
 
-            // End Cage Jackets 
+            // End Cage Jackets
+
+            // // Tech-Tee
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 1,
+            //     scale: {x: 0.1, y: 0.1 },
+            // },
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 2,
+            //     scale: {x: 0.2, y: 0.2 },
+            // },
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 3,
+            //     scale: {x: 0.3, y: 0.3 },
+            // },
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 4,
+            //     scale: {x: 0.4, y: 0.4 },
+            // },
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 5,
+            //     scale: {x: 0.5, y: 0.5 },
+            // },
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 6,
+            //     scale: {x: 0.6, y: 0.6 },
+            // },
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 7,
+            //     scale: {x: 0.7, y: 0.7 },
+            // },
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 8,
+            //     scale: {x: 0.8, y: 0.8 },
+            // },
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 9,
+            //     scale: {x: 0.9, y: 0.9 },
+            // },
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 10,
+            //     scale: {x: 1., y: 1 },
+            // },
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 11,
+            //     scale: {x: 1.11, y: 1.11 },
+            // },
+            // {
+            //     sport: 'Tech-Tee (Apparel)',
+            //     size: 12,
+            //     scale: {x: 1.12, y: 1.12 },
+            // },
 
             // Tech-Tee
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 1,
-                scale: {x: 0.1, y: 0.1 },
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 2,
-                scale: {x: 0.2, y: 0.2 },
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 3,
-                scale: {x: 0.3, y: 0.3 },
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 4,
-                scale: {x: 0.4, y: 0.4 },
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 5,
-                scale: {x: 0.5, y: 0.5 },
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 6,
-                scale: {x: 0.6, y: 0.6 },
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 7,
-                scale: {x: 0.7, y: 0.7 },
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 8,
-                scale: {x: 0.8, y: 0.8 },
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 9,
-                scale: {x: 0.9, y: 0.9 },
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 10,
-                scale: {x: 1., y: 1 },
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 11,
-                scale: {x: 1.11, y: 1.11 },
-            },
-            {
-                sport: 'Tech-Tee (Apparel)',
-                size: 12,
-                scale: {x: 1.12, y: 1.12 },
-            },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 1,
+            //     scale: {x: 0.1, y: 0.1 },
+            // },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 2,
+            //     scale: {x: 0.2, y: 0.2 },
+            // },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 3,
+            //     scale: {x: 0.3, y: 0.3 },
+            // },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 4,
+            //     scale: {x: 0.4, y: 0.4 },
+            // },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 5,
+            //     scale: {x: 0.5, y: 0.5 },
+            // },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 6,
+            //     scale: {x: 0.6, y: 0.6 },
+            // },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 7,
+            //     scale: {x: 0.7, y: 0.7 },
+            // },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 8,
+            //     scale: {x: 0.8, y: 0.8 },
+            // },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 9,
+            //     scale: {x: 0.9, y: 0.9 },
+            // },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 10,
+            //     scale: {x: 1, y: 1 },
+            // },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 11,
+            //     scale: {x: 1.11, y: 1.11 },
+            // },
+            // {
+            //     sport: 'Compression (Apparel)',
+            //     size: 12,
+            //     scale: {x: 1.12, y: 1.12 },
+            // },
 
-            // Tech-Tee
-            {
-                sport: 'Compression (Apparel)',
-                size: 1,
-                scale: {x: 0.1, y: 0.1 },
-            },
-            {
-                sport: 'Compression (Apparel)',
-                size: 2,
-                scale: {x: 0.2, y: 0.2 },
-            },
-            {
-                sport: 'Compression (Apparel)',
-                size: 3,
-                scale: {x: 0.3, y: 0.3 },
-            },
-            {
-                sport: 'Compression (Apparel)',
-                size: 4,
-                scale: {x: 0.4, y: 0.4 },
-            },
-            {
-                sport: 'Compression (Apparel)',
-                size: 5,
-                scale: {x: 0.5, y: 0.5 },
-            },
-            {
-                sport: 'Compression (Apparel)',
-                size: 6,
-                scale: {x: 0.6, y: 0.6 },
-            },
-            {
-                sport: 'Compression (Apparel)',
-                size: 7,
-                scale: {x: 0.7, y: 0.7 },
-            },
-            {
-                sport: 'Compression (Apparel)',
-                size: 8,
-                scale: {x: 0.8, y: 0.8 },
-            },
-            {
-                sport: 'Compression (Apparel)',
-                size: 9,
-                scale: {x: 0.9, y: 0.9 },
-            },
-            {
-                sport: 'Compression (Apparel)',
-                size: 10,
-                scale: {x: 1., y: 1 },
-            },
-            {
-                sport: 'Compression (Apparel)',
-                size: 11,
-                scale: {x: 1.11, y: 1.11 },
-            },
-            {
-                sport: 'Compression (Apparel)',
-                size: 12,
-                scale: {x: 1.12, y: 1.12 },
-            },
+            //  // Cinch Sack
+            // {
+            //     sport: 'Cinch Sack (Apparel)',
+            //     size: 1,
+            //     scale: {x: 0.18, y: 0.18 },
+            // },
+            // {
+            //     sport: 'Cinch Sack (Apparel)',
+            //     size: 2,
+            //     scale: {x: 0.36, y: 0.36 },
+            // },
+            // {
+            //     sport: 'Cinch Sack (Apparel)',
+            //     size: 3,
+            //     scale: {x: 0.54, y: 0.54 },
+            // },
+            // {
+            //     sport: 'Cinch Sack (Apparel)',
+            //     size: 4,
+            //     scale: {x: 0.71, y: 0.71 },
+            // },
+            // {
+            //     sport: 'Cinch Sack (Apparel)',
+            //     size: 5,
+            //     scale: {x: 0.9, y: 0.9 },
+            // },
+            // {
+            //     sport: 'Cinch Sack (Apparel)',
+            //     size: 6,
+            //     scale: {x: 1.07, y: 1.07 },
+            // },
+            // {
+            //     sport: 'Cinch Sack (Apparel)',
+            //     size: 7,
+            //     scale: {x: 1.25, y: 1.25 },
+            // },
 
-             // Cinch Sack
-            {
-                sport: 'Cinch Sack (Apparel)',
-                size: 1,
-                scale: {x: 0.18, y: 0.18 },
-            },
-            {
-                sport: 'Cinch Sack (Apparel)',
-                size: 2,
-                scale: {x: 0.36, y: 0.36 },
-            },
-            {
-                sport: 'Cinch Sack (Apparel)',
-                size: 3,
-                scale: {x: 0.54, y: 0.54 },
-            },
-            {
-                sport: 'Cinch Sack (Apparel)',
-                size: 4,
-                scale: {x: 0.71, y: 0.71 },
-            },
-            {
-                sport: 'Cinch Sack (Apparel)',
-                size: 5,
-                scale: {x: 0.9, y: 0.9 },
-            },
-            {
-                sport: 'Cinch Sack (Apparel)',
-                size: 6,
-                scale: {x: 1.07, y: 1.07 },
-            },
-            {
-                sport: 'Cinch Sack (Apparel)',
-                size: 7,
-                scale: {x: 1.25, y: 1.25 },
-            },
+            // // "Crew Socks (Apparel)"
 
-            // "Crew Socks (Apparel)"
-
-            {
-                sport: 'Crew Socks (Apparel)',
-                size: 2.5,
-                scale: {x: 0.6, y: 0.6 },
-            },
+            // {
+            //     sport: 'Crew Socks (Apparel)',
+            //     size: 2.5,
+            //     scale: {x: 0.6, y: 0.6 },
+            // },
             
             // End "Crew Socks (Apparel)"
 

@@ -1244,32 +1244,45 @@
                 
             }
 
-        } else if ((ub.funcs.isCurrentSport('Baseball') || 
-            ub.funcs.isCurrentSport('Soccer') || 
-            ub.funcs.isCurrentSport('Fastpitch') || 
-            ub.funcs.isCurrentSport('Wrestling') || 
-            ub.funcs.isCurrentSport('Volleyball') || 
-            ub.funcs.isCurrentSport('2017 Team Short with Pockets (Apparel)') || 
-            ub.funcs.isCurrentSport('Signature Coaches Short (Apparel)') || 
-            ub.funcs.isCurrentSport('Basketball') || 
-            ub.funcs.isCurrentSport('Lacrosse')) && ub.funcs.isCurrentType('lower')) {
+        } 
+// //     else if (ub.funcs.isCurrentSport('Lacrosse') && ub.funcs.isCurrentType('lower')) 
+// //            ((ub.funcs.isCurrentSport('Baseball') || 
+// //            ub.funcs.isCurrentSport('Soccer') || 
+// //            ub.funcs.isCurrentSport('Fastpitch') || 
+// //            ub.funcs.isCurrentSport('Wrestling') || 
+// //            ub.funcs.isCurrentSport('Volleyball') || 
+// //            ub.funcs.isCurrentSport('2017 Team Short with Pockets (Apparel)') || 
+// //            ub.funcs.isCurrentSport('Signature Coaches Short (Apparel)') || 
+// //            ub.funcs.isCurrentSport('Basketball') || 
+//            {
 
-            var _scaleSettings = ub.data.mascotSizesPant.getSize(_uniformCategory, settings_obj.size, ub.current_material.material.neck_option); // Refactor this
+//             var _scaleSettings = ub.data.mascotSizesPant.getSize(_uniformCategory, settings_obj.size, ub.current_material.material.neck_option); // Refactor this
 
-            if (typeof _scaleSettings === "undefined") {
+//             if (typeof _scaleSettings === "undefined") {
+//                 console.warn('Scale Settings Not Found.');
+//             } else {
+//                 scale_settings = _scaleSettings.scale;
+//             }
 
-                console.warn('Scale Settings Not Found.');
+//         } 
+        // else if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
 
-            } else {
-    
-                scale_settings = _scaleSettings.scale;
-                
-            }
+        //     _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
+        //     scale_settings = _scaleSettings.scale;
 
-        } else if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
+        // }
 
-            _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
-            scale_settings = _scaleSettings.scale;
+        if (ub.styleValues.mascotScales.hasValues()) {
+
+            var _result = ub.styleValues.mascotScales.getScale(settings_obj.size);
+
+            if(typeof _result === "undefined") {
+                ub.utilities.warn('No Scale settings found for: ' + settings_obj.size);
+            } // else {
+            //     ub.utilities.info('Found Scale Settings. '); 
+            // }
+
+            scale_settings = _result;
 
         }
 

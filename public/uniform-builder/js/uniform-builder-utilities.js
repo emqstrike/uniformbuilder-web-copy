@@ -94,6 +94,18 @@ $(document).ready(function() {
             };
             var data = JSON.stringify(params);
             xhr.send(data);
+        },
+
+        domParserDecoder: function (str) {
+
+            var parser = new DOMParser;
+            var dom = parser.parseFromString(
+                '<!doctype html><body>' + str,
+                'text/html');
+            var decodedString = dom.body.textContent;
+
+            return decodedString;
+
         }
 
     };
