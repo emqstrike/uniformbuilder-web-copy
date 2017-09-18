@@ -12246,66 +12246,66 @@ ub.funcs.fontOffSets = [
             // End "Fan Replica Jersey (Apparel)"
 
             // "Basketball"
-            {
-                sport: 'Basketball',
-                size: 1,
-                scale: {x: 0.1, y: 0.1 },
-            },
-            {
-                sport: 'Basketball',
-                size: 2,
-                scale: {x: 0.2, y: 0.2 },
-            },
-            {
-                sport: 'Basketball',
-                size: 3,
-                scale: {x: 0.3, y: 0.3 },
-            },
-            {
-                sport: 'Basketball',
-                size: 4,
-                scale: {x: 0.4, y: 0.4 },
-            },
-            {
-                sport: 'Basketball',
-                size: 5,
-                scale: {x: 0.5, y: 0.5 },
-            },
-            {
-                sport: 'Basketball',
-                size: 6,
-                scale: {x: 0.6, y: 0.6 },
-            },
-            {
-                sport: 'Basketball',
-                size: 7,
-                scale: {x: 0.7, y: 0.7 },
-            },
-            {
-                sport: 'Basketball',
-                size: 8,
-                scale: {x: 0.8, y: 0.8 },
-            },
-            {
-                sport: 'Basketball',
-                size: 9,
-                scale: {x: 0.9, y: 0.9},
-            },
-            {
-                sport: 'Basketball',
-                size: 10,
-                scale: {x: 1.0, y: 1.0 },
-            },
-            {
-                sport: 'Basketball',
-                size: 11,
-                scale: {x: 1.10, y: 1.10 },
-            },
-            {
-                sport: 'Basketball',
-                size: 12,
-                scale: {x: 1.20, y: 1.20 },
-            },
+            // {
+            //     sport: 'Basketball',
+            //     size: 1,
+            //     scale: {x: 0.1, y: 0.1 },
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     size: 2,
+            //     scale: {x: 0.2, y: 0.2 },
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     size: 3,
+            //     scale: {x: 0.3, y: 0.3 },
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     size: 4,
+            //     scale: {x: 0.4, y: 0.4 },
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     size: 5,
+            //     scale: {x: 0.5, y: 0.5 },
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     size: 6,
+            //     scale: {x: 0.6, y: 0.6 },
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     size: 7,
+            //     scale: {x: 0.7, y: 0.7 },
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     size: 8,
+            //     scale: {x: 0.8, y: 0.8 },
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     size: 9,
+            //     scale: {x: 0.9, y: 0.9},
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     size: 10,
+            //     scale: {x: 1.0, y: 1.0 },
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     size: 11,
+            //     scale: {x: 1.10, y: 1.10 },
+            // },
+            // {
+            //     sport: 'Basketball',
+            //     size: 12,
+            //     scale: {x: 1.20, y: 1.20 },
+            // },
             // End "Basketball"
 
             // "Lacrosse"
