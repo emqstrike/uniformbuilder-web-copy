@@ -46,7 +46,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Current Manager</label>
                              <div class="col-md-4">
-                              <input type="text" name="description" class="form-control" value="{{$dealers->first_name}} {{$dealers->last_name}}" readonly="true">
+                              <input type="text" name="current_manager" class="form-control" value="{{$dealers->first_name}} {{$dealers->last_name}}" readonly="true">
                             </div>
                         </div>
                         <div class="form-group">
