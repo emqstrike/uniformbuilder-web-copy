@@ -30,6 +30,8 @@
                         <tr>
                             <th>ID</th>
                             <th>Sport</th>
+                            <th>Block Pattern Option</th>
+                            <th>Type</th>
                             <th>Active</th>
                             <th>Action</th>
                         </tr>
@@ -43,6 +45,12 @@
                             </td>            
                             <td>
                                 {{ $mascot_size->sport }}
+                            </td>
+                            <td>
+                                {{ $mascot_size->block_pattern_option }}
+                            </td>
+                            <td>
+                                {{ $mascot_size->type }}
                             </td>
                             <td>
                                 @if( $mascot_size->active )
