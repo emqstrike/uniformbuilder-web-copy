@@ -15,7 +15,8 @@
         "google/recaptcha": "^1.1",
         "elibyy/laravel-tcpdf": "5.1.x-dev",
         "maknz/slack-laravel": "^1.0",
-        "maknz/slack": "^1.7"
+        "maknz/slack": "^1.7",
+        "miladrahimi/phpcrypt": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
