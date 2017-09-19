@@ -241,7 +241,7 @@ $(document).ready(function () {
 			ub.togglePatternMasks(); 
 		});
 
-		ub.shortcut.add("Alt+3", function () {
+		ub.shortcut.add("Alt+4", function () {
 			ub.showThumbnail3(); 
 		});
 		
