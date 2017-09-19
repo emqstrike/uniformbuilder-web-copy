@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="/font-awesome-latest/css/font-awesome.min.css">
 <ul class="sidebar-menu">
   <li class="header">MAIN NAVIGATION</li>
   <li class="active">
@@ -277,7 +278,7 @@
   </li>
   <li data-position='right'>
     <a href="/administration/dealers">
-      <i class="fa fa-users"></i>
+      <i class="fa fa-handshake-o"></i>
       <span>Dealers</span>
       </a>
   </li>
