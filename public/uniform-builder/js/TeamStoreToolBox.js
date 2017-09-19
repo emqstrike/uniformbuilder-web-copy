@@ -29,6 +29,9 @@ var TeamStoreToolBox = {
     },
 
     show: function () {
+        // Enable the teamstore icon at the LEFT MENU
+        $('#left-side-toolbar span.team-store').show();
+
         $('#team-store-toolbox').addClass('visible');
         $('#team-store-toolbox').fadeIn();
     },
