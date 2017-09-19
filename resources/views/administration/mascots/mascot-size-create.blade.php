@@ -72,6 +72,12 @@ select:hover {
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Notes</label>
+                            <div class="col-md-6">
+                               <textarea class="form-control notes" name="notes"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Size & Scale Properties</label>
                             <div class="col-md-6">
                                 <a href="#" class="btn btn-xs btn-primary add-prop">Add</a>
