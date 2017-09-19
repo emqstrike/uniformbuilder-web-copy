@@ -1230,21 +1230,7 @@
         if (settings_obj.size === 1)   { scale_settings = {x: 0.08, y: 0.08}; }
         if (settings_obj.size === 0.5) { scale_settings = {x: 0.04, y: 0.04}; }
 
-        if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') && ub.funcs.isCurrentType('upper')) {
-
-            var _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
-
-            if (typeof _scaleSettings === "undefined") {
-
-                console.warn('Scale Settings Not Found.');
-
-            } else {
-    
-                scale_settings = _scaleSettings.scale;
-                
-            }
-
-        } 
+       
 // //     else if (ub.funcs.isCurrentSport('Lacrosse') && ub.funcs.isCurrentType('lower')) 
 // //            ((ub.funcs.isCurrentSport('Baseball') || 
 // //            ub.funcs.isCurrentSport('Soccer') || 
@@ -1262,8 +1248,6 @@
 //                 console.warn('Scale Settings Not Found.');
 //             } else {
 //                 scale_settings = _scaleSettings.scale;
-//             }
-
 //         } 
         // else if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
 
@@ -1277,10 +1261,18 @@
             var _result = ub.styleValues.mascotScales.getScale(settings_obj.size);
 
             if(typeof _result === "undefined") {
-                ub.utilities.warn('No Scale settings found for: ' + settings_obj.size);
-            } // else {
-            //     ub.utilities.info('Found Scale Settings. '); 
-            // }
+
+                // Use Defaults if theres no record 
+                if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') && ub.funcs.isCurrentType('upper')) {
+
+                    var _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
+
+                    ub.utilties.info('Scale Settings Not Found for ' +  ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' +  ub.config.neckOption + ' ' + settings_obj.size + '. Using default.');    
+                    scale_settings = _scaleSettings.scale;
+
+                } 
+
+            }
 
             scale_settings = _result;
 
