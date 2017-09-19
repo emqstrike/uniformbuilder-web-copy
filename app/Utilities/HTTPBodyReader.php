@@ -30,15 +30,18 @@ class HTTPBodyReader
             $requestBody = $request->getContent();
             $result = $decoder->decode($requestBody);
 
-            if (count($requiredFields))
+            if (is_array($requiredFields))
             {
-                $tmp = (array) $result;
-                foreach ($requiredFields as $requiredField)
+                if (count($requiredFields) > 0)
                 {
-                    if (empty($tmp[$requiredField]))
+                    $tmp = (array) $result;
+                    foreach ($requiredFields as $requiredField)
                     {
-                        $error = '[Builder] "' . $requiredField . '" cannot be null';
-                        throw new RequiredFieldException($error);
+                        if (empty($tmp[$requiredField]))
+                        {
+                            $error = '[Builder] "' . $requiredField . '" cannot be null';
+                            throw new RequiredFieldException($error);
+                        }
                     }
                 }
             }

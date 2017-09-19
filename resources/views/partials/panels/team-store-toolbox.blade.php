@@ -6,7 +6,9 @@
     
     <div class="header">
 
-        <span class="header-text">Team Store Tools</span>
+        <span class="header-text">
+            Team Store Tools
+        </span>
 
         <span class="close">
                 
