@@ -26,7 +26,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered mascot-sizes'>
+                    <table data-toggle='table' class='data-table table-bordered mascot-sizes'>
                     <thead>
                         <tr>
                             <th>ID</th>
