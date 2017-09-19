@@ -12448,11 +12448,29 @@ ub.funcs.fontOffSets = [
                     'RB',
                 ]
             },
+            {
+                block_pattern: 'Compression Pant',
+                neck_options: ['Full', 'Quarter'],
+                material_option: 'Waistband', 
+                valid_colors: [
+                    'B',    
+                    'CG',
+                ]
+            },
+            {
+                block_pattern: 'Compression Pant',
+                neck_options: ['Full', 'Quarter'],
+                material_option: 'Prolook', 
+                valid_colors: [
+                    'B',    
+                    'CG',
+                ]
+            },
 
             // Team Store
             {
                 block_pattern: 'Cage Jacket (Apparel)',
-                neck_options: ['Long Sleeve', 'Short Sleeve'],
+                neck_options: ['Full', 'Quarter'],
                 material_option: 'Zipper', 
                 valid_colors: [
                     'B',    
@@ -12479,17 +12497,82 @@ ub.funcs.fontOffSets = [
         }
     };
 
+    ub.data.coordinatingColors = {
+
+        items: [
+            {
+                origin: 'Prolook',
+                matchingPart: 'Waistband',
+                sport: 'Compression Pant (Apparel)',
+                blockPattern: 'Compression Pant',
+                neckOption: ['Full', 'Quarter'],
+                color1: 'CG',
+                color2: 'B',
+            },
+            {
+                origin: 'Waistband',
+                matchingPart: 'Prolook',
+                sport: 'Compression Pant (Apparel)',
+                blockPattern: 'Compression Pant',
+                neckOption: ['Full', 'Quarter'],
+                color1: 'CG',
+                color2: 'B',
+            },
+        ],
+
+        isCoordinating: function (origin, sport, blockPattern, neckOption, colorCode) {
+
+            var _originOk = _.filter(this.items, function (item) {
+
+                var __originOK = origin === item.origin;
+
+                return origin === item.origin &&
+                        sport === item.sport &&
+                        blockPattern === item.blockPattern &&
+                        _.contains(item.neckOption, neckOption);
+
+            });
+
+            var _matchingPartColor = undefined;
+            var _matchingPart = undefined;
+            var _firstItem = undefined;
+
+            if (_originOk.length > 0) {
+
+                _firstItem = _originOk[0];
+
+                if (colorCode === _firstItem.color1)  {
+                    _matchingPartColor = _firstItem.color2;
+                } else {
+                    _matchingPartColor = _firstItem.color1;
+                }
+
+                _matchingPart = _firstItem.matchingPart;
+
+            }
+
+            return {
+                result: (_originOk.length > 0),
+                item: (_originOk.length > 0) ? _firstItem : undefined, 
+                matchingPart: (_originOk.length > 0) ? _matchingPart : undefined,
+                matchingPartColor: (_originOk.length > 0) ? _matchingPartColor : undefined,
+            }
+            
+        },
+
+    }
+
     ub.data.minimumOrder = {
 
         items: [ 
             {
                 sport: 'Crew Socks (Apparel)',
                 qty: 30,
-            }, 
+            },
             {
                 sport: 'Default',
                 qty: 1,
-            }, 
+            },
         ],
 
         getQty: function (sport) { 
@@ -13341,5 +13424,6 @@ ub.funcs.fontOffSets = [
         }
 
     }
+
 
 });

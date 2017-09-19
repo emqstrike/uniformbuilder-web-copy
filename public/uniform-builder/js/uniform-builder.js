@@ -3361,7 +3361,6 @@ $(document).ready(function () {
 
             }
 
-
             ub.getThumbnailImage = function (view, rotate) {
 
                 ub.funcs.resetHighlights();
@@ -3394,9 +3393,19 @@ $(document).ready(function () {
             ub.showThumbnail2 = function () {
 
                 var img = ub.getThumbnailImage2(ub.active_view + '_view');
-                var _str = "<img src ='" + img + "' />";
+                var _str = "<img src ='" + img + "' />" ;
 
                 ub.showModalTool(_str);
+
+            }
+
+            ub.showThumbnail3 = function () {
+
+                var img = ub.getThumbnailImage2(ub.active_view + '_view');
+                var _str    = "Current: <img width='388px;' src ='" + img + "' />" ;
+                var _str2   = "Saved Thumbnail: <img src='" + ub.current_material.material.thumbnail_path + "'/>";
+
+                ub.showModalTool(_str + _str2);
 
             }
             

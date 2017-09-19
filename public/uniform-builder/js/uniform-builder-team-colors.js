@@ -40,7 +40,7 @@ $(document).ready(function () {
 
                 var _oldValue = _materialOptionObject.color;
                 var _newValue = parseInt(colorObj.hex_code, 16);
-                
+
                 if (source !== 'from undo') {
 
                     if (typeof ub.funcs.pushOldState === "undefined") { return; } 
@@ -58,6 +58,28 @@ $(document).ready(function () {
 
     };
 
+    // Change Matching Part (e.g. for Waistband, Prolook on Compression Pants)
+    ub.funcs.ui.setMatchingColor = function (materialOptionCode, colorObj, source) {
+
+        var _isCoordinating = ub.data.coordinatingColors.isCoordinating(materialOptionCode.toTitleCase(), 
+                    ub.config.sport,
+                    ub.config.blockPattern, 
+                    ub.config.option,
+                    colorObj.color_code);
+
+        if (_isCoordinating.result) {
+
+            var _matchingPartColorObj = ub.funcs.getColorByColorCode(_isCoordinating.matchingPartColor);
+            var _matchingPartCode = _isCoordinating.matchingPart.toCodeCase();
+
+            ub.funcs.setMaterialOptionSettingsColor(_matchingPartCode, _matchingPartColorObj, source);
+            if (ub.data.afterLoadCalled !== 1) { return; }
+            ub.change_material_option_color16(_matchingPartCode, parseInt(_matchingPartColorObj.hex_code, 16));
+
+        }
+
+    }
+
     // Set Color of the Actual Sprite in the stage
     ub.funcs.ui.setMaterialOptionColor = function (name, colorObj, source) {
 
@@ -66,6 +88,7 @@ $(document).ready(function () {
         _.each(_names, function (name) {
 
             ub.funcs.setMaterialOptionSettingsColor(name, colorObj, source);
+            ub.funcs.ui.setMatchingColor(name, colorObj, source);
 
             if (ub.data.afterLoadCalled !== 1) { return; }
 
@@ -683,7 +706,7 @@ $(document).ready(function () {
 
                    var _colorID           = $(this).data('color-id');
                    var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});
-                   
+
                    ub.funcs.ui.setMaterialOptionColor(modLabel.name, _colorOBJ, 'from color picker');
 
                    var $previewCircle     = $(this).parent().find('circle');
