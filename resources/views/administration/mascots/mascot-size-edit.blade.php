@@ -30,7 +30,7 @@ select:hover {
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Mascot Size</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/mascot_size/update" enctype="multipart/form-data" id='create-mascot-size-form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/mascot_size/update" enctype="multipart/form-data" id='update-mascot-size-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="mascot_size_id" value="{{ $mascot_size->id }}">
                         <input type="hidden" id="old_props_data" value="{{ $mascot_size->properties }}">
@@ -77,6 +77,12 @@ select:hover {
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Notes</label>
+                            <div class="col-md-6">
+                               <textarea class="form-control notes" name="notes">{{ $mascot_size->notes }}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Size & Scale Properties</label>
                             <div class="col-md-6">
                                 <a href="#" class="btn btn-xs btn-primary add-prop">Add</a>
@@ -96,7 +102,7 @@ select:hover {
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary create-mascot-size">
+                                <button type="submit" class="btn btn-primary update-mascot-size">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Mascot Size
                                 </button>
