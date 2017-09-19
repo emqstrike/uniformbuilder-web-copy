@@ -275,4 +275,10 @@
       <span>Cuts Links</span>
       </a>
   </li>
+  <li data-position='right'>
+    <a href="/administration/dealers">
+      <i class="fa fa-users"></i>
+      <span>Dealers</span>
+      </a>
+  </li>
 </ul>
