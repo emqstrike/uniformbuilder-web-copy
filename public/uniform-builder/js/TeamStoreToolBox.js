@@ -24,6 +24,10 @@ var TeamStoreToolBox = {
         $('#team-store-toolbox').draggable();
     },
 
+    has_team_store_account: function() {
+        return false;
+    },
+
     show: function () {
         $('#team-store-toolbox').addClass('visible');
         $('#team-store-toolbox').fadeIn();

@@ -13,6 +13,7 @@ use Redirect;
 use Session;
 use \Exception;
 use Webmozart\Json\JsonDecoder;
+use \Crypt as DefaultCrypt;
 
 class AuthenticationController extends AdminAuthController
 {
@@ -161,24 +162,20 @@ class AuthenticationController extends AdminAuthController
                         }
                         else
                         {
-                            $response = $this->client->get('encrypt/' . $password);
-                            $response = $decoder->decode($response->getBody());
+                            $params = [
+                                'userId' => $result->user->id,
+                                'firstName' => $result->user->first_name,
+                                'lastName' => $result->user->last_name,
+                                'email' => $result->user->email,
+                                'accessToken' => base64_encode($result->access_token),
+                                'password' => DefaultCrypt::encrypt($password),
+                                'state' => $result->user->state,
+                                'zip' => $result->user->zip,
+                                'default_rep_id' => $result->user->default_rep_id,
+                            ];
 
-                            if ($response->success) {
-                                $params = [
-                                    'userId' => $result->user->id,
-                                    'firstName' => $result->user->first_name,
-                                    'lastName' => $result->user->last_name,
-                                    'email' => $result->user->email,
-                                    'accessToken' => base64_encode($result->access_token),
-                                    'password' => $response->hashedString,
-                                    'state' => $result->user->state,
-                                    'zip' => $result->user->zip,
-                                    'default_rep_id' => $result->user->default_rep_id,
-                                ];
-                                $teamstore_registration_params = base64_encode( json_encode($params) );
-                                Session::put('teamstore_registration_params', $teamstore_registration_params);
-                            }
+                            $teamstore_registration_params = base64_encode( json_encode($params) );
+                            Session::put('teamstore_registration_params', $teamstore_registration_params);
                         }
                     }
                 }

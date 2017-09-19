@@ -12,7 +12,7 @@
     @if (\Session::get('is_show_teamstore_toolbox'))
     <hr class="left-side-divider middle middle-bottom fav-top" />
 
-    <span class="toolbar-item" id="show-team-store-toolbox">
+    <span class="toolbar-item team-store" id="show-team-store-toolbox">
         <i class="fa fa-group" aria-hidden="true"></i>
         <span class="toolbar-item-label">TEAM STORE</span>
     </span>
