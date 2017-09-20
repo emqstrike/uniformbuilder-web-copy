@@ -114,6 +114,10 @@ class UniformBuilderController extends Controller
         if (isset($config['store_code']))
         {
             $params['store_code'] = $config['store_code'];
+            if (Session::has('team_store_code'))
+            {
+                $params['store_code'] = Session::get('team_store_code');
+            }
             Log::info(__METHOD__ . ': Store Code = ' . $params['store_code']);
         }
 
@@ -195,8 +199,8 @@ class UniformBuilderController extends Controller
             $pageType = Session::get("page-type");
             $params['type'] = $config['type'];
 
-            if($pageType['page'] === "saved-design") {
-                
+            if ($pageType['page'] === "saved-design")
+            {
                 $design = Session::get('design');
                 Session::put('order', null);
 

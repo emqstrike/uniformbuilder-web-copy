@@ -25,7 +25,7 @@
 
             @if (Session::get('userHasTeamStoreAccount'))
 
-                <li class="open-team-store" data-store="{{ env('TEAM_STORE_BASE_URL') }}/visit-store-by-code/{{ $store_code }}">
+                <li class="open-team-store" data-store="{{ env('TEAM_STORE_BASE_URL') }}/visit-store-by-code/{{ Session::get('team_store_code') }}">
                     <span class="fa fa-3 fa-eye"></span>
                     <br>
                     Open Team Store

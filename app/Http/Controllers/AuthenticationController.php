@@ -161,6 +161,7 @@ class AuthenticationController extends AdminAuthController
                             Log::info("User's Team Store Account ID: " . $response->team_store_user_id);
                             // Team Store Session - Entry point
                             Session::put('userHasTeamStoreAccount', true);
+                            Session::put('team_store_code', $response->team_store_code);
                             Log::info('Session: userHasTeamStoreAccount = true');
                         }
                         else
