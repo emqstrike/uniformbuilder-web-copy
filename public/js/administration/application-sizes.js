@@ -1,159 +1,121 @@
 $(document).ready(function(){
 
-    if( $('#old_configurations').val() ){
-        console.log('has a value');
-        var data = JSON.parse($('#old_configurations').val());
-        console.log(data);
+    if( $('#old_properties').val() ) {       
+        var data = JSON.parse($('#old_properties').val());    
         loadConfigurations(data);
-    }
+    }    
 
-    window.table = '<hr><table class="table table-bordered"><tbody>';
-    var app_numbers_options = buildAppNumOptions();
-    window.table += `<tr>
-                        <td>Application Numbers</td>
-                        <td>
-                            <select class="form-control app-numbers" multiple="multiple">
-                                `+app_numbers_options+`
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Type</td>
-                        <td>
-                            <select class="form-control app-type">
-                                <option value="upper">Upper</option>
-                                <option value="lower">Lower</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Sizes</td>
-                        <td>
-                            <select class="form-control app-sizes" multiple="multiple">
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                            </select>
-                        </td>
-                    </tr>
-                    </tbody>
-                    </table>`;
-
-    $(".add-configuration").click(function(e) {
+    $(".add-props").on('click', function(e) {
         e.preventDefault();
-        $('.config-content').append(window.table);
+        var app_numbers_options = buildAppNumOptions();
+        var td_open = '<td>';
+        var td_close = '</td>';
+        var application_number = '<select class="form-control app-numbers" multiple="multiple">'+app_numbers_options+'</select>';
+        var size = '<input type="text" class="app-size">';
+        var scale = '<input type="text" class="app-scale">';
+        var def = '<input type="text" class="app-def">';
+        var delete_row = '<a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
+        var elem = '<tr class="layer-row">' +
+                        td_open +
+                            application_number +
+                        td_close +
+                        td_open +
+                            size +
+                        td_close +
+                        td_open +
+                            scale +
+                        td_close +
+                        td_open +
+                            def +
+                        td_close +
+                        td_open +
+                            delete_row +
+                        td_close +                          
+                    '</tr>';
+        $('.properties-content').append(elem);       
         refreshSelectBoxes();
+        updateJSON();
     });
 
+    $("#create_application_size").on("click", ".delete-row", function(e){
+            e.preventDefault();
+            $(this).parent().parent().remove();            
+    });
+
+    function deleteButton(){
+        $('.delete-row').on('click', function(e){
+            e.preventDefault();
+            $(this).parent().parent().remove();
+            updateJSON();
+        });
+    }    
+
     function loadConfigurations(data){
+        
         var app_numbers_options = buildAppNumOptions();
         var app_numbers_ref = [];
-        var sizes = [];
-        data.forEach(function(entry, i) {
-            var upper_selected = null;
-            var lower_selected = null;
-            var app_nums = entry.applicationNumbers;
-            var xsize = [];
-            entry.sizes.forEach(function(z) {
-                xsize.push(z.size);
-            });
-            sizes.push(xsize);
-            // console.log(sizes);
-            app_numbers_ref.push(entry.applicationNumbers);  
-            if(entry.type == "upper"){
-                upper_selected = "selected"
-            }
-            if(entry.type == "lower"){
-                lower_selected = "selected"
-            }
-            var app_num_class = "app-num-"+i;
-            var app_size_class = "app-size-"+i;
-            // console.log(app_num_class);
-            var template = `<hr><table class="table table-bordered"><tbody><tr>
-                                <td>Application Numbers</td>
-                                <td>
-                                    <select class="form-control app-numbers `+app_num_class+`" multiple="multiple">
-                                        `+app_numbers_options+`
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Type</td>
-                                <td>
-                                    <select class="form-control app-type">
-                                        <option value="upper" `+upper_selected+`>Upper</option>
-                                        <option value="lower" `+lower_selected+`>Lower</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Sizes</td>
-                                <td>
-                                    <select class="form-control app-sizes `+app_size_class+`" multiple="multiple">
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            </tbody>
-                            </table>`;
-            // console.log(template);
-            $('#config_content').append(template);
+        data.forEach(function(entry, i) {                         
+            var app_nums = entry.application_number;
+            app_numbers_ref.push(app_nums); 
+            var app_num_class = "app-num-"+i;            
+            var app_size = entry.size;
+            var app_scale = entry.scale; 
+            var app_def = entry.default;           
+            var td_open = '<td>';
+            var td_close = '</td>';
+            var application_number = `<select class="form-control app-numbers `+app_num_class+`" multiple="multiple">`+app_numbers_options+`</select>`;
+            var size = '<input type="text" class="form-control app-size" value="'+app_size+'">';
+            var scale = '<input type="text" class="form-control app-scale" value="'+app_scale+'">';
+            var def = '<input type="text" class="form-control app-def" value="'+app_def+'">';
+            var delete_row = '<a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
+            var elem = '<tr class="layer-row">' +
+                            td_open +
+                                application_number +
+                            td_close +
+                            td_open +
+                                size +
+                            td_close +
+                            td_open +
+                                scale +
+                            td_close +
+                            td_open +
+                                def +
+                            td_close +
+                            td_open +
+                                delete_row +
+                            td_close +                          
+                        '</tr>';
+            $('.properties-content').append(elem);   
+            updateJSON();
         });
-        setTimeout(refreshSelect2s(app_numbers_ref, sizes), 1000);
+        setTimeout(refreshSelect2s(app_numbers_ref), 1000);
     }
 
-    function refreshSelect2s(app_numbers_ref, sizes){
-        refreshSelectBoxes();
-        // console.log(sizes);
+    function refreshSelect2s(app_numbers_ref){
+        refreshSelectBoxes();       
         app_numbers_ref.forEach(function(entry, i) {
-
-            var app_num_class = ".app-num-"+i;
-            var app_size_class = ".app-size-"+i;
-
-            $(app_num_class).select2('val', entry);
-            $(app_size_class).select2('val', sizes[i]);
-
+            var app_num_class = ".app-num-"+i;            
+            $(app_num_class).select2('val', entry);           
         });
-        refreshJSON();
-    }
+        updateJSON();
+    }    
 
-    function refreshJSON(){
+    function updateJSON() {
         var data = [];
-        $("table").each(function(i) {
-            var app_nums = $(this).find('.app-numbers').val();
-            var sizes = $(this).find('.app-sizes').val();
-            var arrnums = [];
-            try{
-                app_nums.forEach(function(entry) {
-                    // console.log(typeof entry);
-                    entry = parseInt(entry);
-                    arrnums.push(entry);
-                    // console.log(typeof entry);
-                });
-
-                var structured_sizes = [];
-                sizes.forEach(function(entry) {
-                    structured_sizes.push({
-                        'size' : parseInt(entry)
-                    });
-                });
-            } catch(err){
-                // console.log(err.message);
-            }
-            // console.log(arrnums);
+        $(".layer-row").each(function(i) {
             var x = {
-                'applicationNumbers' : arrnums,
-                'type' : $(this).find('.app-type').val(),
-                'sizes' : structured_sizes,
-            }
+                "application_number" : $(this).find('.app-numbers').val(),
+                "size" : $(this).find('.app-size').val(),
+                "scale" : $(this).find('.app-scale').val(),
+                "default" : $(this).find('.app-def').val()
+            };
             data.push(x);
         });
-        $('#configurations').val(JSON.stringify(data));
+        console.log(JSON.stringify(data));
+        $('#properties').val(JSON.stringify(data));
     }
 
-    function buildAppNumOptions(){
+    function buildAppNumOptions() {
         var elem = '';
         for(var i = 1; i <= 51; i++){
             elem += '<option value="'+i+'">'+i+'</option>';
@@ -164,30 +126,31 @@ $(document).ready(function(){
     function refreshSelectBoxes(){
         $(".app-numbers").each(function(i) {
             $(this).select2({
-                placeholder: "Select application numbers",
+                placeholder: "Select numbers",
                 multiple: true,
                 allowClear: true
             });
-        });
-
-        $(".app-sizes").each(function(i) {
-            $(this).select2({
-                placeholder: "Select application sizes",
-                multiple: true,
-                allowClear: true
-            });
-        });
+        });       
     }
 
     $("#create_application_size").on("change", ".app-numbers", function(e){
-        refreshJSON();
+        updateJSON();
     });
 
-    $("#create_application_size").on("change", ".app-type", function(e){
-        refreshJSON();
+    $("#create_application_size").on("keyup", ".app-size", function(e){
+        updateJSON();
     });
 
-    $("#create_application_size").on("change", ".app-sizes", function(e){
-        refreshJSON();
+    $("#create_application_size").on("keyup", ".app-scale", function(e){
+        updateJSON();
     });
+
+    $("#create_application_size").on("keyup", ".app-def", function(e){
+        updateJSON();
+    });
+
+    $("#create_application_size").on("click", ".delete-row", function(e){
+        updateJSON();
+    });
+
 });

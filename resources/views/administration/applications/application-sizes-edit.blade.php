@@ -41,8 +41,8 @@ li.select2-selection__choice {
                     <form class="form-horizontal" role="form" method="POST" action="/administration/application_size/update" enctype="multipart/form-data" id='create_application_size'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="application_size_id" value="{{ $application_size->id }}">
-                        <input type="hidden" name="configurations" id="configurations">
-                        <input type="hidden" name="old_configurations" id="old_configurations" value="{{ $application_size->configurations }}">
+                        <input type="hidden" name="properties" id="properties">
+                        <input type="hidden" name="old_properties" id="old_properties" value="{{ $application_size->properties }}">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
@@ -63,24 +63,48 @@ li.select2-selection__choice {
                                 </select>
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Configurations</label>
-                            <div class="col-md-6 config-content" id="config_content">
-                                <a href="#" class='btn btn-xs btn-default add-configuration'>
-                                    <span class="glyphicon glyphicon-plus"></span> Add
-                                </a>
+                            <label class="col-md-4 control-label">Type</label>
+                            <div class="col-md-6">                                
+                                <select class="form-control app-type" name="type">
+                                    <option value="upper" @if($application_size->type == "upper") selected="selected"@endif >Upper</option>
+                                    <option value="lower" @if($application_size->type == "lower") selected="selected"@endif >Lower</option>
+                                </select>
                             </div>
+                        </div>                                              
+                        <div class="row form-group">
+                            <label class="col-md-1 control-label">Properties
+                                <a href="#" class="btn btn-primary btn-xs add-props">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>
+                            </label>
                         </div>
+                        <div class="row form-group">   
+                            <div class="col-md-11">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Application Numbers</th>
+                                            <th>Size</th>
+                                            <th>Scale</th>
+                                            <th>Default</th>                                           
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="properties-content">
+                                        
+                                    </tbody>
+                                </table>                              
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-color">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Add Information
+                                    Update Information
                                 </button>
-                                <a href="/administration/block_patterns" class="btn btn-danger">
+                                <a href="/administration/application_sizes" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
