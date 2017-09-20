@@ -22,6 +22,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Sport</th>
+                            <th>Type</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -36,6 +37,9 @@
                             </td>
                             <td>
                                 {{ $item->sport }}
+                            </td>
+                            <td>
+                                {{ $item->type }}
                             </td>
                             <td>
                                 <a href="application_size/edit/{{ $item->id }}" class="btn btn-xs btn-primary">Edit</a>

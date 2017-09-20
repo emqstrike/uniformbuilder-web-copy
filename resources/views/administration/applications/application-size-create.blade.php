@@ -40,7 +40,7 @@ li.select2-selection__choice {
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/application_size/add" enctype="multipart/form-data" id='create_application_size'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="configurations" id="configurations">
+                        <input type="hidden" name="properties" id="properties">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
@@ -61,8 +61,17 @@ li.select2-selection__choice {
                                 </select>
                             </div>
                         </div>
-
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Type</label>
+                            <div class="col-md-6">                                
+                                <select class="form-control app-type" name="type">
+                                    <option value="upper">Upper</option>
+                                    <option value="lower">Lower</option>
+                                </select>
+                            </div>
+                        </div>
+
+                       {{--  <div class="form-group">
                             <label class="col-md-4 control-label">Configurations</label>
                             <div class="col-md-6 config-content">
                                 <a href="#" class='btn btn-xs btn-default add-configuration'>
@@ -70,6 +79,32 @@ li.select2-selection__choice {
                                 </a>
                             </div>
                         </div>
+                        </div> --}}
+
+                        <div class="row form-group">
+                            <label class="col-md-1 control-label">Properties
+                                <a href="#" class="btn btn-primary btn-xs add-props">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>
+                            </label>
+                        </div>
+                        <div class="row form-group">   
+                            <div class="col-md-11">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Application Numbers</th>
+                                            <th>Size</th>
+                                            <th>Scale</th>
+                                            <th>Default</th>                                           
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="properties-content">
+                                        
+                                    </tbody>
+                                </table>                              
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -78,7 +113,7 @@ li.select2-selection__choice {
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add Information
                                 </button>
-                                <a href="/administration/block_patterns" class="btn btn-danger">
+                                <a href="/administration/application_sizes" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>

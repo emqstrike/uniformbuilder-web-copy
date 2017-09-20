@@ -63,13 +63,14 @@ class ApplicationSizesController extends Controller
     {
         $name = $request->input('name');
         $uniform_category_id = $request->input('uniform_category_id');
-        $configurations = $request->input('configurations');
+        $type = $request->input('type');
+        $properties = $request->input('properties');
         $data = [
             'name' => $name,
             'uniform_category_id' => $uniform_category_id,
-            'configurations' => $configurations
+            'type' => $type,
+            'properties' => $properties
         ];
-
         $id = null;
         if (!empty($request->input('application_size_id')))
         {
