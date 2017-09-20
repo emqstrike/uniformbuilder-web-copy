@@ -70,17 +70,6 @@ li.select2-selection__choice {
                                 </select>
                             </div>
                         </div>
-
-                       {{--  <div class="form-group">
-                            <label class="col-md-4 control-label">Configurations</label>
-                            <div class="col-md-6 config-content">
-                                <a href="#" class='btn btn-xs btn-default add-configuration'>
-                                    <span class="glyphicon glyphicon-plus"></span> Add
-                                </a>
-                            </div>
-                        </div>
-                        </div> --}}
-
                         <div class="row form-group">
                             <label class="col-md-1 control-label">Properties
                                 <a href="#" class="btn btn-primary btn-xs add-props">

@@ -77,7 +77,6 @@ class ApplicationSizesController extends Controller
             $id = $request->input('application_size_id');
             $data['id'] = $id;
         }
-// dd($data);
         $response = null;
         if (!empty($request->input('application_size_id')))
         {

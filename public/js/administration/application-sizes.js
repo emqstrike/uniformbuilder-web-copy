@@ -1,9 +1,7 @@
 $(document).ready(function(){
 
-    if( $('#old_properties').val() ) {
-        console.log('has a value');
-        var data = JSON.parse($('#old_properties').val());
-        console.log(data);
+    if( $('#old_properties').val() ) {       
+        var data = JSON.parse($('#old_properties').val());    
         loadConfigurations(data);
     }    
 
@@ -59,8 +57,7 @@ $(document).ready(function(){
         data.forEach(function(entry, i) {                         
             var app_nums = entry.application_number;
             app_numbers_ref.push(app_nums); 
-            var app_num_class = "app-num-"+i;
-            console.log(app_num_class); 
+            var app_num_class = "app-num-"+i;            
             var app_size = entry.size;
             var app_scale = entry.scale; 
             var app_def = entry.default;           
@@ -155,4 +152,5 @@ $(document).ready(function(){
     $("#create_application_size").on("click", ".delete-row", function(e){
         updateJSON();
     });
+
 });
