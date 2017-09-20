@@ -24,7 +24,14 @@ var TeamStoreToolBox = {
         $('#team-store-toolbox').draggable();
     },
 
+    has_team_store_account: function() {
+        return false;
+    },
+
     show: function () {
+        // Enable the teamstore icon at the LEFT MENU
+        $('#left-side-toolbar span.team-store').show();
+
         $('#team-store-toolbox').addClass('visible');
         $('#team-store-toolbox').fadeIn();
     },

@@ -240,6 +240,10 @@ $(document).ready(function () {
 		ub.shortcut.add("Alt+3", function () {
 			ub.togglePatternMasks(); 
 		});
+
+		ub.shortcut.add("Alt+4", function () {
+			ub.showThumbnail3(); 
+		});
 		
 		// Dev Tools is at shift + alt,
 

@@ -7,10 +7,13 @@ use App\TeamStoreClient\UserTeamStoreClient;
 use App\Utilities\Crypt;
 use App\Utilities\Log;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 use Redirect;
 use Session;
+use \Exception;
 use Webmozart\Json\JsonDecoder;
+use MiladRahimi\PhpCrypt\Crypt as TeamStorePasswordCrypt;
 
 class AuthenticationController extends AdminAuthController
 {
@@ -62,6 +65,16 @@ class AuthenticationController extends AdminAuthController
 
         }
         catch (ClientException $e)
+        {
+            $error = $e->getMessage();
+            Log::info('Login Attempt Error : ' . $error, 'FRONT END');
+        }
+        catch (RequestException $e)
+        {
+            $error = $e->getMessage();
+            Log::info('Login Attempt Error : ' . $error, 'FRONT END');
+        }
+        catch (Exception $e)
         {
             $error = $e->getMessage();
             Log::info('Login Attempt Error : ' . $error, 'FRONT END');
@@ -149,24 +162,25 @@ class AuthenticationController extends AdminAuthController
                         }
                         else
                         {
-                            $response = $this->client->get('encrypt/' . $password);
-                            $response = $decoder->decode($response->getBody());
+                            $key = env('TEAM_STORE_SECRET_KEY');
 
-                            if ($response->success) {
-                                $params = [
-                                    'userId' => $result->user->id,
-                                    'firstName' => $result->user->first_name,
-                                    'lastName' => $result->user->last_name,
-                                    'email' => $result->user->email,
-                                    'accessToken' => base64_encode($result->access_token),
-                                    'password' => $response->hashedString,
-                                    'state' => $result->user->state,
-                                    'zip' => $result->user->zip,
-                                    'default_rep_id' => $result->user->default_rep_id,
-                                ];
-                                $teamstore_registration_params = base64_encode( json_encode($params) );
-                                Session::put('teamstore_registration_params', $teamstore_registration_params);
-                            }
+                            $crypt = new TeamStorePasswordCrypt($key);
+                            $encrypted_password = $crypt->encrypt($password);
+
+                            $params = [
+                                'userId' => $result->user->id,
+                                'firstName' => $result->user->first_name,
+                                'lastName' => $result->user->last_name,
+                                'email' => $result->user->email,
+                                'accessToken' => base64_encode($result->access_token),
+                                'password' => $encrypted_password,
+                                'state' => $result->user->state,
+                                'zip' => $result->user->zip,
+                                'default_rep_id' => $result->user->default_rep_id,
+                            ];
+
+                            $teamstore_registration_params = base64_encode( json_encode($params) );
+                            Session::put('teamstore_registration_params', $teamstore_registration_params);
                         }
                     }
                 }
