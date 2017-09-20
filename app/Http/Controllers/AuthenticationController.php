@@ -84,13 +84,14 @@ class AuthenticationController extends AdminAuthController
                         ->with('message', "The email and password you entered don't match.");
     }
 
-    public function lrest(Request $request) {
+    public function lrest(Request $request)
+    {
 
         $email = $request->input('email');
         $password = $request->input('password');
 
-        if (strlen (trim($email)) == 0 || strlen (trim($password)) == 0) {
-
+        if (strlen (trim($email)) == 0 || strlen (trim($password)) == 0)
+        {
             return [
                 'sucess' => false, 
                 'message' => 'Invalid Email / Password Combination',
@@ -152,10 +153,12 @@ class AuthenticationController extends AdminAuthController
                         Session::put('is_show_teamstore_toolbox', true);
                         Log::info('User #' . $result->user->email . ' (' . $result->user->type . ') is entitled to open TEAM STORE (beta) version');
 
-                        $teamstore_account_response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+                        $client = new UserTeamStoreClient;
+                        $response = $client->team_store_login($email, $password);
 
-                        if ($teamstore_account_response->success)
+                        if ($response->success)
                         {
+                            Log::info("User's Team Store Account ID: " . $response->team_store_user_id);
                             // Team Store Session - Entry point
                             Session::put('userHasTeamStoreAccount', true);
                             Log::info('Session: userHasTeamStoreAccount = true');
@@ -182,6 +185,7 @@ class AuthenticationController extends AdminAuthController
                             $teamstore_registration_params = base64_encode( json_encode($params) );
                             Session::put('teamstore_registration_params', $teamstore_registration_params);
                         }
+
                     }
                 }
 
@@ -206,7 +210,7 @@ class AuthenticationController extends AdminAuthController
 
             } else {
 
-                // Log::info('Failed Login Attempt by (' . $email . '): ' . $result->message);
+                Log::info('Failed Login Attempt by (' . $email . '): ' . $result->message);
                 // Session::flash('flash_message', $result->message);
 
                 return [
