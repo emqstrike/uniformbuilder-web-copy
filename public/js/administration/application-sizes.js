@@ -64,9 +64,9 @@ $(document).ready(function(){
             var td_open = '<td>';
             var td_close = '</td>';
             var application_number = `<select class="form-control app-numbers `+app_num_class+`" multiple="multiple">`+app_numbers_options+`</select>`;
-            var size = '<input type="text" class="app-size" value="'+app_size+'">';
-            var scale = '<input type="text" class="app-scale" value="'+app_scale+'">';
-            var def = '<input type="text" class="app-def" value="'+app_def+'">';
+            var size = '<input type="text" class="form-control app-size" value="'+app_size+'">';
+            var scale = '<input type="text" class="form-control app-scale" value="'+app_scale+'">';
+            var def = '<input type="text" class="form-control app-def" value="'+app_def+'">';
             var delete_row = '<a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
             var elem = '<tr class="layer-row">' +
                             td_open +
