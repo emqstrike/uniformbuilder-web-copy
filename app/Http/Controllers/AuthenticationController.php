@@ -13,10 +13,12 @@ use Redirect;
 use Session;
 use \Exception;
 use Webmozart\Json\JsonDecoder;
-use MiladRahimi\PhpCrypt\Crypt as TeamStorePasswordCrypt;
+use App\Traits\HandleTeamStoreConfiguration;
 
 class AuthenticationController extends AdminAuthController
 {
+    use HandleTeamStoreConfiguration;
+
     /**
      * Front-end Login
      */
@@ -112,101 +114,51 @@ class AuthenticationController extends AdminAuthController
 
             if ($result->success) {
                 $fullname = $result->user->first_name . ' ' . $result->user->last_name;
+                $access_token = $result->access_token;
+                $user = $result->user;
 
-                Session::put('userId', $result->user->id);
+                Session::put('userId', $user->id);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $fullname);
-                Session::put('first_name', $result->user->first_name);
-                Session::put('firstName', $result->user->first_name);
-                Session::put('lastName', $result->user->last_name);
-                Session::put('email', $result->user->email);
+                Session::put('first_name', $user->first_name);
+                Session::put('firstName', $user->first_name);
+                Session::put('lastName', $user->last_name);
+                Session::put('email', $user->email);
 
-                Session::put('state', $result->user->state);
-                Session::put('zip', $result->user->zip);
-                Session::put('default_rep_id', $result->user->default_rep_id);
+                Session::put('state', $user->state);
+                Session::put('zip', $user->zip);
+                Session::put('default_rep_id', $user->default_rep_id);
 
-                Session::put('accountType', $result->user->type);
-                Session::put('accessToken', $result->access_token);
+                Session::put('accountType', $user->type);
+                Session::put('accessToken', $access_token);
                 Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
                 #
                 # TEAM STORE LOGIN HANDLER
                 #
+                Session::put('is_show_teamstore_toolbox', true);
+                Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
 
-                $teamstore_is_beta = config('teamstores.is_beta');
-
-                if ($teamstore_is_beta)
-                {
-
-                    Log::info('TEAM STORE is in BETA');
-
-                    /**
-                     * For this BETA launch - August 1, 2017. We have restricted access to some users only
-                     */
-
-                    $allowed_users = [
-                        'administrator',
-                        'dealer'
-                    ];
-                    if (in_array($result->user->type, $allowed_users))
-                    {
-                        Session::put('is_show_teamstore_toolbox', true);
-                        Log::info('User #' . $result->user->email . ' (' . $result->user->type . ') is entitled to open TEAM STORE (beta) version');
-
-                        $client = new UserTeamStoreClient;
-                        $response = $client->team_store_login($email, $password);
-
-                        if ($response->success)
-                        {
-                            Log::info("User's Team Store Account ID: " . $response->team_store_user_id);
-                            // Team Store Session - Entry point
-                            Session::put('userHasTeamStoreAccount', true);
-                            Session::put('team_store_code', $response->team_store_code);
-                            Log::info('Session: userHasTeamStoreAccount = true');
-                        }
-                        else
-                        {
-                            $key = env('TEAM_STORE_SECRET_KEY');
-
-                            $crypt = new TeamStorePasswordCrypt($key);
-                            $encrypted_password = $crypt->encrypt($password);
-
-                            $params = [
-                                'userId' => $result->user->id,
-                                'firstName' => $result->user->first_name,
-                                'lastName' => $result->user->last_name,
-                                'email' => $result->user->email,
-                                'accessToken' => base64_encode($result->access_token),
-                                'password' => $encrypted_password,
-                                'state' => $result->user->state,
-                                'zip' => $result->user->zip,
-                                'default_rep_id' => $result->user->default_rep_id,
-                            ];
-
-                            $teamstore_registration_params = base64_encode( json_encode($params) );
-                            Session::put('teamstore_registration_params', $teamstore_registration_params);
-                        }
-
-                    }
-                }
+                $client = new UserTeamStoreClient;
+                $response = $client->team_store_login($email, $password);
+                $this->handleTeamStoreLogin($response, $user, $access_token);
 
                 #
                 # CUSTOMIZER LOGIN HANDLER
                 #
                 return [
                     'success' => true, 
-                    'message' => 'Welcome back ' . $result->user->first_name,
-                    'userId' => $result->user->id,
-                    'firstName' => $result->user->first_name,
-                    'lastName' => $result->user->last_name,
+                    'message' => 'Welcome back ' . $user->first_name,
+                    'userId' => $user->id,
+                    'firstName' => $user->first_name,
+                    'lastName' => $user->last_name,
                     'fullname' => $fullname,
-                    'email' => $result->user->email,
-                    'accountType' => $result->user->type,
-                    'default_rep_id' => $result->user->default_rep_id,
-                    'state' => $result->user->state,
-                    'zip' => $result->user->zip,
-
-                    'accessToken' => base64_encode($result->access_token),
+                    'email' => $user->email,
+                    'accountType' => $user->type,
+                    'default_rep_id' => $user->default_rep_id,
+                    'state' => $user->state,
+                    'zip' => $user->zip,
+                    'accessToken' => base64_encode($access_token),
                 ];
 
             } else {
