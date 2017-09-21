@@ -282,4 +282,10 @@
       <span>Dealers</span>
       </a>
   </li>
+  <li data-position='right'>
+    <a href="/administration/style_requests">
+      <i class="fa fa-file-text-o"></i>
+      <span>Style Requests</span>
+      </a>
+  </li>
 </ul>
