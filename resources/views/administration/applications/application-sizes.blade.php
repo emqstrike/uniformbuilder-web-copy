@@ -23,7 +23,10 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Sport</th>
+                            <th>Block Pattern</th>
+                            <th>Option</th>
                             <th>Type</th>
+                            <th>Notes</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -40,7 +43,16 @@
                                 {{ $item->sport }}
                             </td>
                             <td>
+                                {{ $item->block_pattern }}
+                            </td>
+                            <td>
+                                {{ $item->neck_option }}
+                            </td>
+                            <td>
                                 {{ $item->type }}
+                            </td>
+                            <td>
+                                {{ $item->notes }}
                             </td>
                             <td>
                                 <a href="application_size/edit/{{ $item->id }}" class="btn btn-xs btn-primary">
