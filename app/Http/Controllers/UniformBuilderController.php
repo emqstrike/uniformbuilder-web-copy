@@ -123,6 +123,9 @@ class UniformBuilderController extends Controller
             $params['store_code'] = $this->getTeamStoreCode();
         }
 
+        // @param Team Store USER ID
+        $params['team_store_user_id'] = $this->getTeamStoreUserId();
+
         // @param Team Name
         $params['team_name'] = '';
         if (isset($config['team_name']))
