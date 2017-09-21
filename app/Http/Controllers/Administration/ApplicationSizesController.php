@@ -10,21 +10,25 @@ use App\Utilities\FileUploader;
 use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
+use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\UniformCategoriesAPIClient;
 use App\APIClients\ApplicationSizesAPIClient as APIClient;
 
 class ApplicationSizesController extends Controller
 {
     protected $client;
+    protected $blockPatternClient;
     protected $uniformCategoriesClient;
 
     public function __construct(
         APIClient $apiClient,
+        BlockPatternsAPIClient $blockPatternsAPIClient,
         UniformCategoriesAPIClient $uniformCategoriesClient
     )
     {
 
         $this->client = $apiClient;
+        $this->blockPatternClient = $blockPatternsAPIClient;
         $this->uniformCategoriesClient = $uniformCategoriesClient;
 
     }
@@ -42,8 +46,10 @@ class ApplicationSizesController extends Controller
     public function addForm()
     {
         $sports = $this->uniformCategoriesClient->getUniformCategories();
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();  
 
         return view('administration.applications.application-size-create', [
+            'block_patterns' => $block_patterns,
             'sports' => $sports
         ]);
     }
@@ -52,9 +58,11 @@ class ApplicationSizesController extends Controller
     {
         $sports = $this->uniformCategoriesClient->getUniformCategories();
         $application_size = $this->client->getApplicationSize($id);
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
 
         return view('administration.applications.application-sizes-edit', [
             'application_size' => $application_size,
+            'block_patterns' => $block_patterns,
             'sports' => $sports
         ]);
     }
@@ -63,14 +71,20 @@ class ApplicationSizesController extends Controller
     {
         $name = $request->input('name');
         $uniform_category_id = $request->input('uniform_category_id');
+        $block = $request->input('block_pattern_id');
+        $neck = $request->input('neck_option');
+        $notes = $request->input('notes');
         $type = $request->input('type');
         $properties = $request->input('properties');
         $data = [
             'name' => $name,
             'uniform_category_id' => $uniform_category_id,
+            'block_pattern_id' => $block,
+            'neck_option' => $neck,
+            'notes' => $notes,
             'type' => $type,
             'properties' => $properties
-        ];
+        ];       
         $id = null;
         if (!empty($request->input('application_size_id')))
         {
