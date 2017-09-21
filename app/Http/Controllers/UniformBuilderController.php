@@ -23,10 +23,12 @@ use File;
 use Slack;
 use App\Utilities\StringUtility;
 use App\Traits\OwnsUniformDesign;
+use App\Traits\HandleTeamStoreConfiguration;
 
 class UniformBuilderController extends Controller
 {
     use OwnsUniformDesign;
+    use HandleTeamStoreConfiguration;
 
     protected $materialsClient;
     protected $colorsClient;
@@ -114,11 +116,11 @@ class UniformBuilderController extends Controller
         if (isset($config['store_code']))
         {
             $params['store_code'] = $config['store_code'];
-            if (Session::has('team_store_code'))
-            {
-                $params['store_code'] = Session::get('team_store_code');
-            }
             Log::info(__METHOD__ . ': Store Code = ' . $params['store_code']);
+        }
+        if (empty($params['store_code']))
+        {
+            $params['store_code'] = $this->getTeamStoreCode();
         }
 
         // @param Team Name
@@ -127,6 +129,10 @@ class UniformBuilderController extends Controller
         {
             $params['team_name'] = $config['team_name'];
             Log::info(__METHOD__ . ': Team Name = ' . $params['team_name']);
+        }
+        if (empty($params['team_name']))
+        {
+            $params['team_name'] = $this->getTeamStoreName();
         }
 
         // @param Team Colors - comma separated list
@@ -139,6 +145,10 @@ class UniformBuilderController extends Controller
             $color_array = StringUtility::surroundElementsDQ($color_array);
             $params['team_colors'] = implode(',', $color_array);
             Log::info(__METHOD__ . ': Team Colors = ' . $params['team_colors']);
+        }
+        if (empty($params['team_colors']))
+        {
+            $params['team_colors'] = $this->getTeamStoreColors();
         }
 
         // @param Jersey Name

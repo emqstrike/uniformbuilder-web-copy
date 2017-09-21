@@ -4,11 +4,12 @@ namespace App\Traits;
 
 use Log;
 use Session;
+use App\Utilities\StringUtility;
 use MiladRahimi\PhpCrypt\Crypt as TeamStorePasswordCrypt;
 
 trait HandleTeamStoreConfiguration
 {
-    public function handleTeamStoreLogin(
+    protected function handleTeamStoreLogin(
         $response,
         $user = null,
         $access_token = null
@@ -27,7 +28,7 @@ trait HandleTeamStoreConfiguration
                 'colors' => $response->team_store_colors
             ]);
             Log::info('Session: userHasTeamStoreAccount = true');
-            Log::info(print_r(Session::all(), true));
+            Log::info(print_r(Session::get('team_store'), true));
         }
         else
         {
@@ -51,5 +52,71 @@ trait HandleTeamStoreConfiguration
             $teamstore_registration_params = base64_encode( json_encode($params) );
             Session::put('teamstore_registration_params', $teamstore_registration_params);
         }
+    }
+
+    protected function getTeamStore()
+    {
+        if (Session::has('team_store'))
+        {
+            return Session::get('team_store');
+        }
+        return null;
+    }
+
+    protected function getTeamStoreCode()
+    {
+        $team_store = $this->getTeamStore();
+        if (!is_null($team_store))
+        {
+            if (isset($team_store['code']))
+            {
+                return $team_store['code'];
+            }
+        }
+        return null;
+    }
+
+    protected function getTeamStoreUserId()
+    {
+        $team_store = $this->getTeamStore();
+        if (!is_null($team_store))
+        {
+            if (isset($team_store['user_id']))
+            {
+                return $team_store['user_id'];
+            }
+        }
+        return null;
+    }
+
+    protected function getTeamStoreName()
+    {
+        $team_store = $this->getTeamStore();
+        if (!is_null($team_store))
+        {
+            if (isset($team_store['name']))
+            {
+                return $team_store['name'];
+            }
+        }
+        return null;
+    }
+
+    protected function getTeamStoreColors($is_encode = true)
+    {
+        $team_store = $this->getTeamStore();
+        if (!is_null($team_store))
+        {
+            if (isset($team_store['colors']))
+            {
+                if ($is_encode)
+                {
+                    $colors = StringUtility::surroundElementsDQ($team_store['colors']);
+                    return implode(',', $colors);
+                }
+                return $team_store['colors'];
+            }
+        }
+        return null;
     }
 }
