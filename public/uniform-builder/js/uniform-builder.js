@@ -428,6 +428,7 @@ $(document).ready(function () {
 
             $('div.left-pane-column-full').fadeIn();
             $('span.fullscreen-btn').fadeIn();
+            $('span.art-btn').fadeIn();
 
             if (_.contains(ub.fontGuideIDs, window.ub.valid)) {
 
@@ -1770,10 +1771,11 @@ $(document).ready(function () {
 
         // var frames_to_refresh = 1 * 10; // 60 frames in one sec, average
 
+
         window.ub.render_frames = function () {
 
             if (ub.data.rosterInitialized) { return }
-            // if (!ub.status.render.getRenderStatus()) { return; }
+            if (!ub.status.render.getRenderStatus()) { return; }
 
             ub.renderer.render(ub.stage);
             requestAnimationFrame(ub.render_frames);

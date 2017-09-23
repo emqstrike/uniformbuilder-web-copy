@@ -37,6 +37,11 @@
 
     <hr class="left-side-divider middle middle-bottom" />
 
+    <span class="toolbar-item art-btn">
+        <i class="fa fa-paint-brush" aria-hidden="true"></i>
+        <span class="toolbar-item-label">ART (BETA)</span>
+    </span>
+
     <br />
 
     <span class="toolbar-item resubmit-order-btn">
