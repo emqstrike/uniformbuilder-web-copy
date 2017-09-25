@@ -2104,7 +2104,7 @@ $(document).ready(function() {
 
                 _size           = $(this).data('size');
 
-                if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+                if (!ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.uniform_group !== "Apparel") {
 
                     _numbers    = ub.funcs.createNumbersSelectionPopup(_size);
 

@@ -12436,7 +12436,7 @@ ub.funcs.fontOffSets = [
                 ]
             }, 
             {
-                block_pattern: 'Cage Jacket',
+                block_pattern: 'Cage Jacket (Apparel)',
                 neck_options: ['Long Sleeve', 'Short Sleeve'],
                 material_option: 'Zipper', 
                 valid_colors: [
@@ -13420,6 +13420,20 @@ ub.funcs.fontOffSets = [
         getArray: function () {
 
             return _.pluck(this.items, 'shortCode');
+
+        }
+
+    }
+
+    ub.data.apparelList = {
+
+        items: [
+            // Fill this in
+        ],
+
+        isApparel: function (type) {
+
+            return _.contains(this.items, type);
 
         }
 
