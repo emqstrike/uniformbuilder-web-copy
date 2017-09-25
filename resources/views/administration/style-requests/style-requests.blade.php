@@ -55,6 +55,7 @@
                             <th>Requested By</th>
                             <th>Uploaded</th>
                             <th>Customizer ID</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,12 +75,16 @@
                         <td>{{ $style_request->requested_by }}</td>
                         <td>{{ $style_request->uploaded }}</td>
                         <td>{{ $style_request->customizer_id }}</td>
+                        <td>
+                            <button type="button" class="btn btn-info btn-xs edit"><i class="glyphicon glyphicon-edit"></i></button>
+                            <button type="button" class="btn btn-default btn-xs submit"><i class="glyphicon glyphicon-floppy-save"></i></button>
+                        </td>
 
                     </tr>
                     @empty
 
                         <tr>
-                            <td colspan='12'>
+                            <td colspan='13'>
                                 No Style Requests
                             </td>
                         </tr>
