@@ -709,7 +709,7 @@ $(document).ready(function(){
                     });
                 });
                 // var z = _.uniq(block_pattern_options);
-                
+
                 // z.forEach(function(i) {
                 //     $('.block-pattern-options').append('<option value="'+i+'">'+i+'</option>');
                 // });

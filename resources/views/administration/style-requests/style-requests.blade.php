@@ -39,6 +39,7 @@
                     <table data-toggle='table' class='table table-bordered style-requests'>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Style Name</th>
                             <th>Block Pattern</th>
                             <th>Option
@@ -59,11 +60,14 @@
                     <tbody>
                     @forelse ($style_requests as $style_request)
                     <tr>
+                        <td>{{ $style_request->id }}</td>
                         <td>{{ $style_request->name }}</td>
                         <td>{{ $style_request->block_pattern }}</td>
                         <td>{{ $style_request->block_pattern_option }}</td>
                         <td>{{ $style_request->sport }}</td>
-                        <td>{{ $style_request->design_sheet_url }}</td>
+                        <td>
+                            <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $style_request->design_sheet_url }}">Link</a>
+                        </td>
                         <td>{{ $style_request->qstrike_item_id }}</td>
                         <td>{{ $style_request->priority }}</td>
                         <td>{{ $style_request->deadline }}</td>
@@ -75,7 +79,7 @@
                     @empty
 
                         <tr>
-                            <td colspan='11'>
+                            <td colspan='12'>
                                 No Style Requests
                             </td>
                         </tr>
@@ -113,19 +117,28 @@
             <div class="form-group">
                 <label class="col-md-4 control-label">Block Pattern</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control block-pattern" required>
+                    <!-- <input type="text" class="form-control block-pattern" required> -->
+                    <select class="form-control block-pattern">
+                        <option value="none" data-block-pattern-id="0">Select Block Pattern</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-4 control-label">Option</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control block-pattern-option" required>
+                    <!-- <input type="text" class="form-control block-pattern-option" required> -->
+                    <select class="form-control block-pattern-option">
+                        <option value="none">Select Block Pattern Option</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-4 control-label">Sport</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control sport" required>
+                    <!-- <input type="text" class="form-control sport" required> -->
+                    <select class="form-control sport">
+                        <option value="none" data-uniform-category-id="0">Select Sport</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -177,13 +190,86 @@
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/dropzone/dropzone.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript">
 
-    $(document).on('change', '.style-name, .block-pattern, .block-pattern-option, .sport, .qstrike-item-id, .priority, .deadline, .design_sheet', function() {
+    $('.file-link').on('click', function(e){
+        console.log('file link');
+        var url = $(this).data('link');
+        OpenInNewTab(url);
+    });
+
+    function OpenInNewTab(url) {
+        var win = window.open(url, '_blank');
+        win.focus();
+    }
+
+    $(document).on('change', '.style-name, .block-pattern-option, .qstrike-item-id, .priority, .deadline, .design_sheet', function() {
         updateData();
     });
 
+    $(document).on('change', '.sport', function() {
+        window.uniform_category_id = $('.sport option:selected').data('uniform-category-id');
+        console.log(window.uniform_category_id);
+        $('.block-pattern').html('');
+        var ucid = window.uniform_category_id.toString();
+        var filtered_block_patterns = _.filter(window.block_pattern, function(e){ return e.uniform_category_id == ucid; });
+        // console.log(filtered_block_patterns);
+
+        var sorted_block_patterns = _.sortBy(filtered_block_patterns, function(o) { return o.name; });
+        // console.log(sorted_sports);
+        sorted_block_patterns.forEach(function(entry) {
+            var elem = '<option value="'+entry.name+'" data-block-pattern-id="'+entry.id+'">'+entry.name+'</option>'
+            $('.block-pattern').append(elem);
+        });
+    });
+
+    $(document).on('change', '.block-pattern', function() {
+        window.block_pattern_id = $('.block-pattern option:selected').data('block-pattern-id');
+        console.log(window.uniform_category_id);
+        $('.block-pattern-option').html('<option value="none" data-block-pattern-id="0">Select Block Pattern</option>');
+
+        var block_pattern = _.filter(window.block_pattern, function(e){ return e.id == window.block_pattern_id.toString(); });
+        console.log(block_pattern);
+
+        // var sorted_block_pattern = _.sortBy(block_pattern, function(o) { return o.name; });
+        if(block_pattern[0].neck_options != "null"){
+
+            console.log('block_pattern');
+            console.log(block_pattern);
+
+            // var x = _.flatten(JSON.parse(block_pattern[0].neck_options.slice(1, -1)));
+            var x = JSON.parse(block_pattern[0].neck_options);
+            console.log('block pattern option');
+            console.log(x);
+            // var w = JSON.parse(sorted_block_pattern.neck_options.slice(1, -1));
+            // var x = _.flatten(w);
+            // console.log(x);
+            // x.forEach(function(entry) {
+            //     var elem = '<option value="'+entry.name+'">'+entry.name+'</option>'
+            //     $('.block-pattern-option').append(elem);
+            // });
+            var list = [];
+            _.each(x, function(item){
+                list.push(_.omit(item, 'children'));
+                list.push(_.flatten(_.pick(item, 'children')));
+            });
+            var result = _.flatten(list);
+            console.log('result')
+            console.log(result);
+
+            result.forEach(function(entry) {
+                var elem = '<option value="'+entry.name+'">'+entry.name+'</option>'
+                $('.block-pattern-option').append(elem);
+            });
+        }
+    });
+
     window.data = {};
+    window.sports = null;
+    window.block_pattern = null;
+    window.block_pattern_option = null;
+    window.uniform_category_id = null;
 
     $('.save-data').on('click', function(e){
         e.preventDefault();
@@ -192,7 +278,7 @@
         var data = $('.data-string').val();
         console.log(data);
         $.ajax({
-            url: "http://localhost:8888/api/v1-0/style_request",
+            url: "http://api-dev.qstrike.com/api/v1-0/style_request",
             type: "POST",
             data: data,
             dataType: "json",
@@ -201,7 +287,7 @@
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    console.log(response.message);
+                    // console.log(response.data);
                     window.location.reload();
                 }
             }
@@ -218,14 +304,14 @@
         var deadline = $('.deadline').val();
         var design_sheet_url = $('.design-sheet-path').val();
         window.data = {
-            'style_name' : style_name,
+            'name' : name,
             'block_pattern' : block_pattern,
             'block_pattern_option' : block_pattern_option,
             'sport' : sport,
             'qstrike_item_id' : qstrike_item_id,
             'priority' : priority,
             'deadline' : deadline,
-            'design_sheet' : design_sheet
+            'design_sheet_url' : design_sheet_url
         };
         $('.data-string').val(JSON.stringify(window.data));
         console.log(window.data);
@@ -255,12 +341,13 @@
                 'url' : response
             });
             console.log(filesData);
+            $('.design-sheet-path').val(filesData[0].url);
             // buildRows(filesData);
         },
         complete: function(file){
             // console.log('completed');
             files.push(file.name);
-            $('.design-sheet-path').val(file.url);
+            // $('.design-sheet-path').val(file.url);
             updateData();
             // console.log(files);
             // console.log(file);
@@ -276,110 +363,52 @@
             // $('.progress-modal-message').html('Uploading image . . .');
         },
     };
-    // $(document).on('click', '.delete-accent', function(){
-    //   $.confirm({
-    //   title: 'Accent',
-    //   content: 'Are you want to delete accent?',
-    //   confirmButton: 'YES',
-    //   cancelButton: 'NO',
-    //   confirmButtonClass: 'confirmButtonYes btn-danger',
-    //   cancelButtonClass: 'confirmButtonNo btn-success',
-    //   });
-    //   $(".confirmButtonYes").attr('data-accent-id',$(this).data('accent-id'));
-     
 
-     
-    // });
-    //  $(document).on('click', '.enable-accent', function(){
+    getSports(function(sports){ window.sports = sports; });
+    function getSports(callback){
+        var sports;
+        var url = "//api-dev.qstrike.com/api/categories";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                sports = data['categories'];
+                if(typeof callback === "function") callback(sports);
+            }
+        });
+    }
 
-    //   console.log("enable-accent");
-    //     var id = $(this).data('accent-id');
-    //      var url = "//" + api_host + "/api/accent/enable/";
-    //     //var url = "//localhost:8888/api/accent/enable/";
-    //     $.ajax({
-    //         url: url,
-    //         type: "POST",
-    //         data: JSON.stringify({id: id}),
-    //         dataType: "json",
-    //         crossDomain: true,
-    //         contentType: 'application/json',
-    //         headers: {"accessToken": atob(headerValue)},
-    //         success: function(response){
-    //             if (response.success) {
-    //                 var elem = '.accent-' + id;
-    //                 new PNotify({
-    //                     title: 'Success',
-    //                     text: response.message,
-    //                     type: 'success',
-    //                     hide: true
-    //                 });
-    //                 $(elem + ' .disable-accent').removeAttr('disabled');
-    //                 $(elem + ' .enable-accent').attr('disabled', 'disabled');
-    //                 $(elem).removeClass('inactive');
-    //             }
-    //         }
-    //     });
-    // });
+    getBlockPatterns(function(block_patterns){ window.block_pattern = block_patterns; });
+    function getBlockPatterns(callback){
+        var block_patterns;
+        var url = "//api-dev.qstrike.com/api/block_patterns";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                block_patterns = data['block_patterns'];
+                if(typeof callback === "function") callback(block_patterns);
+            }
+        });
+    }
 
-    // $(document).on('click', '.disable-accent', function(){
+    buildSportsDropdown();
 
-    //     var id = $(this).data('accent-id');
-    //     var url = "//" + api_host + "/api/accent/disable/";
-    //     //var url = "//localhost:8888/api/accent/disable/";
-    //     $.ajax({
-    //         url: url,
-    //         type: "POST",
-    //         data: JSON.stringify({id: id}),
-    //         dataType: "json",
-    //         crossDomain: true,
-    //         contentType: 'application/json',
-    //         headers: {"accessToken": atob(headerValue)},
-    //         success: function(response){
-    //             if (response.success) {
-    //                 var elem = '.accent-' + id;
-    //                 new PNotify({
-    //                     title: 'Success',
-    //                     text: response.message,
-    //                     type: 'success',
-    //                     hide: true
-    //                 });
-    //                 $(elem + ' .enable-accent').removeAttr('disabled');
-    //                 $(elem + ' .disable-accent').attr('disabled', 'disabled');
-    //                 $(elem).addClass('inactive');
-    //             }
-    //         }
-    //     });
-    // });
-    // $(document).on('click', '.confirmButtonYes', function(){
-      
-    //     var id = $(this).data('accent-id');
-    //     console.log(id);
-    //     // var url = "http://localhost:8888/api/accent/delete";
-    //     var url = "//" + api_host + "/api/accent/delete/";
-                   
-    //     $.ajax({
-    //         url: url,
-    //         type: "POST",
-    //         data: JSON.stringify({id: id}),
-    //         dataType: "json",
-    //         crossDomain: true,
-    //         contentType: 'application/json',
-    //         headers: {"accessToken": atob(headerValue)},
-    //         success: function(response){
-    //             if (response.success) {
-    //                 new PNotify({
-    //                     title: 'Success',
-    //                     text: response.message,
-    //                     type: 'success',
-    //                     hide: true
-    //                 });
-    //                 // $('#confirmation-modal').modal('hide');
-    //                 $('.font-' + id).fadeOut();
-    //                  $( ".accents" ).load( location+" .accents" );  
-
-    //             }
-    //         }
-    //     });
-    //  });
+    function buildSportsDropdown(){
+        var sorted_sports = _.sortBy(window.sports, function(o) { return o.name; });
+        console.log(sorted_sports);
+        sorted_sports.forEach(function(entry) {
+            var elem = '<option value="'+entry.name+'" data-uniform-category-id="'+entry.id+'">'+entry.name+'</option>'
+            $('.sport').append(elem);
+        });
+    }
 </script>
 @endsection
