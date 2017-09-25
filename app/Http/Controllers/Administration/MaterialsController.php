@@ -200,6 +200,29 @@ class MaterialsController extends Controller
         }
     }
 
+    public function insertDesignSheet(Request $request){
+        $file = $request->file('file');
+        $a = explode('\\', $file);
+        $b = explode('/', $a[0]);
+        $c = end($b);
+        $folder_name = "style_requests_design_sheets";
+        if (isset($file))
+        {
+            if ($file->isValid())
+            {
+                $randstr = Random::randomize(12);
+                $loc = FileUploaderV2::upload(
+                                            $file,
+                                            $randstr,
+                                            'file',
+                                            $folder_name
+                                        );
+
+                return $loc;
+            }
+        }
+    }
+
     public function delete($id)
     {
         return $this->client->deleteMaterial($id);
