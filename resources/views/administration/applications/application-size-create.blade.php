@@ -64,8 +64,8 @@ li.select2-selection__choice {
                          <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-6">
-                                <select name="block_pattern_id" class="form-control" id="block_pattern">
-                                  
+                                <input type="hidden" class="block-pattern-val" id="block_pattern_value" name="block_pattern_value">
+                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple">                                  
                                 </select>
                             </div>
                         </div>
@@ -73,7 +73,8 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Neck Option</label>
                             <div class="col-md-6">
-                               <select class="form-control material-neck-option" name="neck_option" id="neck_option">
+                                <input type="hidden" class="neck-option-val" id="neck_option_value" name="neck_option_value">
+                                <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple">
                                 </select>
                             </div>
                         </div>
@@ -180,7 +181,7 @@ $(function(){
             var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id === sport; });
                     $( '#block_pattern' ).html('');
                     $.each(x, function(i, item) {
-                        $('#block_pattern' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
+                        $('#block_pattern' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
                     });
         $('#block_pattern').trigger('change');           
         });        
@@ -188,20 +189,63 @@ $(function(){
         var block_patterns_array = $('#block_patterns_data').text();
         var z = JSON.parse(block_patterns_array);
         window.block_patterns = _.flatten(z, true);
-        $(document).on('change', '#block_pattern', function() {
-        var id = $(this).val();
+        $(document).on('change', '#block_pattern', function() {           
+        var options = []; 
+        var bps = $('#block_pattern_value').val();
+        var bps_name = bps.toString().split(","); 
+        console.log(bps_name);       
+            bps_name.forEach( function(item_name) {               
+                var name = item_name;
+                $.each(z, function(i, item) {
+                   if( item.name == name ){
+                        var optx = JSON.parse(item.neck_options);
+                        $.each(optx, function(i, item) {
+                            options.push(item.name);
+                        
+                        });
+                    } else {
+                    }
+                }); 
+            });             
+        var y = _.sortBy(_.uniq(options));
         $( '#neck_option' ).html('');
-        $.each(z, function(i, item) {
-           if( item.id == id ){
-                var optx = JSON.parse(item.neck_options);
-                $.each(optx, function(i, item) {
-                    $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-                });
-            } else {
-            }
-        });
-      });          
-    $('#block_pattern').trigger('change');
+        y.forEach(function(i) {
+            $('#neck_option').append('<option value="'+i+'">'+i+'</option>');
+        });        
+      }); 
+
+    if($('#neck_option_value').val()){
+        var bpos = JSON.parse($('#neck_option_value').val());   
+    }
+    $('.material-neck-option').select2({
+        placeholder: "Select block pattern option",
+        multiple: true,
+        allowClear: true
+    });
+    
+    $(".material-neck-option").change(function() {
+        // $('#neck_option_value').val($(this).val());
+        $('#neck_option_value').val($(this).val());
+    });         
+
+    $('.material-neck-option').select2('val', bpos);
+    
+    if($('#block_pattern_value').val()){
+        var bp = JSON.parse($('#block_pattern_value').val());   
+    }
+    $('.block-pattern').select2({
+        placeholder: "Select block pattern",
+        multiple: true,
+        allowClear: true
+    });
+    
+    $(".block-pattern").change(function() {
+        $('#block_pattern_value').val($(this).val());
+    });         
+
+    $('.block-pattern').select2('val', bp);
+
+
 
 });   
 </script>
