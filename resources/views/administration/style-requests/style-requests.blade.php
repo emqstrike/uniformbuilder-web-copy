@@ -60,8 +60,8 @@
                     </thead>
                     <tbody>
                     @forelse ($style_requests as $style_request)
-                    <tr>
-                        <td>{{ $style_request->id }}</td>
+                    <tr class='style-request-{{ $style_request->id }}'>
+                        <td class="style-id">{{ $style_request->id }}</td>
                         <td>{{ $style_request->name }}</td>
                         <td>{{ $style_request->block_pattern }}</td>
                         <td>{{ $style_request->block_pattern_option }}</td>
@@ -69,15 +69,19 @@
                         <td>
                             <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $style_request->design_sheet_url }}">Link</a>
                         </td>
-                        <td>{{ $style_request->qstrike_item_id }}</td>
+                        <td class="style-qstrike-item-id"><div id="item-id">{{ $style_request->qstrike_item_id }}</div></td>
                         <td>{{ $style_request->priority }}</td>
                         <td>{{ $style_request->deadline }}</td>
                         <td>{{ $style_request->requested_by }}</td>
                         <td>{{ $style_request->uploaded }}</td>
-                        <td>{{ $style_request->customizer_id }}</td>
+                        <td class="style-customizer-id"><div id="customizer-id">{{ $style_request->customizer_id }}</div></td>
                         <td>
                             <button type="button" class="btn btn-info btn-xs edit"><i class="glyphicon glyphicon-edit"></i></button>
                             <button type="button" class="btn btn-default btn-xs submit"><i class="glyphicon glyphicon-floppy-save"></i></button>
+                            
+                            <a href="#" class="delete-style-request btn btn-xs btn-danger pull-right" data-style-request-id="{{ $style_request->id }}" role="button">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                            </a>
                         </td>
 
                     </tr>
@@ -96,6 +100,8 @@
             </div>
         </div>
     </div>
+
+
     <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
 
     <!-- Modal -->
@@ -188,15 +194,25 @@
 
       </div>
     </div>
+
+
 </section>
-	
+
+
+@include('partials.confirmation-modal')
+
 @endsection
 
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/dropzone/dropzone.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript">
+$(function(){  
+
+    $('.submit').attr('disabled','disabled'); 
 
     $('.file-link').on('click', function(e){
         console.log('file link');
@@ -281,9 +297,10 @@
         console.log('submit');
 
         var data = $('.data-string').val();
+        var url = "//" + api_host + "/api/v1-0/style_request";        
         console.log(data);
         $.ajax({
-            url: "http://api-dev.qstrike.com/api/v1-0/style_request",
+            url: url,
             type: "POST",
             data: data,
             dataType: "json",
@@ -415,5 +432,104 @@
             $('.sport').append(elem);
         });
     }
+
+    $('.edit').on('click', function(e){
+        e.preventDefault();
+        $(this).parent().parent().find('#item-id').attr('contenteditable', 'true');
+        $(this).parent().parent().find('#customizer-id').attr('contenteditable', 'true');
+    });
+
+    $(".style-qstrike-item-id, .style-customizer-id").on("keyup", function(e){    
+        e.preventDefault();
+        $(this).parent().find('.submit').removeAttr('disabled');     
+    });
+
+    $('.submit').on('click', function(e){
+        e.preventDefault();
+        saveValue($(this));
+        $(this).parent().parent().find('#item-id').attr('contenteditable', 'false');
+        $(this).parent().parent().find('#customizer-id').attr('contenteditable', 'false');
+    });
+
+    function saveValue(thisObj){
+        var temp = [];
+            var data = {
+                    "id" : thisObj.parent().parent().find('.style-id').text(),
+                    "qstrike_item_id" : thisObj.parent().parent().find('.style-qstrike-item-id').text(),
+                    "customizer_id" : thisObj.parent().parent().find('.style-customizer-id').text(),
+        };
+
+            temp.push(data);
+            console.log(data);
+            var material = JSON.stringify(temp);
+            console.log(material);
+
+        var url = "//" + api_host + "/api/v1-0/style_request/update";   
+             
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify(data),
+            dataTYPE: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            // headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success){
+                    new PNotify({
+                    title: 'Success',
+                    text: response.message,
+                    type: 'success',
+                    hide: true
+                    });
+                    $('.submit').attr('disabled','disabled');  
+                  
+                }
+
+            }
+        })
+    }
+
+    $('.delete-style-request').on('click', function(){
+       var id = [];
+       id.push( $(this).data('style-request-id'));
+       console.log(id);
+       modalConfirm('Remove Style Request', 'Are you sure you want to delete the request?', id);
+       });
+
+       $('#confirmation-modal .confirm-yes').on('click', function(){
+            var id = $(this).data('value');
+            var url = "//" + api_host + "/api/v1-0/style_request/delete";
+           
+            $.ajax({
+               url: url,
+               type: "POST",
+               data: JSON.stringify({id: id}),
+               dataType: "json",
+               crossDomain: true,
+               contentType: 'application/json',
+               //headers: {"accessToken": atob(headerValue)},
+               success: function(response){
+                   if (response.success) {
+                       new PNotify({
+                           title: 'Success',
+                           text: response.message,
+                           type: 'success',
+                           hide: true
+                       });
+                       $('#confirmation-modal').modal('hide');
+                      $.each(id, function (index, value) {
+                         console.log(value);
+                         $('.style-request-' + value).fadeOut();
+                         // Will stop running after "three"
+                         
+                       });              
+
+                   }
+               }
+           });
+       });
+
+ });
 </script>
 @endsection
