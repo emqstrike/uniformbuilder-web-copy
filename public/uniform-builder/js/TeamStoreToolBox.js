@@ -226,9 +226,15 @@ var TeamStoreToolBox = {
 
     load_material: function (material_id, product_id) {
         var team_name = $('#team-store-toolbox').data('team-name');
+        if (team_name.trim().length == 0) {
+            team_name = 'DEFAULT';
+        }
         var team_colors = $('#team-store-toolbox').data('team-colors');
-
+        if (team_colors.trim().length == 0) {
+            team_colors = 'DEFAULT';
+        }
         var url = '/builder/0/' + material_id + '/' + ub.store_code + '/' + team_name + '/' + team_colors + '/PLAYER/23/0/0/0/' + product_id;
+
         location.href = url;
     },
 
