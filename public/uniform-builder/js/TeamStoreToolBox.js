@@ -155,10 +155,9 @@ var TeamStoreToolBox = {
                 if (response.success) {
                     $('#team-store-toolbox').data('product-id', response.product.id);
                     TeamStoreToolBox.update_images(true);
-                    console.log(response);
-                    // setTimeout(function() {
-                    //     location.href = location.protocol + '//' + location.host + location.pathname + '/' + response.product.id;
-                    // }, 5000);
+                    setTimeout(function() {
+                        location.href = location.protocol + '//' + location.host + location.pathname + '/' + response.product.id;
+                    }, 5000);
                 }
             }
         );
