@@ -39,15 +39,15 @@ trait HandleTeamStoreConfiguration
             $encrypted_password = $crypt->encrypt($password);
 
             $params = [
-                'userId' => $result->user->id,
-                'firstName' => $result->user->first_name,
-                'lastName' => $result->user->last_name,
-                'email' => $result->user->email,
-                'accessToken' => base64_encode($result->access_token),
+                'userId' => $user->id,
+                'firstName' => $user->first_name,
+                'lastName' => $user->last_name,
+                'email' => $user->email,
+                'accessToken' => base64_encode($access_token),
                 'password' => $encrypted_password,
-                'state' => $result->user->state,
-                'zip' => $result->user->zip,
-                'default_rep_id' => $result->user->default_rep_id,
+                'state' => $user->state,
+                'zip' => $user->zip,
+                'default_rep_id' => $user->default_rep_id,
             ];
 
             $teamstore_registration_params = base64_encode( json_encode($params) );
