@@ -133,10 +133,6 @@ class UniformBuilderController extends Controller
             $params['team_name'] = $config['team_name'];
             Log::info(__METHOD__ . ': Team Name = ' . $params['team_name']);
         }
-        if (empty($params['team_name']))
-        {
-            $params['team_name'] = $this->getTeamStoreName();
-        }
 
         // @param Team Colors - comma separated list
         $params['team_colors'] = null;
@@ -148,10 +144,6 @@ class UniformBuilderController extends Controller
             $color_array = StringUtility::surroundElementsDQ($color_array);
             $params['team_colors'] = implode(',', $color_array);
             Log::info(__METHOD__ . ': Team Colors = ' . $params['team_colors']);
-        }
-        if (empty($params['team_colors']))
-        {
-            $params['team_colors'] = $this->getTeamStoreColors();
         }
 
         // @param Jersey Name
