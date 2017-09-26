@@ -12,7 +12,8 @@ trait HandleTeamStoreConfiguration
     protected function handleTeamStoreLogin(
         $response,
         $user = null,
-        $access_token = null
+        $access_token = null,
+        $password = null
     )
     {
         if ($response->success)

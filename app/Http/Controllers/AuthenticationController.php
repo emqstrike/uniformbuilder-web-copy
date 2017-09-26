@@ -141,7 +141,7 @@ class AuthenticationController extends AdminAuthController
 
                 $client = new UserTeamStoreClient;
                 $response = $client->team_store_login($email, $password);
-                $this->handleTeamStoreLogin($response, $user, $access_token);
+                $this->handleTeamStoreLogin($response, $user, $access_token, $password);
 
                 #
                 # CUSTOMIZER LOGIN HANDLER
