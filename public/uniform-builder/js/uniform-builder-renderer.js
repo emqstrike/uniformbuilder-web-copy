@@ -116,7 +116,7 @@ $(document).ready(function() {
     ub.funcs.updateTeamStoreImages = function () {
         var save_uniform_perspectives_url = TeamStoreAPI.endpoints.save_customized_thumbnails;
         var material_data = {
-            teamstore_product_id: teamstore_product_id,
+            teamstore_product_id: $('#team-store-toolbox').data('product-id'),
             material_id: ub.config.material_id,
             store_code: ub.store_code,
             team_colors: ub.team_colors,

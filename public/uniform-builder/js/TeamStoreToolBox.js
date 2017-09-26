@@ -115,6 +115,7 @@ var TeamStoreToolBox = {
         var material_data = {
             store_code: ub.store_code,
             material_id: material.id,
+            parts_alias_id: material.parts_alias_id,
             name: material.name,
             slug: material.slug,
             description: material.description,
@@ -130,6 +131,8 @@ var TeamStoreToolBox = {
             // Pricing
             price: material.price,
             price_youth: material.price_youth,
+            pricing: material.pricing_details,
+            created_by: parseInt($('#team-store-toolbox').data('team-store-user-id')),
             // Images
             image_front: material.thumbnail_path,
             image_back: material.thumbnail_path_back,
@@ -137,7 +140,13 @@ var TeamStoreToolBox = {
             image_left: material.thumbnail_path_left,
             // Block settings
             block_pattern: material.block_pattern,
-            block_pattern_id: material.block_pattern_id
+            block_pattern_id: material.block_pattern_id,
+            product_type: material.block_pattern,
+            gender_type: material.gender,
+            factory_code: material.factory_code,
+            sport: material.uniform_category.toLowerCase(),
+            has_jersey_number: material.has_jersey_number,
+            has_jersey_name: material.has_jersey_name
         };
 
         ub.utilities.postJSON(url,
@@ -145,7 +154,7 @@ var TeamStoreToolBox = {
             function(response) {
                 if (response.success) {
                     $('#team-store-toolbox').data('product-id', response.product.id);
-                    TeamStoreToolBox.update_images(false);
+                    TeamStoreToolBox.update_images(true);
                     setTimeout(function() {
                         location.href = location.protocol + '//' + location.host + location.pathname + '/' + response.product.id;
                     }, 5000);
@@ -216,9 +225,15 @@ var TeamStoreToolBox = {
 
     load_material: function (material_id, product_id) {
         var team_name = $('#team-store-toolbox').data('team-name');
+        if (team_name.trim().length == 0) {
+            team_name = 'DEFAULT';
+        }
         var team_colors = $('#team-store-toolbox').data('team-colors');
-
+        if (team_colors.trim().length == 0) {
+            team_colors = 'DEFAULT';
+        }
         var url = '/builder/0/' + material_id + '/' + ub.store_code + '/' + team_name + '/' + team_colors + '/PLAYER/23/0/0/0/' + product_id;
+
         location.href = url;
     },
 

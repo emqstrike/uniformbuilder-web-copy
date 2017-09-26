@@ -2,7 +2,8 @@
     data-teamstore-api="{{ env('TEAM_STORE_API_BASE_URL') }}"
     data-product-id="{{ $product_id }}"
     data-team-name="{{ $team_name }}"
-    data-team-colors="{{ $csv_team_colors }}">
+    data-team-colors="{{ $csv_team_colors }}"
+    data-team-store-user-id="{{ $team_store_user_id }}">
     
     <div class="header">
 
@@ -25,7 +26,7 @@
 
             @if (Session::get('userHasTeamStoreAccount'))
 
-                <li class="open-team-store" data-store="{{ env('TEAM_STORE_BASE_URL') }}/visit-store-by-code/{{ $store_code }}">
+                <li class="open-team-store" data-store="{{ env('TEAM_STORE_BASE_URL') }}/visit-store-by-code/{{ Session::get('team_store_code') }}">
                     <span class="fa fa-3 fa-eye"></span>
                     <br>
                     Open Team Store
@@ -72,19 +73,11 @@
                 </li>
                 @endif
 
-                @if (!empty($product_id))
                 <li class="open-team-store-products">
                     <span class="fa fa-3 fa-folder-open-o"></span>
                     <br>
                     Open Products
                 </li>
-                @else
-                <li class="disabled">
-                    <span class="fa fa-3 fa-folder-open-o"></span>
-                    <br>
-                    Open Products
-                </li>
-                @endif
 
             @else
 
