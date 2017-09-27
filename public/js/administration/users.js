@@ -3,6 +3,7 @@ $(document).ready(function(){
    $('.data-table').DataTable({
     "paging": true,
     "lengthChange": false,
+    "pageLength": 25,
     "searching": true,
     "ordering": false,
     "info": true,
