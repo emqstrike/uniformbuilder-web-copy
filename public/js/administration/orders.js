@@ -3,6 +3,69 @@ $(document).ready(function(){
     window.colors = null;
     window.patterns = null;
     window.pa_id = null;
+    window.test_size_data = [{
+        'size' : 'XS',
+        'qx_item_id' : 2717
+    }, {
+        'size' : 'S',
+        'qx_item_id' : 2717
+    }, {
+        'size' : 'M',
+        'qx_item_id' : 2717
+    }, {
+        'size' : 'L',
+        'qx_item_id' : 2717
+    }, {
+        'size' : 'XL',
+        'qx_item_id' : 2800
+    }, {
+        'size' : '2XL',
+        'qx_item_id' : 2800
+    }, {
+        'size' : '3XL',
+        'qx_item_id' : 2800
+    }, {
+        'size' : '4XL',
+        'qx_item_id' : 2800
+    }, {
+        'size' : '5XL',
+        'qx_item_id' : 2800
+    }];
+
+    window.roster = null;
+
+    function splitRosterToQXItems(){
+        var grouped = _.groupBy(window.test_size_data, function(e) {
+          return e.qx_item_id;
+        });
+        console.log('GROUPED');
+        console.log(grouped);
+        var items = [];
+        for(var propt in grouped){
+            console.log('FOR LOOP');
+            items.push({
+                'qx_item_id' : propt,
+                'roster' : []
+            });
+            console.log(propt + ': ' + JSON.stringify(grouped[propt]));
+        }
+        window.roster.forEach(function(entry) {
+            var size = entry.Size;
+            var res = _.find(window.test_size_data, function(e){ return e.size == size; });
+            var qx_item_id = res['qx_item_id'];
+            items.forEach(function(e) {
+                if(e.qx_item_id == qx_item_id){
+                    e.roster.push(res);
+                }
+            });
+        });
+        console.log('ROSTER');
+        console.log(window.roster);
+
+        console.log('ITEMS');
+        console.log(items);
+        return items;
+    }
 
     getColors(function(colors){ window.colors = colors; });
     getPatterns(function(patterns){ window.patterns = patterns; });
@@ -358,8 +421,8 @@ $('.send-to-factory').on('click', function(e){
     api_order_id = $(this).data('api-order-id');
     order_id = $(this).data('order-id');
     client = $(this).data('client');
-    
-    
+
+
     ship_contact = $(this).data('ship-contact');
     ship_address = $(this).data('ship-address');
     ship_phone = $(this).data('ship-phone');
@@ -478,6 +541,7 @@ $('.send-to-factory').on('click', function(e){
         };
 
         entry.orderItems = JSON.parse(entry.roster);
+        window.roster = entry.orderItems;
         delete entry.orderItems[0].Quantity;
         delete entry.orderItems[0].SleeveCut;
 
@@ -523,9 +587,41 @@ $('.send-to-factory').on('click', function(e){
         console.log(order);
         // "RepID": 154, Jeremy
         // "RepID": 1148, Geeks
+
+        var order_items_split = splitRosterToQXItems();
+        var order_parts_split = [];
+        console.log('ORDER ITEMS SPLIT');
+        console.log(order_items_split);
+        order_items_split.forEach(function(entry, i) {
+            var x = JSON.parse(JSON.stringify(window.order_parts[0]));
+            x.orderPart.ItemID = entry.qx_item_id;
+            console.log('ENTRY ROSTER');
+            console.log(entry.roster);
+            var roster_sizes = _.map(entry.roster, function(e){ return e.size; });
+            var roster = [];
+            // var dupd_roster = [];
+            console.log('ROSTER SIZES');
+            console.log(roster_sizes);
+            // x.orderItems.forEach(function(y, j) {
+            window.roster.forEach(function(y, j) {
+                if( _.contains(roster_sizes, y.Size) ){
+                    // for(var k = 0; k < y.Quantity; k++){
+                    //     dupd_roster.push(y);
+                    // }
+                    // console.log('DUPD ROSTER LENGTH');
+                    // console.log(dupd_roster.length);
+                    roster.push(y);
+                }
+            });
+
+            x.orderItems = roster;
+            order_parts_split.push(x);
+        });
+
         var orderEntire = {
             "order": order,
-            "orderParts" : window.order_parts
+            "orderParts" : order_parts_split
+            // "orderParts" : window.order_parts
             // "orderParts" : xparts
         };
 
@@ -533,6 +629,15 @@ $('.send-to-factory').on('click', function(e){
     console.log(strResult);
 
     console.log(JSON.stringify(orderEntire['orderParts']));
+    // var order_items_split = splitRosterToQXItems();
+    // var order_parts_split = [];
+    // order_items_split.forEach(function(entry, i) {
+    //     var x = window.order_parts[0];
+    //     x.orderPart.ID = entry.qx_item_id;
+    //     x.orderPart.roster = entry.roster;
+
+    //     order_parts_split.push(x);
+    // });
     if(window.material.item_id !== undefined){
         // $.ajax({
         //     url: url,
