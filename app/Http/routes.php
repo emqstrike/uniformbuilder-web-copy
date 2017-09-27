@@ -396,11 +396,11 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('cuts_links/update', 'Administration\CutsLinksController@store');
 
     //Dealers
-    Route::get('dealers/add', 'Administration\DealersController@create');
-    Route::post('dealers/add', 'Administration\DealersController@store');
-    Route::get('dealers', 'Administration\DealersController@index');
-    Route::get('dealers/edit/{id}', 'Administration\DealersController@edit');
-    Route::post('dealers/update', 'Administration\DealersController@store');
+    Route::get('dealers/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@create']);
+    Route::post('dealers/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@store']);
+    Route::get('dealers', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@index']);
+    Route::get('dealers/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@edit']);
+    Route::post('dealers/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@store']);
 
     // Style Requests
     // Route::get('accent/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@create']);
@@ -408,6 +408,14 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@index']);
     // Route::get('accent/edit/{id}', 'Administration\AccentsController@editAccentForm');
     // Route::post('accent/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@store']);
+
+    //Item Sizes
+    Route::get('item_sizes', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@index']);
+    Route::get('item_size/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@create']);
+    Route::post('item_size/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@store']);
+    Route::get('item_size/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@edit']);
+    Route::post('item_size/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@store']);
+
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
