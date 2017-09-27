@@ -23,7 +23,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered fonts'>
+                    <table data-toggle='table' class='data-table table-bordered fonts'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -51,7 +51,13 @@
                                 <input type="hidden" class="properties" value="{{ json_encode($template->properties) }}">
                             </td>
                             <td>
-                                <a href="/administration/price_item_template/edit/{{ $template->id }}"" class="btn btn-xs btn-primary">Edit</a>
+                                <a href="/administration/price_item_template/edit/{{ $template->id }}"" class="btn btn-xs btn-primary">
+                                    Edit
+                                </a>
+                                <a href="#" class="delete-template btn btn-xs btn-danger pull-right" data-template-id="{{ $template->id }}" role="button">
+                                    <i class="glyphicon glyphicon-trash"> Remove</i>
+                                </a>        
+
                             </td>
                         </tr>
 
@@ -78,16 +84,52 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script>
 $(document).ready(function(){
 
-    // $(".properties").each(function(i) {
-    //     var x  = $(this).val();
-    //     console.log(x);
-    // });
+    $('.delete-template').on('click', function(e){
+        e.preventDefault();
+       var id = [];
+       id.push( $(this).data('template-id'));
+       console.log(id);
+       modalConfirm('Remove Price Template', 'Are you sure you want to delete the price template?', id);
+       });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/price_item_template/delete";
+       
+        $.ajax({
+           url: url,
+           type: "POST",
+           data: JSON.stringify({id: id}),
+           dataType: "json",
+           crossDomain: true,
+           contentType: 'application/json',
+           headers: {"accessToken": atob(headerValue)},
+           success: function(response){
+               if (response.success) {
+                   new PNotify({
+                       title: 'Success',
+                       text: response.message,
+                       type: 'success',
+                       hide: true
+                   });
+                   $('#confirmation-modal').modal('hide');
+                  $.each(id, function (index, value) {
+                     console.log(value);
+                     $('.template-' + value).fadeOut();
+                     // Will stop running after "three"
+                     
+                   });              
+
+               }
+           }
+       });
+    });
 
     var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','YS','YM','YL','YXL','Y2XL','Y3XL'];
     var adult_sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
