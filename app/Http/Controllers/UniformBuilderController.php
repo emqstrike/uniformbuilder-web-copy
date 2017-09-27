@@ -23,10 +23,12 @@ use File;
 use Slack;
 use App\Utilities\StringUtility;
 use App\Traits\OwnsUniformDesign;
+use App\Traits\HandleTeamStoreConfiguration;
 
 class UniformBuilderController extends Controller
 {
     use OwnsUniformDesign;
+    use HandleTeamStoreConfiguration;
 
     protected $materialsClient;
     protected $colorsClient;
@@ -116,6 +118,13 @@ class UniformBuilderController extends Controller
             $params['store_code'] = $config['store_code'];
             Log::info(__METHOD__ . ': Store Code = ' . $params['store_code']);
         }
+        if (empty($params['store_code']))
+        {
+            $params['store_code'] = $this->getTeamStoreCode();
+        }
+
+        // @param Team Store USER ID
+        $params['team_store_user_id'] = $this->getTeamStoreUserId();
 
         // @param Team Name
         $params['team_name'] = '';
@@ -195,8 +204,8 @@ class UniformBuilderController extends Controller
             $pageType = Session::get("page-type");
             $params['type'] = $config['type'];
 
-            if($pageType['page'] === "saved-design") {
-                
+            if ($pageType['page'] === "saved-design")
+            {
                 $design = Session::get('design');
                 Session::put('order', null);
 
