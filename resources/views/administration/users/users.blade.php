@@ -29,7 +29,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Account Type</th>
+                                <th id="select-filter">Account Type</th>
                                 <th>Date registered</th>
                                 <th>Email</th>
                                 <th id="select-filter">Rep Name</th>
@@ -58,8 +58,8 @@
                                     {{ $user->created_at }}
                                 </td>
                                 <td>
-                                    {{ $user->email }}
-                                    {{-- <span class="label label-primary">{{ $user->email }}</span> --}}
+                                    {{-- {{ $user->email }} --}}
+                                    <span class="label label-primary">{{ $user->email }}</span>
                                 </td>
                                 <td>
                                     {{ $user->rep_first_name }} {{ $user->rep_last_name }} 
