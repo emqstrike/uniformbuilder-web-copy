@@ -108,6 +108,11 @@
           <i class="fa fa-shirtsinbulk"></i> <span>Design Sets</span>
         </a>
       </li>
+      <li  data-step="6" data-intro="For Item Sizes settings.">
+        <a href="/administration/item_sizes">
+          <i class="fa fa-arrows-v"></i> <span>Item Sizes</span>
+        </a>
+      </li>
       <li  data-step="7" data-intro="For Mascots settings.">
         <a href="/administration/mascots">
           <i class="fa fa-linux"></i> <span>Mascots</span>
