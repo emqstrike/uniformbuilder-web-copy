@@ -2,6 +2,7 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"/>
 @endsection
 
 @section('content')
@@ -25,13 +26,15 @@
                 <div class="box-body">
                     <table class='data-table table table-bordered table-hover users-table display' cellspacing="0">
                         <thead>
+                            <input type="hidden" id="users-data" value="{{ $users_string }}">
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Account Type</th>
                                 <th>Date registered</th>
                                 <th>Email</th>
-                                <th>Rep ID</th>
+                                <th id="select-filter">Rep Name</th>
+                                <th id="select-filter">Dealership</th>
                                 <th>Last Login</th>
                                 <th>Active Status</th>
                                 <th></th>
@@ -49,16 +52,21 @@
                                     {{ $user->first_name }} {{ $user->last_name }}
                                 </td>
                                 <td>
-                                    <span class="label label-{{ ($user->type == 'administrator') ? 'danger' : 'info' }}">{{ ucfirst($user->type) }}</span>
+                                    {{ ucfirst($user->type) }}
+                                    {{-- <span class="label label-{{ ($user->type == 'administrator') ? 'danger' : 'info' }}">{{ ucfirst($user->type) }}</span> --}}
                                 </td>
                                 <td>
                                     {{ $user->created_at }}
                                 </td>
                                 <td>
-                                    <span class="label label-primary">{{ $user->email }}</span>
+                                    {{ $user->email }}
+                                    {{-- <span class="label label-primary">{{ $user->email }}</span> --}}
                                 </td>
                                 <td>
-                                    {{ $user->default_rep_id }}
+                                    {{ $user->rep_first_name }} {{ $user->rep_last_name }} 
+                                </td>
+                                 <td>
+                                    {{ $user->rep_dealer }} 
                                 </td>
                                 <td>
                                     {{ $user->last_login }}
@@ -97,13 +105,27 @@
                         @empty
 
                             <tr>
-                                <td colspan='4'>
+                                <td colspan='10'>
                                     No Users
                                 </td>
                             </tr>
 
                         @endforelse
                         </tbody>
+                          <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>                             
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>                                
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -117,19 +139,14 @@
 @endsection
 
 @section('scripts')
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/users.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
-    });
+
 @if (Session::has('message'))
     new PNotify({
         title: 'Success',

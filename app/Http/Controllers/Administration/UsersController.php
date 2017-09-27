@@ -26,16 +26,17 @@ class UsersController extends Controller
     {
         if( Session::get('role') == "dev" ){
             $users = $this->client->getUsers();
+            $users_string = json_encode($users);
             foreach($users as $user)
             {
                 $user->created_at = date('M-d-Y', strtotime($user->created_at));
                 if(isset($user->last_login)){
                     $user->last_login = date('M-d-Y', strtotime($user->last_login));
                 }
-            }
-
+            }            
             return view('administration.users.users', [
-                'users' => $users
+                'users' => $users,
+                'users_string' => $users_string
             ]);
         } else {
             return redirect('administration');
