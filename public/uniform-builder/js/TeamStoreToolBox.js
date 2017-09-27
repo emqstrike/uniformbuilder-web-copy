@@ -60,6 +60,12 @@ var TeamStoreToolBox = {
                 message: '<p><i class="fa fa-spin fa-spinner"></i> preparing images...</p>'
             });
         }
+        // Set visibility of all perspectives
+        ub['front_view'].visible = true;
+        ub['left_view'].visible = true;
+        ub['right_view'].visible = true;
+        ub['back_view'].visible = true;
+
         ub.funcs.prepareThumbnails();
 
         setTimeout(function() {
