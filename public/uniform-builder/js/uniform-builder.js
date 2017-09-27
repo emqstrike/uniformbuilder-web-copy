@@ -1760,7 +1760,9 @@ $(document).ready(function () {
 
                 }
 
-                ub[view + '_view'].visible = false;
+                if (!ub.render) {
+                    ub[view + '_view'].visible = false;    
+                }
 
             });
 
