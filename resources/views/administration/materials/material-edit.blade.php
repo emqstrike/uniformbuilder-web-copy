@@ -675,8 +675,9 @@
                                 @endforeach
                                 </select>
                             </div>
-                             <div class="col-md-4 material">                                
-                                <input type="hidden" class="form-control sizing-config-prop" name="sizing_config_prop" value="{{ $material->sizing_config_prop }}">
+                             <div class="col-md-4 material">
+                                 <textarea class="sizing-config-prop" name="sizing_config_prop" id="sizing_config_prop" style="display:none;"">{{ $material->sizing_config_prop }}</textarea>                                 
+                                
                             </div>
                         </div>
                         <div class="form-group">
@@ -953,10 +954,10 @@ $( document ).ready(function() {
         var selected_size_config = $('#qx_sizing_config option:selected').val();       
         $.each(size_prop, function(i, item) {                   
             if (item.id == selected_size_config) {
-                $('.sizing-config-prop').val(item.properties);
+                $('.sizing-config-prop').text(item.properties);
             }
             else {
-                $('.sizing-config-prop').val('');
+                $('.sizing-config-prop').text('');
             }
         });   
 
