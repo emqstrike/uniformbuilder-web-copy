@@ -20,6 +20,7 @@ use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\PriceItemTemplatesAPIClient;
 use App\APIClients\PartsAliasesAPIClient;
+use App\APIClients\ItemSizesAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 use Illuminate\Support\Facades\Input;
 
@@ -36,6 +37,7 @@ class MaterialsController extends Controller
     protected $blockPatternClient;
     protected $priceItemTemplateClient;
     protected $partAliasesAPIClient;
+    protected $itemSizesAPIClient;
 
     public function __construct(
         APIClient $apiClient,
@@ -48,7 +50,8 @@ class MaterialsController extends Controller
         FontsAPIClient $fontsAPIClient,
         BlockPatternsAPIClient $blockPatternsAPIClient,
         PriceItemTemplatesAPIClient $priceItemTemplatesClient,
-        PartsAliasesAPIClient $partAliasesAPIClient
+        PartsAliasesAPIClient $partAliasesAPIClient,
+        ItemSizesAPIClient $itemSizesAPIClient
     )
     {
         $this->client = $apiClient;
@@ -62,6 +65,7 @@ class MaterialsController extends Controller
         $this->blockPatternClient = $blockPatternsAPIClient;
         $this->priceItemTemplateClient = $priceItemTemplatesClient;
         $this->partAliasesAPIClient = $partAliasesAPIClient;
+        $this->itemSizesAPIClient = $itemSizesAPIClient;
     }
 
     /**
@@ -240,6 +244,8 @@ class MaterialsController extends Controller
         $price_item_templates = $this->priceItemTemplateClient->getAll();
         $partAliases = $this->partAliasesAPIClient->getAll();
         $material = $this->client->getMaterial($id);
+        $itemSizes = $this->itemSizesAPIClient->getAll();
+        $item_sizes_string = json_encode($itemSizes);
         return view('administration.materials.material-edit', [
             'material' => $material,
             'uniform_categories' => $uniformCategories,
@@ -247,7 +253,9 @@ class MaterialsController extends Controller
             'factories' => $factories,
             'block_patterns' => $block_patterns,
             'price_item_templates' => $price_item_templates,
-            'part_aliases' => $partAliases
+            'part_aliases' => $partAliases,
+            'item_sizes' => $itemSizes,
+            'item_sizes_string' => $item_sizes_string
         ]);
     }
 
@@ -316,12 +324,16 @@ class MaterialsController extends Controller
         $piTemplates = $this->priceItemTemplateClient->getAll();
         $partAliases = $this->partAliasesAPIClient->getAll();
         $factories = $this->factoriesClient->getFactories();
+        $itemSizes = $this->itemSizesAPIClient->getAll();
+        $item_sizes_string = json_encode($itemSizes);
         return view('administration.materials.material-create', [
             'uniform_categories' => $uniformCategories,
             'factories' => $factories,
             'block_patterns' => $block_patterns,
             'price_item_templates' => $piTemplates,
-            'part_aliases' => $partAliases
+            'part_aliases' => $partAliases,
+            'item_sizes' => $itemSizes,
+            'item_sizes_string' => $item_sizes_string
         ]);
     }
 
@@ -440,6 +452,8 @@ class MaterialsController extends Controller
         $infusedPriceItemTemplateID = $request->input('infused_price_item_template_id');
         $partAliasID = $request->input('part_alias_id');
         $customizer_available = $request->input('customizer_available');
+        $qx_sizing_config = $request->input('qx_sizing_config');
+        $sizing_config_prop = $request->input('sizing_config_prop');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -495,9 +509,11 @@ class MaterialsController extends Controller
             'infused_price_item_template_id' => $infusedPriceItemTemplateID,
             'style_group' => $styleGroup,
             'parts_alias_id' => $partAliasID,
-            'customizer_available' => $customizer_available
-        ];
+            'customizer_available' => $customizer_available,
+            'qx_sizing_config' => $qx_sizing_config,
+            'sizing_config_prop' => $sizing_config_prop
 
+        ];
         try {
             // Thumbnail Files
             $thumbnailFile = $request->file('thumbnail_path');
