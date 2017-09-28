@@ -426,7 +426,7 @@
                                 </select>
                             </div>
                              <div class="col-md-4 material">
-                                <textarea class="sizing-config-prop" name="sizing_config_prop" id="sizing_config_prop" style="display:none;""></textarea>                              
+                                <textarea class="sizing-config-prop" name="sizing_config_prop" id="sizing_config_prop" style="display:none;"></textarea>                              
                             </div>
                         </div>
                          <div class="form-group">
