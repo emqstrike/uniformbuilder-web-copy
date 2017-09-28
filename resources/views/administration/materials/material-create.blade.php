@@ -516,14 +516,12 @@ $( document ).ready(function() {
     });
 
     function selectedConfig() {
-        var selected_size_config = $('#qx_sizing_config option:selected').val();       
+        var selected_size_config = $('#qx_sizing_config option:selected').val();
+        $('#sizing_config_prop').text('');         
         $.each(size_prop, function(i, item) {            
             if (item.id == selected_size_config) {
-                $('.sizing-config-prop').text(item.properties);
-            }
-            else {
-                $('.sizing-config-prop').text('');
-            }
+                $('#sizing_config_prop').text(item.properties);
+            }          
         });   
 
     }     
