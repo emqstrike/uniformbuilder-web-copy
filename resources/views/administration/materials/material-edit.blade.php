@@ -676,7 +676,7 @@
                                 </select>
                             </div>
                              <div class="col-md-4 material">                                
-                                <input type="text" class="form-control sizing-config-prop" name="sizing_config_prop" value="{{ $material->sizing_config_prop }}">
+                                <input type="hidden" class="form-control sizing-config-prop" name="sizing_config_prop" value="{{ $material->sizing_config_prop }}">
                             </div>
                         </div>
                         <div class="form-group">
