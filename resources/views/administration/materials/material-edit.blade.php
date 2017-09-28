@@ -664,6 +664,21 @@
                                 </select>
                             </div>
                         </div>
+                        <textarea id="item_sizes_string" style="display:none;""> {{$item_sizes_string}} </textarea>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Qx Sizing Config</label>
+                            <div class="col-md-6">
+                                <select class="form-control qx-sizing-config" name="qx_sizing_config" id="qx_sizing_config">
+                                <option value="null"></option>
+                                @foreach ($item_sizes as $item_sizes)
+                                    <option value='{{ $item_sizes->id }}'@if($material->qx_sizing_config == $item_sizes->id) selected="selected"@endif>{{ $item_sizes->description }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                             <div class="col-md-4 material">                                
+                                <input type="text" class="form-control sizing-config-prop" name="sizing_config_prop" value="{{ $material->sizing_config_prop }}">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary edit-material">
@@ -926,6 +941,26 @@ $( document ).ready(function() {
             }
         });
     });
+
+    var item_size_array = $('#item_sizes_string').text();
+    var size_prop = JSON.parse(item_size_array);
+
+    $("#edit-material-form").on("change", ".qx-sizing-config", function(e){
+        selectedConfig();
+    });
+
+    function selectedConfig() {
+        var selected_size_config = $('#qx_sizing_config option:selected').val();       
+        $.each(size_prop, function(i, item) {                   
+            if (item.id == selected_size_config) {
+                $('.sizing-config-prop').val(item.properties);
+            }
+            else {
+                $('.sizing-config-prop').val('');
+            }
+        });   
+
+    }     
 
 
 });
