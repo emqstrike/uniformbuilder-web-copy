@@ -676,7 +676,7 @@
                                 </select>
                             </div>
                              <div class="col-md-4 material">
-                                 <textarea class="sizing-config-prop" name="sizing_config_prop" id="sizing_config_prop" style="display:none;"">{{ $material->sizing_config_prop }}</textarea>                                 
+                                 <textarea class="sizing-config-prop" name="sizing_config_prop" id="sizing_config_prop" style="display:none;">{{ $material->sizing_config_prop }}</textarea>                                 
                                 
                             </div>
                         </div>
