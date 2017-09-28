@@ -169,8 +169,13 @@ $(document).ready(function(){
         var x  = $( ".prop-row:first" ).clone();
         y = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
 
-        $('.property-body').append(x);
-        $(x).append(y);
+        if(x.length >0) {
+            $('.property-body').append(x);
+            $(x).append(y);
+        }
+        else {
+            loadDefault();
+        }              
         deleteButton();
         selectChange();
         refreshProperty();
@@ -258,6 +263,37 @@ $(document).ready(function(){
 
         $('#size_property').val(JSON.stringify(size_properties));
     }
+
+    function loadDefault() {
+         var x = `<tr class="prop-row">
+                    <td>
+                        <select class="form-control sizes">
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control price-items">
+                        </select>
+                    </td>                   
+                </tr>`;
+
+           $('.property-body').append(x);  
+           initSizesAndPI();
+    }
+
+    function initSizesAndPI(){
+    _.each(sizes, function(i){
+        var elem = '<option value="' + i + '">' + i + '</option>';
+        $('.sizes').append(elem);
+    });
+
+
+    _.each(window.price_items, function(i){
+        var pi = i.price_item;
+        var elem = '<option value="' + pi + '">' + pi + '</option>';
+        $('.price-items').append(elem);
+    });
+}
+
 
 });
 </script>
