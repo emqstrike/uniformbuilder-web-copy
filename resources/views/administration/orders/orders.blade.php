@@ -134,7 +134,7 @@
                                     data-bill-email="{{ $order->bill_email }}"
                                     data-bill-phone="{{ $order->bill_phone }}"
                                     data-bill-address="{{ $order->bill_address }}"
-                                    >Send to Edit</a>
+                                    disabled>Send to Edit</a>
                                 <a href="#"
                                     class="btn btn-primary btn-xs translate-values"
                                     data-api-order-id="{{ $order->order_id }}"

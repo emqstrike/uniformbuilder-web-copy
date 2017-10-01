@@ -34,7 +34,7 @@
                     <tbody>
 
                     @forelse ($accents as $key => $accent)
-                    
+
                       <tr class='accent-{{ $accent->id }} '>
 	                      <td>{{ $accent->name }}</td>
 	                      <td>{{ $accent->code }}</td>

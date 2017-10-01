@@ -70,21 +70,32 @@ class ApplicationSizesController extends Controller
     public function store(Request $request)
     {
         $name = $request->input('name');
-        $uniform_category_id = $request->input('uniform_category_id');
-        $block = $request->input('block_pattern_id');
-        $neck = $request->input('neck_option');
+        $uniform_category_id = $request->input('uniform_category_id');        
         $notes = $request->input('notes');
         $type = $request->input('type');
         $properties = $request->input('properties');
+
+        if( $request->input('block_pattern_value') ){
+            $block = explode(",", $request->input('block_pattern_value'));
+        } else {
+            $block = "";
+        }
+        if( $request->input('neck_option_value') ){
+            $neck = explode(",", $request->input('neck_option_value'));
+        } else {
+            $neck = "";
+        }
+
         $data = [
             'name' => $name,
             'uniform_category_id' => $uniform_category_id,
-            'block_pattern_id' => $block,
+            'block_pattern' => $block,
             'neck_option' => $neck,
             'notes' => $notes,
             'type' => $type,
             'properties' => $properties
-        ];       
+        ]; 
+            
         $id = null;
         if (!empty($request->input('application_size_id')))
         {
