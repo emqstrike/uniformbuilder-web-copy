@@ -70,7 +70,8 @@ var TeamStoreToolBox = {
 
         setTimeout(function() {
             ub.funcs.updateTeamStoreImages();
-            TeamStoreToolBox.progress_modal.find('.bootbox-body').html('Finished processing.');
+            $('.bootbox.modal .bootbox-body').html('Finished processing.');
+            $('.bootbox.modal').modal('hide');
         }, 3000);
     },
 
