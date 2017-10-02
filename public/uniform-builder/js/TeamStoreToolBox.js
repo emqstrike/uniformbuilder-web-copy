@@ -107,8 +107,9 @@ var TeamStoreToolBox = {
                             response.material.price_youth_sale = response.material.pricing.youth_min_web_price_sale;
                         }
                     }
-                    TeamStoreToolBox.offer_product_to_team_store(response.material);
+                    return TeamStoreToolBox.offer_product_to_team_store(response.material);
                 }
+                return false;
             }
         );
     },
@@ -118,6 +119,12 @@ var TeamStoreToolBox = {
      */
     offer_product_to_team_store: function(material) {
         var url = TeamStoreAPI.endpoints.add_product_to_team_store;
+        var selected_colors = [];
+        if (ub.current_material.settings.team_colors) {
+            for (i = 0; i < (ub.current_material.settings.team_colors.length); i++) {
+                selected_colors.push(ub.current_material.settings.team_colors[i].color_code);
+            }
+        }
         var material_data = {
             store_code: ub.store_code,
             material_id: material.id,
@@ -152,7 +159,8 @@ var TeamStoreToolBox = {
             factory_code: material.factory_code,
             sport: material.uniform_category.toLowerCase(),
             has_jersey_number: material.has_jersey_number,
-            has_jersey_name: material.has_jersey_name
+            has_jersey_name: material.has_jersey_name,
+            colors: JSON.stringify(selected_colors)
         };
 
         ub.utilities.postJSON(url,
@@ -161,9 +169,6 @@ var TeamStoreToolBox = {
                 if (response.success) {
                     $('#team-store-toolbox').data('product-id', response.product.id);
                     TeamStoreToolBox.update_images(true);
-                    setTimeout(function() {
-                        location.href = location.protocol + '//' + location.host + location.pathname + '/' + response.product.id;
-                    }, 5000);
                 }
             }
         );

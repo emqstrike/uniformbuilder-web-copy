@@ -121,6 +121,7 @@ class UniformBuilderController extends Controller
         if (empty($params['store_code']))
         {
             $params['store_code'] = $this->getTeamStoreCode();
+            Log::info('STORE CODE: ' . $params['store_code']);
         }
 
         // @param Team Store USER ID
