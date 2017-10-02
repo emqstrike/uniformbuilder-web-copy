@@ -170,6 +170,8 @@ var TeamStoreToolBox = {
                 if (response.success) {
                     $('#team-store-toolbox').data('product-id', response.product.id);
                     TeamStoreToolBox.update_images(true);
+                    $('#team-store-toolbox .add-to-team-store').off('click');
+                    $('#team-store-toolbox .add-to-team-store').addClass('disabled').removeClass('add-to-team-store');
                 }
             }
         );
