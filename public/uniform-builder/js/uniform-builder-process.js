@@ -2406,6 +2406,9 @@ $(document).ready(function() {
             };
 
             ub.funcs.postDesign(_data);
+            if (is_add_to_team_store) {
+                TeamStoreToolBox.add_to_team_store(_materialID);
+            }
 
         };
 

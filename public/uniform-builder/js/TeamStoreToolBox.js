@@ -78,12 +78,15 @@ var TeamStoreToolBox = {
     /**
      * Wrapper method for the actual AJAX call to add product to team store
      */
-    add_to_team_store: function(material) {
+    add_to_team_store: function(material_id) {
         TeamStoreToolBox.progress_modal = bootbox.dialog({
             title: 'Adding new product to your team store',
             message: '<p><i class="fa fa-spin fa-spinner"></i> preparing images...</p>'
         });
-        TeamStoreToolBox.get_material(ub.config.material_id);
+        if (!material_id) {
+            material_id = ub.config.material_id;
+        }
+        TeamStoreToolBox.get_material(material_id);
     },
 
     get_material: function(material_id) {
