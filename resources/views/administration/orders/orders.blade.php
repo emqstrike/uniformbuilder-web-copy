@@ -116,6 +116,7 @@
                             <td>
                                 {{-- @if ( $order->artwork_status != "rejected" )
                                 ( !isset($order->factory_order_id) ) --}}
+                                @if(count($order->items) > 0)
                                 <a href="#"
                                     class="btn btn-primary btn-xs send-to-factory"
                                     data-order-id="{{ $order->id }}"
@@ -134,8 +135,9 @@
                                     data-bill-email="{{ $order->bill_email }}"
                                     data-bill-phone="{{ $order->bill_phone }}"
                                     data-bill-address="{{ $order->bill_address }}"
-                                    disabled>Send to Edit</a>
-                                <a href="#"
+                                    >Send to Edit</a>
+                                @endif
+                                <!-- <a href="#"
                                     class="btn btn-primary btn-xs translate-values"
                                     data-api-order-id="{{ $order->order_id }}"
                                     >Translate</a>
@@ -143,7 +145,7 @@
                                     <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                         Remove
-                                    </a>
+                                    </a> -->
                                 {{-- @endif --}}
                             </td>
                         </tr>
@@ -180,6 +182,7 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/orders.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
