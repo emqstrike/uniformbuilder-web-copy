@@ -116,6 +116,7 @@
                             <td>
                                 {{-- @if ( $order->artwork_status != "rejected" )
                                 ( !isset($order->factory_order_id) ) --}}
+                                @if(count($order->items) > 0)
                                 <a href="#"
                                     class="btn btn-primary btn-xs send-to-factory"
                                     data-order-id="{{ $order->id }}"
@@ -135,7 +136,8 @@
                                     data-bill-phone="{{ $order->bill_phone }}"
                                     data-bill-address="{{ $order->bill_address }}"
                                     >Send to Edit</a>
-                                <a href="#"
+                                @endif
+                                <!-- <a href="#"
                                     class="btn btn-primary btn-xs translate-values"
                                     data-api-order-id="{{ $order->order_id }}"
                                     >Translate</a>
@@ -143,7 +145,7 @@
                                     <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                         Remove
-                                    </a>
+                                    </a> -->
                                 {{-- @endif --}}
                             </td>
                         </tr>
