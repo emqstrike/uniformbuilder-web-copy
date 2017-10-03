@@ -359,7 +359,7 @@ function buildRows(filesData){
 }
 
 Dropzone.options.myAwesomeDropzone = {
-	// addRemoveLinks: true,
+	addRemoveLinks: true,
     success: function(file, response){
         //alert(response);
         // console.log(file);
@@ -379,9 +379,15 @@ Dropzone.options.myAwesomeDropzone = {
         hidePleaseWait();
     },
     removedfile: function(file) {
+        filesData = filesData.filter(function (e){
+            return e.name != file.name;
+        });
     	files.splice(files.indexOf(file.name), 1);
-	    // console.log(files);
-	    // console.log(filesData);
+	    file.previewElement.remove();
+        console.log(files);
+	    console.log(filesData);
+
+        buildRows(filesData);       
 	},
     drop: function(){
         showPleaseWait();
