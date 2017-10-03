@@ -3,34 +3,35 @@ $(document).ready(function(){
     window.colors = null;
     window.patterns = null;
     window.pa_id = null;
-    window.test_size_data = [{
-        'size' : 'XS',
-        'qx_item_id' : 2717
-    }, {
-        'size' : 'S',
-        'qx_item_id' : 2717
-    }, {
-        'size' : 'M',
-        'qx_item_id' : 2717
-    }, {
-        'size' : 'L',
-        'qx_item_id' : 2717
-    }, {
-        'size' : 'XL',
-        'qx_item_id' : 2800
-    }, {
-        'size' : '2XL',
-        'qx_item_id' : 2800
-    }, {
-        'size' : '3XL',
-        'qx_item_id' : 2800
-    }, {
-        'size' : '4XL',
-        'qx_item_id' : 2800
-    }, {
-        'size' : '5XL',
-        'qx_item_id' : 2800
-    }];
+    window.test_size_data = null;
+    // window.test_size_data = [{
+    //         "size": "XS",
+    //         "qx_item_id": 3213
+    //     }, {
+    //         "size": "S",
+    //         "qx_item_id": 3213
+    //     }, {
+    //         "size": "M",
+    //         "qx_item_id": 3213
+    //     }, {
+    //         "size": "L",
+    //         "qx_item_id": 3213
+    //     }, {
+    //         "size": "XL",
+    //         "qx_item_id": 3213
+    //     }, {
+    //         "size": "2XL",
+    //         "qx_item_id": 3214
+    //     }, {
+    //         "size": "3XL",
+    //         "qx_item_id": 3214
+    //     }, {
+    //         "size": "4XL",
+    //         "qx_item_id": 3214
+    //     }, {
+    //         "size": "5XL",
+    //         "qx_item_id": 3214
+    //     }];
 
     window.roster = null;
 
@@ -586,7 +587,7 @@ $('.send-to-factory').on('click', function(e){
         console.log(order);
         // "RepID": 154, Jeremy
         // "RepID": 1148, Geeks
-
+        window.test_size_data = JSON.parse(window.material.sizing_config_prop); // uncomment this line on production
         var order_items_split = splitRosterToQXItems();
         var order_parts_split = [];
         console.log('ORDER ITEMS SPLIT');
@@ -612,9 +613,13 @@ $('.send-to-factory').on('click', function(e){
                     roster.push(y);
                 }
             });
-
-            x.orderItems = roster;
-            order_parts_split.push(x);
+            if( roster.length > 0 ){
+               x.orderItems = roster;
+                order_parts_split.push(x); 
+                console.log('HAS ROSTER');
+            } else {
+                console.log('NO ROSTER');
+            }
         });
 
         var orderEntire = {
