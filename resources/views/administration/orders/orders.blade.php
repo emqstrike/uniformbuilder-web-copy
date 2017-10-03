@@ -134,7 +134,7 @@
                                     data-bill-email="{{ $order->bill_email }}"
                                     data-bill-phone="{{ $order->bill_phone }}"
                                     data-bill-address="{{ $order->bill_address }}"
-                                    disabled>Send to Edit</a>
+                                    >Send to Edit</a>
                                 <a href="#"
                                     class="btn btn-primary btn-xs translate-values"
                                     data-api-order-id="{{ $order->order_id }}"
@@ -180,6 +180,7 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/orders.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
