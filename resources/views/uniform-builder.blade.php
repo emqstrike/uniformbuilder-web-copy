@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Engineering">
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+<meta name="team-store-api" content="{{ env('TEAM_STORE_API_BASE_URL') }}">
 
 <title>Prolook Sports | Uniform Customizer</title>
 <meta name="description" content="Design your own custom uniforms using the Prolook Uniform Customizer. We offer tons of designs for all sports. Create your custom uniform today.">

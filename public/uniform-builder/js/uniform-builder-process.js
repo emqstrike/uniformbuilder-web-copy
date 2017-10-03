@@ -2345,11 +2345,23 @@ $(document).ready(function() {
 
                         ub.funcs.updatePopup();
 
+                        var is_add_to_team_store = false;
+                        if (typeof($('#is_add_to_team_store').val()) == "undefined") {
+                            is_add_to_team_store = false;
+                        } else {
+                            if ($('#is_add_to_team_store').val() == "on") {
+                                is_add_to_team_store = true;
+                            }
+                        }
+                        if (is_add_to_team_store) {
+                            TeamStoreToolBox.add_to_team_store(_materialID);
+                        }
+
                     } else {
 
                         console.log('Error Saving Design.');
                         console.log(response.message);
-
+                        $('.save-design').fadeOut();
                     }
 
                 }
@@ -2406,9 +2418,6 @@ $(document).ready(function() {
             };
 
             ub.funcs.postDesign(_data);
-            if (is_add_to_team_store) {
-                TeamStoreToolBox.add_to_team_store(_materialID);
-            }
 
         };
 
