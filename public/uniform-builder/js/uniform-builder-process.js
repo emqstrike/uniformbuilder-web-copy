@@ -2354,6 +2354,9 @@ $(document).ready(function() {
                             }
                         }
                         if (is_add_to_team_store) {
+                            // Make ID available globally; TeamStoreToolBox.js needs this var
+                            ub.team_stores_material_id = response.team_stores_material_id;
+
                             TeamStoreToolBox.add_to_team_store(ub.current_material.material.id);
                         }
 

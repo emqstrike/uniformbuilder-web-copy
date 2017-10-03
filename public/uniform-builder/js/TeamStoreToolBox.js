@@ -172,9 +172,27 @@ var TeamStoreToolBox = {
             function(response) {
                 if (response.success) {
                     $('#team-store-toolbox').data('product-id', response.product.id);
-                    TeamStoreToolBox.update_images(true);
+                    TeamStoreToolBox.bind_product_id(ub.team_stores_material_id, response.product.id);
                     $('#team-store-toolbox .add-to-team-store').off('click');
                     $('#team-store-toolbox .add-to-team-store').addClass('disabled').removeClass('add-to-team-store');
+                }
+            }
+        );
+    },
+
+    /**
+     * Update TeamStoresMaterial's product ID
+     */
+    bind_product_id: function(team_store_material_id, product_id) {
+        var url = ub.config.api_host + '/api/team_stores_material/update_product_id';
+        ub.utilities.postJSON(url,
+            {
+                id: team_store_material_id,
+                product_id: product_id
+            },
+            function(response) {
+                if (response.success) {
+                    TeamStoreToolBox.update_images(true);
                 }
             }
         );
