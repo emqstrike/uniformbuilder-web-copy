@@ -545,10 +545,10 @@ class UniformBuilderController extends Controller
     protected function injectParameters(
         &$config,
         $store_code = null,
-        $team_name = null,
+        $team_name = 'PROLOOK',
         $team_colors = null,
-        $jersey_name = null,
-        $jersey_number = null,
+        $jersey_name = 'YESHUA',
+        $jersey_number = '77',
         $mascot_id = null,
         $save_rendered = false,
         $save_rendered_timeout = 10,
@@ -2038,6 +2038,17 @@ class UniformBuilderController extends Controller
             ];
 
             if ($render) { $config['render'] = true; }
+
+            if (Session::has('userHasTeamStoreAccount'))
+            {
+                $team_store = Session::get('team_store');
+                $colors = implode(',', $team_store['colors']);
+                $this->injectParameters($config,
+                    $team_store['code'],
+                    $team_store['name'],
+                    $colors
+                );
+            }
 
             return $this->showBuilder($config);
         }
