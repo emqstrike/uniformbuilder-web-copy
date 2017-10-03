@@ -2378,6 +2378,15 @@ $(document).ready(function() {
             var _rightView = ub.current_material.settings.thumbnails.right_view;
             var _notes = $('#design-notes').val();
 
+            var is_add_to_team_store = false;
+            if (typeof($('#is_add_to_team_store').val()) == "undefined") {
+                is_add_to_team_store = false;
+            } else {
+                if ($('#is_add_to_team_store').val() == "on") {
+                    is_add_to_team_store = true;
+                }
+            }
+
             var _data = {
 
                 user_id: _userID.toString(),
@@ -2392,6 +2401,7 @@ $(document).ready(function() {
                 left_thumbnail: _leftView,
                 right_thumbnail: _rightView,
                 notes: _notes,
+                is_add_to_team_store: is_add_to_team_store
 
             };
 
