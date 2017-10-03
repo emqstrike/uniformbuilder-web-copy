@@ -2354,7 +2354,7 @@ $(document).ready(function() {
                             }
                         }
                         if (is_add_to_team_store) {
-                            TeamStoreToolBox.add_to_team_store(_materialID);
+                            TeamStoreToolBox.add_to_team_store(ub.current_material.material.id);
                         }
 
                     } else {
@@ -2390,15 +2390,6 @@ $(document).ready(function() {
             var _rightView = ub.current_material.settings.thumbnails.right_view;
             var _notes = $('#design-notes').val();
 
-            var is_add_to_team_store = false;
-            if (typeof($('#is_add_to_team_store').val()) == "undefined") {
-                is_add_to_team_store = false;
-            } else {
-                if ($('#is_add_to_team_store').val() == "on") {
-                    is_add_to_team_store = true;
-                }
-            }
-
             var _data = {
 
                 user_id: _userID.toString(),
@@ -2412,10 +2403,21 @@ $(document).ready(function() {
                 back_thumbnail: _backView,
                 left_thumbnail: _leftView,
                 right_thumbnail: _rightView,
-                notes: _notes,
-                is_add_to_team_store: is_add_to_team_store
+                notes: _notes
 
             };
+
+            // Add flag
+            if (typeof($('#is_add_to_team_store').val()) !== "undefined") {
+                if ($('#is_add_to_team_store').val() == "on") {
+                    _data.is_add_to_team_store = true;
+                }
+            }
+
+            // Add store code if exists
+            if (ub.store_code) {
+                _data.store_code = ub.store_code;
+            }
 
             ub.funcs.postDesign(_data);
 
