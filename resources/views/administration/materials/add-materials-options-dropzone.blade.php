@@ -387,8 +387,7 @@ Dropzone.options.myAwesomeDropzone = {
         console.log(files);
 	    console.log(filesData);
 
-        buildRows(filesData);
-        hidePleaseWait();
+        buildRows(filesData);       
 	},
     drop: function(){
         showPleaseWait();
