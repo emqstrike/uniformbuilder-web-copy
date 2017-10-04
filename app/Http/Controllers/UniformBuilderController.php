@@ -262,7 +262,7 @@ class UniformBuilderController extends Controller
             $params['gender'] = $config['gender'];
 
         }
-
+Log::info(print_r(Session::all(), true));
         return view('editor.uniform-builder-index', $params);
 
     }
@@ -2045,8 +2045,7 @@ class UniformBuilderController extends Controller
                 $colors = implode(',', $team_store['colors']);
                 $this->injectParameters($config,
                     $team_store['code'],
-                    $team_store['name'],
-                    $colors
+                    $team_store['name']
                 );
             }
 
