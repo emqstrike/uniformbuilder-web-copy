@@ -70,6 +70,9 @@ class InksoftDesignsController extends Controller
         $category = $request->input('category');
         $type = $request->input('type');
         $is_public = $request->input('is_public');
+        $created_by_user_id = $request->input('created_by_user_id');
+        $status = $request->input('status');
+        $comments = $request->input('comments');        
         
         $data = [
             'id' => $id,
@@ -82,9 +85,12 @@ class InksoftDesignsController extends Controller
             'design_details' => $design_details,
             'category' => $category,
             'type' => $type,
-            'is_public' => $is_public,
-        ];               
-        
+            'is_public' => $is_public, 
+            'created_by_user_id' => $created_by_user_id,
+            'status' => $status,
+            'comments' => $comments            
+        ];              
+
         $response=null;
         if (!empty($id))
         {
