@@ -460,9 +460,10 @@ $(document).ready(function () {
             if (TeamStoreToolBox.is_enabled)
             {
                 TeamStoreToolBox.init();
-                if (window.is_show_teamstore_toolbox)
-                {
-                    TeamStoreToolBox.show();
+                if (window.is_show_teamstore_toolbox) {
+                    if (!window.render) {
+                        TeamStoreToolBox.show();
+                    }
                 }
             }
 
