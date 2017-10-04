@@ -3,7 +3,7 @@
  */
 
 var TeamStoreAPI = {
-    base_url: $('#team-store-toolbox').data('teamstore-api'),
+    base_url: $('meta[name=team-store-api]').attr('content'),
     endpoints: {},
     init: function() {
         // Product
