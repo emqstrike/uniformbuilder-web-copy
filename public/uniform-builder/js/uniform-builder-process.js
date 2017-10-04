@@ -2349,7 +2349,7 @@ $(document).ready(function() {
                         if (typeof($('#is_add_to_team_store').val()) == "undefined") {
                             is_add_to_team_store = false;
                         } else {
-                            if ($('#is_add_to_team_store').val() == "on") {
+                            if ($('#is_add_to_team_store:checked').length == "on") {
                                 is_add_to_team_store = true;
                             }
                         }
