@@ -166,16 +166,7 @@
     @include('partials.panels.roster-input')
     @include('partials.panels.order-form')
     @include('partials.panels.validate-order-form')
-
-    @if (Session::has('is_show_teamstore_toolbox'))
-
-        @if (Session::get('is_show_teamstore_toolbox'))
-
-        @include('partials.panels.team-store-toolbox')
-
-        @endif
-        
-    @endif 
+    @include('partials.panels.team-store-toolbox')
 
 </div>
 
