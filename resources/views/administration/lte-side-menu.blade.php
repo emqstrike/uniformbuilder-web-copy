@@ -293,4 +293,10 @@
       <span>Style Requests</span>
       </a>
   </li>
+   <li data-position='right'>
+    <a href="/administration/inksoft_designs">
+      <i class="fa fa-file-image-o"></i>
+      <span>Inksoft Designs</span>
+      </a>
+  </li>
 </ul>

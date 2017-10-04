@@ -146,6 +146,14 @@ $(document).ready(function() {
                     ub.utilities.info('Back: ' + response.back);
                     ub.utilities.info('Right: ' + response.right);
                     ub.utilities.info('Left: ' + response.left);
+
+                    $.smkAlert({
+                        text: 'Product has been added to your team store.',
+                        type:'success',
+                        permanent: false,
+                        time: 5,
+                        marginTop: '90px'
+                    });
                 }
             }
         });

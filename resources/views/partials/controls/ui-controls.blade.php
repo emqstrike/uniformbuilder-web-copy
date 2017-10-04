@@ -1848,6 +1848,19 @@
 
             </div>
 
+            @if (Session::get('userHasTeamStoreAccount'))
+
+            <div class="checkbox" align="center">
+                <label>
+                    <input type="checkbox" name="is_add_to_team_store" checked="checked" id="is_add_to_team_store"> Add to my Team Store
+                </label>
+            </div>
+
+            @else
+            <input type="hidden" name="is_add_to_team_store" value="0">
+
+            @endif
+
             <div class="row save-design-footer">
                 
                 <div class="col-md-12 ok-footer">
