@@ -461,7 +461,9 @@ $(document).ready(function () {
             {
                 TeamStoreToolBox.init();
                 if (window.is_show_teamstore_toolbox) {
-                    if (!window.render) {
+                    if (ub.render) {
+                        TeamStoreToolBox.hide();
+                    } else {
                         TeamStoreToolBox.show();
                     }
                 }
