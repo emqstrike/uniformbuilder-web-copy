@@ -416,6 +416,16 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('item_size/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@edit']);
     Route::post('item_size/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@store']);
 
+    //Inksoft Designs
+    Route::get('inksoft_designs', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@index']);
+    Route::get('inksoft_design/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@create']);
+    Route::post('inksoft_design/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@store']);
+    Route::get('inksoft_design/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@edit']);
+    Route::post('inksoft_design/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@store']);
+
+
+
+
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
