@@ -12466,6 +12466,19 @@ ub.funcs.fontOffSets = [
                     'CG',
                 ]
             },
+            {
+                block_pattern: 'Football Coaching Jackets',
+                neck_options: ["Men's", "Women's"],
+                material_option: 'Zipper', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
 
             // Team Store
             {
