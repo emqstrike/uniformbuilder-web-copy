@@ -2,7 +2,15 @@
 
     @if (Session::get('is_show_teamstore_toolbox'))
 
-        @if (isset($product_id))
+<?php
+
+$product_id = (isset($product_id)) ? $product_id : null;
+$team_name = (isset($team_name)) ? $team_name : null;
+$store_code = (isset($store_code)) ? $store_code : null;
+$csv_team_colors = (isset($csv_team_colors)) ? $csv_team_colors : null;
+$team_store_user_id = (isset($team_store_user_id)) ? $team_store_user_id : null;
+
+?>
 
 <div id="team-store-toolbox"
     data-teamstore-api="{{ env('TEAM_STORE_API_BASE_URL') }}"
@@ -37,7 +45,7 @@
                     <br>
                     Open Team Store
                 </li>
-                @if (!empty($product_id))
+                @if (isset($product_id))
                 <li class="update-images">
                     <span class="fa fa-3 fa-floppy-o"></span>
                     <br>
@@ -51,7 +59,7 @@
                 </li>
                 @endif
 
-                @if (!empty($product_id))
+                @if (isset($product_id))
                 <li class="disabled">
                     <span class="fa fa-3 fa-plus-square-o"></span>
                     <br>
@@ -65,7 +73,7 @@
                 </li>
                 @endif
 
-                @if (!empty($product_id))
+                @if (isset($product_id))
                 <li class="view-product-page" data-product="{{ env('TEAM_STORE_BASE_URL') }}/visit-product-by-code/{{ $store_code }}/{{ $product_id }}">
                     <span class="fa fa-3 fa-external-link"></span>
                     <br>
@@ -127,8 +135,6 @@
     </div>
 
 </div>
-
-        @endif
 
     @endif
 
