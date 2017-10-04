@@ -2,9 +2,7 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
-<style type="text/css">
-
-    
+<style type="text/css">    
 
 </style>
 @endsection
@@ -38,13 +36,28 @@
                                <input type="text" name="design_id" class="form-control" value="{{ $inksoft_designs->design_id }}">
                             </div>
                         </div>                       
-                        <div class="form-group">
+                         <div class="form-group">
                             <label class="col-md-4 control-label">User ID</label>
                             <div class="col-md-4">
-                              <input type="text" name="user_id" class="form-control" value="{{ $inksoft_designs->user_id }}">
+                            <input type="text" name="user_id" class="form-control" value="{{Session::get('userId')}}" >
+                            <input type="text" name="user_name" class="form-control" value="{{Session::get('fullname')}}" >                           
                             </div>
-                        </div>                        
-                       <div class="form-group">
+                        </div>                         
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Created By</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control created_by typeahead" id="created_by" placeholder="Enter name...">                              
+                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                             <label class="col-md-4 control-label"></label>
+                            <div class="col-md-4">                                
+                                <input type="text" id="created_by_name" name="created_by_name">
+                                <input type="text" id="created_by_user_id" name="created_by_user_id" value="{{ $inksoft_designs->created_by_user_id }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">PNG</label>
                             <div class="col-md-4">
                               <input type="text" name="png_filename" class="form-control" value="{{ $inksoft_designs->png_filename }}">
@@ -98,6 +111,24 @@
                                         <option value="0" @if($inksoft_designs->is_public == 0) selected="selected"@endif>No</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" >Status</label>
+                           <div class="col-md-4">
+                                <select name="status" class="form-control">
+                                        <<option value="in_development" @if($inksoft_designs->status == "in_development") selected="selected"@endif>In Development</option>
+                                        <option value="new" @if($inksoft_designs->status == "new") selected="selected"@endif>New</option>
+                                        <option value="initial_approval_ok" @if($inksoft_designs->status == "initial_approval_ok") selected="selected"@endif>Initial Approval Ok</option>
+                                        <option value="secondary_approval_ok" @if($inksoft_designs->status == "secondary_approval_ok") selected="selected"@endif>Secondary Approval Ok</option>
+                                        <option value="final_approval_ok" @if($inksoft_designs->status == "final_approval_ok") selected="selected"@endif>Final Approval Ok</option>                                   
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Comments</label>
+                            <div class="col-md-4">
+                              <textarea name="comments" class="form-control" id="comments" cols="10" rows="10">{{ $inksoft_designs->comments }}</textarea>
+                            </div>
                         </div>                     
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -126,11 +157,107 @@
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/typeahead/typeahead.js"></script>
 
 <script>
 $(function(){
+    window.onload = getCreatedBy;
+    window.users = null;
+    getAdmins(function(users){ window.users = users; });
+    function getAdmins(callback){
+        var users;
+        // var url = "//api-dev.qstrike.com/api/users";
+        var url = "//" + api_host + "/api/users";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(data){
+                users = data['users'];
+                if(typeof callback === "function") callback(users);
+            }
+        });
+    }
+    console.log(window.users);
+    var substringMatcher = function(strs) {
+        return function findMatches(q, cb) {
+            var matches, substringRegex;
 
-   
+          // an array that will be populated with substring matches
+            matches = [];
+
+          // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+
+          // iterate through the pool of strings and for any string that
+          // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function(i, str) {
+                if (substrRegex.test(str)) {
+                  matches.push(str);
+                }
+            });
+
+            cb(matches);
+            var strName = $('.typeahead').val();
+            var tmp_fname= strName.split(" ");
+            var fname = tmp_fname[0].capitalizeFirstLetter();
+            var _res = _.where(window.users, {first_name: fname});
+        };
+    };
+    var users_name = [];
+    $.each(window.users, function(index, item){
+        // console.log(item);
+        users_name.push(item.first_name + " " + item.last_name);
+    });
+
+    String.prototype.capitalizeFirstLetter = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    }
+
+    $('.created_by').on('typeahead:selected', function (e, datum) {
+        console.log(datum);
+        var strName = $(this).val();
+        var tmp_fname= strName.split(" ");
+        var fname = tmp_fname[0].capitalizeFirstLetter();
+        // console.log(fname);
+        var _res = _.where(window.users, {first_name: fname});
+        console.log(_res);
+        $('#created_by_user_id').val(_res[0].id)
+    });
+
+        $('#created_by.typeahead').typeahead({
+          hint: true,
+          highlight: true,
+          minLength: 1
+        },
+        {
+          name: 'users',
+          source: substringMatcher(users_name)
+        });
+
+    $('#created_by').on('change', function(){
+        var manager_id = $('#created_by_user_id').val();
+        if (manager_id < 1 )
+        {
+            $('.update-dealer').attr("disabled", true);
+        } else {
+            $('.update-dealer').attr("disabled", false);
+        }
+    });
+
+    function getCreatedBy(){
+        var creator = $('#created_by_user_id').val();
+        $.each(window.users, function(index, item){
+            if (item.id == creator)
+            {
+                $('#created_by_name').val(item.first_name+' '+item.last_name);
+            }
+        }); 
+    }
 });   
 </script>
 @endsection
