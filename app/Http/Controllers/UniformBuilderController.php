@@ -262,7 +262,7 @@ class UniformBuilderController extends Controller
             $params['gender'] = $config['gender'];
 
         }
-Log::info(print_r(Session::all(), true));
+
         return view('editor.uniform-builder-index', $params);
 
     }
