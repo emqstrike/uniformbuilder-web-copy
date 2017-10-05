@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administration;
 
 use App\APIClients\ArtworksAPIClient;
+use App\APIClients\LogoRequestsAPIClient;
 use App\APIClients\ColorsAPIClient;
 use App\APIClients\CustomArtworkRequestAPIClient;
 use App\APIClients\MascotsAPIClient as APIClient;
@@ -23,18 +24,21 @@ class MascotsController extends Controller
     protected $client;
     protected $colorsClient;
     protected $artworksClient;
+    protected $logoRequestsClient;
 
     public function __construct(
         APIClient $apiClient,
         ColorsAPIClient $colorsAPIClient,
         MascotsCategoriesAPIClient $mascotsCategoryAPIClient,
-        ArtworksAPIClient $artworksAPIClient
+        ArtworksAPIClient $artworksAPIClient,
+        LogoRequestsAPIClient $logoRequestsClient
     )
     {
         $this->client = $apiClient;
         $this->colorsClient = $colorsAPIClient;
         $this->mascotsCategoryClient = $mascotsCategoryAPIClient;
         $this->artworksClient = $artworksAPIClient;
+        $this->logoRequestsClient = $logoRequestsClient;
     }
 
     public function index()
@@ -150,6 +154,41 @@ class MascotsController extends Controller
 
     }
 
+    public function addLogoRequestForm($logo_request_id, $logo_index, $logo_request_user_id)
+    {
+        $colors = $this->colorsClient->getColors();
+        $raw_mascots_categories = $this->mascotsCategoryClient->getMascotCategories();
+        $mascots_categories = array();
+        $logo_request = $this->logoRequestsClient->getLogoRequest($logo_request_id);
+        // $team_colors = $this->artworksClient->getOrderTeamColors($artwork_request->order_code);
+
+        foreach($raw_mascots_categories as $mascot_category){
+            if($mascot_category->active == 1){
+                $mascots_categories[] = $mascot_category->name;
+            }
+        }
+
+        $ordersAPIClient = new \App\APIClients\OrdersAPIClient();
+        // $order = $ordersAPIClient->getOrderByOrderId($artwork_request->order_code);
+        // $artwork_request_user_id = $order->user_id;
+
+        $mascots_categories = array_sort($mascots_categories, function($value) {
+            return sprintf('%s,%s', $value[0], $value[1]);
+        });
+
+        return view('administration.logo-requests.upload-logo-request', [
+
+            'colors' => $colors,
+            'mascots_categories' => $mascots_categories,
+            'logo_request_id' => $logo_request_id,
+            'logo_index' => $logo_index,
+            // 'team_colors' => $team_colors,
+            'logo_request_user_id' => $logo_request_user_id,
+
+        ]);
+
+    }
+
     public function addExistingArtworkForm($artwork_request_id, $artwork_index, $artwork_user_id)
     {
         $artwork_request = $this->artworksClient->getArtwork($artwork_request_id);
@@ -164,6 +203,15 @@ class MascotsController extends Controller
             'artwork_request_user_id' => $artwork_request_user_id,
         ]);
 
+    }
+
+    public function addExistingLogoForm($logo_request_id, $logo_index, $logo_request_user_id)
+    {
+        return view('administration.logo-requests.upload-existing-logo', [
+            'logo_request_id' => $logo_request_id,
+            'logo_index' => $logo_index,
+            'logo_request_user_id' => $logo_request_user_id,
+        ]);
     }
 
     public function editMascotForm($id)
@@ -546,6 +594,69 @@ class MascotsController extends Controller
             Log::info('Failed');
 
             return Redirect::to('administration/artwork_requests')->with('message', $response->message);
+        }
+    }
+
+    public function storeExistingLogo(Request $request)
+    {
+        $mascotId = $request->input('mascot_id');
+        $mascot = $this->client->getMascot($mascotId);
+        $logoRequestID = $request->input('logo_request_id');
+        $logoIndex = $request->input('logo_index');
+        $logoRequestUserId = $request->input('logo_request_user_id');
+
+        // if ($request->input('custom_artwork_request')) {
+        //     $artwork_request = (new CustomArtworkRequestAPIClient())->getByID($logoRequestID);
+        // } else {
+        //     $artwork_request = $this->artworksClient->getArtwork($logoRequestID);
+        // }
+        $logo_request = $this->logoRequestsClient->getLogoRequest($logoRequestID);
+
+        $ar_json = json_decode($logo_request->properties, 1);
+
+        $team_colors = array();
+
+        /* Build colors, save to artwork json */
+        $layersProperties = $mascot->layers_properties;
+        $lpx = json_decode($layersProperties, 1);
+
+        foreach($lpx as $layer) {
+            array_push($team_colors, $layer);
+        }
+
+        $myJson = json_decode($layersProperties, true);
+
+        array_push($ar_json[$logoIndex]['history'], $ar_json[$logoIndex]['file']);
+        $ar_json[$logoIndex]['updated'] = 1;
+        $ar_json[$logoIndex]['file'] = $mascot->icon;
+        $ar_json[$logoIndex]['colors'] = $team_colors;
+
+        $folder_name = "mascot_ai_files";
+
+        $response = null;
+
+        $ar_json[$logoIndex]['mascot_id'] = $mascotId;
+// dd($ar_json);
+        $logo_request->id = (string)$logo_request->id;
+        // $logo_request->artworks = $ar_json;
+        $logo_request->properties = $ar_json;
+        $logo_request->status = "for_review";
+        $logo_request->user_id = $logoRequestUserId;
+
+        unset($logo_request->created_at);
+        unset($logo_request->deleted_at);
+        unset($logo_request->datetime_finished);
+
+        $response = $this->logoRequestsClient->updateLogoRequest($logo_request);
+
+        if ($response->success) {
+            Log::info('Success');
+
+            return Redirect::to('administration/logo_requests')->with('message', 'Successfully saved changes');
+        } else {
+            Log::info('Failed');
+
+            return Redirect::to('administration/logo_requests')->with('message', $response->message);
         }
     }
 }
