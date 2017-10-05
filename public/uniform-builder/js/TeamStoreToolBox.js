@@ -59,13 +59,7 @@ var TeamStoreToolBox = {
      * Updates the team store product images
      */
     update_images: function(show_update_progress_modal) {
-        if (show_update_progress_modal) {
-            TeamStoreToolBox.progress_modal = bootbox.dialog({
-                title: 'Updating your product images',
-                message: '<p><i class="fa fa-spin fa-spinner"></i> preparing images...</p>'
-            });
-        }
-        // Set visibility of all perspectives
+       // Set visibility of all perspectives
         ub['front_view'].visible = true;
         ub['left_view'].visible = true;
         ub['right_view'].visible = true;
@@ -75,8 +69,6 @@ var TeamStoreToolBox = {
 
         setTimeout(function() {
             ub.funcs.updateTeamStoreImages();
-            $('.bootbox.modal .bootbox-body').html('Finished processing.');
-            $('.bootbox.modal').modal('hide');
         }, 3000);
     },
 
