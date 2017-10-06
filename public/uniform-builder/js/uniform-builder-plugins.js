@@ -1367,8 +1367,8 @@
             var container = new PIXI.Container();
             var elements = "";
 
-            console.log('--- Embellishment Object: ---');
-            console.log(embellishment_obj);
+            // console.log('--- Embellishment Object: ---');
+            // console.log(embellishment_obj);
 
             var _uniformCategory = ub.current_material.material.uniform_category;
 
@@ -1409,7 +1409,7 @@
 
             } else {
 
-                console.log('Here at Scale Settings 1 x 1 ... ');
+                // console.log('Here at Scale Settings 1 x 1 ... ');
                 scale_settings = {x: 1, y: 1};
 
             }

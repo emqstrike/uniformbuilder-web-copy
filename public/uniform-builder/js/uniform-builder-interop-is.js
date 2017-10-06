@@ -873,7 +873,6 @@ $(document).ready(function() {
                 $('span.edit-embellishment').unbind('click');
                 $('span.edit-embellishment').on('click', function () {
 
-                    console.log('Edit Embellishment Clicked ...');
                     is.loadDesigner(_settingsObject.embellishment.design_id, _id);
 
                 });
@@ -881,7 +880,7 @@ $(document).ready(function() {
                 $('span.new-embellishment').unbind('click');
                 $('span.new-embellishment').on('click', function () {
 
-                        is.loadDesigner(undefined, _id);
+                    is.loadDesigner(undefined, _id);
 
                 });
 
