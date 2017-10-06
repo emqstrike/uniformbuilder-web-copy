@@ -12471,9 +12471,22 @@ ub.funcs.fontOffSets = [
                 ]
             },
             {
-                block_pattern: 'Football Coaching Jackets',
+                block_pattern: 'Game Day Coaches Jacket',
                 neck_options: ["Men's", "Women's"],
                 material_option: 'Zipper', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
+             {
+                block_pattern: 'Game Day Coaches Jacket',
+                neck_options: ["Men's", "Women's"],
+                material_option: 'Arm Elastic', 
                 valid_colors: [
                     'B',    
                     'W',
