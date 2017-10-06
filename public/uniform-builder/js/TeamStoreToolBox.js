@@ -22,6 +22,11 @@ var TeamStoreToolBox = {
             $('#show-team-store-toolbox').on('click', TeamStoreToolBox.show);
         }
         $('#team-store-toolbox').draggable();
+
+        // Enable the teamstore icon at the LEFT MENU
+        $('#left-side-toolbar span.team-store').show();
+
+        $('#team-store-toolbox').addClass('visible');
     },
 
     has_team_store_account: function() {
@@ -29,11 +34,11 @@ var TeamStoreToolBox = {
     },
 
     show: function () {
-        // Enable the teamstore icon at the LEFT MENU
-        $('#left-side-toolbar span.team-store').show();
-
-        $('#team-store-toolbox').addClass('visible');
         $('#team-store-toolbox').fadeIn();
+    },
+
+    hide: function() {
+        $('#team-store-toolbox').fadeOut();
     },
 
     close: function() {

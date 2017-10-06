@@ -26,14 +26,18 @@
                             <th>ID</th>
                             <th>Thumbnail</th>
                             <th>Design ID</th>
-                            <th>User ID</th>
+                            <th>Design Name</th>
+                            <th>User</th>
+                            <th>Created By</th>
                             <th>PNG</th>
                             <th>SVG</th>
                             <th>Design Summary</th>
                             <th>Design Details</th>
                             <th>Category</th> 
                             <th>Type</th> 
-                            <th>Is Public</th>                             
+                            <th>Is Public</th>
+                            <th>Comments</th> 
+                            <th>Status</th>                             
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -50,7 +54,13 @@
                                 {{$item->design_id}}    
                             </td>
                             <td>
-                                {{$item->user_id}}
+                                {{$item->design_name}}    
+                            </td>
+                            <td>
+                                {{$item->first_name}} {{$item->last_name}}
+                            </td>
+                            <td>
+                                {{$item->cfirst_name}} {{$item->clast_name}}
                             </td>
                             <td>
                                 <a href="#" class="btn btn-default btn-xs file-link" data-link="{{$item->png_filename}}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>                                                               
@@ -87,13 +97,33 @@
                                 @else 
                                     {{'No'}}
                                 @endif                               
-                            </td>                            
+                            </td> 
+                            <td>
+                              <input type="hidden" class="comments" value="{{$item->comments}}">
+                              <button class="view-comments btn btn-default btn-sm">View</button>        
+                            </td>
+                            <td>
+                                @if($item->status == "in_development") 
+                                    {{'In Development'}}
+                                @elseif($item->status == "new")
+                                    {{'New'}}
+                                @elseif($item->status == "initial_approval_ok")
+                                    {{'Initial Approval Ok'}}
+                                @elseif($item->status == "second_approval_ok")
+                                    {{'Second Approval Ok'}}    
+                                @elseif($item->status == "final_approval_ok")
+                                    {{'Final Approval Ok'}}
+                                @else
+                                    {{''}}
+                                @endif
+                            </td>     
+
                             <td class="td-buttons">                             
                                 <a href="/administration/inksoft_design/edit/{{$item->id}}" class="edit-inksoft-design btn btn-info btn-xs">
-                                    <i class="glyphicon glyphicon-edit"> Edit</i>
+                                    <i class="glyphicon glyphicon-edit"></i>
                                 </a>
-                                <a href="#" class="delete-inksoft-design btn btn-xs btn-danger" data-inksoft-design-id="{{ $item->id }}" role="button">
-                                    <i class="glyphicon glyphicon-trash"> Remove</i>
+                                <a href="#" class="delete-inksoft-design btn btn-xs btn-danger pull-right" data-inksoft-design-id="{{ $item->id }}" role="button">
+                                    <i class="glyphicon glyphicon-trash"></i>
                                 </a>
                                 
                             </td>
@@ -173,6 +203,21 @@ $(document).ready(function(){
         "info": true,
         "autoWidth": false
     });   
+
+    $('.view-comments').on('click', function(e){
+        e.preventDefault();
+        //Open loading modal
+        getComments($(this));
+        $('#viewModal').modal('show');  
+      
+    });
+
+    function getComments(thisObj) {
+      var jsonVal = thisObj.parent().parent().find('.comments').val();
+      var pJson = JSON.parse(jsonVal);
+      var sJson = JSON.stringify(pJson, undefined, 2);      
+      $('#design').jJsonViewer(sJson, {expanded: true});  
+    }
 
     $('.view-design-summary').on('click', function(e){
         e.preventDefault();

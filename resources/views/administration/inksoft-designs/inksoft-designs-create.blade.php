@@ -36,13 +36,27 @@
                             <div class="col-md-4">
                                <input type="text" name="design_id" class="form-control">
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Design Name</label>
+                            <div class="col-md-4">
+                               <input type="text" name="design_name" class="form-control">
+                            </div>
                         </div>                       
                         <div class="form-group">
                             <label class="col-md-4 control-label">User ID</label>
                             <div class="col-md-4">
-                              <input type="text" name="user_id" class="form-control">
+                              <input type="text" name="user_id" class="form-control" value="{{Session::get('userId')}}" >
+                              <input type="text" name="user_name" class="form-control" value="{{Session::get('fullname')}}" >
                             </div>
-                        </div>                        
+                        </div> 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Created By</label>
+                            <div class="col-md-4">                                
+                                <input type="text" class="form-control created_by typeahead" id="created_by" placeholder="Enter name...">
+                                <input type="text" id="created_by_user_id" name="created_by_user_id">
+                            </div>
+                        </div>
                        <div class="form-group">
                             <label class="col-md-4 control-label">PNG</label>
                             <div class="col-md-4">
@@ -97,7 +111,21 @@
                                         <option value="0">No</option>
                                 </select>
                             </div>
-                        </div>                     
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" >Status</label>
+                           <div class="col-md-4">
+                                <select name="status" class="form-control">
+                                        <option value="in_development">In Development</option>                                      
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Comments</label>
+                            <div class="col-md-4">
+                              <textarea name="comments" class="form-control" id="comments" cols="10" rows="10"></textarea>
+                            </div>
+                        </div>                       
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-inksoft-design">
@@ -125,11 +153,93 @@
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/typeahead/typeahead.js"></script>
 
 <script>
 $(function(){
 
+    window.users = null;
+    getAdmins(function(users){ window.users = users; });
+    function getAdmins(callback){
+        var users;       
+        var url = "//" + api_host + "/api/users";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(data){
+                users = data['users'];
+                if(typeof callback === "function") callback(users);
+            }
+        });
+    }
+    console.log(window.users);
+    var substringMatcher = function(strs) {
+        return function findMatches(q, cb) {
+            var matches, substringRegex;
+          // an array that will be populated with substring matches
+            matches = [];
+          // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+          // iterate through the pool of strings and for any string that
+          // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function(i, str) {
+                if (substrRegex.test(str)) {
+                  matches.push(str);
+                }
+            });
+            cb(matches);
+            var strName = $('.typeahead').val();
+            var tmp_fname= strName.split(" ");
+            var fname = tmp_fname[0].capitalizeFirstLetter();
+            var _res = _.where(window.users, {first_name: fname});
+        };
+    };
+    var users_name = [];
+    $.each(window.users, function(index, item){        
+        users_name.push(item.first_name + " " + item.last_name);
+    });
+
+    String.prototype.capitalizeFirstLetter = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+    }
+
+    $('.created_by').on('typeahead:selected', function (e, datum) {
+        console.log(datum);
+        var strName = $(this).val();
+        var tmp_fname= strName.split(" ");
+        var fname = tmp_fname[0].capitalizeFirstLetter();
+        // console.log(fname);
+        var _res = _.where(window.users, {first_name: fname});
+        console.log(_res);
+        $('#created_by_user_id').val(_res[0].id)
+    });
+
+    $('#created_by.typeahead').typeahead({
+      hint: true,
+      highlight: true,
+      minLength: 1
+    },
+    {
+      name: 'users',
+      source: substringMatcher(users_name)
+    });
+
+    $('#created_by').on('change', function(){
+        var manager_id = $('#created_by_user_id').val();
+        if (manager_id < 1 )
+        {
+            $('.create-inksoft-design').attr("disabled", true);
+        } else {
+            $('.create-inksoft-design').attr("disabled", false);
+        }
+    });
+});  
    
-});   
+
 </script>
 @endsection
