@@ -72,7 +72,8 @@ class InksoftDesignsController extends Controller
         $is_public = $request->input('is_public');
         $created_by_user_id = $request->input('created_by_user_id');
         $status = $request->input('status');
-        $comments = $request->input('comments');        
+        $comments = $request->input('comments');
+        $design_name = $request->input('design_name');           
         
         $data = [
             'id' => $id,
@@ -88,7 +89,8 @@ class InksoftDesignsController extends Controller
             'is_public' => $is_public, 
             'created_by_user_id' => $created_by_user_id,
             'status' => $status,
-            'comments' => $comments            
+            'comments' => $comments,
+            'design_name' => $design_name            
         ];              
 
         $response=null;
