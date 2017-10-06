@@ -263,6 +263,8 @@
         window.ub.objects   = {};
         window.ub.funcs     = {};
 
+        window.is           = {};
+
         window.ub.config = {
             app_env: "{{ env('APP_ENV') }}", 
             api_host: "http://{{ env('API_HOST') }}",

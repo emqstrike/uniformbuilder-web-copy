@@ -584,6 +584,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            
             success: function (response) {
 
                 ub.funcs.reload();
