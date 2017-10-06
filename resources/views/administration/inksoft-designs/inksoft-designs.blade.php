@@ -26,6 +26,7 @@
                             <th>ID</th>
                             <th>Thumbnail</th>
                             <th>Design ID</th>
+                            <th>Design Name</th>
                             <th>User</th>
                             <th>Created By</th>
                             <th>PNG</th>
@@ -51,6 +52,9 @@
                             </td>
                             <td>
                                 {{$item->design_id}}    
+                            </td>
+                            <td>
+                                {{$item->design_name}}    
                             </td>
                             <td>
                                 {{$item->first_name}} {{$item->last_name}}
