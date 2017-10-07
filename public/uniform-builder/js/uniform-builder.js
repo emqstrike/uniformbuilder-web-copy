@@ -2606,6 +2606,14 @@ $(document).ready(function () {
 
             }
 
+            if (application_obj.type === "embellishments"){
+
+                ub.funcs.update_application_embellishments(application_obj.application, application_obj.embellishment);
+
+                if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+
+            }
+
             if (application_obj.type === "logo"){
 
                 ub.update_application_logo(application_obj);

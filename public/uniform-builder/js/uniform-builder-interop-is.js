@@ -84,37 +84,7 @@ $(document).ready(function() {
         getDefaultEmbellishment: function (_settingsObject) {
 
             // TODO: Have embellishment Samples for Each Sport Type
-
-
-            // var _defaultEmbellishmentID = 1722182;
-            // var _embellishmentObj = {
-
-            //     id: 1,
-            //     design_id: 1722182,
-            //     user_id: 771,
-            //     png_filename: "https://stores.inksoft.com/images/publishers/10697/designs/1722182.front.480.png",
-            //     svg_filename: "https://stores.inksoft.com/images/publishers/10697/designs/1722182.front.svg",
-            //     thumbnail: "https://stores.inksoft.com/ProLook_Sports/JITImage/10697-1722182/front/FFFFFF/80.gif",
-            //     design_summary: "",
-            //     design_details: "",
-            //     category: "Defaults", // Use this category for all the default embellishments when it will be moved to the backend
-            //     type: "user_design",
-            //     is_public: "1",
-            //     created_by_user_id: "43",
-            //     status: "in_development",
-            //     comments: "",
-            //     update_history: "",
-            //     first_name: "Arthur",
-            //     last_name: "Tuazon",
-            //     cfirst_name: "Jester",
-            //     clast_name: "Taguibao",
-
-            // }
-
             var _embellishmentObj = _.first(this.items);
-
-            console.log('Embellishment Obj:::: ');
-            console.log(_embellishmentObj)
 
             return _.first(this.items);
 
@@ -207,8 +177,8 @@ $(document).ready(function() {
             CurrencySymbol: "$",
             HideProductPricing: false,
             PB: true,
-            HideClipArtNames: true,
-            HideDesignNames: true,
+            HideClipArtNames: false,
+            HideDesignNames: false,
             ThemeName: "flat",
             FullScreen: true,
             Version: "3.11.0.0",
@@ -325,8 +295,8 @@ $(document).ready(function() {
             CurrencySymbol: "$",
             HideProductPricing: false,
             PB: true,
-            HideClipArtNames: true,
-            HideDesignNames: true,
+            HideClipArtNames: false,
+            HideDesignNames: false,
             ThemeName: "flat",
             FullScreen: true,
             Version: "3.11.0.0",
@@ -381,10 +351,6 @@ $(document).ready(function() {
 
     }
 
-    /// Found in inksoft documentation 
-
-    /// They're sample is: window.ub.openDesignEdit('80974','0','1001947','0','1')
-
     window.is.openDesignEdit = function (storeId, userId, designId, artId, storeAdmin) {
         $overlay = $('#ajax-Page-overlay');
         $overlay.fadeIn(); 
@@ -417,13 +383,6 @@ $(document).ready(function() {
 
     window.is.isMessage = function (designID, applicationID) {
 
-        console.log('IsMessage Is Called...');
-        console.log('Design ID: ');
-        console.log(designID);
-
-        console.log('URL: ');
-        console.log('http://stores.inksoft.com/GetDesignSummary/80974/' + designID);
-
         window.is.closeDesignStudio();
         ub.funcs.getDesignSummary(designID, applicationID);
         ub.funcs.getDesignDetails(designID, applicationID);
@@ -432,17 +391,12 @@ $(document).ready(function() {
 
     window.is.addDesignToUniform = function (response, applicationID) {
 
-        console.log('Removing Decals');
-
         if (typeof ub.objects.front_view.decal_1 !== "undefined") {
 
             ub.front_view.removeChild(ub.objects.front_view.decal_1);
             delete ub.objects.front_view.decal_1;
 
         }
-        
-        console.log('Response: ');
-        console.log(response);
 
         var _usePNG = true;
 
@@ -452,9 +406,8 @@ $(document).ready(function() {
 
 
         }
-        // var _svgFilename = ub.data.inkSoftBaseURL + response.Canvases[0].SvgRelativeUrl;
+        
         var _svgFilename = ub.data.inkSoftBaseURL + response.Canvases[0].PngRelativeUrl;
-
         var _name = 'decal_1';
         var shape = ub.pixi.new_sprite(_svgFilename);
         var current_view_objects = ub.objects['front_view']; 
@@ -524,21 +477,11 @@ $(document).ready(function() {
 
                 };
 
-                // window.is.addDesignToUniform(response, applicationID);\
-
-                console.log('------Application ID: ');
-                console.log(applicationID);
-
                 var _settingsObject = ub.funcs.getApplicationSettings(applicationID);
                 _settingsObject.embellishment = _embellishmentOBJ;
-
-
                 ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment); 
-
-                console.log('Response from Get Design Summary: ');
-                console.log(response);
-
                 ub.GetDesignSummary = response;
+
             }
             
         });
@@ -556,9 +499,6 @@ $(document).ready(function() {
             dataType: "json",
             crossDomain: true,
             success: function (response) {
-
-                console.log('--- Get Design Details: ---');
-                console.log(response);
 
                 ub.getDesignDetails = response;
 
@@ -603,16 +543,11 @@ $(document).ready(function() {
         var _status = settings_obj.status;
 
         if (typeof settings_obj.status === "undefined") {
-
-            // For Default Applications
             _status = "on";
-
         }
 
         ub.funcs.toggleApplication(application.id, _status); 
         ub.funcs.activateEmbellishments(application.id);
-
-        /// window.sprite = sprite;
 
     };
 
@@ -724,7 +659,7 @@ $(document).ready(function() {
 
         _htmlBuilder        +=              '<label class="applicationLabels font_name">Embellishment</label>';
         _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
-        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span>';                       
+        _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _settingsObject.embellishment.name + '</span>';                       
         _htmlBuilder        +=              '<span class="fontRight" data-direction="next"  style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
 
         _htmlBuilder        +=          '</div>';
@@ -770,7 +705,7 @@ $(document).ready(function() {
 
         }
    
-        _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
+       // _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
 
