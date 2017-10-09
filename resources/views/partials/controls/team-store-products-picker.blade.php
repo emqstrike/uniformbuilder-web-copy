@@ -3,7 +3,11 @@
 
 @{{# products }}
 
-    <div class="item grow" style="background-image: url('@{{ image_front }}')" data-material-id="@{{ material_id }}" data-product-id="@{{ id }}">
+    <div class="item grow" style="background-image: url('@{{ image_front }}')"
+        data-material-id="@{{ material_id }}"
+        data-product-id="@{{ id }}"
+        data-product-colors='@{{ colors }}'
+    >
 
         <div class="name" data-product-id="@{{ id }}">
             @{{ name }}

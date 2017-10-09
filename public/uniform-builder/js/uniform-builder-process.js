@@ -584,6 +584,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            
             success: function (response) {
 
                 ub.funcs.reload();
@@ -2345,11 +2346,26 @@ $(document).ready(function() {
 
                         ub.funcs.updatePopup();
 
+                        var is_add_to_team_store = false;
+                        if (typeof($('#is_add_to_team_store').val()) == "undefined") {
+                            is_add_to_team_store = false;
+                        } else {
+                            if ($('#is_add_to_team_store:checked').length == "on") {
+                                is_add_to_team_store = true;
+                            }
+                        }
+                        if (is_add_to_team_store) {
+                            // Make ID available globally; TeamStoreToolBox.js needs this var
+                            ub.team_stores_material_id = response.team_stores_material_id;
+
+                            TeamStoreToolBox.add_to_team_store(ub.current_material.material.id);
+                        }
+
                     } else {
 
                         console.log('Error Saving Design.');
                         console.log(response.message);
-
+                        $('.save-design').fadeOut();
                     }
 
                 }
@@ -2391,9 +2407,19 @@ $(document).ready(function() {
                 back_thumbnail: _backView,
                 left_thumbnail: _leftView,
                 right_thumbnail: _rightView,
-                notes: _notes,
+                notes: _notes
 
             };
+
+            // Add flag
+            if (typeof($('#is_add_to_team_store').val()) !== "undefined") {
+                _data.is_add_to_team_store = $('#is_add_to_team_store:checked').length;
+            }
+
+            // Add store code if exists
+            if (ub.store_code) {
+                _data.store_code = ub.store_code;
+            }
 
             ub.funcs.postDesign(_data);
 

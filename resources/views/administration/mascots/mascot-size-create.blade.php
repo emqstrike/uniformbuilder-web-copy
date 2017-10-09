@@ -269,7 +269,7 @@ function bindBPOS(){
     }
 }
 
-if($('#block_pattern_options_value').val()){
+    if($('#block_pattern_options_value').val()){
         var bpos = JSON.parse($('#block_pattern_options_value').val());   
     }
     // var sports = JSON.parse($('#sports_value').val());

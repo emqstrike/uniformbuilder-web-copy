@@ -78,6 +78,11 @@
                     <span>Custom Artwork Requests</span>
                 </a>
             </li>
+            <li>
+                <a href="/administration/logo_requests" >
+                    <i class="glyphicon glyphicon-picture"></i> <span>Logo Requests ( ALL )</span>
+                </a>
+            </li>
         </ul>
     </li>
 
@@ -106,6 +111,11 @@
       <li  data-step="6" data-intro="For Design Sets settings.">
         <a href="/administration/design_sets">
           <i class="fa fa-shirtsinbulk"></i> <span>Design Sets</span>
+        </a>
+      </li>
+      <li  data-step="6" data-intro="For Item Sizes settings.">
+        <a href="/administration/item_sizes">
+          <i class="fa fa-arrows-v"></i> <span>Item Sizes</span>
         </a>
       </li>
       <li  data-step="7" data-intro="For Mascots settings.">
@@ -280,6 +290,18 @@
     <a href="/administration/dealers">
       <i class="fa fa-handshake-o"></i>
       <span>Dealers</span>
+      </a>
+  </li>
+  <li data-position='right'>
+    <a href="/administration/style_requests">
+      <i class="fa fa-file-text-o"></i>
+      <span>Style Requests</span>
+      </a>
+  </li>
+   <li data-position='right'>
+    <a href="/administration/inksoft_designs">
+      <i class="fa fa-file-image-o"></i>
+      <span>Inksoft Designs</span>
       </a>
   </li>
 </ul>

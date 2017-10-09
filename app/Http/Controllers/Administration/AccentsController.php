@@ -22,7 +22,7 @@ class AccentsController extends Controller
 
     protected $fontClient;
 
-     protected $colorsClient;
+    protected $colorsClient;
 
     public function __construct(APIClient $apiClient, FontsAPIClient $fontsAPIClient ,ColorsAPIClient $colorsAPIClient)
     {
@@ -32,7 +32,6 @@ class AccentsController extends Controller
         $this->fontClient = $fontsAPIClient;
 
         $this->colorsClient = $colorsAPIClient;
-
 
     }
     public function index()

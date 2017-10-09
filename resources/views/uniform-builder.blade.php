@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Engineering">
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+<meta name="team-store-api" content="{{ env('TEAM_STORE_API_BASE_URL') }}">
 
 <title>Prolook Sports | Uniform Customizer</title>
 <meta name="description" content="Design your own custom uniforms using the Prolook Uniform Customizer. We offer tons of designs for all sports. Create your custom uniform today.">
@@ -165,12 +166,7 @@
     @include('partials.panels.roster-input')
     @include('partials.panels.order-form')
     @include('partials.panels.validate-order-form')
-
-    @if (!isset($page))
-
-        @include('partials.panels.team-store-toolbox')
-        
-    @endif 
+    @include('partials.panels.team-store-toolbox')
 
 </div>
 
@@ -266,6 +262,8 @@
         window.ub           = {};
         window.ub.objects   = {};
         window.ub.funcs     = {};
+
+        window.is           = {};
 
         window.ub.config = {
             app_env: "{{ env('APP_ENV') }}", 
@@ -553,6 +551,8 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-branding.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-dealership.js?v={{$asset_version}}"></script>
 
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-interop-is.js?v={{$asset_version}}"></script>
+
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-ui-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-name-drops.js?v={{$asset_version}}"></script>
@@ -637,6 +637,9 @@
 </div>
 
 <!-- End Modal -->
+
+@include('partials.inksoft')
+
 
 </body>
 

@@ -94,6 +94,7 @@ $(document).ready(function() {
 
     };
 
+
     /// Used in temporarily cancelling rendering while sprites hasn't been constructed
 
     ub.status.render = {
@@ -110,6 +111,18 @@ $(document).ready(function() {
 
             this.renderFrames = status;
             return this.getRenderStatus();
+
+        },
+
+        stopRendering: function () {
+
+            this.renderFrames = false;
+
+        }, 
+
+        resumeRendering: function () {
+
+            this.renderFrames = true;
 
         }
 

@@ -22,6 +22,11 @@ var TeamStoreToolBox = {
             $('#show-team-store-toolbox').on('click', TeamStoreToolBox.show);
         }
         $('#team-store-toolbox').draggable();
+
+        // Enable the teamstore icon at the LEFT MENU
+        $('#left-side-toolbar span.team-store').show();
+
+        $('#team-store-toolbox').addClass('visible');
     },
 
     has_team_store_account: function() {
@@ -29,11 +34,11 @@ var TeamStoreToolBox = {
     },
 
     show: function () {
-        // Enable the teamstore icon at the LEFT MENU
-        $('#left-side-toolbar span.team-store').show();
-
-        $('#team-store-toolbox').addClass('visible');
         $('#team-store-toolbox').fadeIn();
+    },
+
+    hide: function() {
+        $('#team-store-toolbox').fadeOut();
     },
 
     close: function() {
@@ -60,23 +65,33 @@ var TeamStoreToolBox = {
                 message: '<p><i class="fa fa-spin fa-spinner"></i> preparing images...</p>'
             });
         }
+        // Set visibility of all perspectives
+        ub['front_view'].visible = true;
+        ub['left_view'].visible = true;
+        ub['right_view'].visible = true;
+        ub['back_view'].visible = true;
+
         ub.funcs.prepareThumbnails();
 
         setTimeout(function() {
             ub.funcs.updateTeamStoreImages();
-            TeamStoreToolBox.progress_modal.find('.bootbox-body').html('Finished processing.');
+            $('.bootbox.modal .bootbox-body').html('Finished processing.');
+            $('.bootbox.modal').modal('hide');
         }, 3000);
     },
 
     /**
      * Wrapper method for the actual AJAX call to add product to team store
      */
-    add_to_team_store: function(material) {
+    add_to_team_store: function(material_id) {
         TeamStoreToolBox.progress_modal = bootbox.dialog({
             title: 'Adding new product to your team store',
             message: '<p><i class="fa fa-spin fa-spinner"></i> preparing images...</p>'
         });
-        TeamStoreToolBox.get_material(ub.config.material_id);
+        if (!material_id) {
+            material_id = ub.config.material_id;
+        }
+        TeamStoreToolBox.get_material(material_id);
     },
 
     get_material: function(material_id) {
@@ -101,8 +116,9 @@ var TeamStoreToolBox = {
                             response.material.price_youth_sale = response.material.pricing.youth_min_web_price_sale;
                         }
                     }
-                    TeamStoreToolBox.offer_product_to_team_store(response.material);
+                    return TeamStoreToolBox.offer_product_to_team_store(response.material);
                 }
+                return false;
             }
         );
     },
@@ -112,9 +128,16 @@ var TeamStoreToolBox = {
      */
     offer_product_to_team_store: function(material) {
         var url = TeamStoreAPI.endpoints.add_product_to_team_store;
+        var selected_colors = [];
+        if (ub.current_material.settings.team_colors) {
+            for (i = 0; i < (ub.current_material.settings.team_colors.length); i++) {
+                selected_colors.push(ub.current_material.settings.team_colors[i].color_code);
+            }
+        }
         var material_data = {
             store_code: ub.store_code,
             material_id: material.id,
+            parts_alias_id: material.parts_alias_id,
             name: material.name,
             slug: material.slug,
             description: material.description,
@@ -130,6 +153,8 @@ var TeamStoreToolBox = {
             // Pricing
             price: material.price,
             price_youth: material.price_youth,
+            pricing: material.pricing_details,
+            created_by: parseInt($('#team-store-toolbox').data('team-store-user-id')),
             // Images
             image_front: material.thumbnail_path,
             image_back: material.thumbnail_path_back,
@@ -137,7 +162,14 @@ var TeamStoreToolBox = {
             image_left: material.thumbnail_path_left,
             // Block settings
             block_pattern: material.block_pattern,
-            block_pattern_id: material.block_pattern_id
+            block_pattern_id: material.block_pattern_id,
+            product_type: material.block_pattern,
+            gender_type: material.gender,
+            factory_code: material.factory_code,
+            sport: material.uniform_category.toLowerCase(),
+            has_jersey_number: material.has_jersey_number,
+            has_jersey_name: material.has_jersey_name,
+            colors: JSON.stringify(selected_colors)
         };
 
         ub.utilities.postJSON(url,
@@ -145,10 +177,27 @@ var TeamStoreToolBox = {
             function(response) {
                 if (response.success) {
                     $('#team-store-toolbox').data('product-id', response.product.id);
-                    TeamStoreToolBox.update_images(false);
-                    setTimeout(function() {
-                        location.href = location.protocol + '//' + location.host + location.pathname + '/' + response.product.id;
-                    }, 5000);
+                    TeamStoreToolBox.bind_product_id(ub.team_stores_material_id, response.product.id);
+                    $('#team-store-toolbox .add-to-team-store').off('click');
+                    $('#team-store-toolbox .add-to-team-store').addClass('disabled').removeClass('add-to-team-store');
+                }
+            }
+        );
+    },
+
+    /**
+     * Update TeamStoresMaterial's product ID
+     */
+    bind_product_id: function(team_store_material_id, product_id) {
+        var url = ub.config.api_host + '/api/team_stores_material/update_product_id';
+        ub.utilities.postJSON(url,
+            {
+                id: team_store_material_id,
+                product_id: product_id
+            },
+            function(response) {
+                if (response.success) {
+                    TeamStoreToolBox.update_images(true);
                 }
             }
         );
@@ -200,7 +249,9 @@ var TeamStoreToolBox = {
                         $('div#team-store-products-picker .team-store-products-list .item').on('click', function() {
                             var material_id = $(this).data('material-id');
                             var product_id = $(this).data('product-id');
-                            TeamStoreToolBox.load_material(material_id, product_id);
+                            var colors = $(this).data('product-colors');
+
+                            TeamStoreToolBox.load_material(material_id, product_id, colors);
                         });
                     }
                 }
@@ -214,11 +265,21 @@ var TeamStoreToolBox = {
 
     },
 
-    load_material: function (material_id, product_id) {
+    load_material: function (material_id, product_id, colors) {
         var team_name = $('#team-store-toolbox').data('team-name');
+        if (team_name.trim().length == 0) {
+            team_name = 'DEFAULT';
+        }
         var team_colors = $('#team-store-toolbox').data('team-colors');
-
+        if (!colors) {
+            if (team_colors.trim().length == 0) {
+                team_colors = 'DEFAULT';
+            }
+        } else {
+            team_colors = colors;
+        }
         var url = '/builder/0/' + material_id + '/' + ub.store_code + '/' + team_name + '/' + team_colors + '/PLAYER/23/0/0/0/' + product_id;
+
         location.href = url;
     },
 

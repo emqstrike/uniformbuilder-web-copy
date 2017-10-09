@@ -23,10 +23,12 @@ use File;
 use Slack;
 use App\Utilities\StringUtility;
 use App\Traits\OwnsUniformDesign;
+use App\Traits\HandleTeamStoreConfiguration;
 
 class UniformBuilderController extends Controller
 {
     use OwnsUniformDesign;
+    use HandleTeamStoreConfiguration;
 
     protected $materialsClient;
     protected $colorsClient;
@@ -116,6 +118,14 @@ class UniformBuilderController extends Controller
             $params['store_code'] = $config['store_code'];
             Log::info(__METHOD__ . ': Store Code = ' . $params['store_code']);
         }
+        if (empty($params['store_code']))
+        {
+            $params['store_code'] = $this->getTeamStoreCode();
+            Log::info('STORE CODE: ' . $params['store_code']);
+        }
+
+        // @param Team Store USER ID
+        $params['team_store_user_id'] = $this->getTeamStoreUserId();
 
         // @param Team Name
         $params['team_name'] = '';
@@ -195,8 +205,8 @@ class UniformBuilderController extends Controller
             $pageType = Session::get("page-type");
             $params['type'] = $config['type'];
 
-            if($pageType['page'] === "saved-design") {
-                
+            if ($pageType['page'] === "saved-design")
+            {
                 $design = Session::get('design');
                 Session::put('order', null);
 
@@ -535,10 +545,10 @@ class UniformBuilderController extends Controller
     protected function injectParameters(
         &$config,
         $store_code = null,
-        $team_name = null,
+        $team_name = 'PROLOOK',
         $team_colors = null,
-        $jersey_name = null,
-        $jersey_number = null,
+        $jersey_name = 'ABRAHAM',
+        $jersey_number = '70',
         $mascot_id = null,
         $save_rendered = false,
         $save_rendered_timeout = 10,
@@ -1678,7 +1688,7 @@ class UniformBuilderController extends Controller
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
         $html .=     '<td>';
-        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo);
+       // $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo);
         $html .=     '</td>';
         $html .=     '</tr>';
         $html .=   '</table>';
@@ -2028,6 +2038,16 @@ class UniformBuilderController extends Controller
             ];
 
             if ($render) { $config['render'] = true; }
+
+            if (Session::has('userHasTeamStoreAccount'))
+            {
+                $team_store = Session::get('team_store');
+                $colors = implode(',', $team_store['colors']);
+                $this->injectParameters($config,
+                    $team_store['code'],
+                    $team_store['name']
+                );
+            }
 
             return $this->showBuilder($config);
         }

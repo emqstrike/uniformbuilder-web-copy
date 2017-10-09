@@ -428,6 +428,7 @@ $(document).ready(function () {
 
             $('div.left-pane-column-full').fadeIn();
             $('span.fullscreen-btn').fadeIn();
+            $('span.art-btn').fadeIn();
 
             if (_.contains(ub.fontGuideIDs, window.ub.valid)) {
 
@@ -460,9 +461,12 @@ $(document).ready(function () {
             if (TeamStoreToolBox.is_enabled)
             {
                 TeamStoreToolBox.init();
-                if (window.is_show_teamstore_toolbox)
-                {
-                    TeamStoreToolBox.show();
+                if (window.is_show_teamstore_toolbox) {
+                    if (ub.render) {
+                        TeamStoreToolBox.hide();
+                    } else {
+                        TeamStoreToolBox.show();
+                    }
                 }
             }
 
@@ -1762,7 +1766,9 @@ $(document).ready(function () {
 
                 }
 
-                ub[view + '_view'].visible = false;
+                if (!ub.render) {
+                    ub[view + '_view'].visible = false;    
+                }
 
             });
 
@@ -1772,10 +1778,11 @@ $(document).ready(function () {
 
         // var frames_to_refresh = 1 * 10; // 60 frames in one sec, average
 
+
         window.ub.render_frames = function () {
 
             if (ub.data.rosterInitialized) { return }
-            // if (!ub.status.render.getRenderStatus()) { return; }
+            if (!ub.status.render.getRenderStatus()) { return; }
 
             ub.renderer.render(ub.stage);
             requestAnimationFrame(ub.render_frames);
@@ -2596,6 +2603,14 @@ $(document).ready(function () {
             if (application_obj.type === "mascot"){
 
                 ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
+
+                if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+
+            }
+
+            if (application_obj.type === "embellishments"){
+
+                ub.funcs.update_application_embellishments(application_obj.application, application_obj.embellishment);
 
                 if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
 

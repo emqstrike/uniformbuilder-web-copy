@@ -1,8 +1,23 @@
+@if (Session::has('is_show_teamstore_toolbox'))
+
+    @if (Session::get('is_show_teamstore_toolbox'))
+
+<?php
+
+$product_id = (isset($product_id)) ? $product_id : null;
+$team_name = (isset($team_name)) ? $team_name : null;
+$store_code = (isset($store_code)) ? $store_code : null;
+$csv_team_colors = (isset($csv_team_colors)) ? $csv_team_colors : null;
+$team_store_user_id = (isset($team_store_user_id)) ? $team_store_user_id : null;
+
+?>
+
 <div id="team-store-toolbox"
     data-teamstore-api="{{ env('TEAM_STORE_API_BASE_URL') }}"
     data-product-id="{{ $product_id }}"
     data-team-name="{{ $team_name }}"
-    data-team-colors="{{ $csv_team_colors }}">
+    data-team-colors="{{ $csv_team_colors }}"
+    data-team-store-user-id="{{ $team_store_user_id }}">
     
     <div class="header">
 
@@ -30,7 +45,7 @@
                     <br>
                     Open Team Store
                 </li>
-                @if (!empty($product_id))
+                @if (isset($product_id))
                 <li class="update-images">
                     <span class="fa fa-3 fa-floppy-o"></span>
                     <br>
@@ -44,7 +59,7 @@
                 </li>
                 @endif
 
-                @if (!empty($product_id))
+                @if (isset($product_id))
                 <li class="disabled">
                     <span class="fa fa-3 fa-plus-square-o"></span>
                     <br>
@@ -58,7 +73,7 @@
                 </li>
                 @endif
 
-                @if (!empty($product_id))
+                @if (isset($product_id))
                 <li class="view-product-page" data-product="{{ env('TEAM_STORE_BASE_URL') }}/visit-product-by-code/{{ $store_code }}/{{ $product_id }}">
                     <span class="fa fa-3 fa-external-link"></span>
                     <br>
@@ -72,19 +87,11 @@
                 </li>
                 @endif
 
-                @if (!empty($product_id))
                 <li class="open-team-store-products">
                     <span class="fa fa-3 fa-folder-open-o"></span>
                     <br>
                     Open Products
                 </li>
-                @else
-                <li class="disabled">
-                    <span class="fa fa-3 fa-folder-open-o"></span>
-                    <br>
-                    Open Products
-                </li>
-                @endif
 
             @else
 
@@ -128,3 +135,7 @@
     </div>
 
 </div>
+
+    @endif
+
+@endif
