@@ -317,8 +317,7 @@ $(document).ready(function() {
                 if( entry.id == l ){
                     entry.remove();              
                     var a = (e.pageX - posX)/20;
-                    var b = (e.pageY - posY)/20;                   
-                    console.log(a+'**'+b);
+                    var b = (e.pageY - posY)/20;                                   
                     if( loadCase == 0 ){
                         window['a'+z] = addPoint('a'+z, a * IN, b * IN, 'knot');
                         addLine(window['a'+pointsCount], window['a'+z], lineIdx);
