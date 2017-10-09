@@ -297,48 +297,6 @@ $(document).ready(function() {
         bringingPointToFront();
     });
 
-    $('#material-option-bounding-box-top').on('dblclick', function(e){
-
-        var pointsCount = canvas.getObjects('circle').length;
-        var linesCount = canvas.getObjects('line').length;
-        var l = linesCount - 1;
-        var lines = canvas.getObjects('line');
-        var circles = canvas.getObjects('circle');
-        var itemsCount = canvas.getObjects().length;
-        var y = pointsCount - 1;
-        var posX = $(this).offset().left;
-        var posY = $(this).offset().top;
-        
-        if( pointsCount < 50 ){
-            var z = pointsCount + 1;
-            var j = pointsCount - 1;
-
-            lines.forEach(function(entry) {
-                if( entry.id == l ){
-                    entry.remove();              
-                    var a = (e.pageX - posX)/20;
-                    var b = (e.pageY - posY)/20;                   
-                    console.log(a+'**'+b);
-                    if( loadCase == 0 ){
-                        window['a'+z] = addPoint('a'+z, a * IN, b * IN, 'knot');
-                        addLine(window['a'+pointsCount], window['a'+z], lineIdx);
-                        lineIdx++;
-                        addLine(window['a'+z], window['a1'], lineIdx);
-                    } else {
-                        window['a'+pointsCount] = addPoint('a'+pointsCount, a * IN, b * IN, 'knot');
-                        addLine(window['a'+j], window['a'+pointsCount], lineIdx);
-                        lineIdx++;
-                        addLine(window['a'+pointsCount], window['a0'], lineIdx);
-                    }
-
-                    canvas.renderAll();
-                }
-            });
-        }
-        bringingPointToFront();
-        updateCoordinates();
-    });
-
     var controls_state = 0;
     $('#app-controls').hide();
 
