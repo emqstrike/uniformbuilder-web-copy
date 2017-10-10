@@ -28,6 +28,7 @@ class LogoRequestsController extends Controller
         if($logo_requests){
             foreach($logo_requests as $logo_request)
             {
+                $logo_request->created_at = date('M-d-Y', strtotime($logo_request->created_at));
                 // $order = $this->client->getOrderByOrderId($logo_request->order_code);
 
                 // if($order){
@@ -61,6 +62,16 @@ class LogoRequestsController extends Controller
             'account_type' => $account_type,
             'user_id' => $user_id
         ]);
+    }
+
+    public function updateLogoRequest($data)
+    {
+
+        $response = $this->post('logo_request/update', [
+            'json' => $data
+        ]);
+
+        return $this->decoder->decode($response->getBody());
     }
 
 }

@@ -126,6 +126,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-md-4 control-label">Sport</label>
+                <div class="col-md-6">
+                    <!-- <input type="text" class="form-control sport" required> -->
+                    <select class="form-control sport">
+                        <option value="none" data-uniform-category-id="0">Select Sport</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-md-4 control-label">Block Pattern</label>
                 <div class="col-md-6">
                     <!-- <input type="text" class="form-control block-pattern" required> -->
@@ -140,15 +149,6 @@
                     <!-- <input type="text" class="form-control block-pattern-option" required> -->
                     <select class="form-control block-pattern-option">
                         <option value="none">Select Block Pattern Option</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">Sport</label>
-                <div class="col-md-6">
-                    <!-- <input type="text" class="form-control sport" required> -->
-                    <select class="form-control sport">
-                        <option value="none" data-uniform-category-id="0">Select Sport</option>
                     </select>
                 </div>
             </div>
