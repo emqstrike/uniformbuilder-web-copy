@@ -263,6 +263,8 @@
         window.ub.objects   = {};
         window.ub.funcs     = {};
 
+        window.is           = {};
+
         window.ub.config = {
             app_env: "{{ env('APP_ENV') }}", 
             api_host: "http://{{ env('API_HOST') }}",
@@ -549,6 +551,8 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-branding.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-dealership.js?v={{$asset_version}}"></script>
 
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-interop-is.js?v={{$asset_version}}"></script>
+
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-ui-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-name-drops.js?v={{$asset_version}}"></script>
@@ -633,6 +637,9 @@
 </div>
 
 <!-- End Modal -->
+
+@include('partials.inksoft')
+
 
 </body>
 

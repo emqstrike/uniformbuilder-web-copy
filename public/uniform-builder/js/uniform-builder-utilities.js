@@ -96,6 +96,9 @@ $(document).ready(function() {
             xhr.send(data);
         },
 
+        // Parse single qoute &#039; appearing in place of ' (single qoutes), 
+        // normally used when filtering collections using the Neck Option and Block Pattern Fields 
+        
         domParserDecoder: function (str) {
 
             var parser = new DOMParser;

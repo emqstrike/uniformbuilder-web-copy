@@ -78,6 +78,11 @@
                     <span>Custom Artwork Requests</span>
                 </a>
             </li>
+            <li>
+                <a href="/administration/logo_requests" >
+                    <i class="glyphicon glyphicon-picture"></i> <span>Logo Requests ( ALL )</span>
+                </a>
+            </li>
         </ul>
     </li>
 

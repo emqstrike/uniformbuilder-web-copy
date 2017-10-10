@@ -2,7 +2,7 @@
 <!-- Start Mascot UI's -->
 
     <!-- Mascot Dropdown -->
-    <script  type="text/mustache" id="mascot-dropdown">
+    <script type="text/mustache" id="mascot-dropdown">
         
         <hr />
 
@@ -983,10 +983,58 @@
             </div>
 
         </div>
+
     </script>
 
 
 <!-- End New Mascot Picker -->
+
+
+<!-- New Inksoft De Picker -->
+
+    <script type="text/mustache" id="m-inksoft-designs-preview"> 
+
+       <div id="primaryInksoftDesignStudioPreview" data-status="hidden">
+       </div>
+
+    </script>            
+
+    <script type="text/mustache" id="m-inksoft-designs-selection">
+
+        <div id="primaryInksoftDesignStudioSelection" data-status="hidden">
+        </div>
+       
+    </script>
+    
+    <script type="text/mustache" id="m-inksoft-design-studio-container">
+
+         <div id="primaryInksoftDesignStudio" data-status="hidden">
+
+            <div class="header">
+
+                
+              
+            </div>
+            
+            <div class="main-content">
+
+                
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+        
+    </script>
+
+
+<!-- End New Inksoft Design Picker -->
+
 
 <!-- Tail Sweep Picker -->
     
@@ -2103,11 +2151,12 @@
 
             <div class="application-container">
 
-                <span class="optionButton" data-type="player_number"><div class="icon"><img src="/images/main-ui/icon-number-large.png"></div><div class="caption">Player Number</div></span>
+                <span class="optionButton" data-type="player_number"><div class="icon"><img src="/images/main-ui/icon-number-large.png"></div><div class="caption">Player #</div></span>
                 <span class="optionButton" data-type="team_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Team Name</div></span>
                 <span class="optionButton" data-type="player_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Player Name</div></span>
                 <span class="optionButton" data-type="mascot"><div class="icon"><img src="/images/main-ui/icon-mascot-large.png"></div><div class="caption">Mascot</div></span>                            
-                
+                <span class="optionButton" data-type="embellishments"><div class="icon"><img src="/images/main-ui/icon-embellishments-large.png"></div><div class="caption">Embellishments</div></span>                            
+
             </div>
 
             <br />

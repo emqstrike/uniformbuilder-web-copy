@@ -116,13 +116,22 @@
           </div>
           <div class="modal-body">
             <!-- <p>Some text in the modal.</p> -->
-            <form class="form-horizontal" role="form" method="POST" action="#" enctype="multipart/form-data" id='style-request-form'>
+            <form class="form-horizontal" role="form" method="POST" action="#" name="form_horizontal" enctype="multipart/form-data" id='style-request-form'>
             <input type="hidden" class="design-sheet-path">
             <input type="hidden" class="data-string">
             <div class="form-group">
                 <label class="col-md-4 control-label">Style Name</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control style-name" required>
+                    <input type="text" class="form-control style-name" id="style_name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Sport</label>
+                <div class="col-md-6">
+                    <!-- <input type="text" class="form-control sport" required> -->
+                    <select class="form-control sport">
+                        <option value="none" data-uniform-category-id="0">Select Sport</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -144,18 +153,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label">Sport</label>
-                <div class="col-md-6">
-                    <!-- <input type="text" class="form-control sport" required> -->
-                    <select class="form-control sport">
-                        <option value="none" data-uniform-category-id="0">Select Sport</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-md-4 control-label">QSTRIKE Item ID</label>
                 <div class="col-md-6">
-                    <input type="number" class="form-control qstrike-item-id" required>
+                    <input type="number" class="form-control qstrike-item-id" id="qstrike_item_id" required>
                 </div>
             </div>
             <div class="form-group">
@@ -214,6 +214,8 @@ $(function(){
 
     $('.submit').attr('disabled','disabled'); 
 
+    $('.save-data').attr('disabled','disabled'); 
+
     $('.file-link').on('click', function(e){
         console.log('file link');
         var url = $(this).data('link');
@@ -223,7 +225,7 @@ $(function(){
     function OpenInNewTab(url) {
         var win = window.open(url, '_blank');
         win.focus();
-    }
+    } 
 
     $(document).on('change', '.style-name, .block-pattern-option, .qstrike-item-id, .priority, .deadline, .design_sheet', function() {
         updateData();
@@ -441,11 +443,25 @@ $(function(){
 
     $(".style-qstrike-item-id, .style-customizer-id").on("keyup", function(e){    
         e.preventDefault();
+
         $(this).parent().find('.submit').removeAttr('disabled');     
     });
 
-    $('.submit').on('click', function(e){
+    $("#style_name, #qstrike_item_id").on("keyup", function(e){    
         e.preventDefault();
+        var name = document.getElementById("style_name").value;
+        var qx_id = document.getElementById("qstrike_item_id").value;
+        if ( name.length > 0 && qx_id.length > 0) {    
+            $('.save-data').removeAttr('disabled');
+        } 
+        else {
+            $('.save-data').attr('disabled','disabled'); 
+        }
+
+    });
+
+    $('.submit').on('click', function(e){
+        e.preventDefault();           
         saveValue($(this));
         $(this).parent().parent().find('#item-id').attr('contenteditable', 'false');
         $(this).parent().parent().find('#customizer-id').attr('contenteditable', 'false');
@@ -528,7 +544,7 @@ $(function(){
                    }
                }
            });
-       });
+       });   
 
  });
 </script>

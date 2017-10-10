@@ -161,9 +161,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('mascots_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@editMascotsCategoriesForm']);
     Route::get('mascots_groups_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@editMascotsGroupsCategoriesForm']);
     Route::get('upload_artwork/{artwork_request_id}/{artwork_index}/{artwork_user_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addArtworkForm']);
+    Route::get('upload_logo_request/{logo_request_id}/{logo_index}/{logo_request_user_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addLogoRequestForm']);
     Route::get('upload_existing_artwork/{artwork_request_id}/{artwork_index}/{artwork_user_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addExistingArtworkForm']);
+    Route::get('upload_existing_logo/{logo_request_id}/{logo_index}/{logo_request_user_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addExistingLogoForm']);
     Route::post('artwork/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeArtwork']);
     Route::post('artwork/add_existing', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeExistingArtwork']);
+    Route::post('logo/add_existing', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeExistingLogo']);
+    Route::post('logo/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeArtwork']);
 
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);
@@ -332,6 +336,9 @@ Route::group(array('prefix' => 'administration'), function() {
     // Artworks
     Route::get('artwork_requests', 'Administration\ArtworksController@index');
     Route::get('artwork_requests/processing', 'Administration\ArtworksController@processing');
+
+    // Logo Requests
+    Route::get('logo_requests', 'Administration\LogoRequestsController@index');
 
     // Feedbacks
     Route::get('feedbacks', 'Administration\FeedbacksController@index');

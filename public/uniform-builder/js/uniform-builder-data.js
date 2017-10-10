@@ -199,7 +199,11 @@ $(document).ready(function() {
 
     ub.data.hasProcessedArtworks    = false;
 
-    ub.config.switchToFrontBody       = new Date('Fri Aug 14 2017 17:08:32 GMT+0800 (+08)');
+    // URLS
+    ub.data.inkSoftBaseURL          = 'https://stores.inksoft.com';
+    ub.data.inkSoftProlookStore     = '/Prolook_Sports' ;
+
+    ub.config.switchToFrontBody     = new Date('Fri Aug 14 2017 17:08:32 GMT+0800 (+08)');
 
     // Mock Object for Pipings 
 
@@ -12467,9 +12471,22 @@ ub.funcs.fontOffSets = [
                 ]
             },
             {
-                block_pattern: 'Football Coaching Jackets',
+                block_pattern: 'Game Day Coaches Jacket',
                 neck_options: ["Men's", "Women's"],
                 material_option: 'Zipper', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
+             {
+                block_pattern: 'Game Day Coaches Jacket',
+                neck_options: ["Men's", "Women's"],
+                material_option: 'Arm Elastic', 
                 valid_colors: [
                     'B',    
                     'W',
