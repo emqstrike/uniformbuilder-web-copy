@@ -410,17 +410,28 @@ class MascotsController extends Controller
         $category = $request->input('category');
         $layersProperties = $request->input('layers_properties');
 
-        $artworkRequestID = $request->input('artwork_request_id');
-        $artworkIndex = $request->input('artwork_index');
-        $artworkUserId = $request->input('artwork_user_id');
+        if($request->input('artwork_request_id') != null){
+            $artworkRequestID = $request->input('artwork_request_id');
+            $artworkIndex = $request->input('artwork_index');
+            $artworkUserId = $request->input('artwork_user_id');
+        } else {
+            $artworkRequestID = $request->input('logo_request_id');
+            $artworkIndex = $request->input('logo_index');
+            $artworkUserId = $request->input('logo_request_user_id');
+        }
+        
 
         if ($request->input('custom_artwork_request')) {
             $artwork_request = (new CustomArtworkRequestAPIClient())->getByID($artworkRequestID);
         } else {
-            $artwork_request = $this->artworksClient->getArtwork($artworkRequestID);
+            $artwork_request = $this->logoRequestsClient->getLogoRequest($artworkRequestID);
         }
 
-        $ar_json = json_decode($artwork_request->artworks, 1);
+        if($request->input('artwork_request_id') != null){
+            $ar_json = json_decode($artwork_request->artworks, 1);
+        } else {
+            $ar_json = json_decode($artwork_request->properties, 1);
+        }
 
         $team_colors = array();
 
@@ -466,8 +477,12 @@ class MascotsController extends Controller
             }
         } catch (S3Exception $e) {
             $message = $e->getMessage();
-
-            return Redirect::to('/administration/mascots')->with('message', 'There was a problem uploading your files');
+            if($request->input('artwork_request_id') != null){
+                return Redirect::to('/administration/artwork_requests')->with('message', 'There was a problem uploading your files');
+            } else {
+                return Redirect::to('/administration/logo_requests')->with('message', 'There was a problem uploading your files');
+            }
+            
         }
 
         try {
@@ -486,8 +501,11 @@ class MascotsController extends Controller
             }
         } catch (S3Exception $e) {
             $message = $e->getMessage();
-
-            return Redirect::to('/administration/mascots')->with('message', 'There was a problem uploading your files');
+            if($request->input('artwork_request_id') != null){
+                return Redirect::to('/administration/artwork_requests')->with('message', 'There was a problem uploading your files');
+            } else {
+                return Redirect::to('/administration/logo_requests')->with('message', 'There was a problem uploading your files');
+            }
         }
 
 
@@ -506,8 +524,11 @@ class MascotsController extends Controller
             }
         } catch (S3Exception $e) {
             $message = $e->getMessage();
-
-            return Redirect::to('/administration/mascots')->with('message', 'There was a problem uploading your files');
+            if($request->input('artwork_request_id') != null){
+                return Redirect::to('/administration/artwork_requests')->with('message', 'There was a problem uploading your files');
+            } else {
+                return Redirect::to('/administration/logo_requests')->with('message', 'There was a problem uploading your files');
+            }
         }
 
         $response = null;
@@ -520,24 +541,37 @@ class MascotsController extends Controller
             $response = $this->client->createArtwork($data);
 
             if ($response->success) {
-                (new CustomArtworkRequestAPIClient())->update($artworkRequestID, $response->art_id);
+                if($request->input('artwork_request_id') != null){
+                    (new CustomArtworkRequestAPIClient())->update($artworkRequestID, $response->art_id);
+                }
             }
 
             $ar_json[$artworkIndex]['mascot_id'] = $response->art_id;
 
-            $artwork_request->artworks = $ar_json;
-
-            $this->artworksClient->updateArtwork($artwork_request);
+            // $artwork_request->artworks = $ar_json;
+            if($request->input('artwork_request_id') != null){
+                $artwork_request->artworks = $ar_json;
+                $this->artworksClient->updateArtwork($artwork_request);
+            } else {
+                $artwork_request->properties = $ar_json;
+                $this->logoRequestsClient->updateLogoRequest($artwork_request);
+            }
         }
 
         if ($response->success) {
             Log::info('Success');
-
-            return Redirect::to('administration/mascots')->with('message', 'Successfully saved changes');
+            if($request->input('artwork_request_id') != null){
+                return Redirect::to('administration/artwork_requests')->with('message', 'Successfully saved changes');
+            } else {
+                return Redirect::to('administration/logo_requests')->with('message', 'Successfully saved changes');
+            }
         } else {
             Log::info('Failed');
-
-            return Redirect::to('administration/mascots')->with('message', $response->message);
+            if($request->input('artwork_request_id') != null){
+                return Redirect::to('administration/artwork_requests')->with('message', $response->message);
+            } else {
+                return Redirect::to('administration/logo_requests')->with('message', $response->message);
+            }
         }
     }
 
