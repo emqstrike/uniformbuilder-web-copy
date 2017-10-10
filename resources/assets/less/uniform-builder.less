@@ -23,6 +23,15 @@
 
 @main_window_pane_height: 550px;
 
+
+// Tables
+    
+    @table_button_background_color: #e7e7e7;
+    @table_header_background_color: #1e1e1e;
+
+// End Tables
+
+
 .message-list () {
 
     div.message-list {
@@ -244,14 +253,14 @@ div.save-design-post-dialog {
 
     div.header, span.header {
 
-        font-size: 2em;
+        font-size: 1.5em;
         text-align: center;
         width: 100%;
         display: block;
         text-transform: uppercase;
         
-
         padding: 30px;
+        padding-bottom: 15px;
         margin-bottom: 40px;
         border-bottom: dashed 1px #acacac;
 
@@ -11395,3 +11404,5 @@ span.load-line.awesomeness {
     }
 
 /* end isModal */
+
+@import (once) "uniform-builder-custom-artwork-requests.less";

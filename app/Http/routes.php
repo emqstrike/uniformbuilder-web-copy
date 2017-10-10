@@ -58,6 +58,11 @@ Route::get('/forgot-password', 'UniformBuilderController@forgotPassword');
 
 // End Orders and Profile
 
+// Custom Artwork Requests
+Route::get('/my-custom-artwork-requests', 'UniformBuilderController@myCustomArtworkRequests');
+
+
+
 // Display the Order
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');

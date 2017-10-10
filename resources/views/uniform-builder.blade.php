@@ -35,6 +35,9 @@
 <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/normalize.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/skinModern.css?v={{$asset_version}}">
 
+<link rel="stylesheet" href="{{$asset_storage}}/tipped/css/tipped.css?v={{$asset_version}}">
+
+
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css?v={{$asset_version}}">
 
 
@@ -172,6 +175,7 @@
 
 @yield('my-saved-designs')
 @yield('my-orders')
+@yield('my-custom-artwork-requests')
 @yield('view-order-info')
 @yield('my-messages')
 @yield('my-profile')
@@ -246,6 +250,8 @@
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/intro-js/intro.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/svgjs/svg.min.js"></script>
+
+<script src="{{$asset_storage}}/tipped/js/tipped.js"></script>
 
 <script src="{{$asset_storage}}/rangeSlider/js/rangeSlider.js"></script>
 
@@ -450,9 +456,8 @@
             ub.config.switchToFrontBody = new Date('Fri Aug 14 2017 17:08:32 GMT+0800 (+08)');
 
             ub.config.savedDesignInfo = {
-
                 createdAt: "{{$created_at}}",
-
+                savedDesignID: "{{$saved_design_id}}",
             }
 
             if(new Date(ub.config.savedDesignInfo.createdAt) < ub.config.switchToFrontBody &&
@@ -504,6 +509,12 @@
                 ub.config.orderID         = "{{ isset($order_id_short) ? $order_id_short: 'undefined' }}";
                 ub.config.orderIDParent   = "{{ isset($order_id_parent) ? $order_id_parent: 'undefined' }}";
 
+            }
+
+            if (ub.config.pageType == "Saved Design") {
+
+                // Fill this in ... 
+                
             }
 
             window.ub.temp = s;
@@ -581,6 +592,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-renderer.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-stores.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-custom-artwork-requests.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
