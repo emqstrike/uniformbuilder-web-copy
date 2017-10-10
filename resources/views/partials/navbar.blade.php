@@ -142,7 +142,7 @@
                   <li class="divider"></li>
                   <li><a href="/my-orders"><i class="fa fa-list-ul" aria-hidden="true"></i> MY ORDERS</a></li>
                   <li><a href="/my-saved-designs"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY SAVED DESIGNS</a></li>
-                  <li><a href="/my-custom-artwork-requests"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY CUSTOM ARTWORK REQUESTS</a></li>
+                  <li><a href="/my-custom-artwork-requests"><i class="fa fa-folder-open-o" aria-hidden="true"></i> MY CUSTOM LOGO REQUESTS</a></li>
                   <li class="divider"></li>
 
                   <!-- <li><a href="/my-profile"><i class="fa fa-user" aria-hidden="true"></i> MY PROFILE</a></li> -->

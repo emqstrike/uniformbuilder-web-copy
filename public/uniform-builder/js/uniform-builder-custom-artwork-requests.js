@@ -28,6 +28,13 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.changeActiveTab = function (tabClass, type) {
+
+        $(tabClass).removeClass('active');
+        $(tabClass + '.' + type).addClass('active');
+
+    };
+
     ub.funcs.displayMyCustomArtworkRequests = function () {
 
         $.ajax({
@@ -75,6 +82,18 @@ $(document).ready(function() {
 
                 // Setup Events
 
+                    var $spanTab = $('span.tab');
+
+                    $spanTab.unbind('click');
+                    $spanTab.on('click', function () {
+
+                        var _type = $(this).data('type');
+
+                        $spanTab.removeClass('active');
+                        $(this).addClass('active');
+
+                    });
+
                     var $spanLink = $('span.link');
                     $spanLink.unbind('click');
                     $spanLink.on('click', function () {
@@ -115,6 +134,7 @@ $(document).ready(function() {
 
                 // Create Tooltips
                     
+                    Tipped.create('span.tab');
                     Tipped.create('span.link');
                     Tipped.create('span[data-action="preview-submitted-artwork"]');
                     Tipped.create('span[data-action="preview-prepared-artwork"]', { position: 'bottom' });
