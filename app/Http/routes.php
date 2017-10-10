@@ -172,6 +172,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('artwork/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeArtwork']);
     Route::post('artwork/add_existing', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeExistingArtwork']);
     Route::post('logo/add_existing', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeExistingLogo']);
+    Route::post('logo/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeArtwork']);
 
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);

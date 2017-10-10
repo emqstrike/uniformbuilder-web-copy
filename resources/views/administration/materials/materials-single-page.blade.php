@@ -3,8 +3,6 @@
 @section('styles')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css">
-
-
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 @endsection
@@ -32,6 +30,7 @@
 					<th>Asset Target</th>
 					<th>SKU</th>
 					<th>Part Alias ID</th>
+					<th>Qx Item ID</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -54,7 +53,6 @@
 <script type="text/javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.flash.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script type="text/javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
-
 <script type="text/javascript"  src="/underscore/underscore.js" ></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/js/administration/materials-single-page.js"></script>
