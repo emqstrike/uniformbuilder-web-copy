@@ -6640,6 +6640,15 @@ $(document).ready(function() {
                 _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
+                if (ub.config.uniform_application_type !== "sublimated" || !ub.config.features.isOn('uniforms','betaSportUniforms')) {
+                    if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
+                }
+
+                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
+                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Embellishments</div>';
+                _htmlBuilder        +=           '</div>';
+                
                 _htmlBuilder        +=      '</div>';
                 _htmlBuilder        += "</div>";
                 _deactivated = '';
@@ -7242,7 +7251,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.changeApplicationType = function (settingsObject,type) {
+    ub.funcs.changeApplicationType = function (settingsObject, type) {
 
         var _settingsObject = settingsObject;
         var _type           = type;
@@ -7470,6 +7479,49 @@ $(document).ready(function() {
             ub.current_material.settings.applications[_id] = _settingsObject;  
 
             ub.funcs.LSRSBSFS(parseInt(_id));
+
+        }
+
+        if (_type === 'embellishments') {
+
+            console.log('Embellishments Detected ... ');
+
+            var _applicationType = 'embellishments';
+            var _size = 4;
+            var _embellishmentID = 1722159;
+
+            // ub.funcs.getDesignSummary
+
+            ub.funcs.deActivateApplications();
+
+            _settingsObject.application_type    = _applicationType;
+            _settingsObject.type                = _applicationType;
+            _settingsObject.object_type         = _applicationType;
+            _settingsObject.embellishment       = window.is.embellishments.getDefaultEmbellishment(_settingsObject); // window.is.embellishments.getEmbellishmentByID(_embellishmentID); // Add support for kollege town, prolook name drops or tailsweeps
+            _settingsObject.color_array         = ub.funcs.getDefaultColors();
+
+            _settingsObject.application.name    = _applicationType.toTitleCase();
+            _settingsObject.application.type    = _applicationType;
+
+            ub.funcs.setAppSize(_id, _size);
+
+            /// Include Matching Side code here ...
+
+            //==>
+
+            ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment); 
+            ub.current_material.settings.applications[_id] = _settingsObject;
+            ub.funcs.LSRSBSFS(parseInt(_id));
+            ub.funcs.activateEmbellishments(_settingsObject.code);
+            
+            //==> 
+
+
+            // TODO 
+            // Create 
+            // - ub.funcs.update_application_embellishments => from ub.funcs.update_application_mascot(_settingsObject.application, _settingsObject.mascot);
+            // - ub.funcs.activateEmbellishments => from ub.funcs.update_application_mascot(_matchingSide.application, _matchingSide.mascot);
+            // - ub plugins - $.ub.create_embellishment
 
         }
 
@@ -7820,6 +7872,13 @@ $(document).ready(function() {
         if (_applicationType === 'mascot') {
 
             ub.funcs.activateMascots(_id);
+            return;
+
+        }
+
+        if (_applicationType === 'embellishments') {
+
+            ub.funcs.activateEmbellishments(_id);
             return;
 
         }
@@ -8234,6 +8293,15 @@ $(document).ready(function() {
                 _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
                 _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
+                _htmlBuilder        +=           '</div>';
+
+                if (ub.config.uniform_application_type !== "sublimated" || !ub.config.features.isOn('uniforms','betaSportUniforms')) {
+                    if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
+                }
+
+                _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
+                _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Embellishments</div>';
                 _htmlBuilder        +=           '</div>';
 
                 _htmlBuilder        +=      '</div>';
@@ -10162,6 +10230,17 @@ $(document).ready(function() {
                 var _type = $('span.optionButton.active').data('type');
                 var _side = $('span.side.active').data('id');
 
+                if (_type === "embellishments") {
+
+                    if (!ub.config.features.isOn('uniforms','betaSportUniforms')) {
+
+                        ub.showModalTool('Embellishment Application Types are only accessible only to Administrators for now.');
+                        return;
+
+                    }
+
+                }
+
                 ub.funcs.newApplication(_perspective, _part, _type, _side);
                 dialog.modal('hide');
 
@@ -10230,6 +10309,11 @@ $(document).ready(function() {
             case 'team_name':
 
                 _caption = app.text;
+                break;
+
+             case 'embellishments':
+
+                _caption = app.embellishment.name.toString();
                 break;
 
             default:
@@ -10585,6 +10669,15 @@ $(document).ready(function() {
         _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="mascot">';
         _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
         _htmlBuilder        +=                 '<div class="caption">Mascot</div>';
+        _htmlBuilder        +=           '</div>';
+
+        if (ub.config.uniform_application_type !== "sublimated" || !ub.config.features.isOn('uniforms','betaSportUniforms')) {
+            if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
+        }
+
+        _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
+        _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
+        _htmlBuilder        +=                 '<div class="caption">Embellishments</div>';
         _htmlBuilder        +=           '</div>';
 
         _htmlBuilder        +=      '</div>';

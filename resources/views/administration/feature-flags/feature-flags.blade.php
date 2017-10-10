@@ -91,6 +91,7 @@
                                 <th>Switch</th>
                             
                                 <th>User Types</th>
+                                <th>Roles</th>
                                 <th>State</th>
                                 <th>Sports</th>
                                  <th>Active</th>
@@ -120,6 +121,9 @@
                
                         <td>
                             {{ $feature_flag->user_types }}
+                        </td>
+                        <td>
+                            {{ $feature_flag->roles }}
                         </td>
                         <td>
                             {{ $feature_flag->state }}

@@ -35,7 +35,13 @@
                             <div class="col-md-4">
                                <input type="text" name="design_id" class="form-control" value="{{ $inksoft_designs->design_id }}">
                             </div>
-                        </div>                       
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-4 control-label">Design Name</label>
+                            <div class="col-md-4">
+                               <input type="text" name="design_name" class="form-control" value="{{ $inksoft_designs->design_name }}">
+                            </div>
+                        </div>                         
                          <div class="form-group">
                             <label class="col-md-4 control-label">User ID</label>
                             <div class="col-md-4">
@@ -165,8 +171,7 @@ $(function(){
     window.users = null;
     getAdmins(function(users){ window.users = users; });
     function getAdmins(callback){
-        var users;
-        // var url = "//api-dev.qstrike.com/api/users";
+        var users;     
         var url = "//" + api_host + "/api/users";
         $.ajax({
             url: url,

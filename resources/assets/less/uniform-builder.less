@@ -4659,7 +4659,7 @@ div.header-container.main {
             margin-top: -400px;
             background-color: #808080;
             width: 500px;
-            height: 360px;
+            height: 390px;
             margin-left: 25px;
             box-shadow: 15px 15px 33px -28px rgba(0, 0, 0, 0.7);
             padding: 30px;
@@ -4691,14 +4691,13 @@ div.header-container.main {
                 div.optionButton {
 
                     display: inline-block;
-                    width: 40%;
+                    width: 42%;
                     font-size: 1.5em;
                     text-align: center;
                     border: 1px solid #000000;
-                    margin-left: 30px;
-                    margin-bottom: 30px;
+                    margin-left: 15px;
+                    margin-bottom: 10px;
                     padding: 10px;
-                    cursor: pointer;
 
                     -webkit-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
                     -moz-box-shadow: 15px 15px 33px -28px rgba(0,0,0,0.7);
@@ -5884,7 +5883,39 @@ div.header-container.main {
 
                             }
 
-                        } 
+                        }
+
+
+
+                    }
+
+                    .column1-embellishments {
+
+                        border-top: solid 1px #acacac;
+  
+                        div.sub1 {
+
+                            span.accent {
+                    
+                               margin-left: 0px;
+                               
+                            }
+
+                            span.flipButton {
+
+                                margin: 0 auto;
+                                width: 100px;
+                                margin-top: 10px;
+
+                            }
+
+                            span.flipButton:hover {
+
+                                background-color: #3d3d3d;
+
+                            }
+
+                        }
 
                     }
 
@@ -5893,6 +5924,50 @@ div.header-container.main {
                         display: none;
 
                     }
+
+                     div.embellishment-buttons-container {
+
+                        padding-top: 20px;
+                        text-align: center;
+                        border-top: solid 1px #acacac;
+                        margin-top: 20px;
+                        text-align: center;
+
+                        span.btn {
+
+                            width: 130px;
+                            background-color: #acacac;
+                            margin-bottom: 10px;
+                            height: 30px;
+                            padding-top: 5px;
+                            font-size: 0.8em;
+
+                            -moz-transition: all .2s;
+                            -webkit-transition: all .2s;
+                            transition: all .2s;
+                            
+                        }
+
+                        span.btn:hover {
+
+                            background-color: #3d3d3d;
+
+                        }
+
+                        span.btn.edit-embellishment {
+                            margin-right: 25px;
+                            float: left;
+                        }
+
+                        span.btn.select-embellishment {
+                            float: right;
+                        }
+
+                        span.btn.new-embellishment {
+                            float: right;
+                        }
+
+                    } 
 
                 }
 
@@ -6279,6 +6354,27 @@ div.header-container.main {
                         
                     }
 
+                }
+
+                a.filePreview {
+                    
+                    font-size: 0.8em;
+                    color: #333;
+                    text-decoration: none;
+                    border-bottom: 1px dashed;
+                    
+                }
+
+                a.filePreview:hover {
+
+                    color: white;
+                    
+                }
+
+                span.embellishmentThumb {
+
+                    
+                    
                 }
 
                 span.pattern {
@@ -9648,7 +9744,7 @@ strong.hello {
 
         div.spacer                          { margin-top: 10px; margin-bottom: 10px; }
 
-        span.undo-btn, span.fullscreen-btn, span.team-store  { display: none; }
+        span.undo-btn, span.fullscreen-btn, span.team-store, span.art-btn  { display: none; }
 
         span.toolbar-item {
 
@@ -11269,4 +11365,33 @@ span.load-line.awesomeness {
 
 /* End Validation Styles */
 
+/* isModal */
 
+    div#isModal {
+
+        text-align: center;
+        background-color: #f2f2f2;
+        width: 980px;
+        height: 870px;
+        margin: 0 auto;
+        margin-top: 100px;
+        padding-top: 10px;
+
+        div#cancel-art {
+
+            background-color: #acacac;
+            padding: 10px;
+            width: 170px;
+
+        }
+
+        div#cancel-art:hover {
+
+            color: white;
+            background-color: #1e1e1e;
+
+        }
+
+    }
+
+/* end isModal */

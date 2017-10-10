@@ -36,6 +36,12 @@
                             <div class="col-md-4">
                                <input type="text" name="design_id" class="form-control">
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Design Name</label>
+                            <div class="col-md-4">
+                               <input type="text" name="design_name" class="form-control">
+                            </div>
                         </div>                       
                         <div class="form-group">
                             <label class="col-md-4 control-label">User ID</label>
