@@ -76,20 +76,10 @@ var TeamStoreToolBox = {
      * Wrapper method for the actual AJAX call to add product to team store
      */
     add_to_team_store: function(material_id) {
-        TeamStoreToolBox.progress_modal = bootbox.dialog({
-            title: 'Adding new product to your team store',
-            message: '<p><i class="fa fa-spin fa-spinner"></i> preparing images...</p>'
-        });
-
-        // Change icon to spinner
-        $('#team-store-toolbox .add-to-team-store span').addClass('fa-spinner');
-        $('#team-store-toolbox .add-to-team-store span').removeClass('fa-plus-square-o');
-        $('#team-store-toolbox .add-to-team-store span').addClass('fa-spin');
-
-        if (!material_id) {
+        if (!material_id || isNaN(material_id)) {
             material_id = ub.config.material_id;
         }
-        TeamStoreToolBox.get_material(material_id);
+        ub.funcs.initSaveDesign();
     },
 
     get_material: function(material_id) {
@@ -174,10 +164,6 @@ var TeamStoreToolBox = {
             material_data,
             function(response) {
                 if (response.success) {
-                    // Remove spinner
-                    $('#team-store-toolbox .add-to-team-store span').removeClass('fa-spinner');
-                    $('#team-store-toolbox .add-to-team-store span').removeClass('fa-spin');
-                    $('#team-store-toolbox .add-to-team-store span').addClass('fa-plus-square-o');
 
                     $('#team-store-toolbox').data('product-id', response.product.id);
                     TeamStoreToolBox.bind_product_id(ub.team_stores_material_id, response.product.id);
