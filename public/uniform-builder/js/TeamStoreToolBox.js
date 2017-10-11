@@ -14,7 +14,7 @@ var TeamStoreToolBox = {
         $('#team-store-toolbox .create-team-store').on('click', TeamStoreToolBox.create_team_store);
         $('#team-store-toolbox .open-team-store').on('click', TeamStoreToolBox.open_team_store);
         $('#team-store-toolbox .update-images').on('click', TeamStoreToolBox.update_images);
-        $('#team-store-toolbox .add-to-team-store').on('click', TeamStoreToolBox.add_to_team_store);
+        $('#team-store-toolbox .add-to-team-store').on('click', ub.funcs.initSaveDesign);
         $('#team-store-toolbox .view-product-page').on('click', TeamStoreToolBox.view_product_page);
         $('#team-store-toolbox .open-team-store-products').on('click', TeamStoreToolBox.open_products);
         $('#team-store-toolbox .close').on('click', TeamStoreToolBox.close);
@@ -79,7 +79,7 @@ var TeamStoreToolBox = {
         if (!material_id || isNaN(material_id)) {
             material_id = ub.config.material_id;
         }
-        ub.funcs.initSaveDesign();
+        TeamStoreToolBox.get_material(material_id);
     },
 
     get_material: function(material_id) {
