@@ -112,17 +112,19 @@
                                 <th>Logo</th>
                                 <th>Team name</th>
                                 <th>Player name</th>
-                                <th>Number</th>
+                                <th>Number</th>                                
                                 <th>Font sizes</th>
                                 <th>Colors</th>
                                 <th>Accent</th>
-                                <th>Default Macot</th>
+                                <th>Default Mascot</th>
                                 <th>Tailsweep</th>
                                 <th>Rotated Tailsweep</th>
                                 <th>Default Font</th>
                                 <th>Default Text</th>
                                 <th>Vertical Text</th>
                                 <th>Default Number</th>
+                                <th>Embellishment</th>
+                                <th>Inksoft Design ID</th>
                             </thead>
                             <tbody class="front-applications">
                             </tbody>
