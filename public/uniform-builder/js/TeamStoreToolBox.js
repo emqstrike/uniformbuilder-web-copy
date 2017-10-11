@@ -80,6 +80,12 @@ var TeamStoreToolBox = {
             title: 'Adding new product to your team store',
             message: '<p><i class="fa fa-spin fa-spinner"></i> preparing images...</p>'
         });
+
+        // Change icon to spinner
+        $('#team-store-toolbox .add-to-team-store span').addClass('fa-spinner');
+        $('#team-store-toolbox .add-to-team-store span').removeClass('fa-plus-square-o');
+        $('#team-store-toolbox .add-to-team-store span').addClass('fa-spin');
+
         if (!material_id) {
             material_id = ub.config.material_id;
         }
@@ -168,10 +174,16 @@ var TeamStoreToolBox = {
             material_data,
             function(response) {
                 if (response.success) {
+                    // Remove spinner
+                    $('#team-store-toolbox .add-to-team-store span').removeClass('fa-spinner');
+                    $('#team-store-toolbox .add-to-team-store span').removeClass('fa-spin');
+                    $('#team-store-toolbox .add-to-team-store span').addClass('fa-plus-square-o');
+
                     $('#team-store-toolbox').data('product-id', response.product.id);
                     TeamStoreToolBox.bind_product_id(ub.team_stores_material_id, response.product.id);
                     $('#team-store-toolbox .add-to-team-store').off('click');
                     $('#team-store-toolbox .add-to-team-store').addClass('disabled').removeClass('add-to-team-store');
+
                 }
             }
         );
