@@ -117,7 +117,7 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="#" class="btn btn-primary btn-xs">Assign</a>
+                                <a href="#" class="btn btn-primary btn-xs assign-button">Assign</a>
                                 <a href="#" class="btn btn-success btn-xs">Mark Done</a>
                             </td>
                         </tr>
@@ -153,7 +153,7 @@
 @section('scripts')
 <!-- <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/artworks.js"></script>
+<script type="text/javascript" src="/js/administration/logo-requests.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     $('.data-table').DataTable({
