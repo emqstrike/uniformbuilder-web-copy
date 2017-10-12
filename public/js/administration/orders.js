@@ -606,7 +606,13 @@ $('.send-to-factory').on('click', function(e){
         console.log(order);
         // "RepID": 154, Jeremy
         // "RepID": 1148, Geeks
-        window.test_size_data = JSON.parse(window.material.sizing_config_prop); // uncomment this line on production
+        // var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
+        // window.test_size_data = JSON.parse(x);
+        var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
+        window.test_size_data = JSON.parse(x.properties);
+        console.log('Window Test Size Data');
+        console.log(window.test_size_data);
+        // window.test_size_data = JSON.parse(window.material.sizing_config_prop); // uncomment this line on production
         var order_items_split = splitRosterToQXItems();
         var order_parts_split = [];
         console.log('ORDER ITEMS SPLIT');
