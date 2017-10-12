@@ -46,6 +46,37 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.initMascotRealTimePreview = function (mascotObj, reference_id) {
+
+        var _markup = ub.utilities.buildTemplateString(
+            '#m-custom-artwork-requests-mascot-preview', { 
+            mascot: mascotObj,
+        });
+
+        var dialog = bootbox.dialog({
+            title: 'Realtime Mascot Preview',
+            message: _markup,
+            size: 'large',
+            //closeButton: false,
+        });
+
+        dialog.init(function() {
+
+            $('span.btn.close').unbind('click');
+            $('span.btn#close').on('click', function () {
+
+                var _btn = $('span[data-action="preview-prepared-artwork"][data-reference-id="' +  reference_id + '"]');
+
+                _btn.html('Preview Processed Mascot');
+                
+                dialog.modal('hide');
+
+            });
+
+        });
+
+    }
+
     ub.funcs.prepareCustomArtworkRequestTable = function (type) {
 
         var _data = ub.data.logo_requests;
@@ -142,7 +173,25 @@ $(document).ready(function() {
 
                 if (_action === 'preview-prepared-artwork') {
 
+                    if (type === "pending") { return; }
 
+                    var _parsedProperties = _result.parsedProperties[0];
+                    var _mascotID = _parsedProperties.mascot_id;
+
+                    $(this).html('Loading <img src="/images/loading.gif" style="width: 20px"/>');
+
+                    var _url = ub.config.api_host + '/api/mascot/' + _mascotID;
+                    ub.funcs.callAPI(_url, function (response) {
+
+                        var _mascot = response.mascot.mascot;
+
+                        if (typeof _mascot !== "undefined") {
+
+                            ub.funcs.initMascotRealTimePreview (_mascot, _refID);
+
+                        }
+
+                    });
 
                 }
 
@@ -164,7 +213,7 @@ $(document).ready(function() {
 
     ub.funcs.prepareCustomArtworkRequestsUI = function () {
     
-        ub.funcs.prepareCustomArtworkRequestTable();
+        ub.funcs.prepareCustomArtworkRequestTable('for_review');
 
     }
 
@@ -183,6 +232,25 @@ $(document).ready(function() {
                 ub.funcs.processLogoRequests();
                 ub.funcs.prepareCustomArtworkRequestsUI();
                 
+            }
+
+        });
+
+    }
+
+    ub.funcs.callAPI = function (url, callback) {
+
+        $.ajax({
+            
+            url: url,
+            type: "GET", 
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function (response) {
+
+                callback(response);
+
             }
 
         });

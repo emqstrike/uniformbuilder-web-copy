@@ -2595,7 +2595,8 @@
 
 </script>
 
-<!-- Custom Artwork Requests Table -->
+
+<!-- Custom Artwork Requests --> 
 
     <script type="text/mustache" id="m-custom-artwork-requests">
 
@@ -2674,7 +2675,9 @@
 
            </tbody>
 
-{{--            <tfoot>       
+    {{--    
+
+            <tfoot>       
 
                 <td></td>
                 <td class="data-table-filter-hide"></td>               
@@ -2685,10 +2688,48 @@
                 <td class="data-table-filter-hide"></td>
                 <td class="data-table-filter-hide"></td>
 
-                </tfoot>
- --}}            
+            </tfoot>
+
+    --}}
+
         </table>
 
     </script>   
+
+    <script type="text/mustache" id="m-custom-artwork-requests-mascot-preview">
+
+        <div id="mascotRealTimePreview">
+            
+            <div class="preview-header">
+                <label>Mascot ID: </label><br />
+                &nbsp;@{{mascot.id}}
+
+                <br />
+
+                <label>Mascot Name: </label><br />
+                &nbsp;@{{mascot.name}}
+            </div>
+
+            <canvas id="preview-canvas"></canvas>
+
+            <div class="color-pickers"></div>
+
+            <div class="notes">
+                
+                <em>Use this screen to preview the mascots prepared for the artwork you submitted, you can change the color of the inidividual layers.</em>
+
+            </div>
+
+            <div class="footer">
+
+                <span class="btn" id="close">Close</span>
+
+            </div>
+
+        </div>
+
+    </script>   
+
+<!-- End Custom Artwork Requests -->
 
 @include('partials.controls.team-store-products-picker')
