@@ -3,19 +3,21 @@ $(document).ready(function() {
     ub.funcs.processLogoRequests = function () {
 
         var _processedLogoRequest = [];
-
-        ub.data.logo_requests = _.filter(ub.data.logo_requests, {submitted_by_user_id: ub.user.id.toString() });
         
-        _.each(ub.data.logo_requests, function (lr) {
+        _.each(ub.data.logo_request, function (lr) {
 
             lr.parsedProperties = JSON.parse(lr.properties);
 
             // use only records with properties 
-            if (lr.parsedProperties.length > 0) { _processedLogoRequest.push(lr); }
+            if (lr.parsedProperties.length > 0) { 
+
+                _processedLogoRequest.push(lr); 
+
+            }
 
         });
 
-        ub.data.logo_requests = _processedLogoRequest
+        ub.data.logo_requests = _processedLogoRequest;
 
         // a style is loaded, limit logo request to saved design id, if not load all custom logo requests for the current user
         if (ub.config.material_id !== -1) { 
@@ -39,30 +41,28 @@ $(document).ready(function() {
 
         $.ajax({
             
-            url: ub.config.api_host + '/api/v1-0/logo_requests/',
+            url: ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id,
             type: "GET", 
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function (response) {
 
-                var _processedLogoRequest;
                 var _container;
                 var _template;
                 var _data;
                 var _markup;
 
-                ub.data.logo_requests = response.logo_requests;
+                ub.data.logo_requests = response.logo_request;
                 ub.funcs.processLogoRequests();
-                _processedLogoRequest = ub.data.logo_requests;
-
+                
                 $('div.my-custom-artwork-requests-loading').hide();
 
                 $container = $('div.custom-artwork-request-list.pending');
                 template = $('#m-custom-artwork-requests').html();
             
                 data = { 
-                    car: _processedLogoRequest,
+                    car: ub.data.logo_requests,
                     titleCase: function () {
                       return function(val, render) {
 

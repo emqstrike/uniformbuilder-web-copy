@@ -41,9 +41,7 @@ $(document).ready(function () {
                 ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
                 ub.current_material.cutlinks_url = window.ub.config.api_host + '/api/cut_links/';
 
-                // Custom Artwork Request, replace this with a get_by_user_id
-                ub.current_material.logo_requests = window.ub.config.api_host + '/api/v1-0/logo_requests/';
-
+              
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
                 ub.current_material.block_patterns_url = window.ub.config.api_host + '/api/block_patterns/';
@@ -59,7 +57,10 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
-                ub.loader(ub.current_material.logo_requests, 'logo_requests', ub.callback);
+
+                // Custom Artwork Request, replace this with a get_by_user_id
+                ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
+                ub.loader(ub.current_material.logo_request_url, 'logo_request', ub.callback);
 
                 // Disable Tailsweeps for now
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
@@ -80,13 +81,17 @@ $(document).ready(function () {
 
             }
 
-            if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
+            if (typeof ub.user.id !== 'undefined') {
 
-                ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
-                ub.loader(ub.orders_url, 'orders', ub.load_orders);
+                if (window.ub.config.material_id === -1) {
 
-                // ub.savedDesigns_url = window.ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id;
-                // ub.loader(ub.savedDesigns_url, 'saved_designs', ub.load_save_designs);
+                    ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
+                    ub.loader(ub.orders_url, 'orders', ub.load_orders);
+
+                    // ub.savedDesigns_url = window.ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id;
+                    // ub.loader(ub.savedDesigns_url, 'saved_designs', ub.load_save_designs);
+
+                }
 
             } else {
 
@@ -936,13 +941,12 @@ $(document).ready(function () {
                 'mascots_groups_categories',
                 'cuts_links',
                 // 'tailsweeps',
-                'logo_requests',
+                'logo_request',
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
 
                 ub.data[object_name] = obj;
-
 
                 if (object_name === "tailSweeps") {
 
@@ -984,7 +988,7 @@ $(document).ready(function () {
 
             // TODO: Refactor all types like this where processing goes inside a function, so it can used in other pages e.g. like processLogoRequests
             if (object_name === 'fonts') { ub.funcs.processFonts(); }
-            if (object_name === 'logo_requests') { ub.funcs.processLogoRequests(); }
+            if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
             if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
 
