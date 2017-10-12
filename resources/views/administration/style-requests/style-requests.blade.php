@@ -6,6 +6,8 @@
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 <link rel="stylesheet" type="text/css" href="/dropzone/dropzone.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <style>
     #my-awesome-dropzone {
         border: dashed 1px black;
@@ -171,10 +173,12 @@
             <div class="form-group">
                 <label class="col-md-4 control-label">Deadline</label>
                 <div class="col-md-6">
-                    <input type="date" class="form-control deadline" required>
+                    <!-- <input type="date" class="form-control deadline" required> -->
+                    <!-- <div id="datepicker"></div> -->
+                    <input type="text" id="datepicker">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 260px; z-index: 3;">
                 <center>
                     <button type="submit" class="btn btn-primary save-data">
                         Save Request
@@ -182,10 +186,14 @@
                 </center>
             </div>
             </form>
-            <h4 class="alert alert-info">Upload Design Sheet below</h4>
-            <form action="/administration/material/insert_dz_design_sheet" class="dropzone" id="my-awesome-dropzone">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            </form>
+            <div style="z-index: 2; margin-top: -250px; position: absolute; width: 95%;">
+                <center>
+                    <h4 class="alert alert-info" style="margin-top: -50px;">Upload Design Sheet below</h4>
+                    <form action="/administration/material/insert_dz_design_sheet" class="dropzone" id="my-awesome-dropzone" style="margin-top: -20px;">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </form>
+                </center>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -209,8 +217,12 @@
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/dropzone/dropzone.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
-$(function(){  
+$(function(){
+
+    $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
+    // var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
     $('.submit').attr('disabled','disabled'); 
 
@@ -229,6 +241,7 @@ $(function(){
 
     $(document).on('change', '.style-name, .block-pattern-option, .qstrike-item-id, .priority, .deadline, .design_sheet', function() {
         updateData();
+        // console.log($('.deadline').val());
     });
 
     $(document).on('change', '.sport', function() {
@@ -325,7 +338,8 @@ $(function(){
         var sport = $('.sport').val();
         var qstrike_item_id = $('.qstrike-item-id').val();
         var priority = $('.priority').val();
-        var deadline = $('.deadline').val();
+        // var deadline = $('.deadline').val();
+        var deadline = $('#datepicker').val();
         var design_sheet_url = $('.design-sheet-path').val();
         window.data = {
             'name' : name,
