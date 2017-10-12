@@ -4,6 +4,7 @@ $(document).ready(function(){
     window.patterns = null;
     window.pa_id = null;
     window.test_size_data = null;
+    window.item_sizes = null;
     // window.test_size_data = [{
     //         "size": "XS",
     //         "qx_item_id": 3213
@@ -70,6 +71,24 @@ $(document).ready(function(){
 
     getColors(function(colors){ window.colors = colors; });
     getPatterns(function(patterns){ window.patterns = patterns; });
+    getSizingConfig(function(item_sizes){ window.item_sizes = item_sizes; });
+
+    function getSizingConfig(callback){
+        var item_sizes;
+        var url = "//api-dev.qstrike.com/api/item_sizes";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                item_sizes = data['item_sizes'];
+                if(typeof callback === "function") callback(item_sizes);
+            }
+        });
+    }
 
     function getColors(callback){
         var colors;
