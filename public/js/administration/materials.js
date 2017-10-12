@@ -542,7 +542,7 @@ $(document).ready(function() {
         var app_logo                = '<input type="checkbox" style="' + style + '" class="app-logo" value="1">';
         var app_team_name           = '<input type="checkbox" style="' + style + '" class="app-team-name" value="1">';
         var app_player_name         = '<input type="checkbox" style="' + style + '" class="app-player-name" value="1">';
-        var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';
+        var app_number              = '<input type="checkbox" style="' + style + '" class="app-number" value="1">';       
         var app_font_sizes          = '<input type="text" style="' + style + '" class="app-font-sizes" value="" size="3">';
         var colors                  = '<input type="text" style="' + style + '" class="app-colors" value=""><div class="colorSelection"></div>' ;
         var default_mascot          = '<input type="textbox" class="mascotFilter"><select style=' + style + ' class="app-default-mascot" data-id="' + group.id + '"></select><input type="hidden" class="app-mascot-value amv' + group.id + '" id="amv' + group.id + '">';
@@ -553,6 +553,8 @@ $(document).ready(function() {
         var vertical_text           = '<input type="checkbox" style="' + style + '" class="app-vertical-text" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
+        var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
+        var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
 
@@ -590,6 +592,8 @@ $(document).ready(function() {
                     default_text,
                     vertical_text,
                     default_number,
+                    embellishment,
+                    inksoft_design_id,
                     flip
                 ];
 
@@ -1487,6 +1491,7 @@ $(document).ready(function() {
                     number_checked      = "",
                     vertical_text_checked = "",
                     rotated_tailsweep_checked = "";
+                    embellishment_checked = "";
 
                 // Check checkbox if value is 1, isn't it obvious?
                 if(app_properties[l].isPrimary == 1){ primary_checked = checked; }
@@ -1496,6 +1501,7 @@ $(document).ready(function() {
                 if(app_properties[l].hasNumber == 1){ number_checked = checked; }
                 if(app_properties[l].verticalText == 1){ vertical_text_checked = checked; }
                 if(app_properties[l].rotatedTailsweep == 1){ rotated_tailsweep_checked = checked; }
+                if(app_properties[l].hasEmbellishment == 1){ embellishment_checked = checked; }
 
                 var app_primary         = '<input type="checkbox" style="'  + style + '" class="app-primary" value="1" '        + primary_checked                   + '>';
                 var app_logo            = '<input type="checkbox" style="'  + style + '" class="app-logo" value="1" '           + logo_checked                      + '>';
@@ -1542,7 +1548,9 @@ $(document).ready(function() {
                 var default_text        = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
                 var vertical_text       = '<input type="checkbox" style="'  + style + '" class="app-vertical-text" value="1" data-id="' + group.id + '" '        + vertical_text_checked                   + '>';
                 var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
-                var rotated_tailsweep       = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '>';
+                var embellishment       = '<input type="checkbox" style="'  + style + '" class="app-embellishment" value="1" '         + embellishment_checked                    + '>';
+                var inksoft_design_id   = '<input type="number" style="'      + style + '" class="app-inksoft-design-id" value="'        + app_properties[l].inksoftDesignID       + '" size="3">';
+                var rotated_tailsweep   = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '>';
 
                 // Append options to selectbox
                 var select_append       = '<select class="app-def-item" style="' + style + '" data-id="' + c + '">';
@@ -1582,6 +1590,8 @@ $(document).ready(function() {
                     default_text,
                     vertical_text,
                     default_number,
+                    embellishment,
+                    inksoft_design_id,
                     flip
                 ];
 
@@ -3297,6 +3307,9 @@ function updateApplicationsJSON(){
         applicationMascot = $(this).parent().siblings('td.msc').find(".dd-selected-value").val();
         applicationTailsweep = $(this).parent().siblings('td.tsc').find(".dd-selected-value").val();
 
+        hasEmbellishment = $(this).parent().siblings('td').find("input[class=app-embellishment]");
+        inksoftDesignID = $(this).parent().siblings('td').find("input[class=app-inksoft-design-id]").val();
+
         console.log('ACCENT >>>>>>' + applicationAccents);
         console.log('MASCOT >>>>>>' + applicationMascot);
         console.log('TAILSWEEP >>>>>>' + applicationTailsweep);
@@ -3342,6 +3355,12 @@ function updateApplicationsJSON(){
             hasNumber = 1;
         } else {
             hasNumber = 0;
+        }
+
+        if(hasEmbellishment.prop( "checked" )){
+            hasEmbellishment = 1;
+        } else {
+            hasEmbellishment = 0;
         }
 
         var topLeftX = thisGroup.oCoords.tl.x * multiplier;
@@ -3396,6 +3415,9 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['accents'] = {};
         applicationProperties[itemIdx]['tailsweeps'] = {};
 
+        applicationProperties[itemIdx]['hasEmbellishment'] = {};
+        applicationProperties[itemIdx]['inksoftDesignID'] = {};
+
 
         applicationProperties[itemIdx].type = applicationType;
         applicationProperties[itemIdx].name = applicationName;
@@ -3418,6 +3440,9 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].uniformSizes = uniformSizes;
         applicationProperties[itemIdx].verticalText = verticalText;
         applicationProperties[itemIdx].rotatedTailsweep = rotatedTailsweep;
+
+        applicationProperties[itemIdx].hasEmbellishment = hasEmbellishment;
+        applicationProperties[itemIdx].inksoftDesignID = inksoftDesignID;
 
         applicationProperties[itemIdx].defaultMascot = applicationMascot;
 
