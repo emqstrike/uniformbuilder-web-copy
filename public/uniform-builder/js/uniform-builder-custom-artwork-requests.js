@@ -76,6 +76,18 @@ $(document).ready(function() {
 
         // Setup Events
 
+            // Prep 
+
+                if (type === "pending") {
+
+                    $spanPreviewPreparedArtwork = $('span[data-action="preview-prepared-artwork"]');
+                    $spanPreviewPreparedArtwork.addClass('pending');
+                    $spanPreviewPreparedArtwork.attr('title', 'This will be available when this item is in the For Review or the Rejected stages');
+
+                }
+
+            // End Prep
+
             var $spanTab = $('span.tab');
 
             $spanTab.unbind('click');
@@ -106,13 +118,14 @@ $(document).ready(function() {
 
             });
 
+
             var $spanPreview = $('span[data-btn-type="preview"]');
             $spanPreview.unbind('click');
             $spanPreview.on('click', function () {
 
                 var _refID = $(this).data('reference-id');
                 var _action = $(this).data('action');
-                var _result = _.find(_processedLogoRequest, { reference_id: _refID.toString()});
+                var _result = _.find(_data, { reference_id: _refID.toString()});
 
                 if (_action === 'preview-submitted-artwork') {
 
@@ -124,6 +137,12 @@ $(document).ready(function() {
                         ub.showModalTool(_str);
 
                     }
+
+                }
+
+                if (_action === 'preview-prepared-artwork') {
+
+
 
                 }
 
