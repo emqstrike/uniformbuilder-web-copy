@@ -20,7 +20,7 @@ $(document).ready(function() {
         ub.data.logo_requests = _processedLogoRequest;
 
         // a style is loaded, limit logo request to saved design id, if not load all custom logo requests for the current user
-        if (ub.config.material_id !== -1) { 
+        if (ub.config.material_id !== -1) {
 
             if (ub.config.pageType === "Saved Design") {
                 ub.data.logo_requests = _.find(ub.data.logo_requests, { reference_id: ub.config.savedDesignInfo.savedDesignID });
@@ -37,6 +37,118 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.changeCustomArtworkRequestType = function (type) {
+
+        $('div.custom-artwork-request-list.pending').html('');
+        $('div.my-custom-artwork-requests-loading').show();
+
+        ub.funcs.prepareCustomArtworkRequestTable(type);
+
+    }
+
+    ub.funcs.prepareCustomArtworkRequestTable = function (type) {
+
+        var _data = ub.data.logo_requests;
+        var _template = $().html();
+
+        $('div.my-custom-artwork-requests-loading').hide();
+
+        if (typeof type !== "undefined") { _data = _.filter(_data, {status: type}); }
+
+        _markup = ub .utilities.buildTemplateString('#m-custom-artwork-requests', data = {
+            car: _data,
+            titleCase: function () {
+
+              return function(val, render) {
+
+                var _temp = render(val);
+                _temp = _temp.toString().toTitleCase();
+                return render(_temp);
+
+              };
+
+            }
+        })
+        
+        $container = $('div.custom-artwork-request-list.pending');
+        $container.html(_markup);
+        $container.fadeIn();
+
+        // Setup Events
+
+            var $spanTab = $('span.tab');
+
+            $spanTab.unbind('click');
+            $spanTab.on('click', function () {
+
+                var _type = $(this).data('type');
+                var _previous = $('span.tab.active').data('type');
+
+                if (_previous === _type) { return; } // Skipping reactivating when current is same as previous
+
+                $spanTab.removeClass('active');
+                $(this).addClass('active');
+
+                ub.funcs.changeCustomArtworkRequestType(_type);
+
+            });
+
+            var $spanLink = $('span.link');
+            $spanLink.unbind('click');
+            $spanLink.on('click', function () {
+
+                var _refID = $(this).data('reference-id');
+                var _type = $(this).data('type');
+                var _url = '';
+                
+                if (_type === "order") { _url = ub.config.host + '/orders/view/' + _refID; }
+                if (_type === "saved_design") { _url = ub.config.host + '/my-saved-design/' + _refID; }
+
+            });
+
+            var $spanPreview = $('span[data-btn-type="preview"]');
+            $spanPreview.unbind('click');
+            $spanPreview.on('click', function () {
+
+                var _refID = $(this).data('reference-id');
+                var _action = $(this).data('action');
+                var _result = _.find(_processedLogoRequest, { reference_id: _refID.toString()});
+
+                if (_action === 'preview-submitted-artwork') {
+
+                    if (_result.parsedProperties.length > 0) {
+
+                        var _file = _result.parsedProperties[0].file;
+                        var _str = "<img style='max-width: 100%;' src ='" + _file + "' />";
+
+                        ub.showModalTool(_str);
+
+                    }
+
+                }
+
+            });
+
+        // End Setup Events
+
+        // Create Tooltips
+            
+            Tipped.create('span.tab');
+            Tipped.create('span.link');
+            Tipped.create('span[data-action="preview-submitted-artwork"]');
+            Tipped.create('span[data-action="preview-prepared-artwork"]', { position: 'bottom' });
+            Tipped.create('span[data-action="preview-in-customizer"]');
+
+        // End Create Tooltips
+
+    }
+
+    ub.funcs.prepareCustomArtworkRequestsUI = function () {
+    
+        ub.funcs.prepareCustomArtworkRequestTable();
+
+    }
+
     ub.funcs.displayMyCustomArtworkRequests = function () {
 
         $.ajax({
@@ -48,100 +160,10 @@ $(document).ready(function() {
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             success: function (response) {
 
-                var _container;
-                var _template;
-                var _data;
-                var _markup;
-
-                ub.data.logo_requests = response.logo_request;
+                ub.data.logo_request = response.logo_request;
                 ub.funcs.processLogoRequests();
+                ub.funcs.prepareCustomArtworkRequestsUI();
                 
-                $('div.my-custom-artwork-requests-loading').hide();
-
-                $container = $('div.custom-artwork-request-list.pending');
-                template = $('#m-custom-artwork-requests').html();
-            
-                data = { 
-                    car: ub.data.logo_requests,
-                    titleCase: function () {
-                      return function(val, render) {
-
-                        var _temp = render(val);
-                        _temp = _temp.toString().toTitleCase();
-
-                        return render(_temp);
-
-                      };
-                    }
-                };
-
-                markup = Mustache.render(template, data);
-
-                $container.html(markup);
-                $container.fadeIn();
-
-                // Setup Events
-
-                    var $spanTab = $('span.tab');
-
-                    $spanTab.unbind('click');
-                    $spanTab.on('click', function () {
-
-                        var _type = $(this).data('type');
-
-                        $spanTab.removeClass('active');
-                        $(this).addClass('active');
-
-                    });
-
-                    var $spanLink = $('span.link');
-                    $spanLink.unbind('click');
-                    $spanLink.on('click', function () {
-
-                        var _refID = $(this).data('reference-id');
-                        var _type = $(this).data('type');
-                        var _url = '';
-                        
-                        if (_type === "order") { _url = ub.config.host + '/orders/view/' + _refID; }
-                        if (_type === "saved_design") { _url = ub.config.host + '/my-saved-design/' + _refID; }
-
-                    });
-
-                    var $spanPreview = $('span[data-btn-type="preview"]');
-                    $spanPreview.unbind('click');
-                    $spanPreview.on('click', function () {
-
-                        var _refID = $(this).data('reference-id');
-                        var _action = $(this).data('action');
-                        var _result = _.find(_processedLogoRequest, { reference_id: _refID.toString()});
-
-                        if (_action === 'preview-submitted-artwork') {
-
-                            if (_result.parsedProperties.length > 0) {
-
-                                var _file = _result.parsedProperties[0].file;
-                                var _str = "<img style='max-width: 100%;' src ='" + _file + "' />";
-
-                                ub.showModalTool(_str);
-
-                            }
-
-                        }
-
-                    });
-
-                // End Setup Events
-
-                // Create Tooltips
-                    
-                    Tipped.create('span.tab');
-                    Tipped.create('span.link');
-                    Tipped.create('span[data-action="preview-submitted-artwork"]');
-                    Tipped.create('span[data-action="preview-prepared-artwork"]', { position: 'bottom' });
-                    Tipped.create('span[data-action="preview-in-customizer"]');
-
-                // End Create Tooltips
-
             }
 
         });
