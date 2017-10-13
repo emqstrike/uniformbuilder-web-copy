@@ -121,6 +121,15 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label" >Archived</label>
+                           <div class="col-md-1">
+                                <select name="archived" class="form-control">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>                                        
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Comments</label>
                             <div class="col-md-4">
                               <textarea name="comments" class="form-control" id="comments" cols="10" rows="10"></textarea>
