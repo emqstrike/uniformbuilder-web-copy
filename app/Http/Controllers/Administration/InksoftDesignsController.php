@@ -74,6 +74,7 @@ class InksoftDesignsController extends Controller
         $status = $request->input('status');
         $comments = $request->input('comments');
         $design_name = $request->input('design_name');           
+        $archived = $request->input('archived');  
         
         $data = [
             'id' => $id,
@@ -90,7 +91,8 @@ class InksoftDesignsController extends Controller
             'created_by_user_id' => $created_by_user_id,
             'status' => $status,
             'comments' => $comments,
-            'design_name' => $design_name            
+            'design_name' => $design_name,
+            'archived' => $archived
         ];              
 
         $response=null;
