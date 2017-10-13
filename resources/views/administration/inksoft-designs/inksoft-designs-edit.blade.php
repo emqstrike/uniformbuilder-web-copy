@@ -130,6 +130,15 @@
                                 </select>
                             </div>
                         </div>
+                            <div class="form-group">
+                            <label class="col-md-4 control-label" >Archived</label>
+                           <div class="col-md-1">
+                                <select name="archived" class="form-control">
+                                        <option value="1" @if($inksoft_designs->archived == 1) selected="selected"@endif>Yes</option>
+                                        <option value="0" @if($inksoft_designs->archived == 0) selected="selected"@endif>No</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Comments</label>
                             <div class="col-md-4">
