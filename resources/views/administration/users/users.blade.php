@@ -33,7 +33,8 @@
                                 <th>Date registered</th>
                                 <th>Email</th>
                                 <th id="select-filter">Rep Name</th>
-                                <th id="select-filter">Dealership</th>
+                                <th id="select-filter">Rep Dealership</th>
+                                <th id="select-filter">Dealer</th>
                                 <th>Last Login</th>
                                 <th>Active Status</th>
                                 <th></th>
@@ -51,14 +52,13 @@
                                     {{ $user->first_name }} {{ $user->last_name }}
                                 </td>
                                 <td>
-                                    {{ ucfirst($user->type) }}
-                                    {{-- <span class="label label-{{ ($user->type == 'administrator') ? 'danger' : 'info' }}">{{ ucfirst($user->type) }}</span> --}}
+                                    {{ ucfirst($user->type) }}                                   
                                 </td>
                                 <td>
                                     {{ $user->created_at }}
                                 </td>
                                 <td>
-                                    {{-- {{ $user->email }} --}}
+                                
                                     <span class="label label-primary">{{ $user->email }}</span>
                                 </td>
                                 <td>
@@ -66,6 +66,9 @@
                                 </td>
                                  <td>
                                     {{ $user->rep_dealer }} 
+                                </td>
+                                <td>
+                                    {{ $user->dealer }} 
                                 </td>
                                 <td>
                                     {{ $user->last_login }}
