@@ -991,7 +991,7 @@ $(document).ready(function () {
             if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
             if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
-
+            if (object_name === 'colors') { ub.funcs.prepareColors(); }
 
             if (object_name === 'cuts_links') {
 
@@ -1020,21 +1020,6 @@ $(document).ready(function () {
                 
             }
 
-            if (object_name === 'colors') {
-
-                ub.data.colors = _.filter(ub.data.colors, {active: "1"});
-                ub.data.colors = _.map(ub.data.colors, function (color) {
-                
-                    color.order = ub.data.sublimatedColorArrangement.getOrderID(color.name).order;
-                    return color;
-
-                });
-                
-                ub.data.colors = _.sortBy(ub.data.colors, 'order');
-
-            }
-
-            
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
                      typeof(ub.data.colors) !== 'undefined' &&

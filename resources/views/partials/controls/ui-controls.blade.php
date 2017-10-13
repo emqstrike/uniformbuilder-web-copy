@@ -2701,18 +2701,14 @@
         <div id="mascotRealTimePreview">
             
             <div class="preview-header">
-                <label>Mascot ID: </label><br />
-                &nbsp;@{{mascot.id}}
-
-                <br />
-
-                <label>Mascot Name: </label><br />
-                &nbsp;@{{mascot.name}}
+                <h3>@{{mascot.id}} / @{{mascot.name}}</h3>
             </div>
 
-            <canvas id="preview-canvas"></canvas>
+            <div id="preview-canvas"></div>
 
-            <div class="color-pickers"></div>
+            <div class="color-pickers">
+                
+            </div>
 
             <div class="notes">
                 

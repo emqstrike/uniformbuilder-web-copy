@@ -3,7 +3,7 @@ $(document).ready(function() {
     ub.funcs.processLogoRequests = function () {
 
         var _processedLogoRequest = [];
-        
+
         _.each(ub.data.logo_request, function (lr) {
 
             lr.parsedProperties = JSON.parse(lr.properties);
@@ -46,6 +46,176 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.initPreviewCanvas = function (mascotObj) {
+
+        ub.current_material.settings.team_colors = [];
+
+        var create_sprite = function (filename) {
+            return new PIXI.Sprite(PIXI.Texture.fromImage(filename + '?v=' + (new Date() / 1000)));
+        };
+
+        var changeMascotColor = function (colorObj, layer_no) {}
+
+        var changeActiveColorSmallColorPicker = function (_layer_no, _color_code, _colorObj, type) {
+
+            var $smallPickerContainer   = $('div.smallPickerContainer[data-layer-no="' + _layer_no + '"]');
+            var _checkMark              = '<i class="fa fa-check" aria-hidden="true"></i>';
+            var _checkMarkNone          = '<i class="fa fa-ban" aria-hidden="true"></i>';
+            var _type = type;
+
+            if (typeof type === "undefined") {
+
+                _type = '';
+
+            } else {
+
+                _type = '[data-object-type="' + type + '"]';
+
+            }
+
+            var $colorItems = $smallPickerContainer.find('span.colorItem' + _type).not('.turnOff').not('[data-color-code="none"]');
+
+            $colorItems.html('&nbsp;');
+            $colorItems.css('width','25px');
+            $colorItems.removeClass('activeColorItem');
+
+            var $activeColorItem = $smallPickerContainer.find('span.colorItem' + _type + '[data-color-code="' + _color_code + '"]').not('.turnOff');
+
+            $activeColorItem.addClass('activeColorItem');
+            $activeColorItem.css('width','40px');
+            
+            if (_color_code === "none") {
+
+                $activeColorItem.html(_checkMarkNone);
+                $activeColorItem.css('color', '#000');
+
+            } else {
+                
+                $activeColorItem.css('color', '#fff');
+                $activeColorItem.html(_checkMark);
+
+                $smallPickerContainer.find('span.colorItem' + _type + '[data-color-code="none"]').css('color', '#eee').css('width','25px');
+
+            }
+
+        }
+
+        var changeMascotColor = function (colorObj, layer_no) {
+
+           var _layer = ub.preview_layers['layer_' + layer_no];
+           _layer.tint = parseInt(colorObj.hex_code, 16);
+
+        }
+
+        var _setupSmallColorPickerEvents = function () {
+
+            $('span.colorItem').on('click', function () {
+
+                var _layer_no   = $(this).data('layer-no');
+                var _color_code = $(this).data('color-code');
+                var _layer_name = $(this).data('layer-name');
+                var _temp = $(this).data('temp');
+                var _colorObj = ub.funcs.getColorByColorCode(_color_code);
+
+                changeMascotColor(_colorObj, _layer_no);
+                ub.funcs.changeActiveColorSmallColorPicker(_layer_no, _color_code, _colorObj);
+
+            });
+
+        }
+
+        // Create Small Color Picker
+        var createSmallColorPickers = function (activeColorCode, layer_no, layer_name, active_color, objectType) {
+
+            var _html       = "";
+            var _cObj       = ub.funcs.getColorByColorCode(activeColorCode);
+            var _teamColors = ub.data.colors;
+            var _objectType  =  objectType;
+
+            if (typeof objectType === "undefined") { _objectType = 'not-set'; }
+
+            _html = '<div class="smallPickerContainer" data-layer-no="' + layer_no + '">';
+            _html += '<label class="smallColorPickerLabel" >' + layer_name + ' </label>';
+
+            _teamColors = _.sortBy(_teamColors, "order");
+
+            _.each(_teamColors, function (_color) {
+
+                var _checkMark  = '&nbsp;';
+                var _style      = "25px";
+                var _class      = '';
+                var _colorObj   = '';
+
+                if (activeColorCode === _color.color_code) {
+                    _checkMark  = '<i class="fa fa-check" aria-hidden="true"></i>';
+                    _style      = "40px";
+                    _class      = 'activeColorItem';
+                }
+
+                _colorObj = ub.funcs.getColorByColorCode(_color.color_code);
+                _html += '<span style="width: ' + _style + ';background-color: #' + _colorObj.hex_code + '; color: #' + _colorObj.forecolor + ';" class="colorItem ' + _class + '" data-layer-name="' + layer_name + '" data-color-code="' + _color.color_code + '" data-layer-no="' + layer_no + '" data-object-type=' + _objectType + '>' + _checkMark + '</span>';
+
+            });
+
+            _html += '</div>';
+
+            return _html;
+
+        }
+
+        // End Create Small Color Picker
+
+        var _width = 348;
+        var _height = 348;
+        var _previewCanvasID = 'preview-canvas';
+        var _canvas = document.getElementById(_previewCanvasID);
+        var _stage = new PIXI.Container();
+        var _renderer = PIXI.autoDetectRenderer(_width, _height, {transparent: false}, false);
+        
+        _renderer.backgroundColor = 0xf7f7f7;
+
+        if (typeof _renderer !== "undefined" && _canvas !== null) {
+            _canvas.appendChild(_renderer.view);
+        }
+
+        ub.preview_layers = [];
+
+        _.each(mascotObj.parsedLayersProperties, function (layer, index) {
+
+            ub.current_material.settings.team_colors.push(ub.funcs.getColorByColorCode(layer.default_color));
+
+            var _sprite = create_sprite(layer.filename);
+            var _colorObj = _.find(ub.data.colors, {color_code: layer.default_color});
+
+            _stage.addChild(_sprite);
+            _sprite.tint = parseInt(_colorObj.hex_code, 16);
+            _sprite.width = 348;
+            _sprite.height = 348;
+            _sprite.position = {x: _width / 2, y: _height / 2};
+            _sprite.anchor.set(0.5,0.5);
+
+            ub.sp = _sprite;
+            ub.st = _stage;
+
+            ub.preview_layers['layer_' + index] = _sprite;
+
+            var _html = createSmallColorPickers(layer.default_color, layer.layer_number, 'Layer ' + layer.layer_number, layer.default_color, 'Mascot');
+
+            $.when($('div.color-pickers').append(_html)).then(_setupSmallColorPickerEvents());
+
+        });
+
+        var _render_frames = function () {
+
+            _renderer.render(_stage);
+            requestAnimationFrame(_render_frames);
+
+        }
+
+       requestAnimationFrame(_render_frames);
+
+    };
+
     ub.funcs.initMascotRealTimePreview = function (mascotObj, reference_id) {
 
         var _markup = ub.utilities.buildTemplateString(
@@ -62,13 +232,18 @@ $(document).ready(function() {
 
         dialog.init(function() {
 
+            // Load Layers
+
+                mascotObj.parsedLayersProperties = JSON.parse(mascotObj.layers_properties);
+                ub.funcs.initPreviewCanvas(mascotObj);
+
+            // End Load Layers 
+
             $('span.btn.close').unbind('click');
             $('span.btn#close').on('click', function () {
 
                 var _btn = $('span[data-action="preview-prepared-artwork"][data-reference-id="' +  reference_id + '"]');
-
                 _btn.html('Preview Processed Mascot');
-                
                 dialog.modal('hide');
 
             });
@@ -149,7 +324,6 @@ $(document).ready(function() {
 
             });
 
-
             var $spanPreview = $('span[data-btn-type="preview"]');
             $spanPreview.unbind('click');
             $spanPreview.on('click', function () {
@@ -157,6 +331,8 @@ $(document).ready(function() {
                 var _refID = $(this).data('reference-id');
                 var _action = $(this).data('action');
                 var _result = _.find(_data, { reference_id: _refID.toString()});
+
+                if ($(this).hasClass('pending')) { return; }
 
                 if (_action === 'preview-submitted-artwork') {
 
@@ -257,6 +433,19 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.preparePrerequisites = function () {
+
+        ub.data.colors = [];
+
+        ub.funcs.callAPI(window.ub.config.api_host + '/api/colors/', function (response) {
+
+            ub.data.colors = response.colors;
+            ub.funcs.prepareColors();
+
+        });
+
+    }
+
     if (ub.page === 'my-custom-artwork-requests') {
 
         $('div#main-picker-container').remove();
@@ -267,7 +456,8 @@ $(document).ready(function() {
             return;
         } 
 
-        ub.funcs.displayMyCustomArtworkRequests();
+        ub.funcs.displayMyCustomArtworkRequests();    
+        ub.funcs.preparePrerequisites();
 
     }
     
