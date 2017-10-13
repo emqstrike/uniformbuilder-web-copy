@@ -2629,7 +2629,7 @@
                         <td>@{{created_at}}</td>
                         
                         <td>
-                            <span class="link" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open @{{#titleCase}}@{{type}}@{{/titleCase}} (@{{reference_id}}) in a new tab."> @{{reference_id}} </span>
+                            <span class="link" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open @{{#titleCase}}@{{type}}@{{/titleCase}} (@{{reference_id}})."> @{{reference_id}} </span>
                         </td>
 
                         <td>@{{#titleCase}}@{{type}}@{{/titleCase}}</td>
@@ -2659,7 +2659,7 @@
                         
                         <td class="action">
 
-                            <span class="btn" data-btn-type="preview" data-action="preview-in-customizer" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open the customizer with the style you created.">
+                            <span class="btn" target="_blank" data-btn-type="preview" data-action="preview-in-customizer" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open the customizer with the style you created." href="">
                                 Preview Mascot In Customizer
                             </span>
 

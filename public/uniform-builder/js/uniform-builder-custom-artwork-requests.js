@@ -17,13 +17,12 @@ $(document).ready(function() {
 
         });
 
-        ub.data.logo_requests = _processedLogoRequest;
+        ub.data.logo_request = _processedLogoRequest;
 
         // a style is loaded, limit logo request to saved design id, if not load all custom logo requests for the current user
         if (ub.config.material_id !== -1) {
-
             if (ub.config.pageType === "Saved Design") {
-                ub.data.logo_requests = _.find(ub.data.logo_requests, { reference_id: ub.config.savedDesignInfo.savedDesignID });
+                ub.data.logo_request = _.find(ub.data.logo_request, { reference_id: ub.config.savedDesignInfo.savedDesignID });
             }
 
         } 
@@ -322,6 +321,12 @@ $(document).ready(function() {
                 if (_type === "order") { _url = ub.config.host + '/orders/view/' + _refID; }
                 if (_type === "saved_design") { _url = ub.config.host + '/my-saved-design/' + _refID; }
 
+                ub.dialog.confirm("Leave this page and load " + _type.toTitleCase() + " " + _refID + ", continue?", function (result) { 
+                    if (result) {
+                        window.location = _url;
+                    }
+                });
+
             });
 
             var $spanPreview = $('span[data-btn-type="preview"]');
@@ -371,12 +376,30 @@ $(document).ready(function() {
 
                 }
 
+                if (_action === "preview-in-customizer") {
+
+                    var _refID = $(this).data('reference-id');
+                    var _type = $(this).data('type');
+                    var _url = '';
+                    
+                    if (_type === "order") { _url = ub.config.host + '/orders/view/' + _refID; }
+                    if (_type === "saved_design") { _url = ub.config.host + '/my-saved-design/' + _refID; }
+
+                    ub.dialog.confirm("Leave this page and load " + _type.toTitleCase() + " " + _refID + ", continue?", function (result) { 
+                        if (result) {
+                            window.location = _url;
+                        }
+                    });
+
+                }
+
             });
 
         // End Setup Events
 
         // Create Tooltips
-            
+
+            Tipped.create('a.btn');
             Tipped.create('span.tab');
             Tipped.create('span.link');
             Tipped.create('span[data-action="preview-submitted-artwork"]');
@@ -451,7 +474,7 @@ $(document).ready(function() {
         $('div#main-picker-container').remove();
         $('body').css('background-image', 'none');
 
-        if (!window.ub.user) { 
+        if (!window.ub.user) {
             ub.funcs.displayLoginForm(); 
             return;
         } 

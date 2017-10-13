@@ -13477,5 +13477,9 @@ ub.funcs.fontOffSets = [
 
     }
 
+    // Shortcuts
+
+    ub.dialog = bootbox;
+
 
 });
