@@ -6463,7 +6463,7 @@ $(document).ready(function() {
 
             } else {
 
-                _str     += "<img src ='" + _file + "' /> <br />";
+                _str     += "<img style='width: 100%;' src ='" + _file + "' /> <br />";
                 _str     += "<a class='displayFilename' target='_new' href = '" + _file + "'>" + _file + "</a>";
 
             }
