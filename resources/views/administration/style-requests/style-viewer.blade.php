@@ -15,6 +15,12 @@
     .dz-image {
         background-color: gray;
     }
+    table.borderless td,table.borderless th{
+        border: none !important;
+    }
+    .has-loading {
+      background: transparent url('http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif') center no-repeat;
+    }
 </style>
 @endsection
 
@@ -23,39 +29,126 @@
 
 <section class="content">
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-md-10 col-md-offset-1">
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        
-                        Style: <p style="position: absolute; display: inline;">NAME HERE</p>
+                        <p style="position: absolute; display: inline;" class="style-name">NAME HERE</p>
                     </h1>
                 </div>
                 <div class="box-body">
                     <form class="form-horizontal" role="form" method="POST" action="#" enctype="multipart/form-data" id='syle-viewer-form'>
-                        <table class="table">
+                        <table class="table borderless">
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th></th>
+                                    <th>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">
+                                                <span class="label label-info">CURRENT SPORT: </span>
+                                            </label>
+                                            <div class="col-md-5">
+                                                <select class="form-control show-sport-dd">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td rowspan="6">
-                                        <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/arkansas-14-jersey_6_football_v_(f01)357dbae3cb12/thumbnail.jpg" style="height: 420; width: 388;">
+                                        <img src="" class="front-image has-loading" style="height: 420; width: 388; border: 1px solid black;">
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control style-name" id="style_name" required>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">Sport</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control sport-input">
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/arkansas-14-jersey_6_football_v_(f01)357dbae3cb12/thumbnail.jpg" style="height: 47; width: 43;">
-                                        <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/arkansas-14-jersey_6_football_v_(f01)357dbae3cb12/thumbnail.jpg" style="height: 47; width: 43;">
-                                        <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/arkansas-14-jersey_6_football_v_(f01)357dbae3cb12/thumbnail.jpg" style="height: 47; width: 43;">
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">Block Pattern</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control block-pattern-input">
+                                            </div>
+                                        </div>
                                     </td>
                                     <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">Block Pattern Option</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control block-pattern-option-input" required>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">Application Type</label>
+                                            <div class="col-md-4">
+                                                <!-- <input type="text" class="form-control application-type-input" required> -->
+                                                <select class="form-control application-type-input">
+                                                    <option value="tackle_twill">Tackle Twill</option>
+                                                    <option value="sublimated">Sublimated</option>
+                                                    <option value="infused">Infused</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">QStrike Item ID</label>
+                                            <div class="col-md-4">
+                                                <input type="number" class="form-control qstrike-item-id-input" required>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">Show in Customizer</label>
+                                            <div class="col-md-4">
+                                                <!-- <input type="text" class="form-control show-in-customizer-input" required> -->
+                                                <select class="form-control show-in-customizer-input">
+                                                    <option value="0">No</option>
+                                                    <option value="1">Yes</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="back-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
+                                        <img src="left-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
+                                        <img src="right-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <a href="#" class="btn btn-primary previous-button" style="width: 100px;">Previous</a>
+                                            <a href="#" class="btn btn-primary next-button" style="width: 100px;">Next</a>
+                                        </center>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -82,186 +175,31 @@
 <script type="text/javascript">
 $(function(){
 
-    $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
-    // var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
-
-    $('.submit').attr('disabled','disabled'); 
-
-    $('.save-data').attr('disabled','disabled'); 
-
-    $('.file-link').on('click', function(e){
-        console.log('file link');
-        var url = $(this).data('link');
-        OpenInNewTab(url);
-    });
-
-    function OpenInNewTab(url) {
-        var win = window.open(url, '_blank');
-        win.focus();
-    } 
-
-    $(document).on('change', '.style-name, .block-pattern-option, .qstrike-item-id, .priority, .deadline, .design_sheet', function() {
-        updateData();
-        // console.log($('.deadline').val());
-    });
-
-    $(document).on('change', '.sport', function() {
-        window.uniform_category_id = $('.sport option:selected').data('uniform-category-id');
-        console.log(window.uniform_category_id);
-        $('.block-pattern').html('');
-        var ucid = window.uniform_category_id.toString();
-        var filtered_block_patterns = _.filter(window.block_pattern, function(e){ return e.uniform_category_id == ucid; });
-        // console.log(filtered_block_patterns);
-
-        var sorted_block_patterns = _.sortBy(filtered_block_patterns, function(o) { return o.name; });
-        // console.log(sorted_sports);
-        sorted_block_patterns.forEach(function(entry) {
-            var elem = '<option value="'+entry.name+'" data-block-pattern-id="'+entry.id+'">'+entry.name+'</option>'
-            $('.block-pattern').append(elem);
-        });
-    });
-
-    $(document).on('change', '.block-pattern', function() {
-        window.block_pattern_id = $('.block-pattern option:selected').data('block-pattern-id');
-        console.log(window.uniform_category_id);
-        $('.block-pattern-option').html('<option value="none" data-block-pattern-id="0">Select Block Pattern Option</option>');
-
-        var block_pattern = _.filter(window.block_pattern, function(e){ return e.id == window.block_pattern_id.toString(); });
-        console.log(block_pattern);
-
-        // var sorted_block_pattern = _.sortBy(block_pattern, function(o) { return o.name; });
-        if(block_pattern[0].neck_options != "null"){
-
-            console.log('block_pattern');
-            console.log(block_pattern);
-
-            // var x = _.flatten(JSON.parse(block_pattern[0].neck_options.slice(1, -1)));
-            var x = JSON.parse(block_pattern[0].neck_options);
-            console.log('block pattern option');
-            console.log(x);
-            // var w = JSON.parse(sorted_block_pattern.neck_options.slice(1, -1));
-            // var x = _.flatten(w);
-            // console.log(x);
-            // x.forEach(function(entry) {
-            //     var elem = '<option value="'+entry.name+'">'+entry.name+'</option>'
-            //     $('.block-pattern-option').append(elem);
-            // });
-            var list = [];
-            _.each(x, function(item){
-                list.push(_.omit(item, 'children'));
-                list.push(_.flatten(_.pick(item, 'children')));
-            });
-            var result = _.flatten(list);
-            console.log('result')
-            console.log(result);
-
-            result.forEach(function(entry) {
-                var elem = '<option value="'+entry.name+'">'+entry.name+'</option>'
-                $('.block-pattern-option').append(elem);
-            });
-        }
-    });
-
-    window.data = {};
+    window.default_sport = "Football";
+    window.default_material_id = 92; // material = uniform
+    window.selected_sport = null;
+    window.materials = null;
+    window.current_values = null;
+    window.current_index = 0;
     window.sports = null;
-    window.block_pattern = null;
-    window.block_pattern_option = null;
-    window.uniform_category_id = null;
 
-    $('.save-data').on('click', function(e){
-        e.preventDefault();
-        console.log('submit');
-
-        var data = $('.data-string').val();
-        var url = "//" + api_host + "/api/v1-0/style_request";        
-        console.log(data);
+    getDefaultMaterials(function(materials){ window.materials = materials; });
+    function getDefaultMaterials(callback){
+        var materials;
+        var url = "//api-dev.qstrike.com/api/materials/category/"+window.default_sport;
         $.ajax({
             url: url,
-            type: "POST",
-            data: data,
+            async: false,
+            type: "GET",
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    // console.log(response.data);
-                    window.location.reload();
-                }
+            success: function(data){
+                materials = data['materials'];
+                if(typeof callback === "function") callback(materials);
             }
         });
-    });
-
-    function updateData(){
-        var name = $('.style-name').val();
-        var block_pattern = $('.block-pattern').val();
-        var block_pattern_option = $('.block-pattern-option').val();
-        var sport = $('.sport').val();
-        var qstrike_item_id = $('.qstrike-item-id').val();
-        var priority = $('.priority').val();
-        // var deadline = $('.deadline').val();
-        var deadline = $('#datepicker').val();
-        var design_sheet_url = $('.design-sheet-path').val();
-        window.data = {
-            'name' : name,
-            'block_pattern' : block_pattern,
-            'block_pattern_option' : block_pattern_option,
-            'sport' : sport,
-            'qstrike_item_id' : qstrike_item_id,
-            'priority' : priority,
-            'deadline' : deadline,
-            'design_sheet_url' : design_sheet_url
-        };
-        $('.data-string').val(JSON.stringify(window.data));
-        console.log(window.data);
     }
-
-    $('[data-toggle="tooltip"]').popover({
-        html: true,
-        trigger: 'hover',
-        placement: 'top',
-        content: function(){
-            return $(this).data('message');
-        }
-    });
-
-    var files = [];
-    var filesData = [];
-    this.addRemoveLinks = true;
-
-    Dropzone.options.myAwesomeDropzone = {
-        // addRemoveLinks: true,
-        success: function(file, response){
-            //alert(response);
-            // console.log(file);
-            // console.log(response);
-            filesData.push({
-                'name' : file.name,
-                'url' : response
-            });
-            console.log(filesData);
-            $('.design-sheet-path').val(filesData[0].url);
-            // buildRows(filesData);
-        },
-        complete: function(file){
-            // console.log('completed');
-            files.push(file.name);
-            // $('.design-sheet-path').val(file.url);
-            updateData();
-            // console.log(files);
-            // console.log(file);
-            // hidePleaseWait();
-        },
-        removedfile: function(file) {
-            files.splice(files.indexOf(file.name), 1);
-            // console.log(files);
-            // console.log(filesData);
-        },
-        drop: function(){
-            // showPleaseWait();
-            // $('.progress-modal-message').html('Uploading image . . .');
-        },
-    };
 
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
@@ -275,151 +213,68 @@ $(function(){
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                sports = data['categories'];
+                sports = data['sports'];
                 if(typeof callback === "function") callback(sports);
             }
         });
     }
 
-    getBlockPatterns(function(block_patterns){ window.block_pattern = block_patterns; });
-    function getBlockPatterns(callback){
-        var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                block_patterns = data['block_patterns'];
-                if(typeof callback === "function") callback(block_patterns);
-            }
+    generateSportsDD();
+    function generateSportsDD(){
+        $('.show-sport-dd').html('');
+        window.sports.forEach(function(entry) {
+            $('.show-sport-dd').append('<option value="'+entry.name+'">'+entry.name+'</option');
         });
     }
 
-    buildSportsDropdown();
+    generateValues();
+    function generateValues(button_pressed = "next"){
 
-    function buildSportsDropdown(){
-        var sorted_sports = _.sortBy(window.sports, function(o) { return o.name; });
-        console.log(sorted_sports);
-        sorted_sports.forEach(function(entry) {
-            var elem = '<option value="'+entry.name+'" data-uniform-category-id="'+entry.id+'">'+entry.name+'</option>'
-            $('.sport').append(elem);
-        });
-    }
+        $('.front-image').attr("src", "http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif");
+        $('.front-image').css("height", "420px");
+        $('.front-image').css("width", "388px");
 
-    $('.edit').on('click', function(e){
-        e.preventDefault();
-        $(this).parent().parent().find('#item-id').attr('contenteditable', 'true');
-        $(this).parent().parent().find('#customizer-id').attr('contenteditable', 'true');
-    });
-
-    $(".style-qstrike-item-id, .style-customizer-id").on("keyup", function(e){    
-        e.preventDefault();
-
-        $(this).parent().find('.submit').removeAttr('disabled');     
-    });
-
-    $("#style_name, #qstrike_item_id").on("keyup", function(e){    
-        e.preventDefault();
-        var name = document.getElementById("style_name").value;
-        var qx_id = document.getElementById("qstrike_item_id").value;
-        if ( name.length > 0 && qx_id.length > 0) {    
-            $('.save-data').removeAttr('disabled');
-        } 
-        else {
-            $('.save-data').attr('disabled','disabled'); 
+        if(typeof window.materials[window.current_index] === 'undefined' && button_pressed == "next"){
+            window.current_index = 0;
         }
 
-    });
+        if(typeof window.materials[window.current_index] === 'undefined' && button_pressed == "previous"){
+            window.current_index = window.materials.length-1;
+        }
+        $('.style-name').text(window.materials[window.current_index].name);
+        $('.sport-input').val(window.materials[window.current_index].uniform_category);
+        $('.block-pattern-input').val(window.materials[window.current_index].block_pattern);
+        $('.block-pattern-option-input').val(window.materials[window.current_index].neck_option);
+        $('.qstrike-item-id-input').val(window.materials[window.current_index].item_id);
+        $('.application-type-input option[value="' + window.materials[window.current_index].uniform_application_type +'"]').prop("selected", true);
+        $('.show-in-customizer-input option[value="' + window.materials[window.current_index].customizer_available +'"]').prop("selected", true);
+        $('.show-sport-dd option[value="' + window.default_sport +'"]').prop("selected", true);
 
-    $('.submit').on('click', function(e){
-        e.preventDefault();           
-        saveValue($(this));
-        $(this).parent().parent().find('#item-id').attr('contenteditable', 'false');
-        $(this).parent().parent().find('#customizer-id').attr('contenteditable', 'false');
-    });
+        $('.front-image').attr("src",window.materials[window.current_index].thumbnail_path);
+        $('.back-image').attr("src",window.materials[window.current_index].thumbnail_path_back);
+        $('.left-image').attr("src",window.materials[window.current_index].thumbnail_path_left);
+        $('.right-image').attr("src",window.materials[window.current_index].thumbnail_path_right);
 
-    function saveValue(thisObj){
-        var temp = [];
-            var data = {
-                    "id" : thisObj.parent().parent().find('.style-id').text(),
-                    "qstrike_item_id" : thisObj.parent().parent().find('.style-qstrike-item-id').text(),
-                    "customizer_id" : thisObj.parent().parent().find('.style-customizer-id').text(),
-        };
-
-            temp.push(data);
-            console.log(data);
-            var material = JSON.stringify(temp);
-            console.log(material);
-
-        var url = "//" + api_host + "/api/v1-0/style_request/update";   
-             
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify(data),
-            dataTYPE: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            // headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success){
-                    new PNotify({
-                    title: 'Success',
-                    text: response.message,
-                    type: 'success',
-                    hide: true
-                    });
-                    $('.submit').attr('disabled','disabled');  
-                  
-                }
-
-            }
-        })
     }
 
-    $('.delete-style-request').on('click', function(){
-       var id = [];
-       id.push( $(this).data('style-request-id'));
-       console.log(id);
-       modalConfirm('Remove Style Request', 'Are you sure you want to delete the request?', id);
-       });
+    $(document).on('change', '.show-sport-dd', function() {
+        window.default_sport = $(this).val();
+        getDefaultMaterials(function(materials){ window.materials = materials; });
+        window.current_index = 0;
+        generateValues();
+    });
 
-       $('#confirmation-modal .confirm-yes').on('click', function(){
-            var id = $(this).data('value');
-            var url = "//" + api_host + "/api/v1-0/style_request/delete";
-           
-            $.ajax({
-               url: url,
-               type: "POST",
-               data: JSON.stringify({id: id}),
-               dataType: "json",
-               crossDomain: true,
-               contentType: 'application/json',
-               //headers: {"accessToken": atob(headerValue)},
-               success: function(response){
-                   if (response.success) {
-                       new PNotify({
-                           title: 'Success',
-                           text: response.message,
-                           type: 'success',
-                           hide: true
-                       });
-                       $('#confirmation-modal').modal('hide');
-                      $.each(id, function (index, value) {
-                         console.log(value);
-                         $('.style-request-' + value).fadeOut();
-                         // Will stop running after "three"
-                         
-                       });              
+    $('.next-button').on('click', function(e){
+        e.preventDefault();
+        window.current_index = window.current_index + 1;
+        generateValues("next");
+    });
 
-                   }
-               }
-           });
-       });   
+    $('.previous-button').on('click', function(e){
+        e.preventDefault();
+        window.current_index = window.current_index - 1;
+        generateValues("previous");
+    });
 
  });
 </script>
