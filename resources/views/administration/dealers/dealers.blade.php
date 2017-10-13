@@ -64,7 +64,7 @@
                     @empty
 
                         <tr>
-                            <td colspan='1'>
+                            <td colspan='7'>
                                 No Record
                             </td>
                         </tr>

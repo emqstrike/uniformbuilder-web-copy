@@ -38,6 +38,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Order</th>
                             <th>Color</th>
                             <th>Sublimation Only</th>
                             <th>Edit</th>
@@ -49,6 +50,9 @@
                         <tr class='color-{{ $color->id }} {{ (!$color->active) ? ' inactive' : '' }}'>
                             <td>
                                 {{ $color->id }}
+                            </td>
+                            <td>
+                                {{ $color->order }}
                             </td>
                             <td>
                                 <input type="text" class="form-control color-name" name="color-name" value="{{ $color->name }}" disabled="true">

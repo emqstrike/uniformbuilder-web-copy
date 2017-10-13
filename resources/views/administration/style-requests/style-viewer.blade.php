@@ -28,181 +28,42 @@
                 <div class="box-header">
                     <h1>
                         
-                        Style Requests
-                        <small>
-                            <a href="#" class='btn btn-xs btn-success' data-toggle="modal" data-target="#myModal">
-                                <span class="glyphicon glyphicon-plus-sign"></span>
-                                Add Request
-                            </a>
-                        </small>
+                        Style: <p style="position: absolute; display: inline;">NAME HERE</p>
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered style-requests'>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Style Name</th>
-                            <th>Block Pattern</th>
-                            <th>Option
-                            <a href="#" data-toggle="tooltip" data-message="Neck, waist or other options"><span class="glyphicon glyphicon-info-sign"></span></a>
-                            </th>
-                            <th>Sport</th>
-                            <th>Design Sheet</th>
-                            <th>Item ID
-                            <a href="#" data-toggle="tooltip" data-message="QStrike Item ID"><span class="glyphicon glyphicon-info-sign"></span></a>
-                            </th>
-                            <th>Priority</th>
-                            <th>Deadline</th>
-                            <th>Requested By</th>
-                            <th>Uploaded</th>
-                            <th>Customizer ID</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @forelse ($style_requests as $style_request)
-                    <tr class='style-request-{{ $style_request->id }}'>
-                        <td class="style-id">{{ $style_request->id }}</td>
-                        <td>{{ $style_request->name }}</td>
-                        <td>{{ $style_request->block_pattern }}</td>
-                        <td>{{ $style_request->block_pattern_option }}</td>
-                        <td>{{ $style_request->sport }}</td>
-                        <td>
-                            <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $style_request->design_sheet_url }}">Link</a>
-                        </td>
-                        <td class="style-qstrike-item-id"><div id="item-id">{{ $style_request->qstrike_item_id }}</div></td>
-                        <td>{{ $style_request->priority }}</td>
-                        <td>{{ $style_request->deadline }}</td>
-                        <td>{{ $style_request->requested_by }}</td>
-                        <td>{{ $style_request->uploaded }}</td>
-                        <td class="style-customizer-id"><div id="customizer-id">{{ $style_request->customizer_id }}</div></td>
-                        <td>
-                            <button type="button" class="btn btn-info btn-xs edit"><i class="glyphicon glyphicon-edit"></i></button>
-                            <button type="button" class="btn btn-default btn-xs submit"><i class="glyphicon glyphicon-floppy-save"></i></button>
-                            
-                            <a href="#" class="delete-style-request btn btn-xs btn-danger pull-right" data-style-request-id="{{ $style_request->id }}" role="button">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                            </a>
-                        </td>
-
-                    </tr>
-                    @empty
-
-                        <tr>
-                            <td colspan='13'>
-                                No Style Requests
-                            </td>
-                        </tr>
-
-                    @endforelse
-                    </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
-
-    <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Request a Style</h4>
-          </div>
-          <div class="modal-body">
-            <!-- <p>Some text in the modal.</p> -->
-            <form class="form-horizontal" role="form" method="POST" action="#" name="form_horizontal" enctype="multipart/form-data" id='style-request-form'>
-            <input type="hidden" class="design-sheet-path">
-            <input type="hidden" class="data-string">
-            <div class="form-group">
-                <label class="col-md-4 control-label">Style Name</label>
-                <div class="col-md-6">
-                    <input type="text" class="form-control style-name" id="style_name" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">Sport</label>
-                <div class="col-md-6">
-                    <!-- <input type="text" class="form-control sport" required> -->
-                    <select class="form-control sport">
-                        <option value="none" data-uniform-category-id="0">Select Sport</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">Block Pattern</label>
-                <div class="col-md-6">
-                    <!-- <input type="text" class="form-control block-pattern" required> -->
-                    <select class="form-control block-pattern">
-                        <option value="none" data-block-pattern-id="0">Select Block Pattern</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">Option</label>
-                <div class="col-md-6">
-                    <!-- <input type="text" class="form-control block-pattern-option" required> -->
-                    <select class="form-control block-pattern-option">
-                        <option value="none">Select Block Pattern Option</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">QSTRIKE Item ID</label>
-                <div class="col-md-6">
-                    <input type="number" class="form-control qstrike-item-id" id="qstrike_item_id" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">Priority</label>
-                <div class="col-md-6">
-                    <select class="form-control priority">
-                        <option value="low">Low</option>
-                        <option value="mid">Mid</option>
-                        <option value="high">High</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">Deadline</label>
-                <div class="col-md-6">
-                    <!-- <input type="date" class="form-control deadline" required> -->
-                    <!-- <div id="datepicker"></div> -->
-                    <input type="text" id="datepicker">
-                </div>
-            </div>
-            <div class="form-group" style="margin-top: 260px; z-index: 3;">
-                <center>
-                    <button type="submit" class="btn btn-primary save-data">
-                        Save Request
-                    </button>
-                </center>
-            </div>
-            </form>
-            <div style="z-index: 2; margin-top: -250px; position: absolute; width: 95%;">
-                <center>
-                    <h4 class="alert alert-info" style="margin-top: -50px;">Upload Design Sheet below</h4>
-                    <form action="/administration/material/insert_dz_design_sheet" class="dropzone" id="my-awesome-dropzone" style="margin-top: -20px;">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <form class="form-horizontal" role="form" method="POST" action="#" enctype="multipart/form-data" id='syle-viewer-form'>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td rowspan="6">
+                                        <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/arkansas-14-jersey_6_football_v_(f01)357dbae3cb12/thumbnail.jpg" style="height: 420; width: 388;">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control style-name" id="style_name" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/arkansas-14-jersey_6_football_v_(f01)357dbae3cb12/thumbnail.jpg" style="height: 47; width: 43;">
+                                        <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/arkansas-14-jersey_6_football_v_(f01)357dbae3cb12/thumbnail.jpg" style="height: 47; width: 43;">
+                                        <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/arkansas-14-jersey_6_football_v_(f01)357dbae3cb12/thumbnail.jpg" style="height: 47; width: 43;">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </form>
-                </center>
+                </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
         </div>
-
-      </div>
     </div>
-
 
 </section>
 

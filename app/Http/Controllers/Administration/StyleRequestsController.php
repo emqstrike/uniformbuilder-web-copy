@@ -11,23 +11,37 @@ use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
 use App\APIClients\StyleRequestsAPIClient as APIClient;
+use App\APIClients\MaterialsAPIClient;
 
 class StyleRequestsController extends Controller
 {
     protected $client;
+    protected $materialsClient;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct(APIClient $apiClient, MaterialsAPIClient $materialsClient)
     {
 
         $this->client = $apiClient;
+        $this->materialsClient = $materialsClient;
 
     }
+
     public function index()
     {
         $style_requests = $this->client->getAll();
 
         return view('administration.style-requests.style-requests', [
             'style_requests' => $style_requests
+        ]);
+
+    }
+
+    public function styleViewer()
+    {
+        $materials = $this->materialsClient->getFootballMaterials();
+// dd($materials);
+        return view('administration.style-requests.style-viewer', [
+            'materials' => $materials
         ]);
 
     }
