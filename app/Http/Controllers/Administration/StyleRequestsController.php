@@ -38,11 +38,9 @@ class StyleRequestsController extends Controller
 
     public function styleViewer()
     {
-        $materials = $this->materialsClient->getFootballMaterials();
-// dd($materials);
-        return view('administration.style-requests.style-viewer', [
-            'materials' => $materials
-        ]);
+        // $materials = $this->materialsClient->getFootballMaterials();
+        // dd($materials);
+        return view('administration.style-requests.style-viewer');
 
     }
 
