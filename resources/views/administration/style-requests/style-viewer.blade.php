@@ -74,7 +74,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">Block Pattern</label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control block-pattern-input">
+                                                <input type="text" class="form-control block-pattern-input" disabled>
                                             </div>
                                         </div>
                                     </td>
@@ -85,7 +85,7 @@
                                         <div class="form-group">
                                             <label class="col-md-4 control-label">Block Pattern Option</label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control block-pattern-option-input" required>
+                                                <input type="text" class="form-control block-pattern-option-input" disabled>
                                             </div>
                                         </div>
                                     </td>
@@ -97,7 +97,7 @@
                                             <label class="col-md-4 control-label">Application Type</label>
                                             <div class="col-md-4">
                                                 <!-- <input type="text" class="form-control application-type-input" required> -->
-                                                <select class="form-control application-type-input">
+                                                <select class="form-control application-type-input" disabled>
                                                     <option value="tackle_twill">Tackle Twill</option>
                                                     <option value="sublimated">Sublimated</option>
                                                     <option value="infused">Infused</option>
@@ -145,6 +145,7 @@
                                     </td>
                                     <td>
                                         <center>
+                                            <a href="#" class="btn btn-success update-button" style="width: 200px;">Update</a><hr>
                                             <a href="#" class="btn btn-primary previous-button" style="width: 100px;">Previous</a>
                                             <a href="#" class="btn btn-primary next-button" style="width: 100px;">Next</a>
                                         </center>
@@ -171,7 +172,7 @@
 </section>
 
 
-@include('partials.confirmation-modal')
+@include('partials.confirmation-modal-success')
 
 @endsection
 
@@ -283,6 +284,7 @@ $(function(){
         $('.left-image').attr("src",window.materials[window.current_index].thumbnail_path_left);
         $('.right-image').attr("src",window.materials[window.current_index].thumbnail_path_right);
         
+        window.default_material_id = window.materials[window.current_index].id;
         setTimeout(hidePleaseWait(), 5000);
         // hidePleaseWait();
     }
@@ -310,6 +312,53 @@ $(function(){
         $('.progress-modal-message').html('Loading style information...');
         window.current_index = window.current_index - 1;
         generateValues("previous");
+    });
+
+    $('.update-button').on('click', function(e){
+        e.preventDefault();
+        // showPleaseWait();
+        // modalConfirm('Remove font', 'Are you sure you want to delete the font?', id);
+        modalConfirm('Update style', 'Are you sure you want to update the style information?');
+        // $('.progress-modal-message').html('Loading style information...');
+        // window.current_index = window.current_index - 1;
+        // generateValues("previous");
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        console.log('update - confirmed');
+        $('#confirmation-modal').modal('hide');
+        showPleaseWait();
+        $('.progress-modal-message').html('Updating style information...');
+        //  var id = $(this).data('value');
+
+
+        // var url = "//" + api_host + "/api/font/delete/";
+        // //var url = "//localhost:8888/api/font/delete/";
+
+        var id = window.default_material_id;
+        var item_id = $('.qstrike-item-id-input').val();
+        var customizer_available = $('.show-in-customizer-input').val();
+        var data = {id: id, item_id: item_id, customizer_available: customizer_available};
+        // console.log(data);
+        $.ajax({
+            url: "//api-dev.qstrike.com/api/material/updatePartial",
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(response){
+                if (response.success) {
+                    // console.log('Success');
+                    $('#confirmation-modal').modal('hide');
+                    var pleaseWait = $('#pleaseWaitDialog'); 
+                    hidePleaseWait = function () {
+                        pleaseWait.modal('hide');
+                    };
+                    hidePleaseWait();
+                }
+            }
+        });
     });
 
  });
