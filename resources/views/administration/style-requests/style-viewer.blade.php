@@ -33,7 +33,7 @@
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        <p style="position: absolute; display: inline;" class="style-name">NAME HERE</p>
+                        <p style="position: absolute; display: inline;" class="style-name">STYLE</p>
                     </h1>
                 </div>
                 <div class="box-body">
