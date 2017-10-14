@@ -61,12 +61,12 @@
                                         <img src="" class="front-image has-loading" style="height: 420; width: 388; border: 1px solid black;">
                                     </td>
                                     <td>
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label class="col-md-4 control-label">Sport</label>
                                             <div class="col-md-8">
                                                 <input type="text" class="form-control sport-input">
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </td>
                                 </tr>
                                 <tr>
@@ -158,6 +158,16 @@
         </div>
     </div>
 
+<div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="progress-modal-message"></h1>
+      </div>
+    </div>
+  </div>
+</div>
+
 </section>
 
 
@@ -182,6 +192,18 @@ $(function(){
     window.current_values = null;
     window.current_index = 0;
     window.sports = null;
+    var pleaseWait = $('#pleaseWaitDialog'); 
+    
+    showPleaseWait = function() {
+        pleaseWait.modal('show');
+    };
+
+    hidePleaseWait = function () {
+        pleaseWait.modal('hide');
+    };
+
+    showPleaseWait();
+    $('.progress-modal-message').html('Loading Styles...');
 
     getDefaultMaterials(function(materials){ window.materials = materials; });
     function getDefaultMaterials(callback){
@@ -204,7 +226,7 @@ $(function(){
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
         var sports;
-        var url = "//api-dev.qstrike.com/api/categories";
+        var url = "http://api-dev.qstrike.com/api/categories";
         $.ajax({
             url: url,
             async: false,
@@ -213,7 +235,7 @@ $(function(){
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                sports = data['sports'];
+                sports = data['categories'];
                 if(typeof callback === "function") callback(sports);
             }
         });
@@ -222,9 +244,15 @@ $(function(){
     generateSportsDD();
     function generateSportsDD(){
         $('.show-sport-dd').html('');
-        window.sports.forEach(function(entry) {
-            $('.show-sport-dd').append('<option value="'+entry.name+'">'+entry.name+'</option');
-        });
+        var data = window.sports;
+        try {
+            data.forEach(function(entry) {
+                $('.show-sport-dd').append('<option value="'+entry.name+'">'+entry.name+'</option');
+            });
+        }
+        catch(err) {
+            console.log(err.message);
+        }
     }
 
     generateValues();
@@ -242,7 +270,7 @@ $(function(){
             window.current_index = window.materials.length-1;
         }
         $('.style-name').text(window.materials[window.current_index].name);
-        $('.sport-input').val(window.materials[window.current_index].uniform_category);
+        // $('.sport-input').val(window.materials[window.current_index].uniform_category);
         $('.block-pattern-input').val(window.materials[window.current_index].block_pattern);
         $('.block-pattern-option-input').val(window.materials[window.current_index].neck_option);
         $('.qstrike-item-id-input').val(window.materials[window.current_index].item_id);
@@ -254,10 +282,14 @@ $(function(){
         $('.back-image').attr("src",window.materials[window.current_index].thumbnail_path_back);
         $('.left-image').attr("src",window.materials[window.current_index].thumbnail_path_left);
         $('.right-image').attr("src",window.materials[window.current_index].thumbnail_path_right);
-
+        
+        setTimeout(hidePleaseWait(), 5000);
+        // hidePleaseWait();
     }
 
     $(document).on('change', '.show-sport-dd', function() {
+        showPleaseWait();
+        $('.progress-modal-message').html('Loading '+$(this).val()+' styles...');
         window.default_sport = $(this).val();
         getDefaultMaterials(function(materials){ window.materials = materials; });
         window.current_index = 0;
@@ -266,12 +298,16 @@ $(function(){
 
     $('.next-button').on('click', function(e){
         e.preventDefault();
+        showPleaseWait();
+        $('.progress-modal-message').html('Loading style information...');
         window.current_index = window.current_index + 1;
         generateValues("next");
     });
 
     $('.previous-button').on('click', function(e){
         e.preventDefault();
+        showPleaseWait();
+        $('.progress-modal-message').html('Loading style information...');
         window.current_index = window.current_index - 1;
         generateValues("previous");
     });
