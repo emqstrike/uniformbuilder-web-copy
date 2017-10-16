@@ -42,19 +42,19 @@
                             <div class="col-md-4">
                                <input type="text" name="design_name" class="form-control">
                             </div>
-                        </div>                       
+                        </div>                                         
                         <div class="form-group">
                             <label class="col-md-4 control-label">User ID</label>
-                            <div class="col-md-4">
-                              <input type="text" name="user_id" class="form-control" value="{{Session::get('userId')}}" >
-                              <input type="text" name="user_name" class="form-control" value="{{Session::get('fullname')}}" >
+                            <div class="col-md-4">                   
+                                <input type="text" class="form-control user typeahead" id="user" placeholder="Enter name...">
+                                <input type="text" id="user_id" name="user_id">
                             </div>
                         </div> 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Created By</label>
-                            <div class="col-md-4">                                
-                                <input type="text" class="form-control created_by typeahead" id="created_by" placeholder="Enter name...">
-                                <input type="text" id="created_by_user_id" name="created_by_user_id">
+                            <div class="col-md-4">                               
+                                <input type="text" name="created_by_user_id" class="form-control" value="{{Session::get('userId')}}" >
+                                <input type="text" name="created_by" class="form-control" value="{{Session::get('fullname')}}" >
                             </div>
                         </div>
                        <div class="form-group">
@@ -217,7 +217,7 @@ $(function(){
         return this.charAt(0).toUpperCase() + this.slice(1);
     }
 
-    $('.created_by').on('typeahead:selected', function (e, datum) {
+    $('.user').on('typeahead:selected', function (e, datum) {
         console.log(datum);
         var strName = $(this).val();
         var tmp_fname= strName.split(" ");
@@ -225,10 +225,10 @@ $(function(){
         // console.log(fname);
         var _res = _.where(window.users, {first_name: fname});
         console.log(_res);
-        $('#created_by_user_id').val(_res[0].id)
+        $('#user_id').val(_res[0].id)
     });
 
-    $('#created_by.typeahead').typeahead({
+    $('#user.typeahead').typeahead({
       hint: true,
       highlight: true,
       minLength: 1
@@ -238,8 +238,8 @@ $(function(){
       source: substringMatcher(users_name)
     });
 
-    $('#created_by').on('change', function(){
-        var manager_id = $('#created_by_user_id').val();
+    $('#user').on('change', function(){
+        var manager_id = $('#user_id').val();
         if (manager_id < 1 )
         {
             $('.create-inksoft-design').attr("disabled", true);
