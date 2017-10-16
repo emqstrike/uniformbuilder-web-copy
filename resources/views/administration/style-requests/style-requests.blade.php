@@ -38,7 +38,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered style-requests'>
+                    <table data-toggle='table' class='table table-bordered style-requests data-table'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -218,8 +218,19 @@
 <script type="text/javascript" src="/dropzone/dropzone.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+
 <script type="text/javascript">
 $(function(){
+
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": false,
+        "info": false,
+        "autoWidth": false
+    });
 
     $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
     // var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
