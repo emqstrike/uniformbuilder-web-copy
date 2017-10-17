@@ -117,7 +117,7 @@
                                     {{'New'}}
                                 @elseif($item->status == "initial_approval_ok")
                                     {{'Initial Approval Ok'}}
-                                @elseif($item->status == "second_approval_ok")
+                                @elseif($item->status == "secondary_approval_ok")
                                     {{'Second Approval Ok'}}    
                                 @elseif($item->status == "final_approval_ok")
                                     {{'Final Approval Ok'}}
