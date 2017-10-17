@@ -139,12 +139,6 @@ window.colors = [{
 window.labels = [];
 window.data = [];
 window.data_colors = [];
-// var dynamicColors = function() {
-//     var r = Math.floor(Math.random() * 255);
-//     var g = Math.floor(Math.random() * 255);
-//     var b = Math.floor(Math.random() * 255);
-//     return "rgb(" + r + "," + g + "," + b + ")";
-// }
 
 getStyles(function(styles){ window.styles = styles; });
 function getStyles(callback){
@@ -163,29 +157,12 @@ function getStyles(callback){
         }
     });
 }
-console.log('STYLES');
-console.log(window.styles);
 
 window.grouped_data = _.groupBy(window.styles, style => style.uniform_category);
-console.log('GROUPED');
-console.log(window.grouped_data);
-
-// window.xdata = JSON.parse(JSON.stringify(window.grouped_data));
-// console.log('X-DATA');
-// console.log(window.xdata);
 
 createLabelsAndData();
 function createLabelsAndData(){
-    // window.xdata.forEach(function(entry, i) {
-    //     window.labels.push(entry);
-    //     window.data.push(entry.length);
-    //     if(i < window.colors.length){
-    //         window.data_colors.push(window.colors[i]);
-    //     } else {
-    //         var j = i-window.colors.length;
-    //         window.data_colors.push(window.colors[j]);
-    //     }
-    // });
+
     Object.keys(window.grouped_data).forEach(function(key,i) {
         window.labels.push(key);
         window.data.push(_.size(window.grouped_data[key]));
@@ -198,37 +175,16 @@ function createLabelsAndData(){
             window.data_colors.push(window.colors[j].hex);
             console.log('else');
         }
-        // key: the name of the object key
-        // index: the ordinal position of the key within the object 
     });
 }
 
 var myChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
-        // labels: ["Red", "Blue", "Yellow"],
         labels: window.labels,
         datasets: [{
-            // data: [10, 20, 30],
             data: window.data,
             backgroundColor: window.data_colors,
-            // backgroundColor: [
-                // dynamicColors(),
-                // dynamicColors(),
-                // dynamicColors()
-
-                // 'rgba(255, 99, 132, 0.2)',
-                // 'rgba(54, 162, 235, 0.2)',
-                // 'rgba(255, 206, 86, 0.2)'
-
-                // pattern.draw('square', '#1f77b4'),
-                // pattern.draw('circle', '#ff7f0e'),
-                // pattern.draw('diamond', '#2ca02c')
-
-                // 'rgba(28,39,50,0.5)',
-                // 'rgba(110,122,137,0.5)',
-                // 'rgba(179,167,158,0.5)'
-            // ],
             borderColor: [
                 'rgba(255,255,255,1)',
                 'rgba(255,255,255,1)',
