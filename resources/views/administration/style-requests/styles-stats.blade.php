@@ -32,13 +32,15 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="box">
                 <div class="box-header">
-                    <h1>
+                    <!-- <h1>
                         <p style="position: absolute; display: inline;" class="style-name">STYLE</p>
-                    </h1>
+                    </h1> -->
                 </div>
-                <div class="box-body">
-                    <canvas id="myChart" width="400" height="400"></canvas>
-                </div>
+                <center>
+                    <div class="box-body" style="width: 800px; height: 800px;">
+                        <canvas id="myChart" width="800" height="800"></canvas>
+                    </div>
+                </center>
             </div>
         </div>
     </div>
@@ -61,24 +63,182 @@
 @endsection
 
 @section('custom-scripts')
-<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/dropzone/dropzone.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/patternomaly@1.3.0/dist/patternomaly.min.js"></script>
 <script type="text/javascript">
 $(function(){
 
-var ctx = $("#myChart");
+var ctx = document.getElementById("myChart");
+window.colors = [{
+    'name' : 'mirage',
+    'hex' : '#1c2732'
+},{
+    'name' : 'raven',
+    'hex' : '#6E7A89'
+},{
+    'name' : 'ghost',
+    'hex' : '#C2CAD4'
+},{
+    'name' : 'bronco',
+    'hex' : '#b3a79e'
+},{
+    'name' : 'ferra',
+    'hex' : '#6f534f'
+},{
+    'name' : 'kashmir blue',
+    'hex' : '#496595'
+},{
+    'name' : 'nepal',
+    'hex' : '#90a7c4'
+},{
+    'name' : 'blue haze',
+    'hex' : '#c6d0de'
+},{
+    'name' : 'porcelain',
+    'hex' : '#ebedef'
+},{
+    'name' : 'chino',
+    'hex' : '#d4d0af'
+},{
+    'name' : 'limed spruce',
+    'hex' : '#344B52'
+},{
+    'name' : 'cutty sark',
+    'hex' : '#587983'
+},{
+    'name' : 'hit gray',
+    'hex' : '#9db3b4'
+},{
+    'name' : 'celeste',
+    'hex' : '#cfd3ca'
+},{
+    'name' : 'champagne',
+    'hex' : '#fae8da'
+},{
+    'name' : 'tobacco brown',
+    'hex' : '#6c5840'
+},{
+    'name' : 'teak',
+    'hex' : '#ba9a72'
+},{
+    'name' : 'santa fe',
+    'hex' : '#b26b4d'
+},{
+    'name' : 'espresso',
+    'hex' : '#662d1c'
+},{
+    'name' : 'graphite',
+    'hex' : '#2a110a'
+}];
 
-var myDoughnutChart = new Chart(ctx, {
+window.labels = [];
+window.data = [];
+window.data_colors = [];
+// var dynamicColors = function() {
+//     var r = Math.floor(Math.random() * 255);
+//     var g = Math.floor(Math.random() * 255);
+//     var b = Math.floor(Math.random() * 255);
+//     return "rgb(" + r + "," + g + "," + b + ")";
+// }
+
+getStyles(function(styles){ window.styles = styles; });
+function getStyles(callback){
+    var styles;
+    var url = "//api-dev.qstrike.com/api/materials/styleSheets";
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            styles = data['materials'];
+            if(typeof callback === "function") callback(styles);
+        }
+    });
+}
+console.log('STYLES');
+console.log(window.styles);
+
+window.grouped_data = _.groupBy(window.styles, style => style.uniform_category);
+console.log('GROUPED');
+console.log(window.grouped_data);
+
+// window.xdata = JSON.parse(JSON.stringify(window.grouped_data));
+// console.log('X-DATA');
+// console.log(window.xdata);
+
+createLabelsAndData();
+function createLabelsAndData(){
+    // window.xdata.forEach(function(entry, i) {
+    //     window.labels.push(entry);
+    //     window.data.push(entry.length);
+    //     if(i < window.colors.length){
+    //         window.data_colors.push(window.colors[i]);
+    //     } else {
+    //         var j = i-window.colors.length;
+    //         window.data_colors.push(window.colors[j]);
+    //     }
+    // });
+    Object.keys(window.grouped_data).forEach(function(key,i) {
+        window.labels.push(key);
+        window.data.push(_.size(window.grouped_data[key]));
+
+        if(i < window.colors.length){
+            window.data_colors.push(window.colors[i].hex);
+            console.log('if');
+        } else {
+            var j = i-window.colors.length;
+            window.data_colors.push(window.colors[j].hex);
+            console.log('else');
+        }
+        // key: the name of the object key
+        // index: the ordinal position of the key within the object 
+    });
+}
+
+var myChart = new Chart(ctx, {
     type: 'doughnut',
-    data: data,
-    options: options
+    data: {
+        // labels: ["Red", "Blue", "Yellow"],
+        labels: window.labels,
+        datasets: [{
+            // data: [10, 20, 30],
+            data: window.data,
+            backgroundColor: window.data_colors,
+            // backgroundColor: [
+                // dynamicColors(),
+                // dynamicColors(),
+                // dynamicColors()
+
+                // 'rgba(255, 99, 132, 0.2)',
+                // 'rgba(54, 162, 235, 0.2)',
+                // 'rgba(255, 206, 86, 0.2)'
+
+                // pattern.draw('square', '#1f77b4'),
+                // pattern.draw('circle', '#ff7f0e'),
+                // pattern.draw('diamond', '#2ca02c')
+
+                // 'rgba(28,39,50,0.5)',
+                // 'rgba(110,122,137,0.5)',
+                // 'rgba(179,167,158,0.5)'
+            // ],
+            borderColor: [
+                'rgba(255,255,255,1)',
+                'rgba(255,255,255,1)',
+                'rgba(255,255,255,1)',
+            ],
+            borderWidth: 1
+        }]
+    }
 });
 
- });
+});
 </script>
 @endsection

@@ -316,7 +316,7 @@
         </a>
       </li>
       <li  data-step="17" data-intro="View individual styles info">
-        <a href="/administration/style_viewer">
+        <a href="/administration/styles_stats">
           <i class="fa fa-pie-chart"></i> <span>Style Statistics</span>
         </a>
       </li>
