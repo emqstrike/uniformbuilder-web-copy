@@ -412,6 +412,7 @@ Route::group(array('prefix' => 'administration'), function() {
     // Style Requests
     Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@index']);
     Route::get('style_viewer', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@styleViewer']);
+    Route::get('styles_stats', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@stylesStats']);
 
     //Item Sizes
     Route::get('item_sizes', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@index']);
