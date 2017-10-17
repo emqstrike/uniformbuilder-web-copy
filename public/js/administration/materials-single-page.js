@@ -108,7 +108,7 @@ var url = "//api-dev.qstrike.com/api/materials";
                     hide: true
                     });
                     $('.submit').attr('disabled','disabled');  
-                  
+
                 }
 
             }
