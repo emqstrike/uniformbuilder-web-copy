@@ -38,7 +38,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered style-requests data-table'>
+                    <table data-toggle='table' id="style_requests_table" class='table table-bordered style-requests data-table'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -260,7 +260,8 @@ $(function(){
 
     $('.save-data').attr('disabled','disabled'); 
 
-    $('.file-link').on('click', function(e){
+    $('#style_requests_table').on('click', '.file-link', function(e){
+        e.preventDefault()
         console.log('file link');
         var url = $(this).data('link');
         OpenInNewTab(url);
@@ -515,7 +516,7 @@ $(function(){
         });
     }
 
-    $('.edit').on('click', function(e){
+    $('#style_requests_table').on('click', '.edit', function(e){
         e.preventDefault();
         getValues($(this));
         $('#deadline').attr({"style": "display: none;"});
@@ -578,7 +579,7 @@ $(function(){
 
     }
 
-    $('.delete-style-request').on('click', function(){
+    $('#style_requests_table').on('click', '.delete-style-request', function(){
        var id = [];
        id.push( $(this).data('style-request-id'));
        console.log(id);
