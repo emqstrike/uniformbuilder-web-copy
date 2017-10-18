@@ -214,11 +214,9 @@ function createLabelsAndData(){
 
         if(i < window.colors.length){
             window.data_colors.push(window.colors[i].hex);
-            console.log('if');
         } else {
             var j = i-window.colors.length;
             window.data_colors.push(window.colors[j].hex);
-            console.log('else');
         }
     });
 }
@@ -242,26 +240,11 @@ var myChart = new Chart(ctx, {
 
 $("#myChart").click( 
     function(evt){
-        // var activePoints = myChart.getSegmentsAtEvent(evt);
+
         var activePoints = myChart.getElementsAtEvent(evt);          
-        // console.log('clicked');
-        // console.log(activePoints);
-        // console.log('Sport')
-        // console.log(window.labels[activePoints[0]["_index"]]);
+
         window.active_sport = window.labels[activePoints[0]["_index"]];
-        // if(activePoints.length > 0)
-        // {
-        //   //get the internal index of slice in pie chart
-        //   var clickedElementindex = activePoints[0]["_index"];
 
-        //   //get specific label by index 
-        //   var label = myChart.data.labels[clickedElementindex];
-
-        //   //get value by index      
-        //   var value = myChart.data.datasets[0].data[clickedElementindex];
-
-        //   /* other stuff that requires slice's label and value */
-        // }
         getStylesBySport(function(style_category){ window.style_category = style_category; });
         function getStylesBySport(callback){
             var style_category;
@@ -280,25 +263,19 @@ $("#myChart").click(
             });
         }
 
-        // console.log(window.style_category);
         showStyleInfo();
         $('.progress-modal-message').html(window.active_sport+' styles information');
         $('#myChart2').remove();
         $('.chart-content').append('<canvas id="myChart2" width="500" height="500"></canvas>');
 
-        // console.log(window.all_styles);
         var all_styles_grouped = _.groupBy(window.all_styles, style => style.uniform_category);
-        // console.log(all_styles_grouped);
         var total_styles = _.size(all_styles_grouped[window.active_sport]);
         var total_sublimated_raw = _.groupBy(all_styles_grouped[window.active_sport], style => style.uniform_application_type == 'sublimated');
         var total_sublimated = _.size(total_sublimated_raw['true']);
-        // var bufferData = JSON.parse(JSON.stringify(window.grouped_data[window.active_sport]));
         var total_twill_raw = _.groupBy(all_styles_grouped[window.active_sport], style => style.uniform_application_type == 'tackle_twill');
         var total_twill = _.size(total_twill_raw['true']);
 
         var all_live_styles = _.size(window.grouped_data[window.active_sport]);
-        // var live_sublimated = _.size(window.grouped_data[window.active_sport], style => style.uniform_application_type == 'sublimated');
-        // var live_twill = _.size(window.grouped_data[window.active_sport], style => style.uniform_application_type == 'tackle_twill');
         var live_sublimated_raw = _.groupBy(window.grouped_data[window.active_sport], style => style.uniform_application_type == 'sublimated');
         var live_sublimated = _.size(live_sublimated_raw['true']);
         var live_twill_raw = _.groupBy(window.grouped_data[window.active_sport], style => style.uniform_application_type == 'tackle_twill');
@@ -340,26 +317,6 @@ $("#myChart").click(
                 }
             }
         });
-        // var myChart2 = new Chart(ctx2, {
-        //     type: 'bar',
-        //     data: {
-        //         labels: ["A", "B", "C"],
-        //         datasets: [{
-        //             data: [10, 20, 30],
-        //             backgroundColor: [
-        //                 '#1c2732',
-        //                 '#6E7A89',
-        //                 '#C2CAD4',
-        //             ],
-        //             borderColor: [
-        //                 'rgba(255,255,255,1)',
-        //                 'rgba(255,255,255,1)',
-        //                 'rgba(255,255,255,1)',
-        //             ],
-        //             borderWidth: 1
-        //         }]
-        //     }
-        // });
     }
 );
 
