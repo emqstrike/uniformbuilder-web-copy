@@ -31,13 +31,13 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="box">
-                <div class="box-header">
-                    <!-- <h1>
-                        <p style="position: absolute; display: inline;" class="style-name">STYLE</p>
-                    </h1> -->
-                </div>
                 <center>
-                    <div class="box-body" style="width: 800px; height: 800px;">
+                    <h1>
+                        <p class="styles-count"></p>
+                    </h1>
+                </center>
+                <center>
+                    <div class="box-body" style="width: 800px; height: 800px; margin-top: 50px;">
                         <canvas id="myChart" width="800" height="800"></canvas>
                     </div>
                 </center>
@@ -45,11 +45,26 @@
         </div>
     </div>
 
+<div class="modal fade" id="style_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="progress-modal-message"></h1>
+      </div>
+      <div class="content chart-content">
+          <canvas id="myChart2" width="500" height="500"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="pleaseWaitDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
           <h1 class="progress-modal-message"></h1>
+      </div>
+      <div class="content">
       </div>
     </div>
   </div>
@@ -140,6 +155,16 @@ window.labels = [];
 window.data = [];
 window.data_colors = [];
 
+var style_info = $('#style_info'); 
+    
+showStyleInfo = function() {
+    style_info.modal('show');
+};
+
+hideStyleInfo = function () {
+    style_info.modal('hide');
+};
+
 getStyles(function(styles){ window.styles = styles; });
 function getStyles(callback){
     var styles;
@@ -157,6 +182,26 @@ function getStyles(callback){
         }
     });
 }
+
+getAllStyles(function(all_styles){ window.all_styles = all_styles; });
+function getAllStyles(callback){
+    var all_styles;
+    var url = "//api-dev.qstrike.com/api/materials";
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            all_styles = data['materials'];
+            if(typeof callback === "function") callback(all_styles);
+        }
+    });
+}
+
+$('.styles-count').html('('+window.styles.length+') Styles LIVE in CUSTOMIZER');
 
 window.grouped_data = _.groupBy(window.styles, style => style.uniform_category);
 
@@ -194,6 +239,129 @@ var myChart = new Chart(ctx, {
         }]
     }
 });
+
+$("#myChart").click( 
+    function(evt){
+        // var activePoints = myChart.getSegmentsAtEvent(evt);
+        var activePoints = myChart.getElementsAtEvent(evt);          
+        // console.log('clicked');
+        // console.log(activePoints);
+        // console.log('Sport')
+        // console.log(window.labels[activePoints[0]["_index"]]);
+        window.active_sport = window.labels[activePoints[0]["_index"]];
+        // if(activePoints.length > 0)
+        // {
+        //   //get the internal index of slice in pie chart
+        //   var clickedElementindex = activePoints[0]["_index"];
+
+        //   //get specific label by index 
+        //   var label = myChart.data.labels[clickedElementindex];
+
+        //   //get value by index      
+        //   var value = myChart.data.datasets[0].data[clickedElementindex];
+
+        //   /* other stuff that requires slice's label and value */
+        // }
+        getStylesBySport(function(style_category){ window.style_category = style_category; });
+        function getStylesBySport(callback){
+            var style_category;
+            var url = "//api-dev.qstrike.com/api/materials/category/"+window.active_sport;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    style_category = data['materials'];
+                    if(typeof callback === "function") callback(style_category);
+                }
+            });
+        }
+
+        // console.log(window.style_category);
+        showStyleInfo();
+        $('.progress-modal-message').html(window.active_sport+' styles information');
+        $('#myChart2').remove();
+        $('.chart-content').append('<canvas id="myChart2" width="500" height="500"></canvas>');
+
+        // console.log(window.all_styles);
+        var all_styles_grouped = _.groupBy(window.all_styles, style => style.uniform_category);
+        // console.log(all_styles_grouped);
+        var total_styles = _.size(all_styles_grouped[window.active_sport]);
+        var total_sublimated_raw = _.groupBy(all_styles_grouped[window.active_sport], style => style.uniform_application_type == 'sublimated');
+        var total_sublimated = _.size(total_sublimated_raw['true']);
+        // var bufferData = JSON.parse(JSON.stringify(window.grouped_data[window.active_sport]));
+        var total_twill_raw = _.groupBy(all_styles_grouped[window.active_sport], style => style.uniform_application_type == 'tackle_twill');
+        var total_twill = _.size(total_twill_raw['true']);
+
+        var all_live_styles = _.size(window.grouped_data[window.active_sport]);
+        // var live_sublimated = _.size(window.grouped_data[window.active_sport], style => style.uniform_application_type == 'sublimated');
+        // var live_twill = _.size(window.grouped_data[window.active_sport], style => style.uniform_application_type == 'tackle_twill');
+        var live_sublimated_raw = _.groupBy(window.grouped_data[window.active_sport], style => style.uniform_application_type == 'sublimated');
+        var live_sublimated = _.size(live_sublimated_raw['true']);
+        var live_twill_raw = _.groupBy(window.grouped_data[window.active_sport], style => style.uniform_application_type == 'tackle_twill');
+        var live_twill = _.size(live_twill_raw['true']);
+
+        var ctx2 = document.getElementById("myChart2");
+        var stackedBar = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ["Styles", "Sublimated", "Twill", "Live Styles", "Live Sublimated", "Live Twill"],
+                datasets: [{
+                    data: [total_styles, total_sublimated, total_twill, all_live_styles, live_sublimated, live_twill],
+                    backgroundColor: [
+                        '#1c2732',
+                        '#6E7A89',
+                        '#C2CAD4',
+                        '#1c2732',
+                        '#6E7A89',
+                        '#C2CAD4'
+                    ],
+                    borderColor: [
+                        'rgba(255,255,255,1)',
+                        'rgba(255,255,255,1)',
+                        'rgba(255,255,255,1)',
+                        'rgba(255,255,255,1)',
+                        'rgba(255,255,255,1)',
+                        'rgba(255,255,255,1)',
+                    ],
+                    borderWidth: 1
+                }]},
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        });
+        // var myChart2 = new Chart(ctx2, {
+        //     type: 'bar',
+        //     data: {
+        //         labels: ["A", "B", "C"],
+        //         datasets: [{
+        //             data: [10, 20, 30],
+        //             backgroundColor: [
+        //                 '#1c2732',
+        //                 '#6E7A89',
+        //                 '#C2CAD4',
+        //             ],
+        //             borderColor: [
+        //                 'rgba(255,255,255,1)',
+        //                 'rgba(255,255,255,1)',
+        //                 'rgba(255,255,255,1)',
+        //             ],
+        //             borderWidth: 1
+        //         }]
+        //     }
+        // });
+    }
+);
 
 });
 </script>
