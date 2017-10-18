@@ -242,7 +242,17 @@ $(function(){
         "searching": true,
         "ordering": false,
         "info": false,
-        "autoWidth": false
+        "autoWidth": false,
+        "drawCallback" : function() {
+             $('[data-toggle="tooltip"]').popover({            
+                html: true,
+                trigger: 'hover',
+                placement: 'top',
+                content: function(){
+                    return $(this).data('message');
+                }
+            });
+       }  
     });
     } catch(e) {
         // statements
@@ -414,14 +424,14 @@ $(function(){
         console.log(window.data);
     }
 
-    $('[data-toggle="tooltip"]').popover({
-        html: true,
-        trigger: 'hover',
-        placement: 'top',
-        content: function(){
-            return $(this).data('message');
-        }
-    });
+    // $('[data-toggle="tooltip"]').popover({
+    //     html: true,
+    //     trigger: 'hover',
+    //     placement: 'top',
+    //     content: function(){
+    //         return $(this).data('message');
+    //     }
+    // });
 
     var files = [];
     var filesData = [];
