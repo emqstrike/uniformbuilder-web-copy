@@ -4257,7 +4257,7 @@ $(document).ready(function() {
 
             _.each(_applications, function (application) {
 
-                if(application.application_type !== "mascot" && application.application_type !== "logo" && application.application_type !== "free" ) {
+                if(application.application_type !== "embellishments" && application.application_type !== "mascot" && application.application_type !== "logo" && application.application_type !== "free" ) {
 
                     if (application.color_array.length >= 2) {
 
