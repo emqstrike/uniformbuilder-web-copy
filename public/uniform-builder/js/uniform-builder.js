@@ -1755,6 +1755,8 @@ $(document).ready(function () {
 
         ub.funcs.setVisibleView = function (viewStr) {
 
+            if (ub.render) { return; }
+
             _.each(ub.views, function (view) {
 
                 if (view === viewStr) { 

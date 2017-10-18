@@ -25,7 +25,8 @@
                             <th>Client</th>
                             <th>Submitted By</th>
                             <th>Artworks</th>
-                            <th>Status / Notes</th>
+                            <th>Notes</th>
+                            <th>Status</th>
                             <th>Assigned GA</th>
                             <th>Date Submitted</th>
                             <th>Date Finished</th>
@@ -100,6 +101,11 @@
                                     {{--*/ $ctr++ /*--}}
                                     @endforeach
                                 @endif
+                            </td>
+                            <td>
+                                <div>
+                                    {{ $logo_request->status }}
+                                </div>
                             </td>
                             <td>
                                 <div>

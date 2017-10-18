@@ -554,6 +554,7 @@ class MascotsController extends Controller
                 $this->artworksClient->updateArtwork($artwork_request);
             } else {
                 $artwork_request->properties = $ar_json;
+                $artwork_request->status = "for_review";
                 $this->logoRequestsClient->updateLogoRequest($artwork_request);
             }
         }
