@@ -471,6 +471,8 @@ class MascotsController extends Controller
                     // update artwork data
                     array_push($ar_json[$artworkIndex]['history'], $ar_json[$artworkIndex]['file']);
                     $ar_json[$artworkIndex]['updated'] = 1;
+                    $ar_json[$artworkIndex]['approved'] = 0;
+                    $ar_json[$artworkIndex]['user_rejected'] = 0;
                     $ar_json[$artworkIndex]['file'] = $data['icon'];
                     $ar_json[$artworkIndex]['colors'] = $team_colors;
                 }
