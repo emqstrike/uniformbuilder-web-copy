@@ -424,15 +424,6 @@ $(function(){
         console.log(window.data);
     }
 
-    // $('[data-toggle="tooltip"]').popover({
-    //     html: true,
-    //     trigger: 'hover',
-    //     placement: 'top',
-    //     content: function(){
-    //         return $(this).data('message');
-    //     }
-    // });
-
     var files = [];
     var filesData = [];
     this.addRemoveLinks = true;
