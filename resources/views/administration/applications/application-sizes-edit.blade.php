@@ -243,7 +243,7 @@ $(function(){
     $(".block-pattern").change(function() {
         $('#block_pattern_value').val($(this).val());
     });         
-
+    
     $('.block-pattern').select2('val', bp); 
 
     if($('#neck_option_value').val()){
