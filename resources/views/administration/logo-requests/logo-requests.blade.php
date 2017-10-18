@@ -108,7 +108,9 @@
                                 @if ( isset($logo_request->properties) )
                                     {{--*/ $ctr = 0 /*--}}
                                     @foreach ($logo_request->properties as $item)
-                                    <p style="font-style: italic">{{ $item['user_notes'] }}</p>
+                                        @if ( isset($item['user_notes']) )
+                                         <p style="font-style: italic">{{ $item['user_notes'] }}</p>
+                                        @endif
                                     {{--*/ $ctr++ /*--}}
                                     @endforeach
                                 @endif
