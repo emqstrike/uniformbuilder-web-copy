@@ -87,6 +87,7 @@
                                 @if ( isset($logo_request->properties) )
                                     {{--*/ $ctr = 0 /*--}}
                                     @foreach ($logo_request->properties as $item)
+                                    <p style="font-style: italic">{{ $item['notes'] }}</p>
                                         @if( isset($item['user_rejected']) )
                                             <div class="alert alert-danger">
                                                 Rejected
