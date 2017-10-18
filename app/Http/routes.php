@@ -167,6 +167,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('artwork/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeArtwork']);
     Route::post('artwork/add_existing', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeExistingArtwork']);
     Route::post('logo/add_existing', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeExistingLogo']);
+    Route::post('logo/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeArtwork']);
 
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);
@@ -409,11 +410,9 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('dealers/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@store']);
 
     // Style Requests
-    // Route::get('accent/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@create']);
-    // Route::post('accent/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@store']);
     Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@index']);
-    // Route::get('accent/edit/{id}', 'Administration\AccentsController@editAccentForm');
-    // Route::post('accent/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@store']);
+    Route::get('style_viewer', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@styleViewer']);
+    Route::get('styles_stats', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@stylesStats']);
 
     //Item Sizes
     Route::get('item_sizes', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@index']);
@@ -428,9 +427,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('inksoft_design/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@store']);
     Route::get('inksoft_design/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@edit']);
     Route::post('inksoft_design/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@store']);
-
-
-
 
 });
 

@@ -36,6 +36,7 @@
                             <th>Category</th> 
                             <th>Type</th> 
                             <th>Is Public</th>
+                            <th>Archived</th>
                             <th>Comments</th> 
                             <th>Status</th>                             
                             <th>Actions</th>
@@ -97,7 +98,14 @@
                                 @else 
                                     {{'No'}}
                                 @endif                               
-                            </td> 
+                            </td>
+                            <td>
+                                @if($item->archived == 1) 
+                                    {{'Yes'}}
+                                @else 
+                                    {{'No'}}
+                                @endif                               
+                            </td>  
                             <td>
                               <input type="hidden" class="comments" value="{{$item->comments}}">
                               <button class="view-comments btn btn-default btn-sm">View</button>        
@@ -109,7 +117,7 @@
                                     {{'New'}}
                                 @elseif($item->status == "initial_approval_ok")
                                     {{'Initial Approval Ok'}}
-                                @elseif($item->status == "second_approval_ok")
+                                @elseif($item->status == "secondary_approval_ok")
                                     {{'Second Approval Ok'}}    
                                 @elseif($item->status == "final_approval_ok")
                                     {{'Final Approval Ok'}}

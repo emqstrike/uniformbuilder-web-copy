@@ -41,28 +41,27 @@
                             <div class="col-md-4">
                                <input type="text" name="design_name" class="form-control" value="{{ $inksoft_designs->design_name }}">
                             </div>
-                        </div>                         
-                         <div class="form-group">
+                        </div>                      
+                        <div class="form-group">
                             <label class="col-md-4 control-label">User ID</label>
                             <div class="col-md-4">
-                            <input type="text" name="user_id" class="form-control" value="{{Session::get('userId')}}" >
-                            <input type="text" name="user_name" class="form-control" value="{{Session::get('fullname')}}" >                           
-                            </div>
-                        </div>                         
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Created By</label>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control created_by typeahead" id="created_by" placeholder="Enter name...">                              
-                                
+                                <input type="text" class="form-control user typeahead" id="user" placeholder="Enter name...">                 
                             </div>
                         </div>
                         <div class="form-group">
                              <label class="col-md-4 control-label"></label>
                             <div class="col-md-4">                                
-                                <input type="text" id="created_by_name" name="created_by_name">
-                                <input type="text" id="created_by_user_id" name="created_by_user_id" value="{{ $inksoft_designs->created_by_user_id }}">
+                                <input type="text" id="user_name" name="user_name">
+                                <input type="text" id="user_id" name="user_id" value="{{ $inksoft_designs->user_id }}">
                             </div>
-                        </div>
+                        </div>                                                 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Created By</label>
+                            <div class="col-md-4">                                                         
+                                <input type="text" name="created_by_user_id" id="created_by_user_id" class="form-control" value="{{ $inksoft_designs->created_by_user_id }}" >
+                                <input type="text" name="created_by" class="form-control" id="created_by"> 
+                            </div>
+                        </div>                       
                         <div class="form-group">
                             <label class="col-md-4 control-label">PNG</label>
                             <div class="col-md-4">
@@ -127,6 +126,15 @@
                                         <option value="initial_approval_ok" @if($inksoft_designs->status == "initial_approval_ok") selected="selected"@endif>Initial Approval Ok</option>
                                         <option value="secondary_approval_ok" @if($inksoft_designs->status == "secondary_approval_ok") selected="selected"@endif>Secondary Approval Ok</option>
                                         <option value="final_approval_ok" @if($inksoft_designs->status == "final_approval_ok") selected="selected"@endif>Final Approval Ok</option>                                   
+                                </select>
+                            </div>
+                        </div>
+                            <div class="form-group">
+                            <label class="col-md-4 control-label" >Archived</label>
+                           <div class="col-md-1">
+                                <select name="archived" class="form-control">
+                                        <option value="1" @if($inksoft_designs->archived == 1) selected="selected"@endif>Yes</option>
+                                        <option value="0" @if($inksoft_designs->archived == 0) selected="selected"@endif>No</option>
                                 </select>
                             </div>
                         </div>
@@ -223,7 +231,7 @@ $(function(){
         return this.charAt(0).toUpperCase() + this.slice(1);
     }
 
-    $('.created_by').on('typeahead:selected', function (e, datum) {
+    $('.user').on('typeahead:selected', function (e, datum) {
         console.log(datum);
         var strName = $(this).val();
         var tmp_fname= strName.split(" ");
@@ -231,10 +239,10 @@ $(function(){
         // console.log(fname);
         var _res = _.where(window.users, {first_name: fname});
         console.log(_res);
-        $('#created_by_user_id').val(_res[0].id)
+        $('#user_id').val(_res[0].id)
     });
 
-        $('#created_by.typeahead').typeahead({
+        $('#user.typeahead').typeahead({
           hint: true,
           highlight: true,
           minLength: 1
@@ -244,8 +252,8 @@ $(function(){
           source: substringMatcher(users_name)
         });
 
-    $('#created_by').on('change', function(){
-        var manager_id = $('#created_by_user_id').val();
+    $('#user').on('change', function(){
+        var manager_id = $('#user_id').val();
         if (manager_id < 1 )
         {
             $('.update-dealer').attr("disabled", true);
@@ -255,13 +263,21 @@ $(function(){
     });
 
     function getCreatedBy(){
-        var creator = $('#created_by_user_id').val();
+        var user = $('#user_id').val();
         $.each(window.users, function(index, item){
-            if (item.id == creator)
+            if (item.id == user)
             {
-                $('#created_by_name').val(item.first_name+' '+item.last_name);
+                $('#user_name').val(item.first_name+' '+item.last_name);
             }
-        }); 
+        });
+
+        var created_by = $('#created_by_user_id').val();      
+        $.each(window.users, function(index, item){
+            if (item.id == created_by)
+            {
+                $('#created_by').val(item.first_name+' '+item.last_name);
+            }
+        });  
     }
 });   
 </script>

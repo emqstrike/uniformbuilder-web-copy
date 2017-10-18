@@ -4,6 +4,7 @@ $(document).ready(function(){
     window.patterns = null;
     window.pa_id = null;
     window.test_size_data = null;
+    window.item_sizes = null;
     // window.test_size_data = [{
     //         "size": "XS",
     //         "qx_item_id": 3213
@@ -70,6 +71,24 @@ $(document).ready(function(){
 
     getColors(function(colors){ window.colors = colors; });
     getPatterns(function(patterns){ window.patterns = patterns; });
+    getSizingConfig(function(item_sizes){ window.item_sizes = item_sizes; });
+
+    function getSizingConfig(callback){
+        var item_sizes;
+        var url = "//api-dev.qstrike.com/api/item_sizes";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                item_sizes = data['item_sizes'];
+                if(typeof callback === "function") callback(item_sizes);
+            }
+        });
+    }
 
     function getColors(callback){
         var colors;
@@ -587,7 +606,13 @@ $('.send-to-factory').on('click', function(e){
         console.log(order);
         // "RepID": 154, Jeremy
         // "RepID": 1148, Geeks
-        window.test_size_data = JSON.parse(window.material.sizing_config_prop); // uncomment this line on production
+        // var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
+        // window.test_size_data = JSON.parse(x);
+        var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
+        window.test_size_data = JSON.parse(x.properties);
+        console.log('Window Test Size Data');
+        console.log(window.test_size_data);
+        // window.test_size_data = JSON.parse(window.material.sizing_config_prop); // uncomment this line on production
         var order_items_split = splitRosterToQXItems();
         var order_parts_split = [];
         console.log('ORDER ITEMS SPLIT');

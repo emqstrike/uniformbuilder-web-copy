@@ -74,7 +74,7 @@
                     <a href="#" class="btn btn-xs btn-primary log-ids">Log ids</a>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered materials display'>
+                    <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered table-hover materials display'>
                      <thead>
                         <input type="hidden" id="materials-data" value="{{ $materials_string }}">
                             <tr>
@@ -82,17 +82,18 @@
                                 <th>Name</th>
                                 <th>Sport</th>
                                 <th>Block Pattern</th>
-                                <th>Neck</th>
-                                <th>Price Item</th>
+                                <th>Neck</th>                                
                                 <th>Type</th>
                                 <th>Gender</th>
                                 <th>Active</th>
                                 <th>Asset Target</th>
                                 <th>Blank</th>
-                                <th>Uniform Application Type</th>
-                                <th>SKU</th>
+                                <th>Uniform Application Type</th>                               
                                {{--  <th>Customizer Available</th> --}}
                                 <th>Actions</th>
+                                <th>Price Item</th>
+                                <th>SKU</th>
+                                <th>Item ID</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,10 +113,7 @@
                 </td>
                 <td>
                     {{ $material->neck_option }}
-                </td>
-                <td>
-                    {{ $material->price_item_code }}
-                </td>
+                </td>              
                 <td>
                     {{ $material->type }}
                 </td>
@@ -139,10 +137,7 @@
                 </td>
                 <td>
                     {{ $material->uniform_application_type }}
-                </td>
-                <td>
-                    {{ $material->sku }}
-                </td>
+                </td>             
                {{--  <td>
                     <div class="onoffswitch">
                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox customizer-available" id="customizer-available-{{ $material->id }}" data-material-id="{{ $material->id }}" {{ ($material->customizer_available) ? 'checked' : '' }}>
@@ -174,6 +169,15 @@
                     <a href="#" class="btn btn-xs btn-danger delete-material" data-material-id="{{ $material->id }}">
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
+                </td>
+                <td>
+                    {{ $material->price_item_code }}
+                </td>
+                <td>
+                    {{ $material->sku }}
+                </td>
+                <td>
+                    {{ $material->item_id }}
                 </td>
             </tr>
         @empty

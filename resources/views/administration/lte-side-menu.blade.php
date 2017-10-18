@@ -292,11 +292,35 @@
       <span>Dealers</span>
       </a>
   </li>
-  <li data-position='right'>
+  <!-- <li data-position='right'>
     <a href="/administration/style_requests">
       <i class="fa fa-file-text-o"></i>
       <span>Style Requests</span>
       </a>
+  </li> -->
+  <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
+    <a href="#" >
+      <i class="fa fa-file-text-o"></i>
+      <span>Styles</span>
+      <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu">
+      <li  data-step="17" data-intro="Request a style to be made.">
+        <a href="/administration/style_requests">
+          <i class="fa fa-file-text-o"></i> <span>Style Requests</span>
+        </a>
+      </li>
+      <li  data-step="17" data-intro="View individual styles info">
+        <a href="/administration/style_viewer">
+          <i class="fa fa-search"></i> <span>Style Viewer</span>
+        </a>
+      </li>
+      <li  data-step="17" data-intro="View individual styles info">
+        <a href="/administration/styles_stats">
+          <i class="fa fa-pie-chart"></i> <span>Style Statistics</span>
+        </a>
+      </li>
+    </ul>
   </li>
    <li data-position='right'>
     <a href="/administration/inksoft_designs">

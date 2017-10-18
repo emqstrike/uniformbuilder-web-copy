@@ -6,6 +6,8 @@
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 <link rel="stylesheet" type="text/css" href="/dropzone/dropzone.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <style>
     #my-awesome-dropzone {
         border: dashed 1px black;
@@ -36,7 +38,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered style-requests'>
+                    <table data-toggle='table' class='table table-bordered style-requests data-table'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -126,6 +128,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-md-4 control-label">Sport</label>
+                <div class="col-md-6">
+                    <!-- <input type="text" class="form-control sport" required> -->
+                    <select class="form-control sport">
+                        <option value="none" data-uniform-category-id="0">Select Sport</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-md-4 control-label">Block Pattern</label>
                 <div class="col-md-6">
                     <!-- <input type="text" class="form-control block-pattern" required> -->
@@ -140,15 +151,6 @@
                     <!-- <input type="text" class="form-control block-pattern-option" required> -->
                     <select class="form-control block-pattern-option">
                         <option value="none">Select Block Pattern Option</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label">Sport</label>
-                <div class="col-md-6">
-                    <!-- <input type="text" class="form-control sport" required> -->
-                    <select class="form-control sport">
-                        <option value="none" data-uniform-category-id="0">Select Sport</option>
                     </select>
                 </div>
             </div>
@@ -171,10 +173,12 @@
             <div class="form-group">
                 <label class="col-md-4 control-label">Deadline</label>
                 <div class="col-md-6">
-                    <input type="date" class="form-control deadline" required>
+                    <!-- <input type="date" class="form-control deadline" required> -->
+                    <!-- <div id="datepicker"></div> -->
+                    <input type="text" id="datepicker">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 260px; z-index: 3;">
                 <center>
                     <button type="submit" class="btn btn-primary save-data">
                         Save Request
@@ -182,10 +186,14 @@
                 </center>
             </div>
             </form>
-            <h4 class="alert alert-info">Upload Design Sheet below</h4>
-            <form action="/administration/material/insert_dz_design_sheet" class="dropzone" id="my-awesome-dropzone">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            </form>
+            <div style="z-index: 2; margin-top: -250px; position: absolute; width: 95%;">
+                <center>
+                    <h4 class="alert alert-info" style="margin-top: -50px;">Upload Design Sheet below</h4>
+                    <form action="/administration/material/insert_dz_design_sheet" class="dropzone" id="my-awesome-dropzone" style="margin-top: -20px;">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    </form>
+                </center>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -209,8 +217,23 @@
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/dropzone/dropzone.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
-$(function(){  
+$(function(){
+
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": false,
+        "info": false,
+        "autoWidth": false
+    });
+
+    $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
+    // var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
     $('.submit').attr('disabled','disabled'); 
 
@@ -229,6 +252,7 @@ $(function(){
 
     $(document).on('change', '.style-name, .block-pattern-option, .qstrike-item-id, .priority, .deadline, .design_sheet', function() {
         updateData();
+        // console.log($('.deadline').val());
     });
 
     $(document).on('change', '.sport', function() {
@@ -250,7 +274,7 @@ $(function(){
     $(document).on('change', '.block-pattern', function() {
         window.block_pattern_id = $('.block-pattern option:selected').data('block-pattern-id');
         console.log(window.uniform_category_id);
-        $('.block-pattern-option').html('<option value="none" data-block-pattern-id="0">Select Block Pattern</option>');
+        $('.block-pattern-option').html('<option value="none" data-block-pattern-id="0">Select Block Pattern Option</option>');
 
         var block_pattern = _.filter(window.block_pattern, function(e){ return e.id == window.block_pattern_id.toString(); });
         console.log(block_pattern);
@@ -325,7 +349,8 @@ $(function(){
         var sport = $('.sport').val();
         var qstrike_item_id = $('.qstrike-item-id').val();
         var priority = $('.priority').val();
-        var deadline = $('.deadline').val();
+        // var deadline = $('.deadline').val();
+        var deadline = $('#datepicker').val();
         var design_sheet_url = $('.design-sheet-path').val();
         window.data = {
             'name' : name,
