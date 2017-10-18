@@ -42,12 +42,12 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Style Name</th>
+                            <th>Style Name</th>                          
+                            <th>Sport</th>
                             <th>Block Pattern</th>
                             <th>Option
                             <a href="#" data-toggle="tooltip" data-message="Neck, waist or other options"><span class="glyphicon glyphicon-info-sign"></span></a>
                             </th>
-                            <th>Sport</th>
                             <th>Design Sheet</th>
                             <th>Item ID
                             <a href="#" data-toggle="tooltip" data-message="QStrike Item ID"><span class="glyphicon glyphicon-info-sign"></span></a>
@@ -64,22 +64,30 @@
                     @forelse ($style_requests as $style_request)
                     <tr class='style-request-{{ $style_request->id }}'>
                         <td class="style-id">{{ $style_request->id }}</td>
-                        <td>{{ $style_request->name }}</td>
-                        <td>{{ $style_request->block_pattern }}</td>
-                        <td>{{ $style_request->block_pattern_option }}</td>
-                        <td>{{ $style_request->sport }}</td>
+                        <td class="style-name">{{ $style_request->name }}</td>                        
+                        <td class="style-sport">{{ $style_request->sport }}</td>
+                        <td class="style-block-pattern">{{ $style_request->block_pattern }}</td>
+                        <td class="style-option">{{ $style_request->block_pattern_option }}</td>
                         <td>
                             <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $style_request->design_sheet_url }}">Link</a>
                         </td>
-                        <td class="style-qstrike-item-id"><div id="item-id">{{ $style_request->qstrike_item_id }}</div></td>
-                        <td>{{ $style_request->priority }}</td>
-                        <td>{{ $style_request->deadline }}</td>
+                        <td class="style-qstrike-item-id">{{ $style_request->qstrike_item_id }}</td>
+                        <td class="style-priority">{{ $style_request->priority }}</td>
+                        <td >{{ $style_request->deadline }}</td>
                         <td>{{ $style_request->requested_by }}</td>
-                        <td>{{ $style_request->uploaded }}</td>
-                        <td class="style-customizer-id"><div id="customizer-id">{{ $style_request->customizer_id }}</div></td>
                         <td>
-                            <button type="button" class="btn btn-info btn-xs edit"><i class="glyphicon glyphicon-edit"></i></button>
-                            <button type="button" class="btn btn-default btn-xs submit"><i class="glyphicon glyphicon-floppy-save"></i></button>
+                            @if($style_request->uploaded) 
+                                {{ 'Yes' }}                        
+                            @else 
+                                {{ 'No' }}
+                            @endif
+                            <a href="#" data-toggle="tooltip" data-message="{{ $style_request->uploaded_by }}"><span class="glyphicon glyphicon-info-sign"></span></a>
+                        
+                        </td>
+                        <td class="style-customizer-id">{{ $style_request->customizer_id }}</td>
+                        <td>
+                            <button type="button" class="btn btn-info btn-xs edit" ><i class="glyphicon glyphicon-edit"></i></button>
+                         {{--    <button type="button" class="btn btn-default btn-xs submit"><i class="glyphicon glyphicon-floppy-save"></i></button> --}}
                             
                             <a href="#" class="delete-style-request btn btn-xs btn-danger pull-right" data-style-request-id="{{ $style_request->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
@@ -121,10 +129,11 @@
             <form class="form-horizontal" role="form" method="POST" action="#" name="form_horizontal" enctype="multipart/form-data" id='style-request-form'>
             <input type="hidden" class="design-sheet-path">
             <input type="hidden" class="data-string">
+            <input type="hidden" class="id">
             <div class="form-group">
                 <label class="col-md-4 control-label">Style Name</label>
                 <div class="col-md-6">
-                    <input type="text" class="form-control style-name" id="style_name" required>
+                    <input type="text" class="form-control name" id="name" required>
                 </div>
             </div>
             <div class="form-group">
@@ -170,12 +179,18 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="deadline">
                 <label class="col-md-4 control-label">Deadline</label>
                 <div class="col-md-6">
                     <!-- <input type="date" class="form-control deadline" required> -->
                     <!-- <div id="datepicker"></div> -->
                     <input type="text" id="datepicker">
+                </div>
+            </div>
+             <div class="form-group" id="customizer" style="display: none;">
+                <label class="col-md-4 control-label">Customizer ID</label>
+                <div class="col-md-6">
+                    <input type="number" class="form-control customizer-id" id="customizer_id" required>
                 </div>
             </div>
             <div class="form-group" style="margin-top: 260px; z-index: 3;">
@@ -212,18 +227,16 @@
 @endsection
 
 @section('custom-scripts')
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/dropzone/dropzone.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 $(function(){
-
-    $('.data-table').DataTable({
+    try {
+        $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": true,
@@ -231,11 +244,19 @@ $(function(){
         "info": false,
         "autoWidth": false
     });
+    } catch(e) {
+        // statements
+        console.log(e);
+    }
+
+    window.sport_value = null;
+    window.block_pattern_value = null;
+    window.option_value = null;
 
     $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
     // var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
-    $('.submit').attr('disabled','disabled'); 
+    // $('.submit').attr('disabled','disabled'); 
 
     $('.save-data').attr('disabled','disabled'); 
 
@@ -250,7 +271,7 @@ $(function(){
         win.focus();
     } 
 
-    $(document).on('change', '.style-name, .block-pattern-option, .qstrike-item-id, .priority, .deadline, .design_sheet', function() {
+    $(document).on('change', '.name, .block-pattern-option, .qstrike-item-id, .priority, .deadline, .design_sheet, .customizer-id', function() {
         updateData();
         // console.log($('.deadline').val());
     });
@@ -265,9 +286,17 @@ $(function(){
 
         var sorted_block_patterns = _.sortBy(filtered_block_patterns, function(o) { return o.name; });
         // console.log(sorted_sports);
+        var block_pattern_value = window.block_pattern_value;
+        $( '#block_pattern' ).html('');
         sorted_block_patterns.forEach(function(entry) {
-            var elem = '<option value="'+entry.name+'" data-block-pattern-id="'+entry.id+'">'+entry.name+'</option>'
-            $('.block-pattern').append(elem);
+            if(block_pattern_value == entry.name){
+                var elem = '<option value="'+entry.name+'" data-block-pattern-id="'+entry.id+'" selected>'+entry.name+'</option>'
+                $('.block-pattern').append(elem);
+            }
+            else {
+                var elem = '<option value="'+entry.name+'" data-block-pattern-id="'+entry.id+'">'+entry.name+'</option>'
+                $('.block-pattern').append(elem);
+            }
         });
     });
 
@@ -304,16 +333,24 @@ $(function(){
             var result = _.flatten(list);
             console.log('result')
             console.log(result);
-
+            var option_value = window.option_value;
+            $('.block-pattern-option').html('');
             result.forEach(function(entry) {
-                var elem = '<option value="'+entry.name+'">'+entry.name+'</option>'
-                $('.block-pattern-option').append(elem);
+                if (option_value == entry.name) {
+                    var elem = '<option value="'+entry.name+'" selected>'+entry.name+'</option>'
+                    $('.block-pattern-option').append(elem);
+                }
+                else {
+                   var elem = '<option value="'+entry.name+'">'+entry.name+'</option>'
+                    $('.block-pattern-option').append(elem); 
+                }
+                
             });
         }
     });
 
     window.data = {};
-    window.sports = null;
+    window.sports = null;    
     window.block_pattern = null;
     window.block_pattern_option = null;
     window.uniform_category_id = null;
@@ -323,8 +360,14 @@ $(function(){
         console.log('submit');
 
         var data = $('.data-string').val();
-        var url = "//" + api_host + "/api/v1-0/style_request";        
-        console.log(data);
+        if (window.data.id != '')
+        {
+            var url = "//" + api_host + "/api/v1-0/style_request/update"; 
+        }
+        else {
+            var url = "//" + api_host + "/api/v1-0/style_request";        
+        }           
+      
         $.ajax({
             url: url,
             type: "POST",
@@ -343,16 +386,19 @@ $(function(){
     });
 
     function updateData(){
-        var name = $('.style-name').val();
+        var id = $('.id').val();
+        var name = $('.name').val();
         var block_pattern = $('.block-pattern').val();
         var block_pattern_option = $('.block-pattern-option').val();
         var sport = $('.sport').val();
         var qstrike_item_id = $('.qstrike-item-id').val();
         var priority = $('.priority').val();
-        // var deadline = $('.deadline').val();
+        var deadline = $('.deadline').val();
         var deadline = $('#datepicker').val();
         var design_sheet_url = $('.design-sheet-path').val();
+        var customizer_id = $('.customizer-id').val();
         window.data = {
+            'id' : id,
             'name' : name,
             'block_pattern' : block_pattern,
             'block_pattern_option' : block_pattern_option,
@@ -360,7 +406,8 @@ $(function(){
             'qstrike_item_id' : qstrike_item_id,
             'priority' : priority,
             'deadline' : deadline,
-            'design_sheet_url' : design_sheet_url
+            'design_sheet_url' : design_sheet_url,
+            'customizer_id' : customizer_id
         };
         $('.data-string').val(JSON.stringify(window.data));
         console.log(window.data);
@@ -389,7 +436,7 @@ $(function(){
                 'name' : file.name,
                 'url' : response
             });
-            console.log(filesData);
+            // console.log(filesData);
             $('.design-sheet-path').val(filesData[0].url);
             // buildRows(filesData);
         },
@@ -454,27 +501,46 @@ $(function(){
     function buildSportsDropdown(){
         var sorted_sports = _.sortBy(window.sports, function(o) { return o.name; });
         console.log(sorted_sports);
+        var sport_value = window.sport_value;
+        $( '.sport' ).html('');
         sorted_sports.forEach(function(entry) {
-            var elem = '<option value="'+entry.name+'" data-uniform-category-id="'+entry.id+'">'+entry.name+'</option>'
-            $('.sport').append(elem);
+            if( sport_value == entry.name) {
+                var elem = '<option value="'+entry.name+'" data-uniform-category-id="'+entry.id+'" selected>'+entry.name+'</option>'
+                $('.sport').append(elem);
+            }
+            else {
+                var elem = '<option value="'+entry.name+'" data-uniform-category-id="'+entry.id+'">'+entry.name+'</option>'
+                $('.sport').append(elem);
+            }
         });
     }
 
     $('.edit').on('click', function(e){
         e.preventDefault();
-        $(this).parent().parent().find('#item-id').attr('contenteditable', 'true');
-        $(this).parent().parent().find('#customizer-id').attr('contenteditable', 'true');
+        getValues($(this));
+        $('#deadline').attr({"style": "display: none;"});
+        $('#customizer').removeAttr('style');
+        // $('#name').trigger('keyup');
+       
     });
 
-    $(".style-qstrike-item-id, .style-customizer-id").on("keyup", function(e){    
-        e.preventDefault();
+    $("#myModal").on("hidden.bs.modal", function() {
+   
+        window.sport_value = null;
+        buildSportsDropdown();
+        $('.sport').trigger('change');  
+        $('.id').val('');
+        $('.name').val('');
+        $('.qstrike-item-id').val('');
+        $('.customizer-id').val('');
+        $('#deadline').attr({"style": "display: block;"});
+        $('#customizer').attr({"style": "display: none;"});
 
-        $(this).parent().find('.submit').removeAttr('disabled');     
     });
 
-    $("#style_name, #qstrike_item_id").on("keyup", function(e){    
+    $(".name, #qstrike_item_id, #customizer_id").on("keyup", function(e){    
         e.preventDefault();
-        var name = document.getElementById("style_name").value;
+        var name = document.getElementById("name").value;
         var qx_id = document.getElementById("qstrike_item_id").value;
         if ( name.length > 0 && qx_id.length > 0) {    
             $('.save-data').removeAttr('disabled');
@@ -485,50 +551,31 @@ $(function(){
 
     });
 
-    $('.submit').on('click', function(e){
-        e.preventDefault();           
-        saveValue($(this));
-        $(this).parent().parent().find('#item-id').attr('contenteditable', 'false');
-        $(this).parent().parent().find('#customizer-id').attr('contenteditable', 'false');
-    });
+    function getValues(thisObj)
+    {
+        var id = thisObj.parent().parent().find('.style-id').html();
+        var name = thisObj.parent().parent().find('.style-name').html();
+        var sport = thisObj.parent().parent().find('.style-sport').html();
+        var block_pattern = thisObj.parent().parent().find('.style-block-pattern').html();
+        var option = thisObj.parent().parent().find('.style-option').html();
+        var item_id = thisObj.parent().parent().find('.style-qstrike-item-id').html();
+        var priority = thisObj.parent().parent().find('.style-priority').html();
+        var customizer_id = thisObj.parent().parent().find('.style-customizer-id').html();
 
-    function saveValue(thisObj){
-        var temp = [];
-            var data = {
-                    "id" : thisObj.parent().parent().find('.style-id').text(),
-                    "qstrike_item_id" : thisObj.parent().parent().find('.style-qstrike-item-id').text(),
-                    "customizer_id" : thisObj.parent().parent().find('.style-customizer-id').text(),
-        };
+        window.sport_value = sport;
+        window.block_pattern_value = block_pattern;
+        window.option_value = option;
+        buildSportsDropdown();
+        $('.sport').trigger('change');  
+        $('.block-pattern').trigger('change');  
+        $('.id').val(id); 
+        $('.name').val(name);       
+        $('.qstrike-item-id').val(item_id);
+        $('.priority').val(priority);      
+        $('.customizer-id').val(customizer_id);
 
-            temp.push(data);
-            console.log(data);
-            var material = JSON.stringify(temp);
-            console.log(material);
+        $('#myModal').modal('show'); 
 
-        var url = "//" + api_host + "/api/v1-0/style_request/update";   
-             
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify(data),
-            dataTYPE: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            // headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success){
-                    new PNotify({
-                    title: 'Success',
-                    text: response.message,
-                    type: 'success',
-                    hide: true
-                    });
-                    $('.submit').attr('disabled','disabled');  
-                  
-                }
-
-            }
-        })
     }
 
     $('.delete-style-request').on('click', function(){
