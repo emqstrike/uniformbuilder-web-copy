@@ -1686,7 +1686,8 @@ $(document).ready(function() {
 
         }
 
-        $('a.change-view[data-view="locations-add"]').click();
+        ub.funcs.deActivateZoom();
+        ub.funcs.addLocation(true);
 
     });
 

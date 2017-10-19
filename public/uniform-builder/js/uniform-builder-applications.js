@@ -10260,6 +10260,20 @@ $(document).ready(function() {
 
         // End Select Perspective 
 
+        // Art Only 
+
+        if (typeof artOnly !== "undefined") {
+
+            if(artOnly) {
+                
+                $('span.optionButton').not('[data-type="embellishments"]').hide();
+                $('span.optionButton[data-type="embellishments"]').trigger('click');
+
+            }
+
+        }
+
+        // End Art Only 
 
     };
 
