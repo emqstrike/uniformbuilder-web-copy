@@ -6640,7 +6640,7 @@ $(document).ready(function() {
                 _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
-                if (ub.config.uniform_application_type !== "sublimated" || !ub.config.features.isOn('uniforms','betaSportUniforms')) {
+                if (ub.config.uniform_application_type !== "sublimated") {
                     if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
                 }
 
@@ -8295,7 +8295,7 @@ $(document).ready(function() {
                 _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
-                if (ub.config.uniform_application_type !== "sublimated" || !ub.config.features.isOn('uniforms','betaSportUniforms')) {
+                if (ub.config.uniform_application_type !== "sublimated") {
                     if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
                 }
 
@@ -10018,7 +10018,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.addLocation = function () {
+    ub.funcs.addLocation = function (artOnly) {
 
         // Guard
 
@@ -10230,17 +10230,6 @@ $(document).ready(function() {
                 var _type = $('span.optionButton.active').data('type');
                 var _side = $('span.side.active').data('id');
 
-                if (_type === "embellishments") {
-
-                    if (!ub.config.features.isOn('uniforms','betaSportUniforms')) {
-
-                        ub.showModalTool('Embellishment Application Types are only accessible only to Administrators for now.');
-                        return;
-
-                    }
-
-                }
-
                 ub.funcs.newApplication(_perspective, _part, _type, _side);
                 dialog.modal('hide');
 
@@ -10260,6 +10249,20 @@ $(document).ready(function() {
 
         // End Select Perspective 
 
+        // Art Only 
+
+        if (typeof artOnly !== "undefined") {
+
+            if(artOnly) {
+                
+                $('span.optionButton').not('[data-type="embellishments"]').hide();
+                $('span.optionButton[data-type="embellishments"]').trigger('click');
+
+            }
+
+        }
+
+        // End Art Only 
 
     };
 
@@ -10671,7 +10674,7 @@ $(document).ready(function() {
         _htmlBuilder        +=                 '<div class="caption">Mascot</div>';
         _htmlBuilder        +=           '</div>';
 
-        if (ub.config.uniform_application_type !== "sublimated" || !ub.config.features.isOn('uniforms','betaSportUniforms')) {
+        if (ub.config.uniform_application_type !== "sublimated") {
             if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
         }
 
