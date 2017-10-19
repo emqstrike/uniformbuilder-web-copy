@@ -10018,7 +10018,7 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.addLocation = function () {
+    ub.funcs.addLocation = function (artOnly) {
 
         // Guard
 

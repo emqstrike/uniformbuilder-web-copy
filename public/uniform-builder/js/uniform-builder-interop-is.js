@@ -1616,6 +1616,16 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.afterLoadEmbellishments = function () {
+
+          if (ub.config.uniform_application_type === "sublimated") {
+              $('span.add-art').addClass('sublimated');
+          } else {
+              $('span.add-art').addClass('non-sublimated');
+          }
+
+    }
+
     ub.funcs.changeEmbellishmentFromPopup = function (mascotId, settingsObj, source) {
 
         if (typeof source === "undefined") {
@@ -1659,5 +1669,25 @@ $(document).ready(function() {
         ub.status.mascotPopupVisible = false;
 
     }
+
+    $('span.add-art').unbind('click');
+    $('span.add-art').on('click', function () {
+
+       // Guard Expression for non-sublimated styles 
+       if (ub.config.uniform_application_type !== "sublimated") {
+    
+           var dialog = bootbox.dialog({
+                title: 'Sorry! This is not allowed here.',
+                message: 'Art (Embellishments) is only enabled for sublimated styles.',
+                size: 'medium',
+            });
+
+            return;
+
+        }
+
+        $('a.change-view[data-view="locations-add"]').click();
+
+    });
 
 });

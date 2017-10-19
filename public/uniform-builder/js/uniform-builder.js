@@ -428,7 +428,8 @@ $(document).ready(function () {
 
             $('div.left-pane-column-full').fadeIn();
             $('span.fullscreen-btn').fadeIn();
-            $('span.art-btn').fadeIn();
+
+            ub.funcs.afterLoadEmbellishments();
 
             if (_.contains(ub.fontGuideIDs, window.ub.valid)) {
 
