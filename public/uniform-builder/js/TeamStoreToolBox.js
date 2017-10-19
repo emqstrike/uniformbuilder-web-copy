@@ -87,24 +87,71 @@ var TeamStoreToolBox = {
         ub.utilities.getJSON(url,
             function(response) {
                 if (response.success) {
-                    response.material.pricing = JSON.parse(response.material.pricing);
-                    if (response.material.pricing) {
-                        // Adult Pricing
-                        if (response.material.pricing.adult_min_msrp) {
-                            response.material.price = response.material.pricing.adult_min_msrp;
+                    response.material.pricing_details = response.material.pricing;
+                    var materialOptionsURL = ub.config.api_host + '/api/materials_options/' + material_id;
+
+                    ub.utilities.getJSON(materialOptionsURL, function(materialOptionsResponse) {
+                        if (materialOptionsResponse.success) {
+                            var materialOptions = materialOptionsResponse.materials_options;
+                            var applicationProperties = [];
+
+                            Object.keys(materialOptions).forEach(function(key) {
+                                if (materialOptions[key].perspective == 'back' || materialOptions[key].perspective == 'front') {
+                                    if (materialOptions[key].applications_properties) {
+                                        var properties = materialOptions[key].applications_properties.slice(1, -1);
+                                        properties = JSON.parse(properties);
+                                        Object.keys(properties).forEach(function(key) {
+                                            applicationProperties.push(properties[key]);
+                                        });
+                                    }
+                                }
+                            });
+
+                            var hasPlayerName = applicationProperties.some(function(object) {
+                                return object.hasPlayerName === 1;
+                            });
+
+                            if (hasPlayerName) {
+                                response.material.has_jersey_name = 1;
+                            } else {
+                                response.material.has_jersey_name = 0;
+                            }
+
+                            var hasNumber = applicationProperties.some(function(object) {
+                                return object.hasNumber === 1;
+                            });
+
+                            if (hasNumber) {
+                                response.material.has_jersey_number = 1;
+                            } else {
+                                response.material.has_jersey_number = 0;
+                            }
                         }
-                        if (response.material.pricing.adult_min_web_price_sale) {
-                            response.material.price_sale = response.material.pricing.adult_min_web_price_sale;
+
+                        response.material.pricing = JSON.parse(response.material.pricing);
+                        if (response.material.pricing) {
+                            // Adult Pricing
+                            if (response.material.pricing.adult_min_msrp) {
+                                response.material.price = response.material.pricing.adult_min_msrp;
+                            }
+                            if (response.material.pricing.adult_min_web_price_sale) {
+                                response.material.price_sale = response.material.pricing.adult_min_web_price_sale;
+                            }
+                            // Youth Pricing
+                            if (response.material.pricing.youth_min_msrp) {
+                                response.material.price_youth = response.material.pricing.youth_min_msrp;
+                            }
+                            if (response.material.pricing.youth_min_web_price_sale) {
+                                response.material.price_youth_sale = response.material.pricing.youth_min_web_price_sale;
+                            }
+
+                            if (response.material.uniform_category) {
+                                response.material.uniform_category = response.material.uniform_category;
+                            }
                         }
-                        // Youth Pricing
-                        if (response.material.pricing.youth_min_msrp) {
-                            response.material.price_youth = response.material.pricing.youth_min_msrp;
-                        }
-                        if (response.material.pricing.youth_min_web_price_sale) {
-                            response.material.price_youth_sale = response.material.pricing.youth_min_web_price_sale;
-                        }
-                    }
-                    return TeamStoreToolBox.offer_product_to_team_store(response.material);
+
+                        return TeamStoreToolBox.offer_product_to_team_store(response.material);
+                    });
                 }
                 return false;
             }
