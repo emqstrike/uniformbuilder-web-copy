@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+ 
     /// NEW RENDERER ///
 
         /// Initialize Uniform Builder
@@ -401,7 +401,15 @@ $(document).ready(function () {
 
                 $('a.footer-buttons[data-view="right"], a.footer-buttons[data-view="left"]').addClass('disabled')
 
-            }                
+            }           
+
+            if (ub.data.hasProcessedArtworks) {
+                
+                // Hide Save and Order buttons, this will be processed manually
+                $('a.footer-buttons[data-view="save"]').addClass('disabled');
+                $('a.footer-buttons[data-view="team-info"]').addClass('disabled');
+                
+            }
 
         }
 
@@ -567,6 +575,8 @@ $(document).ready(function () {
                 });
 
             }
+
+            if (ub.config.pageType === "Saved Design") { ub.funcs.initGuideSavedDesign(); }
 
             if (ub.render !== "1") {
 
@@ -2199,8 +2209,11 @@ $(document).ready(function () {
 
     ub.funcs.approveRejectArtwork = function (artworks, parsedArtworks) {
 
-        var _data = { artworks: parsedArtworks };
-        
+        var _data = { 
+            artworks: parsedArtworks,
+            note: "Click the approve or reject button for the custom artwork request so that we can adjust the mascot if it was rejected or proceed to the order processing if everthing is ok. You can use the notes field to enter your comment to give the reason why you rejected the processed mascot."
+        };
+
         var _markup = ub.utilities.buildTemplateString('#m-car-approve-dialog', _data);
 
         var dialog = bootbox.dialog({
@@ -2598,6 +2611,7 @@ $(document).ready(function () {
                 ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
 
                 if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+                if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
 
             }
 
@@ -2614,7 +2628,7 @@ $(document).ready(function () {
                 ub.update_application_logo(application_obj);
 
             }
-    
+
         });
 
         /// 

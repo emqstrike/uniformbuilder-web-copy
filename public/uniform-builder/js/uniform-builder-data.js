@@ -13277,7 +13277,7 @@ ub.funcs.fontOffSets = [
                 alias: 'Cuts Links',
             },
             {
-                name: 'logo_requests',
+                name: 'logo_request',
                 alias: 'Logo Requests',
             },
     

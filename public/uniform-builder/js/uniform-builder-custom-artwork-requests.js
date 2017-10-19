@@ -1,5 +1,306 @@
 $(document).ready(function() {
 
+    ub.funcs.initGuideSavedDesign = function () {
+
+        // If the artwork has been processed already 
+
+        if (ub.data.hasProcessedArtworks) {
+            
+            $('span.approve-reject-artwork-btn').show();
+            $('div#order-status').html('Artwork Processed, please review the logo and press the <br/ >Approve / Reject Artwork button below to finalize the artwork for submission.');
+            $('div#order-status').show();
+
+            $('div#order-status').attr('data-intro', 'This saved design has its artwork ready for your review.');
+            $('div#order-status').attr('data-position', 'right');
+
+            $('span.approve-reject-artwork-btn').attr('data-step', '2');
+            $('span.approve-reject-artwork-btn').attr('data-position', 'right');
+            $('span.approve-reject-artwork-btn').attr('data-intro', 'After reviewing the mascots, please click here to approve or reject, so we can make the necessary changes or if you approve we can submit this order for processing.');
+
+            introJs().start();
+
+        } else {
+
+            console.log('No Processed Artworks...');
+
+        }
+
+    }
+
+    ub.funcs.updateSavedDesign = function () {
+
+        ub.data.updateSaveDesignFromCustomArtworkRequest = true;
+
+        ub['front_view'].visible = true;
+        ub['left_view'].visible = true;
+        ub['right_view'].visible = true;
+        ub['back_view'].visible = true;
+
+        ub.funcs.turnLocationsOff();
+        ub.funcs.showSaveDialogBox();
+        ub.funcs.cleanupsBeforeSave();
+
+        $('img.front_view').attr('src', '');
+        $('img.back_view').attr('src', '');
+        $('img.left_view').attr('src', '');
+        $('img.right_view').attr('src', '');
+
+        ub.current_material.settings.thumbnails = {
+            
+            front_view: "",
+            back_view: "",
+            left_view: "",
+            right_view: "",
+
+        }
+
+        ub.funcs.removeLocations();
+        $(this).removeClass('zoom_on');
+
+        ub.funcs.uploadThumbnailSaveDesign('front_view');
+        ub.funcs.uploadThumbnailSaveDesign('back_view');
+        ub.funcs.uploadThumbnailSaveDesign('left_view');
+        ub.funcs.uploadThumbnailSaveDesign('right_view');
+
+
+
+    };
+
+    ub.funcs.updateLogoRequest = function () {
+
+         dialog = bootbox.dialog({
+            title: 'Logo Request',
+            message: 'Updating Logo Request...',
+            size: 'large',
+            //closeButton: false,
+        });
+
+        var _url = ub.config.api_host + '/api/v1-0/logo_request/update';
+        var _propertyOverwrite = JSON.stringify(ub.data.logo_request.parsedProperties);
+
+        delete ub.data.logo_request.parsedProperties;
+
+        ub.data.logo_request.properties = JSON.parse(_propertyOverwrite);
+        
+        $.ajax({
+            
+            url: _url,
+            type: "POST", 
+            data: JSON.stringify(ub.data.logo_request),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            
+            success: function (response) {
+
+                console.log('Update Logo Request Result:');
+                console.log(response);
+
+                // Update Saved Design if the custom artwork request if approved by the user without user rejections
+                if (ub.data.logo_request.status === 'completed') {
+                    
+                    ub.funcs.updateSavedDesign();
+
+                }
+
+                dialog.modal('hide');
+                $('span.approve-reject-artwork-btn').fadeOut();
+                $('div#order-status').fadeOut();
+
+            }
+            
+        });
+
+    }
+
+    ub.funcs.approveRejectArtworkSavedDesign = function (logoRequests, parsedProperties) {
+
+        var _markup;
+        var _dialog; 
+
+        _markup = ub.utilities.buildTemplateString('#m-car-approve-dialog', { 
+            artworks: parsedProperties,
+            note: "Click the approve or reject button for the custom artwork request so that we can adjust the mascot if it was rejected or proceed to the order processing if everthing is ok. You can use the notes field to enter your comment to give the reason why you rejected the processed mascot.",
+        });
+
+        dialog = bootbox.dialog({
+            title: 'Approve / Reject Artwork',
+            message: _markup,
+            size: 'large',
+        });
+
+        dialog.init( function () {
+
+            $('span.approve').unbind('click');
+            $('span.approve').on('click', function () {
+
+                var _code = $(this).data('code');
+
+                $('span.btn[data-code="' + _code +'"]').removeClass('active');
+                $(this).addClass('active');
+
+            });
+
+            $('span.reject').unbind('click');
+            $('span.reject').on('click', function () {
+
+                var _code = $(this).data('code');
+
+                $('span.btn[data-code="' + _code +'"]').removeClass('active');
+                $(this).addClass('active');
+
+            });
+
+            $('span.btn.cancel').unbind('click');
+            $('span.btn.cancel').on('click', function () {
+                
+                dialog.modal('hide')
+
+            });
+
+            $('span.btn.submit').unbind('click');
+            $('span.btn.submit').on('click', function () {
+
+                dialog.modal('hide');
+
+                var _artWorksTemp = [];
+                var _hasRejection = false;
+
+                $('td.approve-reject').find('span.btn.active').each(function (index) {
+
+                    var _code = $(this).data('code');
+                    var _state = $(this).data('state'); 
+                    var _item = _.find(parsedProperties, {code: _code.toString()});
+
+                    if (typeof _item !== "undefined") {
+
+                        _item.approved = _state === "approve" ? '1': '0';
+                        _item.updated = 0;
+
+                        if (_state === "reject") {
+                            _item.user_rejected = '1';
+                            _item.approved = -1;
+                            _item.user_notes = $('textarea.notes[data-code="' + _code + '"]').val()
+
+                            _hasRejection = true;
+                        }
+
+                        _item.user_notes = $('textarea[data-code="' + _code + '"]').val();
+                        _artWorksTemp.push(_item);
+                        
+                    }
+
+                });
+
+                if (_hasRejection) {
+                    ub.data.logo_request.status = 'user_rejected';
+                } else { 
+                    ub.data.logo_request.status = "completed";
+                }
+
+                ub.data.logo_request.parsedProperties = _artWorksTemp;
+                ub.data.logo_request.properties =  JSON.stringify(_artWorksTemp);
+
+                ub.funcs.updateLogoRequest();
+
+            });
+
+        });
+
+    };
+
+    ub.funcs.customArtworkRequestCheckSavedDesign = function (applicationObj) {
+
+        var _logoRequest = undefined;
+
+        if (typeof ub.data.logo_request !== "undefined") {
+
+            _logoRequest = _.find(ub.data.logo_request.parsedProperties, { code: applicationObj.code });
+
+            if (typeof _logoRequest !== "undefined") {
+
+                ub.data.hasProcessedArtworks = (_logoRequest.mascot_id !== null) && (_logoRequest.approved !== "1") && (_logoRequest.user_rejected !== "1");
+
+                if (ub.data.hasProcessedArtworks) {
+
+                    var _mascot = ub.funcs.getMascotByID(_logoRequest.mascot_id);
+                    ub.data.hasProcessedArtworks = ub.data.hasProcessedArtworks;
+
+                    ub.config.orderArtworkStatus = 'artwork processed';
+
+                    applicationObj.mascotOld = applicationObj.mascot;
+                    applicationObj.mascot = _mascot;
+                    applicationObj.preview = true;
+
+                    ub.funcs.update_application_mascot(applicationObj.application, _mascot);
+
+                    $('span.approve-reject-artwork-btn').fadeIn();
+
+                    // Approve Artwork
+                    $('span.approve-reject-artwork-btn').unbind('click');
+                    $('span.approve-reject-artwork-btn').on('click', function () {
+                        ub.funcs.approveRejectArtworkSavedDesign(ub.data.logo_request, ub.data.logo_request.parsedProperties);
+                    });
+
+                }
+
+            }
+
+        }
+
+        // ub.funcs.getOrdersWItems(function (response) {
+
+        //     var _hasProcessedArtworks = false;
+
+        //     if (typeof response.order_info.artworks[0] !== "undefined") {
+
+        //         var _artWorks = response.order_info.artworks[0];
+        //         var _parsedArtworks = JSON.parse(_artWorks.artworks);
+
+        //         _hasProcessedArtworks = true;
+
+        //         if (ub.funcs.applicationObjHasCustomArtwork(applicationObj.code)) {
+
+        //             var _artworkEntry = _.find(_parsedArtworks, {code: applicationObj.code});
+
+        //             if (typeof _artworkEntry !== "undefined") {
+
+        //                 if (typeof parseInt(_artworkEntry.mascot_id) === "number") {
+
+        //                     var _mascot = ub.funcs.getMascotByID(_artworkEntry.mascot_id);
+        //                     ub.data.hasProcessedArtworks = _hasProcessedArtworks;
+
+        //                     ub.config.orderArtworkStatus = 'artwork processed';
+
+        //                     applicationObj.mascotOld = applicationObj.mascot;
+        //                     applicationObj.mascot = _mascot;
+        //                     applicationObj.preview = true;
+
+        //                     ub.funcs.update_application_mascot(applicationObj.application, _mascot);
+
+        //                     $('span.approve-reject-artwork-btn').fadeIn();
+
+        //                     // Approve Artwork
+        //                     $('span.approve-reject-artwork-btn').unbind('click');
+        //                     $('span.approve-reject-artwork-btn').on('click', function () {
+        //                         ub.funcs.approveRejectArtwork(_artWorks, _parsedArtworks);
+        //                     });
+
+        //                     ub.funcs.initGuide();
+
+        //                 }
+
+        //             }
+
+        //         }
+
+        //     }
+
+        // });
+
+    }
+
     ub.funcs.processLogoRequests = function () {
 
         var _processedLogoRequest = [];
@@ -26,7 +327,7 @@ $(document).ready(function() {
             }
 
         } 
-
+        
     };
 
     ub.funcs.changeActiveTab = function (tabClass, type) {
@@ -253,13 +554,28 @@ $(document).ready(function() {
 
     ub.funcs.prepareCustomArtworkRequestTable = function (type) {
 
-        var _data = ub.data.logo_requests;
         var _template = $().html();
 
         $('div.my-custom-artwork-requests-loading').hide();
 
-        if (typeof type !== "undefined") { _data = _.filter(_data, {status: type}); }
+        if (typeof type !== "undefined") { 
 
+            _data = _.filter(ub.data.logo_request, function (lrequest) {
+
+                var _status = lrequest.status === type;
+
+                if (type === "pending") {
+
+                    _status = lrequest.status === type || lrequest.status === "user_rejected"; // Include user rejected on pending tab
+
+                }
+
+                return _status;
+
+            });
+
+        }
+            
         _markup = ub .utilities.buildTemplateString('#m-custom-artwork-requests', data = {
             car: _data,
             titleCase: function () {

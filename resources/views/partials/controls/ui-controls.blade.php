@@ -1840,7 +1840,7 @@
 
         <div class="save-design">
 
-            <h3><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Design</h3>
+            <h3><i class="fa fa-floppy-o" aria-hidden="true"></i> @{{title}}</h3>
 
             <div class="row">
 
@@ -2390,67 +2390,7 @@
 
 </script>
 
-<script type="text/mustache" id="m-car-approve-dialog">
-    
-    <div class="approve-dialog">
-        
-        <p class="notice">
-            <em>
-                Click the approve or reject button for the custom artwork request so that we can adjust the mascot if it was rejected or proceed to the order processing if everthing is ok. You can use the notes field to enter your comment to give the reason why you rejected the processed mascot.
-            </em>
-        </p>
-        
-        <table class="approve-reject-table">
-     
-            <tr class="header-row">
-                    
-                <td>Location #</td>
-                <td>Mascot ID</td>
-                <td>Thumbnail</td>
-                <td>Link To PDF</td>
-                <td>Approve / Reject</td>
-                <td>Notes</td>
 
-            </tr>
-            
-            @{{#artworks}}
-
-            <tr class="content-row">
-
-                <td class="location">@{{code}}</td>
-                <td class="mascot-id">@{{mascot_id}}</td>
-                <td class="thumb">Thumbnail</td>
-                <td class="link-to-pdf"><a href=""></a></td>
-                <td class="approve-reject">
-                        
-                    <span class="btn approve active" data-state="approve" data-code="@{{code}}">Approve</span>
-                    <span class="btn reject" data-state="reject" data-code="@{{code}}">Reject</span>
-
-                </td>
-                <td class="notes">
-                    
-                    <textarea class="notes" rows=3 cols=30 data-code="@{{code}}"></textarea>
-
-                </td>
-                
-            </tr>
-                
-            @{{/artworks}}
-
-        </table>
-
-        <hr />
-
-        <div class="footer-buttons">
-                
-            <span class="btn submit">Submit</span>
-            <span class="btn cancel">Cancel</span>
-
-        </div>
-
-    </div>
-            
-</script>
 
 <script type="text/mustache" id="m-loading">
     
@@ -2609,7 +2549,7 @@
                 <tr class="header">
 
                     <td>Date</td>
-                    <td>Reference ID</td>
+                    <td>Reference ID / Name</td>
                     <td>Type</td>
                     <td>Status</td>
                     <td>Submitted Artwork</td>
@@ -2629,7 +2569,17 @@
                         <td>@{{created_at}}</td>
                         
                         <td>
-                            <span class="link" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open @{{#titleCase}}@{{type}}@{{/titleCase}} (@{{reference_id}})."> @{{reference_id}} </span>
+                            <span class="link" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open @{{#titleCase}}@{{type}}@{{/titleCase}} (@{{reference_id}})."> 
+                                
+                                @{{reference_id}} <br />
+
+                            </span>
+
+                            <span class="name"> 
+                                @{{saved_design_name}}
+                                @{{client_name}}
+                            </span>
+
                         </td>
 
                         <td>@{{#titleCase}}@{{type}}@{{/titleCase}}</td>
@@ -2650,7 +2600,9 @@
                             <span class="btn" data-btn-type="preview" data-action="preview-submitted-artwork" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Preview the artwork you submitted in a popup">
                                 Preview Submitted Artwork
                             </span>
+
                             <br />
+                            
                             <span class="btn" data-btn-type="preview" data-action="preview-prepared-artwork" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Preview the artwork you submitted after its been processed by the our Graphic Artists">
                                 Preview Processed Mascot
                             </span>
@@ -2724,7 +2676,69 @@
 
         </div>
 
-    </script>   
+</script>   
+
+<script type="text/mustache" id="m-car-approve-dialog">
+    
+    <div class="approve-dialog">
+        
+        <p class="notice">
+            <em>
+                @{{note}}
+            </em>
+        </p>
+        
+        <table class="approve-reject-table">
+     
+            <tr class="header-row">
+                    
+                <td>Location #</td>
+                <td>Mascot ID</td>
+                <td>Thumbnail</td>
+            <td>Link To PDF</td>
+                <td>Approve / Reject</td>
+                <td>Notes</td>
+
+            </tr>
+            
+            @{{#artworks}}
+
+            <tr class="content-row">
+
+                <td class="location">@{{code}}</td>
+                <td class="mascot-id">@{{mascot_id}}</td>
+                <td class="thumb">Thumbnail</td>
+                <td class="link-to-pdf"><a href=""></a></td>
+                <td class="approve-reject">
+                        
+                    <span class="btn approve active" data-state="approve" data-code="@{{code}}">Approve</span>
+                    <span class="btn reject" data-state="reject" data-code="@{{code}}">Reject</span>
+
+                </td>
+                <td class="notes">
+                    
+                    <textarea class="notes" rows=3 cols=30 data-code="@{{code}}"></textarea>
+
+                </td>
+                
+            </tr>
+                
+            @{{/artworks}}
+
+        </table>
+
+        <hr />
+
+        <div class="footer-buttons">
+                
+            <span class="btn submit">Submit</span>
+            <span class="btn cancel">Cancel</span>
+
+        </div>
+
+    </div>
+            
+</script>
 
 <!-- End Custom Artwork Requests -->
 

@@ -458,6 +458,9 @@
             ub.config.savedDesignInfo = {
                 createdAt: "{{$created_at}}",
                 savedDesignID: "{{$saved_design_id}}",
+                name: "{{$saved_design_name}}",
+                UID: "{{$saved_design_user_id}}",
+
             }
 
             if(new Date(ub.config.savedDesignInfo.createdAt) < ub.config.switchToFrontBody &&

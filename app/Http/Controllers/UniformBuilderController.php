@@ -210,6 +210,9 @@ class UniformBuilderController extends Controller
                 $design = Session::get('design');
                 Session::put('order', null);
 
+                $params['saved_design_user_id'] = $config['saved_design_user_id'];
+                
+                $params['saved_design_name'] = $config['saved_design_name'];
                 $params['page'] = 'saved-design';
                 $bc = $config['builder_customizations'];
                 $params['saved_design_id'] = $config['id'];
@@ -2013,6 +2016,7 @@ class UniformBuilderController extends Controller
     public function loadSavedDesign($id, $render = false)
     {
         $savedDesign = $this->savedDesignsClient->getSavedDesign($id);
+
         if (isset($savedDesign))
         {
 
@@ -2029,6 +2033,8 @@ class UniformBuilderController extends Controller
             ]);
 
             $config = [
+                'saved_design_user_id' => $savedDesign->user_id,
+                'saved_design_name' => $savedDesign->name,
                 'material_id' => $materialId,
                 'id' => $savedDesign->id,
                 'builder_customizations' => $savedDesign->id,
