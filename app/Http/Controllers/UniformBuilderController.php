@@ -908,12 +908,26 @@ class UniformBuilderController extends Controller
                 } else {
 
                     $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
+                    $html .=   '<a href="http://' . env('WEBSITE_URL') . '/administration/mascot/edit/' . $application['mascot']['id'] . '" target="_new">Link To Mascot Details</a> <br />';
+                    $html .=   '<a href="' . $application['mascot']['ai_file'] . '" target="_new">Link To Mascot PDF File</a> <br />';
 
                 }
 
                 $html .=   '</td>';
 
-            } else {
+            } else if ($appType == "EMBELLISHMENTS" ) {
+
+                $embellishment = $application['embellishment'];
+
+                $html .=   '<td align="center">';
+                $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '"><br />';    
+                $html .=   'Name: ' . $embellishment['name'] . "<br />";
+                $html .=   '<a href="' . $embellishment['svg_filename'] . '" target="_new">Link To Prepared File</a> <br />';
+                $html .=   '</td>';
+
+            }
+
+             else {
                 $html .=   '<td align="center">';
                 $html .=   '<strong></strong>';
                 $html .=   '</td>';                
@@ -961,6 +975,18 @@ class UniformBuilderController extends Controller
 
                 $html .=   '</td>';                
 
+            } else if ($appType == "EMBELLISHMENTS" ) {
+            
+             $html .=   '<td align="center">';
+
+                // Applications greater than 70 are free-form tool applications, best fit for GA's
+                if (intval($application['code']) > 70 ) {
+
+                    $html .=   'Refer to Thumbnail<br />';    
+
+                }
+                $html .=   '</td>';    
+
             } else {
 
                 $html .=   '<td align="center">';
@@ -971,32 +997,37 @@ class UniformBuilderController extends Controller
 
             $html .=   '<td align="center">';
 
-            $colors = '';
-            foreach ($application['color_array'] as &$color) {
-                $colors .= $color['color_code'] . ",";
-            }
-
-            $colorsTrimmed = 'Accent: ' . rtrim($colors, ",");
-            $colorsTrimmed .= "<br />";
-
-            $html .= $colorsTrimmed;
-
-            $colorsTrimmed = '';
-            
-            if (isset($application['pattern_obj'])) {
-
-                if ($application['pattern_obj']['name'] !== "Blank") {
-
-                    $colors = '';
-                    foreach ($application['pattern_obj']['layers'] as &$layer) {
-                        $colors .= $layer['color_code'] . ",";
-                    }
-
-                    $colorsTrimmed = 'Pattern: ' . rtrim($colors, ",");
-
+            if ($appType == "EMBELLISHMENTS" ) {
+                $html .=   'Refer to Prepared File<br />';    
+            } else {
+                $colors = '';
+                foreach ($application['color_array'] as &$color) {
+                    $colors .= $color['color_code'] . ",";
                 }
 
+                $colorsTrimmed = 'Accent: ' . rtrim($colors, ",");
+                $colorsTrimmed .= "<br />";
+
                 $html .= $colorsTrimmed;
+
+                $colorsTrimmed = '';
+                
+                if (isset($application['pattern_obj'])) {
+
+                    if ($application['pattern_obj']['name'] !== "Blank") {
+
+                        $colors = '';
+                        foreach ($application['pattern_obj']['layers'] as &$layer) {
+                            $colors .= $layer['color_code'] . ",";
+                        }
+
+                        $colorsTrimmed = 'Pattern: ' . rtrim($colors, ",");
+
+                    }
+
+                    $html .= $colorsTrimmed;
+
+                }
 
             }
 
