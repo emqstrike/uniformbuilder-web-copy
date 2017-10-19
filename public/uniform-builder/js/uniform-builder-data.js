@@ -10656,6 +10656,57 @@ ub.funcs.fontOffSets = [
 
         items: [
 
+            // Football 2017 
+            {
+                sport: 'Football 2017',
+                applicationNumber: '26',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '26',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '26',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '27',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '27',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '27',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -35,
+            },
+
+            // End Football 2017 
 
             // Baseball 
             {
