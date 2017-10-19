@@ -25,7 +25,9 @@
                             <th>Client</th>
                             <th>Submitted By</th>
                             <th>Artworks</th>
-                            <th>Status / Notes</th>
+                            <th>Notes</th>
+                            <th>User Notes</th>
+                            <th>Status</th>
                             <th>Assigned GA</th>
                             <th>Date Submitted</th>
                             <th>Date Finished</th>
@@ -86,6 +88,7 @@
                                 @if ( isset($logo_request->properties) )
                                     {{--*/ $ctr = 0 /*--}}
                                     @foreach ($logo_request->properties as $item)
+                                    <p style="font-style: italic">{{ $item['notes'] }}</p>
                                         @if( isset($item['user_rejected']) )
                                             <div class="alert alert-danger">
                                                 Rejected
@@ -100,6 +103,22 @@
                                     {{--*/ $ctr++ /*--}}
                                     @endforeach
                                 @endif
+                            </td>
+                            <td>
+                                @if ( isset($logo_request->properties) )
+                                    {{--*/ $ctr = 0 /*--}}
+                                    @foreach ($logo_request->properties as $item)
+                                        @if ( isset($item['user_notes']) )
+                                         <p style="font-style: italic">{{ $item['user_notes'] }}</p>
+                                        @endif
+                                    {{--*/ $ctr++ /*--}}
+                                    @endforeach
+                                @endif
+                            </td>
+                            <td>
+                                <div>
+                                    {{ $logo_request->status }}
+                                </div>
                             </td>
                             <td>
                                 <div>

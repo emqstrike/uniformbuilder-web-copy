@@ -4,7 +4,7 @@
 
     <div align="center" id="embeddedDesigner"></div>
 
-    <em>Note: This feature is still under development please help test! But dont use it for live orders for now. Thank you!</em>
+    <em>Note: This feature is still under development, we appreciate any suggestions or feedback regarding any issues you have. Thank you!</em>
 
     <script type="text/javascript" language="javascript">
            
