@@ -2078,6 +2078,10 @@ $(document).ready(function() {
                 alias: "football",
             },
             {
+                name: "Football 2017",
+                alias: "football 2017",
+            },
+            {
                 name: "Wrestling",
                 alias: "text_wrestling",
             },
@@ -2454,6 +2458,51 @@ $(document).ready(function() {
                             }
                 ],
             },
+
+            // football 2017
+            {
+                name: 'mascot',
+                sport: 'football 2017',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            },
+                            {
+                                size: 6,
+                            },
+                            {
+                                size: 7,
+                            },
+                            {
+                                size: 8,
+                            },
+                            {
+                                size: 9,
+                            },
+                            {
+                                size: 10,
+                            },
+                            {
+                                size: 11,
+                            },
+                            {
+                                size: 12,
+                            }
+                ],
+            },
            
         ], 
         getSize: function (applicationType, sport, id) {
@@ -2478,8 +2527,8 @@ $(document).ready(function() {
             if (sport === "signature-coaches-short")            { return _result[0]; }
             if (sport === "soccer")                             { return _result[0]; }
             if (sport === "lacrosse")                           { return _result[0]; }
+            if (sport === "football 2017")                      { return _result[0]; }
 
-          
             if (typeof _object === "undefined") {
 
                 ub.utilities.warn('Mascot sizes for ' + sport + ' #' + id  + ' not found.');
@@ -10607,6 +10656,57 @@ ub.funcs.fontOffSets = [
 
         items: [
 
+            // Football 2017 
+            {
+                sport: 'Football 2017',
+                applicationNumber: '26',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '26',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '26',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '27',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '27',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '27',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -35,
+            },
+
+            // End Football 2017 
 
             // Baseball 
             {
@@ -11994,6 +12094,7 @@ ub.funcs.fontOffSets = [
             'Signature Coaches Short (Apparel)',
             'Basketball',
             'Cage Jacket (Apparel)',
+            'Football 2017',
         ],
         options: [
             'Fight Short',
@@ -12158,6 +12259,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Signature Coaches Short (Apparel)',
                 sublimatedPart: 'Extra',
             }, 
+            {
+                sport: 'Football 2017',
+                sublimatedPart: 'Body',
+            },
 
             // 
         ],
