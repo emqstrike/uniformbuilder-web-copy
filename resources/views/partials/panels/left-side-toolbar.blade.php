@@ -53,7 +53,11 @@
 
     <span class="toolbar-item add-art">
         <i class="fa fa-file-image-o" aria-hidden="true"></i>
-        <span class="toolbar-item-label">CREATE ART /<br /> UPLOAD FILE</span>
+        <span class="toolbar-item-label">
+            CREATE ART <br />
+            - or -<br />
+            UPLOAD FILE
+        </span>
     </span>
 
 

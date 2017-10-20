@@ -381,7 +381,66 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.updateEmbellishmentData = function () {}    
+
+    ub.funcs.createNewEmbellishmentData = function (obj) {
+
+        var _postData;
+        var _url = ub.endpoints.getFullUrlString('createNewEmbellishmentData');
+
+        _postData = {
+
+            design_id: obj.designSummary.DesignID,
+            design_name: obj.designSummary.Name,
+            user_id: (typeof ub.user.id !== "undefined") ? ub.user.id : 2, 
+            created_by_user_id: (typeof ub.user.id !== "undefined") ? ub.user.id : 2, 
+            design_summary: JSON.stringify(obj.designSummary),
+            design_details: JSON.stringify(obj.designDetails),
+            png_filename: ub.data.inkSoftBaseURL + obj.designSummary.Canvases[0].PngRelativeUrl,
+            svg_filename: ub.data.inkSoftBaseURL + obj.designSummary.Canvases[0].SvgRelativeUrl,
+            thumbnail: ub.data.inkSoftBaseURL + obj.designSummary.Canvases[0].ThumbnailRelativeUrl,
+            type: "User Design",
+            category: "User Design",
+            is_public: 0,
+            status: 'In Development',
+            archived: 0,
+
+        };
+
+        $.ajax({
+            
+            url: _url,
+            type: "POST", 
+            data: JSON.stringify(_postData),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            success: function (response) { ub.utilities.info('Created Embellisment Data ...'); }
+            
+        });
+
+    }
+
     window.is.isMessage = function (designID, applicationID) {
+
+        ub.data.embellismentDetails = {
+            designSummary: {},
+            designSummaryLoaded: false, 
+            designDetails: {},
+            designDetailsLoaded: false,
+
+            setStatus: function (varName, value) {
+
+                ub.data.embellismentDetails[varName] = value;
+                ub.data.embellismentDetails[varName + 'Loaded'] = true;
+
+                if (this.designSummaryLoaded && this.designDetailsLoaded) {
+                    ub.funcs.createNewEmbellishmentData(ub.data.embellismentDetails);
+                }
+
+            }
+        }
 
         window.is.closeDesignStudio();
         ub.funcs.getDesignSummary(designID, applicationID);
@@ -392,41 +451,32 @@ $(document).ready(function() {
     window.is.addDesignToUniform = function (response, applicationID) {
 
         if (typeof ub.objects.front_view.decal_1 !== "undefined") {
-
             ub.front_view.removeChild(ub.objects.front_view.decal_1);
             delete ub.objects.front_view.decal_1;
-
         }
 
         var _usePNG = true;
-
-        ub.data.inkSoftBaseURL = 'https://stores.inksoft.com';
-
-        if (_usePNG) {
-
-
-        }
-        
         var _svgFilename = ub.data.inkSoftBaseURL + response.Canvases[0].PngRelativeUrl;
         var _name = 'decal_1';
         var shape = ub.pixi.new_sprite(_svgFilename);
-        var current_view_objects = ub.objects['front_view']; 
+        var current_view_objects = ub.objects['front_view'];
+        var current_object;
+        var mask; 
 
         current_view_objects[_name] = ub.pixi.new_sprite(_svgFilename);
-        var current_object = current_view_objects[_name];
+        current_object = current_view_objects[_name];
 
         current_object.zIndex = ub.funcs.generateZindex('namedrops') * (-1); 
         
         //current_object.scale.set(0.3,0.3); // for SVG 
         current_object.scale.set(0.7,0.7); // for PNG
-
         current_object.position = {x: 500, y: 400};
         current_object.anchor = {x: 0.5, y: 0.5};
 
         ub.front_view.addChild(current_object);
         ub.objects.front_view.decal_1 = current_object;
 
-        var mask = _.find(ub.current_material.material.options, {
+        mask = _.find(ub.current_material.material.options, {
             perspective: 'front_view',
             name: 'Extra',
         });
@@ -443,7 +493,8 @@ $(document).ready(function() {
     ub.funcs.getDesignSummary = function (designID, applicationID) {
 
         var _url = 'http://stores.inksoft.com/GetDesignSummary/80974/' + designID;
-        
+        var _settingsObject = ub.funcs.getApplicationSettings(applicationID);
+
         $.ajax({
             
             url: _url,
@@ -477,10 +528,9 @@ $(document).ready(function() {
 
                 };
 
-                var _settingsObject = ub.funcs.getApplicationSettings(applicationID);
                 _settingsObject.embellishment = _embellishmentOBJ;
                 ub.funcs.update_application_embellishments(_settingsObject.application, _settingsObject.embellishment); 
-                ub.GetDesignSummary = response;
+                ub.data.embellismentDetails.setStatus('designSummary', response);
 
             }
             
@@ -499,9 +549,7 @@ $(document).ready(function() {
             dataType: "json",
             crossDomain: true,
             success: function (response) {
-
-                ub.getDesignDetails = response;
-
+                ub.data.embellismentDetails.setStatus('designDetails', response);
             }
             
         });
@@ -512,9 +560,11 @@ $(document).ready(function() {
 
         var settings = ub.current_material.settings;
         var application_embellishment_code = application.id + '_' + embellishment.id;
+        var scale_settings;
+        var _status;
 
         if(typeof settings.applications[application.id] !== 'undefined'){
-            var scale_settings = settings.applications[application.id].scale;            
+            scale_settings = settings.applications[application.id].scale;            
         }
 
         var settings_obj = settings.applications[application.id];
@@ -532,7 +582,8 @@ $(document).ready(function() {
         var sprite_collection = ub.funcs.renderApplication($.ub.create_embellishment, input_object, application.id);
         var uniform_type = ub.current_material.material.type;
         var app_containers = ub.current_material.containers[uniform_type].application_containers;
-        var sprite = sprite_collection;                
+        var sprite = sprite_collection;  
+
         app_containers[application.id] = {};
         app_containers[application.id].object = {
 
@@ -540,7 +591,7 @@ $(document).ready(function() {
 
         };
 
-        var _status = settings_obj.status;
+        _status = settings_obj.status;
 
         if (typeof settings_obj.status === "undefined") {
             _status = "on";
@@ -563,10 +614,8 @@ $(document).ready(function() {
         ub.funcs.activateMoveTool(application_id);
 
         if (_appInfo.application_type !== "embellishments") {
-
             ub.funcs.activateApplications(application_id);
             return;
-
         }
 
         if (ub.funcs.isBitFieldOn()) {
@@ -591,14 +640,15 @@ $(document).ready(function() {
 
 
         // Change This for Embellishment Specific Size Settings   
+
             if (ub.current_material.material.uniform_category === "Football") {
 
                 if (_id === '2' && _applicationType === 'mascot') {
-                    _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
+                    _sizes = ub.funcs.getApplicationSizes('mascot_2');            
                 }
 
                 if (_id === '5' && _applicationType === 'mascot') {
-                    _sizes            = ub.funcs.getApplicationSizes('mascot_5');            
+                    _sizes = ub.funcs.getApplicationSizes('mascot_5');            
                 }
 
             } else if (ub.current_material.material.uniform_category === "Wrestling") {
@@ -688,24 +738,18 @@ $(document).ready(function() {
         if (typeof _settingsObject.size === 'undefined') {
 
             if (application_id !== 2 || application_id !== 5) {
-
                 _settingsObject.size = 4;
-
             } else {
-
                 _settingsObject.size = 10;
-
             }
 
             if (application_id === 4) {
-
                 _settingsObject.size = 0.5;
-
             }
 
         }
    
-       // _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
+        _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
 
@@ -721,7 +765,6 @@ $(document).ready(function() {
         _htmlBuilder        +=                  ' | ';        
         _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a>';  
 
-
         if (_settingsObject.embellishment.name === 'Custom Logo') {
 
             _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
@@ -733,32 +776,6 @@ $(document).ready(function() {
        
         _htmlBuilder        +=              '</div>';
 
-        // _htmlBuilder        +=                  '<div class="colorContainer embellishment-buttons-container">';
-        
-        // // if (ub.current_material.settings.applications[application_id].embellishment.id !== "1039") {
-
-        // //     _.each(_settingsObject.embellishment.layers_properties, function (layer) {
-
-        // //         var _hexCode = layer.default_color;
-        // //         var _color   = ub.funcs.getColorByColorCode(_hexCode);
-        // //         var exists = _.find(ub.current_material.settings.team_colors, {color_code: _color.color_code});
-
-        // //         if (typeof _color !== 'undefined') {
-
-        // //             _htmlBuilder += ub.funcs.createSmallColorPickers(_color.color_code, layer.layer_number, 'Color ' + layer.layer_number, layer.default_color, 'embellishments');
-     
-        // //         }
-        // //         else {
-
-        // //             util.error('Hex Code: ' + _hexCode + ' not found!');
-
-        // //         }
-
-        // //     });
-
-        // // }
-
-        // _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        +=          '<div class="ui-row">';
@@ -879,19 +896,13 @@ $(document).ready(function() {
             if (typeof sObj.application.flip !== "undefined") {
 
                 if (sObj.application.flip === 1) {
-                    
                     $('span.flipButton').addClass('active');    
-
                 } else {
-
                     $('span.flipButton').removeClass('active');    
-
                 }
                 
             } else {
-
                 $('span.flipButton').removeClass('active');
-
             }
 
             $('span.flipButton').unbind('click');
