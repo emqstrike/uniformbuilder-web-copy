@@ -1689,7 +1689,7 @@ $(document).ready(function() {
     
            var dialog = bootbox.dialog({
                 title: 'Sorry! This is not allowed here.',
-                message: 'Art (Embellishments) is only enabled for sublimated styles.',
+                message: 'Create Art / Upload File (embellishments) is currently enabled for sublimated styles only.',
                 size: 'medium',
             });
 
