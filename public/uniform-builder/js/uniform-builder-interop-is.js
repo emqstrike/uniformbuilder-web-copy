@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    // users
+
     // Load this from API
     window.is.embellishments = {
 
@@ -79,13 +81,13 @@ $(document).ready(function() {
             },
 
         ],
+        userItems: [],
         getEmbellismentsByType: function () {},
         getEmbellishmentByID: function (id) { ub.funcs.getDesignSummary(id); },
         getDefaultEmbellishment: function (_settingsObject) {
 
             // TODO: Have embellishment Samples for Each Sport Type
             var _embellishmentObj = _.first(this.items);
-
             return _.first(this.items);
 
         }
@@ -101,8 +103,7 @@ $(document).ready(function() {
     window.is.loadDesigner = function (designID, applicationID) {
 
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
-
-         var flashvars = {
+        var flashvars = {
 
             DesignerLocation: "https://images.inksoft.com/designer/html5",
             EnforceBoundaries: "1",
@@ -219,8 +220,7 @@ $(document).ready(function() {
     window.is.loadDesignerUpload = function (designID, applicationID) {
 
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
-
-         var flashvars = {
+        var flashvars = {
 
             DesignerLocation: "https://images.inksoft.com/designer/html5",
             EnforceBoundaries: "1",
@@ -375,13 +375,9 @@ $(document).ready(function() {
         });
     };
 
-    window.is.createSession = function () {
+    window.is.createSession = function () { /* TODO: Fill this in ... */ };
 
-
-
-    };
-
-    ub.funcs.updateEmbellishmentData = function () {}    
+    ub.funcs.updateEmbellishmentData = function () { /* TODO: Fill this in ... */ }    
 
     ub.funcs.createNewEmbellishmentData = function (obj) {
 

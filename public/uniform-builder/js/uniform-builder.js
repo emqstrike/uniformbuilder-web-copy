@@ -69,16 +69,16 @@ $(document).ready(function () {
                 // ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
                 // ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 
-                ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
+                ub.materials_url = ub.config.api_host + '/api/materials/styleSheets';
                 ub.displayDoneAt('Loading Styles ...');
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
                 ub.afterLoadScripts();
 
             }
 
-            if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
+            if (typeof ub.user.id !== 'undefined' && ub.config.material_id === -1) {
 
-                ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
+                ub.orders_url = ub.config.api_host + '/api/order/user/' + ub.user.id;
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);
 
                 // ub.savedDesigns_url = window.ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id;
@@ -87,6 +87,17 @@ $(document).ready(function () {
             } else {
 
                 $('.open-save-design-modal').hide();
+
+            }
+
+            if (typeof ub.user.id !== 'undefined' && ub.config.material_id !== -1) {
+
+                ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByUserID/' + ub.user.id;
+                ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
+
+                    window.is.embellishments.userItems = response;
+
+                });
 
             }
 
