@@ -14,7 +14,6 @@ $(document).ready(function () {
             ub.config.print_version();
 
             /// Initialize Assets
-
             ub.current_material.id = window.ub.config.material_id;
             ub.current_material.code = window.ub.config.code;
 
@@ -22,7 +21,6 @@ $(document).ready(function () {
             ub.funcs.hideMainLinks();
 
             // Set Feature Flags
-
             ub.config.setFeatureFlags();
 
             ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
@@ -35,18 +33,14 @@ $(document).ready(function () {
 
                 ubsv.mascotScales.fetchValues();
 
-                ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
-                ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
-                ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
-                ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
-                ub.current_material.cutlinks_url = window.ub.config.api_host + '/api/cut_links/';
-
-                // Disable Tailsweeps for now
-                // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
-                ub.current_material.block_patterns_url = window.ub.config.api_host + '/api/block_patterns/';
-
-                ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
-                ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
+                ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
+                ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
+                ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
+                ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
+                ub.current_material.block_patterns_url = ub.config.api_host + '/api/block_patterns/';
+                ub.current_material.mascot_categories_url = ub.config.api_host + '/api/mascot_categories';
+                ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';            
 
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
@@ -58,6 +52,7 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
 
                 // Disable Tailsweeps for now
+                // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
 
             }
@@ -94,9 +89,7 @@ $(document).ready(function () {
 
                 ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByUserID/' + ub.user.id;
                 ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
-
                     window.is.embellishments.userItems = response;
-
                 });
 
             }
@@ -115,17 +108,9 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.preprocessGenderTerm = function (gender) {
-
-            return gender.toTitleCase();
-
-        }
-
-        ub.funcs.preprocessSportTerm = function (sport) {
-
-            return sport.toTitleCase();
-
-        }
+        ub.funcs.initCanvas = function () { $('body').addClass('generic-canvas'); }
+        ub.funcs.preprocessGenderTerm = function (gender) { return gender.toTitleCase(); }
+        ub.funcs.preprocessSportTerm = function (sport) { return sport.toTitleCase(); }
 
         ub.funcs.callDirectLinks = function () {
 
@@ -136,25 +121,20 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.initCanvas = function () {
-
-            $('body').addClass('generic-canvas');
-
-        }
-
         ub.funcs.loadHomePickers = function () {
             
             $('div.backlink').addClass('back-link-on');
 
-            ub.current_material.material_url         = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
-            ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
+            ub.current_material.material_url         = ub.config.api_host + '/api/material/' + ub.current_material.id;
+            ub.current_material.material_options_url = ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
 
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
             $('#main_view').parent().fadeIn();
             $('div.header-container').fadeIn(); 
-            window.ub.refresh_thumbnails();
+            
+            ub.refresh_thumbnails();
 
         }
 
@@ -183,24 +163,9 @@ $(document).ready(function () {
         // Returns Adult, Youth price modified with sale, also call for team pricing, or just call for pricing elements
         ub.funcs.getPriceElements = function (material) {
 
-            // var _web_price_sale = parseFloat(material.web_price_sale).toFixed(2);
-            // var _msrp           = parseFloat(material.msrp).toFixed(2);
-            // var _price          = 0;
-
-            // if (_web_price_sale < _msrp && _web_price_sale > 1) {
-            //     _price          = "Sale Price: $" + _web_price_sale;
-            // } else {
-            //     _price          = "MSRP $" + _msrp;
-            // }
-
-            // if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { 
-            //     _price = "Call for Pricing";
-            // } 
-
             ub.funcs.processMaterialPrice(material);
-
             return material.parsedPricingTable;
-
+            
         }
 
         ub.funcs.createMessage = function (type, order_code, subject, content, parent_id, main_thread_id) {
