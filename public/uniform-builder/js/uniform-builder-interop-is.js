@@ -418,7 +418,7 @@ $(document).ready(function() {
 
     }
 
-    window.is.isMessage = function (designID, applicationID) {
+    window.is.isMessage = function (designID, applicationID, skipCreate) {
 
         ub.data.embellismentDetails = {
             designSummary: {},
@@ -431,11 +431,12 @@ $(document).ready(function() {
                 ub.data.embellismentDetails[varName] = value;
                 ub.data.embellismentDetails[varName + 'Loaded'] = true;
 
-                if (this.designSummaryLoaded && this.designDetailsLoaded) {
-                    ub.funcs.createNewEmbellishmentData(ub.data.embellismentDetails);
+                if (typeof skipCreate === "undefined") {
+                    if (this.designSummaryLoaded && this.designDetailsLoaded) { ub.funcs.createNewEmbellishmentData(ub.data.embellismentDetails); }
                 }
-
+                
             }
+
         }
 
         window.is.closeDesignStudio();
@@ -1530,47 +1531,18 @@ $(document).ready(function() {
         /// Custom Artwork Request
 
             $('span[data-button="browse"]').on('click', function () {
-
                 $('div.upload').fadeOut();
-
             }); 
 
             $('span[data-button="upload"]').on('click', function () {
-
                 $('div.upload').fadeIn();
-
             });    
 
-            $("input#custom-artwork").change( function() {
-
-                // if (this.files && this.files[0]) {
-
-                //     var reader = new FileReader();
-
-                //     console.log('This Files: ');
-                //     console.log(this.files);
-
-                //     reader.onload = function (e) {
-
-                //         console.log('Uploaded (e): ');
-                //         console.log(e);
-                        
-                //         $('img#preview').attr('src', e.target.result);
-                //         ub.uploadLogo(e.target.result);
-
-                //     }
-
-                //     reader.readAsDataURL(this.files[0]);
-
-                // }
+            $("input#custom-artwork").change(function() {
 
                 if (this.files && this.files[0]) {
 
-                    var _filename = ub.funcs.fileUpload(this.files[0], settingsObj, function (filename) {
-
-                        // TODO: Implement Assignment here to remove global variable [window.uploaded_filename]
-
-                    });
+                    var _filename = ub.funcs.fileUpload(this.files[0], settingsObj, function (filename) { /* TODO: Implement Assignment here to remove global variable [window.uploaded_filename] */ });
                     
                 }
 
@@ -1697,5 +1669,113 @@ $(document).ready(function() {
         ub.funcs.addLocation(true);
 
     });
+
+
+    // Embellishment Popup
+
+        ub.status.embellishmentPopupVisible = false;
+        ub.funcs.createEmbellishmentSelectionPopup = function (settingsObj) {
+
+            var _items = _.sortBy(is.embellishments.userItems, function(item) { return parseInt(item.id); });
+
+            ub.status.embellishmentPopupVisible = true;
+
+            var template = $('#m-embellishment-popup').html();
+            var data = { myEmbellishments: _items.reverse(), }
+            var markup = Mustache.render(template, data);
+
+            $('body').append(markup);
+
+            $embellishmentPopup = $('div#primaryEmbellishmentPopup');
+            $embellishmentPopup.fadeIn();
+
+            $('div.embellishmentPopupResults > div.item').hover(
+
+                function() {
+                    $( this ).find('div.name').addClass('pullUp');
+                }, function() {
+                    $( this ).find('div.name').removeClass('pullUp');
+                }
+
+            );
+
+            $('div.embellishmentPopupResults > div.item').on('click', function () {
+
+                var _id = $(this).data('id');
+                var _filename = $(this).data('filename');
+                var _designID = $(this).data('design-id');
+
+                $('div.item').removeClass('active');
+                $(this).addClass('active');
+
+                $('span.id').html(_id);
+                $('span.name').html(_id);
+                $('span.filename').html(_filename);
+                $('a.previewLink').attr('href',_filename);
+                $('img.preview').attr('src',_filename);
+
+                $('span.add-to-uniform').data('id', _id);
+                $('span.add-to-uniform').data('design-id', _designID);
+
+                $('span.add-to-uniform').unbind('click');
+                $('span.add-to-uniform').on('click', function () {
+
+                    var _matchingID;
+
+                    is.isMessage(_designID, settingsObj.code, true);
+
+                    _matchingID = undefined;
+                    _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
+
+                    if (typeof _matchingID !== "undefined") {
+
+                        var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                        is.isMessage(_designID, _matchingID, true);
+
+                    }
+
+                    $embellishmentPopup.remove();
+
+                });
+
+            });
+
+            ub.funcs.centerAccentPopup();
+
+            $('div.close-popup').unbind('click');
+            $('div.close-popup').on('click', function () {
+
+                ub.popup = $embellishmentPopup;
+
+                $embellishmentPopup.remove();
+                ub.status.embellishmentPopupVisible = false;
+
+            });
+
+            $embellishmentPopup.bind('clickoutside', function () {
+
+                var _status = $(this).data('status');
+
+                if (_status === 'hidden') {
+
+                    $(this).data('status', 'visible');
+                    return;
+
+                }
+
+                $(this).data('status', 'hidden');
+                $(this).hide();
+                $(this).remove();
+                ub.status.embellishmentPopupVisible = false;
+
+            });
+
+            // Trigger First Item
+            $('div.item').first().trigger('click');
+
+        }
+
+    // End Embellishment Popup
+
 
 });

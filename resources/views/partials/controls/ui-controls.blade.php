@@ -2595,4 +2595,80 @@
     
 </script>
 
+<!-- Embellishment Popup -->
+    
+    <script type="text/mustache" id="m-embellishment-popup">
+
+        <div id="primaryEmbellishmentPopup" data-status="hidden">
+
+            <div class="header">
+
+                Embellishments
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+
+            <div class="navbar-top">
+                
+                <input class="search-bar" type="text" name="search-bar" placeholder="Search" />
+                <span class="archives">
+                    <i class="fa fa-archive" aria-hidden="true"></i> Archived Designs
+                </span>
+
+            </div>
+
+            <div class="clearfix"></div>
+            
+            <div class="main-content">
+                
+                <div class="embellishmentPopupResults">
+
+                    @{{#myEmbellishments}}
+
+                        <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}">
+                            <div class="name" style="">@{{design_name}}</div>
+                        </div>
+
+                    @{{/myEmbellishments}}
+
+                </div>
+
+            </div>
+
+            <div class="sidebar">
+
+                <label>ID:</label>
+                <span class="id"></span> <br />
+
+                <label>Name:</label>
+                <span class="name"></span> <br />
+
+                <label>Filename:</label>
+                <a class="previewLink" target="_new" href=''>Open in New Tab</a> <br />
+
+                <img class="preview" />
+
+                <br /><br />
+
+                <span class="btn add-to-uniform">Add to Uniform</span>
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+
+    </script>
+
+<!-- End Embellishment Popup -->
+
 @include('partials.controls.team-store-products-picker')
