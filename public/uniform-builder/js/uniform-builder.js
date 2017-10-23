@@ -9026,7 +9026,7 @@ $(document).ready(function () {
 
             // End Thumbnails
 
-            if (typeof _fileName !== "undefined" && _fileName.length > 0) {
+            if (_fileName !== null && typeof _fileName !== "undefined" && _fileName.length > 0) {
 
                 $('img.attachments').attr('src', _fileName);
                 $('img.attachments').attr('data-src', _fileName);
