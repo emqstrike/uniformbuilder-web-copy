@@ -1,5 +1,20 @@
 $(document).ready(function() {
 
+    // Utilities
+
+        ub.funcs.updateEmbellishmentList = function () {
+
+            ub.utilities.info('Updating Embellishment List ...');
+
+            ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByUserID/' + ub.user.id;
+            ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
+                window.is.embellishments.userItems = response;
+            });
+
+        }
+
+    // End Utilities
+
     // users
 
     // Load this from API
@@ -412,7 +427,9 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            success: function (response) { ub.utilities.info('Created Embellisment Data ...'); }
+            success: function (response) { 
+                ub.funcs.updateEmbellishmentList();
+            }
             
         });
 
@@ -775,17 +792,21 @@ $(document).ready(function() {
 
         _htmlBuilder        +=              '</div>';
 
-        _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="colorContainer embellishment-buttons-container">';
+        _htmlBuilder        += ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
 
-        _htmlBuilder        +=                  '<span class="btn edit-embellishment">Edit Current</span>';
-        _htmlBuilder        +=                  '<span class="btn select-embellishment">Upload File (.ai, etc)</span>';
-        _htmlBuilder        +=                  '<span class="btn new-embellishment">Create New</span>';
+        console.log('Html Builder Used ....');
 
-        _htmlBuilder        +=              '</div">';
+        // _htmlBuilder        +=          '<div class="ui-row">';
+        // _htmlBuilder        +=              '<div class="colorContainer embellishment-buttons-container">';
+
+        // _htmlBuilder        +=                  '<span class="btn edit-embellishment">Edit Current</span>';
+        // _htmlBuilder        +=                  '<span class="btn select-embellishment">Upload File (.ai, etc)</span>';
+        // _htmlBuilder        +=                  '<span class="btn new-embellishment">Create New</span>';
+
+        // _htmlBuilder        +=              '</div">';
 
 
-        _htmlBuilder        +=          '</div>';
+        // _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
@@ -835,6 +856,29 @@ $(document).ready(function() {
 
                 $('span.select-embellishment').unbind('click');
                 $('span.select-embellishment').on('click', function () {
+
+                    is.loadDesignerUpload(undefined, _id);
+
+                });
+
+                $('a.select-existing').unbind('click');
+                $('a.select-existing').on('click', function () {
+
+                    ub.funcs.createEmbellishmentSelectionPopup(_settingsObject);
+
+                });
+
+
+                $('a.create-new').unbind('click');
+                $('a.create-new').on('click', function () {
+
+                    is.loadDesigner(undefined, _id);
+
+                });
+
+
+                $('a.upload-file').unbind('click');
+                $('a.upload-file').on('click', function () {
 
                     is.loadDesignerUpload(undefined, _id);
 
@@ -1704,12 +1748,13 @@ $(document).ready(function() {
                 var _id = $(this).data('id');
                 var _filename = $(this).data('filename');
                 var _designID = $(this).data('design-id');
+                var _designName = $(this).data('design-name');
 
                 $('div.item').removeClass('active');
                 $(this).addClass('active');
 
                 $('span.id').html(_id);
-                $('span.name').html(_id);
+                $('span.name').html(_designName);
                 $('span.filename').html(_filename);
                 $('a.previewLink').attr('href',_filename);
                 $('img.preview').attr('src',_filename);
@@ -1767,6 +1812,28 @@ $(document).ready(function() {
                 $(this).hide();
                 $(this).remove();
                 ub.status.embellishmentPopupVisible = false;
+
+            });
+
+            // Tabs
+
+            $('ul.embellishment-tabs > li').unbind('click');
+            $('ul.embellishment-tabs > li').on('click', function () {
+
+                var _type = $(this).data('type');
+
+                $('ul.embellishment-tabs > li').removeClass('active');
+                $(this).addClass('active');
+
+                if (_type === "create") {
+                    $popup.remove();
+                    $('span.btn.new-embellishment').trigger('click');
+                }
+
+                if (_type === "upload") {
+                    $popup.remove();
+                    $('span.btn.select-embellishment').trigger('click');
+                }
 
             });
 

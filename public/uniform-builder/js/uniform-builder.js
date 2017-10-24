@@ -87,10 +87,7 @@ $(document).ready(function () {
 
             if (typeof ub.user.id !== 'undefined' && ub.config.material_id !== -1) {
 
-                ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByUserID/' + ub.user.id;
-                ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
-                    window.is.embellishments.userItems = response;
-                });
+                ub.funcs.updateEmbellishmentList();
 
             }
 
@@ -99,6 +96,8 @@ $(document).ready(function () {
             if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
 
         };
+
+
 
         ub.funcs.loggedInUsers = function () {
 

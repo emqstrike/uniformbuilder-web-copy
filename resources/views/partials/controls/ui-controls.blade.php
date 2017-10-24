@@ -2613,11 +2613,22 @@
              
             </div>
 
+            <div class="navbar-main">
+                
+                <ul class="embellishment-tabs">
+                    <li class="active" data-type="existing">Option #1: Select From Existing Designs</li>
+                    <li data-type="create">Option #2: Create A New Artwork</li>
+                    <li data-type="upload">Option #3: Upload A File</li>
+                </ul>
+
+            </div>
+
             <div class="navbar-top">
                 
-                <input class="search-bar" type="text" name="search-bar" placeholder="Search" />
-                <span class="archives">
-                    <i class="fa fa-archive" aria-hidden="true"></i> Archived Designs
+                <input class="search-bar" type="text" name="search-bar" placeholder="Search" disabled=disabled  title="coming soon!"/>
+                
+                <span class="archives" title="coming soon!">
+                    <i class="fa fa-archive" aria-hidden="true"></i> Archives
                 </span>
 
             </div>
@@ -2630,7 +2641,7 @@
 
                     @{{#myEmbellishments}}
 
-                        <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}">
+                        <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-name="@{{design_name}}" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}">
                             <div class="name" style="">@{{design_name}}</div>
                         </div>
 
@@ -2670,5 +2681,50 @@
     </script>
 
 <!-- End Embellishment Popup -->
+
+<!-- Embellishment Sidebar -->
+    
+    <script type="text/mustache" id="m-embellishment-sidebar">
+        
+        <div class="ui-row">
+            <div class="colorContainer embellishment-buttons-container">
+
+                <span class="btn edit-embellishment">Edit Current</span>
+
+                <!-- 
+                <span class="btn select-embellishment">Upload File (.ai, etc)</span>
+                <span class="btn new-embellishment">Create New</span>
+                -->
+
+                <!-- Split button -->
+                <div class="btn-group dropup other-options">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select from previous, etc... <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+
+                    <li>
+                        <a href="#" class="select-existing"><i class="fa fa-folder-open-o" aria-hidden="true"></i> Select from previous Art</a>
+                    </li>
+
+                    <li role="separator" class="divider"></li>
+                    
+                    <li>
+                        <a href="#" class="create-new"><i class="fa fa-plus" aria-hidden="true"></i> Create New</a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="upload-file"><i class="fa fa-upload" aria-hidden="true"></i> Upload File</a>
+                    </li>
+
+                  </ul>
+                </div>
+
+            </div>
+         </div>
+
+    </script>
+
+<!-- End Embellishment Sidebar -->
 
 @include('partials.controls.team-store-products-picker')
