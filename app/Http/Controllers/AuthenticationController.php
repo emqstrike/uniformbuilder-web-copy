@@ -89,115 +89,115 @@ class AuthenticationController extends AdminAuthController
     public function lrest(Request $request)
     {
 
-        $email = $request->input('email');
-        $password = $request->input('password');
+        // $email = $request->input('email');
+        // $password = $request->input('password');
 
-        if (strlen (trim($email)) == 0 || strlen (trim($password)) == 0)
-        {
-            return [
-                'sucess' => false, 
-                'message' => 'Invalid Email / Password Combination',
-            ];
-        } 
+        // if (strlen (trim($email)) == 0 || strlen (trim($password)) == 0)
+        // {
+        //     return [
+        //         'sucess' => false, 
+        //         'message' => 'Invalid Email / Password Combination',
+        //     ];
+        // } 
 
-        try {
+        // try {
 
-            $response = $this->client->post('user/login', [
-                'json' => [
-                    'email' => $email,
-                    'password' => $password
-                ],
-            ]);
+        //     $response = $this->client->post('user/login', [
+        //         'json' => [
+        //             'email' => $email,
+        //             'password' => $password
+        //         ],
+        //     ]);
 
-            $decoder = new JsonDecoder();
-            $result = $decoder->decode($response->getBody());
+        //     $decoder = new JsonDecoder();
+        //     $result = $decoder->decode($response->getBody());
 
-            if ($result->success) {
-                $fullname = $result->user->first_name . ' ' . $result->user->last_name;
-                $access_token = $result->access_token;
-                $user = $result->user;
+        //     if ($result->success) {
+        //         $fullname = $result->user->first_name . ' ' . $result->user->last_name;
+        //         $access_token = $result->access_token;
+        //         $user = $result->user;
 
-                Session::put('userId', $user->id);
-                Session::put('isLoggedIn', $result->success);
-                Session::put('fullname', $fullname);
-                Session::put('first_name', $user->first_name);
-                Session::put('firstName', $user->first_name);
-                Session::put('lastName', $user->last_name);
-                Session::put('email', $user->email);
+        //         Session::put('userId', $user->id);
+        //         Session::put('isLoggedIn', $result->success);
+        //         Session::put('fullname', $fullname);
+        //         Session::put('first_name', $user->first_name);
+        //         Session::put('firstName', $user->first_name);
+        //         Session::put('lastName', $user->last_name);
+        //         Session::put('email', $user->email);
 
-                Session::put('state', $user->state);
-                Session::put('zip', $user->zip);
-                Session::put('default_rep_id', $user->default_rep_id);
+        //         Session::put('state', $user->state);
+        //         Session::put('zip', $user->zip);
+        //         Session::put('default_rep_id', $user->default_rep_id);
 
-                Session::put('accountType', $user->type);
-                Session::put('accessToken', $access_token);
-                Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
+        //         Session::put('accountType', $user->type);
+        //         Session::put('accessToken', $access_token);
+        //         Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
-                #
-                # TEAM STORE LOGIN HANDLER
-                #
-                $allowed_users = [
-                    'administrator'
-                ];
-                if (in_array($result->user->type, $allowed_users))
-                {
-                    Session::put('is_show_teamstore_toolbox', true);
-                    Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
+        //         #
+        //         # TEAM STORE LOGIN HANDLER
+        //         #
+        //         $allowed_users = [
+        //             'administrator'
+        //         ];
+        //         if (in_array($result->user->type, $allowed_users))
+        //         {
+        //             Session::put('is_show_teamstore_toolbox', true);
+        //             Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
 
-                    $client = new UserTeamStoreClient;
-                    $response = $client->team_store_login($email, $password);
-                    $this->handleTeamStoreLogin($response, $user, $access_token, $password);
-                }
+        //             $client = new UserTeamStoreClient;
+        //             $response = $client->team_store_login($email, $password);
+        //             $this->handleTeamStoreLogin($response, $user, $access_token, $password);
+        //         }
 
-                #
-                # CUSTOMIZER LOGIN HANDLER
-                #
-                return [
-                    'success' => true, 
-                    'message' => 'Welcome back ' . $user->first_name,
-                    'userId' => $user->id,
-                    'firstName' => $user->first_name,
-                    'lastName' => $user->last_name,
-                    'fullname' => $fullname,
-                    'email' => $user->email,
-                    'accountType' => $user->type,
-                    'default_rep_id' => $user->default_rep_id,
-                    'state' => $user->state,
-                    'zip' => $user->zip,
-                    'accessToken' => base64_encode($access_token),
-                ];
+        //         #
+        //         # CUSTOMIZER LOGIN HANDLER
+        //         #
+        //         return [
+        //             'success' => true, 
+        //             'message' => 'Welcome back ' . $user->first_name,
+        //             'userId' => $user->id,
+        //             'firstName' => $user->first_name,
+        //             'lastName' => $user->last_name,
+        //             'fullname' => $fullname,
+        //             'email' => $user->email,
+        //             'accountType' => $user->type,
+        //             'default_rep_id' => $user->default_rep_id,
+        //             'state' => $user->state,
+        //             'zip' => $user->zip,
+        //             'accessToken' => base64_encode($access_token),
+        //         ];
 
-            } else {
+        //     } else {
 
-                Log::info('Failed Login Attempt by (' . $email . '): ' . $result->message);
-                // Session::flash('flash_message', $result->message);
+        //         Log::info('Failed Login Attempt by (' . $email . '): ' . $result->message);
+        //         // Session::flash('flash_message', $result->message);
 
-                return [
+        //         return [
 
-                    'sucess' => false, 
-                    'message' => 'Invalid Email / Password Combination',
+        //             'sucess' => false, 
+        //             'message' => 'Invalid Email / Password Combination',
 
-                ];
+        //         ];
 
-            }
+        //     }
 
-        }
-        catch (ClientException $e)
-        {
-            return [
+        // }
+        // catch (ClientException $e)
+        // {
+        //     return [
 
-                'sucess' => false, 
-                'message' => 'Invalid Email / Password',
+        //         'sucess' => false, 
+        //         'message' => 'Invalid Email / Password',
 
-            ];
-        }
+        //     ];
+        // }
 
-        return [
+        // return [
 
-            'sucess' => false, 
-            'message' => 'Invalid Email / Password',
+        //     'sucess' => false, 
+        //     'message' => 'Invalid Email / Password',
 
-        ];
+        // ];
 
     }
 
