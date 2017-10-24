@@ -10016,7 +10016,19 @@ $(document).ready(function() {
         $.smkAlert({text: 'Added [' + type.toTitleCase() + '] on [' + part.toTitleCase() + '] layer', type:'success', time: 10, marginTop: '90px'});
 
         // Initialize New Embellishment Popup
-        if (type === "embellishments") { ub.funcs.createEmbellishmentSelectionPopup(_newApplication); }
+        if (type === "embellishments") { 
+
+            if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+
+                is.loadDesigner(undefined, _newIDStr);
+
+            } else {
+
+                ub.funcs.createEmbellishmentSelectionPopup(_newApplication); 
+
+            }
+
+        }
 
     }
 

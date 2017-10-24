@@ -391,6 +391,12 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.afterLogin = function () {
+
+            ub.funcs.updateEmbellishmentList();
+
+        };
+
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
 
@@ -1048,6 +1054,7 @@ $(document).ready(function () {
                 dataType: "json",
                 crossDomain: true,
                 contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             
                 success: function (response){
 
