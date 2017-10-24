@@ -90,9 +90,11 @@
                                     @foreach ($logo_request->properties as $item)
                                     <p style="font-style: italic">{{ $item['notes'] }}</p>
                                         @if( isset($item['user_rejected']) )
-                                            <div class="alert alert-danger">
-                                                Rejected
-                                            </div>
+                                            @if( $item['user_rejected'] == "1" )
+                                                <div class="alert alert-danger">
+                                                    Rejected
+                                                </div>
+                                            @endif
                                             <a href="#" class="btn btn-xs btn-default">View notes</a>
                                         @elseif( isset($item['mascot_id']) && $item['approved'] == 1 )
                                             <div class="alert alert-success">

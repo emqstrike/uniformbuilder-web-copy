@@ -194,7 +194,7 @@ $(function(){
     window.current_index = 0;
     window.sports = null;
     var pleaseWait = $('#pleaseWaitDialog'); 
-    
+
     showPleaseWait = function() {
         pleaseWait.modal('show');
     };
@@ -283,10 +283,10 @@ $(function(){
         $('.back-image').attr("src",window.materials[window.current_index].thumbnail_path_back);
         $('.left-image').attr("src",window.materials[window.current_index].thumbnail_path_left);
         $('.right-image').attr("src",window.materials[window.current_index].thumbnail_path_right);
-        
+
         window.default_material_id = window.materials[window.current_index].id;
         setTimeout(hidePleaseWait(), 5000);
-        // hidePleaseWait();
+
     }
 
     $(document).on('change', '.show-sport-dd', function() {
