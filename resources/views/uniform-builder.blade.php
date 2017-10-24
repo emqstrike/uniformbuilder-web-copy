@@ -550,9 +550,6 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-style-configuration.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-branding.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-dealership.js?v={{$asset_version}}"></script>
-
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-interop-is.js?v={{$asset_version}}"></script>
-
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-ui-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-name-drops.js?v={{$asset_version}}"></script>
@@ -561,6 +558,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-status.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-math.js?v={{$asset_version}}"></script>
 
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-interop-is.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-placeholder-applications.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-process.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-dialogs.js?v={{$asset_version}}"></script>

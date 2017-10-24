@@ -1,5 +1,22 @@
 $(document).ready(function() {
 
+    // Utilities
+
+        ub.funcs.updateEmbellishmentList = function () {
+
+            ub.utilities.info('Updating Embellishment List ...');
+
+            ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByUserID/' + ub.user.id;
+            ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
+                window.is.embellishments.userItems = response;
+            });
+
+        }
+
+    // End Utilities
+
+    // users
+
     // Load this from API
     window.is.embellishments = {
 
@@ -79,13 +96,13 @@ $(document).ready(function() {
             },
 
         ],
+        userItems: [],
         getEmbellismentsByType: function () {},
         getEmbellishmentByID: function (id) { ub.funcs.getDesignSummary(id); },
         getDefaultEmbellishment: function (_settingsObject) {
 
             // TODO: Have embellishment Samples for Each Sport Type
             var _embellishmentObj = _.first(this.items);
-
             return _.first(this.items);
 
         }
@@ -101,8 +118,7 @@ $(document).ready(function() {
     window.is.loadDesigner = function (designID, applicationID) {
 
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
-
-         var flashvars = {
+        var flashvars = {
 
             DesignerLocation: "https://images.inksoft.com/designer/html5",
             EnforceBoundaries: "1",
@@ -219,8 +235,7 @@ $(document).ready(function() {
     window.is.loadDesignerUpload = function (designID, applicationID) {
 
         var _applicationID = typeof applicationID !== "undefined" ? applicationID : 0;
-
-         var flashvars = {
+        var flashvars = {
 
             DesignerLocation: "https://images.inksoft.com/designer/html5",
             EnforceBoundaries: "1",
@@ -375,13 +390,9 @@ $(document).ready(function() {
         });
     };
 
-    window.is.createSession = function () {
+    window.is.createSession = function () { /* TODO: Fill this in ... */ };
 
-
-
-    };
-
-    ub.funcs.updateEmbellishmentData = function () {}    
+    ub.funcs.updateEmbellishmentData = function () { /* TODO: Fill this in ... */ }    
 
     ub.funcs.createNewEmbellishmentData = function (obj) {
 
@@ -416,13 +427,15 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
-            success: function (response) { ub.utilities.info('Created Embellisment Data ...'); }
+            success: function (response) { 
+                ub.funcs.updateEmbellishmentList();
+            }
             
         });
 
     }
 
-    window.is.isMessage = function (designID, applicationID) {
+    window.is.isMessage = function (designID, applicationID, skipCreate) {
 
         ub.data.embellismentDetails = {
             designSummary: {},
@@ -435,11 +448,12 @@ $(document).ready(function() {
                 ub.data.embellismentDetails[varName] = value;
                 ub.data.embellismentDetails[varName + 'Loaded'] = true;
 
-                if (this.designSummaryLoaded && this.designDetailsLoaded) {
-                    ub.funcs.createNewEmbellishmentData(ub.data.embellismentDetails);
+                if (typeof skipCreate === "undefined") {
+                    if (this.designSummaryLoaded && this.designDetailsLoaded) { ub.funcs.createNewEmbellishmentData(ub.data.embellismentDetails); }
                 }
-
+                
             }
+
         }
 
         window.is.closeDesignStudio();
@@ -778,17 +792,21 @@ $(document).ready(function() {
 
         _htmlBuilder        +=              '</div>';
 
-        _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="colorContainer embellishment-buttons-container">';
+        _htmlBuilder        += ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
 
-        _htmlBuilder        +=                  '<span class="btn edit-embellishment">Edit Current</span>';
-        _htmlBuilder        +=                  '<span class="btn select-embellishment">Upload File (.ai, etc)</span>';
-        _htmlBuilder        +=                  '<span class="btn new-embellishment">Create New</span>';
+        console.log('Html Builder Used ....');
 
-        _htmlBuilder        +=              '</div">';
+        // _htmlBuilder        +=          '<div class="ui-row">';
+        // _htmlBuilder        +=              '<div class="colorContainer embellishment-buttons-container">';
+
+        // _htmlBuilder        +=                  '<span class="btn edit-embellishment">Edit Current</span>';
+        // _htmlBuilder        +=                  '<span class="btn select-embellishment">Upload File (.ai, etc)</span>';
+        // _htmlBuilder        +=                  '<span class="btn new-embellishment">Create New</span>';
+
+        // _htmlBuilder        +=              '</div">';
 
 
-        _htmlBuilder        +=          '</div>';
+        // _htmlBuilder        +=          '</div>';
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
@@ -838,6 +856,29 @@ $(document).ready(function() {
 
                 $('span.select-embellishment').unbind('click');
                 $('span.select-embellishment').on('click', function () {
+
+                    is.loadDesignerUpload(undefined, _id);
+
+                });
+
+                $('a.select-existing').unbind('click');
+                $('a.select-existing').on('click', function () {
+
+                    ub.funcs.createEmbellishmentSelectionPopup(_settingsObject);
+
+                });
+
+
+                $('a.create-new').unbind('click');
+                $('a.create-new').on('click', function () {
+
+                    is.loadDesigner(undefined, _id);
+
+                });
+
+
+                $('a.upload-file').unbind('click');
+                $('a.upload-file').on('click', function () {
 
                     is.loadDesignerUpload(undefined, _id);
 
@@ -1534,47 +1575,18 @@ $(document).ready(function() {
         /// Custom Artwork Request
 
             $('span[data-button="browse"]').on('click', function () {
-
                 $('div.upload').fadeOut();
-
             }); 
 
             $('span[data-button="upload"]').on('click', function () {
-
                 $('div.upload').fadeIn();
-
             });    
 
-            $("input#custom-artwork").change( function() {
-
-                // if (this.files && this.files[0]) {
-
-                //     var reader = new FileReader();
-
-                //     console.log('This Files: ');
-                //     console.log(this.files);
-
-                //     reader.onload = function (e) {
-
-                //         console.log('Uploaded (e): ');
-                //         console.log(e);
-                        
-                //         $('img#preview').attr('src', e.target.result);
-                //         ub.uploadLogo(e.target.result);
-
-                //     }
-
-                //     reader.readAsDataURL(this.files[0]);
-
-                // }
+            $("input#custom-artwork").change(function() {
 
                 if (this.files && this.files[0]) {
 
-                    var _filename = ub.funcs.fileUpload(this.files[0], settingsObj, function (filename) {
-
-                        // TODO: Implement Assignment here to remove global variable [window.uploaded_filename]
-
-                    });
+                    var _filename = ub.funcs.fileUpload(this.files[0], settingsObj, function (filename) { /* TODO: Implement Assignment here to remove global variable [window.uploaded_filename] */ });
                     
                 }
 
@@ -1689,7 +1701,7 @@ $(document).ready(function() {
     
            var dialog = bootbox.dialog({
                 title: 'Sorry! This is not allowed here.',
-                message: 'Art (Embellishments) is only enabled for sublimated styles.',
+                message: 'Create Art / Upload File (embellishments) is currently enabled for sublimated styles only.',
                 size: 'medium',
             });
 
@@ -1701,5 +1713,136 @@ $(document).ready(function() {
         ub.funcs.addLocation(true);
 
     });
+
+
+    // Embellishment Popup
+
+        ub.status.embellishmentPopupVisible = false;
+        ub.funcs.createEmbellishmentSelectionPopup = function (settingsObj) {
+
+            var _items = _.sortBy(is.embellishments.userItems, function(item) { return parseInt(item.id); });
+
+            ub.status.embellishmentPopupVisible = true;
+
+            var template = $('#m-embellishment-popup').html();
+            var data = { myEmbellishments: _items.reverse(), }
+            var markup = Mustache.render(template, data);
+
+            $('body').append(markup);
+
+            $embellishmentPopup = $('div#primaryEmbellishmentPopup');
+            $embellishmentPopup.fadeIn();
+
+            $('div.embellishmentPopupResults > div.item').hover(
+
+                function() {
+                    $( this ).find('div.name').addClass('pullUp');
+                }, function() {
+                    $( this ).find('div.name').removeClass('pullUp');
+                }
+
+            );
+
+            $('div.embellishmentPopupResults > div.item').on('click', function () {
+
+                var _id = $(this).data('id');
+                var _filename = $(this).data('filename');
+                var _designID = $(this).data('design-id');
+                var _designName = $(this).data('design-name');
+
+                $('div.item').removeClass('active');
+                $(this).addClass('active');
+
+                $('span.id').html(_id);
+                $('span.name').html(_designName);
+                $('span.filename').html(_filename);
+                $('a.previewLink').attr('href',_filename);
+                $('img.preview').attr('src',_filename);
+
+                $('span.add-to-uniform').data('id', _id);
+                $('span.add-to-uniform').data('design-id', _designID);
+
+                $('span.add-to-uniform').unbind('click');
+                $('span.add-to-uniform').on('click', function () {
+
+                    var _matchingID;
+
+                    is.isMessage(_designID, settingsObj.code, true);
+
+                    _matchingID = undefined;
+                    _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
+
+                    if (typeof _matchingID !== "undefined") {
+
+                        var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+                        is.isMessage(_designID, _matchingID, true);
+
+                    }
+
+                    $embellishmentPopup.remove();
+
+                });
+
+            });
+
+            ub.funcs.centerAccentPopup();
+
+            $('div.close-popup').unbind('click');
+            $('div.close-popup').on('click', function () {
+
+                ub.popup = $embellishmentPopup;
+
+                $embellishmentPopup.remove();
+                ub.status.embellishmentPopupVisible = false;
+
+            });
+
+            $embellishmentPopup.bind('clickoutside', function () {
+
+                var _status = $(this).data('status');
+
+                if (_status === 'hidden') {
+
+                    $(this).data('status', 'visible');
+                    return;
+
+                }
+
+                $(this).data('status', 'hidden');
+                $(this).hide();
+                $(this).remove();
+                ub.status.embellishmentPopupVisible = false;
+
+            });
+
+            // Tabs
+
+            $('ul.embellishment-tabs > li').unbind('click');
+            $('ul.embellishment-tabs > li').on('click', function () {
+
+                var _type = $(this).data('type');
+
+                $('ul.embellishment-tabs > li').removeClass('active');
+                $(this).addClass('active');
+
+                if (_type === "create") {
+                    $popup.remove();
+                    $('span.btn.new-embellishment').trigger('click');
+                }
+
+                if (_type === "upload") {
+                    $popup.remove();
+                    $('span.btn.select-embellishment').trigger('click');
+                }
+
+            });
+
+            // Trigger First Item
+            $('div.item').first().trigger('click');
+
+        }
+
+    // End Embellishment Popup
+
 
 });

@@ -14,7 +14,6 @@ $(document).ready(function () {
             ub.config.print_version();
 
             /// Initialize Assets
-
             ub.current_material.id = window.ub.config.material_id;
             ub.current_material.code = window.ub.config.code;
 
@@ -22,7 +21,6 @@ $(document).ready(function () {
             ub.funcs.hideMainLinks();
 
             // Set Feature Flags
-
             ub.config.setFeatureFlags();
 
             ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
@@ -35,18 +33,14 @@ $(document).ready(function () {
 
                 ubsv.mascotScales.fetchValues();
 
-                ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
-                ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
-                ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
-                ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
-                ub.current_material.cutlinks_url = window.ub.config.api_host + '/api/cut_links/';
-
-                // Disable Tailsweeps for now
-                // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
-                ub.current_material.block_patterns_url = window.ub.config.api_host + '/api/block_patterns/';
-
-                ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
-                ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
+                ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
+                ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
+                ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
+                ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
+                ub.current_material.block_patterns_url = ub.config.api_host + '/api/block_patterns/';
+                ub.current_material.mascot_categories_url = ub.config.api_host + '/api/mascot_categories';
+                ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';            
 
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
@@ -58,6 +52,7 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
 
                 // Disable Tailsweeps for now
+                // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
 
             }
@@ -69,16 +64,16 @@ $(document).ready(function () {
                 // ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
                 // ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 
-                ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
+                ub.materials_url = ub.config.api_host + '/api/materials/styleSheets';
                 ub.displayDoneAt('Loading Styles ...');
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
                 ub.afterLoadScripts();
 
             }
 
-            if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
+            if (typeof ub.user.id !== 'undefined' && ub.config.material_id === -1) {
 
-                ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
+                ub.orders_url = ub.config.api_host + '/api/order/user/' + ub.user.id;
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);
 
                 // ub.savedDesigns_url = window.ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id;
@@ -90,11 +85,19 @@ $(document).ready(function () {
 
             }
 
+            if (typeof ub.user.id !== 'undefined' && ub.config.material_id !== -1) {
+
+                ub.funcs.updateEmbellishmentList();
+
+            }
+
             ub.zoom_off();
 
             if (window.ub.config.material_id !== -1) { ub.funcs.loadHomePickers(); }
 
         };
+
+
 
         ub.funcs.loggedInUsers = function () {
 
@@ -104,17 +107,9 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.preprocessGenderTerm = function (gender) {
-
-            return gender.toTitleCase();
-
-        }
-
-        ub.funcs.preprocessSportTerm = function (sport) {
-
-            return sport.toTitleCase();
-
-        }
+        ub.funcs.initCanvas = function () { $('body').addClass('generic-canvas'); }
+        ub.funcs.preprocessGenderTerm = function (gender) { return gender.toTitleCase(); }
+        ub.funcs.preprocessSportTerm = function (sport) { return sport.toTitleCase(); }
 
         ub.funcs.callDirectLinks = function () {
 
@@ -125,25 +120,20 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.initCanvas = function () {
-
-            $('body').addClass('generic-canvas');
-
-        }
-
         ub.funcs.loadHomePickers = function () {
             
             $('div.backlink').addClass('back-link-on');
 
-            ub.current_material.material_url         = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
-            ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
+            ub.current_material.material_url         = ub.config.api_host + '/api/material/' + ub.current_material.id;
+            ub.current_material.material_options_url = ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
 
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
             $('#main_view').parent().fadeIn();
             $('div.header-container').fadeIn(); 
-            window.ub.refresh_thumbnails();
+            
+            ub.refresh_thumbnails();
 
         }
 
@@ -172,24 +162,9 @@ $(document).ready(function () {
         // Returns Adult, Youth price modified with sale, also call for team pricing, or just call for pricing elements
         ub.funcs.getPriceElements = function (material) {
 
-            // var _web_price_sale = parseFloat(material.web_price_sale).toFixed(2);
-            // var _msrp           = parseFloat(material.msrp).toFixed(2);
-            // var _price          = 0;
-
-            // if (_web_price_sale < _msrp && _web_price_sale > 1) {
-            //     _price          = "Sale Price: $" + _web_price_sale;
-            // } else {
-            //     _price          = "MSRP $" + _msrp;
-            // }
-
-            // if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { 
-            //     _price = "Call for Pricing";
-            // } 
-
             ub.funcs.processMaterialPrice(material);
-
             return material.parsedPricingTable;
-
+            
         }
 
         ub.funcs.createMessage = function (type, order_code, subject, content, parent_id, main_thread_id) {
@@ -9050,7 +9025,7 @@ $(document).ready(function () {
 
             // End Thumbnails
 
-            if (typeof _fileName !== "undefined" && _fileName.length > 0) {
+            if (_fileName !== null && typeof _fileName !== "undefined" && _fileName.length > 0) {
 
                 $('img.attachments').attr('src', _fileName);
                 $('img.attachments').attr('data-src', _fileName);
