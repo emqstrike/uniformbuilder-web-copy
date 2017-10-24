@@ -1824,13 +1824,13 @@ $(document).ready(function() {
                 $(this).addClass('active');
 
                 if (_type === "create") {
-                    $popup.remove();
-                    $('span.btn.new-embellishment').trigger('click');
+                    $embellishmentPopup.remove();
+                    is.loadDesigner(undefined, settingsObj.code);
                 }
 
                 if (_type === "upload") {
-                    $popup.remove();
-                    $('span.btn.select-embellishment').trigger('click');
+                    $embellishmentPopup.remove();
+                    is.loadDesignerUpload(undefined, settingsObj.code);
                 }
 
             });
