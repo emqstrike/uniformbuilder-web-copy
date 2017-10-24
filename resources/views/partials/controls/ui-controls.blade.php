@@ -2617,8 +2617,8 @@
                 
                 <ul class="embellishment-tabs">
                     <li class="active" data-type="existing">Option #1: Select From Existing Designs</li>
-                    <li data-type="create">Option #2: Create A New Artwork</li>
                     <li data-type="upload">Option #3: Upload A File</li>
+                    <li data-type="create">Option #2: Create A New Artwork</li>
                 </ul>
 
             </div>
