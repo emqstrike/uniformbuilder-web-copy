@@ -1722,7 +1722,7 @@ class UniformBuilderController extends Controller
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
         $html .=     '<td>';
-       // $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo);
+        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo);
         $html .=     '</td>';
         $html .=     '</tr>';
         $html .=   '</table>';

@@ -2661,6 +2661,7 @@ $(document).ready(function() {
                     }
 
                     ub.id = response.userID;
+                    ub.funcs.afterLogin();
 
                 } else {
 

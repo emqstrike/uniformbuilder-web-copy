@@ -27,18 +27,18 @@
                             <th>Thumbnail</th>
                             <th>Design ID</th>
                             <th>Design Name</th>
-                            <th>User</th>
-                            <th>Created By</th>
+                            <th id="select-filter">User</th>
+                            <th id="select-filter">Created By</th>
                             <th>PNG</th>
                             <th>SVG</th>
                             <th>Design Summary</th>
                             <th>Design Details</th>
-                            <th>Category</th> 
-                            <th>Type</th> 
-                            <th>Is Public</th>
-                            <th>Archived</th>
+                            <th id="select-filter">Category</th> 
+                            <th id="select-filter">Type</th> 
+                            <th id="select-filter">Is Public</th>
+                            <th id="select-filter">Archived</th>
                             <th>Comments</th> 
-                            <th>Status</th>                             
+                            <th id="select-filter">Status</th>                             
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -148,6 +148,27 @@
                     @endforelse
 
                     </tbody>
+                        <tfoot>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>                             
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>                                      
+                          </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -206,10 +227,34 @@ $(document).ready(function(){
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
+        "pageLength" : 30,
         "searching": true,
         "ordering": false,
         "info": true,
-        "autoWidth": false
+        "autoWidth": false,
+          initComplete: function () {
+          this.api().columns('#select-filter').every( function () {
+
+              var column = this;
+              var select = $(`<select><option value=""></option></select>`)
+                  .appendTo( $(column.footer()).empty() )
+                  .on( 'change', function () {
+                      var val = $.fn.dataTable.util.escapeRegex(
+                          $(this).val()
+                      );
+
+                      column
+                      .search( val ? '^'+val+'$' : '', true, false )
+                          .draw();
+                  } );
+
+              column.data().unique().sort().each( function ( d, j ) {
+
+                  select.append( `<option value="`+d+`">`+d+`</option>` );
+              } );
+          } );
+      }
+
     });   
 
     $('.view-comments').on('click', function(e){

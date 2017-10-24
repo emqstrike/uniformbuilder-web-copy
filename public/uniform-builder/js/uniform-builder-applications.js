@@ -4740,7 +4740,6 @@ $(document).ready(function() {
     }
 
 
-
     ub.status.accentPopupVisible = false;
     ub.funcs.createAccentPopup = function (settingsObj) {
 
@@ -10016,6 +10015,21 @@ $(document).ready(function() {
 
         $.smkAlert({text: 'Added [' + type.toTitleCase() + '] on [' + part.toTitleCase() + '] layer', type:'success', time: 10, marginTop: '90px'});
 
+        // Initialize New Embellishment Popup
+        if (type === "embellishments") { 
+
+            if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+
+                is.loadDesigner(undefined, _newIDStr);
+
+            } else {
+
+                ub.funcs.createEmbellishmentSelectionPopup(_newApplication); 
+
+            }
+
+        }
+
     }
 
     ub.funcs.addLocation = function (artOnly) {
@@ -10257,6 +10271,8 @@ $(document).ready(function() {
                 
                 $('span.optionButton').not('[data-type="embellishments"]').hide();
                 $('span.optionButton[data-type="embellishments"]').trigger('click');
+
+                $('span.okButton').text('Next');
 
             }
 

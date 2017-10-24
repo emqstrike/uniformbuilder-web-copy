@@ -5950,6 +5950,7 @@ div.header-container.main {
                         margin-top: 20px;
                         text-align: center;
 
+
                         span.btn {
 
                             width: 130px;
@@ -5974,6 +5975,7 @@ div.header-container.main {
                         span.btn.edit-embellishment {
                             margin-right: 25px;
                             float: left;
+                            min-width: 190px;
                         }
 
                         span.btn.select-embellishment {
@@ -5983,6 +5985,46 @@ div.header-container.main {
                         span.btn.new-embellishment {
                             float: right;
                         }
+
+                        div.btn-group.other-options {
+
+                            float: right;
+
+                            ul.dropdown-menu {
+
+                                background-color: #acacac !important;
+                                margin-bottom: 5px;
+                                min-width: 300px;
+
+                                .divider {
+                                    background-color: #888;
+                                }
+
+                            }
+
+                            button.dropdown-toggle {
+
+                                padding: 5px;
+                                height: 30px;
+                                background-color: #acacac;
+                                text-shadow: none;
+                                border: none;
+                                min-width: 190px;
+
+                                -moz-transition: all .2s;
+                                -webkit-transition: all .2s;
+                                transition: all .2s;
+
+                            }
+
+                            button.dropdown-toggle:hover {
+
+                                background-color: #3d3d3d;
+
+                            }
+                            
+                        }
+
 
                     } 
 
@@ -9739,6 +9781,7 @@ strong.hello {
         width: 80px;
         top: 250px;
         color: #222;
+        left: 10px;
 
         hr.left-side-divider { 
             width: 83%; 
@@ -9751,7 +9794,7 @@ strong.hello {
             width: 83%; 
             color: #222; 
             border: 0;
-            border-top: solid 1px @ubBlack;
+            border-top: solid 2px #3d3d3d;
             display: none;
         }
 
@@ -9766,6 +9809,7 @@ strong.hello {
         span.toolbar-item {
 
             font-size: 1.1em;
+            color: silver;
 
             i.fa {
 
@@ -9871,7 +9915,7 @@ strong.hello {
         -webkit-transition: all .2s;
         transition: all .2s;
         text-align: center;
-        z-index: 1000;
+        z-index: 400;
 
         -webkit-user-select: none; /* Chrome/Safari */        
         -moz-user-select: none; /* Firefox */
