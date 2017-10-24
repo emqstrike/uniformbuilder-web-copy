@@ -4,8 +4,6 @@ $(document).ready(function() {
 
         ub.funcs.updateEmbellishmentList = function () {
 
-            ub.utilities.info('Updating Embellishment List ...');
-
             ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByUserID/' + ub.user.id;
             ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
                 window.is.embellishments.userItems = response;
@@ -794,20 +792,6 @@ $(document).ready(function() {
 
         _htmlBuilder        += ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
 
-        console.log('Html Builder Used ....');
-
-        // _htmlBuilder        +=          '<div class="ui-row">';
-        // _htmlBuilder        +=              '<div class="colorContainer embellishment-buttons-container">';
-
-        // _htmlBuilder        +=                  '<span class="btn edit-embellishment">Edit Current</span>';
-        // _htmlBuilder        +=                  '<span class="btn select-embellishment">Upload File (.ai, etc)</span>';
-        // _htmlBuilder        +=                  '<span class="btn new-embellishment">Create New</span>';
-
-        // _htmlBuilder        +=              '</div">';
-
-
-        // _htmlBuilder        +=          '</div>';
-
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
         _htmlBuilder        +=  '</div>';
@@ -863,6 +847,20 @@ $(document).ready(function() {
 
                 $('a.select-existing').unbind('click');
                 $('a.select-existing').on('click', function () {
+
+                    if (typeof ub.user.id === "undefined") {
+
+                        ub.showModalTool('You have to log-in to use your previous art.');    
+                        return;                    
+
+                    }
+
+                    if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
+
+                        ub.showModalTool("You have not created an art yet, please click on Create New instead.");    
+                        return;
+
+                    }
 
                     ub.funcs.createEmbellishmentSelectionPopup(_settingsObject);
 
