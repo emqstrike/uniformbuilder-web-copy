@@ -94,15 +94,8 @@ $(document).ready(function() {
             
             success: function (response) {
 
-                console.log('Update Logo Request Result:');
-                console.log(response);
-
                 // Update Saved Design if the custom artwork request if approved by the user without user rejections
-                if (ub.data.logo_request.status === 'completed') {
-                    
-                    ub.funcs.updateSavedDesign();
-
-                }
+                if (ub.data.logo_request.status === 'completed') { ub.funcs.updateSavedDesign(); }
 
                 dialog.modal('hide');
                 $('span.approve-reject-artwork-btn').fadeOut();
@@ -554,8 +547,6 @@ $(document).ready(function() {
 
     ub.funcs.prepareCustomArtworkRequestTable = function (type) {
 
-        var _template = $().html();
-
         $('div.my-custom-artwork-requests-loading').hide();
 
         if (typeof type !== "undefined") { 
@@ -575,8 +566,8 @@ $(document).ready(function() {
             });
 
         }
-            
-        _markup = ub .utilities.buildTemplateString('#m-custom-artwork-requests', data = {
+
+        _markup = ub .utilities.buildTemplateString('#m-custom-artwork-requests', {
             car: _data,
             titleCase: function () {
 
@@ -652,6 +643,8 @@ $(document).ready(function() {
                 var _refID = $(this).data('reference-id');
                 var _action = $(this).data('action');
                 var _result = _.find(_data, { reference_id: _refID.toString()});
+                var _code = $(this).data('code');
+                var _record = _.find(_result.parsedProperties, {code: _code.toString()});
 
                 if ($(this).hasClass('pending')) { return; }
 
@@ -659,7 +652,7 @@ $(document).ready(function() {
 
                     if (_result.parsedProperties.length > 0) {
 
-                        var _file = _result.parsedProperties[0].file;
+                        var _file = _record.file;
                         var _str = "<img style='max-width: 100%;' src ='" + _file + "' />";
 
                         ub.showModalTool(_str);
@@ -672,7 +665,7 @@ $(document).ready(function() {
 
                     if (type === "pending") { return; }
 
-                    var _parsedProperties = _result.parsedProperties[0];
+                    var _parsedProperties = _record;
                     var _mascotID = _parsedProperties.mascot_id;
 
                     $(this).html('Loading <img src="/images/loading.gif" style="width: 20px"/>');

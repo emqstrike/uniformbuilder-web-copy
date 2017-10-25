@@ -2597,15 +2597,19 @@
 
                         <td>
 
-                            <span class="btn" data-btn-type="preview" data-action="preview-submitted-artwork" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Preview the artwork you submitted in a popup">
-                                Preview Submitted Artwork
-                            </span>
+                            @{{#parsedProperties}}
 
-                            <br />
-                            
-                            <span class="btn" data-btn-type="preview" data-action="preview-prepared-artwork" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Preview the artwork you submitted after its been processed by the our Graphic Artists">
-                                Preview Processed Mascot
-                            </span>
+                                <span class="btn" data-code="@{{code}}" data-btn-type="preview" data-action="preview-submitted-artwork" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Preview the artwork you submitted in a popup">
+                                    Preview Submitted Artwork
+                                </span>
+
+                                <br />
+                                
+                                <span class="btn" data-code="@{{code}}" data-btn-type="preview" data-action="preview-prepared-artwork" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Preview the artwork you submitted after its been processed by the our Graphic Artists">
+                                    Preview Processed Mascot
+                                </span>
+
+                            @{{/parsedProperties}}
 
                         </td>
                         
