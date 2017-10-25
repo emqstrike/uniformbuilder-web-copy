@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+ 
     /// NEW RENDERER ///
 
         /// Initialize Uniform Builder
@@ -51,6 +51,10 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
 
+                // Custom Artwork Request, replace this with a get_by_user_id
+                ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
+                ub.loader(ub.current_material.logo_request_url, 'logo_request', ub.callback);
+
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
@@ -71,13 +75,11 @@ $(document).ready(function () {
 
             }
 
+
             if (typeof ub.user.id !== 'undefined' && ub.config.material_id === -1) {
 
                 ub.orders_url = ub.config.api_host + '/api/order/user/' + ub.user.id;
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);
-
-                // ub.savedDesigns_url = window.ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id;
-                // ub.loader(ub.savedDesigns_url, 'saved_designs', ub.load_save_designs);
 
             } else {
 
@@ -367,7 +369,15 @@ $(document).ready(function () {
 
                 $('a.footer-buttons[data-view="right"], a.footer-buttons[data-view="left"]').addClass('disabled')
 
-            }                
+            }           
+
+            if (ub.data.hasProcessedArtworks) {
+                
+                // Hide Save and Order buttons, this will be processed manually
+                $('a.footer-buttons[data-view="save"]').addClass('disabled');
+                $('a.footer-buttons[data-view="team-info"]').addClass('disabled');
+                
+            }
 
         }
 
@@ -540,6 +550,8 @@ $(document).ready(function () {
                 });
 
             }
+
+            if (ub.config.pageType === "Saved Design") { ub.funcs.initGuideSavedDesign(); }
 
             if (ub.render !== "1") {
 
@@ -893,7 +905,7 @@ $(document).ready(function () {
                 ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
                 ub.funcs.initFavorite();
 
-            } 
+            }
 
         }
  
@@ -914,6 +926,7 @@ $(document).ready(function () {
                 'mascots_groups_categories',
                 'cuts_links',
                 // 'tailsweeps',
+                'logo_request',
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
@@ -958,11 +971,12 @@ $(document).ready(function () {
 
             }
 
-            if (object_name === 'fonts') {
-
-                ub.funcs.processFonts();
-
-            }
+            // TODO: Refactor all types like this where processing goes inside a function, so it can used in other pages e.g. like processLogoRequests
+            if (object_name === 'fonts') { ub.funcs.processFonts(); }
+            if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
+            if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
+            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
+            if (object_name === 'colors') { ub.funcs.prepareColors(); }
 
             if (object_name === 'cuts_links') {
 
@@ -990,24 +1004,6 @@ $(document).ready(function () {
                 } 
                 
             }
-
-            if (object_name === 'colors') {
-
-                ub.data.colors = _.filter(ub.data.colors, {active: "1"});
-                ub.data.colors = _.map(ub.data.colors, function (color) {
-                
-                    color.order = ub.data.sublimatedColorArrangement.getOrderID(color.name).order;
-                    return color;
-
-                });
-                
-                ub.data.colors = _.sortBy(ub.data.colors, 'order');
-
-            }
-
-            if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
-
-            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
 
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
@@ -2189,8 +2185,11 @@ $(document).ready(function () {
 
     ub.funcs.approveRejectArtwork = function (artworks, parsedArtworks) {
 
-        var _data = { artworks: parsedArtworks };
-        
+        var _data = { 
+            artworks: parsedArtworks,
+            note: "Click the approve or reject button for the custom artwork request so that we can adjust the mascot if it was rejected or proceed to the order processing if everthing is ok. You can use the notes field to enter your comment to give the reason why you rejected the processed mascot."
+        };
+
         var _markup = ub.utilities.buildTemplateString('#m-car-approve-dialog', _data);
 
         var dialog = bootbox.dialog({
@@ -2588,6 +2587,9 @@ $(document).ready(function () {
                 ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
 
                 if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+                if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
+
+                // if (ub.page === "saved-design" || ub.page === "order") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
 
             }
 
@@ -2604,7 +2606,7 @@ $(document).ready(function () {
                 ub.update_application_logo(application_obj);
 
             }
-    
+
         });
 
         /// 
@@ -7988,6 +7990,7 @@ $(document).ready(function () {
             });
    
         }
+
 
         ub.funcs.displayMyOrders = function () {
 

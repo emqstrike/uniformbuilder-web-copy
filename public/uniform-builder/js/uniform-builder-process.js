@@ -2307,8 +2307,20 @@ $(document).ready(function() {
 
                         if (ub.funcs.thumbnailsUploaded()) {
 
-                            $('div.save-design-footer').fadeIn();
                             $('em.uploading').fadeOut();
+
+                            if(ub.data.updateSaveDesignFromCustomArtworkRequest) {
+
+                                // Updating a save design from a custom artwork process
+                                ub.funcs.saveDesign();
+
+                            } else {
+
+                                // Normal Save Logic
+                                $('div.save-design-footer').fadeIn();
+
+
+                            }
 
                         }
 
@@ -2330,9 +2342,15 @@ $(document).ready(function() {
 
             if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
 
+            var _url = window.ub.config.api_host + '/api/saved_design'
+
+            if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
+                _url = window.ub.config.api_host + '/api/saved_design/update';
+            }
+
             $.ajax({
 
-                url: window.ub.config.api_host + '/api/saved_design',
+                url: _url,
                 dataType: "json",
                 type: "POST",
                 data: JSON.stringify(data),
@@ -2410,6 +2428,16 @@ $(document).ready(function() {
                 notes: _notes
 
             };
+
+            if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
+                
+                _data.id = ub.config.savedDesignInfo.savedDesignID;
+                _data.builder_customizations = JSON.stringify(_data.builder_customizations);
+
+                delete _data.user;
+                delete _data.material_name;
+
+            }
 
             // Add flag
             if (typeof($('#is_add_to_team_store').val()) !== "undefined") {
@@ -2498,6 +2526,7 @@ $(document).ready(function() {
             $('div.save-design').remove();
 
             var data = {
+                title: 'Save Design',
             };
 
             var template = $('#m-save-design').html();
@@ -2520,6 +2549,23 @@ $(document).ready(function() {
                 ub.funcs.saveDesign();
                 
             });
+
+            // If from custom artwork request process 
+            if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
+
+                $('div.save-design > h3').html('<i class="fa fa-floppy-o" aria-hidden="true"></i> Updating Design')
+
+                $('input[name="design-name"]').attr('disabled','disabled');
+                $('textarea#design-notes').attr('disabled', 'disabled');
+
+                $('input[name="design-name"]').val(ub.config.savedDesignInfo.name);
+
+            } else {
+
+                $('input[name="design-name"]').removeAttr('disabled');
+                $('textarea#design-notes').removeAttr('disabled');
+
+            }
 
         };
 
