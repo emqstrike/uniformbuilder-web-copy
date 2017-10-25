@@ -2589,6 +2589,8 @@ $(document).ready(function () {
                 if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
                 if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
 
+                // if (ub.page === "saved-design" || ub.page === "order") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
+
             }
 
             if (application_obj.type === "embellishments"){
