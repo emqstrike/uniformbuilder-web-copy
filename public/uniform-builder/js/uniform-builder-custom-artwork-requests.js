@@ -644,8 +644,12 @@ $(document).ready(function() {
                 var _action = $(this).data('action');
                 var _result = _.find(_data, { reference_id: _refID.toString()});
                 var _code = $(this).data('code');
-                var _record = _.find(_result.parsedProperties, {code: _code.toString()});
+                var _record;
 
+                if (typeof _code !== "undefined") {
+                    _record = _.find(_result.parsedProperties, {code: _code.toString()});    
+                }
+                
                 if ($(this).hasClass('pending')) { return; }
 
                 if (_action === 'preview-submitted-artwork') {
@@ -686,6 +690,8 @@ $(document).ready(function() {
                 }
 
                 if (_action === "preview-in-customizer") {
+
+                    console.log('This????');
 
                     var _refID = $(this).data('reference-id');
                     var _type = $(this).data('type');

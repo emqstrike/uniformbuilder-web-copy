@@ -2615,7 +2615,7 @@
                         
                         <td class="action">
 
-                            <span class="btn" target="_blank" data-btn-type="preview" data-action="preview-in-customizer" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open the customizer with the style you created." href="">
+                            <span class="btn" target="_blank" data-btn-type="preview" data-action="preview-in-customizer" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open the customizer with the style you created.">
                                 Preview Mascot In Customizer
                             </span>
 
