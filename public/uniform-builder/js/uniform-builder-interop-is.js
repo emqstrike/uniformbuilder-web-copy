@@ -1745,6 +1745,7 @@ $(document).ready(function() {
 
                 var _id = $(this).data('id');
                 var _filename = $(this).data('filename');
+                var _svgFilename = $(this).data('svg-filename');
                 var _designID = $(this).data('design-id');
                 var _designName = $(this).data('design-name');
 
@@ -1754,7 +1755,7 @@ $(document).ready(function() {
                 $('span.id').html(_id);
                 $('span.name').html(_designName);
                 $('span.filename').html(_filename);
-                $('a.previewLink').attr('href',_filename);
+                $('a.previewLink').attr('href',_svgFilename);
                 $('img.preview').attr('src',_filename);
 
                 $('span.add-to-uniform').data('id', _id);
@@ -1824,13 +1825,13 @@ $(document).ready(function() {
                 $(this).addClass('active');
 
                 if (_type === "create") {
-                    $popup.remove();
-                    $('span.btn.new-embellishment').trigger('click');
+                    $embellishmentPopup.remove();
+                    is.loadDesigner(undefined, settingsObj.code);
                 }
 
                 if (_type === "upload") {
-                    $popup.remove();
-                    $('span.btn.select-embellishment').trigger('click');
+                    $embellishmentPopup.remove();
+                    is.loadDesignerUpload(undefined, settingsObj.code);
                 }
 
             });

@@ -9664,6 +9664,8 @@ $(document).ready(function() {
 
     ub.funcs.deleteLocation = function (locationID) {
 
+        ub.funcs.activateBody();
+
         var _appSettings = ub.current_material.settings.applications[locationID];
 
         _.each(_appSettings.application.views, function (view){
@@ -9704,6 +9706,8 @@ $(document).ready(function() {
 
         $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
         $('body').css('cursor', 'auto');
+
+
 
     };
 
