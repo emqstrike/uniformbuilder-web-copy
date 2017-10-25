@@ -2641,7 +2641,7 @@
 
                     @{{#myEmbellishments}}
 
-                        <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-name="@{{design_name}}" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}">
+                        <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-name="@{{design_name}}" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}" data-svg-filename="@{{svg_filename}}">
                             <div class="name" style="">@{{design_name}}</div>
                         </div>
 
@@ -2653,18 +2653,12 @@
 
             <div class="sidebar">
 
-                <label>ID:</label>
-                <span class="id"></span> <br />
+                <span class="name"></span> / <a class="previewLink" target="_new" href=''>Fullsize Preview</a> <br />
 
-                <label>Name:</label>
-                <span class="name"></span> <br />
+                <img class="preview" /> <br /><br />
+                
 
-                <label>Filename:</label>
-                <a class="previewLink" target="_new" href=''>Open in New Tab</a> <br />
-
-                <img class="preview" />
-
-                <br /><br />
+                <br />
 
                 <span class="btn add-to-uniform">Add to Uniform</span>
 
