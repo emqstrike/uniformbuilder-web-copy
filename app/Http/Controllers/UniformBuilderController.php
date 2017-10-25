@@ -129,6 +129,9 @@ class UniformBuilderController extends Controller
                 $design = Session::get('design');
                 Session::put('order', null);
 
+                $params['saved_design_user_id'] = $config['saved_design_user_id'];
+                
+                $params['saved_design_name'] = $config['saved_design_name'];
                 $params['page'] = 'saved-design';
                 $bc = $config['builder_customizations'];
                 $params['saved_design_id'] = $config['id'];
@@ -1638,7 +1641,7 @@ class UniformBuilderController extends Controller
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
         $html .=     '<td>';
-       // $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo);
+        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo);
         $html .=     '</td>';
         $html .=     '</tr>';
         $html .=   '</table>';
@@ -1963,6 +1966,7 @@ class UniformBuilderController extends Controller
     public function loadSavedDesign($id, $render = false)
     {
         $savedDesign = $this->savedDesignsClient->getSavedDesign($id);
+
         if (isset($savedDesign))
         {
 
@@ -1979,6 +1983,8 @@ class UniformBuilderController extends Controller
             ]);
 
             $config = [
+                'saved_design_user_id' => $savedDesign->user_id,
+                'saved_design_name' => $savedDesign->name,
                 'material_id' => $materialId,
                 'id' => $savedDesign->id,
                 'builder_customizations' => $savedDesign->id,
@@ -2096,6 +2102,27 @@ class UniformBuilderController extends Controller
         ];
 
         return view('editor.my-messages', $params);
+
+    }
+
+    public function myCustomArtworkRequests(Request $request) {
+
+        $materialId = -1;
+        $categoryId = -1;
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'my-custom-artwork-requests',
+            'type' => 'my-custom-artwork-requests',
+        ];
+
+        return view('editor.my-custom-artwork-requests', $params);
 
     }
 

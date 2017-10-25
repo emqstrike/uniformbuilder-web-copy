@@ -23,6 +23,15 @@
 
 @main_window_pane_height: 550px;
 
+
+// Tables
+    
+    @table_button_background_color: #e7e7e7;
+    @table_header_background_color: #1e1e1e;
+
+// End Tables
+
+
 .message-list () {
 
     div.message-list {
@@ -222,6 +231,14 @@ div.save-design-post-dialog {
     
 }
 
+.transitions() {
+    
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+    
+}
+
 .linkShadow() {
 
 }
@@ -244,14 +261,14 @@ div.save-design-post-dialog {
 
     div.header, span.header {
 
-        font-size: 2em;
+        font-size: 1.5em;
         text-align: center;
         width: 100%;
         display: block;
         text-transform: uppercase;
         
-
         padding: 30px;
+        padding-bottom: 15px;
         margin-bottom: 40px;
         border-bottom: dashed 1px #acacac;
 
@@ -3629,8 +3646,9 @@ div.header-container.main {
         position: absolute;
         margin-top: 10.5em;
         text-transform: none;
+        color: gold;
 
-        display:none;
+        /* display:none; */
 
     }
 
@@ -3813,8 +3831,7 @@ div.header-container.main {
 
                     img#preview {
 
-                        height: 250px;
-                        width: 250px;
+                        width: 75%;
                         margin-top: 7px;
 
                     }
@@ -5933,6 +5950,7 @@ div.header-container.main {
                         margin-top: 20px;
                         text-align: center;
 
+
                         span.btn {
 
                             width: 130px;
@@ -5957,6 +5975,7 @@ div.header-container.main {
                         span.btn.edit-embellishment {
                             margin-right: 25px;
                             float: left;
+                            min-width: 190px;
                         }
 
                         span.btn.select-embellishment {
@@ -5966,6 +5985,46 @@ div.header-container.main {
                         span.btn.new-embellishment {
                             float: right;
                         }
+
+                        div.btn-group.other-options {
+
+                            float: right;
+
+                            ul.dropdown-menu {
+
+                                background-color: #acacac !important;
+                                margin-bottom: 5px;
+                                min-width: 300px;
+
+                                .divider {
+                                    background-color: #888;
+                                }
+
+                            }
+
+                            button.dropdown-toggle {
+
+                                padding: 5px;
+                                height: 30px;
+                                background-color: #acacac;
+                                text-shadow: none;
+                                border: none;
+                                min-width: 190px;
+
+                                -moz-transition: all .2s;
+                                -webkit-transition: all .2s;
+                                transition: all .2s;
+
+                            }
+
+                            button.dropdown-toggle:hover {
+
+                                background-color: #3d3d3d;
+
+                            }
+                            
+                        }
+
 
                     } 
 
@@ -9722,6 +9781,7 @@ strong.hello {
         width: 80px;
         top: 250px;
         color: #222;
+        left: 10px;
 
         hr.left-side-divider { 
             width: 83%; 
@@ -9734,7 +9794,7 @@ strong.hello {
             width: 83%; 
             color: #222; 
             border: 0;
-            border-top: solid 1px @ubBlack;
+            border-top: solid 2px #3d3d3d;
             display: none;
         }
 
@@ -9749,6 +9809,7 @@ strong.hello {
         span.toolbar-item {
 
             font-size: 1.1em;
+            color: silver;
 
             i.fa {
 
@@ -9802,7 +9863,14 @@ strong.hello {
             margin-bottom: 33px;
             display: none;
 
-            color: #e7e7e7;
+            color: gold;
+
+        }
+
+        span.approve-reject-artwork-btn:hover {
+
+            color: gold;
+            font-size: 1.1em;
 
         }
 
@@ -9854,7 +9922,7 @@ strong.hello {
         -webkit-transition: all .2s;
         transition: all .2s;
         text-align: center;
-        z-index: 1000;
+        z-index: 400;
 
         -webkit-user-select: none; /* Chrome/Safari */        
         -moz-user-select: none; /* Firefox */
@@ -11127,12 +11195,16 @@ span.load-line.awesomeness {
 
             tr.header-row {
 
+                height: 40px;
+                color: white;
+                background-color: #1e1e1e;
+                font-size: 0.9em;
+
                 td { 
                     align: center; 
                     font-size: 1.3em;
                 }
 
-                height: 50px;
 
             }
 
@@ -11400,8 +11472,15 @@ span.load-line.awesomeness {
 
 /* end isModal */
 
+/* Custom Artwork Requests */
+
+    @import (once) "uniform-builder-custom-artwork-requests.less";
+
+/* End Custom Artwork Requests */
+
 /* IS Integration */
 
     @import "is-integration.less";
 
 /* End IS Integration */
+

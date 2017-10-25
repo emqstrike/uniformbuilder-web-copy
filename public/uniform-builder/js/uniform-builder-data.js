@@ -2141,6 +2141,10 @@ $(document).ready(function() {
                 name: "Lacrosse",
                 alias: "lacrosse",
             },
+            { 
+                name: "Game Day Coaches Jackets (Apparel)",
+                alias: "game-day-coaches-jackets",
+            },
 
         ],
 
@@ -2502,8 +2506,52 @@ $(document).ready(function() {
                                 size: 12,
                             }
                 ],
+                
             },
-           
+            {
+                name: 'mascot',
+                sport: 'game-day-coaches-jackets',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            },
+                            {
+                                size: 6,
+                            },
+                            {
+                                size: 7,
+                            },
+                            {
+                                size: 8,
+                            },
+                            {
+                                size: 9,
+                            },
+                            {
+                                size: 10,
+                            },
+                            {
+                                size: 11,
+                            },
+                            {
+                                size: 12,
+                            }
+                ],
+            }
+                //game-day-coaches-jackets
         ], 
         getSize: function (applicationType, sport, id) {
 
@@ -2528,6 +2576,8 @@ $(document).ready(function() {
             if (sport === "soccer")                             { return _result[0]; }
             if (sport === "lacrosse")                           { return _result[0]; }
             if (sport === "football 2017")                      { return _result[0]; }
+            if (sport === "game-day-coaches-jackets")           { return _result[0]; }
+
 
             if (typeof _object === "undefined") {
 
@@ -12095,6 +12145,7 @@ ub.funcs.fontOffSets = [
             'Basketball',
             'Cage Jacket (Apparel)',
             'Football 2017',
+            'Game Day Coaches Jackets (Apparel)',
         ],
         options: [
             'Fight Short',
@@ -12261,6 +12312,10 @@ ub.funcs.fontOffSets = [
             }, 
             {
                 sport: 'Football 2017',
+                sublimatedPart: 'Body',
+            },
+            {
+                sport: 'Game Day Coaches Jackets (Apparel)',
                 sublimatedPart: 'Body',
             },
 
@@ -13377,6 +13432,14 @@ ub.funcs.fontOffSets = [
                 name: 'tagged_styles',
                 alias: 'Tags',
             },
+            {
+                name: 'cuts_links',
+                alias: 'Cuts Links',
+            },
+            {
+                name: 'logo_request',
+                alias: 'Logo Requests',
+            },
     
         ],
 
@@ -13573,6 +13636,10 @@ ub.funcs.fontOffSets = [
         }
 
     }
+
+    // Shortcuts
+
+    ub.dialog = bootbox;
 
 
 });

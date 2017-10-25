@@ -4,11 +4,255 @@ span.add-art.sublimated { display: block; }
 
 span.add-art.non-sublimated {
 
-    cursor: not-allowed;
+    cursor: not-allowed !important;
 
     display: block;
     opacity: 0.3;
 
 }
 
-span.add-art.non-sublimated:hover { color: #e7e7e7; }
+span.add-art.non-sublimated:hover { color: silver !important; }
+
+/* Embellishment Popup */
+
+    div#primaryEmbellishmentPopup {
+
+        cursor: grab;
+        padding: 10px;
+        display: none;
+        position: absolute;
+        width: 1200px;
+        height: 850px;
+        top: 100px;
+        left: 300px;
+        z-index: 500;
+        background-color: #fff;
+
+        -webkit-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+        -moz-box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+        box-shadow: 6px 6px 45px 5px rgba(0,0,0,0.75);
+
+        div.footer {
+
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+            color: white;
+            background-color: #808080;
+            left: 0;
+            padding: 10px;
+
+        }
+
+        .pagePanelHeader;
+
+        div.header, span.header {
+
+        	font-size: 1.3em;
+        	padding-top: 10px;
+    		padding-bottom: 10px;
+
+    		div.close-popup { 
+    			padding-top: 28px; 
+			    font-size: 0.8em;
+    		}
+
+        }
+
+        div.navbar-main {
+
+            ul {
+
+                border-bottom: 1px solid #3d3d3d;
+                padding: 0;
+
+                li {
+
+                    display: inline-block;
+                    padding: 10px;
+                    background-color: #e7e7e7;
+                    color: #3d3d3d;
+                    width: 300px;
+                    cursor: pointer;
+                    font-size: 0.9em;
+                    text-transform: uppercase;
+                    margin-bottom: 10px;
+
+                    -moz-transition: all .2s;
+                    -webkit-transition: all .2s;
+                    transition: all .2s;
+
+                }
+
+                li.active, li.active:hover  {
+
+                    background-color: #1e1e1e;
+                    color: white;
+
+
+                }
+
+                li:hover {
+
+                    background-color: #3d3d3d;
+                    color: #acacac;
+
+                }
+
+                li[data-type="upload"], li[data-type="create"] {
+                    float: right;
+                    margin-left: 10px;
+                    width: 250px;
+                    font-size: 0.9em;
+                    text-align: center;
+                }
+
+            }
+
+        }
+
+        div.navbar-top {
+
+        	width: 49%;
+		    overflow-y: scroll;
+		    margin-left: 33px;
+    		float: left;
+    		margin-right: 15px;
+            margin-top: 15px;
+            
+        	input.search-bar {
+		        padding: 7px;
+			    width: 50%;
+    	        border: none;
+                border-bottom: 1px dashed #3d3d3d;
+                float: left;
+                cursor: not-allowed;
+			}
+
+        	span.archives {
+    		    padding: 7px;
+    			font-size: 1em;
+                float: right;
+                cursor: not-allowed;
+        	}
+
+        	span.archives:hover {
+                /*
+        		background-color: #1e1e1e;
+        		color: white;
+                */
+        	}
+
+        }
+
+        div.main-content {
+
+            width: 49%;
+		    height: 590px;
+		    overflow-y: scroll;
+		    padding: 15px;
+		    margin: 33px;
+		    margin-right: 15px;
+		    margin-top: 15px;
+		    border: 1px solid #acacac;
+
+	        border: 3px solid #3d3d3d;
+    		background-color: #808080;
+    		float: left;
+
+            div.embellishmentPopupResults {
+
+                div.item {
+
+                    color: #3d3d3d;
+                    float: left;
+                    width: 128px;
+                    height: 150px;
+                    background-color: #1e1e1e;
+                    margin: 10px;
+                    background-size: contain;
+                    background-position: center top;
+                    cursor: pointer;
+                    margin-bottom: 50px;
+                    box-shadow: 3px 9px 24px -5px rgba(0, 0, 0, 0.75);
+                    margin: 20px;
+                    background-position-y: -5px;
+                    background-repeat: no-repeat;
+
+                    -webkit-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
+                    -moz-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
+                    box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
+
+                    div.name {
+                        
+                        width: 100%;
+                        height: 30px;
+                        margin-top: 115px;
+                        background-color: #1e1e1e;
+                        color: white;
+                        transition: all 0.1s ease-in-out;
+                        text-align: center;
+                        
+                        font-size: 0.9em;
+                        padding-top: 7px;
+
+                    }
+
+                    div.name.pullUp {
+
+                        background-color: #3d3d3d;
+
+                    }
+
+                }
+
+                div.item:hover {
+                    background-color: #e7e7e7;
+                }
+
+                div.item.active, div.item.active:hover {
+
+                	transform: scale(1.15);
+                	background-color: white;
+
+                }
+                
+            }
+
+        }
+
+        div.sidebar {
+
+    	    float: right;
+		    width: 42%;
+		    height: 680px;
+		    overflow-y: scroll;
+		    margin: 33px;
+		    margin-top: 45px;
+		    margin-left: 15px;
+            text-align: center;
+
+	        img.preview { height: 400px; }
+
+            span.name, a.previewLink { font-size: 1.8em; }
+
+	        span.add-to-uniform {
+
+				width: 70%;
+			    padding: 10px;
+			    background-color: #e7e7e7;
+			    margin-top: 30px;
+
+	        }
+
+	        span.add-to-uniform:hover {
+	        	color: white;
+	        	background-color: #1e1e1e;
+	        }
+
+	    }
+
+    }
+
+/* End Embellishment Popup */

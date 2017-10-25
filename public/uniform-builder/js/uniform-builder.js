@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+ 
     /// NEW RENDERER ///
 
         /// Initialize Uniform Builder
@@ -14,7 +14,6 @@ $(document).ready(function () {
             ub.config.print_version();
 
             /// Initialize Assets
-
             ub.current_material.id = window.ub.config.material_id;
             ub.current_material.code = window.ub.config.code;
 
@@ -22,7 +21,6 @@ $(document).ready(function () {
             ub.funcs.hideMainLinks();
 
             // Set Feature Flags
-
             ub.config.setFeatureFlags();
 
             ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
@@ -35,18 +33,14 @@ $(document).ready(function () {
 
                 ubsv.mascotScales.fetchValues();
 
-                ub.current_material.colors_url = window.ub.config.api_host + '/api/colors/';
-                ub.current_material.fonts_url = window.ub.config.api_host + '/api/fonts/';
-                ub.current_material.patterns_url = window.ub.config.api_host + '/api/patterns/';
-                ub.current_material.mascots_url = window.ub.config.api_host + '/api/mascots/';
-                ub.current_material.cutlinks_url = window.ub.config.api_host + '/api/cut_links/';
-
-                // Disable Tailsweeps for now
-                // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
-                ub.current_material.block_patterns_url = window.ub.config.api_host + '/api/block_patterns/';
-
-                ub.current_material.mascot_categories_url = window.ub.config.api_host + '/api/mascot_categories';
-                ub.current_material.mascot_groups_categories_url = window.ub.config.api_host + '/api/mascots_groups_categories/';            
+                ub.current_material.colors_url = ub.config.api_host + '/api/colors/';
+                ub.current_material.fonts_url = ub.config.api_host + '/api/fonts/';
+                ub.current_material.patterns_url = ub.config.api_host + '/api/patterns/';
+                ub.current_material.mascots_url = ub.config.api_host + '/api/mascots/';
+                ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
+                ub.current_material.block_patterns_url = ub.config.api_host + '/api/block_patterns/';
+                ub.current_material.mascot_categories_url = ub.config.api_host + '/api/mascot_categories';
+                ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';            
 
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
@@ -57,7 +51,12 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
 
+                // Custom Artwork Request, replace this with a get_by_user_id
+                ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
+                ub.loader(ub.current_material.logo_request_url, 'logo_request', ub.callback);
+
                 // Disable Tailsweeps for now
+                // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
 
             }
@@ -69,24 +68,28 @@ $(document).ready(function () {
                 // ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
                 // ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 
-                ub.materials_url = window.ub.config.api_host + '/api/materials/styleSheets';
+                ub.materials_url = ub.config.api_host + '/api/materials/styleSheets';
                 ub.displayDoneAt('Loading Styles ...');
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
                 ub.afterLoadScripts();
 
             }
 
-            if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
 
-                ub.orders_url = window.ub.config.api_host + '/api/order/user/' + ub.user.id;
+            if (typeof ub.user.id !== 'undefined' && ub.config.material_id === -1) {
+
+                ub.orders_url = ub.config.api_host + '/api/order/user/' + ub.user.id;
                 ub.loader(ub.orders_url, 'orders', ub.load_orders);
-
-                // ub.savedDesigns_url = window.ub.config.api_host + '/api/saved_design/getByUserId/' + ub.user.id;
-                // ub.loader(ub.savedDesigns_url, 'saved_designs', ub.load_save_designs);
 
             } else {
 
                 $('.open-save-design-modal').hide();
+
+            }
+
+            if (typeof ub.user.id !== 'undefined' && ub.config.material_id !== -1) {
+
+                ub.funcs.updateEmbellishmentList();
 
             }
 
@@ -96,6 +99,8 @@ $(document).ready(function () {
 
         };
 
+
+
         ub.funcs.loggedInUsers = function () {
 
             if (typeof ub.user.id !== "undefined") { 
@@ -104,17 +109,9 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.preprocessGenderTerm = function (gender) {
-
-            return gender.toTitleCase();
-
-        }
-
-        ub.funcs.preprocessSportTerm = function (sport) {
-
-            return sport.toTitleCase();
-
-        }
+        ub.funcs.initCanvas = function () { $('body').addClass('generic-canvas'); }
+        ub.funcs.preprocessGenderTerm = function (gender) { return gender.toTitleCase(); }
+        ub.funcs.preprocessSportTerm = function (sport) { return sport.toTitleCase(); }
 
         ub.funcs.callDirectLinks = function () {
 
@@ -125,25 +122,20 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.initCanvas = function () {
-
-            $('body').addClass('generic-canvas');
-
-        }
-
         ub.funcs.loadHomePickers = function () {
             
             $('div.backlink').addClass('back-link-on');
 
-            ub.current_material.material_url         = window.ub.config.api_host + '/api/material/' + ub.current_material.id;
-            ub.current_material.material_options_url = window.ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
+            ub.current_material.material_url         = ub.config.api_host + '/api/material/' + ub.current_material.id;
+            ub.current_material.material_options_url = ub.config.api_host + '/api/materials_options/' + ub.current_material.id;
 
             ub.loader(ub.current_material.material_url, 'material', ub.callback);
             ub.loader(ub.current_material.material_options_url, 'materials_options', ub.callback);
 
             $('#main_view').parent().fadeIn();
             $('div.header-container').fadeIn(); 
-            window.ub.refresh_thumbnails();
+            
+            ub.refresh_thumbnails();
 
         }
 
@@ -172,24 +164,9 @@ $(document).ready(function () {
         // Returns Adult, Youth price modified with sale, also call for team pricing, or just call for pricing elements
         ub.funcs.getPriceElements = function (material) {
 
-            // var _web_price_sale = parseFloat(material.web_price_sale).toFixed(2);
-            // var _msrp           = parseFloat(material.msrp).toFixed(2);
-            // var _price          = 0;
-
-            // if (_web_price_sale < _msrp && _web_price_sale > 1) {
-            //     _price          = "Sale Price: $" + _web_price_sale;
-            // } else {
-            //     _price          = "MSRP $" + _msrp;
-            // }
-
-            // if (isNaN(_web_price_sale) || isNaN(_web_price_sale)) { 
-            //     _price = "Call for Pricing";
-            // } 
-
             ub.funcs.processMaterialPrice(material);
-
             return material.parsedPricingTable;
-
+            
         }
 
         ub.funcs.createMessage = function (type, order_code, subject, content, parent_id, main_thread_id) {
@@ -392,7 +369,15 @@ $(document).ready(function () {
 
                 $('a.footer-buttons[data-view="right"], a.footer-buttons[data-view="left"]').addClass('disabled')
 
-            }                
+            }           
+
+            if (ub.data.hasProcessedArtworks) {
+                
+                // Hide Save and Order buttons, this will be processed manually
+                $('a.footer-buttons[data-view="save"]').addClass('disabled');
+                $('a.footer-buttons[data-view="team-info"]').addClass('disabled');
+                
+            }
 
         }
 
@@ -415,6 +400,12 @@ $(document).ready(function () {
             }
 
         }
+
+        ub.funcs.afterLogin = function () {
+
+            ub.funcs.updateEmbellishmentList();
+
+        };
 
         ub.data.afterLoadCalled = 0;
         ub.funcs.afterLoad = function () {
@@ -559,6 +550,8 @@ $(document).ready(function () {
                 });
 
             }
+
+            if (ub.config.pageType === "Saved Design") { ub.funcs.initGuideSavedDesign(); }
 
             if (ub.render !== "1") {
 
@@ -912,7 +905,7 @@ $(document).ready(function () {
                 ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
                 ub.funcs.initFavorite();
 
-            } 
+            }
 
         }
  
@@ -933,6 +926,7 @@ $(document).ready(function () {
                 'mascots_groups_categories',
                 'cuts_links',
                 // 'tailsweeps',
+                'logo_request',
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
@@ -977,11 +971,12 @@ $(document).ready(function () {
 
             }
 
-            if (object_name === 'fonts') {
-
-                ub.funcs.processFonts();
-
-            }
+            // TODO: Refactor all types like this where processing goes inside a function, so it can used in other pages e.g. like processLogoRequests
+            if (object_name === 'fonts') { ub.funcs.processFonts(); }
+            if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
+            if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
+            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
+            if (object_name === 'colors') { ub.funcs.prepareColors(); }
 
             if (object_name === 'cuts_links') {
 
@@ -1009,24 +1004,6 @@ $(document).ready(function () {
                 } 
                 
             }
-
-            if (object_name === 'colors') {
-
-                ub.data.colors = _.filter(ub.data.colors, {active: "1"});
-                ub.data.colors = _.map(ub.data.colors, function (color) {
-                
-                    color.order = ub.data.sublimatedColorArrangement.getOrderID(color.name).order;
-                    return color;
-
-                });
-                
-                ub.data.colors = _.sortBy(ub.data.colors, 'order');
-
-            }
-
-            if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
-
-            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
 
             var ok = typeof(ub.current_material.material) !== 'undefined' && 
                      typeof(ub.current_material.materials_options) !== 'undefined' && 
@@ -1073,6 +1050,7 @@ $(document).ready(function () {
                 dataType: "json",
                 crossDomain: true,
                 contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
             
                 success: function (response){
 
@@ -2207,8 +2185,11 @@ $(document).ready(function () {
 
     ub.funcs.approveRejectArtwork = function (artworks, parsedArtworks) {
 
-        var _data = { artworks: parsedArtworks };
-        
+        var _data = { 
+            artworks: parsedArtworks,
+            note: "Click the approve or reject button for the custom artwork request so that we can adjust the mascot if it was rejected or proceed to the order processing if everthing is ok. You can use the notes field to enter your comment to give the reason why you rejected the processed mascot."
+        };
+
         var _markup = ub.utilities.buildTemplateString('#m-car-approve-dialog', _data);
 
         var dialog = bootbox.dialog({
@@ -2606,6 +2587,9 @@ $(document).ready(function () {
                 ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
 
                 if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+                if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
+
+                // if (ub.page === "saved-design" || ub.page === "order") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
 
             }
 
@@ -2622,7 +2606,7 @@ $(document).ready(function () {
                 ub.update_application_logo(application_obj);
 
             }
-    
+
         });
 
         /// 
@@ -8007,6 +7991,7 @@ $(document).ready(function () {
    
         }
 
+
         ub.funcs.displayMyOrders = function () {
 
             $.ajax({
@@ -9050,7 +9035,7 @@ $(document).ready(function () {
 
             // End Thumbnails
 
-            if (typeof _fileName !== "undefined" && _fileName.length > 0) {
+            if (_fileName !== null && typeof _fileName !== "undefined" && _fileName.length > 0) {
 
                 $('img.attachments').attr('src', _fileName);
                 $('img.attachments').attr('data-src', _fileName);

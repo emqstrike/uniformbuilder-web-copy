@@ -1856,7 +1856,7 @@
 
         <div class="save-design">
 
-            <h3><i class="fa fa-floppy-o" aria-hidden="true"></i> Save Design</h3>
+            <h3><i class="fa fa-floppy-o" aria-hidden="true"></i> @{{title}}</h3>
 
             <div class="row">
 
@@ -2406,67 +2406,7 @@
 
 </script>
 
-<script type="text/mustache" id="m-car-approve-dialog">
-    
-    <div class="approve-dialog">
-        
-        <p class="notice">
-            <em>
-                Click the approve or reject button for the custom artwork request so that we can adjust the mascot if it was rejected or proceed to the order processing if everthing is ok. You can use the notes field to enter your comment to give the reason why you rejected the processed mascot.
-            </em>
-        </p>
-        
-        <table class="approve-reject-table">
-     
-            <tr class="header-row">
-                    
-                <td>Location #</td>
-                <td>Mascot ID</td>
-                <td>Thumbnail</td>
-                <td>Link To PDF</td>
-                <td>Approve / Reject</td>
-                <td>Notes</td>
 
-            </tr>
-            
-            @{{#artworks}}
-
-            <tr class="content-row">
-
-                <td class="location">@{{code}}</td>
-                <td class="mascot-id">@{{mascot_id}}</td>
-                <td class="thumb">Thumbnail</td>
-                <td class="link-to-pdf"><a href=""></a></td>
-                <td class="approve-reject">
-                        
-                    <span class="btn approve active" data-state="approve" data-code="@{{code}}">Approve</span>
-                    <span class="btn reject" data-state="reject" data-code="@{{code}}">Reject</span>
-
-                </td>
-                <td class="notes">
-                    
-                    <textarea class="notes" rows=3 cols=30 data-code="@{{code}}"></textarea>
-
-                </td>
-                
-            </tr>
-                
-            @{{/artworks}}
-
-        </table>
-
-        <hr />
-
-        <div class="footer-buttons">
-                
-            <span class="btn submit">Submit</span>
-            <span class="btn cancel">Cancel</span>
-
-        </div>
-
-    </div>
-            
-</script>
 
 <script type="text/mustache" id="m-loading">
     
@@ -2608,7 +2548,342 @@
         </div>
 
     </div>
-    
+
 </script>
+
+
+<!-- Custom Artwork Requests --> 
+
+    <script type="text/mustache" id="m-custom-artwork-requests">
+
+        <br />
+
+        <table class="data-table">
+
+           <thead>
+
+                <tr class="header">
+
+                    <td>Date</td>
+                    <td>Reference ID / Name</td>
+                    <td>Type</td>
+                    <td>Status</td>
+                    <td>Submitted Artwork</td>
+                    <td>Preview</td>
+                    <td>Review</td>
+
+                </tr> 
+
+           </thead>
+            
+           <tbody>
+
+                @{{#car}}
+
+                    <tr class="custom-artwork-request-row" data-id="@{{id}}"> 
+                        
+                        <td>@{{created_at}}</td>
+                        
+                        <td>
+                            <span class="link" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open @{{#titleCase}}@{{type}}@{{/titleCase}} (@{{reference_id}})."> 
+                                
+                                @{{reference_id}} <br />
+
+                            </span>
+
+                            <span class="name"> 
+                                @{{saved_design_name}}
+                                @{{client_name}}
+                            </span>
+
+                        </td>
+
+                        <td>@{{#titleCase}}@{{type}}@{{/titleCase}}</td>
+                        <td>@{{#titleCase}}@{{status}}@{{/titleCase}}</td>
+
+                        <td>
+                            
+                            @{{#parsedProperties}}
+
+                                <img src="@{{file}}" />
+
+                            @{{/parsedProperties}}
+
+                        </td>
+
+                        <td>
+
+                            @{{#parsedProperties}}
+
+                                <span class="btn" data-code="@{{code}}" data-btn-type="preview" data-action="preview-submitted-artwork" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Preview the artwork you submitted in a popup">
+                                    Preview Submitted Artwork
+                                </span>
+
+                                <br />
+                                
+                                <span class="btn" data-code="@{{code}}" data-btn-type="preview" data-action="preview-prepared-artwork" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Preview the artwork you submitted after its been processed by the our Graphic Artists">
+                                    Preview Processed Mascot
+                                </span>
+
+                            @{{/parsedProperties}}
+
+                        </td>
+                        
+                        <td class="action">
+
+                            <span class="btn" target="_blank" data-btn-type="preview" data-action="preview-in-customizer" data-reference-id="@{{reference_id}}" data-type="@{{type}}" title="Open the customizer with the style you created.">
+                                Preview Mascot In Customizer
+                            </span>
+
+                            {{--  <span class="action-button edit" data-id="@{{id}}" data-order-id="@{{reference_id}}"><i class="fa fa-eye" aria-hidden="true"></i> Edit Order </span>
+                            <span class="action-button delete" data-id="@{{id}}" data-order-id="@{{reference_id}}"><i class="fa fa-remove" aria-hidden="true"></i> Delete Order </span>
+                            <span class="action-button view" data-id="@{{id}}" data-order-id="@{{reference_id}}"><i class="fa fa-eye" aria-hidden="true"></i> View Order Status and Details </span> --}}
+
+                        </td>
+
+                    </tr>
+
+                @{{/car}} 
+
+           </tbody>
+
+    {{--    
+
+            <tfoot>       
+
+                <td></td>
+                <td class="data-table-filter-hide"></td>               
+                <td class="data-table-filter-hide"></td>
+                <td class="data-table-filter-hide"></td>
+                <td></td>
+                <td></td>
+                <td class="data-table-filter-hide"></td>
+                <td class="data-table-filter-hide"></td>
+
+            </tfoot>
+
+    --}}
+
+        </table>
+
+    </script>   
+
+    <script type="text/mustache" id="m-custom-artwork-requests-mascot-preview">
+
+        <div id="mascotRealTimePreview">
+            
+            <div class="preview-header">
+                <h3>@{{mascot.id}} / @{{mascot.name}}</h3>
+            </div>
+
+            <div id="preview-canvas"></div>
+
+            <div class="color-pickers">
+                
+            </div>
+
+            <div class="notes">
+                
+                <em>Use this screen to preview the mascots prepared for the artwork you submitted, you can change the color of the inidividual layers.</em>
+
+            </div>
+
+            <div class="footer">
+
+                <span class="btn" id="close">Close</span>
+
+            </div>
+
+        </div>
+
+</script>   
+
+<script type="text/mustache" id="m-car-approve-dialog">
+    
+    <div class="approve-dialog">
+        
+        <p class="notice">
+            <em>
+                @{{note}}
+            </em>
+        </p>
+        
+        <table class="approve-reject-table">
+     
+            <tr class="header-row">
+                    
+                <td>Location #</td>
+                <td>Mascot ID</td>
+                <td>Thumbnail</td>
+            <td>Link To PDF</td>
+                <td>Approve / Reject</td>
+                <td>Notes</td>
+
+            </tr>
+            
+            @{{#artworks}}
+
+            <tr class="content-row">
+
+                <td class="location">@{{code}}</td>
+                <td class="mascot-id">@{{mascot_id}}</td>
+                <td class="thumb">Thumbnail</td>
+                <td class="link-to-pdf"><a href=""></a></td>
+                <td class="approve-reject">
+                        
+                    <span class="btn approve active" data-state="approve" data-code="@{{code}}">Approve</span>
+                    <span class="btn reject" data-state="reject" data-code="@{{code}}">Reject</span>
+
+                </td>
+                <td class="notes">
+                    
+                    <textarea class="notes" rows=3 cols=30 data-code="@{{code}}"></textarea>
+
+                </td>
+                
+            </tr>
+                
+            @{{/artworks}}
+
+        </table>
+
+        <hr />
+
+        <div class="footer-buttons">
+                
+            <span class="btn submit">Submit</span>
+            <span class="btn cancel">Cancel</span>
+
+        </div>
+
+    </div>
+            
+</script>
+
+<!-- Embellishment Popup -->
+    
+    <script type="text/mustache" id="m-embellishment-popup">
+
+        <div id="primaryEmbellishmentPopup" data-status="hidden">
+
+            <div class="header">
+
+                Embellishments
+
+                <div class="close-popup">
+                        
+                    <i class="fa fa-times" aria-hidden="true"></i>
+
+                </div>
+             
+            </div>
+
+            <div class="navbar-main">
+                
+                <ul class="embellishment-tabs">
+                    <li class="active" data-type="existing">Option #1: Select From Existing Designs</li>
+                    <li data-type="upload">Option #3: Upload A File</li>
+                    <li data-type="create">Option #2: Create A New Artwork</li>
+                </ul>
+
+            </div>
+
+            <div class="navbar-top">
+                
+                <input class="search-bar" type="text" name="search-bar" placeholder="Search" disabled=disabled  title="coming soon!"/>
+                
+                <span class="archives" title="coming soon!">
+                    <i class="fa fa-archive" aria-hidden="true"></i> Archives
+                </span>
+
+            </div>
+
+            <div class="clearfix"></div>
+            
+            <div class="main-content">
+                
+                <div class="embellishmentPopupResults">
+
+                    @{{#myEmbellishments}}
+
+                        <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-name="@{{design_name}}" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}" data-svg-filename="@{{svg_filename}}">
+                            <div class="name" style="">@{{design_name}}</div>
+                        </div>
+
+                    @{{/myEmbellishments}}
+
+                </div>
+
+            </div>
+
+            <div class="sidebar">
+
+                <span class="name"></span> / <a class="previewLink" target="_new" href=''>Fullsize Preview</a> <br />
+
+                <img class="preview" /> <br /><br />
+                
+
+                <br />
+
+                <span class="btn add-to-uniform">Add to Uniform</span>
+
+            </div>
+
+            <div class="footer">
+                
+                
+
+            </div>
+
+        </div>
+
+    </script>
+
+<!-- End Embellishment Popup -->
+
+<!-- Embellishment Sidebar -->
+    
+    <script type="text/mustache" id="m-embellishment-sidebar">
+        
+        <div class="ui-row">
+            <div class="colorContainer embellishment-buttons-container">
+
+                <span class="btn edit-embellishment">Edit Current</span>
+
+                <!-- 
+                <span class="btn select-embellishment">Upload File (.ai, etc)</span>
+                <span class="btn new-embellishment">Create New</span>
+                -->
+
+                <!-- Split button -->
+                <div class="btn-group dropup other-options">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select from previous, etc... <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+
+                    <li>
+                        <a href="#" class="select-existing"><i class="fa fa-folder-open-o" aria-hidden="true"></i> Select from previous Art</a>
+                    </li>
+
+                    <li role="separator" class="divider"></li>
+                    
+                    <li>
+                        <a href="#" class="create-new"><i class="fa fa-plus" aria-hidden="true"></i> Create New</a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="upload-file"><i class="fa fa-upload" aria-hidden="true"></i> Upload File</a>
+                    </li>
+
+                  </ul>
+                </div>
+
+            </div>
+         </div>
+
+    </script>
+
+<!-- End Embellishment Sidebar -->
 
 @include('partials.controls.team-store-products-picker')

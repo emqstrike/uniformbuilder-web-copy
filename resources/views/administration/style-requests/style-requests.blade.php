@@ -499,7 +499,6 @@ $(function(){
     }
 
     buildSportsDropdown();
-
     function buildSportsDropdown(){
         var sorted_sports = _.sortBy(window.sports, function(o) { return o.name; });
         console.log(sorted_sports);
@@ -523,7 +522,7 @@ $(function(){
         $('#deadline').attr({"style": "display: none;"});
         $('#customizer').removeAttr('style');
         // $('#name').trigger('keyup');
-       
+
     });
 
     $("#myModal").on("hidden.bs.modal", function() {
