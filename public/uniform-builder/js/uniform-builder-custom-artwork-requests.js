@@ -691,13 +691,11 @@ $(document).ready(function() {
 
                 if (_action === "preview-in-customizer") {
 
-                    console.log('This????');
-
                     var _refID = $(this).data('reference-id');
                     var _type = $(this).data('type');
                     var _url = '';
                     
-                    if (_type === "order") { _url = ub.config.host + '/orders/view/' + _refID; }
+                    if (_type === "order") { _url = ub.config.host + '/order/view/' + _refID; }
                     if (_type === "saved_design") { _url = ub.config.host + '/my-saved-design/' + _refID; }
 
                     ub.dialog.confirm("Leave this page and load " + _type.toTitleCase() + " " + _refID + ", continue?", function (result) { 
