@@ -32,6 +32,7 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
     </form>
     <input type="hidden" name="material_id" id="material_id" value="{{ $material->id }}">
+    <input type="hidden" name="application_type" id="application_type" value="{{ $material->uniform_application_type }}">
     <input type="hidden" class="data-string">
     <div class="form-group">
     	<div class="col-md-3">
@@ -171,6 +172,24 @@ function refreshFields(){
     });
 }
 
+function autoCheck() {
+    var type = $('#application_type').val();
+        if(type == 'sublimated') {
+            $('.mo-allow-all-pattern').prop('checked', true);
+            $('.mo-allow-all-color').prop('checked', true);
+            $('.mo-allow-all-pattern').trigger('change');
+            $('.mo-allow-all-color').trigger('change');            
+            refreshJSON();
+        }
+        else if (type == 'tackle_twill') {
+            $('.mo-allow--all-pattern').prop('checked', false);
+            $('.mo-allow-all-color').prop('checked', true);
+            $('.mo-allow-all-pattern').trigger('change'); 
+            $('.mo-allow-all-color').trigger('change');       
+            refreshJSON();
+        }
+}
+
 $('.mo-allow-all-pattern').change(function(){
     if($(this).is(':checked')){
         $(".mo-allow-pattern").each(function(i) {
@@ -183,6 +202,8 @@ $('.mo-allow-all-pattern').change(function(){
     }
     refreshJSON();
 });
+
+
 
 $('.mo-allow-all-color').change(function(){
     if($(this).is(':checked')){
@@ -351,9 +372,10 @@ function buildRows(filesData){
 						<td><input type="number" class="mo-group-id"></td>
 						<td style="background-color: gray;"><img src="`+entry.url+`" style="height: 50px; width: 50px;"></td>
 					<tr>`;
-		$('.material-options-rows').append(elem);
+		$('.material-options-rows').append(elem);        
 		refreshColorBG();
         refreshFields();
+        autoCheck();
 	});
 	refreshJSON();
 }
