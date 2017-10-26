@@ -125,6 +125,7 @@
                                 <th>Default Number</th>
                                 <th>Embellishment</th>
                                 <th>Inksoft Design ID</th>
+                                <th>Flipped</th>
                             </thead>
                             <tbody class="front-applications">
                             </tbody>

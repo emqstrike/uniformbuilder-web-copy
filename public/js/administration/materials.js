@@ -555,6 +555,7 @@ $(document).ready(function() {
         var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
         var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
+        var flipped                  = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
 
@@ -594,6 +595,7 @@ $(document).ready(function() {
                     default_number,
                     embellishment,
                     inksoft_design_id,
+                    flipped,
                     flip
                 ];
 
@@ -1492,6 +1494,7 @@ $(document).ready(function() {
                     vertical_text_checked = "",
                     rotated_tailsweep_checked = "";
                     embellishment_checked = "";
+                    flipped_checked = "";
 
                 // Check checkbox if value is 1, isn't it obvious?
                 if(app_properties[l].isPrimary == 1){ primary_checked = checked; }
@@ -1502,6 +1505,7 @@ $(document).ready(function() {
                 if(app_properties[l].verticalText == 1){ vertical_text_checked = checked; }
                 if(app_properties[l].rotatedTailsweep == 1){ rotated_tailsweep_checked = checked; }
                 if(app_properties[l].hasEmbellishment == 1){ embellishment_checked = checked; }
+                if(app_properties[l].isFlipped == 1){ flipped_checked = checked; }
 
                 var app_primary         = '<input type="checkbox" style="'  + style + '" class="app-primary" value="1" '        + primary_checked                   + '>';
                 var app_logo            = '<input type="checkbox" style="'  + style + '" class="app-logo" value="1" '           + logo_checked                      + '>';
@@ -1550,6 +1554,7 @@ $(document).ready(function() {
                 var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
                 var embellishment       = '<input type="checkbox" style="'  + style + '" class="app-embellishment" value="1" '         + embellishment_checked                    + '>';
                 var inksoft_design_id   = '<input type="number" style="'      + style + '" class="app-inksoft-design-id" value="'        + app_properties[l].inksoftDesignID       + '" size="3">';
+                var flipped       = '<input type="checkbox" style="'  + style + '" class="app-flipped" value="1" '         + flipped_checked                    + '>';
                 var rotated_tailsweep   = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '>';
 
                 // Append options to selectbox
@@ -1592,6 +1597,7 @@ $(document).ready(function() {
                     default_number,
                     embellishment,
                     inksoft_design_id,
+                    flipped,
                     flip
                 ];
 
@@ -3309,6 +3315,7 @@ function updateApplicationsJSON(){
 
         hasEmbellishment = $(this).parent().siblings('td').find("input[class=app-embellishment]");
         inksoftDesignID = $(this).parent().siblings('td').find("input[class=app-inksoft-design-id]").val();
+        isFlipped = $(this).parent().siblings('td').find("input[class=app-flipped]");
 
         console.log('ACCENT >>>>>>' + applicationAccents);
         console.log('MASCOT >>>>>>' + applicationMascot);
@@ -3361,6 +3368,12 @@ function updateApplicationsJSON(){
             hasEmbellishment = 1;
         } else {
             hasEmbellishment = 0;
+        }
+
+        if(isFlipped.prop( "checked" )){
+            isFlipped = 1;
+        } else {
+            isFlipped = 0;
         }
 
         var topLeftX = thisGroup.oCoords.tl.x * multiplier;
@@ -3443,6 +3456,8 @@ function updateApplicationsJSON(){
 
         applicationProperties[itemIdx].hasEmbellishment = hasEmbellishment;
         applicationProperties[itemIdx].inksoftDesignID = inksoftDesignID;
+
+        applicationProperties[itemIdx].isFlipped = isFlipped;
 
         applicationProperties[itemIdx].defaultMascot = applicationMascot;
 
