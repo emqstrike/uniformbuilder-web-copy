@@ -2432,7 +2432,7 @@ $(document).ready(function() {
             if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
                 
                 _data.id = ub.config.savedDesignInfo.savedDesignID;
-                _data.builder_customizations = JSON.stringify(_data.builder_customizations);
+                _data.builder_customizations = _data.builder_customizations;
 
                 delete _data.user;
                 delete _data.material_name;
