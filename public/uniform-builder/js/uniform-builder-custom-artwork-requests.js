@@ -695,8 +695,8 @@ $(document).ready(function() {
                     var _type = $(this).data('type');
                     var _url = '';
                     
-                    if (_type === "order") { _url = ub.config.host + '/order/view/' + _refID; }
-                    if (_type === "saved_design") { _url = ub.config.host + '/my-saved-design/' + _refID; }
+                    if (_type === "order") { _url = ub.config.host + '/order/' + _refID; }
+                    if (_type === "saved_design") { _url = ub.config.host + '/my-sgit saved-design/' + _refID; }
 
                     ub.dialog.confirm("Leave this page and load " + _type.toTitleCase() + " " + _refID + ", continue?", function (result) { 
                         if (result) {
