@@ -20,7 +20,7 @@
                     </a>
                 </div>
                 <div class="box-body">
-                    <table class='data-table table table-bordered table-striped table-hover col-lg-8'>
+                    <table data-toggle='table' id="inksoft_design_table" class='data-table table table-bordered table-striped table-hover col-lg-8'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -257,7 +257,7 @@ $(document).ready(function(){
 
     });   
 
-    $('.view-comments').on('click', function(e){
+    $('#inksoft_design_table').on('click', '.view-comments', function(e){
         e.preventDefault();
         //Open loading modal
         getComments($(this));
@@ -272,7 +272,7 @@ $(document).ready(function(){
       $('#design').jJsonViewer(sJson, {expanded: true});  
     }
 
-    $('.view-design-summary').on('click', function(e){
+    $('#inksoft_design_table').on('click', '.view-design-summary', function(e){
         e.preventDefault();
         //Open loading modal
         getSummary($(this));
@@ -287,7 +287,7 @@ $(document).ready(function(){
       $('#design').jJsonViewer(sJson, {expanded: true});  
     }
 
-    $('.view-design-details').on('click', function(e){
+    $('#inksoft_design_table').on('click', '.view-design-details', function(e){
         e.preventDefault();
         //Open loading modal
         getDetails($(this));
@@ -302,7 +302,7 @@ $(document).ready(function(){
     }
 
 
-    $('.delete-inksoft-design').on('click', function(){
+    $('#inksoft_design_table').on('click', '.delete-inksoft-design', function(){
        var id = [];
        id.push( $(this).data('inksoft-design-id'));
        console.log(id);
