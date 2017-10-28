@@ -2348,13 +2348,13 @@ $(document).ready(function() {
 
         ub.funcs.postDesign = function (data) {
 
-            
-
             var _url = window.ub.config.api_host + '/api/saved_design'
 
             if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
                 _url = window.ub.config.api_host + '/api/saved_design/update';
             }
+
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
             $.ajax({
 
