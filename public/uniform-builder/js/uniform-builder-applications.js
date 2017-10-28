@@ -9757,12 +9757,14 @@ $(document).ready(function() {
 
             if (ub.funcs.isCurrentSport('Wrestling'))   {  
 
-                _list = _.reject(_list, function (item) { return item.name.indexOf('Body') === -1; });
+                _list = _.reject(_list, function (item) { 
+                    return item.name.indexOf('Body') === -1 && item.name.indexOf('Buckle') === -1; 
+                });
 
             }
 
         }
-
+        
         return _list;
 
     }
