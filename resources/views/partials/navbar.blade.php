@@ -29,6 +29,7 @@
                             <li><a href="/styles/men/fan-replica-jersey" class="sport-link-icons">Fan Replica Jersey</a></li>
                             <li><a href="/styles/men/team-shorts" class="sport-link-icons">2017 Team Short with Pockets</a></li>
                             <li><a href="/styles/men/signature-coaches-short" class="sport-link-icons">Signature Coaches Short</a></li>
+                            <li><a href="/styles/men/cinch-sack" class="sport-link-icons">Cinch Sack</a></li>
                         </ul>
                       </li>
                 

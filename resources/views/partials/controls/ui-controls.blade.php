@@ -2734,10 +2734,10 @@
         <hr />
 
         <div class="footer-buttons">
-                
-            <span class="btn submit">Submit</span>
-            <span class="btn cancel">Cancel</span>
 
+            <span class="btn cancel">Cancel</span>
+            <span class="btn submit">Submit</span>
+            
         </div>
 
     </div>

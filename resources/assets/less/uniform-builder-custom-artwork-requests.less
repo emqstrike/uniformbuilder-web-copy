@@ -708,5 +708,88 @@
 
     }
 
+    /* Approve / Reject Panel */
+
+    div.approve-dialog {
+
+        p.notice {
+
+            padding: 10px;
+            text-align: center;
+
+        }
+
+        table.approve-reject-table {
+
+            width: 100%;
+            padding: 30px;
+
+            tr.header-row {
+
+                height: 40px;
+                color: white;
+                background-color: #1e1e1e;
+                font-size: 0.9em;
+
+                td { 
+                    align: center; 
+                    font-size: 1.3em;
+                }
+
+
+            }
+
+            tr.content-row { height: 90px; }
+
+            td { text-align: center; }
+
+            td.approve-reject {
+
+                span.btn { 
+                    background-color: #e7e7e7; 
+                    min-width: 100px;
+                }
+
+                span.btn.active {
+                    background-color: #1e1e1e;
+                    color: #fff;
+                }
+
+            }
+
+             td.notes {
+
+                textarea { width: 100%; }
+
+            }
+
+        }
+
+        div.footer-buttons { 
+
+            text-align: right;
+            
+            span.btn { 
+                background-color: #e7e7e7; 
+                width: 170px;
+                margin-left: 7px;
+            }
+
+            span.btn:hover {
+                background-color: #1e1e1e;
+                color: #fff;
+            }
+
+            span.btn.cancel {
+                width: 100px;
+            }
+
+        }
+
+    }
+
+    
+/* End Approve / Reject Panel */
+
 /* End My custom-artwork-requests */   
 
