@@ -552,6 +552,7 @@ $(document).ready(function () {
             }
 
             if (ub.config.pageType === "Saved Design") { ub.funcs.initGuideSavedDesign(); }
+            if (ub.config.pageType === "Order") { ub.funcs.initGuideOrder(); }
 
             if (ub.render !== "1") {
 
@@ -1062,6 +1063,33 @@ $(document).ready(function () {
 
                         cb(response[object_name], object_name);
 
+                    }
+
+                }
+            
+            });
+
+        };
+
+        ub.loaderWOToken = function (url, object_name, cb) {
+
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
+            $.ajax({
+            
+                url: url,
+                type: "GET", 
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response){
+
+                    if (object_name === "tailSweeps") {
+                        cb(response['tailsweeps'], object_name);
+                    } else {
+                        cb(response[object_name], object_name);
                     }
 
                 }
@@ -2586,7 +2614,8 @@ $(document).ready(function () {
 
                 ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
 
-                if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+                // if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+                if (ub.page === "order") { ub.funcs.customArtworkRequestCheckOrders(application_obj); }
                 if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
 
                 // if (ub.page === "saved-design" || ub.page === "order") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
@@ -5517,7 +5546,7 @@ $(document).ready(function () {
 
         var _url = window.ub.config.api_host + '/api/order/orderswItems/' + ub.config.orderCode;
 
-        ub.loader(_url, 'order_info', function (result) {
+        ub.loaderWOToken(_url, 'order_info', function (result) {
 
             dialog.modal('hide');
 
@@ -5556,7 +5585,7 @@ $(document).ready(function () {
         var _msg = "Are you sure you want to go to the order form?";
 
         if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
-        if (ub.data.hasProcessedArtworks) { _msg = "Press OK to resubmit this order with your new artwork."; }
+        if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
 
         bootbox.confirm(_msg, function (result) { 
         
@@ -5569,20 +5598,14 @@ $(document).ready(function () {
                 if (ub.data.afterLoadCalled === 0) { return; }
 
                 if (typeof (window.ub.user.id) === "undefined") {
-
                     ub.funcs.quickRegistration();
                     return true;
-
                 }
 
                 if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
-
                     ub.funcs.getOrderAndDetailsInfo();
-                    
                 } else {
-
                     ub.funcs.initRoster();
-
                 }
 
             } 

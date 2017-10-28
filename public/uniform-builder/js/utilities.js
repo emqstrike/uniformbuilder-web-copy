@@ -23,6 +23,8 @@ $( document ).ready(function() {
 
         isImage: function (filename) {
 
+            if (filename === null) { return false; }
+
             var _ext = this.getExtension(filename);
             var _validExtensions = ['gif', 'jpg', 'png', 'jpeg', 'bmp'];
             var _result = false;

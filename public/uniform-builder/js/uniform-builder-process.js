@@ -1042,21 +1042,22 @@ $(document).ready(function() {
 
             if ($('span.submit-confirmed-order').html() === 'Submitting Order...' || $('span.submit-confirmed-order').html() === 'Resubmitting Order...') { return; }
 
-            if (ub.config.orderArtworkStatus === "rejected") {
+            // if (ub.config.orderArtworkStatus === "rejected") {
 
-                ub.funcs.resubmitOrderForm();
-                $('span.submit-confirmed-order').html('Resubmitting Order...');
+            //     ub.funcs.resubmitOrderForm();
+            //     $('span.submit-confirmed-order').html('Resubmitting Order...');
 
-            } if (ub.data.hasProcessedArtworks) {
+            // }
+             if (ub.data.updateOrderFromCustomArtworkRequest) {
 
-                ub.funcs.updateArtworkRequest(ub.data.artworks, function () {
+                // ub.funcs.updateArtworkRequest(ub.data.artworks, function () {
 
                     $('span.submit-confirmed-order').html('Resubmitting Order...');
 
                     $.smkAlert({text: 'Artwork Status updated', type:'info', time: 3, marginTop: '80px'});
                     ub.funcs.resubmitOrderForm();
 
-                });
+                // });
 
             } else {
 
@@ -1276,14 +1277,14 @@ $(document).ready(function() {
 
                     ub.funcs.displayLinks(response.filename);
 
-                    if (ub.config.orderArtworkStatus === "rejected") {
+                    // if (ub.config.orderArtworkStatus === "rejected") {
 
-                        $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
-                        $('span.save-order').hide();
+                    //     $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+                    //     $('span.save-order').hide();
 
-                    } 
+                    // } 
 
-                    if (ub.data.hasProcessedArtworks) {
+                    if (ub.data.updateOrderFromCustomArtworkRequest) {
 
                         $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
                         $('span.save-order').hide();                        
@@ -1379,44 +1380,53 @@ $(document).ready(function() {
 
     ub.funcs.prepareOrderForm = function (orderInfo) {
 
+        var _loadFrom = orderInfo;
+        var _notes = "";
+
         $('div#order-form').fadeIn();
         
         if (typeof orderInfo === "undefined") { return; }
+        if (typeof _loadFrom.notes !== "undefined") { _notes = _loadFrom.notes.content; }
+        
+        if (ub.data.hasProcessedArtworks) {
+            _loadFrom = orderInfo.order;
+            _notes = _.last(ub.data.orderInfo.notes).content;
+        }
 
         // Client Info
 
-        ub.funcs.setVal('client-name', orderInfo.client);
-        ub.funcs.setVal('athletic-director', orderInfo.client);
-        ub.funcs.setVal('client-email', orderInfo.email);
-        ub.funcs.setVal('client-phone', orderInfo.phone);
-        ub.funcs.setVal('client-fax', orderInfo.fax);
+        ub.funcs.setVal('client-name', _loadFrom.client);
+        ub.funcs.setVal('athletic-director', _loadFrom.client);
+        ub.funcs.setVal('client-email', _loadFrom.email);
+        ub.funcs.setVal('client-phone', _loadFrom.phone);
+        ub.funcs.setVal('client-fax', _loadFrom.fax);
 
         // Billing Info
 
-        ub.funcs.setVal('billing-organization', orderInfo.bill_organization);
-        ub.funcs.setVal('billing-contact-name', orderInfo.bill_contact_person);
-        ub.funcs.setVal('billing-email', orderInfo.bill_email);
-        ub.funcs.setVal('billing-phone', orderInfo.bill_phone);
+        ub.funcs.setVal('billing-organization', _loadFrom.bill_organization);
+        ub.funcs.setVal('billing-contact-name', _loadFrom.bill_contact_person);
+        ub.funcs.setVal('billing-email', _loadFrom.bill_email);
+        ub.funcs.setVal('billing-phone', _loadFrom.bill_phone);
 
-        ub.funcs.setVal('billing-address', orderInfo.bill_address);
-        ub.funcs.setVal('billing-city', orderInfo.bill_city);
-        ub.funcs.setVal('billing-state', orderInfo.bill_state);
-        ub.funcs.setVal('billing-zip', orderInfo.bill_zip);
+        ub.funcs.setVal('billing-address', _loadFrom.bill_address);
+        ub.funcs.setVal('billing-city', _loadFrom.bill_city);
+        ub.funcs.setVal('billing-state', _loadFrom.bill_state);
+        ub.funcs.setVal('billing-zip', _loadFrom.bill_zip);
 
         // Ship Info
 
-        ub.funcs.setVal('shipping-organization', orderInfo.ship_organization);
-        ub.funcs.setVal('shipping-contact-name', orderInfo.ship_contact_person);
-        ub.funcs.setVal('shipping-email', orderInfo.ship_email);
-        ub.funcs.setVal('shipping-phone', orderInfo.ship_phone);
+        ub.funcs.setVal('shipping-organization', _loadFrom.ship_organization);
+        ub.funcs.setVal('shipping-contact-name', _loadFrom.ship_contact_person);
+        ub.funcs.setVal('shipping-email', _loadFrom.ship_email);
+        ub.funcs.setVal('shipping-phone', _loadFrom.ship_phone);
 
-        ub.funcs.setVal('shipping-address', orderInfo.ship_address);
-        ub.funcs.setVal('shipping-city', orderInfo.ship_city);
-        ub.funcs.setVal('shipping-state', orderInfo.ship_state);
-        ub.funcs.setVal('shipping-zip', orderInfo.ship_zip);
+        ub.funcs.setVal('shipping-address', _loadFrom.ship_address);
+        ub.funcs.setVal('shipping-city', _loadFrom.ship_city);
+        ub.funcs.setVal('shipping-state', _loadFrom.ship_state);
+        ub.funcs.setVal('shipping-zip', _loadFrom.ship_zip);
 
         // Notes
-        $('textarea[name="additional-notes"]').val(orderInfo.notes.content);
+        $('textarea[name="additional-notes"]').val(_notes);
 
         // Additional Attachment Link
         var _filename = JSON.parse(orderInfo.items[0].additional_attachments);
@@ -2037,9 +2047,7 @@ $(document).ready(function() {
     ub.data.rosterInitialized = false;
     ub.funcs.initRoster = function (orderInfo) {
     
-        if (typeof orderInfo !== "undefined") { 
-            orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); 
-        }
+        if (typeof orderInfo !== "undefined") { orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); }
 
         ub.data.rosterInitialized = true;
 
@@ -2088,7 +2096,7 @@ $(document).ready(function() {
         $('div#roster-input').fadeIn();
 
         // Setup Events if this is not rejected
-        if (ub.config.orderArtworkStatus !== "rejected" && !ub.data.hasProcessedArtworks) {
+        if (ub.config.orderArtworkStatus !== "rejected" && !ub.data.updateOrderFromCustomArtworkRequest) {
 
             $('button.change-all').unbind('click');
             $('button.change-all').on('click', function () {
@@ -2180,7 +2188,7 @@ $(document).ready(function() {
         ub.funcs.reInitHover();
 
         // Disable Buttons when the order is being resubmitted from a rejected order
-        if (ub.config.orderArtworkStatus === "rejected" || ub.data.hasProcessedArtworks) {
+        if (ub.config.orderArtworkStatus === "rejected" || ub.data.updateOrderFromCustomArtworkRequest) {
             
             $('select.default-sleeve-type').attr('disabled', 'disabled');
             $('select.default-lastname-application').attr('disabled', 'disabled');
@@ -2340,7 +2348,7 @@ $(document).ready(function() {
 
         ub.funcs.postDesign = function (data) {
 
-            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
+            
 
             var _url = window.ub.config.api_host + '/api/saved_design'
 
