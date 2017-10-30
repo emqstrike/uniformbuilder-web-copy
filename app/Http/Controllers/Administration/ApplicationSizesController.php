@@ -73,6 +73,7 @@ class ApplicationSizesController extends Controller
         $uniform_category_id = $request->input('uniform_category_id');        
         $notes = $request->input('notes');
         $type = $request->input('type');
+        $uniform_application_type = $request->input('uniform_application_type');
         $properties = $request->input('properties');
 
         if( $request->input('block_pattern_value') ){
@@ -93,6 +94,7 @@ class ApplicationSizesController extends Controller
             'neck_option' => $neck,
             'notes' => $notes,
             'type' => $type,
+            'uniform_application_type' => $uniform_application_type,
             'properties' => $properties
         ]; 
             

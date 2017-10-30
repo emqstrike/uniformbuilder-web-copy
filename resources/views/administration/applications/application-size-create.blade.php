@@ -88,6 +88,17 @@ li.select2-selection__choice {
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Uniform Application Type</label>
+                            <div class="col-md-6">
+                                <select name='uniform_application_type' class="form-control uniform-application-type">
+                                    <option value='none'>None</option>
+                                    <option value='infused'>Infused</option>
+                                    <option value='sublimated'>Sublimated</option>
+                                    <option value='tackle_twill'f>Tackle Twill</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Notes</label>
                             <div class="col-md-6">
                                <textarea class="form-control notes" name="notes"></textarea>
