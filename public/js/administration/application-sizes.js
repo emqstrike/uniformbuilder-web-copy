@@ -157,7 +157,7 @@ $(document).ready(function(){
         });       
     }
     function setValue(thisObj){
-
+                
       var selected_app_numbers = thisObj.parent().parent().find('.app-numbers').val().toString();    
       var def_value = selected_app_numbers.split(",");
       console.log(def_value);

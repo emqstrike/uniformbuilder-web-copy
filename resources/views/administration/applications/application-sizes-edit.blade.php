@@ -198,19 +198,15 @@ $(function(){
         getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; }); 
         var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id === sport; });           
                 block_patterns_value.forEach(function(pattern) {
-                    try {
-                        $( '#block_pattern' ).html('');
-                        $.each(x, function(i, item) {
-                            if( pattern == item.name ){
-                            $('#block_pattern' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
-                            }
-                            else {
-                            $('#block_pattern' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-                            }
-                        });
-                    } catch(err) {
-                        console.log(err.message);
-                    }
+                    $( '#block_pattern' ).html('');
+                    $.each(x, function(i, item) {
+                        if( pattern == item.name ){
+                        $('#block_pattern' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
+                        }
+                        else {
+                        $('#block_pattern' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+                        }
+                    });
                 });
         $('#block_pattern').trigger('change');           
     });  
@@ -229,16 +225,12 @@ $(function(){
         bps_name.forEach( function(item_name) {
             var name = item_name
             $.each(z, function(i, item) {
-                try {
-                   if( item.name == name ){
-                        var optx = JSON.parse(item.neck_options);
-                        $.each(optx, function(i, item) {
-                            options.push(item.name);                        
-                        });
-                    } else {
-                    }
-                } catch(err) {
-                    console.log(err.message);
+               if( item.name == name ){
+                    var optx = JSON.parse(item.neck_options);
+                    $.each(optx, function(i, item) {
+                        options.push(item.name);                        
+                    });
+                } else {
                 }
             });
         }); 
