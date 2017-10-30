@@ -484,7 +484,6 @@ class MascotsController extends Controller
             } else {
                 return Redirect::to('/administration/logo_requests')->with('message', 'There was a problem uploading your files');
             }
-            
         }
 
         try {
