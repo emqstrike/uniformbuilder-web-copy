@@ -92,6 +92,17 @@ li.select2-selection__choice {
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Uniform Application Type</label>
+                            <div class="col-md-6">
+                                <select name='uniform_application_type' class="form-control uniform-application-type">
+                                    <option value='none'@if( $application_size->uniform_application_type == "none" ) selected @endif>None</option>
+                                    <option value='infused'@if( $application_size->uniform_application_type == "infused" ) selected @endif>Infused</option>
+                                    <option value='sublimated'@if( $application_size->uniform_application_type == "sublimated" ) selected @endif>Sublimated</option>
+                                    <option value='tackle_twill'@if( $application_size->uniform_application_type == "tackle_twill" ) selected @endif>Tackle Twill</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Notes</label>
                             <div class="col-md-6">
                                <textarea class="form-control notes" name="notes">{{ $application_size->notes }}</textarea>
