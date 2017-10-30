@@ -50,6 +50,13 @@ $(document).ready(function() {
 
         },
 
+        // Safe Clone JS Object
+        cloneObject: function (object) {
+
+            return JSON.parse(JSON.stringify(object));
+
+        },
+
         getJSON: function(url, successHandler, errorHandler) {
             var xhr = typeof XMLHttpRequest != 'undefined'
                 ? new XMLHttpRequest()

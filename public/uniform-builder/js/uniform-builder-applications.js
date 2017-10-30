@@ -7868,6 +7868,42 @@ $(document).ready(function() {
 
         }
 
+        // New application sizes values from backend
+        var _sizesFromConfig = ub.data.applicationSizes.getConfiguration(_applicationType, _id);
+
+        if (typeof _sizesFromConfig !== "undefined") {
+
+            // Debug Info
+            if (ub.config.sport === "Football 2017") {
+
+                console.log('Default Sizes: ');
+                console.log(_sizes);
+
+                console.log('Application #: ');
+                console.log(_id);
+
+                ub.utilities.info('Using sizes from backend: ');
+                console.log(_sizesFromConfig);
+                console.log(_sizesFromConfig.sizes);
+                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+
+                _sizes = _sizesFromConfig;
+
+            }
+
+        } else {
+
+            if (ub.config.sport === "Football 2017") {
+
+                ub.utilities.info('Application Type: ' + _applicationType);
+                ub.utilities.info('alias: ' + _alias.alias);
+
+                ub.utilities.error(ub.config.sport + " - " + _applicationType + " - " + _id + " don't have application sizes settings on the backend.");
+
+            }
+
+        }
+
         if (_applicationType === 'mascot') {
 
             ub.funcs.activateMascots(_id);
