@@ -55,6 +55,10 @@ $(document).ready(function () {
                 ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
                 ub.loader(ub.current_material.logo_request_url, 'logo_request', ub.callback);
 
+                // Application Sizes
+                ub.current_material.application_sizes_url = window.ub.config.api_host + '/api/application_sizes/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option;
+                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);                
+
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
@@ -928,6 +932,7 @@ $(document).ready(function () {
                 'cuts_links',
                 // 'tailsweeps',
                 'logo_request',
+                'application_size',
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
@@ -973,6 +978,7 @@ $(document).ready(function () {
             }
 
             // TODO: Refactor all types like this where processing goes inside a function, so it can used in other pages e.g. like processLogoRequests
+            if (object_name === "application_size") {  ub.funcs.setupApplicationSizes(obj); }
             if (object_name === 'fonts') { ub.funcs.processFonts(); }
             if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
             if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }

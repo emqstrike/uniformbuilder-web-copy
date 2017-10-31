@@ -98,21 +98,27 @@ $(document).ready(function(){
 
     function refreshSelect2s(app_numbers_ref, default_size){
         refreshSelectBoxes();       
-        app_numbers_ref.forEach(function(entry, i) {            
-            var app_num_class = ".app-num-"+i;    
-            var app_def_class = ".app-def-"+i;          
-            $(app_num_class).select2('val', entry);
-            var sizes = entry.toString().split(",");
-            $(app_def_class).html('');
-            var elem2 = '';            
-            sizes.forEach(function(size, j) {
-                if(default_size == size){
-                    elem2 += "<option selected>"+size+"</option>";
-                } else {
-                    elem2 += "<option>"+size+"</option>";
-                }
-            });
-            $(app_def_class).append(elem2);
+        app_numbers_ref.forEach(function(entry, i) {
+            try {
+                var app_num_class = ".app-num-"+i;    
+                var app_def_class = ".app-def-"+i;          
+                $(app_num_class).select2('val', entry);
+                var sizes = entry.toString().split(",");
+                $(app_def_class).html('');
+                var elem2 = '';            
+                sizes.forEach(function(size, j) {
+                    if(default_size == size){
+                        elem2 += "<option selected>"+size+"</option>";
+                    } else {
+                        elem2 += "<option>"+size+"</option>";
+                    }
+                });
+                $(app_def_class).append(elem2);
+            }
+            catch(err) {
+                console.log(err.message);
+            }         
+            
         });
         updateJSON();
     }    
