@@ -257,7 +257,7 @@ $(document).ready(function() {
 
             setTimeout(function(){
                $('div.debug-panel').fadeOut();
-            }, 500);
+            }, 100);
 
         }
 
