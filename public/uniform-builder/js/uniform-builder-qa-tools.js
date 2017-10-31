@@ -429,4 +429,50 @@ $(document).ready(function () {
 
     // End Preview Panel
 
+    // Debug Panel
+
+        ub.showDebugPanel = function () {
+
+            var $debugPanel = $('div.debug-panel');
+            $debugPanel.fadeIn();
+
+        }
+
+        ub.updateDebugPanel = function (title, content, materialName) {
+
+            // if (!_.contains(ub.fontGuideIDs, window.ub.valid)) { return; }
+
+            var $debugPanelBody = $('div.debug-panel');
+            var $close = $('div.debug-panel > div.title > span.close');
+
+            if (!$debugPanelBody.is(':visible')) { 
+                
+                $debugPanelBody.fadeIn(); 
+
+                $close.unbind('click');
+                $close.on('click', function () {
+                    $debugPanelBody.hide();
+                });
+
+                $('div.debug-panel').draggable();
+
+            }
+
+            var template = $('#m-debug-panel-contents').html();
+
+            var data = {
+                materialName: materialName,
+                title: title,
+                content: content,
+            };
+
+            var markup = Mustache.render(template, data);
+            $('div.debug-panel > div.body').html(markup);
+
+        }
+
+    // End Preview Panel
+
+
+
 });

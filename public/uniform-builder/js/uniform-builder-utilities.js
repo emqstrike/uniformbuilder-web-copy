@@ -132,20 +132,22 @@ $(document).ready(function() {
 
                 ub.startTime = new Date();
                 
-                var template = $('#m-loading-screen').html();
-                var data = { 
-                    startTime: ub.startTime, 
-                    title: 'Preparing Style List', 
-                    logo: ub.branding.logoUrl 
-                };
+                // var template = $('#m-loading-screen').html();
+                // var data = { 
+                //     startTime: ub.startTime, 
+                //     title: 'Preparing Style List', 
+                //     logo: ub.branding.logoUrl 
+                // };
 
-                var markup = Mustache.render(template, data);
+                // var markup = Mustache.render(template, data);
 
-                ub.pickersDialog = bootbox.dialog({
-                    message: markup,
-                    backdrop: true,
-                    className: 'loading-dialog-pickers',
-                });
+                // ub.pickersDialog = bootbox.dialog({
+                //     message: markup,
+                //     backdrop: true,
+                //     className: 'loading-dialog-pickers',
+                // });
+                
+                $('div.debug-panel').addClass('pickersLoader')
 
             }
 
@@ -162,21 +164,21 @@ $(document).ready(function() {
             ub.utilities.info(ub.config.uniform_name + ' - ' + ub.config.sport);
             ub.utilities.info('');
 
-            var template = $('#m-loading-screen').html();
-            var data = {
-                startTime: ub.startTime,
-                title: '',
-                uniformName: ub.config.uniform_name + ' - ' + ub.config.sport,
-                logo: ub.branding.logoUrl
-            };
+            // var template = $('#m-loading-screen').html();
+            // var data = {
+            //     startTime: ub.startTime,
+            //     title: '',
+            //     uniformName: ub.config.uniform_name + ' - ' + ub.config.sport,
+            //     logo: ub.branding.logoUrl
+            // };
 
-            var markup = Mustache.render(template, data);
+            // var markup = Mustache.render(template, data);
 
-            loadingDialog = bootbox.dialog({
-                message: markup,
-                backdrop: true,
-                className: 'loading-dialog',
-            });
+            // loadingDialog = bootbox.dialog({
+            //     message: markup,
+            //     backdrop: true,
+            //     className: 'loading-dialog',
+            // });
 
         }
 
@@ -199,21 +201,26 @@ $(document).ready(function() {
 
         }
 
+        var b = '';
         ub.displayDoneAt = function (str) {
+
+            if (ub.page !== "builder") { return; }  
 
             var _line;
             var _class = '';
-
-            if (str === 'Awesomness loading completed.') {
+            var _consoleLine;
+            var _a;
+            var _nameString;
+            
+            if (str === 'Rendering awesomeness ...') {
 
                 /// Hide loading after .5 sec done
                 setTimeout(function () { 
-
-                    loadingDialog.modal('hide');
-
+                    // sloadingDialog.modal('hide');
+                    $('div.debug-panel').fadeOut();
                 }, 500);
 
-                _line = '<br />' + str + " <strong>" +  ub.getElapsedTime() + ' secs.</strong>';  
+                _line = str + " <strong>" +  ub.getElapsedTime() + ' secs.</strong>';  
                 _class = 'awesomeness';
 
             } else {
@@ -222,7 +229,7 @@ $(document).ready(function() {
 
             }
 
-            var _consoleLine = _line.replace('&nbsp;', ' ')
+            _consoleLine = _line.replace('&nbsp;', ' ');
             
             _consoleLine = _consoleLine.replace('<br />', '');
             _consoleLine = _consoleLine.replace('<strong>', '');
@@ -232,10 +239,16 @@ $(document).ready(function() {
 
             ub.utilities.info(_consoleLine);
             
-            var _a = '<span class="load-line ' + _class + '">' + '<br />' + _line + '</span>';
+            _a = '<span class="load-line ' + _class + '">' + _line + '</span>';
 
             $('div.loading-messages').append(_a);
 
+            _nameString = 'Loading ' + ub.config.uniform_name + ' [' + ub.config.sport + ']';
+
+            if (ub.config.uniform_name  === "none" || ub.config.sport === "none") { _nameString = "Loading Pickers..."; }
+
+            ub.updateDebugPanel('', _a, _nameString);
+            
             $('span.load-line').fadeIn(); 
 
         }
@@ -243,9 +256,7 @@ $(document).ready(function() {
         ub.funcs.closePickersDialog = function () {
 
             setTimeout(function(){
-
-                ub.pickersDialog.modal('hide');
-                
+               $('div.debug-panel').fadeOut();
             }, 500);
 
         }

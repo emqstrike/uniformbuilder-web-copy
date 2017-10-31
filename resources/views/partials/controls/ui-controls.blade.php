@@ -2870,4 +2870,23 @@
 
 <!-- End Embellishment Sidebar -->
 
+<!-- Debug Panel -->
+
+<script type="text/mustache" id="m-debug-panel-contents">
+    
+    <div class="header">
+        @{{{materialName}}} 
+    </div>
+
+    <div class="contents">
+        @{{{content}}} <br />
+        @{{{title}}}
+    </div>
+    
+</script>
+
+<!-- End Debug Panel -->
+
+
+
 @include('partials.controls.team-store-products-picker')

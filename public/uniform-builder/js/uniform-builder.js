@@ -583,7 +583,7 @@ $(document).ready(function () {
             ub.funcs.initUniformSizesAndPrices();
             ub.funcs.initMiscUIEvents();
 
-            ub.displayDoneAt('Awesomness loading completed.');
+            // ub.displayDoneAt('Awesomness loading completed.');
 
             ub.afterLoadScripts();
             ub.funcs.afterLoadChecks();
@@ -890,10 +890,8 @@ $(document).ready(function () {
             ub.pha = _.find(ub.pha, {name: ub.current_material.material.block_pattern});
 
             if (typeof ub.pha !== "undefined") {
-
                 _items = JSON.parse(ub.pha.placeholder_overrides);
                 ub.data.placeHolderOverrides.items = _items;
-
             }
             
         };
@@ -944,13 +942,9 @@ $(document).ready(function () {
                     _.each(obj, function (tailsweep, index) {
 
                         if (tailsweep.code === "blank") {
-                            
                             tailsweep.sortOrder = 0; 
-
                         } else {
-
                             tailsweep.sortOrder = index + 1;
-
                         }
 
                     });
@@ -992,10 +986,8 @@ $(document).ready(function () {
                 ub.current_material.settings.cuts_links = _.find(obj, {sport_name: ub.config.sport, block_pattern: ub.config.blockPattern, neck_option: ub.config.option});
 
                 if (typeof ub.current_material.settings.cuts_links !== "undefined") {
-                    
                     ub.current_material.settings.cut_pdf = ub.current_material.settings.cuts_links.cuts_pdf; 
                     ub.config.cut_pdf = ub.current_material.settings.cuts_links.cuts_pdf;
-
                 }
 
             }
@@ -1005,7 +997,6 @@ $(document).ready(function () {
                 if (object_name === 'tagged_styles') {
 
                     ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
-
                     $('span.slink > span.count').html(_.size(ub.data.tagged_styles));
 
                 } 
@@ -1025,7 +1016,6 @@ $(document).ready(function () {
             if (ok) {
 
                 ub.displayDoneAt('Loading assets completed');
-
                 ub.load_assets();
 
                 ub.displayDoneAt('Configuration of style - ' + ub.config.uniform_name + ' started');
@@ -1042,7 +1032,6 @@ $(document).ready(function () {
 
                 ub.displayDoneAt('Configuration of style done.');
                 ub.displayDoneAt('Rendering awesomeness ...');
-
 
             }
             
