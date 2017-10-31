@@ -96,8 +96,7 @@ class ApplicationSizesController extends Controller
             'type' => $type,
             'uniform_application_type' => $uniform_application_type,
             'properties' => $properties
-        ]; 
-            
+        ];        
         $id = null;
         if (!empty($request->input('application_size_id')))
         {
