@@ -9,7 +9,7 @@ class ApplicationSizesAPIClient extends APIClient
     }
 
     public function create($data)
-    {
+    {     
         $response = $this->post('application_size', [
             'json' => $data
         ]);
