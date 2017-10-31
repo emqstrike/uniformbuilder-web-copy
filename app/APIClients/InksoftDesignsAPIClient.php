@@ -51,4 +51,16 @@ class InksoftDesignsAPIClient extends APIClient
         return null;
     }
 
+    public function getByDesignID($id)
+    {
+        $response = $this->get(env('ENDPOINT_VERSION','v1-0').'/inksoft_design/getByDesignID/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        
+        if ($result->success)
+        {
+            $inksoft_designs = $result->inksoft_designs;
+            return $inksoft_designs;
+        }
+        return null;
+    }
 }
