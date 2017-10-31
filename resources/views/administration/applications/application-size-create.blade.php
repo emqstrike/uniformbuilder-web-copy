@@ -94,7 +94,7 @@ li.select2-selection__choice {
                                     <option value='none'>None</option>
                                     <option value='infused'>Infused</option>
                                     <option value='sublimated'>Sublimated</option>
-                                    <option value='tackle_twill'f>Tackle Twill</option>
+                                    <option value='tackle_twill'>Tackle Twill</option>
                                 </select>
                             </div>
                         </div>
@@ -112,10 +112,11 @@ li.select2-selection__choice {
                             </label>
                         </div>
                         <div class="row form-group">   
-                            <div class="col-md-11">
+                            <div class="col-md-12">
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
+                                            <th>Type</th>
                                             <th>Application Numbers</th>
                                             <th>Size</th>
                                             <th>Scale</th>
