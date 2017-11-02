@@ -320,6 +320,11 @@
           <i class="fa fa-pie-chart"></i> <span>Style Statistics</span>
         </a>
       </li>
+       <li  data-step="17" data-intro="View individual styles info">
+        <a href="/administration/styles_indexes">
+          <i class="fa fa-list-ul"></i> <span>Styles Indexes</span>
+        </a>
+      </li>
     </ul>
   </li>
    <li data-position='right'>

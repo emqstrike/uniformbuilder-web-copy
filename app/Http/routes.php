@@ -433,6 +433,15 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('inksoft_design/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@edit']);
     Route::post('inksoft_design/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@store']);
 
+    //Styles Index
+    Route::get('styles_indexes', ['middleware' => 'adminAccess', 'uses' => 'Administration\StylesIndexesController@index']);
+    Route::get('styles_index/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\StylesIndexesController@create']);
+    Route::post('styles_index/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\StylesIndexesController@store']);
+    Route::get('styles_index/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\StylesIndexesController@edit']);
+    Route::post('styles_index/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\StylesIndexesController@store']);
+
+    //Styles Index Items
+    Route::get('/styles_index/items/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@getByStyleID']);
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
