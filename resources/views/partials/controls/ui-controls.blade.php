@@ -2887,6 +2887,110 @@
 
 <!-- End Debug Panel -->
 
+<!-- Embellishment Sidebar -->
+
+    <script type="text/mustache" id="m-embellishment-preview-vector">
+    
+        <div class="vectorInfoPreview">
+
+            <div class="header"> 
+               VECTOR LAYER
+            </div>
+
+            <div class="form-group"> 
+               @{{{name}}} 
+           </div>
+
+           <div class="form-group"> 
+               <img class= "vector-thumb" src = "@{{{baseVectorPath}}} " />
+               <br />
+               <label>Source Image</label><br />
+               <a href="@{{{baseVectorPath}}}" target="_new">Open in New Tab</a>
+           </div>
+
+           <h5>COLORS </h5>
+
+           @{{#colors}}
+
+                <div class="form-group"> 
+                   <span class="color-container" style="background-color: @{{hexCode}}; color: #ffffff">
+                       @{{hexCode}} (@{{colorCode}})
+                   </span><br />
+               </div>            
+
+           @{{/colors}}
+
+        </div>
+
+    </script>
+    
+    <script type="text/mustache" id="m-embellishment-preview-font">
+
+        <style type="text/css">
+            
+            @font-face {
+                font-family: @{{{name}}};
+                src: url(@{{{fontPath}}});
+            }
+
+        </style>
+    
+        <div class="fontInfoPreview">
+  
+            <div class="header"> 
+               FONT LAYER
+            </div>
+
+            <div class="form-group input-text" style="color: @{{fillcolor}}; font-family: @{{{name}}}"> 
+               @{{{text}}} 
+            </div>
+
+            <div class="form-group"> 
+               <label>Font:</label><br />
+               @{{{style}}} / @{{{name}}} 
+            </div>
+
+            <div class="form-group"> 
+               <label>Font File</label><br />
+               <a href="@{{{fontPath}}}">Download Font</a>
+            </div>
+
+            <h5 style="display: @{{displayStroke}}">Stroke Color: </h5>
+            @{{#strokeColor}}
+                <div class="form-group" style="display: @{{displayStroke}}"> 
+                   <span class="color-container" style="background-color: @{{hexCode}}; color: #ffffff">
+                       @{{hexCode}} (@{{colorCode}})
+                   </span><br />
+                </div>            
+            @{{/strokeColor}}
+
+           <h5>Fill Color: </h5>
+
+           @{{#fillColor}}
+                <div class="form-group"> 
+                   <span class="color-container" style="background-color: @{{hexCode}}; color: #ffffff">
+                       @{{hexCode}} (@{{colorCode}})
+                   </span><br />
+               </div>            
+           @{{/fillColor}}
+
+
+        </div>
+        </div>
+
+    </script>
+    
+
+
+<!-- End Embellishment Sidebar -->
+
+<!-- Embellishment Preview -->
+
+    
+
+<!-- End Embellishment Preview -->
+
+
 
 
 @include('partials.controls.team-store-products-picker')

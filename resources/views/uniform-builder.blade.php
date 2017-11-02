@@ -183,6 +183,7 @@
 @yield('forgot-password')
 @yield('reset-password')
 @yield('change-password')
+@yield('preview-embellishment')
 
 <!--
 
@@ -471,6 +472,10 @@
 
             }
 
+        @endif
+
+        @if (isset($page) and $page === "preview-embellishment")
+            ub.embellishmentDetails = {!! json_encode($embellishmentDetails) !!};
         @endif
 
         ub.render = "{{ isset($render) ? $render : false }}";

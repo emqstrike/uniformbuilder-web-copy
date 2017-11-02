@@ -8149,6 +8149,148 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.previewEmbellishment = function () {
+
+            var _html = '';
+            var _filename = '';
+
+            a = ub.embellishmentDetails;
+            a.design_summary = JSON.parse(a.design_summary);
+            a.design_details = JSON.parse(a.design_details);
+
+            _filename = ub.data.inkSoftBaseURL + a.design_summary.Canvases[0].SvgRelativeUrl;
+
+            $('img.previewSVG').attr('src', _filename);
+            $('a.main-preview-window').attr('href', _filename);
+            
+            $('span.design-id').html(a.design_id);
+            $('span.design-name').html(a.design_name);
+            $('em.filename').html(_filename);
+
+            _.each(a.design_details.Data.Canvases[0].Elements, function (f) {
+            
+                if (typeof f.Colors === "object") {
+            
+                    _html += ub.utilities.buildTemplateString('#m-embellishment-preview-vector', {
+                        
+                        name: _.last(f.ArtName.split('/')),
+                        baseVectorPath: ub.data.inkSoftBaseURL + f.OriginalArtPath,
+                        mainObject: f,
+
+                        colors: _.map(_.uniq(f.Colors), function (color) {
+
+                            var _colorCode = undefined;
+                            var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                            var returnObject;
+
+                            if (typeof _result === "undefined") {
+                                _colorCode = 'Color code not found';
+                            } else {
+                                _colorCode = _result.color_code;
+                            }
+
+                            returnObject = {
+                                hexCode: color, 
+                                colorCode: _colorCode,
+                            }
+
+                            return returnObject;
+
+                        }),
+
+                  });
+
+                } else {
+
+                    _html += ub.utilities.buildTemplateString('#m-embellishment-preview-font', {
+                    style: f.Font.FontStyleName,
+                    fillcolor: f.FillColor,
+                    name: f.Font.FamilyName,
+                    curveShape: f.CurveShape,
+                    fontPath: ub.data.inksoftFontsFolder + f.Font.FontStyleName + '/' + f.Font.FamilyName + '.ttf',
+                    mainObject: f,
+                    text: f.Text,
+                    displayStroke: (f.StrokeWidth === 0) ? 'none' : 'block',
+                    strokeColor: _.map(_.uniq([f.StrokeColor]), function (color) {
+
+                        var _colorCode = undefined;
+                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                        var returnObject; 
+
+                        if (typeof _result === "undefined") {
+                            _colorCode = 'Color code not found';
+                        } else {
+                            _colorCode = _result.color_code;
+                        }
+
+                        returnObject = {
+                            hexCode: color, 
+                            colorCode: _colorCode,
+                        }
+
+                        return returnObject;
+                        
+                    }),
+                    fillColor: _.map(_.uniq([f.FillColor]), function (color) {
+
+                        var _colorCode = undefined;
+                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                        if (typeof _result === "undefined") {
+                            _colorCode = 'Color code not found';
+                        } else {
+                            _colorCode = _result.color_code;
+                        }
+
+                        var returnObject = {
+                            hexCode: color, 
+                            colorCode: _colorCode,
+                        }
+
+                        return returnObject;
+                        
+                    }),
+
+                  });
+            
+                }
+            
+            }); 
+
+            $('div.embellishmentInfo').html(_html);
+
+            $('div.mainPreviewLink').fadeIn();
+            $('h3.header').fadeIn();
+
+        };
+
+        ub.funcs.getSublimationColorCodeByHexCode = function (hexCode) {
+
+            var _hexCode = hexCode;
+            var _colorObj = undefined;
+
+            if (_hexCode.indexOf('#') !== -1) { _hexCode = _hexCode.replace('#', ''); }
+
+            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: '0'});
+
+            return _colorObj;
+
+        }
+
+        if (ub.page === "preview-embellishment") {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            var _url = window.ub.config.api_host + '/api/colors';
+
+                ub.loader(_url, 'colors', function (result) {
+                ub.data.colors = result;
+                ub.funcs.previewEmbellishment();
+            
+            });
+
+        }
+
         ub.funcs.messagesCallBack = function (messageBlock) {
 
             var _items = messageBlock;
