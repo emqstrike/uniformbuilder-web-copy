@@ -201,7 +201,8 @@ $(document).ready(function() {
 
     // URLS
     ub.data.inkSoftBaseURL          = 'https://stores.inksoft.com';
-    ub.data.inkSoftProlookStore     = '/Prolook_Sports' ;
+    ub.data.inkSoftProlookStore     = '/Prolook_Sports';
+    ub.data.inksoftFontsFolder      = 'https://s3-us-west-2.amazonaws.com/uniformbuilder/inksoft-fonts/';
 
     ub.config.switchToFrontBody     = new Date('Fri Aug 14 2017 17:08:32 GMT+0800 (+08)');
 

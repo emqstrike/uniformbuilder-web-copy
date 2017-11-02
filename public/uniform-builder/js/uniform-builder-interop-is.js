@@ -553,6 +553,7 @@ $(document).ready(function() {
     ub.funcs.getDesignDetails = function (designID, applicationID) {
 
         var _url = 'https://stores.inksoft.com/ProLook_Sports/Api2/GetDesignDetail?designId=' + designID + '&Format=JSON';
+        var _settingsObject = ub.funcs.getApplicationSettings(applicationID);
         
         $.ajax({
             
@@ -562,6 +563,8 @@ $(document).ready(function() {
             crossDomain: true,
             success: function (response) {
                 ub.data.embellismentDetails.setStatus('designDetails', response);
+                _settingsObject.embellishment.design_details = response;
+                console.log('Design Details Set...');
             }
             
         });
@@ -614,11 +617,24 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.extractEmbellishmentColors = function (applicationID) {
+
+        var _applicationObj = ub.funcs.getSettingsObject(applicationID);
+        var _embellishmentObj = _applicationObj.embellishment;
+        var _designSummary = '';
+ 
+        if (_embellishmentObj.design_summary !== "")  {
+            _designSummary = JSON.parse(_embellishmentObj.design_summary);
+        }
+
+    }
+
     ub.funcs.activateEmbellishments = function (application_id) {
 
         if (ub.funcs.popupsVisible()) { return; }
         if (!ub.funcs.okToStart())    { return; }
 
+        ub.funcs.extractEmbellishmentColors(application_id);
         ub.funcs.activatePanelGuard();
 
         var _appInfo = ub.funcs.getApplicationSettings(application_id);
@@ -775,7 +791,7 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
         _htmlBuilder        +=                  '<span class="accent">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span>';  
         _htmlBuilder        +=                  ' | ';        
-        _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a>';  
+        _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a>';  
 
         if (_settingsObject.embellishment.name === 'Custom Logo') {
 
