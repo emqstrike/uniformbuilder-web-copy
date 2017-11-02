@@ -334,12 +334,16 @@ $(function(){
                 $('.block-pattern').append(elem);
             }
        
-        });          
-        if(!exist && block_pattern_value.length > 0) {           
+        }); 
+               
+        if(!exist && block_pattern_value != null) {               
             $('.enable_custom_bp').prop('checked', true);
-            $('.custom_block_pattern').val(block_pattern_value);                                       
-        }                             
+            $('.custom_block_pattern').val(block_pattern_value);
+            $('.enable_custom_bp').trigger('change');                                        
+        }                                   
         $('.block-pattern').trigger('change');
+        
+
        
     });
 
@@ -380,12 +384,17 @@ $(function(){
                 
             });
 
-        }                  
-        if(!exist && option_value.length > 0) {          
+        }
+        console.log("bpoexist"+exist);
+        if(!exist && option_value != null) {   
+            console.log("true");
             $('.enable_custom_bpo').prop('checked', true);
-            $('.custom_option').val(option_value);                                       
-        }                                  
-        $('.block-pattern-option').trigger('change');
+            $('.custom_option').val(option_value);
+            $('.enable_custom_bpo').trigger('change');                                                   
+        }                                
+        // $('.block-pattern-option').trigger('change');       
+        
+       
     });
 
 
@@ -569,13 +578,14 @@ $(function(){
         $('.id').val('');
         $('.name').val('');
         $('.qstrike-item-id').val('');
-        $('.customizer-id').val('');
-        $('.enable_custom_bp').trigger('click'); 
+        $('.customizer-id').val('');        
+        $('.custom_block_pattern').val(null);         
         $('.enable_custom_bp').prop('checked', false);
-        $('.custom_block_pattern').val('');
-        $('.enable_custom_bpo').trigger('click'); 
+        $('.enable_custom_bp').trigger('change');         
+        $('.custom_option').val(null);
         $('.enable_custom_bpo').prop('checked', false);
-        $('.custom_option').val('');
+        $('.enable_custom_bpo').trigger('change');
+        
         $('#deadline').attr({"style": "display: block;"});
         $('#customizer').attr({"style": "display: none;"});
     });
@@ -592,7 +602,7 @@ $(function(){
         }
     });
 
-    $(".sport, .block-pattern, .block-pattern-option").on("change", function(e){    
+    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo").on("change", function(e){    
         e.preventDefault();
         var name = document.getElementById("name").value;
         var qx_id = document.getElementById("qstrike_item_id").value;
@@ -604,13 +614,12 @@ $(function(){
         }      
     });
 
-    $(".custom_block_pattern, .custom_option").on("change", function(e){    
+    $(".custom_block_pattern, .custom_option, .enable_custom_bp, .enable_custom_bpo").on("change", function(e){    
         e.preventDefault();     
         updateData();
     });
   
-    $('.enable_custom_bp').click(function() {
-        $('.enable_custom_bp').trigger('change'); 
+    $('.enable_custom_bp').on('change', function() {        
         if ($(this).is(':checked')) {
             $('.block-pattern').attr('disabled','true'); 
             $('.custom_block_pattern').removeAttr('disabled');
@@ -618,19 +627,18 @@ $(function(){
         else {             
             $('.block-pattern').removeAttr('disabled'); 
             $('.custom_block_pattern').attr('disabled','true');
-            $('.block-pattern').trigger('change'); 
+            // $('.block-pattern').trigger('change'); 
         }
     });
 
-    $('.enable_custom_bpo').click(function() {
+    $('.enable_custom_bpo').on('change', function() {
         if ($(this).is(':checked')) {
             $('.block-pattern-option').attr('disabled','true'); 
             $('.custom_option').removeAttr('disabled');
         }
         else {
             $('.block-pattern-option').removeAttr('disabled'); 
-            $('.custom_option').attr('disabled','true');
-            $('.block-pattern-option').trigger('change');  
+            $('.custom_option').attr('disabled','true');            
         }
     });
 
