@@ -27,6 +27,10 @@ class SavedDesignsController extends Controller
     public function index()
     {
         $saved_designs = $this->client->getAll();
+        foreach($saved_designs as $saved_design)
+            {
+                $saved_design->created_at = date('M-d-Y', strtotime($saved_design->created_at));
+            } 
 
         return view('administration.saved-designs.saved-designs', [
             'saved_designs' => $saved_designs
