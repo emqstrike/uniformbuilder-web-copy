@@ -930,7 +930,7 @@ class UniformBuilderController extends Controller
                 $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '"><br />';    
                 $html .=   'Name: ' . $embellishment['name'] . "<br />";
                 $html .=   '<a href="' . $embellishment['svg_filename'] . '" target="_new">Link To Prepared File</a> <br />';
-                $html .=   '<a href="' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
+                $html .=   '<a href="http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
                 $html .=   '</td>';
 
             }
