@@ -12,7 +12,11 @@ $(document).ready(function() {
 				entry.parsedProperties = JSON.parse(entry.properties);
 
 				_.each(entry.parsedProperties, function (parsedProperty) {
-					parsedProperty.size = parseFloat(parsedProperty.size);
+
+                    parsedProperty.sizes = [];
+                    _.each(parsedProperty.size, function (size) {
+                        parsedProperty.sizes.push({size: size});
+                    });
 				});
 
 				// shortcut
@@ -34,25 +38,23 @@ $(document).ready(function() {
         configurations: [],
         getConfiguration: function (applicationType, location) {
 
-        	var _result;
-        	var _sizesOutput;
-        	var _newParsedProperties = [];
+            if (ub.data.applicationSizes.configurations.length === 0) { 
 
-        	_result = _.find(this.configurations, function (configuration) { return (configuration.name === applicationType); });
+                ub.utilities.error('No Backend Size Configuration detected for ' + ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' + ub.config.option );
+                return undefined; 
+            };
 
-        	// Exit early if none found
-        	if (typeof _result === "undefined") { return undefined; }
+            var _sizesObject = _.first(ub.data.applicationSizes.configurations);
+            var _applicationTypes = _sizesObject.parsedProperties;
+            var _applicationTypeResults = _.filter(_applicationTypes, {type: applicationType});
+            var _locationResults = _.filter(_applicationTypeResults, function (applicationResult) {
 
-        	_sizesOutput = ub.utilities.cloneObject(_result);
+                return _.contains(applicationResult.application_number, location);
 
-        	_.each(_sizesOutput.parsedProperties, function (parsedProperty) {
-        		if (_.contains(parsedProperty.application_number, location)) { _newParsedProperties.push(parsedProperty); }
-        	});
+            });
 
-        	_sizesOutput.parsedProperties = _sizesOutput.sizes = _newParsedProperties;
-
-        	return _sizesOutput;
-        	
+        	return _.first(_locationResults);
+            
         },
 
         // Old values that we should retire soon
