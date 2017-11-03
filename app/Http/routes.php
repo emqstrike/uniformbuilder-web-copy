@@ -34,6 +34,9 @@ Route::get('/builder/{designSetId}/{materialId}/{store_code?}/{team_name?}/{team
 Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderController@loadDesignSetRender');
 Route::get('/styles/{gender}/{sport?}', 'UniformBuilderController@styles');
 
+// Utilities
+Route::get('/utilities/previewEmbellishmentInfo/{embellishmentID}', 'UniformBuilderController@previewEmbellishmentInfo');
+
 Route::group([
     'prefix' => 'teamstore'
 ], function() {
