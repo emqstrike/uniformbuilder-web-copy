@@ -21,7 +21,7 @@ $(document).ready(function(){
             });
         window.app_type = type_elem;
         var type = '<select class="form-control app-type">'+window.app_type+'</select>';
-        var application_number = '<select class="form-control app-numbers" multiple="multiple">'+app_numbers_options+'</select>';
+        var application_number ='<select class="form-control app-numbers" multiple="multiple">'+app_numbers_options+'</select>';
         var size = '<select class="form-control app-size" multiple="multiple">'+app_sizes_options+'</select>';
         var scale = '<input type="text" class="form-control app-scale">';
         var def = '<select class="form-control app-def">'+app_default_elem+'</select>';
