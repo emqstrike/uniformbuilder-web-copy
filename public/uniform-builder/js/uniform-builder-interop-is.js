@@ -791,12 +791,12 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '<span class="accent">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span>';  
         _htmlBuilder        +=                  ' | ';        
         _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a>';  
+        _htmlBuilder        +=                  ' | ';
+        _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a>';  
 
         if (_settingsObject.embellishment.name === 'Custom Logo') {
-
             _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
             _htmlBuilder        +=                  '<br /><br />';
-
         }
 
         _htmlBuilder        +=                  '<span class="flipButton">Flip</span>'; 
