@@ -16,6 +16,7 @@ li.select2-selection__choice {
 .inputs {
     width: 45px;
 }
+
 </style>
 @endsection
 
@@ -23,7 +24,7 @@ li.select2-selection__choice {
 
 <div class="container-fluid main-content">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Application Size</div>
                 <div class="panel-body">
@@ -116,12 +117,12 @@ li.select2-selection__choice {
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Type</th>
-                                            <th>Application Numbers</th>
-                                            <th>Size</th>
-                                            <th>Scale</th>
-                                            <th>Default</th>                                           
-                                            <th></th>
+                                            <th width="13%">Type</th>
+                                            <th width="30%">Application Numbers</th>
+                                            <th width="30%">Size</th>
+                                            <th width="12%">Scale</th>
+                                            <th width="10%">Default</th>                                           
+                                            <th width="5%"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="properties-content">
