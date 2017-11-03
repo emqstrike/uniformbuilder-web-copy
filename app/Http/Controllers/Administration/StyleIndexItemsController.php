@@ -12,17 +12,25 @@ use Aws\S3\Exception\S3Exception;
 use App\Utilities\FileUploader;
 use App\Utilities\FileUploaderV2;
 use App\Http\Controllers\Controller;
+use App\APIClients\BlockPatternsAPIClient;
+use App\APIClients\UniformCategoriesAPIClient;
 use App\APIClients\StyleIndexItemsAPIClient as APIClient;
 
 class StyleIndexItemsController extends Controller
 {
     protected $client;
+    protected $blockPatternClient;
+    protected $uniformCategoriesClient;
 
     public function __construct(
-        APIClient $apiClient  
+        APIClient $apiClient,
+        BlockPatternsAPIClient $blockPatternsAPIClient,
+        UniformCategoriesAPIClient $uniformCategoriesClient  
     )
     {
-        $this->client = $apiClient;    
+        $this->client = $apiClient;
+        $this->blockPatternClient = $blockPatternsAPIClient;
+        $this->uniformCategoriesClient = $uniformCategoriesClient;    
     }
     /**
      * Display a listing of the resource.
@@ -49,8 +57,12 @@ class StyleIndexItemsController extends Controller
      */
     public function create()
     {   
-
-        return view('administration.styles-index.styles-index-create');
+        $sports = $this->uniformCategoriesClient->getUniformCategories();
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();  
+        return view('administration.styles-index.styles-index-items-create', [
+            'block_patterns' => $block_patterns,
+            'sports' => $sports
+        ]);
     }
 
     /**

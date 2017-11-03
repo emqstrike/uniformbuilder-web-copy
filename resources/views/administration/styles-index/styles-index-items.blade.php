@@ -11,8 +11,11 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3>Styles Index Items</h3>
-                    <a href="/administration/style_index_item/add" class='btn btn-md btn-default dealers-add'>
+                    <h3>Style Index Items of</h3>
+                    <a href="/administration/styles_indexes" class='btn btn-sm btn-default back'>
+                        Back
+                    </a>
+                    <a href="/administration/style_index_item/add" class='btn btn-sm btn-default styles-index-item-add'>
                         <span class="glyphicon glyphicon-plus"></span> Add
                     </a>
                 </div>
@@ -27,7 +30,7 @@
                             <th>Sport</th>
                             <th>Block Pattern</th>
                             <th>Block Pattern Option</th>
-                            <th>Description</th> 
+                            <th>Description</th>
                             <th>Gender</th>
                             <th>Actions</th>
                         </tr>

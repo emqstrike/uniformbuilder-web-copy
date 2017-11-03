@@ -26,11 +26,9 @@ class ApplicationSizesController extends Controller
         UniformCategoriesAPIClient $uniformCategoriesClient
     )
     {
-
         $this->client = $apiClient;
         $this->blockPatternClient = $blockPatternsAPIClient;
         $this->uniformCategoriesClient = $uniformCategoriesClient;
-
     }
 
     public function index()
