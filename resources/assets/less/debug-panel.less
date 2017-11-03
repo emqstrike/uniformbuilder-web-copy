@@ -29,7 +29,8 @@
 
                     font-size: 1.2em;
                     text-align: left;
-                    color: #ffba00;
+                    //color: #ffba00;
+                    color: white;
 
                     span.author { text-align: right; }
 
@@ -62,17 +63,23 @@
 
     div.debug-panel.pickersLoader {
 
-        top: 150px;
-        right: 0px;
-        bottom: unset;
+        position: absolute;
+        width: 850px;
+        height: 110px;
+        bottom: 0;
+        right: 10px;
         left: unset;
-
-        color: #fff;
+        background-color: none;
+        display: none;
+        padding: 7px;
+        z-index: 1000;
+        cursor: move;
         
         div.title {
             div.caption { 
                 span.qoute {
-                    color: #1a3a2f;
+                    //color: #1a3a2f;
+                    color: white;
                 }   
             }
         }

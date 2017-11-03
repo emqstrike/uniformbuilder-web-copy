@@ -564,7 +564,6 @@ $(document).ready(function() {
             success: function (response) {
                 ub.data.embellismentDetails.setStatus('designDetails', response);
                 _settingsObject.embellishment.design_details = response;
-                console.log('Design Details Set...');
             }
             
         });
