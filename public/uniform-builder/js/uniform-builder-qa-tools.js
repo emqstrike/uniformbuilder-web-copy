@@ -471,6 +471,14 @@ $(document).ready(function () {
 
         }
 
+        // use the debug panel without the qoutes 
+        ub.updateDebugPanelInfo = function (title, content, materialName) {
+            
+            $('span.qoute').hide();
+            ub.updateDebugPanel(title, content, materialName);
+
+        }
+
     // End Preview Panel
 
 
