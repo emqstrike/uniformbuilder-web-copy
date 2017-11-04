@@ -1212,7 +1212,6 @@ $(document).ready(function() {
 
                         reset_point.alpha       = 0;
                         
-                     
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.objectFocusRotation(application_obj);
 
@@ -1223,13 +1222,17 @@ $(document).ready(function() {
                         view.application.rotation = (angleRadians / Math.PI) * 180;
 
                         move_point.rotation = angleRadians;
-                        scale_point.rotation = angleRadians;
+
+                        if (ub.config.uniform_application_type === "sublimated") {
+                            scale_point.rotation = angleRadians;
+                        }
+                            
                         ub.objects[view.perspective + '_view'].manipulatorTool.rotation = angleRadians;
 
                         if (ub.config.uniform_application_type === "tackle_twill") {
                             ub.updateDebugPanelInfo('The Move Tool / Rotate Tool for Tackle Twill uniforms is enabled so that you can make minute adjustments and corrections to the uniforms application, if you want a full customized design please use a sublimated style.');    
                         }
-                        
+
                         ub.updatePanel(_application.code, view.application);
 
                     }
