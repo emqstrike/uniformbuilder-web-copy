@@ -56,6 +56,26 @@ trait HandleTeamStoreConfiguration
         }
     }
 
+    /**
+     * Retrieve user credential
+     * @param  String $encoded_data
+     * @return String or null
+     */
+    protected function retrieveCredentials($encoded_data)
+    {
+        $decoded = base64_decode($encoded_data);
+        $data = json_decode($decoded);
+        if (!empty($data))
+        {
+            $key = env('TEAM_STORE_SECRET_KEY');
+
+            $crypt = new TeamStorePasswordCrypt($key);
+            return $crypt->decrypt($data->password);
+        }
+
+        return null;
+    }
+
     protected function handleConfiguration(&$params = [], $config = [])
     {
         $this->config = $config;

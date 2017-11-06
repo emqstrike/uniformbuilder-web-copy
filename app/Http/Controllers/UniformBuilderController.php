@@ -25,6 +25,7 @@ use Slack;
 use App\Utilities\StringUtility;
 use App\Traits\OwnsUniformDesign;
 use App\Traits\HandleTeamStoreConfiguration;
+use App\TeamStoreClient\UserTeamStoreClient;
 
 class UniformBuilderController extends Controller
 {
@@ -114,6 +115,25 @@ class UniformBuilderController extends Controller
             'category_id' => $categoryId,
             'render' => $render
         ];
+
+        if (!Session::get('userHasTeamStoreAccount'))
+        {
+            $encoded_data = $this->getTeamStoreRegistrationParams();
+            if (!is_null($encoded_data))
+            {
+                $credentials = $this->retrieveCredentials($encoded_data);
+
+                $client = new UserTeamStoreClient;
+                $email = Session::get('email');
+                $response = $client->team_store_login($email, $credentials);
+                $this->handleTeamStoreLogin(
+                    $response,
+                    null,
+                    Session::get('accessToken'),
+                    $credentials
+                );
+            }
+        }
 
         // Handle Team Store configuration
         $this->handleConfiguration($params, $config);
