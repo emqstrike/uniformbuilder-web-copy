@@ -40,7 +40,7 @@ $(document).ready(function() {
 
             if (ub.data.applicationSizes.configurations.length === 0) { 
 
-                ub.utilities.error('No Backend Size Configuration detected for ' + ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' + ub.config.option );
+                ub.utilities.info('No Backend Size Configuration detected for ' + applicationType + ' - ' + ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' + ub.config.option );
                 return undefined; 
             };
 
