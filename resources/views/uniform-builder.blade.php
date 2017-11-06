@@ -243,6 +243,7 @@
 <script src="{{$asset_storage}}/sortable/jquery.fn.sortable.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/moment/moment.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/moment/moment-timezone-with-data-2010-2020.min.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/gl-matrix/gl-matrix.js?v={{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/slider/jquery.limitslider.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/round-slider/roundslider.min.js?v={{$asset_version}}"></script> 

@@ -679,14 +679,25 @@ $(document).ready(function() {
         var obj_y = application_obj.worldTransform.ty - ub[ub.active_view + '_view'].y;
         var point_y = ub.mouse.y - ub[ub.active_view + '_view'].y;
 
-
         var deltaX = point_x - obj_x;
         var deltaY = point_y - obj_y;
+
         var rad = Math.atan2(deltaY, deltaX); 
-        return rad;
 
+        var _origVector = vec2.create();
+        _origVector[0] = obj_x;
+        _origVector[1] = obj_y;
 
-      
+        var _moveVector = vec2.create();
+        _moveVector[0] = deltaX;
+        _moveVector[1] = deltaY;
+
+        v1 = vec2.normalize(vec2.create(), _origVector);
+        v2 = vec2.normalize(vec2.create(), _moveVector);
+        vAngle = Math.atan2(v2[1],v2[0]) - Math.atan2(v1[1],v1[0]);
+
+        // return rad;
+        return vAngle;
 
     };
 
@@ -978,7 +989,7 @@ $(document).ready(function() {
             ub.status.manipulatorDown = false;
 
             this.data = interactionData;
-            this.dragging = true;
+            sprite.dragging = undefined;
 
             _.each (_application.application.views, function (view) {
 
@@ -1053,8 +1064,8 @@ $(document).ready(function() {
             sprite.downY = sprite.y;
 
             sprite.snapped = false;
-            this.dragging = true;
-
+            sprite.dragging = true;
+            
             ub.status.manipulatorDown = true;
 
             if(sprite.ubName === "Delete Tool") {
@@ -1136,7 +1147,7 @@ $(document).ready(function() {
             var _x = this_data.global.x;
             var _y = this_data.global.y;
 
-            if (this.dragging) {
+            if (sprite.dragging) {
 
                 sprite.oldX = sprite.x;
                 sprite.oldY = sprite.y;
@@ -1154,14 +1165,14 @@ $(document).ready(function() {
 
                     if(sprite.ubName === "Move Tool") {
 
-                        rotation_point.alpha    = 0;
+                        rotation_point.alpha = 0;
                         
                         if (ub.config.uniform_application_type === "sublimated") {
                             scale_point.alpha   = 0;
-                            delete_point.alpha      = 0;
+                            delete_point.alpha  = 0;
                         }
                         
-                        reset_point.alpha       = 0;
+                        reset_point.alpha = 0;
                         
                         view.application.center.x = sprite.x;
                         view.application.center.y = sprite.y;
@@ -1182,10 +1193,8 @@ $(document).ready(function() {
                         var _mTool = ub.objects[view.perspective + '_view']['manipulatorTool'];
 
                         if (typeof _mTool !== "undefined") {
-
                             _mTool.position.x = sprite.x;
                             _mTool.position.y = sprite.y;
-
                         }
 
                         var _locationMarker = ub.objects[view.perspective + '_view']['locations_' + _application.code];
@@ -1218,8 +1227,8 @@ $(document).ready(function() {
                         application_obj.rotation = angleRadians;
                         sprite.angleRadians = angleRadians;
 
-                        view.application.rotation = angleRadians;
-                        view.application.rotation = (angleRadians / Math.PI) * 180;
+                        // view.application.rotation = angleRadians;
+                        view.application.rotation = (angleRadians / Math.PI) * 180.00;
 
                         move_point.rotation = angleRadians;
 
@@ -3683,6 +3692,13 @@ $(document).ready(function() {
 
         var current_coodinates = mousedata.data.global;
 
+        ub.mouse = {
+
+            x: mousedata.data.global.x, 
+            y: mousedata.data.global.y,
+
+        };
+
         if (ub.zoom) {
 
             if (current_coodinates.x < (ub.front_view.width/2)) {
@@ -3772,15 +3788,6 @@ $(document).ready(function() {
         }
         
         if ($('div#primaryMascotPopup').is(":visible") ) { return; }
-
-        var current_coodinates = mousedata.data.global;
-
-        ub.mouse = {
-
-            x: mousedata.data.global.x, 
-            y: mousedata.data.global.y,
-
-        };
 
         if (ub.status.manipulatorDown) { return; }
         if (ub.active_lock) { return; }
@@ -5909,7 +5916,7 @@ $(document).ready(function() {
 
         });
         
-        ub.funcs.hidePanelHandler();
+//        ub.funcs.hidePanelHandler();
 
     };
 
