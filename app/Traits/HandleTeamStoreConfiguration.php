@@ -40,19 +40,22 @@ trait HandleTeamStoreConfiguration
             $crypt = new TeamStorePasswordCrypt($key);
             $encrypted_password = $crypt->encrypt($password);
 
-            $params = [
-                'userId' => $user->id,
-                'firstName' => $user->first_name,
-                'lastName' => $user->last_name,
-                'email' => $user->email,
-                'accessToken' => base64_encode($access_token),
-                'password' => $encrypted_password,
-                'state' => $user->state,
-                'zip' => $user->zip,
-                'default_rep_id' => $user->default_rep_id,
-            ];
+            if (!is_null($user))
+            {
+                $params = [
+                    'userId' => $user->id,
+                    'firstName' => $user->first_name,
+                    'lastName' => $user->last_name,
+                    'email' => $user->email,
+                    'accessToken' => base64_encode($access_token),
+                    'password' => $encrypted_password,
+                    'state' => $user->state,
+                    'zip' => $user->zip,
+                    'default_rep_id' => $user->default_rep_id,
+                ];
 
-            $this->setTeamStoreRegistrationParams($params);
+                $this->setTeamStoreRegistrationParams($params);
+            }
         }
     }
 
