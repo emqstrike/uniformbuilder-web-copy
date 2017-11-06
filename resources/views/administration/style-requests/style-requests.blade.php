@@ -15,6 +15,13 @@
     .dz-image {
         background-color: gray;
     }
+    hr {
+    border: none;
+    height: 1.5px;
+    /* Set the hr color */
+    color: #c1c1c1; /* old IE */
+    background-color: #c1c1c1; /* Modern Browsers */
+    }
 </style>
 @endsection
 
@@ -145,6 +152,7 @@
                     </select>
                 </div>
             </div>
+            <hr>
             <div class="form-group">
                 <label class="col-md-4 control-label">Block Pattern</label>
                 <div class="col-md-6">
@@ -152,10 +160,18 @@
                     <select class="form-control block-pattern">
                         <option value="none" data-block-pattern-id="0">Select Block Pattern</option>
                     </select>
-                </div>
+                </div>      
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label">Option</label>
+                <label class="col-md-4 control-label">Custom Block Pattern</label>
+                <div class="col-md-6">
+                <input type="checkbox" class="enable_custom_bp">                  
+                    <input type="text" class="form-control custom_block_pattern" id="custom_block_pattern" disabled="true">
+                </div>         
+            </div>
+            <hr>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Block Pattern Option</label>
                 <div class="col-md-6">
                     <!-- <input type="text" class="form-control block-pattern-option" required> -->
                     <select class="form-control block-pattern-option">
@@ -163,6 +179,14 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Custom Block Pattern Option</label>
+                <div class="col-md-6">
+                <input type="checkbox" class="enable_custom_bpo">                  
+                    <input type="text" class="form-control custom_option" id="custom_option" disabled="true">
+                </div>         
+            </div>
+            <hr>
             <div class="form-group">
                 <label class="col-md-4 control-label">QSTRIKE Item ID</label>
                 <div class="col-md-6">
@@ -263,16 +287,13 @@ $(function(){
     window.block_pattern_value = null;
     window.option_value = null;
 
-    $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
-    // var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
-
-    // $('.submit').attr('disabled','disabled'); 
+    $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });   
 
     $('.save-data').attr('disabled','disabled'); 
 
     $('#style_requests_table').on('click', '.file-link', function(e){
         e.preventDefault()
-        console.log('file link');
+        // console.log('file link');
         var url = $(this).data('link');
         OpenInNewTab(url);
     });
@@ -282,14 +303,15 @@ $(function(){
         win.focus();
     } 
 
-    $(document).on('change', '.name, .block-pattern-option, .qstrike-item-id, .priority, .deadline, .design_sheet, .customizer-id', function() {
+    $(document).on('change', '.name, .sport, .block-pattern, .block-pattern-option, .qstrike-item-id, .priority, #deadline, .design_sheet, .customizer-id', function() {
         updateData();
-        // console.log($('.deadline').val());
+       
     });
 
     $(document).on('change', '.sport', function() {
+        var exist = false;
         window.uniform_category_id = $('.sport option:selected').data('uniform-category-id');
-        console.log(window.uniform_category_id);
+        // console.log(window.uniform_category_id);
         $('.block-pattern').html('');
         var ucid = window.uniform_category_id.toString();
         var filtered_block_patterns = _.filter(window.block_pattern, function(e){ return e.uniform_category_id == ucid; });
@@ -299,8 +321,11 @@ $(function(){
         // console.log(sorted_sports);
         var block_pattern_value = window.block_pattern_value;
         $( '#block_pattern' ).html('');
+        
         sorted_block_patterns.forEach(function(entry) {
+            
             if(block_pattern_value == entry.name){
+                exist = true;
                 var elem = '<option value="'+entry.name+'" data-block-pattern-id="'+entry.id+'" selected>'+entry.name+'</option>'
                 $('.block-pattern').append(elem);
             }
@@ -308,46 +333,47 @@ $(function(){
                 var elem = '<option value="'+entry.name+'" data-block-pattern-id="'+entry.id+'">'+entry.name+'</option>'
                 $('.block-pattern').append(elem);
             }
-        });
+       
+        }); 
+               
+        if(!exist && block_pattern_value != null) {               
+            $('.enable_custom_bp').prop('checked', true);
+            $('.custom_block_pattern').val(block_pattern_value);
+            $('.enable_custom_bp').trigger('change');                                        
+        }                                   
+        $('.block-pattern').trigger('change');
+        
+
+       
     });
 
     $(document).on('change', '.block-pattern', function() {
+        var exist = false;
         window.block_pattern_id = $('.block-pattern option:selected').data('block-pattern-id');
-        console.log(window.uniform_category_id);
+        // console.log(window.uniform_category_id);
         $('.block-pattern-option').html('<option value="none" data-block-pattern-id="0">Select Block Pattern Option</option>');
 
         var block_pattern = _.filter(window.block_pattern, function(e){ return e.id == window.block_pattern_id.toString(); });
-        console.log(block_pattern);
+        // console.log(block_pattern);
 
-        // var sorted_block_pattern = _.sortBy(block_pattern, function(o) { return o.name; });
         if(block_pattern[0].neck_options != "null"){
 
-            console.log('block_pattern');
-            console.log(block_pattern);
-
-            // var x = _.flatten(JSON.parse(block_pattern[0].neck_options.slice(1, -1)));
+         
             var x = JSON.parse(block_pattern[0].neck_options);
-            console.log('block pattern option');
-            console.log(x);
-            // var w = JSON.parse(sorted_block_pattern.neck_options.slice(1, -1));
-            // var x = _.flatten(w);
-            // console.log(x);
-            // x.forEach(function(entry) {
-            //     var elem = '<option value="'+entry.name+'">'+entry.name+'</option>'
-            //     $('.block-pattern-option').append(elem);
-            // });
+       
             var list = [];
             _.each(x, function(item){
                 list.push(_.omit(item, 'children'));
                 list.push(_.flatten(_.pick(item, 'children')));
             });
             var result = _.flatten(list);
-            console.log('result')
-            console.log(result);
+            // console.log('result')
+            // console.log(result);
             var option_value = window.option_value;
             $('.block-pattern-option').html('');
             result.forEach(function(entry) {
                 if (option_value == entry.name) {
+                    exist = true;
                     var elem = '<option value="'+entry.name+'" selected>'+entry.name+'</option>'
                     $('.block-pattern-option').append(elem);
                 }
@@ -357,8 +383,20 @@ $(function(){
                 }
                 
             });
+
         }
+        console.log("bpoexist"+exist);
+        if(!exist && option_value != null) {   
+            console.log("true");
+            $('.enable_custom_bpo').prop('checked', true);
+            $('.custom_option').val(option_value);
+            $('.enable_custom_bpo').trigger('change');                                                   
+        }                                
+        // $('.block-pattern-option').trigger('change');       
+        
+       
     });
+
 
     window.data = {};
     window.sports = null;    
@@ -367,18 +405,15 @@ $(function(){
     window.uniform_category_id = null;
 
     $('.save-data').on('click', function(e){
-        e.preventDefault();
-        console.log('submit');
-
-        var data = $('.data-string').val();
+        e.preventDefault();     
+        var data = $('.data-string').val();      
         if (window.data.id != '')
         {
             var url = "//" + api_host + "/api/v1-0/style_request/update"; 
         }
         else {
             var url = "//" + api_host + "/api/v1-0/style_request";        
-        }           
-      
+        }                 
         $.ajax({
             url: url,
             type: "POST",
@@ -397,10 +432,22 @@ $(function(){
     });
 
     function updateData(){
+        if ($('.enable_custom_bp').is(':checked')) {
+            var block_pattern = $('.custom_block_pattern').val();
+         }
+        else { 
+            var block_pattern = $('.block-pattern').val();
+        }
+
+        if ($('.enable_custom_bpo').is(':checked')) {
+            var block_pattern_option = $('.custom_option').val();
+        }
+        else {    
+            var block_pattern_option = $('.block-pattern-option').val();
+        }
+        
         var id = $('.id').val();
-        var name = $('.name').val();
-        var block_pattern = $('.block-pattern').val();
-        var block_pattern_option = $('.block-pattern-option').val();
+        var name = $('.name').val();       
         var sport = $('.sport').val();
         var qstrike_item_id = $('.qstrike-item-id').val();
         var priority = $('.priority').val();
@@ -501,7 +548,7 @@ $(function(){
     buildSportsDropdown();
     function buildSportsDropdown(){
         var sorted_sports = _.sortBy(window.sports, function(o) { return o.name; });
-        console.log(sorted_sports);
+        // console.log(sorted_sports);
         var sport_value = window.sport_value;
         $( '.sport' ).html('');
         sorted_sports.forEach(function(entry) {
@@ -520,9 +567,7 @@ $(function(){
         e.preventDefault();
         getValues($(this));
         $('#deadline').attr({"style": "display: none;"});
-        $('#customizer').removeAttr('style');
-        // $('#name').trigger('keyup');
-
+        $('#customizer').removeAttr('style');      
     });
 
     $("#myModal").on("hidden.bs.modal", function() {
@@ -533,13 +578,19 @@ $(function(){
         $('.id').val('');
         $('.name').val('');
         $('.qstrike-item-id').val('');
-        $('.customizer-id').val('');
+        $('.customizer-id').val('');        
+        $('.custom_block_pattern').val(null);         
+        $('.enable_custom_bp').prop('checked', false);
+        $('.enable_custom_bp').trigger('change');         
+        $('.custom_option').val(null);
+        $('.enable_custom_bpo').prop('checked', false);
+        $('.enable_custom_bpo').trigger('change');
+        
         $('#deadline').attr({"style": "display: block;"});
         $('#customizer').attr({"style": "display: none;"});
-
     });
 
-    $(".name, #qstrike_item_id, #customizer_id").on("keyup", function(e){    
+    $(".name, #qstrike_item_id, #customizer_id, .custom_block_pattern, .custom_option").on("keyup", function(e){    
         e.preventDefault();
         var name = document.getElementById("name").value;
         var qx_id = document.getElementById("qstrike_item_id").value;
@@ -549,7 +600,46 @@ $(function(){
         else {
             $('.save-data').attr('disabled','disabled'); 
         }
+    });
 
+    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo").on("change", function(e){    
+        e.preventDefault();
+        var name = document.getElementById("name").value;
+        var qx_id = document.getElementById("qstrike_item_id").value;
+        if ( name.length > 0 && qx_id.length > 0) {    
+            $('.save-data').removeAttr('disabled');
+        } 
+        else {
+            $('.save-data').attr('disabled','disabled'); 
+        }      
+    });
+
+    $(".custom_block_pattern, .custom_option, .enable_custom_bp, .enable_custom_bpo").on("change", function(e){    
+        e.preventDefault();     
+        updateData();
+    });
+  
+    $('.enable_custom_bp').on('change', function() {        
+        if ($(this).is(':checked')) {
+            $('.block-pattern').attr('disabled','true'); 
+            $('.custom_block_pattern').removeAttr('disabled');
+        }
+        else {             
+            $('.block-pattern').removeAttr('disabled'); 
+            $('.custom_block_pattern').attr('disabled','true');
+            // $('.block-pattern').trigger('change'); 
+        }
+    });
+
+    $('.enable_custom_bpo').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('.block-pattern-option').attr('disabled','true'); 
+            $('.custom_option').removeAttr('disabled');
+        }
+        else {
+            $('.block-pattern-option').removeAttr('disabled'); 
+            $('.custom_option').attr('disabled','true');            
+        }
     });
 
     function getValues(thisObj)
@@ -567,22 +657,22 @@ $(function(){
         window.block_pattern_value = block_pattern;
         window.option_value = option;
         buildSportsDropdown();
-        $('.sport').trigger('change');  
-        $('.block-pattern').trigger('change');  
+        $('.sport').trigger('change');        
         $('.id').val(id); 
         $('.name').val(name);       
         $('.qstrike-item-id').val(item_id);
         $('.priority').val(priority);      
         $('.customizer-id').val(customizer_id);
-
         $('#myModal').modal('show'); 
 
     }
 
+   
+
     $('#style_requests_table').on('click', '.delete-style-request', function(){
        var id = [];
        id.push( $(this).data('style-request-id'));
-       console.log(id);
+       // console.log(id);
        modalConfirm('Remove Style Request', 'Are you sure you want to delete the request?', id);
        });
 
@@ -608,7 +698,7 @@ $(function(){
                        });
                        $('#confirmation-modal').modal('hide');
                       $.each(id, function (index, value) {
-                         console.log(value);
+                         // console.log(value);
                          $('.style-request-' + value).fadeOut();
                          // Will stop running after "three"
                          

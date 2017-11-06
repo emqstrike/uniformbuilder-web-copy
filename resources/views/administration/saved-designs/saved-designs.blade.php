@@ -31,6 +31,7 @@
                             <th>Right</th>
                             <th>User</th>
                             <th>Email</th>
+                            <th>Date Saved</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -70,6 +71,9 @@
                             </td>
                             <td>
                                 {{ $design->email }}
+                            </td>
+                            <td>
+                                {{ $design->created_at }}
                             </td>
                             <td>
                                 <a href="http://customizer.prolook.com/my-saved-design/{{ $design->id }}" class="btn btn-primary btn-xs">View in Customizer</a>

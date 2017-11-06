@@ -16,6 +16,7 @@ li.select2-selection__choice {
 .inputs {
     width: 45px;
 }
+
 </style>
 @endsection
 
@@ -23,7 +24,7 @@ li.select2-selection__choice {
 
 <div class="container-fluid main-content">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Application Size</div>
                 <div class="panel-body">
@@ -88,6 +89,17 @@ li.select2-selection__choice {
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Uniform Application Type</label>
+                            <div class="col-md-6">
+                                <select name='uniform_application_type' class="form-control uniform-application-type">
+                                    <option value='none'>None</option>
+                                    <option value='infused'>Infused</option>
+                                    <option value='sublimated'>Sublimated</option>
+                                    <option value='tackle_twill'>Tackle Twill</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Notes</label>
                             <div class="col-md-6">
                                <textarea class="form-control notes" name="notes"></textarea>
@@ -101,15 +113,16 @@ li.select2-selection__choice {
                             </label>
                         </div>
                         <div class="row form-group">   
-                            <div class="col-md-11">
+                            <div class="col-md-12">
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Application Numbers</th>
-                                            <th>Size</th>
-                                            <th>Scale</th>
-                                            <th>Default</th>                                           
-                                            <th></th>
+                                            <th width="13%">Type</th>
+                                            <th width="30%">Application Numbers</th>
+                                            <th width="30%">Size</th>
+                                            <th width="12%">Scale</th>
+                                            <th width="10%">Default</th>                                           
+                                            <th width="5%"></th>
                                         </tr>
                                     </thead>
                                     <tbody class="properties-content">

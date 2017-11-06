@@ -183,6 +183,7 @@
 @yield('forgot-password')
 @yield('reset-password')
 @yield('change-password')
+@yield('preview-embellishment')
 
 <!--
 
@@ -473,6 +474,10 @@
 
         @endif
 
+        @if (isset($page) and $page === "preview-embellishment")
+            ub.embellishmentDetails = {!! json_encode($embellishmentDetails) !!};
+        @endif
+
         ub.render = "{{ isset($render) ? $render : false }}";
 
         // Team Store Parameters
@@ -566,6 +571,7 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-dealership.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-ui-data.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-application-sizes.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-name-drops.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-nlp.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-mock-data.js?v={{$asset_version}}"></script>
@@ -594,10 +600,10 @@
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-stores.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-colors.js?v={{$asset_version}}"></script>
 
+<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-custom-artwork-requests.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-generators.js?v={{$asset_version}}"></script>
@@ -628,6 +634,12 @@
 <!-- Preview Panel -->
 
     @include('partials.panels.preview-panel')
+
+<!-- End Preview Panel -->
+
+<!-- Preview Panel -->
+
+    @include('partials.panels.debug-panel')
 
 <!-- End Preview Panel -->
 

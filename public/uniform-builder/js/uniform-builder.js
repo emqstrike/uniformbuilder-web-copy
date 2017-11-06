@@ -55,6 +55,10 @@ $(document).ready(function () {
                 ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
                 ub.loader(ub.current_material.logo_request_url, 'logo_request', ub.callback);
 
+                // Application Sizes
+                ub.current_material.application_sizes_url = window.ub.config.api_host + '/api/application_sizes/' + ub.config.sport + '/' + ub.config.blockPattern + '/' + ub.config.option;
+                ub.loader(ub.current_material.application_sizes_url, 'application_size', ub.callback);                
+
                 // Disable Tailsweeps for now
                 // ub.current_material.tailsweeps_url = window.ub.config.api_host + '/api/tailsweeps/';
                 // ub.loader(ub.current_material.tailsweeps_url, 'tailSweeps', ub.callback);
@@ -552,6 +556,7 @@ $(document).ready(function () {
             }
 
             if (ub.config.pageType === "Saved Design") { ub.funcs.initGuideSavedDesign(); }
+            if (ub.config.pageType === "Order") { ub.funcs.initGuideOrder(); }
 
             if (ub.render !== "1") {
 
@@ -578,7 +583,7 @@ $(document).ready(function () {
             ub.funcs.initUniformSizesAndPrices();
             ub.funcs.initMiscUIEvents();
 
-            ub.displayDoneAt('Awesomness loading completed.');
+            // ub.displayDoneAt('Awesomness loading completed.');
 
             ub.afterLoadScripts();
             ub.funcs.afterLoadChecks();
@@ -885,10 +890,8 @@ $(document).ready(function () {
             ub.pha = _.find(ub.pha, {name: ub.current_material.material.block_pattern});
 
             if (typeof ub.pha !== "undefined") {
-
                 _items = JSON.parse(ub.pha.placeholder_overrides);
                 ub.data.placeHolderOverrides.items = _items;
-
             }
             
         };
@@ -927,6 +930,7 @@ $(document).ready(function () {
                 'cuts_links',
                 // 'tailsweeps',
                 'logo_request',
+                'application_size',
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
@@ -938,13 +942,9 @@ $(document).ready(function () {
                     _.each(obj, function (tailsweep, index) {
 
                         if (tailsweep.code === "blank") {
-                            
                             tailsweep.sortOrder = 0; 
-
                         } else {
-
                             tailsweep.sortOrder = index + 1;
-
                         }
 
                     });
@@ -972,6 +972,7 @@ $(document).ready(function () {
             }
 
             // TODO: Refactor all types like this where processing goes inside a function, so it can used in other pages e.g. like processLogoRequests
+            if (object_name === "application_size") {  ub.funcs.setupApplicationSizes(obj); }
             if (object_name === 'fonts') { ub.funcs.processFonts(); }
             if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
             if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
@@ -985,10 +986,8 @@ $(document).ready(function () {
                 ub.current_material.settings.cuts_links = _.find(obj, {sport_name: ub.config.sport, block_pattern: ub.config.blockPattern, neck_option: ub.config.option});
 
                 if (typeof ub.current_material.settings.cuts_links !== "undefined") {
-                    
                     ub.current_material.settings.cut_pdf = ub.current_material.settings.cuts_links.cuts_pdf; 
                     ub.config.cut_pdf = ub.current_material.settings.cuts_links.cuts_pdf;
-
                 }
 
             }
@@ -998,7 +997,6 @@ $(document).ready(function () {
                 if (object_name === 'tagged_styles') {
 
                     ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
-
                     $('span.slink > span.count').html(_.size(ub.data.tagged_styles));
 
                 } 
@@ -1018,7 +1016,6 @@ $(document).ready(function () {
             if (ok) {
 
                 ub.displayDoneAt('Loading assets completed');
-
                 ub.load_assets();
 
                 ub.displayDoneAt('Configuration of style - ' + ub.config.uniform_name + ' started');
@@ -1035,7 +1032,6 @@ $(document).ready(function () {
 
                 ub.displayDoneAt('Configuration of style done.');
                 ub.displayDoneAt('Rendering awesomeness ...');
-
 
             }
             
@@ -1062,6 +1058,33 @@ $(document).ready(function () {
 
                         cb(response[object_name], object_name);
 
+                    }
+
+                }
+            
+            });
+
+        };
+
+        ub.loaderWOToken = function (url, object_name, cb) {
+
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+
+            $.ajax({
+            
+                url: url,
+                type: "GET", 
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response){
+
+                    if (object_name === "tailSweeps") {
+                        cb(response['tailsweeps'], object_name);
+                    } else {
+                        cb(response[object_name], object_name);
                     }
 
                 }
@@ -2586,7 +2609,8 @@ $(document).ready(function () {
 
                 ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
 
-                if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+                // if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+                if (ub.page === "order") { ub.funcs.customArtworkRequestCheckOrders(application_obj); }
                 if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
 
                 // if (ub.page === "saved-design" || ub.page === "order") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
@@ -5517,7 +5541,7 @@ $(document).ready(function () {
 
         var _url = window.ub.config.api_host + '/api/order/orderswItems/' + ub.config.orderCode;
 
-        ub.loader(_url, 'order_info', function (result) {
+        ub.loaderWOToken(_url, 'order_info', function (result) {
 
             dialog.modal('hide');
 
@@ -5556,7 +5580,7 @@ $(document).ready(function () {
         var _msg = "Are you sure you want to go to the order form?";
 
         if (ub.config.orderArtworkStatus === "rejected") { _msg = "Press OK to resubmit this order with your new artwork."; }
-        if (ub.data.hasProcessedArtworks) { _msg = "Press OK to resubmit this order with your new artwork."; }
+        if (ub.data.updateOrderFromCustomArtworkRequest ) { _msg = "Press OK to resubmit this order with your new artwork."; }
 
         bootbox.confirm(_msg, function (result) { 
         
@@ -5569,20 +5593,14 @@ $(document).ready(function () {
                 if (ub.data.afterLoadCalled === 0) { return; }
 
                 if (typeof (window.ub.user.id) === "undefined") {
-
                     ub.funcs.quickRegistration();
                     return true;
-
                 }
 
                 if (typeof ub.temp !== "undefined" && ub.config.orderCode !== "none") {
-
                     ub.funcs.getOrderAndDetailsInfo();
-                    
                 } else {
-
                     ub.funcs.initRoster();
-
                 }
 
             } 
@@ -8128,6 +8146,148 @@ $(document).ready(function () {
             } 
 
             ub.funcs.displayMyOrders();
+
+        }
+
+        ub.funcs.previewEmbellishment = function () {
+
+            var _html = '';
+            var _filename = '';
+
+            a = ub.embellishmentDetails;
+            a.design_summary = JSON.parse(a.design_summary);
+            a.design_details = JSON.parse(a.design_details);
+
+            _filename = ub.data.inkSoftBaseURL + a.design_summary.Canvases[0].SvgRelativeUrl;
+
+            $('img.previewSVG').attr('src', _filename);
+            $('a.main-preview-window').attr('href', _filename);
+            
+            $('span.design-id').html(a.design_id);
+            $('span.design-name').html(a.design_name);
+            $('em.filename').html(_filename);
+
+            _.each(a.design_details.Data.Canvases[0].Elements, function (f) {
+            
+                if (typeof f.Colors === "object") {
+            
+                    _html += ub.utilities.buildTemplateString('#m-embellishment-preview-vector', {
+                        
+                        name: _.last(f.ArtName.split('/')),
+                        baseVectorPath: ub.data.inkSoftBaseURL + f.OriginalArtPath,
+                        mainObject: f,
+
+                        colors: _.map(_.uniq(f.Colors), function (color) {
+
+                            var _colorCode = undefined;
+                            var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                            var returnObject;
+
+                            if (typeof _result === "undefined") {
+                                _colorCode = 'Color code not found';
+                            } else {
+                                _colorCode = _result.color_code;
+                            }
+
+                            returnObject = {
+                                hexCode: color, 
+                                colorCode: _colorCode,
+                            }
+
+                            return returnObject;
+
+                        }),
+
+                  });
+
+                } else {
+
+                    _html += ub.utilities.buildTemplateString('#m-embellishment-preview-font', {
+                    style: f.Font.FontStyleName,
+                    fillcolor: f.FillColor,
+                    name: f.Font.FamilyName,
+                    curveShape: f.CurveShape,
+                    fontPath: ub.data.inksoftFontsFolder + f.Font.FontStyleName + '/' + f.Font.FamilyName + '.ttf',
+                    mainObject: f,
+                    text: f.Text,
+                    displayStroke: (f.StrokeWidth === 0) ? 'none' : 'block',
+                    strokeColor: _.map(_.uniq([f.StrokeColor]), function (color) {
+
+                        var _colorCode = undefined;
+                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                        var returnObject; 
+
+                        if (typeof _result === "undefined") {
+                            _colorCode = 'Color code not found';
+                        } else {
+                            _colorCode = _result.color_code;
+                        }
+
+                        returnObject = {
+                            hexCode: color, 
+                            colorCode: _colorCode,
+                        }
+
+                        return returnObject;
+                        
+                    }),
+                    fillColor: _.map(_.uniq([f.FillColor]), function (color) {
+
+                        var _colorCode = undefined;
+                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                        if (typeof _result === "undefined") {
+                            _colorCode = 'Color code not found';
+                        } else {
+                            _colorCode = _result.color_code;
+                        }
+
+                        var returnObject = {
+                            hexCode: color, 
+                            colorCode: _colorCode,
+                        }
+
+                        return returnObject;
+                        
+                    }),
+
+                  });
+            
+                }
+            
+            }); 
+
+            $('div.embellishmentInfo').html(_html);
+
+            $('div.mainPreviewLink').fadeIn();
+            $('h3.header').fadeIn();
+
+        };
+
+        ub.funcs.getSublimationColorCodeByHexCode = function (hexCode) {
+
+            var _hexCode = hexCode;
+            var _colorObj = undefined;
+
+            if (_hexCode.indexOf('#') !== -1) { _hexCode = _hexCode.replace('#', ''); }
+
+            _colorObj = _.find(ub.data.colors, {hex_code: _hexCode, sublimation_only: '0'});
+
+            return _colorObj;
+
+        }
+
+        if (ub.page === "preview-embellishment") {
+
+            $('div#main-picker-container').remove();
+            $('body').css('background-image', 'none');
+
+            var _url = window.ub.config.api_host + '/api/colors';
+
+                ub.loader(_url, 'colors', function (result) {
+                ub.data.colors = result;
+                ub.funcs.previewEmbellishment();
+            
+            });
 
         }
 

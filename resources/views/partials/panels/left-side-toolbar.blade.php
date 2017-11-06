@@ -53,8 +53,6 @@
         </span>
     </span>
 
-
-    <br />
     <br />
 
     <span class="toolbar-item approve-reject-artwork-btn">

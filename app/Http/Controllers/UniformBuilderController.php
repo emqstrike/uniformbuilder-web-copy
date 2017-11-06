@@ -12,6 +12,7 @@ use App\APIClients\UniformDesignSetsAPIClient;
 use App\APIClients\OrdersAPIClient;
 use App\APIClients\UsersAPIClient;
 use App\APIClients\SavedDesignsAPIClient;
+use App\APIClients\InksoftDesignsAPIClient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Utilities\FileUtility;
@@ -36,6 +37,7 @@ class UniformBuilderController extends Controller
     protected $ordersClient;
     protected $savedDesignsClient;
     protected $usersAPIClient;
+    protected $inksoftDesignsAPIClient;
 
     public function __construct(
         MaterialsAPIClient $materialsClient,
@@ -43,7 +45,8 @@ class UniformBuilderController extends Controller
         UniformDesignSetsAPIClient $designSetClient,
         OrdersAPIClient $ordersClient,
         SavedDesignsAPIClient $savedDesignsClient,
-        UsersAPIClient $usersAPIClient
+        UsersAPIClient $usersAPIClient,
+        InksoftDesignsAPIClient $inksoftDesignsAPIClient
     )
     {
         $this->materialsClient = $materialsClient;
@@ -52,6 +55,7 @@ class UniformBuilderController extends Controller
         $this->ordersClient = $ordersClient;
         $this->savedDesignsClient = $savedDesignsClient;
         $this->usersAPIClient = $usersAPIClient;
+        $this->inksoftDesignsAPIClient = $inksoftDesignsAPIClient;
     }
 
     public function showBuilder($config = [])
@@ -845,6 +849,7 @@ class UniformBuilderController extends Controller
                 $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '"><br />';    
                 $html .=   'Name: ' . $embellishment['name'] . "<br />";
                 $html .=   '<a href="' . $embellishment['svg_filename'] . '" target="_new">Link To Prepared File</a> <br />';
+                $html .=   '<a href="http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
                 $html .=   '</td>';
 
             }
@@ -2219,6 +2224,29 @@ class UniformBuilderController extends Controller
         ];
 
         return view('editor.forgot-password', $params);
+
+    }
+
+    public function previewEmbellishmentInfo($embellishmentID) {
+
+        $embellishment = $this->inksoftDesignsAPIClient->getByDesignID($embellishmentID);
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'preview-embellishment',
+            'type' => 'preview-embellishment',
+            'embellishmentDetails' => $embellishment,
+        ];
+
+        $params['embellishmentDetails'] = $embellishment;
+
+        return view('editor.preview-embellishment', $params);
 
     }
 

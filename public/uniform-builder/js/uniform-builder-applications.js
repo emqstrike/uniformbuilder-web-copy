@@ -958,7 +958,9 @@ $(document).ready(function() {
         {
             return;
         }
-        
+
+        if (typeof sprite === "undefined") { return; }
+
         sprite.draggable({
 
             manager: ub.dragAndDropManager
@@ -1153,10 +1155,14 @@ $(document).ready(function() {
                     if(sprite.ubName === "Move Tool") {
 
                         rotation_point.alpha    = 0;
-                        scale_point.alpha       = 0;
+                        
+                        if (ub.config.uniform_application_type === "sublimated") {
+                            scale_point.alpha   = 0;
+                            delete_point.alpha      = 0;
+                        }
+                        
                         reset_point.alpha       = 0;
-                        delete_point.alpha      = 0;
-
+                        
                         view.application.center.x = sprite.x;
                         view.application.center.y = sprite.y;
 
@@ -1168,8 +1174,10 @@ $(document).ready(function() {
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.x = sprite.x;
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.y = sprite.y;
 
-                        ub.objects[view.perspective + '_view']['scale_tool'].position.x = sprite.x;
-                        ub.objects[view.perspective + '_view']['scale_tool'].position.y = sprite.y;
+                        if (ub.config.uniform_application_type === "sublimated") {
+                            ub.objects[view.perspective + '_view']['scale_tool'].position.x = sprite.x; 
+                            ub.objects[view.perspective + '_view']['scale_tool'].position.y = sprite.y;
+                        }
                         
                         var _mTool = ub.objects[view.perspective + '_view']['manipulatorTool'];
 
@@ -1184,6 +1192,11 @@ $(document).ready(function() {
                         _locationMarker.position = _obj.position;
 
                         ub.funcs.updateCoordinates(_application);
+                        
+                        if (ub.config.uniform_application_type === "tackle_twill") {
+                            ub.updateDebugPanelInfo('The Move Tool / Rotate Tool for Tackle Twill uniforms is enabled so that you can make minute adjustments and corrections to the uniforms application, if you want a full customized design please use a sublimated style.');    
+                        }
+                        
                         ub.updatePanel(_application.code, view.application);
 
                     }
@@ -1191,10 +1204,14 @@ $(document).ready(function() {
                     if(sprite.ubName === "Rotate Tool") {
 
                         move_point.alpha        = 0;
-                        scale_point.alpha       = 0;
+
+                        if (ub.config.uniform_application_type === "sublimated") {
+                            scale_point.alpha   = 0;
+                            delete_point.alpha  = 0;
+                        }
+
                         reset_point.alpha       = 0;
-                        delete_point.alpha      = 0;
-                     
+                        
                         var application_obj = ub.objects[view.perspective + '_view']['objects_' + _application.code];
                         var angleRadians = ub.funcs.objectFocusRotation(application_obj);
 
@@ -1205,8 +1222,16 @@ $(document).ready(function() {
                         view.application.rotation = (angleRadians / Math.PI) * 180;
 
                         move_point.rotation = angleRadians;
-                        scale_point.rotation = angleRadians;
+
+                        if (ub.config.uniform_application_type === "sublimated") {
+                            scale_point.rotation = angleRadians;
+                        }
+                            
                         ub.objects[view.perspective + '_view'].manipulatorTool.rotation = angleRadians;
+
+                        if (ub.config.uniform_application_type === "tackle_twill") {
+                            ub.updateDebugPanelInfo('The Move Tool / Rotate Tool for Tackle Twill uniforms is enabled so that you can make minute adjustments and corrections to the uniforms application, if you want a full customized design please use a sublimated style.');    
+                        }
 
                         ub.updatePanel(_application.code, view.application);
 
@@ -6283,6 +6308,43 @@ $(document).ready(function() {
 
         }
 
+        // New application sizes values from backend
+        var _sizesFromConfig = ub.data.applicationSizes.getConfiguration(_applicationType, _id);
+
+        if (typeof _sizesFromConfig !== "undefined") {
+
+            // Debug Info
+            if (ub.config.sport === "Football 2017") {
+
+                console.log('Default Sizes: ');
+                console.log(_sizes);
+                console.log('Application #: ');
+                console.log(_id);
+
+                ub.utilities.info('Using sizes from backend: ');
+                
+                console.log(_sizesFromConfig);
+                console.log(_sizesFromConfig.sizes);
+                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+
+                _sizes = _sizesFromConfig;
+
+            }
+
+        } else {
+
+            if (ub.config.sport === "Football 2017") {
+
+                ub.utilities.info('Application Type: ' + _applicationType);
+                ub.utilities.info('alias: ' + _alias.alias);
+
+                ub.utilities.error(ub.config.sport + " - " + _applicationType + " - " + _id + " don't have application sizes settings on the backend.");
+
+            }
+
+        }
+
+
         var _mascotObj          = _settingsObject.mascot;
         var _currentSize        = _settingsObject.size;
         var _colorArray         = _settingsObject.color_array;
@@ -7789,7 +7851,7 @@ $(document).ready(function() {
 
                 var _matchingSettingsObject     = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
                 var _layer = _.find(_matchingSettingsObject.accent_obj.layers, {name: _layer_name});
-            
+
                 _layer.default_color = _colorObj.hex_code;
                 _matchingSettingsObject.color_array[_layer_no - 1] = _colorObj;
 
@@ -7865,6 +7927,42 @@ $(document).ready(function() {
 
             ub.utilities.warn('no sizes setting defaulting to generic');
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+
+        }
+
+        // New application sizes values from backend
+        var _sizesFromConfig = ub.data.applicationSizes.getConfiguration(_applicationType, _id);
+
+        if (typeof _sizesFromConfig !== "undefined") {
+
+            // Debug Info
+            if (ub.config.sport === "Football 2017") {
+
+                console.log('Default Sizes: ');
+                console.log(_sizes);
+                console.log('Application #: ');
+                console.log(_id);
+
+                ub.utilities.info('Using sizes from backend: ');
+                
+                console.log(_sizesFromConfig);
+                console.log(_sizesFromConfig.sizes);
+                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+
+                _sizes = _sizesFromConfig;
+
+            }
+
+        } else {
+
+            if (ub.config.sport === "Football 2017") {
+
+                ub.utilities.info('Application Type: ' + _applicationType);
+                ub.utilities.info('alias: ' + _alias.alias);
+
+                ub.utilities.error(ub.config.sport + " - " + _applicationType + " - " + _id + " don't have application sizes settings on the backend.");
+
+            }
 
         }
 
@@ -8939,7 +9037,7 @@ $(document).ready(function() {
 
         var _applicationObj = ub.current_material.settings.applications[application_id];
 
-        if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
+        // if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
 
         // if deleted exit
         if (typeof _applicationObj === "undefined") { return; }
@@ -9118,26 +9216,32 @@ $(document).ready(function() {
 
         ub.funcs.createDraggable(_spriteRotate, _applicationObj, ub[_perspective], _perspective);
 
+        
         // --- Scale --- ///
 
-        var _filenameScale = "/images/builder-ui/scale-icon-on.png";
-        var _spriteScale = ub.pixi.new_sprite(_filenameScale);
 
-        ub.objects[_perspective].scale_tool = _spriteScale;
-        ub[_perspective].addChild(_spriteScale);
+        if (ub.config.uniform_application_type === "sublimated") {
 
-        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+            var _filenameScale = "/images/builder-ui/scale-icon-on.png";
+            var _spriteScale = ub.pixi.new_sprite(_filenameScale);
 
-        _spriteScale.position.x  = _view.application.center.x;
-        _spriteScale.position.y  = _view.application.center.y;
-        _spriteScale.ubName = 'Scale Tool';
+            ub.objects[_perspective].scale_tool = _spriteScale;
+            ub[_perspective].addChild(_spriteScale);
 
-        var _x = _xAnchor;
+            var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
 
-        _spriteScale.anchor.set(_x, -2);
-        _spriteScale.zIndex = -1000;
+            _spriteScale.position.x  = _view.application.center.x;
+            _spriteScale.position.y  = _view.application.center.y;
+            _spriteScale.ubName = 'Scale Tool';
 
-        ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
+            var _x = _xAnchor;
+
+            _spriteScale.anchor.set(_x, -2);
+            _spriteScale.zIndex = -1000;
+
+            ub.funcs.createDraggable(_spriteScale, _applicationObj, ub[_perspective], _perspective);
+
+        }
 
         // --- Reset --- ///
 
@@ -9159,20 +9263,23 @@ $(document).ready(function() {
 
         // --- Delete --- ///
 
-        var _filenameDelete = "/images/builder-ui/delete-icon-on.png";
-        var _spriteDelete = ub.pixi.new_sprite(_filenameDelete);
+        if (ub.config.uniform_application_type === "sublimated") {
 
-        ub.objects[_perspective].delete_tool = _spriteDelete;
-        ub[_perspective].addChild(_spriteDelete);
+            var _filenameDelete = "/images/builder-ui/delete-icon-on.png";
+            var _spriteDelete = ub.pixi.new_sprite(_filenameDelete);
 
-        var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
+            ub.objects[_perspective].delete_tool = _spriteDelete;
+            ub[_perspective].addChild(_spriteDelete);
 
-        _spriteDelete.position.x  = _view.application.center.x;
-        _spriteDelete.position.y  = _view.application.center.y;
-        _spriteDelete.ubName = 'Delete Tool';
-        _spriteDelete.anchor.set(_xAnchor, 4);
-        _spriteDelete.zIndex = -1000;
+            var _view = _.find(_applicationObj.application.views, {perspective: _primaryView});
 
+            _spriteDelete.position.x  = _view.application.center.x;
+            _spriteDelete.position.y  = _view.application.center.y;
+            _spriteDelete.ubName = 'Delete Tool';
+            _spriteDelete.anchor.set(_xAnchor, 4);
+            _spriteDelete.zIndex = -1000;
+
+        }
         
         ub.funcs.createDraggable(_spriteDelete, _applicationObj, ub[_perspective], _perspective);
 
@@ -9757,12 +9864,14 @@ $(document).ready(function() {
 
             if (ub.funcs.isCurrentSport('Wrestling'))   {  
 
-                _list = _.reject(_list, function (item) { return item.name.indexOf('Body') === -1; });
+                _list = _.reject(_list, function (item) { 
+                    return item.name.indexOf('Body') === -1 && item.name.indexOf('Buckle') === -1; 
+                });
 
             }
 
         }
-
+        
         return _list;
 
     }

@@ -476,6 +476,12 @@ class MascotsController extends Controller
                     $ar_json[$artworkIndex]['file'] = $data['icon'];
                     $ar_json[$artworkIndex]['colors'] = $team_colors;
                 }
+            } else {
+                array_push($ar_json[$artworkIndex]['history'], $ar_json[$artworkIndex]['file']);
+                $ar_json[$artworkIndex]['updated'] = 1;
+                $ar_json[$artworkIndex]['approved'] = 0;
+                $ar_json[$artworkIndex]['user_rejected'] = 0;
+                $ar_json[$artworkIndex]['colors'] = $team_colors;
             }
         } catch (S3Exception $e) {
             $message = $e->getMessage();
@@ -484,7 +490,6 @@ class MascotsController extends Controller
             } else {
                 return Redirect::to('/administration/logo_requests')->with('message', 'There was a problem uploading your files');
             }
-            
         }
 
         try {

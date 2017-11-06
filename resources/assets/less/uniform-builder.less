@@ -3646,7 +3646,7 @@ div.header-container.main {
         position: absolute;
         margin-top: 10.5em;
         text-transform: none;
-        color: gold;
+        color: #f9c129;
 
         /* display:none; */
 
@@ -9797,9 +9797,8 @@ strong.hello {
             border-top: solid 2px #3d3d3d;
             display: none;
         }
-
         
-        hr.left-side-divider.middle-bottom  { margin-top: 20px; margin-bottom: 20px; opacity: 0.7 }
+        hr.left-side-divider.middle-bottom  { margin-top: 10px; margin-bottom: 10px; opacity: 0.7 }
         hr.left-side-divider.fav-top        { display: none; }
 
         div.spacer                          { margin-top: 10px; margin-bottom: 10px; }
@@ -9863,16 +9862,11 @@ strong.hello {
             margin-bottom: 33px;
             display: none;
 
-            color: gold;
+            color: #f9c129;
 
         }
 
-        span.approve-reject-artwork-btn:hover {
-
-            color: gold;
-            font-size: 1.1em;
-
-        }
+        span.approve-reject-artwork-btn:hover { color: gold; }
 
         span.resubmit-order-btn {
 
@@ -11045,13 +11039,13 @@ div.loading-screen {}
 span.load-line {
     
     display: none;
-    strong.light { color: @ubBlack; }
+    // strong.light { color: @ubBlack; }
 
 }
 
 span.load-line.awesomeness {
 
-    text-align: right;
+    //text-align: right;
     width: 100%;
     display: block;
 
@@ -11068,7 +11062,7 @@ span.load-line.awesomeness {
         position: absolute;
         width: 550px;
         height: 170px;
-        bottom: 0;
+        bottom: 100px;
         left: 120px;
         background-color: white;
         display: none;
@@ -11176,84 +11170,6 @@ span.load-line.awesomeness {
     }
 
 /* End Message Panel */
-
-/* Approve / Reject Panel */
-
-    div.approve-dialog {
-
-        p.notice {
-
-            padding: 10px;
-            text-align: center;
-
-        }
-
-        table.approve-reject-table {
-
-            width: 100%;
-            padding: 30px;
-
-            tr.header-row {
-
-                height: 40px;
-                color: white;
-                background-color: #1e1e1e;
-                font-size: 0.9em;
-
-                td { 
-                    align: center; 
-                    font-size: 1.3em;
-                }
-
-
-            }
-
-            tr.content-row { height: 90px; }
-
-            td { text-align: center; }
-
-            td.approve-reject {
-
-                span.btn { 
-                    background-color: #e7e7e7; 
-                    min-width: 100px;
-                }
-
-                span.btn.active {
-                    background-color: #1e1e1e;
-                    color: #fff;
-                }
-
-            }
-
-             td.notes {
-
-                textarea { width: 100%; }
-
-            }
-
-        }
-
-        div.footer-buttons { 
-
-            text-align: right;
-            
-            span.btn { 
-                background-color: #e7e7e7; 
-                min-width: 170px;
-            }
-
-            span.btn:hover {
-                background-color: #3d3d3d;
-                color: #fff;
-            }
-
-        }
-
-    }
-
-    
-/* End Approve / Reject Panel */
 
 /* Name Drop Dialog */ 
 
@@ -11483,4 +11399,16 @@ span.load-line.awesomeness {
     @import "is-integration.less";
 
 /* End IS Integration */
+
+/* Debug Panel */
+
+    @import "debug-panel.less";
+
+/* End Debug Panel. */
+
+/* Preview Embellishment */
+
+    @import "preview-embellishment.less";
+
+/* End Preview Embellishment */
 
