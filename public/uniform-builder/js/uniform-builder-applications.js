@@ -9040,9 +9040,6 @@ $(document).ready(function() {
 
     ub.funcs.activateMoveTool = function (application_id) {
 
-        console.log('Activate Move tool called: ');
-        console.log(application_id);
-
         if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { return; }
 
         var _applicationObj = ub.current_material.settings.applications[application_id];
