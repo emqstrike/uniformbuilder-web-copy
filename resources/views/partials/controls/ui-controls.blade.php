@@ -1624,6 +1624,10 @@
                             <br>
                             @{{ #product_id }}
                                 Product ID: <strong>@{{ product_id }}</strong>
+                                <a href="{{ env('TEAM_STORE_BASE_URL') . '/visit-product-by-code/' }}@{{ store_code }}/@{{ product_id }}"
+                                target="_blank" style="text-decoration: none">
+                                Open on Team Store
+                                </a>
                             @{{ /product_id}}
                             <br>
                             @{{ #store_code }}
@@ -1641,14 +1645,6 @@
 
                             <span class="action-button view" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-eye" aria-hidden="true"></i> Load Design</span>
                             <span class="action-button share share-uniform-design" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> Share Via Email</span>
-                            @{{ #product_id }}
-                            <a class="action-button"
-                                href="{{ env('TEAM_STORE_BASE_URL') . '/visit-product-by-code/' }}@{{ store_code }}/@{{ product_id }}"
-                                target="_blank">
-                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                                Open on Team Store
-                            </a>
-                            @{{ /product_id}}
                             <hr />
                             <span class="action-button delete" data-saved-design-id="@{{id}}" data-name="@{{name}}"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete Design</span>
                         </td>
