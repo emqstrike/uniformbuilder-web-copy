@@ -14,7 +14,7 @@ var TeamStoreToolBox = {
         $('#team-store-toolbox .create-team-store').on('click', TeamStoreToolBox.create_team_store);
         $('#team-store-toolbox .open-team-store').on('click', TeamStoreToolBox.open_team_store);
         $('#team-store-toolbox .update-images').on('click', TeamStoreToolBox.update_images);
-        $('#team-store-toolbox .add-to-team-store').on('click', TeamStoreToolBox.add_to_team_store);
+        $('#team-store-toolbox .add-to-team-store').on('click', ub.funcs.initSaveDesign);
         $('#team-store-toolbox .view-product-page').on('click', TeamStoreToolBox.view_product_page);
         $('#team-store-toolbox .open-team-store-products').on('click', TeamStoreToolBox.open_products);
         $('#team-store-toolbox .close').on('click', TeamStoreToolBox.close);
@@ -59,13 +59,7 @@ var TeamStoreToolBox = {
      * Updates the team store product images
      */
     update_images: function(show_update_progress_modal) {
-        if (show_update_progress_modal) {
-            TeamStoreToolBox.progress_modal = bootbox.dialog({
-                title: 'Updating your product images',
-                message: '<p><i class="fa fa-spin fa-spinner"></i> preparing images...</p>'
-            });
-        }
-        // Set visibility of all perspectives
+       // Set visibility of all perspectives
         ub['front_view'].visible = true;
         ub['left_view'].visible = true;
         ub['right_view'].visible = true;
@@ -75,8 +69,6 @@ var TeamStoreToolBox = {
 
         setTimeout(function() {
             ub.funcs.updateTeamStoreImages();
-            $('.bootbox.modal .bootbox-body').html('Finished processing.');
-            $('.bootbox.modal').modal('hide');
         }, 3000);
     },
 
@@ -84,11 +76,7 @@ var TeamStoreToolBox = {
      * Wrapper method for the actual AJAX call to add product to team store
      */
     add_to_team_store: function(material_id) {
-        TeamStoreToolBox.progress_modal = bootbox.dialog({
-            title: 'Adding new product to your team store',
-            message: '<p><i class="fa fa-spin fa-spinner"></i> preparing images...</p>'
-        });
-        if (!material_id) {
+        if (!material_id || isNaN(material_id)) {
             material_id = ub.config.material_id;
         }
         TeamStoreToolBox.get_material(material_id);
@@ -99,24 +87,71 @@ var TeamStoreToolBox = {
         ub.utilities.getJSON(url,
             function(response) {
                 if (response.success) {
-                    response.material.pricing = JSON.parse(response.material.pricing);
-                    if (response.material.pricing) {
-                        // Adult Pricing
-                        if (response.material.pricing.adult_min_msrp) {
-                            response.material.price = response.material.pricing.adult_min_msrp;
+                    response.material.pricing_details = response.material.pricing;
+                    var materialOptionsURL = ub.config.api_host + '/api/materials_options/' + material_id;
+
+                    ub.utilities.getJSON(materialOptionsURL, function(materialOptionsResponse) {
+                        if (materialOptionsResponse.success) {
+                            var materialOptions = materialOptionsResponse.materials_options;
+                            var applicationProperties = [];
+
+                            Object.keys(materialOptions).forEach(function(key) {
+                                if (materialOptions[key].perspective == 'back' || materialOptions[key].perspective == 'front') {
+                                    if (materialOptions[key].applications_properties) {
+                                        var properties = materialOptions[key].applications_properties.slice(1, -1);
+                                        properties = JSON.parse(properties);
+                                        Object.keys(properties).forEach(function(key) {
+                                            applicationProperties.push(properties[key]);
+                                        });
+                                    }
+                                }
+                            });
+
+                            var hasPlayerName = applicationProperties.some(function(object) {
+                                return object.hasPlayerName === 1;
+                            });
+
+                            if (hasPlayerName) {
+                                response.material.has_jersey_name = 1;
+                            } else {
+                                response.material.has_jersey_name = 0;
+                            }
+
+                            var hasNumber = applicationProperties.some(function(object) {
+                                return object.hasNumber === 1;
+                            });
+
+                            if (hasNumber) {
+                                response.material.has_jersey_number = 1;
+                            } else {
+                                response.material.has_jersey_number = 0;
+                            }
                         }
-                        if (response.material.pricing.adult_min_web_price_sale) {
-                            response.material.price_sale = response.material.pricing.adult_min_web_price_sale;
+
+                        response.material.pricing = JSON.parse(response.material.pricing);
+                        if (response.material.pricing) {
+                            // Adult Pricing
+                            if (response.material.pricing.adult_min_msrp) {
+                                response.material.price = response.material.pricing.adult_min_msrp;
+                            }
+                            if (response.material.pricing.adult_min_web_price_sale) {
+                                response.material.price_sale = response.material.pricing.adult_min_web_price_sale;
+                            }
+                            // Youth Pricing
+                            if (response.material.pricing.youth_min_msrp) {
+                                response.material.price_youth = response.material.pricing.youth_min_msrp;
+                            }
+                            if (response.material.pricing.youth_min_web_price_sale) {
+                                response.material.price_youth_sale = response.material.pricing.youth_min_web_price_sale;
+                            }
+
+                            if (response.material.uniform_category) {
+                                response.material.uniform_category = response.material.uniform_category;
+                            }
                         }
-                        // Youth Pricing
-                        if (response.material.pricing.youth_min_msrp) {
-                            response.material.price_youth = response.material.pricing.youth_min_msrp;
-                        }
-                        if (response.material.pricing.youth_min_web_price_sale) {
-                            response.material.price_youth_sale = response.material.pricing.youth_min_web_price_sale;
-                        }
-                    }
-                    return TeamStoreToolBox.offer_product_to_team_store(response.material);
+
+                        return TeamStoreToolBox.offer_product_to_team_store(response.material);
+                    });
                 }
                 return false;
             }
@@ -176,10 +211,12 @@ var TeamStoreToolBox = {
             material_data,
             function(response) {
                 if (response.success) {
+
                     $('#team-store-toolbox').data('product-id', response.product.id);
                     TeamStoreToolBox.bind_product_id(ub.team_stores_material_id, response.product.id);
                     $('#team-store-toolbox .add-to-team-store').off('click');
                     $('#team-store-toolbox .add-to-team-store').addClass('disabled').removeClass('add-to-team-store');
+
                 }
             }
         );

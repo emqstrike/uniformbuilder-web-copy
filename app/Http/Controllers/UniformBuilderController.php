@@ -25,6 +25,7 @@ use Slack;
 use App\Utilities\StringUtility;
 use App\Traits\OwnsUniformDesign;
 use App\Traits\HandleTeamStoreConfiguration;
+use App\TeamStoreClient\UserTeamStoreClient;
 
 class UniformBuilderController extends Controller
 {
@@ -115,89 +116,27 @@ class UniformBuilderController extends Controller
             'render' => $render
         ];
 
-        // @param Store Code
-        $params['store_code'] = '';
-        if (isset($config['store_code']))
+        if (!Session::get('userHasTeamStoreAccount'))
         {
-            $params['store_code'] = $config['store_code'];
-            Log::info(__METHOD__ . ': Store Code = ' . $params['store_code']);
-        }
-        if (empty($params['store_code']))
-        {
-            $params['store_code'] = $this->getTeamStoreCode();
-            Log::info('STORE CODE: ' . $params['store_code']);
+            $encoded_data = $this->getTeamStoreRegistrationParams();
+            if (!is_null($encoded_data))
+            {
+                $credentials = $this->retrieveCredentials($encoded_data);
+
+                $client = new UserTeamStoreClient;
+                $email = Session::get('email');
+                $response = $client->team_store_login($email, $credentials);
+                $this->handleTeamStoreLogin(
+                    $response,
+                    null,
+                    Session::get('accessToken'),
+                    $credentials
+                );
+            }
         }
 
-        // @param Team Store USER ID
-        $params['team_store_user_id'] = $this->getTeamStoreUserId();
-
-        // @param Team Name
-        $params['team_name'] = '';
-        if (isset($config['team_name']))
-        {
-            $params['team_name'] = $config['team_name'];
-            Log::info(__METHOD__ . ': Team Name = ' . $params['team_name']);
-        }
-
-        // @param Team Colors - comma separated list
-        $params['team_colors'] = null;
-        $params['csv_team_colors'] = null;
-        if (isset($config['team_colors']))
-        {
-            $params['csv_team_colors'] = $config['team_colors'];
-            $color_array = StringUtility::strToArray($config['team_colors']);
-            $color_array = StringUtility::surroundElementsDQ($color_array);
-            $params['team_colors'] = implode(',', $color_array);
-            Log::info(__METHOD__ . ': Team Colors = ' . $params['team_colors']);
-        }
-
-        // @param Jersey Name
-        $params['jersey_name'] = '';
-        if (isset($config['jersey_name']))
-        {
-            $params['jersey_name'] = $config['jersey_name'];
-            Log::info(__METHOD__ . ': Jersey Name = ' . $params['jersey_name']);
-        }
-
-        // @param Jersey Number
-        $params['jersey_number'] = '';
-        if (isset($config['jersey_number']))
-        {
-            $params['jersey_number'] = $config['jersey_number'];
-            Log::info(__METHOD__ . ': Jersey Number = ' . $params['jersey_number']);
-        }
-
-        // @param Mascot ID
-        $params['mascot_id'] = '';
-        if (isset($config['mascot_id']))
-        {
-            $params['mascot_id'] = $config['mascot_id'];
-            Log::info(__METHOD__ . ': Mascot ID = ' . $params['mascot_id']);
-        }
-
-        // @param Save Rendered image
-        $params['save_rendered'] = '';
-        if (isset($config['save_rendered']))
-        {
-            $params['save_rendered'] = $config['save_rendered'];
-            Log::info(__METHOD__ . ': Save Rendered Image = ' . $params['save_rendered']);
-        }
-
-        // @param Save Rendered image
-        $params['save_rendered_timeout'] = null;
-        if (isset($config['save_rendered_timeout']))
-        {
-            $params['save_rendered_timeout'] = $config['save_rendered_timeout'];
-            Log::info(__METHOD__ . ': Seconds timeout before rendering = ' . $params['save_rendered_timeout']);
-        }
-
-        // @param Team Store Product ID
-        $params['product_id'] = null;
-        if (isset($config['product_id']))
-        {
-            $params['product_id'] = $config['product_id'];
-            Log::info(__METHOD__ . ': Team Store Product ID = ' . $params['product_id']);
-        }
+        // Handle Team Store configuration
+        $this->handleConfiguration($params, $config);
 
         $params['builder_customizations'] = null;
         $params['order'] = null;

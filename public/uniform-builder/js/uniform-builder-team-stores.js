@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-     ub.funcs.getColorObjByPosition = function (teamColorID) {
+    ub.funcs.getColorObjByPosition = function (teamColorID) {
 
         var _color = ub.team_colors[parseInt(teamColorID) - 1] // Team Color ID is starts with 1 instead of being zero-based
         var _colorObj = undefined;
