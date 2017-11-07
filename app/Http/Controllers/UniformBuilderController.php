@@ -1517,7 +1517,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateItemTable ($itemData, $fname, $mainInfo) {
+    function generateItemTable ($itemData, $fname, $mainInfo, $material_id) {
 
         $styleURL = '<a href="' . $itemData["url"]  . '"><strong>BUILDER URL</strong></a>';
         $pdfURL   = '<a href="' . env("WEBSITE_URL") . $fname . '"><strong>PDF URL</strong></a>';
@@ -1533,7 +1533,7 @@ class UniformBuilderController extends Controller
         $html .= '<tr>';
         $html .=     '<td width="100%" style="font-size: 1.0em;">';
         $html .=       'STYLE<br />'; 
-        $html .=       '<strong>' . $itemData["description"] . ' (' . $itemData["applicationType"]  .') </strong><br />';
+        $html .=       '<strong>#' .  $material_id  . ', ' . $itemData["description"] . ' (' . $itemData["applicationType"]  .')</strong><br />';
         $html .=       '<strong>' .  $itemData["sku"]  . '</strong><br />';
         $html .=     '</td>';
         $html .= '</tr>';
@@ -1666,7 +1666,7 @@ class UniformBuilderController extends Controller
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
         $html .=     '<td>';
-        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo);
+        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo, $firstOrderItem['material_id']);
         $html .=     '</td>';
         $html .=     '</tr>';
         $html .=   '</table>';
