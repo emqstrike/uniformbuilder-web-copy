@@ -1621,6 +1621,18 @@
                         <td>@{{sport}}</td>
                         <td>
                             <strong>@{{name}}</strong><br /><em>@{{notes}}</em>
+                            <br>
+                            @{{ #product_id }}
+                                Product ID: <strong>@{{ product_id }}</strong>
+                                <a href="{{ env('TEAM_STORE_BASE_URL') . '/visit-product-by-code/' }}@{{ store_code }}/@{{ product_id }}"
+                                target="_blank" style="text-decoration: none">
+                                Open on Team Store
+                                </a>
+                            @{{ /product_id}}
+                            <br>
+                            @{{ #store_code }}
+                                Store Code: <strong>@{{ store_code }}</strong>
+                            @{{ /store_code}}
                         </td>                        
                         <td>
                         

@@ -2376,10 +2376,11 @@ $(document).ready(function() {
                         if (typeof($('#is_add_to_team_store').val()) == "undefined") {
                             is_add_to_team_store = false;
                         } else {
-                            if ($('#is_add_to_team_store:checked').length == "on") {
+                            if ($('#is_add_to_team_store:checked').length) {
                                 is_add_to_team_store = true;
                             }
                         }
+
                         if (is_add_to_team_store) {
                             // Make ID available globally; TeamStoreToolBox.js needs this var
                             ub.team_stores_material_id = response.team_stores_material_id;
