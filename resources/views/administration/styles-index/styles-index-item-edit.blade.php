@@ -115,7 +115,7 @@ li.select2-selection__choice {
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Information
                                 </button>
-                                <a href="/administration/style_index/items/{{$style_index_id}}" class="btn btn-danger">
+                                <a href="/administration/styles_index/items/{{$style_index_id}}" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
