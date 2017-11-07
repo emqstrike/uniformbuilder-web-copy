@@ -25,7 +25,7 @@ li.select2-selection__choice {
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-info">
-                <div class="panel-heading"><h4>Add New Styles Index</h4></div>
+                <div class="panel-heading"><h4>Add New Styles Index Item</h4></div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -38,9 +38,9 @@ li.select2-selection__choice {
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="/administration/styles_index/add" enctype="multipart/form-data" id='styles_indexes_form'>
+                    <form class="form-horizontal" role="form" method="POST" action="/administration/style_index_item/add" enctype="multipart/form-data" id='styles_indexes_form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="style_index_id">                        
+                        <input type="hidden" name="style_index_id" value="{{ $style_index_id }}">                        
                                            
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
@@ -107,11 +107,11 @@ li.select2-selection__choice {
                         </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary create-styles-index">
+                                <button type="submit" class="btn btn-primary create-styles-index-item">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Add Styles Index
+                                    Add Style Index Item
                                 </button>
-                                <a href="/administration/styles_indexes" class="btn btn-danger">
+                                <a href="/administration/styles_index/items/{{ $style_index_id }}" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>

@@ -70,7 +70,7 @@ class StylesIndexesController extends Controller
             'description' => $description,            
             'gender' => $gender           
         ];        
-
+        // dd($data);
         $folder_name = "styles_indexes";
 
         // Upload Thumbnail

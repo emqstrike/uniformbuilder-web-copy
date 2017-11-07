@@ -11,16 +11,16 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3>Style Index Items of</h3>
+                    <h3>Style Index Items of {{ $style_indexes->name }}</h3>
                     <a href="/administration/styles_indexes" class='btn btn-sm btn-default back'>
                         Back
                     </a>
-                    <a href="/administration/style_index_item/add" class='btn btn-sm btn-default styles-index-item-add'>
+                    <a href="/administration/style_index_item/add/{{$style_index_id}} " class='btn btn-sm btn-default styles-index-item-add'>
                         <span class="glyphicon glyphicon-plus"></span> Add
                     </a>
                 </div>
                 <div class="box-body">
-                    <table class='data-table table table-bordered table-striped table-hover col-lg-8' id='styles_indexes_table'>
+                    <table class='data-table table table-bordered table-striped table-hover col-lg-8' id='style_index_item_table'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -37,7 +37,7 @@
                     </thead>
                     <tbody>
                     @forelse ($style_index_items as $item)
-                        <tr class='styles-index-{{ $item->id }}'>
+                        <tr class='styles-index-item-{{ $item->id }}'>
                             <td>
                                {{$item->id}}
                             </td>
@@ -51,19 +51,28 @@
                                 {{$item->alias}} 
                             </td>
                             <td>                              
+                                {{$item->sport_name}} 
+                            </td>
+                            <td>
+                                {{$item->block_pattern}} 
+                            </td>
+                            <td>
+                                {{$item->neck_option}} 
+                            </td>
+                            <td>
                                 {{$item->description}} 
                             </td>
                             <td>                              
                                {{$item->gender}}
                             </td>
                             <td class="td-buttons">
-                                <a href="/administration/styles_index/items/{{$item->id}}" class="view-styles-index-items btn btn-default btn-xs">
+                            <!--     <a href="/administration/styles_index/items/{{$item->id}}" class="view-styles-index-items btn btn-default btn-xs">
                                     <i class="fa fa-info-circle" aria-hidden="true"> View Items</i>
-                                </a>                             
-                                <a href="/administration/styles_index/edit/{{$item->id}}" class="edit-styles-index btn btn-info btn-xs">
+                                </a>  -->                            
+                                <a href="/administration/style_index_item/edit/{{$style_index_id}}/{{$item->id}}" class="edit-styles-index-item btn btn-info btn-xs">
                                     <i class="glyphicon glyphicon-edit"> Edit</i>
                                 </a>
-                                <a href="#" class="delete-styles-index btn btn-xs btn-danger" data-styles-index-id="{{ $item->id }}" role="button">
+                                <a href="#" class="delete-style-index-item btn btn-xs btn-danger" data-style-index-item-id="{{ $item->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"> Remove</i>
                                 </a>
                                 
@@ -118,17 +127,17 @@ $(document).ready(function(){
     win.focus();
     }
     
-    $('#styles_indexes_table').on('click', '.delete-styles-index', function(){
+    $('#style_index_item_table').on('click', '.delete-style-index-item', function(){
        var id = [];
-       id.push( $(this).data('styles-index-id'));
+       id.push( $(this).data('style-index-item-id'));
        console.log(id);
-       modalConfirm('Remove Styles Index', 'Are you sure you want to delete the styles index?', id);
+       modalConfirm('Remove Style Index Item', 'Are you sure you want to delete the style index item?', id);
    });
 
    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/v1-0/style_index/delete";
-       
+        console.log('clicked');
+        var url = "//" + api_host + "/api/v1-0/style_index_item/delete";       
         $.ajax({
            url: url,
            type: "POST",
@@ -148,7 +157,7 @@ $(document).ready(function(){
                    $('#confirmation-modal').modal('hide');
                   $.each(id, function (index, value) {
                      console.log(value);
-                     $('.styles-index-' + value).fadeOut();
+                     $('.styles-index-item-' + value).fadeOut();
                      // Will stop running after "three"
                      
                    });              

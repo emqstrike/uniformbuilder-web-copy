@@ -445,7 +445,10 @@ Route::group(array('prefix' => 'administration'), function() {
 
     //Styles Index Items
     Route::get('/styles_index/items/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@getByStyleID']);
-    Route::get('/style_index_item/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@create']);
+    Route::get('/style_index_item/add/{style_index_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@create']);
+    Route::post('style_index_item/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@store']);
+    Route::get('style_index_item/edit/{style_index_id}/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@edit']);
+    Route::post('style_index_item/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@store']);
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

@@ -21,18 +21,18 @@ class StyleIndexItemsAPIClient extends APIClient
         return $styles_indexes;        
     }
 
-    public function createStyleIndex($data)
+    public function createStyleIndexItem($data)
     {
-        $response = $this->post(env('ENDPOINT_VERSION','v1-0').'/styles_index', [
+        $response = $this->post(env('ENDPOINT_VERSION','v1-0').'/style_index_item', [
             'json' => $data
         ]);      
         return $this->decoder->decode($response->getBody());
         
     }
 
-    public function updateStyleIndex($data)
+    public function updateStyleIndexItem($data)
     {
-        $response = $this->post(env('ENDPOINT_VERSION','v1-0').'/style_index/update', [
+        $response = $this->post(env('ENDPOINT_VERSION','v1-0').'/style_index_item/update', [
             'json' => $data
         ]);
         return $this->decoder->decode($response->getBody());
@@ -40,13 +40,13 @@ class StyleIndexItemsAPIClient extends APIClient
     
     public function show($id)
     {
-        $response = $this->get(env('ENDPOINT_VERSION','v1-0').'/style_index/' . $id);
+        $response = $this->get(env('ENDPOINT_VERSION','v1-0').'/style_index_item/' . $id);
         $result = $this->decoder->decode($response->getBody());
         
         if ($result->success)
         {
-            $styles_indexes = $result->style_index;
-            return $styles_indexes;
+            $style_index_item = $result->style_index_item;
+            return $style_index_item;
         }
         return null;
     }
@@ -58,8 +58,8 @@ class StyleIndexItemsAPIClient extends APIClient
         
         if ($result->success)
         {
-            $styles_indexes = $result->style_index_item;
-            return $styles_indexes;
+            $style_index_item = $result->style_index_item;
+            return $style_index_item;
         }
         return null;
     }

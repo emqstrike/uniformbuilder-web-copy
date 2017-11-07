@@ -14,6 +14,7 @@ use App\Utilities\FileUploaderV2;
 use App\Http\Controllers\Controller;
 use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\UniformCategoriesAPIClient;
+use App\APIClients\StylesIndexesAPIClient;
 use App\APIClients\StyleIndexItemsAPIClient as APIClient;
 
 class StyleIndexItemsController extends Controller
@@ -21,16 +22,19 @@ class StyleIndexItemsController extends Controller
     protected $client;
     protected $blockPatternClient;
     protected $uniformCategoriesClient;
+    protected $stylesIndexesClient;
 
     public function __construct(
         APIClient $apiClient,
         BlockPatternsAPIClient $blockPatternsAPIClient,
-        UniformCategoriesAPIClient $uniformCategoriesClient  
+        UniformCategoriesAPIClient $uniformCategoriesClient,
+        StylesIndexesAPIClient  $stylesIndexesClient
     )
     {
         $this->client = $apiClient;
         $this->blockPatternClient = $blockPatternsAPIClient;
         $this->uniformCategoriesClient = $uniformCategoriesClient;    
+        $this->stylesIndexesClient = $stylesIndexesClient;    
     }
     /**
      * Display a listing of the resource.
@@ -45,9 +49,11 @@ class StyleIndexItemsController extends Controller
     public function getByStyleID($id)
     {
         $style_index_items = $this->client->getByStyleID($id);
-
+        $style_indexes = $this->stylesIndexesClient->show($id);         
         return view('administration.styles-index.styles-index-items', [
-            'style_index_items' => $style_index_items
+            'style_index_items' => $style_index_items,
+            'style_index_id' => $id,
+            'style_indexes' => $style_indexes
         ]);
     }
     /**
@@ -55,13 +61,14 @@ class StyleIndexItemsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($style_index_id)
     {   
         $sports = $this->uniformCategoriesClient->getUniformCategories();
-        $block_patterns = $this->blockPatternClient->getBlockPatterns();  
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();      
         return view('administration.styles-index.styles-index-items-create', [
             'block_patterns' => $block_patterns,
-            'sports' => $sports
+            'sports' => $sports,
+            'style_index_id' => $style_index_id            
         ]);
     }
 
@@ -74,15 +81,32 @@ class StyleIndexItemsController extends Controller
     public function store(Request $request)
     {
         $id = $request->input('id');
+        $style_index_id = $request->input('style_index_id');
         $name = $request->input('name');       
         $alias = $request->input('alias');
+        $uniform_category = $request->input('uniform_category_id');        
+        if( $request->input('block_pattern_value') ){
+            $block_pattern = explode(",", $request->input('block_pattern_value'));
+        } else {
+            $block_pattern = "";
+        }
+        if( $request->input('neck_option_value') ){
+            $neck_option = explode(",", $request->input('neck_option_value'));
+        } else {
+            $neck_option = "";
+        }
+
         $description = $request->input('description');
         $gender = $request->input('gender');
 
         $data = [
             'id' => $id,
+            'style_index_id' => $style_index_id,
             'name' => $name,
             'alias' => $alias,
+            'uniform_category' => $uniform_category,
+            'block_pattern' => $block_pattern,
+            'neck_option' => $neck_option,
             'description' => $description,            
             'gender' => $gender           
         ];        
@@ -99,31 +123,31 @@ class StyleIndexItemsController extends Controller
                 }
             }
         } catch (S3Exception $e) {
-            $message = $e->getMessage();
-            return Redirect::to('/administration/styles_indexes')->with('message', 'There was a problem uploading your files');
+            $message = $e-> getMessage();
+            return Redirect::to('/administration/styles_index/items/'.$style_index_id)->with('message', 'There was a problem uploading your files');
         } 
    
         $response=null;
         if (!empty($id))
         {
             Log::info('Attempts to update Styles Index#' . $id);
-            $response = $this->client->updateStyleIndex($data);
+            $response = $this->client->updateStyleIndexItem($data);
         }
         else
         {            
             Log::info('Attempts to create a new Styles Index ' . json_encode($data));
-            $response = $this->client->createStyleIndex($data);
+            $response = $this->client->createStyleIndexItem($data);
         }
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('/administration/styles_indexes')
+            return Redirect::to('/administration/styles_index/items/'.$style_index_id)
                             ->with('message', $response->message);
         }
         else
         {
             Log::info('Failed');
-            return Redirect::to('/administration/styles_indexes')
+            return Redirect::to('/administration/styles_index/items/' .$style_index_id)
                             ->with('message', 'There was a problem saving.');
         }
     }
@@ -145,10 +169,14 @@ class StyleIndexItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($style_index_id, $id)
     {
-        $styles_indexes = $this->client->show($id);                  
-        return view('administration.styles-index.styles-index-edit', compact('styles_indexes'));
+        $style_index_id = $style_index_id;
+        $style_index_item = $this->client->show($id); 
+        $sports = $this->uniformCategoriesClient->getUniformCategories();
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();   
+
+        return view('administration.styles-index.styles-index-item-edit', compact('style_index_item', 'style_index_id', 'sports', 'block_patterns'));
     }
 
     /**
