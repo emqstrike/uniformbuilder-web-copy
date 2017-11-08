@@ -5864,16 +5864,16 @@ $(document).ready(function() {
 
     ub.funcs.hidePanelHandler = function () {
 
-        $('div.options_panel_section, div.body, div.header').unbind('mousedown');
-        $('div.options_panel_section, div.body, div.header').on('mousedown', function (e) {
+        // $('div.options_panel_section, div.body, div.header').unbind('mousedown');
+        // $('div.options_panel_section, div.body, div.header').on('mousedown', function (e) {
 
-           ub.funcs.hideVisiblePopups();
+        //    ub.funcs.hideVisiblePopups();
            
-        }).on('mousedown','div.slider-container',function(e) {
+        // }).on('mousedown','div.slider-container',function(e) {
 
-            e.stopPropagation();
+        //     e.stopPropagation();
 
-        });
+        // });
 
     }
 
@@ -5885,8 +5885,8 @@ $(document).ready(function() {
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
         var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
 
-        $('div.slider-container').hide();
-        $('div.slider-container.scale').show();
+        // $('div.slider-container').hide();
+        // $('div.slider-container.scale').show();
 
         var softSlider = document.getElementById('scale-slider');
         if (typeof softSlider.noUiSlider === "object") { 
@@ -5929,16 +5929,21 @@ $(document).ready(function() {
 
         _startX = _startX / ub.dimensions.width * 100;
 
-        $('div.slider-container').hide();
-        $('div.slider-container.move').show();
+        // $('div.slider-container').hide();
+        // $('div.slider-container.move').show();
 
+        console.log('1')
         var softSliderX = document.getElementById('move-slider-x');
+
         if (typeof softSliderX.noUiSlider === "object") { 
 
+            console.log('1.5')
             softSliderX.noUiSlider.set(_startX);
             return; 
 
         }
+
+        console.log('2')
 
         noUiSlider.create(softSliderX, {
             start: _startX,
@@ -5992,7 +5997,7 @@ $(document).ready(function() {
 
         });
         
-        ub.funcs.hidePanelHandler();
+        //ub.funcs.hidePanelHandler();
 
     }
 
@@ -6004,8 +6009,8 @@ $(document).ready(function() {
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
         var _start = ub.objects[_v + '_view']['objects_' + _settingsObject.code].rotation;
 
-        $('div.slider-container').hide();
-        $('div.slider-container.rotate').show();
+        // $('div.slider-container').hide();
+        // $('div.slider-container.rotate').show();
 
         // var softSlider = document.getElementById('rotate-slider');
         // if (typeof softSlider.noUiSlider === "object") { 
@@ -6037,8 +6042,8 @@ $(document).ready(function() {
         $("#rotate-slider").roundSlider({
             sliderType: "min-range",
             handleShape: "round",
-            width: 22,
-            radius: 100,
+            width: 15,
+            radius: 70,
             value: _start,
             startAngle: 90,
 
@@ -6050,7 +6055,7 @@ $(document).ready(function() {
 
         });
         
-        ub.funcs.hidePanelHandler();
+        //ub.funcs.hidePanelHandler();
 
     }
 
@@ -6111,7 +6116,7 @@ $(document).ready(function() {
         if (ub.funcs.isFreeFormToolEnabled(_id)) {
 
             var _v = ub.funcs.getPrimaryView(settingsObject.application);
-            
+
             /// Rotate
 
             var _start = ub.objects[_v + '_view']['objects_' + settingsObject.code].rotation;
@@ -6123,7 +6128,7 @@ $(document).ready(function() {
             
             _additionalClass = '';    
             _htmlBuilder    += '<span class="applicationLabels font_size custom rotate ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/rotate-caption.png'>" + '<span class="custom_text rotate">' + _start + '</span>°' + '</span>';
-            _htmlBuilder    += '<div class="slider-container rotate"><div id="rotate-slider"></div></div>';
+            _htmlBuilder    += '<div class="slider-container rotate"><div id="rotate-slider-old"></div></div>';
 
             /// Move
             
@@ -6140,7 +6145,7 @@ $(document).ready(function() {
             
             _additionalClass = '';    
             _htmlBuilder    += '<span class="applicationLabels font_size custom move' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/move-caption.png'>" + '<span class="custom_text move">' + _start + '</span>' + '</span>';
-            _htmlBuilder    += '<div class="slider-container move"><div id="move-slider-x" class="move x"></div><div id="move-slider-y" class="move y"></div></div>';
+            _htmlBuilder    += '<div class="slider-container move"><div id="move-slider-x-old" class="move x"></div><div id="move-slider-y-old" class="move y"></div></div>';
 
             /// Scale
 
@@ -6153,7 +6158,7 @@ $(document).ready(function() {
             
             _additionalClass = '';    
             _htmlBuilder    += '<span class="applicationLabels font_size custom scale ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text scale">' + _start + '</span>%' + '</span>';
-            _htmlBuilder    += '<div class="slider-container scale"><div id="scale-slider"></div></div>';
+            _htmlBuilder    += '<div class="slider-container scale"><div id="scale-slider-old"></div></div>';
 
         }
 
@@ -7832,6 +7837,38 @@ $(document).ready(function() {
     }
 
 
+    ub.funcs.setupManipulatorEvents = function (settingsObject, _applicationType) {
+
+        $('ul.tab-navs > li.tab').unbind('click');
+        $('ul.tab-navs > li.tab').on('click', function () {
+
+            var _action = $(this).data('action');
+
+            $('ul.tab-navs > li.tab').removeClass('active');
+            $(this).addClass('active');
+
+            console.log('Action: ' + _action);
+
+            $('div.manipulator-type-container').hide();
+            $('div.manipulator-type-container[data-type="' + _action + '"]').show();
+
+            if(_action === "move") {
+                ub.funcs.initializeMovePanel(settingsObject, _applicationType);
+            }
+
+            if(_action === "rotate") {
+                ub.funcs.initializeRotatePanel(settingsObject, _applicationType);
+            }
+
+            if(_action === "scale") {
+                ub.funcs.initializeScalePanel(settingsObject, _applicationType);
+            }
+
+        });        
+        
+    }
+
+
     ub.funcs.setupTextSmallColorPickerEvents = function (_settingsObject) {
 
         $('span.colorItem[data-object-type="accent"]').unbind('click');
@@ -7868,7 +7905,20 @@ $(document).ready(function() {
 
         });
 
-     }
+    }
+
+    ub.funcs.updateManipulatorsPanel = function (settingsObj) {
+
+        var _templateStr = '';
+
+        _templateStr = ub.utilities.buildTemplateString("#m-manipulator-panel", {
+            x: '1',
+            y: '2',
+        });
+
+        return _templateStr;
+
+    }
 
     ub.funcs.activateApplications = function (application_id) {
 
@@ -7887,9 +7937,7 @@ $(document).ready(function() {
 
             var _marker = _.find(ub.data.markerBitField, {value: true});
 
-            if (_marker.code.toString() !== application_id.toString()) {
-                return;     
-            }
+            if (_marker.code.toString() !== application_id.toString()) { return; }
 
         }
 
@@ -8086,6 +8134,7 @@ $(document).ready(function() {
         _htmlBuilder        +=          '<div class="color-pattern-tabs">';
         _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span>';
         _htmlBuilder        +=              '<span class="tab" data-item="patterns">Patterns</span>';
+        _htmlBuilder        +=              '<span class="tab" data-item="manipulators">Measurements</span>';
 
         if(ub.funcs.isCurrentSport('Baseball')) {
 
@@ -8190,11 +8239,17 @@ $(document).ready(function() {
         var _templateStr   = '';
         var _patternObject = _settingsObject.pattern_obj;
         
-        _templateStr        = ub.funcs.updateTextPatternPanel(_patternObject);
+        _templateStr                = ub.funcs.updateTextPatternPanel(_patternObject);
+        _templateStrManipulators    = ub.funcs.updateManipulatorsPanel(_settingsObject);
         
         _htmlBuilder        +=                  '<div class="column1 applications patterns">';
         _htmlBuilder        +=                      _templateStr;
         _htmlBuilder        +=                  '</div>';
+
+        _htmlBuilder        +=                  '<div class="column1 applications manipulators">';
+        _htmlBuilder        +=                      _templateStrManipulators;
+        _htmlBuilder        +=                  '</div>';
+
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
@@ -8216,6 +8271,11 @@ $(document).ready(function() {
 
             /// End Application Pattern Events
 
+            /// Application Manipulator Events
+
+                ub.funcs.setupManipulatorEvents(_settingsObject, _applicationType);
+
+            /// End Application Manipulator Events
 
             /// Tail sweep size Event 
 
@@ -8256,14 +8316,14 @@ $(document).ready(function() {
                 $('div.column1').hide();
                 $('div.column1.' + _item).fadeIn();
 
-                if ($(this).data('item') === "patterns") {
-
+                if (_item === "patterns") {
                    if (typeof _settingsObject.pattern !== "undefined") {
-
                         $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
-
                     }
+                }
 
+                if (_item === "manipulators") {
+                    $('ul.tab-navs > li.tab[data-action="move"]').trigger('click');
                 }
 
             });
@@ -8501,8 +8561,7 @@ $(document).ready(function() {
                     
                 });
 
-
-            // End Font Left and Right 
+            // End Font Left and Right
 
             $('span.font_size').on('click', function () {
 
@@ -8517,21 +8576,33 @@ $(document).ready(function() {
                 
                 if (_isCustom && _isScale) {
 
-                    ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
+                    // ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
+
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.scale').trigger('click');
+
                     return;
 
                 }
 
                 if (_isCustom && _isMove) {
 
-                    ub.funcs.initializeMovePanel(_settingsObject, _applicationType);
+                    // ub.funcs.initializeMovePanel(_settingsObject, _applicationType);
+
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.move').trigger('click');
+
                     return;
 
                 }
 
                 if (_isCustom && _isRotate) {
 
-                    ub.funcs.initializeRotatePanel(_settingsObject, _applicationType);
+                    // ub.funcs.initializeRotatePanel(_settingsObject, _applicationType);
+
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.rotate').trigger('click');
+
                     return;
 
                 }

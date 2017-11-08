@@ -2991,18 +2991,48 @@
         </div>
 
     </script>
-    
-
 
 <!-- End Embellishment Sidebar -->
 
 <!-- Embellishment Preview -->
 
-    
-
 <!-- End Embellishment Preview -->
 
+<!-- Manipulator Panels -->
 
+    <script type="text/mustache" id="m-manipulator-panel">
 
+        <div class="manipulator-container">
+
+            <ul class="tab-navs">
+                <li class="tab rotate" data-action="rotate">Rotate</li>
+                <li class="tab move" data-action="move">Move</li>
+                <li class="tab scale" data-action="scale">Scale</li>
+                <li class="tab scale" data-action="close">
+                    <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                </li>
+            </ul>
+            
+            <div class="containers">
+                
+                <div class="manipulator-type-container move" data-type="move"> 
+                    <div class="sc move"><div id="move-slider-x" class="move x"></div><div id="move-slider-y" class="move y"></div></div>
+                </div>
+
+                <div class="manipulator-type-container rotate" data-type="rotate">
+                    <div class="sc rotate"><div id="rotate-slider"></div></div>
+                </div>
+
+                <div class="manipulator-type-container scale" data-type="scale">
+                    <div class="sc scale"><div id="scale-slider"></div></div>
+                </div>
+
+            </div>
+            
+        </div>
+
+    </script>
+
+<!-- End Manipulator Panels -->
 
 @include('partials.controls.team-store-products-picker')
