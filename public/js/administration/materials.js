@@ -3728,7 +3728,7 @@ function accentMascotSelect(data,accentMascot,rowIndex){
         var material_prop = $('#material_props_data').text();
         var url = "//" + api_host + "/api/block_pattern/update";
         var data = JSON.stringify({id: bp_id, material_reference_properties: material_prop});
-        console.log(data);
+        // console.log(data);
          $.ajax({
                url: url,
                type: "POST",
