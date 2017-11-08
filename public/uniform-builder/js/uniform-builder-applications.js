@@ -6043,7 +6043,7 @@ $(document).ready(function() {
             sliderType: "min-range",
             handleShape: "round",
             width: 15,
-            radius: 70,
+            radius: 85,
             value: _start,
             startAngle: 90,
 
@@ -6244,6 +6244,12 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.isSublimated = function () {
+
+        return ub.config.uniform_application_type === "sublimated";
+
+    }
+
     ub.funcs.activateMascots = function (application_id) {
 
         if (ub.funcs.popupsVisible()) { return; }
@@ -6438,20 +6444,24 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
+        _htmlBuilder        +=          '<div class="color-pattern-tabs">';
+        _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span>';
+        _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';   
+        _htmlBuilder        +=          '</div>';
+
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1">'
+
+        _htmlBuilder        +=              '<div class="column1 applications colors">'
 
         _htmlBuilder        +=              '<div class="sub1">';
         _htmlBuilder        +=                  '<br />';        
         _htmlBuilder        +=                  '<span class="accentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
         _htmlBuilder        +=                  '<span class="accent">' + _mascotName + '</span>';  
-        _htmlBuilder        +=                  '<br />';        
+        _htmlBuilder        +=                  '<br />';
 
         if (_settingsObject.mascot.name === 'Custom Logo') {
-
             _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
             _htmlBuilder        +=                  '<br /><br />';
-
         }
 
         _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';  
@@ -6517,6 +6527,13 @@ $(document).ready(function() {
 
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
+
+        _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+
+        _htmlBuilder        +=              '<div class="column1 applications manipulators">';
+        _htmlBuilder        +=                  _templateStrManipulators;
+        _htmlBuilder        +=              '</div>';
+
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
         _htmlBuilder        +=  '</div>';
@@ -6578,6 +6595,32 @@ $(document).ready(function() {
                 } 
 
             }
+
+            /// Application Manipulator Events
+
+                ub.funcs.setupManipulatorEvents(_settingsObject, _applicationType);
+
+            /// End Application Manipulator Events
+
+            /// Tabs
+
+                $('div.color-pattern-tabs > span.tab').unbind('click');
+                $('div.color-pattern-tabs > span.tab').on('click', function () {
+
+                    var _item = $(this).data('item');
+
+                    $('div.color-pattern-tabs > span.tab').removeClass('active');
+                    $(this).addClass('active');
+                    $('div.column1').hide();
+                    $('div.column1.' + _item).fadeIn();
+
+                    if (_item === "manipulators") {
+                        $('ul.tab-navs > li.tab[data-action="move"]').trigger('click');
+                    }
+
+                });
+
+            /// End Tabs
 
             $('span.inPlacePreviewButton').unbind('click');
             $('span.inPlacePreviewButton').on('click', function (){
@@ -6760,7 +6803,7 @@ $(document).ready(function() {
                 ub.funcs.toggleApplication(_matchingID.toString(), _status); 
 
             }
- 
+
             $('span.font_size').on('click', function () {
 
                 //if (_id === '4') { return; }
@@ -6776,21 +6819,30 @@ $(document).ready(function() {
                 
                 if (_isCustom && _isScale) {
 
-                    ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
+                    $('div.color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.scale').trigger('click');
+                    
                     return;
 
                 }
 
                 if (_isCustom && _isMove) {
 
-                    ub.funcs.initializeMovePanel(_settingsObject, _applicationType);
+                    $('color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.move').trigger('click');
+
                     return;
 
                 }
 
                 if (_isCustom && _isRotate) {
 
-                    ub.funcs.initializeRotatePanel(_settingsObject, _applicationType);
+                    $('color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.rotate').trigger('click');
+
                     return;
 
                 }
@@ -7847,21 +7899,29 @@ $(document).ready(function() {
             $('ul.tab-navs > li.tab').removeClass('active');
             $(this).addClass('active');
 
-            console.log('Action: ' + _action);
-
             $('div.manipulator-type-container').hide();
             $('div.manipulator-type-container[data-type="' + _action + '"]').show();
 
             if(_action === "move") {
+                $('div.color-pattern-tabs').hide();
                 ub.funcs.initializeMovePanel(settingsObject, _applicationType);
             }
 
             if(_action === "rotate") {
+                $('div.color-pattern-tabs').hide();
                 ub.funcs.initializeRotatePanel(settingsObject, _applicationType);
             }
 
             if(_action === "scale") {
+                $('div.color-pattern-tabs').hide();
                 ub.funcs.initializeScalePanel(settingsObject, _applicationType);
+            }
+
+            if (_action === "close") {
+                $('.colorContainer.embellishment-buttons-container').show();
+                $('span.font_size').removeClass('active');
+                $('div.color-pattern-tabs').show();
+                $('span.tab[data-item="colors"]').trigger('click');
             }
 
         });        
@@ -7910,12 +7970,7 @@ $(document).ready(function() {
     ub.funcs.updateManipulatorsPanel = function (settingsObj) {
 
         var _templateStr = '';
-
-        _templateStr = ub.utilities.buildTemplateString("#m-manipulator-panel", {
-            x: '1',
-            y: '2',
-        });
-
+        _templateStr = ub.utilities.buildTemplateString("#m-manipulator-panel", {});
         return _templateStr;
 
     }
@@ -8134,7 +8189,7 @@ $(document).ready(function() {
         _htmlBuilder        +=          '<div class="color-pattern-tabs">';
         _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span>';
         _htmlBuilder        +=              '<span class="tab" data-item="patterns">Patterns</span>';
-        _htmlBuilder        +=              '<span class="tab" data-item="manipulators">Measurements</span>';
+        _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';
 
         if(ub.funcs.isCurrentSport('Baseball')) {
 
@@ -8492,10 +8547,8 @@ $(document).ready(function() {
                 });
 
                 $('div.closeApplicationChanger').on('click', function () {
-
                     $('div#changeApplicationUI').hide().data('status', 'hidden');
                     $('div.applicationType').removeClass('toggledApplicationType');
-
                 });
 
             });
@@ -8565,19 +8618,26 @@ $(document).ready(function() {
 
             $('span.font_size').on('click', function () {
 
-                var _selectedSize = $(this).data('size');
-                $('.font_size').removeClass('active');
-                $(this).addClass('active');
+                // If already active, trigger turn off instead
+                if(ub.funcs.isSublimated()) {
+                    if ($(this).hasClass('active')) {
+                        $('ul.tab-navs > li.tab.close').trigger('click');
+                        return;
+                    }
+                }
 
+                var _selectedSize = $(this).data('size');
                 var _isCustom = $(this).hasClass('custom');
                 var _isScale = $(this).hasClass('scale');
                 var _isRotate = $(this).hasClass('rotate');
                 var _isMove = $(this).hasClass('move');
+
+                $('.font_size').removeClass('active');
+                $(this).addClass('active');
                 
                 if (_isCustom && _isScale) {
 
-                    // ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
-
+                    $('color-pattern-tabs').hide();
                     $('span.tab[data-item="manipulators"]').trigger('click');
                     $('li.tab.scale').trigger('click');
 
@@ -8587,8 +8647,7 @@ $(document).ready(function() {
 
                 if (_isCustom && _isMove) {
 
-                    // ub.funcs.initializeMovePanel(_settingsObject, _applicationType);
-
+                    $('color-pattern-tabs').hide();
                     $('span.tab[data-item="manipulators"]').trigger('click');
                     $('li.tab.move').trigger('click');
 
@@ -8598,8 +8657,7 @@ $(document).ready(function() {
 
                 if (_isCustom && _isRotate) {
 
-                    // ub.funcs.initializeRotatePanel(_settingsObject, _applicationType);
-
+                    $('color-pattern-tabs').hide();
                     $('span.tab[data-item="manipulators"]').trigger('click');
                     $('li.tab.rotate').trigger('click');
 
@@ -9444,6 +9502,8 @@ $(document).ready(function() {
             }
 
         });
+
+        $('div.debug-panel').hide();
 
     }
 

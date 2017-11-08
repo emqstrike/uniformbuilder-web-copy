@@ -106,9 +106,13 @@ div#applicationUI {
 
             }
 
-            span.tab.active {
+            span.tab.active { }
 
-                
+            span.tab[data-item="manipulators"] {
+
+                width: 0; 
+                height: 0; 
+                padding: 0px;
 
             }
 
@@ -226,6 +230,29 @@ div#applicationUI {
                         li.tab.active { 
                             background-color: #1e1e1e;
                             color: white;
+                        }
+
+                        li.tab.rotate, li.tab.move, li.tab.scale {
+
+                            padding: 0; height: 0; width: 0;
+
+                        }
+
+                        li.tab.close {
+
+                            font-size: 1.2em;
+                            color: black;
+                            opacity: 0.4;
+                            background: none;
+                            float: right;
+                            width:  auto;
+
+                        }
+
+                        li.tab.close:hover {
+
+                            color: #1e1e1e;
+                            
                         }
 
                     }

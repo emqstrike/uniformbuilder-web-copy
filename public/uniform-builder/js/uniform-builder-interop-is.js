@@ -725,7 +725,7 @@ $(document).ready(function() {
         var _status = 'on';
         if (typeof _settingsObject.status !== 'undefined') { var _status = _settingsObject.status; } 
 
-        _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
+        _htmlBuilder        =  '<div id="applicationUI" class="embellishmentUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
         _htmlBuilder        +=      '<div class="applicationType">' + _title + ' (Beta) <span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
@@ -745,9 +745,11 @@ $(document).ready(function() {
 
         var _label = 'Size';
         var _class = '';
+
         if (_isFreeFormEnabled) { 
             _label = 'Measurements'; _class = "custom"; 
         }
+
         _htmlBuilder        +=              '<label class="applicationLabels font_size ' + _class + '">' + _label + '</label>'; 
 
         var _inputSizes;
@@ -782,8 +784,13 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
+        _htmlBuilder        +=          '<div class="color-pattern-tabs" id="cpt">';
+        _htmlBuilder        +=              '<span class="tab active" data-item="colors"></span>';
+        _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';   
+        _htmlBuilder        +=          '</div>';
+
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1 column1-embellishments">'
+        _htmlBuilder        +=              '<div class="column1 column1-embellishments colors">'
 
         _htmlBuilder        +=              '<div class="sub1">';
         _htmlBuilder        +=                  '<br />';        
@@ -806,6 +813,12 @@ $(document).ready(function() {
         _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        += ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
+
+        _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+
+        _htmlBuilder        +=              '<div class="column1 applications manipulators">';
+        _htmlBuilder        +=                  _templateStrManipulators;
+        _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
@@ -836,6 +849,32 @@ $(document).ready(function() {
         });
 
         // Events 
+
+            /// Application Manipulator Events
+
+                ub.funcs.setupManipulatorEvents(_settingsObject, _applicationType);
+
+            /// End Application Manipulator Events
+
+            /// Tabs
+
+                $('div.color-pattern-tabs > span.tab').unbind('click');
+                $('div.color-pattern-tabs > span.tab').on('click', function () {
+
+                    var _item = $(this).data('item');
+
+                    $('div.color-pattern-tabs > span.tab').removeClass('active');
+                    $(this).addClass('active');
+                    $('div.column1').hide();
+                    $('div.column1.' + _item).fadeIn();
+
+                    if (_item === "manipulators") {
+                        $('ul.tab-navs > li.tab[data-action="move"]').trigger('click');
+                    }
+
+                });
+
+            /// End Tabs
 
             // Embellishment Events 
 
@@ -1106,21 +1145,35 @@ $(document).ready(function() {
                 
                 if (_isCustom && _isScale) {
 
-                    ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
+                    $('.colorContainer.embellishment-buttons-container').hide();
+                    $('div.color-pattern-tabs').hide();
+                    // .colorContainer.embellishment-buttons-container
+                    $('color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.scale').trigger('click');
+                    
                     return;
 
                 }
 
                 if (_isCustom && _isMove) {
 
-                    ub.funcs.initializeMovePanel(_settingsObject, _applicationType);
+                    $('.colorContainer.embellishment-buttons-container').hide();
+                    $('div.color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.move').trigger('click');
+
                     return;
 
                 }
 
                 if (_isCustom && _isRotate) {
 
-                    ub.funcs.initializeRotatePanel(_settingsObject, _applicationType);
+                    $('.colorContainer.embellishment-buttons-container').hide();
+                    $('div.color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.rotate').trigger('click');
+
                     return;
 
                 }

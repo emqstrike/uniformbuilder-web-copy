@@ -3005,10 +3005,10 @@
         <div class="manipulator-container">
 
             <ul class="tab-navs">
-                <li class="tab rotate" data-action="rotate">Rotate</li>
-                <li class="tab move" data-action="move">Move</li>
-                <li class="tab scale" data-action="scale">Scale</li>
-                <li class="tab scale" data-action="close">
+                <li class="tab rotate" data-action="rotate"></li>
+                <li class="tab move" data-action="move"></li>
+                <li class="tab scale" data-action="scale"></li>
+                <li class="tab close" data-action="close">
                     <i class="fa fa-times-circle-o" aria-hidden="true"></i>
                 </li>
             </ul>
