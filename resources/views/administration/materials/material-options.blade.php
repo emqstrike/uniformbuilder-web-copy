@@ -41,19 +41,40 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
 <input type="hidden" id="material_block_pattern" value="{{ $material->block_pattern }}">
 <input type="hidden" id="material_neck_option" value="{{ $material->neck_option }}">
 <input type="hidden" id="material_uniform_category" value="{{ $material->uniform_category }}">
+
+
 <a href="/administration/materials" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; margin-left: -15px; border-radius: 0;">
     Back
 </a>
 <a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
     Materials Options (Minified)
 </a>
+
+    <!-- For Block Pattern Export -->
+    <textarea name="material_props_data" style="display:none;" id="material_props_data"><?php echo json_encode($options, JSON_FORCE_OBJECT);?></textarea>
+    <div class="form-group row col-lg-offset-4">
+           <label class="col-lg-3 col-lg-offset-4 control-label">Export Material Properties to Block Pattern</label>
+                <div class="col-lg-3">
+                    <select name="export_block_pattern_id" class="form-control export_block_pattern_id">
+                        @foreach($block_patterns as $block_pattern)
+                            <option value="{{ $block_pattern->id }}">{{ $block_pattern->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-lg-1">
+                    <button type="submit" class="btn btn-default export_material_prop">
+                                    Export <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+    </div>
+
 <center>
 <!-- <img src="{{ $material->thumbnail_path }}"
      width="100px"
      height="100px" style="margin-bottom: 7px; margin-top: -7px; border-radius: 0px; border: 1px solid #808080;"> -->
 <h3>Material Options of: <b>{{ ucfirst($material->name) }}
     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080; border-radius: 0px;">
-        Edit 
+        Edit
     </a>
     <a href="#" class='btn btn-xs btn-default cleanup-material' data-id="{{ $material->id }}" style="border: 1px solid #808080; border-radius: 0px;">
         Reset Properties
@@ -62,8 +83,9 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
         Delete Selected
     </a>
 </b></h3>
+
 </center>
-</div>
+
 <?php $highlight_path = null; ?>
 <div class="container-fluid main-content">
     <table class="col-md-12">
@@ -76,7 +98,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                     <!-- <img src="{{ $option->material_option_path }}" style="border: 1px solid black; padding: 5px; margin-left: 10px; margin-top: 10px; height: 50px; width: 50px; float: left; position: relative;"> -->
 
 
-                    
+
                     @endif
                 @endif
             @endforeach --}}
@@ -129,7 +151,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
             <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
             @foreach ($options as $option)
                 @if ($option->perspective == "front")
-                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
+                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;"
                          class="material-option-{{ $option->id }}  material-option-item"
                          data-material-option-name="{{ $option->name }}">
                         <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
@@ -213,7 +235,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
             <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
             @foreach ($options as $option)
                 @if ($option->perspective == "back")
-                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
+                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;"
                          class="material-option-{{ $option->id }}  material-option-item"
                          data-material-option-name="{{ $option->name }}">
                         <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
@@ -297,7 +319,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
             <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
             @foreach ($options as $option)
                 @if ($option->perspective == "left")
-                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
+                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;"
                          class="material-option-{{ $option->id }}  material-option-item"
                          data-material-option-name="{{ $option->name }}">
                         <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
@@ -381,7 +403,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
             <td class="col-md-3" style="vertical-align: text-top; border: 1px solid #000;">
             @foreach ($options as $option)
                 @if ($option->perspective == "right")
-                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;" 
+                    <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;"
                          class="material-option-{{ $option->id }}  material-option-item"
                          data-material-option-name="{{ $option->name }}">
                         <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
@@ -508,6 +530,8 @@ $(document).ready(function(){
         "info": true,
         "autoWidth": false
     });
+
+
 });
 @endif
 </script>

@@ -78,7 +78,7 @@ class MaterialsController extends Controller
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
         $materials_string = json_encode($materials);
 
-      
+
         return view('administration.materials.materials', [
             'block_patterns' => $block_patterns,
             'materials' => $materials,
@@ -91,12 +91,14 @@ class MaterialsController extends Controller
         Log::info('Get Material Options');
 
         $options = $this->optionsClient->getByMaterialId($id);
-       
+
         $colors = $this->colorsClient->getColors();
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFonts();
-        
+
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
+
         $front_guide = null;
         $back_guide = null;
         $left_guide = null;
@@ -151,7 +153,8 @@ class MaterialsController extends Controller
             'front_guide' => $front_guide,
             'back_guide' => $back_guide,
             'left_guide' => $left_guide,
-            'right_guide' => $right_guide
+            'right_guide' => $right_guide,
+            'block_patterns' => $block_patterns
         ]);
     }
 
@@ -804,11 +807,11 @@ class MaterialsController extends Controller
 
         // Upload PDF file
         try {
-            $newFile = $request->file('styles_pdf');          
-            if (isset($newFile)) {                
+            $newFile = $request->file('styles_pdf');
+            if (isset($newFile)) {
                 if ($newFile->isValid()) {
                     $randstr = Random::randomize(12);
-                    $data['styles_pdf'] = FileUploaderV2::upload($newFile, $randstr, 'file', $folder_name);                  
+                    $data['styles_pdf'] = FileUploaderV2::upload($newFile, $randstr, 'file', $folder_name);
                 }
             }
         } catch (S3Exception $e) {
@@ -848,5 +851,5 @@ class MaterialsController extends Controller
     {
 
         return view('administration.materials.materials-single-page');
-    } 
+    }
 }
