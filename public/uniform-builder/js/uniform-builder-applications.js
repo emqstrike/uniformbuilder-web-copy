@@ -5932,18 +5932,14 @@ $(document).ready(function() {
         // $('div.slider-container').hide();
         // $('div.slider-container.move').show();
 
-        console.log('1')
         var softSliderX = document.getElementById('move-slider-x');
 
         if (typeof softSliderX.noUiSlider === "object") { 
 
-            console.log('1.5')
             softSliderX.noUiSlider.set(_startX);
             return; 
 
         }
-
-        console.log('2')
 
         noUiSlider.create(softSliderX, {
             start: _startX,
