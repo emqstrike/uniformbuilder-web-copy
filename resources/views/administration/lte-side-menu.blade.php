@@ -310,6 +310,11 @@
           <i class="fa fa-file-text-o"></i> <span>Style Requests</span>
         </a>
       </li>
+       <li  data-step="17" data-intro="View Approved Style Requests.">
+        <a href="/administration/approved_style_requests">
+          <i class="fa fa-thumbs-up"></i> <span>Approved Style Requests</span>
+        </a>
+      </li>
       <li  data-step="17" data-intro="View individual styles info">
         <a href="/administration/style_viewer">
           <i class="fa fa-search"></i> <span>Style Viewer</span>

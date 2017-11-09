@@ -48,4 +48,14 @@ class StyleRequestsController extends Controller
 
     }
 
+    public function approvedIndex()
+    {
+        $style_requests = $this->client->getApproved();
+
+        return view('administration.style-requests.approved-style-requests', [
+            'style_requests' => $style_requests
+        ]);
+
+    }
+
 }

@@ -115,7 +115,7 @@
                                 <select name='dealership_id' class="form-control user-type">
                                @foreach($dealers as $dealer)
                                         <option value="{{ $dealer->id }}" @if($dealer->id == $user->dealership_id) selected="selected"@endif>{{ $dealer->name }}</option>
-                                    @endforeach                                   
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
