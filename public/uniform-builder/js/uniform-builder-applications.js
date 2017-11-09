@@ -1,6 +1,9 @@
 $(document).ready(function() {
 
     ub.funcs.isSocks = function () {
+
+        if (typeof ub.current_material.material === "undefined") { return false; }
+
         return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)");
     }
 
@@ -6250,6 +6253,63 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.changeMascotOpacity = function (id, position) {
+
+        var _value = parseInt(position);
+        var _perspectiveStr = '';
+        var _viewObjects = ub.funcs.getApplicationViewObjects(id);
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: id.toString()});
+        var _calibration = 0;
+        var _position = 0;
+
+        _.each(_viewObjects, function (viewObject) {
+
+            _perspectiveStr = viewObject.perspective + '_view';
+            _position = (parseInt(position));
+            viewObject.alpha = parseInt(_position) / 100;
+
+            var _viewObjectCanvas = ub.objects[_perspectiveStr]['objects_' + id];
+            _viewObjectCanvas.alpha = parseInt(_position) / 100;
+            _viewObjectCanvas.opacity = parseInt(_position) / 100;
+
+            _.each(_viewObjectCanvas.children, function (child) {
+                child.alpha = parseInt(_position) / 100;
+            });
+
+            _settingsObject.alpha = parseInt(_position) / 100;
+            
+        });
+
+        var _matchingID;
+        var _matchingSide;
+        var _matchingSettingsObject;
+
+        _matchingID = ub.data.matchingIDs.getMatchingID(id);
+
+        if (typeof _matchingID !== "undefined") {
+
+            _applicationSettings = ub.current_material.settings.applications[_matchingID];
+            _applicationViewObjects = ub.funcs.getApplicationViewObjects(_matchingID);
+            _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+
+            _.each(_applicationViewObjects, function (viewObject) {
+
+                var _patternObject = ub.objects[_perspectiveStr][_patternStr];
+                _perspectiveStr = viewObject.perspective + '_view';
+                var _viewObjectCanvas = ub.objects[_perspectiveStr]['objects_' + _matchingID];
+
+                _.each(_viewObjectCanvas.children, function (child) {
+                    child.alpha = parseInt(_position) / 100;
+                });
+
+                _patternObject.alpha = parseInt(position) / 100;
+
+            });
+
+        }
+
+    }
+
     ub.funcs.activateMascots = function (application_id) {
 
         if (ub.funcs.popupsVisible()) { return; }
@@ -6525,6 +6585,7 @@ $(document).ready(function() {
 
         }
 
+        _htmlBuilder        +=                      '<br /><input type="text" id="opacity-slider" value="" />';
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
@@ -6570,6 +6631,29 @@ $(document).ready(function() {
         // $('span.accentThumb > img').attr('src',_src);
 
         // Events 
+
+            // Opacity Slider 
+
+                var _from = 100;
+
+                $('input#opacity-slider').show();
+
+                if (typeof $("#opacity-slider").destroy === "function") { 
+                    $("#opacity-slider").destroy(); 
+                }
+                
+                $("#opacity-slider").ionRangeSlider({
+                    min: 0,
+                    max: 100,
+                    from: typeof _settingsObject.alpha === "number" ? _settingsObject.alpha * 100 : 100,
+                    onChange: function (data) {
+
+                        ub.funcs.changeMascotOpacity(_settingsObject.code, data.from);
+
+                    },
+                });
+
+            // End Opacity Slider
 
             // In-place preview 
 

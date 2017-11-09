@@ -1291,6 +1291,10 @@
             var col = layer.default_color;
             var filename = layer.filename;
 
+            if (typeof settings_obj.alpha === "number") {
+                mascot_layer.alpha = settings_obj.alpha;
+            }
+
         });
         
         container.scale = new PIXI.Point(0.15, 0.15);
