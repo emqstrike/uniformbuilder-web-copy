@@ -144,14 +144,14 @@ $(document).ready(function() {
         }
 
         // Hide Lastname on Socks
-        if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+        if (ub.funcs.isSocks()) {
 
             $('td.PlayerLastNameInput, th.thlastname').hide();
 
         }
 
         // Hide Player Number on Wrestling and Socks
-        if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+        if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isSocks()) {
 
             $('td.PlayerNumberInput, th.thPlayerNumberInput').show();
 
@@ -1865,7 +1865,7 @@ $(document).ready(function() {
 
     ub.funcs.modifyOrderFormUIBySport = function () {
 
-        if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { 
+        if (ub.funcs.isSocks()) { 
             $('span.adult-sizes').html('SHOE SIZES: '); 
             $('span.adult-header').html('Shoe Sizes: '); 
         }

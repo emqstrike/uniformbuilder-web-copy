@@ -818,7 +818,7 @@ $(document).ready(function () {
 
     ub.funcs.processRandomFeeds = function () {
 
-        if (!ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { return; }
+        if (!ub.funcs.isSocks()) { return; }
 
         if (!util.isNullOrUndefined(ub.current_material.material.random_feed)) {
 

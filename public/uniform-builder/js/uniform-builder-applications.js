@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    ub.funcs.isSocks = function () {
+        return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)");
+    }
+
     ub.funcs.isCurrentOption = function (option) {
 
         return ub.current_material.material.neck_option === option;
@@ -2820,9 +2824,10 @@ $(document).ready(function() {
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Basketball" && args.mascot.id === '584') { _mov = (app_id === '16'); }
 
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Baseball") { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '9'); }
-                if (typeof args.mascot !== "undefined" && ub.config.sport === "Crew Socks (Apparel)" && args.mascot.id === '1096') { _mov = (app_id === '72'); }
-                if (typeof args.mascot !== "undefined" && ub.config.sport === "Crew Socks (Apparel)" && ub.data.flippedMascots.getCode(args.mascot.id)) { _mov = (app_id === '71'); } // 71 should always be in left perspective
-
+                
+                if (typeof args.mascot !== "undefined" && ub.funcs.isSocks() && args.mascot.id === '1096') { _mov = (app_id === '72'); }
+                if (typeof args.mascot !== "undefined" && ub.funcs.isSocks() && ub.data.flippedMascots.getCode(args.mascot.id)) { _mov = (app_id === '71'); } // 71 should always be in left perspective
+                
                 if (_mov) {
 
                     view.application.flip = 1;
@@ -4131,7 +4136,7 @@ $(document).ready(function() {
 
             $('div.mTab[data-type="color"]').click();
 
-            if (ub.funcs.isCurrentSport('Crew Socks (Apparel)') && ub.data.afterLoadCalled === 1) {
+            if (ub.funcs.isSocks() && ub.data.afterLoadCalled === 1) {
 
                 var _set = _fullname.toString().toTitleCase();
 
@@ -5240,8 +5245,7 @@ $(document).ready(function() {
             var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
 
             // On Crew Socks, only duplicate application on matching side is the matching side is blank, otherwise skip this and allow different mascots
-            if (_matchingSettingsObject.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { _processMatchingSide = false; }
-
+            if (_matchingSettingsObject.type !== "free" && ub.funcs.isSocks()) { _processMatchingSide = false; }
 
             if (typeof settingsObj.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
                         
@@ -6305,7 +6309,7 @@ $(document).ready(function() {
                 
                 _sizes = ub.data.applicationSizes.getSizes(_alias.alias, 'mascot', parseInt(application_id));
 
-            } else if (ub.funcs.isCurrentType('lower') && _uniformCategory === "Crew Socks (Apparel)" ) {
+            } else if (ub.funcs.isCurrentType('lower') && ub.funcs.isSocks()) {
 
                 _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias, _id);
 
@@ -6911,7 +6915,7 @@ $(document).ready(function() {
                 // On Crew Socks, only change the color of the matching side if its the same mascot id
                 if (typeof _matchingSettingsObject !== "undefined") {
                     
-                    if (_matchingSettingsObject.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
+                    if (_matchingSettingsObject.type !== "free" && ub.funcs.isSocks()) { 
                     
                         _processMatchingSide = false; 
                         
@@ -7062,7 +7066,7 @@ $(document).ready(function() {
         }
 
         // Check if this is from the Free Form Tool on Socks
-        if (parseInt(_id) > 70 && ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+        if (parseInt(_id) > 70 && ub.funcs.isSocks()) {
 
             if (typeof _settingsObject !== "undefined" && _settingsObject.application_type !== "free") {
 
@@ -7417,7 +7421,7 @@ $(document).ready(function() {
             if (ub.funcs.isCurrentSport('Fastpitch')  && _id === 15)                                                    { _size = 1.75; }
             if (ub.funcs.isCurrentSport('Fastpitch')  && (_id === 7 || _id === 6))                                      { _size = 2;    }
 
-            if (ub.funcs.isCurrentSport("Crew Socks (Apparel)"))                                                        { _size = 2.5;  }
+            if (ub.funcs.isSocks())                                                                                     { _size = 2.5;  }
 
             if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )                                      { _size = 3;    }
             if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )                                      { _size = 2;    }
@@ -7447,7 +7451,7 @@ $(document).ready(function() {
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
                 // On Crew Socks, only duplicate application on matching side is the matching side is blank, otherwise skip this and allow different mascots
-                if (_matchingSide.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { _processMatchingSide = false; }
+                if (_matchingSide.type !== "free" && ub.funcs.isSocks()) { _processMatchingSide = false; }
 
                 if (_processMatchingSide) {
 
@@ -9990,7 +9994,7 @@ $(document).ready(function() {
                                                                  item.name.indexOf('Front Insert') > -1 ||
                                                                  item.name.indexOf('Prolook') > -1; });
 
-            if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { 
+            if (ub.funcs.isSocks()) { 
 
                 _list = _.reject(_list, function (item) { return item.name.indexOf('Sublimated') === -1; });
 
@@ -10432,7 +10436,7 @@ $(document).ready(function() {
 
             /// Init Code
 
-            if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+            if(ub.funcs.isSocks()) {
 
                 $('span.optionButton[data-type="player_number"]').hide();
                 $('span.optionButton[data-type="player_name"]').hide();
@@ -10443,7 +10447,7 @@ $(document).ready(function() {
 
             var _part = 'Body';
 
-            if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { _part = "Sublimated" }
+            if(ub.funcs.isSocks()) { _part = "Sublimated" }
             if(ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short") { _part = "Body Left" }
 
             /// Acitvate Part / Perspective
