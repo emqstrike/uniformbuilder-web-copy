@@ -35,12 +35,12 @@
                 <div class="box-header">
                     <h1>
 
-                        Style Requests
+                        Approved Style Requests
                         <small>
-                            <a href="#" class='btn btn-xs btn-success' data-toggle="modal" data-target="#myModal">
+                          <!--   <a href="#" class='btn btn-xs btn-success' data-toggle="modal" data-target="#myModal">
                                 <span class="glyphicon glyphicon-plus-sign"></span>
                                 Add Request
-                            </a>
+                            </a> -->
                         </small>
                     </h1>
                 </div>
