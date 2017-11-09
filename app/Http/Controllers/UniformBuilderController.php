@@ -836,6 +836,10 @@ class UniformBuilderController extends Controller
                 $html .=   '<td align="center">';
                 $html .=   'Mascot Name: ' . $application['mascot']['name'] . "<br />";
 
+                if (isset($application['alpha'])) {
+                   $html .=   'Opacity: ' . ($application['alpha'] * 100) . "% <br />";
+                }
+
                 if ($application['mascot']['name'] == 'Custom Logo') {
 
                     $html .=   '<a href="' . $application['customFilename'] . '" target="_new">Link To Uploaded File</a> <br />';
