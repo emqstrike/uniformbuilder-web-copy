@@ -4087,7 +4087,6 @@ div.header-container.main {
 
                 div.categories {
 
-                    
                     float: left;
                     height: 567px;
                     overflow-y: scroll;
@@ -5061,7 +5060,7 @@ div.header-container.main {
 
                     }
 
-                    div.applications.patterns, div.applications.tailsweeps {
+                    div.applications.patterns, div.applications.tailsweeps, div.applications.manipulators {
 
                         display: none;
 
@@ -5700,6 +5699,16 @@ div.header-container.main {
 
                 }
 
+                div#cpt {
+
+                    width: 0; height: 0; padding: 0px;
+
+                    span.tab {
+                        width: 0; height: 0; padding: 0px;
+                    }
+
+                }
+
                 .ui-row {
 
                     margin-bottom: 10px;
@@ -5936,7 +5945,7 @@ div.header-container.main {
 
                     }
 
-                    div.applications.patterns, div.applications.tailsweeps {
+                    div.applications.patterns, div.applications.tailsweeps, div.applications.manipulators {
 
                         display: none;
 
@@ -11394,12 +11403,6 @@ span.load-line.awesomeness {
 
 /* End Custom Artwork Requests */
 
-/* IS Integration */
-
-    @import "is-integration.less";
-
-/* End IS Integration */
-
 /* Debug Panel */
 
     @import "debug-panel.less";
@@ -11411,4 +11414,16 @@ span.load-line.awesomeness {
     @import "preview-embellishment.less";
 
 /* End Preview Embellishment */
+
+/* Applications */
+
+    @import "applications.less";
+
+/* End Applications */
+
+/* IS Integration */
+
+    @import "is-integration.less";
+
+/* End IS Integration */
 

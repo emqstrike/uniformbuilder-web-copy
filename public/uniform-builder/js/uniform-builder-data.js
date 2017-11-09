@@ -2753,6 +2753,12 @@ $(document).ready(function() {
                     active: "1",
                 },
                 {
+                    code: 'game-day-coaches-jackets',
+                    name: 'Game Day Coaches Jackets (Apparel)',
+                    active: "1",
+                },
+
+                {
                     code: '1-4 zip',
                     name: 'Quarter Zip Jacket (Apparel)',
                     active: "1",
@@ -8158,9 +8164,10 @@ ub.funcs.fontOffSets = [
             sport: 'Signature Coaches Short (Apparel)',
             filters: ['All'],
         },
-
-
-
+        {
+            sport: 'Game Day Coaches Jackets (Apparel)',
+            filters: ['All'],
+        },          
     ];
 
     ub.funcs.load_fonts = function () {
@@ -10764,6 +10771,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Lacrosse' },
             { sport: 'Signature Coaches Short (Apparel)' },
             { sport: '2017 Team Short with Pockets (Apparel)' },
+            { sport: 'Game Day Coaches Jackets (Apparel)' },
 
             { sport: 'Fastpitch' },
             { sport: 'Soccer' },            
@@ -10956,6 +10964,9 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Fastpitch',    
+            },
+            {
+                sport: "Game Day Coaches Jackets (Apparel)",    
             },
         ],
 
@@ -11387,6 +11398,12 @@ ub.funcs.fontOffSets = [
                 shortCode: 'signature-coaches-short',
                 urlAlias: 'Signature Coaches Short (Apparel)',
                 thumbFilename: 'signature-coaches-short.png',
+                gender: ['men',],    
+            },
+            {
+                shortCode: 'game-day-coaches-jackets',
+                urlAlias: 'Game Day Coaches Jackets (Apparel)',
+                thumbFilename: 'game-day-coaches-jackets.png',
                 gender: ['men',],    
             },
             

@@ -1,5 +1,12 @@
 $(document).ready(function() {
 
+    ub.funcs.isSocks = function () {
+
+        if (typeof ub.current_material.material === "undefined") { return false; }
+
+        return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)");
+    }
+
     ub.funcs.isCurrentOption = function (option) {
 
         return ub.current_material.material.neck_option === option;
@@ -2820,9 +2827,10 @@ $(document).ready(function() {
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Basketball" && args.mascot.id === '584') { _mov = (app_id === '16'); }
 
                 if (typeof args.mascot !== "undefined" && ub.config.sport === "Baseball") { _mov = ub.data.flippedMascots.getCode(args.mascot.id) && (app_id === '9'); }
-                if (typeof args.mascot !== "undefined" && ub.config.sport === "Crew Socks (Apparel)" && args.mascot.id === '1096') { _mov = (app_id === '72'); }
-                if (typeof args.mascot !== "undefined" && ub.config.sport === "Crew Socks (Apparel)" && ub.data.flippedMascots.getCode(args.mascot.id)) { _mov = (app_id === '71'); } // 71 should always be in left perspective
-
+                
+                if (typeof args.mascot !== "undefined" && ub.funcs.isSocks() && args.mascot.id === '1096') { _mov = (app_id === '72'); }
+                if (typeof args.mascot !== "undefined" && ub.funcs.isSocks() && ub.data.flippedMascots.getCode(args.mascot.id)) { _mov = (app_id === '71'); } // 71 should always be in left perspective
+                
                 if (_mov) {
 
                     view.application.flip = 1;
@@ -4131,7 +4139,7 @@ $(document).ready(function() {
 
             $('div.mTab[data-type="color"]').click();
 
-            if (ub.funcs.isCurrentSport('Crew Socks (Apparel)') && ub.data.afterLoadCalled === 1) {
+            if (ub.funcs.isSocks() && ub.data.afterLoadCalled === 1) {
 
                 var _set = _fullname.toString().toTitleCase();
 
@@ -5240,8 +5248,7 @@ $(document).ready(function() {
             var _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
 
             // On Crew Socks, only duplicate application on matching side is the matching side is blank, otherwise skip this and allow different mascots
-            if (_matchingSettingsObject.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { _processMatchingSide = false; }
-
+            if (_matchingSettingsObject.type !== "free" && ub.funcs.isSocks()) { _processMatchingSide = false; }
 
             if (typeof settingsObj.mascot === "object" && typeof _matchingSettingsObject.mascot === "object") {
                         
@@ -5864,16 +5871,16 @@ $(document).ready(function() {
 
     ub.funcs.hidePanelHandler = function () {
 
-        $('div.options_panel_section, div.body, div.header').unbind('mousedown');
-        $('div.options_panel_section, div.body, div.header').on('mousedown', function (e) {
+        // $('div.options_panel_section, div.body, div.header').unbind('mousedown');
+        // $('div.options_panel_section, div.body, div.header').on('mousedown', function (e) {
 
-           ub.funcs.hideVisiblePopups();
+        //    ub.funcs.hideVisiblePopups();
            
-        }).on('mousedown','div.slider-container',function(e) {
+        // }).on('mousedown','div.slider-container',function(e) {
 
-            e.stopPropagation();
+        //     e.stopPropagation();
 
-        });
+        // });
 
     }
 
@@ -5885,8 +5892,8 @@ $(document).ready(function() {
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
         var _start = (_multiplier * ub.objects[_v + '_view']['objects_' + _settingsObject.code].scale.x) / 3;
 
-        $('div.slider-container').hide();
-        $('div.slider-container.scale').show();
+        // $('div.slider-container').hide();
+        // $('div.slider-container.scale').show();
 
         var softSlider = document.getElementById('scale-slider');
         if (typeof softSlider.noUiSlider === "object") { 
@@ -5929,10 +5936,11 @@ $(document).ready(function() {
 
         _startX = _startX / ub.dimensions.width * 100;
 
-        $('div.slider-container').hide();
-        $('div.slider-container.move').show();
+        // $('div.slider-container').hide();
+        // $('div.slider-container.move').show();
 
         var softSliderX = document.getElementById('move-slider-x');
+
         if (typeof softSliderX.noUiSlider === "object") { 
 
             softSliderX.noUiSlider.set(_startX);
@@ -5992,7 +6000,7 @@ $(document).ready(function() {
 
         });
         
-        ub.funcs.hidePanelHandler();
+        //ub.funcs.hidePanelHandler();
 
     }
 
@@ -6004,8 +6012,8 @@ $(document).ready(function() {
         var _v = ub.funcs.getPrimaryView(_settingsObject.application);
         var _start = ub.objects[_v + '_view']['objects_' + _settingsObject.code].rotation;
 
-        $('div.slider-container').hide();
-        $('div.slider-container.rotate').show();
+        // $('div.slider-container').hide();
+        // $('div.slider-container.rotate').show();
 
         // var softSlider = document.getElementById('rotate-slider');
         // if (typeof softSlider.noUiSlider === "object") { 
@@ -6037,8 +6045,8 @@ $(document).ready(function() {
         $("#rotate-slider").roundSlider({
             sliderType: "min-range",
             handleShape: "round",
-            width: 22,
-            radius: 100,
+            width: 15,
+            radius: 85,
             value: _start,
             startAngle: 90,
 
@@ -6050,7 +6058,7 @@ $(document).ready(function() {
 
         });
         
-        ub.funcs.hidePanelHandler();
+        //ub.funcs.hidePanelHandler();
 
     }
 
@@ -6111,7 +6119,7 @@ $(document).ready(function() {
         if (ub.funcs.isFreeFormToolEnabled(_id)) {
 
             var _v = ub.funcs.getPrimaryView(settingsObject.application);
-            
+
             /// Rotate
 
             var _start = ub.objects[_v + '_view']['objects_' + settingsObject.code].rotation;
@@ -6123,7 +6131,7 @@ $(document).ready(function() {
             
             _additionalClass = '';    
             _htmlBuilder    += '<span class="applicationLabels font_size custom rotate ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/rotate-caption.png'>" + '<span class="custom_text rotate">' + _start + '</span>°' + '</span>';
-            _htmlBuilder    += '<div class="slider-container rotate"><div id="rotate-slider"></div></div>';
+            _htmlBuilder    += '<div class="slider-container rotate"><div id="rotate-slider-old"></div></div>';
 
             /// Move
             
@@ -6140,7 +6148,7 @@ $(document).ready(function() {
             
             _additionalClass = '';    
             _htmlBuilder    += '<span class="applicationLabels font_size custom move' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/move-caption.png'>" + '<span class="custom_text move">' + _start + '</span>' + '</span>';
-            _htmlBuilder    += '<div class="slider-container move"><div id="move-slider-x" class="move x"></div><div id="move-slider-y" class="move y"></div></div>';
+            _htmlBuilder    += '<div class="slider-container move"><div id="move-slider-x-old" class="move x"></div><div id="move-slider-y-old" class="move y"></div></div>';
 
             /// Scale
 
@@ -6153,7 +6161,7 @@ $(document).ready(function() {
             
             _additionalClass = '';    
             _htmlBuilder    += '<span class="applicationLabels font_size custom scale ' + _additionalClass + '" data-size="' + '5' + '">' + "<img class='scale-caption' src='/images/builder-ui/scale-caption.png'>" + '+<span class="custom_text scale">' + _start + '</span>%' + '</span>';
-            _htmlBuilder    += '<div class="slider-container scale"><div id="scale-slider"></div></div>';
+            _htmlBuilder    += '<div class="slider-container scale"><div id="scale-slider-old"></div></div>';
 
         }
 
@@ -6239,6 +6247,69 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.isSublimated = function () {
+
+        return ub.config.uniform_application_type === "sublimated";
+
+    }
+
+    ub.funcs.changeMascotOpacity = function (id, position) {
+
+        var _value = parseInt(position);
+        var _perspectiveStr = '';
+        var _viewObjects = ub.funcs.getApplicationViewObjects(id);
+        var _settingsObject = _.find(ub.current_material.settings.applications, {code: id.toString()});
+        var _calibration = 0;
+        var _position = 0;
+
+        _.each(_viewObjects, function (viewObject) {
+
+            _perspectiveStr = viewObject.perspective + '_view';
+            _position = (parseInt(position));
+            viewObject.alpha = parseInt(_position) / 100;
+
+            var _viewObjectCanvas = ub.objects[_perspectiveStr]['objects_' + id];
+            _viewObjectCanvas.alpha = parseInt(_position) / 100;
+            _viewObjectCanvas.opacity = parseInt(_position) / 100;
+
+            _.each(_viewObjectCanvas.children, function (child) {
+                child.alpha = parseInt(_position) / 100;
+            });
+
+            _settingsObject.alpha = parseInt(_position) / 100;
+            
+        });
+
+        var _matchingID;
+        var _matchingSide;
+        var _matchingSettingsObject;
+
+        _matchingID = ub.data.matchingIDs.getMatchingID(id);
+
+        if (typeof _matchingID !== "undefined") {
+
+            _applicationSettings = ub.current_material.settings.applications[_matchingID];
+            _applicationViewObjects = ub.funcs.getApplicationViewObjects(_matchingID);
+            _matchingSettingsObject = _.find(ub.current_material.settings.applications, {code: _matchingID.toString()});
+
+            _.each(_applicationViewObjects, function (viewObject) {
+
+                var _patternObject = ub.objects[_perspectiveStr][_patternStr];
+                _perspectiveStr = viewObject.perspective + '_view';
+                var _viewObjectCanvas = ub.objects[_perspectiveStr]['objects_' + _matchingID];
+
+                _.each(_viewObjectCanvas.children, function (child) {
+                    child.alpha = parseInt(_position) / 100;
+                });
+
+                _patternObject.alpha = parseInt(position) / 100;
+
+            });
+
+        }
+
+    }
+
     ub.funcs.activateMascots = function (application_id) {
 
         if (ub.funcs.popupsVisible()) { return; }
@@ -6298,7 +6369,7 @@ $(document).ready(function() {
                 
                 _sizes = ub.data.applicationSizes.getSizes(_alias.alias, 'mascot', parseInt(application_id));
 
-            } else if (ub.funcs.isCurrentType('lower') && _uniformCategory === "Crew Socks (Apparel)" ) {
+            } else if (ub.funcs.isCurrentType('lower') && ub.funcs.isSocks()) {
 
                 _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias, _id);
 
@@ -6433,20 +6504,24 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '<div class="clearfix"></div>';
 
+        _htmlBuilder        +=          '<div class="color-pattern-tabs">';
+        _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span>';
+        _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';   
+        _htmlBuilder        +=          '</div>';
+
         _htmlBuilder        +=          '<div class="ui-row">';
-        _htmlBuilder        +=              '<div class="column1">'
+
+        _htmlBuilder        +=              '<div class="column1 applications colors">'
 
         _htmlBuilder        +=              '<div class="sub1">';
         _htmlBuilder        +=                  '<br />';        
         _htmlBuilder        +=                  '<span class="accentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
         _htmlBuilder        +=                  '<span class="accent">' + _mascotName + '</span>';  
-        _htmlBuilder        +=                  '<br />';        
+        _htmlBuilder        +=                  '<br />';
 
         if (_settingsObject.mascot.name === 'Custom Logo') {
-
             _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
             _htmlBuilder        +=                  '<br /><br />';
-
         }
 
         _htmlBuilder        +=                  '<span class="flipButton">Flip</span>';  
@@ -6510,8 +6585,16 @@ $(document).ready(function() {
 
         }
 
+        _htmlBuilder        +=                      '<br /><input type="text" id="opacity-slider" value="" />';
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
+
+        _templateStrManipulators = ub.funcs.updateManipulatorsPanel(_settingsObject);
+
+        _htmlBuilder        +=              '<div class="column1 applications manipulators">';
+        _htmlBuilder        +=                  _templateStrManipulators;
+        _htmlBuilder        +=              '</div>';
+
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
         _htmlBuilder        +=  '</div>';
@@ -6549,6 +6632,29 @@ $(document).ready(function() {
 
         // Events 
 
+            // Opacity Slider 
+
+                var _from = 100;
+
+                $('input#opacity-slider').show();
+
+                if (typeof $("#opacity-slider").destroy === "function") { 
+                    $("#opacity-slider").destroy(); 
+                }
+                
+                $("#opacity-slider").ionRangeSlider({
+                    min: 0,
+                    max: 100,
+                    from: typeof _settingsObject.alpha === "number" ? _settingsObject.alpha * 100 : 100,
+                    onChange: function (data) {
+
+                        ub.funcs.changeMascotOpacity(_settingsObject.code, data.from);
+
+                    },
+                });
+
+            // End Opacity Slider
+
             // In-place preview 
 
             if (_settingsObject.mascot.name === 'Custom Logo' && typeof _settingsObject.customFilename !== "undefined") {
@@ -6573,6 +6679,32 @@ $(document).ready(function() {
                 } 
 
             }
+
+            /// Application Manipulator Events
+
+                ub.funcs.setupManipulatorEvents(_settingsObject, _applicationType);
+
+            /// End Application Manipulator Events
+
+            /// Tabs
+
+                $('div.color-pattern-tabs > span.tab').unbind('click');
+                $('div.color-pattern-tabs > span.tab').on('click', function () {
+
+                    var _item = $(this).data('item');
+
+                    $('div.color-pattern-tabs > span.tab').removeClass('active');
+                    $(this).addClass('active');
+                    $('div.column1').hide();
+                    $('div.column1.' + _item).fadeIn();
+
+                    if (_item === "manipulators") {
+                        $('ul.tab-navs > li.tab[data-action="move"]').trigger('click');
+                    }
+
+                });
+
+            /// End Tabs
 
             $('span.inPlacePreviewButton').unbind('click');
             $('span.inPlacePreviewButton').on('click', function (){
@@ -6755,7 +6887,7 @@ $(document).ready(function() {
                 ub.funcs.toggleApplication(_matchingID.toString(), _status); 
 
             }
- 
+
             $('span.font_size').on('click', function () {
 
                 //if (_id === '4') { return; }
@@ -6771,21 +6903,30 @@ $(document).ready(function() {
                 
                 if (_isCustom && _isScale) {
 
-                    ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
+                    $('div.color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.scale').trigger('click');
+                    
                     return;
 
                 }
 
                 if (_isCustom && _isMove) {
 
-                    ub.funcs.initializeMovePanel(_settingsObject, _applicationType);
+                    $('color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.move').trigger('click');
+
                     return;
 
                 }
 
                 if (_isCustom && _isRotate) {
 
-                    ub.funcs.initializeRotatePanel(_settingsObject, _applicationType);
+                    $('color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.rotate').trigger('click');
+
                     return;
 
                 }
@@ -6858,7 +6999,7 @@ $(document).ready(function() {
                 // On Crew Socks, only change the color of the matching side if its the same mascot id
                 if (typeof _matchingSettingsObject !== "undefined") {
                     
-                    if (_matchingSettingsObject.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { 
+                    if (_matchingSettingsObject.type !== "free" && ub.funcs.isSocks()) { 
                     
                         _processMatchingSide = false; 
                         
@@ -7009,7 +7150,7 @@ $(document).ready(function() {
         }
 
         // Check if this is from the Free Form Tool on Socks
-        if (parseInt(_id) > 70 && ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+        if (parseInt(_id) > 70 && ub.funcs.isSocks()) {
 
             if (typeof _settingsObject !== "undefined" && _settingsObject.application_type !== "free") {
 
@@ -7364,7 +7505,7 @@ $(document).ready(function() {
             if (ub.funcs.isCurrentSport('Fastpitch')  && _id === 15)                                                    { _size = 1.75; }
             if (ub.funcs.isCurrentSport('Fastpitch')  && (_id === 7 || _id === 6))                                      { _size = 2;    }
 
-            if (ub.funcs.isCurrentSport("Crew Socks (Apparel)"))                                                        { _size = 2.5;  }
+            if (ub.funcs.isSocks())                                                                                     { _size = 2.5;  }
 
             if (ub.funcs.isCurrentSport("Baseball")  && _.contains([37,38], _id) )                                      { _size = 3;    }
             if (ub.funcs.isCurrentSport("Baseball")  && _.contains([39,40], _id) )                                      { _size = 2;    }
@@ -7394,7 +7535,7 @@ $(document).ready(function() {
                 _matchingSide = ub.current_material.settings.applications[_matchingID];
 
                 // On Crew Socks, only duplicate application on matching side is the matching side is blank, otherwise skip this and allow different mascots
-                if (_matchingSide.type !== "free" && ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { _processMatchingSide = false; }
+                if (_matchingSide.type !== "free" && ub.funcs.isSocks()) { _processMatchingSide = false; }
 
                 if (_processMatchingSide) {
 
@@ -7832,6 +7973,46 @@ $(document).ready(function() {
     }
 
 
+    ub.funcs.setupManipulatorEvents = function (settingsObject, _applicationType) {
+
+        $('ul.tab-navs > li.tab').unbind('click');
+        $('ul.tab-navs > li.tab').on('click', function () {
+
+            var _action = $(this).data('action');
+
+            $('ul.tab-navs > li.tab').removeClass('active');
+            $(this).addClass('active');
+
+            $('div.manipulator-type-container').hide();
+            $('div.manipulator-type-container[data-type="' + _action + '"]').show();
+
+            if(_action === "move") {
+                $('div.color-pattern-tabs').hide();
+                ub.funcs.initializeMovePanel(settingsObject, _applicationType);
+            }
+
+            if(_action === "rotate") {
+                $('div.color-pattern-tabs').hide();
+                ub.funcs.initializeRotatePanel(settingsObject, _applicationType);
+            }
+
+            if(_action === "scale") {
+                $('div.color-pattern-tabs').hide();
+                ub.funcs.initializeScalePanel(settingsObject, _applicationType);
+            }
+
+            if (_action === "close") {
+                $('.colorContainer.embellishment-buttons-container').show();
+                $('span.font_size').removeClass('active');
+                $('div.color-pattern-tabs').show();
+                $('span.tab[data-item="colors"]').trigger('click');
+            }
+
+        });        
+        
+    }
+
+
     ub.funcs.setupTextSmallColorPickerEvents = function (_settingsObject) {
 
         $('span.colorItem[data-object-type="accent"]').unbind('click');
@@ -7868,7 +8049,15 @@ $(document).ready(function() {
 
         });
 
-     }
+    }
+
+    ub.funcs.updateManipulatorsPanel = function (settingsObj) {
+
+        var _templateStr = '';
+        _templateStr = ub.utilities.buildTemplateString("#m-manipulator-panel", {});
+        return _templateStr;
+
+    }
 
     ub.funcs.activateApplications = function (application_id) {
 
@@ -7887,9 +8076,7 @@ $(document).ready(function() {
 
             var _marker = _.find(ub.data.markerBitField, {value: true});
 
-            if (_marker.code.toString() !== application_id.toString()) {
-                return;     
-            }
+            if (_marker.code.toString() !== application_id.toString()) { return; }
 
         }
 
@@ -8086,6 +8273,7 @@ $(document).ready(function() {
         _htmlBuilder        +=          '<div class="color-pattern-tabs">';
         _htmlBuilder        +=              '<span class="tab active" data-item="colors">Colors</span>';
         _htmlBuilder        +=              '<span class="tab" data-item="patterns">Patterns</span>';
+        _htmlBuilder        +=              '<span class="tab" data-item="manipulators"></span>';
 
         if(ub.funcs.isCurrentSport('Baseball')) {
 
@@ -8190,11 +8378,17 @@ $(document).ready(function() {
         var _templateStr   = '';
         var _patternObject = _settingsObject.pattern_obj;
         
-        _templateStr        = ub.funcs.updateTextPatternPanel(_patternObject);
+        _templateStr                = ub.funcs.updateTextPatternPanel(_patternObject);
+        _templateStrManipulators    = ub.funcs.updateManipulatorsPanel(_settingsObject);
         
         _htmlBuilder        +=                  '<div class="column1 applications patterns">';
         _htmlBuilder        +=                      _templateStr;
         _htmlBuilder        +=                  '</div>';
+
+        _htmlBuilder        +=                  '<div class="column1 applications manipulators">';
+        _htmlBuilder        +=                      _templateStrManipulators;
+        _htmlBuilder        +=                  '</div>';
+
 
         _htmlBuilder        +=          '</div>';
         _htmlBuilder        +=      '</div>';
@@ -8216,6 +8410,11 @@ $(document).ready(function() {
 
             /// End Application Pattern Events
 
+            /// Application Manipulator Events
+
+                ub.funcs.setupManipulatorEvents(_settingsObject, _applicationType);
+
+            /// End Application Manipulator Events
 
             /// Tail sweep size Event 
 
@@ -8256,14 +8455,14 @@ $(document).ready(function() {
                 $('div.column1').hide();
                 $('div.column1.' + _item).fadeIn();
 
-                if ($(this).data('item') === "patterns") {
-
+                if (_item === "patterns") {
                    if (typeof _settingsObject.pattern !== "undefined") {
-
                         $('span.sizeItem[data-size="' + _settingsObject.tailsweep.length + '"]').addClass('active');
-
                     }
+                }
 
+                if (_item === "manipulators") {
+                    $('ul.tab-navs > li.tab[data-action="move"]').trigger('click');
                 }
 
             });
@@ -8432,10 +8631,8 @@ $(document).ready(function() {
                 });
 
                 $('div.closeApplicationChanger').on('click', function () {
-
                     $('div#changeApplicationUI').hide().data('status', 'hidden');
                     $('div.applicationType').removeClass('toggledApplicationType');
-
                 });
 
             });
@@ -8501,37 +8698,53 @@ $(document).ready(function() {
                     
                 });
 
-
-            // End Font Left and Right 
+            // End Font Left and Right
 
             $('span.font_size').on('click', function () {
 
-                var _selectedSize = $(this).data('size');
-                $('.font_size').removeClass('active');
-                $(this).addClass('active');
+                // If already active, trigger turn off instead
+                if(ub.funcs.isSublimated()) {
+                    if ($(this).hasClass('active')) {
+                        $('ul.tab-navs > li.tab.close').trigger('click');
+                        return;
+                    }
+                }
 
+                var _selectedSize = $(this).data('size');
                 var _isCustom = $(this).hasClass('custom');
                 var _isScale = $(this).hasClass('scale');
                 var _isRotate = $(this).hasClass('rotate');
                 var _isMove = $(this).hasClass('move');
+
+                $('.font_size').removeClass('active');
+                $(this).addClass('active');
                 
                 if (_isCustom && _isScale) {
 
-                    ub.funcs.initializeScalePanel(_settingsObject, _applicationType);
+                    $('color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.scale').trigger('click');
+
                     return;
 
                 }
 
                 if (_isCustom && _isMove) {
 
-                    ub.funcs.initializeMovePanel(_settingsObject, _applicationType);
+                    $('color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.move').trigger('click');
+
                     return;
 
                 }
 
                 if (_isCustom && _isRotate) {
 
-                    ub.funcs.initializeRotatePanel(_settingsObject, _applicationType);
+                    $('color-pattern-tabs').hide();
+                    $('span.tab[data-item="manipulators"]').trigger('click');
+                    $('li.tab.rotate').trigger('click');
+
                     return;
 
                 }
@@ -9374,6 +9587,8 @@ $(document).ready(function() {
 
         });
 
+        $('div.debug-panel').hide();
+
     }
 
     // ub.funcs.deactivateMoveTool1 = function () {
@@ -9863,7 +10078,7 @@ $(document).ready(function() {
                                                                  item.name.indexOf('Front Insert') > -1 ||
                                                                  item.name.indexOf('Prolook') > -1; });
 
-            if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { 
+            if (ub.funcs.isSocks()) { 
 
                 _list = _.reject(_list, function (item) { return item.name.indexOf('Sublimated') === -1; });
 
@@ -10305,7 +10520,7 @@ $(document).ready(function() {
 
             /// Init Code
 
-            if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+            if(ub.funcs.isSocks()) {
 
                 $('span.optionButton[data-type="player_number"]').hide();
                 $('span.optionButton[data-type="player_name"]').hide();
@@ -10316,7 +10531,7 @@ $(document).ready(function() {
 
             var _part = 'Body';
 
-            if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { _part = "Sublimated" }
+            if(ub.funcs.isSocks()) { _part = "Sublimated" }
             if(ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short") { _part = "Body Left" }
 
             /// Acitvate Part / Perspective

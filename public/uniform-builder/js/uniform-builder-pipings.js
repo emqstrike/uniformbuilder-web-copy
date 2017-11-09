@@ -848,7 +848,7 @@ $(document).ready(function () {
 
     ub.funcs.processPipings = function () {
 
-        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || ub.funcs.isCurrentSport('Crew Socks (Apparel)'))) { return; }
+        if (!(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch') || ub.funcs.isSocks())) { return; }
 
         if (!util.isNullOrUndefined(ub.current_material.material.pipings)) {
 

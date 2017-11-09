@@ -361,7 +361,7 @@ $(document).ready(function () {
                 $('a.change-view[data-view="pipings"]').addClass('hidden');                
             }
 
-            if(ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {                
+            if(ub.funcs.isSocks()) {                
                 $('a.change-view[data-view="randomFeed"]').removeClass('hidden'); 
             } else {
                 $('a.change-view[data-view="randomFeed"]').addClass('hidden');             
@@ -1631,8 +1631,7 @@ $(document).ready(function () {
                     (material.uniform_category === "Basketball" && material.type === "lower") || 
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
-
-                    (material.uniform_category === "Crew Socks (Apparel)")) {
+                    ub.funcs.isSocks()) {
 
                     material.thumbnail_path_left = material.thumbnail_path_front;
 
@@ -2677,7 +2676,7 @@ $(document).ready(function () {
 
         // End Applications
 
-        if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+        if (ub.funcs.isSocks()) {
 
             // Activate Left View when a sock is loaded
             ub.funcs.activateLeftView();
@@ -3084,7 +3083,7 @@ $(document).ready(function () {
                 
                 // So these static layers will be above the random feed layers in 
 
-                if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+                if (ub.funcs.isSocks()) {
 
                     if (name === "back_tab")  {
 

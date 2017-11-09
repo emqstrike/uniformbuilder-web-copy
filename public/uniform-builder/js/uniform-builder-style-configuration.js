@@ -59,7 +59,7 @@ $(document).ready(function () {
             var _scale;
             var _result = undefined;
 
-            if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { _size = 2.5; }
+            if (ub.funcs.isSocks()) { _size = 2.5; }
 
             _scale = _.find(ub.styleValues.mascotScales.items[0].properties, {size: _size.toString()});
 
@@ -131,7 +131,7 @@ $(document).ready(function () {
             var _scale;
             var _result = undefined;
 
-            if (ub.funcs.isCurrentSport("Crew Socks (Apparel)")) { _size = 2.5; }
+            if (ub.funcs.isSocks()) { _size = 2.5; }
 
             _scale = _.find(ub.styleValues.embellishmentScales.items[0].properties, {size: _size.toString()});
 

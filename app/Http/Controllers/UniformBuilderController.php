@@ -1010,7 +1010,7 @@ class UniformBuilderController extends Controller
         $html .=   '<strong>NUMBER</strong>';
         $html .=   '</td>';
 
-        if ($sport !== "Crew Socks (Apparel)") {
+        if ($sport !== "Crew Socks (Apparel)" || $sport !== "Socks (Apparel)") {
 
             $html .=   '<td align="center">';
             $html .=   '<strong>LASTNAME</strong>';
@@ -1107,7 +1107,7 @@ class UniformBuilderController extends Controller
         $html .=       '<strong>PATTERN</strong>';
         $html .=   '</td>';
 
-        if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+        if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)") {
 
             $html .=   '<td width="40%" align="center">';
             $html .=       '<strong>RANDOM FEEDS</strong>';
@@ -1150,7 +1150,7 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
             $html .=   '<td align="center">';
 
-            if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+            if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)") {
 
                 $titledPart = $part['code'];
                 $titledPart = str_replace('_', ' ', $titledPart);
@@ -1209,7 +1209,7 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
 
             // Random Feeds 
-            if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+            if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)") {
 
                 $html .=   '<td align="center">';
 

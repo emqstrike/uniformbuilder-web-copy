@@ -422,6 +422,19 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.updateManipulatorsPanel = function (settingsObj) {
+
+        var _templateStr = '';
+
+        _templateStr = ub.utilities.buildTemplateString("#m-manipulator-panel", {
+            x: '1',
+            y: '2',
+        });
+
+        return _templateStr;
+
+    }
+
 
     ub.funcs.changePatternFromPopupApplications = function (settingsObj, patternID) {
 
