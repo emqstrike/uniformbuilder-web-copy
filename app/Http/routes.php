@@ -75,7 +75,7 @@ Route::get('order/view/{orderId}', 'UniformBuilderController@viewOrder');
 Route::post('saveUniformDesign', 'UniformBuilderController@saveOrder');
 Route::post('generateOrderForm', 'UniformBuilderController@generateOrderForm');
 
-// Save Logo 
+// Save Logo
 Route::post('saveLogo', 'UniformBuilderController@saveLogo');
 Route::post('saveImageResized', 'UniformBuilderController@saveImageResized');
 
@@ -287,7 +287,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('lining/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@store']);
     Route::get('lining/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@addForm']);
     Route::get('lining/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@editForm']);
-    
+
      // Splash
     Route::get('splash_images', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@index']);
     Route::post('splash_image/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@store']);
@@ -419,6 +419,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Style Requests
     Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@index']);
+    Route::get('approved_style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@approvedIndex']);
     Route::get('style_viewer', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@styleViewer']);
     Route::get('styles_stats', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@stylesStats']);
 

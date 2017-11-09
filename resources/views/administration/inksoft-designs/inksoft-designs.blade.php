@@ -33,12 +33,12 @@
                             <th>SVG</th>
                             <th>Design Summary</th>
                             <th>Design Details</th>
-                            <th id="select-filter">Category</th> 
-                            <th id="select-filter">Type</th> 
+                            <th id="select-filter">Category</th>
+                            <th id="select-filter">Type</th>
                             <th id="select-filter">Is Public</th>
                             <th id="select-filter">Archived</th>
-                            <th>Comments</th> 
-                            <th id="select-filter">Status</th>                             
+                            <th>Comments</th>
+                            <th id="select-filter">Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -49,13 +49,13 @@
                                {{$item->id}}
                             </td>
                              <td>
-                                <a href="#" class="btn btn-default btn-xs file-link" data-link="{{$item->thumbnail}}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>                                
+                                <a href="#" class="btn btn-default btn-xs file-link" data-link="{{$item->thumbnail}}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                             </td>
                             <td>
-                                {{$item->design_id}}    
+                                {{$item->design_id}}
                             </td>
                             <td>
-                                {{$item->design_name}}    
+                                {{$item->design_name}}
                             </td>
                             <td>
                                 {{$item->first_name}} {{$item->last_name}}
@@ -64,25 +64,25 @@
                                 {{$item->cfirst_name}} {{$item->clast_name}}
                             </td>
                             <td>
-                                <a href="#" class="btn btn-default btn-xs file-link" data-link="{{$item->png_filename}}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>                                                               
+                                <a href="#" class="btn btn-default btn-xs file-link" data-link="{{$item->png_filename}}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                             </td>
                             <td>
-                                <a href="#" class="btn btn-default btn-xs file-link" data-link="{{$item->svg_filename}} "><i class="fa fa-picture-o" aria-hidden="true"></i></a>                              
-                                
+                                <a href="#" class="btn btn-default btn-xs file-link" data-link="{{$item->svg_filename}} "><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+
                             </td>
                             <td>
                                 <input type="hidden" class="design-summary" value="{{ $item->design_summary }}">
-                                <button class="view-design-summary btn btn-default btn-sm">View</button>                          
+                                <button class="view-design-summary btn btn-default btn-sm">View</button>
                             </td>
                             <td>
                                 <input type="hidden" class="design-details" value="{{$item->design_details}}">
-                                <button class="view-design-details btn btn-default btn-sm">View</button>                             
+                                <button class="view-design-details btn btn-default btn-sm">View</button>
                             </td>
                             <td>
-                                {{$item->category}} 
+                                {{$item->category}}
                             </td>
                             <td>
-                                @if($item->type == "user_design") 
+                                @if($item->type == "user_design")
                                     {{'User Design'}}
                                 @elseif($item->type == "tailsweeps")
                                     {{'Tailsweeps'}}
@@ -93,47 +93,47 @@
                                 @endif
                             </td>
                             <td>
-                                @if($item->is_public == 1) 
+                                @if($item->is_public == 1)
                                     {{'Yes'}}
-                                @else 
+                                @else
                                     {{'No'}}
-                                @endif                               
+                                @endif
                             </td>
                             <td>
-                                @if($item->archived == 1) 
+                                @if($item->archived == 1)
                                     {{'Yes'}}
-                                @else 
+                                @else
                                     {{'No'}}
-                                @endif                               
-                            </td>  
+                                @endif
+                            </td>
                             <td>
                               <input type="hidden" class="comments" value="{{$item->comments}}">
-                              <button class="view-comments btn btn-default btn-sm">View</button>        
+                              <button class="view-comments btn btn-default btn-sm">View</button>
                             </td>
                             <td>
-                                @if($item->status == "in_development") 
+                                @if($item->status == "in_development")
                                     {{'In Development'}}
                                 @elseif($item->status == "new")
                                     {{'New'}}
                                 @elseif($item->status == "initial_approval_ok")
                                     {{'Initial Approval Ok'}}
                                 @elseif($item->status == "secondary_approval_ok")
-                                    {{'Second Approval Ok'}}    
+                                    {{'Second Approval Ok'}}
                                 @elseif($item->status == "final_approval_ok")
                                     {{'Final Approval Ok'}}
                                 @else
                                     {{''}}
                                 @endif
-                            </td>     
+                            </td>
 
-                            <td class="td-buttons">                             
+                            <td class="td-buttons">
                                 <a href="/administration/inksoft_design/edit/{{$item->id}}" class="edit-inksoft-design btn btn-info btn-xs">
                                     <i class="glyphicon glyphicon-edit"></i>
                                 </a>
                                 <a href="#" class="delete-inksoft-design btn btn-xs btn-danger pull-right" data-inksoft-design-id="{{ $item->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                 </a>
-                                
+
                             </td>
                         </tr>
 
@@ -152,7 +152,6 @@
                           <tr>
                               <td></td>
                               <td></td>
-                              <td></td>                             
                               <td></td>
                               <td></td>
                               <td></td>
@@ -166,7 +165,8 @@
                               <td></td>
                               <td></td>
                               <td></td>
-                              <td></td>                                      
+                              <td></td>
+                              <td></td>
                           </tr>
                         </tfoot>
                     </table>
@@ -175,7 +175,7 @@
         </div>
     </div>
   <!-- Modal -->
-<div id="viewModal" class="modal fade" role="dialog">
+  <div id="viewModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
@@ -185,7 +185,7 @@
               <h3 class="modal-title" align="center">Design</h3>
             </div>
             <div class="modal-body" align="left">
-                  <div class="codes">                      
+                  <div class="codes">
                       <pre id="design" ></pre>
                   </div>
             </div>
@@ -212,12 +212,12 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-  
-    $('.file-link').on('click', function(){  
+
+    $('.file-link').on('click', function(){
     console.log('file link');
     var url = $(this).data('link');
     OpenInNewTab(url);
-    }); 
+    });
 
     function OpenInNewTab(url) {
     var win = window.open(url, '_blank');
@@ -255,50 +255,50 @@ $(document).ready(function(){
           } );
       }
 
-    });   
+    });
 
     $('#inksoft_design_table').on('click', '.view-comments', function(e){
         e.preventDefault();
         //Open loading modal
         getComments($(this));
-        $('#viewModal').modal('show');  
-      
+        $('#viewModal').modal('show');
+
     });
 
     function getComments(thisObj) {
       var jsonVal = thisObj.parent().parent().find('.comments').val();
       var pJson = JSON.parse(jsonVal);
-      var sJson = JSON.stringify(pJson, undefined, 2);      
-      $('#design').jJsonViewer(sJson, {expanded: true});  
+      var sJson = JSON.stringify(pJson, undefined, 2);
+      $('#design').jJsonViewer(sJson, {expanded: true});
     }
 
     $('#inksoft_design_table').on('click', '.view-design-summary', function(e){
         e.preventDefault();
         //Open loading modal
         getSummary($(this));
-        $('#viewModal').modal('show');  
-      
+        $('#viewModal').modal('show');
+
     });
 
     function getSummary(thisObj) {
       var jsonVal = thisObj.parent().parent().find('.design-summary').val();
       var pJson = JSON.parse(jsonVal);
-      var sJson = JSON.stringify(pJson, undefined, 2);      
-      $('#design').jJsonViewer(sJson, {expanded: true});  
+      var sJson = JSON.stringify(pJson, undefined, 2);
+      $('#design').jJsonViewer(sJson, {expanded: true});
     }
 
     $('#inksoft_design_table').on('click', '.view-design-details', function(e){
         e.preventDefault();
         //Open loading modal
         getDetails($(this));
-        $('#viewModal').modal('show');   
+        $('#viewModal').modal('show');
     });
 
     function getDetails(thisObj) {
       var jsonVal = thisObj.parent().parent().find('.design-details').val();
       var pJson = JSON.parse(jsonVal);
-      var sJson = JSON.stringify(pJson, undefined, 2);   
-      $('#design').jJsonViewer(sJson, {expanded: true});      
+      var sJson = JSON.stringify(pJson, undefined, 2);
+      $('#design').jJsonViewer(sJson, {expanded: true});
     }
 
 
@@ -312,7 +312,7 @@ $(document).ready(function(){
    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/v1-0/inksoft_design/delete";
-       
+
         $.ajax({
            url: url,
            type: "POST",
@@ -334,8 +334,8 @@ $(document).ready(function(){
                      console.log(value);
                      $('.inksoft-design-' + value).fadeOut();
                      // Will stop running after "three"
-                     
-                   });              
+
+                   });
 
                }
            }
