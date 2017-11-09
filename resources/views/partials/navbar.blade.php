@@ -25,11 +25,13 @@
                             <li><a href="/styles/men/hoodie" class="sport-link-icons">Hoodie</a></li>
                             <li><a href="/styles/men/compression" class="sport-link-icons">Compression</a></li>
                             <li><a href="/styles/men/tech-tee" class="sport-link-icons">Tech-Tee</a></li>
+                            <li><a href="/styles/men/game-day-coaches-jackets" class="game-day-coaches-jackets">Game Day Coaches Jackets (Apparel)</a></li>
                             <li><a href="/styles/men/one-fourth-zip-jacket" class="sport-link-icons">Quarter Zip Jacket</a></li>
                             <li><a href="/styles/men/fan-replica-jersey" class="sport-link-icons">Fan Replica Jersey</a></li>
                             <li><a href="/styles/men/team-shorts" class="sport-link-icons">2017 Team Short with Pockets</a></li>
                             <li><a href="/styles/men/signature-coaches-short" class="sport-link-icons">Signature Coaches Short</a></li>
                             <li><a href="/styles/men/cinch-sack" class="sport-link-icons">Cinch Sack</a></li>
+
                         </ul>
                       </li>
                 
