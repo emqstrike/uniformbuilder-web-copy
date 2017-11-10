@@ -81,7 +81,7 @@
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add Template
                                 </button>
-                                <a href="/administration/colors" class="btn btn-danger">
+                                <a href="/administration/price_item_templates" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
