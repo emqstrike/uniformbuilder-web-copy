@@ -1710,7 +1710,7 @@ class UniformBuilderController extends Controller
         $leftCaption = '(Left)';
         $rigthCaption = '(Right)';
 
-        if ($sport !== "Crew Socks (Apparel)" || $sport !== "Socks (Apparel)") {
+        if ($sport === "Crew Socks (Apparel)" || $sport === "Socks (Apparel)") {
             $leftCaption = '(Outside)';
             $rigthCaption = '(Inside)';
         }
