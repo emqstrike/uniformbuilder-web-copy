@@ -6516,7 +6516,7 @@ $(document).ready(function() {
         _htmlBuilder        +=              '<div class="sub1">';
         _htmlBuilder        +=                  '<br />';        
         _htmlBuilder        +=                  '<span class="accentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
-        _htmlBuilder        +=                  '<span class="accent">' + _mascotName + '</span>';  
+        _htmlBuilder        +=                  '<span class="accent">Change Mascot</span>';  
         _htmlBuilder        +=                  '<br />';
 
         if (_settingsObject.mascot.name === 'Custom Logo') {
