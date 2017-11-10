@@ -2166,8 +2166,8 @@
                 <span class="optionButton" data-type="player_number"><div class="icon"><img src="/images/main-ui/icon-number-large.png"></div><div class="caption">Player #</div></span>
                 <span class="optionButton" data-type="team_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Team Name</div></span>
                 <span class="optionButton" data-type="player_name"><div class="icon"><img src="/images/main-ui/icon-text-large.png"></div><div class="caption">Player Name</div></span>
-                <span class="optionButton" data-type="mascot"><div class="icon"><img src="/images/main-ui/icon-mascot-large.png"></div><div class="caption">Mascot</div></span>                            
-                <span class="optionButton" data-type="embellishments"><div class="icon"><img src="/images/main-ui/icon-embellishments-large.png"></div><div class="caption">Embellishments</div></span>                            
+                <span class="optionButton" data-type="mascot"><div class="icon"><img src="/images/main-ui/icon-mascot-large.png"></div><div class="caption">Stock Mascot</div></span>                            
+                <span class="optionButton" data-type="embellishments"><div class="icon"><img src="/images/main-ui/icon-embellishments-large.png"></div><div class="caption">Custom Mascots</div></span>                            
 
             </div>
 

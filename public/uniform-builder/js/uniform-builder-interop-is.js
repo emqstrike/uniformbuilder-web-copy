@@ -728,7 +728,7 @@ $(document).ready(function() {
         _htmlBuilder        =  '<div id="applicationUI" class="embellishmentUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType">' + _title + ' (Beta) <span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="applicationType">Custom Mascots <span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
 
@@ -794,12 +794,8 @@ $(document).ready(function() {
 
         _htmlBuilder        +=              '<div class="sub1">';
         _htmlBuilder        +=                  '<br />';        
-        _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img class="inksoftThumb" src="' + _mascotIcon + '"/></span><br />';                                                             
-        _htmlBuilder        +=                  '<span class="accent">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span>';  
-        _htmlBuilder        +=                  ' | ';        
-        _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a>';  
-        _htmlBuilder        +=                  ' | ';
-        _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a>';  
+        _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img class="inksoftThumb" src="' + _mascotIcon + '"/></span><br />';
+        _htmlBuilder        +=                  '<span class="embellishment-name">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span><br />';      
 
         if (_settingsObject.embellishment.name === 'Custom Logo') {
             _htmlBuilder        +=                  '<a class="view-file" data-file="' + _settingsObject.customFilename + '" target="_new">View File</a>';
@@ -807,10 +803,18 @@ $(document).ready(function() {
         }
 
         _htmlBuilder        +=                  '<span class="flipButton">Flip</span>'; 
-       
+        
         _htmlBuilder        +=              '</div>';
 
+        _htmlBuilder        +=              '<div class="colorContainer">';   
+        _htmlBuilder        +=                  '<br /><a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a><br />';  
+        _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a><br />';  
+        
+        _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
+        _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
         _htmlBuilder        +=              '</div>';
+
+        _htmlBuilder        +=        '</div>';
 
         _htmlBuilder        += ub.utilities.buildTemplateString('#m-embellishment-sidebar', {});
 
@@ -825,6 +829,32 @@ $(document).ready(function() {
         _htmlBuilder        +=  '</div>';
         
         $('.modifier_main_container').append(_htmlBuilder);
+
+
+        // Opacity Slider 
+
+            var _from = 100;
+
+            $('input#opacity-slider').show();
+
+            if (typeof $("#opacity-slider").destroy === "function") { 
+                $("#opacity-slider").destroy(); 
+            }
+            
+            $("#opacity-slider").ionRangeSlider({
+                min: 0,
+                max: 100,
+                from: typeof _settingsObject.alpha === "number" ? _settingsObject.alpha * 100 : 100,
+                onChange: function (data) {
+
+                    ub.funcs.changeMascotOpacity(_settingsObject.code, data.from);
+
+                },
+            });
+
+        // End Opacity Slider
+
+
         $('a.view-file').unbind('click');
         $('a.view-file').on('click', function () {
 
