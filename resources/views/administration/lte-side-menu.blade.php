@@ -6,16 +6,25 @@
       <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
     </a>
   </li>
-  <li data-step="2" data-intro="Will proceed to the orders." data-position='right'>
-    <a href="/administration/orders" >
-      <i class="glyphicon glyphicon-list-alt"></i> <span>Orders</span>
+  <li class="treeview" data-step="2" data-intro="View Orders" data-position='right'>
+    <a href="#" >
+      <i class="glyphicon glyphicon-list-alt"></i>
+      <span>Orders</span>
+      <i class="fa fa-angle-left pull-right"></i>
     </a>
+    <ul class="treeview-menu">
+      <li data-position='right'>
+        <a href="/administration/orders">
+          <i class="glyphicon glyphicon-list-alt"></i> <span>Pending Orders</span>
+        </a>
+      </li>
+      <li>
+        <a href="/administration/orders/sent_orders">
+          <i class="glyphicon glyphicon-ok"></i> <span>Sent Orders</span>
+        </a>
+      </li>
+    </ul>
   </li>
-  <!-- <li data-step="2" data-intro="Will proceed to the price items dashboard." data-position='right'>
-    <a href="/administration/price_items" >
-        <i class="fa fa-money"></i> <span>Price Items Dashboard</span>
-    </a>
-  </li> -->
   <li class="treeview" data-step="2" data-intro="Manage price items" data-position='right'>
     <a href="#" >
       <i class="fa fa-money"></i>
