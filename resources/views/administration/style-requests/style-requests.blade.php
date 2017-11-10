@@ -93,7 +93,11 @@
                             <a href="#" data-toggle="tooltip" data-message="{{ $style_request->uploaded_by }}"><span class="glyphicon glyphicon-info-sign"></span></a>
 
                         </td>
-                        <td class="style-customizer-id">{{ $style_request->customizer_id }}</td>
+                        <!-- <td class="style-customizer-id">{{ $style_request->customizer_id }}</td> -->
+                        <td>
+                            <input type="hidden" name="style_customizer_id"" class="style-customizer-id" value="{{ $style_request->customizer_id }}">
+                            <a href="#" class="btn btn-defult btn-xs file-link" data-link="http://customizer.prolook.com/builder/0/{{ $style_request->customizer_id }}">{{ $style_request->customizer_id }}</a>
+                        </td>
                         <td class="style-status">{{ $style_request->status }}</td>
                         <td>
                               <input type="hidden" class="notes" value="{{$style_request->notes}}">
@@ -706,7 +710,7 @@ $(function(){
         var option = thisObj.parent().parent().find('.style-option').html();
         var item_id = thisObj.parent().parent().find('.style-qstrike-item-id').html();
         var priority = thisObj.parent().parent().find('.style-priority').html();
-        var customizer_id = thisObj.parent().parent().find('.style-customizer-id').html();
+        var customizer_id = thisObj.parent().parent().find('.style-customizer-id').val();
         var status = thisObj.parent().parent().find('.style-status').html();
         var notes = thisObj.parent().parent().find('.notes').val();
         window.sport_value = sport;
