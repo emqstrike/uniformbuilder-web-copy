@@ -6450,7 +6450,7 @@ $(document).ready(function() {
 
         _htmlBuilder        +=          '<div class="ui-row">';
 
-        _htmlBuilder        +=              '<label class="applicationLabels font_name">Mascot</label>';
+        _htmlBuilder        +=              '<label class="applicationLabels font_name">Stock Mascot</label>';
         _htmlBuilder        +=              '<span class="fontLeft" data-direction="previous" style="opacity: 0;"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>';                       
         _htmlBuilder        +=              '<span class="font_name" style="font-size: 1.2em; font-family: ' + _mascotName + ';">' + _mascotName + '</span>';                       
         _htmlBuilder        +=              '<span class="fontRight" data-direction="next"  style="opacity: 0;"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>';
@@ -6516,7 +6516,7 @@ $(document).ready(function() {
         _htmlBuilder        +=              '<div class="sub1">';
         _htmlBuilder        +=                  '<br />';        
         _htmlBuilder        +=                  '<span class="accentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
-        _htmlBuilder        +=                  '<span class="accent">' + _mascotName + '</span>';  
+        _htmlBuilder        +=                  '<span class="accent">Change Mascot</span>';  
         _htmlBuilder        +=                  '<br />';
 
         if (_settingsObject.mascot.name === 'Custom Logo') {
@@ -6533,7 +6533,7 @@ $(document).ready(function() {
 
         _htmlBuilder        +=              '</div>';
 
-        _htmlBuilder        +=                  '<div class="colorContainer"><br />';
+        _htmlBuilder        +=                  '<div class="colorContainer">';
 
         if (ub.current_material.settings.applications[application_id].mascot.id !== "1039") {
 
@@ -6585,7 +6585,9 @@ $(document).ready(function() {
 
         }
 
-        _htmlBuilder        +=                      '<br /><input type="text" id="opacity-slider" value="" />';
+
+        _htmlBuilder        +=                      '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
+        _htmlBuilder        +=                      '<input type="text" id="opacity-slider" value="" />';
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
@@ -6846,7 +6848,7 @@ $(document).ready(function() {
 
                 _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Embellishments</div>';
+                _htmlBuilder        +=                 '<div class="caption">Custom Mascot</div>';
                 _htmlBuilder        +=           '</div>';
                 
                 _htmlBuilder        +=      '</div>';
@@ -8595,7 +8597,7 @@ $(document).ready(function() {
 
                 _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Stock Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
                 if (ub.config.uniform_application_type !== "sublimated") {
@@ -8604,7 +8606,7 @@ $(document).ready(function() {
 
                 _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Embellishments</div>';
+                _htmlBuilder        +=                 '<div class="caption">Custom Mascots</div>';
                 _htmlBuilder        +=           '</div>';
 
                 _htmlBuilder        +=      '</div>';

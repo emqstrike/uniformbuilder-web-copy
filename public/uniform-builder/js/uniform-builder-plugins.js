@@ -1443,6 +1443,10 @@
                 embellishment_layer.anchor.set(0.5, 0.5);
                 container.addChild(embellishment_layer);
 
+                if (typeof settings_obj.alpha === "number") {
+                    embellishment_layer.alpha = settings_obj.alpha;
+                }
+
                 // var val = layer.default_color;
                 // var col = layer.default_color;
                 // var filename = layer.filename;

@@ -834,10 +834,12 @@ class UniformBuilderController extends Controller
             } else if ($appType == "MASCOT" ) {
 
                 $html .=   '<td align="center">';
-                $html .=   'Mascot Name: ' . $application['mascot']['name'] . "<br />";
+                $html .=   'Stock Mascot Name: ' . $application['mascot']['name'] . "<br />";
 
                 if (isset($application['alpha'])) {
-                   $html .=   'Opacity: ' . ($application['alpha'] * 100) . "% <br />";
+                    $html .= 'Watermark Intensity: ' . ($application['alpha'] * 100) . "% <br />";
+                } else {
+                    $html .= 'Watermark Intensity: 100% <br />';
                 }
 
                 if ($application['mascot']['name'] == 'Custom Logo') {
@@ -870,8 +872,15 @@ class UniformBuilderController extends Controller
                 $embellishment = $application['embellishment'];
 
                 $html .=   '<td align="center">';
+                $html .=   'Custom Mascot Name: ' . $embellishment['name'] . "<br />";
+
+                if (isset($application['alpha'])) {
+                   $html .=   'Watermark Intensity: ' . ($application['alpha'] * 100) . "% <br />";
+                } else {
+                   $html .=   'Watermark Intensity: 100% <br />';
+                }
+
                 $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '"><br />';    
-                $html .=   'Name: ' . $embellishment['name'] . "<br />";
                 $html .=   '<a href="' . $embellishment['svg_filename'] . '" target="_new">Link To Prepared File</a> <br />';
                 $html .=   '<a href="http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
                 $html .=   '</td>';
