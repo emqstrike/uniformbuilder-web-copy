@@ -794,7 +794,7 @@ $(document).ready(function() {
 
         _htmlBuilder        +=              '<div class="sub1">';
         _htmlBuilder        +=                  '<br />';        
-        _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img src="' + _mascotIcon + '"/></span><br />';                                                             
+        _htmlBuilder        +=                  '<span class="accentThumb embellishmentThumb"><img class="inksoftThumb" src="' + _mascotIcon + '"/></span><br />';                                                             
         _htmlBuilder        +=                  '<span class="accent">' + _settingsObject.embellishment.name + ' (' + _settingsObject.embellishment.design_id + ')' + '</span>';  
         _htmlBuilder        +=                  ' | ';        
         _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a>';  
