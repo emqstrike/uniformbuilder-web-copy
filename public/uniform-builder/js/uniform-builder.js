@@ -597,7 +597,18 @@ $(document).ready(function () {
                 ub.current_material.settings.styles_pdf = (ub.current_material.material.styles_pdf !== null) ? ub.current_material.material.styles_pdf : '';
             }
 
+            ub.funcs.updateLabels();
+
         };
+
+        ub.funcs.updateLabels = function () {
+
+            if (ub.funcs.isSocks()) {
+                $('a.change-view[data-view="left"] > span').text('Outside View');
+                $('a.change-view[data-view="right"] > span').text('Inside View');
+            }
+
+        }
 
         ub.funcs.isAFavoriteItem = function (uniformID) {
 

@@ -1626,6 +1626,7 @@ class UniformBuilderController extends Controller
         $path = public_path('design_sheets/' . $filename . '.pdf');
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
+        $sport = $bc['uniform_category'];
 
         $uniform_category = $bc['uniform_category'];
 
@@ -1694,7 +1695,17 @@ class UniformBuilderController extends Controller
         //$pdf->AddPage("L");
 
         $pdf->writeHTML($html, true, false, true, false, '');
-        
+
+        $frontCaption = '(Front)';
+        $backCaption = '(Back)';
+        $leftCaption = '(Left)';
+        $rigthCaption = '(Right)';
+
+        if ($sport !== "Crew Socks (Apparel)" || $sport !== "Socks (Apparel)") {
+            $leftCaption = '(Outside)';
+            $rigthCaption = '(Inside)';
+        }
+
         $html  = '';
         $html .=   '<div>';
         $html .=      '<div style ="width: 100%; text-align: center;">';
@@ -1704,10 +1715,10 @@ class UniformBuilderController extends Controller
         $html .=       '<table>';
         $html .=         '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=         '<tr>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $frontCaption . '</td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $backCaption . '</td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $leftCaption . '</td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $rigthCaption . '</td>';
         $html .=         '</tr>';
         $html .=        '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=   '</table>';
@@ -1742,7 +1753,7 @@ class UniformBuilderController extends Controller
         $html .= '<table>';
         $html .=    '<tr>';
         $html .=        '<td width="100%">';
-        $html .=            $this->generateRosterTable($roster, $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations']['uniform_category']);
+        $html .=            $this->generateRosterTable($roster, $sport);
         $html .=        '</td>';
         $html .=    '</tr>';
         $html .='</table>';
