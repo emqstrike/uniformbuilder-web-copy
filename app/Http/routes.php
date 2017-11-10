@@ -297,6 +297,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Orders
     Route::get('orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@index']);
+    Route::get('orders/sent_orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@indexSentOrders']);
     Route::post('order/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
     Route::post('order/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
     Route::get('order/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@addForm']);
