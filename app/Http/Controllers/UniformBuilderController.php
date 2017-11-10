@@ -61,6 +61,9 @@ class UniformBuilderController extends Controller
 
     public function showBuilder($config = [])
     {
+
+        Log::info('Load Builder');
+
         $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))
             ? $config['design_set_id']
             : null;
@@ -1148,7 +1151,6 @@ class UniformBuilderController extends Controller
 
             $code = $this->toTitleCase($part['code']);
 
-            Log::info('---' . $code);
 
             $ctrParts += 1;
             $bgcolor = '#fff';
@@ -1629,6 +1631,8 @@ class UniformBuilderController extends Controller
 
     function generatePDF ($builder_customizations) {
 
+        Log::info('Init Generate PDF');
+
         $pdf = new TCPDF(); 
 
         $filename = $this->getGUID(); 
@@ -2014,6 +2018,9 @@ class UniformBuilderController extends Controller
      */
     public function loadSavedDesign($id, $render = false)
     {
+
+        Log::info('Load Saved Design');
+
         $savedDesign = $this->savedDesignsClient->getSavedDesign($id);
 
         if (isset($savedDesign))
