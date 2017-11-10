@@ -48,6 +48,15 @@ class OrdersController extends Controller
         ]);
     }
 
+    public function indexSentOrders(Request $request)
+    {
+        $orders = $this->client->getSentOrders();
+
+        return view('administration.orders.orders-sent', [
+            'orders' => $orders
+        ]);
+    }
+
     public function updateStatus($status)
     {
         $response = $this->client->updateStatus('order/updateStatus', [
