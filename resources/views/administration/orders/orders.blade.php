@@ -29,6 +29,7 @@
                             <th>Order Status</th>
                             <th>Rep ID</th>
                             <th>FOID</th>
+                            <th>Date Submitted</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -118,6 +119,9 @@
                             </td>
                             <td>
                                 {{ $order->factory_order_id }}
+                            </td>
+                            <td>
+                                {{ $order->created_at }}
                             </td>
                             <td>
                                 {{-- @if ( $order->artwork_status != "rejected" )
