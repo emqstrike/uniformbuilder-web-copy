@@ -1,10 +1,10 @@
 $(document).ready(function(){
 
-    if( $('#old_properties').val() ) {       
-        var data = JSON.parse($('#old_properties').val());    
+    if( $('#old_properties').val() ) {
+        var data = JSON.parse($('#old_properties').val());
         loadConfigurations(data);
-    }    
-    
+    }
+
     window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot'];
 
     $(".add-props").on('click', function(e) {
@@ -16,7 +16,7 @@ $(document).ready(function(){
         var td_close = '</td>';
         window.app_type = null;
           var type_elem = '';
-          app_types.forEach(function(type) {                
+          app_types.forEach(function(type) {
                 type_elem += '<option value="'+type+'">'+type+'</option>';
             });
         window.app_type = type_elem;
@@ -44,16 +44,16 @@ $(document).ready(function(){
                         td_close +
                         td_open +
                             delete_row +
-                        td_close +                          
+                        td_close +
                     '</tr>';
-        $('.properties-content').append(elem);       
+        $('.properties-content').append(elem);
         refreshSelectBoxes();
         updateJSON();
     });
 
     $("#create_application_size").on("click", ".delete-row", function(e){
             e.preventDefault();
-            $(this).parent().parent().remove();            
+            $(this).parent().parent().remove();
     });
 
     function deleteButton(){
@@ -62,16 +62,16 @@ $(document).ready(function(){
             $(this).parent().parent().remove();
             updateJSON();
         });
-    }    
+    }
 
-    function loadConfigurations(data){               
+    function loadConfigurations(data){
         var app_numbers_options = buildAppNumOptions();
         var app_sizes_options = buildAppSizeOptions();
         var app_numbers_ref = [];
         var app_sizes_ref = [];
         var default_sizes = [];
         window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot'];
-        data.forEach(function(entry, i) {                         
+        data.forEach(function(entry, i) {
             var app_nums = entry.application_number;
             app_numbers_ref.push(app_nums);
             app_sizes_ref.push(entry.size);
@@ -80,7 +80,7 @@ $(document).ready(function(){
             var app_size_class = "app-size-"+i;
             var app_def_class = "app-def-"+i;
             var app_size = entry.size;
-            var app_scale = entry.scale;             
+            var app_scale = entry.scale;
             var td_open = '<td>';
             var td_close = '</td>';
             window.app_type = null;
@@ -118,31 +118,31 @@ $(document).ready(function(){
                             td_close +
                             td_open +
                                 delete_row +
-                            td_close +                          
-                        '</tr>';            
+                            td_close +
+                        '</tr>';
             $('.properties-content').append(elem);
 
-            updateJSON();      
-            setDefault(app_sizes_ref, entry.default);      
-            setTimeout(refreshSelect2s(app_numbers_ref), 1000);                    
-        });     
-               
+            updateJSON();
+            setDefault(app_sizes_ref, entry.default);
+            setTimeout(refreshSelect2s(app_numbers_ref), 1000);
+        });
+
     }
 
 
     function refreshSelect2s(app_numbers_ref){
-        refreshSelectBoxes();       
+        refreshSelectBoxes();
         app_numbers_ref.forEach(function(entry, i) {
             try {
-                var app_num_class = ".app-num-"+i; 
-                $(app_num_class).select2('val', entry);                
+                var app_num_class = ".app-num-"+i;
+                $(app_num_class).select2('val', entry);
             }
             catch(err) {
                 console.log(err.message);
-            }        
+            }
         });
         updateJSON();
-    }    
+    }
 
     function updateJSON() {
         var data = [];
@@ -171,12 +171,13 @@ $(document).ready(function(){
     function buildAppSizeOptions() {
         var elem = '';
         elem += '<option value="'+0.5+'">'+0.5+'</option>';
+        elem += '<option value="'+1.5+'">'+1.5+'</option>';
         elem += '<option value="'+2.5+'">'+2.5+'</option>';
         for(var i = 1; i <= 12; i++){
             elem += '<option value="'+i+'">'+i+'</option>';
-        }        
+        }
         return elem;
-    }    
+    }
 
 
     function refreshSelectBoxes(){
@@ -193,41 +194,41 @@ $(document).ready(function(){
                 multiple: true,
                 allowClear: true
             });
-        });         
+        });
     }
 
     function setValue(thisObj) {
-        var sizes = thisObj.parent().parent().find('.app-size').val().toString();      
-        var def_value = sizes.split(",");        
+        var sizes = thisObj.parent().parent().find('.app-size').val().toString();
+        var def_value = sizes.split(",");
         var elem = '';
         def_value.forEach( function(entry) {
            elem += '<option value="'+entry+'">'+entry+'</option>';
         });
-        thisObj.parent().parent().find('.app-def').empty().append(elem); 
+        thisObj.parent().parent().find('.app-def').empty().append(elem);
     }
 
     function setDefault(sizes, def_value) {
         refreshSelectBoxes();
-        // var sizes = sizes.toString();      
-        // var def_values = sizes.split(",");  
-        // var elem = '';        
-        sizes.forEach( function(entry, i) {  
+        // var sizes = sizes.toString();
+        // var def_values = sizes.split(",");
+        // var elem = '';
+        sizes.forEach( function(entry, i) {
             try {
                 var app_size_class = ".app-size-"+i;
-                var app_def_class = ".app-def-"+i;        
+                var app_def_class = ".app-def-"+i;
                 $(app_size_class).select2('val', entry);
                 var sizes_value = entry.toString().split(",");
                 $(app_def_class).html('');
-                var elem2 = ''; 
-                sizes_value.forEach(function(size, j){            
-                    if(def_value == size) {                  
+                var elem2 = '';
+                sizes_value.forEach(function(size, j){
+                    if(def_value == size) {
                             elem2 += '<option value="'+size+'" selected>'+size+'</option>';
-                        } 
+                        }
                     else {
                             elem2 += '<option value="'+size+'">'+size+'</option>';
-                        }          
+                        }
                 });
-                $(app_def_class).append(elem2);       
+                $(app_def_class).append(elem2);
             }
             catch (err) {
                 console.log(err.message);
@@ -244,11 +245,11 @@ $(document).ready(function(){
 
     $("#create_application_size").on("keyup", ".app-scale", function(e){
         updateJSON();
-    });  
+    });
 
-    $("#create_application_size").on("change", ".app-def, .app-type, .app-numbers", function(e){        
+    $("#create_application_size").on("change", ".app-def, .app-type, .app-numbers", function(e){
         updateJSON();
-    });   
+    });
 
     $("#create_application_size").on("click", ".delete-row", function(e){
         updateJSON();
