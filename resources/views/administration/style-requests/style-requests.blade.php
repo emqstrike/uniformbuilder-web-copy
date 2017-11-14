@@ -64,7 +64,7 @@
                             <th>Requested By</th>
                             <th>Uploaded</th>
                             <th>Customizer ID</th>
-                            <th>Status</th>
+                            <th id="select-filter">Status</th>
                             <th>Notes</th>
                             <th>Actions</th>
                         </tr>
@@ -100,8 +100,15 @@
                         </td>
                         <td class="style-status">{{ $style_request->status }}</td>
                         <td>
-                              <input type="hidden" class="notes" value="{{$style_request->notes}}">
-                              <button class="view-notes btn btn-default btn-sm">View</button>
+                            <input type="hidden" class="notes" value="{{$style_request->notes}}">
+                            @if($style_request->notes != '' AND  $style_request->status == 'pending')
+                                <button class="view-notes btn btn-info btn-sm">View</button>
+                            @elseif($style_request->notes != '' AND  $style_request->status == 'rejected')
+                                <button class="view-notes btn btn-danger btn-sm">View</button>
+                            @else
+                                <button class="view-notes btn btn-default btn-sm">View</button>
+                            @endif
+
                         </td>
                         <td>
                             <button type="button" class="btn btn-info btn-xs edit" ><i class="glyphicon glyphicon-edit"></i></button>
@@ -122,6 +129,25 @@
 
                     @endforelse
                     </tbody>
+                        <tfoot>
+                          <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -327,7 +353,29 @@ $(function(){
                     return $(this).data('message');
                 }
             });
-       }
+       },
+        initComplete: function () {
+          this.api().columns('#select-filter').every( function () {
+
+              var column = this;
+              var select = $(`<select><option value=""></option></select>`)
+                  .appendTo( $(column.footer()).empty() )
+                  .on( 'change', function () {
+                      var val = $.fn.dataTable.util.escapeRegex(
+                          $(this).val()
+                      );
+
+                      column
+                      .search( val ? '^'+val+'$' : '', true, false )
+                          .draw();
+                  } );
+
+              column.data().unique().sort().each( function ( d, j ) {
+
+                  select.append( `<option value="`+d+`">`+d+`</option>` );
+              } );
+          } );
+      }
     });
     } catch(e) {
         // statements

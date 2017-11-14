@@ -97,7 +97,11 @@
                         <td class="style-status">{{ $style_request->status }}</td>
                         <td>
                               <input type="hidden" class="notes" value="{{$style_request->notes}}">
-                              <button class="view-notes btn btn-default btn-sm">View</button>
+                            @if($style_request->notes != '' AND  $style_request->status == 'approved')
+                                <button class="view-notes btn btn-warning btn-sm">View</button>
+                            @else
+                                <button class="view-notes btn btn-default btn-sm">View</button>
+                            @endif
                         </td>
                         <td>
                             <button type="button" class="btn btn-info btn-xs edit" ><i class="glyphicon glyphicon-edit"></i></button>
