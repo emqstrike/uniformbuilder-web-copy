@@ -31,7 +31,7 @@ $(document).ready(function() {
 	    	sortFront();
 	    	sortBack();
 	    	sortLeft();
-	    	sortBack();
+	    	sortRight();
 	    } catch(err){
 	    	console.log(err.message);
 	    }
@@ -174,12 +174,20 @@ $(document).ready(function() {
     	var name = thisObj.next().val().toLowerCase();
 		// console.log( "Name: " + name );
     	if ( name == "highlights" ) {
-			thisObj.val('99');
-		} else if( name == "shadows" ){
-			thisObj.val('98');
-		} else {
-			thisObj.val( parseInt(length) );
-		}
+            thisObj.val('99');
+        } else if( name == "shadows" ){
+            thisObj.val('98');
+        } else if( name == "locker tag" ){
+            thisObj.val('97');
+        } else if( name == "prolook" ){
+            thisObj.val('96');
+        } else if( name == "guide" ){
+            thisObj.val('95');
+        } else if( name == "pro-dry" ){
+            thisObj.val('90');
+        } else {
+               thisObj.val(parseInt(length));
+        }
     }
 
     function sortFront(){
