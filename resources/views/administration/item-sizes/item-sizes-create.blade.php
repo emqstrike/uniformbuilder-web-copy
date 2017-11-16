@@ -111,10 +111,10 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-    var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','3-5','5-7','8-12','13-14','YXS','YS','YM','YL','YXL','Y2XL','Y3XL','1 Size','22-30','32-44','46-54','24-34','36-48','50-54','30-36','38-42','22','23','24','24 (YXS)','25','26','26 (YS)','27','28','28 (YM)','29','30','31','32','32 (YL)','33','34','34 (YXL)','35','36','36 (S)','37','38','38 (M)','39','40','41','42','42 (L)','43','44','45','46','46 (XL)','47','48','49','50','50 (2XL)','51','52','53','54','54 (3XL)'];
+    var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','3-5','5-7','8-12','13-14','Y Goalie','M Goalie','L Goalie','YXS','YS','YS/YM','YM','YL','YL/YXL','YXL','Y2XL','Y3XL','1 Size','22-30','32-44','46-54','24-34','36-48','50-54','30-36','38-42','22','23','24','24 (YXS)','25','26','26 (YS)','27','28','28 (YM)','29','30','31','32','32 (YL)','33','34','34 (YXL)','35','36','36 (S)','37','38','38 (M)','39','40','41','42','42 (L)','43','44','45','46','46 (XL)','47','48','49','50','50 (2XL)','51','52','53','54','54 (3XL)'];
 
     $('.autosized').autosize({append: "\n"});
-    initSizes();  
+    initSizes();
 
     var defaultElem = $( ".prop-row" ).clone();    
 
@@ -127,7 +127,7 @@ $(document).ready(function(){
         $(x).append(y);
         deleteButton();      
         updateProperties();
-    });   
+    });
 
     function deleteButton(){
         $('.remove-prop').on('click', function(e){
@@ -142,7 +142,7 @@ $(document).ready(function(){
             var elem = '<option value="' + i + '">' + i + '</option>';
             $('.size').append(elem);
         });
-    }   
+    }
 
     function updateProperties(){
       var data = [];
