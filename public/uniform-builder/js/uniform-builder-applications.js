@@ -9323,7 +9323,7 @@ $(document).ready(function() {
 
         var _applicationObj = ub.current_material.settings.applications[application_id];
 
-        // if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
+        if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
 
         // if deleted exit
         if (typeof _applicationObj === "undefined") { return; }
