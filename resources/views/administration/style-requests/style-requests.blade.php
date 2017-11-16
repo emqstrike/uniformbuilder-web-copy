@@ -62,6 +62,7 @@
                             <th>Priority</th>
                             <th>Deadline</th>
                             <th>Requested By</th>
+                            <th>Application Type</th>
                             <th>Uploaded</th>
                             <th>Customizer ID</th>
                             <th id="select-filter">Status</th>
@@ -84,6 +85,7 @@
                         <td class="style-priority">{{ $style_request->priority }}</td>
                         <td >{{ $style_request->deadline }}</td>
                         <td>{{ $style_request->requested_by }}</td>
+                        <td class="style-application-type">{{ $style_request->uniform_application_type }}</td>
                         <td>
                             @if($style_request->uploaded)
                                 {{ 'Yes' }}
@@ -131,21 +133,22 @@
                     </tbody>
                         <tfoot>
                           <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                           </tr>
                         </tfoot>
                     </table>
@@ -230,6 +233,16 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-md-4 control-label">Application Type</label>
+                <div class="col-md-6">
+                    <select class="form-control application_type">
+                        <option value="none">None</option>
+                        <option value="tackle_twill">Tackle Twill</option>
+                        <option value="sublimated">Sublimated</option>
+                    </select>
+                </div>
+            </div>
+             <div class="form-group">
                 <label class="col-md-4 control-label">Priority</label>
                 <div class="col-md-6">
                     <select class="form-control priority">
@@ -402,7 +415,7 @@ $(function(){
         win.focus();
     }
 
-    $(document).on('change', '.name, .sport, .block-pattern, .block-pattern-option, .qstrike-item-id, .priority, #deadline, .design_sheet, .customizer-id, .status, #input_notes', function() {
+    $(document).on('change', '.name, .sport, .block-pattern, .block-pattern-option, .qstrike-item-id, .priority, #deadline, .design_sheet, .customizer-id, .status, #input_notes, .application_type', function() {
         updateData();
     });
 
@@ -555,6 +568,7 @@ $(function(){
         var customizer_id = $('.customizer-id').val();
         var status = $('.status').val();
         var notes = $('#input_notes').val();
+        var application_type = $('.application_type').val();
         window.data = {
             'id' : id,
             'name' : name,
@@ -567,7 +581,8 @@ $(function(){
             'design_sheet_url' : design_sheet_url,
             'customizer_id' : customizer_id,
             'status' : status,
-            'notes' : notes
+            'notes' : notes,
+            'uniform_application_type' : application_type
         };
         $('.data-string').val(JSON.stringify(window.data));
         console.log(window.data);
@@ -682,7 +697,9 @@ $(function(){
         $('.name').val('');
         $('.qstrike-item-id').val('');
         $('.customizer-id').val('');
+        $('.status').val('pending');
         $('#input_notes').val('');
+        $('.application_type').val('none');
         $('.custom_block_pattern').val(null);
         $('.enable_custom_bp').prop('checked', false);
         $('.enable_custom_bp').trigger('change');
@@ -709,7 +726,7 @@ $(function(){
         }
     });
 
-    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status").on("change", function(e){
+    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type").on("change", function(e){
         e.preventDefault();
         var name = document.getElementById("name").value;
         var qx_id = document.getElementById("qstrike_item_id").value;
@@ -761,6 +778,7 @@ $(function(){
         var customizer_id = thisObj.parent().parent().find('.style-customizer-id').val();
         var status = thisObj.parent().parent().find('.style-status').html();
         var notes = thisObj.parent().parent().find('.notes').val();
+        var application_type = thisObj.parent().parent().find('.style-application-type').html();
         window.sport_value = sport;
         window.block_pattern_value = block_pattern;
         window.option_value = option;
@@ -773,6 +791,7 @@ $(function(){
         $('.customizer-id').val(customizer_id);
         $('.status').val(status);
         $('#input_notes').val(notes);
+        $('.application_type').val(application_type);
         $('#myModal').modal('show');
 
     }
