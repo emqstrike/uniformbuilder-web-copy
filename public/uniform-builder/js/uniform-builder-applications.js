@@ -2501,6 +2501,13 @@ $(document).ready(function() {
                     name: mat_option,
                 });
 
+                /// Message is mask layer is undefined
+                if (typeof mask === "undefined") {
+                    errorCode = ub.errorCodes.getCode('maskLayerNotFound');
+                    ub.utilities.errorWithCode(errorCode, mat_option + ' / ' + view.perspective);
+                    // TODO: PartialApplications
+                }
+                
                 var mask = ub.pixi.new_sprite(mask.material_option_path);
                 point.mask = mask;
                 point.name = marker_name;
