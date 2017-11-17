@@ -1106,6 +1106,7 @@ class UniformBuilderController extends Controller
         $uniformType = $itemData['type'];
         $parts = $bc[$uniformType];
         $randomFeeds = $bc['randomFeeds'];
+        $hiddenBody = $bc["hiddenBody"];
 
         $html = '';
         $html .= '<br /><br />';
@@ -1148,9 +1149,9 @@ class UniformBuilderController extends Controller
             if ($part['code'] === 'locker_tag') { continue; }
             if ($part['code'] === 'elastic_belt') { continue; }
             if ($part['code'] === 'body_inside') { continue; }
+            if ($hiddenBody and $part['code'] === 'body') { continue; }
 
             $code = $this->toTitleCase($part['code']);
-
 
             $ctrParts += 1;
             $bgcolor = '#fff';
