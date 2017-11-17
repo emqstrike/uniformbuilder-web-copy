@@ -148,7 +148,7 @@
         </a>
       </li>
       <li data-step="9" data-intro="For Materials settings.">
-        <a href="/administration/materials">
+        <a href="/administration/materials/Football">
           <i class="fa fa-cubes"></i> <span>Materials</span>
         </a>
       </li>

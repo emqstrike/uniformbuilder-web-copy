@@ -72,6 +72,11 @@
                         </small>
                     </h1>
                     <a href="#" class="btn btn-xs btn-primary log-ids">Log ids</a>
+                    <hr>
+                    Sport:
+                    <select class="active-sport">
+                        <option value="{{ $active_sport }}">{{ $active_sport }}</option>
+                    </select>
                 </div>
                 <div class="box-body">
                     <table data-toggle='table' id='materials_table' class='data-table zoomed-out table table-bordered table-hover materials display'>
@@ -189,7 +194,8 @@
             <tr>
                 <td></td>
                 <td></td>
-                <td id="sports-filter"></td>
+                <!-- <td id="sports-filter"></td> -->
+                <td></td>
                 <td id="block-patterns-filter"></td>
                 <td id="necks-filter"></td>
                 <td></td>
@@ -227,5 +233,6 @@
 <script type="text/javascript" src="/js/administration/datatables.min.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <!-- <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script> -->
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/materials-main.js"></script>
 @endsection

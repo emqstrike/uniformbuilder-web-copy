@@ -86,6 +86,22 @@ class MaterialsController extends Controller
         ]);
     }
 
+    public function indexSport($sport = null)
+    {
+        Log::info('Index');
+        $materials = $this->client->getMaterialsBySport($sport);
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
+        $materials_string = json_encode($materials);
+
+
+        return view('administration.materials.materials', [
+            'block_patterns' => $block_patterns,
+            'materials' => $materials,
+            'materials_string' => $materials_string,
+            'active_sport' => ucfirst($sport)
+        ]);
+    }
+
     public function getMaterialOptions($id)
     {
         Log::info('Get Material Options');
