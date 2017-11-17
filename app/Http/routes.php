@@ -179,6 +179,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);
+    Route::get('materials/{sport?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@indexSport']);
     Route::get('materials/full', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@indexFull']);
     Route::post('material/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@store']);
     Route::post('material/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@store']);
