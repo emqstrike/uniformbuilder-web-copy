@@ -9328,8 +9328,6 @@ $(document).ready(function() {
 
         // if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
 
-        if (ub.c)
-
         // if deleted exit
         if (typeof _applicationObj === "undefined") { return; }
 
