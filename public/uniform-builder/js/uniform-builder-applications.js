@@ -6147,10 +6147,10 @@ $(document).ready(function() {
     ub.funcs.generateSizes = function (applicationType, sizes, settingsObject, _id) {
 
         var _htmlBuilder = '';
+        var _additionalClass = '';
+
 
         _.each(sizes, function (size) {
-
-            var _additionalClass = '';
 
             if (size.size.toString() === settingsObject.font_size.toString() || _id === '4') { _additionalClass = 'active'; }
 

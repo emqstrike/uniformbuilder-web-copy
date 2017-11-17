@@ -760,7 +760,7 @@ $(document).ready(function() {
 
         } else {
 
-            _inputSizes = ['4'];
+            _inputSizes = [{size: '4', }];
 
         }
 
