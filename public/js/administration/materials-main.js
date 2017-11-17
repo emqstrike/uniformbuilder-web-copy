@@ -61,7 +61,9 @@ $(document).ready(function() {
         return window.active_sport !== e.name;
     });
 
-    sports.forEach(function(entry) {
+    sports_sorted = _.sortBy(sports, function(o) { return o.name; });
+
+    sports_sorted.forEach(function(entry) {
         var elem = '<option value="'+entry.name+'">'+entry.name+'</option>';
         $('.active-sport').append(elem);
     });
