@@ -1004,11 +1004,40 @@ $(document).ready(function() {
                 
                 if (sprite.ubName === "Move Tool") {
 
+                    // Tackle Twil adjustments via free form tool
+
+                    var _offsetX = 0;
+                    var _offsetY = 0;
+
+                    if (ub.config.uniform_application_type === "tackle_twill") {
+
+                        var _parsedPerspective = _.find(_application.font_obj.parsedFontSizeTables, {perspective: view.perspective})
+
+                        // console.log(_application.font_obj);
+                        // console.log(_application.font_size);
+                        // console.log(_application.font_obj.parsedFontSizeTables);
+                        // console.log(view.perspective);
+                        // console.log(_parsedPerspective);
+                       
+                        if (typeof _parsedPerspective !== "undefined") {
+                            
+                            var _offsets = _.find(_parsedPerspective.sizes, {inputSize: _application.font_size.toString()});
+                            // console.log(_offsets);
+
+                            _offsetX = _offsets.x_offset;
+                            _offsetY = _offsets.y_offset;
+
+                        }
+
+                    }
+
+                    // 
+
                     var _changeX = sprite.downX - sprite.x;
                     var _changeY = sprite.downY - sprite.y;
 
-                    view.application.center.x -= _changeX;
-                    view.application.center.y -= _changeY;
+                    view.application.center.x -= (_changeX - _offsetX);
+                    view.application.center.y -= (_changeY - _offsetY);
 
                     var _object = ub.objects[view.perspective + '_view']['objects_' + _application.code];
 
@@ -1163,6 +1192,35 @@ $(document).ready(function() {
 
                     if (view.application.isPrimary === 0) { return; }
 
+                    // Tackle Twil adjustments via free form tool
+
+                    var _offsetX = 0;
+                    var _offsetY = 0;
+
+                    if (ub.config.uniform_application_type === "tackle_twill") {
+
+                        var _parsedPerspective = _.find(_application.font_obj.parsedFontSizeTables, {perspective: view.perspective});
+
+                        // console.log(_application.font_obj);
+                        // console.log(_application.font_size);
+                        // console.log(_application.font_obj.parsedFontSizeTables);
+                        // console.log(view.perspective);
+                        // console.log(_parsedPerspective);
+                       
+                        if (typeof _parsedPerspective !== "undefined") {
+                            
+                            var _offsets = _.find(_parsedPerspective.sizes, {inputSize: _application.font_size.toString()});
+                            // console.log(_offsets);
+
+                            _offsetX = _offsets.x_offset;
+                            _offsetY = _offsets.y_offset;
+
+                        }
+
+                    }
+
+                    //  
+
                     var move_point = ub.objects[view.perspective + '_view']['move_tool'];
                     var rotation_point = ub.objects[view.perspective + '_view']['rotate_tool'];
                     var scale_point = ub.objects[view.perspective + '_view']['scale_tool'];
@@ -1181,8 +1239,8 @@ $(document).ready(function() {
                         
                         reset_point.alpha = 0;
                         
-                        view.application.center.x = sprite.x;
-                        view.application.center.y = sprite.y;
+                        view.application.center.x = sprite.x - _offsetX;
+                        view.application.center.y = sprite.y - _offsetY;
 
                         var _obj = ub.objects[view.perspective + '_view']['objects_' + _application.code]
 
@@ -2501,6 +2559,13 @@ $(document).ready(function() {
                     name: mat_option,
                 });
 
+                /// Message is mask layer is undefined
+                if (typeof mask === "undefined") {
+                    errorCode = ub.errorCodes.getCode('maskLayerNotFound');
+                    ub.utilities.errorWithCode(errorCode, mat_option + ' / ' + view.perspective);
+                    // TODO: PartialApplications
+                }
+                
                 var mask = ub.pixi.new_sprite(mask.material_option_path);
                 point.mask = mask;
                 point.name = marker_name;
@@ -9258,7 +9323,7 @@ $(document).ready(function() {
 
         var _applicationObj = ub.current_material.settings.applications[application_id];
 
-        // if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
+        if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
 
         // if deleted exit
         if (typeof _applicationObj === "undefined") { return; }
