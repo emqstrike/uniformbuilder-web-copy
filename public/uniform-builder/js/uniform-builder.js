@@ -418,6 +418,7 @@ $(document).ready(function () {
 
             ub.sport = ub.current_material.material.uniform_category;
             ub.neckOption = ub.current_material.material.neck_option;
+            ub.current_material.settings.hiddenBody = ub.data.hiddenBody.currentUniformOk();
 
             ub.funcs.activatePartByIndex(0);
 
