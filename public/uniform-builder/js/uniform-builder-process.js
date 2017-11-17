@@ -2354,6 +2354,9 @@ $(document).ready(function() {
                 _url = window.ub.config.api_host + '/api/saved_design/update';
             }
 
+            // Skip notification when coming from local
+            if (ub.config.app_env === 'local') { data.test_data = '1'; }
+            
             delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
             $.ajax({
