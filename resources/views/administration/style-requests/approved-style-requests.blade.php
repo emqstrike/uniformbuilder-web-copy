@@ -99,7 +99,15 @@
                            <input type="hidden" name="style_customizer_id"" class="style-customizer-id" value="{{ $style_request->customizer_id }}">
                             <a href="#" class="btn btn-defult btn-xs file-link" data-link="http://customizer.prolook.com/builder/0/{{ $style_request->customizer_id }}">{{ $style_request->customizer_id }}</a>
                         </td>
-                        <td class="style-status">{{ $style_request->status }}</td>
+                         <td>
+                            <input type="hidden" name="style_status"" class="style-status" value="{{ $style_request->status }}">
+                            <input type="hidden" name="style_is_fixed"" class="style-is-fixed" value="{{ $style_request->is_fixed }}">
+                        {{ $style_request->status }}
+                        @if($style_request->is_fixed == 1 AND $style_request->status == 'approved')
+                            <a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>
+                            <!-- <a href="#" data-toggle="tooltip" data-message="Not fixed"><span class="glyphicon glyphicon-info-sign"></span></a> -->
+                        @endif
+                        </td>
                         <td>
                               <input type="hidden" class="notes" value="{{$style_request->notes}}">
                             @if($style_request->notes != '' AND  $style_request->status == 'approved')
@@ -253,7 +261,12 @@
                     </select>
                 </div>
             </div>
-
+            <div class="form-group" id="is_fixed_div" style="display: none;">
+                <label class="col-md-4 control-label">Is Fixed</label>
+                <div class="col-md-6">
+                    <input type="checkbox" name="is_fixed" class="is_fixed">
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-md-4 control-label">Notes</label>
                     <div class="col-md-6">
@@ -369,7 +382,7 @@ $(function(){
         win.focus();
     }
 
-    $(document).on('change', '.name, .sport, .block-pattern, .block-pattern-option, .qstrike-item-id, .priority, #deadline, .design_sheet, .customizer-id, .status, #input_notes, .application_type', function() {
+    $(document).on('change', '.name, .sport, .block-pattern, .block-pattern-option, .qstrike-item-id, .priority, #deadline, .design_sheet, .customizer-id, .status, #input_notes, .application_type, .is_fixed', function() {
         updateData();
     });
 
@@ -511,6 +524,13 @@ $(function(){
             var block_pattern_option = $('.block-pattern-option').val();
         }
 
+        if ($('.is_fixed').is(':checked')) {
+            var is_fixed = 1;
+        }
+        else {
+            var is_fixed = 0
+        }
+
         var id = $('.id').val();
         var name = $('.name').val();
         var sport = $('.sport').val();
@@ -536,7 +556,8 @@ $(function(){
             'customizer_id' : customizer_id,
             'status' : status,
             'notes' : notes,
-            'uniform_application_type' : application_type
+            'uniform_application_type' : application_type,
+            'is_fixed' : is_fixed
         };
         $('.data-string').val(JSON.stringify(window.data));
         console.log(window.data);
@@ -640,6 +661,7 @@ $(function(){
         $('#deadline').attr({"style": "display: none;"});
         $('#customizer').removeAttr('style');
         $('#status_div').removeAttr('style');
+        $('#is_fixed_div').removeAttr('style');
     });
 
     $("#myModal").on("hidden.bs.modal", function() {
@@ -653,16 +675,17 @@ $(function(){
         $('.customizer-id').val('');
         $('#input_notes').val('');
         $('.application_type').val('none');
+        $('.is_fixed').prop('checked', false);
         $('.custom_block_pattern').val(null);
         $('.enable_custom_bp').prop('checked', false);
-        $('.enable_custom_bp').trigger('change');
         $('.custom_option').val(null);
         $('.enable_custom_bpo').prop('checked', false);
-        $('.enable_custom_bpo').trigger('change');
+        $('.is_fixed, .enable_custom_bpo, .enable_custom_bp').trigger('change');
 
         $('#deadline').attr({"style": "display: block;"});
         $('#customizer').attr({"style": "display: none;"});
         $('#status_div').attr({"style": "display: none;"});
+        $('#is_fixed_div').attr({"style": "display: none;"});
         $('#input_notes').text('');
 
     });
@@ -679,7 +702,7 @@ $(function(){
         }
     });
 
-    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type").on("change", function(e){
+    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type, .is_fixed").on("change", function(e){
         e.preventDefault();
         var name = document.getElementById("name").value;
         var qx_id = document.getElementById("qstrike_item_id").value;
@@ -729,9 +752,10 @@ $(function(){
         var item_id = thisObj.parent().parent().find('.style-qstrike-item-id').html();
         var priority = thisObj.parent().parent().find('.style-priority').html();
         var customizer_id = thisObj.parent().parent().find('.style-customizer-id').val();
-        var status = thisObj.parent().parent().find('.style-status').html();
+        var status = thisObj.parent().parent().find('.style-status').val();
         var notes = thisObj.parent().parent().find('.notes').val();
         var application_type = thisObj.parent().parent().find('.style-application-type').html();
+        var is_fixed = thisObj.parent().parent().find('.style-is-fixed').val();
         window.sport_value = sport;
         window.block_pattern_value = block_pattern;
         window.option_value = option;
@@ -745,6 +769,14 @@ $(function(){
         $('.status').val(status);
         $('#input_notes').val(notes);
         $('.application_type').val(application_type);
+
+        if (is_fixed == 1)
+            {
+            $('.is_fixed').prop('checked', true);
+        }
+        else {
+            $('.is_fixed').prop('checked', false);
+        }
         $('#myModal').modal('show');
 
     }
