@@ -23,6 +23,7 @@ use App\APIClients\PartsAliasesAPIClient;
 use App\APIClients\ItemSizesAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 use Illuminate\Support\Facades\Input;
+use Session;
 
 class MaterialsController extends Controller
 {
@@ -79,7 +80,7 @@ class MaterialsController extends Controller
         $materials_string = json_encode($materials);
 
         $sport = "Football";
-        if( isset(Session::get('active_sport')) ){
+        if( null !== Session::get('active_sport') ){
             $sport = Session::get('active_sport');
         }
 
