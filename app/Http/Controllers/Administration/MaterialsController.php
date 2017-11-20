@@ -78,11 +78,16 @@ class MaterialsController extends Controller
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
         $materials_string = json_encode($materials);
 
+        $sport = "Football";
+        if( isset(Session::get('active_sport')) ){
+            $sport = Session::get('active_sport');
+        }
 
         return view('administration.materials.materials', [
             'block_patterns' => $block_patterns,
             'materials' => $materials,
-            'materials_string' => $materials_string
+            'materials_string' => $materials_string,
+            'active_sport' => $sport
         ]);
     }
 
@@ -92,6 +97,7 @@ class MaterialsController extends Controller
         $materials = $this->client->getMaterialsBySport($sport);
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
         $materials_string = json_encode($materials);
+        Session::put('active_sport', $sport);
 
 
         return view('administration.materials.materials', [
