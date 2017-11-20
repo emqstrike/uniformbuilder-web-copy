@@ -171,10 +171,10 @@ $('.reject-artwork').on('click', function(e){
 
     // console.log(data);
 
-    bootbox.prompt({ 
+    bootbox.prompt({
         size: "medium",
         title: "Reject artwork? Enter note.",
-        message: "Reject artwork?", 
+        message: "Reject artwork?",
         buttons: {
             'cancel': {
                 label: 'Cancel'
@@ -185,7 +185,7 @@ $('.reject-artwork').on('click', function(e){
                 className: 'btn-danger pull-right'
             }
         },
-        callback: function(result){ /* result is a boolean; true = OK, false = Cancel*/ 
+        callback: function(result){ /* result is a boolean; true = OK, false = Cancel*/
             if(result){
                 bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
                 var order_link = 'http://customizer.prolook.com/order/'+data.order_code;

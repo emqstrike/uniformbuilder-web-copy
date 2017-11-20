@@ -48,7 +48,7 @@ class MascotsController extends Controller
         $mascot_categories = $this->mascotsCategoryClient->getMascotCategories();
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
-        
+
         return view('administration.mascots.mascots', [
             'mascots' => $mascots,
             'mascot_categories' => $mascot_categories,
@@ -337,7 +337,7 @@ class MascotsController extends Controller
 
 
         $data['layers_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
-      
+
 
              // Upload Ai File
 
@@ -419,7 +419,7 @@ class MascotsController extends Controller
             $artworkIndex = $request->input('logo_index');
             $artworkUserId = $request->input('logo_request_user_id');
         }
-        
+
 
         if ($request->input('custom_artwork_request')) {
             $artwork_request = (new CustomArtworkRequestAPIClient())->getByID($artworkRequestID);
@@ -495,7 +495,7 @@ class MascotsController extends Controller
         try {
             $mascotLayerFiles = $request->file('ma_image');
             $ctr = count($mascotLayerFiles);
-           
+
             foreach ($mascotLayerFiles as $mascotLayerFile) {
                 if (!is_null($mascotLayerFile)) {
                     if ($mascotLayerFile->isValid()) {
