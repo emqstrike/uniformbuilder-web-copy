@@ -63,8 +63,9 @@ $(document).ready(function() {
         var default_color_code = $(this).data('material-option-default-color');
         var sublimated_default_color_code = $(this).data('material-option-sublimated-default-color');
         console.log(default_color_code);
+        var uc_default_color_code = default_color_code.toUpperCase();
 
-        var dcc_item = _.find(window.colors, function (o) { return o.color_code == default_color_code; });
+        var dcc_item = _.find(window.colors, function (o) { return o.color_code == uc_default_color_code; });
         var default_color_name = dcc_item.name;
         var default_color_hex = dcc_item.hex_code;
 
