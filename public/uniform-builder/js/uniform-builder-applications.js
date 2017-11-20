@@ -1004,25 +1004,18 @@ $(document).ready(function() {
                 
                 if (sprite.ubName === "Move Tool") {
 
-                    // Tackle Twil adjustments via free form tool
-
                     var _offsetX = 0;
                     var _offsetY = 0;
+
+                    // Tackle Twill adjustments via free form tool
 
                     if (ub.config.uniform_application_type === "tackle_twill") {
 
                         var _parsedPerspective = _.find(_application.font_obj.parsedFontSizeTables, {perspective: view.perspective})
-
-                        // console.log(_application.font_obj);
-                        // console.log(_application.font_size);
-                        // console.log(_application.font_obj.parsedFontSizeTables);
-                        // console.log(view.perspective);
-                        // console.log(_parsedPerspective);
-                       
+   
                         if (typeof _parsedPerspective !== "undefined") {
                             
                             var _offsets = _.find(_parsedPerspective.sizes, {inputSize: _application.font_size.toString()});
-                            // console.log(_offsets);
 
                             _offsetX = _offsets.x_offset;
                             _offsetY = _offsets.y_offset;
@@ -1031,13 +1024,13 @@ $(document).ready(function() {
 
                     }
 
-                    // 
+                    // End Tackle Twill adjustments via free form tool
 
                     var _changeX = sprite.downX - sprite.x;
                     var _changeY = sprite.downY - sprite.y;
 
-                    view.application.center.x -= (_changeX - _offsetX);
-                    view.application.center.y -= (_changeY - _offsetY);
+                    view.application.center.x -= parseFloat(_changeX) - parseFloat(_offsetX);
+                    view.application.center.y -= parseFloat(_changeY) - parseFloat(_offsetY);
 
                     var _object = ub.objects[view.perspective + '_view']['objects_' + _application.code];
 
@@ -1192,25 +1185,18 @@ $(document).ready(function() {
 
                     if (view.application.isPrimary === 0) { return; }
 
-                    // Tackle Twil adjustments via free form tool
-
                     var _offsetX = 0;
                     var _offsetY = 0;
+
+                    // Tackle Twill adjustments via free form tool
 
                     if (ub.config.uniform_application_type === "tackle_twill") {
 
                         var _parsedPerspective = _.find(_application.font_obj.parsedFontSizeTables, {perspective: view.perspective});
-
-                        // console.log(_application.font_obj);
-                        // console.log(_application.font_size);
-                        // console.log(_application.font_obj.parsedFontSizeTables);
-                        // console.log(view.perspective);
-                        // console.log(_parsedPerspective);
                        
                         if (typeof _parsedPerspective !== "undefined") {
                             
                             var _offsets = _.find(_parsedPerspective.sizes, {inputSize: _application.font_size.toString()});
-                            // console.log(_offsets);
 
                             _offsetX = _offsets.x_offset;
                             _offsetY = _offsets.y_offset;
@@ -1219,7 +1205,7 @@ $(document).ready(function() {
 
                     }
 
-                    //  
+                    // Tackle Twill adjustments via free form tool
 
                     var move_point = ub.objects[view.perspective + '_view']['move_tool'];
                     var rotation_point = ub.objects[view.perspective + '_view']['rotate_tool'];
@@ -1238,15 +1224,21 @@ $(document).ready(function() {
                         }
                         
                         reset_point.alpha = 0;
+
+                        // Dirty Flag is set when application is moved using the free form tool (for runAfterUpdate)
+                        _application.dirty = true;
                         
-                        view.application.center.x = sprite.x - _offsetX;
-                        view.application.center.y = sprite.y - _offsetY;
+                        // view.application.center.x = parseFloat(sprite.x) - parseFloat(_offsetX);
+                        // view.application.center.y = parseFloat(sprite.y) - parseFloat(_offsetY);
 
                         var _obj = ub.objects[view.perspective + '_view']['objects_' + _application.code]
 
                         _obj.position.x = sprite.x;
                         _obj.position.y = sprite.y;
-                        
+
+                        view.application.center.x = parseFloat(_obj.position.x) - (parseFloat(_offsetX));
+                        view.application.center.y = parseFloat(_obj.position.y) - (parseFloat(_offsetY)); // + parseFloat(ub.current_material.material.one_inch_in_px);
+
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.x = sprite.x;
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.y = sprite.y;
 
@@ -2598,10 +2590,10 @@ $(document).ready(function() {
 
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
-
+                    
                     point.position.x += _xOffset;
                     point.position.y += _yOffset;
-
+                    
                 }
 
                 if (typeof args.overrideOffsetX !== 'undefined') {
@@ -2981,9 +2973,10 @@ $(document).ready(function() {
             // End do not run from change color
 
             ub.funcs.runAfterUpdate(app_id, _fromChangeColor);
+
             ub.funcs.fixAlignments();
             ub.funcs.mirrorRotation();
-
+            
             return sprite_collection;
 
         };
@@ -6154,12 +6147,12 @@ $(document).ready(function() {
     ub.funcs.generateSizes = function (applicationType, sizes, settingsObject, _id) {
 
         var _htmlBuilder = '';
+        var _additionalClass = '';
+
 
         _.each(sizes, function (size) {
 
-            var _additionalClass = '';
-
-            if (size.size === settingsObject.font_size || _id === '4') { _additionalClass = 'active'; }
+            if (size.size.toString() === settingsObject.font_size.toString() || _id === '4') { _additionalClass = 'active'; }
 
             if (ub.funcs.isFreeFormToolEnabled(_id)) {
 
@@ -7889,7 +7882,14 @@ $(document).ready(function() {
 
     ub.funcs.runAfterUpdate = function(application_id, fromChangeColor) {
 
-        ub.funcs.oneInchPullUp(application_id);
+        var _settingsObject = ub.funcs.getSettingsObject(application_id);
+
+        // Dirty Flag is set when application is moved using the free form tool
+        // Set on Move Tool mouse down
+        if (!_settingsObject.dirty) {
+            ub.funcs.oneInchPullUp(application_id);
+        }
+        
         ub.funcs.updateCaption(application_id);
 
         if (ub.funcs.isCurrentType('upper')) {
@@ -9319,11 +9319,14 @@ $(document).ready(function() {
 
     ub.funcs.activateMoveTool = function (application_id) {
 
-        if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { return; }
+        // Guard Expressions
+            if ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { return; }
+            if (ub.config.uniform_application_type === "tackle_twill" && ub.config.sport === "Football") { return; }    
+        // End Guard Expressions
 
         var _applicationObj = ub.current_material.settings.applications[application_id];
 
-        if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
+        // if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
 
         // if deleted exit
         if (typeof _applicationObj === "undefined") { return; }

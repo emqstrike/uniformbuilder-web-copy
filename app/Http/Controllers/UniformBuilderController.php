@@ -980,8 +980,13 @@ class UniformBuilderController extends Controller
                     if ($application['pattern_obj']['name'] !== "Blank") {
 
                         $colors = '';
+
                         foreach ($application['pattern_obj']['layers'] as &$layer) {
-                            $colors .= $layer['color_code'] . ",";
+                            if (array_key_exists('color_code', $layer)) {
+                                $colors .= $layer['color_code'] . ",";    
+                            } else {
+                                $colors .= "?,";    
+                            }
                         }
 
                         $colorsTrimmed = 'Pattern: ' . rtrim($colors, ",");
@@ -1106,6 +1111,7 @@ class UniformBuilderController extends Controller
         $uniformType = $itemData['type'];
         $parts = $bc[$uniformType];
         $randomFeeds = $bc['randomFeeds'];
+        $hiddenBody = $bc["hiddenBody"];
 
         $html = '';
         $html .= '<br /><br />';
@@ -1148,9 +1154,19 @@ class UniformBuilderController extends Controller
             if ($part['code'] === 'locker_tag') { continue; }
             if ($part['code'] === 'elastic_belt') { continue; }
             if ($part['code'] === 'body_inside') { continue; }
+            if ($hiddenBody and $part['code'] === 'body') { continue; }
+
+            $hasPattern = false;
+
+            if (array_key_exists('pattern', $part)) { 
+                if ($part['pattern']['pattern_id'] != '') {
+                    if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
+                        $hasPattern = true;
+                    }
+                }
+            }
 
             $code = $this->toTitleCase($part['code']);
-
 
             $ctrParts += 1;
             $bgcolor = '#fff';
@@ -1185,10 +1201,16 @@ class UniformBuilderController extends Controller
 
             } else {
 
-                if (array_key_exists('colorObj', $part)) {
-                    $html .=   $part['colorObj']['color_code'];                        
+                if (!$hasPattern) {
+
+                    if (array_key_exists('colorObj', $part)) {
+                        $html .=   $part['colorObj']['color_code'];                        
+                    } else {
+                        $html .=   'Default';    
+                    }
+                    
                 } else {
-                    $html .=   'Default';    
+                        $html .=   'Use Pattern Color';    
                 }
 
             }
@@ -1196,28 +1218,18 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
             $html .=   '<td align="center">';
 
-            Log::error('----------' . $code);
+            if ($hasPattern) {
 
-            if (array_key_exists('pattern', $part)) {
+                $html .= '<strong>' . $part['pattern']['pattern_obj']['name'] . "</strong>" . " / ";    
 
-                if ($part['pattern']['pattern_id'] != '') {
-
-                    if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
-
-                        $html .= '<strong>' . $part['pattern']['pattern_obj']['name'] . "</strong>" . " / ";    
-
-                        $colors = '';
-                        foreach ($part['pattern']['pattern_obj']['layers'] as &$layer) {
-                            $colors .= $layer['color_code'] . ',';
-                        }
-
-                        $colorsTrimmed = rtrim($colors, ",");
-
-                        $html .= '<strong>' . $colorsTrimmed . '</strong>';
-
-                    }
-
+                $colors = '';
+                foreach ($part['pattern']['pattern_obj']['layers'] as &$layer) {
+                    $colors .= $layer['color_code'] . ',';
                 }
+
+                $colorsTrimmed = rtrim($colors, ",");
+
+                $html .= '<strong>' . $colorsTrimmed . '</strong>';
 
             }
 
