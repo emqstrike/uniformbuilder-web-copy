@@ -74,7 +74,7 @@ span.add-art.non-sublimated:hover { color: silver !important; }
                     padding: 10px;
                     background-color: #e7e7e7;
                     color: #3d3d3d;
-                    width: 300px;
+                    width: 330px;
                     cursor: pointer;
                     font-size: 0.9em;
                     text-transform: uppercase;
@@ -104,7 +104,7 @@ span.add-art.non-sublimated:hover { color: silver !important; }
                 li[data-type="upload"], li[data-type="create"] {
                     float: right;
                     margin-left: 10px;
-                    width: 250px;
+                    width: 330px;
                     font-size: 0.9em;
                     text-align: center;
                 }
@@ -126,24 +126,41 @@ span.add-art.non-sublimated:hover { color: silver !important; }
 		        padding: 7px;
 			    width: 50%;
     	        border: none;
-                border-bottom: 1px dashed #3d3d3d;
-                float: left;
-                cursor: not-allowed;
+                border-bottom: 1px dashed #acacac;
+                float: right;
+
+                .transitions();
 			}
 
-        	span.archives {
+            input.search-bar:focus {
+                outline: none;
+                border-bottom: 1px solid #1e1e1e !important;
+            }
+
+        	span.archives, span.active {
     		    padding: 7px;
     			font-size: 1em;
-                float: right;
-                cursor: not-allowed;
+                float: left;
+                cursor: pointer;
+                color: #acacac;
         	}
 
-        	span.archives:hover {
-                /*
-        		background-color: #1e1e1e;
-        		color: white;
-                */
-        	}
+            span.archives:hover, span.active:hover  {
+                padding: 7px;
+                font-size: 1em;
+                cursor: pointer;
+                color: #3d3d3d;
+            }
+
+            span.active-archive-tab { 
+                color: #3d3d3d;
+                background-color: white;
+            }
+
+            span.active-archive-tab.focus { 
+                color: white;
+                background-color: #1e1e1e;
+            }
 
         }
 
@@ -162,7 +179,23 @@ span.add-art.non-sublimated:hover { color: silver !important; }
     		background-color: #808080;
     		float: left;
 
+            .transitions();
+
             div.embellishmentPopupResults {
+
+                span.loading-container {
+
+                    width: 100%;
+                    text-align: center;
+                    display: block;
+                    
+                    img.loading-gif {
+                        width: 15%;
+                        height: 15%;
+                        margin-top: 37%;
+                    }
+
+                }
 
                 div.item {
 
@@ -173,12 +206,11 @@ span.add-art.non-sublimated:hover { color: silver !important; }
                     background-color: #1e1e1e;
                     margin: 10px;
                     background-size: contain;
-                    background-position: center top;
+                    background-position: center center;
                     cursor: pointer;
                     margin-bottom: 50px;
                     box-shadow: 3px 9px 24px -5px rgba(0, 0, 0, 0.75);
                     margin: 20px;
-                    background-position-y: -5px;
                     background-repeat: no-repeat;
 
                     -webkit-box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
@@ -186,24 +218,31 @@ span.add-art.non-sublimated:hover { color: silver !important; }
                     box-shadow: 3px 9px 24px -5px rgba(0,0,0,0.75);
 
                     div.name {
-                        
                         width: 100%;
                         height: 30px;
-                        margin-top: 115px;
+                        margin-top: 0px;
                         background-color: #1e1e1e;
                         color: white;
                         transition: all 0.1s ease-in-out;
                         text-align: center;
-                        
+
                         font-size: 0.9em;
                         padding-top: 7px;
-
                     }
 
                     div.name.pullUp {
-
                         background-color: #3d3d3d;
+                    }
 
+                    .archive, .restore {
+                        margin-top: 95px;
+                        float: right;
+                        margin-right: 5px;
+                        color: #acacac;
+                    }
+
+                    .archive:hover, .restore:hover {
+                        color: #3d3d3d;
                     }
 
                 }
@@ -222,6 +261,8 @@ span.add-art.non-sublimated:hover { color: silver !important; }
             }
 
         }
+
+        div.main-content.loading { background-color: #acacac; }
 
         div.sidebar {
 

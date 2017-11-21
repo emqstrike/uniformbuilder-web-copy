@@ -8191,7 +8191,7 @@ $(document).ready(function () {
                         colors: _.map(_.uniq(f.Colors), function (color) {
 
                             var _colorCode = undefined;
-                            var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                            var _result =  ub.funcs.getSublimationColorCodeByHexCode(color.toLowerCase());
                             var returnObject;
 
                             if (typeof _result === "undefined") {
@@ -8225,7 +8225,7 @@ $(document).ready(function () {
                     strokeColor: _.map(_.uniq([f.StrokeColor]), function (color) {
 
                         var _colorCode = undefined;
-                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color.toLowerCase());
                         var returnObject; 
 
                         if (typeof _result === "undefined") {
@@ -8245,7 +8245,7 @@ $(document).ready(function () {
                     fillColor: _.map(_.uniq([f.FillColor]), function (color) {
 
                         var _colorCode = undefined;
-                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color.toLowerCase());
                         if (typeof _result === "undefined") {
                             _colorCode = 'Color code not found';
                         } else {
