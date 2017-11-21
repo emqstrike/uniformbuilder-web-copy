@@ -83,6 +83,7 @@ $('.reject-logo').on('click', function(e){
 
 function insertMessage(data){
     var order_code = data.order_code;
+    var type = data.type;
     var content = data.content;
     console.log(data);
     $.ajax({
@@ -93,7 +94,7 @@ function insertMessage(data){
         contentType: 'application/json;',
         success: function (data) {
             // alert(data['message']);
-            rejectArtwork(order_code, content);
+            rejectArtwork(order_code, type, content);
             // window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -101,10 +102,11 @@ function insertMessage(data){
     });
 }
 
-function rejectArtwork(order_code, content){
+function rejectArtwork(order_code, type, content){
     var data = {};
     data.order_code = order_code;
     data.content = content;
+    data.type = type;
     $.ajax({
         url: '//' + api_host + '/api/v1-0/logo_request/reject',
         type: "POST",

@@ -25,7 +25,7 @@ class LogoRequestsController extends Controller
     {
         $logo_requests = $this->client->getLogoRequests();
         $ctr = 0;
-        if($logo_requests){
+        if($logo_requests) {
             foreach($logo_requests as $logo_request)
             {
                 $logo_request->created_at = date('M-d-Y', strtotime($logo_request->created_at));
