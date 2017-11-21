@@ -15,7 +15,7 @@
                 <div class="box-header">
                 </div>
                 <div class="box-body">
-                    <table class='table table-bordered table-striped table-hover'>
+                    <table class='table table-bordered table-striped table-hover data-table'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -92,14 +92,14 @@
 <script type="text/javascript" src="/js/administration/orders.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    // $('.data-table').DataTable({
-    //     "paging": true,
-    //     "lengthChange": false,
-    //     "searching": true,
-    //     "ordering": false,
-    //     "info": true,
-    //     "autoWidth": false
-    // });
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false
+    });
 });
 </script>
 @endsection
