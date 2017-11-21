@@ -140,6 +140,7 @@
                             <td>
                                 <a href="#" class="btn btn-primary btn-xs assign-button">Assign</a>
                                 <a href="#" class="btn btn-success btn-xs">Mark Done</a>
+                                <a href="#" class="btn btn-danger btn-xs reject-logo" data-user-id="{{ $logo_request->submitted_by_user_id }}" data-code="{{ $logo_request->reference_id }}" data-type="{{ $logo_request->type }}">Reject</a>
                             </td>
                         </tr>
 
@@ -174,17 +175,18 @@
 @section('scripts')
 <!-- <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
 <script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/js/administration/logo-requests.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
-    });
+    // $('.data-table').DataTable({
+    //     "paging": true,
+    //     "lengthChange": false,
+    //     "searching": false,
+    //     "ordering": true,
+    //     "info": true,
+    //     "autoWidth": false
+    // });
 });
 </script>
 @endsection
