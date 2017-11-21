@@ -1926,12 +1926,12 @@ $(document).ready(function() {
 
                 if (_type === "create") {
                     $embellishmentPopup.remove();
-                    is.loadDesigner(undefined, settingsObj.code);
+                    is.loadDesigner(undefined, ub.is.settingsObj.code);
                 }
 
                 if (_type === "upload") {
                     $embellishmentPopup.remove();
-                    is.loadDesignerUpload(undefined, settingsObj.code);
+                    is.loadDesignerUpload(undefined, ub.is.settingsObj.code);
                 }
 
             });
