@@ -841,6 +841,8 @@ $(document).ready(function () {
         ub.data.mascotsCategories = {};
 
         ub.funcs.transformMascots = function () {
+    
+            ub.data.mascots = _.filter (ub.data.mascots, {active: '1'});
 
             _.each(ub.data.mascots, function (mascot, index) {
 
