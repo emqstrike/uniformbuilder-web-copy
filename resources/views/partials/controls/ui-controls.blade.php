@@ -2786,11 +2786,14 @@
 
             <div class="navbar-top">
                 
-                <input class="search-bar" type="text" name="search-bar" placeholder="Search" disabled=disabled  title="coming soon!"/>
-                
-                <span class="archives" title="coming soon!">
-                    <i class="fa fa-archive" aria-hidden="true"></i> Archives
+                <span class="active-archive-tab active" title="View Active Designs" data-type="active" data-tipped-options="position: 'topright'" >
+                    <i class="fa fa-list" aria-hidden="true"></i><span class="text">Active</span>
                 </span>
+                <span class="active-archive-tab archives" title="View Archived Designs" data-type="archived" data-tipped-options="position: 'topright'" >
+                    <i class="fa fa-archive" aria-hidden="true"></i><span class="text">Archives</span>
+                </span>
+
+                <input class="search-bar" type="text" name="search-bar" placeholder="Search Active Designs"/>
 
             </div>
 
@@ -2803,7 +2806,13 @@
                     @{{#myEmbellishments}}
 
                         <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-name="@{{design_name}}" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}" data-svg-filename="@{{svg_filename}}">
+                            
                             <div class="name" style="">@{{design_name}}</div>
+                            
+                            <div class="archive" data-type="archive"  style="" data-design-id="@{{design_id}}" data-design-name="@{{design_name}}" data-id="@{{id}}" data-id="" data-tipped-options="position: 'topright'" title="Archive this design">
+                                <i class="fa fa-archive" aria-hidden="true"></i>
+                            </div>
+
                         </div>
 
                     @{{/myEmbellishments}}
@@ -2834,6 +2843,55 @@
         </div>
 
     </script>
+
+    <!-- For Updating Embellishments at runtime --> 
+
+        <script type="text/mustache" id="m-loading-animation">    
+            
+            <span class="loading-container">
+                <img src="/images/loading-animation.gif" class="loading-gif"/>
+            </span>
+
+        </script>
+
+        <script type="text/mustache" id="m-embellishment-popup-update-items">
+
+            @{{#myEmbellishments}}
+
+                <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-name="@{{design_name}}" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}" data-svg-filename="@{{svg_filename}}">
+                    
+                    <div class="name" style="">@{{design_name}}</div>
+                    
+                    <div class="archive" data-type="archive" style="" data-design-id="@{{design_id}}" data-design-name="@{{design_name}}" data-id="@{{id}}" data-id="" data-tipped-options="position: 'topright'" title="Archive this design">
+                        <i class="fa fa-archive" aria-hidden="true"></i>
+                    </div>
+
+                </div>
+
+            @{{/myEmbellishments}}
+
+        </script>
+
+        <script type="text/mustache" id="m-embellishment-popup-update-items-restore">
+
+            @{{#myEmbellishments}}
+
+                <div class="item grow" style="background-image: url(@{{png_filename}})" data-design-name="@{{design_name}}" data-design-id="@{{design_id}}" data-id="@{{id}}" data-filename="@{{png_filename}}" data-svg-filename="@{{svg_filename}}">
+                    
+                    <div class="name" style="">@{{design_name}}</div>
+                    
+                    <div class="restore" style="" data-type="restore" data-design-id="@{{design_id}}" data-design-name="@{{design_name}}" data-id="@{{id}}" data-id="" data-tipped-options="position: 'topright'" title="Restore this design">
+                        <i class="fa fa-undo" aria-hidden="true"></i>
+                    </div>
+
+                </div>
+
+            @{{/myEmbellishments}}
+
+        </script>
+
+    <!-- End For Updating Embellishments at runtime -->
+
 
 <!-- End Embellishment Popup -->
 
