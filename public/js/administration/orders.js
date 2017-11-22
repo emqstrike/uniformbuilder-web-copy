@@ -242,6 +242,7 @@ $(document).ready(function(){
         $('#view-order-modal .order-ship-state').val( $(this).data('ship-state') );
         $('#view-order-modal .order-ship-zip').val( $(this).data('ship-zip') );
         $('#view-order-modal .order-ship-phone').val( $(this).data('ship-phone') );
+        $('#view-order-modal .order-ship-email').val( $(this).data('ship-email') );
         // Shipping Information
         $('#view-order-modal .order-ship-organization strong').html($(this).data('ship-organization'));
         $('#view-order-modal .order-ship-contact-person strong').html($(this).data('ship-contact-person'));
@@ -328,6 +329,7 @@ $(document).ready(function(){
                 var ship_state = $('.order-ship-state').val();
                 var ship_zip = $('.order-ship-zip').val();
                 var ship_phone = $('.order-ship-phone').val();
+                var ship_email = $('.order-ship-email').val();
 
                 var data = {
                             id: ship_id,
@@ -337,7 +339,8 @@ $(document).ready(function(){
                             city: ship_city,
                             state: ship_state,
                             zip: ship_zip,
-                            phone: ship_phone
+                            phone: ship_phone,
+                            email: ship_email
                         };
                 console.log('Shipping_data' + JSON.stringify(data));
                 console.log('order id >>' + order_id);
@@ -448,6 +451,7 @@ $('.send-to-factory').on('click', function(e){
     ship_city = $(this).data('ship-city');
     ship_state = $(this).data('ship-state');
     ship_zip = $(this).data('ship-zip');
+    ship_email = $(this).data('ship-email');
 
     billing_contact = $(this).data('bill-contact');
     billing_address = $(this).data('bill-address');
@@ -589,6 +593,7 @@ $('.send-to-factory').on('click', function(e){
             "ShippingCity": ship_city,
             "ShippingState": ship_state,
             "ShippingZipCode": ship_zip,
+            "ShippingEmail": ship_email,
             "BillingAttention": billing_contact,
             "BillingAddress": billing_address,
             "BillingAddress2": "",
