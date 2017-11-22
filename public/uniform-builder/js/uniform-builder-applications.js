@@ -6132,7 +6132,6 @@ $(document).ready(function() {
         _.each (_application.application.views, function (view) {
 
             var application_obj = ub.objects[view.perspective + '_view']['objects_' + application.code];
-
             var angleRadians = _valStr;
 
             application_obj.rotation = angleRadians;
@@ -10105,8 +10104,6 @@ $(document).ready(function() {
         $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
         $('body').css('cursor', 'auto');
 
-
-
     };
 
     ub.funcs.activateBody = function () {
@@ -10208,15 +10205,42 @@ $(document).ready(function() {
                 ub.utilities.error('Extra Layer not detected!');
             }
 
-            if (typeof _extra !== "undefined") { 
+            if (typeof _extra !== "undefined") {
 
                 var whiteList = ['Body', 'Front Body', 'Back Body', 'Body Left', 'Body Right'];
-                
+
                 if (_.contains(whiteList, _part)) { _part = 'Extra'; } 
 
             }
 
         }
+
+        var _exempted = ub.data.applicationProjectionExemptions.isExempted(perspective, part, ub.config.sport);
+
+        // For Cowls, etc which uses a non-standard primary perspectives
+        if (_exempted.isExempted) {
+
+            var _primaryViewFound = _.find(_phaSettings.application.views, {perspective: _exempted.result.primary});
+
+            if (typeof _primaryViewFound !== "undefined") {
+
+                _primaryViewFound.application.isPrimary = 1;
+                _primaryViewObject = _primaryViewFound;
+
+                _phaSettings.application.views = _.filter(_phaSettings.application.views, function (view) {
+
+                    var _ok = view.perspective !== "left" && view.perspective !== "right" && (_primaryView === "front") ? view.perspective === "back" : view.perspective === "front";
+                    return _ok;
+
+                });
+
+            }
+
+            ub.funcs.setActiveView('front');
+
+        }
+
+
 
         // For instances where the part has left or right (e.g. sleeve), converts it to Left Sleeve
         if (typeof side !== "undefined" && side !== "na") { _part = side.toTitleCase() + " " + _part; }
@@ -10255,7 +10279,6 @@ $(document).ready(function() {
             } 
 
         });
-
 
         _.each(_phaSettings.application.views, function (_perspectiveView) {
 
@@ -10560,14 +10583,15 @@ $(document).ready(function() {
 
                 var _side = $(this).data('id');
                 var _previousPart = $('span.part.active').data("id");
+                var _isExempted = ub.data.applicationProjectionExemptions.isExempted(_side, _previousPart, ub.config.sport);
 
                 $('div.side-container > span.side').removeClass('active');
                 $(this).addClass('active');
 
                 if (_side === "left" || _side === "right") {
 
-                    $('span.perspective[data-id="' + _side + '"]').trigger('click');
-
+                    $('span.perspective[data-id="' + _side + '"]').trigger('click');    
+                    
                     // Restore Previous Part
                     if (typeof _previousPart !== "undefined") { $('span.part[data-id="' + _previousPart + '"]').addClass('active'); }
 
@@ -10827,9 +10851,7 @@ $(document).ready(function() {
 
             var _applicationCode    = app.code;
             var _caption = ub.funcs.getSampleCaption(app);
-
             var _primaryView = ub.funcs.getPrimaryView(app.application);
-
             var _perspectivePart = '<span class="perspective">(' + _primaryView.substring(0,1).toUpperCase() + ')</span>';
             var _applicationTypePart = ' <span class="application_type">' + _applicationType + '</span>';
             var _captionPart = '<span class="caption">' + _caption + '</span>';

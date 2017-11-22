@@ -11449,9 +11449,46 @@ ub.funcs.fontOffSets = [
 
     }
 
+    // New Application Exemptions - Parts that wont follow the normal Perspective Projections
+
+    ub.data.applicationProjectionExemptions = {
+        
+        items: [
+            {
+                perspective: ["left", "right"],
+                part: ["Cowl"],
+                sport: ["Football 2017", "Fan Replica Jersey (Apparel)"],
+                primary: "front",
+            },
+        ], 
+
+        isExempted: function (perspective, part, sport) {
+            
+            var _result = _.find(this.items, function (item) {
+
+                if (
+                    _.contains(item.perspective, perspective) && 
+                    _.contains(item.part, part) && 
+                    _.contains(item.sport, sport)
+                ) {
+                    return item;
+                }
+
+            });
+
+            return {
+                isExempted: _.size(_result) > 0,
+                result: _result,
+            }
+
+        },
+
+    }
+
+    // End New Application Exemptions - Parts that wont follow the normal Perspective Projections
+
     // Shortcuts
 
     ub.dialog = bootbox;
-
 
 });
