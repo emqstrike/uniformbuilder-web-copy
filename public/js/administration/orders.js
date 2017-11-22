@@ -528,6 +528,7 @@ $('.send-to-factory').on('click', function(e){
                 }
             });
         }
+
         window.pa = null;
         getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
 
@@ -632,12 +633,29 @@ $('.send-to-factory').on('click', function(e){
                 if( _.contains(roster_sizes, y.Size) ){
                     // for(var k = 0; k < y.Quantity; k++){
                     //     dupd_roster.push(y);
+
+                    // add size prefix for socks
+                    if( y.Size == "3-5" ){
+                        y.Size = "Kids (3-5)";
+                    } else if( y.Size == "5-7" ){
+                        y.Size = "Youth (5-7)";
+                    } else if( y.Size == "8-12" ){
+                        y.Size = "Adult (8-12)";
+                    } else if( y.Size == "13-14" ){
+                        y.Size = "XL (13-14)";
+                    }
+
+
                     // }
                     // console.log('DUPD ROSTER LENGTH');
                     // console.log(dupd_roster.length);
                     roster.push(y);
                 }
             });
+
+            console.log('ROSTER');
+            console.log(roster);
+
             if( roster.length > 0 ){
                x.orderItems = roster;
                 order_parts_split.push(x); 
