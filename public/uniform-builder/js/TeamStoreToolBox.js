@@ -16,7 +16,8 @@ var TeamStoreToolBox = {
         $('#team-store-toolbox .update-images').on('click', TeamStoreToolBox.update_images);
         $('#team-store-toolbox .add-to-team-store').on('click', TeamStoreToolBox.add_to_team_store);
         $('#team-store-toolbox .view-product-page').on('click', TeamStoreToolBox.view_product_page);
-        $('#team-store-toolbox .open-team-store-products').on('click', TeamStoreToolBox.open_products);
+        // $('#team-store-toolbox .open-team-store-products').on('click', TeamStoreToolBox.open_products);
+        $('#team-store-toolbox .open-team-store-manager-products').on('click', TeamStoreToolBox.open_store_manager_products);
         $('#team-store-toolbox .close').on('click', TeamStoreToolBox.close);
         if ($('#show-team-store-toolbox')) {
             $('#show-team-store-toolbox').on('click', TeamStoreToolBox.show);
@@ -221,6 +222,11 @@ var TeamStoreToolBox = {
 
         }
 
+    },
+
+    open_store_manager_products: function() {
+        var url = $('#team-store-toolbox .open-team-store-manager-products').data('store-manager-products-url');
+        window.open(url, '_blank');
     },
 
     load_material: function (material_id, product_id) {
