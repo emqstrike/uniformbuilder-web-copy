@@ -41,7 +41,14 @@ $(document).ready(function () {
         ],
         isValid: function (sport) {
 
-            return _.contains(this.items, sport);
+            var _result = _.contains(this.items, sport);
+
+            // If not in whitelist, check if theres an onverride on the block pattern
+            if (!_result) {
+                _result = ub.data.placeHolderOverrides.items.length > 0;
+            }
+
+            return _result;
 
         }
 
@@ -57,7 +64,12 @@ $(document).ready(function () {
 
             if (typeof _result === "undefined") {
 
-                ub.utilities.info('Placeholder Override not found, using default.'); // Centoid Function will be used insteadff
+                ub.utilities.info('Sport: ' + sport);
+                ub.utilities.info('Part: ' + part);
+                ub.utilities.info('Perspective: ' + perspective);
+                ub.utilities.info('Block Pattern: ' + blockPattern);
+
+                ub.utilities.info('Placeholder Override not found, using default.'); // Centoid Function will be used insteadf
 
             }
 

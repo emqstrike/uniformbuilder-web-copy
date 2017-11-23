@@ -600,6 +600,9 @@ $(document).ready(function () {
 
             ub.funcs.updateLabels();
 
+            // Info
+            ub.funcs.printUniformInfo(ub.current_material.material, ub.current_material.settings);
+
         };
 
         ub.funcs.updateLabels = function () {
@@ -2683,12 +2686,6 @@ $(document).ready(function () {
             }
 
         }
-
-        // Applications
-
-            ub.funcs.printUniformInfo(ub.current_material.material, ub.current_material.settings);
-
-        // End Applications
 
         if (ub.funcs.isSocks()) {
 
