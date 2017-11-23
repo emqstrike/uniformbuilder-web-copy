@@ -88,6 +88,7 @@
                                 <th>Options</th>
                                 <th>Thumbnail</th>
                                 <th>Sport</th>
+                                <th>Placeholder Overrides</th>
                                 <th>Active</th>
                                 <th></th>
                             </tr>
@@ -106,6 +107,13 @@
                             <img class="img-thumbnail" src="{{ $block_pattern->thumbnail_path }}" style="height: 210px; width: 140px;">
                         <td>
                             {{ $block_pattern->uniform_category }}
+                        </td>
+                        <td>
+                            @if(isset($block_pattern->placeholder_overrides))
+                            <div class="alert alert-success">Yes</div>
+                            @else
+                            <div class="alert alert-danger">No</div>
+                            @endif
                         </td>
                         <td>
                             <div class="onoffswitch">
