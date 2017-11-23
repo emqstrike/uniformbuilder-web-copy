@@ -422,6 +422,19 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.updateManipulatorsPanel = function (settingsObj) {
+
+        var _templateStr = '';
+
+        _templateStr = ub.utilities.buildTemplateString("#m-manipulator-panel", {
+            x: '1',
+            y: '2',
+        });
+
+        return _templateStr;
+
+    }
+
 
     ub.funcs.changePatternFromPopupApplications = function (settingsObj, patternID) {
 
@@ -1191,7 +1204,7 @@ $(document).ready(function () {
 
     ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup, div#primaryTailSweepPopup');
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup, div#primaryTailSweepPopup, div#primaryEmbellishmentPopup');
         $popup.fadeIn();
 
         if ($popup.length === 0) { return; } 

@@ -29,6 +29,7 @@
                             <th>Order Status</th>
                             <th>Rep ID</th>
                             <th>FOID</th>
+                            <th>Date Submitted</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -79,6 +80,7 @@
                                     data-ship-state="{{ $order->ship_state }}"
                                     data-ship-zip="{{ $order->ship_zip }}"
                                     data-ship-phone="{{ $order->ship_phone }}"
+                                    data-ship-email="{{ $order->ship_email }}"
                                     data-status="{{ $order->status }}"
                                     data-upper-front-view="{{ $order->upper_front_thumbnail_path }}"
                                     data-upper-back-view="{{ $order->upper_back_thumbnail_path }}"
@@ -108,14 +110,24 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="number" name="rep-id" class="form-control rep-id" value="154">
+                                <!-- <input type="number" name="rep-id" class="form-control rep-id" value="154"> -->
+                                <select class="form-control rep-id" name="rep-id">
+                                    <option value="154">Jeremy Macy (154)</option>
+                                    <option value="69">Dan Mullins (69)</option>
+                                    <option value="141">Jared Blanchard (141)</option>
+                                    <option value="1148">Geeks (1148)</option>
+                                </select>
                             </td>
                             <td>
                                 {{ $order->factory_order_id }}
                             </td>
                             <td>
+                                {{ $order->created_at }}
+                            </td>
+                            <td>
                                 {{-- @if ( $order->artwork_status != "rejected" )
                                 ( !isset($order->factory_order_id) ) --}}
+                                @if(count($order->items) > 0)
                                 <a href="#"
                                     class="btn btn-primary btn-xs send-to-factory"
                                     data-order-id="{{ $order->id }}"
@@ -127,6 +139,7 @@
                                     data-ship-state="{{ $order->ship_state }}"
                                     data-ship-zip="{{ $order->ship_zip }}"
                                     data-ship-phone="{{ $order->ship_phone }}"
+                                    data-ship-email="{{ $order->ship_email }}"
                                     data-bill-contact="{{ $order->bill_contact }}"
                                     data-bill-city="{{ $order->bill_city }}"
                                     data-bill-state="{{ $order->bill_state }}"
@@ -135,7 +148,8 @@
                                     data-bill-phone="{{ $order->bill_phone }}"
                                     data-bill-address="{{ $order->bill_address }}"
                                     >Send to Edit</a>
-                                <a href="#"
+                                @endif
+                                <!-- <a href="#"
                                     class="btn btn-primary btn-xs translate-values"
                                     data-api-order-id="{{ $order->order_id }}"
                                     >Translate</a>
@@ -143,7 +157,7 @@
                                     <a href="#" class="btn btn-danger pull-right btn-xs delete-order" data-order-id="{{ $order->id }}" role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                         Remove
-                                    </a>
+                                    </a> -->
                                 {{-- @endif --}}
                             </td>
                         </tr>
@@ -180,6 +194,7 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/orders.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

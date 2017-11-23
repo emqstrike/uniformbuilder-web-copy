@@ -31,6 +31,11 @@ class OrdersController extends Controller
             $orders = $this->client->getOrders($status);
         }
 
+        foreach($orders as $order)
+        {
+            $order->created_at = date('M-d-Y', strtotime($order->created_at));
+        }
+
         return view('administration.orders.orders', [
             'orders' => $orders,
             'order_statuses' => [
@@ -45,6 +50,15 @@ class OrdersController extends Controller
                 'refunded',
                 'disputed'
             ]
+        ]);
+    }
+
+    public function indexSentOrders(Request $request)
+    {
+        $orders = $this->client->getSentOrders();
+
+        return view('administration.orders.orders-sent', [
+            'orders' => $orders
         ]);
     }
 

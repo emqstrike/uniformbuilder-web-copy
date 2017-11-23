@@ -199,7 +199,12 @@ $(document).ready(function() {
 
     ub.data.hasProcessedArtworks    = false;
 
-    ub.config.switchToFrontBody       = new Date('Fri Aug 14 2017 17:08:32 GMT+0800 (+08)');
+    // URLS
+    ub.data.inkSoftBaseURL          = 'https://stores.inksoft.com';
+    ub.data.inkSoftProlookStore     = '/Prolook_Sports';
+    ub.data.inksoftFontsFolder      = 'https://s3-us-west-2.amazonaws.com/uniformbuilder/inksoft-fonts/';
+
+    ub.config.switchToFrontBody     = new Date('Fri Aug 14 2017 17:08:32 GMT+0800 (+08)');
 
     // Mock Object for Pipings 
 
@@ -2074,6 +2079,10 @@ $(document).ready(function() {
                 alias: "football",
             },
             {
+                name: "Football 2017",
+                alias: "football 2017",
+            },
+            {
                 name: "Wrestling",
                 alias: "text_wrestling",
             },
@@ -2133,6 +2142,10 @@ $(document).ready(function() {
                 name: "Lacrosse",
                 alias: "lacrosse",
             },
+            { 
+                name: "Game Day Coaches Jackets (Apparel)",
+                alias: "game-day-coaches-jackets",
+            },
 
         ],
 
@@ -2156,2125 +2169,6 @@ $(document).ready(function() {
 
         }
 
-    }
-
-    ub.data.applicationSizesPant = {
-
-        items: [
-
-        // Baseball
-            {
-                name: 'mascot',
-                sport: 'baseball',
-                applicationNumbers: [37, 38],
-                sizes:  [
-                            {
-                                size: 1,
-                            },
-                            {
-                                size: 2,
-                            },
-                            {
-                                size: 3,
-                            }
-                ],
-            },
-            {
-                name: 'mascot',
-                sport: 'baseball',
-                applicationNumbers: [39, 40],
-                sizes:  [
-                            {
-                                size: 1,
-                            },
-                            {
-                                size: 2,
-                            },
-                ],
-            },
-            {
-                name: 'mascot',
-                sport: 'baseball',
-                applicationNumbers: [15],
-                sizes:  [
-                            {
-                                size: 1,
-                            },
-                            {
-                                size: 1.75,
-                            },
-                ],
-            },
-
-            // Fast Pitch
-
-            {
-                name: 'mascot',
-                sport: 'fastpitch',
-                applicationNumbers: [37, 38],
-                sizes:  [
-                            {
-                                size: 1,
-                            },
-                            {
-                                size: 2,
-                            },
-                            {
-                                size: 3,
-                            }
-                ],
-            },
-            {
-                name: 'mascot',
-                sport: 'fastpitch',
-                applicationNumbers: [39, 40],
-                sizes:  [
-                            {
-                                size: 1,
-                            },
-                            {
-                                size: 2,
-                            },
-                ],
-            },
-            {
-                name: 'mascot',
-                sport: 'fastpitch',
-                applicationNumbers: [15],
-                sizes:  [
-                            {
-                                size: 1,
-                            },
-                            {
-                                size: 1.75,
-                            },
-                ],
-            },
-
-            // Volleyball
-            {
-                name: 'mascot',
-                sport: 'volleyball',
-                applicationNumbers: [70],
-                sizes:  [
-                            {
-                                size: 1,
-                            },
-                            {
-                                size: 2,
-                            },
-                            {
-                                size: 3,
-                            },
-                            {
-                                size: 4,
-                            },
-                            {
-                                size: 5,
-                            }
-
-                ],
-            },
-
-            // Signature Coaches Short (Apparel)
-            {
-                name: 'mascot',
-                sport: 'signature-coaches-short',
-                applicationNumbers: [70],
-                sizes:  [
-                            {
-                                size: 1,
-                            },
-                            {
-                                size: 2,
-                            },
-                            {
-                                size: 3,
-                            },
-                            {
-                                size: 4,
-                            },
-                            {
-                                size: 5,
-                            }
-
-                ],
-            },
-
-
-            // 2017 Team Short with Pockets (Apparel)
-            {
-                name: 'mascot',
-                sport: 'team-short',
-                applicationNumbers: [70],
-                sizes:  [
-                            {
-                                size: 1,
-                            },
-                            {
-                                size: 2,
-                            },
-                            {
-                                size: 3,
-                            },
-                            {
-                                size: 4,
-                            },
-                            {
-                                size: 5,
-                            }
-
-                ],
-            },
-
-
-            // Soccer
-            {
-                name: 'mascot',
-                sport: 'soccer',
-                applicationNumbers: [70],
-                sizes:  [
-                            {
-                                size: 1,
-                            },
-                            {
-                                size: 2,
-                            },
-                            {
-                                size: 3,
-                            },
-                            {
-                                size: 4,
-                            },
-                            {
-                                size: 5,
-                            },
-                            {
-                                size: 6,
-                            },
-                            {
-                                size: 7,
-                            },
-                            {
-                                size: 8,
-                            },
-                            {
-                                size: 9,
-                            },
-                            {
-                                size: 10,
-                            },
-                            {
-                                size: 11,
-                            },
-                            {
-                                size: 12,
-                            }
-                ],
-            },
-
-            // Basketball
-
-            {
-                name: 'mascot',
-                sport: 'basketball',
-                applicationNumbers: [16, 17],
-                sizes:  [
-                            {
-                                size: 1,
-                            },
-                            {
-                                size: 2,
-                            },
-                            {
-                                size: 3,
-                            },
-                            {
-                                size: 4,
-                            }
-
-                ],
-            },
-
-            // Lacrosse
-
-            {
-                name: 'mascot',
-                sport: 'lacrosse',
-                applicationNumbers: [12,13,16,17],
-                sizes:  [
-                            {
-                                size: 3,
-                            },
-                            {
-                                size: 4,
-                            }
-                ],
-            },
-            {
-                name: 'front_number',
-                sport: 'lacrosse',
-                applicationNumbers: [12,13,16,17],
-                sizes:  [
-                            {
-                                size: 3,
-                            },
-                            {
-                                size: 4,
-                            }
-                ],
-            },
-            {
-                name: 'back_number',
-                sport: 'lacrosse',
-                applicationNumbers: [12,13,16,17],
-                sizes:  [
-                            {
-                                size: 3,
-                            },
-                            {
-                                size: 4,
-                            }
-                ],
-            },
-            {
-                name: 'shoulder_number',
-                sport: 'lacrosse',
-                applicationNumbers: [12,13,16,17],
-                sizes:  [
-                            {
-                                size: 3,
-                            },
-                            {
-                                size: 4,
-                            }
-                ],
-            },
-           
-        ], 
-        getSize: function (applicationType, sport, id) {
-
-            var _result = _.filter(this.items, {name: applicationType, sport: sport});
-            var _object = undefined;
-
-            if (typeof _result === "undefined") {
-                ub.utilities.warn('Application Sizes for ' + applicationType + ' in ' + sport + ' is not found!');
-            }
-
-            _object = _.find(_result, function (item) {
-
-                return _.contains(item.applicationNumbers, id);
-
-            });
- 
-            if (sport === "volleyball")                         { return _result[0]; }
-            if (sport === "fastpitch")                          { return _result[0]; }
-            if (sport === "baseball")                           { return _result[0]; }
-            if (sport === "team-short")                         { return _result[0]; }
-            if (sport === "signature-coaches-short")            { return _result[0]; }
-            if (sport === "soccer")                             { return _result[0]; }
-            if (sport === "lacrosse")                           { return _result[0]; }
-
-          
-            if (typeof _object === "undefined") {
-
-                ub.utilities.warn('Mascot sizes for ' + sport + ' #' + id  + ' not found.');
-
-            }
-
-            return _object;
-
-        }
-
-    }
-
-    ub.data.applicationSizes = {
-
-        items: [
-                {
-                    name: 'team_name',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    type: 'embroidery',
-                                    size: 1,
-                                },
-                                {
-                                    type: 'tackle twill',
-                                    size: 2,
-                                },
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'team_name',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    type: 'tackle twill',
-                                    size: 2.5,
-                                },
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'player_name',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 2.5,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'front_number',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 10,
-                                },
-                                {
-                                    size: 12,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'front_number',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 8,
-                                },
-                            ],
-                    type: 'youth',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 8,
-                                },
-                                { 
-                                    size: 10,
-                                },
-                            ],
-                    type: 'youth',
-                },
-                {
-                    name: 'shoulder_number',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                },
-                {
-                    name: 'sleeve_number',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                },
-                {
-                    name: 'numbers_extra',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },                    
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                },                
-                {
-                    name: 'logo',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                }
-                            ],
-                },
-                {
-                    name: 'mascot',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                }
-                            ],
-                },
-                {
-                    name: 'mascot_2',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                },
-                {
-                    name: 'mascot_5',
-                    sport: 'football',
-                    sizes:  [
-                                {
-                                    size: 10,
-                                },
-                                {
-                                    size: 12,
-                                },
-                            ],
-                },
-                {
-                    name: 'mascot_wrestling',
-                    sport: 'wrestling',
-                    sizes:  [
-                                {
-                                    size: 5,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                                {
-                                    size: 12,
-                                },
-                            ],
-                },
-                {
-                    name: 'team_name',
-                    sport: 'wrestling',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                },
-                {
-                    name: 'text_wrestling',
-                    sport: 'wrestling',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                },
-                {
-                    name: 'text_baseball',
-                    sport: 'baseball',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                },
-
-                // Baseball
-                {
-                    name: 'team_name',
-                    sport: 'baseball',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'baseball',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'sleeve_number',
-                    sport: 'baseball',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'mascot',
-                    sport: 'baseball',
-                    applicationNumbers: [7,6],
-                    sizes: [
-                        {size: 2},
-                        {size: 3},
-                    ],
-                },
-                {
-                    name: 'mascot',
-                    sport: 'baseball',
-                    applicationNumbers: [29, 26, 28, 27, 30, 31, 9, 10,1],
-                    sizes: [
-                        {size: 2},
-                        {size: 3},
-                        {size: 4},
-                    ],
-                },
-                {
-                    name: 'mascot',
-                    sport: 'baseball',
-                    applicationNumbers: [5],
-                    sizes: [
-                        {size: 6},
-                        {size: 8},
-                        {size: 10},
-                    ],
-                },
-                {
-                    name: 'front_number',
-                    sport: 'baseball',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'baseball',
-                    sizes:  [
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                // End Baseball
-
-                 {
-                    name: 'text_baseball',
-                    sport: 'fastpitch',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                },
-
-                // Fastpitch
-                {
-                    name: 'team_name',
-                    sport: 'fastpitch',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'fastpitch',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'sleeve_number',
-                    sport: 'fastpitch',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'mascot',
-                    sport: 'fastpitch',
-                    applicationNumbers: [7,6],
-                    sizes: [
-                        {size: 2},
-                        {size: 3},
-                    ],
-                },
-                {
-                    name: 'mascot',
-                    sport: 'fastpitch',
-                    applicationNumbers: [29, 26, 28, 27, 30, 31, 9, 10,1],
-                    sizes: [
-                        {size: 2},
-                        {size: 3},
-                        {size: 4},
-                    ],
-                },
-                {
-                    name: 'mascot',
-                    sport: 'fastpitch',
-                    applicationNumbers: [5],
-                    sizes: [
-                        {size: 6},
-                        {size: 8},
-                        {size: 10},
-                    ],
-                },
-                {
-                    name: 'front_number',
-                    sport: 'fastpitch',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'fastpitch',
-                    sizes:  [
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                // End Fastpitch
-
-                // Crew Socks 
-
-                {
-                    name: 'mascot',
-                    sport: 'crew-socks',
-                    applicationNumbers: [52, 53, 54, 55],
-                    sizes: [
-                        {size: 2.5},
-                    ],
-                },
-
-                // End Crew Socks 
-
-                // Hockey
-                {
-                    name: 'team_name',
-                    sport: 'hockey',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'hockey',
-                    sizes:  [
-                                {
-                                    size: 2.5,
-                                },
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'sleeve_number',
-                    sport: 'hockey',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'shoulder_number',
-                    sport: 'hockey',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'mascot',
-                    sport: 'hockey',
-                    applicationNumbers: [6],
-                    sizes: [
-                        {size: 2.5},
-                    ],
-                },
-                {
-                    name: 'player_name',
-                    sport: 'hockey',
-                    applicationNumbers: [6],
-                    sizes: [
-                        {size: 2.5},
-                    ],
-                },
-                {
-                    name: 'mascot',
-                    sport: 'hockey',
-                    applicationNumbers: [9, 10, 33, 32],
-                    sizes: [
-                        {size: 3},
-                        {size: 4},
-                    ],
-                },
-                {
-                    name: 'sleeve_number',
-                    sport: 'hockey',
-                    applicationNumbers: [9, 10, 33, 32],
-                    sizes: [
-                        {size: 3},
-                        {size: 4},
-                    ],
-                },
-                {
-                    name: 'mascot',
-                    sport: 'hockey',
-                    applicationNumbers: [29, 26, 28, 27, 30, 31, 9, 10,1],
-                    sizes: [
-                        {size: 2},
-                        {size: 3},
-                        {size: 4},
-                    ],
-                },
-                {
-                    name: 'front_number',
-                    sport: 'hockey',
-                    sizes:  [
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                                {
-                                    size: 12,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'mascot',
-                    applicationNumbers: [2, 5],
-                    sport: 'hockey',
-                    sizes:  [
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                                {
-                                    size: 12,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'hockey',
-                    sizes:  [
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                                {
-                                    size: 12,
-                                },
-
-                            ],
-                    type: 'adult',
-                },
-                // End Hockey
-
-                // tech-teee
-
-                 {
-                    name: 'text_tech-tee',
-                    sport: 'tech-tee',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                },
-                {
-                    name: 'team_name',
-                    sport: 'tech-tee',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'tech-tee',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'sleeve_number',
-                    sport: 'tech-tee',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'mascot',
-                    sport: 'tech-tee',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'front_number',
-                    sport: 'tech-tee',
-                    sizes:  [
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'tech-tee',
-                    sizes:  [
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'shoulder_number',
-                    sport: 'tech-tee',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    type: 'adult',
-                },
-
-                // end tech-tee
-
-                // compression
-
-                 {
-                    name: 'text_tech-tee',
-                    sport: 'compression',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                },
-                {
-                    name: 'team_name',
-                    sport: 'compression',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'compression',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'sleeve_number',
-                    sport: 'compression',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'mascot',
-                    sport: 'compression',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                    ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'front_number',
-                    sport: 'compression',
-                    sizes:  [
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'compression',
-                    sizes:  [
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'shoulder_number',
-                    sport: 'compression',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    type: 'adult',
-                },
-
-                // end compression
-
-                /// Volleyball
-                {
-                    name: 'text_tech-tee',
-                    sport: 'volleyball',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                },
-                {
-                    name: 'team_name',
-                    sport: 'volleyball',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'volleyball',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'sleeve_number',
-                    sport: 'volleyball',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'mascot',
-                    sport: 'volleyball',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                    ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'front_number',
-                    sport: 'volleyball',
-                    sizes:  [
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'volleyball',
-                    sizes:  [
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'shoulder_number',
-                    sport: 'volleyball',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    type: 'adult',
-                },
-
-                /// End Volleyball
-
-                // cinch-sack
-
-                {
-                    name: 'team_name',
-                    sport: 'cinch-sack',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'cinch-sack',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'mascot',
-                    applicationNumbers: [56, 57],
-                    sport: 'cinch-sack',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 7,
-                                },
-                    ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'mascot',
-                    applicationNumbers: [58, 59],
-                    sport: 'cinch-sack',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                    ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'front_number',
-                    sport: 'cinch-sack',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'cinch-sack',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },                            
-                            ],
-                    type: 'adult',
-                },
-
-                // end cinch-sack
-
-
-                // team-short
-
-                {
-                    name: 'team_name',
-                    sport: 'team-short',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'team-short',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'mascot',
-                    applicationNumbers: [56, 57],
-                    sport: 'team-short',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 7,
-                                },
-                    ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'mascot',
-                    applicationNumbers: [58, 59],
-                    sport: 'team-short',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                    ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'front_number',
-                    sport: 'team-short',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'team-short',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },                            
-                            ],
-                    type: 'adult',
-                },
-
-                // end team-short
-
-
-                // signature-coaches-short
-
-                {
-                    name: 'team_name',
-                    sport: 'signature-coaches-short',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'signature-coaches-short',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'mascot',
-                    applicationNumbers: [56, 57],
-                    sport: 'signature-coaches-short',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 7,
-                                },
-                    ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'mascot',
-                    applicationNumbers: [58, 59],
-                    sport: 'signature-coaches-short',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                    ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'front_number',
-                    sport: 'signature-coaches-short',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'signature-coaches-short',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },                            
-                            ],
-                    type: 'adult',
-                },
-
-                // end signature-coaches-short
-
-                // Basketball
-                {
-                    name: 'team_name',
-                    sport: 'basketball',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'basketball',
-                    sizes:  [
-                                {
-                                    size: 2.5,
-                                },
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'sleeve_number',
-                    sport: 'basketball',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'mascot',
-                    sport: 'basketball',
-                    applicationNumbers: [6],
-                    sizes: [
-                        {size: 2.5},
-                    ],
-                },
-
-                {
-                    name: 'mascot',
-                    sport: 'basketball',
-                    applicationNumbers: [7, 31, 30],
-                    sizes: [
-                        {size: 1},
-                        {size: 2},
-                        {size: 3},
-                        {size: 4},
-                    ],
-                },
-                {
-                    name: 'mascot',
-                    sport: 'basketball',
-                    applicationNumbers: [5],
-                    sizes: [
-                        {size: 6},
-                        {size: 8},
-                        {size: 10},
-                    ],
-                },
-                {
-                    name: 'front_number',
-                    sport: 'basketball',
-                    sizes:  [
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 6,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'basketball',
-                    sizes:  [
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                // End Basketball
-
-
-                // Lacrosse
-                {
-                    name: 'team_name',
-                    sport: 'lacrosse',
-                    sizes:  [
-                                {
-                                    size: 1,
-                                },
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'lacrosse',
-                    sizes:  [
-                                {
-                                    size: 2.5,
-                                },
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'sleeve_number',
-                    sport: 'lacrosse',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'mascot',
-                    sport: 'lacrosse',
-                    applicationNumbers: [1,6],
-                    sizes: [
-                        {size: 1},
-                        {size: 2},
-                        {size: 3},
-                        {size: 4},
-                    ],
-                },
-                {
-                    name: 'mascot',
-                    sport: 'lacrosse',
-                    applicationNumbers: [7, 31, 30],
-                    sizes: [
-                        {size: 1},
-                        {size: 2},
-                        {size: 3},
-                        {size: 4},
-                    ],
-                },
-                {
-                    name: 'mascot',
-                    sport: 'lacrosse',
-                    applicationNumbers: [5, 2],
-                    sizes: [
-                        {size: 6},
-                        {size: 8},
-                        {size: 10},
-                    ],
-                },
-                {
-                    name: 'front_number',
-                    sport: 'lacrosse',
-                    sizes:  [
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'lacrosse',
-                    sizes:  [
-                                {
-                                    size: 6,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                // End Lacrosse
-               
-                // defaults 
-
-                {
-                    name: 'team_name',
-                    sport: 'default',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'player_name',
-                    sport: 'default',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                            ],
-                    factory: 'PMP'
-                },
-                {
-                    name: 'sleeve_number',
-                    sport: 'default',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'shoulder_number',
-                    sport: 'default',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                            ],
-                    factory: 'BLB',
-                },
-                {
-                    name: 'front_number',
-                    sport: 'default',
-                    sizes:  [
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                            ],
-                    type: 'adult',
-                },
-                {
-                    name: 'back_number',
-                    sport: 'default',
-                    sizes:  [
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                            ],
-                    type: 'adult',
-                },                
-                {
-                    name: 'mascot',
-                    sport: 'default',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                                {
-                                    size: 5,
-                                },
-                                {
-                                    size: 8,
-                                },
-                                {
-                                    size: 10,
-                                },
-                    ],
-                    factory: 'BLB',
-                },
-                {
-                    name: '', // Dynamically Added Applications, For Free Form Tool Such as Wrestling, etc...
-                    sport: 'default',
-                    sizes:  [
-                                {
-                                    size: 2,
-                                },
-                                {
-                                    size: 3,
-                                },
-                                {
-                                    size: 4,
-                                },
-                    ],
-                    factory: 'BLB',
-                },
-               
-
-                // end defaults
-
-            ],
-            getSizes: function (sport, type, locationNumber) {
-
-                var _result = _.filter(this.items, {sport: sport, name: type});
-
-                if (typeof _result === "undefined") {
-
-                    ub.utilities.warn(type + ' Sizes for ' + type + ' not found.' );
-
-                }
-
-                _result = _.find(_result, function (item) {
-
-                    return _.contains(item.applicationNumbers, locationNumber);
-
-                });
-
-                if (typeof _result === "undefined") {
-
-                    ub.utilities.warn('Location #' + locationNumber + ' for ' + type + ' in ' + sport + ' not found. Using default.');
-
-                    _result = _.find(this.items, {sport: 'default', name: type});
-
-                }
-
-                return _result;
-
-            }
     }
 
     /// Todo: Read This from API for a complete font listing
@@ -4858,6 +2752,12 @@ $(document).ready(function() {
                     name: 'Tech-Tee (Apparel)',
                     active: "1",
                 },
+                {
+                    code: 'game-day-coaches-jackets',
+                    name: 'Game Day Coaches Jackets (Apparel)',
+                    active: "1",
+                },
+
                 {
                     code: '1-4 zip',
                     name: 'Quarter Zip Jacket (Apparel)',
@@ -10264,9 +8164,10 @@ ub.funcs.fontOffSets = [
             sport: 'Signature Coaches Short (Apparel)',
             filters: ['All'],
         },
-
-
-
+        {
+            sport: 'Game Day Coaches Jackets (Apparel)',
+            filters: ['All'],
+        },          
     ];
 
     ub.funcs.load_fonts = function () {
@@ -10603,6 +8504,57 @@ ub.funcs.fontOffSets = [
 
         items: [
 
+            // Football 2017 
+            {
+                sport: 'Football 2017',
+                applicationNumber: '26',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '26',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '26',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '27',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '27',
+                size: 3,
+                pullUpHeight: -20,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '27',
+                size: 2,
+                pullUpHeight: -35,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '5',
+                size: 3,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '5',
+                size: 2,
+                pullUpHeight: -35,
+            },
+
+            // End Football 2017 
 
             // Baseball 
             {
@@ -11990,6 +9942,8 @@ ub.funcs.fontOffSets = [
             'Signature Coaches Short (Apparel)',
             'Basketball',
             'Cage Jacket (Apparel)',
+            'Football 2017',
+            'Game Day Coaches Jackets (Apparel)',
         ],
         options: [
             'Fight Short',
@@ -12154,6 +10108,14 @@ ub.funcs.fontOffSets = [
                 sport: 'Signature Coaches Short (Apparel)',
                 sublimatedPart: 'Extra',
             }, 
+            {
+                sport: 'Football 2017',
+                sublimatedPart: 'Body',
+            },
+            {
+                sport: 'Game Day Coaches Jackets (Apparel)',
+                sublimatedPart: 'Body',
+            },
 
             // 
         ],
@@ -12436,7 +10398,7 @@ ub.funcs.fontOffSets = [
                 ]
             }, 
             {
-                block_pattern: 'Cage Jacket',
+                block_pattern: 'Cage Jacket (Apparel)',
                 neck_options: ['Long Sleeve', 'Short Sleeve'],
                 material_option: 'Zipper', 
                 valid_colors: [
@@ -12464,6 +10426,32 @@ ub.funcs.fontOffSets = [
                 valid_colors: [
                     'B',    
                     'CG',
+                ]
+            },
+            {
+                block_pattern: 'Game Day Coaches Jacket',
+                neck_options: ["Men's", "Women's"],
+                material_option: 'Zipper', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
+             {
+                block_pattern: 'Game Day Coaches Jacket',
+                neck_options: ["Men's", "Women's"],
+                material_option: 'Arm Elastic', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
                 ]
             },
 
@@ -12783,6 +10771,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Lacrosse' },
             { sport: 'Signature Coaches Short (Apparel)' },
             { sport: '2017 Team Short with Pockets (Apparel)' },
+            { sport: 'Game Day Coaches Jackets (Apparel)' },
 
             { sport: 'Fastpitch' },
             { sport: 'Soccer' },            
@@ -12975,6 +10964,9 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Fastpitch',    
+            },
+            {
+                sport: "Game Day Coaches Jackets (Apparel)",    
             },
         ],
 
@@ -13242,6 +11234,18 @@ ub.funcs.fontOffSets = [
                 name: 'tagged_styles',
                 alias: 'Tags',
             },
+            {
+                name: 'cuts_links',
+                alias: 'Cuts Links',
+            },
+            {
+                name: 'logo_request',
+                alias: 'Logo Requests',
+            },
+            {
+                name: 'application_size',
+                alias: 'Application Sizes',
+            },
     
         ],
 
@@ -13396,6 +11400,12 @@ ub.funcs.fontOffSets = [
                 thumbFilename: 'signature-coaches-short.png',
                 gender: ['men',],    
             },
+            {
+                shortCode: 'game-day-coaches-jackets',
+                urlAlias: 'Game Day Coaches Jackets (Apparel)',
+                thumbFilename: 'game-day-coaches-jackets.png',
+                gender: ['men',],    
+            },
             
         ],
 
@@ -13425,5 +11435,60 @@ ub.funcs.fontOffSets = [
 
     }
 
+    ub.data.apparelList = {
+
+        items: [
+            // Fill this in
+        ],
+
+        isApparel: function (type) {
+
+            return _.contains(this.items, type);
+
+        }
+
+    }
+
+    // New Application Exemptions - Parts that wont follow the normal Perspective Projections
+
+    ub.data.applicationProjectionExemptions = {
+        
+        items: [
+            {
+                perspective: ["left", "right"],
+                part: ["Cowl"],
+                sport: ["Football 2017", "Fan Replica Jersey (Apparel)"],
+                primary: "front",
+            },
+        ], 
+
+        isExempted: function (perspective, part, sport) {
+            
+            var _result = _.find(this.items, function (item) {
+
+                if (
+                    _.contains(item.perspective, perspective) && 
+                    _.contains(item.part, part) && 
+                    _.contains(item.sport, sport)
+                ) {
+                    return item;
+                }
+
+            });
+
+            return {
+                isExempted: _.size(_result) > 0,
+                result: _result,
+            }
+
+        },
+
+    }
+
+    // End New Application Exemptions - Parts that wont follow the normal Perspective Projections
+
+    // Shortcuts
+
+    ub.dialog = bootbox;
 
 });

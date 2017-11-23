@@ -6,16 +6,25 @@
       <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
     </a>
   </li>
-  <li data-step="2" data-intro="Will proceed to the orders." data-position='right'>
-    <a href="/administration/orders" >
-      <i class="glyphicon glyphicon-list-alt"></i> <span>Orders</span>
+  <li class="treeview" data-step="2" data-intro="View Orders" data-position='right'>
+    <a href="#" >
+      <i class="glyphicon glyphicon-list-alt"></i>
+      <span>Orders</span>
+      <i class="fa fa-angle-left pull-right"></i>
     </a>
+    <ul class="treeview-menu">
+      <li data-position='right'>
+        <a href="/administration/orders">
+          <i class="glyphicon glyphicon-list-alt"></i> <span>Pending Orders</span>
+        </a>
+      </li>
+      <li>
+        <a href="/administration/orders/sent_orders">
+          <i class="glyphicon glyphicon-ok"></i> <span>Sent Orders</span>
+        </a>
+      </li>
+    </ul>
   </li>
-  <!-- <li data-step="2" data-intro="Will proceed to the price items dashboard." data-position='right'>
-    <a href="/administration/price_items" >
-        <i class="fa fa-money"></i> <span>Price Items Dashboard</span>
-    </a>
-  </li> -->
   <li class="treeview" data-step="2" data-intro="Manage price items" data-position='right'>
     <a href="#" >
       <i class="fa fa-money"></i>
@@ -78,6 +87,11 @@
                     <span>Custom Artwork Requests</span>
                 </a>
             </li>
+            <li>
+                <a href="/administration/logo_requests" >
+                    <i class="glyphicon glyphicon-picture"></i> <span>Logo Requests ( ALL )</span>
+                </a>
+            </li>
         </ul>
     </li>
 
@@ -108,6 +122,11 @@
           <i class="fa fa-shirtsinbulk"></i> <span>Design Sets</span>
         </a>
       </li>
+      <li  data-step="6" data-intro="For Item Sizes settings.">
+        <a href="/administration/item_sizes">
+          <i class="fa fa-arrows-v"></i> <span>Item Sizes</span>
+        </a>
+      </li>
       <li  data-step="7" data-intro="For Mascots settings.">
         <a href="/administration/mascots">
           <i class="fa fa-linux"></i> <span>Mascots</span>
@@ -129,7 +148,7 @@
         </a>
       </li>
       <li data-step="9" data-intro="For Materials settings.">
-        <a href="/administration/materials">
+        <a href="/administration/materials/Football">
           <i class="fa fa-cubes"></i> <span>Materials</span>
         </a>
       </li>
@@ -280,6 +299,52 @@
     <a href="/administration/dealers">
       <i class="fa fa-handshake-o"></i>
       <span>Dealers</span>
+      </a>
+  </li>
+  <!-- <li data-position='right'>
+    <a href="/administration/style_requests">
+      <i class="fa fa-file-text-o"></i>
+      <span>Style Requests</span>
+      </a>
+  </li> -->
+  <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
+    <a href="#" >
+      <i class="fa fa-file-text-o"></i>
+      <span>Styles</span>
+      <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu">
+      <li  data-step="17" data-intro="Request a style to be made.">
+        <a href="/administration/style_requests">
+          <i class="fa fa-file-text-o"></i> <span>Style Requests</span>
+        </a>
+      </li>
+       <li  data-step="17" data-intro="View Approved Style Requests.">
+        <a href="/administration/approved_style_requests">
+          <i class="fa fa-thumbs-up"></i> <span>Approved Style Requests</span>
+        </a>
+      </li>
+      <li  data-step="17" data-intro="View individual styles info">
+        <a href="/administration/style_viewer">
+          <i class="fa fa-search"></i> <span>Style Viewer</span>
+        </a>
+      </li>
+      <li  data-step="17" data-intro="View individual styles info">
+        <a href="/administration/styles_stats">
+          <i class="fa fa-pie-chart"></i> <span>Style Statistics</span>
+        </a>
+      </li>
+       <li  data-step="17" data-intro="View individual styles info">
+        <a href="/administration/styles_indexes">
+          <i class="fa fa-list-ul"></i> <span>Styles Indexes</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+   <li data-position='right'>
+    <a href="/administration/inksoft_designs">
+      <i class="fa fa-file-image-o"></i>
+      <span>Inksoft Designs</span>
       </a>
   </li>
 </ul>

@@ -63,8 +63,9 @@ $(document).ready(function() {
         var default_color_code = $(this).data('material-option-default-color');
         var sublimated_default_color_code = $(this).data('material-option-sublimated-default-color');
         console.log(default_color_code);
+        var uc_default_color_code = default_color_code.toUpperCase();
 
-        var dcc_item = _.find(window.colors, function (o) { return o.color_code == default_color_code; });
+        var dcc_item = _.find(window.colors, function (o) { return o.color_code == uc_default_color_code; });
         var default_color_name = dcc_item.name;
         var default_color_hex = dcc_item.hex_code;
 
@@ -82,14 +83,14 @@ $(document).ready(function() {
 
 
     var accentObject= [];
-    jQuery.each(accents, function(index, item) {  
+    jQuery.each(accents, function(index, item) {
     var layers = (item.accent_properties).slice(1, -1);
     layers =jQuery.parseJSON(layers);
     accent = {
               "name" : item.name,
               "id": item.secondary_id,
               "layers": layers.length,
-              "thumbnail" : item.thumbnail_path,          
+              "thumbnail" : item.thumbnail_path,
               }
 
      accentObject.push(accent);
@@ -146,7 +147,7 @@ $(document).ready(function() {
             $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
         });
     }
- 
+
     function refreshColors(){
         $(".layer-default-color").change(function() {
             var x = 1;
@@ -297,6 +298,47 @@ $(document).ready(function() {
         bringingPointToFront();
     });
 
+    $('#material-option-bounding-box-top').on('dblclick', function(e){
+
+        var pointsCount = canvas.getObjects('circle').length;
+        var linesCount = canvas.getObjects('line').length;
+        var l = linesCount - 1;
+        var lines = canvas.getObjects('line');
+        var circles = canvas.getObjects('circle');
+        var itemsCount = canvas.getObjects().length;
+        var y = pointsCount - 1;
+        var posX = $(this).offset().left;
+        var posY = $(this).offset().top;
+
+        if( pointsCount < 50 ){
+            var z = pointsCount + 1;
+            var j = pointsCount - 1;
+
+            lines.forEach(function(entry) {
+                if( entry.id == l ){
+                    entry.remove();
+                    var a = (e.pageX - posX)/20;
+                    var b = (e.pageY - posY)/20;
+                    if( loadCase == 0 ){
+                        window['a'+z] = addPoint('a'+z, a * IN, b * IN, 'knot');
+                        addLine(window['a'+pointsCount], window['a'+z], lineIdx);
+                        lineIdx++;
+                        addLine(window['a'+z], window['a1'], lineIdx);
+                    } else {
+                        window['a'+pointsCount] = addPoint('a'+pointsCount, a * IN, b * IN, 'knot');
+                        addLine(window['a'+j], window['a'+pointsCount], lineIdx);
+                        lineIdx++;
+                        addLine(window['a'+pointsCount], window['a0'], lineIdx);
+                    }
+
+                    canvas.renderAll();
+                }
+            });
+        }
+        bringingPointToFront();
+        updateCoordinates();
+    });
+
     var controls_state = 0;
     $('#app-controls').hide();
 
@@ -373,7 +415,7 @@ $(document).ready(function() {
             if(type == "highlights"){
                 $(this).find(".mo-layer").val('99');
             }
-            if(type == "shadows"){ 
+            if(type == "shadows"){
                 $(this).find(".mo-layer").val('98');
             }
             length = length-1;
@@ -512,6 +554,9 @@ $(document).ready(function() {
         var vertical_text           = '<input type="checkbox" style="' + style + '" class="app-vertical-text" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
+        var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
+        var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
+        var flipped                  = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
 
@@ -549,6 +594,9 @@ $(document).ready(function() {
                     default_text,
                     vertical_text,
                     default_number,
+                    embellishment,
+                    inksoft_design_id,
+                    flipped,
                     flip
                 ];
 
@@ -582,7 +630,7 @@ $(document).ready(function() {
             imagePosition: "left",
             selectText: "Select Mascot",
             onSelected: function (data) {
-   
+
 
                     var rowIndex = data.original[0].outerHTML;
                     rowIndex = $.parseHTML(rowIndex);
@@ -605,7 +653,7 @@ $(document).ready(function() {
         });
         var accentsData = window.accents;
         var accent_class = '.app-default-accent';
-   
+
         $(accent_class).ddslick({
             data: accentsData,
             width: 250,
@@ -633,7 +681,7 @@ $(document).ready(function() {
         });
         var tailsweepsData = window.tailsweeps;
         var tailsweep_class = '.app-default-tailsweep';
-        $(tailsweep_class).ddslick({                   
+        $(tailsweep_class).ddslick({
             data: tailsweepsData,
             width: 250,
             height: 300,
@@ -643,7 +691,7 @@ $(document).ready(function() {
             },
         });
 
-        $(document).on("change",".accentLayerColors",function(){         
+        $(document).on("change",".accentLayerColors",function(){
             updateColorField(this);
         });
         function updateColorField(t){
@@ -651,10 +699,10 @@ $(document).ready(function() {
            $(t).parent(".colorSelection").find("select").each(function() {
 
                 var colorCode = ($(this).find(":selected"))[0].outerHTML;
-                 
+
                 colorCode =  $.parseHTML(colorCode);
                 colorCode = $(colorCode).data("color-code");
-                colorCodeField = colorCodeField +","+colorCode;      
+                colorCodeField = colorCodeField +","+colorCode;
                 $(this).css("background","#"+$(this).find(":selected").val());
 
             });
@@ -662,7 +710,7 @@ $(document).ready(function() {
 
         }
 
-       
+
 
         $(".app-rotation-flip").each(function(i) {
             $(this).on('click', function(){
@@ -674,7 +722,7 @@ $(document).ready(function() {
 
         updateApplicationsJSON();
 
-    });  
+    });
 
     $(document).on('click', '.delete-application', function() {
         var itemIdx = $(this).data('id');
@@ -1220,7 +1268,7 @@ $(document).ready(function() {
         if(material.option.allow_color){
             $('#allow_color').prop('checked','checked');
         }
-        
+
         var id_nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
         var team_color_id_options = '<option value="">None</option>';
 
@@ -1285,39 +1333,39 @@ $(document).ready(function() {
         var myStr = '^.*'+escaped_material_uc+'.*$';
         var regexstr = new RegExp(myStr);
         console.log('REGEX STR');
-        console.log(regexstr);     
-        var escaped_material_bpo = material.block_pattern_options;       
+        console.log(regexstr);
+        var escaped_material_bpo = material.block_pattern_options;
         var strBlockPatternOptions = '^.*'+escaped_material_bpo+'.*$';
-        var regexBPO = new RegExp(strBlockPatternOptions);      
+        var regexBPO = new RegExp(strBlockPatternOptions);
         try{
-            $.each(window.patterns, function(i, item) {               
+            $.each(window.patterns, function(i, item) {
                 var sports = item.sports;
                 var block_pattern_o = item.block_pattern_options;
-               
+
                 if( ((typeof sports) === 'string') ){
-                    if( (item.asset_target == material.option.asset_target && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){                                    
+                    if( (item.asset_target == material.option.asset_target && sports.match(regexstr) ) && ( block_pattern_o === '[""]'|| block_pattern_o === null) ){
                         if( material.option.pattern_id == item.id ){
                             patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
                         } else {
                             patterns_dropdown_nobpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
                         }
                     }
-                    else if(item.asset_target == material.option.asset_target && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){ 
-                        ctr++;                        
+                    else if(item.asset_target == material.option.asset_target && sports.match(regexstr) && block_pattern_o.match(regexBPO) ){
+                        ctr++;
                         if( material.option.pattern_id == item.id ){
                             patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
                         } else {
                             patterns_dropdown_bpomatch += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
                         }
-                    }                   
+                    }
                 }
             });
         if (ctr>0) {
             patterns_dropdown = patterns_dropdown_bpomatch;
         }
         else {
-            patterns_dropdown = patterns_dropdown_nobpomatch;    
-        }    
+            patterns_dropdown = patterns_dropdown_nobpomatch;
+        }
             console.log('Material Option Pattern ID: '+material.option.pattern_id);
             loadPatternLayers(material.option.pattern_id, pattern_loaded);
         }
@@ -1396,7 +1444,7 @@ $(document).ready(function() {
             var app_id = fabricAppID( app_prop_id.toString(), font_family, opacity, app_id_font_size);
             var app_type = fabricAppType( app_prop_type.toString(), font_family, opacity, app_type_font_size);
             var group = fabricAppGroup( c, group_left, group_top, area, app_id, app_type, app_prop_type);
-            // if( 
+            // if(
             group.lockUniScaling = true;
             group.lockScalingX = true;
             group.lockScalingY = true;
@@ -1442,10 +1490,12 @@ $(document).ready(function() {
                 var primary_checked     = "",
                     logo_checked        = "",
                     team_name_checked   = "",
-                    player_name_checked = "", 
+                    player_name_checked = "",
                     number_checked      = "",
                     vertical_text_checked = "",
                     rotated_tailsweep_checked = "";
+                    embellishment_checked = "";
+                    flipped_checked = "";
 
                 // Check checkbox if value is 1, isn't it obvious?
                 if(app_properties[l].isPrimary == 1){ primary_checked = checked; }
@@ -1455,6 +1505,8 @@ $(document).ready(function() {
                 if(app_properties[l].hasNumber == 1){ number_checked = checked; }
                 if(app_properties[l].verticalText == 1){ vertical_text_checked = checked; }
                 if(app_properties[l].rotatedTailsweep == 1){ rotated_tailsweep_checked = checked; }
+                if(app_properties[l].hasEmbellishment == 1){ embellishment_checked = checked; }
+                if(app_properties[l].isFlipped == 1){ flipped_checked = checked; }
 
                 var app_primary         = '<input type="checkbox" style="'  + style + '" class="app-primary" value="1" '        + primary_checked                   + '>';
                 var app_logo            = '<input type="checkbox" style="'  + style + '" class="app-logo" value="1" '           + logo_checked                      + '>';
@@ -1501,7 +1553,10 @@ $(document).ready(function() {
                 var default_text        = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
                 var vertical_text       = '<input type="checkbox" style="'  + style + '" class="app-vertical-text" value="1" data-id="' + group.id + '" '        + vertical_text_checked                   + '>';
                 var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
-                var rotated_tailsweep       = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '>';
+                var embellishment       = '<input type="checkbox" style="'  + style + '" class="app-embellishment" value="1" '         + embellishment_checked                    + '>';
+                var inksoft_design_id   = '<input type="number" style="'      + style + '" class="app-inksoft-design-id" value="'        + app_properties[l].inksoftDesignID       + '" size="3">';
+                var flipped       = '<input type="checkbox" style="'  + style + '" class="app-flipped" value="1" '         + flipped_checked                    + '>';
+                var rotated_tailsweep   = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '>';
 
                 // Append options to selectbox
                 var select_append       = '<select class="app-def-item" style="' + style + '" data-id="' + c + '">';
@@ -1541,6 +1596,9 @@ $(document).ready(function() {
                     default_text,
                     vertical_text,
                     default_number,
+                    embellishment,
+                    inksoft_design_id,
+                    flipped,
                     flip
                 ];
 
@@ -1609,14 +1667,14 @@ $(document).ready(function() {
                 });
                 var accentsData = window.accents;
                 var accent_class = '.app-default-accent';
-                $(accent_class).ddslick({                   
+                $(accent_class).ddslick({
                     data: accentsData,
                     width: 250,
                     height: 300,
                     imagePosition: "left",
                     selectText: "Select Accent",
                     onSelected: function (data) {
-                
+
                     var rowIndex = data.original[0].outerHTML;
                     rowIndex = $.parseHTML(rowIndex);
                     rowIndex = $(rowIndex).data("id");
@@ -1657,11 +1715,11 @@ $(document).ready(function() {
                     } else {
                         item['selected'] = false;
                     }
-                
+
                 });
                 var tailsweepsData = window.tailsweeps;
                 var tailsweep_class = '.app-default-tailsweep';
-                $(tailsweep_class).ddslick({                   
+                $(tailsweep_class).ddslick({
                     data: tailsweepsData,
                     width: 250,
                     height: 300,
@@ -1674,7 +1732,7 @@ $(document).ready(function() {
                 });
 
 
-                    $(document).on("change",".accentLayerColors",function(){         
+                    $(document).on("change",".accentLayerColors",function(){
                         updateColorField(this);
                     });
                     function updateColorField(t){
@@ -1682,10 +1740,10 @@ $(document).ready(function() {
                        $(t).parent(".colorSelection").find("select").each(function() {
 
                             var colorCode = ($(this).find(":selected"))[0].outerHTML;
-                             
+
                             colorCode =  $.parseHTML(colorCode);
                             colorCode = $(colorCode).data("color-code");
-                            colorCodeField = colorCodeField +","+colorCode;      
+                            colorCodeField = colorCodeField +","+colorCode;
                             $(this).css("background","#"+$(this).find(":selected").val());
 
                         });
@@ -1693,7 +1751,7 @@ $(document).ready(function() {
 
                     }
 
-                $(document).on('change', '.app-def-item', function() {                       
+                $(document).on('change', '.app-def-item', function() {
                     if($(this).val() == "mascot"){
                         var selectedMascot = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").data('ddslick').selectedIndex;
                         if(selectedMascot == -1){
@@ -1701,11 +1759,11 @@ $(document).ready(function() {
                         $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
                         $(".application-row").eq($(".app-def-item").index(this)).find(".colorSelection").empty();
 
-                        }               
-                        selectedMascot = selectedMascot.toString();  
+                        }
+                        selectedMascot = selectedMascot.toString();
                         $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:odd").ddslick('select', {index: selectedMascot });
 
-                    }else{              
+                    }else{
                         var selectedAccent = $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").data('ddslick').selectedIndex;
                         if(selectedAccent == -1){
                             $(".application-row").eq($(".app-def-item").index(this)).find(".app-colors").val("");
@@ -1714,7 +1772,7 @@ $(document).ready(function() {
                         }
                         selectedAccent = selectedAccent.toString();
                         $(".application-row").eq($(".app-def-item").index(this)).find(".dd-container:even").ddslick('select', {index: selectedAccent });
-                     }       
+                     }
 
 
                 });
@@ -1765,7 +1823,7 @@ $(document).ready(function() {
                 app_properties[l].temp['y'] = ( app_properties[l].pivot.y / dividend );
 
                 thisGroup.centerPoint   = app_properties[l].temp;
-                
+
                 thisGroup.width         = (app_properties[l].width) / dividend;
                 thisGroup.height        = (app_properties[l].height) / dividend;
 
@@ -1934,12 +1992,12 @@ $(document).ready(function() {
         var part = $('#app-material-option-name').val();
         var applications_properties = $('.a-prop').val();
         applications_properties = jQuery.parseJSON(applications_properties.slice(1, -1));
-        
+
          layer = "layer"+$(".save_app_row_template").index(this);
 
 
         for (var key in applications_properties) {
-      
+
          if(key == layer){
 
                applications_properties = applications_properties[key];
@@ -2220,7 +2278,7 @@ $(document).ready(function() {
                    tailsweeps = data['tailsweeps'];
                 if(typeof callback === "function") callback(tailsweeps);
 
-               
+
             }
         });
     }
@@ -2474,7 +2532,7 @@ $(document).ready(function() {
         }
         p1.inPath.push(new_line);
         canvas.add(new_line);
-     
+
         return new_line;
     } //addLine()
 
@@ -2846,11 +2904,11 @@ $(document).ready(function() {
     $("#file-src").change(function() {
         var files = !!this.files ? this.files : [];
         if (!files.length || !window.FileReader) return;
- 
+
         if (/^image/.test(files[0].type)){
             var reader = new FileReader();
             reader.readAsDataURL(files[0]);
- 
+
             reader.onloadend = function() {
                 $("#shape-view-top").css("background-image", "url("+this.result+")");
                 $("#material-option-bounding-box-top").css("background-image", "url("+this.result+")");
@@ -2867,7 +2925,7 @@ $(document).ready(function() {
         if (/^image/.test(files[0].type)){
             var reader = new FileReader();
             reader.readAsDataURL(files[0]);
- 
+
             reader.onloadend = function() {
 
                 if(perspective == 'front') {
@@ -2930,7 +2988,7 @@ try {
             topInterval = setInterval(function() {
                activeObject.top -= 1;
                canvasFront.renderAll();
-               updateCoordinatesXYR();  
+               updateCoordinatesXYR();
             }, 100);
         }
 
@@ -2976,7 +3034,7 @@ try {
             leftInterval = setInterval(function() {
                activeObject.left -= 1;
                canvasFront.renderAll();
-               updateCoordinatesXYR();   
+               updateCoordinatesXYR();
             }, 100);
         }
 
@@ -2999,7 +3057,7 @@ try {
             rightInterval = setInterval(function() {
                activeObject.left += 1;
                canvasFront.renderAll();
-               updateCoordinatesXYR();  
+               updateCoordinatesXYR();
             }, 100);
         }
 
@@ -3021,7 +3079,7 @@ catch(err) { console.log(err.message); }
     bindGradientsSelect2();
 
 try {
-canvas.observe('object:rotating', function (e) { 
+canvas.observe('object:rotating', function (e) {
 
     canvas.renderAll();
     var circles = canvas.getObjects('circle');
@@ -3155,7 +3213,7 @@ function loadPolygon(data){
             addLine(window['a'+x], window['a'+y], lineIdx);
             lineIdx++;
         } else {
-            addLine(window['a'+x], window['a0'], lineIdx);  
+            addLine(window['a'+x], window['a0'], lineIdx);
         }
 
         x++;
@@ -3256,6 +3314,10 @@ function updateApplicationsJSON(){
         applicationMascot = $(this).parent().siblings('td.msc').find(".dd-selected-value").val();
         applicationTailsweep = $(this).parent().siblings('td.tsc').find(".dd-selected-value").val();
 
+        hasEmbellishment = $(this).parent().siblings('td').find("input[class=app-embellishment]");
+        inksoftDesignID = $(this).parent().siblings('td').find("input[class=app-inksoft-design-id]").val();
+        isFlipped = $(this).parent().siblings('td').find("input[class=app-flipped]");
+
         console.log('ACCENT >>>>>>' + applicationAccents);
         console.log('MASCOT >>>>>>' + applicationMascot);
         console.log('TAILSWEEP >>>>>>' + applicationTailsweep);
@@ -3301,6 +3363,18 @@ function updateApplicationsJSON(){
             hasNumber = 1;
         } else {
             hasNumber = 0;
+        }
+
+        if(hasEmbellishment.prop( "checked" )){
+            hasEmbellishment = 1;
+        } else {
+            hasEmbellishment = 0;
+        }
+
+        if(isFlipped.prop( "checked" )){
+            isFlipped = 1;
+        } else {
+            isFlipped = 0;
         }
 
         var topLeftX = thisGroup.oCoords.tl.x * multiplier;
@@ -3355,6 +3429,9 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['accents'] = {};
         applicationProperties[itemIdx]['tailsweeps'] = {};
 
+        applicationProperties[itemIdx]['hasEmbellishment'] = {};
+        applicationProperties[itemIdx]['inksoftDesignID'] = {};
+
 
         applicationProperties[itemIdx].type = applicationType;
         applicationProperties[itemIdx].name = applicationName;
@@ -3377,6 +3454,11 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].uniformSizes = uniformSizes;
         applicationProperties[itemIdx].verticalText = verticalText;
         applicationProperties[itemIdx].rotatedTailsweep = rotatedTailsweep;
+
+        applicationProperties[itemIdx].hasEmbellishment = hasEmbellishment;
+        applicationProperties[itemIdx].inksoftDesignID = inksoftDesignID;
+
+        applicationProperties[itemIdx].isFlipped = isFlipped;
 
         applicationProperties[itemIdx].defaultMascot = applicationMascot;
 
@@ -3454,36 +3536,36 @@ function accentMascotSelect(data,accentMascot,rowIndex){
         layers = data.selectedData.layers;
 
     }
-    for (var i = 0; i < layers; i++) { 
-                       
+    for (var i = 0; i < layers; i++) {
+
         if(colorCode[i]){
             if(colorCodeField){
-                colorCodeField = colorCodeField +","+colorCode[i]; 
+                colorCodeField = colorCodeField +","+colorCode[i];
             }else{
-                colorCodeField = colorCode[i]; 
+                colorCodeField = colorCode[i];
             }
-            
+
         }else{
-            
+
             if(colorCodeField){
-                colorCodeField = colorCodeField +","+window.colors[0].color_code; 
+                colorCodeField = colorCodeField +","+window.colors[0].color_code;
             }else{
-                colorCodeField = window.colors[0].color_code; 
+                colorCodeField = window.colors[0].color_code;
             }
         }
     }
     $(".app-colors").eq(rowIndex).val(colorCodeField);
     $(".colorSelection").eq(rowIndex).empty();
-    
+
     $.each(colorCodeField.split(','), function (intIndex, objValue) {
 
         $(".colorSelection").eq(rowIndex).append( "<select class='accentLayerColors form-control' ></select>");
-        jQuery.each(window.colors, function(index, item) {                
+        jQuery.each(window.colors, function(index, item) {
             $(".accentLayerColors").append( "<option value="+item.hex_code+" data-color-code="+item.color_code+" data-color-id="+ item.id +"  style='background:#"+item.hex_code+"'>"+ item.name +"</option>")
 
-        }); 
+        });
         $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).find("option").filter(function() {
-            return $(this).data("color-code") == objValue; 
+            return $(this).data("color-code") == objValue;
         }).prop('selected', true);
         $(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).css("background","#"+$(".colorSelection").eq(rowIndex).find("select.accentLayerColors").eq(intIndex).val())
 
@@ -3512,26 +3594,26 @@ function accentMascotSelect(data,accentMascot,rowIndex){
         subject = capitalizeFirstLetter(subject);
         console.log($(".app-def-item").index( this ));
         console.log(subject);
-        
+
         $(".app-def-name").eq($(".app-def-item").index( this )).val(subject);
 
-        
+
 
     });
 
-    
+
     $(document).on('click', '.remove-row', function() {
         $(".options-row").eq($(".remove-row").index(this)).remove();
     });
 
- 
+
       $(document).on('change', '.mascotFilter', function() {
 
-                var filteredMascots=[];        
+                var filteredMascots=[];
                 var mascotValue = $(this).val();
-             
-                    jQuery.each(mascots, function(index, item) {    
-                      
+
+                    jQuery.each(mascots, function(index, item) {
+
                         if(((item.name).toLowerCase()).indexOf(mascotValue.toLowerCase()) > -1)
                         {
                             filteredMascots.push( index );
@@ -3541,43 +3623,43 @@ function accentMascotSelect(data,accentMascot,rowIndex){
                     });
 
                 var mascotFilterIndex=$(".mascotFilter").index(this);
-                    if($(this).val()){             
-                   
+                    if($(this).val()){
+
                         $('.msc:eq('+ mascotFilterIndex +') .dd-container li').hide();
                         jQuery.each(filteredMascots, function(index, item) {
-                            
+
                             $('.msc:eq('+ mascotFilterIndex +') .dd-container li:eq('+item+')').show();
                         });
                     }else{
                          $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
                     }
-                 
+
                console.log(filteredMascots);
         });
-         
+
     function bringingPointToFront(){
         console.log('being to front');
-         canvas.forEachObject(function(key,obj){  
+         canvas.forEachObject(function(key,obj){
 
             var subjectName = ""+ canvas.item(obj).name +"";
 
            // subjectName = jQuery.parseJSON( subjectName);
            subjectName = subjectName.substring(0,4);
-     
+
             if ( subjectName == "Line" ) {
-                  
+
             // canvas.sendToBack(canvas.item(obj));
-        
+
             console.log('line');
              canvas.item(obj).evented = false;
              canvas.item(obj).selectable = false;
-            } else if(subjectName != "unde") { 
+            } else if(subjectName != "unde") {
             console.log('unde');
                // canvas.sendToFront(canvas.item(obj));
                canvas.item(obj).evented = true;
              canvas.item(obj).selectable = true;
             }
-           
+
            // canvas.item(obj).visible = false;
 
 
@@ -3598,13 +3680,13 @@ function accentMascotSelect(data,accentMascot,rowIndex){
         $.each(str2, function( index, value ) {
            $( ".load-boundaries-template option" ).each(function( index ) {
               var str1 = $( this ).text().toLowerCase();
-                
+
                 if(str1.indexOf(value) != -1){
                     $(this).show();
                 }
             });
         });
-           
+
 
     });
 
@@ -3618,15 +3700,15 @@ function accentMascotSelect(data,accentMascot,rowIndex){
         $.each(str2, function( index, value ) {
            $( ".load-applications-template option" ).each(function( index ) {
               var str1 = $( this ).text().toLowerCase();
-                
+
                 if(str1.indexOf(value) != -1){
                     $(this).show();
                 }
             });
         });
-           
 
-    });  
+
+    });
         $(document).on('click', '.app-default-font', function() {
         var Sports = $("#material_uniform_category").val();
         $(".app-default-font option").hide();
@@ -3638,9 +3720,35 @@ function accentMascotSelect(data,accentMascot,rowIndex){
                 {
                  $(this).show();
                  console.log("");
-                }       
+                }
         });
     });
-  
-   
+
+    $('.export_material_prop').on('click', function(){
+        var bp_id =   $('.export_block_pattern_id :selected').val();
+        var material_prop = $('#material_props_data').text();
+        var url = "//" + api_host + "/api/block_pattern/update";
+        var data = JSON.stringify({id: bp_id, material_reference_properties: material_prop});
+        // console.log(data);
+         $.ajax({
+               url: url,
+               type: "POST",
+               data: data,
+               dataType: "json",
+               crossDomain: true,
+               contentType: 'application/json',
+               headers: {"accessToken": atob(headerValue)},
+               success: function(response){
+                   if (response.success) {
+                       new PNotify({
+                           title: 'Success',
+                           text: response.message,
+                           type: 'success',
+                           hide: true
+                       });
+                   }
+               }
+           });
+
+    });
 });

@@ -12,6 +12,7 @@ use App\APIClients\UniformDesignSetsAPIClient;
 use App\APIClients\OrdersAPIClient;
 use App\APIClients\UsersAPIClient;
 use App\APIClients\SavedDesignsAPIClient;
+use App\APIClients\InksoftDesignsAPIClient;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Utilities\FileUtility;
@@ -24,6 +25,7 @@ use Slack;
 use App\Utilities\StringUtility;
 use App\Traits\OwnsUniformDesign;
 use App\Traits\HandleTeamStoreConfiguration;
+use App\TeamStoreClient\UserTeamStoreClient;
 
 class UniformBuilderController extends Controller
 {
@@ -36,6 +38,7 @@ class UniformBuilderController extends Controller
     protected $ordersClient;
     protected $savedDesignsClient;
     protected $usersAPIClient;
+    protected $inksoftDesignsAPIClient;
 
     public function __construct(
         MaterialsAPIClient $materialsClient,
@@ -43,7 +46,8 @@ class UniformBuilderController extends Controller
         UniformDesignSetsAPIClient $designSetClient,
         OrdersAPIClient $ordersClient,
         SavedDesignsAPIClient $savedDesignsClient,
-        UsersAPIClient $usersAPIClient
+        UsersAPIClient $usersAPIClient,
+        InksoftDesignsAPIClient $inksoftDesignsAPIClient
     )
     {
         $this->materialsClient = $materialsClient;
@@ -52,10 +56,14 @@ class UniformBuilderController extends Controller
         $this->ordersClient = $ordersClient;
         $this->savedDesignsClient = $savedDesignsClient;
         $this->usersAPIClient = $usersAPIClient;
+        $this->inksoftDesignsAPIClient = $inksoftDesignsAPIClient;
     }
 
     public function showBuilder($config = [])
     {
+
+        Log::info('Load Builder');
+
         $designSetId = (isset($config['design_set_id']) && !empty($config['design_set_id']) && !($config['design_set_id'] == 0))
             ? $config['design_set_id']
             : null;
@@ -111,88 +119,27 @@ class UniformBuilderController extends Controller
             'render' => $render
         ];
 
-        // @param Store Code
-        $params['store_code'] = '';
-        if (isset($config['store_code']))
+        if (!Session::get('userHasTeamStoreAccount'))
         {
-            $params['store_code'] = $config['store_code'];
-            Log::info(__METHOD__ . ': Store Code = ' . $params['store_code']);
-        }
-        if (empty($params['store_code']))
-        {
-            $params['store_code'] = $this->getTeamStoreCode();
+            $encoded_data = $this->getTeamStoreRegistrationParams();
+            if (!is_null($encoded_data))
+            {
+                $credentials = $this->retrieveCredentials($encoded_data);
+
+                $client = new UserTeamStoreClient;
+                $email = Session::get('email');
+                $response = $client->team_store_login($email, $credentials);
+                $this->handleTeamStoreLogin(
+                    $response,
+                    null,
+                    Session::get('accessToken'),
+                    $credentials
+                );
+            }
         }
 
-        // @param Team Store USER ID
-        $params['team_store_user_id'] = $this->getTeamStoreUserId();
-
-        // @param Team Name
-        $params['team_name'] = '';
-        if (isset($config['team_name']))
-        {
-            $params['team_name'] = $config['team_name'];
-            Log::info(__METHOD__ . ': Team Name = ' . $params['team_name']);
-        }
-
-        // @param Team Colors - comma separated list
-        $params['team_colors'] = null;
-        $params['csv_team_colors'] = null;
-        if (isset($config['team_colors']))
-        {
-            $params['csv_team_colors'] = $config['team_colors'];
-            $color_array = StringUtility::strToArray($config['team_colors']);
-            $color_array = StringUtility::surroundElementsDQ($color_array);
-            $params['team_colors'] = implode(',', $color_array);
-            Log::info(__METHOD__ . ': Team Colors = ' . $params['team_colors']);
-        }
-
-        // @param Jersey Name
-        $params['jersey_name'] = '';
-        if (isset($config['jersey_name']))
-        {
-            $params['jersey_name'] = $config['jersey_name'];
-            Log::info(__METHOD__ . ': Jersey Name = ' . $params['jersey_name']);
-        }
-
-        // @param Jersey Number
-        $params['jersey_number'] = '';
-        if (isset($config['jersey_number']))
-        {
-            $params['jersey_number'] = $config['jersey_number'];
-            Log::info(__METHOD__ . ': Jersey Number = ' . $params['jersey_number']);
-        }
-
-        // @param Mascot ID
-        $params['mascot_id'] = '';
-        if (isset($config['mascot_id']))
-        {
-            $params['mascot_id'] = $config['mascot_id'];
-            Log::info(__METHOD__ . ': Mascot ID = ' . $params['mascot_id']);
-        }
-
-        // @param Save Rendered image
-        $params['save_rendered'] = '';
-        if (isset($config['save_rendered']))
-        {
-            $params['save_rendered'] = $config['save_rendered'];
-            Log::info(__METHOD__ . ': Save Rendered Image = ' . $params['save_rendered']);
-        }
-
-        // @param Save Rendered image
-        $params['save_rendered_timeout'] = null;
-        if (isset($config['save_rendered_timeout']))
-        {
-            $params['save_rendered_timeout'] = $config['save_rendered_timeout'];
-            Log::info(__METHOD__ . ': Seconds timeout before rendering = ' . $params['save_rendered_timeout']);
-        }
-
-        // @param Team Store Product ID
-        $params['product_id'] = null;
-        if (isset($config['product_id']))
-        {
-            $params['product_id'] = $config['product_id'];
-            Log::info(__METHOD__ . ': Team Store Product ID = ' . $params['product_id']);
-        }
+        // Handle Team Store configuration
+        $this->handleConfiguration($params, $config);
 
         $params['builder_customizations'] = null;
         $params['order'] = null;
@@ -209,6 +156,9 @@ class UniformBuilderController extends Controller
                 $design = Session::get('design');
                 Session::put('order', null);
 
+                $params['saved_design_user_id'] = $config['saved_design_user_id'];
+                
+                $params['saved_design_name'] = $config['saved_design_name'];
                 $params['page'] = 'saved-design';
                 $bc = $config['builder_customizations'];
                 $params['saved_design_id'] = $config['id'];
@@ -544,10 +494,10 @@ class UniformBuilderController extends Controller
     protected function injectParameters(
         &$config,
         $store_code = null,
-        $team_name = null,
+        $team_name = 'PROLOOK',
         $team_colors = null,
-        $jersey_name = null,
-        $jersey_number = null,
+        $jersey_name = 'ABRAHAM',
+        $jersey_number = '70',
         $mascot_id = null,
         $save_rendered = false,
         $save_rendered_timeout = 10,
@@ -887,7 +837,13 @@ class UniformBuilderController extends Controller
             } else if ($appType == "MASCOT" ) {
 
                 $html .=   '<td align="center">';
-                $html .=   'Mascot Name: ' . $application['mascot']['name'] . "<br />";
+                $html .=   'Stock Mascot Name: ' . $application['mascot']['name'] . "<br />";
+
+                if (isset($application['alpha'])) {
+                    $html .= 'Watermark Intensity: ' . ($application['alpha'] * 100) . "% <br />";
+                } else {
+                    $html .= 'Watermark Intensity: 100% <br />';
+                }
 
                 if ($application['mascot']['name'] == 'Custom Logo') {
 
@@ -907,12 +863,34 @@ class UniformBuilderController extends Controller
                 } else {
 
                     $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
+                    $html .=   '<a href="http://' . env('WEBSITE_URL') . '/administration/mascot/edit/' . $application['mascot']['id'] . '" target="_new">Link To Mascot Details</a> <br />';
+                    $html .=   '<a href="' . $application['mascot']['ai_file'] . '" target="_new">Link To Mascot PDF File</a> <br />';
 
                 }
 
                 $html .=   '</td>';
 
-            } else {
+            } else if ($appType == "EMBELLISHMENTS" ) {
+
+                $embellishment = $application['embellishment'];
+
+                $html .=   '<td align="center">';
+                $html .=   'Custom Mascot Name: ' . $embellishment['name'] . "<br />";
+
+                if (isset($application['alpha'])) {
+                   $html .=   'Watermark Intensity: ' . ($application['alpha'] * 100) . "% <br />";
+                } else {
+                   $html .=   'Watermark Intensity: 100% <br />';
+                }
+
+                $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '"><br />';    
+                $html .=   '<a href="' . $embellishment['svg_filename'] . '" target="_new">Link To Prepared File</a> <br />';
+                $html .=   '<a href="http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
+                $html .=   '</td>';
+
+            }
+
+             else {
                 $html .=   '<td align="center">';
                 $html .=   '<strong></strong>';
                 $html .=   '</td>';                
@@ -960,6 +938,18 @@ class UniformBuilderController extends Controller
 
                 $html .=   '</td>';                
 
+            } else if ($appType == "EMBELLISHMENTS" ) {
+            
+             $html .=   '<td align="center">';
+
+                // Applications greater than 70 are free-form tool applications, best fit for GA's
+                if (intval($application['code']) > 70 ) {
+
+                    $html .=   'Refer to Thumbnail<br />';    
+
+                }
+                $html .=   '</td>';    
+
             } else {
 
                 $html .=   '<td align="center">';
@@ -970,32 +960,42 @@ class UniformBuilderController extends Controller
 
             $html .=   '<td align="center">';
 
-            $colors = '';
-            foreach ($application['color_array'] as &$color) {
-                $colors .= $color['color_code'] . ",";
-            }
-
-            $colorsTrimmed = 'Accent: ' . rtrim($colors, ",");
-            $colorsTrimmed .= "<br />";
-
-            $html .= $colorsTrimmed;
-
-            $colorsTrimmed = '';
-            
-            if (isset($application['pattern_obj'])) {
-
-                if ($application['pattern_obj']['name'] !== "Blank") {
-
-                    $colors = '';
-                    foreach ($application['pattern_obj']['layers'] as &$layer) {
-                        $colors .= $layer['color_code'] . ",";
-                    }
-
-                    $colorsTrimmed = 'Pattern: ' . rtrim($colors, ",");
-
+            if ($appType == "EMBELLISHMENTS" ) {
+                $html .=   'Refer to Prepared File<br />';    
+            } else {
+                $colors = '';
+                foreach ($application['color_array'] as &$color) {
+                    $colors .= $color['color_code'] . ",";
                 }
 
+                $colorsTrimmed = 'Accent: ' . rtrim($colors, ",");
+                $colorsTrimmed .= "<br />";
+
                 $html .= $colorsTrimmed;
+
+                $colorsTrimmed = '';
+                
+                if (isset($application['pattern_obj'])) {
+
+                    if ($application['pattern_obj']['name'] !== "Blank") {
+
+                        $colors = '';
+
+                        foreach ($application['pattern_obj']['layers'] as &$layer) {
+                            if (array_key_exists('color_code', $layer)) {
+                                $colors .= $layer['color_code'] . ",";    
+                            } else {
+                                $colors .= "?,";    
+                            }
+                        }
+
+                        $colorsTrimmed = 'Pattern: ' . rtrim($colors, ",");
+
+                    }
+
+                    $html .= $colorsTrimmed;
+
+                }
 
             }
 
@@ -1031,7 +1031,7 @@ class UniformBuilderController extends Controller
         $html .=   '<strong>NUMBER</strong>';
         $html .=   '</td>';
 
-        if ($sport !== "Crew Socks (Apparel)") {
+        if ($sport !== "Crew Socks (Apparel)" || $sport !== "Socks (Apparel)") {
 
             $html .=   '<td align="center">';
             $html .=   '<strong>LASTNAME</strong>';
@@ -1111,6 +1111,7 @@ class UniformBuilderController extends Controller
         $uniformType = $itemData['type'];
         $parts = $bc[$uniformType];
         $randomFeeds = $bc['randomFeeds'];
+        $hiddenBody = $bc["hiddenBody"];
 
         $html = '';
         $html .= '<br /><br />';
@@ -1128,7 +1129,7 @@ class UniformBuilderController extends Controller
         $html .=       '<strong>PATTERN</strong>';
         $html .=   '</td>';
 
-        if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+        if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)") {
 
             $html .=   '<td width="40%" align="center">';
             $html .=       '<strong>RANDOM FEEDS</strong>';
@@ -1153,10 +1154,19 @@ class UniformBuilderController extends Controller
             if ($part['code'] === 'locker_tag') { continue; }
             if ($part['code'] === 'elastic_belt') { continue; }
             if ($part['code'] === 'body_inside') { continue; }
+            if ($hiddenBody and $part['code'] === 'body') { continue; }
+
+            $hasPattern = false;
+
+            if (array_key_exists('pattern', $part)) { 
+                if ($part['pattern']['pattern_id'] != '') {
+                    if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
+                        $hasPattern = true;
+                    }
+                }
+            }
 
             $code = $this->toTitleCase($part['code']);
-
-            Log::info('---' . $code);
 
             $ctrParts += 1;
             $bgcolor = '#fff';
@@ -1171,7 +1181,7 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
             $html .=   '<td align="center">';
 
-            if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+            if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)") {
 
                 $titledPart = $part['code'];
                 $titledPart = str_replace('_', ' ', $titledPart);
@@ -1191,10 +1201,16 @@ class UniformBuilderController extends Controller
 
             } else {
 
-                if (array_key_exists('colorObj', $part)) {
-                    $html .=   $part['colorObj']['color_code'];                        
+                if (!$hasPattern) {
+
+                    if (array_key_exists('colorObj', $part)) {
+                        $html .=   $part['colorObj']['color_code'];                        
+                    } else {
+                        $html .=   'Default';    
+                    }
+                    
                 } else {
-                    $html .=   'Default';    
+                        $html .=   'Use Pattern Color';    
                 }
 
             }
@@ -1202,35 +1218,25 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
             $html .=   '<td align="center">';
 
-            Log::error('----------' . $code);
+            if ($hasPattern) {
 
-            if (array_key_exists('pattern', $part)) {
+                $html .= '<strong>' . $part['pattern']['pattern_obj']['name'] . "</strong>" . " / ";    
 
-                if ($part['pattern']['pattern_id'] != '') {
-
-                    if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
-
-                        $html .= '<strong>' . $part['pattern']['pattern_obj']['name'] . "</strong>" . " / ";    
-
-                        $colors = '';
-                        foreach ($part['pattern']['pattern_obj']['layers'] as &$layer) {
-                            $colors .= $layer['color_code'] . ',';
-                        }
-
-                        $colorsTrimmed = rtrim($colors, ",");
-
-                        $html .= '<strong>' . $colorsTrimmed . '</strong>';
-
-                    }
-
+                $colors = '';
+                foreach ($part['pattern']['pattern_obj']['layers'] as &$layer) {
+                    $colors .= $layer['color_code'] . ',';
                 }
+
+                $colorsTrimmed = rtrim($colors, ",");
+
+                $html .= '<strong>' . $colorsTrimmed . '</strong>';
 
             }
 
             $html .=   '</td>';
 
             // Random Feeds 
-            if ($bc['uniform_category'] == "Crew Socks (Apparel)") {
+            if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)") {
 
                 $html .=   '<td align="center">';
 
@@ -1538,7 +1544,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateItemTable ($itemData, $fname, $mainInfo) {
+    function generateItemTable ($itemData, $fname, $mainInfo, $material_id) {
 
         $styleURL = '<a href="' . $itemData["url"]  . '"><strong>BUILDER URL</strong></a>';
         $pdfURL   = '<a href="' . env("WEBSITE_URL") . $fname . '"><strong>PDF URL</strong></a>';
@@ -1554,7 +1560,7 @@ class UniformBuilderController extends Controller
         $html .= '<tr>';
         $html .=     '<td width="100%" style="font-size: 1.0em;">';
         $html .=       'STYLE<br />'; 
-        $html .=       '<strong>' . $itemData["description"] . ' (' . $itemData["applicationType"]  .') </strong><br />';
+        $html .=       '<strong>#' .  $material_id  . ', ' . $itemData["description"] . ' (' . $itemData["applicationType"]  .')</strong><br />';
         $html .=       '<strong>' .  $itemData["sku"]  . '</strong><br />';
         $html .=     '</td>';
         $html .= '</tr>';
@@ -1637,12 +1643,15 @@ class UniformBuilderController extends Controller
 
     function generatePDF ($builder_customizations) {
 
+        Log::info('Init Generate PDF');
+
         $pdf = new TCPDF(); 
 
         $filename = $this->getGUID(); 
         $path = public_path('design_sheets/' . $filename . '.pdf');
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
+        $sport = $bc['uniform_category'];
 
         $uniform_category = $bc['uniform_category'];
 
@@ -1687,7 +1696,7 @@ class UniformBuilderController extends Controller
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
         $html .=     '<td>';
-        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo);
+        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo, $firstOrderItem['material_id']);
         $html .=     '</td>';
         $html .=     '</tr>';
         $html .=   '</table>';
@@ -1711,7 +1720,17 @@ class UniformBuilderController extends Controller
         //$pdf->AddPage("L");
 
         $pdf->writeHTML($html, true, false, true, false, '');
-        
+
+        $frontCaption = '(Front)';
+        $backCaption = '(Back)';
+        $leftCaption = '(Left)';
+        $rigthCaption = '(Right)';
+
+        if ($sport === "Crew Socks (Apparel)" || $sport === "Socks (Apparel)") {
+            $leftCaption = '(Outside)';
+            $rigthCaption = '(Inside)';
+        }
+
         $html  = '';
         $html .=   '<div>';
         $html .=      '<div style ="width: 100%; text-align: center;">';
@@ -1721,10 +1740,10 @@ class UniformBuilderController extends Controller
         $html .=       '<table>';
         $html .=         '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=         '<tr>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $frontCaption . '</td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $backCaption . '</td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $leftCaption . '</td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $rigthCaption . '</td>';
         $html .=         '</tr>';
         $html .=        '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=   '</table>';
@@ -1759,7 +1778,7 @@ class UniformBuilderController extends Controller
         $html .= '<table>';
         $html .=    '<tr>';
         $html .=        '<td width="100%">';
-        $html .=            $this->generateRosterTable($roster, $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations']['uniform_category']);
+        $html .=            $this->generateRosterTable($roster, $sport);
         $html .=        '</td>';
         $html .=    '</tr>';
         $html .='</table>';
@@ -2011,7 +2030,11 @@ class UniformBuilderController extends Controller
      */
     public function loadSavedDesign($id, $render = false)
     {
+
+        Log::info('Load Saved Design');
+
         $savedDesign = $this->savedDesignsClient->getSavedDesign($id);
+
         if (isset($savedDesign))
         {
 
@@ -2028,6 +2051,8 @@ class UniformBuilderController extends Controller
             ]);
 
             $config = [
+                'saved_design_user_id' => $savedDesign->user_id,
+                'saved_design_name' => $savedDesign->name,
                 'material_id' => $materialId,
                 'id' => $savedDesign->id,
                 'builder_customizations' => $savedDesign->id,
@@ -2037,6 +2062,16 @@ class UniformBuilderController extends Controller
             ];
 
             if ($render) { $config['render'] = true; }
+
+            if (Session::has('userHasTeamStoreAccount'))
+            {
+                $team_store = Session::get('team_store');
+                $colors = implode(',', $team_store['colors']);
+                $this->injectParameters($config,
+                    $team_store['code'],
+                    $team_store['name']
+                );
+            }
 
             return $this->showBuilder($config);
         }
@@ -2138,6 +2173,27 @@ class UniformBuilderController extends Controller
 
     }
 
+    public function myCustomArtworkRequests(Request $request) {
+
+        $materialId = -1;
+        $categoryId = -1;
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'my-custom-artwork-requests',
+            'type' => 'my-custom-artwork-requests',
+        ];
+
+        return view('editor.my-custom-artwork-requests', $params);
+
+    }
+
     public function myOrders(Request $request) {
 
         $materialId = -1;
@@ -2231,6 +2287,29 @@ class UniformBuilderController extends Controller
         ];
 
         return view('editor.forgot-password', $params);
+
+    }
+
+    public function previewEmbellishmentInfo($embellishmentID) {
+
+        $embellishment = $this->inksoftDesignsAPIClient->getByDesignID($embellishmentID);
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'preview-embellishment',
+            'type' => 'preview-embellishment',
+            'embellishmentDetails' => $embellishment,
+        ];
+
+        $params['embellishmentDetails'] = $embellishment;
+
+        return view('editor.preview-embellishment', $params);
 
     }
 

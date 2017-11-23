@@ -20,8 +20,10 @@ use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\PriceItemTemplatesAPIClient;
 use App\APIClients\PartsAliasesAPIClient;
+use App\APIClients\ItemSizesAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 use Illuminate\Support\Facades\Input;
+use Session;
 
 class MaterialsController extends Controller
 {
@@ -36,6 +38,7 @@ class MaterialsController extends Controller
     protected $blockPatternClient;
     protected $priceItemTemplateClient;
     protected $partAliasesAPIClient;
+    protected $itemSizesAPIClient;
 
     public function __construct(
         APIClient $apiClient,
@@ -48,7 +51,8 @@ class MaterialsController extends Controller
         FontsAPIClient $fontsAPIClient,
         BlockPatternsAPIClient $blockPatternsAPIClient,
         PriceItemTemplatesAPIClient $priceItemTemplatesClient,
-        PartsAliasesAPIClient $partAliasesAPIClient
+        PartsAliasesAPIClient $partAliasesAPIClient,
+        ItemSizesAPIClient $itemSizesAPIClient
     )
     {
         $this->client = $apiClient;
@@ -62,6 +66,7 @@ class MaterialsController extends Controller
         $this->blockPatternClient = $blockPatternsAPIClient;
         $this->priceItemTemplateClient = $priceItemTemplatesClient;
         $this->partAliasesAPIClient = $partAliasesAPIClient;
+        $this->itemSizesAPIClient = $itemSizesAPIClient;
     }
 
     /**
@@ -70,15 +75,38 @@ class MaterialsController extends Controller
     public function index()
     {
         Log::info('Index');
-        $materials = $this->client->getMaterials();
+
+        $sport = "Football";
+        if( null !== Session::get('active_sport') ){
+            $sport = Session::get('active_sport');
+        }
+
+        $materials = $this->client->getMaterialsBySport($sport);
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
         $materials_string = json_encode($materials);
 
-      
         return view('administration.materials.materials', [
             'block_patterns' => $block_patterns,
             'materials' => $materials,
-            'materials_string' => $materials_string
+            'materials_string' => $materials_string,
+            'active_sport' => $sport
+        ]);
+    }
+
+    public function indexSport($sport = null)
+    {
+        Log::info('Index');
+        $materials = $this->client->getMaterialsBySport($sport);
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
+        $materials_string = json_encode($materials);
+        Session::put('active_sport', $sport);
+
+
+        return view('administration.materials.materials', [
+            'block_patterns' => $block_patterns,
+            'materials' => $materials,
+            'materials_string' => $materials_string,
+            'active_sport' => ucfirst($sport)
         ]);
     }
 
@@ -87,12 +115,14 @@ class MaterialsController extends Controller
         Log::info('Get Material Options');
 
         $options = $this->optionsClient->getByMaterialId($id);
-       
+
         $colors = $this->colorsClient->getColors();
         $applications = $this->applicationClient->getApplications();
         $boundaries = $this->boundaryClient->getBoundaries();
         $fonts = $this->fontClient->getFonts();
-        
+
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
+
         $front_guide = null;
         $back_guide = null;
         $left_guide = null;
@@ -110,26 +140,6 @@ class MaterialsController extends Controller
             } else if($option->perspective == "right" && $option->name =="Guide"){
                 $right_guide = $option->material_option_path;
             }
-            // foreach($colors as $color){
-            //     if($color->color_code == $default_color) {
-            //         $option->default_hex_code = $color->hex_code;
-            //         $option->default_color_name = $color->name;
-            //         break;
-            //     } else {
-            //         $option->default_hex_code = "000";
-            //         $option->default_color_name = "Black";
-            //     }
-            // }
-            // foreach($colors as $color){
-            //     if($color->color_code == $sublimated_default_color) {
-            //         $option->sublimated_default_hex_code = $color->hex_code;
-            //         $option->sublimated_default_color_name = $color->name;
-            //         break;
-            //     } else {
-            //         $option->sublimated_default_hex_code = "000";
-            //         $option->sublimated_default_color_name = "Black";
-            //     }
-            // }
         }
 
         $material = $this->client->getMaterial($id);
@@ -147,7 +157,8 @@ class MaterialsController extends Controller
             'front_guide' => $front_guide,
             'back_guide' => $back_guide,
             'left_guide' => $left_guide,
-            'right_guide' => $right_guide
+            'right_guide' => $right_guide,
+            'block_patterns' => $block_patterns
         ]);
     }
 
@@ -200,6 +211,29 @@ class MaterialsController extends Controller
         }
     }
 
+    public function insertDesignSheet(Request $request){
+        $file = $request->file('file');
+        $a = explode('\\', $file);
+        $b = explode('/', $a[0]);
+        $c = end($b);
+        $folder_name = "style_requests_design_sheets";
+        if (isset($file))
+        {
+            if ($file->isValid())
+            {
+                $randstr = Random::randomize(12);
+                $loc = FileUploaderV2::upload(
+                                            $file,
+                                            $randstr,
+                                            'file',
+                                            $folder_name
+                                        );
+
+                return $loc;
+            }
+        }
+    }
+
     public function delete($id)
     {
         return $this->client->deleteMaterial($id);
@@ -217,6 +251,8 @@ class MaterialsController extends Controller
         $price_item_templates = $this->priceItemTemplateClient->getAll();
         $partAliases = $this->partAliasesAPIClient->getAll();
         $material = $this->client->getMaterial($id);
+        $itemSizes = $this->itemSizesAPIClient->getAll();
+        $item_sizes_string = json_encode($itemSizes);
         return view('administration.materials.material-edit', [
             'material' => $material,
             'uniform_categories' => $uniformCategories,
@@ -224,7 +260,9 @@ class MaterialsController extends Controller
             'factories' => $factories,
             'block_patterns' => $block_patterns,
             'price_item_templates' => $price_item_templates,
-            'part_aliases' => $partAliases
+            'part_aliases' => $partAliases,
+            'item_sizes' => $itemSizes,
+            'item_sizes_string' => $item_sizes_string
         ]);
     }
 
@@ -293,12 +331,16 @@ class MaterialsController extends Controller
         $piTemplates = $this->priceItemTemplateClient->getAll();
         $partAliases = $this->partAliasesAPIClient->getAll();
         $factories = $this->factoriesClient->getFactories();
+        $itemSizes = $this->itemSizesAPIClient->getAll();
+        $item_sizes_string = json_encode($itemSizes);
         return view('administration.materials.material-create', [
             'uniform_categories' => $uniformCategories,
             'factories' => $factories,
             'block_patterns' => $block_patterns,
             'price_item_templates' => $piTemplates,
-            'part_aliases' => $partAliases
+            'part_aliases' => $partAliases,
+            'item_sizes' => $itemSizes,
+            'item_sizes_string' => $item_sizes_string
         ]);
     }
 
@@ -337,7 +379,7 @@ class MaterialsController extends Controller
             'id' => $material_id,
             'random_feed' => $random_feed
         ];
-// dd(json_encode($data));
+
         $response = $this->client->updateRandomFeed($data);
 
         if ($response->success)
@@ -417,6 +459,8 @@ class MaterialsController extends Controller
         $infusedPriceItemTemplateID = $request->input('infused_price_item_template_id');
         $partAliasID = $request->input('part_alias_id');
         $customizer_available = $request->input('customizer_available');
+        $qx_sizing_config = $request->input('qx_sizing_config');
+        $sizing_config_prop = $request->input('sizing_config_prop');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -472,9 +516,11 @@ class MaterialsController extends Controller
             'infused_price_item_template_id' => $infusedPriceItemTemplateID,
             'style_group' => $styleGroup,
             'parts_alias_id' => $partAliasID,
-            'customizer_available' => $customizer_available
-        ];
+            'customizer_available' => $customizer_available,
+            'qx_sizing_config' => $qx_sizing_config,
+            'sizing_config_prop' => $sizing_config_prop
 
+        ];
         try {
             // Thumbnail Files
             $thumbnailFile = $request->file('thumbnail_path');
@@ -765,11 +811,11 @@ class MaterialsController extends Controller
 
         // Upload PDF file
         try {
-            $newFile = $request->file('styles_pdf');          
-            if (isset($newFile)) {                
+            $newFile = $request->file('styles_pdf');
+            if (isset($newFile)) {
                 if ($newFile->isValid()) {
                     $randstr = Random::randomize(12);
-                    $data['styles_pdf'] = FileUploaderV2::upload($newFile, $randstr, 'file', $folder_name);                  
+                    $data['styles_pdf'] = FileUploaderV2::upload($newFile, $randstr, 'file', $folder_name);
                 }
             }
         } catch (S3Exception $e) {
@@ -809,5 +855,5 @@ class MaterialsController extends Controller
     {
 
         return view('administration.materials.materials-single-page');
-    } 
+    }
 }

@@ -7,7 +7,7 @@ $(document).ready(function () {
     ub.ga = {};
     ub.devtools = {};
 
-    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 190, 1, 588, 2];
+    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 190, 1, 588, 2, 948];
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
@@ -27,6 +27,8 @@ $(document).ready(function () {
         ub.utilities.info('Asset Target: ' + ub.config.asset_target);
         ub.utilities.info('Uniform Group: ' + ub.current_material.material.uniform_group);
         ub.utilities.info('Style Group: ' + ub.current_material.material.style_group);
+        ub.utilities.info('Hidden Body: ' + ub.data.hiddenBody.currentUniformOk());
+        ub.utilities.info('Placeholder Override Items: ' +  ub.data.placeHolderOverrides.items.length);
         ub.utilities.info('-----------------------------');
 
         ub.utilities.info('');
@@ -428,5 +430,59 @@ $(document).ready(function () {
         }
 
     // End Preview Panel
+
+    // Debug Panel
+
+        ub.showDebugPanel = function () {
+
+            var $debugPanel = $('div.debug-panel');
+            $debugPanel.fadeIn();
+
+        }
+
+        ub.updateDebugPanel = function (title, content, materialName) {
+
+            // if (!_.contains(ub.fontGuideIDs, window.ub.valid)) { return; }
+
+            var $debugPanelBody = $('div.debug-panel');
+            var $close = $('div.debug-panel > div.title > span.close');
+
+            if (!$debugPanelBody.is(':visible')) { 
+                
+                $debugPanelBody.fadeIn(); 
+
+                $close.unbind('click');
+                $close.on('click', function () {
+                    $debugPanelBody.hide();
+                });
+
+                $('div.debug-panel').draggable();
+
+            }
+
+            var template = $('#m-debug-panel-contents').html();
+
+            var data = {
+                materialName: materialName,
+                title: title,
+                content: content,
+            };
+
+            var markup = Mustache.render(template, data);
+            $('div.debug-panel > div.body').html(markup);
+
+        }
+
+        // use the debug panel without the qoutes 
+        ub.updateDebugPanelInfo = function (title, content, materialName) {
+            
+            $('span.qoute').hide();
+            ub.updateDebugPanel(title, content, materialName);
+
+        }
+
+    // End Preview Panel
+
+
 
 });

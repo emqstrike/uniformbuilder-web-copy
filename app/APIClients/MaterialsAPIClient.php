@@ -98,6 +98,28 @@ class MaterialsAPIClient extends APIClient
         return null;
     }
 
+    public function getFootballMaterials()
+    {
+        $response = $this->get('materials/category/Football');
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->materials;
+        }
+        return null;
+    }
+
+    public function getMaterialsBySport($sport)
+    {
+        $response = $this->get('materials/category/' . $sport);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->materials;
+        }
+        return null;
+    }
+
     public function getMaterialByName($name)
     {
         $response = $this->get('material/name/' . $name);

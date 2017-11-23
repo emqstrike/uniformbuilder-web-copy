@@ -34,6 +34,9 @@ Route::get('/builder/{designSetId}/{materialId}/{store_code?}/{team_name?}/{team
 Route::get('/builder/{designSetId}/{materialId}/render', 'UniformBuilderController@loadDesignSetRender');
 Route::get('/styles/{gender}/{sport?}', 'UniformBuilderController@styles');
 
+// Utilities
+Route::get('/utilities/previewEmbellishmentInfo/{embellishmentID}', 'UniformBuilderController@previewEmbellishmentInfo');
+
 Route::group([
     'prefix' => 'teamstore'
 ], function() {
@@ -58,6 +61,11 @@ Route::get('/forgot-password', 'UniformBuilderController@forgotPassword');
 
 // End Orders and Profile
 
+// Custom Artwork Requests
+Route::get('/my-custom-artwork-requests', 'UniformBuilderController@myCustomArtworkRequests');
+
+
+
 // Display the Order
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
@@ -67,7 +75,7 @@ Route::get('order/view/{orderId}', 'UniformBuilderController@viewOrder');
 Route::post('saveUniformDesign', 'UniformBuilderController@saveOrder');
 Route::post('generateOrderForm', 'UniformBuilderController@generateOrderForm');
 
-// Save Logo 
+// Save Logo
 Route::post('saveLogo', 'UniformBuilderController@saveLogo');
 Route::post('saveImageResized', 'UniformBuilderController@saveImageResized');
 
@@ -161,12 +169,17 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('mascots_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@editMascotsCategoriesForm']);
     Route::get('mascots_groups_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@editMascotsGroupsCategoriesForm']);
     Route::get('upload_artwork/{artwork_request_id}/{artwork_index}/{artwork_user_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addArtworkForm']);
+    Route::get('upload_logo_request/{logo_request_id}/{logo_index}/{logo_request_user_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addLogoRequestForm']);
     Route::get('upload_existing_artwork/{artwork_request_id}/{artwork_index}/{artwork_user_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addExistingArtworkForm']);
+    Route::get('upload_existing_logo/{logo_request_id}/{logo_index}/{logo_request_user_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@addExistingLogoForm']);
     Route::post('artwork/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeArtwork']);
     Route::post('artwork/add_existing', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeExistingArtwork']);
+    Route::post('logo/add_existing', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeExistingLogo']);
+    Route::post('logo/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@storeArtwork']);
 
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);
+    Route::get('materials/{sport?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@indexSport']);
     Route::get('materials/full', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@indexFull']);
     Route::post('material/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@store']);
     Route::post('material/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@store']);
@@ -182,6 +195,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('material/updateRandomFeed', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@updateRandomFeed']);
     Route::get('material/materials_options/dropzone/{material_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@dropZone']);
     Route::post('material/insert_dz_image', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@insertDropzoneImage']);
+    Route::post('material/insert_dz_design_sheet', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@insertDesignSheet']);
     Route::get('material/single_page', 'Administration\MaterialsController@singlePage');
 
     // Materials Options
@@ -274,7 +288,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('lining/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@store']);
     Route::get('lining/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@addForm']);
     Route::get('lining/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\LiningsController@editForm']);
-    
+
      // Splash
     Route::get('splash_images', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@index']);
     Route::post('splash_image/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@store']);
@@ -284,6 +298,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Orders
     Route::get('orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@index']);
+    Route::get('orders/sent_orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@indexSentOrders']);
     Route::post('order/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
     Route::post('order/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
     Route::get('order/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@addForm']);
@@ -331,6 +346,9 @@ Route::group(array('prefix' => 'administration'), function() {
     // Artworks
     Route::get('artwork_requests', 'Administration\ArtworksController@index');
     Route::get('artwork_requests/processing', 'Administration\ArtworksController@processing');
+
+    // Logo Requests
+    Route::get('logo_requests', 'Administration\LogoRequestsController@index');
 
     // Feedbacks
     Route::get('feedbacks', 'Administration\FeedbacksController@index');
@@ -395,11 +413,45 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('cuts_links/update', 'Administration\CutsLinksController@store');
 
     //Dealers
-    Route::get('dealers/add', 'Administration\DealersController@create');
-    Route::post('dealers/add', 'Administration\DealersController@store');
-    Route::get('dealers', 'Administration\DealersController@index');
-    Route::get('dealers/edit/{id}', 'Administration\DealersController@edit');
-    Route::post('dealers/update', 'Administration\DealersController@store');
+    Route::get('dealers/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@create']);
+    Route::post('dealers/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@store']);
+    Route::get('dealers', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@index']);
+    Route::get('dealers/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@edit']);
+    Route::post('dealers/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@store']);
+
+    // Style Requests
+    Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@index']);
+    Route::get('approved_style_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@approvedIndex']);
+    Route::get('style_viewer', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@styleViewer']);
+    Route::get('styles_stats', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleRequestsController@stylesStats']);
+
+    //Item Sizes
+    Route::get('item_sizes', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@index']);
+    Route::get('item_size/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@create']);
+    Route::post('item_size/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@store']);
+    Route::get('item_size/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@edit']);
+    Route::post('item_size/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@store']);
+
+    //Inksoft Designs
+    Route::get('inksoft_designs', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@index']);
+    Route::get('inksoft_design/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@create']);
+    Route::post('inksoft_design/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@store']);
+    Route::get('inksoft_design/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@edit']);
+    Route::post('inksoft_design/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@store']);
+
+    //Styles Index
+    Route::get('styles_indexes', ['middleware' => 'adminAccess', 'uses' => 'Administration\StylesIndexesController@index']);
+    Route::get('styles_index/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\StylesIndexesController@create']);
+    Route::post('styles_index/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\StylesIndexesController@store']);
+    Route::get('styles_index/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\StylesIndexesController@edit']);
+    Route::post('styles_index/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\StylesIndexesController@store']);
+
+    //Styles Index Items
+    Route::get('/styles_index/items/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@getByStyleID']);
+    Route::get('/style_index_item/add/{style_index_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@create']);
+    Route::post('style_index_item/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@store']);
+    Route::get('style_index_item/edit/{style_index_id}/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@edit']);
+    Route::post('style_index_item/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@store']);
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

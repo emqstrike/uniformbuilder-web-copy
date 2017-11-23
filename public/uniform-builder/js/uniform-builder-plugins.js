@@ -1291,6 +1291,10 @@
             var col = layer.default_color;
             var filename = layer.filename;
 
+            if (typeof settings_obj.alpha === "number") {
+                mascot_layer.alpha = settings_obj.alpha;
+            }
+
         });
         
         container.scale = new PIXI.Point(0.15, 0.15);
@@ -1347,6 +1351,166 @@
         return sprite;
 
     };
+
+    /// Create Embelishment
+
+        $.ub.create_embellishment = function (input_object) {
+
+            var sprite;
+            var application = input_object.application;
+            var embellishment = input_object.embellishment;
+            var settings = ub.current_material.settings;
+            var application_embellishment_code = application.id + '_' + embellishment.id;
+            var scale_settings = undefined;
+            var scale_settings = {x: 0.15, y: 0.15};
+
+            var settings_obj = settings.applications[application.id];
+            var embellishment_obj = embellishment;
+            var view = ub[application.perspective + '_view'];
+            var view_objects = ub.objects[application.perspective + '_view'];
+            var container = new PIXI.Container();
+            var elements = "";
+
+            // console.log('--- Embellishment Object: ---');
+            // console.log(embellishment_obj);
+
+            var _uniformCategory = ub.current_material.material.uniform_category;
+
+            /// Wrestling
+            
+            if (settings_obj.size === 12)  { scale_settings = {x: 0.87, y: 0.87}; }
+            if (settings_obj.size === 10)  { scale_settings = {x: 0.74, y: 0.74}; }
+            if (settings_obj.size === 8)   { scale_settings = {x: 0.63, y: 0.63}; }
+            if (settings_obj.size === 5)   { scale_settings = {x: 0.42, y: 0.42}; }
+
+            /// End Wrestling
+
+            if (settings_obj.size === 4)   { scale_settings = {x: 0.24, y: 0.24}; }
+            if (settings_obj.size === 3)   { scale_settings = {x: 0.19, y: 0.19}; }
+            if (settings_obj.size === 2)   { scale_settings = {x: 0.14, y: 0.14}; }
+            if (settings_obj.size === 1)   { scale_settings = {x: 0.08, y: 0.08}; }
+            if (settings_obj.size === 0.5) { scale_settings = {x: 0.04, y: 0.04}; }
+
+            if (ub.styleValues.embellishmentScales.hasValues()) {
+
+                var _result = ub.styleValues.embellishmentScales.getScale(settings_obj.size);
+
+                if(typeof _result === "undefined") {
+
+                    // Use Defaults if theres no record 
+                    if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') && ub.funcs.isCurrentType('upper')) {
+
+                        var _scaleSettings = ub.data.embellishmentSizes.getSize(_uniformCategory, settings_obj.size);
+
+                        ub.utilties.info('Scale Settings Not Found for ' +  ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' +  ub.config.neckOption + ' ' + settings_obj.size + '. Using default.');    
+                        scale_settings = _scaleSettings.scale;
+
+                    } 
+
+                }
+
+                scale_settings = _result;
+
+            } else {
+
+                // console.log('Here at Scale Settings 1 x 1 ... ');
+                scale_settings = {x: 1, y: 1};
+
+            }
+
+            // _.each(embellishment.layers_properties, function(layer, index) {
+
+            //     var embellishment_layer = ub.pixi.new_sprite(layer.filename);
+
+            //     embellishment_layer.tint = parseInt(layer.default_color,16);
+            //     embellishment_obj.layers_properties[index].color = embellishment_layer.tint; 
+            //     embellishment_layer.anchor.set(0.5, 0.5);
+            //     container.addChild(embellishment_layer);
+
+            //     var val = layer.default_color;
+            //     var col = layer.default_color;
+            //     var filename = layer.filename;
+
+            // });
+
+
+            /// Add Embellishement Sprite as a new Application Layer 
+
+                var embellishment_layer = ub.pixi.new_sprite(embellishment_obj.png_filename);
+
+                //embellishment_layer.tint = parseInt('ffffff',16);
+                //embellishment_obj.layers_properties[index].color = embellishment_layer.tint; 
+                embellishment_layer.anchor.set(0.5, 0.5);
+                container.addChild(embellishment_layer);
+
+                if (typeof settings_obj.alpha === "number") {
+                    embellishment_layer.alpha = settings_obj.alpha;
+                }
+
+                // var val = layer.default_color;
+                // var col = layer.default_color;
+                // var filename = layer.filename;
+
+            /// End Add Embelishment Sprite as a new Application Layer 
+            
+            container.scale = new PIXI.Point(1, 1);
+            
+            sprite = container;
+
+            ub.current_material.containers[application.id] = {};
+            ub.current_material.containers[application.id].embellishment = sprite;
+
+            var temp                    = {}
+            var layer_order             = ( 50 + application.layer_order );
+
+            sprite.originalZIndex       = layer_order * (-1);
+            sprite.zIndex               = layer_order * (-1);
+            settings_obj.layer_order    = layer_order;
+            sprite.scale                = scale_settings;
+
+            /// Set Colors
+
+                // var children = container.children;
+
+                // if(typeof settings.applications[application.id] !== 'undefined') { color_array = settings.applications[application.id].color_array; }    
+
+                // children.reverse();
+
+                // _.each(children, function (child, index) {
+
+                //     if(color_array !== ''){
+
+                //         var array = ub.current_material.settings.applications[application.id].color_array;
+                //         var color_array_size = _.size(array);
+                //         var code = ub.current_material.settings.applications[application.id].color_array[index];
+
+                //         if (typeof code !== 'undefined') { 
+                //             child.tint = parseInt(code.hex_code, 16); 
+
+                //             ///
+                //             var _hexCode = (child.tint).toString(16);
+                //             var _paddedHex = util.padHex(_hexCode, 6);
+                //             if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
+                //                 ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(child.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};    
+                //             }
+                            
+                //             ///
+
+                //         }
+
+                //     }
+
+                // });
+         
+            /// End Set Colors
+
+            return sprite;
+
+        };
+
+    // End Create Embellishment
+
+
 
     function vertical_text (text) {
 

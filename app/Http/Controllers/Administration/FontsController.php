@@ -109,7 +109,7 @@ class FontsController extends Controller
         if (!empty($request->input('font_id')))
         {
             $fontId = $request->input('font_id');
-        }
+        } 
 
         $data = [
             'name' => $fontName,
@@ -125,7 +125,7 @@ class FontsController extends Controller
             'alias' =>$alias,
             'block_pattern_options' => $blockPatternOptions,
             'block_patterns' => $blockPatterns
-        ];
+        ];     
 
         if ($fontType != 'default')
         {

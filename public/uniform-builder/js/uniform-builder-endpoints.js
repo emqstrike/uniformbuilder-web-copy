@@ -76,6 +76,18 @@ $(document).ready(function() {
                 url: 'api/v1-0/mascot_sizes',
                 info: 'Get Mascot Scales',
             },
+            {
+                name: 'Create New Embellishment Data',
+                code: 'createNewEmbellishmentData',
+                url: 'api/v1-0/inksoft_design',
+                info: 'Create New Embelishment Data',
+            },
+            {
+                name: 'Update Custom Artwork',
+                code: 'updateCustomArtwork',
+                url: 'api/v1-0/inksoft_design/update',
+                info: 'Update Custom Artwork',
+            },
         ],
 
         getUrl: function (code) {

@@ -1,5 +1,5 @@
 @extends('administration.lte-main')
- 
+
 @section('content')
 
 <div class="container-fluid main-content">
@@ -265,6 +265,7 @@
                                     <option value='infused'@if( $material->uniform_application_type == "infused" ) selected @endif>Infused</option>
                                     <option value='sublimated'@if( $material->uniform_application_type == "sublimated" ) selected @endif>Sublimated</option>
                                     <option value='tackle_twill'@if( $material->uniform_application_type == "tackle_twill" ) selected @endif>Tackle Twill</option>
+                                    <option value='knitted'@if( $material->uniform_application_type == "knitted" ) selected @endif>Knitted</option>
                                 </select>
                             </div>
                         </div>
@@ -664,6 +665,22 @@
                                 </select>
                             </div>
                         </div>
+                        <textarea id="item_sizes_string" style="display:none;""> {{$item_sizes_string}} </textarea>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Qx Sizing Config</label>
+                            <div class="col-md-6">
+                                <select class="form-control qx-sizing-config" name="qx_sizing_config" id="qx_sizing_config">
+                                <option value="null"></option>
+                                @foreach ($item_sizes as $item_sizes)
+                                    <option value='{{ $item_sizes->id }}'@if($material->qx_sizing_config == $item_sizes->id) selected="selected"@endif>{{ $item_sizes->description }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                             <div class="col-md-4 material">
+                                 <textarea class="sizing-config-prop" name="sizing_config_prop" id="sizing_config_prop" style="display:none;">{{ $material->sizing_config_prop }}</textarea>
+
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary edit-material">
@@ -767,7 +784,7 @@ $( document ).ready(function() {
     //         });
     //     });
     // }
-    
+
 
     $(".pi-dd").change(function() {
         // buildPIxSizes(); // REMOVE COMMENT ***
@@ -810,7 +827,7 @@ $( document ).ready(function() {
 
     // console.log(window.price_items);
 
-    tinymce.init({ 
+    tinymce.init({
         selector:'textarea.material-description'
     });
 
@@ -906,7 +923,7 @@ $( document ).ready(function() {
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
-      
+
         var id = $(this).data('value');
         var field = $(this).data('field');
         var url = "//" + api_host + "/api/material/deleteImage/";
@@ -926,6 +943,24 @@ $( document ).ready(function() {
             }
         });
     });
+
+    var item_size_array = $('#item_sizes_string').text();
+    var size_prop = JSON.parse(item_size_array);
+
+    $("#edit-material-form").on("change", ".qx-sizing-config", function(e){
+        selectedConfig();
+    });
+
+    function selectedConfig() {
+        var selected_size_config = $('#qx_sizing_config option:selected').val();
+        $('#sizing_config_prop').text('');
+        $.each(size_prop, function(i, item) {
+            if (item.id == selected_size_config) {
+                $('#sizing_config_prop').text(item.properties);
+            }
+        });
+
+    }
 
 
 });

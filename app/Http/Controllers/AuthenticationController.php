@@ -136,12 +136,18 @@ class AuthenticationController extends AdminAuthController
                 #
                 # TEAM STORE LOGIN HANDLER
                 #
-                Session::put('is_show_teamstore_toolbox', true);
-                Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
+                $allowed_users = [
+                    'administrator'
+                ];
+                if (in_array($result->user->type, $allowed_users))
+                {
+                    Session::put('is_show_teamstore_toolbox', true);
+                    Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
 
-                $client = new UserTeamStoreClient;
-                $response = $client->team_store_login($email, $password);
-                $this->handleTeamStoreLogin($response, $user, $access_token);
+                    $client = new UserTeamStoreClient;
+                    $response = $client->team_store_login($email, $password);
+                    $this->handleTeamStoreLogin($response, $user, $access_token, $password);
+                }
 
                 #
                 # CUSTOMIZER LOGIN HANDLER

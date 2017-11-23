@@ -9,33 +9,41 @@ use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\APIClients\SalesRepresentativesAPIClient;
+use App\APIClients\DealersAPIClient;
 use App\APIClients\UsersAPIClient as APIClient;
 
 class UsersController extends Controller
 {
     protected $client;
     protected $salesRepresentativesAPIClient;
+    protected $dealersAPIClient;
 
-    public function __construct(APIClient $apiClient, SalesRepresentativesAPIClient $salesRepresentativesAPIClient)
+    public function __construct(
+        APIClient $apiClient, 
+        SalesRepresentativesAPIClient $salesRepresentativesAPIClient, 
+        DealersAPIClient $dealersAPIClient
+    )
     {
         $this->client = $apiClient;
         $this->salesRepresentativesAPIClient = $salesRepresentativesAPIClient;
+        $this->dealersAPIClient = $dealersAPIClient;
     }
 
     public function index()
     {
         if( Session::get('role') == "dev" ){
             $users = $this->client->getUsers();
+            $users_string = json_encode($users);
             foreach($users as $user)
             {
                 $user->created_at = date('M-d-Y', strtotime($user->created_at));
                 if(isset($user->last_login)){
                     $user->last_login = date('M-d-Y', strtotime($user->last_login));
                 }
-            }
-
+            }            
             return view('administration.users.users', [
-                'users' => $users
+                'users' => $users,
+                'users_string' => $users_string
             ]);
         } else {
             return redirect('administration');
@@ -47,16 +55,19 @@ class UsersController extends Controller
     {
         $user = $this->client->getUser($id);
         $sales_reps = $this->salesRepresentativesAPIClient->getSalesReps();
+        $dealers = $this->dealersAPIClient->getAll();
         return view('administration.users.user-edit', [
             'user' => $user,
-            'sales_reps' => $sales_reps            
+            'sales_reps' => $sales_reps,
+            'dealers' => $dealers            
         ]);
     }
 
     public function addUserForm()
     {
         $sales_reps = $this->salesRepresentativesAPIClient->getSalesReps();
-        return view('administration.users.user-create', compact ('sales_reps'));
+        $dealers = $this->dealersAPIClient->getAll();
+        return view('administration.users.user-create', compact ('sales_reps', 'dealers'));
     }
 
     public function accountSettings($id)
@@ -109,7 +120,7 @@ class UsersController extends Controller
         $password = $request->input('password');
         $userCreateOrigin = $request->input('user_create_origin');
         $createdBy = $request->input('created_by');
-        $role = $request->input('role');
+        $role = $request->input('role');        
         $data = [
             'first_name' => $firstName,
             'last_name' => $lastName,
@@ -154,6 +165,10 @@ class UsersController extends Controller
         {
             $data['default_rep_id'] = $request->input('default_rep_id');
         }
+        if (!empty($request->input('dealership_id')))
+        {
+            $data['dealership_id'] = $request->input('dealership_id');
+        }
 
         // Does the User exist
         if ($this->client->isEmailTaken($email, $userId))
@@ -174,7 +189,7 @@ class UsersController extends Controller
             $response = $this->client->updateUser($data);
         }
         else
-        {
+        {           
             $logData = $data;
             unset($logData['password']);
             Log::info('Attempts to create a new User ' . json_encode($logData));

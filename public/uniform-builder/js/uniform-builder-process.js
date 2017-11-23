@@ -144,14 +144,14 @@ $(document).ready(function() {
         }
 
         // Hide Lastname on Socks
-        if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+        if (ub.funcs.isSocks()) {
 
             $('td.PlayerLastNameInput, th.thlastname').hide();
 
         }
 
         // Hide Player Number on Wrestling and Socks
-        if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+        if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isSocks()) {
 
             $('td.PlayerNumberInput, th.thPlayerNumberInput').show();
 
@@ -584,6 +584,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+            
             success: function (response) {
 
                 ub.funcs.reload();
@@ -1041,21 +1042,22 @@ $(document).ready(function() {
 
             if ($('span.submit-confirmed-order').html() === 'Submitting Order...' || $('span.submit-confirmed-order').html() === 'Resubmitting Order...') { return; }
 
-            if (ub.config.orderArtworkStatus === "rejected") {
+            // if (ub.config.orderArtworkStatus === "rejected") {
 
-                ub.funcs.resubmitOrderForm();
-                $('span.submit-confirmed-order').html('Resubmitting Order...');
+            //     ub.funcs.resubmitOrderForm();
+            //     $('span.submit-confirmed-order').html('Resubmitting Order...');
 
-            } if (ub.data.hasProcessedArtworks) {
+            // }
+             if (ub.data.updateOrderFromCustomArtworkRequest) {
 
-                ub.funcs.updateArtworkRequest(ub.data.artworks, function () {
+                // ub.funcs.updateArtworkRequest(ub.data.artworks, function () {
 
                     $('span.submit-confirmed-order').html('Resubmitting Order...');
 
                     $.smkAlert({text: 'Artwork Status updated', type:'info', time: 3, marginTop: '80px'});
                     ub.funcs.resubmitOrderForm();
 
-                });
+                // });
 
             } else {
 
@@ -1275,14 +1277,14 @@ $(document).ready(function() {
 
                     ub.funcs.displayLinks(response.filename);
 
-                    if (ub.config.orderArtworkStatus === "rejected") {
+                    // if (ub.config.orderArtworkStatus === "rejected") {
 
-                        $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
-                        $('span.save-order').hide();
+                    //     $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+                    //     $('span.save-order').hide();
 
-                    } 
+                    // } 
 
-                    if (ub.data.hasProcessedArtworks) {
+                    if (ub.data.updateOrderFromCustomArtworkRequest) {
 
                         $('span.submit-confirmed-order').html('Resubmit Order ' + '<i class="fa fa-arrow-right" aria-hidden="true"></i>');
                         $('span.save-order').hide();                        
@@ -1378,44 +1380,53 @@ $(document).ready(function() {
 
     ub.funcs.prepareOrderForm = function (orderInfo) {
 
+        var _loadFrom = orderInfo;
+        var _notes = "";
+
         $('div#order-form').fadeIn();
         
         if (typeof orderInfo === "undefined") { return; }
+        if (typeof _loadFrom.notes !== "undefined") { _notes = _loadFrom.notes.content; }
+        
+        if (ub.data.hasProcessedArtworks) {
+            _loadFrom = orderInfo.order;
+            _notes = _.last(ub.data.orderInfo.notes).content;
+        }
 
         // Client Info
 
-        ub.funcs.setVal('client-name', orderInfo.client);
-        ub.funcs.setVal('athletic-director', orderInfo.client);
-        ub.funcs.setVal('client-email', orderInfo.email);
-        ub.funcs.setVal('client-phone', orderInfo.phone);
-        ub.funcs.setVal('client-fax', orderInfo.fax);
+        ub.funcs.setVal('client-name', _loadFrom.client);
+        ub.funcs.setVal('athletic-director', _loadFrom.client);
+        ub.funcs.setVal('client-email', _loadFrom.email);
+        ub.funcs.setVal('client-phone', _loadFrom.phone);
+        ub.funcs.setVal('client-fax', _loadFrom.fax);
 
         // Billing Info
 
-        ub.funcs.setVal('billing-organization', orderInfo.bill_organization);
-        ub.funcs.setVal('billing-contact-name', orderInfo.bill_contact_person);
-        ub.funcs.setVal('billing-email', orderInfo.bill_email);
-        ub.funcs.setVal('billing-phone', orderInfo.bill_phone);
+        ub.funcs.setVal('billing-organization', _loadFrom.bill_organization);
+        ub.funcs.setVal('billing-contact-name', _loadFrom.bill_contact_person);
+        ub.funcs.setVal('billing-email', _loadFrom.bill_email);
+        ub.funcs.setVal('billing-phone', _loadFrom.bill_phone);
 
-        ub.funcs.setVal('billing-address', orderInfo.bill_address);
-        ub.funcs.setVal('billing-city', orderInfo.bill_city);
-        ub.funcs.setVal('billing-state', orderInfo.bill_state);
-        ub.funcs.setVal('billing-zip', orderInfo.bill_zip);
+        ub.funcs.setVal('billing-address', _loadFrom.bill_address);
+        ub.funcs.setVal('billing-city', _loadFrom.bill_city);
+        ub.funcs.setVal('billing-state', _loadFrom.bill_state);
+        ub.funcs.setVal('billing-zip', _loadFrom.bill_zip);
 
         // Ship Info
 
-        ub.funcs.setVal('shipping-organization', orderInfo.ship_organization);
-        ub.funcs.setVal('shipping-contact-name', orderInfo.ship_contact_person);
-        ub.funcs.setVal('shipping-email', orderInfo.ship_email);
-        ub.funcs.setVal('shipping-phone', orderInfo.ship_phone);
+        ub.funcs.setVal('shipping-organization', _loadFrom.ship_organization);
+        ub.funcs.setVal('shipping-contact-name', _loadFrom.ship_contact_person);
+        ub.funcs.setVal('shipping-email', _loadFrom.ship_email);
+        ub.funcs.setVal('shipping-phone', _loadFrom.ship_phone);
 
-        ub.funcs.setVal('shipping-address', orderInfo.ship_address);
-        ub.funcs.setVal('shipping-city', orderInfo.ship_city);
-        ub.funcs.setVal('shipping-state', orderInfo.ship_state);
-        ub.funcs.setVal('shipping-zip', orderInfo.ship_zip);
+        ub.funcs.setVal('shipping-address', _loadFrom.ship_address);
+        ub.funcs.setVal('shipping-city', _loadFrom.ship_city);
+        ub.funcs.setVal('shipping-state', _loadFrom.ship_state);
+        ub.funcs.setVal('shipping-zip', _loadFrom.ship_zip);
 
         // Notes
-        $('textarea[name="additional-notes"]').val(orderInfo.notes.content);
+        $('textarea[name="additional-notes"]').val(_notes);
 
         // Additional Attachment Link
         var _filename = JSON.parse(orderInfo.items[0].additional_attachments);
@@ -1854,7 +1865,7 @@ $(document).ready(function() {
 
     ub.funcs.modifyOrderFormUIBySport = function () {
 
-        if (ub.funcs.isCurrentSport('Crew Socks (Apparel)')) { 
+        if (ub.funcs.isSocks()) { 
             $('span.adult-sizes').html('SHOE SIZES: '); 
             $('span.adult-header').html('Shoe Sizes: '); 
         }
@@ -2036,9 +2047,7 @@ $(document).ready(function() {
     ub.data.rosterInitialized = false;
     ub.funcs.initRoster = function (orderInfo) {
     
-        if (typeof orderInfo !== "undefined") { 
-            orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); 
-        }
+        if (typeof orderInfo !== "undefined") { orderInfo.items[0].roster = JSON.parse(orderInfo.items[0].roster); }
 
         ub.data.rosterInitialized = true;
 
@@ -2087,7 +2096,7 @@ $(document).ready(function() {
         $('div#roster-input').fadeIn();
 
         // Setup Events if this is not rejected
-        if (ub.config.orderArtworkStatus !== "rejected" && !ub.data.hasProcessedArtworks) {
+        if (ub.config.orderArtworkStatus !== "rejected" && !ub.data.updateOrderFromCustomArtworkRequest) {
 
             $('button.change-all').unbind('click');
             $('button.change-all').on('click', function () {
@@ -2104,7 +2113,7 @@ $(document).ready(function() {
 
                 _size           = $(this).data('size');
 
-                if (!ub.funcs.isCurrentSport('Wrestling') && !ub.funcs.isCurrentSport('Crew Socks (Apparel)')) {
+                if (!ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.uniform_group !== "Apparel") {
 
                     _numbers    = ub.funcs.createNumbersSelectionPopup(_size);
 
@@ -2179,7 +2188,7 @@ $(document).ready(function() {
         ub.funcs.reInitHover();
 
         // Disable Buttons when the order is being resubmitted from a rejected order
-        if (ub.config.orderArtworkStatus === "rejected" || ub.data.hasProcessedArtworks) {
+        if (ub.config.orderArtworkStatus === "rejected" || ub.data.updateOrderFromCustomArtworkRequest) {
             
             $('select.default-sleeve-type').attr('disabled', 'disabled');
             $('select.default-lastname-application').attr('disabled', 'disabled');
@@ -2306,8 +2315,20 @@ $(document).ready(function() {
 
                         if (ub.funcs.thumbnailsUploaded()) {
 
-                            $('div.save-design-footer').fadeIn();
                             $('em.uploading').fadeOut();
+
+                            if(ub.data.updateSaveDesignFromCustomArtworkRequest) {
+
+                                // Updating a save design from a custom artwork process
+                                ub.funcs.saveDesign();
+
+                            } else {
+
+                                // Normal Save Logic
+                                $('div.save-design-footer').fadeIn();
+
+
+                            }
 
                         }
 
@@ -2327,11 +2348,20 @@ $(document).ready(function() {
 
         ub.funcs.postDesign = function (data) {
 
-            if (typeof $.ajaxSettings.headers !== 'undefined') { delete $.ajaxSettings.headers["X-CSRF-TOKEN"]; }
+            var _url = window.ub.config.api_host + '/api/saved_design'
+
+            if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
+                _url = window.ub.config.api_host + '/api/saved_design/update';
+            }
+
+            // Skip notification when coming from local
+            if (ub.config.app_env === 'local') { data.test_data = '1'; }
+            
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
             $.ajax({
 
-                url: window.ub.config.api_host + '/api/saved_design',
+                url: _url,
                 dataType: "json",
                 type: "POST",
                 data: JSON.stringify(data),
@@ -2345,11 +2375,27 @@ $(document).ready(function() {
 
                         ub.funcs.updatePopup();
 
+                        var is_add_to_team_store = false;
+                        if (typeof($('#is_add_to_team_store').val()) == "undefined") {
+                            is_add_to_team_store = false;
+                        } else {
+                            if ($('#is_add_to_team_store:checked').length) {
+                                is_add_to_team_store = true;
+                            }
+                        }
+
+                        if (is_add_to_team_store) {
+                            // Make ID available globally; TeamStoreToolBox.js needs this var
+                            ub.team_stores_material_id = response.team_stores_material_id;
+
+                            TeamStoreToolBox.add_to_team_store(ub.current_material.material.id);
+                        }
+
                     } else {
 
                         console.log('Error Saving Design.');
                         console.log(response.message);
-
+                        $('.save-design').fadeOut();
                     }
 
                 }
@@ -2391,9 +2437,29 @@ $(document).ready(function() {
                 back_thumbnail: _backView,
                 left_thumbnail: _leftView,
                 right_thumbnail: _rightView,
-                notes: _notes,
+                notes: _notes
 
             };
+
+            if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
+                
+                _data.id = ub.config.savedDesignInfo.savedDesignID;
+                _data.builder_customizations = _data.builder_customizations;
+
+                delete _data.user;
+                delete _data.material_name;
+
+            }
+
+            // Add flag
+            if (typeof($('#is_add_to_team_store').val()) !== "undefined") {
+                _data.is_add_to_team_store = $('#is_add_to_team_store:checked').length;
+            }
+
+            // Add store code if exists
+            if (ub.store_code) {
+                _data.store_code = ub.store_code;
+            }
 
             ub.funcs.postDesign(_data);
 
@@ -2472,6 +2538,7 @@ $(document).ready(function() {
             $('div.save-design').remove();
 
             var data = {
+                title: 'Save Design',
             };
 
             var template = $('#m-save-design').html();
@@ -2494,6 +2561,23 @@ $(document).ready(function() {
                 ub.funcs.saveDesign();
                 
             });
+
+            // If from custom artwork request process 
+            if (ub.data.updateSaveDesignFromCustomArtworkRequest) {
+
+                $('div.save-design > h3').html('<i class="fa fa-floppy-o" aria-hidden="true"></i> Updating Design')
+
+                $('input[name="design-name"]').attr('disabled','disabled');
+                $('textarea#design-notes').attr('disabled', 'disabled');
+
+                $('input[name="design-name"]').val(ub.config.savedDesignInfo.name);
+
+            } else {
+
+                $('input[name="design-name"]').removeAttr('disabled');
+                $('textarea#design-notes').removeAttr('disabled');
+
+            }
 
         };
 
@@ -2589,6 +2673,7 @@ $(document).ready(function() {
                     }
 
                     ub.id = response.userID;
+                    ub.funcs.afterLogin();
 
                 } else {
 

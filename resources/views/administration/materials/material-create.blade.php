@@ -1,5 +1,5 @@
 @extends('administration.lte-main')
- 
+
 @section('content')
 
 <div class="container-fluid main-content">
@@ -8,7 +8,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Material</div>
                 <div class="panel-body col-md-8 text-center">
-                    
+
                 </div>
                 <div class="panel-body col-md-8">
                     @if (count($errors) > 0)
@@ -259,6 +259,7 @@
                                     <option value='infused'>Infused</option>
                                     <option value='sublimated'>Sublimated</option>
                                     <option value='tackle_twill'>Tackle Twill</option>
+                                    <option value='knitted'>Knitted</option>
                                 </select>
                             </div>
                         </div>
@@ -414,6 +415,21 @@
                                 </select>
                             </div>
                         </div>
+                        <textarea id="item_sizes_string" style="display:none;""> {{$item_sizes_string}} </textarea>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Qx Sizing Config</label>
+                            <div class="col-md-6">
+                                <select class="form-control qx-sizing-config" name="qx_sizing_config" id="qx_sizing_config">
+                                <option value="null"></option>
+                                @foreach ($item_sizes as $item_sizes)
+                                    <option value='{{ $item_sizes->id }}'>{{ $item_sizes->description }}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                             <div class="col-md-4 material">
+                                <textarea class="sizing-config-prop" name="sizing_config_prop" id="sizing_config_prop" style="display:none;"></textarea>
+                            </div>
+                        </div>
                          <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-user">
@@ -457,7 +473,7 @@ $( document ).ready(function() {
         $( '#neck_option' ).html('');
 
         $.each(z, function(i, item) {
-            
+
             if( item.id == id ){
 
                 var optx = JSON.parse(item.neck_options);
@@ -472,7 +488,7 @@ $( document ).ready(function() {
 
     });
 
-    tinymce.init({ 
+    tinymce.init({
 
         selector:'textarea.material-description'
 
@@ -490,6 +506,24 @@ $( document ).ready(function() {
         window.mce = tinyMCE.activeEditor.getContent();
         console.log('MCE: ' + window.mce);
         $('#description').val(window.mce);
+
+    }
+
+    var item_size_array = $('#item_sizes_string').text();
+    var size_prop = JSON.parse(item_size_array);
+
+    $("#create-material-form").on("change", ".qx-sizing-config", function(e){
+        selectedConfig();
+    });
+
+    function selectedConfig() {
+        var selected_size_config = $('#qx_sizing_config option:selected').val();
+        $('#sizing_config_prop').text('');
+        $.each(size_prop, function(i, item) {
+            if (item.id == selected_size_config) {
+                $('#sizing_config_prop').text(item.properties);
+            }
+        });
 
     }
 

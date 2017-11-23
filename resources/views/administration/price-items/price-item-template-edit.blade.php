@@ -99,9 +99,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-    var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','5-7','8-12','13-14','YXS','YS','YM','YL','YXL','Y2XL','Y3XL','1 Size','22-30','32-44','46-54','24-34','36-48','50-54','30-36','38-42','26-34','36-46'];
-    var adult_sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','5-7','8-12','13-14','1 Size','22-30','32-44','46-54','24-34','36-48','50-54','30-36','38-42','26-34','36-46'];
-    var youth_sizes = ['YXS','YS','YM','YL','YXL','Y2XL','Y3XL'];
+    var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','3-5','5-7','8-12','13-14','Y Goalie','M Goalie','L Goalie','YXS','YS','YS/YM','YM','YL','YL/YXL','YXL','Y2XL','Y3XL','1 Size','22-30','32-44','46-54','24-34','36-48','50-54','30-36','38-42','22','23','24','24 (YXS)','25','26','26 (YS)','27','28','28 (YM)','29','30','31','32','32 (YL)','33','34','34 (YXL)','35','36','36 (S)','37','38','38 (M)','39','40','41','42','42 (L)','43','44','45','46','46 (XL)','47','48','49','50','50 (2XL)','51','52','53','54','54 (3XL)'];
+    var adult_sizes = ['XS','S','M','M Goalie','L','L Goalie','XL','2XL','3XL','4XL','5XL','5-7','8-12','13-14','1 Size','22-30','32-44','46-54','24-34','36-48','50-54','30-36','38-42','22','23','24','24 (YXS)','25','26','26 (YS)','27','28','28 (YM)','29','30','31','32','32 (YL)','33','34','34 (YXL)','35','36','36 (S)','37','38','38 (M)','39','40','41','42','42 (L)','43','44','45','46','46 (XL)','47','48','49','50','50 (2XL)','51','52','53','54','54 (3XL)'];
+    var youth_sizes = ['Y Goalie','YXS','YS','YS/YM','YM','YL','YL/YXL','YXL','Y2XL','Y3XL','3-5'];
     var size_properties = {};
     var template_props = JSON.parse($('.template-prop').val());
     var ctr = 0;
@@ -169,8 +169,13 @@ $(document).ready(function(){
         var x  = $( ".prop-row:first" ).clone();
         y = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
 
-        $('.property-body').append(x);
-        $(x).append(y);
+        if(x.length >0) {
+            $('.property-body').append(x);
+            $(x).append(y);
+        }
+        else {
+            loadDefault();
+        }              
         deleteButton();
         selectChange();
         refreshProperty();
@@ -258,6 +263,37 @@ $(document).ready(function(){
 
         $('#size_property').val(JSON.stringify(size_properties));
     }
+
+    function loadDefault() {
+         var x = `<tr class="prop-row">
+                    <td>
+                        <select class="form-control sizes">
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control price-items">
+                        </select>
+                    </td>                   
+                </tr>`;
+
+           $('.property-body').append(x);  
+           initSizesAndPI();
+    }
+
+    function initSizesAndPI(){
+    _.each(sizes, function(i){
+        var elem = '<option value="' + i + '">' + i + '</option>';
+        $('.sizes').append(elem);
+    });
+
+
+    _.each(window.price_items, function(i){
+        var pi = i.price_item;
+        var elem = '<option value="' + pi + '">' + pi + '</option>';
+        $('.price-items').append(elem);
+    });
+}
+
 
 });
 </script>
