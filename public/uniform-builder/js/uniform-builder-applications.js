@@ -6642,8 +6642,12 @@ $(document).ready(function() {
 
         }
 
-        _htmlBuilder        +=                      '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
-        _htmlBuilder        +=                      '<input type="text" id="opacity-slider" value="" />';
+        // Enable Watermark Sliders only on Tackle Twill Applications
+        if (ub.config.uniform_application_type === "sublimated") {
+            _htmlBuilder        +=    '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
+            _htmlBuilder        +=    '<input type="text" id="opacity-slider" value="" />';
+        }
+
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
