@@ -75,14 +75,15 @@ class MaterialsController extends Controller
     public function index()
     {
         Log::info('Index');
-        $materials = $this->client->getMaterials();
-        $block_patterns = $this->blockPatternClient->getBlockPatterns();
-        $materials_string = json_encode($materials);
 
         $sport = "Football";
         if( null !== Session::get('active_sport') ){
             $sport = Session::get('active_sport');
         }
+
+        $materials = $this->client->getMaterialsBySport($sport);
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
+        $materials_string = json_encode($materials);
 
         return view('administration.materials.materials', [
             'block_patterns' => $block_patterns,
