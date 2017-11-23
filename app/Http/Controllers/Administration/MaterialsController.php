@@ -140,26 +140,6 @@ class MaterialsController extends Controller
             } else if($option->perspective == "right" && $option->name =="Guide"){
                 $right_guide = $option->material_option_path;
             }
-            // foreach($colors as $color){
-            //     if($color->color_code == $default_color) {
-            //         $option->default_hex_code = $color->hex_code;
-            //         $option->default_color_name = $color->name;
-            //         break;
-            //     } else {
-            //         $option->default_hex_code = "000";
-            //         $option->default_color_name = "Black";
-            //     }
-            // }
-            // foreach($colors as $color){
-            //     if($color->color_code == $sublimated_default_color) {
-            //         $option->sublimated_default_hex_code = $color->hex_code;
-            //         $option->sublimated_default_color_name = $color->name;
-            //         break;
-            //     } else {
-            //         $option->sublimated_default_hex_code = "000";
-            //         $option->sublimated_default_color_name = "Black";
-            //     }
-            // }
         }
 
         $material = $this->client->getMaterial($id);
@@ -399,7 +379,7 @@ class MaterialsController extends Controller
             'id' => $material_id,
             'random_feed' => $random_feed
         ];
-// dd(json_encode($data));
+
         $response = $this->client->updateRandomFeed($data);
 
         if ($response->success)
