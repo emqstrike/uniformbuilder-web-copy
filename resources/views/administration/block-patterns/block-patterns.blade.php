@@ -109,10 +109,10 @@
                             {{ $block_pattern->uniform_category }}
                         </td>
                         <td>
-                            @if(isset($block_pattern->placeholder_overrides))
-                            <div class="alert alert-success">Yes</div>
-                            @else
+                            @if( !isset($block_pattern->placeholder_overrides) || $block_pattern->placeholder_overrides == "" )
                             <div class="alert alert-danger">No</div>
+                            @else
+                            <div class="alert alert-success">Yes</div>
                             @endif
                         </td>
                         <td>
