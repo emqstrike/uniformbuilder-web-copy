@@ -824,8 +824,11 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '<br /><a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a><br />';  
         _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a><br />';  
         
-        _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
-        _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
+        if (ub.config.uniform_application_type === "sublimated") {
+            _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
+            _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
+        }
+        
         _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        +=        '</div>';
