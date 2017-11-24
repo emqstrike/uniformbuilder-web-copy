@@ -4,7 +4,7 @@
 
 <div class="container-fluid main-content">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Block Pattern</div>
                 <div class="panel-body">
@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Neck Options
+                            <label class="col-md-2 control-label">Neck Options
                             <div>
                                 <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Neck Option</a>
                             </div>
@@ -67,6 +67,8 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Preview File</th>
+                                            <th>New File</th>
+                                            <th>Placeholder Overrides</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -76,7 +78,13 @@
                                                 <input type="text" class="neck-option-name layer1" name="neck_option_name[]">
                                             </td>
                                             <td>
+                                                <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
+                                            </td>
+                                            <td>
                                                 <input type="file" class="neck-option-file layer1" name="neck_option_image[]">
+                                            </td>
+                                            <td>
+                                                <textarea  class="neck-option-placeholder-overrides layer1" name="neck_option_placeholder_overrides"  autosized></textarea>
                                             </td>
                                             <td>
                                                 <img class="thumb-container" data-toggle="popover" data-img="" style="width: 30px; height: 30px;">
