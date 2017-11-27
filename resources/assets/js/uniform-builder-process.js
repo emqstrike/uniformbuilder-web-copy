@@ -1634,24 +1634,13 @@ $(document).ready(function() {
 
     ub.funcs.prepareState = function () {
 
-        console.log('Here...');
-        console.log(ub.data.usStates);
-        console.log($('input#billing-state'));
-        console.log($('input#billing-state').val());
-
-        // Init Select2 
         var _states = ub.utilities.buildTemplateString("#m-us-states", {states: ub.data.usStates.items});
-
-        console.log('States: ');
-        console.log(_states);
 
         $('select.billing-state-dropdown').html(_states);
         $('select.shipping-state-dropdown').html(_states);
 
         $('.billing-state-dropdown').select2();
         $('.shipping-state').select2();
-
-        // End Init Select2 
 
     }
 
