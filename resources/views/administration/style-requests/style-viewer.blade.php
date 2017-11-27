@@ -52,6 +52,32 @@
                                                 </select>
                                             </div>
                                         </div>
+                                         <div class="form-group">
+                                            <label class="col-md-4 control-label">
+                                                <span class="label label-info">With Item IDs: </span>
+                                            </label>
+                                            <div class="col-md-4">
+                                                <select class="form-control show-with-item-id">
+                                                    <option value ="0">No</option>
+                                                    <option value ="1">Yes</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">
+                                                <span class="label label-info">Show Customizer Available: </span>
+                                            </label>
+                                            <div class="col-md-4">
+                                                <select class="form-control show-customizer-available" disabled="">
+                                                    <option value ="0">No</option>
+                                                    <option value ="1">Yes</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                 <a href="#" class="btn btn-default filter" style="width: 100px;">Search</a><hr>
+                                            </div>
+                                        </div>
                                     </th>
                                 </tr>
                             </thead>
@@ -193,7 +219,7 @@ $(function(){
     window.current_values = null;
     window.current_index = 0;
     window.sports = null;
-    var pleaseWait = $('#pleaseWaitDialog'); 
+    var pleaseWait = $('#pleaseWaitDialog');
 
     showPleaseWait = function() {
         pleaseWait.modal('show');
@@ -203,10 +229,12 @@ $(function(){
         pleaseWait.modal('hide');
     };
 
-    showPleaseWait();
+    // showPleaseWait();
     $('.progress-modal-message').html('Loading Styles...');
 
-    getDefaultMaterials(function(materials){ window.materials = materials; });
+    getDefaultMaterials(function(materials){
+        window.materials = materials; });
+
     function getDefaultMaterials(callback){
         var materials;
         var url = "//api-dev.qstrike.com/api/materials/category/"+window.default_sport;
@@ -222,6 +250,7 @@ $(function(){
                 if(typeof callback === "function") callback(materials);
             }
         });
+         hidePleaseWait();
     }
 
     getSports(function(sports){ window.sports = sports; });
@@ -295,8 +324,68 @@ $(function(){
         window.default_sport = $(this).val();
         getDefaultMaterials(function(materials){ window.materials = materials; });
         window.current_index = 0;
+        $('.show-with-item-id').trigger('change');
+    });
+
+    $(document).on('change', '.show-with-item-id', function() {
+       $item_id = $(this).val();
+        if ($item_id == 1) {
+            $('.show-customizer-available').removeAttr('disabled');
+            getWithItemID(window.materials);
+        }
+        else {
+            $('.show-customizer-available').attr('disabled', true);
+            getWithoutItemID(window.materials);
+        }
+        $('.show-customizer-available').trigger('change');
+        console.log(window.materials);
+    });
+
+    $(document).on('change', '.show-customizer-available', function() {
+        $available = $(this).val();
+        if ($available == 1) {
+            getCustomizerAvailable(window.materials);
+        }
+        else {
+            getNotCustomizerAvailable(window.materials);
+        }
+        console.log(window.materials);
         generateValues();
     });
+
+    $('.show-sport-dd').trigger('change');
+
+    $(document).on('click', '.filter', function()
+    {
+        $('.show-sport-dd').trigger('change');
+    });
+
+
+    function getWithItemID (materials){
+        window.materials = _.filter(materials, function(e){
+            return e.item_id != 0;
+        });
+    };
+
+    function getWithoutItemID (materials){
+        window.materials = _.filter(materials, function(e){
+            return e.item_id == 0;
+        });
+    };
+
+    function getCustomizerAvailable (materials){
+        window.materials = _.filter(materials, function(e){
+            return e.customizer_available == 1;
+        });
+    };
+
+    function getNotCustomizerAvailable (materials){
+       window.materials = _.filter(materials, function(e){
+            return e.customizer_available == 0;
+        });
+    };
+
+
 
     $('.next-button').on('click', function(e){
         e.preventDefault();
@@ -351,7 +440,7 @@ $(function(){
                 if (response.success) {
                     // console.log('Success');
                     $('#confirmation-modal').modal('hide');
-                    var pleaseWait = $('#pleaseWaitDialog'); 
+                    var pleaseWait = $('#pleaseWaitDialog');
                     hidePleaseWait = function () {
                         pleaseWait.modal('hide');
                     };
