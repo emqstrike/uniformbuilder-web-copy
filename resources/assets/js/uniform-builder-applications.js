@@ -6642,8 +6642,12 @@ $(document).ready(function() {
 
         }
 
-        _htmlBuilder        +=                      '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
-        _htmlBuilder        +=                      '<input type="text" id="opacity-slider" value="" />';
+        // Enable Watermark Sliders only on Tackle Twill Applications
+        if (ub.config.uniform_application_type === "sublimated") {
+            _htmlBuilder        +=    '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
+            _htmlBuilder        +=    '<input type="text" id="opacity-slider" value="" />';
+        }
+
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
@@ -10194,6 +10198,9 @@ $(document).ready(function() {
         var _blockPattern   = ub.current_material.material.block_pattern;
         var _primaryView    = ub.funcs.getPrimaryView(_phaSettings.application);
         var _primaryViewObject = ub.funcs.getPrimaryViewObject(_phaSettings.application);
+        
+        var _withPlaceholderOverrides = false; // Placeholder overrides set on the backend
+        var _perspectiveMarkForDeletion = undefined;
 
         // Process Uniforms with Extra Layer
 
@@ -10240,8 +10247,6 @@ $(document).ready(function() {
 
         }
 
-
-
         // For instances where the part has left or right (e.g. sleeve), converts it to Left Sleeve
         if (typeof side !== "undefined" && side !== "na") { _part = side.toTitleCase() + " " + _part; }
 
@@ -10253,7 +10258,6 @@ $(document).ready(function() {
             var _perspective = _perspectiveView.perspective;
 
             // Get Center of Polygon 
-
             var _cx = ub.funcs.getCentoid(_perspective, _part);
 
             // CX Override 
@@ -10270,15 +10274,32 @@ $(document).ready(function() {
 
                 if (typeof _overrides !== "undefined") {
 
+                    _withPlaceholderOverrides = true;
+
                     _perspectiveView.application.rotation = _overrides.rotation;
                     _perspectiveView.application.center = _overrides.position;
                     _perspectiveView.application.pivot = _overrides.position;
+
+                } else {
+
+                    // If has a placeholder override but this particular view has none set delete 
+                    if (_withPlaceholderOverrides) {
+                        _perspectiveMarkForDeletion = _perspectiveView.perspective;
+                    }
 
                 }
 
             } 
 
         });
+
+        if (typeof _perspectiveMarkForDeletion !== "undefined") {
+
+            _phaSettings.application.views = _.filter(_phaSettings.application.views, function (view) {
+                return view.perspective !== _perspectiveMarkForDeletion;
+            });
+
+        }
 
         _.each(_phaSettings.application.views, function (_perspectiveView) {
 
@@ -10373,7 +10394,13 @@ $(document).ready(function() {
             _.each(_newApplication.application.views, function (view) {
 
                 view.application.id = _newIDStr;
-                if (view.application.isPrimary === 1) { _tmp = [view]; }
+
+                // For Socks push only the primary perspective
+                if (ub.funcs.isSocks()) {
+                    if (view.application.isPrimary === 1) { _tmp.push(view); }
+                } else {
+                    _tmp.push(view);    
+                }
 
             });
 

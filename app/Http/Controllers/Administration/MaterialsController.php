@@ -75,14 +75,15 @@ class MaterialsController extends Controller
     public function index()
     {
         Log::info('Index');
-        $materials = $this->client->getMaterials();
-        $block_patterns = $this->blockPatternClient->getBlockPatterns();
-        $materials_string = json_encode($materials);
 
         $sport = "Football";
         if( null !== Session::get('active_sport') ){
             $sport = Session::get('active_sport');
         }
+
+        $materials = $this->client->getMaterialsBySport($sport);
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
+        $materials_string = json_encode($materials);
 
         return view('administration.materials.materials', [
             'block_patterns' => $block_patterns,
@@ -139,26 +140,6 @@ class MaterialsController extends Controller
             } else if($option->perspective == "right" && $option->name =="Guide"){
                 $right_guide = $option->material_option_path;
             }
-            // foreach($colors as $color){
-            //     if($color->color_code == $default_color) {
-            //         $option->default_hex_code = $color->hex_code;
-            //         $option->default_color_name = $color->name;
-            //         break;
-            //     } else {
-            //         $option->default_hex_code = "000";
-            //         $option->default_color_name = "Black";
-            //     }
-            // }
-            // foreach($colors as $color){
-            //     if($color->color_code == $sublimated_default_color) {
-            //         $option->sublimated_default_hex_code = $color->hex_code;
-            //         $option->sublimated_default_color_name = $color->name;
-            //         break;
-            //     } else {
-            //         $option->sublimated_default_hex_code = "000";
-            //         $option->sublimated_default_color_name = "Black";
-            //     }
-            // }
         }
 
         $material = $this->client->getMaterial($id);
@@ -398,7 +379,7 @@ class MaterialsController extends Controller
             'id' => $material_id,
             'random_feed' => $random_feed
         ];
-// dd(json_encode($data));
+
         $response = $this->client->updateRandomFeed($data);
 
         if ($response->success)

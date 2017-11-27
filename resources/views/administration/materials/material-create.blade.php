@@ -1,5 +1,5 @@
 @extends('administration.lte-main')
- 
+
 @section('content')
 
 <div class="container-fluid main-content">
@@ -8,7 +8,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Material</div>
                 <div class="panel-body col-md-8 text-center">
-                    
+
                 </div>
                 <div class="panel-body col-md-8">
                     @if (count($errors) > 0)
@@ -259,6 +259,7 @@
                                     <option value='infused'>Infused</option>
                                     <option value='sublimated'>Sublimated</option>
                                     <option value='tackle_twill'>Tackle Twill</option>
+                                    <option value='knitted'>Knitted</option>
                                 </select>
                             </div>
                         </div>
@@ -426,7 +427,7 @@
                                 </select>
                             </div>
                              <div class="col-md-4 material">
-                                <textarea class="sizing-config-prop" name="sizing_config_prop" id="sizing_config_prop" style="display:none;"></textarea>                              
+                                <textarea class="sizing-config-prop" name="sizing_config_prop" id="sizing_config_prop" style="display:none;"></textarea>
                             </div>
                         </div>
                          <div class="form-group">
@@ -472,7 +473,7 @@ $( document ).ready(function() {
         $( '#neck_option' ).html('');
 
         $.each(z, function(i, item) {
-            
+
             if( item.id == id ){
 
                 var optx = JSON.parse(item.neck_options);
@@ -487,7 +488,7 @@ $( document ).ready(function() {
 
     });
 
-    tinymce.init({ 
+    tinymce.init({
 
         selector:'textarea.material-description'
 
@@ -517,14 +518,14 @@ $( document ).ready(function() {
 
     function selectedConfig() {
         var selected_size_config = $('#qx_sizing_config option:selected').val();
-        $('#sizing_config_prop').text('');         
-        $.each(size_prop, function(i, item) {            
+        $('#sizing_config_prop').text('');
+        $.each(size_prop, function(i, item) {
             if (item.id == selected_size_config) {
                 $('#sizing_config_prop').text(item.properties);
-            }          
-        });   
+            }
+        });
 
-    }     
+    }
 
 });
 </script>

@@ -4,7 +4,7 @@
 
 <div class="container-fluid main-content">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12">
             <div class="panel panel-info">
                 <div class="panel-heading">Modify Block Pattern</div>
                 <div class="panel-body">
@@ -53,29 +53,32 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Placeholder Overrides</label>
                             <div class="col-md-6">
-                                <textarea name="placeholder_overrides" class="form-control placeholder-overrides autosized">{{ $block_pattern->placeholder_overrides }}</textarea>
+                                <textarea name="placeholder_overrides" class="form-control placeholder-overrides  autosized">{{ $block_pattern->placeholder_overrides }}</textarea>
                             </div>
                         </div>
 
 
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Block Pattern Options
-                            <div>
-                                <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Neck Option</a>
-                            </div>
-                            </label>
-                            <div class="col-md-8">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Preview File</th>
-                                            <th>New File</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="layers-row-container"></tbody>
-                                </table>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="col-md-2 control-label">Block Pattern Options
+                                <div>
+                                    <a class="btn btn-primary clone-row btn-xs"><i class="fa fa-plus"></i> Add Neck Option</a>
+                                </div>
+                                </label>
+                                <div class="col-md-8">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th >Name</th>
+                                                <th>Preview File</th>
+                                                <th>New File</th>
+                                                <th>Placeholder Overrides</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="layers-row-container"></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
