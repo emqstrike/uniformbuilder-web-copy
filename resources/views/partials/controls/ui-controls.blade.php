@@ -3093,4 +3093,17 @@
 
 <!-- End Manipulator Panels -->
 
+<!-- States -->
+    
+    <script type="text/mustache" id="m-us-states">
+
+        @{{#states}}
+            <option value="@{{code}}">@{{name}} (@{{code}})</option>
+        @{{/states}}
+
+    </script>
+
+
+<!-- End States -->
+
 @include('partials.controls.team-store-products-picker')
