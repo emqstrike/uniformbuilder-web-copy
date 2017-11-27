@@ -34,10 +34,6 @@
 <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/rangeSlider.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/normalize.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/rangeSlider/css/skinModern.css?v={{$asset_version}}">
-
-<link rel="stylesheet" href="{{$asset_storage}}/tipped/css/tipped.css?v={{$asset_version}}">
-
-
 <link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css?v={{$asset_version}}">
 
 
@@ -217,8 +213,6 @@
 <script src="{{$asset_storage}}/dropzone/dropzone.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/tether/js/tether.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/drop/js/drop.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/pixi/pixi.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/pixi/pixi.draggable.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/opentype/js/opentype.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/scrollTo/jquery.scrollTo.js?v={{$asset_version}}"></script>
 
@@ -253,12 +247,7 @@
 <script src="{{$asset_storage}}/intro-js/intro.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/svgjs/svg.min.js"></script>
 
-<script src="{{$asset_storage}}/tipped/js/tipped.js"></script>
-
 <script src="{{$asset_storage}}/rangeSlider/js/rangeSlider.js"></script>
-
-<script src="{{$asset_storage}}/natural/natural.js"></script>
-<script src="{{$asset_storage}}/natural/all.js"></script>
 
 <!-- End Third Party Scripts -->
 
