@@ -1,3 +1,4 @@
+// Generators
 $(document).ready(function() {
 
     ub.generators = {};
