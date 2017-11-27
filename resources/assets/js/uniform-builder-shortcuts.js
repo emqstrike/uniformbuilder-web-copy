@@ -3,6 +3,8 @@
  * modified to be accesbile from the ub namespace 
  */
 
+ // Shortcuts
+
 $(document).ready(function () {
 
 	ub.shortcut = {
