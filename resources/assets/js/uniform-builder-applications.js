@@ -6525,7 +6525,7 @@ $(document).ready(function() {
 
         var _inputSizes;
 
-        if (_id === '4') {
+        if (_id === '4' && ub.config.sport !== "Football 2017") {
 
             _inputSizes = [{size: '0.5', }];
 

@@ -65,6 +65,7 @@ $(document).ready(function () {
 
             if (typeof _scale === "undefined") {
                 ub.utilities.error('Mascot Scale for Size ' + size + ' is not found. Using {x: 0.5, y: 0.5}.' ); 
+                _result = {x: 0.5, y: 0.5};
             } else {
                 _result = {x: parseFloat(_scale.scale), y: parseFloat(_scale.scale)};
             }
