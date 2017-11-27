@@ -560,57 +560,62 @@
 
 </script>
 
-<script src="{{$asset_storage}}/uniform-builder/js/utilities.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-utilities.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-helper-functions.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-error-codes.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-endpoints.js?v={{$asset_version}}"></script>
 
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-style-configuration.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-branding.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-dealership.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-ui-data.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-application-sizes.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-name-drops.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-nlp.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-mock-data.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-status.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-math.js?v={{$asset_version}}"></script>
+<!--
+    <script src="{{$asset_storage}}/uniform-builder/js/utilities.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-configuration.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-utilities.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-helper-functions.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-error-codes.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-endpoints.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-style-configuration.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-branding.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-dealership.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-data.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-ui-data.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-application-sizes.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-name-drops.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-nlp.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-mock-data.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-status.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-math.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-interop-is.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-placeholder-applications.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-process.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-dialogs.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-patterns.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-getters-setters.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-pipings.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-random-feed.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-transformers.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-settings.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-ui.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-colors.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-history.js?v={{$asset_version}}"></script> 
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-fonts.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-renderer.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-stores.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-colors.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>
 
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-interop-is.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-placeholder-applications.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-process.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-dialogs.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-patterns.js?v={{$asset_version}}"></script>
+-->
 
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-applications.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-getters-setters.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-pipings.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-random-feed.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/uniform-builder/js/ub.js?v={{$asset_version}}"></script>
 
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-plugins.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-transformers.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-settings.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-ui.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-colors.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-history.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-fonts.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-renderer.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-team-stores.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-colors.js?v={{$asset_version}}"></script>
+<!-- 
+    
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-custom-artwork-requests.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-generators.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/TeamStoreAPI.js?v={{$asset_version}}"></script>
+    <script src="{{$asset_storage}}/uniform-builder/js/TeamStoreToolBox.js?v={{$asset_version}}"></script>
 
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-qa-tools.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-custom-artwork-requests.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-debug-tools.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-polyfils.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-shortcuts.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/uniform-builder-generators.js?v={{$asset_version}}"></script>
+-->
 
-<script src="{{$asset_storage}}/uniform-builder/js/TeamStoreAPI.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/uniform-builder/js/TeamStoreToolBox.js?v={{$asset_version}}"></script>
 
 <!-- End Uniform Builder Scripts -->
 

@@ -1,3 +1,4 @@
+// QA Tools
 $(document).ready(function () { 
 
     /// Note: Number of colors being used is calculated here, consider this when turning off the QA Tools, refactor.

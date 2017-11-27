@@ -1,3 +1,4 @@
+// UBJS
 $(document).ready(function () {
  
     /// NEW RENDERER ///
@@ -294,7 +295,6 @@ $(document).ready(function () {
         }
 
         ub.funcs.reShowOrderFrom = function () {
-
 
             $('div#roster-input').fadeOut();
             $('div#validate-order-form').fadeOut();
