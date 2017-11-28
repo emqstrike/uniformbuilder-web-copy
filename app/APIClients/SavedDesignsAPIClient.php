@@ -31,7 +31,7 @@ class SavedDesignsAPIClient extends APIClient
         {
             return $result->saved_design;
         }
-        
+
         return null;
     }
 
@@ -56,5 +56,18 @@ class SavedDesignsAPIClient extends APIClient
             $saved_designs = $result->saved_designs;
         }
         return $saved_designs;
+    }
+
+    public function getByUserId($id = null)
+    {
+        $response = $this->get('saved_design/getByUserId/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+
+        if ($result->success)
+        {
+            return $result->saved_designs;
+        }
+
+        return null;
     }
 }

@@ -165,4 +165,14 @@ class OrdersAPIClient extends APIClient
         return $this->countOrdersByStatus('completed');
     }
 
+    public function getByUserId($id = null)
+    {
+        $response = $this->get('order/user/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->orders;
+        }
+        return null;
+    }
 }

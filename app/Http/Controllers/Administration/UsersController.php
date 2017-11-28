@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\APIClients\SalesRepresentativesAPIClient;
 use App\APIClients\DealersAPIClient;
+use App\APIClients\SavedDesignsAPIClient;
+use App\APIClients\OrdersAPIClient;
+
 use App\APIClients\UsersAPIClient as APIClient;
 
 class UsersController extends Controller
@@ -17,16 +20,23 @@ class UsersController extends Controller
     protected $client;
     protected $salesRepresentativesAPIClient;
     protected $dealersAPIClient;
+    protected $savedDesignsAPIClient;
+    protected $ordersAPIClientl;
+
 
     public function __construct(
-        APIClient $apiClient, 
-        SalesRepresentativesAPIClient $salesRepresentativesAPIClient, 
-        DealersAPIClient $dealersAPIClient
+        APIClient $apiClient,
+        SalesRepresentativesAPIClient $salesRepresentativesAPIClient,
+        DealersAPIClient $dealersAPIClient,
+        SavedDesignsAPIClient $savedDesignsAPIClient,
+        OrdersAPIClient $ordersAPIClient
     )
     {
         $this->client = $apiClient;
         $this->salesRepresentativesAPIClient = $salesRepresentativesAPIClient;
         $this->dealersAPIClient = $dealersAPIClient;
+        $this->savedDesignsAPIClient = $savedDesignsAPIClient;
+        $this->ordersAPIClient = $ordersAPIClient;
     }
 
     public function index()
@@ -40,7 +50,7 @@ class UsersController extends Controller
                 if(isset($user->last_login)){
                     $user->last_login = date('M-d-Y', strtotime($user->last_login));
                 }
-            }            
+            }
             return view('administration.users.users', [
                 'users' => $users,
                 'users_string' => $users_string
@@ -48,7 +58,7 @@ class UsersController extends Controller
         } else {
             return redirect('administration');
         }
-        
+
     }
 
     public function editUserForm($id)
@@ -59,7 +69,7 @@ class UsersController extends Controller
         return view('administration.users.user-edit', [
             'user' => $user,
             'sales_reps' => $sales_reps,
-            'dealers' => $dealers            
+            'dealers' => $dealers
         ]);
     }
 
@@ -120,7 +130,7 @@ class UsersController extends Controller
         $password = $request->input('password');
         $userCreateOrigin = $request->input('user_create_origin');
         $createdBy = $request->input('created_by');
-        $role = $request->input('role');        
+        $role = $request->input('role');
         $data = [
             'first_name' => $firstName,
             'last_name' => $lastName,
@@ -189,7 +199,7 @@ class UsersController extends Controller
             $response = $this->client->updateUser($data);
         }
         else
-        {           
+        {
             $logData = $data;
             unset($logData['password']);
             Log::info('Attempts to create a new User ' . json_encode($logData));
@@ -200,7 +210,7 @@ class UsersController extends Controller
         {
             Log::info('Save or Modify User: Success');
             return Redirect::to('/administration/users');
-                            
+
             if (isset($data['id']))
             {
                 if (Session::get('userId') == $data['id'])
@@ -215,7 +225,7 @@ class UsersController extends Controller
         {
             Log::info('Save or Modify User: Failed');
             return Redirect::to('/administration/users');
-                            
+
             // return redirect()->back()
             //                 ->with('message', $response->message);
         }
@@ -231,6 +241,19 @@ class UsersController extends Controller
 
         return view('administration.users.rejected-users', [
             'users' => $users
+        ]);
+    }
+
+    public function userOrders($id)
+    {
+        $user = $this->client->getUser($id);
+        $user_orders = $this->ordersAPIClient->getByUserId($id);
+        $user_designs = $this->savedDesignsAPIClient->getByUserId($id);
+
+        return view('administration.users.users-orders-designs', [
+            'user_orders' => $user_orders,
+            'user_designs' => $user_designs,
+            'user'  =>  $user
         ]);
     }
 }
