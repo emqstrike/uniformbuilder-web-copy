@@ -7778,7 +7778,6 @@ $(document).ready(function() {
 
         if (_type === 'embellishments') {
 
-
             var _applicationType = 'embellishments';
             var _size = 4;
             var _embellishmentID = 1722159;
