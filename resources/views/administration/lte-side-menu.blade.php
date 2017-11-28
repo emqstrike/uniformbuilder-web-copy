@@ -252,6 +252,11 @@
           <i class="glyphicon glyphicon-user"></i> <span>Sales Reps</span>
           </a>
           </li>
+           <li  data-step="17" data-intro="For User Orders.">
+            <a href="/administration/user/orders/0">
+          <i class="glyphicon glyphicon-user"></i> <span>User Orders</span>
+          </a>
+          </li>
         </ul>
   </li>
   <li data-position='right'>

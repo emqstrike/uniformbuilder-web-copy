@@ -120,6 +120,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('account_settings/change_password/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePasswordForm']);
     Route::post('account_settings/change_password', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePassword']);
     Route::get('rejected_users' , 'Administration\UsersController@getRejectedUsers');
+    Route::get('user/orders/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@userOrders']);
 
     // Factories
     Route::get('factories', ['middleware' => 'adminAccess', 'uses' => 'Administration\FactoriesController@index']);
