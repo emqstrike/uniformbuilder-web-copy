@@ -334,6 +334,7 @@ $(function(){
             getWithItemID(window.materials);
         }
         else {
+            $('.show-customizer-available').val(0);
             $('.show-customizer-available').attr('disabled', true);
             getWithoutItemID(window.materials);
         }
