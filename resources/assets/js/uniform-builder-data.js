@@ -10116,6 +10116,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Game Day Coaches Jackets (Apparel)',
                 sublimatedPart: 'Body',
             },
+            {
+                sport: 'Field Hockey',
+                sublimatedPart: 'Extra',
+            },
 
             // 
         ],
@@ -10311,8 +10315,10 @@ ub.funcs.fontOffSets = [
                     sport: 'Soccer',
                     option: "Goalie (W)",
                 },
-
-
+                {
+                    sport: 'Field Hockey',
+                    option: "Jersey (W)",
+                },
         ],
         currentUniformOk: function () {
 
