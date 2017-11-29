@@ -30,6 +30,14 @@ $(document).ready(function () {
         ub.utilities.info('Style Group: ' + ub.current_material.material.style_group);
         ub.utilities.info('Hidden Body: ' + ub.data.hiddenBody.currentUniformOk());
         ub.utilities.info('Placeholder Override Items: ' +  ub.data.placeHolderOverrides.items.length);
+
+        if (typeof ub.config.savedDesignInfo === "object") {
+           ub.utilities.info('- Save Design Info -'); 
+           ub.utilities.info('Created At: ' + ub.config.savedDesignInfo.createdAt);
+           ub.utilities.info('Save Design ID: ' + ub.config.savedDesignInfo.savedDesignID);
+           ub.utilities.info('Save Design Name: ' + ub.config.savedDesignInfo.name);
+        }
+
         ub.utilities.info('-----------------------------');
 
         ub.utilities.info('');
