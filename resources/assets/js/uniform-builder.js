@@ -2557,7 +2557,7 @@ $(document).ready(function () {
 
         /// Apply Data Patches 
 
-            ub.dataPatches.patch4874to4876();
+        ub.dataPatches.run();
 
         /// End Apply Data Patches 
 
