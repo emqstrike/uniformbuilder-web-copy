@@ -11580,6 +11580,23 @@ ub.funcs.fontOffSets = [
 
     // End US States 
 
+    // Tackle Twill Free Form Exemptions 
+    ub.data.tackleTwillSportsFreeFormExemptions = {
+        
+        items: [
+            'Football',
+            'Basketball',
+            'Baseball',
+            'Fastpitch',
+            'Hockey',
+        ], 
+        
+        isValid: function (sport) {
+            return _.contains(this.items, sport);
+        },
+        
+    }
+
     // Shortcuts
 
     ub.dialog = bootbox;

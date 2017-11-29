@@ -6148,23 +6148,20 @@ $(document).ready(function() {
         var _htmlBuilder = '';
         var _additionalClass = '';
 
-
         _.each(sizes, function (size) {
 
-            if (size.size.toString() === settingsObject.font_size.toString() || _id === '4') { _additionalClass = 'active'; }
+            if (size.size.toString() === settingsObject.font_size.toString() || _id === '4') { 
+                _additionalClass = 'active'; 
+            } else {
+                _additionalClass = '';
+            }
 
             if (ub.funcs.isFreeFormToolEnabled(_id)) {
-
                 if (_additionalClass === "active") {
-            
                     _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
-
                 }
-
             } else {
-
                 _htmlBuilder     += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
-
             }
 
         });
@@ -7910,6 +7907,7 @@ $(document).ready(function() {
 
         // Dirty Flag is set when application is moved using the free form tool
         // Set on Move Tool mouse down
+
         if (!_settingsObject.dirty) {
             ub.funcs.oneInchPullUp(application_id);
         }
