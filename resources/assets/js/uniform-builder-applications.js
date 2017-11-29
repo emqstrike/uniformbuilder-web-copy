@@ -2514,6 +2514,7 @@ $(document).ready(function() {
 
                 }
 
+
                 point.rotation = ub.funcs.convertDegreesToRadians(view.application.rotation);
 
                 var _zIndex = ub.funcs.generateZindex('applications');
@@ -2591,9 +2592,18 @@ $(document).ready(function() {
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
                     
-                    point.position.x += _xOffset;
-                    point.position.y += _yOffset;
-                    
+
+                    // TODO: Make this configurable ... 
+                    if (
+                        (_settingsObject.dirty && ub.config.uniform_application_type === "tackle_twill" && ub.config.sport === "Basketball" && (app_id === "6" ||app_id === "1" || app_id === "2")) || 
+                        (_settingsObject.dirty && ub.config.uniform_application_type === "tackle_twill" && ub.config.sport === "Hockey" && app_id === "6")
+                        ) {
+                        ub.utilities.info('#' + app_id + ' dirty, skipping offsets ...')
+                    } else {
+                        point.position.x += _xOffset;
+                        point.position.y += _yOffset;
+                    }
+
                 }
 
                 if (typeof args.overrideOffsetX !== 'undefined') {
@@ -7907,7 +7917,7 @@ $(document).ready(function() {
 
         // Dirty Flag is set when application is moved using the free form tool
         // Set on Move Tool mouse down
-
+        
         if (!_settingsObject.dirty) {
             ub.funcs.oneInchPullUp(application_id);
         }
