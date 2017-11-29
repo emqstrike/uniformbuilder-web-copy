@@ -87,7 +87,11 @@ $team_store_user_id = (isset($team_store_user_id)) ? $team_store_user_id : null;
                 </li>
                 @endif
 
+                <!--
+                Disabled until completed
                 <li class="open-team-store-products">
+                -->
+                <li class="open-team-store-manager-products" data-store-manager-products-url="{{ env('TEAM_STORE_BASE_URL') }}/store/manage/products">
                     <span class="fa fa-3 fa-folder-open-o"></span>
                     <br>
                     Open Products

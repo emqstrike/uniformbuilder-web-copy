@@ -858,7 +858,7 @@ $(document).ready(function() {
         
         var _billingAddress         = $('input[name="billing-address"]').val();
         var _billingCity            = $('input[name="billing-city"]').val();
-        var _billingState           = $('input[name="billing-state"]').val();
+        var _billingState           = $('select[name="billing-state"]').val();
         var _billingZip             = $('input[name="billing-zip"]').val();
 
         var _shippingOrganization    = $('input[name="shipping-organization"]').val();
@@ -869,7 +869,7 @@ $(document).ready(function() {
         
         var _shippingAddress         = $('input[name="shipping-address"]').val();
         var _shippingCity            = $('input[name="shipping-city"]').val();
-        var _shippingState           = $('input[name="shipping-state"]').val();
+        var _shippingState           = $('select[name="shipping-state"]').val();
         var _shippingZip             = $('input[name="shipping-zip"]').val();
 
         var _transformedRoster      = [];
@@ -1108,7 +1108,7 @@ $(document).ready(function() {
         
         var _billingAddress         = $('input[name="billing-address"]').val();
         var _billingCity            = $('input[name="billing-city"]').val();
-        var _billingState           = $('input[name="billing-state"]').val();
+        var _billingState           = $('select[name="billing-state"]').val();
         var _billingZip             = $('input[name="billing-zip"]').val();
 
         var _shippingOrganization    = $('input[name="shipping-organization"]').val();
@@ -1119,7 +1119,7 @@ $(document).ready(function() {
         
         var _shippingAddress         = $('input[name="shipping-address"]').val();
         var _shippingCity            = $('input[name="shipping-city"]').val();
-        var _shippingState           = $('input[name="shipping-state"]').val();
+        var _shippingState           = $('select[name="shipping-state"]').val();
         var _shippingZip             = $('input[name="shipping-zip"]').val();
 
         var _transformedRoster      = [];
@@ -1374,7 +1374,11 @@ $(document).ready(function() {
 
     ub.funcs.setVal = function (name, val) {
 
-        $('input[name="' + name + '"]').val(val);
+        if (name === "shipping-state" || name === "billing-state") {
+            $('select[name="' + name + '"]').val(val);
+        } else {
+            $('input[name="' + name + '"]').val(val);    
+        }
 
     }
 
@@ -1628,9 +1632,24 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.prepareState = function () {
+
+        var _states = ub.utilities.buildTemplateString("#m-us-states", {states: ub.data.usStates.items});
+
+        $('select.billing-state-dropdown').html(_states);
+        $('select.shipping-state-dropdown').html(_states);
+
+        $('.billing-state-dropdown').select2();
+        $('.shipping-state').select2();
+
+    }
+
+
     ub.funcs.perUniformValidation = function (orderInfo) {
 
         $('span.submit-order').hide();
+
+        ub.funcs.prepareState();
 
         if (ub.config.orderArtworkStatus === "rejected") {
 

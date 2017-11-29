@@ -1,3 +1,4 @@
+// QA Tools
 $(document).ready(function () { 
 
     /// Note: Number of colors being used is calculated here, consider this when turning off the QA Tools, refactor.
@@ -28,6 +29,15 @@ $(document).ready(function () {
         ub.utilities.info('Uniform Group: ' + ub.current_material.material.uniform_group);
         ub.utilities.info('Style Group: ' + ub.current_material.material.style_group);
         ub.utilities.info('Hidden Body: ' + ub.data.hiddenBody.currentUniformOk());
+        ub.utilities.info('Placeholder Override Items: ' +  ub.data.placeHolderOverrides.items.length);
+
+        if (typeof ub.config.savedDesignInfo === "object") {
+           ub.utilities.info('- Save Design Info -'); 
+           ub.utilities.info('Created At: ' + ub.config.savedDesignInfo.createdAt);
+           ub.utilities.info('Save Design ID: ' + ub.config.savedDesignInfo.savedDesignID);
+           ub.utilities.info('Save Design Name: ' + ub.config.savedDesignInfo.name);
+        }
+
         ub.utilities.info('-----------------------------');
 
         ub.utilities.info('');

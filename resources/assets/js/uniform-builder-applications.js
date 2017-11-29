@@ -5796,22 +5796,22 @@ $(document).ready(function() {
         var _colors = [];
         var _color;
 
-         _colors.push(ub.current_material.settings.team_colors[1]);
+        _colors.push(ub.current_material.settings.team_colors[1]);
 
-         if (ub.current_material.settings.team_colors.length > 2) {
+        if (ub.current_material.settings.team_colors.length > 2) {
 
-            _color = ub.current_material.settings.team_colors[2]
+           _color = ub.current_material.settings.team_colors[2]
             
-         }
-         else {
+        }
+        else {
 
-            _color = ub.current_material.settings.team_colors[0]
+           _color = ub.current_material.settings.team_colors[0]
 
-         }
+        }
 
-         _colors.push(_color);
+        _colors.push(_color);
 
-         return _colors;
+        return _colors;
 
     };
 
@@ -6525,7 +6525,7 @@ $(document).ready(function() {
 
         var _inputSizes;
 
-        if (_id === '4') {
+        if (_id === '4' && ub.config.sport !== "Football 2017") {
 
             _inputSizes = [{size: '0.5', }];
 
@@ -6642,8 +6642,12 @@ $(document).ready(function() {
 
         }
 
-        _htmlBuilder        +=                      '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
-        _htmlBuilder        +=                      '<input type="text" id="opacity-slider" value="" />';
+        // Enable Watermark Sliders only on Tackle Twill Applications
+        if (ub.config.uniform_application_type === "sublimated") {
+            _htmlBuilder        +=    '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
+            _htmlBuilder        +=    '<input type="text" id="opacity-slider" value="" />';
+        }
+
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
@@ -7601,6 +7605,11 @@ $(document).ready(function() {
                     _matchingSide.type              = _applicationType;
                     _matchingSide.object_type       = _applicationType;
                     _matchingSide.color_array       = ub.funcs.getDefaultColors();
+
+                    if (_settingsObject.color_array.length > 1) {
+                       _settingsObject.color_array = [_settingsObject.color_array[0]];
+                    }
+
                     _matchingSide.mascot            = _.find(ub.data.mascots, { id: _mascotID });
 
                     if (typeof _matchingSide.color_array === 'undefined') { _matchingSide.color_array = [ub.current_material.settings.team_colors[1],]; }
@@ -7646,6 +7655,10 @@ $(document).ready(function() {
             _settingsObject.font_obj         = ub.funcs.getSampleFont();
             _settingsObject.color_array      = ub.funcs.getDefaultColors();
 
+            if (_settingsObject.color_array.length > 1) {
+                _settingsObject.color_array = [_settingsObject.color_array[0]];
+            }
+
             _settingsObject.application.name = _applicationType.toTitleCase();
             _settingsObject.application.type = _applicationType;
 
@@ -7673,6 +7686,7 @@ $(document).ready(function() {
             }
 
             _settingsObject.accent_obj          = ub.funcs.getSampleAccent();
+
             _settingsObject.text                = ub.funcs.getSampleNumber();
             _settingsObject.application_type    = _applicationType;
             _settingsObject.type                = _applicationType;
@@ -7681,6 +7695,10 @@ $(document).ready(function() {
             _settingsObject.color_array         = ub.funcs.getDefaultColors();
 
             if (typeof _settingsObject.color_array === 'undefined') { _settingsObject.color_array = [ub.current_material.settings.team_colors[1],]; }
+
+            if (_settingsObject.color_array.length > 1) {
+                _settingsObject.color_array = [_settingsObject.color_array[0]];
+            }
 
             _settingsObject.application.name    = _applicationType.toTitleCase();
             _settingsObject.application.type    = _applicationType;
@@ -7703,6 +7721,11 @@ $(document).ready(function() {
                     _matchingSide.object_type       = 'text object';
                     _matchingSide.font_obj          = ub.funcs.getSampleFont();
                     _matchingSide.color_array       = ub.funcs.getDefaultColors();
+
+                    if (_matchingSide.color_array.length > 1) {
+                       _matchingSide.color_array = [_matchingSide.color_array[0]];
+                    }
+
                     _matchingSide.application.name  = _applicationType.toTitleCase();
                     _matchingSide.application.type  = _applicationType;
 
@@ -7738,6 +7761,10 @@ $(document).ready(function() {
             _settingsObject.font_obj         = ub.funcs.getSampleFont();
             _settingsObject.color_array      = ub.funcs.getDefaultColors();
 
+            if (_settingsObject.color_array.length > 1) {
+                _settingsObject.color_array = [_settingsObject.color_array[0]];
+            }
+
             _settingsObject.application.name = _applicationType.toTitleCase();
             _settingsObject.application.type = _applicationType;
 
@@ -7750,8 +7777,6 @@ $(document).ready(function() {
         }
 
         if (_type === 'embellishments') {
-
-            console.log('Embellishments Detected ... ');
 
             var _applicationType = 'embellishments';
             var _size = 4;
@@ -10194,6 +10219,9 @@ $(document).ready(function() {
         var _blockPattern   = ub.current_material.material.block_pattern;
         var _primaryView    = ub.funcs.getPrimaryView(_phaSettings.application);
         var _primaryViewObject = ub.funcs.getPrimaryViewObject(_phaSettings.application);
+        
+        var _withPlaceholderOverrides = false; // Placeholder overrides set on the backend
+        var _perspectiveMarkForDeletion = undefined;
 
         // Process Uniforms with Extra Layer
 
@@ -10240,8 +10268,6 @@ $(document).ready(function() {
 
         }
 
-
-
         // For instances where the part has left or right (e.g. sleeve), converts it to Left Sleeve
         if (typeof side !== "undefined" && side !== "na") { _part = side.toTitleCase() + " " + _part; }
 
@@ -10253,7 +10279,6 @@ $(document).ready(function() {
             var _perspective = _perspectiveView.perspective;
 
             // Get Center of Polygon 
-
             var _cx = ub.funcs.getCentoid(_perspective, _part);
 
             // CX Override 
@@ -10270,15 +10295,32 @@ $(document).ready(function() {
 
                 if (typeof _overrides !== "undefined") {
 
+                    _withPlaceholderOverrides = true;
+
                     _perspectiveView.application.rotation = _overrides.rotation;
                     _perspectiveView.application.center = _overrides.position;
                     _perspectiveView.application.pivot = _overrides.position;
+
+                } else {
+
+                    // If has a placeholder override but this particular view has none set delete 
+                    if (_withPlaceholderOverrides) {
+                        _perspectiveMarkForDeletion = _perspectiveView.perspective;
+                    }
 
                 }
 
             } 
 
         });
+
+        if (typeof _perspectiveMarkForDeletion !== "undefined") {
+
+            _phaSettings.application.views = _.filter(_phaSettings.application.views, function (view) {
+                return view.perspective !== _perspectiveMarkForDeletion;
+            });
+
+        }
 
         _.each(_phaSettings.application.views, function (_perspectiveView) {
 
@@ -10373,7 +10415,13 @@ $(document).ready(function() {
             _.each(_newApplication.application.views, function (view) {
 
                 view.application.id = _newIDStr;
-                if (view.application.isPrimary === 1) { _tmp = [view]; }
+
+                // For Socks push only the primary perspective
+                if (ub.funcs.isSocks()) {
+                    if (view.application.isPrimary === 1) { _tmp.push(view); }
+                } else {
+                    _tmp.push(view);    
+                }
 
             });
 

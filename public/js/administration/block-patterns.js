@@ -8,8 +8,6 @@ $(document).ready(function(){
 
     var layers_properties = {};
 
-
-
     $(document).on('click', '.clone-row', function() {
         console.log('clone-row');
         // if( $( ".layers-row" ) ){
@@ -30,6 +28,9 @@ $(document).ready(function(){
                                                 <input type="file" class="neck-option-file layer1" name="neck_option_image[]">
                                             </td>
                                             <td>
+                                                <textarea class="neck-option-placeholder-overrides layer1" name="neck_option_placeholder_overrides"  autosized></textarea>
+                                            </td>
+                                            <td>
                                                 <a class="btn btn-danger btn-xs btn-remove-option"><i class="fa fa-remove"></i> Remove</a>
                                             </td>
                                         </tr>`;
@@ -37,8 +38,6 @@ $(document).ready(function(){
             updater();
             var length = $('.layers-row').length;
         // }
-        
-
     });
 
     // $(document).on('change', 'input', function() {
@@ -49,14 +48,13 @@ $(document).ready(function(){
     updater();
     function updater(edit){
 
-        $('.neck-option-name').keyup(function(){
+        $('.neck-option-name, .neck-option-placeholder-overrides').keyup(function(){
 
             console.log($(this).val());
             var length = $('.layers-row').length;
             updateJSON(length, edit);
 
         });
-
     }
 
     // TODO ADD ON/OFF TOGGLER
@@ -97,8 +95,6 @@ $(document).ready(function(){
 
     });
 
-
-
     $(".neck-options-container").each(function(i) {
 
         var data = $(this).val();
@@ -112,7 +108,7 @@ $(document).ready(function(){
                 var ctr = 1;
 
                 $.each(json, function(key, value) {
-                    
+
                     var thumbnail = value.thumbnail_path;
                     var name = value.name;
                     $(container).append(
@@ -140,8 +136,6 @@ $(document).ready(function(){
 
     });
 
-
-
     function updateJSON(length, edit){
 
         console.log('Update JSON');
@@ -156,6 +150,7 @@ $(document).ready(function(){
                 layers_properties[ctr] = {};
                 layers_properties[ctr]['name'] = {};
                 layers_properties[ctr]['thumbnail_path'] = {};
+                layers_properties[ctr]['placeholder_overrides'] = {};
 
                 $(this).find('.neck-option-name').removeClass().addClass("neck-option-name");
                 $(this).find('.neck-option-name').addClass(thisLayer);
@@ -167,11 +162,16 @@ $(document).ready(function(){
                 var file_class = ".neck-option-file.layer" + ctr;
                 $(this).find(file_class).addClass('neck-option-file');
 
-                var existing_file_class = ".neck-option-existing-file.layer" + ctr;
-                
-                console.log('Name VAL: ' + $(this).find(name_class).val());
-                layers_properties[ctr]['name'] = $(this).find(name_class).val();
+                $(this).find('.neck-option-placeholder-overrides').removeClass().addClass("neck-option-placeholder-overrides");
+                $(this).find('.neck-option-placeholder-overrides').addClass(thisLayer);
+                var placeholder_class = ".neck-option-placeholder-overrides.layer" + ctr;
+                $(this).find(placeholder_class).addClass('neck-option-placeholder-overrides');
 
+                var existing_file_class = ".neck-option-existing-file.layer" + ctr;
+
+                // console.log('Name VAL: ' + $(this).find(name_class).val());
+                layers_properties[ctr]['name'] = $(this).find(name_class).val();
+                layers_properties[ctr]['placeholder_overrides'] = $(this).find(placeholder_class).val();
                 if( edit == 1 ){
 
                     layers_properties[ctr]['thumbnail_path'] = $(this).find(existing_file_class).val();
@@ -218,10 +218,11 @@ $(document).ready(function(){
             var name            = '<td><input type="text" class="neck-option-name layer' + x + '" value="' + data[x].name + '" name="neck_option_name[]"></td>';
             var file            = '<td><input type="file" class="neck-option-file layer' + x + '" name="neck_option_image[]"></td>';
             var thumbnail       = '<td><img src="' + data[x].thumbnail_path + '" style="width: 30px; height: 30px; background-color: #e3e3e3;"><input type="hidden" name="image-existing-source" value="' + data[length]['filename'] + '"></td>';
+            var placeholder     = '<td><textarea class="neck-option-placeholder-overrides layer" name="neck_option_placeholder_overrides"  autosized>'+ data[x].placeholder_overrides +'</textarea></td>';
             var remove          = '<td><a class="btn btn-danger btn-xs btn-remove-option"><i class="fa fa-remove"></i> Remove</a></td>';
             var close           = '<tr>';
 
-            $('#layers-row-container').append( open + name + existing_file + thumbnail + file + remove + close );
+            $('#layers-row-container').append( open + name + existing_file + thumbnail + file + placeholder + remove + close );
             x++;
 
             $('.btn-remove-option').on('click', function(){
@@ -231,7 +232,7 @@ $(document).ready(function(){
                 updateJSON(length, 1);
             });
 
-            $('.neck-option-name').keyup(function(){
+            $('.neck-option-name, .neck-option-placeholder-overrides').keyup(function(){
 
                 console.log($(this).val());
                 var length = $('.layers-row').length;

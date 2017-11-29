@@ -1,3 +1,4 @@
+// UBJS
 $(document).ready(function () {
  
     /// NEW RENDERER ///
@@ -294,7 +295,6 @@ $(document).ready(function () {
         }
 
         ub.funcs.reShowOrderFrom = function () {
-
 
             $('div#roster-input').fadeOut();
             $('div#validate-order-form').fadeOut();
@@ -599,6 +599,9 @@ $(document).ready(function () {
             }
 
             ub.funcs.updateLabels();
+
+            // Info
+            ub.funcs.printUniformInfo(ub.current_material.material, ub.current_material.settings);
 
         };
 
@@ -1944,7 +1947,7 @@ $(document).ready(function () {
         _.each (_one_dimensional, function (_application) {
 
             ub.funcs.moveToExtra(_application);
-
+            
             _.each(_application.views, function (view) {
         
                 var _accentObj          = _.find(ub.data.accents.items, {id: parseInt(view.application.accents)});
@@ -1955,6 +1958,14 @@ $(document).ready(function () {
                 var _fontObj            = _.find(ub.data.fonts, {id: view.application.defaultFont});
                 var _fontSizesArray     = view.application.fontSizes.split(',');
                 var _output             = {};
+
+                var isflip              = 0;
+
+                if (_application.name === "Mascot") {
+
+                    if (view.application.isFlipped === 1) { view.application.flip = 1; }
+
+                }
 
                 if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free" && typeof view.application !== "undefined") {
 
@@ -2544,6 +2555,12 @@ $(document).ready(function () {
 
         }
 
+        /// Apply Data Patches 
+
+            ub.dataPatches.patch4874to4876();
+
+        /// End Apply Data Patches 
+
         ub.funcs.showLocations();
 
         // if (ub.config.material_id === 731) {
@@ -2683,12 +2700,6 @@ $(document).ready(function () {
             }
 
         }
-
-        // Applications
-
-            ub.funcs.printUniformInfo(ub.current_material.material, ub.current_material.settings);
-
-        // End Applications
 
         if (ub.funcs.isSocks()) {
 
