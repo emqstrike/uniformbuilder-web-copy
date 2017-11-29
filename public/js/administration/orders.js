@@ -1042,6 +1042,7 @@ function applyConfigs(api_order_id){
         var color = null;
         var pattern = null;
         var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
+        var data_pushed = false;
         // RESUME HERE
         console.log(builder_customizations);
 
@@ -1055,7 +1056,6 @@ function applyConfigs(api_order_id){
             }
 
         } else if( entry.input_type == "Color" ){
-
             try {
                 color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
                 color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
@@ -1099,32 +1099,157 @@ function applyConfigs(api_order_id){
         } else if( entry.input_type == "Sock_Color" ){
             var idx = 0;
 
+            if( builder_customizations['randomFeeds']['Top Welt'] != undefined ){
+                console.log('==== Top Welt ====');
+                var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 403,
+                        "Value" : val
+                    });
+                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 433,
+                        "Value" : val
+                    });
+                    data_pushed = true;
+                }
+                console.log('==== Z ====');
+                console.log(z.length);
+            }
+
+            if( builder_customizations['randomFeeds']['Arch'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Arch']['layers'];
+                console.log('==== Arch Welt ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 400,
+                        "Value" : val
+                    });
+                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 430,
+                        "Value" : val
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Toe'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Toe']['layers'];
+                console.log('==== Toe ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 399,
+                        "Value" : val
+                    });
+                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 429,
+                        "Value" : val
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Heel'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Heel']['layers'];
+                console.log('==== Heel ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 398,
+                        "Value" : val
+                    });
+                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 428,
+                        "Value" : val
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Padding'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Padding']['layers'];
+                console.log('==== Padding ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 401,
+                        "Value" : val
+                    });
+                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 431,
+                        "Value" : val
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Body'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Body']['layers'];
+                console.log('==== Body ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 402,
+                        "Value" : val
+                    });
+                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 432,
+                        "Value" : val
+                    });
+                    data_pushed = true;
+                }
+            }
+
             try {
                 console.log(">>>>>>> BUILDER CUSTOMIZATIONS");
                 console.log(builder_customizations['lower'][entry.part_name]);
                 color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
                 color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
-                if(color_name == "Charcoal Grey"){
-                    color_name = "Charcoal Gray";
-                }
+
                 value = translateToSocksColor(color_name, color_code);
 
             } catch(err) {
                 console.log(err.message);
             }
+            
         }
 
-        var data = {
-            "QuestionID" : question_id,
-            "Value" : value
-        };
+        if( data_pushed == false ){
+            var data = {
+                "QuestionID" : question_id,
+                "Value" : value
+            };
 
-        questions.push(data);
+            questions.push(data);
+        }
 
     });
 
-
     console.log(questions);
+    questions = _.uniq(questions, function(item, key, a) { 
+        return item.QuestionID;
+    });
     return questions;
 }
 
@@ -1150,6 +1275,9 @@ $('.translate-values').on('click', function(e){
 
 function translateToSocksColor(color_name, color_code){
     // custom colors for crew socks only
+    if(color_name == "Charcoal Grey"){
+        color_name = "Charcoal Gray";
+    }
     var value = null;
     var socks_color_code = null;
 
@@ -1267,7 +1395,7 @@ function translateToSocksColor(color_name, color_code){
     } else {
         value = color_name + " " + "(" + color_code + ")";
     }
-    
+
     return value;
 }
 
