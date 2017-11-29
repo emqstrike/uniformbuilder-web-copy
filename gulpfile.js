@@ -64,6 +64,7 @@ elixir(function(mix) {
 			'uniform-builder-team-stores.js',
 			'uniform-builder-colors.js',
 			'uniform-builder-qa-tools.js',
+			'uniform-builder-color-utilities.js',
 			'uniform-builder-data-patches.js',
 			'uniform-builder.js',
 			'uniform-builder-custom-artwork-requests.js',
