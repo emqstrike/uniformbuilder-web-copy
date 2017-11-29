@@ -2555,6 +2555,12 @@ $(document).ready(function () {
 
         }
 
+        /// Apply Data Patches 
+
+            ub.dataPatches.patch4874to4876();
+
+        /// End Apply Data Patches 
+
         ub.funcs.showLocations();
 
         // if (ub.config.material_id === 731) {
