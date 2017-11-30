@@ -2802,7 +2802,11 @@ $(document).ready(function() {
                     name: 'Fan Replica Jersey (Apparel)',
                     active: "1",
                 },
-
+                {
+                    code: 'game-day-coaches-jackets',
+                    name: 'Game Day Coaches Jackets (Apparel)',
+                    active: "1",
+                },
             ],
         },
         {
