@@ -2150,6 +2150,10 @@ $(document).ready(function() {
                 name: "Hoodie (Apparel)",
                 alias: "hoodie",
             },
+            { 
+                name: "Field Hockey",
+                alias: "field-hockey",
+            },
 
         ],
 
@@ -11421,7 +11425,6 @@ ub.funcs.fontOffSets = [
                 thumbFilename: 'game-day-coaches-jackets.png',
                 gender: ['men',],    
             },
-            
         ],
 
         getAlias: function (shortCode)  {
