@@ -48,6 +48,7 @@ $(document).ready(function () {
             var _str = '#' + app.code.rpad(' ', 5) + ' ' + app.type.rpad(' ', 15); 
             var _primaryView = undefined; 
             var _colorArray = "";
+            var _status = "";
             
             _.each(app.application.views, function (view) {
 
@@ -66,12 +67,22 @@ $(document).ready(function () {
 
             }
 
-
-            if (typeof app.color_array !== "undefined") {
-            _colorArray = _.pluck(app.color_array, "color_code").toString();
-            }
+            _status = "on".lpad(' ', 5);
+            if (app.status === "off") {
+                _status = "off".lpad(' ', 5);
+            } 
             
-            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _colorArray.lpad(' ', 10);
+            _colorArray = "".lpad(' ', 10);
+            if (typeof app.color_array !== "undefined") {
+                _colorArray = _.pluck(app.color_array, "color_code").toString().lpad(' ', 10);
+            } 
+
+            // See config instead 
+            if (app.type === "embellishments") {
+                _colorArray = "";
+            }
+
+            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray;
             ub.utilities.info(_str);
 
         });
