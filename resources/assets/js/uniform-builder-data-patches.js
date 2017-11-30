@@ -7,46 +7,30 @@ $(document).ready(function () {
 
 		var _idsV = ["4874", "4875", "4876"]; // Volg 
 		var _idsG = ["5728"]; // Goldston
-
 		var _id5225 = ["5225"];
-	
-		if (
-			typeof ub.config.savedDesignInfo === "object" && 
-			_.contains(_idsV, ub.config.savedDesignInfo.savedDesignID)
-		) {
+		var _id5679 = ["5679"];
+
+		// Volg
+		if (typeof ub.config.savedDesignInfo === "object" && _.contains(_idsV, ub.config.savedDesignInfo.savedDesignID)) {
 			ub.current_material.settings.applications[72].color_array = ub.colorUtilities.colorCodesToColorObjArray(["B", "W"]);
 			ub.current_material.settings.applications[73].color_array = ub.colorUtilities.colorCodesToColorObjArray(["B"]);
 		}
 
-		if (
-			typeof ub.config.savedDesignInfo === "object" && 
-			_.contains(_idsG, ub.config.savedDesignInfo.savedDesignID)
-		) {
-
-			// Goldston
-			if (_.contains(_idsG, ub.config.savedDesignInfo.savedDesignID)) {
-				ub.current_material.settings.applications[5].color_array = ub.colorUtilities.colorCodesToColorObjArray(["T", "B", "VG"]);
-			}
-
+		// Goldston
+		if (typeof ub.config.savedDesignInfo === "object" && _.contains(_idsG, ub.config.savedDesignInfo.savedDesignID)) {
+			ub.current_material.settings.applications[5].color_array = ub.colorUtilities.colorCodesToColorObjArray(["T", "B", "VG"]);
 		}
 
-		if (
-			typeof ub.config.savedDesignInfo === "object" && 
-			_.contains(_id5225, ub.config.savedDesignInfo.savedDesignID)
-		) {
+		// 5225
+		if (typeof ub.config.savedDesignInfo === "object" &&  _.contains(_id5225, ub.config.savedDesignInfo.savedDesignID)) {
+			ub.current_material.settings.applications[1].color_array = ub.colorUtilities.colorCodesToColorObjArray(["RB",'G']);
+			ub.current_material.settings.applications[26].color_array = ub.colorUtilities.colorCodesToColorObjArray(["RB",'G']);
+			ub.current_material.settings.applications[5].color_array = ub.colorUtilities.colorCodesToColorObjArray(["RB",'G']);
+		}
 
-			if (_.contains(_id5225, ub.config.savedDesignInfo.savedDesignID)) {
-				ub.current_material.settings.applications[1].color_array = ub.colorUtilities.colorCodesToColorObjArray(["RB",'G']);
-			}
-
-			if (_.contains(_id5225, ub.config.savedDesignInfo.savedDesignID)) {
-				ub.current_material.settings.applications[26].color_array = ub.colorUtilities.colorCodesToColorObjArray(["RB",'G']);
-			}
-
-			if (_.contains(_id5225, ub.config.savedDesignInfo.savedDesignID)) {
-				ub.current_material.settings.applications[5].color_array = ub.colorUtilities.colorCodesToColorObjArray(["RB",'G']);
-			}
-
+		// Dekalb Sleeves
+		if (typeof ub.config.savedDesignInfo === "object" && _.contains(_id5679, ub.config.savedDesignInfo.savedDesignID)) {
+			ub.current_material.settings.applications[72].status = "off";
 		}
 		
 	}
