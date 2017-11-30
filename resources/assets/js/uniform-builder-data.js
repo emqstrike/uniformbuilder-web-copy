@@ -2146,6 +2146,10 @@ $(document).ready(function() {
                 name: "Game Day Coaches Jackets (Apparel)",
                 alias: "game-day-coaches-jackets",
             },
+            { 
+                name: "Hoodie (Apparel)",
+                alias: "hoodie",
+            },
 
         ],
 
