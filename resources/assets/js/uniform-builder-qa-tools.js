@@ -47,6 +47,7 @@ $(document).ready(function () {
             
             var _str = '#' + app.code.rpad(' ', 5) + ' ' + app.type.rpad(' ', 15); 
             var _primaryView = undefined; 
+            var _colorArray = "";
             
             _.each(app.application.views, function (view) {
 
@@ -65,7 +66,12 @@ $(document).ready(function () {
 
             }
 
-            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5);
+
+            if (typeof app.color_array !== "undefined") {
+            _colorArray = _.pluck(app.color_array, "color_code").toString();
+            }
+            
+            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _colorArray.lpad(' ', 10);
             ub.utilities.info(_str);
 
         });
