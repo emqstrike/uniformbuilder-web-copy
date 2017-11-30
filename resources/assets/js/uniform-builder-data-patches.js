@@ -7,6 +7,8 @@ $(document).ready(function () {
 
 		var _idsV = ["4874", "4875", "4876"]; // Volg 
 		var _idsG = ["5728"]; // Goldston
+
+		var _id5225 = ["5225"];
 	
 		if (
 			typeof ub.config.savedDesignInfo === "object" && 
@@ -24,6 +26,25 @@ $(document).ready(function () {
 			// Goldston
 			if (_.contains(_idsG, ub.config.savedDesignInfo.savedDesignID)) {
 				ub.current_material.settings.applications[5].color_array = ub.colorUtilities.colorCodesToColorObjArray(["T", "B", "VG"]);
+			}
+
+		}
+
+		if (
+			typeof ub.config.savedDesignInfo === "object" && 
+			_.contains(_id5225, ub.config.savedDesignInfo.savedDesignID)
+		) {
+
+			if (_.contains(_id5225, ub.config.savedDesignInfo.savedDesignID)) {
+				ub.current_material.settings.applications[1].color_array = ub.colorUtilities.colorCodesToColorObjArray(["RB",'G']);
+			}
+
+			if (_.contains(_id5225, ub.config.savedDesignInfo.savedDesignID)) {
+				ub.current_material.settings.applications[26].color_array = ub.colorUtilities.colorCodesToColorObjArray(["RB",'G']);
+			}
+
+			if (_.contains(_id5225, ub.config.savedDesignInfo.savedDesignID)) {
+				ub.current_material.settings.applications[5].color_array = ub.colorUtilities.colorCodesToColorObjArray(["RB",'G']);
 			}
 
 		}
