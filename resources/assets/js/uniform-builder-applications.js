@@ -2575,7 +2575,6 @@ $(document).ready(function() {
                     var _fontSizeData = point.ubFontSizeData;
                     
                     // Scale
-
                     var _xScale = 1;
                     var _yScale = 1; 
 
@@ -2585,19 +2584,14 @@ $(document).ready(function() {
                     point.scale.set(_xScale, _yScale);
 
                     // Offset
-
                     var _xOffset = 0;
                     var _yOffset = 0;
 
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
-                    
 
-                    // TODO: Make this configurable ... 
-                    if (
-                        (_settingsObject.dirty && ub.config.uniform_application_type === "tackle_twill" && ub.config.sport === "Basketball" && (app_id === "6" ||app_id === "1" || app_id === "2")) || 
-                        (_settingsObject.dirty && ub.config.uniform_application_type === "tackle_twill" && ub.config.sport === "Hockey" && app_id === "6")
-                        ) {
+                    if (_settingsObject.dirty && ub.sportsSpecific.freeFromExemptions.isExempted(app_id, ub.config.sport, ub.config.uniform_application_type)) 
+                    {
                         ub.utilities.info('#' + app_id + ' dirty, skipping offsets ...')
                     } else {
                         point.position.x += _xOffset;

@@ -2105,7 +2105,7 @@ class UniformBuilderController extends Controller
 
         $savedDesign = $this->savedDesignsClient->getSavedDesign($saved_design_id);
 
-        if (!$this->isUniformOwner($savedDesign))
+        if (!$this->isUniformOwner($savedDesign) and env('APP_ENV') !== 'local')
         {
             return $this->showcaseDesign($saved_design_id);
         }
