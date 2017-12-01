@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
 	ub.dataPatches = {};
+	ub.data.transferColors = ['5882',];
 
 	// Fix save designs 4874 to 5728, pre color array fix (commit: c643b1f)
 	ub.dataPatches.patch4874to5728 = function () {
@@ -9,6 +10,8 @@ $(document).ready(function () {
 		var _idsG = ["5728"]; // Goldston
 		var _id5225 = ["5225"];
 		var _id5679 = ["5679"];
+		var _id5880 = ["5880"];
+		var _id5882 = ["5882"];
 
 		// Volg
 		if (typeof ub.config.savedDesignInfo === "object" && _.contains(_idsV, ub.config.savedDesignInfo.savedDesignID)) {
@@ -31,6 +34,18 @@ $(document).ready(function () {
 		// Dekalb Sleeves
 		if (typeof ub.config.savedDesignInfo === "object" && _.contains(_id5679, ub.config.savedDesignInfo.savedDesignID)) {
 			ub.current_material.settings.applications[72].status = "off";
+		}
+
+		// 5880
+		if (typeof ub.config.savedDesignInfo === "object" && _.contains(_id5880, ub.config.savedDesignInfo.savedDesignID)) {
+			ub.current_material.settings.applications[74].color_array = ub.colorUtilities.colorCodesToColorObjArray(["W"]);
+		}
+
+		// 5882
+		if (typeof ub.config.savedDesignInfo === "object" &&  _.contains(_id5882, ub.config.savedDesignInfo.savedDesignID)) {
+			ub.current_material.settings.applications[72].color_array = ub.colorUtilities.colorCodesToColorObjArray(["LG",'W']);
+			ub.current_material.settings.applications[74].color_array = ub.colorUtilities.colorCodesToColorObjArray(["LG",'W']);
+			ub.current_material.settings.applications[75].color_array = ub.colorUtilities.colorCodesToColorObjArray(["LG",'W']);
 		}
 		
 	}
