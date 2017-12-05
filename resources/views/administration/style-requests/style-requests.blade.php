@@ -247,6 +247,7 @@
                         <option value="none">None</option>
                         <option value="tackle_twill">Tackle Twill</option>
                         <option value="sublimated">Sublimated</option>
+                        <option value="knitted">Knitted</option>
                     </select>
                 </div>
             </div>
