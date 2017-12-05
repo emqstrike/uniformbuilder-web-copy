@@ -824,10 +824,10 @@ function applyConfigs(api_order_id){
                         "QuestionID" : 403,
                         "Value" : val
                     });
-                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                     questions.push({
                         "QuestionID" : 433,
-                        "Value" : val
+                        "Value" : val2
                     });
                     data_pushed = true;
                 }
@@ -846,10 +846,10 @@ function applyConfigs(api_order_id){
                         "QuestionID" : 400,
                         "Value" : val
                     });
-                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                     questions.push({
                         "QuestionID" : 430,
-                        "Value" : val
+                        "Value" : val2
                     });
                     data_pushed = true;
                 }
@@ -866,10 +866,10 @@ function applyConfigs(api_order_id){
                         "QuestionID" : 399,
                         "Value" : val
                     });
-                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                     questions.push({
                         "QuestionID" : 429,
-                        "Value" : val
+                        "Value" : val2
                     });
                     data_pushed = true;
                 }
@@ -886,10 +886,10 @@ function applyConfigs(api_order_id){
                         "QuestionID" : 398,
                         "Value" : val
                     });
-                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                     questions.push({
                         "QuestionID" : 428,
-                        "Value" : val
+                        "Value" : val2
                     });
                     data_pushed = true;
                 }
@@ -906,10 +906,10 @@ function applyConfigs(api_order_id){
                         "QuestionID" : 401,
                         "Value" : val
                     });
-                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                     questions.push({
                         "QuestionID" : 431,
-                        "Value" : val
+                        "Value" : val2
                     });
                     data_pushed = true;
                 }
@@ -926,10 +926,10 @@ function applyConfigs(api_order_id){
                         "QuestionID" : 402,
                         "Value" : val
                     });
-                    val = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                     questions.push({
                         "QuestionID" : 432,
-                        "Value" : val
+                        "Value" : val2
                     });
                     data_pushed = true;
                 }
