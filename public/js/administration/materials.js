@@ -31,7 +31,7 @@ $(document).ready(function() {
     var IN = 20;
     fabric.Object.prototype.transparentCorners = false;
     window.current_pattern_properties;
-    window.app_current_pattern_propertie = {};
+    window.app_current_pattern_properties = {};
 
     var topInterval; // Intervals for moving the applications
     var bottomInterval;
@@ -272,9 +272,8 @@ $(document).ready(function() {
 
     function appRefreshTID(){
         $(".app-layer-team-color-id").change(function() {
-
-            var layer = _.size(window.app_current_pattern_properties);
             window.app_current_pattern_properties =  JSON.parse($(this).parent().parent().find('.app-pattern-properties').val());
+            var layer = _.size(window.app_current_pattern_properties);
             for (x = 1; x <= layer; x++) {
                 window.app_current_pattern_properties[x].team_color_id = $(this).parent().find(".app-layer-team-color-id.layer"+x).val();
             }
@@ -286,8 +285,8 @@ $(document).ready(function() {
     function appRefreshColors(){
         $(".app-layer-default-color").change(function() {
             var x = 1;
-            var layer = _.size(window.app_current_pattern_properties);
             window.app_current_pattern_properties =  JSON.parse($(this).parent().parent().find('.app-pattern-properties').val());
+            var layer = _.size(window.app_current_pattern_properties);
             for (x = 1; x <= layer; x++) {
                 window.app_current_pattern_properties[x].default_color = $(this).parent().find(".app-layer-default-color.layer"+x).val();
             }
