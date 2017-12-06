@@ -967,6 +967,9 @@ $(document).ready(function() {
 
     };
 
+
+    ub.dragNonce = { applicationID: '', state: false };
+
     ub.funcs.createDraggable = function (sprite, application, view, viewName) {
 
         var _application = application;
@@ -980,12 +983,12 @@ $(document).ready(function() {
         if (typeof sprite === "undefined") { return; }
 
         sprite.draggable({
-
             manager: ub.dragAndDropManager
-
         });
 
         sprite.mouseup = sprite.touchend = function (interactionData) {
+
+            ub.dragNonce = { applicationID: application.code, state: true};
 
             if (!sprite.snapped && $('#chkSnap').is(":checked")) {
                 
@@ -1081,6 +1084,10 @@ $(document).ready(function() {
             });
 
             ub.funcs.activateMoveTool(application.code);
+
+            setTimeout(function () {
+                ub.dragNonce = { applicationID: '', state: false };
+            }, 500);
 
         };
 
@@ -1900,17 +1907,14 @@ $(document).ready(function() {
             manager: ub.dragAndDropManager
         });
 
-        sprite.mouseup = sprite.touchend = function(data) {
-
-
-
-        };
+        sprite.mouseup = sprite.touchend = function(data) {};
 
         $('body').mouseup(function() {
 
             if (ub.funcs.popupTest()) {return;}
             if (ub.status.fullView.getStatus()) { return; }
             if (ub.showLocation) { return; }
+            if (ub.dragNonce.state && ub.dragNonce.applicationID !== _id) { return; }
             
             if (sprite.ubHover) {
 
