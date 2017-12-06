@@ -1947,7 +1947,7 @@ $(document).ready(function () {
         _.each (_one_dimensional, function (_application) {
 
             ub.funcs.moveToExtra(_application);
-
+            
             _.each(_application.views, function (view) {
         
                 var _accentObj          = _.find(ub.data.accents.items, {id: parseInt(view.application.accents)});
@@ -1958,6 +1958,14 @@ $(document).ready(function () {
                 var _fontObj            = _.find(ub.data.fonts, {id: view.application.defaultFont});
                 var _fontSizesArray     = view.application.fontSizes.split(',');
                 var _output             = {};
+
+                var isflip              = 0;
+
+                if (_application.name === "Mascot") {
+
+                    if (view.application.isFlipped === 1) { view.application.flip = 1; }
+
+                }
 
                 if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free" && typeof view.application !== "undefined") {
 
@@ -2546,6 +2554,12 @@ $(document).ready(function () {
             ub.data.convertDefaultApplications();
 
         }
+
+        /// Apply Data Patches 
+
+        ub.dataPatches.run();
+
+        /// End Apply Data Patches 
 
         ub.funcs.showLocations();
 

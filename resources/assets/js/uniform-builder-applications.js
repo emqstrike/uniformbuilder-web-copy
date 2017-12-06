@@ -2514,6 +2514,7 @@ $(document).ready(function() {
 
                 }
 
+
                 point.rotation = ub.funcs.convertDegreesToRadians(view.application.rotation);
 
                 var _zIndex = ub.funcs.generateZindex('applications');
@@ -2574,7 +2575,6 @@ $(document).ready(function() {
                     var _fontSizeData = point.ubFontSizeData;
                     
                     // Scale
-
                     var _xScale = 1;
                     var _yScale = 1; 
 
@@ -2584,16 +2584,20 @@ $(document).ready(function() {
                     point.scale.set(_xScale, _yScale);
 
                     // Offset
-
                     var _xOffset = 0;
                     var _yOffset = 0;
 
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
-                    
-                    point.position.x += _xOffset;
-                    point.position.y += _yOffset;
-                    
+
+                    if (_settingsObject.dirty && ub.sportsSpecific.freeFromExemptions.isExempted(app_id, ub.config.sport, ub.config.uniform_application_type)) 
+                    {
+                        ub.utilities.info('#' + app_id + ' dirty, skipping offsets ...')
+                    } else {
+                        point.position.x += _xOffset;
+                        point.position.y += _yOffset;
+                    }
+
                 }
 
                 if (typeof args.overrideOffsetX !== 'undefined') {
@@ -6148,23 +6152,20 @@ $(document).ready(function() {
         var _htmlBuilder = '';
         var _additionalClass = '';
 
-
         _.each(sizes, function (size) {
 
-            if (size.size.toString() === settingsObject.font_size.toString() || _id === '4') { _additionalClass = 'active'; }
+            if (size.size.toString() === settingsObject.font_size.toString() || _id === '4') { 
+                _additionalClass = 'active'; 
+            } else {
+                _additionalClass = '';
+            }
 
             if (ub.funcs.isFreeFormToolEnabled(_id)) {
-
                 if (_additionalClass === "active") {
-            
                     _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
-
                 }
-
             } else {
-
                 _htmlBuilder     += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
-
             }
 
         });
@@ -7778,7 +7779,6 @@ $(document).ready(function() {
 
         if (_type === 'embellishments') {
 
-
             var _applicationType = 'embellishments';
             var _size = 4;
             var _embellishmentID = 1722159;
@@ -7911,6 +7911,7 @@ $(document).ready(function() {
 
         // Dirty Flag is set when application is moved using the free form tool
         // Set on Move Tool mouse down
+        
         if (!_settingsObject.dirty) {
             ub.funcs.oneInchPullUp(application_id);
         }

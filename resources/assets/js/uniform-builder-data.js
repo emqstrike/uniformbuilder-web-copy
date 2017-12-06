@@ -2146,6 +2146,14 @@ $(document).ready(function() {
                 name: "Game Day Coaches Jackets (Apparel)",
                 alias: "game-day-coaches-jackets",
             },
+            { 
+                name: "Hoodie (Apparel)",
+                alias: "hoodie",
+            },
+            { 
+                name: "Field Hockey",
+                alias: "field-hockey",
+            },
 
         ],
 
@@ -2798,7 +2806,11 @@ $(document).ready(function() {
                     name: 'Fan Replica Jersey (Apparel)',
                     active: "1",
                 },
-
+                {
+                    code: 'game-day-coaches-jackets',
+                    name: 'Game Day Coaches Jackets (Apparel)',
+                    active: "1",
+                },
             ],
         },
         {
@@ -9944,6 +9956,7 @@ ub.funcs.fontOffSets = [
             'Cage Jacket (Apparel)',
             'Football 2017',
             'Game Day Coaches Jackets (Apparel)',
+            'Field Hockey',
         ],
         options: [
             'Fight Short',
@@ -11412,7 +11425,6 @@ ub.funcs.fontOffSets = [
                 thumbFilename: 'game-day-coaches-jackets.png',
                 gender: ['men',],    
             },
-            
         ],
 
         getAlias: function (shortCode)  {
@@ -11578,6 +11590,23 @@ ub.funcs.fontOffSets = [
     }
 
     // End US States 
+
+    // Tackle Twill Free Form Exemptions 
+    ub.data.tackleTwillSportsFreeFormExemptions = {
+        
+        items: [
+            'Football',
+            'Basketball',
+            'Baseball',
+            'Fastpitch',
+            'Hockey',
+        ], 
+        
+        isValid: function (sport) {
+            return _.contains(this.items, sport);
+        },
+        
+    }
 
     // Shortcuts
 

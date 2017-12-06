@@ -2225,8 +2225,52 @@ $(document).ready(function() {
                                 size: 12,
                             }
                 ],
+            },
+            
+            // Field Hockey
+            {
+                name: 'mascot',
+                sport: 'field-hockey',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            },
+                            {
+                                size: 6,
+                            },
+                            {
+                                size: 7,
+                            },
+                            {
+                                size: 8,
+                            },
+                            {
+                                size: 9,
+                            },
+                            {
+                                size: 10,
+                            },
+                            {
+                                size: 11,
+                            },
+                            {
+                                size: 12,
+                            }
+                ],
             }
-                //game-day-coaches-jackets
         ], 
         getSize: function (applicationType, sport, id) {
 
@@ -2252,6 +2296,7 @@ $(document).ready(function() {
             if (sport === "lacrosse")                           { return _result[0]; }
             if (sport === "football 2017")                      { return _result[0]; }
             if (sport === "game-day-coaches-jackets")           { return _result[0]; }
+            if (sport === "field-hockey")                       { return _result[0]; }
 
 
             if (typeof _object === "undefined") {
