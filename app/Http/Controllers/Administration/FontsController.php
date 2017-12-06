@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administration;
 
 use \Redirect;
+use Session;
 use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
@@ -29,23 +30,46 @@ class FontsController extends Controller
         $fonts = $this->client->getAllFonts();
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
-        
-        return view('administration.fonts.fonts', [
-            'fonts' => $fonts,
-            'sports' => $sports
-        ]);
+
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+        foreach ($su_array as $su)
+        {
+            if ($user_id == $su) {
+                return view('administration.fonts.fonts', [
+                'fonts' => $fonts,
+                'sports' => $sports
+                ]);
+            }
+            else {
+                return redirect('administration');
+            }
+        }
     }
 
     public function addFontForm()
     {
+
         $fonts = $this->client->getDefaultFonts();
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
-        return view('administration.fonts.font-create', [
-            'fonts' => $fonts,
-            'categories' => $uniformCategories
-        ]);
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+        foreach ($su_array as $su)
+        {
+            if ($user_id == $su) {
+                return view('administration.fonts.font-create', [
+                'fonts' => $fonts,
+                'categories' => $uniformCategories
+                ]);
+            }
+            else {
+                return redirect('administration');
+            }
+        }
     }
 
     public function editFontForm($id)
@@ -54,15 +78,25 @@ class FontsController extends Controller
         $fonts = $this->client->getDefaultFonts();
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
-
         $font->block_pattern_options = str_replace('"', "", $font->block_pattern_options);
         $font->block_patterns = str_replace('"', "", $font->block_patterns);
-        // dd($font->block_pattern_options);
-        return view('administration.fonts.font-edit', [
-            'fonts' => $fonts,
-            'font' => $font,
-            'categories' => $uniformCategories
-        ]);
+
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+        foreach ($su_array as $su)
+        {
+            if ($user_id == $su) {
+                return view('administration.fonts.font-edit', [
+                'fonts' => $fonts,
+                'font' => $font,
+                'categories' => $uniformCategories
+                ]);
+            }
+            else {
+                return redirect('administration');
+            }
+        }
     }
 
     public function store(Request $request)
@@ -73,7 +107,7 @@ class FontsController extends Controller
         $script = 0;
         $blockFont = 0;
 
-      
+
         if($request->input('tail_sweep')){$tailSweep = 1;}
         if($request->input('script')){$script = 1;}
         if($request->input('block_font')){$blockFont = 1;}
@@ -94,7 +128,7 @@ class FontsController extends Controller
         // dd($request->input('block_patterns_value'));
 
         $userID = $request->input('user_id');
-        
+
         $myJson = json_decode($fontProperties, true);
 
         if( $blockPatternOptions == '' ){
@@ -109,7 +143,7 @@ class FontsController extends Controller
         if (!empty($request->input('font_id')))
         {
             $fontId = $request->input('font_id');
-        } 
+        }
 
         $data = [
             'name' => $fontName,
@@ -125,7 +159,7 @@ class FontsController extends Controller
             'alias' =>$alias,
             'block_pattern_options' => $blockPatternOptions,
             'block_patterns' => $blockPatterns
-        ];     
+        ];
 
         if ($fontType != 'default')
         {
