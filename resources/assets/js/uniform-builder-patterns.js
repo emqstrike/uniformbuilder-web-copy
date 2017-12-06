@@ -42,13 +42,15 @@ $(document).ready(function () {
         var _layerObj           = _.find(_patternObj.layers, {layer_no: layerID.toString()});
         var _tintColor          = ub.funcs.hexCodeToTintColor(_colorOBJ.hex_code);
         
-        _layerObj.color         = _tintColor;
-
         var _modifier           = ub.funcs.getModifierByIndex(ub.current_part);
         var _names              = ub.funcs.ui.getAllNames(_modifier.name);
 
         var canvas              = ub.data.previewCanvas;
         var oImg                = ub.data.previewContainer[_layerID];
+
+        _layerObj.color         = _tintColor;
+        _layerObj.color_code    = colorOBJ.color_code;
+        _layerObj.default_color = colorOBJ.hex_code;
 
         delete oImg.filters[0];
 
