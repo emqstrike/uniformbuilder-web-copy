@@ -34,17 +34,14 @@ class FontsController extends Controller
         $user_id = Session::get('userId');
         $superusers = env('BACKEND_SUPERUSERS');
         $su_array = explode(',', $superusers);
-        foreach ($su_array as $su)
-        {
-            if ($user_id == $su) {
-                return view('administration.fonts.fonts', [
+        if (in_array($user_id, $su_array)) {
+            return view('administration.fonts.fonts', [
                 'fonts' => $fonts,
                 'sports' => $sports
                 ]);
-            }
-            else {
+        }
+        else {
                 return redirect('administration');
-            }
         }
     }
 
@@ -58,17 +55,15 @@ class FontsController extends Controller
         $user_id = Session::get('userId');
         $superusers = env('BACKEND_SUPERUSERS');
         $su_array = explode(',', $superusers);
-        foreach ($su_array as $su)
-        {
-            if ($user_id == $su) {
+
+        if (in_array($user_id, $su_array)) {
                 return view('administration.fonts.font-create', [
                 'fonts' => $fonts,
                 'categories' => $uniformCategories
                 ]);
-            }
-            else {
+        }
+        else {
                 return redirect('administration');
-            }
         }
     }
 
@@ -84,18 +79,15 @@ class FontsController extends Controller
         $user_id = Session::get('userId');
         $superusers = env('BACKEND_SUPERUSERS');
         $su_array = explode(',', $superusers);
-        foreach ($su_array as $su)
-        {
-            if ($user_id == $su) {
+        if (in_array($user_id, $su_array)) {
                 return view('administration.fonts.font-edit', [
                 'fonts' => $fonts,
                 'font' => $font,
                 'categories' => $uniformCategories
                 ]);
-            }
-            else {
+        }
+        else {
                 return redirect('administration');
-            }
         }
     }
 
