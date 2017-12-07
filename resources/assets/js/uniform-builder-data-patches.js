@@ -13,6 +13,8 @@ $(document).ready(function () {
 		var _id5880 = ["5880"];
 		var _id5882 = ["5882"];
 
+		var _id5924 = ["5924"];
+
 		// Volg
 		if (typeof ub.config.savedDesignInfo === "object" && _.contains(_idsV, ub.config.savedDesignInfo.savedDesignID)) {
 			ub.current_material.settings.applications[72].color_array = ub.colorUtilities.colorCodesToColorObjArray(["B", "W"]);
@@ -46,6 +48,20 @@ $(document).ready(function () {
 			ub.current_material.settings.applications[72].color_array = ub.colorUtilities.colorCodesToColorObjArray(["LG",'W']);
 			ub.current_material.settings.applications[74].color_array = ub.colorUtilities.colorCodesToColorObjArray(["LG",'W']);
 			ub.current_material.settings.applications[75].color_array = ub.colorUtilities.colorCodesToColorObjArray(["LG",'W']);
+		}
+
+		// 5924
+		if (typeof ub.config.savedDesignInfo === "object" &&  _.contains(_id5924, ub.config.savedDesignInfo.savedDesignID)) {
+			
+			ub.current_material.settings.applications[78].application.layer = "Left Sleeve";
+			ub.current_material.settings.applications[79].application.layer = "Left Sleeve";
+			ub.current_material.settings.applications[85].status = "off";
+
+			ub.current_material.settings.applications[80].status = "off";
+			ub.current_material.settings.applications[84].status = "off";
+			ub.current_material.settings.applications[79].status = "off";
+			ub.current_material.settings.applications[78].status = "off";
+			
 		}
 		
 	}
