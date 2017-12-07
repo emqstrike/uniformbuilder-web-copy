@@ -53,6 +53,32 @@ class OrdersController extends Controller
         ]);
     }
 
+    public function testOrders(Request $request)
+    {
+        $orders = $this->client->getTestOrders();
+
+        foreach($orders as $order)
+        {
+            $order->created_at = date('M-d-Y', strtotime($order->created_at));
+        }
+
+        return view('administration.orders.test-orders', [
+            'orders' => $orders,
+            'order_statuses' => [
+                'pending',
+                'new',
+                'production',
+                'finished',
+                'rejected',
+                'cancelled',
+                'needs action',
+                'completed',
+                'refunded',
+                'disputed'
+            ]
+        ]);
+    }
+
     public function indexSentOrders(Request $request)
     {
         $orders = $this->client->getSentOrders();
