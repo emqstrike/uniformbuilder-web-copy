@@ -18,6 +18,11 @@
           <i class="glyphicon glyphicon-list-alt"></i> <span>Pending Orders</span>
         </a>
       </li>
+      <li data-position='right'>
+        <a href="/administration/orders/test_orders">
+          <i class="glyphicon glyphicon-list-alt"></i> <span>Test Orders</span>
+        </a>
+      </li>
       <li>
         <a href="/administration/orders/sent_orders">
           <i class="glyphicon glyphicon-ok"></i> <span>Sent Orders</span>
