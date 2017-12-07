@@ -1,5 +1,5 @@
 @extends('administration.lte-main')
- 
+
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
@@ -61,7 +61,7 @@
                             <select class="form-control sublimation-only" name='sublimation_only' disabled="true">
                                     <option value='0' @if ($color->sublimation_only == '0') selected @endif>No</option>
                                     <option value='1' @if ($color->sublimation_only == '1') selected @endif>Yes</option>
-                                </select>                              
+                                </select>
                             </td>
                             <td style='background-color: #{{ $color->hex_code }}; width: 300px; height: 30px; border: 1px solid #ddd;'>
                                 <span id="color-code" class='badge'>{{ $color->color_code }}</span>
@@ -69,7 +69,7 @@
                                 <input type="hidden" name="hex-code" id="hex-code" value="{{ $color->hex_code }}">
                                 <input class="form-control colorpicker" id="colorpicker" type="hidden">
                               {{--   <a href="/administration/color/edit/{{ $color->id }}" class="btn btn-primary pull-right btn-xs edit-color" data-color-id="{{ $color->id }}" role="button">
-                                    
+
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a> --}}
@@ -131,8 +131,8 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-   
-         
+
+
     $(document).on('click', '.edit-button', function(e) {
         e.preventDefault();
 
@@ -154,25 +154,25 @@ $(document).ready(function(){
             hide: function(tinycolor) {
                 $(this).parent().parent().find('#hex-code').val(tinycolor);
             }
-            });           
+            });
        console.log(hex_code);
     });
-    
+
     $(document).on('change', '.color-name',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
-        save_button.removeAttr('disabled');       
+        save_button.removeAttr('disabled');
     });
     $(document).on('change', '.sublimation-only',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
-        save_button.removeAttr('disabled');       
+        save_button.removeAttr('disabled');
     });
     $(document).on('change', '#color-code-text',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
-        save_button.removeAttr('disabled');       
+        save_button.removeAttr('disabled');
     });
     $(document).on('change', '#colorpicker',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
-        save_button.removeAttr('disabled');       
+        save_button.removeAttr('disabled');
     });
 
     $(document).on('click', '.save-button', function() {
@@ -197,8 +197,7 @@ $(document).ready(function(){
 
     function updateColor(data){
 
-        var url = "//api-dev.qstrike.com/api/color/update";
-        //var url = "//localhost:8888/api/color/update";
+        var url = "//" + api_host + "/api/color/update";
         $.ajax({
             url: url,
             type: "POST",
