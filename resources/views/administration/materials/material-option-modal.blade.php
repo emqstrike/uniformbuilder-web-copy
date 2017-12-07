@@ -193,7 +193,7 @@
                                         <center>
                                             <a href="#" class="btn btn-default" id="move-top">
                                                 <span class="glyphicon glyphicon-arrow-up"></span>
-                                            </a> 
+                                            </a>
                                         </center>
                                     </td>
                                 </tr>
@@ -203,14 +203,14 @@
                                             <a href="#" class="btn btn-default" id="move-left">
                                                 <span class="glyphicon glyphicon-arrow-left"></span>
                                             </a>
-                                        </center> 
+                                        </center>
                                     </td>
                                     <td>
                                         <center>
                                             <a href="#" class="btn btn-default" id="move-right">
                                                 <span class="glyphicon glyphicon-arrow-right"></span>
                                             </a>
-                                        </center>   
+                                        </center>
                                     </td>
                                 </tr>
                                 <tr>

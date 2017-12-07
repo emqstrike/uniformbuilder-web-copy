@@ -25,9 +25,18 @@ class ColorsController extends Controller
     {
         $colors = $this->client->getColors();
 
-        return view('administration.colors.colors', [
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+
+        if (in_array($user_id, $su_array)) {
+            return view('administration.colors.colors', [
             'colors' => $colors
-        ]);
+            ]);
+        }
+        else {
+                return redirect('administration');
+        }
     }
 
     public function updateColors(Request $request)
@@ -45,7 +54,16 @@ class ColorsController extends Controller
 
     public function addColorForm()
     {
-        return view('administration.colors.color-create');
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+
+        if (in_array($user_id, $su_array)) {
+            return view('administration.colors.color-create');
+        }
+        else {
+                return redirect('administration');
+        }
     }
 
     public function editColorForm($id)

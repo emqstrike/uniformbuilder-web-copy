@@ -48,14 +48,14 @@
                                             <a href="#" class="btn btn-default" id="move-left">
                                                 <span class="glyphicon glyphicon-arrow-left"></span>
                                             </a>
-                                        </center> 
+                                        </center>
                                     </td>
                                     <td>
                                         <center>
                                             <a href="#" class="btn btn-default" id="move-right">
                                                 <span class="glyphicon glyphicon-arrow-right"></span>
                                             </a>
-                                        </center>   
+                                        </center>
                                     </td>
                                 </tr>
                                 <tr>
@@ -112,7 +112,7 @@
                                 <th>Logo</th>
                                 <th>Team name</th>
                                 <th>Player name</th>
-                                <th>Number</th>                                
+                                <th>Number</th>
                                 <th>Font sizes</th>
                                 <th>Colors</th>
                                 <th>Accent</th>
@@ -125,6 +125,8 @@
                                 <th>Default Number</th>
                                 <th>Embellishment</th>
                                 <th>Inksoft Design ID</th>
+                                <th>Opacity</th>
+                                <th>Default Pattern</th>
                                 <th>Flipped</th>
                             </thead>
                             <tbody class="front-applications">
