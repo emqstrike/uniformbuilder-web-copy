@@ -1012,7 +1012,7 @@ $(document).ready(function() {
 
                     // Tackle Twill adjustments via free form tool
 
-                    if (ub.config.uniform_application_type === "tackle_twill") {
+                    if (ub.config.uniform_application_type === "tackle_twill" && typeof _application.font_obj !== "undefined") {
 
                         var _parsedPerspective = _.find(_application.font_obj.parsedFontSizeTables, {perspective: view.perspective})
    
@@ -1197,7 +1197,7 @@ $(document).ready(function() {
 
                     // Tackle Twill adjustments via free form tool
 
-                    if (ub.config.uniform_application_type === "tackle_twill") {
+                    if (ub.config.uniform_application_type === "tackle_twill" && typeof _application.font_obj !== "undefined") {
 
                         var _parsedPerspective = _.find(_application.font_obj.parsedFontSizeTables, {perspective: view.perspective});
                        
@@ -6158,7 +6158,7 @@ $(document).ready(function() {
 
         _.each(sizes, function (size) {
 
-            if (size.size.toString() === settingsObject.font_size.toString() || _id === '4') { 
+            if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
                 _additionalClass = 'active'; 
             } else {
                 _additionalClass = '';
@@ -7563,10 +7563,12 @@ $(document).ready(function() {
                _size = 2;      
             }
 
-            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.type === "upper")                  { _size =  5;    }
-            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short")     { _size =  5;    }
-            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))                          { _size = 4;    }
-            
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.type === "upper")                  { _size =  5; }
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short")     { _size =  5; }
+            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))                          { _size = 4;  }
+
+            if (ub.funcs.isCurrentSport('Football 2017') && (_id === 4 || _id === 7))                                   { _size = 1; }
+
             if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                                                     { _size = 1.75; }
             if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                                       { _size = 2;    }
             if (ub.funcs.isCurrentSport('Fastpitch')  && _id === 15)                                                    { _size = 1.75; }
