@@ -582,7 +582,7 @@ $(function(){
     function updateData(){
         if ($('.enable_custom_bp').is(':checked')) {
             var block_pattern = $('.custom_block_pattern').val();
-         }
+        }
         else {
             var block_pattern = $('.block-pattern').val();
         }
@@ -632,28 +632,30 @@ $(function(){
         $('.data-string').val(JSON.stringify(window.data));
         console.log(window.data);
 
-        window.rowData[1] = name;
-        window.rowData[2] = sport;
-        window.rowData[3] = block_pattern;
-        window.rowData[4] = block_pattern_option;
-        window.rowData[6] = qstrike_item_id;
-        window.rowData[7] = priority;
-        window.rowData[10] = application_type;
-        window.rowData[12] = customizer_id;
-        window.rowData[13] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
-            if(is_fixed == 1 && status == 'rejected') {
-                window.rowData[13] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
-            }
-        window.rowData[14] = `<input type="hidden" class="notes" value="`+notes+`">`
-            if(notes != '' && status == 'pending') {
-                window.rowData[14] += `<button class="view-notes btn btn-info btn-sm">View</button>`;
-            }
-            else if(notes != '' && status == 'rejected') {
-                window.rowData[14] += `<button class="view-notes btn btn-danger btn-sm">View</button>`;
-            }
-            else {
-                window.rowData[14] += `<button class="view-notes btn btn-default btn-sm">View</button>`;
-            }
+        if(id != '') {
+            window.rowData[1] = name;
+            window.rowData[2] = sport;
+            window.rowData[3] = block_pattern;
+            window.rowData[4] = block_pattern_option;
+            window.rowData[6] = qstrike_item_id;
+            window.rowData[7] = priority;
+            window.rowData[10] = application_type;
+            window.rowData[12] = customizer_id;
+            window.rowData[13] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
+                if(is_fixed == 1 && status == 'rejected') {
+                    window.rowData[13] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
+                }
+            window.rowData[14] = `<input type="hidden" class="notes" value="`+notes+`">`
+                if(notes != '' && status == 'pending') {
+                    window.rowData[14] += `<button class="view-notes btn btn-info btn-sm">View</button>`;
+                }
+                else if(notes != '' && status == 'rejected') {
+                    window.rowData[14] += `<button class="view-notes btn btn-danger btn-sm">View</button>`;
+                }
+                else {
+                    window.rowData[14] += `<button class="view-notes btn btn-default btn-sm">View</button>`;
+                }
+        }
     }
 
     var files = [];
