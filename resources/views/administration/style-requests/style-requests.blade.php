@@ -623,7 +623,8 @@ $(function(){
         window.rowData[4] = block_pattern_option;
         window.rowData[6] = qstrike_item_id;
         window.rowData[7] = priority;
-        window.rowData[12] = customizer_id;
+        window.rowData[10] = customizer_id;
+        window.rowData[12] = application_type;
         window.rowData[13] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
             if(is_fixed == 1 && status == 'rejected') {
                 window.rowData[13] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
