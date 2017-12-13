@@ -1,3 +1,4 @@
+// QA Tools
 $(document).ready(function () { 
 
     /// Note: Number of colors being used is calculated here, consider this when turning off the QA Tools, refactor.
@@ -27,6 +28,16 @@ $(document).ready(function () {
         ub.utilities.info('Asset Target: ' + ub.config.asset_target);
         ub.utilities.info('Uniform Group: ' + ub.current_material.material.uniform_group);
         ub.utilities.info('Style Group: ' + ub.current_material.material.style_group);
+        ub.utilities.info('Hidden Body: ' + ub.data.hiddenBody.currentUniformOk());
+        ub.utilities.info('Placeholder Override Items: ' +  ub.data.placeHolderOverrides.items.length);
+
+        if (typeof ub.config.savedDesignInfo === "object") {
+           ub.utilities.info('- Save Design Info -'); 
+           ub.utilities.info('Created At: ' + ub.config.savedDesignInfo.createdAt);
+           ub.utilities.info('Save Design ID: ' + ub.config.savedDesignInfo.savedDesignID);
+           ub.utilities.info('Save Design Name: ' + ub.config.savedDesignInfo.name);
+        }
+
         ub.utilities.info('-----------------------------');
 
         ub.utilities.info('');
@@ -36,6 +47,8 @@ $(document).ready(function () {
             
             var _str = '#' + app.code.rpad(' ', 5) + ' ' + app.type.rpad(' ', 15); 
             var _primaryView = undefined; 
+            var _colorArray = "";
+            var _status = "";
             
             _.each(app.application.views, function (view) {
 
@@ -54,7 +67,22 @@ $(document).ready(function () {
 
             }
 
-            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5);
+            _status = "on".lpad(' ', 5);
+            if (app.status === "off") {
+                _status = "off".lpad(' ', 5);
+            } 
+            
+            _colorArray = "".lpad(' ', 10);
+            if (typeof app.color_array !== "undefined") {
+                _colorArray = _.pluck(app.color_array, "color_code").toString().lpad(' ', 10);
+            } 
+
+            // See config instead 
+            if (app.type === "embellishments") {
+                _colorArray = "";
+            }
+
+            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray;
             ub.utilities.info(_str);
 
         });

@@ -1,3 +1,4 @@
+// Debug Tools
 $(document).ready(function () {
 
     ub.debug = {};

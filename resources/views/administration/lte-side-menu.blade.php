@@ -18,6 +18,11 @@
           <i class="glyphicon glyphicon-list-alt"></i> <span>Pending Orders</span>
         </a>
       </li>
+      <li data-position='right'>
+        <a href="/administration/orders/test_orders">
+          <i class="glyphicon glyphicon-list-alt"></i> <span>Test Orders</span>
+        </a>
+      </li>
       <li>
         <a href="/administration/orders/sent_orders">
           <i class="glyphicon glyphicon-ok"></i> <span>Sent Orders</span>
@@ -148,7 +153,7 @@
         </a>
       </li>
       <li data-step="9" data-intro="For Materials settings.">
-        <a href="/administration/materials">
+        <a href="/administration/materials/Football">
           <i class="fa fa-cubes"></i> <span>Materials</span>
         </a>
       </li>
@@ -250,6 +255,11 @@
           <li  data-step="17" data-intro="For SalesReps settings.">
             <a href="/administration/sales_reps">
           <i class="glyphicon glyphicon-user"></i> <span>Sales Reps</span>
+          </a>
+          </li>
+           <li  data-step="17" data-intro="For User Orders.">
+            <a href="/administration/user/orders/0">
+          <i class="glyphicon glyphicon-user"></i> <span>User Orders</span>
           </a>
           </li>
         </ul>

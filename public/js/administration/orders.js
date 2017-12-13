@@ -5,34 +5,6 @@ $(document).ready(function(){
     window.pa_id = null;
     window.test_size_data = null;
     window.item_sizes = null;
-    // window.test_size_data = [{
-    //         "size": "XS",
-    //         "qx_item_id": 3213
-    //     }, {
-    //         "size": "S",
-    //         "qx_item_id": 3213
-    //     }, {
-    //         "size": "M",
-    //         "qx_item_id": 3213
-    //     }, {
-    //         "size": "L",
-    //         "qx_item_id": 3213
-    //     }, {
-    //         "size": "XL",
-    //         "qx_item_id": 3213
-    //     }, {
-    //         "size": "2XL",
-    //         "qx_item_id": 3214
-    //     }, {
-    //         "size": "3XL",
-    //         "qx_item_id": 3214
-    //     }, {
-    //         "size": "4XL",
-    //         "qx_item_id": 3214
-    //     }, {
-    //         "size": "5XL",
-    //         "qx_item_id": 3214
-    //     }];
 
     window.roster = null;
 
@@ -242,6 +214,7 @@ $(document).ready(function(){
         $('#view-order-modal .order-ship-state').val( $(this).data('ship-state') );
         $('#view-order-modal .order-ship-zip').val( $(this).data('ship-zip') );
         $('#view-order-modal .order-ship-phone').val( $(this).data('ship-phone') );
+        $('#view-order-modal .order-ship-email').val( $(this).data('ship-email') );
         // Shipping Information
         $('#view-order-modal .order-ship-organization strong').html($(this).data('ship-organization'));
         $('#view-order-modal .order-ship-contact-person strong').html($(this).data('ship-contact-person'));
@@ -328,6 +301,7 @@ $(document).ready(function(){
                 var ship_state = $('.order-ship-state').val();
                 var ship_zip = $('.order-ship-zip').val();
                 var ship_phone = $('.order-ship-phone').val();
+                var ship_email = $('.order-ship-email').val();
 
                 var data = {
                             id: ship_id,
@@ -337,7 +311,8 @@ $(document).ready(function(){
                             city: ship_city,
                             state: ship_state,
                             zip: ship_zip,
-                            phone: ship_phone
+                            phone: ship_phone,
+                            email: ship_email
                         };
                 console.log('Shipping_data' + JSON.stringify(data));
                 console.log('order id >>' + order_id);
@@ -448,6 +423,7 @@ $('.send-to-factory').on('click', function(e){
     ship_city = $(this).data('ship-city');
     ship_state = $(this).data('ship-state');
     ship_zip = $(this).data('ship-zip');
+    ship_email = $(this).data('ship-email');
 
     billing_contact = $(this).data('bill-contact');
     billing_address = $(this).data('bill-address');
@@ -528,6 +504,7 @@ $('.send-to-factory').on('click', function(e){
                 }
             });
         }
+
         window.pa = null;
         getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
 
@@ -588,6 +565,7 @@ $('.send-to-factory').on('click', function(e){
             "ShippingCity": ship_city,
             "ShippingState": ship_state,
             "ShippingZipCode": ship_zip,
+            "ShippingEmail": ship_email,
             "BillingAttention": billing_contact,
             "BillingAddress": billing_address,
             "BillingAddress2": "",
@@ -624,20 +602,29 @@ $('.send-to-factory').on('click', function(e){
             console.log(entry.roster);
             var roster_sizes = _.map(entry.roster, function(e){ return e.size; });
             var roster = [];
-            // var dupd_roster = [];
+
             console.log('ROSTER SIZES');
             console.log(roster_sizes);
-            // x.orderItems.forEach(function(y, j) {
+
             window.roster.forEach(function(y, j) {
                 if( _.contains(roster_sizes, y.Size) ){
-                    // for(var k = 0; k < y.Quantity; k++){
-                    //     dupd_roster.push(y);
-                    // }
-                    // console.log('DUPD ROSTER LENGTH');
-                    // console.log(dupd_roster.length);
+                    // add size prefix for socks
+                    if( y.Size == "3-5" ){
+                        y.Size = "Kids (3-5)";
+                    } else if( y.Size == "5-7" ){
+                        y.Size = "Youth (5-7)";
+                    } else if( y.Size == "8-12" ){
+                        y.Size = "Adult (8-12)";
+                    } else if( y.Size == "13-14" ){
+                        y.Size = "XL (13-14)";
+                    }
                     roster.push(y);
                 }
             });
+
+            console.log('ROSTER');
+            console.log(roster);
+
             if( roster.length > 0 ){
                x.orderItems = roster;
                 order_parts_split.push(x); 
@@ -650,23 +637,14 @@ $('.send-to-factory').on('click', function(e){
         var orderEntire = {
             "order": order,
             "orderParts" : order_parts_split
-            // "orderParts" : window.order_parts
-            // "orderParts" : xparts
         };
 
     strResult = JSON.stringify(orderEntire);
     console.log(strResult);
 
     console.log(JSON.stringify(orderEntire['orderParts']));
-    // var order_items_split = splitRosterToQXItems();
-    // var order_parts_split = [];
-    // order_items_split.forEach(function(entry, i) {
-    //     var x = window.order_parts[0];
-    //     x.orderPart.ID = entry.qx_item_id;
-    //     x.orderPart.roster = entry.roster;
 
-    //     order_parts_split.push(x);
-    // });
+    // SEND ORDER TO EDIT
     if(window.material.item_id !== undefined){
         $.ajax({
             url: url,
@@ -675,7 +653,6 @@ $('.send-to-factory').on('click', function(e){
             contentType: 'application/json;',
             success: function (data) {
                 alert('Order was sent to EDIT!');
-                // console.log('return data: ' + JSON.stringify(data));
                 var factory_order_id = data[0].OrderID;
                 var parts = [];
                 $.each(data, function( index, value ) {
@@ -737,247 +714,7 @@ function updateItemsPID(parts){
     });
 }
 
-function upperOrLower(bc){
-    var test;
-    try { // check if the BC is upper
-        test = bc['upper']['Body']['colorObj']['color_code'];
-        if(test !== null){
-            return 'upper'; 
-        }
-    }
-    catch(err) {
-        console.log(err.message);
-    }
-    return 'lower';
-}
-
-function extractPartValues(bc, position){ // get values for builder customizations
-
-    var questionsValues;
-
-    if(position == "upper"){
-        questionsValues = extractUpper(bc);
-    } else {
-        questionsValues = extractLower(bc);
-    }
-
-    return questionsValues;
-
-}
-
-function extractUpper(bc){
-    var color_code = bc['upper']['Body']['colorObj']['color_code'];
-    var color_name = bc['upper']['Body']['colorObj']['name'];
-    var body_color = color_name + " " + "(" + color_code + ")";
-
-    try {
-        color_code = bc['upper']['Right Sleeve Insert']['colorObj']['color_code'];
-        color_name = bc['upper']['Right Sleeve Insert']['colorObj']['name'];
-        var right_sleeve_color = color_name + " " + "(" + color_code + ")";
-    }
-    catch(err) {
-        // console.log(err.message);
-    }
-
-    try {
-        color_code = bc['upper']['Right Arm Trim']['colorObj']['color_code'];
-        color_name = bc['upper']['Right Arm Trim']['colorObj']['name'];
-        var right_arm_trim_color = color_name + " " + "(" + color_code + ")";
-    }
-    catch(err) {
-        // console.log(err.message);
-    }
-
-    try {
-        color_code = bc['upper']['Right Side Panel Insert']['colorObj']['color_code'];
-        color_name = bc['upper']['Right Side Panel Insert']['colorObj']['name'];
-        var right_side_panel_color = color_name + " " + "(" + color_code + ")";
-    }
-    catch(err) {
-        // console.log(err.message);
-    }
-
-    try {
-        color_code = bc['upper']['Back Body Yoke Insert']['colorObj']['color_code'];
-        color_name = bc['upper']['Back Body Yoke Insert']['colorObj']['name'];
-        var back_body_yoke_insert_color = color_name + " " + "(" + color_code + ")";
-    }
-    catch(err) {
-        // console.log(err.message);
-    }
-
-    try {
-        color_code = bc['upper']['Bottom Right Side Panel Insert']['colorObj']['color_code'];
-        color_name = bc['upper']['Bottom Right Side Panel Insert']['colorObj']['name'];
-        var bottom_right_side_panel_insert_color = color_name + " " + "(" + color_code + ")";
-    }
-    catch(err) {
-        // console.log(err.message);
-    }
-
-    try {
-        color_code = bc['upper']['Bottom Body Insert']['colorObj']['color_code'];
-        color_name = bc['upper']['Bottom Body Insert']['colorObj']['name'];
-        var bottom_body_insert_color = color_name + " " + "(" + color_code + ")";
-    }
-    catch(err) {
-        // console.log(err.message);
-    }
-
-    try {
-        color_code = bc['upper']['Left Sleeve Insert']['colorObj']['color_code'];
-        color_name = bc['upper']['Left Sleeve Insert']['colorObj']['name'];
-        var left_sleeve_color = color_name + " " + "(" + color_code + ")";
-    }
-    catch(err) {
-        // console.log(err.message);
-    }
-
-    try {
-        color_code = bc['upper']['Right Shoulder Cowl Insert']['colorObj']['color_code'];
-        color_name = bc['upper']['Right Shoulder Cowl Insert']['colorObj']['name'];
-        var left_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
-    }
-    catch(err) {
-        // console.log(err.message);
-    }
-
-    try {
-        color_code = bc['upper']['Left Shoulder Cowl Insert']['colorObj']['color_code'];
-        color_name = bc['upper']['Left Shoulder Cowl Insert']['colorObj']['name'];
-        var right_shoulder_cowl_color = color_name + " " + "(" + color_code + ")";
-    }
-    catch(err) {
-        // console.log(err.message);
-    }
-
-    try {
-        color_code = bc['upper']['Front Neck Trim']['colorObj']['color_code'];
-        color_name = bc['upper']['Front Neck Trim']['colorObj']['name'];
-        var front_neck_trim_color = color_name + " " + "(" + color_code + ")";
-    }
-    catch(err) {
-        // console.log(err.message);
-    }
-
-    try {
-        var body_pattern_raw = bc['upper']['Body']['pattern']['pattern_id'];
-        var left_sleeve_pattern_raw = bc['upper']['Left Sleeve Insert']['pattern']['pattern_id'];
-        var right_sleeve_pattern_raw = bc['upper']['Right Sleeve Insert']['pattern']['pattern_id'];
-        var neck_trim_pattern_raw = bc['upper']['Front Neck Trim']['pattern']['pattern_id'];
-
-        var body_pattern = translatePattern(body_pattern_raw);
-        var left_sleeve_pattern = translatePattern(left_sleeve_pattern_raw);
-        var right_sleeve_pattern = translatePattern(right_sleeve_pattern_raw);
-        var neck_trim_pattern = translatePattern(neck_trim_pattern_raw);
-    } catch(err) {
-        // console.log(err.message);
-    }
-    var questionsValues = {
-        "body_color" : body_color,
-        "body_pattern" : body_pattern,
-        "right_sleeve_color" : right_sleeve_color,
-        "right_arm_trim_color" : right_arm_trim_color,
-        "right_side_panel_color" : right_side_panel_color,
-        "left_sleeve_color" : left_sleeve_color,
-        "right_shoulder_cowl_color" : right_shoulder_cowl_color,
-        "left_shoulder_cowl_color" : left_shoulder_cowl_color,
-        "front_neck_trim_color" : front_neck_trim_color,
-        "right_sleeve_pattern" : right_sleeve_pattern,
-        "left_sleeve_pattern" : left_sleeve_pattern,
-        "neck_trim_pattern" : neck_trim_pattern,
-        "back_body_yoke_insert_color" : back_body_yoke_insert_color,
-        "bottom_right_side_panel_insert_color" : bottom_right_side_panel_insert_color,
-        "bottom_body_insert_color" : bottom_body_insert_color
-    };
-    // console.log(questionsValues);
-    return questionsValues;
-}
-
-function extractLower(bc){
-
-}
-
-function buildQuestions( utpi, questionsValues ){
-    var questions = [];
-
-    if( utpi == "fbij" ){
-        questions = [{
-                "QuestionID": 266,
-                "Value": questionsValues.body_pattern
-            }, {
-                "QuestionID": 267,
-                "Value": questionsValues.body_color
-            }, {
-                "QuestionID": 272,
-                "Value": questionsValues.body_pattern
-            }, {
-                "QuestionID": 273,
-                "Value": questionsValues.body_color
-            }, {
-                "QuestionID": 284,
-                "Value": questionsValues.left_sleeve_color
-            }, {
-                "QuestionID": 289,
-                "Value": questionsValues.right_sleeve_color
-            }, {
-                "QuestionID": 312,
-                "Value": questionsValues.left_shoulder_cowl_color
-            }, {
-                "QuestionID": 306,
-                "Value": questionsValues.right_shoulder_cowl_color
-            }, {
-                "QuestionID": 294,
-                "Value": questionsValues.front_neck_trim_color
-            }, {
-                "QuestionID": 278,
-                "Value": questionsValues.left_sleeve_pattern
-            }, {
-                "QuestionID": 280,
-                "Value": questionsValues.right_sleeve_pattern
-            }, {
-                "QuestionID": 282,
-                "Value": questionsValues.neck_trim_pattern
-            }];
-    } else if( utpi == "fbgj" || utpi == "fbdj" || upti == "fbbj" ){
-        questions = [{
-                "QuestionID": 14,
-                "Value": questionsValues.body_color
-            }, {
-                "QuestionID": 219,
-                "Value": questionsValues.right_sleeve_color
-            }, {
-                "QuestionID": 38,
-                "Value": questionsValues.right_shoulder_cowl_color
-            }, {
-                "QuestionID": 68,
-                "Value": questionsValues.right_arm_trim_color
-            }, {
-                "QuestionID": 62,
-                "Value": questionsValues.right_side_panel_color
-            }, {
-                "QuestionID": 66, // Insert and Trim Color 3
-                "Value": questionsValues.back_body_yoke_insert_color
-            }, {
-                "QuestionID": 64, // Insert and Trim Color 2
-                "Value": questionsValues.bottom_right_side_panel_insert_color
-            }, {
-                "QuestionID": 18, //    Base Material 2 Color 1
-                "Value": questionsValues.bottom_body_insert_color
-            }];
-        }
-
-    return questions;
-}
-
-// Implement Parts Aliases Configs
-// window.pa_id = 16;
-
 window.order_parts_b;
-
-// getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
-
-// window.qx_item_ref = window.pa.ref_qstrike_mat_id;
 
 function applyConfigs(api_order_id){
     getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
@@ -1008,7 +745,7 @@ function applyConfigs(api_order_id){
 
     properties.forEach(function(entry) {
         console.log("<<<<<< ENTRY >>>>>>");
-        // console.log(entry);
+
         console.log(entry.input_type);
 
         var question_id = parseInt(entry.part_questions);
@@ -1019,6 +756,7 @@ function applyConfigs(api_order_id){
         var color = null;
         var pattern = null;
         var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
+        var data_pushed = false;
         // RESUME HERE
         console.log(builder_customizations);
 
@@ -1032,7 +770,6 @@ function applyConfigs(api_order_id){
             }
 
         } else if( entry.input_type == "Color" ){
-
             try {
                 color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
                 color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
@@ -1076,32 +813,157 @@ function applyConfigs(api_order_id){
         } else if( entry.input_type == "Sock_Color" ){
             var idx = 0;
 
+            if( builder_customizations['randomFeeds']['Top Welt'] != undefined ){
+                console.log('==== Top Welt ====');
+                var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 403,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 433,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+                console.log('==== Z ====');
+                console.log(z.length);
+            }
+
+            if( builder_customizations['randomFeeds']['Arch'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Arch']['layers'];
+                console.log('==== Arch Welt ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 400,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 430,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Toe'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Toe']['layers'];
+                console.log('==== Toe ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 399,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 429,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Heel'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Heel']['layers'];
+                console.log('==== Heel ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 398,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 428,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Padding'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Padding']['layers'];
+                console.log('==== Padding ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 401,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 431,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Body'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Body']['layers'];
+                console.log('==== Body ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 402,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 432,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+            }
+
             try {
                 console.log(">>>>>>> BUILDER CUSTOMIZATIONS");
                 console.log(builder_customizations['lower'][entry.part_name]);
                 color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
                 color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
-                if(color_name == "Charcoal Grey"){
-                    color_name = "Charcoal Gray";
-                }
+
                 value = translateToSocksColor(color_name, color_code);
 
             } catch(err) {
                 console.log(err.message);
             }
+            
         }
 
-        var data = {
-            "QuestionID" : question_id,
-            "Value" : value
-        };
+        if( data_pushed == false ){
+            var data = {
+                "QuestionID" : question_id,
+                "Value" : value
+            };
 
-        questions.push(data);
+            questions.push(data);
+        }
 
     });
 
-
     console.log(questions);
+    questions = _.uniq(questions, function(item, key, a) { 
+        return item.QuestionID;
+    });
     return questions;
 }
 
@@ -1127,6 +989,9 @@ $('.translate-values').on('click', function(e){
 
 function translateToSocksColor(color_name, color_code){
     // custom colors for crew socks only
+    if(color_name == "Charcoal Grey"){
+        color_name = "Charcoal Gray";
+    }
     var value = null;
     var socks_color_code = null;
 
@@ -1244,7 +1109,7 @@ function translateToSocksColor(color_name, color_code){
     } else {
         value = color_name + " " + "(" + color_code + ")";
     }
-    
+
     return value;
 }
 

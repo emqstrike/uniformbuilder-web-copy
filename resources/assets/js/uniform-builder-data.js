@@ -2146,6 +2146,14 @@ $(document).ready(function() {
                 name: "Game Day Coaches Jackets (Apparel)",
                 alias: "game-day-coaches-jackets",
             },
+            { 
+                name: "Hoodie (Apparel)",
+                alias: "hoodie",
+            },
+            { 
+                name: "Field Hockey",
+                alias: "field-hockey",
+            },
 
         ],
 
@@ -2798,7 +2806,11 @@ $(document).ready(function() {
                     name: 'Fan Replica Jersey (Apparel)',
                     active: "1",
                 },
-
+                {
+                    code: 'game-day-coaches-jackets',
+                    name: 'Game Day Coaches Jackets (Apparel)',
+                    active: "1",
+                },
             ],
         },
         {
@@ -9944,6 +9956,7 @@ ub.funcs.fontOffSets = [
             'Cage Jacket (Apparel)',
             'Football 2017',
             'Game Day Coaches Jackets (Apparel)',
+            'Field Hockey',
         ],
         options: [
             'Fight Short',
@@ -10115,6 +10128,10 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Game Day Coaches Jackets (Apparel)',
                 sublimatedPart: 'Body',
+            },
+            {
+                sport: 'Field Hockey',
+                sublimatedPart: 'Extra',
             },
 
             // 
@@ -10311,8 +10328,10 @@ ub.funcs.fontOffSets = [
                     sport: 'Soccer',
                     option: "Goalie (W)",
                 },
-
-
+                {
+                    sport: 'Field Hockey',
+                    option: "Jersey (W)",
+                },
         ],
         currentUniformOk: function () {
 
@@ -11406,7 +11425,6 @@ ub.funcs.fontOffSets = [
                 thumbFilename: 'game-day-coaches-jackets.png',
                 gender: ['men',],    
             },
-            
         ],
 
         getAlias: function (shortCode)  {
@@ -11449,9 +11467,149 @@ ub.funcs.fontOffSets = [
 
     }
 
+    // New Application Exemptions - Parts that wont follow the normal Perspective Projections
+
+    ub.data.applicationProjectionExemptions = {
+        
+        items: [
+            {
+                perspective: ["left", "right"],
+                part: ["Cowl"],
+                sport: ["Football 2017", "Fan Replica Jersey (Apparel)"],
+                primary: "front",
+            },
+        ], 
+
+        isExempted: function (perspective, part, sport) {
+            
+            var _result = _.find(this.items, function (item) {
+
+                if (
+                    _.contains(item.perspective, perspective) && 
+                    _.contains(item.part, part) && 
+                    _.contains(item.sport, sport)
+                ) {
+                    return item;
+                }
+
+            });
+
+            return {
+                isExempted: _.size(_result) > 0,
+                result: _result,
+            }
+
+        },
+
+    }
+
+    // End New Application Exemptions - Parts that wont follow the normal Perspective Projections
+
+    // US States 
+
+    ub.data.usStates = {
+
+        items: [
+            {"name":"Alabama","code":"AL"},
+            {"name":"Alaska","code":"AK"},
+            {"name":"Arizona","code":"AZ"},
+            {"name":"Arkansas","code":"AR"},
+            {"name":"California","code":"CA"},
+            {"name":"Colorado","code":"CO"},
+            {"name":"Connecticut","code":"CT"},
+            {"name":"Delaware","code":"DE"},
+            {"name":"District of Columbia","code":"DC"},
+            {"name":"Florida","code":"FL"},
+            {"name":"Georgia","code":"GA"},
+            {"name":"Hawaii","code":"HI"},
+            {"name":"Idaho","code":"ID"},
+            {"name":"Illinois","code":"IL"},
+            {"name":"Indiana","code":"IN"},
+            {"name":"Iowa","code":"IA"},
+            {"name":"Kansa","code":"KS"},
+            {"name":"Kentucky","code":"KY"},
+            {"name":"Lousiana","code":"LA"},
+            {"name":"Maine","code":"ME"},
+            {"name":"Maryland","code":"MD"},
+            {"name":"Massachusetts","code":"MA"},
+            {"name":"Michigan","code":"MI"},
+            {"name":"Minnesota","code":"MN"},
+            {"name":"Mississippi","code":"MS"},
+            {"name":"Missouri","code":"MO"},
+            {"name":"Montana","code":"MT"},
+            {"name":"Nebraska","code":"NE"},
+            {"name":"Nevada","code":"NV"},
+            {"name":"New Hampshire","code":"NH"},
+            {"name":"New Jersey","code":"NJ"},
+            {"name":"New Mexico","code":"NM"},
+            {"name":"New York","code":"NY"},
+            {"name":"North Carolina","code":"NC"},
+            {"name":"North Dakota","code":"ND"},
+            {"name":"Ohio","code":"OH"},
+            {"name":"Oklahoma","code":"OK"},
+            {"name":"Oregon","code":"OR"},
+            {"name":"Pennsylvania","code":"PA"},
+            {"name":"Rhode Island","code":"RI"},
+            {"name":"South Carolina","code":"SC"},
+            {"name":"South Dakota","code":"SD"},
+            {"name":"Tennessee","code":"TN"},
+            {"name":"Texas","code":"TX"},
+            {"name":"Utah","code":"UT"},
+            {"name":"Vermont","code":"VT"},
+            {"name":"Virginia","code":"VA"},
+            {"name":"Washington","code":"WA"},
+            {"name":"West Virginia","code":"WV"},
+            {"name":"Wisconsin","code":"WI"},
+            {"name":"Wyoming","code":"WY"}
+        ],
+
+        getStateByCode: function (code) {
+            
+            var _result = _.find(this.items, {'code': code});
+
+            if (typeof _result === "undefined") {
+                ub.utilities.error ('State not found for code [' + code + ']');
+            }
+
+            return _result;
+
+        },
+
+        getStateByName: function (name) {
+            
+            var _result = _.find(this.items, {name: name});
+
+            if (typeof _result === "undefined") {
+                ub.utilities.error ('State [' + name + '] not found!');
+            }
+
+            return _result;
+
+        }
+
+    }
+
+    // End US States 
+
+    // Tackle Twill Free Form Exemptions 
+    ub.data.tackleTwillSportsFreeFormExemptions = {
+        
+        items: [
+            'Football',
+            'Basketball',
+            'Baseball',
+            'Fastpitch',
+            'Hockey',
+        ], 
+        
+        isValid: function (sport) {
+            return _.contains(this.items, sport);
+        },
+        
+    }
+
     // Shortcuts
 
     ub.dialog = bootbox;
-
 
 });

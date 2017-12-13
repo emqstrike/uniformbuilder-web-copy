@@ -48,6 +48,19 @@ class OrdersAPIClient extends APIClient
         return $orders;
     }
 
+    public function getTestOrders()
+    {
+        $response = $this->get('orders/test_orders');
+        $result = $this->decoder->decode($response->getBody());
+
+        $orders = [];
+        if ($result->success)
+        {
+            $orders = $result->orders;
+        }
+        return $orders;
+    }
+
     public function getSentOrders()
     {
         $endpoint = 'orders/sent_orders';
@@ -165,4 +178,14 @@ class OrdersAPIClient extends APIClient
         return $this->countOrdersByStatus('completed');
     }
 
+    public function getByUserId($id = null)
+    {
+        $response = $this->get('order/user/' . $id);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->orders;
+        }
+        return null;
+    }
 }

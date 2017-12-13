@@ -58,6 +58,7 @@ class BlockPatternsController extends Controller
 
     public function store(Request $request)
     {
+
         $name = $request->input('name');
         $uniformCategoryID = $request->input('uniform_category_id');
         $neckOptions = $request->input('neck_options');
@@ -104,6 +105,7 @@ class BlockPatternsController extends Controller
         try
         {
             $neckOptionsFiles = $request->file('neck_option_image');
+            $neckOptionsFiles = (array) $neckOptionsFiles;
             $ctr = 1;
             foreach ($neckOptionsFiles as $neckOptionsFile) {
                 if (!is_null($neckOptionsFile))

@@ -1,3 +1,4 @@
+// UBJS
 $(document).ready(function () {
  
     /// NEW RENDERER ///
@@ -295,7 +296,6 @@ $(document).ready(function () {
 
         ub.funcs.reShowOrderFrom = function () {
 
-
             $('div#roster-input').fadeOut();
             $('div#validate-order-form').fadeOut();
             $('div#order-form').fadeIn();
@@ -418,6 +418,7 @@ $(document).ready(function () {
 
             ub.sport = ub.current_material.material.uniform_category;
             ub.neckOption = ub.current_material.material.neck_option;
+            ub.current_material.settings.hiddenBody = ub.data.hiddenBody.currentUniformOk();
 
             ub.funcs.activatePartByIndex(0);
 
@@ -598,6 +599,9 @@ $(document).ready(function () {
             }
 
             ub.funcs.updateLabels();
+
+            // Info
+            ub.funcs.printUniformInfo(ub.current_material.material, ub.current_material.settings);
 
         };
 
@@ -840,6 +844,8 @@ $(document).ready(function () {
         ub.data.mascotsCategories = {};
 
         ub.funcs.transformMascots = function () {
+    
+            ub.data.mascots = _.filter (ub.data.mascots, {active: '1'});
 
             _.each(ub.data.mascots, function (mascot, index) {
 
@@ -1941,7 +1947,7 @@ $(document).ready(function () {
         _.each (_one_dimensional, function (_application) {
 
             ub.funcs.moveToExtra(_application);
-
+            
             _.each(_application.views, function (view) {
         
                 var _accentObj          = _.find(ub.data.accents.items, {id: parseInt(view.application.accents)});
@@ -1952,6 +1958,14 @@ $(document).ready(function () {
                 var _fontObj            = _.find(ub.data.fonts, {id: view.application.defaultFont});
                 var _fontSizesArray     = view.application.fontSizes.split(',');
                 var _output             = {};
+
+                var isflip              = 0;
+
+                if (_application.name === "Mascot") {
+
+                    if (view.application.isFlipped === 1) { view.application.flip = 1; }
+
+                }
 
                 if (_application.type !== "logo" && _application.type !== "mascot" && _application.type !== "free" && typeof view.application !== "undefined") {
 
@@ -2541,6 +2555,12 @@ $(document).ready(function () {
 
         }
 
+        /// Apply Data Patches 
+
+        ub.dataPatches.run();
+
+        /// End Apply Data Patches 
+
         ub.funcs.showLocations();
 
         // if (ub.config.material_id === 731) {
@@ -2680,12 +2700,6 @@ $(document).ready(function () {
             }
 
         }
-
-        // Applications
-
-            ub.funcs.printUniformInfo(ub.current_material.material, ub.current_material.settings);
-
-        // End Applications
 
         if (ub.funcs.isSocks()) {
 
@@ -8190,7 +8204,7 @@ $(document).ready(function () {
                         colors: _.map(_.uniq(f.Colors), function (color) {
 
                             var _colorCode = undefined;
-                            var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                            var _result =  ub.funcs.getSublimationColorCodeByHexCode(color.toLowerCase());
                             var returnObject;
 
                             if (typeof _result === "undefined") {
@@ -8224,7 +8238,7 @@ $(document).ready(function () {
                     strokeColor: _.map(_.uniq([f.StrokeColor]), function (color) {
 
                         var _colorCode = undefined;
-                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color.toLowerCase());
                         var returnObject; 
 
                         if (typeof _result === "undefined") {
@@ -8244,7 +8258,7 @@ $(document).ready(function () {
                     fillColor: _.map(_.uniq([f.FillColor]), function (color) {
 
                         var _colorCode = undefined;
-                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color);
+                        var _result =  ub.funcs.getSublimationColorCodeByHexCode(color.toLowerCase());
                         if (typeof _result === "undefined") {
                             _colorCode = 'Color code not found';
                         } else {

@@ -120,6 +120,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('account_settings/change_password/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePasswordForm']);
     Route::post('account_settings/change_password', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePassword']);
     Route::get('rejected_users' , 'Administration\UsersController@getRejectedUsers');
+    Route::get('user/orders/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@userOrders']);
 
     // Factories
     Route::get('factories', ['middleware' => 'adminAccess', 'uses' => 'Administration\FactoriesController@index']);
@@ -179,6 +180,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Materials
     Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@index']);
+    Route::get('materials/{sport?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@indexSport']);
     Route::get('materials/full', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@indexFull']);
     Route::post('material/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@store']);
     Route::post('material/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@store']);
@@ -297,6 +299,7 @@ Route::group(array('prefix' => 'administration'), function() {
 
     // Orders
     Route::get('orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@index']);
+    Route::get('orders/test_orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@testOrders']);
     Route::get('orders/sent_orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@indexSentOrders']);
     Route::post('order/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
     Route::post('order/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);

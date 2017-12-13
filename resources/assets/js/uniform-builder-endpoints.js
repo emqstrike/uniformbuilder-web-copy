@@ -82,6 +82,12 @@ $(document).ready(function() {
                 url: 'api/v1-0/inksoft_design',
                 info: 'Create New Embelishment Data',
             },
+            {
+                name: 'Update Custom Artwork',
+                code: 'updateCustomArtwork',
+                url: 'api/v1-0/inksoft_design/update',
+                info: 'Update Custom Artwork',
+            },
         ],
 
         getUrl: function (code) {

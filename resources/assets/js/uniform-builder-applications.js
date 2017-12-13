@@ -967,6 +967,9 @@ $(document).ready(function() {
 
     };
 
+
+    ub.dragNonce = { applicationID: '', state: false };
+
     ub.funcs.createDraggable = function (sprite, application, view, viewName) {
 
         var _application = application;
@@ -980,12 +983,12 @@ $(document).ready(function() {
         if (typeof sprite === "undefined") { return; }
 
         sprite.draggable({
-
             manager: ub.dragAndDropManager
-
         });
 
         sprite.mouseup = sprite.touchend = function (interactionData) {
+
+            ub.dragNonce = { applicationID: application.code, state: true};
 
             if (!sprite.snapped && $('#chkSnap').is(":checked")) {
                 
@@ -1004,25 +1007,18 @@ $(document).ready(function() {
                 
                 if (sprite.ubName === "Move Tool") {
 
-                    // Tackle Twil adjustments via free form tool
-
                     var _offsetX = 0;
                     var _offsetY = 0;
 
-                    if (ub.config.uniform_application_type === "tackle_twill") {
+                    // Tackle Twill adjustments via free form tool
+
+                    if (ub.config.uniform_application_type === "tackle_twill" && typeof _application.font_obj !== "undefined") {
 
                         var _parsedPerspective = _.find(_application.font_obj.parsedFontSizeTables, {perspective: view.perspective})
-
-                        // console.log(_application.font_obj);
-                        // console.log(_application.font_size);
-                        // console.log(_application.font_obj.parsedFontSizeTables);
-                        // console.log(view.perspective);
-                        // console.log(_parsedPerspective);
-                       
+   
                         if (typeof _parsedPerspective !== "undefined") {
                             
                             var _offsets = _.find(_parsedPerspective.sizes, {inputSize: _application.font_size.toString()});
-                            // console.log(_offsets);
 
                             _offsetX = _offsets.x_offset;
                             _offsetY = _offsets.y_offset;
@@ -1031,13 +1027,13 @@ $(document).ready(function() {
 
                     }
 
-                    // 
+                    // End Tackle Twill adjustments via free form tool
 
                     var _changeX = sprite.downX - sprite.x;
                     var _changeY = sprite.downY - sprite.y;
 
-                    view.application.center.x -= (_changeX - _offsetX);
-                    view.application.center.y -= (_changeY - _offsetY);
+                    view.application.center.x -= parseFloat(_changeX) - parseFloat(_offsetX);
+                    view.application.center.y -= parseFloat(_changeY) - parseFloat(_offsetY);
 
                     var _object = ub.objects[view.perspective + '_view']['objects_' + _application.code];
 
@@ -1088,6 +1084,10 @@ $(document).ready(function() {
             });
 
             ub.funcs.activateMoveTool(application.code);
+
+            setTimeout(function () {
+                ub.dragNonce = { applicationID: '', state: false };
+            }, 500);
 
         };
 
@@ -1192,25 +1192,18 @@ $(document).ready(function() {
 
                     if (view.application.isPrimary === 0) { return; }
 
-                    // Tackle Twil adjustments via free form tool
-
                     var _offsetX = 0;
                     var _offsetY = 0;
 
-                    if (ub.config.uniform_application_type === "tackle_twill") {
+                    // Tackle Twill adjustments via free form tool
+
+                    if (ub.config.uniform_application_type === "tackle_twill" && typeof _application.font_obj !== "undefined") {
 
                         var _parsedPerspective = _.find(_application.font_obj.parsedFontSizeTables, {perspective: view.perspective});
-
-                        // console.log(_application.font_obj);
-                        // console.log(_application.font_size);
-                        // console.log(_application.font_obj.parsedFontSizeTables);
-                        // console.log(view.perspective);
-                        // console.log(_parsedPerspective);
                        
                         if (typeof _parsedPerspective !== "undefined") {
                             
                             var _offsets = _.find(_parsedPerspective.sizes, {inputSize: _application.font_size.toString()});
-                            // console.log(_offsets);
 
                             _offsetX = _offsets.x_offset;
                             _offsetY = _offsets.y_offset;
@@ -1219,7 +1212,7 @@ $(document).ready(function() {
 
                     }
 
-                    //  
+                    // Tackle Twill adjustments via free form tool
 
                     var move_point = ub.objects[view.perspective + '_view']['move_tool'];
                     var rotation_point = ub.objects[view.perspective + '_view']['rotate_tool'];
@@ -1238,15 +1231,21 @@ $(document).ready(function() {
                         }
                         
                         reset_point.alpha = 0;
+
+                        // Dirty Flag is set when application is moved using the free form tool (for runAfterUpdate)
+                        _application.dirty = true;
                         
-                        view.application.center.x = sprite.x - _offsetX;
-                        view.application.center.y = sprite.y - _offsetY;
+                        // view.application.center.x = parseFloat(sprite.x) - parseFloat(_offsetX);
+                        // view.application.center.y = parseFloat(sprite.y) - parseFloat(_offsetY);
 
                         var _obj = ub.objects[view.perspective + '_view']['objects_' + _application.code]
 
                         _obj.position.x = sprite.x;
                         _obj.position.y = sprite.y;
-                        
+
+                        view.application.center.x = parseFloat(_obj.position.x) - (parseFloat(_offsetX));
+                        view.application.center.y = parseFloat(_obj.position.y) - (parseFloat(_offsetY)); // + parseFloat(ub.current_material.material.one_inch_in_px);
+
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.x = sprite.x;
                         ub.objects[view.perspective + '_view']['rotate_tool'].position.y = sprite.y;
 
@@ -1908,17 +1907,14 @@ $(document).ready(function() {
             manager: ub.dragAndDropManager
         });
 
-        sprite.mouseup = sprite.touchend = function(data) {
-
-
-
-        };
+        sprite.mouseup = sprite.touchend = function(data) {};
 
         $('body').mouseup(function() {
 
             if (ub.funcs.popupTest()) {return;}
             if (ub.status.fullView.getStatus()) { return; }
             if (ub.showLocation) { return; }
+            if (ub.dragNonce.state && ub.dragNonce.applicationID !== _id) { return; }
             
             if (sprite.ubHover) {
 
@@ -2522,6 +2518,7 @@ $(document).ready(function() {
 
                 }
 
+
                 point.rotation = ub.funcs.convertDegreesToRadians(view.application.rotation);
 
                 var _zIndex = ub.funcs.generateZindex('applications');
@@ -2582,7 +2579,6 @@ $(document).ready(function() {
                     var _fontSizeData = point.ubFontSizeData;
                     
                     // Scale
-
                     var _xScale = 1;
                     var _yScale = 1; 
 
@@ -2592,15 +2588,19 @@ $(document).ready(function() {
                     point.scale.set(_xScale, _yScale);
 
                     // Offset
-
                     var _xOffset = 0;
                     var _yOffset = 0;
 
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
 
-                    point.position.x += _xOffset;
-                    point.position.y += _yOffset;
+                    if (_settingsObject.dirty && ub.sportsSpecific.freeFromExemptions.isExempted(app_id, ub.config.sport, ub.config.uniform_application_type)) 
+                    {
+                        ub.utilities.info('#' + app_id + ' dirty, skipping offsets ...')
+                    } else {
+                        point.position.x += _xOffset;
+                        point.position.y += _yOffset;
+                    }
 
                 }
 
@@ -2981,9 +2981,10 @@ $(document).ready(function() {
             // End do not run from change color
 
             ub.funcs.runAfterUpdate(app_id, _fromChangeColor);
+
             ub.funcs.fixAlignments();
             ub.funcs.mirrorRotation();
-
+            
             return sprite_collection;
 
         };
@@ -5803,22 +5804,22 @@ $(document).ready(function() {
         var _colors = [];
         var _color;
 
-         _colors.push(ub.current_material.settings.team_colors[1]);
+        _colors.push(ub.current_material.settings.team_colors[1]);
 
-         if (ub.current_material.settings.team_colors.length > 2) {
+        if (ub.current_material.settings.team_colors.length > 2) {
 
-            _color = ub.current_material.settings.team_colors[2]
+           _color = ub.current_material.settings.team_colors[2]
             
-         }
-         else {
+        }
+        else {
 
-            _color = ub.current_material.settings.team_colors[0]
+           _color = ub.current_material.settings.team_colors[0]
 
-         }
+        }
 
-         _colors.push(_color);
+        _colors.push(_color);
 
-         return _colors;
+        return _colors;
 
     };
 
@@ -6139,7 +6140,6 @@ $(document).ready(function() {
         _.each (_application.application.views, function (view) {
 
             var application_obj = ub.objects[view.perspective + '_view']['objects_' + application.code];
-
             var angleRadians = _valStr;
 
             application_obj.rotation = angleRadians;
@@ -6154,25 +6154,22 @@ $(document).ready(function() {
     ub.funcs.generateSizes = function (applicationType, sizes, settingsObject, _id) {
 
         var _htmlBuilder = '';
+        var _additionalClass = '';
 
         _.each(sizes, function (size) {
 
-            var _additionalClass = '';
-
-            if (size.size === settingsObject.font_size || _id === '4') { _additionalClass = 'active'; }
+            if (size.size.toString() === settingsObject.font_size.toString() || (_id === '4' && ub.config.sport !== "Football 2017")) { 
+                _additionalClass = 'active'; 
+            } else {
+                _additionalClass = '';
+            }
 
             if (ub.funcs.isFreeFormToolEnabled(_id)) {
-
                 if (_additionalClass === "active") {
-            
                     _htmlBuilder += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '" style="display: none">' + size.size + '"'  + '</span>';
-
                 }
-
             } else {
-
                 _htmlBuilder     += '<span class="applicationLabels font_size ' + _additionalClass + '" data-size="' + size.size + '">' + size.size + '"'  + '</span>';
-
             }
 
         });
@@ -6533,7 +6530,7 @@ $(document).ready(function() {
 
         var _inputSizes;
 
-        if (_id === '4') {
+        if (_id === '4' && ub.config.sport !== "Football 2017") {
 
             _inputSizes = [{size: '0.5', }];
 
@@ -6650,8 +6647,12 @@ $(document).ready(function() {
 
         }
 
-        _htmlBuilder        +=                      '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
-        _htmlBuilder        +=                      '<input type="text" id="opacity-slider" value="" />';
+        // Enable Watermark Sliders only on Tackle Twill Applications
+        if (ub.config.uniform_application_type === "sublimated") {
+            _htmlBuilder        +=    '<br/><span class="watermark-intensity">Watermark Intensity:</span>';
+            _htmlBuilder        +=    '<input type="text" id="opacity-slider" value="" />';
+        }
+
         _htmlBuilder        +=                  '</div>';
         _htmlBuilder        +=              '</div>';
 
@@ -7562,10 +7563,12 @@ $(document).ready(function() {
                _size = 2;      
             }
 
-            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.type === "upper")                  { _size =  5;    }
-            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short")     { _size =  5;    }
-            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))                          { _size = 4;    }
-            
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.type === "upper")                  { _size =  5; }
+            if (ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short")     { _size =  5; }
+            if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling'))                          { _size = 4;  }
+
+            if (ub.funcs.isCurrentSport('Football 2017') && (_id === 4 || _id === 7))                                   { _size = 1; }
+
             if (ub.funcs.isCurrentSport('Baseball')  && _id === 15)                                                     { _size = 1.75; }
             if (ub.funcs.isCurrentSport('Baseball')  && (_id === 7 || _id === 6))                                       { _size = 2;    }
             if (ub.funcs.isCurrentSport('Fastpitch')  && _id === 15)                                                    { _size = 1.75; }
@@ -7609,6 +7612,11 @@ $(document).ready(function() {
                     _matchingSide.type              = _applicationType;
                     _matchingSide.object_type       = _applicationType;
                     _matchingSide.color_array       = ub.funcs.getDefaultColors();
+
+                    if (_settingsObject.color_array.length > 1) {
+                       _settingsObject.color_array = [_settingsObject.color_array[0]];
+                    }
+
                     _matchingSide.mascot            = _.find(ub.data.mascots, { id: _mascotID });
 
                     if (typeof _matchingSide.color_array === 'undefined') { _matchingSide.color_array = [ub.current_material.settings.team_colors[1],]; }
@@ -7654,6 +7662,10 @@ $(document).ready(function() {
             _settingsObject.font_obj         = ub.funcs.getSampleFont();
             _settingsObject.color_array      = ub.funcs.getDefaultColors();
 
+            if (_settingsObject.color_array.length > 1) {
+                _settingsObject.color_array = [_settingsObject.color_array[0]];
+            }
+
             _settingsObject.application.name = _applicationType.toTitleCase();
             _settingsObject.application.type = _applicationType;
 
@@ -7681,6 +7693,7 @@ $(document).ready(function() {
             }
 
             _settingsObject.accent_obj          = ub.funcs.getSampleAccent();
+
             _settingsObject.text                = ub.funcs.getSampleNumber();
             _settingsObject.application_type    = _applicationType;
             _settingsObject.type                = _applicationType;
@@ -7689,6 +7702,10 @@ $(document).ready(function() {
             _settingsObject.color_array         = ub.funcs.getDefaultColors();
 
             if (typeof _settingsObject.color_array === 'undefined') { _settingsObject.color_array = [ub.current_material.settings.team_colors[1],]; }
+
+            if (_settingsObject.color_array.length > 1) {
+                _settingsObject.color_array = [_settingsObject.color_array[0]];
+            }
 
             _settingsObject.application.name    = _applicationType.toTitleCase();
             _settingsObject.application.type    = _applicationType;
@@ -7711,6 +7728,11 @@ $(document).ready(function() {
                     _matchingSide.object_type       = 'text object';
                     _matchingSide.font_obj          = ub.funcs.getSampleFont();
                     _matchingSide.color_array       = ub.funcs.getDefaultColors();
+
+                    if (_matchingSide.color_array.length > 1) {
+                       _matchingSide.color_array = [_matchingSide.color_array[0]];
+                    }
+
                     _matchingSide.application.name  = _applicationType.toTitleCase();
                     _matchingSide.application.type  = _applicationType;
 
@@ -7746,6 +7768,10 @@ $(document).ready(function() {
             _settingsObject.font_obj         = ub.funcs.getSampleFont();
             _settingsObject.color_array      = ub.funcs.getDefaultColors();
 
+            if (_settingsObject.color_array.length > 1) {
+                _settingsObject.color_array = [_settingsObject.color_array[0]];
+            }
+
             _settingsObject.application.name = _applicationType.toTitleCase();
             _settingsObject.application.type = _applicationType;
 
@@ -7758,8 +7784,6 @@ $(document).ready(function() {
         }
 
         if (_type === 'embellishments') {
-
-            console.log('Embellishments Detected ... ');
 
             var _applicationType = 'embellishments';
             var _size = 4;
@@ -7889,7 +7913,15 @@ $(document).ready(function() {
 
     ub.funcs.runAfterUpdate = function(application_id, fromChangeColor) {
 
-        ub.funcs.oneInchPullUp(application_id);
+        var _settingsObject = ub.funcs.getSettingsObject(application_id);
+
+        // Dirty Flag is set when application is moved using the free form tool
+        // Set on Move Tool mouse down
+        
+        if (!_settingsObject.dirty) {
+            ub.funcs.oneInchPullUp(application_id);
+        }
+        
         ub.funcs.updateCaption(application_id);
 
         if (ub.funcs.isCurrentType('upper')) {
@@ -9319,11 +9351,14 @@ $(document).ready(function() {
 
     ub.funcs.activateMoveTool = function (application_id) {
 
-        if($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { return; }
+        // Guard Expressions
+            if ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible')) { return; }
+            if (ub.config.uniform_application_type === "tackle_twill" && ub.config.sport === "Football") { return; }    
+        // End Guard Expressions
 
         var _applicationObj = ub.current_material.settings.applications[application_id];
 
-        if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
+        // if (!ub.funcs.isFreeFormToolEnabled(application_id)) { return; }
 
         // if deleted exit
         if (typeof _applicationObj === "undefined") { return; }
@@ -10102,8 +10137,6 @@ $(document).ready(function() {
         $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
         $('body').css('cursor', 'auto');
 
-
-
     };
 
     ub.funcs.activateBody = function () {
@@ -10194,6 +10227,9 @@ $(document).ready(function() {
         var _blockPattern   = ub.current_material.material.block_pattern;
         var _primaryView    = ub.funcs.getPrimaryView(_phaSettings.application);
         var _primaryViewObject = ub.funcs.getPrimaryViewObject(_phaSettings.application);
+        
+        var _withPlaceholderOverrides = false; // Placeholder overrides set on the backend
+        var _perspectiveMarkForDeletion = undefined;
 
         // Process Uniforms with Extra Layer
 
@@ -10205,13 +10241,38 @@ $(document).ready(function() {
                 ub.utilities.error('Extra Layer not detected!');
             }
 
-            if (typeof _extra !== "undefined") { 
+            if (typeof _extra !== "undefined") {
 
                 var whiteList = ['Body', 'Front Body', 'Back Body', 'Body Left', 'Body Right'];
-                
+
                 if (_.contains(whiteList, _part)) { _part = 'Extra'; } 
 
             }
+
+        }
+
+        var _exempted = ub.data.applicationProjectionExemptions.isExempted(perspective, part, ub.config.sport);
+
+        // For Cowls, etc which uses a non-standard primary perspectives
+        if (_exempted.isExempted) {
+
+            var _primaryViewFound = _.find(_phaSettings.application.views, {perspective: _exempted.result.primary});
+
+            if (typeof _primaryViewFound !== "undefined") {
+
+                _primaryViewFound.application.isPrimary = 1;
+                _primaryViewObject = _primaryViewFound;
+
+                _phaSettings.application.views = _.filter(_phaSettings.application.views, function (view) {
+
+                    var _ok = view.perspective !== "left" && view.perspective !== "right" && (_primaryView === "front") ? view.perspective === "back" : view.perspective === "front";
+                    return _ok;
+
+                });
+
+            }
+
+            ub.funcs.setActiveView('front');
 
         }
 
@@ -10226,7 +10287,6 @@ $(document).ready(function() {
             var _perspective = _perspectiveView.perspective;
 
             // Get Center of Polygon 
-
             var _cx = ub.funcs.getCentoid(_perspective, _part);
 
             // CX Override 
@@ -10243,9 +10303,18 @@ $(document).ready(function() {
 
                 if (typeof _overrides !== "undefined") {
 
+                    _withPlaceholderOverrides = true;
+
                     _perspectiveView.application.rotation = _overrides.rotation;
                     _perspectiveView.application.center = _overrides.position;
                     _perspectiveView.application.pivot = _overrides.position;
+
+                } else {
+
+                    // If has a placeholder override but this particular view has none set delete 
+                    if (_withPlaceholderOverrides) {
+                        _perspectiveMarkForDeletion = _perspectiveView.perspective;
+                    }
 
                 }
 
@@ -10253,6 +10322,13 @@ $(document).ready(function() {
 
         });
 
+        if (typeof _perspectiveMarkForDeletion !== "undefined") {
+
+            _phaSettings.application.views = _.filter(_phaSettings.application.views, function (view) {
+                return view.perspective !== _perspectiveMarkForDeletion;
+            });
+
+        }
 
         _.each(_phaSettings.application.views, function (_perspectiveView) {
 
@@ -10347,7 +10423,13 @@ $(document).ready(function() {
             _.each(_newApplication.application.views, function (view) {
 
                 view.application.id = _newIDStr;
-                if (view.application.isPrimary === 1) { _tmp = [view]; }
+
+                // For Socks push only the primary perspective
+                if (ub.funcs.isSocks()) {
+                    if (view.application.isPrimary === 1) { _tmp.push(view); }
+                } else {
+                    _tmp.push(view);    
+                }
 
             });
 
@@ -10557,14 +10639,15 @@ $(document).ready(function() {
 
                 var _side = $(this).data('id');
                 var _previousPart = $('span.part.active').data("id");
+                var _isExempted = ub.data.applicationProjectionExemptions.isExempted(_side, _previousPart, ub.config.sport);
 
                 $('div.side-container > span.side').removeClass('active');
                 $(this).addClass('active');
 
                 if (_side === "left" || _side === "right") {
 
-                    $('span.perspective[data-id="' + _side + '"]').trigger('click');
-
+                    $('span.perspective[data-id="' + _side + '"]').trigger('click');    
+                    
                     // Restore Previous Part
                     if (typeof _previousPart !== "undefined") { $('span.part[data-id="' + _previousPart + '"]').addClass('active'); }
 
@@ -10824,9 +10907,7 @@ $(document).ready(function() {
 
             var _applicationCode    = app.code;
             var _caption = ub.funcs.getSampleCaption(app);
-
             var _primaryView = ub.funcs.getPrimaryView(app.application);
-
             var _perspectivePart = '<span class="perspective">(' + _primaryView.substring(0,1).toUpperCase() + ')</span>';
             var _applicationTypePart = ' <span class="application_type">' + _applicationType + '</span>';
             var _captionPart = '<span class="caption">' + _caption + '</span>';

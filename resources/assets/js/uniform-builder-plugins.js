@@ -1267,7 +1267,7 @@
 
                     var _scaleSettings = ub.data.mascotSizes.getSize(_uniformCategory, settings_obj.size);
 
-                    ub.utilties.info('Scale Settings Not Found for ' +  ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' +  ub.config.neckOption + ' ' + settings_obj.size + '. Using default.');    
+                    ub.utilities.info('Scale Settings Not Found for ' +  ub.config.sport + ' / ' + ub.config.blockPattern + ' / ' +  ub.config.neckOption + ' ' + settings_obj.size + '. Using default.');    
                     scale_settings = _scaleSettings.scale;
 
                 } 
@@ -1836,14 +1836,25 @@
         var colors_obj = get_colors_obj(application.layer);
         var color_array = [];
 
-        // if(typeof settings.applications[application.id] !== 'undefined') {
-                    
+        // if(typeof settings.applications[application.id] !== 'undefined') {                    
         //     color_array = settings.applications[application.id].color_array;
 
+        //     console.error('Using this')
         // }    
 
         children.reverse();
 
+        // Prepare this fix after actualy range of uniforms affected is determined
+        // console.log(ub.current_material.settings.applications[application.id].colorArrayText);
+        // console.log(ub.current_material.settings.applications[application.id].color_array);
+        // // Color Error Discrepancies
+        // if (typeof ub.config.savedDesignInfo === "object") {
+        //     if(_.contains(ub.data.transferColors,ub.config.savedDesignInfo.savedDesignID)){
+        //        ub.utilities.warn(ub.config.savedDesignInfo.savedDesignID + ', Fixing Colors');
+        //        ub.current_material.settings.applications[application.id].color_array = ub.colorUtilities.colorCodesToColorObjArray(ub.current_material.settings.applications[application.id].colorArrayText);
+        //     }
+        // }
+ 
         _.each(children, function (child, index) {
 
             child.tint = parseInt(child.ubDefaultColor, 16);

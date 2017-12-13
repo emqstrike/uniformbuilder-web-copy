@@ -206,6 +206,12 @@
                                         <input type="text" class="form-control order-ship-phone">
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>Shipping Email</td>
+                                    <td>
+                                        <input type="text" class="form-control order-ship-email">
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                         <div class="tab-pane" id='tab-team-roster'>

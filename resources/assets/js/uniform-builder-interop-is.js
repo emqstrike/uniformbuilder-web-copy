@@ -2,18 +2,32 @@ $(document).ready(function() {
 
     // Utilities
 
-        ub.funcs.updateEmbellishmentList = function () {
+        ub.funcs.updateEmbellishmentList = function (cb) {
 
-            ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByUserID/' + ub.user.id;
+            ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/' + ub.user.id + '/active';
             ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
-                window.is.embellishments.userItems = response;
+                is.embellishments.userItems = response;
+                if(typeof cb !== "undefined") { cb(); }
+                $('span.active-archive-tab[data-type="active"]').find('span.text').html('Active (' + _.size(is.embellishments.userItems) + ')');
+                $('span.active-archive-tab[data-type="archived"]').find('span.text').html('Archives');
+
+            });
+          
+        }
+
+        ub.funcs.updateEmbellishmentListArchived = function (cb) {
+
+            ub.current_material.is_url = window.ub.config.api_host + '/api/v1-0/inksoft_design/getByCreatedByUserID/' + ub.user.id + '/archived';
+            ub.loader(ub.current_material.is_url, 'inksoft_designs', function (response, objectName) {
+                is.embellishments.userItemsArchived = response;
+                if(typeof cb !== "undefined") { cb(); }
+                $('span.active-archive-tab[data-type="archived"]').find('span.text').html('Archives (' + _.size(is.embellishments.userItemsArchived) + ')')
+                $('span.active-archive-tab[data-type="active"]').find('span.text').html('Active');
             });
 
         }
 
     // End Utilities
-
-    // users
 
     // Load this from API
     window.is.embellishments = {
@@ -760,7 +774,7 @@ $(document).ready(function() {
 
         } else {
 
-            _inputSizes = ['4'];
+            _inputSizes = [{size: '4', }];
 
         }
 
@@ -810,8 +824,11 @@ $(document).ready(function() {
         _htmlBuilder        +=                  '<br /><a class="filePreview" target="_new" href="' + ub.config.host + '/utilities/previewEmbellishmentInfo/' + _settingsObject.embellishment.design_id + '">' + 'View Art Details' + '</a><br />';  
         _htmlBuilder        +=                  '<a class="filePreview" target="_new" href="' + _settingsObject.embellishment.svg_filename + '">' + 'View Print Ready File' + '</a><br />';  
         
-        _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
-        _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
+        if (ub.config.uniform_application_type === "sublimated") {
+            _htmlBuilder        +=                  '<br /><span class="watermark-intensity">Watermark Intensity</span>';
+            _htmlBuilder        +=                  '<input type="text" id="opacity-slider" value="" />';
+        }
+        
         _htmlBuilder        +=              '</div>';
 
         _htmlBuilder        +=        '</div>';
@@ -1813,30 +1830,18 @@ $(document).ready(function() {
 
     // Embellishment Popup
 
-        ub.status.embellishmentPopupVisible = false;
-        ub.funcs.createEmbellishmentSelectionPopup = function (settingsObj) {
+        ub.funcs.bindEmbellishmentEvents = function () {
 
-            var _items = _.sortBy(is.embellishments.userItems, function(item) { return parseInt(item.id); });
-
-            ub.status.embellishmentPopupVisible = true;
-
-            var template = $('#m-embellishment-popup').html();
-            var data = { myEmbellishments: _items.reverse(), }
-            var markup = Mustache.render(template, data);
-
-            $('body').append(markup);
-
-            $embellishmentPopup = $('div#primaryEmbellishmentPopup');
-            $embellishmentPopup.fadeIn();
+            Tipped.create('div.archive');
+            Tipped.create('div.restore');
+            Tipped.create('span.archives');
 
             $('div.embellishmentPopupResults > div.item').hover(
-
                 function() {
                     $( this ).find('div.name').addClass('pullUp');
                 }, function() {
                     $( this ).find('div.name').removeClass('pullUp');
                 }
-
             );
 
             $('div.embellishmentPopupResults > div.item').on('click', function () {
@@ -1862,12 +1867,11 @@ $(document).ready(function() {
                 $('span.add-to-uniform').unbind('click');
                 $('span.add-to-uniform').on('click', function () {
 
-                    var _matchingID;
+                    var _settingsObject = ub.is.settingsObj;
+                    var _matchingID = undefined;
 
-                    is.isMessage(_designID, settingsObj.code, true);
-
-                    _matchingID = undefined;
-                    _matchingID = ub.data.matchingIDs.getMatchingID(settingsObj.code);
+                    is.isMessage(_designID, _settingsObject.code, true);
+                    _matchingID = ub.data.matchingIDs.getMatchingID(_settingsObject.code);
 
                     if (typeof _matchingID !== "undefined") {
 
@@ -1908,6 +1912,7 @@ $(document).ready(function() {
                 $(this).data('status', 'hidden');
                 $(this).hide();
                 $(this).remove();
+
                 ub.status.embellishmentPopupVisible = false;
 
             });
@@ -1924,18 +1929,221 @@ $(document).ready(function() {
 
                 if (_type === "create") {
                     $embellishmentPopup.remove();
-                    is.loadDesigner(undefined, settingsObj.code);
+                    is.loadDesigner(undefined, ub.is.settingsObj.code);
                 }
 
                 if (_type === "upload") {
                     $embellishmentPopup.remove();
-                    is.loadDesignerUpload(undefined, settingsObj.code);
+                    is.loadDesignerUpload(undefined, ub.is.settingsObj.code);
                 }
 
             });
 
+            // Search
+
+            $('input.search-bar').unbind('keyup');
+            $('input.search-bar').on('keyup', function () {
+
+                var _text = $('input.search-bar').val();
+                var _type = $('span.active-archive-tab.focus').data('type');
+                var _results = [];
+                var _sourceItems = is.embellishments.userItems;
+                var _templateID ='#m-embellishment-popup-update-items';
+
+                if (_type !== "active") { 
+                    _sourceItems = is.embellishments.userItemsArchived; 
+                    _templateID = '#m-embellishment-popup-update-items-restore';
+                }
+
+                if (_text.length > 0) { 
+
+                    _results = _.filter(_sourceItems, function (item) {
+
+                        var _designName = item.design_name.toLowerCase();
+                        var _input = _text.toLowerCase();
+
+                        return _designName.indexOf(_input) !== -1;
+
+                    });
+
+                } else {
+
+                    _results = _sourceItems;
+
+                }
+
+                _htmlString = ub.utilities.buildTemplateString(_templateID, { myEmbellishments: _results });
+
+                $('div.embellishmentPopupResults').html(_htmlString);
+                ub.funcs.bindEmbellishmentEvents();
+                $('div.item').first().trigger('click');
+
+            });
+
+            // Archive Item
+
+            $('span.archives').unbind('click');
+            $('span.archives').on('click', function () {
+            });
+
+            ub.funcs.updateActiveStatus = function (type, id, designID) {
+
+                var _postData = {
+                    "archived": type === "archive" ? '1' : '0',
+                    "id": id,
+                    "design_id": designID,
+                }
+
+                $.ajax({
+                    url: ub.endpoints.getFullUrlString('updateCustomArtwork'),
+                    type: "POST", 
+                    data: JSON.stringify(_postData),
+                    dataType: "json",
+                    crossDomain: true,
+                    contentType: 'application/json',
+                    headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+                    success: function (response) {
+
+                        if (type === "archive") {
+                            ub.funcs.updateUserItemsActive();
+                        } else {
+                            ub.funcs.updateUserItemsArchived();
+                        }
+                        
+                    }     
+                });
+
+            }
+
+            $('div.archive, div.restore').unbind('click');
+            $('div.archive, div.restore').on('click', function () {
+
+                var _id = $(this).data('id');
+                var _designID = $(this).data('design-id');
+                var _designName = $(this).data('design-name');
+                var _type = $(this).data('type');
+
+                if (_type === "archive") {
+
+                    bootbox.confirm("Are you sure you want to archive " + _designName + "?<br /><br /> <em style='font-size: 0.9em;'>Archiving designs removes it on the default list so that your design list will not be cluttered. You can still view your archived designs by clicking the [Archives] button at the top right corner of this popup.</em>", function (result) { 
+                        if(result) { ub.funcs.updateActiveStatus(_type, _id, _designID); }
+                    });
+
+                }
+
+                if (_type === "restore") {
+
+                    bootbox.confirm("Are you sure you want to restore " + _designName + "?", function (result) { 
+                        if(result) { ub.funcs.updateActiveStatus(_type, _id, _designID); }
+                    });
+
+                }
+
+            });
+
+            $('span.active-archive-tab').unbind('click');
+            $('span.active-archive-tab').on('click', function () {
+
+                var _type = $(this).data('type');
+                var _placeholderText = 'Search Active Designs';
+
+                $('span.active-archive-tab').removeClass('focus');
+                $(this).addClass('focus');
+                $('div.embellishmentPopupResults').html('');
+
+                if (_type === "archived") { 
+                    ub.funcs.updateUserItemsArchived(); 
+                    _placeholderText = "Search Archived Designs";
+                }
+
+                if (_type === "active") { ub.funcs.updateUserItemsActive(); }
+                $('input.search-bar').attr('placeholder', _placeholderText);
+
+            });
+
+        };
+
+        ub.funcs.updateUserItemsActive = function (settingsObj) {
+
+            $('div.embellishmentPopupResults').html(
+                ub.utilities.buildTemplateString('#m-loading-animation', {})
+            );
+
+            $('div.main-content').addClass('loading');
+
+            ub.funcs.updateEmbellishmentList(function (settingsObj) {
+
+                var _items;
+                var _htmlString;
+
+                $('div.main-content').removeClass('loading');
+                $('div.embellishmentPopupResults').hide();
+
+                _items = _.sortBy(is.embellishments.userItems, function(item) { return parseInt(item.id); });
+                _htmlString = ub.utilities.buildTemplateString('#m-embellishment-popup-update-items', { myEmbellishments: _items });
+
+                $('div.embellishmentPopupResults').html(_htmlString);
+                ub.funcs.bindEmbellishmentEvents();
+                $('div.embellishmentPopupResults').fadeIn();
+
+            });
+
+            return;
+
+        };
+
+        ub.funcs.updateUserItemsArchived = function (settingsObj) {
+
+            $('div.embellishmentPopupResults').html(
+                ub.utilities.buildTemplateString('#m-loading-animation', {})
+            );
+
+            $('div.main-content').addClass('loading');
+
+            ub.funcs.updateEmbellishmentListArchived(function (settingsObj) {
+
+                var _items;
+                var _htmlString;
+
+                $('div.main-content').removeClass('loading');
+                $('div.embellishmentPopupResults').hide();
+
+                _items = _.sortBy(is.embellishments.userItemsArchived, function(item) { return parseInt(item.id); });
+                _htmlString = ub.utilities.buildTemplateString('#m-embellishment-popup-update-items-restore', { myEmbellishments: _items });
+
+                $('div.embellishmentPopupResults').html(_htmlString);
+                ub.funcs.bindEmbellishmentEvents();
+                $('div.embellishmentPopupResults').fadeIn();
+
+            });
+
+            return;
+
+        };
+
+        ub.status.embellishmentPopupVisible = false;
+        ub.is.settingsObj = undefined;
+        ub.funcs.createEmbellishmentSelectionPopup = function (settingsObj) {
+
+            ub.is.settingsObj = settingsObj;
+            ub.status.embellishmentPopupVisible = true;
+
+            var _items = _.sortBy(is.embellishments.userItems, function(item) { return parseInt(item.id); });
+            var template = $('#m-embellishment-popup').html();
+            var data = { myEmbellishments: _items.reverse(), }
+            var markup = Mustache.render(template, data);
+
+            $('body').append(markup);
+
+            $embellishmentPopup = $('div#primaryEmbellishmentPopup');
+            $embellishmentPopup.fadeIn();
+
+            ub.funcs.bindEmbellishmentEvents();
+
             // Trigger First Item
+            $('span.active-archive-tab.active').addClass('focus');
             $('div.item').first().trigger('click');
+            $('span.active-archive-tab[data-type="active"]').find('span.text').html('Active (' + _.size(is.embellishments.userItems) + ')');
 
         }
 

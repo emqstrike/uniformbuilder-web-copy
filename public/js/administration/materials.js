@@ -31,6 +31,7 @@ $(document).ready(function() {
     var IN = 20;
     fabric.Object.prototype.transparentCorners = false;
     window.current_pattern_properties;
+    window.app_current_pattern_properties = {};
 
     var topInterval; // Intervals for moving the applications
     var bottomInterval;
@@ -63,8 +64,9 @@ $(document).ready(function() {
         var default_color_code = $(this).data('material-option-default-color');
         var sublimated_default_color_code = $(this).data('material-option-sublimated-default-color');
         console.log(default_color_code);
+        var uc_default_color_code = default_color_code.toUpperCase();
 
-        var dcc_item = _.find(window.colors, function (o) { return o.color_code == default_color_code; });
+        var dcc_item = _.find(window.colors, function (o) { return o.color_code == uc_default_color_code; });
         var default_color_name = dcc_item.name;
         var default_color_hex = dcc_item.hex_code;
 
@@ -247,6 +249,138 @@ $(document).ready(function() {
         }
         console.log('P Props> ' + JSON.stringify(window.current_pattern_properties));
         $('#pattern_properties').val( '"' + JSON.stringify(window.current_pattern_properties) + '"' );
+    }
+
+    $(document).on('keyup', '.app-pattern-properties', function() {
+        var id = $(this).parent().find('.app-def-pattern').val();
+        var props = $(this).val();
+        var pattern_loaded = 0;
+        if( props != 'undefined' ){
+            pattern_loaded = 1;
+            console.log('loaded');
+        }
+        loadAppPatternLayers($(this), id, pattern_loaded);
+    });
+
+    $(document).on('change', '.app-def-pattern', function() {
+        $(this).parent().find('.app_pattern_layers_OC').html('');
+        var props = $(this).parent().find('.app-pattern-properties').val();
+        var id = $(this).val();
+        var pattern_loaded = 0;
+        loadAppPatternLayers($(this), id, pattern_loaded);
+    });
+
+    function appRefreshTID(){
+        $(".app-layer-team-color-id").change(function() {
+            window.app_current_pattern_properties =  JSON.parse($(this).parent().parent().find('.app-pattern-properties').val());
+            var layer = _.size(window.app_current_pattern_properties);
+            for (x = 1; x <= layer; x++) {
+                window.app_current_pattern_properties[x].team_color_id = $(this).parent().find(".app-layer-team-color-id.layer"+x).val();
+            }
+            // console.log( JSON.stringify(window.app_current_pattern_properties) );
+            $(this).parent().parent().find('.app-pattern-properties').val(JSON.stringify(window.app_current_pattern_properties));
+        });
+    }
+
+    function appRefreshColors(){
+        $(".app-layer-default-color").change(function() {
+            var x = 1;
+            window.app_current_pattern_properties =  JSON.parse($(this).parent().parent().find('.app-pattern-properties').val());
+            var layer = _.size(window.app_current_pattern_properties);
+            for (x = 1; x <= layer; x++) {
+                window.app_current_pattern_properties[x].default_color = $(this).parent().find(".app-layer-default-color.layer"+x).val();
+            }
+            // console.log( JSON.stringify(window.app_current_pattern_properties) );
+            $(this).parent().parent().find('.app-pattern-properties').val(JSON.stringify(window.app_current_pattern_properties));
+        });
+    }
+
+    function appRefreshColorBG(){
+        $('.app-layer-default-color').change(function(){
+            var color = $('option:selected', this).data('color');
+            $(this).css('background-color', color);
+            $(this).css('color', '#fff');
+            $(this).css('text-shadow', '1px 1px #000');
+        });
+    }
+
+    function loadAppPatternLayers(thisObj, id, loaded_pattern){
+        console.log('ID: ' + id + ", LP: " + loaded_pattern);
+
+        var tcids = '<option value="">None</option>';
+
+        if(loaded_pattern == 1){
+            console.log('IF');
+            var pval = thisObj.parent().find('.app-pattern-properties').val();
+            console.log('VALUE: ' + pval);
+            var xstring = "";
+            if( pval.charAt(pval.length - 1) === '"' ){
+                console.log('*** IF 1');
+                xstring = pval.substring(0, pval.length - 1);
+            } else {
+                xstring = pval;
+            }
+
+            if( xstring.charAt(0) === '"' ){
+                console.log('*** IF 2');
+                xstring = xstring.substring(1, xstring.length);
+            }
+
+            if( xstring.charAt(xstring.length - 1) === '"' ){
+                console.log('*** IF 1');
+                xstring = xstring.substring(0, xstring.length - 1);
+            }
+
+            if( xstring.charAt(0) === '"' ){
+                console.log('*** IF 2');
+                xstring = xstring.substring(1, xstring.length);
+            }
+
+            console.log('STRING >>>>> ' + xstring);
+            var app_pattern_props = JSON.parse( xstring );
+            console.log(app_pattern_props);
+            window.app_current_pattern_properties = app_pattern_props;
+            console.log('PATTERN_PROPS' + app_pattern_props);
+            var x = 1;
+            $.each(app_pattern_props, function(i, item) {
+                console.log(' Color Code : ' + item.default_color);
+                var colors = generateColorsDropdown(item.default_color);
+                var label = '<b>Layer #</b>' + x;
+                var select = ' <select class="app-layer-default-color layer' + x + '">' + colors + '</select>';
+                var tcids = generateTeamColorsIDDropdown(item.team_color_id);
+                var tcid = '<select class="app-layer-team-color-id layer' + x + '">' + tcids + '</select>';
+                thisObj.parent().find('.app_pattern_layers_OC').append( label + select + tcid + '<hr>' );
+                appRefreshColors();
+                appRefreshTID();
+                appRefreshColorBG();
+                x++;
+            });
+        } else {
+            console.log('ELSE');
+            $.each(window.patterns, function(i, item) {
+                if( item.id == id ){
+                    var app_pattern_props = JSON.parse( item.pattern_properties );
+                    window.app_current_pattern_properties = app_pattern_props;
+                    var x = 1;
+                    $.each(app_pattern_props, function(i, item) {
+                        console.log(' Color Code : ' + item.default_color);
+                        var colors = generateColorsDropdown(item.default_color);
+                        var tcid = generateTeamColorsIDDropdown(item.team_color_id);
+                        var label = '<b>Layer #</b>' + x;
+                        var select = ' <select class="app-layer-default-color layer' + x + '">' + colors + '</select>';
+                        var tcids = generateTeamColorsIDDropdown(item.team_color_id);
+                        var tcid = '<select class="app-layer-team-color-id layer' + x + '">' + tcids + '</select>';
+                        thisObj.parent().find('.app_pattern_layers_OC').append( label + select + tcid + '<hr>' );
+                        appRefreshColors();
+                        appRefreshTID();
+                        appRefreshColorBG();
+                        x++;
+                    });
+                }
+            });
+        }
+        console.log('App P Props> ' + JSON.stringify(window.app_current_pattern_properties));
+        thisObj.parent().find('.app-pattern-properties').val(JSON.stringify(window.app_current_pattern_properties));
     }
 
     $('.btn-fix-app').on('click', function(){
@@ -469,7 +603,7 @@ $(document).ready(function() {
         flipApplication(id);
     });
 
-    $('#add_front_application').mousedown(function(){
+    $('#add_front_application').mousedown(function() {
 
 
         var default_item = $('#front-default-item').val();
@@ -526,6 +660,25 @@ $(document).ready(function() {
             }
         }
 
+        var def_patterns_options = '<option value="">None</option>';
+        var current_sport = $('#material_uniform_category').val();
+        var current_asset_target = $('#material_asset_target').val();
+        var current_bp_options = $('#material_neck_option').val();
+
+        var input_patterns = _.filter(window.patterns, function(pattern) {
+            var sport = JSON.parse(pattern.sports);
+            var asset_target = pattern.asset_target;
+            var bp_options = pattern.block_pattern_options;
+            var sportOk = _.contains(sport, current_sport);
+            var optionsOk = _.contains(sport, current_bp_options) || bp_options === null || bp_options === '[""]';
+                return (sportOk && optionsOk && asset_target === current_asset_target);
+        });
+
+        $.each(input_patterns, function (i, item) {
+            def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
+        });
+
+
         var font_label              = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Font:</label>';
         var default_text_label      = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Text:</label>';
         var default_number_label    = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Number:</label>';
@@ -555,7 +708,9 @@ $(document).ready(function() {
         var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
         var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
-        var flipped                  = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
+        var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" value="" size="2">';
+        var app_default_pattern     = '<select style="' + style + '" class="app-def-pattern" data-id="' + group.id + '">' + def_patterns_options + '</select><div class="col-md-12 app_pattern_layers_OC" data-id="' + group.id + '" id="app_pattern_layers_OC"></div><input type="hidden" style="' + style + '" data-id="' + group.id + '" class="app-pattern-properties" value="">';
+        var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
 
@@ -595,6 +750,8 @@ $(document).ready(function() {
                     default_number,
                     embellishment,
                     inksoft_design_id,
+                    app_opacity,
+                    app_default_pattern,
                     flipped,
                     flip
                 ];
@@ -1086,7 +1243,6 @@ $(document).ready(function() {
 
     $('.save-applications-button').on('click', function(){
         updateApplicationsJSON();
-
         $(".save-applications").trigger("click");
     });
 
@@ -1336,7 +1492,7 @@ $(document).ready(function() {
         var escaped_material_bpo = material.block_pattern_options;
         var strBlockPatternOptions = '^.*'+escaped_material_bpo+'.*$';
         var regexBPO = new RegExp(strBlockPatternOptions);
-        try{
+        try {
             $.each(window.patterns, function(i, item) {
                 var sports = item.sports;
                 var block_pattern_o = item.block_pattern_options;
@@ -1410,6 +1566,8 @@ $(document).ready(function() {
         $('#save-material-option-info-modal').modal('show');
 
     });
+
+
 
     function appendApplications(app_properties){
         // console.log(app_properties);
@@ -1531,6 +1689,7 @@ $(document).ready(function() {
                     app_number = app_properties[l].defaultNumber;
                 }
 
+
                 var fonts_options = '<option value="Arial" data-font-family="Arial" style="font-family: Arial;">Not Set</option>';
                 for(var i = 0; i < window.fonts.length; i++) {
                     if(window.fonts[i].active == 1){
@@ -1548,13 +1707,39 @@ $(document).ready(function() {
                         font_style = window.fonts[i].name;
                     }
                 }
+
+                var def_patterns_options = '<option value="">None</option>';
+                var current_sport = $('#material_uniform_category').val();
+                var current_asset_target = $('#material_asset_target').val();
+                var current_bp_options = $('#material_neck_option').val();
+
+                var input_patterns = _.filter(window.patterns, function(pattern) {
+                var sport = JSON.parse(pattern.sports);
+                var asset_target = pattern.asset_target;
+                var bp_options = pattern.block_pattern_options;
+                var sportOk = _.contains(sport, current_sport);
+                var optionsOk = _.contains(sport, current_bp_options) || bp_options === null || bp_options === '[""]';
+                    return (sportOk && optionsOk && asset_target === current_asset_target);
+                });
+
+                $.each(input_patterns, function (i, item) {
+                    if(app_properties[l].appDefPattern == item.id) {
+                        def_patterns_options += '<option value="' + item.id + '" selected>' + item.name + '</option>';
+                    }
+                    else {
+                        def_patterns_options += '<option value="' + item.id + '">' + item.name + '</option>';
+                    }
+                });
+
                 var default_font        = '<select style="' + style + '; float: left; width: 300px;" class="app-default-font" data-id="' + group.id + '">' + fonts_options + '</select>';
                 var default_text        = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + group.id + '" value="' + app_text + '"><br>';
                 var vertical_text       = '<input type="checkbox" style="'  + style + '" class="app-vertical-text" value="1" data-id="' + group.id + '" '        + vertical_text_checked                   + '>';
                 var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
                 var embellishment       = '<input type="checkbox" style="'  + style + '" class="app-embellishment" value="1" '         + embellishment_checked                    + '>';
                 var inksoft_design_id   = '<input type="number" style="'      + style + '" class="app-inksoft-design-id" value="'        + app_properties[l].inksoftDesignID       + '" size="3">';
-                var flipped       = '<input type="checkbox" style="'  + style + '" class="app-flipped" value="1" '         + flipped_checked                    + '>';
+                var flipped             = '<input type="checkbox" style="'  + style + '" class="app-flipped" value="1" '         + flipped_checked                    + '>';
+                var app_opacity         = '<input type="number" style="'      + style + '" class="app-opacity" value="'        + app_properties[l].appOpacity       + '" size="2">';
+                var app_default_pattern = `<select style='` + style + `'; float: left; width: 300px;" class="app-def-pattern" data-id='` + group.id + `'>'` + def_patterns_options + `'</select><div class="col-md-12 app_pattern_layers_OC" data-id='` + group.id + `' id="app_pattern_layers_OC"></div><input type="hidden" style='` + style+ `' class="app-pattern-properties" data-id='` + group.id + `' value='` +app_properties[l].appPatternProperties+ `'>`;
                 var rotated_tailsweep   = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '>';
 
                 // Append options to selectbox
@@ -1597,6 +1782,8 @@ $(document).ready(function() {
                     default_number,
                     embellishment,
                     inksoft_design_id,
+                    app_opacity,
+                    app_default_pattern,
                     flipped,
                     flip
                 ];
@@ -1856,6 +2043,10 @@ $(document).ready(function() {
             });
             // canvasFront.renderAll();
         }
+
+        $('.app-pattern-properties').trigger('keyup');
+
+
     }
 
     // *** Applications Properties helpers
@@ -3315,6 +3506,9 @@ function updateApplicationsJSON(){
 
         hasEmbellishment = $(this).parent().siblings('td').find("input[class=app-embellishment]");
         inksoftDesignID = $(this).parent().siblings('td').find("input[class=app-inksoft-design-id]").val();
+        appOpacity = $(this).parent().siblings('td').find("input[class=app-opacity]").val();
+        appDefPattern = $(this).parent().siblings('td').find("select[class=app-def-pattern]").val();
+        appPatternProperties = $(this).parent().siblings('td').find("input[class=app-pattern-properties]").val();
         isFlipped = $(this).parent().siblings('td').find("input[class=app-flipped]");
 
         console.log('ACCENT >>>>>>' + applicationAccents);
@@ -3431,6 +3625,9 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['hasEmbellishment'] = {};
         applicationProperties[itemIdx]['inksoftDesignID'] = {};
 
+        applicationProperties[itemIdx]['appOpacity'] = {};
+        applicationProperties[itemIdx]['appDefPattern'] = {};
+        applicationProperties[itemIdx]['appPatternProperties'] = {};
 
         applicationProperties[itemIdx].type = applicationType;
         applicationProperties[itemIdx].name = applicationName;
@@ -3456,6 +3653,10 @@ function updateApplicationsJSON(){
 
         applicationProperties[itemIdx].hasEmbellishment = hasEmbellishment;
         applicationProperties[itemIdx].inksoftDesignID = inksoftDesignID;
+
+        applicationProperties[itemIdx].appOpacity = appOpacity;
+        applicationProperties[itemIdx].appDefPattern = appDefPattern;
+        applicationProperties[itemIdx].appPatternProperties = appPatternProperties;
 
         applicationProperties[itemIdx].isFlipped = isFlipped;
 
@@ -3605,8 +3806,7 @@ function accentMascotSelect(data,accentMascot,rowIndex){
         $(".options-row").eq($(".remove-row").index(this)).remove();
     });
 
-
-      $(document).on('change', '.mascotFilter', function() {
+    $(document).on('change', '.mascotFilter', function() {
 
                 var filteredMascots=[];
                 var mascotValue = $(this).val();

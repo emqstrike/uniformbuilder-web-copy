@@ -31,6 +31,50 @@ $(document).ready(function() {
         }
     });
 
+    function toTitleCase(str)
+    {
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
+
+    window.sports = null;
+
+    getSports(function(sports){ window.sports = sports; });
+    function getSports(callback){
+        var sports;
+        var url = "//api-dev.qstrike.com/api/categories";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                sports = data['categories'];
+                if(typeof callback === "function") callback(sports);
+            }
+        });
+    }
+
+    window.active_sport = $('.active-sport').val();
+    sports = _.filter(window.sports, function(e){
+        return window.active_sport !== e.name;
+    });
+
+    sports_sorted = _.sortBy(sports, function(o) { return o.name; });
+
+    sports_sorted.forEach(function(entry) {
+        var elem = '<option value="'+entry.name+'">'+entry.name+'</option>';
+        $('.active-sport').append(elem);
+    });
+
+    // console.log("SPORTS");
+    // console.log(sports);
+
+    $(document).on('change', '.active-sport', function() {
+        window.location = "/administration/materials/"+$(this).val();
+    });
+
     $('img[data-toggle=popover]').popover({
         html: true,
         trigger: 'hover',
