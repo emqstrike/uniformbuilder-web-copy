@@ -370,6 +370,7 @@ $(function(){
         "ordering": false,
         "info": false,
         "autoWidth": false,
+        "stateSave": true,
         "drawCallback" : function() {
              $('[data-toggle="tooltip"]').popover({
                 html: true,
@@ -407,6 +408,8 @@ $(function(){
         // statements
         console.log(e);
     }
+
+
 
     window.sport_value = null;
     window.block_pattern_value = null;
@@ -528,9 +531,13 @@ $(function(){
     window.block_pattern_option = null;
     window.uniform_category_id = null;
 
-    $('.save-data').on('click', function(e){
+    window.rowIndex = null;
+    window.rowData = null;
+
+    $(document).on('click', '.save-data', function(e){
         e.preventDefault();
         var data = $('.data-string').val();
+
         if (window.data.id != '')
         {
             var url = "//" + api_host + "/api/v1-0/style_request/update";
@@ -549,7 +556,8 @@ $(function(){
             success: function(response){
                 if (response.success) {
                     // console.log(response.data);
-                    window.location.reload();
+                    // window.location.reload();
+                    $('#myModal').modal('hide');
                 }
             }
         });
@@ -576,7 +584,6 @@ $(function(){
         else {
             var is_fixed = 0
         }
-
 
         var id = $('.id').val();
         var name = $('.name').val();
@@ -608,6 +615,28 @@ $(function(){
         };
         $('.data-string').val(JSON.stringify(window.data));
         console.log(window.data);
+
+        window.rowData[1] = name;
+        window.rowData[2] = sport;
+        window.rowData[3] = block_pattern;
+        window.rowData[4] = block_pattern_option;
+        window.rowData[6] = qstrike_item_id;
+        window.rowData[7] = priority;
+        window.rowData[12] = customizer_id;
+        window.rowData[13] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
+            if(is_fixed == 1 && status == 'rejected') {
+                window.rowData[13] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
+            }
+        window.rowData[14] = `<input type="hidden" class="notes" value="`+notes+`">`
+            if(notes != '' && status == 'pending') {
+                window.rowData[14] += `<button class="view-notes btn btn-info btn-sm">View</button>`;
+            }
+            else if(notes != '' && status == 'rejected') {
+                window.rowData[14] += `<button class="view-notes btn btn-danger btn-sm">View</button>`;
+            }
+            else {
+                window.rowData[14] += `<button class="view-notes btn btn-default btn-sm">View</button>`;
+            }
     }
 
     var files = [];
@@ -709,6 +738,18 @@ $(function(){
         $('#customizer').removeAttr('style');
         $('#status_div').removeAttr('style');
         $('#is_fixed_div').removeAttr('style');
+    });
+
+    $('.data-table tbody').on( 'click', 'tr', function () {
+        var oTable = $('.data-table').DataTable();
+        window.rowData =  oTable.row(this).data();
+        window.rowIndex = oTable.row(this).index();
+        // console.log(window.rowIndex);
+    });
+
+    $("#myModal").on( 'click', '.save-data', function () {
+        var oTable = $('.data-table').DataTable();
+        oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
     });
 
     $("#myModal").on("hidden.bs.modal", function() {
