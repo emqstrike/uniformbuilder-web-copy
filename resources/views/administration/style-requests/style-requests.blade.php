@@ -640,7 +640,7 @@ $(function(){
             window.rowData[6] = qstrike_item_id;
             window.rowData[7] = priority;
             window.rowData[10] = application_type;
-            window.rowData[12] = customizer_id;
+            window.rowData[12] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+customizer_id+`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='http://customizer.prolook.com/builder/0/`+customizer_id+`'>`+customizer_id+`</a>`;
             window.rowData[13] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
                 if(is_fixed == 1 && status == 'rejected') {
                     window.rowData[13] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
@@ -763,7 +763,7 @@ $(function(){
         var oTable = $('.data-table').DataTable();
         window.rowData =  oTable.row(this).data();
         window.rowIndex = oTable.row(this).index();
-        // console.log(window.rowIndex);
+        console.log(window.rowData[12]);
     });
 
     $("#myModal").on( 'click', '.save-data', function () {
