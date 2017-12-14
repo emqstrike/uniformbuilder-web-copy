@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administration;
 
 use \Redirect;
+use \Session;
 use App\Http\Requests;
 use App\Utilities\Log;
 use App\Utilities\Random;
@@ -30,9 +31,19 @@ class PatternsController extends Controller
     public function index()
     {
         $patterns = $this->client->getPatterns();
-        return view('administration.patterns.patterns', [
+
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+
+        if (in_array($user_id, $su_array)) {
+            return view('administration.patterns.patterns', [
             'patterns' => $patterns
         ]);
+        }
+        else {
+                 return redirect('administration');
+        }
     }
 
     public function editPatternForm($id)
@@ -42,24 +53,41 @@ class PatternsController extends Controller
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
 
-        return view('administration.patterns.pattern-edit', [
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+
+        if (in_array($user_id, $su_array)) {
+            return view('administration.patterns.pattern-edit', [
             'pattern' => $pattern,
             'color' => $colors,
             'categories' => $uniformCategories
         ]);
+        }
+        else {
+            return redirect('administration');
+        }
     }
 
     public function addPatternForm()
     {
         $colors = $this->colorsClient->getColors();
-           $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $uniformCategories = $categoriesAPIClient->getUniformCategories();
-      
 
-        return view('administration.patterns.pattern-create', [
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+
+        if (in_array($user_id, $su_array)) {
+            return view('administration.patterns.pattern-create', [
             'color' => $colors,
             'categories' => $uniformCategories
         ]);
+        }
+        else {
+            return redirect('administration');
+        }
     }
 
     public function store(Request $request)
@@ -149,7 +177,7 @@ class PatternsController extends Controller
         // Upload Neck Options Thumbnails
         try
         {
-            $layerFiles = $request->file('pattern_layer_image');
+            $layerFiles = (array) $request->file('pattern_layer_image');
             $ctr = 1;
             foreach ($layerFiles as $layerFile) {
                 if (!is_null($layerFile))
