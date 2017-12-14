@@ -548,7 +548,7 @@ $('.send-to-factory').on('click', function(e){
                 callback: function (result) {
                     if (result) {
                         $.ajax({
-                            url: 'localhost:8888/api/test/slack_message/order_error',
+                            url: 'http://api-dev.qstrike.com/api/test/slack_message/order_error',
                             type: "POST",
                             data: JSON.stringify(window.error_data),
                             contentType: 'application/json;',
