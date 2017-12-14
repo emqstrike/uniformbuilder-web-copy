@@ -8,6 +8,9 @@ $(document).ready(function(){
 
     window.roster = null;
 
+    window.send_order = false;
+    window.error_message = null;
+
     function splitRosterToQXItems(){
         var grouped = _.groupBy(window.test_size_data, function(e) {
           return e.qx_item_id;
@@ -409,7 +412,7 @@ $('.send-to-factory').on('click', function(e){
     window.team_colors = null;
 
     e.preventDefault();
-    bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
+    // bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
     // PostOrder();
     console.log('send to edit');
     var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
@@ -503,6 +506,67 @@ $('.send-to-factory').on('click', function(e){
                     if(typeof callback === "function") callback(material);
                 }
             });
+        }
+
+        var error_message = validateMaterialPreReq();
+        window.error_message = error_message['message'];
+        console.log('[ [ ERROR MESSAGE ] ]');
+        console.log(error_message);
+        window.error_data = {
+            'error_message' : error_message['data'],
+            'order_id' : order_id,
+            'order_code' : api_order_id,
+            'client' : client,
+            'material_id' : window.customizer_material_id,
+            'type' : 'json'
+        };
+        // console.log(window.error_data);
+        if(error_message['message'] != ''){
+            console.log(window.error_data);
+            // bootbox.dialog({ message: '<div class="text-center">'+error_message+'</div>' });
+            // bootbox.alert('<div class="text-center">'+error_message+'</div>');
+            // bootbox.dialog({ message: '<div class="text-center">'+error_message+'</div>' });
+            // bootbox.confirm('<div class="text-center">'+error_message+'</div><>', function(result) {
+            //     if (result) {
+            //         // currentForm.submit();
+            //         console.log('~ ~ ~ send ajax request!')
+            //     }
+            // });
+            // window.error_data = {};
+            bootbox.confirm({
+                message: '<div><h3>Errors Encountered:</h3></div><div class="text-center">'+error_message['message']+'</div>',
+                buttons: {
+                    confirm: {
+                        label: 'Send Report',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: 'localhost:8888/api/test/slack_message/order_error',
+                            type: "POST",
+                            data: JSON.stringify(window.error_data),
+                            contentType: 'application/json;',
+                            success: function (data) {
+                                bootbox.dialog({ message: 'Our backend team received the error report.' });
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                bootbox.dialog({ message: "Error in sending error report. That's a lot of error..." });
+                            }
+                        });
+                    }
+                }
+            });
+            window.send_order = false;
+            return;
+        } else {
+            window.send_order = true;
+            bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
         }
 
         window.pa = null;
@@ -645,32 +709,34 @@ $('.send-to-factory').on('click', function(e){
     console.log(JSON.stringify(orderEntire['orderParts']));
 
     // SEND ORDER TO EDIT
-    if(window.material.item_id !== undefined){
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify(orderEntire),
-            contentType: 'application/json;',
-            success: function (data) {
-                alert('Order was sent to EDIT!');
-                var factory_order_id = data[0].OrderID;
-                var parts = [];
-                $.each(data, function( index, value ) {
-                    orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-                    console.log(JSON.stringify(orderEntire));
-                    parts.push(orderEntire['orderParts'][index]['orderPart']);
-                });
-                console.log(JSON.stringify(parts));
-                updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
-                // document.location.reload(); // UNCOMMENT
-                // console.log(data[0].OrderID);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                //Error Code Here
-            }
-        });
-    } else {
-        console.log('Material has no item_id')
+    if(window.send_order){
+        if(window.material.item_id !== undefined){
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify(orderEntire),
+                contentType: 'application/json;',
+                success: function (data) {
+                    alert('Order was sent to EDIT!');
+                    var factory_order_id = data[0].OrderID;
+                    var parts = [];
+                    $.each(data, function( index, value ) {
+                        orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+                        console.log(JSON.stringify(orderEntire));
+                        parts.push(orderEntire['orderParts'][index]['orderPart']);
+                    });
+                    console.log(JSON.stringify(parts));
+                    updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+                    // document.location.reload(); // UNCOMMENT
+                    // console.log(data[0].OrderID);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //Error Code Here
+                }
+            });
+        } else {
+            console.log('Material has no item_id')
+        }
     }
 });
 
@@ -986,6 +1052,36 @@ $('.translate-values').on('click', function(e){
     api_order_id = $(this).data('api-order-id');
     applyConfigs(api_order_id);
 });
+
+function validateMaterialPreReq(){
+    var error_message = '';
+    var error_message_data = '';
+    if(window.material.item_id == '' || window.material.item_id == 0 || window.material.item_id == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Item ID.</div>';
+        error_message_data += "Invalid Item ID.";
+    }
+
+    if(window.material.price_item_template_id == '' || window.material.price_item_template_id == 0 || window.material.price_item_template_id == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Price Item Template Used.</div>';
+        error_message_data += "Invalid Price Item Template Used.";
+    }
+
+    if(window.material.qx_sizing_config == '' || window.material.qx_sizing_config == 0 || window.material.qx_sizing_config == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Size Configuration.</div>';
+        error_message_data += "Invalid Size Configuration.";
+    }
+
+    if(window.material.parts_alias_id == '' || window.material.parts_alias_id == 0 || window.material.parts_alias_id == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Parts Alias Configuration.</div>';
+        error_message_data += "Invalid Parts Alias Configuration.";
+    }
+
+    var error_info = {
+        'message' : error_message,
+        'data' : error_message_data,
+    }
+    return error_info;
+}
 
 function translateToSocksColor(color_name, color_code){
     // custom colors for crew socks only
