@@ -763,7 +763,6 @@ $(function(){
         var oTable = $('.data-table').DataTable();
         window.rowData =  oTable.row(this).data();
         window.rowIndex = oTable.row(this).index();
-        console.log(window.rowData[12]);
     });
 
     $("#myModal").on( 'click', '.save-data', function () {
