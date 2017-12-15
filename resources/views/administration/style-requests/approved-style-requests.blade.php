@@ -346,6 +346,7 @@ $(function(){
         "ordering": false,
         "info": false,
         "autoWidth": false,
+        "stateSave": true,
         "drawCallback" : function() {
              $('[data-toggle="tooltip"]').popover({
                 html: true,
@@ -482,31 +483,52 @@ $(function(){
     window.block_pattern_option = null;
     window.uniform_category_id = null;
 
+    window.rowIndex = null;
+    window.rowData = null;
+
     $('.save-data').on('click', function(e){
         e.preventDefault();
         var data = $('.data-string').val();
         if (window.data.id != '')
         {
             var url = "//" + api_host + "/api/v1-0/style_request/update";
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: data,
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        // console.log(response.data);
+                        $('#myModal').modal('hide');
+                    }
+                }
+            });
         }
         else {
             var url = "//" + api_host + "/api/v1-0/style_request";
-        }
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    // console.log(response.data);
-                    window.location.reload();
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: data,
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": atob(headerValue)},
+                success: function(response){
+                    if (response.success) {
+                        // console.log(response.data);
+                        window.location.reload();
+                    }
                 }
-            }
-        });
+            });
+        }
+
     });
 
     function updateData(){
@@ -561,6 +583,28 @@ $(function(){
         };
         $('.data-string').val(JSON.stringify(window.data));
         console.log(window.data);
+
+        if(id != '') {
+            window.rowData[1] = name;
+            window.rowData[2] = sport;
+            window.rowData[3] = block_pattern;
+            window.rowData[4] = block_pattern_option;
+            window.rowData[6] = qstrike_item_id;
+            window.rowData[7] = priority;
+            window.rowData[10] = application_type;
+            window.rowData[12] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+customizer_id+`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='http://customizer.prolook.com/builder/0/`+customizer_id+`'>`+customizer_id+`</a>`;
+            window.rowData[13] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
+                if(is_fixed == 1 && status == 'rejected') {
+                    window.rowData[13] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
+                }
+            window.rowData[14] = `<input type="hidden" class="notes" value="`+notes+`">`
+                if(notes != '' && status == 'approved') {
+                    window.rowData[14] += `<button class="view-notes btn btn-warning btn-sm">View</button>`;
+                }
+                else {
+                    window.rowData[14] += `<button class="view-notes btn btn-default btn-sm">View</button>`;
+                }
+        }
     }
 
     var files = [];
@@ -662,6 +706,17 @@ $(function(){
         $('#customizer').removeAttr('style');
         $('#status_div').removeAttr('style');
         $('#is_fixed_div').removeAttr('style');
+    });
+
+    $('.data-table tbody').on( 'click', 'tr', function () {
+        var oTable = $('.data-table').DataTable();
+        window.rowData =  oTable.row(this).data();
+        window.rowIndex = oTable.row(this).index();
+    });
+
+    $("#myModal").on( 'click', '.save-data', function () {
+        var oTable = $('.data-table').DataTable();
+        oTable.row(window.rowIndex).data(window.rowData).invalidate().draw("full-hold");
     });
 
     $("#myModal").on("hidden.bs.modal", function() {
