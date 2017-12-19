@@ -254,8 +254,9 @@ $(document).ready(function() {
     $(document).on('keyup', '.app-pattern-properties', function() {
         var id = $(this).parent().find('.app-def-pattern').val();
         var props = $(this).val();
+        console.log('propss'+props+'test');
         var pattern_loaded = 0;
-        if( props != 'undefined' ){
+        if( !(props != "" || props != null || props != undefined) ) {
             pattern_loaded = 1;
             console.log('loaded');
         }

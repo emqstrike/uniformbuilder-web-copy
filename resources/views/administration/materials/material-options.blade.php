@@ -523,16 +523,18 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
 @if (Session::has('message'))
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
-    });
-
-
+    try {
+        $('.data-table').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+    } catch(e) {
+        console.log(e);
+    }
 });
 @endif
 </script>
