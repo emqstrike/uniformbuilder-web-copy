@@ -7503,8 +7503,14 @@ $(document).ready(function () {
         $('div#main-picker-container').show();
 
         var _actualGender = gender;
-
-        var items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
+        
+        if (sport === "Football") {
+            items = _.filter(ub.materials, function (material)  {
+                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === gender.toLowerCase();
+            });
+        } else {
+            items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
+        }
 
         if (typeof fromDirectLink !== "undefined" && _.size(items) === 0) {
 
