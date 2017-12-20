@@ -8105,6 +8105,10 @@ ub.funcs.fontOffSets = [
             filters: ['All', 'Jersey', 'Pant'],
         },
         {
+            sport: 'Football 2017',
+            filters: ['All', 'Jersey', 'Pant'],
+        },
+        {
             sport: 'Basketball',
             filters: ['All', 'Jersey', 'Shorts'],
         },
