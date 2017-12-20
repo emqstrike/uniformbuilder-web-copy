@@ -165,6 +165,9 @@ $(document).ready(function(){
         for(var i = 1; i <= 51; i++){
             elem += '<option value="'+i+'">'+i+'</option>';
         }
+        for(var i = 71; i <= 99; i++){
+            elem += '<option value="'+i+'">'+i+'</option>';
+        }
         return elem;
     }
 
