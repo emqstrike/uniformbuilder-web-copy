@@ -1648,6 +1648,7 @@ $(document).ready(function () {
                     (material.uniform_category === "Basketball" && material.type === "lower") || 
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
+                    (material.uniform_category === "Football 2017" && material.type === "lower") ||
                     ub.funcs.isSocks()) {
 
                     material.thumbnail_path_left = material.thumbnail_path_front;
@@ -3152,6 +3153,10 @@ $(document).ready(function () {
                             default_color = 'B';
                         }
 
+                    }
+
+                    if (ub.data.excludedColors.isExcluded(ub.config.sport, ub.config.uniform_application_type, default_color)) {
+                        ub.utilities.error(default_color + ' is turned off for football / tackle twill uniforms');
                     }
 
                     var color = _.find(ub.data.colors, { color_code: default_color });
