@@ -254,11 +254,15 @@ $(document).ready(function() {
     $(document).on('keyup', '.app-pattern-properties', function() {
         var id = $(this).parent().find('.app-def-pattern').val();
         var props = $(this).val();
-        console.log('propss'+props+'test');
         var pattern_loaded = 0;
-        if( !(props != "" || props != null || props != undefined) ) {
+
+        //set blank pattern for existing applications
+        if( props == undefined || props == 'undefined' || props == "" || props == null ) {
+            $(this).parent().find('.app-def-pattern').val(33);
+            id = 33;
+        }
+        else {
             pattern_loaded = 1;
-            console.log('loaded');
         }
         loadAppPatternLayers($(this), id, pattern_loaded);
     });
@@ -676,9 +680,14 @@ $(document).ready(function() {
         });
 
         $.each(input_patterns, function (i, item) {
-            def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
+            if(item.id == 33) {
+                def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
+            }
+            else {
+                def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
+            }
         });
-
+        var blank_pattern = '{"1":{"default_color":"W","file_path":"https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/Blank/174d8840919615bfd3255478.png","layer":"1","team_color_id":"1"}}';
 
         var font_label              = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Font:</label>';
         var default_text_label      = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Text:</label>';
@@ -710,7 +719,7 @@ $(document).ready(function() {
         var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
         var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
         var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" value="" size="2">';
-        var app_default_pattern     = '<select style="' + style + '" class="app-def-pattern" data-id="' + group.id + '">' + def_patterns_options + '</select><div class="col-md-12 app_pattern_layers_OC" data-id="' + group.id + '" id="app_pattern_layers_OC"></div><input type="hidden" style="' + style + '" data-id="' + group.id + '" class="app-pattern-properties" value="">';
+        var app_default_pattern     = `<select style="` + style + `" class="app-def-pattern" data-id="` + group.id + `">` + def_patterns_options + `</select><div class="col-md-12 app_pattern_layers_OC" data-id="` + group.id + `" id="app_pattern_layers_OC"></div><input type="text" style="` + style + `" data-id="` + group.id + `" class="app-pattern-properties" value=`+blank_pattern+`>`;
         var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
@@ -866,8 +875,6 @@ $(document).ready(function() {
            $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
 
         }
-
-
 
         $(".app-rotation-flip").each(function(i) {
             $(this).on('click', function(){
@@ -2046,7 +2053,6 @@ $(document).ready(function() {
         }
 
         $('.app-pattern-properties').trigger('keyup');
-
 
     }
 
