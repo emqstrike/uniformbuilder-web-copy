@@ -665,7 +665,7 @@ $(document).ready(function() {
             }
         }
 
-        var def_patterns_options = '<option value="">None</option>';
+        var def_patterns_options = '';
         var current_sport = $('#material_uniform_category').val();
         var current_asset_target = $('#material_asset_target').val();
         var current_bp_options = $('#material_neck_option').val();
@@ -687,6 +687,7 @@ $(document).ready(function() {
                 def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
             }
         });
+
         var blank_pattern = '{"1":{"default_color":"W","file_path":"https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/Blank/174d8840919615bfd3255478.png","layer":"1","team_color_id":"1"}}';
 
         var font_label              = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Font:</label>';
@@ -719,7 +720,7 @@ $(document).ready(function() {
         var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
         var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
         var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" value="" size="2">';
-        var app_default_pattern     = `<select style="` + style + `" class="app-def-pattern" data-id="` + group.id + `">` + def_patterns_options + `</select><div class="col-md-12 app_pattern_layers_OC" data-id="` + group.id + `" id="app_pattern_layers_OC"></div><input type="text" style="` + style + `" data-id="` + group.id + `" class="app-pattern-properties" value=`+blank_pattern+`>`;
+        var app_default_pattern     = `<select style="` + style + `" class="app-def-pattern" data-id="` + group.id + `">` + def_patterns_options + `</select><div class="col-md-12 app_pattern_layers_OC" data-id="` + group.id + `" id="app_pattern_layers_OC"></div><input type="hidden" style="` + style + `" data-id="` + group.id + `" class="app-pattern-properties" value=`+blank_pattern+`>`;
         var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
@@ -1716,7 +1717,7 @@ $(document).ready(function() {
                     }
                 }
 
-                var def_patterns_options = '<option value="">None</option>';
+                var def_patterns_options = '';
                 var current_sport = $('#material_uniform_category').val();
                 var current_asset_target = $('#material_asset_target').val();
                 var current_bp_options = $('#material_neck_option').val();
@@ -1729,6 +1730,11 @@ $(document).ready(function() {
                 var optionsOk = _.contains(sport, current_bp_options) || bp_options === null || bp_options === '[""]';
                     return (sportOk && optionsOk && asset_target === current_asset_target);
                 });
+                console.log('def'+app_properties[l].appDefPattern);
+                // set BLANK pattern for existing
+                if(app_properties[l].appDefPattern === '' || app_properties[l].appDefPattern === null || app_properties[l].appDefPattern === 'undefined' || app_properties[l].appDefPattern === undefined) {
+                    app_properties[l].appDefPattern = 33;
+                }
 
                 $.each(input_patterns, function (i, item) {
                     if(app_properties[l].appDefPattern == item.id) {
