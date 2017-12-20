@@ -8105,6 +8105,10 @@ ub.funcs.fontOffSets = [
             filters: ['All', 'Jersey', 'Pant'],
         },
         {
+            sport: 'Football 2017',
+            filters: ['All', 'Jersey', 'Pant'],
+        },
+        {
             sport: 'Basketball',
             filters: ['All', 'Jersey', 'Shorts'],
         },
@@ -11606,6 +11610,53 @@ ub.funcs.fontOffSets = [
             return _.contains(this.items, sport);
         },
         
+    }
+
+    // Category Specific Colors 
+
+    ub.data.excludedColors = {
+
+        items: [
+            {
+                sport: ['Football', 'Football 2017'],
+                uniformApplicationType: 'tackle_twill',
+                excludedColors: [
+                    'PK',
+                    'NP',
+                    'Y',
+                    'LG',
+                    'DG',
+                    'CR',
+                ]
+            }
+        ],
+        
+        isExcluded: function (sport, uniformApplicationType, colorCode) {
+
+            var _result = _.filter(this.items, function (item) {
+                return _.contains(item.sport, sport) && uniformApplicationType === item.uniformApplicationType;
+            });
+
+            if (_.size(_result) > 0) {
+
+                var _result = _.filter(_result, function (item) {
+                    return _.contains(item.excludedColors, colorCode)
+                });
+
+                if (_.size(_result) > 0) {
+                    return true;
+                } else {
+                    return false;    
+                }
+
+            } else {
+
+                return false;
+
+            }
+
+        }
+
     }
 
     // Shortcuts
