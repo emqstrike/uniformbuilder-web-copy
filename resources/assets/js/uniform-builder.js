@@ -7165,25 +7165,48 @@ $(document).ready(function () {
 
                     if (ub.filters.primary !== 'All') {
 
-
-                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, gender: actualGender });    
+                        if (gender === "Football") {
+                            items = _.filter(ub.materials, function (material)  {
+                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.uniform_application_type === ub.filters.primary && material.gender === actualGender;
+                            });
+                        } else {
+                            items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, gender: actualGender });    
+                        }
 
                     } else {
 
+                        if (gender === "Football") {
+                            items = _.filter(ub.materials, function (material)  {
+                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === actualGender;
+                            });
+                        } else {
+                            items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender });    
+                        }                       
                         
-                        items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender });    
-
                     }
 
                 } else {
 
                     if (ub.filters.primary !== 'All') {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary,  type: ub.filters.primary, gender: actualGender });    
+                        if (gender === "Football") {
+                            items = _.filter(ub.materials, function (material)  {
+                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.uniform_application_type === ub.filters.secondary && material.uniform_application_type === ub.filters.primary && material.gender === actualGender;
+                            });
+                        } else {
+                            items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary,  type: ub.filters.primary, gender: actualGender });    
+                        }                
+
 
                     } else {
-
-                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });
+                        
+                        if (gender === "Football") {
+                            items = _.filter(ub.materials, function (material)  {
+                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.uniform_application_type === ub.filters.secondary && material.gender === actualGender;
+                            });
+                        } else {
+                            items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });
+                        }       
 
                     }
 
@@ -7221,11 +7244,24 @@ $(document).ready(function () {
 
                     if (ub.filters.secondary !== 'All') {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });    
+                        if (gender === "Football") {
+                            items = _.filter(ub.materials, function (material)  {
+                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.uniform_application_type === ub.filters.secondary && material.gender === actualGender;
+                            });
+                        } else {
+                            items = _.filter(ub.materials, { uniform_category: gender, uniform_application_type: ub.filters.secondary, gender: actualGender });    
+                        }
+
 
                     } else {
-                        
-                        items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender }); 
+
+                        if (gender === "Football") {
+                            items = _.filter(ub.materials, function (material)  {
+                                return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === actualGender;
+                            });
+                        } else {
+                            items = _.filter(ub.materials, { uniform_category: gender, gender: actualGender }); 
+                        }
 
                     }
 
@@ -7233,11 +7269,23 @@ $(document).ready(function () {
 
                     if (ub.filters.secondary !== 'All') {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, uniform_application_type: ub.filters.secondary, gender: actualGender });    
+                        if (gender === "Football") {
+                            items = _.filter(ub.materials, function (material)  {
+                                return (material.uniform_category === "Football" || material.uniform_category === "Football 2017") && material.type === ub.filters.primary && material.uniform_application_type === ub.filters.secondary && material.gender === actualGender;
+                            });
+                        } else {
+                            items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, uniform_application_type: ub.filters.secondary, gender: actualGender });    
+                        }
 
                     } else {
 
-                        items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, gender: actualGender });
+                        if (gender === "Football") {
+                            items = _.filter(ub.materials, function (material)  {
+                                return (material.uniform_category === "Football" || material.uniform_category === "Football 2017") && material.type === ub.filters.primary && material.gender === actualGender;
+                            });
+                        } else {
+                            items = _.filter(ub.materials, { uniform_category: gender, type: ub.filters.primary, gender: actualGender });
+                        }
 
                     }
 
