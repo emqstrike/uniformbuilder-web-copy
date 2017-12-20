@@ -3154,6 +3154,10 @@ $(document).ready(function () {
 
                     }
 
+                    if (ub.data.excludedColors.isExcluded(ub.config.sport, ub.config.uniform_application_type, default_color)) {
+                        ub.utilities.error(default_color + ' is turned off for football / tackle twill uniforms');
+                    }
+
                     var color = _.find(ub.data.colors, { color_code: default_color });
                     var tint = parseInt(color.hex_code, 16);
                     var modifier_label = name;
