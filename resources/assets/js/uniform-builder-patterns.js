@@ -437,7 +437,6 @@ $(document).ready(function () {
 
     }
 
-
     ub.funcs.changePatternFromPopupApplications = function (settingsObj, patternID) {
 
         var _code = settingsObj.code;
@@ -490,6 +489,105 @@ $(document).ready(function () {
             _templateStr = ub.funcs.updateTextPatternPanel(_patternObject);
 
             $.when($patternPanelContainer.html(_templateStr)).then(ub.funcs.setupPatternsAndSmallColorPickerEvents(settingsObj));
+
+        }
+
+    }
+
+    ub.funcs.prepBackendPatternSettings = function (applicationObj) {
+
+        _.each(applicationObj.application.views, function (view) {
+
+            if (view.application.appDefPattern !== "" && typeof view.application.appDefPattern !== "undefined") {
+
+                view.application.patternDefinition = {
+
+                    id: view.application.appDefPattern, 
+                    layers: JSON.parse(view.application.appPatternProperties),
+
+                }
+
+                applicationObj.withPattern = true;
+                applicationObj.patternID = view.application.patternDefinition.id;
+                applicationObj.patternConfigFromBackend = view.application.patternDefinition;
+
+            } else {
+
+                applicationObj.withPattern = false;
+
+            }
+            
+        });
+
+        return applicationObj;
+
+    };
+
+    ub.funcs.changePatternFromBackend = function (settingsObj, patternID, patternSettingsFromBackend) {
+
+        var _code = settingsObj.code;
+
+        var _patternID                  = patternID.toString();
+        var _patternObject              = _.find(ub.data.patterns.items, {id: _patternID.toString()});
+        var _uniform_type               = ub.current_material.material.type;
+        var app_containers              = ub.current_material.containers[_uniform_type].application_containers;
+
+        var _primaryView = ub.funcs.getPrimaryView(settingsObj.application);
+        var _spriteCollection = ub.objects[_primaryView + '_view']['objects_' + settingsObj.code];
+
+        _.each (_patternObject.layers, function (layer) {
+
+            var backendLayerSettings = _.find(patternSettingsFromBackend.layers, { layer: layer.layer_no.toString() })
+
+            if (typeof backendLayerSettings !== "undefined") {
+
+                var colorObj = ub.funcs.getColorByColorCode(backendLayerSettings.default_color);
+
+                if (typeof colorObj !== "undefined") {
+
+                    layer.default_color = colorObj.hex_code; // Assign New Team Color if not just use default 
+                    layer.color_code = backendLayerSettings.default_color;
+
+                } else {
+
+                    var team_color = ub.funcs.getTeamColorObjByIndex(layer.team_color_id);
+
+                    if (typeof team_color !== 'undefined') {
+
+                        layer.default_color = team_color.hex_code; // Assign New Team Color if not just use default 
+                        layer.color_code = team_color.color_code;
+
+                    }
+
+                }
+
+            }
+            
+            
+            
+        });
+
+        var _patternObj = _.find(ub.data.patterns.items, {id: patternID.toString()});
+
+        settingsObj.pattern_obj = _patternObj;
+
+        if (typeof settingsObj.pattern_obj === 'object') {
+
+            var $patternPanelContainer = $('div.column1.applications.patterns');
+            var _templateStr = '';
+
+            if (typeof settingsObj.pattern_settings === "undefined") {
+
+                settingsObj.pattern_settings = {
+
+                    rotation: 0,
+                    scale: {x: 1, y: 1},
+                    position: {x: 0, y: 0},
+                    opacity: 1, 
+
+                };
+
+            }
 
         }
 

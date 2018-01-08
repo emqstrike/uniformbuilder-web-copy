@@ -2604,7 +2604,14 @@ $(document).ready(function () {
 
             }
 
-            
+            // Application Pattern
+            application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
+            if (application_obj.withPattern) { ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); }
+
+            // Application Opacity
+            application_obj = ub.funcs.prepareBackendOpacitySettings(application_obj);
+            if (application_obj.withOpacity) { ub.funcs.changeMascotOpacityFromBackend(application_obj, application_obj.opacityConfig); }
+
             if (application_obj.type !== "mascot" && application_obj.type !== "logo" && application_obj.type !== "free") {
 
                 var _textApplicationTypes   = ['player_name', 'front_number', 'team_name', 'back_number', 'shoulder_number', 'tv_number', 'sleeve_number', 'numbers_extra'];

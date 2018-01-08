@@ -2154,6 +2154,10 @@ $(document).ready(function() {
                 name: "Field Hockey",
                 alias: "field-hockey",
             },
+            { 
+                name: "Compression Pant (Apparel)",
+                alias: "compression-pant",
+            },
 
         ],
 
@@ -10135,6 +10139,10 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Field Hockey',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Compression Pant (Apparel)',
                 sublimatedPart: 'Extra',
             },
 
