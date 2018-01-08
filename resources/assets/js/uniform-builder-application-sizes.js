@@ -2270,7 +2270,33 @@ $(document).ready(function() {
                                 size: 12,
                             }
                 ],
-            }
+            },
+
+            // Compression Pant (Apparel)
+            {
+                name: 'mascot',
+                sport: 'compression-pant',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            }
+
+                ],
+            },
+
         ], 
         getSize: function (applicationType, sport, id) {
 
@@ -2297,7 +2323,7 @@ $(document).ready(function() {
             if (sport === "football 2017")                      { return _result[0]; }
             if (sport === "game-day-coaches-jackets")           { return _result[0]; }
             if (sport === "field-hockey")                       { return _result[0]; }
-
+            if (sport === "compression-pant")                   { return _result[0]; }
 
             if (typeof _object === "undefined") {
 
