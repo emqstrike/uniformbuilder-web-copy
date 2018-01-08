@@ -111,7 +111,9 @@
                         </td>
                         <td>
                             <input type="hidden" class="notes" value="{{$style_request->notes}}">
-                            @if($style_request->notes != '' AND  $style_request->status == 'pending')
+                            @if($style_request->is_fixed)
+                                <button class="view-notes btn btn-success btn-sm">View</button>
+                            @elseif($style_request->notes != '' AND  $style_request->status == 'pending')
                                 <button class="view-notes btn btn-info btn-sm">View</button>
                             @elseif($style_request->notes != '' AND  $style_request->status == 'rejected')
                                 <button class="view-notes btn btn-danger btn-sm">View</button>
@@ -646,7 +648,10 @@ $(function(){
                     window.rowData[13] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
                 }
             window.rowData[14] = `<input type="hidden" class="notes" value="`+notes+`">`
-                if(notes != '' && status == 'pending') {
+                if(is_fixed == 1) {
+                    window.rowData[14] += `<button class="view-notes btn btn-success btn-sm">View</button>`;
+                }
+                else if(notes != '' && status == 'pending') {
                     window.rowData[14] += `<button class="view-notes btn btn-info btn-sm">View</button>`;
                 }
                 else if(notes != '' && status == 'rejected') {

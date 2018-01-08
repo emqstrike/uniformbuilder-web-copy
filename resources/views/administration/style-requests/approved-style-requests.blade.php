@@ -110,7 +110,9 @@
                         </td>
                         <td>
                               <input type="hidden" class="notes" value="{{$style_request->notes}}">
-                            @if($style_request->notes != '' AND  $style_request->status == 'approved')
+                            @if($style_request->is_fixed)
+                                <button class="view-notes btn btn-success btn-sm">View</button>
+                            @elseif($style_request->notes != '' AND  $style_request->status == 'approved')
                                 <button class="view-notes btn btn-warning btn-sm">View</button>
                             @else
                                 <button class="view-notes btn btn-default btn-sm">View</button>
@@ -594,11 +596,14 @@ $(function(){
             window.rowData[10] = application_type;
             window.rowData[12] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+customizer_id+`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='http://customizer.prolook.com/builder/0/`+customizer_id+`'>`+customizer_id+`</a>`;
             window.rowData[13] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
-                if(is_fixed == 1 && status == 'rejected') {
+                if(is_fixed == 1 && status == 'approved') {
                     window.rowData[13] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
                 }
             window.rowData[14] = `<input type="hidden" class="notes" value="`+notes+`">`
-                if(notes != '' && status == 'approved') {
+                if(is_fixed == 1) {
+                    window.rowData[14] += `<button class="view-notes btn btn-success btn-sm">View</button>`;
+                }
+                else if(notes != '' && status == 'approved') {
                     window.rowData[14] += `<button class="view-notes btn btn-warning btn-sm">View</button>`;
                 }
                 else {
