@@ -6376,8 +6376,6 @@ $(document).ready(function() {
        
         if (applicationObj.application_type === "mascot" && ub.config.uniform_application_type === "sublimated") {
 
-            console.log('Requirements Passed! ' + applicationObj.code);
-
             _.each(applicationObj.application.views, function (view) {
 
                 if (view.application.appOpacity !== "" && typeof view.application.appOpacity !== "undefined") {
