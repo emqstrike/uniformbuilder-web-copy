@@ -6374,22 +6374,26 @@ $(document).ready(function() {
 
     ub.funcs.prepareBackendOpacitySettings = function (applicationObj) {
        
-        if (applicationObj.application_type )
+        if (applicationObj.application_type === "mascot" && ub.config.uniform_application_type === "sublimated") {
 
-         _.each(applicationObj.application.views, function (view) {
+            console.log('Requirements Passed! ' + applicationObj.code);
 
-            if (view.application.appOpacity !== "" && typeof view.application.appOpacity !== "undefined") {
+            _.each(applicationObj.application.views, function (view) {
 
-                applicationObj.withOpacity = true;
-                applicationObj.opacityConfig = view.application.appOpacity;
+                if (view.application.appOpacity !== "" && typeof view.application.appOpacity !== "undefined") {
 
-            } else {
+                    applicationObj.withOpacity = true;
+                    applicationObj.opacityConfig = view.application.appOpacity;
 
-                applicationObj.withOpacity = false;
+                } else {
 
-            }
-            
-        });
+                    applicationObj.withOpacity = false;
+
+                }
+                
+            });
+
+        }
 
         return applicationObj;
 
