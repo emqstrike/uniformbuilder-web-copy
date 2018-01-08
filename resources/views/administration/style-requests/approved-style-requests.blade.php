@@ -62,6 +62,7 @@
                             <th>Priority</th>
                             <th>Deadline</th>
                             <th>Requested By</th>
+                            <th>Type</th>
                             <th>Application Type</th>
                             <th>Uploaded</th>
                             <th>Customizer ID</th>
@@ -85,6 +86,7 @@
                         <td class="style-priority">{{ $style_request->priority }}</td>
                         <td >{{ $style_request->deadline }}</td>
                         <td>{{ $style_request->requested_by }}</td>
+                        <td class="style-type">{{ $style_request->type }}</td>
                         <td class="style-application-type">{{ $style_request->uniform_application_type }}</td>
                         <td>
                             @if($style_request->uploaded)
@@ -219,12 +221,22 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-md-4 control-label">Type</label>
+                <div class="col-md-6">
+                    <select class="form-control type">
+                        <option value="upper">Upper</option>
+                        <option value="lower">Lower</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-md-4 control-label">Application Type</label>
                 <div class="col-md-6">
                     <select class="form-control application_type">
                         <option value="none">None</option>
                         <option value="tackle_twill">Tackle Twill</option>
                         <option value="sublimated">Sublimated</option>
+                        <option value="knitted">Knitted</option>
                     </select>
                 </div>
             </div>
@@ -567,6 +579,7 @@ $(function(){
         var status = $('.status').val();
         var notes = $('#input_notes').val();
         var application_type = $('.application_type').val();
+        var type = $('.type').val();
         window.data = {
             'id' : id,
             'name' : name,
@@ -575,13 +588,13 @@ $(function(){
             'sport' : sport,
             'qstrike_item_id' : qstrike_item_id,
             'priority' : priority,
-            // 'deadline' : deadline,
             'design_sheet_url' : design_sheet_url,
             'customizer_id' : customizer_id,
             'status' : status,
             'notes' : notes,
             'uniform_application_type' : application_type,
-            'is_fixed' : is_fixed
+            'is_fixed' : is_fixed,
+            'type' : type
         };
         $('.data-string').val(JSON.stringify(window.data));
         console.log(window.data);
@@ -593,21 +606,22 @@ $(function(){
             window.rowData[4] = block_pattern_option;
             window.rowData[6] = qstrike_item_id;
             window.rowData[7] = priority;
-            window.rowData[10] = application_type;
-            window.rowData[12] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+customizer_id+`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='http://customizer.prolook.com/builder/0/`+customizer_id+`'>`+customizer_id+`</a>`;
-            window.rowData[13] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
+            window.rowData[10] = type;
+            window.rowData[11] = application_type;
+            window.rowData[13] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+customizer_id+`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='http://customizer.prolook.com/builder/0/`+customizer_id+`'>`+customizer_id+`</a>`;
+            window.rowData[14] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
                 if(is_fixed == 1 && status == 'approved') {
-                    window.rowData[13] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
+                    window.rowData[14] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
                 }
-            window.rowData[14] = `<input type="hidden" class="notes" value="`+notes+`">`
+            window.rowData[15] = `<input type="hidden" class="notes" value="`+notes+`">`
                 if(is_fixed == 1) {
-                    window.rowData[14] += `<button class="view-notes btn btn-success btn-sm">View</button>`;
+                    window.rowData[15] += `<button class="view-notes btn btn-success btn-sm">View</button>`;
                 }
                 else if(notes != '' && status == 'approved') {
-                    window.rowData[14] += `<button class="view-notes btn btn-warning btn-sm">View</button>`;
+                    window.rowData[15] += `<button class="view-notes btn btn-warning btn-sm">View</button>`;
                 }
                 else {
-                    window.rowData[14] += `<button class="view-notes btn btn-default btn-sm">View</button>`;
+                    window.rowData[15] += `<button class="view-notes btn btn-default btn-sm">View</button>`;
                 }
         }
     }
@@ -734,6 +748,7 @@ $(function(){
         $('.qstrike-item-id').val('');
         $('.customizer-id').val('');
         $('#input_notes').val('');
+        $('.type').val('upper');
         $('.application_type').val('none');
         $('.is_fixed').prop('checked', false);
         $('.custom_block_pattern').val(null);
@@ -762,7 +777,7 @@ $(function(){
         }
     });
 
-    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type, .is_fixed").on("change", function(e){
+    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type, .is_fixed, .type").on("change", function(e){
         e.preventDefault();
         var name = document.getElementById("name").value;
         var qx_id = document.getElementById("qstrike_item_id").value;
@@ -774,7 +789,7 @@ $(function(){
         }
     });
 
-    $(".custom_block_pattern, .custom_option, .enable_custom_bp, .enable_custom_bpo").on("change", function(e){
+    $(".custom_block_pattern, .custom_option, .enable_custom_bp, .enable_custom_bpo, .type").on("change", function(e){
         e.preventDefault();
         updateData();
     });
@@ -814,6 +829,7 @@ $(function(){
         var customizer_id = thisObj.parent().parent().find('.style-customizer-id').val();
         var status = thisObj.parent().parent().find('.style-status').val();
         var notes = thisObj.parent().parent().find('.notes').val();
+        var type = thisObj.parent().parent().find('.style-type').html();
         var application_type = thisObj.parent().parent().find('.style-application-type').html();
         var is_fixed = thisObj.parent().parent().find('.style-is-fixed').val();
         window.sport_value = sport;
@@ -828,6 +844,7 @@ $(function(){
         $('.customizer-id').val(customizer_id);
         $('.status').val(status);
         $('#input_notes').val(notes);
+        $('.type').val(type);
         $('.application_type').val(application_type);
 
         if (is_fixed == 1)
