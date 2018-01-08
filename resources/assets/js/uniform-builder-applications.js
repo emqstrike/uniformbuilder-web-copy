@@ -6372,6 +6372,36 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.prepareBackendOpacitySettings = function (applicationObj) {
+       
+        if (applicationObj.application_type )
+
+         _.each(applicationObj.application.views, function (view) {
+
+            if (view.application.appOpacity !== "" && typeof view.application.appOpacity !== "undefined") {
+
+                applicationObj.withOpacity = true;
+                applicationObj.opacityConfig = view.application.appOpacity;
+
+            } else {
+
+                applicationObj.withOpacity = false;
+
+            }
+            
+        });
+
+        return applicationObj;
+
+    }
+
+    ub.funcs.changeMascotOpacityFromBackend = function (applicationObj, opacity) {
+
+        var _value = parseInt(opacity);
+        applicationObj.alpha = parseInt(_value) / 100;
+
+    }
+
     ub.funcs.activateMascots = function (application_id) {
 
         if (ub.funcs.popupsVisible()) { return; }
