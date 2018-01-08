@@ -621,7 +621,7 @@ $(function(){
             'sport' : sport,
             'qstrike_item_id' : qstrike_item_id,
             'priority' : priority,
-            'deadline' : deadline,
+            // 'deadline' : deadline,
             'design_sheet_url' : design_sheet_url,
             'customizer_id' : customizer_id,
             'status' : status,
