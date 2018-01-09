@@ -110,7 +110,7 @@
             <span class="slink main-picker-items back-link" data-picker-type="gender" data-item="Home"><i class="fa fa-home" aria-hidden="true"></i></span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Men">Men</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Women">Women</span>
-            <span class="slink main-picker-items" data-picker-type="gender" data-item="Youth">Youth</span>
+            <!-- <span class="slink main-picker-items" data-picker-type="gender" data-item="Youth">Youth</span> -->
             
             <span class="slink main-picker-items loading" data-picker-type="gender" data-item="Loading">
                <img src="/images/loading.gif" width="50" height="50" />

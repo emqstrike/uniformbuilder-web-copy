@@ -9965,6 +9965,8 @@ ub.funcs.fontOffSets = [
             'Football 2017',
             'Game Day Coaches Jackets (Apparel)',
             'Field Hockey',
+            'Compression Pant (Apparel)',
+            'Socks (Apparel)',
         ],
         options: [
             'Fight Short',

@@ -3133,6 +3133,12 @@ $(document).ready(function () {
                     }
 
                 }
+
+                if (name === "mesh_highlights") {
+                    current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
+                } else if (name === "mesh_shadows") {
+                    current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+                }
                 
                 if (obj.setting_type === 'highlights') {
 
