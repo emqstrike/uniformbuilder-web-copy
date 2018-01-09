@@ -6374,22 +6374,24 @@ $(document).ready(function() {
 
     ub.funcs.prepareBackendOpacitySettings = function (applicationObj) {
        
-        if (applicationObj.application_type )
+        if (applicationObj.application_type === "mascot" && ub.config.uniform_application_type === "sublimated") {
 
-         _.each(applicationObj.application.views, function (view) {
+            _.each(applicationObj.application.views, function (view) {
 
-            if (view.application.appOpacity !== "" && typeof view.application.appOpacity !== "undefined") {
+                if (view.application.appOpacity !== "" && typeof view.application.appOpacity !== "undefined") {
 
-                applicationObj.withOpacity = true;
-                applicationObj.opacityConfig = view.application.appOpacity;
+                    applicationObj.withOpacity = true;
+                    applicationObj.opacityConfig = view.application.appOpacity;
 
-            } else {
+                } else {
 
-                applicationObj.withOpacity = false;
+                    applicationObj.withOpacity = false;
 
-            }
-            
-        });
+                }
+                
+            });
+
+        }
 
         return applicationObj;
 
@@ -10648,9 +10650,13 @@ $(document).ready(function() {
                     //     $('span.perspective[data-id="front"]').addClass('active'); 
                     // }
 
-                    if (_part === "Body") { 
+                    var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
+
+                    if (_part === "Body" && !_isLowerFootball2017Uniform) { 
+
                         $('span.perspective').removeClass('active');
                         $('span.perspective[data-id="front"]').addClass('active'); 
+
                     }
 
                     $('label.leftrightPart, div.side-container').hide();                    
