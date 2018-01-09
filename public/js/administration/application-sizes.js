@@ -156,7 +156,7 @@ $(document).ready(function(){
             };
             data.push(x);
         });
-        console.log(JSON.stringify(data));
+        // console.log(JSON.stringify(data));
         $('#properties').val(JSON.stringify(data));
     }
 
@@ -257,5 +257,4 @@ $(document).ready(function(){
     $("#create_application_size").on("click", ".delete-row", function(e){
         updateJSON();
     });
-
 });
