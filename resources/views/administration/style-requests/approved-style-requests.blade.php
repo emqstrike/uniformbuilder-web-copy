@@ -80,11 +80,12 @@
                         <td class="style-block-pattern">{{ $style_request->block_pattern }}</td>
                         <td class="style-option">{{ $style_request->block_pattern_option }}</td>
                         <td>
+                            <input type="hidden" name="style_design_sheet_url"" class="style-design-sheet-url" value="{{ $style_request->design_sheet_url }}">
                             <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $style_request->design_sheet_url }}">Link</a>
                         </td>
                         <td class="style-qstrike-item-id">{{ $style_request->qstrike_item_id }}</td>
                         <td class="style-priority">{{ $style_request->priority }}</td>
-                        <td >{{ $style_request->deadline }}</td>
+                        <td class="style-deadline">{{ $style_request->deadline }}</td>
                         <td>{{ $style_request->requested_by }}</td>
                         <td class="style-type">{{ $style_request->type }}</td>
                         <td class="style-application-type">{{ $style_request->uniform_application_type }}</td>
@@ -288,7 +289,7 @@
                     </div>
             </div>
 
-            <div class="form-group" style="margin-top: 260px; z-index: 3;">
+            <div class="form-group" id="save-data" style="margin-top: 260px; z-index: 3;">
                 <center>
                     <button type="submit" class="btn btn-primary save-data">
                         Save Request
@@ -296,7 +297,7 @@
                 </center>
             </div>
             </form>
-            <div style="z-index: 2; margin-top: -250px; position: absolute; width: 95%;">
+            <div id="upload_design_sheet" style="z-index: 2; margin-top: -250px; position: absolute; width: 95%;">
                 <center>
                     <h4 class="alert alert-info" style="margin-top: -50px;">Upload Design Sheet below</h4>
                     <form action="/administration/material/insert_dz_design_sheet" class="dropzone" id="my-awesome-dropzone" style="margin-top: -20px;">
@@ -572,7 +573,6 @@ $(function(){
         var sport = $('.sport').val();
         var qstrike_item_id = $('.qstrike-item-id').val();
         var priority = $('.priority').val();
-        var deadline = $('.deadline').val();
         var deadline = $('#datepicker').val();
         var design_sheet_url = $('.design-sheet-path').val();
         var customizer_id = $('.customizer-id').val();
@@ -725,6 +725,8 @@ $(function(){
         $('#customizer').removeAttr('style');
         $('#status_div').removeAttr('style');
         $('#is_fixed_div').removeAttr('style');
+        $('#upload_design_sheet').attr({"style": "display: none;"});
+        $('#save-data').attr({"style": "display: block;"});
     });
 
     $('.data-table tbody').on( 'click', 'tr', function () {
@@ -761,7 +763,10 @@ $(function(){
         $('#customizer').attr({"style": "display: none;"});
         $('#status_div').attr({"style": "display: none;"});
         $('#is_fixed_div').attr({"style": "display: none;"});
+        $('#upload_design_sheet').attr({"style":"z-index: 2; margin-top: -250px; position: absolute; width: 95%;"});
+        $('#save-data').attr({"style":"margin-top: 260px; z-index: 3;"});
         $('#input_notes').text('');
+        $('.design-sheet-path').val('');
 
     });
 
@@ -777,7 +782,7 @@ $(function(){
         }
     });
 
-    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type, .is_fixed, .type").on("change", function(e){
+    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type, .is_fixed, .type, .design-sheet-path").on("change", function(e){
         e.preventDefault();
         var name = document.getElementById("name").value;
         var qx_id = document.getElementById("qstrike_item_id").value;
@@ -832,6 +837,8 @@ $(function(){
         var type = thisObj.parent().parent().find('.style-type').html();
         var application_type = thisObj.parent().parent().find('.style-application-type').html();
         var is_fixed = thisObj.parent().parent().find('.style-is-fixed').val();
+        var design_sheet_url = thisObj.parent().parent().find('.style-design-sheet-url').val();
+        var deadline = thisObj.parent().parent().find('.style-deadline').html();
         window.sport_value = sport;
         window.block_pattern_value = block_pattern;
         window.option_value = option;
@@ -846,6 +853,7 @@ $(function(){
         $('#input_notes').val(notes);
         $('.type').val(type);
         $('.application_type').val(application_type);
+        $('.design-sheet-path').val(design_sheet_url);
 
         if (is_fixed == 1)
             {
