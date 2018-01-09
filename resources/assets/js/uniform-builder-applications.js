@@ -10650,9 +10650,13 @@ $(document).ready(function() {
                     //     $('span.perspective[data-id="front"]').addClass('active'); 
                     // }
 
-                    if (_part === "Body") { 
+                    var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
+
+                    if (_part === "Body" && !_isLowerFootball2017Uniform) { 
+
                         $('span.perspective').removeClass('active');
                         $('span.perspective[data-id="front"]').addClass('active'); 
+
                     }
 
                     $('label.leftrightPart, div.side-container').hide();                    
