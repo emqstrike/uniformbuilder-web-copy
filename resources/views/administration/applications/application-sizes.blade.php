@@ -170,7 +170,6 @@ $(document).ready(function(){
 
     $('#confirmation-modal-duplicate-application-size .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        console.log('test'+id);
         var url = "//" + api_host + "/api/application_size/duplicate";
         $.ajax({
             url: url,
