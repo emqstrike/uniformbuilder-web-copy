@@ -126,6 +126,7 @@
                                 <th>Embellishment</th>
                                 <th>Inksoft Design ID</th>
                                 <th>Opacity</th>
+                                <th>Pattern Position</th>
                                 <th>Default Pattern</th>
                                 <th>Flipped</th>
                             </thead>

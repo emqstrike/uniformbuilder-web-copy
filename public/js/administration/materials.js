@@ -719,7 +719,8 @@ $(document).ready(function() {
         var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
         var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
-        var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" value="" size="2">';
+        var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" size="2" value="100">';
+        var def_pattern_position    = '<input type="number" style="' + style + '" class="app-def-pattern-position" size="2" value="100">';
         var app_default_pattern     = `<select style="` + style + `" class="app-def-pattern" data-id="` + group.id + `">` + def_patterns_options + `</select><div class="col-md-12 app_pattern_layers_OC" data-id="` + group.id + `" id="app_pattern_layers_OC"></div><input type="hidden" style="` + style + `" data-id="` + group.id + `" class="app-pattern-properties" value=`+blank_pattern+`>`;
         var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
 
@@ -762,6 +763,7 @@ $(document).ready(function() {
                     embellishment,
                     inksoft_design_id,
                     app_opacity,
+                    def_pattern_position,
                     app_default_pattern,
                     flipped,
                     flip
@@ -1753,6 +1755,7 @@ $(document).ready(function() {
                 var inksoft_design_id   = '<input type="number" style="'      + style + '" class="app-inksoft-design-id" value="'        + app_properties[l].inksoftDesignID       + '" size="3">';
                 var flipped             = '<input type="checkbox" style="'  + style + '" class="app-flipped" value="1" '         + flipped_checked                    + '>';
                 var app_opacity         = '<input type="number" style="'      + style + '" class="app-opacity" value="'        + app_properties[l].appOpacity       + '" size="2">';
+                var def_pattern_position= '<input type="number" style="'      + style + '" class="app-def-pattern-position" value="'        + app_properties[l].appDefPatternPosition       + '" size="2">';
                 var app_default_pattern = `<select style='` + style + `'; float: left; width: 300px;" class="app-def-pattern" data-id='` + group.id + `'>'` + def_patterns_options + `'</select><div class="col-md-12 app_pattern_layers_OC" data-id='` + group.id + `' id="app_pattern_layers_OC"></div><input type="hidden" style='` + style+ `' class="app-pattern-properties" data-id='` + group.id + `' value='` +app_properties[l].appPatternProperties+ `'>`;
                 var rotated_tailsweep   = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '>';
 
@@ -1797,6 +1800,7 @@ $(document).ready(function() {
                     embellishment,
                     inksoft_design_id,
                     app_opacity,
+                    def_pattern_position,
                     app_default_pattern,
                     flipped,
                     flip
@@ -3520,6 +3524,7 @@ function updateApplicationsJSON(){
         hasEmbellishment = $(this).parent().siblings('td').find("input[class=app-embellishment]");
         inksoftDesignID = $(this).parent().siblings('td').find("input[class=app-inksoft-design-id]").val();
         appOpacity = $(this).parent().siblings('td').find("input[class=app-opacity]").val();
+        appDefPatternPosition = $(this).parent().siblings('td').find("input[class=app-def-pattern-position]").val();
         appDefPattern = $(this).parent().siblings('td').find("select[class=app-def-pattern]").val();
         appPatternProperties = $(this).parent().siblings('td').find("input[class=app-pattern-properties]").val();
         isFlipped = $(this).parent().siblings('td').find("input[class=app-flipped]");
@@ -3639,6 +3644,7 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['inksoftDesignID'] = {};
 
         applicationProperties[itemIdx]['appOpacity'] = {};
+        applicationProperties[itemIdx]['appDefPatternPosition'] = {};
         applicationProperties[itemIdx]['appDefPattern'] = {};
         applicationProperties[itemIdx]['appPatternProperties'] = {};
 
@@ -3668,6 +3674,7 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].inksoftDesignID = inksoftDesignID;
 
         applicationProperties[itemIdx].appOpacity = appOpacity;
+        applicationProperties[itemIdx].appDefPatternPosition = appDefPatternPosition;
         applicationProperties[itemIdx].appDefPattern = appDefPattern;
         applicationProperties[itemIdx].appPatternProperties = appPatternProperties;
 
