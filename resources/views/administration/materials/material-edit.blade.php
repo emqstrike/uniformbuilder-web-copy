@@ -682,6 +682,15 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label" >Brand</label>
+                           <div class="col-md-6">
+                                <select name="brand" class="form-control">
+                                        <option value="none" @if($material->brand == "none") selected="selected"@endif>None</option>
+                                        <option value="prolook" @if($material->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary edit-material">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
