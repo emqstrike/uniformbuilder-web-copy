@@ -720,7 +720,7 @@ $(document).ready(function() {
         var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
         var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
         var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" size="2" value="100">';
-        var def_pattern_position    = '<input type="number" style="' + style + '" class="app-def-pattern-position" size="2" value="100">';
+        var def_pattern_position    = '<input type="number" style="' + style + '" class="app-def-pattern-position" size="2" value="0">';
         var app_default_pattern     = `<select style="` + style + `" class="app-def-pattern" data-id="` + group.id + `">` + def_patterns_options + `</select><div class="col-md-12 app_pattern_layers_OC" data-id="` + group.id + `" id="app_pattern_layers_OC"></div><input type="hidden" style="` + style + `" data-id="` + group.id + `" class="app-pattern-properties" value=`+blank_pattern+`>`;
         var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
 
