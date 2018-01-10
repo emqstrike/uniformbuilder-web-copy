@@ -507,6 +507,12 @@ $(document).ready(function () {
 
                 }
 
+                if (view.application.appDefPatternPosition !== "" && typeof view.application.appDefPatternPosition !== "undefined") {
+                    view.application.patternDefinition.position = {x: 0, y: parseInt(view.application.appDefPatternPosition) };
+                } else {
+                    view.application.patternDefinition.position = {x: 0, y: 0 };
+                }
+
                 applicationObj.withPattern = true;
                 applicationObj.patternID = view.application.patternDefinition.id;
                 applicationObj.patternConfigFromBackend = view.application.patternDefinition;
@@ -582,7 +588,7 @@ $(document).ready(function () {
 
                     rotation: 0,
                     scale: {x: 1, y: 1},
-                    position: {x: 0, y: 0},
+                    position: patternSettingsFromBackend.position,
                     opacity: 1, 
 
                 };
