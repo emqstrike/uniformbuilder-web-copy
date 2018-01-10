@@ -30,6 +30,8 @@
                         <option value='highlights'>Highlights</option>
                         <option value='shadows'>Shadows</option>
                         <option value='body_inside'>Body Inside</option>
+                        <option value='mesh_shadows'>Mesh Shadows</option>
+                        <option value='mesh_highlights'>Mesh Highlights</option>
                         <option id='saved-setting-type'></option>
                     </select>
                 </div>
