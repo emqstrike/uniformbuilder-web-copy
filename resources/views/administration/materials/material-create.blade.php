@@ -430,6 +430,15 @@
                                 <textarea class="sizing-config-prop" name="sizing_config_prop" id="sizing_config_prop" style="display:none;"></textarea>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Brand</label>
+                           <div class="col-md-6">
+                                <select name="brand" class="form-control">
+                                        <option value="none">None</option>
+                                        <option value="prolook">Prolook</option>
+                                </select>
+                            </div>
+                        </div>
                          <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-user">

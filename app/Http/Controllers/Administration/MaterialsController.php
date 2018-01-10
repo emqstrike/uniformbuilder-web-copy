@@ -461,6 +461,7 @@ class MaterialsController extends Controller
         $customizer_available = $request->input('customizer_available');
         $qx_sizing_config = $request->input('qx_sizing_config');
         $sizing_config_prop = $request->input('sizing_config_prop');
+        $brand = $request->input('brand');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -518,7 +519,8 @@ class MaterialsController extends Controller
             'parts_alias_id' => $partAliasID,
             'customizer_available' => $customizer_available,
             'qx_sizing_config' => $qx_sizing_config,
-            'sizing_config_prop' => $sizing_config_prop
+            'sizing_config_prop' => $sizing_config_prop,
+            'brand' => $brand
 
         ];
         try {
