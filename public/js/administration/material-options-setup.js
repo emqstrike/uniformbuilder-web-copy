@@ -185,6 +185,10 @@ $(document).ready(function() {
             thisObj.val('95');
         } else if( name == "pro-dry" ){
             thisObj.val('90');
+        } else if( name == "mesh highlights" ){
+            thisObj.val('86');
+        } else if( name == "mesh shadows" ){
+            thisObj.val('85');
         } else {
                thisObj.val(parseInt(length));
         }
