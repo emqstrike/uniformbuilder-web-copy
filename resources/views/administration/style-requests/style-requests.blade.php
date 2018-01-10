@@ -54,6 +54,7 @@
                             <th>Option
                             <a href="#" data-toggle="tooltip" data-message="Neck, waist or other options"><span class="glyphicon glyphicon-info-sign"></span></a>
                             </th>
+                            <th>Brand</th>
                             <th>Design Sheet</th>
                             <th>Item ID
                             <a href="#" data-toggle="tooltip" data-message="QStrike Item ID"><span class="glyphicon glyphicon-info-sign"></span></a>
@@ -78,6 +79,7 @@
                         <td class="style-sport">{{ $style_request->sport }}</td>
                         <td class="style-block-pattern">{{ $style_request->block_pattern }}</td>
                         <td class="style-option">{{ $style_request->block_pattern_option }}</td>
+                        <td class="style-brand">{{ $style_request->brand }}</td>
                         <td>
                             <input type="hidden" name="style_design_sheet_url"" class="style-design-sheet-url" value="{{ $style_request->design_sheet_url }}">
                             <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $style_request->design_sheet_url }}">Link</a>
@@ -145,6 +147,7 @@
                     </tbody>
                         <tfoot>
                           <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -252,6 +255,15 @@
                         <option value="upper">Upper</option>
                         <option value="lower">Lower</option>
                     </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Brand</label>
+                <div class="col-md-6">
+                    <select class="form-control brand">
+                        <option value="none">None</option>
+                        <option value="prolook">Prolook</option>
+                </select>
                 </div>
             </div>
             <div class="form-group">
@@ -627,6 +639,7 @@ $(function(){
         var notes = $('#input_notes').val();
         var application_type = $('.application_type').val();
         var type = $('.type').val();
+        var brand = $('.brand').val();
         window.data = {
             'id' : id,
             'name' : name,
@@ -642,7 +655,8 @@ $(function(){
             'notes' : notes,
             'uniform_application_type' : application_type,
             'is_fixed' : is_fixed,
-            'type' : type
+            'type' : type,
+            'brand' : brand
         };
         $('.data-string').val(JSON.stringify(window.data));
         console.log(window.data);
@@ -652,27 +666,28 @@ $(function(){
             window.rowData[2] = sport;
             window.rowData[3] = block_pattern;
             window.rowData[4] = block_pattern_option;
-            window.rowData[6] = qstrike_item_id;
-            window.rowData[7] = priority;
-            window.rowData[10] = type;
-            window.rowData[11] = application_type;
-            window.rowData[13] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+customizer_id+`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='http://customizer.prolook.com/builder/0/`+customizer_id+`'>`+customizer_id+`</a>`;
-            window.rowData[14] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
+            window.rowData[5] = brand;
+            window.rowData[7] = qstrike_item_id;
+            window.rowData[8] = priority;
+            window.rowData[11] = type;
+            window.rowData[12] = application_type;
+            window.rowData[14] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+customizer_id+`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='http://customizer.prolook.com/builder/0/`+customizer_id+`'>`+customizer_id+`</a>`;
+            window.rowData[15] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
                 if(is_fixed == 1 && status == 'rejected') {
-                    window.rowData[14] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
+                    window.rowData[15] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
                 }
-            window.rowData[15] = `<input type="hidden" class="notes" value="`+notes+`">`
+            window.rowData[16] = `<input type="hidden" class="notes" value="`+notes+`">`
                 if(is_fixed == 1) {
-                    window.rowData[15] += `<button class="view-notes btn btn-success btn-sm">View</button>`;
+                    window.rowData[16] += `<button class="view-notes btn btn-success btn-sm">View</button>`;
                 }
                 else if(notes != '' && status == 'pending') {
-                    window.rowData[15] += `<button class="view-notes btn btn-info btn-sm">View</button>`;
+                    window.rowData[16] += `<button class="view-notes btn btn-info btn-sm">View</button>`;
                 }
                 else if(notes != '' && status == 'rejected') {
-                    window.rowData[15] += `<button class="view-notes btn btn-danger btn-sm">View</button>`;
+                    window.rowData[16] += `<button class="view-notes btn btn-danger btn-sm">View</button>`;
                 }
                 else {
-                    window.rowData[15] += `<button class="view-notes btn btn-default btn-sm">View</button>`;
+                    window.rowData[16] += `<button class="view-notes btn btn-default btn-sm">View</button>`;
                 }
         }
     }
@@ -820,6 +835,7 @@ $(function(){
         $('#save-data').attr({"style":"margin-top: 260px; z-index: 3;"});
         $('#input_notes').text('');
         $('.design-sheet-path').val('');
+        $('.brand').val('none');
 
 
     });
@@ -836,7 +852,7 @@ $(function(){
         }
     });
 
-    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type, .is_fixed, .type, .design-sheet-path").on("change", function(e){
+    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type, .is_fixed, .type, .design-sheet-path, .brand").on("change", function(e){
         e.preventDefault();
         var name = document.getElementById("name").value;
         var qx_id = document.getElementById("qstrike_item_id").value;
@@ -848,7 +864,7 @@ $(function(){
         }
     });
 
-    $(".custom_block_pattern, .custom_option, .enable_custom_bp, .enable_custom_bpo, .type").on("change", function(e){
+    $(".custom_block_pattern, .custom_option, .enable_custom_bp, .enable_custom_bpo, .type, .brand").on("change", function(e){
         e.preventDefault();
         updateData();
     });
@@ -893,6 +909,7 @@ $(function(){
         var is_fixed = thisObj.parent().parent().find('.style-is-fixed').val();
         var design_sheet_url = thisObj.parent().parent().find('.style-design-sheet-url').val();
         var deadline = thisObj.parent().parent().find('.style-deadline').html();
+        var brand = thisObj.parent().parent().find('.style-brand').html();
         window.sport_value = sport;
         window.block_pattern_value = block_pattern;
         window.option_value = option;
@@ -908,6 +925,7 @@ $(function(){
         $('.type').val(type);
         $('.application_type').val(application_type);
         $('.design-sheet-path').val(design_sheet_url);
+        $('.brand').val(brand);
 
         if (is_fixed == 1)
             {
