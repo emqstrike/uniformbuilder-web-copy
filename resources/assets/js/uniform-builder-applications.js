@@ -4052,6 +4052,9 @@ $(document).ready(function() {
             if (typeof _obj === 'undefined') { return; }
 
             if (_obj.setting_type === 'static_layer') { return; }
+            if (_obj.setting_type === 'mesh_highlights') { return; }
+            if (_obj.setting_type === 'mesh_shadows') { return; }
+
             if (_obj.name === "Extra") { return; }
 
             if (_hideBody) {
