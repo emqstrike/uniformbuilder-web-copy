@@ -1144,6 +1144,10 @@ class UniformBuilderController extends Controller
         foreach ($parts as &$part) {
 
             if (!is_array($part)) { continue; }
+
+            if ($part['setting_type'] === 'mesh_shadows') { continue; }
+            if ($part['setting_type'] === 'mesh_highlights') { continue; }
+
             if ($part['code'] === 'highlights') { continue; }
             if ($part['code'] === 'highlight') { continue; }
             if ($part['code'] === 'shadows') { continue; }
