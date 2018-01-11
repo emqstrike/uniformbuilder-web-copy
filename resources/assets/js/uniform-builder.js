@@ -3093,6 +3093,7 @@ $(document).ready(function () {
         ub.maxLayers = 0;
 
         ub.utilities.info(' ');
+        
         _.each(ub.views, function (view) {
 
             var material_options = _.where(ub.current_material.material.options, {perspective: view});

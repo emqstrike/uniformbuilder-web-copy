@@ -10503,7 +10503,16 @@ $(document).ready(function() {
 
         }
 
-        
+        var _isSingleView = ub.data.categoriesWithSingleViewApplications.getItem(ub.config.sport, ub.config.type, ub.config.blockPattern, ub.config.option);
+
+        if (_isSingleView) {
+
+            _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                return view.application.isPrimary === 1;
+            });
+
+        }
+
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
 
         _newApplication.application.layer = _part;
