@@ -2436,6 +2436,8 @@ $(document).ready(function () {
 
             if (e.setting_type === 'highlights' || 
                 e.setting_type === 'shadows' || 
+                e.setting_type === 'mesh_highlights' || 
+                e.setting_type === 'mesh_shadows' || 
                 e.setting_type === 'static_layer') { return; }
 
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
@@ -3119,24 +3121,20 @@ $(document).ready(function () {
                 if (ub.funcs.isSocks()) {
 
                     if (name === "back_tab")  {
-
                         current_object.zIndex = ub.data.backTabLayer;
                         current_object.originalZIndex = ub.data.backTabLayer;
-
                     }
 
                     if (name === "prolook")  {
-
                         current_object.zIndex = ub.data.prolookLayer;
                         current_object.originalZIndex = ub.data.prolookLayer;
-
                     }
 
                 }
 
-                if (name === "mesh_highlights") {
+                if (obj.setting_type === "mesh_highlights") {
                     current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
-                } else if (name === "mesh_shadows") {
+                } else if (obj.setting_type === "mesh_shadows") {
                     current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
                 }
                 
