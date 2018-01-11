@@ -6965,6 +6965,18 @@ $(document).ready(function () {
 
             ub.funcs.prepareSecondaryBar(_sport, actualGender);
 
+            var _sizeSec = _.size(items);
+
+            // Update Secondary Links Total
+            $('span.secondary-filters').each(function (index, value) {
+                if($(value).data('item') === "separator") { return; }
+                $(value).html($(value).data('item')); 
+            });
+
+            var _caption = $('span.secondary-filters.active').data('item');
+            $('span.secondary-filters.active').html(_caption + ' (' + _sizeSec + ')');
+            // End Update Secondary Links Total
+
             $('div.secondary-bar').fadeIn();
             $('div.secondary-bar').css('margin-top', "0px");
 
