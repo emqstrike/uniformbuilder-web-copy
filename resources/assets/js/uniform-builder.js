@@ -6968,10 +6968,6 @@ $(document).ready(function () {
             var _sizeSec = _.size(items);
 
             // Update Secondary Links Total
-            $('span.primary-filters').each(function (index, value) {
-                 $(value).html($(value).data('item')); 
-            });
-
             $('span.secondary-filters').each(function (index, value) {
                 if($(value).data('item') === "separator") { return; }
                 $(value).html($(value).data('item')); 
