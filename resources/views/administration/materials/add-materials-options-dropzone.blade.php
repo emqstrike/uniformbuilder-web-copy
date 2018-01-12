@@ -100,7 +100,7 @@
 <script>
 $(document).ready(function() {
 
-// var myDropzone     = new Dropzone("div#attachment", { 
+// var myDropzone     = new Dropzone("div#attachment", {
 //     url: uploadFilePath,
 //     paramName: 'someParameter[image]'
 // });
@@ -130,7 +130,7 @@ function getColors(callback){
 }
 
 function buildSettingTypeDD(name){
-	var setting_types = ['shape', 'part', 'piping', 'panel', 'static_layer','highlights', 'shadows', 'body_inside'];
+	var setting_types = ['shape', 'part', 'piping', 'panel', 'static_layer','highlights', 'shadows', 'body_inside', 'mesh_shadows', 'mesh_highlights'];
 	var elem = '<select class="mo-setting-type">';
 	setting_types.forEach(function(entry) {
 		if(entry == name.toLowerCase()){
@@ -178,14 +178,14 @@ function autoCheck() {
             $('.mo-allow-all-pattern').prop('checked', true);
             $('.mo-allow-all-color').prop('checked', true);
             $('.mo-allow-all-pattern').trigger('change');
-            $('.mo-allow-all-color').trigger('change');            
+            $('.mo-allow-all-color').trigger('change');
             refreshJSON();
         }
         else if (type == 'tackle_twill') {
             $('.mo-allow--all-pattern').prop('checked', false);
             $('.mo-allow-all-color').prop('checked', true);
-            $('.mo-allow-all-pattern').trigger('change'); 
-            $('.mo-allow-all-color').trigger('change');       
+            $('.mo-allow-all-pattern').trigger('change');
+            $('.mo-allow-all-color').trigger('change');
             refreshJSON();
         }
 }
@@ -233,8 +233,8 @@ $(document).on('change', '.origin, .perspective, .mo-allow-color, .mo-allow-patt
 });
 
 //  modal
-    var pleaseWait = $('#pleaseWaitDialog'); 
-    
+    var pleaseWait = $('#pleaseWaitDialog');
+
     showPleaseWait = function() {
         pleaseWait.modal('show');
     };
@@ -372,7 +372,7 @@ function buildRows(filesData){
 						<td><input type="number" class="mo-group-id"></td>
 						<td style="background-color: gray;"><img src="`+entry.url+`" style="height: 50px; width: 50px;"></td>
 					<tr>`;
-		$('.material-options-rows').append(elem);        
+		$('.material-options-rows').append(elem);
 		refreshColorBG();
         refreshFields();
         autoCheck();
@@ -409,7 +409,7 @@ Dropzone.options.myAwesomeDropzone = {
         console.log(files);
 	    console.log(filesData);
 
-        buildRows(filesData);       
+        buildRows(filesData);
 	},
     drop: function(){
         showPleaseWait();
