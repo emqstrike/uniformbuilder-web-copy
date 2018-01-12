@@ -3134,9 +3134,9 @@ $(document).ready(function () {
                 }
 
                 if (obj.setting_type === "mesh_highlights") {
-                    current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
+                   current_object.blendMode = PIXI.BLEND_MODES.SCREEN;
                 } else if (obj.setting_type === "mesh_shadows") {
-                    current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
+                   current_object.blendMode = PIXI.BLEND_MODES.MULTIPLY;
                 }
                 
                 if (obj.setting_type === 'highlights') {
@@ -6967,15 +6967,8 @@ $(document).ready(function () {
 
             var _sizeSec = _.size(items);
 
-            // Update Secondary Links Total
-            $('span.secondary-filters').each(function (index, value) {
-                if($(value).data('item') === "separator") { return; }
-                $(value).html($(value).data('item')); 
-            });
-
-            var _caption = $('span.secondary-filters.active').data('item');
-            $('span.secondary-filters.active').html(_caption + ' (' + _sizeSec + ')');
-            // End Update Secondary Links Total
+            ub.funcs.updateActivePrimaryFilter();
+            ub.funcs.updateActiveSecondaryFilter(items);
 
             $('div.secondary-bar').fadeIn();
             $('div.secondary-bar').css('margin-top', "0px");
@@ -7647,9 +7640,84 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.setupItemTotals (items);
         ub.funcs.initScroller('uniforms', items, sport, undefined, undefined, _actualGender);
-
+        
     };
+
+    ub.funcs.setupItemTotals = function (items) {
+
+        var _totalSize = _.size(items);
+
+        var _totalSizeType = _.countBy(items, function (item) {
+            if (item.type === "upper") { return "upper"; } 
+            if (item.type === "lower") { return "lower"; } 
+        });
+
+        var _totalSizeApplicationType = _.countBy(items, function (item) {
+            if (item.uniform_application_type === "sublimated") { return "sublimated" }
+            if (item.uniform_application_type === "tackle_twill") { return "tackle_twill" }
+            if (item.uniform_application_type === "knitted") { return "knitted" }
+            if (item.uniform_application_type === "infused") { return "infused" }
+        });
+
+        ub.filterStructure = {
+
+            primary: [
+                {name: 'all', count: _totalSize},
+                {name: 'upper', count: typeof _totalSizeType.upper !== "undefined" ? _totalSizeType.upper : 0},
+                {name: 'lower', count: typeof _totalSizeType.lower !== "undefined" ? _totalSizeType.lower : 0},
+            ],
+
+            secondary: [
+                {name: 'all', count: 0}, // this depends on the selected item on the primary filters
+                {name: 'tackle_twill', count: typeof _totalSizeApplicationType.tackle_twill !== "undefined" ? _totalSizeApplicationType.tackle_twill : 0},
+                {name: 'sublimated', count: typeof _totalSizeApplicationType.sublimated !== "undefined" ? _totalSizeApplicationType.sublimated : 0},
+                {name: 'knitted', count: typeof _totalSizeApplicationType.knitted !== "undefined" ? _totalSizeApplicationType.knitted : 0},
+                {name: 'infused', count: typeof _totalSizeApplicationType.infused !== "undefined" ? _totalSizeApplicationType.infused : 0},
+            ],
+
+            // Block Patterns, fill in dynamically 
+            tertiary: [
+            ],
+
+            // Neck Options, fill in dynamically
+            quarternary: [
+            ],
+
+        };
+
+    }
+
+    ub.funcs.updateActivePrimaryFilter = function () {
+
+        // TODO: Apply Sport Filter Labels ...
+
+        var _item = $('span.primary-filters.active').data('item');
+        var _type = _item === "Jersey" ? 'upper' : _item === "All" ? 'all' : 'lower';
+        var _result = _.find(ub.filterStructure.primary, {name: _type});
+
+        $('span.primary-filters').each(function (index, value) {
+            $(value).html($(value).data('item'));
+        });
+
+        $('span.primary-filters[data-item="' + _item + '"]').html( $('span.primary-filters[data-item="' + _item + '"]').data('item') + ' (' + _result.count + ')');
+
+    }
+
+    ub.funcs.updateActiveSecondaryFilter = function (items) {
+
+        var _sizeSec = _.size(items);
+
+        $('span.secondary-filters').each(function (index, value) {
+            if($(value).data('item') === "separator") { return; }
+            $(value).html($(value).data('item')); 
+        });
+
+        var _caption = $('span.secondary-filters.active').data('item');
+        $('span.secondary-filters.active').html(_caption + ' (' + _sizeSec + ')');
+
+    }
 
     ub.funcs.initSearchPicker = function (term, items) {
 

@@ -79,6 +79,10 @@ $(document).ready(function() {
 
     // End Manipulator Tools 
 
+    // Filters
+
+    ub.filterStructure = {};
+
     ub.zoom = false;
     ub.showLocation = false;
 
