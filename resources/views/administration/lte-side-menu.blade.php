@@ -357,4 +357,10 @@
       <span>Inksoft Designs</span>
       </a>
   </li>
+  <li data-position='right'>
+    <a href="/administration/single_view_applications">
+      <i class="fa fa-eye"></i>
+      <span>Single View Applications</span>
+      </a>
+  </li>
 </ul>

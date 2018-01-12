@@ -435,7 +435,6 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('item_size/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ItemSizesController@store']);
 
     //Inksoft Designs
-    Route::get('inksoft_designs', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@index']);
     Route::get('inksoft_design/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@create']);
     Route::post('inksoft_design/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@store']);
     Route::get('inksoft_design/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@edit']);
@@ -454,6 +453,14 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('style_index_item/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@store']);
     Route::get('style_index_item/edit/{style_index_id}/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@edit']);
     Route::post('style_index_item/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@store']);
+
+    //Single View Applications
+    Route::get('single_view_applications', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@index']);
+    Route::get('single_view_applications/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@create']);
+    Route::get('single_view_applications/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@edit']);
+    Route::post('single_view_applications/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@store']);
+    Route::post('single_view_applications/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@store']);
+
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
