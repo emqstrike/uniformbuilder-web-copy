@@ -10237,7 +10237,21 @@ ub.funcs.fontOffSets = [
 
     ub.data.hiddenBody = {
 
-        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "Quarter Zip Jacket (Apparel)", "Fan Replica Jersey (Apparel)", 'Soccer', '2017 Team Short with Pockets (Apparel)', 'Signature Coaches Short (Apparel)', 'Baseball', 'Fastpitch', 'Compression (Apparel)', 'Tech-Tee (Apparel)'],
+        sports: [
+            "Hoodie (Apparel)", 
+            "Cinch Sack (Apparel)", 
+            "Polo (Apparel)", 
+            "Quarter Zip Jacket (Apparel)", 
+            "Fan Replica Jersey (Apparel)", 
+            "Soccer", 
+            "2017 Team Short with Pockets (Apparel)", 
+            "Signature Coaches Short (Apparel)", 
+            "Baseball", 
+            "Fastpitch", 
+            "Compression (Apparel)", 
+            "Tech-Tee (Apparel)", 
+            "Game Day Coaches Jackets (Apparel)",
+            ],
         options: [
                 {
                     sport: 'Wrestling',
