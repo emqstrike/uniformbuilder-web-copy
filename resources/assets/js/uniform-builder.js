@@ -6967,8 +6967,8 @@ $(document).ready(function () {
 
             var _sizeSec = _.size(items);
 
-            ub.funcs.updateActivePrimaryFilter();
-            ub.funcs.updateActiveSecondaryFilter(items);
+            ub.funcs.updateActivePrimaryFilter(items, _sport, actualGender);
+            ub.funcs.updateActiveSecondaryFilter(items, _sport, actualGender);
 
             $('div.secondary-bar').fadeIn();
             $('div.secondary-bar').css('margin-top', "0px");
@@ -7689,23 +7689,34 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.updateActivePrimaryFilter = function () {
+    ub.funcs.updateActivePrimaryFilter = function (items, sport, gender) {
 
-        // TODO: Apply Sport Filter Labels ...
+        // TODO: Apply Sport Filter Labels .
 
         var _item = $('span.primary-filters.active').data('item');
         var _type = _item === "Jersey" ? 'upper' : _item === "All" ? 'all' : 'lower';
         var _result = _.find(ub.filterStructure.primary, {name: _type});
+        var _sportFilters = _.find(ub.data.sportFilters, {sport: sport}).filters;
 
         $('span.primary-filters').each(function (index, value) {
-            $(value).html($(value).data('item'));
+
+            var _matchingFilter = _sportFilters[index];
+            
+            if (typeof _matchingFilter !== "undefined") {
+                $(value).data('filter-name', _matchingFilter);
+            } else {
+                $(value).data('filter-name', $(value).data('item'));
+            }
+
+            $(value).html($(value).data('filter-name'));
+
         });
 
-        $('span.primary-filters[data-item="' + _item + '"]').html( $('span.primary-filters[data-item="' + _item + '"]').data('item') + ' (' + _result.count + ')');
+        $('span.primary-filters[data-item="' + _item + '"]').html( $('span.primary-filters[data-item="' + _item + '"]').data('filter-name') + ' (' + _result.count + ')');
 
     }
 
-    ub.funcs.updateActiveSecondaryFilter = function (items) {
+    ub.funcs.updateActiveSecondaryFilter = function (items, sport, gender) {
 
         var _sizeSec = _.size(items);
 
