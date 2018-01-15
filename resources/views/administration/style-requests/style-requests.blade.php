@@ -926,6 +926,7 @@ $(function(){
         $('.application_type').val(application_type);
         $('.design-sheet-path').val(design_sheet_url);
         $('.brand').val(brand);
+        $('#datepicker').val(deadline);
 
         if (is_fixed == 1)
             {
