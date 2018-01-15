@@ -3026,7 +3026,12 @@
 
             } else {
 
-               _position = {x: 0, y: 0};
+                _position = {x: 0, y: 0};
+
+                // If there's a position setting from the backend 
+                if (typeof _applicationSettings.pattern_settings.position !== "undefined") {
+                    _position = _applicationSettings.pattern_settings.position;
+                }
 
                 if (_.contains(ub.uiData.patternSliderRange.forCalibration, _applicationSettings.pattern_obj.name)) {
                     _position.y += _calibration;

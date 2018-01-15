@@ -1,5 +1,42 @@
 $(document).ready(function () {
 
+    ub.data.categoriesWithSingleViewApplications = {
+
+        items: [
+            {            
+                sport: 'Football 2017',
+                type: 'lower',
+                blockPattern: ['Integrated'],
+                neckOption: ['Default'],
+            }, 
+            {            
+                sport: 'Fastpitch',
+                type: 'lower',
+                blockPattern: ['Fast Pitch Elastic Pants', 'Fast Pitch Tunneled Pants'],
+                neckOption: ['Full', 'Knicker', 'Elastic Mid', 'Open Cuff', 'Elastic_Full', 'Elastic_Knicker', 'Elastic_Mid'],
+            }, 
+
+        ], 
+
+        getItem: function (sport, type, blockPattern, neckOption) {
+
+            var _result = false;
+
+            _result = _.find(this.items, function (item) {
+
+                return item.sport === sport && 
+                    item.type === type && 
+                    _.contains(item.blockPattern, blockPattern) && 
+                    _.contains(item.neckOption, neckOption);
+
+            });
+
+            return _.size(_result) > 0;
+
+        }
+
+    }
+
     ub.data.freeFormValidTypes = {
 
         items: [

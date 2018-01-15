@@ -4052,6 +4052,9 @@ $(document).ready(function() {
             if (typeof _obj === 'undefined') { return; }
 
             if (_obj.setting_type === 'static_layer') { return; }
+            if (_obj.setting_type === 'mesh_highlights') { return; }
+            if (_obj.setting_type === 'mesh_shadows') { return; }
+
             if (_obj.name === "Extra") { return; }
 
             if (_hideBody) {
@@ -10500,7 +10503,16 @@ $(document).ready(function() {
 
         }
 
-        
+        var _isSingleView = ub.data.categoriesWithSingleViewApplications.getItem(ub.config.sport, ub.config.type, ub.config.blockPattern, ub.config.option);
+
+        if (_isSingleView) {
+
+            _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                return view.application.isPrimary === 1;
+            });
+
+        }
+
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
 
         _newApplication.application.layer = _part;

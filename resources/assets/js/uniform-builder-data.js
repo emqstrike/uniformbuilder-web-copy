@@ -79,6 +79,10 @@ $(document).ready(function() {
 
     // End Manipulator Tools 
 
+    // Filters
+
+    ub.filterStructure = {};
+
     ub.zoom = false;
     ub.showLocation = false;
 
@@ -8178,7 +8182,7 @@ ub.funcs.fontOffSets = [
         },
         {
             sport: '2017 Team Short with Pockets (Apparel)',
-            filters: ['All'],
+            filters: ['All', 'Jersey', 'Team Shorts'],
         },
         {
             sport: 'Signature Coaches Short (Apparel)',
@@ -10237,7 +10241,21 @@ ub.funcs.fontOffSets = [
 
     ub.data.hiddenBody = {
 
-        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "Quarter Zip Jacket (Apparel)", "Fan Replica Jersey (Apparel)", 'Soccer', '2017 Team Short with Pockets (Apparel)', 'Signature Coaches Short (Apparel)', 'Baseball', 'Fastpitch', 'Compression (Apparel)', 'Tech-Tee (Apparel)'],
+        sports: [
+            "Hoodie (Apparel)", 
+            "Cinch Sack (Apparel)", 
+            "Polo (Apparel)", 
+            "Quarter Zip Jacket (Apparel)", 
+            "Fan Replica Jersey (Apparel)", 
+            "Soccer", 
+            "2017 Team Short with Pockets (Apparel)", 
+            "Signature Coaches Short (Apparel)", 
+            "Baseball", 
+            "Fastpitch", 
+            "Compression (Apparel)", 
+            "Tech-Tee (Apparel)", 
+            "Game Day Coaches Jackets (Apparel)",
+            ],
         options: [
                 {
                     sport: 'Wrestling',
