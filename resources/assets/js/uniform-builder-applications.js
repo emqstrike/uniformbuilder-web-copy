@@ -10194,7 +10194,7 @@ $(document).ready(function() {
 
     ub.funcs.isUniformFullSublimation = function ()  {
 
-        return ub.current_material.material.uniform_application_type === "sublimated";
+        return ub.current_material.material.uniform_application_type === "sublimated" || ub.current_material.material.uniform_application_type === "knitted";
 
     }
 
@@ -10214,7 +10214,9 @@ $(document).ready(function() {
 
             if (ub.funcs.isSocks()) { 
 
-                _list = _.reject(_list, function (item) { return item.name.indexOf('Sublimated') === -1; });
+                _list = _.reject(_list, function (item) { 
+                    return item.name.indexOf('Sublimated') === -1 && (item.name.indexOf('Body') === -1 && ub.current_material.material.uniform_category === "Socks (Apparel)");
+                });
 
             }
 
@@ -10367,11 +10369,11 @@ $(document).ready(function() {
 
         _.each(_phaSettings.application.views, function (_perspectiveView) {
 
-            // Get Center of Polygon 
+            // Get Center of Polygon
             var _cx = ub.funcs.getCentoid(_perspectiveView.perspective, _part);
             var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, _perspectiveView.perspective, _blockPattern);
 
-            // CX Override 
+            // CX Override
             if (typeof _cx !== "undefined" && typeof _overrides === "undefined") {
 
                 _perspectiveView.application.center = _cx;
@@ -11747,8 +11749,6 @@ $(document).ready(function() {
     }
 
     ub.funcs.getBoundarySettings = function (perspective, materialOption) {
-
-
 
         var _result =  _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: materialOption.toTitleCase()});
         return _result;
