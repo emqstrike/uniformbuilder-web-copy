@@ -521,6 +521,10 @@ $(document).ready(function() {
         var _url = 'http://stores.inksoft.com/GetDesignSummary/80974/' + designID;
         var _settingsObject = ub.funcs.getApplicationSettings(applicationID);
 
+        _settingsObject.application_type = 'embellishments';
+        _settingsObject.type = 'embellishments';
+        _settingsObject.status = 'on';
+
         $.ajax({
             
             url: _url,
@@ -572,7 +576,7 @@ $(document).ready(function() {
         $.ajax({
             
             url: _url,
-            type: "GET", 
+            type: "GET",
             dataType: "json",
             crossDomain: true,
             success: function (response) {
@@ -596,6 +600,9 @@ $(document).ready(function() {
         }
 
         var settings_obj = settings.applications[application.id];
+
+        settings_obj.font_size = settings_obj.size;
+
         var embellishment_obj = settings_obj.embellishment;
         var view = ub[application.perspective + '_view'];
         var view_objects = ub.objects[application.perspective + '_view'];
@@ -782,12 +789,15 @@ $(document).ready(function() {
 
             if (application_id !== 2 || application_id !== 5) {
                 _settingsObject.size = 4;
+                _settingsObject.font_size = _settingsObject.size;
             } else {
                 _settingsObject.size = 10;
+                _settingsObject.font_size = _settingsObject.size;
             }
 
             if (application_id === 4) {
                 _settingsObject.size = 0.5;
+                _settingsObject.font_size = _settingsObject.size;
             }
 
         }
@@ -1754,11 +1764,11 @@ $(document).ready(function() {
 
     ub.funcs.afterLoadEmbellishments = function () {
 
-          if (ub.config.uniform_application_type === "sublimated") {
-              $('span.add-art').addClass('sublimated');
-          } else {
-              $('span.add-art').addClass('non-sublimated');
-          }
+        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
+            $('span.add-art').addClass('sublimated');
+        } else {
+            $('span.add-art').addClass('non-sublimated');
+        }
 
     }
 
@@ -1810,7 +1820,7 @@ $(document).ready(function() {
     $('span.add-art').on('click', function () {
 
        // Guard Expression for non-sublimated styles 
-       if (ub.config.uniform_application_type !== "sublimated") {
+       if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
     
            var dialog = bootbox.dialog({
                 title: 'Sorry! This is not allowed here.',

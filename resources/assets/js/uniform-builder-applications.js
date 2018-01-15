@@ -1225,7 +1225,7 @@ $(document).ready(function() {
 
                         rotation_point.alpha = 0;
                         
-                        if (ub.config.uniform_application_type === "sublimated") {
+                        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
                             scale_point.alpha   = 0;
                             delete_point.alpha  = 0;
                         }
@@ -1278,7 +1278,7 @@ $(document).ready(function() {
 
                         move_point.alpha        = 0;
 
-                        if (ub.config.uniform_application_type === "sublimated") {
+                        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
                             scale_point.alpha   = 0;
                             delete_point.alpha  = 0;
                         }
@@ -7830,6 +7830,7 @@ $(document).ready(function() {
 
             ub.funcs.deActivateApplications();
 
+            _settingsObject.font_obj            = ub.funcs.getSampleFont();
             _settingsObject.application_type    = _applicationType;
             _settingsObject.type                = _applicationType;
             _settingsObject.object_type         = _applicationType;
@@ -9578,7 +9579,7 @@ $(document).ready(function() {
         // --- Scale --- ///
 
 
-        if (ub.config.uniform_application_type === "sublimated") {
+        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
 
             var _filenameScale = "/images/builder-ui/scale-icon-on.png";
             var _spriteScale = ub.pixi.new_sprite(_filenameScale);
@@ -9621,7 +9622,7 @@ $(document).ready(function() {
 
         // --- Delete --- ///
 
-        if (ub.config.uniform_application_type === "sublimated") {
+        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
 
             var _filenameDelete = "/images/builder-ui/delete-icon-on.png";
             var _spriteDelete = ub.pixi.new_sprite(_filenameDelete);
@@ -10547,7 +10548,9 @@ $(document).ready(function() {
         $.smkAlert({text: 'Added [' + type.toTitleCase() + '] on [' + part.toTitleCase() + '] layer', type:'success', time: 10, marginTop: '90px'});
 
         // Initialize New Embellishment Popup
-        if (type === "embellishments") { 
+        if (type === "embellishments") {
+
+            _newApplication.font_size = _newApplication.size;
 
             if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
 
