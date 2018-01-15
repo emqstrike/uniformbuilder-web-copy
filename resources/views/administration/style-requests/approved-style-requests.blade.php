@@ -592,6 +592,7 @@ $(function(){
         var application_type = $('.application_type').val();
         var type = $('.type').val();
         var brand = $('.brand').val();
+
         window.data = {
             'id' : id,
             'name' : name,
@@ -602,6 +603,7 @@ $(function(){
             'priority' : priority,
             'design_sheet_url' : design_sheet_url,
             'customizer_id' : customizer_id,
+            'deadline' : deadline,
             'status' : status,
             'notes' : notes,
             'uniform_application_type' : application_type,
@@ -871,6 +873,7 @@ $(function(){
         $('.application_type').val(application_type);
         $('.design-sheet-path').val(design_sheet_url);
         $('.brand').val(brand);
+        $('#datepicker').val(deadline);
 
         if (is_fixed == 1)
             {
