@@ -75,6 +75,7 @@ $(document).ready(function () {
 
         items: [
             'Crew Socks (Apparel)',
+            'Socks (Apparel)',
         ],
         isValid: function (sport) {
 

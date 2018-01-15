@@ -6252,6 +6252,8 @@ $(document).ready(function() {
 
         _.each(_appSettings.color_array, function (color, index) {
 
+            if (typeof color === "undefined") { return; }
+
             var _layerNo = index + 1;
 
             if (_layerNo > _noOfLayers) { return; }
