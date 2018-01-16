@@ -41,7 +41,8 @@ $(document).ready(function () {
                 ub.current_material.cutlinks_url = ub.config.api_host + '/api/cut_links/';
                 ub.current_material.block_patterns_url = ub.config.api_host + '/api/block_patterns/';
                 ub.current_material.mascot_categories_url = ub.config.api_host + '/api/mascot_categories';
-                ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';            
+                ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';
+                ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
 
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
@@ -51,6 +52,8 @@ $(document).ready(function () {
                 ub.loader(ub.current_material.patterns_url, 'patterns', ub.callback);
                 ub.loader(ub.current_material.block_patterns_url, 'block_patterns', ub.callback);
                 ub.loader(ub.current_material.cutlinks_url, 'cuts_links', ub.callback);
+                ub.loader(ub.current_material.single_view_applications, 'single_view_applications', ub.callback);
+
 
                 // Custom Artwork Request, replace this with a get_by_user_id
                 ub.current_material.logo_request_url = window.ub.config.api_host + '/api/v1-0/logo_request/user_id/' + ub.user.id;
@@ -948,6 +951,7 @@ $(document).ready(function () {
                 // 'tailsweeps',
                 'logo_request',
                 'application_size',
+                'single_view_applications',
                 ];
 
             if (_.contains(_createObjectList, object_name)) {
@@ -995,6 +999,7 @@ $(document).ready(function () {
             if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
             if (object_name === 'mascots') { ub.funcs.transformMascots(); }
             if (object_name === 'colors') { ub.funcs.prepareColors(); }
+            if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
 
             if (object_name === 'cuts_links') {
 
