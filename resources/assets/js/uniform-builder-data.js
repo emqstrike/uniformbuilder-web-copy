@@ -8150,7 +8150,7 @@ ub.funcs.fontOffSets = [
         },
         {
             sport: 'Volleyball',
-            filters: ['All'],
+            filters: ['All', 'Jersey', 'Compression Shorts'],
         },
         {
             sport: 'Hoodie (Apparel)',
