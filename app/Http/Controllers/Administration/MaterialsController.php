@@ -338,8 +338,8 @@ class MaterialsController extends Controller
         $partAliases = $this->partAliasesAPIClient->getAll();
         $factories = $this->factoriesClient->getFactories();
         $itemSizes = $this->itemSizesAPIClient->getAll();
-        $reversible_groups = $this->reversibleGroupsAPIClient->getAll();
         $item_sizes_string = json_encode($itemSizes);
+        $reversible_groups = $this->reversibleGroupsAPIClient->getAll();
         return view('administration.materials.material-create', [
             'uniform_categories' => $uniformCategories,
             'factories' => $factories,
