@@ -462,6 +462,13 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('single_view_applications/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@store']);
     Route::post('single_view_applications/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@store']);
 
+    //Reversible Groups
+    Route::get('reversible_groups', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@index']);
+    Route::get('reversible_groups/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@create']);
+    Route::get('reversible_groups/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@edit']);
+    Route::post('reversible_groups/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@store']);
+    Route::post('reversible_groups/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@store']);
+
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
