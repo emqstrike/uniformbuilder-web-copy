@@ -690,9 +690,9 @@
                                 </select>
                             </div>
                         </div>
-                            <div class="form-group">
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Reversible Group</label>
-                           <div class="col-md-6">
+                            <div class="col-md-6">
                                 <select name="reversible_group" class="form-control reversible-group">
                                     <option value="none">None</option>
                                     @foreach ($reversible_groups as $reversible_group)
