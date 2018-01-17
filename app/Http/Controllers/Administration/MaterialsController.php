@@ -21,6 +21,7 @@ use App\APIClients\MaterialsOptionsAPIClient;
 use App\APIClients\PriceItemTemplatesAPIClient;
 use App\APIClients\PartsAliasesAPIClient;
 use App\APIClients\ItemSizesAPIClient;
+use App\APIClients\ReversibleGroupsAPIClient;
 use App\APIClients\MaterialsAPIClient as APIClient;
 use Illuminate\Support\Facades\Input;
 use Session;
@@ -39,6 +40,7 @@ class MaterialsController extends Controller
     protected $priceItemTemplateClient;
     protected $partAliasesAPIClient;
     protected $itemSizesAPIClient;
+    protected $reversibleGroupsAPIClient;
 
     public function __construct(
         APIClient $apiClient,
@@ -52,7 +54,8 @@ class MaterialsController extends Controller
         BlockPatternsAPIClient $blockPatternsAPIClient,
         PriceItemTemplatesAPIClient $priceItemTemplatesClient,
         PartsAliasesAPIClient $partAliasesAPIClient,
-        ItemSizesAPIClient $itemSizesAPIClient
+        ItemSizesAPIClient $itemSizesAPIClient,
+        ReversibleGroupsAPIClient $reversibleGroupsAPIClient
     )
     {
         $this->client = $apiClient;
@@ -67,6 +70,7 @@ class MaterialsController extends Controller
         $this->priceItemTemplateClient = $priceItemTemplatesClient;
         $this->partAliasesAPIClient = $partAliasesAPIClient;
         $this->itemSizesAPIClient = $itemSizesAPIClient;
+        $this->reversibleGroupsAPIClient = $reversibleGroupsAPIClient;
     }
 
     /**
@@ -253,6 +257,7 @@ class MaterialsController extends Controller
         $material = $this->client->getMaterial($id);
         $itemSizes = $this->itemSizesAPIClient->getAll();
         $item_sizes_string = json_encode($itemSizes);
+        $reversible_groups = $this->reversibleGroupsAPIClient->getAll();
         return view('administration.materials.material-edit', [
             'material' => $material,
             'uniform_categories' => $uniformCategories,
@@ -262,7 +267,8 @@ class MaterialsController extends Controller
             'price_item_templates' => $price_item_templates,
             'part_aliases' => $partAliases,
             'item_sizes' => $itemSizes,
-            'item_sizes_string' => $item_sizes_string
+            'item_sizes_string' => $item_sizes_string,
+            'reversible_groups' => $reversible_groups
         ]);
     }
 
@@ -332,6 +338,7 @@ class MaterialsController extends Controller
         $partAliases = $this->partAliasesAPIClient->getAll();
         $factories = $this->factoriesClient->getFactories();
         $itemSizes = $this->itemSizesAPIClient->getAll();
+        $reversible_groups = $this->reversibleGroupsAPIClient->getAll();
         $item_sizes_string = json_encode($itemSizes);
         return view('administration.materials.material-create', [
             'uniform_categories' => $uniformCategories,
@@ -340,7 +347,8 @@ class MaterialsController extends Controller
             'price_item_templates' => $piTemplates,
             'part_aliases' => $partAliases,
             'item_sizes' => $itemSizes,
-            'item_sizes_string' => $item_sizes_string
+            'item_sizes_string' => $item_sizes_string,
+            'reversible_groups' => $reversible_groups
         ]);
     }
 
@@ -462,6 +470,9 @@ class MaterialsController extends Controller
         $qx_sizing_config = $request->input('qx_sizing_config');
         $sizing_config_prop = $request->input('sizing_config_prop');
         $brand = $request->input('brand');
+        $reversible_group = $request->input('reversible_group');
+        $reversible_pair_id = $request->input('reversible_pair_id');
+        $reversible_type = $request->input('reversible_type');
 
         $materialId = null;
         if (!empty($request->input('material_id')))
@@ -520,7 +531,10 @@ class MaterialsController extends Controller
             'customizer_available' => $customizer_available,
             'qx_sizing_config' => $qx_sizing_config,
             'sizing_config_prop' => $sizing_config_prop,
-            'brand' => $brand
+            'brand' => $brand,
+            'reversible_group' => $reversible_group,
+            'reversible_pair_id' => $reversible_pair_id,
+            'reversible_type' => $reversible_type
 
         ];
         try {
