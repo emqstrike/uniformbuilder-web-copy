@@ -3638,6 +3638,8 @@ $(document).ready(function() {
                     }
                 };
 
+                console.log(shape);
+
                 boundaries_transformed[shape.name].views.push(cObj);
                 boundaries_one_dimensional[shape.perspective].push({
                     

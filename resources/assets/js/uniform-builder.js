@@ -605,6 +605,7 @@ $(document).ready(function () {
 
             // Info
             ub.funcs.printUniformInfo(ub.current_material.material, ub.current_material.settings);
+            ub.funcs.initReversibleUI();
 
         };
 
@@ -2613,6 +2614,9 @@ $(document).ready(function () {
 
             // Application Pattern
             application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
+
+            console.log(application_obj);
+            
             if (application_obj.withPattern) { ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); }
 
             // Application Opacity
