@@ -439,6 +439,32 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Reversible Group</label>
+                            <div class="col-md-6">
+                                <select name="reversible_group" class="form-control reversible-group">
+                                    <option value="none">None</option>
+                                    @foreach ($reversible_groups as $reversible_group)
+                                    <option value='{{ $reversible_group->id }}'>{{ $reversible_group->sport }} -- {{ $reversible_group->description }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Reversible Pair ID</label>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control reversible-pair-id"  name="reversible_pair_id" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Reversible Type</label>
+                           <div class="col-md-6">
+                                <select name="reversible_type" class="form-control reversible-type">
+                                        <option value="inner" >Inner</option>
+                                        <option value="outer" >Outer</option>
+                                </select>
+                            </div>
+                        </div>
                          <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-user">

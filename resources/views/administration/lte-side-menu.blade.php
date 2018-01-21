@@ -237,6 +237,11 @@
           <i class="fa fa-cubes"></i> <span>Splash Image</span>
         </a>
       </li>
+      <li  data-step="21" data-intro="For Reversible Groups settings.">
+        <a href="/administration/reversible_groups">
+          <i class="fa fa-retweet"></i> <span>Reversible Groups</span>
+        </a>
+      </li>
     </ul>
   </li>
 

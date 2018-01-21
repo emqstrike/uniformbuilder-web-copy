@@ -2615,9 +2615,7 @@ $(document).ready(function () {
             // Application Pattern
             application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
 
-            console.log(application_obj);
-            
-            if (application_obj.withPattern) { ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); }
+            if (application_obj.withPattern && application_obj.patternID !== null) { ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); }
 
             // Application Opacity
             application_obj = ub.funcs.prepareBackendOpacitySettings(application_obj);

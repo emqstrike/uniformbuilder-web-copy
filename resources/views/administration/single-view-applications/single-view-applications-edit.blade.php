@@ -26,7 +26,7 @@ li.select2-selection__choice {
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-info">
-                <div class="panel-heading">Modifys Category with Single Applications</div>
+                <div class="panel-heading">Modify Category with Single Applications</div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
