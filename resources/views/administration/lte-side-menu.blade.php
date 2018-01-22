@@ -66,6 +66,11 @@
           <i class="fa fa-info"></i> <span>Helpers</span>
         </a>
       </li>
+      <li  data-step="6" data-intro="Total Records">
+        <a href="/administration/total_records">
+          <i class="fa fa-info-circle"></i> <span>Total Records</span>
+        </a>
+      </li>
     </ul>
   </li>
 

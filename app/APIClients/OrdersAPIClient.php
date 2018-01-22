@@ -188,4 +188,16 @@ class OrdersAPIClient extends APIClient
         }
         return null;
     }
+
+    public function getAllOrdersNoLimit()
+    {
+        $response = $this->get('orders/getAllOrders/noLimit');
+        $result = $this->decoder->decode($response->getBody());
+        $orders = [];
+        if ($result->success)
+        {
+            $orders = $result->orders;
+        }
+        return $orders;
+    }
 }
