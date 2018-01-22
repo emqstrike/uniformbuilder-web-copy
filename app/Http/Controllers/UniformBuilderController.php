@@ -964,7 +964,11 @@ class UniformBuilderController extends Controller
                 $html .=   'Refer to Prepared File<br />';    
             } else {
                 $colors = '';
-                foreach ($application['color_array'] as &$color) {
+
+                // if prolook items reverse, base color should be on 
+                $reversedColorArray = array_reverse($application['color_array']);
+
+                foreach ($reversedColorArray as &$color) {
                     $colors .= $color['color_code'] . ",";
                 }
 
