@@ -1147,6 +1147,7 @@ class UniformBuilderController extends Controller
 
             if ($part['setting_type'] === 'mesh_shadows') { continue; }
             if ($part['setting_type'] === 'mesh_highlights') { continue; }
+            if ($part['setting_type'] === 'static_layer') { continue; }
 
             if ($part['code'] === 'highlights') { continue; }
             if ($part['code'] === 'highlight') { continue; }
