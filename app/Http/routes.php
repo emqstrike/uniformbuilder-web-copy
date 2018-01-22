@@ -469,6 +469,9 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('reversible_groups/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@store']);
     Route::post('reversible_groups/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@store']);
 
+    //Table Total Records
+    Route::get('total_records/{table?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\TotalRecordsController@index']);
+
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

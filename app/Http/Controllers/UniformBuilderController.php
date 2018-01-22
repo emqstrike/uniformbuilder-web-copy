@@ -964,7 +964,11 @@ class UniformBuilderController extends Controller
                 $html .=   'Refer to Prepared File<br />';    
             } else {
                 $colors = '';
-                foreach ($application['color_array'] as &$color) {
+
+                // if prolook items reverse, base color should be on 
+                $reversedColorArray = array_reverse($application['color_array']);
+
+                foreach ($reversedColorArray as &$color) {
                     $colors .= $color['color_code'] . ",";
                 }
 
@@ -1147,6 +1151,7 @@ class UniformBuilderController extends Controller
 
             if ($part['setting_type'] === 'mesh_shadows') { continue; }
             if ($part['setting_type'] === 'mesh_highlights') { continue; }
+            if ($part['setting_type'] === 'static_layer') { continue; }
 
             if ($part['code'] === 'highlights') { continue; }
             if ($part['code'] === 'highlight') { continue; }
@@ -1158,6 +1163,8 @@ class UniformBuilderController extends Controller
             if ($part['code'] === 'locker_tag') { continue; }
             if ($part['code'] === 'elastic_belt') { continue; }
             if ($part['code'] === 'body_inside') { continue; }
+            if ($part['code'] === 'extra') { continue; }
+
             if ($hiddenBody and $part['code'] === 'body') { continue; }
 
             $hasPattern = false;
