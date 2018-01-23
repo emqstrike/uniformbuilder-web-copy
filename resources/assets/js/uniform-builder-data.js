@@ -79,6 +79,10 @@ $(document).ready(function() {
 
     // End Manipulator Tools 
 
+    // Filters
+
+    ub.filterStructure = {};
+
     ub.zoom = false;
     ub.showLocation = false;
 
@@ -2153,6 +2157,10 @@ $(document).ready(function() {
             { 
                 name: "Field Hockey",
                 alias: "field-hockey",
+            },
+            { 
+                name: "Compression Pant (Apparel)",
+                alias: "compression-pant",
             },
 
         ],
@@ -8105,6 +8113,10 @@ ub.funcs.fontOffSets = [
             filters: ['All', 'Jersey', 'Pant'],
         },
         {
+            sport: 'Football 2017',
+            filters: ['All', 'Jersey', 'Pant'],
+        },
+        {
             sport: 'Basketball',
             filters: ['All', 'Jersey', 'Shorts'],
         },
@@ -8138,7 +8150,7 @@ ub.funcs.fontOffSets = [
         },
         {
             sport: 'Volleyball',
-            filters: ['All'],
+            filters: ['All', 'Jersey', 'Compression Shorts'],
         },
         {
             sport: 'Hoodie (Apparel)',
@@ -8170,7 +8182,7 @@ ub.funcs.fontOffSets = [
         },
         {
             sport: '2017 Team Short with Pockets (Apparel)',
-            filters: ['All'],
+            filters: ['All', 'Jersey', 'Team Shorts'],
         },
         {
             sport: 'Signature Coaches Short (Apparel)',
@@ -9957,6 +9969,8 @@ ub.funcs.fontOffSets = [
             'Football 2017',
             'Game Day Coaches Jackets (Apparel)',
             'Field Hockey',
+            'Compression Pant (Apparel)',
+            'Socks (Apparel)',
         ],
         options: [
             'Fight Short',
@@ -10133,8 +10147,17 @@ ub.funcs.fontOffSets = [
                 sport: 'Field Hockey',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Compression Pant (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Socks (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            
 
-            // 
+            // Socks (Apparel)
         ],
 
         get: function (sport) {
@@ -10223,7 +10246,21 @@ ub.funcs.fontOffSets = [
 
     ub.data.hiddenBody = {
 
-        sports: ["Hoodie (Apparel)", "Cinch Sack (Apparel)", "Polo (Apparel)", "Quarter Zip Jacket (Apparel)", "Fan Replica Jersey (Apparel)", 'Soccer', '2017 Team Short with Pockets (Apparel)', 'Signature Coaches Short (Apparel)', 'Baseball', 'Fastpitch', 'Compression (Apparel)', 'Tech-Tee (Apparel)'],
+        sports: [
+            "Hoodie (Apparel)", 
+            "Cinch Sack (Apparel)", 
+            "Polo (Apparel)", 
+            "Quarter Zip Jacket (Apparel)", 
+            "Fan Replica Jersey (Apparel)", 
+            "Soccer", 
+            "2017 Team Short with Pockets (Apparel)", 
+            "Signature Coaches Short (Apparel)", 
+            "Baseball", 
+            "Fastpitch", 
+            "Compression (Apparel)", 
+            "Tech-Tee (Apparel)", 
+            "Game Day Coaches Jackets (Apparel)",
+            ],
         options: [
                 {
                     sport: 'Wrestling',
@@ -11606,6 +11643,53 @@ ub.funcs.fontOffSets = [
             return _.contains(this.items, sport);
         },
         
+    }
+
+    // Category Specific Colors 
+
+    ub.data.excludedColors = {
+
+        items: [
+            {
+                sport: ['Football', 'Football 2017'],
+                uniformApplicationType: 'tackle_twill',
+                excludedColors: [
+                    'PK',
+                    'NP',
+                    'Y',
+                    'LG',
+                    'DG',
+                    'CR',
+                ]
+            }
+        ],
+        
+        isExcluded: function (sport, uniformApplicationType, colorCode) {
+
+            var _result = _.filter(this.items, function (item) {
+                return _.contains(item.sport, sport) && uniformApplicationType === item.uniformApplicationType;
+            });
+
+            if (_.size(_result) > 0) {
+
+                var _result = _.filter(_result, function (item) {
+                    return _.contains(item.excludedColors, colorCode)
+                });
+
+                if (_.size(_result) > 0) {
+                    return true;
+                } else {
+                    return false;    
+                }
+
+            } else {
+
+                return false;
+
+            }
+
+        }
+
     }
 
     // Shortcuts

@@ -59,8 +59,12 @@ $(document).ready(function () {
             var _scale;
             var _result = undefined;
 
+            // Legacy Socks 
             if (ub.funcs.isSocks()) { _size = 2.5; }
 
+            // New Socks 
+            if (ub.config.sport === "Socks (Apparel)") { _size = size; }            
+            
             _scale = _.find(ub.styleValues.mascotScales.items[0].properties, {size: _size.toString()});
 
             if (typeof _scale === "undefined") {

@@ -454,6 +454,24 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('style_index_item/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@store']);
     Route::get('style_index_item/edit/{style_index_id}/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@edit']);
     Route::post('style_index_item/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\StyleIndexItemsController@store']);
+
+    //Single View Applications
+    Route::get('single_view_applications', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@index']);
+    Route::get('single_view_applications/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@create']);
+    Route::get('single_view_applications/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@edit']);
+    Route::post('single_view_applications/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@store']);
+    Route::post('single_view_applications/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\SingleViewApplicationsController@store']);
+
+    //Reversible Groups
+    Route::get('reversible_groups', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@index']);
+    Route::get('reversible_groups/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@create']);
+    Route::get('reversible_groups/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@edit']);
+    Route::post('reversible_groups/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@store']);
+    Route::post('reversible_groups/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ReversibleGroupsController@store']);
+
+    //Table Total Records
+    Route::get('total_records/{table?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\TotalRecordsController@index']);
+
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

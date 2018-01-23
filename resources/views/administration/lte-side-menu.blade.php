@@ -66,6 +66,11 @@
           <i class="fa fa-info"></i> <span>Helpers</span>
         </a>
       </li>
+      <li  data-step="6" data-intro="Total Records">
+        <a href="/administration/total_records">
+          <i class="fa fa-info-circle"></i> <span>Total Records</span>
+        </a>
+      </li>
     </ul>
   </li>
 
@@ -237,6 +242,11 @@
           <i class="fa fa-cubes"></i> <span>Splash Image</span>
         </a>
       </li>
+      <li  data-step="21" data-intro="For Reversible Groups settings.">
+        <a href="/administration/reversible_groups">
+          <i class="fa fa-retweet"></i> <span>Reversible Groups</span>
+        </a>
+      </li>
     </ul>
   </li>
 
@@ -355,6 +365,12 @@
     <a href="/administration/inksoft_designs">
       <i class="fa fa-file-image-o"></i>
       <span>Inksoft Designs</span>
+      </a>
+  </li>
+  <li data-position='right'>
+    <a href="/administration/single_view_applications">
+      <i class="fa fa-eye"></i>
+      <span>Single View Applications</span>
       </a>
   </li>
 </ul>

@@ -111,6 +111,13 @@ $(document).ready(function(){
     loadAdultYouth();
     selectChange();
 
+    $( "tbody.property-body" ).sortable({
+        stop: function( ) {
+            refreshProperty();
+        }
+    });
+    $( "tbody" ).disableSelection();
+
     function loadAdultYouth(){
 
         _.each(template_props.properties.adult, function(i){
@@ -175,7 +182,7 @@ $(document).ready(function(){
         }
         else {
             loadDefault();
-        }              
+        }
         deleteButton();
         selectChange();
         refreshProperty();
@@ -273,10 +280,10 @@ $(document).ready(function(){
                     <td>
                         <select class="form-control price-items">
                         </select>
-                    </td>                   
+                    </td>
                 </tr>`;
 
-           $('.property-body').append(x);  
+           $('.property-body').append(x);
            initSizesAndPI();
     }
 

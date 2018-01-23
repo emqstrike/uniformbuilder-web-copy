@@ -156,13 +156,16 @@ $(document).ready(function(){
             };
             data.push(x);
         });
-        console.log(JSON.stringify(data));
+        // console.log(JSON.stringify(data));
         $('#properties').val(JSON.stringify(data));
     }
 
     function buildAppNumOptions() {
         var elem = '';
         for(var i = 1; i <= 51; i++){
+            elem += '<option value="'+i+'">'+i+'</option>';
+        }
+        for(var i = 71; i <= 99; i++){
             elem += '<option value="'+i+'">'+i+'</option>';
         }
         return elem;
@@ -254,5 +257,4 @@ $(document).ready(function(){
     $("#create_application_size").on("click", ".delete-row", function(e){
         updateJSON();
     });
-
 });

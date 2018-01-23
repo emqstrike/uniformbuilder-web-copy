@@ -112,6 +112,14 @@ var size_properties = {};
 
 $('.autosized').autosize({append: "\n"});
 
+    $( "tbody.property-body" ).sortable({
+        stop: function( ) {
+            refreshProperty();
+        }
+    });
+    $( "tbody" ).disableSelection();
+
+
 getPriceItems(function(price_items){ window.price_items = price_items; });
 
 initSizesAndPI();

@@ -1,5 +1,57 @@
 $(document).ready(function () {
 
+    ub.data.categoriesWithSingleViewApplications = {
+
+        items: [
+           
+            // Tranferred to backend, keeping data as example structure
+            // {            
+            //     sport: 'Football 2017',
+            //     type: 'lower',
+            //     blockPattern: ['Integrated'],
+            //     neckOption: ['Default'],
+            // }, 
+            // {            
+            //     sport: 'Fastpitch',
+            //     type: 'lower',
+            //     blockPattern: ['Fast Pitch Elastic Pants', 'Fast Pitch Tunneled Pants'],
+            //     neckOption: ['Full', 'Knicker', 'Elastic Mid', 'Open Cuff', 'Elastic_Full', 'Elastic_Knicker', 'Elastic_Mid'],
+            // }, 
+
+        ], 
+
+        getItem: function (sport, type, blockPattern, neckOption) {
+
+            var _result = false;
+
+            _result = _.find(this.items, function (item) {
+
+                return item.sport === sport && 
+                    item.type === type && 
+                    _.contains(item.blockPattern, blockPattern) && 
+                    _.contains(item.neckOption, neckOption);
+
+            });
+
+            return _.size(_result) > 0;
+
+        }
+
+    };
+
+    ub.funcs.processSingleViewApplications = function () {
+
+        _.each(ub.data.single_view_applications, function (setting) {
+
+            setting.blockPattern = JSON.parse(setting.block_patterns);
+            setting.neckOption = JSON.parse(setting.neck_options);
+
+        });
+
+        ub.data.categoriesWithSingleViewApplications.items = ub.data.categoriesWithSingleViewApplications.items.concat(ub.data.single_view_applications);
+
+    };
+
     ub.data.freeFormValidTypes = {
 
         items: [
@@ -38,6 +90,7 @@ $(document).ready(function () {
 
         items: [
             'Crew Socks (Apparel)',
+            'Socks (Apparel)',
         ],
         isValid: function (sport) {
 

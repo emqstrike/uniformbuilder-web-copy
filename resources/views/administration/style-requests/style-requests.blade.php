@@ -34,7 +34,6 @@
             <div class="box">
                 <div class="box-header">
                     <h1>
-
                         Style Requests
                         <small>
                             <a href="#" class='btn btn-xs btn-success' data-toggle="modal" data-target="#myModal">
@@ -55,6 +54,7 @@
                             <th>Option
                             <a href="#" data-toggle="tooltip" data-message="Neck, waist or other options"><span class="glyphicon glyphicon-info-sign"></span></a>
                             </th>
+                            <th>Brand</th>
                             <th>Design Sheet</th>
                             <th>Item ID
                             <a href="#" data-toggle="tooltip" data-message="QStrike Item ID"><span class="glyphicon glyphicon-info-sign"></span></a>
@@ -62,6 +62,7 @@
                             <th>Priority</th>
                             <th>Deadline</th>
                             <th>Requested By</th>
+                            <th>Type</th>
                             <th>Application Type</th>
                             <th>Uploaded</th>
                             <th>Customizer ID</th>
@@ -78,13 +79,16 @@
                         <td class="style-sport">{{ $style_request->sport }}</td>
                         <td class="style-block-pattern">{{ $style_request->block_pattern }}</td>
                         <td class="style-option">{{ $style_request->block_pattern_option }}</td>
+                        <td class="style-brand">{{ $style_request->brand }}</td>
                         <td>
+                            <input type="hidden" name="style_design_sheet_url"" class="style-design-sheet-url" value="{{ $style_request->design_sheet_url }}">
                             <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $style_request->design_sheet_url }}">Link</a>
                         </td>
                         <td class="style-qstrike-item-id">{{ $style_request->qstrike_item_id }}</td>
                         <td class="style-priority">{{ $style_request->priority }}</td>
-                        <td >{{ $style_request->deadline }}</td>
+                        <td class="style-deadline">{{ $style_request->deadline }}</td>
                         <td>{{ $style_request->requested_by }}</td>
+                        <td class="style-type">{{ $style_request->type }}</td>
                         <td class="style-application-type">{{ $style_request->uniform_application_type }}</td>
                         <td>
                             @if($style_request->uploaded)
@@ -106,12 +110,14 @@
                         {{ $style_request->status }}
                         @if($style_request->is_fixed == 1 AND $style_request->status == 'rejected')
                             <a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>
-                            <!-- <a href="#" data-toggle="tooltip" data-message="Not fixed"><span class="glyphicon glyphicon-info-sign"></span></a> -->
+
                         @endif
                         </td>
                         <td>
                             <input type="hidden" class="notes" value="{{$style_request->notes}}">
-                            @if($style_request->notes != '' AND  $style_request->status == 'pending')
+                            @if($style_request->is_fixed)
+                                <button class="view-notes btn btn-success btn-sm">View</button>
+                            @elseif($style_request->notes != '' AND  $style_request->status == 'pending')
                                 <button class="view-notes btn btn-info btn-sm">View</button>
                             @elseif($style_request->notes != '' AND  $style_request->status == 'rejected')
                                 <button class="view-notes btn btn-danger btn-sm">View</button>
@@ -132,7 +138,7 @@
                     @empty
 
                         <tr>
-                            <td colspan='13'>
+                            <td colspan='14'>
                                 No Style Requests
                             </td>
                         </tr>
@@ -141,6 +147,8 @@
                     </tbody>
                         <tfoot>
                           <tr>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -241,6 +249,24 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-md-4 control-label">Type</label>
+                <div class="col-md-6">
+                    <select class="form-control type">
+                        <option value="upper">Upper</option>
+                        <option value="lower">Lower</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label">Brand</label>
+                <div class="col-md-6">
+                    <select class="form-control brand">
+                        <option value="none">None</option>
+                        <option value="prolook">Prolook</option>
+                </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-md-4 control-label">Application Type</label>
                 <div class="col-md-6">
                     <select class="form-control application_type">
@@ -299,7 +325,7 @@
                     </div>
             </div>
 
-            <div class="form-group" style="margin-top: 260px; z-index: 3;">
+            <div class="form-group" id="save-data" style="margin-top: 260px; z-index: 3;">
                 <center>
                     <button type="submit" class="btn btn-primary save-data">
                         Save Request
@@ -307,7 +333,7 @@
                 </center>
             </div>
             </form>
-            <div style="z-index: 2; margin-top: -250px; position: absolute; width: 95%;">
+            <div id="upload_design_sheet" style="z-index: 2; margin-top: -250px; position: absolute; width: 95%;">
                 <center>
                     <h4 class="alert alert-info" style="margin-top: -50px;">Upload Design Sheet below</h4>
                     <form action="/administration/material/insert_dz_design_sheet" class="dropzone" id="my-awesome-dropzone" style="margin-top: -20px;">
@@ -381,29 +407,29 @@ $(function(){
                     return $(this).data('message');
                 }
             });
-       },
-        initComplete: function () {
-          this.api().columns('#select-filter').every( function () {
+       }
+      //   initComplete: function () {
+      //     this.api().columns('#select-filter').every( function () {
 
-              var column = this;
-              var select = $(`<select><option value=""></option></select>`)
-                  .appendTo( $(column.footer()).empty() )
-                  .on( 'change', function () {
-                      var val = $.fn.dataTable.util.escapeRegex(
-                          $(this).val()
-                      );
+      //         var column = this;
+      //         var select = $(`<select><option value=""></option></select>`)
+      //             .appendTo( $(column.footer()).empty() )
+      //             .on( 'change', function () {
+      //                 var val = $.fn.dataTable.util.escapeRegex(
+      //                     $(this).val()
+      //                 );
 
-                      column
-                      .search( val ? '^'+val+'$' : '', true, false )
-                          .draw();
-                  } );
+      //                 column
+      //                 .search( val ? '^'+val+'$' : '', true, false )
+      //                     .draw();
+      //             } );
 
-              column.data().unique().sort().each( function ( d, j ) {
+      //         column.data().unique().sort().each( function ( d, j ) {
 
-                  select.append( `<option value="`+d+`">`+d+`</option>` );
-              } );
-          } );
-      }
+      //             select.append( `<option value="`+d+`">`+d+`</option>` );
+      //         } );
+      //     } );
+      // }
     });
     } catch(e) {
         // statements
@@ -606,13 +632,14 @@ $(function(){
         var sport = $('.sport').val();
         var qstrike_item_id = $('.qstrike-item-id').val();
         var priority = $('.priority').val();
-        var deadline = $('.deadline').val();
         var deadline = $('#datepicker').val();
         var design_sheet_url = $('.design-sheet-path').val();
         var customizer_id = $('.customizer-id').val();
         var status = $('.status').val();
         var notes = $('#input_notes').val();
         var application_type = $('.application_type').val();
+        var type = $('.type').val();
+        var brand = $('.brand').val();
         window.data = {
             'id' : id,
             'name' : name,
@@ -621,13 +648,15 @@ $(function(){
             'sport' : sport,
             'qstrike_item_id' : qstrike_item_id,
             'priority' : priority,
-            'deadline' : deadline,
             'design_sheet_url' : design_sheet_url,
             'customizer_id' : customizer_id,
+            'deadline' : deadline,
             'status' : status,
             'notes' : notes,
             'uniform_application_type' : application_type,
-            'is_fixed' : is_fixed
+            'is_fixed' : is_fixed,
+            'type' : type,
+            'brand' : brand
         };
         $('.data-string').val(JSON.stringify(window.data));
         console.log(window.data);
@@ -637,23 +666,28 @@ $(function(){
             window.rowData[2] = sport;
             window.rowData[3] = block_pattern;
             window.rowData[4] = block_pattern_option;
-            window.rowData[6] = qstrike_item_id;
-            window.rowData[7] = priority;
-            window.rowData[10] = application_type;
-            window.rowData[12] = customizer_id;
-            window.rowData[13] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
+            window.rowData[5] = brand;
+            window.rowData[7] = qstrike_item_id;
+            window.rowData[8] = priority;
+            window.rowData[11] = type;
+            window.rowData[12] = application_type;
+            window.rowData[14] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+customizer_id+`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='http://customizer.prolook.com/builder/0/`+customizer_id+`'>`+customizer_id+`</a>`;
+            window.rowData[15] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
                 if(is_fixed == 1 && status == 'rejected') {
-                    window.rowData[13] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
+                    window.rowData[15] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;
                 }
-            window.rowData[14] = `<input type="hidden" class="notes" value="`+notes+`">`
-                if(notes != '' && status == 'pending') {
-                    window.rowData[14] += `<button class="view-notes btn btn-info btn-sm">View</button>`;
+            window.rowData[16] = `<input type="hidden" class="notes" value="`+notes+`">`
+                if(is_fixed == 1) {
+                    window.rowData[16] += `<button class="view-notes btn btn-success btn-sm">View</button>`;
+                }
+                else if(notes != '' && status == 'pending') {
+                    window.rowData[16] += `<button class="view-notes btn btn-info btn-sm">View</button>`;
                 }
                 else if(notes != '' && status == 'rejected') {
-                    window.rowData[14] += `<button class="view-notes btn btn-danger btn-sm">View</button>`;
+                    window.rowData[16] += `<button class="view-notes btn btn-danger btn-sm">View</button>`;
                 }
                 else {
-                    window.rowData[14] += `<button class="view-notes btn btn-default btn-sm">View</button>`;
+                    window.rowData[16] += `<button class="view-notes btn btn-default btn-sm">View</button>`;
                 }
         }
     }
@@ -757,13 +791,15 @@ $(function(){
         $('#customizer').removeAttr('style');
         $('#status_div').removeAttr('style');
         $('#is_fixed_div').removeAttr('style');
+        $('#upload_design_sheet').attr({"style": "display: none;"});
+        $('#save-data').attr({"style": "display: block;"});
+
     });
 
     $('.data-table tbody').on( 'click', 'tr', function () {
         var oTable = $('.data-table').DataTable();
         window.rowData =  oTable.row(this).data();
         window.rowIndex = oTable.row(this).index();
-        // console.log(window.rowIndex);
     });
 
     $("#myModal").on( 'click', '.save-data', function () {
@@ -782,6 +818,7 @@ $(function(){
         $('.customizer-id').val('');
         $('.status').val('pending');
         $('#input_notes').val('');
+        $('.type').val('upper');
         $('.application_type').val('none');
         $('.is_fixed').prop('checked', false);
         $('.custom_block_pattern').val(null);
@@ -794,7 +831,12 @@ $(function(){
         $('#customizer').attr({"style": "display: none;"});
         $('#status_div').attr({"style": "display: none;"});
         $('#is_fixed_div').attr({"style": "display: none;"});
+        $('#upload_design_sheet').attr({"style":"z-index: 2; margin-top: -250px; position: absolute; width: 95%;"});
+        $('#save-data').attr({"style":"margin-top: 260px; z-index: 3;"});
         $('#input_notes').text('');
+        $('.design-sheet-path').val('');
+        $('.brand').val('none');
+
 
     });
 
@@ -810,7 +852,7 @@ $(function(){
         }
     });
 
-    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type, .is_fixed").on("change", function(e){
+    $(".sport, .block-pattern, .block-pattern-option, .enable_custom_bp, .enable_custom_bpo, .status, .application_type, .is_fixed, .type, .design-sheet-path, .brand").on("change", function(e){
         e.preventDefault();
         var name = document.getElementById("name").value;
         var qx_id = document.getElementById("qstrike_item_id").value;
@@ -822,7 +864,7 @@ $(function(){
         }
     });
 
-    $(".custom_block_pattern, .custom_option, .enable_custom_bp, .enable_custom_bpo").on("change", function(e){
+    $(".custom_block_pattern, .custom_option, .enable_custom_bp, .enable_custom_bpo, .type, .brand").on("change", function(e){
         e.preventDefault();
         updateData();
     });
@@ -862,8 +904,12 @@ $(function(){
         var customizer_id = thisObj.parent().parent().find('.style-customizer-id').val();
         var status = thisObj.parent().parent().find('.style-status').val();
         var notes = thisObj.parent().parent().find('.notes').val();
+        var type = thisObj.parent().parent().find('.style-type').html();
         var application_type = thisObj.parent().parent().find('.style-application-type').html();
         var is_fixed = thisObj.parent().parent().find('.style-is-fixed').val();
+        var design_sheet_url = thisObj.parent().parent().find('.style-design-sheet-url').val();
+        var deadline = thisObj.parent().parent().find('.style-deadline').html();
+        var brand = thisObj.parent().parent().find('.style-brand').html();
         window.sport_value = sport;
         window.block_pattern_value = block_pattern;
         window.option_value = option;
@@ -876,7 +922,11 @@ $(function(){
         $('.customizer-id').val(customizer_id);
         $('.status').val(status);
         $('#input_notes').val(notes);
+        $('.type').val(type);
         $('.application_type').val(application_type);
+        $('.design-sheet-path').val(design_sheet_url);
+        $('.brand').val(brand);
+        $('#datepicker').val(deadline);
 
         if (is_fixed == 1)
             {

@@ -682,6 +682,41 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label" >Brand</label>
+                           <div class="col-md-6">
+                                <select name="brand" class="form-control">
+                                        <option value="none" @if($material->brand == "none") selected="selected"@endif>None</option>
+                                        <option value="prolook" @if($material->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Reversible Group</label>
+                            <div class="col-md-6">
+                                <select name="reversible_group" class="form-control reversible-group">
+                                    <option value="none">None</option>
+                                    @foreach ($reversible_groups as $reversible_group)
+                                    <option value='{{ $reversible_group->id }}' @if($material->reversible_group == $reversible_group->id) selected="selected"@endif>{{ $reversible_group->sport }} -- {{ $reversible_group->description }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Reversible Pair ID</label>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control reversible-pair-id"  name="reversible_pair_id" value={{ $material->reversible_pair_id }}>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Reversible Type</label>
+                           <div class="col-md-6">
+                                <select name="reversible_type" class="form-control reversible-type">
+                                        <option value="inner" @if($material->reversible_type == "inner") selected="selected"@endif >Inner</option>
+                                        <option value="outer" @if($material->reversible_type == "outer") selected="selected"@endif >Outer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary edit-material">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>

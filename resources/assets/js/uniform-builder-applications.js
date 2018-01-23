@@ -1225,7 +1225,7 @@ $(document).ready(function() {
 
                         rotation_point.alpha = 0;
                         
-                        if (ub.config.uniform_application_type === "sublimated") {
+                        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
                             scale_point.alpha   = 0;
                             delete_point.alpha  = 0;
                         }
@@ -1278,7 +1278,7 @@ $(document).ready(function() {
 
                         move_point.alpha        = 0;
 
-                        if (ub.config.uniform_application_type === "sublimated") {
+                        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
                             scale_point.alpha   = 0;
                             delete_point.alpha  = 0;
                         }
@@ -4052,6 +4052,9 @@ $(document).ready(function() {
             if (typeof _obj === 'undefined') { return; }
 
             if (_obj.setting_type === 'static_layer') { return; }
+            if (_obj.setting_type === 'mesh_highlights') { return; }
+            if (_obj.setting_type === 'mesh_shadows') { return; }
+
             if (_obj.name === "Extra") { return; }
 
             if (_hideBody) {
@@ -6249,6 +6252,8 @@ $(document).ready(function() {
 
         _.each(_appSettings.color_array, function (color, index) {
 
+            if (typeof color === "undefined") { return; }
+
             var _layerNo = index + 1;
 
             if (_layerNo > _noOfLayers) { return; }
@@ -6369,6 +6374,38 @@ $(document).ready(function() {
             });
 
         }
+
+    }
+
+    ub.funcs.prepareBackendOpacitySettings = function (applicationObj) {
+       
+        if (applicationObj.application_type === "mascot" && ub.config.uniform_application_type === "sublimated") {
+
+            _.each(applicationObj.application.views, function (view) {
+
+                if (view.application.appOpacity !== "" && typeof view.application.appOpacity !== "undefined") {
+
+                    applicationObj.withOpacity = true;
+                    applicationObj.opacityConfig = view.application.appOpacity;
+
+                } else {
+
+                    applicationObj.withOpacity = false;
+
+                }
+                
+            });
+
+        }
+
+        return applicationObj;
+
+    }
+
+    ub.funcs.changeMascotOpacityFromBackend = function (applicationObj, opacity) {
+
+        var _value = parseInt(opacity);
+        applicationObj.alpha = parseInt(_value) / 100;
 
     }
 
@@ -7793,6 +7830,7 @@ $(document).ready(function() {
 
             ub.funcs.deActivateApplications();
 
+            _settingsObject.font_obj            = ub.funcs.getSampleFont();
             _settingsObject.application_type    = _applicationType;
             _settingsObject.type                = _applicationType;
             _settingsObject.object_type         = _applicationType;
@@ -9541,7 +9579,7 @@ $(document).ready(function() {
         // --- Scale --- ///
 
 
-        if (ub.config.uniform_application_type === "sublimated") {
+        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
 
             var _filenameScale = "/images/builder-ui/scale-icon-on.png";
             var _spriteScale = ub.pixi.new_sprite(_filenameScale);
@@ -9584,7 +9622,7 @@ $(document).ready(function() {
 
         // --- Delete --- ///
 
-        if (ub.config.uniform_application_type === "sublimated") {
+        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
 
             var _filenameDelete = "/images/builder-ui/delete-icon-on.png";
             var _spriteDelete = ub.pixi.new_sprite(_filenameDelete);
@@ -10159,7 +10197,7 @@ $(document).ready(function() {
 
     ub.funcs.isUniformFullSublimation = function ()  {
 
-        return ub.current_material.material.uniform_application_type === "sublimated";
+        return ub.current_material.material.uniform_application_type === "sublimated" || ub.current_material.material.uniform_application_type === "knitted";
 
     }
 
@@ -10179,7 +10217,17 @@ $(document).ready(function() {
 
             if (ub.funcs.isSocks()) { 
 
-                _list = _.reject(_list, function (item) { return item.name.indexOf('Sublimated') === -1; });
+                _list = _.reject(_list, function (item) { 
+                    return item.name.indexOf('Sublimated') === -1 && (item.name.indexOf('Body') === -1 && ub.current_material.material.uniform_category === "Socks (Apparel)");
+                });
+
+                if (ub.config.option === "Baseball Home Run Sublimated") {
+
+                    _list = _.reject(_list, function (item) { 
+                        return item.name.indexOf('Sublimated') === -1 && ub.current_material.material.uniform_category === "Socks (Apparel)";
+                    });                    
+
+                }
 
             }
 
@@ -10332,11 +10380,11 @@ $(document).ready(function() {
 
         _.each(_phaSettings.application.views, function (_perspectiveView) {
 
-            // Get Center of Polygon 
+            // Get Center of Polygon
             var _cx = ub.funcs.getCentoid(_perspectiveView.perspective, _part);
             var _overrides = ub.data.placeHolderOverrides.getOverrides(_sport, _part, _perspectiveView.perspective, _blockPattern);
 
-            // CX Override 
+            // CX Override
             if (typeof _cx !== "undefined" && typeof _overrides === "undefined") {
 
                 _perspectiveView.application.center = _cx;
@@ -10468,7 +10516,16 @@ $(document).ready(function() {
 
         }
 
-        
+        var _isSingleView = ub.data.categoriesWithSingleViewApplications.getItem(ub.config.sport, ub.config.type, ub.config.blockPattern, ub.config.option);
+
+        if (_isSingleView) {
+
+            _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
+                return view.application.isPrimary === 1;
+            });
+
+        }
+
         ub.current_material.settings.applications[_newIDStr] = _newApplication;
 
         _newApplication.application.layer = _part;
@@ -10499,7 +10556,9 @@ $(document).ready(function() {
         $.smkAlert({text: 'Added [' + type.toTitleCase() + '] on [' + part.toTitleCase() + '] layer', type:'success', time: 10, marginTop: '90px'});
 
         // Initialize New Embellishment Popup
-        if (type === "embellishments") { 
+        if (type === "embellishments") {
+
+            _newApplication.font_size = _newApplication.size;
 
             if (typeof ub.user.id === "undefined" || typeof is.embellishments.userItems === "undefined" || is.embellishments.userItems.length === 0) {
 
@@ -10618,9 +10677,13 @@ $(document).ready(function() {
                     //     $('span.perspective[data-id="front"]').addClass('active'); 
                     // }
 
-                    if (_part === "Body") { 
+                    var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
+
+                    if (_part === "Body" && !_isLowerFootball2017Uniform) { 
+
                         $('span.perspective').removeClass('active');
                         $('span.perspective[data-id="front"]').addClass('active'); 
+
                     }
 
                     $('label.leftrightPart, div.side-container').hide();                    
@@ -11699,8 +11762,6 @@ $(document).ready(function() {
     }
 
     ub.funcs.getBoundarySettings = function (perspective, materialOption) {
-
-
 
         var _result =  _.find(ub.data.boundaries_transformed_one_dimensional[perspective], {name: materialOption.toTitleCase()});
         return _result;

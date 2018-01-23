@@ -255,9 +255,14 @@ $(document).ready(function() {
         var id = $(this).parent().find('.app-def-pattern').val();
         var props = $(this).val();
         var pattern_loaded = 0;
-        if( props != 'undefined' ){
+
+        //set blank pattern for existing applications
+        if( props == undefined || props == 'undefined' || props == "" || props == null ) {
+            $(this).parent().find('.app-def-pattern').val(33);
+            id = 33;
+        }
+        else {
             pattern_loaded = 1;
-            console.log('loaded');
         }
         loadAppPatternLayers($(this), id, pattern_loaded);
     });
@@ -660,7 +665,7 @@ $(document).ready(function() {
             }
         }
 
-        var def_patterns_options = '<option value="">None</option>';
+        var def_patterns_options = '';
         var current_sport = $('#material_uniform_category').val();
         var current_asset_target = $('#material_asset_target').val();
         var current_bp_options = $('#material_neck_option').val();
@@ -675,9 +680,15 @@ $(document).ready(function() {
         });
 
         $.each(input_patterns, function (i, item) {
-            def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
+            if(item.id == 33) {
+                def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'" selected>' + item.name + '</option>';
+            }
+            else {
+                def_patterns_options += '<option value="' + item.id + '" data-asset-target="'+ item.asset_target +'">' + item.name + '</option>';
+            }
         });
 
+        var blank_pattern = '{"1":{"default_color":"W","file_path":"https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/Blank/174d8840919615bfd3255478.png","layer":"1","team_color_id":"1"}}';
 
         var font_label              = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Font:</label>';
         var default_text_label      = '<label class="control-label label-default" style="float: left; padding: 5px; border-radius: 3px; margin-top: 5px;">Text:</label>';
@@ -708,8 +719,9 @@ $(document).ready(function() {
         var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
         var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
-        var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" value="" size="2">';
-        var app_default_pattern     = '<select style="' + style + '" class="app-def-pattern" data-id="' + group.id + '">' + def_patterns_options + '</select><div class="col-md-12 app_pattern_layers_OC" data-id="' + group.id + '" id="app_pattern_layers_OC"></div><input type="hidden" style="' + style + '" data-id="' + group.id + '" class="app-pattern-properties" value="">';
+        var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" size="2" value="100">';
+        var def_pattern_position    = '<input type="number" style="' + style + '" class="app-def-pattern-position" size="2" value="0">';
+        var app_default_pattern     = `<select style="` + style + `" class="app-def-pattern" data-id="` + group.id + `">` + def_patterns_options + `</select><div class="col-md-12 app_pattern_layers_OC" data-id="` + group.id + `" id="app_pattern_layers_OC"></div><input type="hidden" style="` + style + `" data-id="` + group.id + `" class="app-pattern-properties" value=`+blank_pattern+`>`;
         var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
@@ -751,6 +763,7 @@ $(document).ready(function() {
                     embellishment,
                     inksoft_design_id,
                     app_opacity,
+                    def_pattern_position,
                     app_default_pattern,
                     flipped,
                     flip
@@ -865,8 +878,6 @@ $(document).ready(function() {
            $(t).parent(".colorSelection").siblings(".app-colors").val(colorCodeField.slice(1));
 
         }
-
-
 
         $(".app-rotation-flip").each(function(i) {
             $(this).on('click', function(){
@@ -1708,7 +1719,7 @@ $(document).ready(function() {
                     }
                 }
 
-                var def_patterns_options = '<option value="">None</option>';
+                var def_patterns_options = '';
                 var current_sport = $('#material_uniform_category').val();
                 var current_asset_target = $('#material_asset_target').val();
                 var current_bp_options = $('#material_neck_option').val();
@@ -1721,6 +1732,11 @@ $(document).ready(function() {
                 var optionsOk = _.contains(sport, current_bp_options) || bp_options === null || bp_options === '[""]';
                     return (sportOk && optionsOk && asset_target === current_asset_target);
                 });
+                console.log('def'+app_properties[l].appDefPattern);
+                // set BLANK pattern for existing
+                if(app_properties[l].appDefPattern === '' || app_properties[l].appDefPattern === null || app_properties[l].appDefPattern === 'undefined' || app_properties[l].appDefPattern === undefined) {
+                    app_properties[l].appDefPattern = 33;
+                }
 
                 $.each(input_patterns, function (i, item) {
                     if(app_properties[l].appDefPattern == item.id) {
@@ -1739,6 +1755,7 @@ $(document).ready(function() {
                 var inksoft_design_id   = '<input type="number" style="'      + style + '" class="app-inksoft-design-id" value="'        + app_properties[l].inksoftDesignID       + '" size="3">';
                 var flipped             = '<input type="checkbox" style="'  + style + '" class="app-flipped" value="1" '         + flipped_checked                    + '>';
                 var app_opacity         = '<input type="number" style="'      + style + '" class="app-opacity" value="'        + app_properties[l].appOpacity       + '" size="2">';
+                var def_pattern_position= '<input type="number" style="'      + style + '" class="app-def-pattern-position" value="'        + app_properties[l].appDefPatternPosition       + '" size="2">';
                 var app_default_pattern = `<select style='` + style + `'; float: left; width: 300px;" class="app-def-pattern" data-id='` + group.id + `'>'` + def_patterns_options + `'</select><div class="col-md-12 app_pattern_layers_OC" data-id='` + group.id + `' id="app_pattern_layers_OC"></div><input type="hidden" style='` + style+ `' class="app-pattern-properties" data-id='` + group.id + `' value='` +app_properties[l].appPatternProperties+ `'>`;
                 var rotated_tailsweep   = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '>';
 
@@ -1783,6 +1800,7 @@ $(document).ready(function() {
                     embellishment,
                     inksoft_design_id,
                     app_opacity,
+                    def_pattern_position,
                     app_default_pattern,
                     flipped,
                     flip
@@ -2045,7 +2063,6 @@ $(document).ready(function() {
         }
 
         $('.app-pattern-properties').trigger('keyup');
-
 
     }
 
@@ -3507,6 +3524,7 @@ function updateApplicationsJSON(){
         hasEmbellishment = $(this).parent().siblings('td').find("input[class=app-embellishment]");
         inksoftDesignID = $(this).parent().siblings('td').find("input[class=app-inksoft-design-id]").val();
         appOpacity = $(this).parent().siblings('td').find("input[class=app-opacity]").val();
+        appDefPatternPosition = $(this).parent().siblings('td').find("input[class=app-def-pattern-position]").val();
         appDefPattern = $(this).parent().siblings('td').find("select[class=app-def-pattern]").val();
         appPatternProperties = $(this).parent().siblings('td').find("input[class=app-pattern-properties]").val();
         isFlipped = $(this).parent().siblings('td').find("input[class=app-flipped]");
@@ -3626,6 +3644,7 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['inksoftDesignID'] = {};
 
         applicationProperties[itemIdx]['appOpacity'] = {};
+        applicationProperties[itemIdx]['appDefPatternPosition'] = {};
         applicationProperties[itemIdx]['appDefPattern'] = {};
         applicationProperties[itemIdx]['appPatternProperties'] = {};
 
@@ -3655,6 +3674,7 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].inksoftDesignID = inksoftDesignID;
 
         applicationProperties[itemIdx].appOpacity = appOpacity;
+        applicationProperties[itemIdx].appDefPatternPosition = appDefPatternPosition;
         applicationProperties[itemIdx].appDefPattern = appDefPattern;
         applicationProperties[itemIdx].appPatternProperties = appPatternProperties;
 

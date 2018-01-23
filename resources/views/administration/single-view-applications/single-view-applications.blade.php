@@ -11,8 +11,8 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3>Application Sizes</h3>
-                    <a href="/administration/application_size/add" class='btn btn-md btn-default appication-size-add'>
+                    <h3>Categories with Single View Applications</h3>
+                    <a href="/administration/single_view_applications/add" class='btn btn-md btn-default single-view-applications-add'>
                         <span class="glyphicon glyphicon-plus"></span> Add
                     </a>
                 </div>
@@ -21,65 +21,54 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
                             <th>Sport</th>
                             <th>Block Pattern</th>
                             <th>Option</th>
                             <th>Type</th>
-                            <th>Uniform Application Type</th>
-                            <th>Notes</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @forelse ($application_sizes as $item)
-                        <tr class='application-size-{{ $item->id }}'>
+                    @forelse ($single_view_applications as $item)
+                        <tr class='single-view-applications-{{ $item->id }}'>
                             <td>
                                 {{ $item->id }}
-                            </td>
-                            <td>
-                                {{ $item->name }}
                             </td>
                             <td>
                                 {{ $item->sport }}
                             </td>
                             <td>
-                                {{ $item->block_pattern }}
+                                {{ $item->block_patterns }}
                             </td>
                             <td>
-                                {{ $item->neck_option }}
+                                {{ $item->neck_options }}
                             </td>
                             <td>
                                 {{ $item->type }}
                             </td>
                             <td>
-                                {{ $item->uniform_application_type }}
+                                @if($item->active == 1)
+                                {{ 'Yes' }}
+                                @else
+                                {{ 'No' }}
+                                @endif
+
                             </td>
                             <td>
-                                {{ $item->notes }}
-                            </td>
-                            <td>
-                                <a href="application_size/edit/{{ $item->id }}" class="btn btn-xs btn-primary">
+                                <a href="single_view_applications/edit/{{ $item->id }}" class="btn btn-xs btn-primary">
                                     <i class="glyphicon glyphicon-edit"> Edit</i>
                                 </a>
-                                <a href="#" class="duplicate-application-size btn btn-xs btn-default" data-application-size-id="{{ $item->id }}" data-application-size-name="{{ $item->name }}" role="button">
-                                    <i class="glyphicon glyphicon-copy"></i>
-                                </a>
-
-                                <a href="#" class="delete-application-size btn btn-xs btn-danger" data-application-size-id="{{ $item->id }}" role="button">
+                                <a href="#" class="delete-single-view-applications btn btn-xs btn-danger" data-single-view-applications-id="{{ $item->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"> Remove</i>
                                 </a>
                             </td>
                         </tr>
-
                     @empty
-
                         <tr>
-                            <td colspan='4'>
+                            <td colspan='7'>
                                 No Record
                             </td>
                         </tr>
-
                     @endforelse
 
                     </tbody>
@@ -92,7 +81,7 @@
 
 @include('partials.confirmation-modal')
 {{-- @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal']) --}}
-@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-duplicate-application-size'])
+
 
 @endsection
 
@@ -100,30 +89,32 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
-<script type="text/javascript" src="/js/administration/artworks.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
+    try {
+        $('.data-table').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": false,
+            "info": true,
+            "autoWidth": false
+        });
+    } catch(e) {
+        // statements
+        console.log(e);
+    }
 
-      $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": false,
-        "info": true,
-        "autoWidth": false
-    });
-
-    $('.delete-application-size').on('click', function(){
+    $('.delete-single-view-applications').on('click', function(){
        var id = [];
-       id.push( $(this).data('application-size-id'));
-       console.log(id);
-       modalConfirm('Remove Application Size', 'Are you sure you want to delete the applicatin size?', id);
+       id.push( $(this).data('single-view-applications-id'));
+       modalConfirm('Remove Single View Applications', 'Are you sure you want to delete the single view application?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/application_size/delete";
+        var url = "//" + api_host + "/api/v1-0/single_view_applications/delete";
 
         $.ajax({
            url: url,
@@ -144,7 +135,7 @@ $(document).ready(function(){
                    $('#confirmation-modal').modal('hide');
                   $.each(id, function (index, value) {
                      console.log(value);
-                     $('.application-size-' + value).fadeOut();
+                     $('.single-view-applications-' + value).fadeOut();
                      // Will stop running after "three"
 
                    });
@@ -152,46 +143,6 @@ $(document).ready(function(){
                }
            }
        });
-    });
-
-    $('#application-sizes-table').on('click', '.duplicate-application-size', function(e){
-        e.preventDefault();
-        var id = $(this).data('application-size-id');
-        var name = $(this).data('application-size-name');
-        modalConfirm(
-            'Duplicate Application Size',
-            'Are you sure you want to duplicate the Application Size: '+ name +'?',
-            id,
-            'confirm-yes',
-            'confirmation-modal-duplicate-application-size'
-        );
-
-    });
-
-    $('#confirmation-modal-duplicate-application-size .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/application_size/duplicate";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            // headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $('#confirmation-modal').modal('hide');
-                    window.location.reload(true);
-                }
-            }
-        });
     });
 
 });
