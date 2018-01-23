@@ -35,11 +35,10 @@ class PatternsController extends Controller
         $user_id = Session::get('userId');
         $superusers = env('BACKEND_SUPERUSERS');
         $su_array = explode(',', $superusers);
-
         if (in_array($user_id, $su_array)) {
             return view('administration.patterns.patterns', [
-            'patterns' => $patterns
-        ]);
+                'patterns' => $patterns
+            ]);
         }
         else {
                  return redirect('administration');
