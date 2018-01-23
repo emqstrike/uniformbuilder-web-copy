@@ -56,6 +56,5 @@ $(document).ready(function(){
             console.log(JSON.stringify(data));
         });
         $('#size_property').val(JSON.stringify(data));
-        
     }
 });

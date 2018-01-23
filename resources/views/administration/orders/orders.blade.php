@@ -1,3 +1,4 @@
+
 @extends('administration.lte-main')
 
 @section('styles')
