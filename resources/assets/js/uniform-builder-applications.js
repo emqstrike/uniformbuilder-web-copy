@@ -6944,7 +6944,7 @@ $(document).ready(function() {
                 _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
-                if (ub.config.uniform_application_type !== "sublimated") {
+                if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
                     if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
                 }
 
@@ -8734,7 +8734,7 @@ $(document).ready(function() {
                 _htmlBuilder        +=                 '<div class="caption">Stock Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
-                if (ub.config.uniform_application_type !== "sublimated") {
+                if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
                     if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
                 }
 
@@ -10225,6 +10225,14 @@ $(document).ready(function() {
 
                     _list = _.reject(_list, function (item) { 
                         return item.name.indexOf('Sublimated') === -1 && ub.current_material.material.uniform_category === "Socks (Apparel)";
+                    });                    
+
+                }
+
+                if (ub.config.option === "Baseball Home Run") {
+
+                    _list = _.reject(_list, function (item) { 
+                        return item.name.indexOf('Body') === -1 && ub.current_material.material.uniform_category === "Socks (Apparel)";
                     });                    
 
                 }
