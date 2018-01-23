@@ -10229,6 +10229,14 @@ $(document).ready(function() {
 
                 }
 
+                if (ub.config.option === "Baseball Home Run") {
+
+                    _list = _.reject(_list, function (item) { 
+                        return item.name.indexOf('Body') === -1 && ub.current_material.material.uniform_category === "Socks (Apparel)";
+                    });                    
+
+                }
+
             }
 
             if (ub.funcs.isCurrentSport('Wrestling'))   {  
