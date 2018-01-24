@@ -9811,7 +9811,7 @@ strong.hello {
 
         span.undo-btn, span.fullscreen-btn, span.team-store, span.art-btn  { display: none; }
 
-        span.toolbar-item {
+        span.toolbar-item, div.toolbar-item {
 
             font-size: 1.1em;
             color: silver;
@@ -9873,6 +9873,51 @@ strong.hello {
         }
 
         span.approve-reject-artwork-btn:hover { color: gold; }
+
+        div.reversible-thumb {
+
+            margin-bottom: 33px;
+            display: none;
+            width: 170px;
+
+            color: #f9c129;
+
+            span.toolbar-item-label {
+                font-size: 0.7em;
+                text-align: center;
+                width: 90%;
+                display: inline-block;
+            }
+
+            div.side-a, div.side-b {
+                width: 45%;
+                height: 140px;
+                background-color: #acacac;
+                text-align: center;
+                padding: 7px;
+                display: inline-block;
+            }
+
+            div.side-a {
+                background-size: cover;
+                background-position-x: -25%;
+                background-repeat: no-repeat;
+            }
+
+            div.side-b {
+                background-size: cover;
+                background-position-x: 125%;
+                background-repeat: no-repeat;
+            }
+
+            div.side-a:hover, div.side-b:hover {
+                background-color: white;
+            }
+
+        }
+
+        div.reversible-thumb:hover { color: gold; }
+
 
         span.resubmit-order-btn {
 

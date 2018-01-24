@@ -28,8 +28,8 @@
         <span class="toolbar-item-label">PREVIEW</span>
     </span>        
 
-    <div class="spacer"> </div>  
-
+    <div class="spacer"> </div>
+    
     <span class="toolbar-item undo-btn">
         <i class="fa fa-undo" aria-hidden="true"></i><br />
         <span class="toolbar-item-label">UNDO</span>
@@ -59,5 +59,20 @@
         <i class="fa fa-check-square-o" aria-hidden="true"></i>
         <span class="toolbar-item-label">APPROVE REJECT ARTWORK</span>
     </span>
+
+    <br /><br />
+    <div class="toolbar-item reversible-thumb">
+    
+        <div class="side-thumb side-a" data-side="a">
+            S.A
+        </div>
+
+        <div class="side-thumb side-b" data-side="b">
+            S.B
+        </div>
+
+        <span class="toolbar-item-label">Reversible</span>
+
+    </div>
 
 </div>

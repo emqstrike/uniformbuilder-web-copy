@@ -315,7 +315,7 @@
         @if (Session::get('isLoggedIn'))
 
             window.ub.user = {
-                id: {{ Session::get('userId') }},   
+                id: {{ Session::get('userId') }},
                 fullname: "{{ Session::get('fullname') }}",
                 firstName: "{{ Session::get('firstName') }}",
                 lastName: "{{ Session::get('lastName') }}",

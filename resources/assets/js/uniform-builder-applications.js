@@ -735,7 +735,7 @@ $(document).ready(function() {
         var settings = ub.current_material.settings;
         var application_mascot_code = application.id + '_' + mascot.id;
 
-        if(typeof settings.applications[application.id] !== 'undefined'){
+        if(typeof settings.applications[application.id] !== 'undefined') {
             var scale_settings = settings.applications[application.id].scale;            
         }
 

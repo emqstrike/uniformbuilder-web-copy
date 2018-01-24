@@ -71,9 +71,21 @@ $(document).ready(function() {
 
 	},
 
+	ub.funcs.createPairingPopup = function () {
+
+		
+
+	};
+
 	ub.funcs.initReversibleUI = function () {
 
-		console.error('Initializing Reversible UI!!!!');
+		if (ub.config.blockPattern !== "Sublimated 17") { 
+			console.log('Not a reversible item....');
+			return;
+		} else {
+			// Reversible Item detected ...
+			console.error('Reversible Item Detected...');
+		}
 
 		var _result = ub.data.reversible.getThumbnailPath(ub.config.sport, ub.config.type, ub.config.blockPattern, ub.config.option);
 		var _sprite = undefined;
@@ -81,7 +93,30 @@ $(document).ready(function() {
 		if (typeof _result !== "undefined") {
 			//_sprite = ub.pixi.new_sprite(obj.material_option_path);
 		}
-        
+
+		$('div.reversible-thumb').fadeIn();
+
+		console.error('Finished Initializing Reversible UI');
+
+		// update thumbnail side-a
+		var _sidea = ub.current_material.material.thumbnail_path;
+		var _sideb = "https://s3-us-west-2.amazonaws.com/uniformbuilder/materials/staging/sublimated-17-jersey-blank-template_43_jersey7d29d19d8abc/thumbnail.jpg";
+
+		$('div.side-thumb.side-a').css('background-image', 'url("' + _sidea + '")');
+		$('div.side-thumb.side-b').css('background-image', 'url("' + _sideb + '")');
+
+		// Init Events 
+
+		$('div.side-thumb').unbind('click');
+		$('div.side-thumb').on('click', function () {
+
+			var _side = $(this).data('side');
+			console.log('Side: ' + _side);
+
+			createPairingPopup();
+
+		});
+
 	}
 
 });
