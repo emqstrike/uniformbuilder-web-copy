@@ -472,6 +472,9 @@ Route::group(array('prefix' => 'administration'), function() {
     //Table Total Records
     Route::get('total_records/{table?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\TotalRecordsController@index']);
 
+    //Tagged Styles
+    Route::get('tagged_styles', ['middleware' => 'adminAccess', 'uses' => 'Administration\TaggedStylesController@index']);
+    Route::get('tagged_styles/totals', ['middleware' => 'adminAccess', 'uses' => 'Administration\TaggedStylesController@totals']);
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
