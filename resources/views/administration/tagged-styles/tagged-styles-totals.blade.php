@@ -23,7 +23,7 @@
                     <table class='table table-bordered table-striped table-hover'>
                     <thead>
                         <tr>
-                            <th width="40%">Material</th>
+                            <th width="40%">Material ID</th>
                             <th width="60%">Total Tagged Styles</th>
                         </tr>
                     </thead>
