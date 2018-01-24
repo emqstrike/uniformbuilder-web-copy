@@ -373,4 +373,24 @@
       <span>Single View Applications</span>
       </a>
   </li>
+  <li class="treeview" data-step="3" data-intro="For Tagged Styles settings." data-position='right'>
+      <a href="#">
+      <i class="fa fa-tags"></i>
+      <span>Tagged Styles</span>
+        <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li  data-step="17" data-intro="For Tagged Styles Items settings.">
+            <a href="/administration/tagged_styles">
+            <i class="fa fa-tag"></i> <span>Tagged Styles</span>
+            </a>
+          </li>
+          <li  data-step="17" data-intro="For Total Tagged Styles settings.">
+            <a href="/administration/tagged_styles/totals">
+          <i class="fa fa-tag"></i> <span>Total Tagged Styles</span>
+          </a>
+          </li>
+
+        </ul>
+  </li>
 </ul>
