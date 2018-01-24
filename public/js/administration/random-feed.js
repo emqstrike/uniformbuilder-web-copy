@@ -9,6 +9,7 @@ window.random_feed_sets = [
 					"Body",
 					"Toe",
 					"Heel",
+                    "Ankle Padding"
 				];
 
 function buildSetsDropdown(value){
@@ -144,7 +145,7 @@ $(".global-color").append(globalColorSelector(colors));
 	        	<tr>
 	        		<td>
 	        			Position 1 <input type="checkbox" class="position-1" value="1" `+pos1checked+`>
-	  					
+
 	  					`+ getSelectColorTemplate(colors,entry.colors_array[0])  +`
 	        		</td>
 	        		<td><br><input class="team_color_id_array" type="number" value="`+ entry.team_color_id_array[0] +`"></td>
@@ -180,8 +181,8 @@ $(".global-color").append(globalColorSelector(colors));
 	        </table>`;
 
 	        $('.random-feed-content').append(template);
-	        
-	        
+
+
 	    	}); // loop closing
 	    	deleteRandomFeed();
 	    	changeImage();
@@ -191,9 +192,9 @@ $(".global-color").append(globalColorSelector(colors));
 	    } catch(err){
 			console.log(err.message);
 		}
-		
+
 	}
- 
+
  	function deleteRandomFeed(){
  		$('.delete-random-feed').on('click', function(e){
 	 		$(this).parent().parent().parent().parent().remove();
@@ -358,14 +359,14 @@ $(".global-color").append(globalColorSelector(colors));
 			   colors_array.push($( this ).val());
 
 			});
-	
+
 			info.colors_array = colors_array;
 
 			var team_color_id_array = [];
 			$( $(this).find(".team_color_id_array") ).each(function( index ) {
 			    team_color_id_array.push($( this ).val());
 			});
-	
+
 			info.team_color_id_array = team_color_id_array;
 
 			console.log( 'front file 1: '+ $(this).find('.file-f-1').attr('data-img-url') );
@@ -483,7 +484,7 @@ $(".global-color").append(globalColorSelector(colors));
 
 
 	                });
-	                
+
 	            }
 	            refreshJSON();
 	    });
@@ -501,14 +502,14 @@ $(".global-color").append(globalColorSelector(colors));
         formData.append('file', file);
 
         if (typeof $.ajaxSettings.headers !== "undefined") {
-            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];    
+            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
         }
 
         $.ajax({
 
             data: formData,
             url: "//api-dev.qstrike.com/api/fileUpload",
-            type: "POST", 
+            type: "POST",
             processData: false,  // tell jQuery not to process the data
             contentType: false,
             crossDomain: true,
@@ -535,7 +536,7 @@ $(".global-color").append(globalColorSelector(colors));
         });
 
     }
- 
+
     function getColors(){
 		return $.ajax({
 		    type: 'GET',
@@ -554,11 +555,11 @@ $(".global-color").append(globalColorSelector(colors));
 	}
 
 	function getSelectColorTemplate(result,c_code){
-		
+
      	var template = '<option value="none" style="background:#fff;color:black"selected>None</option>';
      	var selectedColor = "";
      	var fontColor = "black";
-     	
+
     	 result.forEach(function(entry) {
     	 	if(entry.color_code == "W" || entry.color_code == "none" ){
 	      			fontColor = "black";
@@ -601,13 +602,13 @@ $(".global-color").append(globalColorSelector(colors));
 		});
 
 		return template = `<select class='form-control global-color-selector' ">` + template + `</select>`;
-		
+
 
 	}
 
 
 	 $(document).on('change', '.random-feed-colors', function(){
-     
+
   		var selectedColorValue = $(this).find("option:selected").attr("style");
   		$(this).attr("style",selectedColorValue);
   	});
@@ -616,7 +617,7 @@ $(".global-color").append(globalColorSelector(colors));
   		var selectedColorValue = $(this).find("option:selected").attr("style");
   		var ind = $(".global-color-selector").index(this);
   		ind++;
-  		$(this).attr("style",selectedColorValue); 		
+  		$(this).attr("style",selectedColorValue);
 
   		$(".position-"+ ind +" ~ select").val($(this).val()).attr("style",selectedColorValue);
   		refreshJSON();
