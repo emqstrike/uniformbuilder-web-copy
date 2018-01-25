@@ -223,9 +223,7 @@ class AuthenticationController extends AdminAuthController
         try {
             if (isset($params->access_token))
             {
-                $encrypted_token = base64_encode($crypt->encrypt($params->access_token));
-
-                $response = $this->client->get("user/remote-login/{$encrypted_token}");
+                $response = $this->client->get("user/remote-login/{$params->access_token}");
 
                 $decoder = new JsonDecoder();
                 $result = $decoder->decode($response->getBody());
