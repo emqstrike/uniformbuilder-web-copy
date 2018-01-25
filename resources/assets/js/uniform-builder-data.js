@@ -11628,7 +11628,7 @@ ub.funcs.fontOffSets = [
 
     // End US States 
 
-    // Tackle Twill Free Form Exemptions 
+    // Tackle Twill Free Form Exemptions
     ub.data.tackleTwillSportsFreeFormExemptions = {
         
         items: [
@@ -11693,6 +11693,25 @@ ub.funcs.fontOffSets = [
     }
 
     // Shortcuts
+
+    // Turn off Random Feed on these block patterns 
+
+    ub.data.randomFeedExemptions = {
+
+        items: [
+            "3 inch Stir Up Sock", 
+            "7 inch Stir Up Sock",
+            "9 inch Stir Up Sock",
+        ],
+
+        isExempted: function (option) {
+
+            var _result = _.contains(this.items, option);
+            return _result;
+
+        }
+
+    }
 
     ub.dialog = bootbox;
 

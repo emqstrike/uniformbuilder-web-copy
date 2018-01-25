@@ -364,7 +364,7 @@ $(document).ready(function () {
                 $('a.change-view[data-view="pipings"]').addClass('hidden');                
             }
 
-            if(ub.funcs.isSocks()) {                
+            if(ub.funcs.isSocks() && !ub.data.randomFeedExemptions.isExempted(ub.config.option)) {                
                 $('a.change-view[data-view="randomFeed"]').removeClass('hidden'); 
             } else {
                 $('a.change-view[data-view="randomFeed"]').addClass('hidden');             
