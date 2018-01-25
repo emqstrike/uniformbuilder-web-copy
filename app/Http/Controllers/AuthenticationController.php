@@ -224,7 +224,7 @@ class AuthenticationController extends AdminAuthController
             if (isset($params->access_token))
             {
                 $encrypted_token = base64_encode($crypt->encrypt($params->access_token));
-                dd($encrypted_token);
+
                 $response = $this->client->get("user/remote-login/{$encrypted_token}");
 
                 $decoder = new JsonDecoder();
@@ -259,6 +259,9 @@ class AuthenticationController extends AdminAuthController
             }
 
         } catch (ClientException $e) {
+            $error = $e->getMessage();
+            Log::info('Login Attempt Error : ' . $error, 'FRONT END');
+        } catch (Exception $e) {
             $error = $e->getMessage();
             Log::info('Login Attempt Error : ' . $error, 'FRONT END');
         }
