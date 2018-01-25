@@ -202,15 +202,9 @@ class AuthenticationController extends AdminAuthController
 
     }
 
-    public function remoteLogin(Request $request)
+    public function remoteLogin($token = null)
     {
-        $login_token = null;
-        if ($request->has('token'))
-        {
-            $login_token = $request->token;
-        }
-
-        if (empty($login_token))
+        if (empty($token))
         {
             Log::info('Empty login access_token');
             return Redirect::to('/index')->with('message', "Invalid login credentials.");
@@ -218,7 +212,7 @@ class AuthenticationController extends AdminAuthController
 
         $key = env('TEAM_STORE_SECRET_KEY');
         $crypt = new TeamStorePasswordCrypt($key);
-        $decoded = base64_decode($login_token);
+        $decoded = base64_decode($token);
         $json_data = $crypt->decrypt($decoded);
         $params = json_decode($json_data);
 

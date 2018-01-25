@@ -1,3 +1,3 @@
 <?php
 
-Route::get('remote-login', 'AuthenticationController@remoteLogin');
+Route::get('remote-login/{token?}', 'AuthenticationController@remoteLogin');
