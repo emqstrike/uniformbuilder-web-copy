@@ -14,6 +14,7 @@ use Session;
 use \Exception;
 use Webmozart\Json\JsonDecoder;
 use App\Traits\HandleTeamStoreConfiguration;
+use MiladRahimi\PhpCrypt\Crypt as TeamStorePasswordCrypt;
 
 class AuthenticationController extends AdminAuthController
 {
@@ -201,39 +202,60 @@ class AuthenticationController extends AdminAuthController
 
     }
 
-    public function remoteLogin($id, $accessToken)
+    public function remoteLogin(Request $request)
     {
+        $login_token = null;
+        if ($request->has('token'))
+        {
+            $login_token = $request->token;
+        }
+
+        $key = env('TEAM_STORE_SECRET_KEY');
+        $crypt = new TeamStorePasswordCrypt($key);
+        $decoded = base64_decode($login_token);
+        $json_data = $crypt->decrypt($decoded);
+        $params = json_decode($json_data);
+
+        if (isset($params->user_id)) Log::info('user_id=' . $params->user_id);
+        if (isset($params->user_email)) Log::info('user_email=' . $params->user_email);
+        if (isset($params->access_token)) Log::info('access_token=' . $params->access_token);
+
         try {
-            $response = $this->client->get("user/remote-login/{$id}/{$accessToken}");
+            if (isset($params->access_token))
+            {
+                $encrypted_token = base64_encode($crypt->encrypt($params->access_token));
+                dd($encrypted_token);
+                $response = $this->client->get("user/remote-login/{$encrypted_token}");
 
-            $decoder = new JsonDecoder();
-            $result = $decoder->decode($response->getBody());
+                $decoder = new JsonDecoder();
+                $result = $decoder->decode($response->getBody());
 
-            if ($result->success) {
-                $fullname = $result->user->first_name . ' ' . $result->user->last_name;
+                if ($result->success) {
+                    $fullname = $result->user->first_name . ' ' . $result->user->last_name;
 
-                Session::put('userId', $result->user->id);
-                Session::put('isLoggedIn', $result->success);
-                Session::put('fullname', $fullname);
-                Session::put('first_name', $result->user->first_name);
-                Session::put('firstName', $result->user->first_name);
-                Session::put('lastName', $result->user->last_name);
-                Session::put('email', $result->user->email);
-                Session::put('accountType', $result->user->type);
-                Session::put('accessToken', $result->access_token);
+                    Session::put('userId', $result->user->id);
+                    Session::put('isLoggedIn', $result->success);
+                    Session::put('fullname', $fullname);
+                    Session::put('first_name', $result->user->first_name);
+                    Session::put('firstName', $result->user->first_name);
+                    Session::put('lastName', $result->user->last_name);
+                    Session::put('email', $result->user->email);
+                    Session::put('accountType', $result->user->type);
+                    Session::put('accessToken', $result->access_token);
 
-                Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
+                    Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
-                $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+                    $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
 
-                if ($response->success) {
-                    Session::put('userHasTeamStoreAccount', true);
+                    if ($response->success) {
+                        Session::put('userHasTeamStoreAccount', true);
+                    }
+
+                    return Redirect::to('/index')->with('message', 'Welcome back ' . $fullname);
+
+                } else {
+                    Session::flash('flash_message', $result->message);
                 }
-
-                return Redirect::to('/index')->with('message', 'Welcome back ' . $fullname);
-
-            } else {
-                Session::flash('flash_message', $result->message);
             }
 
         } catch (ClientException $e) {

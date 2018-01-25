@@ -17,7 +17,6 @@ Route::get('/', function () {
 
 Route::post('lrest', 'AuthenticationController@lrest');
 Route::post('login', 'AuthenticationController@login');
-Route::get('remote-login/{id}/{accessToken}', 'AuthenticationController@remoteLogin');
 Route::get('logout', 'AuthenticationController@logout');
 Route::post('register', 'RegistrationController@register');
 Route::get('forgotPassword', 'AuthenticationController@forgotPasswordForm');
@@ -483,3 +482,6 @@ Route::get('uploadImageForm', 'UploadImageController@uploadImageForm');
 Route::post('uploadImage', 'UploadImageController@upload');
 Route::post('/fileUpload', 'UniformBuilderController@fileUpload');
 Route::post('mobile_notification', 'MobileNotification\MobileNotificationController@store');
+
+# Additional Routes
+include_once(dirname(__FILE__) . '/../../routes/web.php');
