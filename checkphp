@@ -1,0 +1,7 @@
+#!/bin/bash
+phplint app/**/*.php
+phplint app/**/**/*.php
+phplint app/**/**/**/*.php
+phplint app/**/**/**/**/*.php
+phplint app/**/**/**/**/**/*.php
+phplint database/**/*.php
