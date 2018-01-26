@@ -9982,7 +9982,7 @@ ub.funcs.fontOffSets = [
 
         currentOk: function () {
 
-            return (_.contains(this.items, ub.current_material.material.uniform_category) || _.contains(this.options, ub.current_material.material.neck_option) || _.contains(this.blockPatterns, ub.current_material.material.block_pattern)) && ub.current_material.material.uniform_application_type === "sublimated";
+            return (_.contains(this.items, ub.current_material.material.uniform_category) || _.contains(this.options, ub.current_material.material.neck_option) || _.contains(this.blockPatterns, ub.current_material.material.block_pattern)) && (ub.current_material.material.uniform_application_type === "sublimated" || ub.current_material.material.uniform_application_type === "knitted");
 
         }
 
