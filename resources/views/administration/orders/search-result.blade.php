@@ -1,0 +1,525 @@
+@extends('administration.lte-main')
+
+@section('content')
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h2>
+                        Search Result
+                    </h2>
+                    <center>
+                        <div class="col-md-4 col-md-offset-4">
+                            <table class="table table-bordered table-striped">
+                                <tbody class="order-content">
+                                    <tr>
+                                        <td><b>Order ID</b></td>
+                                        <td class="order-id">{{ $order->id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Factory Order ID</b></td>
+                                        <td>{{ $order->factory_order_id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Order Code</b></td>
+                                        <td class="order-code">{{ $order->order_id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Client</b></td>
+                                        <td>{{ $order->client }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Submitted By:</b></td>
+                                        <td>[{{ $order->user_id }}] {{ $order->first_name }} {{ $order->last_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Origin</b></td>
+                                        <td>{{ $order->origin }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Test Order</b></td>
+                                        <td>
+                                            @if( $order->test_order )
+                                                Yes
+                                            @else
+                                                No
+                                            @endif
+                                        </td>
+                                    </tr>
+                                   <tr>
+                                        <td><b>Design Sheet</b></td>
+                                        {{-- <td><a href="//customizer.prolook.com/{{ $order->design_sheet }}" class="btn btn-primary pdf-link">Link</a></td> --}}
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <center>
+                                                <a href="#" class="btn btn-primary view-order-items">View Order Items</a>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+$(document).ready(function(){
+// CLEAR LINE 411 orders.js
+/* START OLD VARS */
+window.colors = null;
+window.patterns = null;
+window.pa_id = null;
+window.test_size_data = null;
+window.item_sizes = null;
+
+window.roster = null;
+
+window.send_order = false;
+window.error_message = null;
+/* END OLD VARS
+-----------------------------------------------------------------*/
+/* START OLD FUNCS */
+getColors(function(colors){ window.colors = colors; });
+getPatterns(function(patterns){ window.patterns = patterns; });
+getSizingConfig(function(item_sizes){ window.item_sizes = item_sizes; });
+
+function getSizingConfig(callback){
+    var item_sizes;
+    var url = "//api-dev.qstrike.com/api/item_sizes";
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            item_sizes = data['item_sizes'];
+            if(typeof callback === "function") callback(item_sizes);
+        }
+    });
+}
+
+function getColors(callback){
+    var colors;
+    var url = "//api-dev.qstrike.com/api/colors";
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            colors = data['colors'];
+            if(typeof callback === "function") callback(colors);
+        }
+    });
+}
+
+function getPatterns(callback){
+    var patterns;
+    var url = "//api-dev.qstrike.com/api/patterns";
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            patterns = data['patterns'];
+            if(typeof callback === "function") callback(patterns);
+        }
+    });
+}
+
+// SEND ORDER TO EDIT
+$('.send-to-factory').on('click', function(e){
+    window.team_colors = null;
+
+    e.preventDefault();
+    console.log('send to edit');
+    var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
+    var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
+    api_order_id = $(this).data('api-order-id');
+    order_id = $(this).data('order-id');
+    client = $(this).data('client');
+
+    ship_contact = $(this).data('ship-contact');
+    ship_address = $(this).data('ship-address');
+    ship_phone = $(this).data('ship-phone');
+    ship_city = $(this).data('ship-city');
+    ship_state = $(this).data('ship-state');
+    ship_zip = $(this).data('ship-zip');
+    ship_email = $(this).data('ship-email');
+
+    billing_contact = $(this).data('bill-contact');
+    billing_address = $(this).data('bill-address');
+    billing_city = $(this).data('bill-city');
+    billing_state = $(this).data('bill-state');
+    billing_zip = $(this).data('bill-zip');
+    billing_email = $(this).data('bill-email');
+    billing_phone = $(this).data('bill-phone');
+
+
+    window.order_parts = null;
+    getOrderParts(function(order_parts){ window.order_parts = order_parts; });
+
+
+
+    function getOrderParts(callback){
+        var order_parts;
+        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                order_parts = data['order'];
+                if(typeof callback === "function") callback(order_parts);
+            }
+        });
+    }
+
+
+
+    window.order_parts.forEach(function(entry) {
+        bcx = JSON.parse(entry.builder_customizations);
+        window.customizer_material_id = null;
+        window.pa_id = entry.id;
+        if('material_id' in bcx.upper){
+            window.customizer_material_id = bcx.upper.material_id;
+            console.log("HAS UPPER ID");
+            console.log(bcx.upper);
+        } else {
+            window.customizer_material_id = bcx.lower.material_id;
+            console.log("HAS LOWER ID");
+            console.log(bcx.upper);
+        }
+
+        var teamcolors = bcx.team_colors;
+
+        entry.orderPart = {
+            "ID" : entry.id,
+            "Description" : entry.description,
+            "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
+        };
+
+        getMaterial(function(material){ window.material = material; });
+        function getMaterial(callback){
+            var material;
+            var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    material = data['material'];
+                    if(typeof callback === "function") callback(material);
+                }
+            });
+        }
+
+        var error_message = validateMaterialPreReq();
+        window.error_message = error_message['message'];
+        console.log('[ [ ERROR MESSAGE ] ]');
+        console.log(error_message);
+        window.error_data = {
+            'error_message' : error_message['data'],
+            'order_id' : order_id,
+            'order_code' : api_order_id,
+            'client' : client,
+            'material_id' : window.customizer_material_id,
+            'type' : 'json'
+        };
+        if(error_message['message'] != ''){
+            console.log(window.error_data);
+            bootbox.confirm({
+                message: '<div><h3>Errors Encountered:</h3></div><div class="text-center">'+error_message['message']+'</div>',
+                buttons: {
+                    confirm: {
+                        label: 'Send Report',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: 'http://api-dev.qstrike.com/api/test/slack_message/order_error',
+                            type: "POST",
+                            data: JSON.stringify(window.error_data),
+                            contentType: 'application/json;',
+                            success: function (data) {
+                                bootbox.dialog({ message: 'Our backend team received the error report.' });
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                bootbox.dialog({ message: "Error in sending error report. That's a lot of error..." });
+                            }
+                        });
+                    }
+                }
+            });
+            window.send_order = false;
+            return;
+        } else {
+            window.send_order = true;
+            bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
+        }
+
+        window.pa = null;
+        getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
+
+        window.qx_item_ref = window.pa.ref_qstrike_mat_id;
+        entry.orderPart.ItemID = window.material.item_id;
+
+        function getPAConfigs(callback){
+            var parts_aliases;
+            var url = "//api-dev.qstrike.com/api/parts_alias/"+window.material.parts_alias_id;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    parts_aliases = data['part_alias'];
+                    if(typeof callback === "function") callback(parts_aliases);
+                }
+            });
+        }
+
+        var questions_valid = applyConfigs(api_order_id);
+
+        console.log(questions_valid);
+        entry.orderQuestions = {
+            "OrderQuestion": questions_valid
+        };
+
+        entry.orderItems = JSON.parse(entry.roster);
+        window.roster = entry.orderItems;
+        delete entry.orderItems[0].Quantity;
+        delete entry.orderItems[0].SleeveCut;
+
+        delete entry.builder_customizations;
+        delete entry.description;
+        delete entry.factory_order_id;
+        delete entry.id;
+        delete entry.item_id;
+        delete entry.oid;
+        delete entry.roster;
+
+        delete entry.order_id;
+        delete entry.pid;
+        delete entry.questions;
+
+    });
+
+        var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
+
+        var order = {
+            "Client": client,
+            "ShippingAttention": ship_contact,
+            "ShippingAddress": ship_address,
+            "ShippingPhone": ship_phone,
+            "ShippingCity": ship_city,
+            "ShippingState": ship_state,
+            "ShippingZipCode": ship_zip,
+            "ShippingEmail": ship_email,
+            "BillingAttention": billing_contact,
+            "BillingAddress": billing_address,
+            "BillingAddress2": "",
+            "BillingCity": billing_city,
+            "BillingState": billing_state,
+            "BillingZipCode": billing_zip,
+            "BillingEmail": billing_email,
+            "BillingPhone": billing_phone,
+            "APICode": 1,
+            "Gender": 0,
+            "RepID": rep_id,
+            "RepIDEnteredBy": 0,
+            "Sport": "All",
+            "TeamName": "Wildcats"
+        };
+        console.log(order);
+
+        var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
+        window.test_size_data = JSON.parse(x.properties);
+        console.log('Window Test Size Data');
+        console.log(window.test_size_data);
+        var order_items_split = splitRosterToQXItems();
+        var order_parts_split = [];
+        console.log('ORDER ITEMS SPLIT');
+        console.log(order_items_split);
+        order_items_split.forEach(function(entry, i) {
+            var x = JSON.parse(JSON.stringify(window.order_parts[0]));
+            x.orderPart.ItemID = entry.qx_item_id;
+            if( item_id_override ){
+                x.orderPart.ItemID = item_id_override;
+                console.log('has item id override');
+            } else {
+                console.log('no item id override');
+            }
+            console.log('ENTRY ROSTER');
+            console.log(entry.roster);
+            var roster_sizes = _.map(entry.roster, function(e){ return e.size; });
+            var roster = [];
+
+            console.log('ROSTER SIZES');
+            console.log(roster_sizes);
+
+            window.roster.forEach(function(y, j) {
+                if( _.contains(roster_sizes, y.Size) ){
+                    // add size prefix for socks
+                    if( y.Size == "3-5" ){
+                        y.Size = "Kids (3-5)";
+                    } else if( y.Size == "5-7" ){
+                        y.Size = "Youth (5-7)";
+                    } else if( y.Size == "8-12" ){
+                        y.Size = "Adult (8-12)";
+                    } else if( y.Size == "13-14" ){
+                        y.Size = "XL (13-14)";
+                    }
+                    roster.push(y);
+                }
+            });
+
+            console.log('ROSTER');
+            console.log(roster);
+
+            if( roster.length > 0 ){
+               x.orderItems = roster;
+                order_parts_split.push(x); 
+                console.log('HAS ROSTER');
+            } else {
+                console.log('NO ROSTER');
+            }
+        });
+
+        var orderEntire = {
+            "order": order,
+            "orderParts" : order_parts_split
+        };
+
+    strResult = JSON.stringify(orderEntire);
+    console.log(strResult);
+
+    console.log(JSON.stringify(orderEntire['orderParts']));
+
+    // SEND ORDER TO EDIT
+    // if(window.send_order){
+    //     if(window.material.item_id !== undefined){
+    //         $.ajax({
+    //             url: url,
+    //             type: "POST",
+    //             data: JSON.stringify(orderEntire),
+    //             contentType: 'application/json;',
+    //             success: function (data) {
+    //                 alert('Order was sent to EDIT!');
+    //                 var factory_order_id = data[0].OrderID;
+    //                 var parts = [];
+    //                 $.each(data, function( index, value ) {
+    //                     orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+    //                     console.log(JSON.stringify(orderEntire));
+    //                     parts.push(orderEntire['orderParts'][index]['orderPart']);
+    //                 });
+    //                 console.log(JSON.stringify(parts));
+    //                 updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+    //                 // document.location.reload(); // UNCOMMENT
+    //                 // console.log(data[0].OrderID);
+    //             },
+    //             error: function (xhr, ajaxOptions, thrownError) {
+    //                 //Error Code Here
+    //             }
+    //         });
+    //     } else {
+    //         console.log('Material has no item_id')
+    //     }
+    // }
+});
+
+/* END OLD FUNCS
+-----------------------------------------------------------------*/
+window.order_id = null;
+window.order_items = null;
+
+$('.search-button').on('click', function(e){
+    var search_order = $('.search-order').val();
+    console.log(search_order);
+    window.open("/administration/order_search/"+search_order);
+});
+
+$('.pdf-link').on('click', function(e){
+    var url = $(this).attr("href");
+    e.preventDefault();
+    var win = window.open(url, '_blank');
+    win.focus();
+});
+
+$('.view-order-items').on('click', function(e){
+    window.order_id = $('.order-code').text();
+    console.log(window.order_id);
+
+    getOrderItems(function(order_items){ window.order_items = order_items; });
+    // e.preventDefault();
+    // var roster = JSON.parse($('.order-roster').text());
+    console.log(window.order_items);
+});
+
+function getOrderItems(callback){
+    var order_items;
+    var url = "//localhost:8888/api/v1-0/order/items/"+window.order_id;
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            order_items = data['order_items'];
+            if(typeof callback === "function") callback(order_items);
+        }
+    });
+}
+
+// function drawOrderItems(){
+//     elem = '';
+//     window.order_items.forEach(function(entry, i) {
+//         roster_elem = drawRoster(entry.roster);
+//         elem += '<tr><td>Style</td><td>'+entry.description+'</td>';
+
+//     });
+// }
+
+// function drawRoster(data){
+//     elem = '';
+//     roster = JSON.parse(data);
+//     roster.forEach(function(entry, i) {
+//         elem += '<tr><td>SIZE</td>Quantity</tr>'
+//     });
+// }
+
+});
+</script>
+@endsection
