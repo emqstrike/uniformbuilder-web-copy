@@ -144,7 +144,7 @@ function getPatterns(callback){
 }
 
 // SEND ORDER TO EDIT
-$('.send-to-factory').on('click', function(e){
+$('.generate-data').on('click', function(e){
     window.team_colors = null;
 
     e.preventDefault();
@@ -155,46 +155,47 @@ $('.send-to-factory').on('click', function(e){
     order_id = $(this).data('order-id');
     client = $(this).data('client');
 
-    ship_contact = $(this).data('ship-contact');
-    ship_address = $(this).data('ship-address');
-    ship_phone = $(this).data('ship-phone');
-    ship_city = $(this).data('ship-city');
-    ship_state = $(this).data('ship-state');
-    ship_zip = $(this).data('ship-zip');
-    ship_email = $(this).data('ship-email');
+    // ship_contact = $(this).data('ship-contact');
+    // ship_address = $(this).data('ship-address');
+    // ship_phone = $(this).data('ship-phone');
+    // ship_city = $(this).data('ship-city');
+    // ship_state = $(this).data('ship-state');
+    // ship_zip = $(this).data('ship-zip');
+    // ship_email = $(this).data('ship-email');
 
-    billing_contact = $(this).data('bill-contact');
-    billing_address = $(this).data('bill-address');
-    billing_city = $(this).data('bill-city');
-    billing_state = $(this).data('bill-state');
-    billing_zip = $(this).data('bill-zip');
-    billing_email = $(this).data('bill-email');
-    billing_phone = $(this).data('bill-phone');
+    // billing_contact = $(this).data('bill-contact');
+    // billing_address = $(this).data('bill-address');
+    // billing_city = $(this).data('bill-city');
+    // billing_state = $(this).data('bill-state');
+    // billing_zip = $(this).data('bill-zip');
+    // billing_email = $(this).data('bill-email');
+    // billing_phone = $(this).data('bill-phone');
+    
+    test_address = '9183 South North Ave. Spartanburg, SC 29301';
+    test_contact_no = '(541) 754-1111';
+    test_city = 'Spartanburg';
+    test_email = 'email@email.com'
+    test_state = 'SC';
+    test_zip = '29301';
 
+    ship_contact = test_contact_no;
+    ship_address = test_address;
+    ship_phone = test_contact_no;
+    ship_city = test_city;
+    ship_state = test_state;
+    ship_zip = test_zip;
+    ship_email = test_email;
+
+    billing_contact = test_contact_no;
+    billing_address = test_address;
+    billing_city = test_city;
+    billing_state = test_state;
+    billing_zip = test_zip;
+    billing_email = test_email;
+    billing_phone = test_contact_no;
 
     window.order_parts = null;
     getOrderParts(function(order_parts){ window.order_parts = order_parts; });
-
-
-
-    function getOrderParts(callback){
-        var order_parts;
-        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                order_parts = data['order'];
-                if(typeof callback === "function") callback(order_parts);
-            }
-        });
-    }
-
-
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
@@ -219,22 +220,6 @@ $('.send-to-factory').on('click', function(e){
         };
 
         getMaterial(function(material){ window.material = material; });
-        function getMaterial(callback){
-            var material;
-            var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
-            $.ajax({
-                url: url,
-                async: false,
-                type: "GET",
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                success: function(data){
-                    material = data['material'];
-                    if(typeof callback === "function") callback(material);
-                }
-            });
-        }
 
         var error_message = validateMaterialPreReq();
         window.error_message = error_message['message'];
@@ -291,23 +276,6 @@ $('.send-to-factory').on('click', function(e){
 
         window.qx_item_ref = window.pa.ref_qstrike_mat_id;
         entry.orderPart.ItemID = window.material.item_id;
-
-        function getPAConfigs(callback){
-            var parts_aliases;
-            var url = "//api-dev.qstrike.com/api/parts_alias/"+window.material.parts_alias_id;
-            $.ajax({
-                url: url,
-                async: false,
-                type: "GET",
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                success: function(data){
-                    parts_aliases = data['part_alias'];
-                    if(typeof callback === "function") callback(parts_aliases);
-                }
-            });
-        }
 
         var questions_valid = applyConfigs(api_order_id);
 
@@ -457,6 +425,57 @@ $('.send-to-factory').on('click', function(e){
     //     }
     // }
 });
+
+function getOrderParts(callback){
+    var order_parts;
+    var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            order_parts = data['order'];
+            if(typeof callback === "function") callback(order_parts);
+        }
+    });
+}
+
+function getMaterial(callback){
+    var material;
+    var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            material = data['material'];
+            if(typeof callback === "function") callback(material);
+        }
+    });
+}
+
+function getPAConfigs(callback){
+    var parts_aliases;
+    var url = "//api-dev.qstrike.com/api/parts_alias/"+window.material.parts_alias_id;
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            parts_aliases = data['part_alias'];
+            if(typeof callback === "function") callback(parts_aliases);
+        }
+    });
+}
 
 /* END OLD FUNCS
 -----------------------------------------------------------------*/
