@@ -9780,14 +9780,23 @@ strong.hello {
 
 /* Left Side Toolbar */
 
+    .fifty          { width: 46%;   }
+    .forty-five     { width: 45%;   }
+
+    .narrow     { float: left;  }
+    .wide       { float: right; }
+
     div#left-side-toolbar, div#top-left-side-toolbar  {
 
         z-index: 1000;
         position: absolute;
-        width: 80px;
-        top: 250px;
         color: #222;
-        left: 10px;
+
+        top: none;
+        bottom: 10px;
+        left: 0;
+
+        font-size: 0.9em;
 
         hr.left-side-divider { 
             width: 83%; 
@@ -9803,8 +9812,18 @@ strong.hello {
             border-top: solid 2px #3d3d3d;
             display: none;
         }
+
+        span.toolbar-item.divider { 
+            border-left: 2px solid #3d3d3d; 
+            height: 80px; 
+            width: 3px; 
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: -7px;
+            display: none;
+        }
         
-        hr.left-side-divider.middle-bottom  { margin-top: 10px; margin-bottom: 10px; opacity: 0.7 }
+        hr.left-side-divider.middle-bottom  { margin-top: 10px; margin-bottom: 10px; opacity: 0.7; width: 80px; }
         hr.left-side-divider.fav-top        { display: none; }
 
         div.spacer                          { margin-top: 10px; margin-bottom: 10px; }
@@ -9815,6 +9834,8 @@ strong.hello {
 
             font-size: 1.1em;
             color: silver;
+            float: right;
+            width: 80px;
 
             i.fa {
 
@@ -9852,7 +9873,6 @@ strong.hello {
 
         span.favorite-btn {
 
-            margin-bottom: 33px;
             display: none;
 
         }

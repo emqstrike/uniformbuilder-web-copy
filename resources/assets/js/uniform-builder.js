@@ -633,26 +633,23 @@ $(document).ready(function () {
             var $favoriteBtn = $('span.favorite-btn');
 
             $favoriteBtn.fadeIn();
+            $('span.toolbar-item.divider.one').fadeIn();
+            $('div.bottom-toolbar').addClass('fifty');
+
             $('hr.left-side-divider').fadeIn();
 
             if (ub.funcs.isAFavoriteItem(ub.current_material.material.id)) {
-
                 ub.utilities.info('This is a favorite item! [' + ub.config.favoriteID + ']');
                 ub.funcs.setFavoriteStatusOn();
-
             }
 
             $favoriteBtn.unbind('click');
             $favoriteBtn.on('click', function (e) {
 
                 if ($favoriteBtn.hasClass('added')) {
-
                     ub.funcs.removeFromFavorites();    
-
                 } else {
-                
-                    ub.funcs.addToFavorites();    
-                
+                    ub.funcs.addToFavorites();
                 }
                 
             });
@@ -662,14 +659,10 @@ $(document).ready(function () {
         ub.funcs.ok = function (postLoad) {
 
             if (typeof postLoad !== "undefined") {
-
                 ub.current_material.taggedStyles = window.ub.config.api_host + '/api/tagged_styles/';
                 ub.loader(ub.current_material.taggedStyles, 'tagged_styles', ub.callBackPostLoad);
-
             } else {
-
                 ub.funcs.initFavorite();
-
             }
 
         }
@@ -677,25 +670,39 @@ $(document).ready(function () {
         ub.funcs.notOk = function () {
 
             $('span.favorite-btn').hide();
+            $('div.bottom-toolbar').addClass('forty-five');
+
+            $('span.toolbar-item.divider.one').hide();
             $('hr.left-side-divider.bottom').fadeIn();
             $('hr.left-side-divider.middle').fadeIn();
             $('hr.left-side-divider.fav-top').hide();
 
         }
 
+        ub.funcs.changeFloat = function () {
+
+            var _width = $('body').width();
+
+            // if (_width <= 1680) { // if small screens flush bottom icons to the left
+            //     $('span.toolbar-item').addClass('flush-left');
+            // } else {
+            //     $('span.toolbar-item').addClass('flush-right');
+            // }
+
+        }
+
         ub.funcs.initMiscUIEvents = function () {
 
             $('span.undo-btn').fadeIn();
+            $('span.toolbar-item.divider').fadeIn();
 
             if (typeof ub.user.id !== 'undefined') {
-
                 ub.funcs.ok();
-
             } else {
-
                 ub.funcs.notOk();
-
             }
+
+            ub.funcs.changeFloat();
 
         }
 

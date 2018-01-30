@@ -1,47 +1,90 @@
-<div id="left-side-toolbar">
+<!-- 
 
-    <hr class="left-side-divider middle middle-bottom fav-top" />
+    <div id="left-side-toolbar">
 
-    <span class="toolbar-item favorite-btn">
-        <i class="fa fa-star-o" aria-hidden="true"></i>
-        <span class="toolbar-item-label">FAVORITE</span>
-    </span>
+        <hr class="left-side-divider middle middle-bottom fav-top" />
 
-    <br />
-@if (\Session::has('is_show_teamstore_toolbox'))
-    @if (\Session::get('is_show_teamstore_toolbox'))
-    <hr class="left-side-divider middle middle-bottom fav-top" />
+        <span class="toolbar-item favorite-btn">
+            <i class="fa fa-star-o" aria-hidden="true"></i>
+            <span class="toolbar-item-label">FAVORITE</span>
+        </span>
 
-    <span class="toolbar-item team-store" id="show-team-store-toolbox">
-        <i class="fa fa-group" aria-hidden="true"></i>
-        <span class="toolbar-item-label">TEAM STORE</span>
-    </span>
+        <br />
+    @if (\Session::has('is_show_teamstore_toolbox'))
+        @if (\Session::get('is_show_teamstore_toolbox'))
+        <hr class="left-side-divider middle middle-bottom fav-top" />
 
-    <br />
+        <span class="toolbar-item team-store" id="show-team-store-toolbox">
+            <i class="fa fa-group" aria-hidden="true"></i>
+            <span class="toolbar-item-label">TEAM STORE</span>
+        </span>
+
+        <br />
+        @endif
     @endif
-@endif
 
-    <hr class="left-side-divider middle middle-bottom" />
+        <hr class="left-side-divider middle middle-bottom" />
 
-    <span class="toolbar-item fullscreen-btn">
-        <i class="fa fa-arrows-alt" aria-hidden="true"></i><br />
-        <span class="toolbar-item-label">PREVIEW</span>
-    </span>        
+        <span class="toolbar-item fullscreen-btn">
+            <i class="fa fa-arrows-alt" aria-hidden="true"></i><br />
+            <span class="toolbar-item-label">PREVIEW</span>
+        </span>        
 
-    <div class="spacer"> </div>
+        <div class="spacer"> </div>
+        
+        <span class="toolbar-item undo-btn">
+            <i class="fa fa-undo" aria-hidden="true"></i><br />
+            <span class="toolbar-item-label">UNDO</span>
+        </span>
+
+        <hr class="left-side-divider middle middle-bottom" />
+
+        <br />
+
+        <span class="toolbar-item resubmit-order-btn">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            <span class="toolbar-item-label">RE-SUBMIT ORDER</span>
+        </span>
+
+        <span class="toolbar-item add-art">
+            <i class="fa fa-file-image-o" aria-hidden="true"></i>
+            <span class="toolbar-item-label">
+                CREATE ART <br />
+                - or -<br />
+                UPLOAD FILE
+            </span>
+        </span>
+
+        <br />
+
+        <span class="toolbar-item approve-reject-artwork-btn">
+            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+            <span class="toolbar-item-label">APPROVE REJECT ARTWORK</span>
+        </span>
+
+        <br /><br />
+        <div class="toolbar-item reversible-thumb">
+        
+            <div class="side-thumb side-a" data-side="a">
+                S.A
+            </div>
+
+            <div class="side-thumb side-b" data-side="b">
+                S.B
+            </div>
+
+            <span class="toolbar-item-label">Reversible</span>
+
+        </div>
+
+    </div>
+-->
+
+<div id="left-side-toolbar" class="bottom-toolbar">
     
-    <span class="toolbar-item undo-btn">
-        <i class="fa fa-undo" aria-hidden="true"></i><br />
-        <span class="toolbar-item-label">UNDO</span>
-    </span>
-
-    <hr class="left-side-divider middle middle-bottom" />
-
-    <br />
-
-    <span class="toolbar-item resubmit-order-btn">
-        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-        <span class="toolbar-item-label">RE-SUBMIT ORDER</span>
+    <span class="toolbar-item approve-reject-artwork-btn">
+        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+        <span class="toolbar-item-label">APPROVE REJECT ARTWORK</span>
     </span>
 
     <span class="toolbar-item add-art">
@@ -53,26 +96,34 @@
         </span>
     </span>
 
-    <br />
+    <span class="toolbar-item divider two"> </span>
 
-    <span class="toolbar-item approve-reject-artwork-btn">
-        <i class="fa fa-check-square-o" aria-hidden="true"></i>
-        <span class="toolbar-item-label">APPROVE REJECT ARTWORK</span>
+    <span class="toolbar-item resubmit-order-btn">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        <span class="toolbar-item-label">RE-SUBMIT ORDER</span>
     </span>
+ 
+    <span class="toolbar-item fullscreen-btn">
+        <i class="fa fa-arrows-alt" aria-hidden="true"></i><br />
+        <span class="toolbar-item-label">PREVIEW</span>
+    </span>        
 
-    <br /><br />
-    <div class="toolbar-item reversible-thumb">
+    @if (\Session::has('is_show_teamstore_toolbox'))
+        @if (\Session::get('is_show_teamstore_toolbox'))
     
-        <div class="side-thumb side-a" data-side="a">
-            S.A
-        </div>
+        <span class="toolbar-item team-store" id="show-team-store-toolbox">
+            <i class="fa fa-group" aria-hidden="true"></i>
+            <span class="toolbar-item-label">TEAM STORE</span>
+        </span>
 
-        <div class="side-thumb side-b" data-side="b">
-            S.B
-        </div>
+        @endif
+    @endif
 
-        <span class="toolbar-item-label">Reversible</span>
+    <span class="toolbar-item divider one"> </span>
 
-    </div>
+    <span class="toolbar-item favorite-btn">
+        <i class="fa fa-star-o" aria-hidden="true"></i>
+        <span class="toolbar-item-label">FAVORITE</span>
+    </span>
 
 </div>

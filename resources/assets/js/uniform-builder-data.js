@@ -2162,6 +2162,10 @@ $(document).ready(function() {
                 name: "Compression Pant (Apparel)",
                 alias: "compression-pant",
             },
+            { 
+                name: "Socks (Apparel)",
+                alias: "socks-apparel",
+            },
 
         ],
 
