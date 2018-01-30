@@ -255,23 +255,17 @@ class AuthenticationController extends AdminAuthController
                     if (in_array($result->user->type, $allowed_users))
                     {
                         Session::put('is_show_teamstore_toolbox', true);
-                        Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
+                        Log::info('User #' . $result->user->email . ' (' . $result->user->type . ') is entitled to open TEAM STORE (beta) version');
 
-                        $client = new UserTeamStoreClient;
-                        $response = $client->hasTeamStoreAccount($result->user->id);
-
-                        if ($response->success) {
-                            Session::put('userHasTeamStoreAccount', true);
-                            $this->setTeamStoreConfiguration(
-                                $params->store_id,
-                                $params->user_id,
-                                $params->store_code,
-                                $params->store_name,
-                                $params->colors
-                            );
-                        }
+                        Session::put('userHasTeamStoreAccount', true);
+                        $this->setTeamStoreConfiguration(
+                            $params->store_id,
+                            $params->user_id,
+                            $params->store_code,
+                            $params->store_name,
+                            $params->colors
+                        );
                     }
-
                     return Redirect::to('/index')->with('message', 'Welcome back ' . $fullname);
 
                 } else {
