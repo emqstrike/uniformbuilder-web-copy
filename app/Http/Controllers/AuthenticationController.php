@@ -259,10 +259,15 @@ class AuthenticationController extends AdminAuthController
 
                         if ($response->success) {
                             Session::put('userHasTeamStoreAccount', true);
-                            $this->handleTeamStoreLogin($response, $user, $access_token, $password);
+                            $this->setTeamStoreConfiguration(
+                                $store_id,
+                                $user_id,
+                                $store_code,
+                                $store_name,
+                                $colors
+                            );
                         }
                     }
-
 
                     return Redirect::to('/index')->with('message', 'Welcome back ' . $fullname);
 

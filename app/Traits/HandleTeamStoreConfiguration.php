@@ -21,15 +21,16 @@ trait HandleTeamStoreConfiguration
         if ($response->success)
         {
             Log::info("User's Team Store Account ID: " . $response->team_store_user_id);
+
             // Team Store Session - Entry point
-            Session::put('userHasTeamStoreAccount', true);
-            Session::put('team_store', [
-                'id' => $response->team_store_id,
-                'user_id' => $response->team_store_user_id,
-                'code' => $response->team_store_code,
-                'name' => $response->team_store_name,
-                'colors' => $response->team_store_colors
-            ]);
+            $this->setTeamStoreConfiguration(
+                $response->team_store_id,
+                $response->team_store_user_id,
+                $response->team_store_code,
+                $response->team_store_name,
+                $response->team_store_colors
+            );
+
             Log::info('Session: userHasTeamStoreAccount = true');
             Log::info(print_r(Session::get('team_store'), true));
         }
@@ -57,6 +58,24 @@ trait HandleTeamStoreConfiguration
                 $this->setTeamStoreRegistrationParams($params);
             }
         }
+    }
+
+    protected function setTeamStoreConfiguration(
+        $store_id,
+        $user_id,
+        $store_code,
+        $store_name,
+        $colors
+    )
+    {
+        Session::put('userHasTeamStoreAccount', true);
+        Session::put('team_store', [
+            'id' => $store_id,
+            'user_id' => $user_id,
+            'code' => $store_code,
+            'name' => $store_name,
+            'colors' => $colors
+        ]);
     }
 
     /**
