@@ -220,7 +220,6 @@ class AuthenticationController extends AdminAuthController
         if (isset($params->user_email)) Log::info('user_email=' . $params->user_email);
         if (isset($params->access_token)) Log::info('access_token=' . $params->access_token);
         if (isset($params->store_id)) Log::info('store_id=' . $params->store_id);
-        if (isset($params->team_store_user_id)) Log::info('team_store_user_id=' . $params->team_store_user_id);
         if (isset($params->store_name)) Log::info('store_name=' . $params->store_name);
         if (isset($params->colors)) Log::info('colors=' . $params->colors);
 
@@ -265,7 +264,7 @@ class AuthenticationController extends AdminAuthController
                             Session::put('userHasTeamStoreAccount', true);
                             $this->setTeamStoreConfiguration(
                                 $params->store_id,
-                                $params->team_store_user_id,
+                                $params->user_id,
                                 $params->store_code,
                                 $params->store_name,
                                 $params->colors
