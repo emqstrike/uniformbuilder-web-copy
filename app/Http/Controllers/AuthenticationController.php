@@ -243,11 +243,26 @@ class AuthenticationController extends AdminAuthController
 
                     Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
-                    $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+                    #
+                    # TEAM STORE LOGIN HANDLER
+                    #
+                    $allowed_users = [
+                        'administrator'
+                    ];
+                    if (in_array($result->user->type, $allowed_users))
+                    {
+                        Session::put('is_show_teamstore_toolbox', true);
+                        Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
 
-                    if ($response->success) {
-                        Session::put('userHasTeamStoreAccount', true);
+                        $client = new UserTeamStoreClient;
+                        $response = $client->hasTeamStoreAccount($result->user->id);
+
+                        if ($response->success) {
+                            Session::put('userHasTeamStoreAccount', true);
+                            $this->handleTeamStoreLogin($response, $user, $access_token, $password);
+                        }
                     }
+
 
                     return Redirect::to('/index')->with('message', 'Welcome back ' . $fullname);
 
