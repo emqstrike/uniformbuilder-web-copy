@@ -162,7 +162,10 @@ trait HandleTeamStoreConfiguration
         if (isset($config['save_rendered']))
         {
             $params['save_rendered'] = $config['save_rendered'];
-            Log::info(__METHOD__ . ': Save Rendered Image = ' . $params['save_rendered']);
+            if (!empty($config['save_rendered']))
+            {
+                Log::info(__METHOD__ . ': Save Rendered Image = ' . $params['save_rendered']);
+            }
         }
 
         // @param Save Rendered image
@@ -170,7 +173,10 @@ trait HandleTeamStoreConfiguration
         if (isset($config['save_rendered_timeout']))
         {
             $params['save_rendered_timeout'] = $config['save_rendered_timeout'];
-            Log::info(__METHOD__ . ': Seconds timeout before rendering = ' . $params['save_rendered_timeout']);
+            if (!empty($params['save_rendered_timeout']))
+            {
+                Log::info(__METHOD__ . ': Seconds timeout before rendering = ' . $params['save_rendered_timeout']);
+            }
         }
 
         // @param Team Store Product ID
@@ -182,7 +188,10 @@ trait HandleTeamStoreConfiguration
         }
 
         $params['teamstore_registration_params'] = $this->getTeamStoreRegistrationParams();
-        Log::info(__METHOD__ . ': Team Store Registration Parameters = ' . $params['teamstore_registration_params']);
+        if (!empty($params['teamstore_registration_params']))
+        {
+            Log::info(__METHOD__ . ': Team Store Registration Parameters = ' . $params['teamstore_registration_params']);
+        }
     }
 
     public function setTeamStoreRegistrationParams($params)
