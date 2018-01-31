@@ -152,8 +152,8 @@ class AuthenticationController extends AdminAuthController
                         $this->setTeamStoreConfiguration(
                             $response->store->store_id,
                             $response->store->owner_id,
-                            $response->store->code,
-                            $response->store->name,
+                            $response->store->store_code,
+                            $response->store->store_name,
                             $response->store->colors
                         );
                     }
