@@ -146,8 +146,17 @@ class AuthenticationController extends AdminAuthController
                     Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
 
                     $client = new UserTeamStoreClient;
-                    $response = $client->team_store_login($email, $password);
-                    $this->handleTeamStoreLogin($response, $user, $access_token, $password);
+                    $response = $client->get_store_by_token($access_token);
+                    if ($response->success)
+                    {
+                        $this->setTeamStoreConfiguration(
+                            $response->store->store_id,
+                            $response->store->owner_id,
+                            $response->store->store_code,
+                            $response->store->store_name,
+                            $response->store->colors
+                        );
+                    }
                 }
 
                 #

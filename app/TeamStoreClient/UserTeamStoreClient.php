@@ -31,4 +31,11 @@ class UserTeamStoreClient extends TeamStoreAPIClient
 
         return $this->decoder->decode($response->getBody());
     }
+
+    public function get_store_by_token($token)
+    {
+        $response = $this->get('team-store-user/get-store/' . $token);
+
+        return $this->decoder->decode($response->getBody());
+    }
 }

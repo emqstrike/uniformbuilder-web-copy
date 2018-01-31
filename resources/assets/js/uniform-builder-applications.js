@@ -1010,25 +1010,6 @@ $(document).ready(function() {
                     var _offsetX = 0;
                     var _offsetY = 0;
 
-                    // Tackle Twill adjustments via free form tool
-
-                    if (ub.config.uniform_application_type === "tackle_twill" && typeof _application.font_obj !== "undefined") {
-
-                        var _parsedPerspective = _.find(_application.font_obj.parsedFontSizeTables, {perspective: view.perspective})
-   
-                        if (typeof _parsedPerspective !== "undefined") {
-                            
-                            var _offsets = _.find(_parsedPerspective.sizes, {inputSize: _application.font_size.toString()});
-
-                            _offsetX = _offsets.x_offset;
-                            _offsetY = _offsets.y_offset;
-
-                        }
-
-                    }
-
-                    // End Tackle Twill adjustments via free form tool
-
                     var _changeX = sprite.downX - sprite.x;
                     var _changeY = sprite.downY - sprite.y;
 
@@ -1194,25 +1175,6 @@ $(document).ready(function() {
 
                     var _offsetX = 0;
                     var _offsetY = 0;
-
-                    // Tackle Twill adjustments via free form tool
-
-                    if (ub.config.uniform_application_type === "tackle_twill" && typeof _application.font_obj !== "undefined") {
-
-                        var _parsedPerspective = _.find(_application.font_obj.parsedFontSizeTables, {perspective: view.perspective});
-                       
-                        if (typeof _parsedPerspective !== "undefined") {
-                            
-                            var _offsets = _.find(_parsedPerspective.sizes, {inputSize: _application.font_size.toString()});
-
-                            _offsetX = _offsets.x_offset;
-                            _offsetY = _offsets.y_offset;
-
-                        }
-
-                    }
-
-                    // Tackle Twill adjustments via free form tool
 
                     var move_point = ub.objects[view.perspective + '_view']['move_tool'];
                     var rotation_point = ub.objects[view.perspective + '_view']['rotate_tool'];
@@ -2308,6 +2270,18 @@ $(document).ready(function() {
 
         }
 
+        ub.funcs.isDirty = function (appObj) {
+
+            var _result = false;
+            
+            if (typeof appObj !== "undefined" && appObj.dirty) { 
+                _result = true; 
+            }
+            
+            return _result;
+
+        }
+
         // For Text Applications
         ub.funcs.oneInchPullUp = function (code) {
 
@@ -2340,13 +2314,17 @@ $(document).ready(function() {
 
                 if (code === '1' || code === '2' || code === '26' || code === "27") {
 
+                    if (ub.funcs.isDirty(_app1) || 
+                        ub.funcs.isDirty(_app2) || 
+                        ub.funcs.isDirty(_app26) || 
+                        ub.funcs.isDirty(_app27)) { return; }
+
                     if (typeof _object26 !== "undefined" || typeof _object2 !== "undefined") {
 
                         if (typeof _app1 !== "undefined") {
 
                             var _parentSize             =  parseInt(_app1.font_size);
                             var _applicationNumber      = '26'
-
                             var _originalPosition 
 
                             if (typeof _app26 !== "undefined") {
@@ -2385,7 +2363,6 @@ $(document).ready(function() {
                                     _calculatedPullUpHeight = parseInt(ub.current_material.material.one_inch_in_px);
 
                                 }
-
                                
                             }
 
@@ -2402,6 +2379,8 @@ $(document).ready(function() {
                 // Pull up 5
 
                 if (code === '5' || code === '6') {
+
+                    if (ub.funcs.isDirty(_app5) || ub.funcs.isDirty(_app6)) { return; }
 
                     if (typeof _object5 !== "undefined") {
 
@@ -2518,7 +2497,6 @@ $(document).ready(function() {
 
                 }
 
-
                 point.rotation = ub.funcs.convertDegreesToRadians(view.application.rotation);
 
                 var _zIndex = ub.funcs.generateZindex('applications');
@@ -2573,7 +2551,7 @@ $(document).ready(function() {
                 ub[view_name].addChild(point);
                 ub[view_name].addChild(mask);
                 sprite_collection.push(point);
-
+                
                 if (typeof point.ubFontSizeData === "object") {
 
                     var _fontSizeData = point.ubFontSizeData;
@@ -2594,10 +2572,8 @@ $(document).ready(function() {
                     if (_fontSizeData._xOffset !== "0") { _xOffset = parseFloat(_fontSizeData.xOffset); }
                     if (_fontSizeData._yOffset !== "0") { _yOffset = parseFloat(_fontSizeData.yOffset); }
 
-                    if (_settingsObject.dirty && ub.sportsSpecific.freeFromExemptions.isExempted(app_id, ub.config.sport, ub.config.uniform_application_type)) 
+                    if (!_settingsObject.dirty)
                     {
-                        ub.utilities.info('#' + app_id + ' dirty, skipping offsets ...')
-                    } else {
                         point.position.x += _xOffset;
                         point.position.y += _yOffset;
                     }
