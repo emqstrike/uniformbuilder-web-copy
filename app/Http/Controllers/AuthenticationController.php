@@ -144,10 +144,6 @@ class AuthenticationController extends AdminAuthController
                 {
                     Session::put('is_show_teamstore_toolbox', true);
                     Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
-
-                    $client = new UserTeamStoreClient;
-                    $response = $client->team_store_login($email, $password);
-                    $this->handleTeamStoreLogin($response, $user, $access_token, $password);
                 }
 
                 #
