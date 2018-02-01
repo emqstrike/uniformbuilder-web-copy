@@ -10514,6 +10514,46 @@ ub.funcs.fontOffSets = [
                     'RB',
                 ]
             },
+            {
+                block_pattern: 'SFN Hoodie',
+                neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
+                material_option: 'Zipper', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
+            {
+                block_pattern: 'SFN Hoodie',
+                neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
+                material_option: 'Hood Cuff', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
+            {
+                block_pattern: 'SFN Hoodie',
+                neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
+                material_option: 'Arm Cuff', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
+
 
             // Team Store
             {
