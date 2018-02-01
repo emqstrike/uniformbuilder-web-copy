@@ -10576,7 +10576,7 @@ $(document).ready(function() {
         var markup = Mustache.render(template, data);
 
         var dialog = bootbox.dialog({
-            title: 'Add a new Free Form Application',
+            title: 'Switch Side',
             message: markup,
         });
 

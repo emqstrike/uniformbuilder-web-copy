@@ -9786,6 +9786,7 @@ strong.hello {
     .narrow     { float: left;  }
     .wide       { float: right; }
 
+
     div#left-side-toolbar, div#top-left-side-toolbar  {
 
         z-index: 1000;
@@ -9964,6 +9965,95 @@ strong.hello {
 
         }
 
+    }
+
+    div#item-groups-toolbar {
+
+        z-index: 1000;
+        position: absolute;
+        color: #222;
+        top: 25%;
+        left: 10px;
+        font-size: 0.9em;
+
+        span.toolbar-item, div.toolbar-item {
+
+            font-size: 1.1em;
+            color: silver;
+            float: right;
+            width: 80px;
+
+            i.fa {
+
+                text-align: center;
+                width: 100%;
+                font-size: 1.4em;
+
+            }
+
+            span.toolbar-item-label {
+                
+                font-size: 0.7em;
+
+                text-align: center;
+                width: 100%;
+                display: inline-block;
+
+            }
+
+            cursor: pointer;
+
+        }
+
+        span.toolbar-item:hover { color: white;}
+        span.toolbar-item:active { color: #acacac; }
+
+        div.reversible-thumb {
+
+            margin-bottom: 33px;
+            display: none;
+            width: 170px;
+            color: #f9c129;
+
+            span.toolbar-item-label {
+                font-size: 0.7em;
+                text-align: center;
+                width: 90%;
+                display: inline-block;
+            }
+
+            div.side-a, div.side-b {
+                width: 45%;
+                height: 140px;
+                background-color: #acacac;
+                text-align: center;
+                padding: 7px;
+                display: inline-block;
+            }
+
+            div.side-a {
+                background-size: cover;
+                background-position-x: -25%;
+                background-repeat: no-repeat;
+            }
+
+            div.side-b {
+                background-size: cover;
+                background-position-x: 125%;
+                background-repeat: no-repeat;
+            }
+
+            div.side-a:hover, div.side-b:hover {
+                background-color: white;
+            }
+
+        }
+
+        div.reversible-thumb:hover { color: gold; }
+        span.toolbar-item {
+            i.fa { margin-bottom: 10px; }
+        }
+     
     }
 
 /* End Left Side Toolbar */
@@ -11489,3 +11579,8 @@ span.load-line.awesomeness {
 
 /* End IS Integration */
 
+/* Reversible */
+
+    @import "reversible.less";
+
+/* End Reversible */

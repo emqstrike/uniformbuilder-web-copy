@@ -3103,7 +3103,30 @@
 
     </script>
 
-
 <!-- End States -->
+
+<!-- Reversible Dialogs -->
+
+    <!-- Confirm -->
+    <script type="text/mustache" id="m-confirm-action">
+
+        <div id="confirm-action">
+            
+            @{{message}} 
+            
+            <br />
+
+            <div class="footer-buttons">
+                <span class="button okButton">Ok</span> <span class="button cancelButton">Cancel</span>
+            </div>
+
+        </div>
+
+    </script>
+    <!-- End Confirm -->
+
+
+<!-- End Reversible Dialogs -->
+
 
 @include('partials.controls.team-store-products-picker')

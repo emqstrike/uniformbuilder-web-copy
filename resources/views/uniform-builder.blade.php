@@ -160,6 +160,7 @@
 
     <!-- End Scrolling Pickers -->
 
+    @include('partials.panels.item-groups-toolbar')
     @include('partials.panels.left-side-toolbar')
 
     @include('partials.panels.roster-input')
