@@ -72,6 +72,73 @@ $(document).ready(function() {
 		}
 
 	};
+    
+
+    // Here ...
+	ub.loadMatchingMaterials = function (obj, object_name) {
+
+        ub.displayDoneAt('Styles loaded.');
+        ub.materials = {};
+        ub.convertToString(obj);
+
+        ub.materials = _.filter(obj, {debug_mode: '0'});
+        ub.materials = _.filter(ub.materials, {asset_target: 'web'});
+
+        _.each (ub.materials, function (material) {
+
+            material.calculatedPrice = ub.funcs.getPrice(material);
+            ub.funcs.processMaterialPrice(material);
+
+            _result = _.find(ub.data.tagged_styles, {uniform_id: material.id});
+                    
+            material.is_favorite = (typeof _result !== "undefined"); // Mark Favorite items
+
+            if (material.thumbnail_path_left === "") {
+                
+                material.thumbnail_path_left = material.thumbnail_path;
+
+            }
+
+            if ((material.uniform_category === "Baseball" && material.type === "lower") || 
+                (material.uniform_category === "Fastpitch" && material.type === "lower") || 
+                (material.uniform_category === "Basketball" && material.type === "lower") || 
+                (material.uniform_category === "Lacrosse" && material.type === "lower") || 
+                (material.uniform_category === "Football" && material.type === "lower") ||
+                (material.uniform_category === "Football 2017" && material.type === "lower") ||
+                ub.funcs.isSocks()) {
+
+                material.thumbnail_path_left = material.thumbnail_path_front;
+
+            }
+
+             if (material.uniform_category === "Cinch Sack (Apparel)") {
+
+                material.thumbnail_path_left = material.thumbnail_path_back;
+
+            }
+
+        });
+
+        ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
+        ub.displayDoneAt('Price Preparation Complete.');
+        ub.displayDoneAt('Preparing Search...');
+
+        if (ub.page === "builder") { ub.prepareTypeAhead(); }
+        
+        if (ub.config.styles) {
+
+            ub.funcs.callDirectLinks();
+
+        }
+
+    }
+
+	ub.funcs.getSimilarStyles = function () {
+
+        ub.materials_url = ub.config.api_host + '/api/materials/styleSheets';
+        ub.loader(ub.materials_url, 'materials', ub.loadMatchingMaterials);
+
+	}
 
 	ub.funcs.loadReversiblePicker = function () {
 
@@ -92,7 +159,14 @@ $(document).ready(function() {
             $(_okButton).unbind('click');
             $(_okButton).on('click', function () {
 
-            	// Process Here ...
+            	// Save Current Design, use a new UI instead of the old one? 
+            	// Create Pairing Record
+            	// Load Picker
+            	// Get Materials
+            	ub.funcs.getSimilarStyles();
+            	// Set Status vars
+            	// Update Pairing Record
+            	// Load Reverse Side, initialize bc, update pairing info (bc field for the new side)
 
             });
 
