@@ -2486,20 +2486,6 @@ $(document).ready(function() {
 
         ub.funcs.cleanupsBeforeSave = function () {
 
-            // Remove Disabled Pipings
-            var _disabledPipings = {};
-            
-            _.each(ub.current_material.settings.pipings, function (piping, key) {
-                
-                if (piping.enabled === 0) {
-
-                    _disabledPipings[key] = piping;
-                    delete ub.current_material.settings.pipings[key];
-
-                }
-
-            });
-
             // Remove Disabled Random Feeds
             var _disabledRandomFeed = {};
             
