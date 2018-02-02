@@ -13,7 +13,6 @@ $(document).ready(function() {
 
 		],
 
-
 		blankThumbnailPaths: [
 
 			{
@@ -73,8 +72,6 @@ $(document).ready(function() {
 
 	};
     
-
-    // Here ...
 	ub.loadMatchingMaterials = function (obj, object_name) {
 
         ub.displayDoneAt('Styles loaded.');
@@ -112,9 +109,6 @@ $(document).ready(function() {
             if (material.uniform_category === "Cinch Sack (Apparel)") { material.thumbnail_path_left = material.thumbnail_path_back; }
 
         });
-
-        console.log('Loaded Materials: ');
-        console.log(ub.materials);
 
     }
 
