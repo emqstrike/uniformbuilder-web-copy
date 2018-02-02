@@ -563,7 +563,8 @@ $(document).ready(function () {
 
         });
 
-        delete ub.current_material.settings.pipings[pipingSet];
+        ub.current_material.settings.pipings[pipingSet].enabled = 0;
+        ub.current_material.settings.pipings[pipingSet].numberOfColors = 0;
 
     }
 
