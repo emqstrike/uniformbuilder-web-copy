@@ -29,7 +29,13 @@ class FileUtility
         list($type, $data) = explode(';', $data);
         list($tmp, $data) = explode(',', $data);
 
-        $filePath = '/tmp/' . Random::randomize(16) . '.png';
+        if(strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+            $filePath = sys_get_temp_dir() . '/' . Random::randomize(16) . '.png';
+        }
+        else {
+            $filePath = '/tmp/' . Random::randomize(16) . '.png';
+        }
+
         if (file_put_contents($filePath, base64_decode($data)) === false)
         {
             return false;
@@ -43,7 +49,12 @@ class FileUtility
         list($type, $data) = explode(';', $data);
         list($tmp, $data) = explode(',', $data);
 
-        $filePath = '/tmp/' . Random::randomize(16) . '.png';
+        if(strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+            $filePath = sys_get_temp_dir() . '/' . Random::randomize(16) . '.png';
+        }
+        else {
+            $filePath = '/tmp/' . Random::randomize(16) . '.png';
+        }
 
         try
         {
