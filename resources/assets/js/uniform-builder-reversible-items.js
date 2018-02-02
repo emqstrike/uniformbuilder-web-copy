@@ -94,9 +94,7 @@ $(document).ready(function() {
             material.is_favorite = (typeof _result !== "undefined"); // Mark Favorite items
 
             if (material.thumbnail_path_left === "") {
-                
                 material.thumbnail_path_left = material.thumbnail_path;
-
             }
 
             if ((material.uniform_category === "Baseball" && material.type === "lower") || 
@@ -107,35 +105,29 @@ $(document).ready(function() {
                 (material.uniform_category === "Football 2017" && material.type === "lower") ||
                 ub.funcs.isSocks()) {
 
-                material.thumbnail_path_left = material.thumbnail_path_front;
+                    material.thumbnail_path_left = material.thumbnail_path_front;
 
             }
 
-             if (material.uniform_category === "Cinch Sack (Apparel)") {
-
-                material.thumbnail_path_left = material.thumbnail_path_back;
-
-            }
+            if (material.uniform_category === "Cinch Sack (Apparel)") { material.thumbnail_path_left = material.thumbnail_path_back; }
 
         });
 
-        ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
-        ub.displayDoneAt('Price Preparation Complete.');
-        ub.displayDoneAt('Preparing Search...');
-
-        if (ub.page === "builder") { ub.prepareTypeAhead(); }
-        
-        if (ub.config.styles) {
-
-            ub.funcs.callDirectLinks();
-
-        }
+        console.log('Loaded Materials: ');
+        console.log(ub.materials);
 
     }
 
 	ub.funcs.getSimilarStyles = function () {
 
-        ub.materials_url = ub.config.api_host + '/api/materials/styleSheets';
+        var _gender = ub.config.gender.toTitleCase();
+        var _sport = ub.config.sport;
+        var _blockPattern = ub.config.blockPattern;
+        var _option = ub.config.option;
+        var _type = ub.config.type
+        var _url = ub.config.api_host + '/api/v1-0/getStyles/' + _gender + '/' + _sport + '/' + _blockPattern + '/' + _option + '/' + _type;
+
+        ub.materials_url = _url;
         ub.loader(ub.materials_url, 'materials', ub.loadMatchingMaterials);
 
 	}
@@ -167,6 +159,7 @@ $(document).ready(function() {
             	// Set Status vars
             	// Update Pairing Record
             	// Load Reverse Side, initialize bc, update pairing info (bc field for the new side)
+                dialog.modal('hide');
 
             });
 
@@ -199,6 +192,7 @@ $(document).ready(function() {
             $(_okButton).on('click', function () {
 
             	// Process Here ...
+                dialog.modal('hide');
 
             });
 
