@@ -618,7 +618,7 @@ $(document).ready(function() {
         }
 
         $('div.feedback-form').fadeIn();
-        ub.funcs.centerPatternPopup();
+        ub.funcs.centerPopups();
 
         $('span.ok-btn').on('click', function () {
 
@@ -659,7 +659,7 @@ $(document).ready(function() {
 
             $('body').append(markup);
             $('div.free-feedback-form').fadeIn();
-            ub.funcs.centerPatternPopup();
+            ub.funcs.centerPopups();
 
             $('span.ok-btn').on('click', function () {
 
@@ -2551,7 +2551,7 @@ $(document).ready(function() {
 
             $('body').append(markup);
 
-            ub.funcs.centerPatternPopup();
+            ub.funcs.centerPopups();
 
             $('div.save-design').fadeIn();
 

@@ -8565,7 +8565,7 @@ $(document).ready(function () {
                 $('#primaryMessagePopup').fadeIn();
                 $('body').scrollTop(0);
 
-                ub.funcs.centerPatternPopup();
+                ub.funcs.centerPopups();
 
                 if ($('div#messages > span.header').html() === "sent") {
 

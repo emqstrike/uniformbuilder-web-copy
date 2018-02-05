@@ -245,7 +245,7 @@ $(document).ready(function () {
 
         });
 
-        ub.funcs.centerPatternPopup();
+        ub.funcs.centerPopups();
 
         $('div.close-popup, span.close-popup').on('click', function (){
 

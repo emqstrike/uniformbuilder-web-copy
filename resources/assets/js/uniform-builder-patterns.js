@@ -617,7 +617,7 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.centerPatternPopup();
+        ub.funcs.centerPopups();
 
         $popup = $('div#primaryPatternPopup');
         $popup.fadeIn();
@@ -736,7 +736,7 @@ $(document).ready(function () {
 
         }
 
-        ub.funcs.centerPatternPopup();
+        ub.funcs.centerPopups();
 
         $popup = $('div#primaryPatternPopup');
         $popup.fadeIn();
@@ -1308,32 +1308,32 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.centerPatternPopup = function () {
+    // ub.funcs.centerPatternPopup = function () {
 
-        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup, div#primaryTailSweepPopup, div#primaryEmbellishmentPopup');
-        $popup.fadeIn();
+    //     $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup, div#primaryTailSweepPopup, div#primaryEmbellishmentPopup, div#primaryReversiblePopup');
+    //     $popup.fadeIn();
 
-        if ($popup.length === 0) { return; } 
+    //     if ($popup.length === 0) { return; } 
 
-        var _wWidth     = window.innerWidth;
-        var _wHeight    = window.innerHeight;
-        var _pWidth     = $popup.width();
-        var _pHeight    = $popup.height();
+    //     var _wWidth     = window.innerWidth;
+    //     var _wHeight    = window.innerHeight;
+    //     var _pWidth     = $popup.width();
+    //     var _pHeight    = $popup.height();
 
-        var _left       = (_wWidth - _pWidth) / 2;
-        var _top        = (_wHeight - _pHeight) /2;
+    //     var _left       = (_wWidth - _pWidth) / 2;
+    //     var _top        = (_wHeight - _pHeight) /2;
 
-        $popup.css({
+    //     $popup.css({
             
-            top: _top,
-            left: _left,
+    //         top: _top,
+    //         left: _left,
 
-        });
+    //     });
 
-        var $layerTool = $popup;
-        $layerTool.unbind('mousedown');
-        $layerTool.mousedown(ub.funcs.handle_mousedown);
+    //     var $layerTool = $popup;
+    //     $layerTool.unbind('mousedown');
+    //     $layerTool.mousedown(ub.funcs.handle_mousedown);
 
-    }
+    // }
 
 });

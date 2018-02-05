@@ -71,6 +71,65 @@ $(document).ready(function() {
 		}
 
 	};
+
+    ub.status.accentPopupVisible = false;
+    ub.funcs.createReversiblePopup = function () {
+
+        var data = {
+           matchingStyles: ub.materials,
+        }
+
+        var template = $('#m-reversible-popup').html();
+        var markup = Mustache.render(template, data);
+
+        $('body').append(markup);
+
+        $popup = $('div#primaryReversiblePopup');
+        $popup.fadeIn();
+
+        $('div.reversiblePopupResults > div.item').hover(
+            function() {
+                $( this ).find('div.name').addClass('pullUp');
+            }, function() {
+                $( this ).find('div.name').removeClass('pullUp');
+            }
+        );
+
+        $('div.reversiblePopupResults > div.item').on('click', function () {
+
+           // process here ...
+
+        });
+
+        ub.funcs.centerPopups();
+
+        $('div.close-popup').on('click', function () {
+
+            $popup.remove();
+            ub.status.accentPopupVisible = false;
+
+        });
+
+        $popup.bind('clickoutside', function () {
+
+            var _status = $(this).data('status');
+
+            if (_status === 'hidden') {
+
+                $(this).data('status', 'visible');
+                return;
+
+            }
+
+            $(this).data('status', 'hidden');
+            $(this).hide();
+            $(this).remove();
+
+            ub.status.accentPopupVisible = false;
+
+        });
+
+    }
     
 	ub.loadMatchingMaterials = function (obj, object_name) {
 
@@ -110,6 +169,8 @@ $(document).ready(function() {
 
         });
 
+        ub.funcs.createReversiblePopup();
+
     }
 
 	ub.funcs.getSimilarStyles = function () {
@@ -119,7 +180,7 @@ $(document).ready(function() {
         var _blockPattern = ub.config.blockPattern;
         var _option = ub.config.option;
         var _type = ub.config.type
-        var _url = ub.config.api_host + '/api/v1-0/getStyles/' + _gender + '/' + _sport + '/' + _blockPattern + '/' + _option + '/' + _type;
+        var _url = ub.config.api_host + 'api/v1-0/getStyles/' + _gender + '/' + _sport + '/' + _blockPattern + '/' + _option + '/' + _type;
 
         ub.materials_url = _url;
         ub.loader(ub.materials_url, 'materials', ub.loadMatchingMaterials);

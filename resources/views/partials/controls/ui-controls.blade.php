@@ -3108,22 +3108,70 @@
 <!-- Reversible Dialogs -->
 
     <!-- Confirm -->
-    <script type="text/mustache" id="m-confirm-action">
 
-        <div id="confirm-action">
-            
-            @{{message}} 
-            
-            <br />
+        <script type="text/mustache" id="m-confirm-action">
 
-            <div class="footer-buttons">
-                <span class="button okButton">Ok</span> <span class="button cancelButton">Cancel</span>
+            <div id="confirm-action">
+                
+                @{{message}} 
+                
+                <br />
+
+                <div class="footer-buttons">
+                    <span class="button okButton">Ok</span> <span class="button cancelButton">Cancel</span>
+                </div>
+
             </div>
 
-        </div>
+        </script>
 
-    </script>
     <!-- End Confirm -->
+
+    <!-- Reversible Picker -->
+    
+        <script type="text/mustache" id="m-reversible-popup">
+
+            <div id="primaryReversiblePopup" data-status="hidden">
+
+                <div class="header">
+
+                    Matching Styles
+
+                    <div class="close-popup">
+                            
+                        <i class="fa fa-times" aria-hidden="true"></i>
+
+                    </div>
+                 
+                </div>
+                
+                <div class="main-content">
+                    
+                    <div class="reversiblePopupResults">
+
+                        @{{#matchingStyles}}
+
+                            <div class="item grow" style="background-image: url(@{{thumbnail_path}})" data-accent-id="@{{id}}">
+                                <div class="name" style="">@{{name}}</div>
+                            </div>
+
+                        @{{/matchingStyles}}
+
+                    </div>
+
+                </div>
+
+                <div class="footer">
+                    
+                    
+
+                </div>
+
+            </div>
+
+        </script>
+
+    <!-- End Reversible Picker -->
 
 
 <!-- End Reversible Dialogs -->

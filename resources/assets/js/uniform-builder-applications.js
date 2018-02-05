@@ -4526,7 +4526,7 @@ $(document).ready(function() {
 
         } 
 
-        ub.funcs.centerPatternPopup();
+        ub.funcs.centerPopups();
 
         var _wWidth     = window.innerWidth;
         var _wHeight    = window.innerHeight;
@@ -4742,7 +4742,7 @@ $(document).ready(function() {
         $popup = $('div#primaryFontPopup');
         $popup.fadeIn();
 
-        ub.funcs.centerPatternPopup();
+        ub.funcs.centerPopups();
 
           $('div.fontPopupResults > div.item').hover(
 
@@ -5057,7 +5057,7 @@ $(document).ready(function() {
 
         });
 
-        ub.funcs.centerPatternPopup();
+        ub.funcs.centerPopups();
 
         $('div.close-popup').on('click', function () {
 
@@ -5593,7 +5593,7 @@ $(document).ready(function() {
 
         });
 
-        ub.funcs.centerPatternPopup();
+        ub.funcs.centerPopups();
 
         $('div.close-popup, span.close-popup').on('click', function (){
 
@@ -11869,6 +11869,34 @@ $(document).ready(function() {
         
         var _result = _.find(ub.data.mascots, {id: id.toString()}); 
         return _result;
+
+    }
+
+    ub.funcs.centerPopups = function () {
+
+        $popup = $('div#primaryPatternPopup, div#primaryMascotPopup, div.feedback-form, div.free-feedback-form, div.save-design, div#primaryFontPopup, div#primaryAccentPopup, div#primaryQuickRegistrationPopup, div#primaryMessagePopup, div#primaryTailSweepPopup, div#primaryEmbellishmentPopup, div#primaryReversiblePopup');
+        $popup.fadeIn();
+
+        if ($popup.length === 0) { return; } 
+
+        var _wWidth     = window.innerWidth;
+        var _wHeight    = window.innerHeight;
+        var _pWidth     = $popup.width();
+        var _pHeight    = $popup.height();
+
+        var _left       = (_wWidth - _pWidth) / 2;
+        var _top        = (_wHeight - _pHeight) /2;
+
+        $popup.css({
+            
+            top: _top,
+            left: _left,
+
+        });
+
+        var $layerTool = $popup;
+        $layerTool.unbind('mousedown');
+        $layerTool.mousedown(ub.funcs.handle_mousedown);
 
     }
 
