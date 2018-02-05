@@ -3151,7 +3151,7 @@
 
                         @{{#matchingStyles}}
 
-                            <div class="item grow" style="background-image: url(@{{thumbnail_path}})" data-accent-id="@{{id}}">
+                            <div class="item grow" style="background-image: url(@{{thumbnail_path}})" data-id="@{{id}}" data-name="@{{name}}">
                                 <div class="name" style="">@{{name}}</div>
                             </div>
 

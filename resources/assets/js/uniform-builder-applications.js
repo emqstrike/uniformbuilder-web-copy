@@ -3157,6 +3157,7 @@ $(document).ready(function() {
         return ub.funcs.pointIsInPoly(point, _transformed_boundaries);
 
     }
+
     ub.funcs.withinMaterialOption = function (point) {
 
         var _results = [];
@@ -8029,7 +8030,7 @@ $(document).ready(function() {
 
     ub.funcs.popupsVisible = function () {
 
-        return ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible'));
+        return ($('div#primaryMascotPopup').is(':visible') || $('div#primaryPatternPopup').is(':visible') || $('div#primaryReversiblePopup').is(':visible'));
 
     }
 
@@ -9799,7 +9800,7 @@ $(document).ready(function() {
 
     ub.funcs.popupTest = function () {
 
-        var _result = $('div#primaryTailSweepPopup').is(':visible') || $('div#primaryFontPopup').is(':visible') || $('div#primaryAccentPopup').is(':visible') || $('div#primaryMascotPopup').is(':visible') ||$('div.bootbox').is(':visible');
+        var _result = $('div#primaryTailSweepPopup').is(':visible') || $('div#primaryFontPopup').is(':visible') || $('div#primaryAccentPopup').is(':visible') || $('div#primaryMascotPopup').is(':visible') || $('div.bootbox').is(':visible') || $('div#primaryReversiblePopup').is(':visible');
 
         return _result;
 
@@ -11871,6 +11872,8 @@ $(document).ready(function() {
         return _result;
 
     }
+
+
 
     ub.funcs.centerPopups = function () {
 

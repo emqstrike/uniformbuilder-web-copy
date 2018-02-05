@@ -72,7 +72,7 @@ $(document).ready(function() {
 
 	};
 
-    ub.status.accentPopupVisible = false;
+    ub.status.reversiblePopupVisible = false;
     ub.funcs.createReversiblePopup = function () {
 
         var data = {
@@ -87,6 +87,8 @@ $(document).ready(function() {
         $popup = $('div#primaryReversiblePopup');
         $popup.fadeIn();
 
+        ub.status.reversiblePopupVisible = true;
+
         $('div.reversiblePopupResults > div.item').hover(
             function() {
                 $( this ).find('div.name').addClass('pullUp');
@@ -97,8 +99,11 @@ $(document).ready(function() {
 
         $('div.reversiblePopupResults > div.item').on('click', function () {
 
-           // process here ...
+           var _id = $(this).data('id');
+           var _name = $(this).data('name');
 
+           // Process Here ...
+                       
         });
 
         ub.funcs.centerPopups();
@@ -106,7 +111,7 @@ $(document).ready(function() {
         $('div.close-popup').on('click', function () {
 
             $popup.remove();
-            ub.status.accentPopupVisible = false;
+            ub.status.reversiblePopupVisible = false;
 
         });
 
@@ -125,7 +130,7 @@ $(document).ready(function() {
             $(this).hide();
             $(this).remove();
 
-            ub.status.accentPopupVisible = false;
+            ub.status.reversiblePopupVisible = false;
 
         });
 
