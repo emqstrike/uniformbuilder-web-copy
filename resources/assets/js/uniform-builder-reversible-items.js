@@ -103,10 +103,9 @@ $(document).ready(function() {
            var _id = $(this).data('id');
            var _name = $(this).data('name');
 
-           // Process Here ...
-                       
-        });
+           // Process here ...
 
+        });
 
         $('div.close-popup').on('click', function () {
 
@@ -191,6 +190,83 @@ $(document).ready(function() {
 
 	}
 
+    ub.funcs.getPairingRecord = function (id) {
+
+        var _url = ub.endpoints.getFullUrlString('getPairingRecord') + id;
+
+        $.ajax({
+            
+            url: _url,
+            type: "GET", 
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function (response){
+
+                // Process here ...
+                                
+            }
+            
+        });
+
+    };
+
+    ub.funcs.createPairingRecord = function (obj) {
+
+        if (typeof ub.user === "boolean") { return; }
+
+        var _postData = obj;
+        var _url = ub.endpoints.getFullUrlString('createPairingRecord');
+
+        $.ajax({
+            
+            url: _url,
+            type: "POST",
+            data: JSON.stringify(_postData),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+
+            success: function (response) {
+
+                // Process here ... 
+
+            }
+            
+        });
+
+    };
+
+    ub.funcs.createPairingRecordItem = function (pairingID, obj) {
+
+        var _postData = obj;
+        var _url = ub.endpoints.getFullUrlString('createPairingRecordItem');
+
+        $.ajax({
+            
+            url: _url,
+            type: "POST",
+            data: JSON.stringify(_postData),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+
+            success: function (response) {
+
+                // Process here ... 
+
+            }
+            
+        });
+
+    };
+
+    ub.funcs.saveCurrentDesign = function (cb) {
+
+        cb();
+
+    }
+
 	ub.funcs.loadReversiblePicker = function () {
 
 		var template = $('#m-confirm-action').html();
@@ -207,23 +283,52 @@ $(document).ready(function() {
 
         	// Ok
             var _okButton = "div#confirm-action > div.footer-buttons > span.button.okButton";
+
             $(_okButton).unbind('click');
             $(_okButton).on('click', function () {
 
+                var _pairingID;
+                var _styleID;
+
             	// Save Current Design, use a new UI instead of the old one? 
+                // and probably select and already saved design to be the inner design ...
+
+                ub.funcs.saveCurrentDesign(function () {
+
+                });
+
             	// Create Pairing Record
-            	// Load Picker
-            	// Get Materials
-            	ub.funcs.getSimilarStyles();
-            	// Set Status vars
+
+                if (ub.data.reversible.state.isSideBBlank()) {
+
+                    // Blank side detected 
+                    _pairingRecordID = ub.funcs.createPairingRecord({
+
+                    });
+
+                } else { 
+
+                    // Already has a counter side, just updating ...
+                    _pairingRecordID = pub.funcs.updatePairingRecord();
+
+                }
+                
+            	// Get Materials and show reversible options picker
+            	_styleID = ub.funcs.getSimilarStyles();
+            	
+                // Set Status vars
+
             	// Update Pairing Record
+
             	// Load Reverse Side, initialize bc, update pairing info (bc field for the new side)
+
                 dialog.modal('hide');
 
             });
 
         	// Cancel
             var _cancelButton = "div#confirm-action > div.footer-buttons > span.button.cancelButton";
+
             $(_cancelButton).unbind('click');
             $(_cancelButton).on('click', function () { dialog.modal('hide'); });
 
@@ -251,6 +356,7 @@ $(document).ready(function() {
             $(_okButton).on('click', function () {
 
             	// Process Here ...
+
                 dialog.modal('hide');
 
             });
@@ -273,9 +379,14 @@ $(document).ready(function() {
 
 		if (!_isReversible) { return; }
 
+        // Initialize States 
+        // Init State Vars here ... if pairing id has both sides or one is blank ..., 
+        // for stock reversible items just load the stock side, and create a pairing record
+
 		// Update Thumbnails
 		_sidea = ub.current_material.material.thumbnail_path;
 		_result = ub.data.reversible.getThumbnailPath(ub.config.sport, ub.config.type, ub.config.blockPattern, ub.config.option);
+
 		if (typeof _result !== "undefined") { _sideb = _result.filename; }
 		$('div.reversible-thumb').fadeIn();
 		$('div.side-thumb.side-a').css('background-image', 'url("' + _sidea + '")');

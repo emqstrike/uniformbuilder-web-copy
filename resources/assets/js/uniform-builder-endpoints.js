@@ -88,6 +88,27 @@ $(document).ready(function() {
                 url: 'api/v1-0/inksoft_design/update',
                 info: 'Update Custom Artwork',
             },
+
+            // Pairing Items
+            {
+                name: 'Create New Pairing Record',
+                code: 'createPairingRecord',
+                url:  'api/v1-0/user_pairing/',
+                info: 'Create Pairing Record',
+            },
+            {
+                name: 'Create New Pairing Record Item',
+                code: 'createPairingRecordItem',
+                url:  'api/v1-0/user_pairing_item/',
+                info: 'Create Pairing Item Record',
+            },
+            {
+                name: 'Get Pairing Record',
+                code: 'getPairingRecord',
+                url:  'api/v1-0/user_pairing/',
+                info: 'Create Pairing Record',
+            },
+
         ],
 
         getUrl: function (code) {
