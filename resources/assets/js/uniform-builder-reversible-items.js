@@ -88,6 +88,7 @@ $(document).ready(function() {
         $popup.fadeIn();
 
         ub.status.reversiblePopupVisible = true;
+        ub.funcs.centerPopups();
 
         $('div.reversiblePopupResults > div.item').hover(
             function() {
@@ -106,7 +107,6 @@ $(document).ready(function() {
                        
         });
 
-        ub.funcs.centerPopups();
 
         $('div.close-popup').on('click', function () {
 
@@ -138,7 +138,6 @@ $(document).ready(function() {
     
 	ub.loadMatchingMaterials = function (obj, object_name) {
 
-        ub.displayDoneAt('Styles loaded.');
         ub.materials = {};
         ub.convertToString(obj);
 
