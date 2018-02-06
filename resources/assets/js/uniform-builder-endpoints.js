@@ -108,6 +108,14 @@ $(document).ready(function() {
                 url:  'api/v1-0/user_pairing/',
                 info: 'Create Pairing Record',
             },
+            {
+                name: 'Delete Pairing Record',
+                code: 'deletePairingRecord',
+                url:  'api/v1-0/user_pairings/delete/',
+                info: 'Delete Pairing Record',
+            },
+
+            // 
 
         ],
 

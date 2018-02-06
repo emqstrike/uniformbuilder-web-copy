@@ -176,6 +176,30 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.deletePairingRecord = function (id) {
+
+        var _url = ub.endpoints.getFullUrlString('deletePairingRecord');
+        
+        $.ajax({
+        
+            url: _url,
+            type: "POST", 
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+            success: function (response){
+
+                // Process here ...
+                                
+            }
+            
+        });
+
+    };
+
 	ub.funcs.getSimilarStyles = function () {
 
         var _gender = ub.config.gender.toTitleCase();
@@ -388,6 +412,7 @@ $(document).ready(function() {
 		_result = ub.data.reversible.getThumbnailPath(ub.config.sport, ub.config.type, ub.config.blockPattern, ub.config.option);
 
 		if (typeof _result !== "undefined") { _sideb = _result.filename; }
+
 		$('div.reversible-thumb').fadeIn();
 		$('div.side-thumb.side-a').css('background-image', 'url("' + _sidea + '")');
 		$('div.side-thumb.side-b').css('background-image', 'url("' + _sideb + '")');
