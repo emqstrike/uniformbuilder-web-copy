@@ -32,9 +32,10 @@ class UserPairingsController extends Controller
     public function getPairingItemsByID($id)
     {
         $user_pairings = $this->client->getPairingItemsByID($id);
+        $user_pairing_items = $user_pairings->user_pairing_items;
         return view('administration.user-pairings.user-pairing-items', [
             'user_pairings' => $user_pairings,
-            'user_pairings_id' => $id
+            'user_pairing_items' => $user_pairing_items
         ]);
     }
 

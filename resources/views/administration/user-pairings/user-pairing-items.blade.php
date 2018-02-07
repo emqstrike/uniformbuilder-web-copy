@@ -1,33 +1,78 @@
 @extends('administration.lte-main')
 
 @section('styles')
-
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
-
+<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
 @endsection
 
 @section('content')
-
-<section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h2>
-                        <i class="glyphicon glyphicon-blackboard"></i>
-                        User
-                    </h2>
-                <textarea name="hide" style="display:none;" id="tagged-styles-data"><?php echo json_encode($tagged_styles, JSON_FORCE_OBJECT);?></textarea>
+                    <h3>{{ $user_pairings->name }} Items</h3>
+                    <a href="/administration/user_pairings" class='btn btn-sm btn-default back'>
+                        Back
+                    </a>
                 </div>
                 <div class="box-body">
-                    <table class='table table-bordered table-striped table-hover'>
+                    <table class='data-table table table-bordered table-striped table-hover col-lg-8' id='user_pairings_table'>
                     <thead>
                         <tr>
-                            <th width="40%">Material ID</th>
-                            <th width="60%">Total Tagged Styles</th>
+                            <th>ID</th>
+                            <th>User Pairing ID</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Saved Design ID</th>
+                            <th>Front Thumbnail</th>
+                            <th>Back Thumbnail</th>
+                            <th>Left Thumbnail</th>
+                            <th>Right Thumbnail</th>
                         </tr>
                     </thead>
-                    <tbody class="tbody-data">
+                    <tbody>
+                    @forelse ($user_pairing_items as $item)
+                        <tr class='user-pairing-item-{{ $item->id }}'>
+                            <td>
+                               {{$item->id}}
+                            </td>
+                            <td>
+                              {{$item->user_pairing_id}}
+                            </td>
+                            <td>
+                                {{$item->name}}
+                            </td>
+                             <td>
+                                {{$item->type}}
+                            </td>
+                            <td>
+                                {{$item->saved_design_id}}
+                            </td>
+                            <td>
+                              <a href="#" class="btn btn-default btn-xs file-link" data-link="{{ $item->front_thumbnail_path }}">View</a>
+                            </td>
+                            <td>
+                              <a href="#" class="btn btn-default btn-xs file-link" data-link="{{ $item->back_thumbnail_path }}">View</a>
+                            </td>
+                            <td>
+                              <a href="#" class="btn btn-default btn-xs file-link" data-link="{{ $item->left_thumbnail_path }}">View</a>
+                            </td>
+                            <td>
+                              <a href="#" class="btn btn-default btn-xs file-link" data-link="{{ $item->right_thumbnail_path }}">View</a>
+                            </td>
+                        </tr>
+
+                    @empty
+
+                        <tr>
+                            <td colspan='9'>
+                                No Record
+                            </td>
+                        </tr>
+
+                    @endforelse
+
                     </tbody>
                     </table>
                 </div>
@@ -37,54 +82,34 @@
 </section>
 
 @include('partials.confirmation-modal')
-
 @endsection
 
 @section('scripts')
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script src="/underscore/underscore.js"></script>
+<script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 
-
-    var tagged_styles_data = null;
-
-    tagged_styles_data = $('#tagged-styles-data').text();
-    var data = JSON.parse(tagged_styles_data);
-    var element = '';
-    var all_tagged_styles = Object.keys(data).length;
-        element =   `<tr>
-                        <td>
-                           All
-                        </td>
-                        <td>`
-                            +all_tagged_styles+
-                        `</td>
-                    </tr>`;
-
-    var group_by_material = _.groupBy(data, "uniform_id");
-    var material_ids = _.keys(group_by_material);
-    var material_tagged_styles = [];
-    var tagged_styles = 0;
-     _.each(group_by_material, function(material){
-        var tagged_styles = Object.keys(material).length;
-        material_tagged_styles.push(tagged_styles);
+    $('.file-link').on('click', function(){
+    console.log('file link');
+    var url = $(this).data('link');
+    OpenInNewTab(url);
     });
 
-     _.each(material_ids, function(material_id, i) {
-            element +=  `<tr>
-                        <td>
-                            `+material_id+
-                        `</td>
-                        <td>`
-                            +material_tagged_styles[i]+
-                        `</td>
-                    </tr>`;
-        });
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false
+    });
 
-    $('.tbody-data').append(element);
+    function OpenInNewTab(url) {
+    var win = window.open(url, '_blank');
+    win.focus();
+    }
 
 });
 </script>
