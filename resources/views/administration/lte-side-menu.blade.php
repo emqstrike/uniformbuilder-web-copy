@@ -393,4 +393,10 @@
 
         </ul>
   </li>
+  <li data-position='right'>
+    <a href="/administration/user_pairings">
+      <i class="fa fa-link"></i>
+      <span>User Pairings</span>
+      </a>
+  </li>
 </ul>

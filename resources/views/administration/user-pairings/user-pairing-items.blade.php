@@ -11,7 +11,9 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3>{{ $user_pairings->name }} Items</h3>
+                    <h3>
+                        <i class="fa fa-link"></i>
+                        {{ $user_pairings->name }} Items</h3>
                     <a href="/administration/user_pairings" class='btn btn-sm btn-default back'>
                         Back
                     </a>
