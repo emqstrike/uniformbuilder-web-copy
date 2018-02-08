@@ -459,7 +459,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}">
+            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}" data-youth-price="@{{parsedPricingTable.youth_min_msrp}}" data-adult-price="@{{parsedPricingTable.adult_min_msrp}}">
 
                 <img class='front' src="@{{thumbnail_path}}?v={{$asset_version}}">
                 <img class='left' src="@{{thumbnail_path_left}}?v={{$asset_version}}">

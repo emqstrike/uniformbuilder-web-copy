@@ -1579,48 +1579,48 @@ $(document).ready(function () {
 
             if (material.uniform_category === "Football" || material.uniform_category === "Wrestling" || "Baseball") {
 
-                    var _pricingTable = JSON.parse(material.pricing);
-                    material.parsedPricingTable = _pricingTable;
-                    
-                    if (material.pricing === null) {
+                var _pricingTable = JSON.parse(material.pricing);
+                material.parsedPricingTable = _pricingTable;
+                
+                if (material.pricing === null) {
 
-                        material.parsedPricingTable = {
+                    material.parsedPricingTable = {
 
-                            youth_min_msrp: ' (Call for Pricing)',
-                            adult_min_msrp: ' (Call for Pricing)',
-                            youth_sale: 'nosale',
-                            adult_sale: 'nosale',
-                            callForPricing: 'callForPricingOff'
-
-                        }
-                        
-                    } else {
-
-                        callForPricing: 'callForPricingOn'
-    
-                        if (_pricingTable.youth_min_web_price_sale === "0.00") {
-
-                            _pricingTable.youth_sale = "nosale";    
-
-                        } else {
-
-                            _pricingTable.youth_sale = "sale";    
-
-                        }
-
-                        if (_pricingTable.adult_min_web_price_sale === "0.00") {
-
-                            _pricingTable.adult_sale = "nosale";    
-
-                        } else {
-
-                            _pricingTable.adult_sale = "sale";    
-
-                        }
+                        youth_min_msrp: ' (Call for Pricing)',
+                        adult_min_msrp: ' (Call for Pricing)',
+                        youth_sale: 'nosale',
+                        adult_sale: 'nosale',
+                        callForPricing: 'callForPricingOff'
 
                     }
                     
+                } else {
+
+                    callForPricing: 'callForPricingOn';
+
+                    if (_pricingTable.youth_min_web_price_sale === "0.00") {
+
+                        _pricingTable.youth_sale = "nosale";    
+
+                    } else {
+
+                        _pricingTable.youth_sale = "sale";    
+
+                    }
+
+                    if (_pricingTable.adult_min_web_price_sale === "0.00") {
+
+                        _pricingTable.adult_sale = "nosale";    
+
+                    } else {
+
+                        _pricingTable.adult_sale = "sale";    
+
+                    }
+
                 }
+                
+            }
 
         }
 
@@ -7016,10 +7016,8 @@ $(document).ready(function () {
 
                     // If the uniform doesnt have a thumbnail use the sports picker thumb
                     if (imgt.attr('src') === ("?v=" + ub.config.asset_version)) {
-
                         var _filename =  '/images/main-ui/pickers/' + actualGender.toTitleCase() + '/' + ub.data.sportAliases.getAlias(gender).alias + '.png';
                         imgt.attr('src', _filename);
-
                     }
 
                     var _resultPrice = $(this).find('span.calculatedPrice').html();
@@ -7031,19 +7029,14 @@ $(document).ready(function () {
                         var _uid = $(this).data('id');
 
                         if (typeof _uid !== "undefined") {
-
                             _uid = _uid.toString();
-
                         }
 
                         _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
                         
                         if (typeof _result !== "undefined") {
-
                             $(this).find('div.favorite').show();
-
                         }
-
 
                     }
 
@@ -7059,12 +7052,32 @@ $(document).ready(function () {
 
                     }
 
+                    if ($(this).data('youth-price') === "") {
+
+                        console.warn('Hiding Youth Price for ' + $(this).data('item'));
+
+                        $(this).find('span.youthPrice').addClass('hide');
+                        $(this).find('span.youthPriceSale').addClass('hide');
+
+                    }
+
+                    if ($(this).data('adult-price') === "") {
+
+                        console.warn('Hiding Adult Price for ' + $(this).data('item'));
+
+                        $(this).find('span.adultPrice').addClass('hide');                        
+                        $(this).find('span.adultPriceSale').addClass('hide');                        
+
+                    }
+
                 })
 
             );
 
             ub.funcs.hideIpadUniforms();
-            ub.funcs.cleanupPricesPerSport(_sport);
+
+            // Disable this to provide for the new way of price cleanup
+            // ub.funcs.cleanupPricesPerSport(_sport);
 
             $('.picker-header').html('Choose a Style');
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
@@ -7082,7 +7095,7 @@ $(document).ready(function () {
             var _options = [];
 
             if (gender === "Football") {
-            
+
                 itemsWOUpper = _.filter(items, {type: 'lower'});
                 _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
 
@@ -7107,10 +7120,8 @@ $(document).ready(function () {
                 if (option === null) { return; }
 
                 _blockPatternsCollection.push({
-
                     alias: option.replace('Baseball Jersey','').toTitleCase(),
                     item: option,
-
                 });
 
             });
