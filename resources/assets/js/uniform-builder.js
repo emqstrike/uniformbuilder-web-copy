@@ -1508,7 +1508,7 @@ $(document).ready(function () {
                     ub.funcs.showMainLinks();
 
                     ub.funcs.closePickersDialog();
-                    
+
                 }
 
             }
@@ -1622,7 +1622,7 @@ $(document).ready(function () {
             return material.name.trim() + ' (' + material.gender + ')';
         }
 
-        ub.load_materials = function (obj, object_name){
+        ub.load_materials = function (obj, object_name) {
 
             ub.displayDoneAt('Styles loaded.');
             ub.materials = {};
@@ -1642,9 +1642,7 @@ $(document).ready(function () {
                 material.is_favorite = (typeof _result !== "undefined"); // Mark Favorite items
 
                 if (material.thumbnail_path_left === "") {
-                    
                     material.thumbnail_path_left = material.thumbnail_path;
-
                 }
 
                 if ((material.uniform_category === "Baseball" && material.type === "lower") || 
@@ -1653,16 +1651,13 @@ $(document).ready(function () {
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
-                    ub.funcs.isSocks()) {
-
+                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
+                
                     material.thumbnail_path_left = material.thumbnail_path_front;
-
                 }
 
-                 if (material.uniform_category === "Cinch Sack (Apparel)") {
-
+                if (material.uniform_category === "Cinch Sack (Apparel)") {
                     material.thumbnail_path_left = material.thumbnail_path_back;
-
                 }
    
             });
