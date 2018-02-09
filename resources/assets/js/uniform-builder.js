@@ -7355,24 +7355,22 @@ $(document).ready(function () {
 
             ub.funcs.hideSecondaryBar();
 
-            var template = $('#m-picker-items-search-results').html();
-            var uniques = _.map(_.groupBy(items, function(doc) {
-              return doc.id;
-            }),function(grouped){
-              return grouped[0];
-            });
-
+            var template = $('#m-picker-items-uniforms').html();
+            var _plucked = _.pluck(items, 'id');
+            var _transformed = _.map (_plucked, function (item) { return _.find(ub.materials, {id: item}); });
             var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
 
-            if (!_betaUniformsOk ) {
+            if (!_betaUniformsOk) {
 
-                uniques = _.reject(uniques, function (item) { return ub.data.tempSports.isSportOK(item.uniform_category); });
+                _transformed = _.reject(_transformed, function (item) { return ub.data.tempSports.isSportOK(item.uniform_category); });
 
             } 
+
+            _transformedUnique = _.uniq(_transformed);
                 
             var data = {
                 picker_type: type,
-                picker_items: uniques,
+                picker_items: _transformedUnique,
                 uniform_type: function () {
 
                     return function (text, render) {
@@ -7389,7 +7387,73 @@ $(document).ready(function () {
             }
 
             var markup = Mustache.render(template, data);
-            $scrollerElement.html(markup);
+            $.when($scrollerElement.html(markup)).then(
+
+                $('.main-picker-items').each(function(item) {
+
+                    var imgt = $(this).find('img');
+
+                    // If the uniform doesnt have a thumbnail use the sports picker thumb
+                    if (imgt.attr('src') === ("?v=" + ub.config.asset_version)) {
+                        var _filename =  '/images/main-ui/pickers/' + actualGender.toTitleCase() + '/' + ub.data.sportAliases.getAlias(gender).alias + '.png';
+                        imgt.attr('src', _filename);
+                    }
+
+                    var _resultPrice = $(this).find('span.calculatedPrice').html();
+
+                    // if (_resultPrice === "Call for Pricing") { $(this).find('span.callForTeamPricing').html(''); }
+
+                    if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
+
+                        var _uid = $(this).data('id');
+
+                        if (typeof _uid !== "undefined") {
+                            _uid = _uid.toString();
+                        }
+
+                        _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
+                        
+                        if (typeof _result !== "undefined") {
+                            $(this).find('div.favorite').show();
+                        }
+
+                    }
+
+                    _priceItemName = ub.config.features.isOn('uniforms','priceItemName');
+
+                    if (typeof _priceItemName !== "undefined") {
+
+                        if (_priceItemName) {
+                            $(this).find('div.price_item_template_name').show();
+                            $(this).find('div.material_id').show();
+                        } else {
+                            $(this).find('div.price_item_template_name').hide();    
+                            $(this).find('div.material_id').hide();    
+                        }
+
+                    }
+
+                    if ($(this).data('youth-price') === "") {
+
+                        console.warn('Hiding Youth Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
+
+                        $(this).find('span.youthPrice').addClass('hide');
+                        $(this).find('span.youthPriceSale').addClass('hide');
+
+                    }
+
+                    if ($(this).data('adult-price') === "") {
+
+                        console.warn('Hiding Adult Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
+
+                        $(this).find('span.adultPrice').addClass('hide');                        
+                        $(this).find('span.adultPriceSale').addClass('hide');                        
+
+                    }
+
+                })
+
+            );
 
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
 
