@@ -230,7 +230,7 @@
 <script src="{{$asset_storage}}/dropdown/jquery.dropdown.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/outside-events/jquery.ba-outside-events.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/typeahead/typeahead.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/typeahead/typeahead-modded.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/isotope/isotope.pkgd.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/Sortable.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/jquery.binding.js?v={{$asset_version}}"></script>

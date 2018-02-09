@@ -1336,23 +1336,16 @@ $(document).ready(function () {
 
         var substringMatcher = function(strs) {
           return function findMatches(q, cb) {
-            var matches, substringRegex;
+            
+            var matches = [];
 
-            // an array that will be populated with substring matches
-            matches = [];
-
-            // regex used to determine if a string contains the substring `q`
-            substrRegex = new RegExp(q, 'i');
-
-            // iterate through the pool of strings and for any string that
-            // contains the substring `q`, add it to the `matches` array
+            // Use a simplier matcher
             $.each(strs, function(i, str) {
-              if (substrRegex.test(str)) {
-                matches.push(str);
-              }
+              if (str.indexOf(q) !== -1) { matches.push(str); }
             });
 
             cb(matches);
+
           };
         };
 
@@ -1372,7 +1365,7 @@ $(document).ready(function () {
 
             if (type === 'materials') {
 
-                _object = _.find(ub.materials, {name: name});
+                _object = _.find(ub.materials, {searchName: name});
                 _id = _object.id;
                 _thumbnail = _object.thumbnail_path;
 
@@ -1412,13 +1405,11 @@ $(document).ready(function () {
 
         ub.addToSearchResults = function (type, data) {
 
-            var _key = Math.round(+new Date()/1000).toString(); 
+            var _key = $('input#search_field').val();
             var _searchResultsObject = ub.searchResults;
 
             if (!Array.isArray(_searchResultsObject[_key])) {
-
                 _searchResultsObject[_key] = [];
-
             }
 
             var _object = ub.funcs.getSearchObject(type, data);
@@ -1460,7 +1451,8 @@ $(document).ready(function () {
 
                     $('.typeahead').typeahead({
                         minLength: 3,
-                        highlight: true
+                        highlight: true,
+                        limit: 30,
                     },
                     {
                         name: 'materials',
@@ -1626,6 +1618,10 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.getSearchName = function (material) {
+            return material.name.trim() + ' (' + material.gender + ')';
+        }
+
         ub.load_materials = function (obj, object_name){
 
             ub.displayDoneAt('Styles loaded.');
@@ -1637,6 +1633,7 @@ $(document).ready(function () {
 
             _.each (ub.materials, function (material) {
 
+                material.searchName = ub.funcs.getSearchName(material);
                 material.calculatedPrice = ub.funcs.getPrice(material);
                 ub.funcs.processMaterialPrice(material);
 
@@ -1670,7 +1667,12 @@ $(document).ready(function () {
    
             });
 
-            ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
+            var _searchSource = _.map(ub.materials, function (material) {
+                return ub.funcs.getSearchName(material);
+            });
+
+            // ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
+            ub.data.searchSource['materials'] = _searchSource;
             ub.displayDoneAt('Price Preparation Complete.');
             ub.displayDoneAt('Preparing Search...');
 
