@@ -7048,15 +7048,17 @@ $(document).ready(function () {
 
                         if (_priceItemName) {
                             $(this).find('div.price_item_template_name').show();
+                            $(this).find('div.material_id').show();
                         } else {
                             $(this).find('div.price_item_template_name').hide();    
+                            $(this).find('div.material_id').hide();    
                         }
 
                     }
 
                     if ($(this).data('youth-price') === "") {
 
-                        console.warn('Hiding Youth Price for ' + $(this).data('item'));
+                        console.warn('Hiding Youth Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
 
                         $(this).find('span.youthPrice').addClass('hide');
                         $(this).find('span.youthPriceSale').addClass('hide');
@@ -7065,7 +7067,7 @@ $(document).ready(function () {
 
                     if ($(this).data('adult-price') === "") {
 
-                        console.warn('Hiding Adult Price for ' + $(this).data('item'));
+                        console.warn('Hiding Adult Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
 
                         $(this).find('span.adultPrice').addClass('hide');                        
                         $(this).find('span.adultPriceSale').addClass('hide');                        

@@ -488,7 +488,8 @@
                     <!-- <strong class="type">@{{block_pattern}}</strong> -->
                     <div class="favorite"><i class="fa fa-star" aria-hidden="true"></i> Favorite <i class="fa fa-star" aria-hidden="true"></i></div>
                     <div class="price_item_template_name">@{{price_item_template_name}}</div>
-                    
+                    <div class="material_id">@{{id}}</div>
+
                 </span> 
 
             </div>
