@@ -2647,6 +2647,26 @@ $(document).ready(function() {
                     
                 //// End Process Scale X and Y from the font size field
 
+                //// Process Override ScaleX and ScaleY from Custom Font Scale Field from the backend
+
+                    if (typeof ub.config.savedDesignInfo !== "object") { // Process Custom Scale Field only if this is not a saved design, because that one already have an override scale
+
+                        if (typeof view.application.appCustomScale !== "undefined") {
+
+                            var _scaleX = point.scale.x;
+                            var _scaleY = point.scale.y;
+
+                            _scaleX = parseFloat(view.application.appCustomScale.x);
+                            _scaleY = parseFloat(view.application.appCustomScale.y);
+
+                            point.scale.set(_scaleX, _scaleY);
+
+                        } 
+
+                    }
+
+                //// Process End Override ScaleX and ScaleY from Custom Font Scale Field from the backend
+
                 //// Process Override ScaleX and ScaleY from GA Font Tool
 
                     var _scaleX = point.scale.x;
