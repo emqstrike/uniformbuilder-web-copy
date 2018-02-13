@@ -722,6 +722,8 @@ $(document).ready(function() {
         var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" size="2" value="100">';
         var def_pattern_position    = '<input type="number" style="' + style + '" class="app-def-pattern-position" size="2" value="0">';
         var app_default_pattern     = `<select style="` + style + `" class="app-def-pattern" data-id="` + group.id + `">` + def_patterns_options + `</select><div class="col-md-12 app_pattern_layers_OC" data-id="` + group.id + `" id="app_pattern_layers_OC"></div><input type="hidden" style="` + style + `" data-id="` + group.id + `" class="app-pattern-properties" value=`+blank_pattern+`>`;
+        var custom_scale_x          = '<input type="text" style="' + style + '" class="app-custom-scale-x" value="0" size="4">';
+        var custom_scale_y          = '<input type="text" style="' + style + '" class="app-custom-scale-y" value="0" size="4">';
         var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
@@ -765,6 +767,8 @@ $(document).ready(function() {
                     app_opacity,
                     def_pattern_position,
                     app_default_pattern,
+                    custom_scale_x,
+                    custom_scale_y,
                     flipped,
                     flip
                 ];
@@ -1641,6 +1645,16 @@ $(document).ready(function() {
             group.setCoords();
             canvasFront.add(group);
 
+
+            if(app_properties[l].appCustomScale === '' || app_properties[l].appCustomScale === null || app_properties[l].appCustomScale === 'undefined' || app_properties[l].appCustomScale === undefined) {
+                var appCustomScaleX = 0;
+                var appCustomScaleY = 0;
+            } else {
+                appCustomScaleX = app_properties[l].appCustomScale.x;
+                appCustomScaleY = app_properties[l].appCustomScale.y;
+            }
+
+
             if(app_properties[l].id != null){
 
                 var style                   = 'margin-right: 5px';
@@ -1732,7 +1746,6 @@ $(document).ready(function() {
                 var optionsOk = _.contains(sport, current_bp_options) || bp_options === null || bp_options === '[""]';
                     return (sportOk && optionsOk && asset_target === current_asset_target);
                 });
-                console.log('def'+app_properties[l].appDefPattern);
                 // set BLANK pattern for existing
                 if(app_properties[l].appDefPattern === '' || app_properties[l].appDefPattern === null || app_properties[l].appDefPattern === 'undefined' || app_properties[l].appDefPattern === undefined) {
                     app_properties[l].appDefPattern = 33;
@@ -1757,6 +1770,8 @@ $(document).ready(function() {
                 var app_opacity         = '<input type="number" style="'      + style + '" class="app-opacity" value="'        + app_properties[l].appOpacity       + '" size="2">';
                 var def_pattern_position= '<input type="number" style="'      + style + '" class="app-def-pattern-position" value="'        + app_properties[l].appDefPatternPosition       + '" size="2">';
                 var app_default_pattern = `<select style='` + style + `'; float: left; width: 300px;" class="app-def-pattern" data-id='` + group.id + `'>'` + def_patterns_options + `'</select><div class="col-md-12 app_pattern_layers_OC" data-id='` + group.id + `' id="app_pattern_layers_OC"></div><input type="hidden" style='` + style+ `' class="app-pattern-properties" data-id='` + group.id + `' value='` +app_properties[l].appPatternProperties+ `'>`;
+                var custom_scale_x      = '<input type="text" style="' + style + '" class="app-custom-scale-x" value="'         + appCustomScaleX     + '" size="4">';
+                var custom_scale_y      = '<input type="text" style="' + style + '" class="app-custom-scale-y" value='          + appCustomScaleY     + ' size="4">'
                 var rotated_tailsweep   = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '>';
 
                 // Append options to selectbox
@@ -1802,6 +1817,8 @@ $(document).ready(function() {
                     app_opacity,
                     def_pattern_position,
                     app_default_pattern,
+                    custom_scale_x,
+                    custom_scale_y,
                     flipped,
                     flip
                 ];
@@ -3527,6 +3544,7 @@ function updateApplicationsJSON(){
         appDefPatternPosition = $(this).parent().siblings('td').find("input[class=app-def-pattern-position]").val();
         appDefPattern = $(this).parent().siblings('td').find("select[class=app-def-pattern]").val();
         appPatternProperties = $(this).parent().siblings('td').find("input[class=app-pattern-properties]").val();
+
         isFlipped = $(this).parent().siblings('td').find("input[class=app-flipped]");
 
         console.log('ACCENT >>>>>>' + applicationAccents);
@@ -3648,6 +3666,8 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['appDefPattern'] = {};
         applicationProperties[itemIdx]['appPatternProperties'] = {};
 
+        applicationProperties[itemIdx]['appCustomScale'] = {};
+
         applicationProperties[itemIdx].type = applicationType;
         applicationProperties[itemIdx].name = applicationName;
         applicationProperties[itemIdx].id = applicationId;
@@ -3677,6 +3697,9 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].appDefPatternPosition = appDefPatternPosition;
         applicationProperties[itemIdx].appDefPattern = appDefPattern;
         applicationProperties[itemIdx].appPatternProperties = appPatternProperties;
+
+        applicationProperties[itemIdx].appCustomScale.x = $(this).parent().siblings('td').find("input[class=app-custom-scale-x]").val();
+        applicationProperties[itemIdx].appCustomScale.y = $(this).parent().siblings('td').find("input[class=app-custom-scale-y]").val();
 
         applicationProperties[itemIdx].isFlipped = isFlipped;
 
