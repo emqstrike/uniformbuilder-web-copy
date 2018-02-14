@@ -44,6 +44,7 @@ $(document).ready(function () {
 				}
 		
 				// Find Which key is pressed
+				var code = false;
 				if (e.keyCode) code = e.keyCode;
 				else if (e.which) code = e.which;
 				var character = String.fromCharCode(code).toLowerCase();

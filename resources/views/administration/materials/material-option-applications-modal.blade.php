@@ -128,6 +128,8 @@
                                 <th>Opacity</th>
                                 <th>Pattern Position</th>
                                 <th>Default Pattern</th>
+                                <th>Custom Scale X</th>
+                                <th>Custom Scale Y</th>
                                 <th>Flipped</th>
                             </thead>
                             <tbody class="front-applications">

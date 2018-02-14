@@ -476,6 +476,10 @@ Route::group(array('prefix' => 'administration'), function() {
     //Tagged Styles
     Route::get('tagged_styles', ['middleware' => 'adminAccess', 'uses' => 'Administration\TaggedStylesController@index']);
     Route::get('tagged_styles/totals', ['middleware' => 'adminAccess', 'uses' => 'Administration\TaggedStylesController@totals']);
+
+    //User Pairings
+    Route::get('user_pairings', ['middleware' => 'adminAccess', 'uses' => 'Administration\UserPairingsController@index']);
+    Route::get('user_pairings/items/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UserPairingsController@getPairingItemsByID']);
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

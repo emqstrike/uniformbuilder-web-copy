@@ -3543,7 +3543,7 @@ div.header-container.main {
 
     }
 
-    .price_item_template_name {
+    .price_item_template_name, .material_id {
         margin-top: 10px;
         font-size: 0.8em;
         color: red;
@@ -3584,12 +3584,16 @@ div.header-container.main {
         }
 
         span.youthPriceCustomizerSale.nosale, span.adultPriceCustomizerSale.nosale {
-
             display: none;
+        }
 
+        span.youthPriceCustomizer.hide, span.adultPriceCustomizer.hide, span.youthPriceCustomizerSale.hide, span.adultPriceCustomizerSale.hide {
+            display: none !important;
         }
 
     } 
+
+    div#uniform-price-youth.hide { display: none; }
 
     div#uniform-price-adult { margin-top: 7em; }
 

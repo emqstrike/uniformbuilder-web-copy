@@ -12,6 +12,8 @@ $(document).ready(function () {
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
+        var _headers = "";
+
         ub.utilities.info('');
         ub.utilities.info('----- Base Uniform Info -----');
         ub.utilities.info('ID: ' + material.id);
@@ -43,29 +45,44 @@ $(document).ready(function () {
         ub.utilities.info('');
         
         ub.utilities.info('-------- Applications -------');
+
+        _headers = "Code".rpad(' ', 7) + "Type".rpad(' ', 15) + " View".rpad(' ', 7) + " " + " Size".lpad(' ', 5) + " Active".lpad(' ', 5) + " Color".lpad(' ', 11) + " Opacity".lpad(' ', 8) + "Position".lpad(' ', 46) + " Scale".lpad(' ', 46);
+
+        console.log(_headers);
+
         _.each(settings.applications, function (app) { 
-            
+
             var _str = '#' + app.code.rpad(' ', 5) + ' ' + app.type.rpad(' ', 15); 
-            var _primaryView = undefined; 
+            var _primaryView = undefined;
             var _colorArray = "";
             var _status = "";
-            
+            var _primaryViewObjectScale = ""; var _scaleStr = "";
+            var _primaryViewObjectPosition = ""; var _positionStr = "";
+            var _opacity = (typeof app.opacity !== "undefined" ? app.opacity : '100%').lpad(' ', 7);
+
             _.each(app.application.views, function (view) {
 
                 if (view.application.isPrimary === 1) {
 
                     _primaryView = view.perspective;
+                    _primaryViewObjectScale = view.application.scale;
+                    _primaryViewObjectPosition = view.application.center;
+
                     return;
 
                 }
 
             });
 
-            if (typeof _primaryView === "undefined") {
-
-                _primaryView = 'No Primary View Set!';
-
+            if (typeof _primaryViewObjectScale !== "undefined") { 
+                _scaleStr = "{x: " + _primaryViewObjectScale.x + ", y: " + _primaryViewObjectScale.y + "}"; 
+            } else {
+                _scaleStr = "{no scale set}";
             }
+
+            if (typeof _primaryViewObjectPosition !== "undefined") { _positionStr = "{x: " + _primaryViewObjectPosition.x + ", y: " + _primaryViewObjectPosition.y + "}"; }
+
+            if (typeof _primaryView === "undefined") { _primaryView = 'No Primary View Set!';}
 
             _status = "on".lpad(' ', 5);
             if (app.status === "off") {
@@ -82,7 +99,8 @@ $(document).ready(function () {
                 _colorArray = "";
             }
 
-            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray;
+            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray + " " + _opacity + " " + _positionStr.lpad(' ', 45) + " " + _scaleStr.lpad(' ', 45);
+
             ub.utilities.info(_str);
 
         });

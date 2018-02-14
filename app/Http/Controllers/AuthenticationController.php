@@ -146,8 +146,17 @@ class AuthenticationController extends AdminAuthController
                     Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
 
                     $client = new UserTeamStoreClient;
-                    $response = $client->team_store_login($email, $password);
-                    $this->handleTeamStoreLogin($response, $user, $access_token, $password);
+                    $response = $client->get_store_by_token($access_token);
+                    if ($response->success)
+                    {
+                        $this->setTeamStoreConfiguration(
+                            $response->store->store_id,
+                            $response->store->owner_id,
+                            $response->store->store_code,
+                            $response->store->store_name,
+                            $response->store->colors
+                        );
+                    }
                 }
 
                 #
@@ -219,6 +228,9 @@ class AuthenticationController extends AdminAuthController
         if (isset($params->user_id)) Log::info('user_id=' . $params->user_id);
         if (isset($params->user_email)) Log::info('user_email=' . $params->user_email);
         if (isset($params->access_token)) Log::info('access_token=' . $params->access_token);
+        if (isset($params->store_id)) Log::info('store_id=' . $params->store_id);
+        if (isset($params->store_name)) Log::info('store_name=' . $params->store_name);
+        if (isset($params->colors)) Log::info('colors=' . $params->colors);
 
         try {
             if (isset($params->access_token))
@@ -243,12 +255,26 @@ class AuthenticationController extends AdminAuthController
 
                     Session::flash('flash_message', 'Welcome to QuickStrike Uniform Builder');
 
-                    $response = (new UserTeamStoreClient())->hasTeamStoreAccount($result->user->id);
+                    #
+                    # TEAM STORE LOGIN HANDLER
+                    #
+                    $allowed_users = [
+                        'administrator'
+                    ];
+                    if (in_array($result->user->type, $allowed_users))
+                    {
+                        Session::put('is_show_teamstore_toolbox', true);
+                        Log::info('User #' . $result->user->email . ' (' . $result->user->type . ') is entitled to open TEAM STORE (beta) version');
 
-                    if ($response->success) {
                         Session::put('userHasTeamStoreAccount', true);
+                        $this->setTeamStoreConfiguration(
+                            $params->store_id,
+                            $params->user_id,
+                            $params->store_code,
+                            $params->store_name,
+                            $params->colors
+                        );
                     }
-
                     return Redirect::to('/index')->with('message', 'Welcome back ' . $fullname);
 
                 } else {

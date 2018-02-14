@@ -25,6 +25,7 @@
                             <th>Block Pattern</th>
                             <th>Option</th>
                             <th>Type</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -52,7 +53,6 @@
                                 @else
                                 {{ 'No' }}
                                 @endif
-
                             </td>
                             <td>
                                 <a href="single_view_applications/edit/{{ $item->id }}" class="btn btn-xs btn-primary">
