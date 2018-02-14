@@ -12,8 +12,7 @@
         <div class="col-xs-12">
             <div class="box">
  	<div class="box-header">
-                    <h3>Materials Single Page</h3>
-                                      
+        <h3>Materials Single Page</h3>
     </div>
 	<div class="box-body">
 			<table class="material-table table table-bordered table-hover table-stripped">
@@ -34,18 +33,15 @@
 					<th>Actions</th>
 				</tr>
 			</thead>
-			<tbody class="materials" id="materials">
-			
-			</tbody>
+			<tbody class="materials" id="materials"></tbody>
 			</table>
 			</div>
 	    </div>
     </div>
 </div>
 @endsection
-	
-@section('scripts')
 
+@section('scripts')
 
 <script type="text/javascript" src="//code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
