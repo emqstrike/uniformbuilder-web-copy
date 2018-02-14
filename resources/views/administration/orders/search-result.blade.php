@@ -76,15 +76,14 @@ $(document).ready(function(){
 // CLEAR LINE 411 orders.js
 /* START OLD VARS */
 window.colors = null;
-window.patterns = null;
-window.pa_id = null;
-window.test_size_data = null;
 window.item_sizes = null;
-
+window.pa_id = null;
+window.patterns = null;
+window.post_order_url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
 window.roster = null;
-
 window.send_order = false;
-window.error_message = null;
+window.test_size_data = null;
+
 /* END OLD VARS
 -----------------------------------------------------------------*/
 /* START OLD FUNCS */
@@ -145,10 +144,14 @@ function getPatterns(callback){
 
 // SEND ORDER TO EDIT
 $('.generate-data').on('click', function(e){
-    window.team_colors = null;
 
     e.preventDefault();
-    console.log('send to edit');
+
+    window.order_parts = null;
+    window.pa = null;
+    window.team_colors = null;
+
+    // console.log('send to edit');
     var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
     var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
     api_order_id = $(this).data('api-order-id');
@@ -170,7 +173,7 @@ $('.generate-data').on('click', function(e){
     // billing_zip = $(this).data('bill-zip');
     // billing_email = $(this).data('bill-email');
     // billing_phone = $(this).data('bill-phone');
-    
+
     test_address = '9183 South North Ave. Spartanburg, SC 29301';
     test_contact_no = '(541) 754-1111';
     test_city = 'Spartanburg';
@@ -194,84 +197,44 @@ $('.generate-data').on('click', function(e){
     billing_email = test_email;
     billing_phone = test_contact_no;
 
-    window.order_parts = null;
     getOrderParts(function(order_parts){ window.order_parts = order_parts; });
 
     window.order_parts.forEach(function(entry) {
-        bcx = JSON.parse(entry.builder_customizations);
+        builder_customizations = JSON.parse(entry.builder_customizations);
         window.customizer_material_id = null;
         window.pa_id = entry.id;
-        if('material_id' in bcx.upper){
-            window.customizer_material_id = bcx.upper.material_id;
-            console.log("HAS UPPER ID");
-            console.log(bcx.upper);
+        if('material_id' in builder_customizations.upper){
+            window.customizer_material_id = builder_customizations.upper.material_id;
+            // console.log("HAS UPPER ID");
+            // console.log(builder_customizations.upper);
         } else {
-            window.customizer_material_id = bcx.lower.material_id;
-            console.log("HAS LOWER ID");
-            console.log(bcx.upper);
+            window.customizer_material_id = builder_customizations.lower.material_id;
+            // console.log("HAS LOWER ID");
+            // console.log(builder_customizations.upper);
         }
 
-        var teamcolors = bcx.team_colors;
+        var teamcolors = builder_customizations.team_colors;
 
         entry.orderPart = {
             "ID" : entry.id,
             "Description" : entry.description,
-            "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
+            "DesignSheet" : '//customizer.prolook.com' + builder_customizations.pdfOrderForm
         };
 
         getMaterial(function(material){ window.material = material; });
 
-        var error_message = validateMaterialPreReq();
-        window.error_message = error_message['message'];
-        console.log('[ [ ERROR MESSAGE ] ]');
-        console.log(error_message);
-        window.error_data = {
-            'error_message' : error_message['data'],
-            'order_id' : order_id,
-            'order_code' : api_order_id,
-            'client' : client,
-            'material_id' : window.customizer_material_id,
-            'type' : 'json'
-        };
-        if(error_message['message'] != ''){
-            console.log(window.error_data);
-            bootbox.confirm({
-                message: '<div><h3>Errors Encountered:</h3></div><div class="text-center">'+error_message['message']+'</div>',
-                buttons: {
-                    confirm: {
-                        label: 'Send Report',
-                        className: 'btn-success'
-                    },
-                    cancel: {
-                        label: 'Cancel',
-                        className: 'btn-danger'
-                    }
-                },
-                callback: function (result) {
-                    if (result) {
-                        $.ajax({
-                            url: 'http://api-dev.qstrike.com/api/test/slack_message/order_error',
-                            type: "POST",
-                            data: JSON.stringify(window.error_data),
-                            contentType: 'application/json;',
-                            success: function (data) {
-                                bootbox.dialog({ message: 'Our backend team received the error report.' });
-                            },
-                            error: function (xhr, ajaxOptions, thrownError) {
-                                bootbox.dialog({ message: "Error in sending error report. That's a lot of error..." });
-                            }
-                        });
-                    }
-                }
-            });
-            window.send_order = false;
-            return;
-        } else {
-            window.send_order = true;
-            bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
-        }
+        // var error_message = validateMaterialPreReq();
+        validateMaterialPreReq();
+        // window.error_data = {
+        //     'error_message' : error_message['data'],
+        //     'order_id' : order_id,
+        //     'order_code' : api_order_id,
+        //     'client' : client,
+        //     'material_id' : window.customizer_material_id,
+        //     'type' : 'json'
+        // };
+        // checkErrors(error_message);
 
-        window.pa = null;
         getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
 
         window.qx_item_ref = window.pa.ref_qstrike_mat_id;
@@ -288,7 +251,6 @@ $('.generate-data').on('click', function(e){
         window.roster = entry.orderItems;
         delete entry.orderItems[0].Quantity;
         delete entry.orderItems[0].SleeveCut;
-
         delete entry.builder_customizations;
         delete entry.description;
         delete entry.factory_order_id;
@@ -296,14 +258,13 @@ $('.generate-data').on('click', function(e){
         delete entry.item_id;
         delete entry.oid;
         delete entry.roster;
-
         delete entry.order_id;
         delete entry.pid;
         delete entry.questions;
 
     });
 
-        var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
+        var url = window.post_order_url;
 
         var order = {
             "Client": client,
@@ -329,16 +290,16 @@ $('.generate-data').on('click', function(e){
             "Sport": "All",
             "TeamName": "Wildcats"
         };
-        console.log(order);
+        // console.log(order);
 
         var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
         window.test_size_data = JSON.parse(x.properties);
-        console.log('Window Test Size Data');
-        console.log(window.test_size_data);
+        // console.log('Window Test Size Data');
+        // console.log(window.test_size_data);
         var order_items_split = splitRosterToQXItems();
         var order_parts_split = [];
-        console.log('ORDER ITEMS SPLIT');
-        console.log(order_items_split);
+        // console.log('ORDER ITEMS SPLIT');
+        // console.log(order_items_split);
         order_items_split.forEach(function(entry, i) {
             var x = JSON.parse(JSON.stringify(window.order_parts[0]));
             x.orderPart.ItemID = entry.qx_item_id;
@@ -348,13 +309,13 @@ $('.generate-data').on('click', function(e){
             } else {
                 console.log('no item id override');
             }
-            console.log('ENTRY ROSTER');
-            console.log(entry.roster);
+            // console.log('ENTRY ROSTER');
+            // console.log(entry.roster);
             var roster_sizes = _.map(entry.roster, function(e){ return e.size; });
             var roster = [];
 
-            console.log('ROSTER SIZES');
-            console.log(roster_sizes);
+            // console.log('ROSTER SIZES');
+            // console.log(roster_sizes);
 
             window.roster.forEach(function(y, j) {
                 if( _.contains(roster_sizes, y.Size) ){
@@ -372,8 +333,8 @@ $('.generate-data').on('click', function(e){
                 }
             });
 
-            console.log('ROSTER');
-            console.log(roster);
+            // console.log('ROSTER');
+            // console.log(roster);
 
             if( roster.length > 0 ){
                x.orderItems = roster;
@@ -390,9 +351,9 @@ $('.generate-data').on('click', function(e){
         };
 
     strResult = JSON.stringify(orderEntire);
-    console.log(strResult);
+    // console.log(strResult);
 
-    console.log(JSON.stringify(orderEntire['orderParts']));
+    // console.log(JSON.stringify(orderEntire['orderParts']));
 
     // SEND ORDER TO EDIT
     // if(window.send_order){
@@ -475,6 +436,87 @@ function getPAConfigs(callback){
             if(typeof callback === "function") callback(parts_aliases);
         }
     });
+}
+
+function checkErrors(error_message){
+    if(error_message['message'] != ''){
+        console.log(window.error_data);
+        bootbox.confirm({
+            message: '<div><h3>Errors Encountered:</h3></div><div class="text-center">'+error_message['message']+'</div>',
+            buttons: {
+                confirm: {
+                    label: 'Send Report',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Cancel',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        url: 'http://api-dev.qstrike.com/api/test/slack_message/order_error',
+                        type: "POST",
+                        data: JSON.stringify(window.error_data),
+                        contentType: 'application/json;',
+                        success: function (data) {
+                            bootbox.dialog({ message: 'Our backend team received the error report.' });
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            bootbox.dialog({ message: "Error in sending error report. That's a lot of error..." });
+                        }
+                    });
+                }
+            }
+        });
+        window.send_order = false;
+        return;
+    } else {
+        window.send_order = true;
+        bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
+    }
+}
+
+function validateMaterialPreReq(){
+    var error_message = '';
+    var error_message_data = '';
+    if(window.material.item_id == '' || window.material.item_id == 0 || window.material.item_id == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Item ID.</div>';
+        error_message_data += "Invalid Item ID.";
+    }
+
+    if(window.material.price_item_template_id == '' || window.material.price_item_template_id == 0 || window.material.price_item_template_id == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Price Item Template Used.</div>';
+        error_message_data += "Invalid Price Item Template Used.";
+    }
+
+    if(window.material.qx_sizing_config == '' || window.material.qx_sizing_config == 0 || window.material.qx_sizing_config == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Size Configuration.</div>';
+        error_message_data += "Invalid Size Configuration.";
+    }
+
+    if(window.material.parts_alias_id == '' || window.material.parts_alias_id == 0 || window.material.parts_alias_id == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Parts Alias Configuration.</div>';
+        error_message_data += "Invalid Parts Alias Configuration.";
+    }
+
+    var error_info = {
+        'message' : error_message,
+        'data' : error_message_data,
+    }
+    // return error_info;
+    window.error_data = {
+        'error_message' : error_info['data'],
+        'order_id' : order_id,
+        'order_code' : api_order_id,
+        'client' : client,
+        'material_id' : window.customizer_material_id,
+        'type' : 'json'
+    };
+
+    checkErrors(error_info);
+
 }
 
 /* END OLD FUNCS
