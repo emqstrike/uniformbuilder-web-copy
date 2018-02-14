@@ -2659,7 +2659,7 @@ $(document).ready(function() {
                             _scaleX = parseFloat(view.application.appCustomScale.x);
                             _scaleY = parseFloat(view.application.appCustomScale.y);
 
-                            point.scale.set(_scaleX, _scaleY);
+                            point.scale = {x: _scaleX, y:_scaleY};
 
                         } 
 

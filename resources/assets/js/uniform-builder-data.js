@@ -2743,12 +2743,6 @@ $(document).ready(function() {
                     active: "1",
                 },
                 {
-                    code: 'crew_sock',
-                    name: 'Crew Socks (Apparel)',
-                    active: "1",
-
-                },
-                {
                     code: 'polo',
                     name: 'Polo (Apparel)',
                     active: "1",
@@ -2793,6 +2787,11 @@ $(document).ready(function() {
                     name: 'Signature Coaches Short (Apparel)',
                     active: "1",
                 },
+                {
+                    code: 'sock',
+                    name: 'Socks (Apparel)',
+                    active: "1",
+                },
             ],
         },
         {
@@ -2816,6 +2815,11 @@ $(document).ready(function() {
                 {
                     code: 'game-day-jackets',
                     name: 'Game Day Jackets (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'sock',
+                    name: 'Socks (Apparel)',
                     active: "1",
                 },
             ],
@@ -8190,7 +8194,12 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Game Day Jackets (Apparel)',
             filters: ['All'],
-        },          
+        },
+        {
+            sport: 'Socks (Apparel)',
+            filters: ['All', 'Jersey', 'Socks'],
+        },
+          
     ];
 
     ub.funcs.load_fonts = function () {
@@ -10873,6 +10882,9 @@ ub.funcs.fontOffSets = [
             { sport: 'Basketball' },
             { sport: 'Hockey' },
 
+            { sport: 'Socks (Apparel)' },
+
+
         ],
 
         isSportOK: function (sport) {
@@ -10970,7 +10982,6 @@ ub.funcs.fontOffSets = [
                 upperLabel: 'Jersey',
                 lowerLabel: 'Shorts',
             },
-
             {
                 sport: '2017 Team Short with Pockets (Apparel)',
                 type: 'lower',
@@ -10980,6 +10991,11 @@ ub.funcs.fontOffSets = [
                 sport: 'Signature Coaches Short (Apparel)',
                 type: 'lower',
                 lowerLabel: 'Coaches Short',
+            },
+            {
+                sport: 'Socks (Apparel)',
+                type: 'lower',
+                lowerLabel: 'Socks',
             },
             {
                 sport: 'Default', // Football
@@ -11500,6 +11516,12 @@ ub.funcs.fontOffSets = [
                 urlAlias: 'Game Day Jackets (Apparel)',
                 thumbFilename: 'game-day-coaches-jackets.png',
                 gender: ['men',],    
+            },
+            {
+                shortCode: 'socks',
+                urlAlias: 'Socks (Apparel)',
+                thumbFilename: 'socks.png',
+                gender: ['men', 'women'],    
             },
         ],
 
