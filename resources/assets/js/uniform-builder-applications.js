@@ -2651,7 +2651,7 @@ $(document).ready(function() {
 
                     if (typeof ub.config.savedDesignInfo !== "object") { // Process Custom Scale Field only if this is not a saved design, because that one already have an override scale
 
-                        if (typeof view.application.appCustomScale !== "undefined" && app_id === "71") {
+                        if (typeof view.application.appCustomScale !== "undefined") {
 
                             var _scaleX = point.scale.x;
                             var _scaleY = point.scale.y;
