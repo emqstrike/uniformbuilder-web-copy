@@ -75,16 +75,16 @@ $(document).ready(function () {
 
             });
 
-            // if (typeof _primaryViewObjectScale !== "undefined") { 
+            if (typeof _primaryViewObjectScale !== "undefined") { 
 
-            //     _scaleStr = "{x: " + _primaryViewObjectScale.x + ", y: " + _primaryViewObjectScale.y + "}"; 
+                 _scaleStr = "{x: " + _primaryViewObjectScale.x + ", y: " + _primaryViewObjectScale.y + "}"; 
 
-            // } else {
+            } else {
                 
                 var _scale = ub.objects[_primaryView + '_view']['objects_' + app.code].scale;
                 _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}';
 
-            // }
+            }
 
             if (typeof _primaryViewObjectPosition !== "undefined") { _positionStr = "{x: " + _primaryViewObjectPosition.x + ", y: " + _primaryViewObjectPosition.y + "}"; }
 
