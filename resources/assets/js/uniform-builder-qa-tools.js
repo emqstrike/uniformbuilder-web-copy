@@ -64,6 +64,7 @@ $(document).ready(function () {
 
                 if (view.application.isPrimary === 1) {
 
+                    _primaryViewObject = view; 
                     _primaryView = view.perspective;
                     _primaryViewObjectScale = view.application.scale;
                     _primaryViewObjectPosition = view.application.center;
@@ -74,11 +75,16 @@ $(document).ready(function () {
 
             });
 
-            if (typeof _primaryViewObjectScale !== "undefined") { 
-                _scaleStr = "{x: " + _primaryViewObjectScale.x + ", y: " + _primaryViewObjectScale.y + "}"; 
-            } else {
-                _scaleStr = "{no scale set}";
-            }
+            // if (typeof _primaryViewObjectScale !== "undefined") { 
+
+            //     _scaleStr = "{x: " + _primaryViewObjectScale.x + ", y: " + _primaryViewObjectScale.y + "}"; 
+
+            // } else {
+                
+                var _scale = ub.objects[_primaryView + '_view']['objects_' + app.code].scale;
+                _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}';
+
+            // }
 
             if (typeof _primaryViewObjectPosition !== "undefined") { _positionStr = "{x: " + _primaryViewObjectPosition.x + ", y: " + _primaryViewObjectPosition.y + "}"; }
 
