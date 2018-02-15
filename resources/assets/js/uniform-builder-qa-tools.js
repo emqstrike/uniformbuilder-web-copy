@@ -81,9 +81,16 @@ $(document).ready(function () {
 
             } else {
                 
-                var _scale = ub.objects[_primaryView + '_view']['objects_' + app.code].scale;
-                _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}';
+                var _appObj = ub.objects[_primaryView + '_view']['objects_' + app.code];
 
+                if (typeof _appObj !== "undefined") {
+                    var _scale = _appObj.scale;
+                    _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}';
+                } else {
+                    _scaleStr = 'scale not set.';
+                }
+
+                
             }
 
             if (typeof _primaryViewObjectPosition !== "undefined") { _positionStr = "{x: " + _primaryViewObjectPosition.x + ", y: " + _primaryViewObjectPosition.y + "}"; }
