@@ -416,6 +416,7 @@ $('.send-to-factory').on('click', function(e){
     // PostOrder();
     console.log('send to edit');
     var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
+    var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
     api_order_id = $(this).data('api-order-id');
     order_id = $(this).data('order-id');
     client = $(this).data('client');
@@ -662,6 +663,12 @@ $('.send-to-factory').on('click', function(e){
         order_items_split.forEach(function(entry, i) {
             var x = JSON.parse(JSON.stringify(window.order_parts[0]));
             x.orderPart.ItemID = entry.qx_item_id;
+            if( item_id_override ){
+                x.orderPart.ItemID = item_id_override;
+                console.log('has item id override');
+            } else {
+                console.log('no item id override');
+            }
             console.log('ENTRY ROSTER');
             console.log(entry.roster);
             var roster_sizes = _.map(entry.roster, function(e){ return e.size; });

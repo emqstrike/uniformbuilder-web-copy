@@ -300,10 +300,12 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@index']);
     Route::get('orders/test_orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@testOrders']);
     Route::get('orders/sent_orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@indexSentOrders']);
+    Route::get('orders/search_order', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@indexSearchOrder']);
     Route::post('order/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
     Route::post('order/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@store']);
     Route::get('order/add/', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@addForm']);
     Route::get('order/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@editForm']);
+    Route::get('order_search/{foid}', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@orderSearch']);
     Route::get('canvas', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@index']);
     Route::get('canvas/texturing-guide', ['middleware' => 'adminAccess', 'uses' => 'Administration\CanvasController@texturing_guide']);
 
@@ -356,9 +358,9 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('feedback/reply/{id}', 'Administration\FeedbacksController@reply');
     Route::get('feedback/thread/{id}', 'Administration\FeedbacksController@viewThread');
 
-      // Mockup set
-     Route::get('mockup_sets', 'Administration\MockupSetsController@index');
-     Route::get('mockup_set/{id}', 'Administration\MockupSetsController@show');
+    // Mockup set
+    Route::get('mockup_sets', 'Administration\MockupSetsController@index');
+    Route::get('mockup_set/{id}', 'Administration\MockupSetsController@show');
 
     // Price Item Templates
     Route::get('price_item_templates', 'Administration\PriceItemTemplatesController@index');

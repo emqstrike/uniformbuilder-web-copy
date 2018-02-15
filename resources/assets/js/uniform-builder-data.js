@@ -11774,6 +11774,28 @@ ub.funcs.fontOffSets = [
 
     }
 
+    // Unisex Sports 
+
+    ub.data.uniSexSports = {
+
+        items: [
+            {
+                sport: 'Socks (Apparel)',
+            },
+        ],
+
+        isUniSex: function (sport) {
+            
+            var _result = undefined;
+
+            _result = _.find(this.items, {sport: sport});
+
+            return _.size(_result) > 0;
+
+        }
+
+    }
+
     ub.dialog = bootbox;
 
 });

@@ -64,6 +64,7 @@ $(document).ready(function () {
 
                 if (view.application.isPrimary === 1) {
 
+                    _primaryViewObject = view; 
                     _primaryView = view.perspective;
                     _primaryViewObjectScale = view.application.scale;
                     _primaryViewObjectPosition = view.application.center;
@@ -75,9 +76,21 @@ $(document).ready(function () {
             });
 
             if (typeof _primaryViewObjectScale !== "undefined") { 
-                _scaleStr = "{x: " + _primaryViewObjectScale.x + ", y: " + _primaryViewObjectScale.y + "}"; 
+
+                 _scaleStr = "{x: " + _primaryViewObjectScale.x + ", y: " + _primaryViewObjectScale.y + "}"; 
+
             } else {
-                _scaleStr = "{no scale set}";
+                
+                var _appObj = ub.objects[_primaryView + '_view']['objects_' + app.code];
+
+                if (typeof _appObj !== "undefined") {
+                    var _scale = _appObj.scale;
+                    _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}';
+                } else {
+                    _scaleStr = 'scale not set.';
+                }
+
+                
             }
 
             if (typeof _primaryViewObjectPosition !== "undefined") { _positionStr = "{x: " + _primaryViewObjectPosition.x + ", y: " + _primaryViewObjectPosition.y + "}"; }
@@ -95,9 +108,7 @@ $(document).ready(function () {
             } 
 
             // See config instead 
-            if (app.type === "embellishments") {
-                _colorArray = "";
-            }
+            if (app.type === "embellishments") { _colorArray = app.embellishment.design_id.toString().lpad(' ', 10); }
 
             _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray + " " + _opacity + " " + _positionStr.lpad(' ', 45) + " " + _scaleStr.lpad(' ', 45);
 

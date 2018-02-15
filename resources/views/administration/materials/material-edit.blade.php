@@ -171,6 +171,7 @@
                                 <select name='gender' class="form-control gender">
                                     <option value='men'@if($material->gender == 'men') selected="selected"@endif>Men</option>
                                     <option value='women'@if($material->gender == 'women') selected="selected"@endif>Women</option>
+                                    <option value='unisex'@if($material->gender == 'unisex') selected="selected"@endif>Unisex</option>
                                 </select>
                             </div>
                         </div>

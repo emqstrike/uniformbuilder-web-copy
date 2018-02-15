@@ -21,7 +21,6 @@
                         <ul class="dropdown-menu">
                             <h6 class="dropdown-header">Apparel (Men)</h6>
                             <li><a href="/styles/men/polo" class="sport-link-icons">Polo</a></li>
-                            <li><a href="/styles/men/crew-socks" class="sport-link-icons">Crew Socks</a></li>
                             <li><a href="/styles/men/hoodie" class="sport-link-icons">Hoodie</a></li>
                             <li><a href="/styles/men/compression" class="sport-link-icons">Compression</a></li>
                             <li><a href="/styles/men/tech-tee" class="sport-link-icons">Tech-Tee</a></li>
@@ -31,7 +30,7 @@
                             <li><a href="/styles/men/team-shorts" class="sport-link-icons">2017 Team Short with Pockets</a></li>
                             <li><a href="/styles/men/signature-coaches-short" class="sport-link-icons">Signature Coaches Short</a></li>
                             <li><a href="/styles/men/cinch-sack" class="sport-link-icons">Cinch Sack</a></li>
-
+                            <li><a href="/styles/men/socks" class="sport-link-icons">Socks</a></li>
                         </ul>
                       </li>
                 
@@ -48,6 +47,7 @@
                                 <li><a href="/styles/women/tech-tee" class="sport-link-icons">Tech-Tee</a></li>
                                 <li><a href="/styles/women/fan-replica-jersey" class="sport-link-icons">Fan Replica Jersey</a></li>
                                 <li><a href="/styles/women/game-day-coaches-jackets" class="game-day-coaches-jackets">Game Day Coaches Jackets (Apparel)</a></li>
+                                <li><a href="/styles/women/socks" class="sport-link-icons">Socks</a></li>
                             </ul>
                       </li>
 
