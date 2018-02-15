@@ -2738,11 +2738,6 @@ $(document).ready(function() {
             gender: 'Men',
             sports: [
                 {
-                    code: 'cinch_sack',
-                    name: 'Cinch Sack (Apparel)',
-                    active: "1",
-                },
-                {
                     code: 'polo',
                     name: 'Polo (Apparel)',
                     active: "1",
@@ -2788,6 +2783,11 @@ $(document).ready(function() {
                     active: "1",
                 },
                 {
+                    code: 'cinch_sack',
+                    name: 'Cinch Sack (Apparel)',
+                    active: "1",
+                },
+                {
                     code: 'sock',
                     name: 'Socks (Apparel)',
                     active: "1",
@@ -2815,6 +2815,11 @@ $(document).ready(function() {
                 {
                     code: 'game-day-jackets',
                     name: 'Game Day Jackets (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'cinch_sack',
+                    name: 'Cinch Sack (Apparel)',
                     active: "1",
                 },
                 {
@@ -11779,9 +11784,8 @@ ub.funcs.fontOffSets = [
     ub.data.uniSexSports = {
 
         items: [
-            {
-                sport: 'Socks (Apparel)',
-            },
+            { sport: 'Socks (Apparel)', },
+            { sport: 'Cinch Sack (Apparel)', },
         ],
 
         isUniSex: function (sport) {
