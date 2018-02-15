@@ -2659,9 +2659,8 @@ $(document).ready(function() {
                             _scaleX = parseFloat(view.application.appCustomScale.x);
                             _scaleY = parseFloat(view.application.appCustomScale.y);
 
-                            if (_scaleX !== 0 && _scaleY !== 0) { 
-                                point.scale.x = _scaleX;
-                                point.scale.y = _scaleY;
+                            if (_scaleX !== 0 && _scaleY !== 0) {
+                                point.scale = {x: _scaleX, y: _scaleY};    
                             }
 
                         }

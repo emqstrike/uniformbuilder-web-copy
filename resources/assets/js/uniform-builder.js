@@ -1622,6 +1622,8 @@ $(document).ready(function () {
             return material.name.trim() + ' (' + material.gender + ')';
         }
 
+
+
         ub.load_materials = function (obj, object_name) {
 
             ub.displayDoneAt('Styles loaded.');
@@ -6641,6 +6643,7 @@ $(document).ready(function () {
         $('span.slink[data-item="Pant"]').attr('data-gender', gender);
         $('span.slink[data-item="Twill"]').attr('data-gender', gender);
         $('span.slink[data-item="Sublimated"]').data('gender', gender);
+        $('span.slink[data-item="Knitted"]').data('gender', gender);
 
         $('span.slink[data-item="Jersey"]').html("Jersey");
         $('span.slink[data-item="Pant"]').html("Pant");
@@ -6664,6 +6667,12 @@ $(document).ready(function () {
                 $('span.slink[data-item="Pant"]').html(_secondaryBarLabels.lowerLabel);
                 $('span.slink[data-item="Twill"]').hide();
 
+                if (sport === "Socks (Apparel)") {
+                    $('span.slink[data-item="Twill"]').hide();
+                    $('span.slink[data-item="Knitted"]').show();
+                }
+
+
             } else if (_secondaryBarLabels.type === "both") {
 
                 $('span.slink[data-item="Jersey"]').html(_secondaryBarLabels.upperLabel);
@@ -6671,6 +6680,12 @@ $(document).ready(function () {
                 $('span.slink[data-item="Twill"]').hide();
 
             }
+
+            if (sport === "Socks (Apparel)") {
+                $('span.slink[data-item="Twill"]').html('Knitted');
+                $('span.slink[data-item="Twill"]').show();
+            }
+
 
         }
 
@@ -7211,8 +7226,14 @@ $(document).ready(function () {
 
                 var _dataItem = $(this).data('item');
                 var _gender = $(this).data('gender').toLowerCase();
+                var _sport = gender;
 
                 if (_dataItem === "separator") { return; }
+
+                var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
+                if (_availableForUnisex) {
+                    actualGender = 'unisex'    
+                }
 
                 $('span.secondary-filters').removeClass('active');
                 $(this).addClass('active');
@@ -7296,6 +7317,10 @@ $(document).ready(function () {
             $('span.primary-filters').on('click', function () {
 
                 var _gender = $(this).data('gender').toLowerCase();
+                var _sport = gender;
+                var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
+
+                if (_availableForUnisex) { actualGender = 'unisex'; }
 
                 $('span.primary-filters').removeClass('active');
                 $(this).addClass('active');
@@ -7685,6 +7710,9 @@ $(document).ready(function () {
 
     ub.funcs.initUniformsPicker = function (sport, gender, fromDirectLink) {
 
+        var _availableForUnisex = ub.data.uniSexSports.isUniSex(sport);
+        if (_availableForUnisex) { gender = 'unisex'; }
+
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
@@ -7692,11 +7720,13 @@ $(document).ready(function () {
         $('div#main-picker-container').show();
 
         var _actualGender = gender;
-        
+
         if (sport === "Football") {
             items = _.filter(ub.materials, function (material)  {
                 return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === gender.toLowerCase();
             });
+        } else if (_availableForUnisex)  {
+            items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
         } else {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
         }
