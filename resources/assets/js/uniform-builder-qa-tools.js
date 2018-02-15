@@ -101,9 +101,7 @@ $(document).ready(function () {
             } 
 
             // See config instead 
-            if (app.type === "embellishments") {
-                _colorArray = "";
-            }
+            if (app.type === "embellishments") { _colorArray = app.embellishment.design_id.toString().lpad(' ', 10); }
 
             _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray + " " + _opacity + " " + _positionStr.lpad(' ', 45) + " " + _scaleStr.lpad(' ', 45);
 
