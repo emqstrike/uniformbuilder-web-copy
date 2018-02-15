@@ -2515,7 +2515,7 @@ $(document).ready(function() {
 
                         if ((args.applicationObj.application_type === "team_name" || parseInt(args.applicationObj.code) === 1) && ub.funcs.isCurrentSport('Baseball')) {
 
-                             // point.zIndex = -80; // So it will be rendered above the piping
+                            // point.zIndex = -80; // So it will be rendered above the piping
 
                         }
 
@@ -2651,7 +2651,7 @@ $(document).ready(function() {
 
                     if (typeof ub.config.savedDesignInfo !== "object") { // Process Custom Scale Field only if this is not a saved design, because that one already have an override scale
 
-                        if (typeof view.application.appCustomScale !== "undefined") {
+                        if (typeof view.application.appCustomScale !== "undefined" && app_id === "71") {
 
                             var _scaleX = point.scale.x;
                             var _scaleY = point.scale.y;
@@ -2659,11 +2659,12 @@ $(document).ready(function() {
                             _scaleX = parseFloat(view.application.appCustomScale.x);
                             _scaleY = parseFloat(view.application.appCustomScale.y);
 
-                            if (_scaleX !== 0 && _scaleY !== 0) {
-                                point.scale.set(_scaleX, _scaleY);    
+                            if (_scaleX !== 0 && _scaleY !== 0) { 
+                                point.scale.x = _scaleX;
+                                point.scale.y = _scaleY;
                             }
 
-                        } 
+                        }
 
                     }
 
@@ -2683,7 +2684,7 @@ $(document).ready(function() {
                     }
 
                     if (_applicationObj.type !== "mascot") {
-                        point.scale.set(_scaleX, _scaleY);
+                        point.scale = {x: _scaleX, y: _scaleY};
                     }    
 
                 //// Process End Override ScaleX and ScaleY from GA Font Tool   
@@ -2966,7 +2967,7 @@ $(document).ready(function() {
 
                 // This will be used for the 1-inch Pull-up
                 _settingsObject['originalPosition_' + view.perspective] = {x: point.position.x, y: point.position.y };
-
+                
             });
 
             ub.funcs.identify(app_id);
