@@ -2651,19 +2651,7 @@ $(document).ready(function () {
 
             }
 
-            if (application_obj.type === "mascot"){
-
-                ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
-
-                // if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
-                if (ub.page === "order") { ub.funcs.customArtworkRequestCheckOrders(application_obj); }
-                if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
-
-                // if (ub.page === "saved-design" || ub.page === "order") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
-
-            }
-
-            if (application_obj.type === "embellishments"){
+            if (application_obj.type === "embellishments") {
 
                 ub.funcs.update_application_embellishments(application_obj.application, application_obj.embellishment);
 
@@ -2671,7 +2659,38 @@ $(document).ready(function () {
 
             }
 
-            if (application_obj.type === "logo"){
+            if (application_obj.type === "mascot") {
+
+                var _primaryView = ub.funcs.getPrimaryViewObject(application_obj.application);
+                var _inksoftID = _primaryView.application.inksoftDesignID;
+
+                if (typeof _primaryView !== "undefined") {
+
+                    if (typeof _inksoftID !== "undefined") {
+
+                        if (_inksoftID.length > 0) { 
+
+                            window.is.isMessage(_inksoftID, application_obj.code, true);
+                            
+                        }
+
+                    } else {
+
+                        ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
+
+                        // if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+                        if (ub.page === "order") { ub.funcs.customArtworkRequestCheckOrders(application_obj); }
+                        if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
+
+                    }
+
+                } 
+                
+                // if (ub.page === "saved-design" || ub.page === "order") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
+
+            }
+
+            if (application_obj.type === "logo") {
 
                 ub.update_application_logo(application_obj);
 

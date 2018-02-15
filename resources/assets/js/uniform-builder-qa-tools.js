@@ -81,9 +81,16 @@ $(document).ready(function () {
 
             } else {
                 
-                var _scale = ub.objects[_primaryView + '_view']['objects_' + app.code].scale;
-                _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}';
+                var _appObj = ub.objects[_primaryView + '_view']['objects_' + app.code];
 
+                if (typeof _appObj !== "undefined") {
+                    var _scale = _appObj.scale;
+                    _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}';
+                } else {
+                    _scaleStr = 'scale not set.';
+                }
+
+                
             }
 
             if (typeof _primaryViewObjectPosition !== "undefined") { _positionStr = "{x: " + _primaryViewObjectPosition.x + ", y: " + _primaryViewObjectPosition.y + "}"; }
@@ -101,9 +108,7 @@ $(document).ready(function () {
             } 
 
             // See config instead 
-            if (app.type === "embellishments") {
-                _colorArray = "";
-            }
+            if (app.type === "embellishments") { _colorArray = app.embellishment.design_id.toString().lpad(' ', 10); }
 
             _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray + " " + _opacity + " " + _positionStr.lpad(' ', 45) + " " + _scaleStr.lpad(' ', 45);
 

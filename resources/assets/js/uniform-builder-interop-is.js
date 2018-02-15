@@ -580,8 +580,13 @@ $(document).ready(function() {
             dataType: "json",
             crossDomain: true,
             success: function (response) {
+                
                 ub.data.embellismentDetails.setStatus('designDetails', response);
+
+                if (typeof _settingsObject.embellishment === "undefined") { _settingsObject.embellishment = {}; }
+
                 _settingsObject.embellishment.design_details = response;
+
             }
             
         });
@@ -633,6 +638,9 @@ $(document).ready(function() {
         }
 
         ub.funcs.toggleApplication(application.id, _status); 
+
+        if (ub.data.afterLoadCalled === 0) { return; } // Skip activate when called on load prep
+
         ub.funcs.activateEmbellishments(application.id);
 
     };
