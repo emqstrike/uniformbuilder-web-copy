@@ -2672,16 +2672,16 @@ $(document).ready(function () {
 
                             window.is.isMessage(_inksoftID, application_obj.code, true);
                             
+                        } else {
+
+                            ub.funcs.processMascots(application_obj);
+                        
                         }
 
                     } else {
 
-                        ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
-
-                        // if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
-                        if (ub.page === "order") { ub.funcs.customArtworkRequestCheckOrders(application_obj); }
-                        if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
-
+                        ub.funcs.processMascots(application_obj);
+                        
                     }
 
                 } 
@@ -2744,6 +2744,16 @@ $(document).ready(function () {
         }
 
     };
+
+    ub.funcs.processMascots = function (application_obj) {
+
+        ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
+
+        // if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+        if (ub.page === "order") { ub.funcs.customArtworkRequestCheckOrders(application_obj); }
+        if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
+
+    }
 
     ub.funcs.activateLeftView = function () {
 
