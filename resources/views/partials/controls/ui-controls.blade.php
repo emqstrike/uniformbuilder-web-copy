@@ -2285,17 +2285,19 @@
     
 </script>
 
-<script type="text/mustache" id="m-preview-panel-rotation">
+<script type="text/mustache" id="m-preview-panel-content">
     
     <div class="rotation-container">
 
-        <label>Code:</label><strong class="number">@{{applicationCode}}</strong> 
+        <label>Code:</label><strong class="number">@{{applicationCode}}</strong>
         <br /><br />
 
-        <label>Position:</label><strong class="number">x: @{{positionX}}, y: @{{positionY}}</strong> 
+        <label>Position:</label><strong class="number">x: @{{positionX}}, y: @{{positionY}} (FE)</strong> 
+        <strong class="number">x: @{{positionXBackend}}, y: @{{positionYBackend}} (BE)</strong> 
         <br />
         <label>Scale:</label><strong class="number">x: @{{scaleX}}, y: @{{scaleY}} </strong> 
-        <br />
+        <br /> 
+
         <label>Rotation:</label><strong class="number">Radians: @{{radians}}, Degrees: @{{degrees}}</strong> 
         <br />
 

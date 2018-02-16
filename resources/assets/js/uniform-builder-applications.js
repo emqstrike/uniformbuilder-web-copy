@@ -7947,7 +7947,7 @@ $(document).ready(function() {
         
     };
 
-    ub.funcs.runAfterUpdate = function(application_id, fromChangeColor) {
+    ub.funcs.runAfterUpdate = function (application_id, fromChangeColor) {
 
         var _settingsObject = ub.funcs.getSettingsObject(application_id);
 

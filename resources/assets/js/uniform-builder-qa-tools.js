@@ -46,7 +46,7 @@ $(document).ready(function () {
         
         ub.utilities.info('-------- Applications -------');
 
-        _headers = "Code".rpad(' ', 7) + "Type".rpad(' ', 15) + " View".rpad(' ', 7) + " " + " Size".lpad(' ', 5) + " Active".lpad(' ', 5) + " Color".lpad(' ', 11) + " Opacity".lpad(' ', 8) + "Position".lpad(' ', 46) + " Scale".lpad(' ', 46);
+        _headers = "Code".rpad(' ', 7) + "Type".rpad(' ', 15) + " View".rpad(' ', 7) + " " + " Size".lpad(' ', 5) + " Active".lpad(' ', 5) + " Color".lpad(' ', 11) + " Opacity".lpad(' ', 8) + "Position / Frontend".lpad(' ', 45) + "Position / Backend".lpad(' ', 45) + " Scale".lpad(' ', 46);
 
         console.log(_headers);
 
@@ -93,7 +93,12 @@ $(document).ready(function () {
                 
             }
 
-            if (typeof _primaryViewObjectPosition !== "undefined") { _positionStr = "{x: " + _primaryViewObjectPosition.x + ", y: " + _primaryViewObjectPosition.y + "}"; }
+            if (typeof _primaryViewObjectPosition !== "undefined") { 
+
+                _positionStrF =  "{x: " + _primaryViewObjectPosition.x + ", y: " + _primaryViewObjectPosition.y + "}"; 
+                _positionStrB = "{x: " + ((_primaryViewObjectPosition.x/2)-3) + ", y: " + (_primaryViewObjectPosition.y/2) + "}"; 
+
+            }
 
             if (typeof _primaryView === "undefined") { _primaryView = 'No Primary View Set!';}
 
@@ -110,7 +115,7 @@ $(document).ready(function () {
             // See config instead 
             if (app.type === "embellishments") { _colorArray = app.embellishment.design_id.toString().lpad(' ', 10); }
 
-            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray + " " + _opacity + " " + _positionStr.lpad(' ', 45) + " " + _scaleStr.lpad(' ', 45);
+            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray + " " + _opacity + " " + _positionStrF.lpad(' ', 45) + _positionStrB.lpad(' ', 45) + " " + _scaleStr.lpad(' ', 45);
 
             ub.utilities.info(_str);
 
@@ -467,14 +472,16 @@ $(document).ready(function () {
 
             }
 
-            var template = $('#m-preview-panel-rotation').html();
+            var template = $('#m-preview-panel-content').html();
 
             var data = {
                 applicationCode: code,
                 radians: ((parseFloat(app.rotation) * Math.PI) / 180).toFixed(4),
                 degrees: parseFloat(app.rotation).toFixed(4),
-                positionX: app.center.x.toFixed(4),
-                positionY: app.center.y.toFixed(4),
+                positionX: app.center.x.toFixed(4), // Frontend
+                positionY: app.center.y.toFixed(4), // Frontend
+                positionXBackend: ((app.center.x / 2 ) - 3).toFixed(4), // Backend
+                positionYBackend: (app.center.y.toFixed(4) / 2).toFixed(4), // Backend
                 scaleX: typeof app.scale === "undefined" ? 1: app.scale.x.toFixed(4),
                 scaleY: typeof app.scale === "undefined" ? 1: app.scale.y.toFixed(4),
             };
