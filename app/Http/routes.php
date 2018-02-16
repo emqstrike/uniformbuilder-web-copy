@@ -91,7 +91,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('custom_artwork_requests/processing', 'Administration\CustomArtworkRequestController@getProcessing')->name('getProcessingCustomArtworkRequests');
     Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
 
-    Route::get('/', 'Administration\AdministrationController@dashboard');
+    Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard']);
 
     // Logins
     Route::get('login', 'Administration\AuthenticationController@loginForm');
