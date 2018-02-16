@@ -469,7 +469,6 @@ $(document).ready(function () {
 
                 $('div.preview-panel').draggable();
 
-
             }
 
             var template = $('#m-preview-panel-content').html();
