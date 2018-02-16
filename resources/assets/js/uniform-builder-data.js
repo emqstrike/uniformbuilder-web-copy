@@ -2818,6 +2818,11 @@ $(document).ready(function() {
                     active: "1",
                 },
                 {
+                    code: 'hoodie',
+                    name: 'Hoodie (Apparel)',
+                    active: "1",
+                },
+                {
                     code: 'cinch_sack',
                     name: 'Cinch Sack (Apparel)',
                     active: "1",
@@ -11786,6 +11791,7 @@ ub.funcs.fontOffSets = [
         items: [
             { sport: 'Socks (Apparel)', },
             { sport: 'Cinch Sack (Apparel)', },
+            { sport: 'Hoodie (Apparel)', },
         ],
 
         isUniSex: function (sport) {
