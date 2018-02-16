@@ -47,6 +47,7 @@
                                 <li><a href="/styles/women/tech-tee" class="sport-link-icons">Tech-Tee</a></li>
                                 <li><a href="/styles/women/fan-replica-jersey" class="sport-link-icons">Fan Replica Jersey</a></li>
                                 <li><a href="/styles/women/game-day-coaches-jackets" class="game-day-coaches-jackets">Game Day Coaches Jackets</a></li>
+                                <li><a href="/styles/women/hoodie" class="sport-link-icons">Hoodie</a></li>
                                 <li><a href="/styles/women/cinch-sack" class="sport-link-icons">Cinch Sack</a></li>
                                 <li><a href="/styles/women/socks" class="sport-link-icons">Socks</a></li>
                             </ul>
