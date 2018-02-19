@@ -25,6 +25,8 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Sport</th>
+                            <th>Block Pattern</th>
+                            <th>Option</th>
                             <th>Front</th>
                             <th>Back</th>
                             <th>Left</th>
@@ -48,19 +50,25 @@
                                 {{ $design->sport }}
                             </td>
                             <td>
+                                {{ $design->block_pattern }}
+                            </td>
+                            <td>
+                                {{ $design->option }}
+                            </td>
+                            <td>
                                <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $design->front_thumbnail }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                 {{-- <img src="{{ $design->front_thumbnail }}" height="100px" width="80px"> --}}
-                                
+
                             </td>
                             <td>
                                 <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $design->back_thumbnail }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                 {{-- <img src="{{ $design->back_thumbnail }}" height="100px" width="80px"> --}}
-                                
+
                             </td>
                             <td>
                                 <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $design->left_thumbnail }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                 {{-- <img src="{{ $design->left_thumbnail }}" height="100px" width="80px"> --}}
-                                
+
                             </td>
                             <td>
                                 <a href="#" class="btn btn-defult btn-xs file-link" data-link="{{ $design->right_thumbnail }}"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
