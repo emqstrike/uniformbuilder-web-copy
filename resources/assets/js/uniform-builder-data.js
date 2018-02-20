@@ -10278,6 +10278,7 @@ ub.funcs.fontOffSets = [
             "Compression (Apparel)", 
             "Tech-Tee (Apparel)", 
             "Game Day Jackets (Apparel)",
+            'Tennis',
             ],
         options: [
                 {
@@ -10386,10 +10387,6 @@ ub.funcs.fontOffSets = [
                 {
                     sport: 'Field Hockey',
                     option: "Jersey (W)",
-                },
-                {
-                    sport: 'Tennis',
-                    option: "Dress",  
                 },
                 {
                     sport: 'Wrestling Compression Shorts (Apparel)',
