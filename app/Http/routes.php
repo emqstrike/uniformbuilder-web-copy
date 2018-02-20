@@ -91,7 +91,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('custom_artwork_requests/processing', 'Administration\CustomArtworkRequestController@getProcessing')->name('getProcessingCustomArtworkRequests');
     Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
 
-    Route::get('/', 'Administration\AdministrationController@dashboard');
+    Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard']);
 
     // Logins
     Route::get('login', 'Administration\AuthenticationController@loginForm');
@@ -105,7 +105,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('accent/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@create']);
     Route::post('accent/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@store']);
     Route::get('accents', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@index']);
-    Route::get('accent/edit/{id}', 'Administration\AccentsController@editAccentForm');
+    Route::get('accent/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@editAccentForm']);
     Route::post('accent/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\AccentsController@store']);
 
     // Users
@@ -118,7 +118,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);
     Route::get('account_settings/change_password/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePasswordForm']);
     Route::post('account_settings/change_password', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePassword']);
-    Route::get('rejected_users' , 'Administration\UsersController@getRejectedUsers');
+    Route::get('rejected_users' , ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@getRejectedUsers']);
     Route::get('user/orders/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@userOrders']);
 
     // Factories
@@ -148,11 +148,11 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsSetsController@addColorsSetForm']);
     Route::post('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsSetsController@store']);
     Route::post('colors_set/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsSetsController@store']);
-    Route::get('colors_set/edit/{id}', 'Administration\ColorsSetsController@editColorsSetForm');
+    Route::get('colors_set/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\ColorsSetsController@editColorsSetForm']);
 
     // Mascots
     Route::get('mascots', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@index']);
-    Route::post('mascots_filter', 'Administration\MascotsController@indexFiltered');
+    Route::post('mascots_filter', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@indexFiltered']);
     Route::get('mascot/search', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@searchPage']);
     Route::post('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@store']);
     Route::post('mascot/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsController@store']);
@@ -163,7 +163,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('mascots_groups_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@addMascotsGroupsCategoryForm']);
     Route::get('mascots_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@addMascotsCategoryForm']);
     Route::post('mascots_categories/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@store']);
-    Route::post('mascots_groups_categories/update', 'Administration\MascotsGroupsCategoriesController@store');
+    Route::post('mascots_groups_categories/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@store']);
     Route::post('mascots_groups_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsGroupsCategoriesController@store']);
     Route::post('mascots_categories/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@store']);
     Route::get('mascots_categories/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotsCategoriesController@editMascotsCategoriesForm']);
@@ -196,7 +196,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('material/materials_options/dropzone/{material_id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@dropZone']);
     Route::post('material/insert_dz_image', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@insertDropzoneImage']);
     Route::post('material/insert_dz_design_sheet', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@insertDesignSheet']);
-    Route::get('material/single_page', 'Administration\MaterialsController@singlePage');
+    Route::get('material/single_page', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsController@singlePage']);
 
     // Materials Options
     Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@store']);
@@ -204,7 +204,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('material_option/saveBoundary', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@saveBoundary']);
     Route::post('material_option/saveMultiple', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@storeMultiple']);
     Route::post('material_option/purgeColor', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@purgeColor']);
-    Route::post('material_option/saveUpdates', 'Administration\MaterialsOptionsController@updateMaterialOptions');
+    Route::post('material_option/saveUpdates', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsOptionsController@updateMaterialOptions']);
 
     // Messages
     Route::get('messages', ['middleware' => 'adminAccess', 'uses' => 'Administration\MessagesController@getUserMessages']);
@@ -293,8 +293,8 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('splash_images', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@index']);
     Route::post('splash_image/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@store']);
     Route::get('splash_image/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@create']);
-    Route::get('splash_image/edit/{id}', 'Administration\SplashImagesController@editSplashImageForm');
-    Route::post('splash_image/update', 'Administration\SplashImagesController@store');
+    Route::get('splash_image/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@editSplashImageForm']);
+    Route::post('splash_image/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\SplashImagesController@store']);
 
     // Orders
     Route::get('orders', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@index']);
@@ -331,89 +331,89 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('helper/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\HelpersController@store']);
 
     // NewsLetters
-    Route::get('news_letters', 'Administration\NewsLettersController@index');
+    Route::get('news_letters', ['middleware' => 'adminAccess', 'uses' => 'Administration\NewsLettersController@index']);
 
     // Test
     Route::get('test/create', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@uploadFileForm']);
     Route::post('test/uploadFile', ['middleware' => 'adminAccess', 'uses' => 'Administration\TestsController@store']);
 
     // Materials Fabric
-    Route::get('materials_fabrics', 'Administration\MaterialsFabricsController@index');
-    Route::post('materials_fabric/add', 'Administration\MaterialsFabricsController@store');
-    Route::get('materials_fabric/add', 'Administration\MaterialsFabricsController@create');
-    Route::get('materials_fabric/edit/{id}', 'Administration\MaterialsFabricsController@editMaterialFabricForm');
-    Route::post('materials_fabric/delete', 'Administration\MaterialsFabricsController@delete');
-    Route::get('materials_fabric/{id}', 'Administration\MaterialsFabricsController@show');
-    Route::post('materials_fabric/update', 'Administration\MaterialsFabricsController@store');
+    Route::get('materials_fabrics', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsFabricsController@index']);
+    Route::post('materials_fabric/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsFabricsController@store']);
+    Route::get('materials_fabric/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsFabricsController@create']);
+    Route::get('materials_fabric/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsFabricsController@editMaterialFabricForm']);
+    Route::post('materials_fabric/delete', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsFabricsController@delete']);
+    Route::get('materials_fabric/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsFabricsController@show']);
+    Route::post('materials_fabric/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaterialsFabricsController@store']);
 
     // Artworks
-    Route::get('artwork_requests', 'Administration\ArtworksController@index');
-    Route::get('artwork_requests/processing', 'Administration\ArtworksController@processing');
+    Route::get('artwork_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\ArtworksController@index']);
+    Route::get('artwork_requests/processing', ['middleware' => 'adminAccess', 'uses' => 'Administration\ArtworksController@processing']);
 
     // Logo Requests
-    Route::get('logo_requests', 'Administration\LogoRequestsController@index');
+    Route::get('logo_requests', ['middleware' => 'adminAccess', 'uses' => 'Administration\LogoRequestsController@index']);
 
     // Feedbacks
-    Route::get('feedbacks', 'Administration\FeedbacksController@index');
-    Route::get('feedback/reply/{id}', 'Administration\FeedbacksController@reply');
-    Route::get('feedback/thread/{id}', 'Administration\FeedbacksController@viewThread');
+    Route::get('feedbacks', ['middleware' => 'adminAccess', 'uses' => 'Administration\FeedbacksController@index']);
+    Route::get('feedback/reply/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\FeedbacksController@reply']);
+    Route::get('feedback/thread/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\FeedbacksController@viewThread']);
 
     // Mockup set
-    Route::get('mockup_sets', 'Administration\MockupSetsController@index');
-    Route::get('mockup_set/{id}', 'Administration\MockupSetsController@show');
+    Route::get('mockup_sets', ['middleware' => 'adminAccess', 'uses' => 'Administration\MockupSetsController@index']);
+    Route::get('mockup_set/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MockupSetsController@show']);
 
     // Price Item Templates
-    Route::get('price_item_templates', 'Administration\PriceItemTemplatesController@index');
-    Route::get('price_item_template/add', 'Administration\PriceItemTemplatesController@addForm');
-    Route::post('price_item_template', 'Administration\PriceItemTemplatesController@store');
-    Route::get('price_item_template/{id}', 'Administration\PriceItemTemplatesController@show');
-    Route::get('price_item_template/edit/{id}', 'Administration\PriceItemTemplatesController@editForm');
-    Route::post('price_item_template/update', 'Administration\PriceItemTemplatesController@store');
+    Route::get('price_item_templates', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemTemplatesController@index']);
+    Route::get('price_item_template/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemTemplatesController@addForm']);
+    Route::post('price_item_template', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemTemplatesController@store']);
+    Route::get('price_item_template/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemTemplatesController@show']);
+    Route::get('price_item_template/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemTemplatesController@editForm']);
+    Route::post('price_item_template/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemTemplatesController@store']);
 
     // Saved Designs
-    Route::get('saved_designs', 'Administration\SavedDesignsController@index');
+    Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'Administration\SavedDesignsController@index']);
 
     // Tailsweeps
-    Route::get('tailsweeps', 'Administration\TailsweepsController@index');
-    Route::get('tailsweep/add', 'Administration\TailsweepsController@create');
-    Route::post('tailsweep/add', 'Administration\TailsweepsController@store');
-    Route::get('tailsweep/edit/{id}', 'Administration\TailsweepsController@editTailsweepForm');
-    Route::post('tailsweep/update', 'Administration\TailsweepsController@store');
+    Route::get('tailsweeps', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@index']);
+    Route::get('tailsweep/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@create']);
+    Route::post('tailsweep/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@store']);
+    Route::get('tailsweep/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@editTailsweepForm']);
+    Route::post('tailsweep/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\TailsweepsController@store']);
 
     // Mascot sizes
-    Route::get('mascot_sizes', 'Administration\MascotSizesController@index');
-    Route::get('mascot_size/add', 'Administration\MascotSizesController@addMascotSizeForm');
-    Route::post('mascot_size/add', 'Administration\MascotSizesController@store');
-    Route::get('mascot_size/edit/{id}', 'Administration\MascotSizesController@editMascotSizeForm');
-    Route::post('mascot_size/update', 'Administration\MascotSizesController@store');
+    Route::get('mascot_sizes', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotSizesController@index']);
+    Route::get('mascot_size/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotSizesController@addMascotSizeForm']);
+    Route::post('mascot_size/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotSizesController@store']);
+    Route::get('mascot_size/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotSizesController@editMascotSizeForm']);
+    Route::post('mascot_size/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MascotSizesController@store']);
 
     // Applications sizes
-    Route::get('application_sizes', 'Administration\ApplicationSizesController@index');
-    Route::get('application_size/add', 'Administration\ApplicationSizesController@addForm');
-    Route::post('application_size/add', 'Administration\ApplicationSizesController@store');
-    Route::get('application_size/edit/{id}', 'Administration\ApplicationSizesController@editForm');
-    Route::post('application_size/update', 'Administration\ApplicationSizesController@store');
+    Route::get('application_sizes', ['middleware' => 'adminAccess', 'uses' => 'Administration\ApplicationSizesController@index']);
+    Route::get('application_size/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ApplicationSizesController@addForm']);
+    Route::post('application_size/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\ApplicationSizesController@store']);
+    Route::get('application_size/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\ApplicationSizesController@editForm']);
+    Route::post('application_size/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\ApplicationSizesController@store']);
 
     // Parts Aliases
-    Route::get('parts_aliases', 'Administration\PartsAliasesController@index');
-    Route::get('parts_aliases/add', 'Administration\PartsAliasesController@addForm');
-    Route::post('parts_aliases/add', 'Administration\PartsAliasesController@store');
-    Route::post('parts_aliases/update', 'Administration\PartsAliasesController@store');
-    Route::get('parts_aliases/edit/{id}', 'Administration\PartsAliasesController@edit');
+    Route::get('parts_aliases', ['middleware' => 'adminAccess', 'uses' => 'Administration\PartsAliasesController@index']);
+    Route::get('parts_aliases/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PartsAliasesController@addForm']);
+    Route::post('parts_aliases/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PartsAliasesController@store']);
+    Route::post('parts_aliases/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PartsAliasesController@store']);
+    Route::get('parts_aliases/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\PartsAliasesController@edit']);
 
     //Sales Reps
-    Route::get('sales_reps/add' , 'Administration\SalesRepresentativesController@create' );
-    Route::post('sales_reps/add' , 'Administration\SalesRepresentativesController@store');
-    Route::get('sales_reps' , 'Administration\SalesRepresentativesController@index');
-    Route::get('sales_reps/edit/{id}' , 'Administration\SalesRepresentativesController@edit');
-    Route::post('sales_reps/update' , 'Administration\SalesRepresentativesController@store');
+    Route::get('sales_reps/add' , ['middleware' => 'adminAccess', 'uses' => 'Administration\SalesRepresentativesController@create']);
+    Route::post('sales_reps/add' , ['middleware' => 'adminAccess', 'uses' => 'Administration\SalesRepresentativesController@store']);
+    Route::get('sales_reps' , ['middleware' => 'adminAccess', 'uses' => 'Administration\SalesRepresentativesController@index']);
+    Route::get('sales_reps/edit/{id}' , ['middleware' => 'adminAccess', 'uses' => 'Administration\SalesRepresentativesController@edit']);
+    Route::post('sales_reps/update' , ['middleware' => 'adminAccess', 'uses' => 'Administration\SalesRepresentativesController@store']);
 
     //Cuts Links
-    Route::get('cuts_links/add', 'Administration\CutsLinksController@create');
-    Route::post('cuts_links/add', 'Administration\CutsLinksController@store');
-    Route::get('cuts_links', 'Administration\CutsLinksController@index');
-    Route::get('cuts_links/edit/{id}', 'Administration\CutsLinksController@edit');
-    Route::post('cuts_links/update', 'Administration\CutsLinksController@store');
+    Route::get('cuts_links/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\CutsLinksController@create']);
+    Route::post('cuts_links/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\CutsLinksController@store']);
+    Route::get('cuts_links', ['middleware' => 'adminAccess', 'uses' => 'Administration\CutsLinksController@index']);
+    Route::get('cuts_links/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\CutsLinksController@edit']);
+    Route::post('cuts_links/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\CutsLinksController@store']);
 
     //Dealers
     Route::get('dealers/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\DealersController@create']);

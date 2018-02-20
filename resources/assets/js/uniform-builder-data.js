@@ -2738,17 +2738,6 @@ $(document).ready(function() {
             gender: 'Men',
             sports: [
                 {
-                    code: 'cinch_sack',
-                    name: 'Cinch Sack (Apparel)',
-                    active: "1",
-                },
-                {
-                    code: 'crew_sock',
-                    name: 'Crew Socks (Apparel)',
-                    active: "1",
-
-                },
-                {
                     code: 'polo',
                     name: 'Polo (Apparel)',
                     active: "1",
@@ -2793,6 +2782,16 @@ $(document).ready(function() {
                     name: 'Signature Coaches Short (Apparel)',
                     active: "1",
                 },
+                {
+                    code: 'cinch_sack',
+                    name: 'Cinch Sack (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'sock',
+                    name: 'Socks (Apparel)',
+                    active: "1",
+                },
             ],
         },
         {
@@ -2816,6 +2815,21 @@ $(document).ready(function() {
                 {
                     code: 'game-day-jackets',
                     name: 'Game Day Jackets (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'hoodie',
+                    name: 'Hoodie (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'cinch_sack',
+                    name: 'Cinch Sack (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'sock',
+                    name: 'Socks (Apparel)',
                     active: "1",
                 },
             ],
@@ -8190,7 +8204,12 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Game Day Jackets (Apparel)',
             filters: ['All'],
-        },          
+        },
+        {
+            sport: 'Socks (Apparel)',
+            filters: ['All', 'Jersey', 'Socks'],
+        },
+          
     ];
 
     ub.funcs.load_fonts = function () {
@@ -10259,6 +10278,7 @@ ub.funcs.fontOffSets = [
             "Compression (Apparel)", 
             "Tech-Tee (Apparel)", 
             "Game Day Jackets (Apparel)",
+            'Tennis',
             ],
         options: [
                 {
@@ -10368,6 +10388,11 @@ ub.funcs.fontOffSets = [
                     sport: 'Field Hockey',
                     option: "Jersey (W)",
                 },
+                {
+                    sport: 'Wrestling Compression Shorts (Apparel)',
+                    option: "Compression Shorts",  
+                },
+
         ],
         currentUniformOk: function () {
 
@@ -10873,6 +10898,9 @@ ub.funcs.fontOffSets = [
             { sport: 'Basketball' },
             { sport: 'Hockey' },
 
+            { sport: 'Socks (Apparel)' },
+
+
         ],
 
         isSportOK: function (sport) {
@@ -10970,7 +10998,6 @@ ub.funcs.fontOffSets = [
                 upperLabel: 'Jersey',
                 lowerLabel: 'Shorts',
             },
-
             {
                 sport: '2017 Team Short with Pockets (Apparel)',
                 type: 'lower',
@@ -10980,6 +11007,11 @@ ub.funcs.fontOffSets = [
                 sport: 'Signature Coaches Short (Apparel)',
                 type: 'lower',
                 lowerLabel: 'Coaches Short',
+            },
+            {
+                sport: 'Socks (Apparel)',
+                type: 'lower',
+                lowerLabel: 'Socks',
             },
             {
                 sport: 'Default', // Football
@@ -11501,6 +11533,12 @@ ub.funcs.fontOffSets = [
                 thumbFilename: 'game-day-coaches-jackets.png',
                 gender: ['men',],    
             },
+            {
+                shortCode: 'socks',
+                urlAlias: 'Socks (Apparel)',
+                thumbFilename: 'socks.png',
+                gender: ['men', 'women'],    
+            },
         ],
 
         getAlias: function (shortCode)  {
@@ -11747,6 +11785,28 @@ ub.funcs.fontOffSets = [
 
             var _result = _.contains(this.items, option);
             return _result;
+
+        }
+
+    }
+
+    // Unisex Sports 
+
+    ub.data.uniSexSports = {
+
+        items: [
+            { sport: 'Socks (Apparel)', },
+            { sport: 'Cinch Sack (Apparel)', },
+            { sport: 'Hoodie (Apparel)', },
+        ],
+
+        isUniSex: function (sport) {
+            
+            var _result = undefined;
+
+            _result = _.find(this.items, {sport: sport});
+
+            return _.size(_result) > 0;
 
         }
 

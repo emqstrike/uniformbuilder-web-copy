@@ -134,6 +134,7 @@
             <span class="slink main-picker-items secondary-filters active" data-picker-type="gender" data-item="All">All</span>
             <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Sublimated">Sublimated</span>
             <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Twill">Tackle Twill</span>
+            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Knitted">Knitted</span>
 
         </div>
 

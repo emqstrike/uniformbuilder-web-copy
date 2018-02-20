@@ -2515,7 +2515,7 @@ $(document).ready(function() {
 
                         if ((args.applicationObj.application_type === "team_name" || parseInt(args.applicationObj.code) === 1) && ub.funcs.isCurrentSport('Baseball')) {
 
-                             // point.zIndex = -80; // So it will be rendered above the piping
+                            // point.zIndex = -80; // So it will be rendered above the piping
 
                         }
 
@@ -2660,10 +2660,10 @@ $(document).ready(function() {
                             _scaleY = parseFloat(view.application.appCustomScale.y);
 
                             if (_scaleX !== 0 && _scaleY !== 0) {
-                                point.scale.set(_scaleX, _scaleY);    
+                                point.scale = {x: _scaleX, y: _scaleY};    
                             }
 
-                        } 
+                        }
 
                     }
 
@@ -2683,7 +2683,7 @@ $(document).ready(function() {
                     }
 
                     if (_applicationObj.type !== "mascot") {
-                        point.scale.set(_scaleX, _scaleY);
+                        point.scale = {x: _scaleX, y: _scaleY};
                     }    
 
                 //// Process End Override ScaleX and ScaleY from GA Font Tool   
@@ -2966,7 +2966,7 @@ $(document).ready(function() {
 
                 // This will be used for the 1-inch Pull-up
                 _settingsObject['originalPosition_' + view.perspective] = {x: point.position.x, y: point.position.y };
-
+                
             });
 
             ub.funcs.identify(app_id);
@@ -7947,7 +7947,7 @@ $(document).ready(function() {
         
     };
 
-    ub.funcs.runAfterUpdate = function(application_id, fromChangeColor) {
+    ub.funcs.runAfterUpdate = function (application_id, fromChangeColor) {
 
         var _settingsObject = ub.funcs.getSettingsObject(application_id);
 
