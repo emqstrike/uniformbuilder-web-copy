@@ -10387,6 +10387,15 @@ ub.funcs.fontOffSets = [
                     sport: 'Field Hockey',
                     option: "Jersey (W)",
                 },
+                {
+                    sport: 'Tennis',
+                    option: "Dress",  
+                },
+                {
+                    sport: 'Wrestling Compression Shorts (Apparel)',
+                    option: "Compression Shorts",  
+                },
+
         ],
         currentUniformOk: function () {
 
