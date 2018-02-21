@@ -164,7 +164,7 @@ $(document).ready(function(){
     }
 
     function updatePriceItem(data){
-        var url = "//api-dev.qstrike.com/api/price_item/update";
+        var url = "//api.prolook.com/api/price_item/update";
         //var url = "//localhost:8888/api/price_item/update";
         $.ajax({
             url: url,

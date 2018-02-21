@@ -14,7 +14,7 @@
 <meta name="keywords" content="custom uniform, custom football uniform, custom basketball uniform, custom baseball uniform, custom volleyball uniform, uniform builder, prolook unifom builder, team uniforms">
 
 <link rel="icon" type="image/png" href="/images/branding/favicon.ico" />
-<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css?v={{$asset_version}}">
@@ -264,9 +264,9 @@
 
         window.ub.config = {
             app_env: "{{ env('APP_ENV') }}", 
-            api_host: "http://{{ env('API_HOST') }}",
+            api_host: "https://{{ env('API_HOST') }}",
             asset_version: "{{$asset_version}}",
-            team_store_api_host: "http://{{ env('TEAM_STORE_API_BASE') }}",
+            team_store_api_host: "https://{{ env('TEAM_STORE_API_BASE') }}",
             
             material_id: {{ $material_id }},
             uniform_name: "{{ isset($material->name) ? $material->name : 'none' }}",
@@ -280,7 +280,7 @@
             asset_target: "{{ isset($material->asset_target) ? $material->asset_target : 'none' }}",
 
             category_id: {{ $category_id }}, 
-            host: 'http://{{ Request::server ("HTTP_HOST") }}',
+            host: 'https://{{ Request::server ("HTTP_HOST") }}',
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
 
             orderID: "{{ isset($order_id) ? $order_id : 'none' }}",

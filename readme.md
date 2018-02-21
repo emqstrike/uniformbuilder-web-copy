@@ -1,7 +1,7 @@
 ## Prolook Customizer
 
 * [Live Site - http://customizer.prolook.com](http://customizer.prolook.com)
-* [API Endpoint - http://api-dev.qstrike.com/api/](http://api-dev.qstrike.com/api/)
+* [API Endpoint - https://api.prolook.com/api/](https://api.prolook.com/api/)
 * [Admin Size - http://customizer.prolook.com/administration/login](http://customizer.prolook.com/administration/login)
 * Staging Server to follow
 * API Documentation url to follow

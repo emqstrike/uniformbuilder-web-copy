@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Items to update URL</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control items-to-update-url-input" name="name" value="http://api-dev.qstrike.com/api/price_items">
+                                <input type="text" class="form-control items-to-update-url-input" name="name" value="https://api.prolook.com/api/price_items">
                             </div>
                             <a href="#" class="btn btn-primary get-items-to-update">GET</a>
                         </div>
@@ -156,7 +156,7 @@ $('.generate-preview').on('click', function(e){
     function submitChunks() {
         if ( window.total_chunk == window.chunks_uploaded ) return;
         $.ajax({
-            url: "//api-dev.qstrike.com/api/price_items/updatePIManual",
+            url: "//api.prolook.com/api/price_items/updatePIManual",
             type: "POST",
             data: JSON.stringify(window.chunked_data[window.chunks_uploaded]),
             dataType: "json",

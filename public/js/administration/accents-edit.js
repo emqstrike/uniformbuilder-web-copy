@@ -28,7 +28,7 @@ $(".selectFont div.selectize-input .item").css("font-family",$("select.selectFon
   layer.set('selectable', false); 
   canvas.sendToBack(layer);
 
-// $.getJSON("http://api-dev.qstrike.com/api/fonts", function(result){
+// $.getJSON("https://api.prolook.com/api/fonts", function(result){
 //       var data = {
 //         fonts: result.fonts
 //         , index: function() {
@@ -68,7 +68,7 @@ $(".selectFont div.selectize-input .item").css("font-family",$("select.selectFon
 //  function getColors(layerName,defaultColor){
 
 
-//  	$.getJSON("http://api-dev.qstrike.com/api/colors", function(result){
+//  	$.getJSON("https://api.prolook.com/api/colors", function(result){
 //       var data = {
 //         colors: result.colors
 //         , index: function() {

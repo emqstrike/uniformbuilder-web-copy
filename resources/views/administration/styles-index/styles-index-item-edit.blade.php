@@ -152,7 +152,7 @@ $(function(){
 
     function getBlockPatterns(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";        
+        var url = "//api.prolook.com/api/block_patterns";        
         $.ajax({
             url: url,
             async: false,

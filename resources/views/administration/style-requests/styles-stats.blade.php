@@ -168,7 +168,7 @@ hideStyleInfo = function () {
 getStyles(function(styles){ window.styles = styles; });
 function getStyles(callback){
     var styles;
-    var url = "//api-dev.qstrike.com/api/materials/styleSheets";
+    var url = "//api.prolook.com/api/materials/styleSheets";
     $.ajax({
         url: url,
         async: false,
@@ -186,7 +186,7 @@ function getStyles(callback){
 getAllStyles(function(all_styles){ window.all_styles = all_styles; });
 function getAllStyles(callback){
     var all_styles;
-    var url = "//api-dev.qstrike.com/api/materials";
+    var url = "//api.prolook.com/api/materials";
     $.ajax({
         url: url,
         async: false,
@@ -248,7 +248,7 @@ $("#myChart").click(
         getStylesBySport(function(style_category){ window.style_category = style_category; });
         function getStylesBySport(callback){
             var style_category;
-            var url = "//api-dev.qstrike.com/api/materials/category/"+window.active_sport;
+            var url = "//api.prolook.com/api/materials/category/"+window.active_sport;
             $.ajax({
                 url: url,
                 async: false,

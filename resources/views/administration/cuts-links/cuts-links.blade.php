@@ -106,7 +106,7 @@ $(document).ready(function(){
 
    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//api-dev.qstrike.com/api/cuts_links/delete/";
+        var url = "//api.prolook.com/api/cuts_links/delete/";
         //var url = "//localhost:8888/api/cuts_links/delete/";
        
         $.ajax({

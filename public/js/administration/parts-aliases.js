@@ -29,7 +29,7 @@ $('.delete-part').on('click', function(){
 
    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//api-dev.qstrike.com/api/parts_alias/delete/";
+        var url = "//api.prolook.com/api/parts_alias/delete/";
         //var url = "//localhost:8888/api/parts_alias/delete/";
        
         $.ajax({
@@ -176,7 +176,7 @@ $('.delete-part').on('click', function(){
               //fabrics loop
               window.fabrics = null;
               var fabric;
-              var url = "http://api-dev.qstrike.com/api/materials_fabrics/";
+              var url = "https://api.prolook.com/api/materials_fabrics/";
               $.ajax({
               url: url,
               async: false,
@@ -387,7 +387,7 @@ $('.delete-part').on('click', function(){
 
     function getBlockPatternsBySportId(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_pattern/sport/"+window.sport_id;
+        var url = "//api.prolook.com/api/block_pattern/sport/"+window.sport_id;
         $.ajax({
             url: url,
             async: false,
@@ -404,7 +404,7 @@ $('.delete-part').on('click', function(){
 
     function getParts(callback){
         var parts;
-        var url = "//api-dev.qstrike.com/api/materials_options/list_parts_names/"+window.material_id;
+        var url = "//api.prolook.com/api/materials_options/list_parts_names/"+window.material_id;
         $.ajax({
             url: url,
             async: false,
@@ -443,7 +443,7 @@ $('.delete-part').on('click', function(){
     function getFabrics(){
       window.fabrics = null;
       var fabric;
-      var url = "http://api-dev.qstrike.com/api/materials_fabrics/";
+      var url = "https://api.prolook.com/api/materials_fabrics/";
       $.ajax({
           url: url,
           async: false,

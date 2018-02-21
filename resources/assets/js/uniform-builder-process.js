@@ -572,7 +572,7 @@ $(document).ready(function() {
 
         };
 
-        var _url = 'http://api-dev.qstrike.com/api/feedback';
+        var _url = 'https://api.prolook.com/api/feedback';
         //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
         $.ajax({

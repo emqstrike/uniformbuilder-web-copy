@@ -2454,7 +2454,7 @@ $(document).ready(function() {
 
     function getColors(callback){
         var colors;
-        var url = "//api-dev.qstrike.com/api/colors";
+        var url = "//api.prolook.com/api/colors";
         $.ajax({
             url: url,
             async: false,
@@ -2471,7 +2471,7 @@ $(document).ready(function() {
 
         function getAccents(callback){
         var mascots;
-       var url = "//api-dev.qstrike.com/api/accents";
+       var url = "//api.prolook.com/api/accents";
         // var url = "//localhost:8888/api/accents";
         $.ajax({
             url: url,
@@ -2489,7 +2489,7 @@ $(document).ready(function() {
     }
     function getTailsweeps(callback){
         var tailsweep;
-       var url = "//api-dev.qstrike.com/api/tailsweeps";
+       var url = "//api.prolook.com/api/tailsweeps";
      //var url = "//localhost:8888/api/tailsweeps";
         $.ajax({
             url: url,
@@ -2509,7 +2509,7 @@ $(document).ready(function() {
 
     function getFonts(callback){
         var mascots;
-        var url = "//api-dev.qstrike.com/api/fonts";
+        var url = "//api.prolook.com/api/fonts";
         $.ajax({
             url: url,
             async: false,
@@ -2526,7 +2526,7 @@ $(document).ready(function() {
 
     function getMascots(callback){
         var mascots;
-        var url = "//api-dev.qstrike.com/api/mascots";
+        var url = "//api.prolook.com/api/mascots";
         $.ajax({
             url: url,
             async: false,
@@ -2543,7 +2543,7 @@ $(document).ready(function() {
 
     function getPatterns(callback){
         var patterns;
-        var url = "//api-dev.qstrike.com/api/patterns";
+        var url = "//api.prolook.com/api/patterns";
         $.ajax({
             url: url,
             async: false,

@@ -50,7 +50,7 @@ $(document).ready(function(){
 
     function getSizingConfig(callback){
         var item_sizes;
-        var url = "//api-dev.qstrike.com/api/item_sizes";
+        var url = "//api.prolook.com/api/item_sizes";
         $.ajax({
             url: url,
             async: false,
@@ -67,7 +67,7 @@ $(document).ready(function(){
 
     function getColors(callback){
         var colors;
-        var url = "//api-dev.qstrike.com/api/colors";
+        var url = "//api.prolook.com/api/colors";
         $.ajax({
             url: url,
             async: false,
@@ -84,7 +84,7 @@ $(document).ready(function(){
 
     function getPatterns(callback){
         var patterns;
-        var url = "//api-dev.qstrike.com/api/patterns";
+        var url = "//api.prolook.com/api/patterns";
         $.ajax({
             url: url,
             async: false,
@@ -381,7 +381,7 @@ $('.updatePart').on('click', function(e){
     };
 
     $.ajax({
-        url: '//api-dev.qstrike.com/api/order/updatePartFromFactory',
+        url: '//api.prolook.com/api/order/updatePartFromFactory',
         type: "POST",
         data: JSON.stringify(data),
         dataType: "json",
@@ -445,7 +445,7 @@ $('.send-to-factory').on('click', function(e){
 
     function getOrderParts(callback){
         var order_parts;
-        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        var url = "//api.prolook.com/api/order/items/"+api_order_id;
         $.ajax({
             url: url,
             async: false,
@@ -494,7 +494,7 @@ $('.send-to-factory').on('click', function(e){
         getMaterial(function(material){ window.material = material; });
         function getMaterial(callback){
             var material;
-            var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
+            var url = "//api.prolook.com/api/material/"+window.customizer_material_id;
             $.ajax({
                 url: url,
                 async: false,
@@ -549,7 +549,7 @@ $('.send-to-factory').on('click', function(e){
                 callback: function (result) {
                     if (result) {
                         $.ajax({
-                            url: 'http://api-dev.qstrike.com/api/test/slack_message/order_error',
+                            url: 'https://api.prolook.com/api/test/slack_message/order_error',
                             type: "POST",
                             data: JSON.stringify(window.error_data),
                             contentType: 'application/json;',
@@ -579,7 +579,7 @@ $('.send-to-factory').on('click', function(e){
 
         function getPAConfigs(callback){
             var parts_aliases;
-            var url = "//api-dev.qstrike.com/api/parts_alias/"+window.material.parts_alias_id;
+            var url = "//api.prolook.com/api/parts_alias/"+window.material.parts_alias_id;
             $.ajax({
                 url: url,
                 async: false,
@@ -793,7 +793,7 @@ function applyConfigs(api_order_id){
     getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
     function getOrderParts(callback){
         var order_parts;
-        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        var url = "//api.prolook.com/api/order/items/"+api_order_id;
         $.ajax({
             url: url,
             async: false,

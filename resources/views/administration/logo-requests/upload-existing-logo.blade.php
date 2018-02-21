@@ -78,7 +78,7 @@ $(document).ready(function(){
     getMascots(function(mascots){ window.mascots = mascots; });
     function getMascots(callback){
         var mascots;
-        var url = "//api-dev.qstrike.com/api/mascots";
+        var url = "//api.prolook.com/api/mascots";
         $.ajax({
             url: url,
             async: false,

@@ -139,7 +139,7 @@ $(document).ready(function(){
     getPriceItems(function(price_items){ window.price_items = price_items; });
     function getPriceItems(callback){
         var price_items;
-        var url = "//api-dev.qstrike.com/api/price_items";
+        var url = "//api.prolook.com/api/price_items";
         $.ajax({
             url: url,
             async: false,
@@ -157,7 +157,7 @@ $(document).ready(function(){
     getPriceItemTemplates(function(price_item_templates){ window.price_item_templates = price_item_templates; });
     function getPriceItemTemplates(callback){
         var price_item_templates;
-        var url = "//api-dev.qstrike.com/api/price_item_templates";
+        var url = "//api.prolook.com/api/price_item_templates";
         $.ajax({
             url: url,
             async: false,

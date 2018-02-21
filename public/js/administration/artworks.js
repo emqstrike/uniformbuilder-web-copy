@@ -30,7 +30,7 @@ function insertAR(data){
     bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
     $.ajax({
         // url: '//' + api_host + '/api/artwork_request',
-        url: '//api-dev.qstrike.com/api/artwork_request',
+        url: '//api.prolook.com/api/artwork_request',
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',

@@ -111,7 +111,7 @@ $('.reply-feedback').on('click', function(){
     var reply_content = $('.reply-content').val();
     var user_id = $('.user-id').val();
     var subject = $('.subject').val();
-    var url = "//api-dev.qstrike.com/api/message";
+    var url = "//api.prolook.com/api/message";
 
     var data = {
         subject: subject,

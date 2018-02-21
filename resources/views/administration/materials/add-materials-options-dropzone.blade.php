@@ -114,7 +114,7 @@ this.addRemoveLinks = true;
 
 function getColors(callback){
     var colors;
-    var url = "//api-dev.qstrike.com/api/colors";
+    var url = "//api.prolook.com/api/colors";
     $.ajax({
         url: url,
         async: false,
@@ -253,7 +253,7 @@ $('.submit-data').on('click', function(e){
     showPleaseWait();
     $('.progress-modal-message').html('Saving images . . .');
 	$.ajax({
-        url: "//api-dev.qstrike.com/api/material_options/insert_multiple_from_dropzone",
+        url: "//api.prolook.com/api/material_options/insert_multiple_from_dropzone",
         type: "POST",
         data: data,
         dataType: "json",

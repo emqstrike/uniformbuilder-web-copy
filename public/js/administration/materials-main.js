@@ -41,7 +41,7 @@ $(document).ready(function() {
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
         var sports;
-        var url = "//api-dev.qstrike.com/api/categories";
+        var url = "//api.prolook.com/api/categories";
         $.ajax({
             url: url,
             async: false,

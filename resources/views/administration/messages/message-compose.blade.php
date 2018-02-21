@@ -140,7 +140,7 @@ $(document).ready(function(){
     getAdmins(function(admins){ window.admins = admins; });
     function getAdmins(callback){
         var admins;
-        // var url = "//api-dev.qstrike.com/api/users/admins";
+        // var url = "//api.prolook.com/api/users/admins";
         var url = "//" + api_host + "/api/users/admins";
         $.ajax({
             url: url,

@@ -96,7 +96,7 @@ function OpenInNewTab(url) {
    
 // function getMascots(callback){
 //     var mascots;
-//     var url = "//api-dev.qstrike.com/api/mascots";
+//     var url = "//api.prolook.com/api/mascots";
 //     $.ajax({
 //         url: url,
 //         async: false,

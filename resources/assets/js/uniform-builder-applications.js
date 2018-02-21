@@ -7923,7 +7923,7 @@ $(document).ready(function() {
             
         });
 
-        var _url = 'http://api-dev.qstrike.com/api/font/dupdate';
+        var _url = 'https://api.prolook.com/api/font/dupdate';
         var _postData = {
             name: _fontObject.name,
             id: fontID,

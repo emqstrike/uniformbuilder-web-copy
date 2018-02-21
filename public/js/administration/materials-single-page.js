@@ -1,7 +1,7 @@
 $(function(){  
 window.materials = null;
 var $materials = $('.materials');
-var url = "//api-dev.qstrike.com/api/materials";
+var url = "//api.prolook.com/api/materials";
 //var url = "//localhost:8888/api/materials";
         $.ajax({
             url: url,
@@ -90,7 +90,7 @@ var url = "//api-dev.qstrike.com/api/materials";
             console.log(material);
 
 
-        var updateurl = "//api-dev.qstrike.com/api/material/updatePartial";          
+        var updateurl = "//api.prolook.com/api/material/updatePartial";          
         $.ajax({
             url: updateurl,
             type: "POST",

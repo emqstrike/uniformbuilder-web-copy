@@ -25,7 +25,7 @@ $(document).ready(function(){
 
    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//api-dev.qstrike.com/api/sales_rep/delete/";
+        var url = "//api.prolook.com/api/sales_rep/delete/";
         //var url = "//localhost:8888/api/sales_rep/delete/";
        
         $.ajax({

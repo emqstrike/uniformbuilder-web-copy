@@ -56,7 +56,7 @@ getMaterials(function(materials){ window.materials = materials; });
 
 function getMaterials(callback){
     var materials;
-    var url = "//api-dev.qstrike.com/api/materials";
+    var url = "//api.prolook.com/api/materials";
     // var url = "localhost:8888/api/materials";
     $.ajax({
         url: url,
