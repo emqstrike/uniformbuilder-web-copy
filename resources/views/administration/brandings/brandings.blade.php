@@ -146,6 +146,7 @@ $(document).ready(function(){
                      console.log(value);
                      $('.branding-' + value).fadeOut();
                      // Will stop running after "three"
+
                    });
 
                }
@@ -234,8 +235,10 @@ $(document).ready(function(){
            contentType: 'application/json',
            headers: {"accessToken": atob(headerValue)},
            success: function(response){
-                  setActive(id);
-                }
+                      if(response.success) {
+                        setActive(id);
+                      }
+                    }
 
         });
         }
