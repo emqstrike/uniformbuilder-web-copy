@@ -13,6 +13,12 @@ $(document).ready(function() {
 		au.endpoints.tailsweeps_url = window.au.config.api_host + '/api/tailsweeps/';
 	}
 
+	window.au.util = {
+		escapeSingleDoubleQuotes: function (jsonString) {
+			return jsonString.replace(/(['"])/g, "\\$1");
+		}
+	};
+
 	au.applications.events = function(){
 
 		/*
