@@ -480,6 +480,13 @@ Route::group(array('prefix' => 'administration'), function() {
     //User Pairings
     Route::get('user_pairings', ['middleware' => 'adminAccess', 'uses' => 'Administration\UserPairingsController@index']);
     Route::get('user_pairings/items/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UserPairingsController@getPairingItemsByID']);
+
+    //Branding
+    Route::get('brandings', ['middleware' => 'adminAccess', 'uses' => 'Administration\BrandingsController@index']);
+    Route::post('brandings/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\BrandingsController@store']);
+    Route::post('brandings/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\BrandingsController@store']);
+    Route::get('brandings/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\BrandingsController@create']);
+    Route::get('brandings/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\BrandingsController@edit']);
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
