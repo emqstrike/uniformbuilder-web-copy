@@ -1232,7 +1232,7 @@ $(document).ready(function() {
                             ub.updateDebugPanelInfo('The Move Tool / Rotate Tool for Tackle Twill uniforms is enabled so that you can make minute adjustments and corrections to the uniforms application, if you want a full customized design please use a sublimated style.');    
                         }
                         
-                        ub.updatePanel(_application.code, view.application);
+                        ub.updateApplicationSpecsPanel(_application.code);
 
                     }
 
@@ -1268,7 +1268,7 @@ $(document).ready(function() {
                             ub.updateDebugPanelInfo('The Move Tool / Rotate Tool for Tackle Twill uniforms is enabled so that you can make minute adjustments and corrections to the uniforms application, if you want a full customized design please use a sublimated style.');    
                         }
 
-                        ub.updatePanel(_application.code, view.application);
+                        ub.updateApplicationSpecsPanel(_application.code);
 
                     }
 
@@ -1313,7 +1313,7 @@ $(document).ready(function() {
                         ub.appObj = application_obj;
                         ub.appObjSettings = view.application;
 
-                        ub.updatePanel(_application.code, view.application);
+                        ub.updateApplicationSpecsPanel(_application.code);
 
                         var _start;
                         if (application_type !== "mascot") {
@@ -1335,7 +1335,7 @@ $(document).ready(function() {
                         
                         $('span.custom_text.scale').html(_start);
 
-                        ub.updatePanel(_application.code, view.application);
+                        ub.updateApplicationSpecsPanel(_application.code);
 
                     }
 
@@ -8257,6 +8257,8 @@ $(document).ready(function() {
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
 
         }
+
+        ub.updateApplicationSpecsPanel(_id);
 
         // New application sizes values from backend
         var _sizesFromConfig = ub.data.applicationSizes.getConfiguration(_applicationType, _id);

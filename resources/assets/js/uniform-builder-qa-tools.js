@@ -450,9 +450,19 @@ $(document).ready(function () {
 
         }
 
-        ub.updatePanel = function (code, app) {
+        ub.updateApplicationSpecsPanel = function (code) {
 
             if (!_.contains(ub.fontGuideIDs, window.ub.valid)) { return; }
+
+            var _application = ub.funcs.getApplicationSettings(code);
+            var _primaryView = ub.funcs.getPrimaryViewObject(_application.application);
+
+            if (typeof _primaryView === "undefined") { 
+
+                ub.utilities.error('No Primary view set for ' + code);
+                return;
+
+            }
 
             var $previewPanelBody = $('div.preview-panel');
 
@@ -475,14 +485,14 @@ $(document).ready(function () {
 
             var data = {
                 applicationCode: code,
-                radians: ((parseFloat(app.rotation) * Math.PI) / 180).toFixed(4),
-                degrees: parseFloat(app.rotation).toFixed(4),
-                positionX: app.center.x.toFixed(4), // Frontend
-                positionY: app.center.y.toFixed(4), // Frontend
-                positionXBackend: ((app.center.x / 2 ) - 3).toFixed(4), // Backend
-                positionYBackend: (app.center.y.toFixed(4) / 2).toFixed(4), // Backend
-                scaleX: typeof app.scale === "undefined" ? 1: app.scale.x.toFixed(4),
-                scaleY: typeof app.scale === "undefined" ? 1: app.scale.y.toFixed(4),
+                radians: ((parseFloat(_primaryView.application.rotation) * Math.PI) / 180).toFixed(4),
+                degrees: parseFloat(_primaryView.application.rotation).toFixed(4),
+                positionX: _primaryView.application.center.x.toFixed(4), // Frontend
+                positionY: _primaryView.application.center.y.toFixed(4), // Frontend
+                positionXBackend: ((_primaryView.application.center.x / 2 ) - 3).toFixed(4), // Backend
+                positionYBackend: (_primaryView.application.center.y.toFixed(4) / 2).toFixed(4), // Backend
+                scaleX: typeof _primaryView.application.scale === "undefined" ? 1: _primaryView.application.scale.x.toFixed(4),
+                scaleY: typeof _primaryView.application.scale === "undefined" ? 1: _primaryView.application.scale.y.toFixed(4),
             };
 
             var markup = Mustache.render(template, data);
