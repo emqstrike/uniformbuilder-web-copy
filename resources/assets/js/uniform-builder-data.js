@@ -10392,7 +10392,22 @@ ub.funcs.fontOffSets = [
                     sport: 'Wrestling Compression Shorts (Apparel)',
                     option: "Compression Shorts",  
                 },
-
+                {
+                    sport: 'Football 2017',
+                    option: "Jersey",  
+                },
+                {
+                    sport: 'Football 2017',
+                    option: "Full Length",  
+                },
+                {
+                    sport: 'Football 2017',
+                    option: "Waist",  
+                },
+                {
+                    sport: 'Football 2017',
+                    option: "Waist 2017 Reversible",  
+                },
         ],
         currentUniformOk: function () {
 
