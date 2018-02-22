@@ -14,12 +14,12 @@ $(document).ready(function() {
 	}
 
 	window.au.util = {
-		escapeSingleDoubleQuotes: function (jsonString) {
-			return jsonString.replace(/(['"])/g, "\\$1");
+		escapeSingleQuotes: function (jsonString) {
+			return jsonString.replace(/(['])/g, "\\$1");
 		},
 		stringifyThenJSONParse: function (jsonObject) {
 			return JSON.parse(JSON.stringify(jsonObject));
-		},
+		}
 	};
 
 	au.applications.events = function(){
