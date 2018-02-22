@@ -8250,8 +8250,6 @@ $(document).ready(function() {
 
         }
 
-        ub.updateApplicationSpecsPanel(_id);
-
         // New application sizes values from backend
         var _sizesFromConfig = ub.data.applicationSizes.getConfiguration(_applicationType, _id);
 
@@ -8312,6 +8310,8 @@ $(document).ready(function() {
         var _patternFilename  = 'none.png';
         var _colorArray       = _settingsObject.color_array;
         var _colorArrayString = '';
+
+        ub.updateApplicationSpecsPanel(_id);
 
         _.each(_colorArray, function (_color) {
 
