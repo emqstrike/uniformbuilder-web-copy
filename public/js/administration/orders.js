@@ -422,6 +422,7 @@ $('.send-to-factory').on('click', function(e){
     api_order_id = $(this).data('api-order-id');
     order_id = $(this).data('order-id');
     client = $(this).data('client');
+    client = escapeSingleQuotes(client);
 
     ship_contact = $(this).data('ship-contact');
     ship_address = $(this).data('ship-address');
@@ -1220,6 +1221,10 @@ function translateToSocksColor(color_name, color_code){
     }
 
     return value;
+}
+
+function escapeSingleQuotes(jsonString) {
+    return jsonString.replace(/(['])/g, "\\$1");
 }
 
 });
