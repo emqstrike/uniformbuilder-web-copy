@@ -61,6 +61,10 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <table class="table table-bordered table-striped">
+                                <tbody class="order-items">
+                                </tbody>
+                            </table>
                         </div>
                     </center>
                 </div>
@@ -79,8 +83,13 @@ window.colors = null;
 window.item_sizes = null;
 window.pa_id = null;
 window.patterns = null;
+<<<<<<< HEAD
 window.post_order_url = 'https://qx.azurewebsites.net/api/Order/PostOrderDetails';
 window.roster = null;
+=======
+window.post_order_url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
+window.roster = [];
+>>>>>>> d894b383ea41fef3b8015858f6cab3f6a5d70db0
 window.send_order = false;
 window.test_size_data = null;
 
@@ -542,9 +551,31 @@ $('.view-order-items').on('click', function(e){
     console.log(window.order_id);
 
     getOrderItems(function(order_items){ window.order_items = order_items; });
-    // e.preventDefault();
-    // var roster = JSON.parse($('.order-roster').text());
+
     console.log(window.order_items);
+    var elem = '';
+    window.order_items.forEach(function(item) {
+        elem += '<tr><td colspan="4"><b>Style Name</b></td><td colspan="4">'+item.description+'</td></tr>';
+        elem += '<tr><td colspan="4"><b>QX Item ID</b></td><td colspan="4">'+item.item_id+'</td></tr>';
+        elem += '<tr><td colspan="4"><b>FOID</b></td><td colspan="4">'+item.factory_order_id+'</td></tr>';
+        elem += '<tr><td colspan="4"><b>PID</b></td><td colspan="4">'+item.pid+'</td></tr>';
+        elem += '<tr><td colspan="8"><center><a href="#" class="btn btn-primary build-question-values">Build Question Values</a></center></td></tr>';
+        var z = JSON.parse(item.roster);
+        z.forEach(function(en) {
+            ctr = parseInt(en.Quantity);
+            delete en.Quantity;
+            delete en.SleeveCut;
+            for(i = 0; i<ctr; i++){
+                window.roster.push(en);
+            }
+        });
+        window.roster.forEach(function(i) {
+            elem += '<tr><td><b>Size</b></td><td>'+i.Size+'</td>';
+            elem += '<td><b>Name</b></td><td>'+i.Name+'</td>';
+            elem += '<td><b>LastNameApplication</b></td><td>'+i.LastNameApplication+'</td></tr>';
+        });
+    });
+    $('.order-items').append(elem);
 });
 
 function getOrderItems(callback){
@@ -562,6 +593,257 @@ function getOrderItems(callback){
             if(typeof callback === "function") callback(order_items);
         }
     });
+}
+
+function applyConfigs(api_order_id){
+    getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
+    function getOrderParts(callback){
+        var order_parts;
+        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                order_parts = data['order'];
+                if(typeof callback === "function") callback(order_parts);
+            }
+        });
+    }
+    // use the parts alias config for assign correct values to correct parts
+    var sport_id = window.pa.uniform_category_id;
+    var type = window.pa.type.toLowerCase();
+
+
+    var properties = JSON.parse(window.pa.properties);
+    var questions = [];
+
+
+    properties.forEach(function(entry) {
+        console.log("<<<<<< ENTRY >>>>>>");
+
+        console.log(entry.input_type);
+
+        var question_id = parseInt(entry.part_questions);
+        var value = null;
+        var name = null;
+        var color_code = null;
+        var color_name = null;
+        var color = null;
+        var pattern = null;
+        var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
+        var data_pushed = false;
+        // RESUME HERE
+        console.log(builder_customizations);
+
+        if( entry.input_type == "Pattern" ){
+
+            try {
+                pattern = builder_customizations[type][entry.part_name]['pattern']['pattern_obj']['name'];
+                value = pattern.replace(/[0-9]/g, '');
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        } else if( entry.input_type == "Color" ){
+            try {
+                color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
+                color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
+                if(color_name == "Charcoal Grey"){
+                    color_name = "Charcoal Gray";
+                }
+                value = color_name + " " + "(" + color_code + ")";
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        } else if( entry.input_type == "Material" ){
+
+            try {
+                value = entry.edit_part_value;
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        } else if( entry.input_type == "Team_Color" ){
+            var idx = 0;
+
+            if(entry.part_questions == "347"){
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "348"){
+                idx = 1;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "349"){
+                idx = 2;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "350"){
+                idx = 3;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "465"){
+                idx = 4;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "466"){
+                idx = 5;
+                value = getQuestionColorValue(builder_customizations, idx);
+            }
+        } else if( entry.input_type == "Sock_Color" ){
+            var idx = 0;
+
+            if( builder_customizations['randomFeeds']['Top Welt'] != undefined ){
+                console.log('==== Top Welt ====');
+                var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 403,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 433,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+                console.log('==== Z ====');
+                console.log(z.length);
+            }
+
+            if( builder_customizations['randomFeeds']['Arch'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Arch']['layers'];
+                console.log('==== Arch Welt ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 400,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 430,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Toe'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Toe']['layers'];
+                console.log('==== Toe ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 399,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 429,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Heel'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Heel']['layers'];
+                console.log('==== Heel ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 398,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 428,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Padding'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Padding']['layers'];
+                console.log('==== Padding ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 401,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 431,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            if( builder_customizations['randomFeeds']['Body'] != undefined ){
+                var z = builder_customizations['randomFeeds']['Body']['layers'];
+                console.log('==== Body ====');
+                console.log("==== Z[0] ====");
+                console.log(z[0]);
+                if( z.length > 1 ){
+                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
+                    questions.push({
+                        "QuestionID" : 402,
+                        "Value" : val
+                    });
+                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                    questions.push({
+                        "QuestionID" : 432,
+                        "Value" : val2
+                    });
+                    data_pushed = true;
+                }
+            }
+
+            try {
+                console.log(">>>>>>> BUILDER CUSTOMIZATIONS");
+                console.log(builder_customizations['lower'][entry.part_name]);
+                color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
+                color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
+
+                value = translateToSocksColor(color_name, color_code);
+
+            } catch(err) {
+                console.log(err.message);
+            }
+            
+        }
+
+        if( data_pushed == false ){
+            var data = {
+                "QuestionID" : question_id,
+                "Value" : value
+            };
+
+            questions.push(data);
+        }
+
+    });
+
+    console.log(questions);
+    questions = _.uniq(questions, function(item, key, a) { 
+        return item.QuestionID;
+    });
+    return questions;
 }
 
 // function drawOrderItems(){

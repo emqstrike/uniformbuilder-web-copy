@@ -6,7 +6,7 @@ $(document).ready(function(){
     window.test_size_data = null;
     window.item_sizes = null;
 
-    window.roster = null;
+    window.roster = [];
 
     window.send_order = false;
     window.error_message = null;
@@ -27,6 +27,8 @@ $(document).ready(function(){
             console.log(propt + ': ' + JSON.stringify(grouped[propt]));
         }
         window.roster.forEach(function(entry) {
+            console.log('WINDOW ENTRY');
+            console.log(entry);
             var size = entry.Size;
             var res = _.find(window.test_size_data, function(e){ return e.size == size; });
             var qx_item_id = res['qx_item_id'];
@@ -36,7 +38,7 @@ $(document).ready(function(){
                 }
             });
         });
-        console.log('ROSTER');
+        console.log('WINDOW ROSTER');
         console.log(window.roster);
 
         console.log('ITEMS');
@@ -420,6 +422,7 @@ $('.send-to-factory').on('click', function(e){
     api_order_id = $(this).data('api-order-id');
     order_id = $(this).data('order-id');
     client = $(this).data('client');
+    client = escapeSingleQuotes(client);
 
     ship_contact = $(this).data('ship-contact');
     ship_address = $(this).data('ship-address');
@@ -596,15 +599,19 @@ $('.send-to-factory').on('click', function(e){
 
         var questions_valid = applyConfigs(api_order_id);
 
-        console.log(questions_valid);
         entry.orderQuestions = {
             "OrderQuestion": questions_valid
         };
 
-        entry.orderItems = JSON.parse(entry.roster);
-        window.roster = entry.orderItems;
-        delete entry.orderItems[0].Quantity;
-        delete entry.orderItems[0].SleeveCut;
+        var z = JSON.parse(entry.roster);
+        z.forEach(function(en) {
+            ctr = parseInt(en.Quantity);
+            delete en.Quantity;
+            delete en.SleeveCut;
+            for(i = 0; i<ctr; i++){
+                window.roster.push(en);
+            }
+        });
 
         delete entry.builder_customizations;
         delete entry.description;
@@ -697,7 +704,7 @@ $('.send-to-factory').on('click', function(e){
             console.log(roster);
 
             if( roster.length > 0 ){
-               x.orderItems = roster;
+                x.orderItems = roster;
                 order_parts_split.push(x); 
                 console.log('HAS ROSTER');
             } else {
@@ -1214,6 +1221,10 @@ function translateToSocksColor(color_name, color_code){
     }
 
     return value;
+}
+
+function escapeSingleQuotes(jsonString) {
+    return jsonString.replace(/(['])/g, "\\$1");
 }
 
 });
