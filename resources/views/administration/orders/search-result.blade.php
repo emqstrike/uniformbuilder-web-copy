@@ -83,13 +83,8 @@ window.colors = null;
 window.item_sizes = null;
 window.pa_id = null;
 window.patterns = null;
-<<<<<<< HEAD
 window.post_order_url = 'https://qx.azurewebsites.net/api/Order/PostOrderDetails';
 window.roster = null;
-=======
-window.post_order_url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
-window.roster = [];
->>>>>>> d894b383ea41fef3b8015858f6cab3f6a5d70db0
 window.send_order = false;
 window.test_size_data = null;
 
