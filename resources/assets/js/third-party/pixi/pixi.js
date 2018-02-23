@@ -1449,7 +1449,7 @@ process.umask = function() { return 0; };
 
 },{}],5:[function(require,module,exports){
 (function (global){
-/*! http://mths.be/punycode v1.2.4 by @mathias */
+/*! https://mths.be/punycode v1.2.4 by @mathias */
 ;(function(root) {
 
 	/** Detect free variables */
@@ -1549,7 +1549,7 @@ process.umask = function() { return 0; };
 	 * UCS-2 exposes as separate characters) into a single code point,
 	 * matching UTF-16.
 	 * @see `punycode.ucs2.encode`
-	 * @see <http://mathiasbynens.be/notes/javascript-encoding>
+	 * @see <https://mathiasbynens.be/notes/javascript-encoding>
 	 * @memberOf punycode.ucs2
 	 * @name decode
 	 * @param {String} string The Unicode input string (UCS-2).
@@ -1643,7 +1643,7 @@ process.umask = function() { return 0; };
 
 	/**
 	 * Bias adaptation function as per section 3.4 of RFC 3492.
-	 * http://tools.ietf.org/html/rfc3492#section-3.4
+	 * https://tools.ietf.org/html/rfc3492#section-3.4
 	 * @private
 	 */
 	function adapt(delta, numPoints, firstTime) {
@@ -1918,7 +1918,7 @@ process.umask = function() { return 0; };
 		/**
 		 * An object of methods to convert from JavaScript's internal character
 		 * representation (UCS-2) to Unicode code points, and back.
-		 * @see <http://mathiasbynens.be/notes/javascript-encoding>
+		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
 		 * @memberOf punycode
 		 * @type Object
 		 */
@@ -2250,7 +2250,7 @@ Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
   var rest = url;
 
   // trim before proceeding.
-  // This is to support parse stuff like "  http://foo.com  \n"
+  // This is to support parse stuff like "  https://foo.com  \n"
   rest = rest.trim();
 
   var proto = protocolPattern.exec(rest);
@@ -2285,8 +2285,8 @@ Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
     // URLs are obnoxious.
     //
     // ex:
-    // http://a@b@c/ => user:a@b host:c
-    // http://a@b?@c => user:a host:c path:/?@c
+    // https://a@b@c/ => user:a@b host:c
+    // https://a@b?@c => user:a host:c path:/?@c
 
     // v0.12 TODO(isaacs): This is not quite how Chrome does things.
     // Review our test case against browsers more comprehensively.
@@ -2307,7 +2307,7 @@ Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
       atSign = rest.lastIndexOf('@');
     } else {
       // atSign must be in auth portion.
-      // http://a@b/c@d => host:b auth:a path:/c@d
+      // https://a@b/c@d => host:b auth:a path:/c@d
       atSign = rest.lastIndexOf('@', hostEnd);
     }
 
@@ -2585,7 +2585,7 @@ Url.prototype.resolveObject = function(relative) {
         result[k] = relative[k];
     });
 
-    //urlParse appends trailing / to urls like http://www.example.com
+    //urlParse appends trailing / to urls like https://www.example.com
     if (slashedProtocol[result.protocol] &&
         result.hostname && !result.pathname) {
       result.path = result.pathname = '/';
@@ -3292,7 +3292,7 @@ function indexCurve(data, start, minX, minY, size) {
 }
 
 // Simon Tatham's linked list merge sort algorithm
-// http://www.chiark.greenend.org.uk/~sgtatham/algorithms/listsort.html
+// https://www.chiark.greenend.org.uk/~sgtatham/algorithms/listsort.html
 function sortLinked(list) {
     var i, p, q, e, tail, numMerges, pSize, qSize,
         inSize = 1;
@@ -5082,21 +5082,21 @@ module.exports = Loader;
  * ```js
  * loader
  *     // normal param syntax
- *     .add('key', 'http://...', function () {})
- *     .add('http://...', function () {})
- *     .add('http://...')
+ *     .add('key', 'https://...', function () {})
+ *     .add('https://...', function () {})
+ *     .add('https://...')
  *
  *     // object syntax
  *     .add({
  *         name: 'key2',
- *         url: 'http://...'
+ *         url: 'https://...'
  *     }, function () {})
  *     .add({
- *         url: 'http://...'
+ *         url: 'https://...'
  *     }, function () {})
  *     .add({
  *         name: 'key3',
- *         url: 'http://...'
+ *         url: 'https://...'
  *         onComplete: function () {}
  *     })
  *     .add({
@@ -5107,9 +5107,9 @@ module.exports = Loader;
  *
  *     // you can also pass an array of objects or urls or both
  *     .add([
- *         { name: 'key4', url: 'http://...', onComplete: function () {} },
- *         { url: 'http://...', onComplete: function () {} },
- *         'http://...'
+ *         { name: 'key4', url: 'https://...', onComplete: function () {} },
+ *         { url: 'https://...', onComplete: function () {} },
+ *         'https://...'
  *     ]);
  * ```
  *
@@ -5761,7 +5761,7 @@ Resource.prototype._loadXdr = function () {
 
     // XDomainRequest has a few quirks. Occasionally it will abort requests
     // A way to avoid this is to make sure ALL callbacks are set even if not used
-    // More info here: http://stackoverflow.com/questions/15786966/xdomainrequest-aborts-post-on-ie-9
+    // More info here: https://stackoverflow.com/questions/15786966/xdomainrequest-aborts-post-on-ie-9
     xdr.timeout = 5000;
 
     xdr.onerror = this._boundXhrOnError;
@@ -6331,7 +6331,7 @@ module.exports={
     "Richard Davey <rdavey@gmail.com>"
   ],
   "main": "./src/index.js",
-  "homepage": "http://goodboydigital.com/",
+  "homepage": "https://goodboydigital.com/",
   "bugs": "https://github.com/GoodBoyDigital/pixi.js/issues",
   "license": "MIT",
   "repository": {
@@ -12822,7 +12822,7 @@ CanvasGraphics.renderGraphics = function (graphics, context)
         }
         else if (data.type === CONST.SHAPES.ELIP)
         {
-            // ellipse code taken from: http://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas
+            // ellipse code taken from: https://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas
 
             var w = shape.width * 2;
             var h = shape.height * 2;
@@ -12957,7 +12957,7 @@ CanvasGraphics.renderGraphicsMask = function (graphics, context)
         else if (data.type === CONST.SHAPES.ELIP)
         {
 
-            // ellipse code taken from: http://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas
+            // ellipse code taken from: https://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas
 
             var w = shape.width * 2;
             var h = shape.height * 2;
@@ -16297,7 +16297,7 @@ var math = require('../../../math'),
     StencilMaskStack = require('./StencilMaskStack');
 
 /**
- * @author Mat Groves http://matgroves.com/ @Doormat23
+ * @author Mat Groves https://matgroves.com/ @Doormat23
  */
 
 /**
@@ -18538,7 +18538,7 @@ BaseTexture.prototype.loadSource = function (source)
             scope.emit('error', scope);
         };
 
-        // Per http://www.w3.org/TR/html5/embedded-content-0.html#the-img-element
+        // Per https://www.w3.org/TR/html5/embedded-content-0.html#the-img-element
         //   "The value of `complete` can thus change while a script is executing."
         // So complete needs to be re-checked after the callbacks have been added..
         // NOTE: complete will be true if the image has no src so best to check if the src is set.
@@ -19684,9 +19684,9 @@ var BaseTexture = require('./BaseTexture'),
  * This can be used in several ways, such as:
  *
  * ```js
- * var texture = PIXI.VideoBaseTexture.fromUrl('http://mydomain.com/video.mp4');
+ * var texture = PIXI.VideoBaseTexture.fromUrl('https://mydomain.com/video.mp4');
  *
- * var texture = PIXI.VideoBaseTexture.fromUrl({ src: 'http://mydomain.com/video.mp4', mime: 'video/mp4' });
+ * var texture = PIXI.VideoBaseTexture.fromUrl({ src: 'https://mydomain.com/video.mp4', mime: 'video/mp4' });
  *
  * var texture = PIXI.VideoBaseTexture.fromUrls(['/video.webm', '/video.mp4']);
  *
@@ -19696,7 +19696,7 @@ var BaseTexture = require('./BaseTexture'),
  * ]);
  * ```
  *
- * See the ["deus" demo](http://www.goodboydigital.com/pixijs/examples/deus/).
+ * See the ["deus" demo](https://www.goodboydigital.com/pixijs/examples/deus/).
  *
  * @class
  * @extends PIXI.BaseTexture
@@ -20427,7 +20427,7 @@ var utils = module.exports = {
      */
     getNextPowerOfTwo: function (number)
     {
-        // see: http://en.wikipedia.org/wiki/Power_of_two#Fast_algorithm_to_check_if_a_positive_number_is_a_power_of_two
+        // see: https://en.wikipedia.org/wiki/Power_of_two#Fast_algorithm_to_check_if_a_positive_number_is_a_power_of_two
         if (number > 0 && (number & (number - 1)) === 0)
         {
             return number;
@@ -20496,7 +20496,7 @@ var utils = module.exports = {
         if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
         {
             var args = [
-                '\n %c %c %c Pixi.js ' + CONST.VERSION + ' - ✰ ' + type + ' ✰  %c ' + ' %c ' + ' http://www.pixijs.com/  %c %c ♥%c♥%c♥ \n\n',
+                '\n %c %c %c Pixi.js ' + CONST.VERSION + ' - ✰ ' + type + ' ✰  %c ' + ' %c ' + ' https://www.pixijs.com/  %c %c ♥%c♥%c♥ \n\n',
                 'background: #ff66a5; padding:5px 0;',
                 'background: #ff66a5; padding:5px 0;',
                 'color: #ff66a5; background: #030307; padding:5px 0;',
@@ -20512,7 +20512,7 @@ var utils = module.exports = {
         }
         else if (window.console)
         {
-            // window.console.log('Pixi.js ' + CONST.VERSION + ' - ' + type + ' - http://www.pixijs.com/'); //jshint ignore:line
+            // window.console.log('Pixi.js ' + CONST.VERSION + ' - ' + type + ' - https://www.pixijs.com/'); //jshint ignore:line
         }
 
         utils._saidHello = true;
@@ -20977,8 +20977,8 @@ var core = require('../core');
  * ```
  *
  *
- * http://www.angelcode.com/products/bmfont/ for windows or
- * http://www.bmglyph.com/ for mac.
+ * https://www.angelcode.com/products/bmfont/ for windows or
+ * https://www.bmglyph.com/ for mac.
  *
  * @class
  * @extends PIXI.Container
@@ -23626,7 +23626,7 @@ var core = require('../../core');
  * A convolution combines pixels in the input image with neighboring pixels to produce a new image.
  * A wide variety of image effects can be achieved through convolutions, including blurring, edge
  * detection, sharpening, embossing, and beveling. The matrix should be specified as a 9 point Array.
- * See http://docs.gimp.org/en/plug-in-convmatrix.html for more info.
+ * See https://docs.gimp.org/en/plug-in-convmatrix.html for more info.
  *
  * @class
  * @extends PIXI.AbstractFilter
@@ -23820,7 +23820,7 @@ var core = require('../../core');
 
 
 /**
- * @author Mat Groves http://matgroves.com/ @Doormat23
+ * @author Mat Groves https://matgroves.com/ @Doormat23
  * original filter: https://github.com/evanw/glfx.js/blob/master/src/filters/fun/dotscreen.js
  */
 
@@ -24735,7 +24735,7 @@ var core = require('../../core');
 
 /**
  * @author Vico @vicocotea
- * original filter https://github.com/evanw/glfx.js/blob/master/src/filters/blur/tiltshift.js by Evan Wallace : http://madebyevan.com/
+ * original filter https://github.com/evanw/glfx.js/blob/master/src/filters/blur/tiltshift.js by Evan Wallace : https://madebyevan.com/
  */
 
 /**
@@ -24860,7 +24860,7 @@ var core = require('../../core'),
 
 /**
  * @author Vico @vicocotea
- * original filter https://github.com/evanw/glfx.js/blob/master/src/filters/blur/tiltshift.js by Evan Wallace : http://madebyevan.com/
+ * original filter https://github.com/evanw/glfx.js/blob/master/src/filters/blur/tiltshift.js by Evan Wallace : https://madebyevan.com/
  */
 
 /**
@@ -24968,7 +24968,7 @@ var TiltShiftAxisFilter = require('./TiltShiftAxisFilter');
 
 /**
  * @author Vico @vicocotea
- * original filter https://github.com/evanw/glfx.js/blob/master/src/filters/blur/tiltshift.js by Evan Wallace : http://madebyevan.com/
+ * original filter https://github.com/evanw/glfx.js/blob/master/src/filters/blur/tiltshift.js by Evan Wallace : https://madebyevan.com/
  */
 
 /**
@@ -25006,7 +25006,7 @@ var TiltShiftAxisFilter = require('./TiltShiftAxisFilter');
 
 /**
  * @author Vico @vicocotea
- * original filter https://github.com/evanw/glfx.js/blob/master/src/filters/blur/tiltshift.js by Evan Wallace : http://madebyevan.com/
+ * original filter https://github.com/evanw/glfx.js/blob/master/src/filters/blur/tiltshift.js by Evan Wallace : https://madebyevan.com/
  */
 
 /**
@@ -27413,9 +27413,9 @@ require('./requestAnimationFrame');
 },{"./Object.assign":129,"./requestAnimationFrame":131}],131:[function(require,module,exports){
 (function (global){
 // References:
-// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+// https://paulirish.com/2011/requestanimationframe-for-smart-animating/
 // https://gist.github.com/1579671
-// http://updates.html5rocks.com/2012/05/requestAnimationFrame-API-now-with-sub-millisecond-precision
+// https://updates.html5rocks.com/2012/05/requestAnimationFrame-API-now-with-sub-millisecond-precision
 // https://gist.github.com/timhall/4078614
 // https://github.com/Financial-Times/polyfill-service/tree/master/polyfills/requestAnimationFrame
 

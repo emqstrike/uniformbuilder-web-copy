@@ -9,7 +9,7 @@
 </div>
 
 <div class="row-fluid col-md-12">
-    <img src="http://www.prolook.com/media//catalog/slider/footballslider.jpg">
+    <img src="https://www.prolook.com/media//catalog/slider/footballslider.jpg">
 </div>
 
 

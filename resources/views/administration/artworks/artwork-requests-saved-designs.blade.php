@@ -188,7 +188,7 @@ $('.reject-artwork').on('click', function(e){
         callback: function(result){ /* result is a boolean; true = OK, false = Cancel*/ 
             if(result){
                 bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
-                var order_link = 'http://customizer.prolook.com/order/'+data.order_code;
+                var order_link = 'https://customizer.prolook.com/order/'+data.order_code;
                 var message = "Please edit the order and submit it again using this link: "+order_link;
                 data.content = result+". "+message; // message content
                 console.log(data);

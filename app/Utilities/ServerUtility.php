@@ -6,7 +6,7 @@ class ServerUtility
 {
     /**
      * Retrieve visitor's IP address
-     * @from http://stackoverflow.com/questions/13646690/how-to-get-real-ip-from-visitor
+     * @from https://stackoverflow.com/questions/13646690/how-to-get-real-ip-from-visitor
      */
     public static function getIpAddress()
     {

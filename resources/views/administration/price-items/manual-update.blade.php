@@ -28,7 +28,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Source URL</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control source-url-input" name="name" value="http://qx.azurewebsites.net/api/priceitem?DealerId=6">
+                                <input type="text" class="form-control source-url-input" name="name" value="https://qx.azurewebsites.net/api/priceitem?DealerId=6">
                             </div>
                             <a href="#" class="btn btn-primary get-source">GET</a>
                         </div>

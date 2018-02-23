@@ -132,7 +132,7 @@
       
         var id = $(this).data('tailsweep-id');
         console.log(id);
-        // var url = "http://localhost:8888/api/tailsweep/delete";
+        // var url = "https://localhost:8888/api/tailsweep/delete";
        var url = "//" + api_host + "/api/tailsweep/delete/";
                    
         $.ajax({

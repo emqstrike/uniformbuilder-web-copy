@@ -33,10 +33,10 @@
         </div>
         <div class="panel-body">
             <div>
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
             </div>
         </div>
     </div>
@@ -48,10 +48,10 @@
         </div>
         <div class="panel-body">
             <div>
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
             </div>
         </div>
     </div>
@@ -63,10 +63,10 @@
         </div>
         <div class="panel-body">
             <div>
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
-                <img src="http://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
+                <img src="https://placehold.it/100x100" alt="..." class="img-thumbnail">
             </div>
         </div>
     </div>

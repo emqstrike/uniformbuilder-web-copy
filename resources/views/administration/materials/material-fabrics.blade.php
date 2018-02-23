@@ -90,7 +90,7 @@
         
         var id = $(this).data('materials-fabric-id');
 
-        //var url = "http://localhost:8888/api/materials_fabric/delete";
+        //var url = "https://localhost:8888/api/materials_fabric/delete";
         var url = "//api.prolook.com/api/materials_fabric/delete/";
                    
         $.ajax({

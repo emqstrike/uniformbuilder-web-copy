@@ -182,7 +182,7 @@ $(document).ready(function() {
             NextURL: "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");",
             CartURL: "https://stores.inksoft.com/ProLook_Sports/Cart",
             OrderSummary: true,
-            VideoLink: "http://www.youtube.com/watch?v=EfXICdRwt4E",
+            VideoLink: "https://www.youtube.com/watch?v=EfXICdRwt4E",
             Phone: "801-404-4022",
             WelcomeScreen: "",
             ContactUsLink: "/ProLook_Sports/Stores/Contact",
@@ -299,7 +299,7 @@ $(document).ready(function() {
             NextURL: "javascript:designID=0;window.is.isMessage(designID," + _applicationID + ");",
             CartURL: "https://stores.inksoft.com/ProLook_Sports/Cart",
             OrderSummary: true,
-            VideoLink: "http://www.youtube.com/watch?v=EfXICdRwt4E",
+            VideoLink: "https://www.youtube.com/watch?v=EfXICdRwt4E",
             Phone: "801-404-4022",
             WelcomeScreen: "",
             ContactUsLink: "/ProLook_Sports/Stores/Contact",
@@ -518,7 +518,7 @@ $(document).ready(function() {
 
     ub.funcs.getDesignSummary = function (designID, applicationID) {
 
-        var _url = 'http://stores.inksoft.com/GetDesignSummary/80974/' + designID;
+        var _url = 'https://stores.inksoft.com/GetDesignSummary/80974/' + designID;
         var _settingsObject = ub.funcs.getApplicationSettings(applicationID);
 
         _settingsObject.application_type = 'embellishments';

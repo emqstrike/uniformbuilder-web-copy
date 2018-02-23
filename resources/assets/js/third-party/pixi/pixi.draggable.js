@@ -28,7 +28,7 @@
 /**
  * PIXI Draggables & Droppables v1.0.0
  * Copyright (c) 2014, Sebastian Nette
- * http://www.mokgames.com/
+ * https://www.mokgames.com/
  */
 
 /**

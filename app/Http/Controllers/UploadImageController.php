@@ -71,7 +71,7 @@ class UploadImageController extends Controller
     public function uploadImageForm()
     {
         return view('upload-image-form', [
-           'api_upload_image_endpoint' => 'http://' . env('API_HOST') . '/api/image/upload'
+           'api_upload_image_endpoint' => 'https://' . env('API_HOST') . '/api/image/upload'
         ]);
     }
 

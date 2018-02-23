@@ -73,7 +73,7 @@ class MobileNotificationController extends Controller
         $response = $this->client->createMobileNotification($data);
 
 
-        return redirect()->away('http://www.prolook.com/');
+        return redirect()->away('https://www.prolook.com/');
       
     }
 

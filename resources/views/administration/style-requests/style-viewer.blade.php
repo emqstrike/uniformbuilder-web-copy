@@ -19,7 +19,7 @@
         border: none !important;
     }
     .has-loading {
-      background: transparent url('http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif') center no-repeat;
+      background: transparent url('https://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif') center no-repeat;
     }
 </style>
 @endsection
@@ -288,7 +288,7 @@ $(function(){
     generateValues();
     function generateValues(button_pressed = "next"){
 
-        $('.front-image').attr("src", "http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif");
+        $('.front-image').attr("src", "https://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif");
         $('.front-image').css("height", "420px");
         $('.front-image').css("width", "388px");
 

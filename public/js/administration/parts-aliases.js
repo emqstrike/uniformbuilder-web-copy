@@ -423,7 +423,7 @@ $('.delete-part').on('click', function(){
 
     function getQuestionsList(callback){
         var questions_list;
-        var url = "http://qx.azurewebsites.net/api/itemquestion?itemid="+window.item_id;
+        var url = "https://qx.azurewebsites.net/api/itemquestion?itemid="+window.item_id;
         $.ajax({
             url: url,
             async: false,

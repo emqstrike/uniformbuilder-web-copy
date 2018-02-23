@@ -54,7 +54,7 @@
                             @if ($mascot->icon)
                             <img src="{{ $mascot->icon }}" width="100px" height="100px">
                             @else
-                            <img src="http://dummyimage.com/100" width="100px" height="100px">
+                            <img src="https://dummyimage.com/100" width="100px" height="100px">
                             @endif
                         </td>
                         <td>

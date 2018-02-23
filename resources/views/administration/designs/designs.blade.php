@@ -50,7 +50,7 @@
                                 @if ($design->thumbnail_path)
                                 <img src="{{ $design->thumbnail_path }}" width="100px" height="100px" />
                                 @else
-                                <img src="http://dummyimage.com/100" width="100px" height="100px" />
+                                <img src="https://dummyimage.com/100" width="100px" height="100px" />
                                 @endif
                             </td>
                             <td>

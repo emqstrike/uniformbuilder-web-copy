@@ -19,7 +19,7 @@
         border: none !important;
     }
     .has-loading {
-      background: transparent url('http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif') center no-repeat;
+      background: transparent url('https://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif') center no-repeat;
     }
 </style>
 @endsection

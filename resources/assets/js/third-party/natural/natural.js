@@ -1707,7 +1707,7 @@ exports.inspect = function(obj, showHidden, depth, colors) {
   var seen = [];
 
   var stylize = function(str, styleType) {
-    // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+    // https://en.wikipedia.org/wiki/ANSI_escape_code#graphics
     var styles =
         { 'bold' : [1, 22],
           'italic' : [3, 23],
@@ -3453,7 +3453,7 @@ require.define("/node_modules/underscore/underscore.js",function(require,module,
 //     Portions of Underscore are inspired or borrowed from Prototype,
 //     Oliver Steele's Functional, and John Resig's Micro-Templating.
 //     For all details and documentation:
-//     http://documentcloud.github.com/underscore
+//     https://documentcloud.github.com/underscore
 
 (function() {
 
@@ -3896,7 +3896,7 @@ require.define("/node_modules/underscore/underscore.js",function(require,module,
 
   // Generate an integer Array containing an arithmetic progression. A port of
   // the native Python `range()` function. See
-  // [the Python documentation](http://docs.python.org/library/functions.html#range).
+  // [the Python documentation](https://docs.python.org/library/functions.html#range).
   _.range = function(start, stop, step) {
     if (arguments.length <= 1) {
       stop = start || 0;
@@ -4130,7 +4130,7 @@ require.define("/node_modules/underscore/underscore.js",function(require,module,
   // Internal recursive comparison function.
   function eq(a, b, stack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
-    // See the Harmony `egal` proposal: http://wiki.ecmascript.org/doku.php?id=harmony:egal.
+    // See the Harmony `egal` proposal: https://wiki.ecmascript.org/doku.php?id=harmony:egal.
     if (a === b) return a !== 0 || 1 / a == 1 / b;
     // A strict comparison is necessary because `null == undefined`.
     if (a == null || b == null) return a === b;
@@ -5111,7 +5111,7 @@ var _ = require("underscore")._;
 
 /*
  Sentences Analizer Class
- From http://www.writingcentre.uottawa.ca/hypergrammar/sntpurps.html
+ From https://www.writingcentre.uottawa.ca/hypergrammar/sntpurps.html
 
  Take a POS input and analyse it for
   - Type of Sentense
@@ -5341,7 +5341,7 @@ THE SOFTWARE.
 */
 
 // Computes the Jaro distance between two string -- intrepreted from:
-// http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance
+// https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance
 // s1 is the first string to compare
 // s2 is the second string to compare
 function distance(s1, s2) {
@@ -5412,7 +5412,7 @@ function distance(s1, s2) {
 }
 
 // Computes the Winkler distance between two string -- intrepreted from:
-// http://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance
+// https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance
 // s1 is the first string to compare
 // s2 is the second string to compare
 // dj is the Jaro Distance (if you've already computed it), leave blank and the method handles it

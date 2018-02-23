@@ -1,5 +1,5 @@
 /**
- * Based on http://www.openjs.com/scripts/events/keyboard_shortcuts/
+ * Based on https://www.openjs.com/scripts/events/keyboard_shortcuts/
  * modified to be accesbile from the ub namespace 
  */
 

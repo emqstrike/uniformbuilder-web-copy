@@ -184,7 +184,7 @@ $(document).ready(function(){
     $(document).on('click', '.confirmButtonYes', function(){
       
         var id = $(this).data('splash-image-id');
-       // var url = "http://localhost:8888/api/splash_image/delete";
+       // var url = "https://localhost:8888/api/splash_image/delete";
         var url = "//" + api_host + "/api/splash_image/delete/";
                    
         $.ajax({

@@ -13,7 +13,7 @@ class TeamStoreAPIClient extends Client
     public function __construct()
     {
         $settings = [
-            'base_uri' => 'http://' . getenv('TEAM_STORE_API_BASE') . '/'
+            'base_uri' => 'https://' . getenv('TEAM_STORE_API_BASE') . '/'
         ];
 
         $accessToken = Session::get('accessToken');

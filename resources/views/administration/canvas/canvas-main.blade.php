@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="{{$asset_storage}}/canvas/internal/images/fav-ico.png" />
-    <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 
     <!-- Third Party Stylesheets -->
 
@@ -69,7 +69,7 @@
         <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
         <script src="{{$asset_storage}}/canvas/third-party/threejs/three.js?v={{$asset_version}}"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.5.0/fabric.min.js"></script>
         <script src="{{$asset_storage}}/canvas/third-party/dropzone/dropzone.js?v={{$asset_version}}"></script>
         <script src="{{$asset_storage}}/canvas/third-party/fabric-orbitcontrols/orbitcontrols.js?v={{$asset_version}}"></script>
 

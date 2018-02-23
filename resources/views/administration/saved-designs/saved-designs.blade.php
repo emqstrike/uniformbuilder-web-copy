@@ -84,7 +84,7 @@
                                 {{ $design->created_at }}
                             </td>
                             <td>
-                                <a href="http://customizer.prolook.com/my-saved-design/{{ $design->id }}" class="btn btn-primary btn-xs">View in Customizer</a>
+                                <a href="https://customizer.prolook.com/my-saved-design/{{ $design->id }}" class="btn btn-primary btn-xs">View in Customizer</a>
                             </td>
                         </tr>
 

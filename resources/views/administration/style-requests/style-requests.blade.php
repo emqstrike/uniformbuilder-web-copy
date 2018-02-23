@@ -102,7 +102,7 @@
                         <!-- <td class="style-customizer-id">{{ $style_request->customizer_id }}</td> -->
                         <td>
                             <input type="hidden" name="style_customizer_id"" class="style-customizer-id" value="{{ $style_request->customizer_id }}">
-                            <a href="#" class="btn btn-defult btn-xs file-link" data-link="http://customizer.prolook.com/builder/0/{{ $style_request->customizer_id }}">{{ $style_request->customizer_id }}</a>
+                            <a href="#" class="btn btn-defult btn-xs file-link" data-link="https://customizer.prolook.com/builder/0/{{ $style_request->customizer_id }}">{{ $style_request->customizer_id }}</a>
                         </td>
                         <td>
                             <input type="hidden" name="style_status"" class="style-status" value="{{ $style_request->status }}">
@@ -671,7 +671,7 @@ $(function(){
             window.rowData[8] = priority;
             window.rowData[11] = type;
             window.rowData[12] = application_type;
-            window.rowData[14] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+customizer_id+`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='http://customizer.prolook.com/builder/0/`+customizer_id+`'>`+customizer_id+`</a>`;
+            window.rowData[14] = `<input type="hidden" name="style_customizer_id" class="style-customizer-id" value='`+customizer_id+`'><a href="#" class="btn btn-defult btn-xs file-link" data-link='https://customizer.prolook.com/builder/0/`+customizer_id+`'>`+customizer_id+`</a>`;
             window.rowData[15] =    `<input type="hidden" name="style_status" class="style-status" value='`+status+`'><input type="hidden" name="style_is_fixed" class="style-is-fixed" value='`+is_fixed+`'>`+status;
                 if(is_fixed == 1 && status == 'rejected') {
                     window.rowData[15] += `<a href="#" data-toggle="tooltip" data-message="Fixed"><span class="glyphicon glyphicon-info-sign"></span></a>`;

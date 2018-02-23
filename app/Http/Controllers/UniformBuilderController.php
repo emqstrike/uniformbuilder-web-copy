@@ -863,7 +863,7 @@ class UniformBuilderController extends Controller
                 } else {
 
                     $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
-                    $html .=   '<a href="http://' . env('WEBSITE_URL') . '/administration/mascot/edit/' . $application['mascot']['id'] . '" target="_new">Link To Mascot Details</a> <br />';
+                    $html .=   '<a href="https://' . env('WEBSITE_URL') . '/administration/mascot/edit/' . $application['mascot']['id'] . '" target="_new">Link To Mascot Details</a> <br />';
                     $html .=   '<a href="' . $application['mascot']['ai_file'] . '" target="_new">Link To Mascot PDF File</a> <br />';
 
                 }
@@ -885,7 +885,7 @@ class UniformBuilderController extends Controller
 
                 $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '"><br />';    
                 $html .=   '<a href="' . $embellishment['svg_filename'] . '" target="_new">Link To Prepared File</a> <br />';
-                $html .=   '<a href="http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
+                $html .=   '<a href="https://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
                 $html .=   '</td>';
 
             }
@@ -1882,8 +1882,8 @@ class UniformBuilderController extends Controller
         $pdf->AddPage("L");
         $pdf->Write(0, 'Prolook Design Sheet');
 
-        $pdf->ImageSVG('@' . $replaced_contents, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.prolook.com', $align='', $palign='', $border=1, $fitonpage=false);
-        $pdf->ImageSVG($svg_file, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='http://www.tcpdf.org', $align='', $palign='', $border=1, $fitonpage=true);
+        $pdf->ImageSVG('@' . $replaced_contents, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='https://www.prolook.com', $align='', $palign='', $border=1, $fitonpage=false);
+        $pdf->ImageSVG($svg_file, $x=0, $y=0, $w='3909.13', $h='2376.85', $link='https://www.tcpdf.org', $align='', $palign='', $border=1, $fitonpage=true);
         $pdf->Output($path, 'F');
 
         $body_front = '';
