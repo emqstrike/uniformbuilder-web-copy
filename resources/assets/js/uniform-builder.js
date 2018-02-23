@@ -6682,10 +6682,12 @@ $(document).ready(function () {
             }
 
             if (sport === "Socks (Apparel)") {
-                $('span.slink[data-item="Twill"]').html('Knitted');
-                $('span.slink[data-item="Twill"]').show();
+                console.error('1');
+                $('span.slink[data-item="Twill"]').hide();
+            } else {
+                console.error('2');
+                $('span.slink[data-item="Knitted"]').hide();
             }
-
 
         }
 
@@ -7245,6 +7247,10 @@ $(document).ready(function () {
                 } else if (_dataItem === "Twill") {
 
                     ub.filters.secondary = "tackle_twill";
+
+                } else if (_dataItem === "Knitted") {
+
+                    ub.filters.secondary = "knitted";
 
                 } else {
 
