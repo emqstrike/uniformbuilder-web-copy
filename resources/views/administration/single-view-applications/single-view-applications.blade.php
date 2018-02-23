@@ -106,7 +106,7 @@ $(document).ready(function(){
         console.log(e);
     }
 
-    $('.delete-single-view-applications').on('click', function(){
+    $(document).on('click', '.delete-single-view-applications', function(){
        var id = [];
        id.push( $(this).data('single-view-applications-id'));
        modalConfirm('Remove Single View Applications', 'Are you sure you want to delete the single view application?', id);
