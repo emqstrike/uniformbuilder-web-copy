@@ -22,7 +22,6 @@ var TeamStoreToolBox = {
         if ($('#show-team-store-toolbox')) {
             $('#show-team-store-toolbox').on('click', TeamStoreToolBox.show);
         }
-        // $('#team-store-toolbox').draggable();
 
         // Enable the teamstore icon at the LEFT MENU
         $('#left-side-toolbar span.team-store').show();
