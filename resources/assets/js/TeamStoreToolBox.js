@@ -11,6 +11,8 @@ var TeamStoreToolBox = {
     progress_modal: null,
 
     init: function() {
+        $('#team-store-toolbox, .team-store-toolbox').fadeIn('fast');
+
         $('#team-store-toolbox .create-team-store').on('click', TeamStoreToolBox.create_team_store);
         $('#team-store-toolbox .open-team-store').on('click', TeamStoreToolBox.open_team_store);
         $('#team-store-toolbox .update-images').on('click', TeamStoreToolBox.update_images);
@@ -18,10 +20,8 @@ var TeamStoreToolBox = {
         $('#team-store-toolbox .view-product-page').on('click', TeamStoreToolBox.view_product_page);
         // $('#team-store-toolbox .open-team-store-products').on('click', TeamStoreToolBox.open_products);
         $('#team-store-toolbox .open-team-store-manager-products').on('click', TeamStoreToolBox.open_store_manager_products);
-        $('#team-store-toolbox .close').on('click', TeamStoreToolBox.close);
-        if ($('#show-team-store-toolbox')) {
-            $('#show-team-store-toolbox').on('click', TeamStoreToolBox.show);
-        }
+
+        $('#show-team-store-toolbox').click(TeamStoreToolBox.toggle);
 
         // Enable the teamstore icon at the LEFT MENU
         $('#left-side-toolbar span.team-store').show();
@@ -33,20 +33,10 @@ var TeamStoreToolBox = {
         return false;
     },
 
-    show: function () {
-        $('#team-store-toolbox').fadeIn('fast');
-        $('#show-team-store-toolbox').addClass('visible');
-    },
-
-    hide: function() {
-        $('#team-store-toolbox').fadeOut('fast', function () {
-            $('#show-team-store-toolbox').removeClass('visible');
-        });
-    },
-
-    close: function() {
-        $('#team-store-toolbox').fadeOut('fast', function () {
-            $('#show-team-store-toolbox').removeClass('visible');
+    toggle: function() {
+        $('#team-store-toolbox').fadeToggle('fast', function () {
+            $('#show-team-store-toolbox').toggleClass('visible');
+            $('#show-team-store-toolbox').parent().toggleClass('visible');
         });
     },
 
