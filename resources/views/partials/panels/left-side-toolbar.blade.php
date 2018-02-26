@@ -10,7 +10,7 @@
     <br />
 @if (\Session::has('is_show_teamstore_toolbox'))
     @if (\Session::get('is_show_teamstore_toolbox'))
-    <hr class="left-side-divider middle middle-bottom fav-top" />
+    <hr class="left-side-divider middle middle-bottom fav-top" style="margin-bottom: 7px;" />
 
     <span class="toolbar-item team-store" id="show-team-store-toolbox">
         <i class="fa fa-group" aria-hidden="true"></i>
@@ -21,7 +21,7 @@
     @endif
 @endif
 
-    <hr class="left-side-divider middle middle-bottom" />
+    <hr class="left-side-divider middle middle-bottom" style="margin-top: 8px;" />
 
     <span class="toolbar-item fullscreen-btn">
         <i class="fa fa-arrows-alt" aria-hidden="true"></i><br />

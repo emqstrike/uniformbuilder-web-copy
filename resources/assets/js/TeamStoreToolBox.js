@@ -22,12 +22,12 @@ var TeamStoreToolBox = {
         if ($('#show-team-store-toolbox')) {
             $('#show-team-store-toolbox').on('click', TeamStoreToolBox.show);
         }
-        $('#team-store-toolbox').draggable();
+        // $('#team-store-toolbox').draggable();
 
         // Enable the teamstore icon at the LEFT MENU
         $('#left-side-toolbar span.team-store').show();
 
-        $('#team-store-toolbox').addClass('visible');
+        $('#show-team-store-toolbox, #team-store-toolbox').addClass('visible');
     },
 
     has_team_store_account: function() {
@@ -35,15 +35,20 @@ var TeamStoreToolBox = {
     },
 
     show: function () {
-        $('#team-store-toolbox').fadeIn();
+        $('#team-store-toolbox').fadeIn('fast');
+        $('#show-team-store-toolbox').addClass('visible');
     },
 
     hide: function() {
-        $('#team-store-toolbox').fadeOut();
+        $('#team-store-toolbox').fadeOut('fast', function () {
+            $('#show-team-store-toolbox').removeClass('visible');
+        });
     },
 
     close: function() {
-        $('#team-store-toolbox').fadeOut();
+        $('#team-store-toolbox').fadeOut('fast', function () {
+            $('#show-team-store-toolbox').removeClass('visible');
+        });
     },
 
     create_team_store: function() {
