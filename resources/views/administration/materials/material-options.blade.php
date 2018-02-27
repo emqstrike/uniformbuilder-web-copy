@@ -4,6 +4,8 @@
 
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 
 @endsection
@@ -35,6 +37,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
     overflow-x: scroll;
     max-width: 100%;
 }
+
 </style>
 <div class="col-md-12" style="margin-top: -40px;">
 <input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">
