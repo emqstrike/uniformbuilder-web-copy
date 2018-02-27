@@ -716,7 +716,7 @@ $(document).ready(function() {
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
         var vertical_text           = '<input type="checkbox" style="' + style + '" class="app-vertical-text" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
-        var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
+        var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '"><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: "><span class="glyphicon glyphicon-info-sign"></span></a>';
         var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
         var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
         var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" size="2" value="100">';
@@ -724,7 +724,7 @@ $(document).ready(function() {
         var app_default_pattern     = `<select style="` + style + `" class="app-def-pattern" data-id="` + group.id + `">` + def_patterns_options + `</select><div class="col-md-12 app_pattern_layers_OC" data-id="` + group.id + `" id="app_pattern_layers_OC"></div><input type="hidden" style="` + style + `" data-id="` + group.id + `" class="app-pattern-properties" value=`+blank_pattern+`>`;
         var custom_scale_x          = '<input type="text" style="' + style + '" class="app-custom-scale-x" value="0" size="4">';
         var custom_scale_y          = '<input type="text" style="' + style + '" class="app-custom-scale-y" value="0" size="4">';
-        var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
+        var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1"><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: "><span class="glyphicon glyphicon-info-sign"></span></a>';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
 
@@ -893,7 +893,21 @@ $(document).ready(function() {
 
         updateApplicationsJSON();
 
+        $(document).on('change', '.app-id', function(){
+            var temp_app_id = $(this).val();
+            $(this).parent().find('.appTooltip').data('message', 'App #: '+temp_app_id);
+        });
+
+        $('[data-toggle="tooltip"]').popover({
+            html: true,
+            trigger: 'hover',
+            placement: 'top',
+            content: function(){
+                return $(this).data('message');
+            }
+        });
     });
+
 
     $(document).on('click', '.delete-application', function() {
         var itemIdx = $(this).data('id');
@@ -1330,7 +1344,23 @@ $(document).ready(function() {
         $('#save-material-option-applications-modal .material-id').val(material.id);
         $('#save-material-option-applications-modal .modal-title span').html("Edit: " + material.option.name);
         $('#save-material-option-applications-modal').modal('show');
+
+        $(document).on('change', '.app-id', function(){
+            var temp_app_id = $(this).val();
+            $(this).parent().parent().find('.appTooltip').data('message', 'App #: '+temp_app_id);
+        });
+
+        $('[data-toggle="tooltip"]').popover({
+            html: true,
+            trigger: 'hover',
+            placement: 'top',
+            content: function(){
+                return $(this).data('message');
+            }
+        });
     });
+
+
 
     $('.edit-material-option-info').on('click', function(){
         $('#pattern_layers_OC').html('');
@@ -1700,7 +1730,7 @@ $(document).ready(function() {
                 var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '" >';
                 var default_mascot      = '<input type="textbox" class="mascotFilter"><select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '" data-id="' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
                 var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '" >';
-                var default_tailsweep            = '<select style=' + style + ' id="default_tailsweep_' + c + '" class="app-default-tailsweep" data-id="' + c + '"></select><input type="hidden" class="app-tailsweep-value amv' + c + '" id="amv' + c + '" >';
+                var default_tailsweep   = '<select style=' + style + ' id="default_tailsweep_' + c + '" class="app-default-tailsweep" data-id="' + c + '"></select><input type="hidden" class="app-tailsweep-value amv' + c + '" id="amv' + c + '" >';
                 var app_font = "";
                 if(app_properties[l].hasOwnProperty('defaultFont')){
                     app_font = app_properties[l].defaultFont;
@@ -1766,13 +1796,13 @@ $(document).ready(function() {
                 var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
                 var embellishment       = '<input type="checkbox" style="'  + style + '" class="app-embellishment" value="1" '         + embellishment_checked                    + '>';
                 var inksoft_design_id   = '<input type="number" style="'      + style + '" class="app-inksoft-design-id" value="'        + app_properties[l].inksoftDesignID       + '" size="3">';
-                var flipped             = '<input type="checkbox" style="'  + style + '" class="app-flipped" value="1" '         + flipped_checked                    + '>';
+                var flipped             = '<input type="checkbox" style="'  + style + '" class="app-flipped" value="1" '         + flipped_checked                    + '><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: ' + app_properties[l].id + '"><span class="glyphicon glyphicon-info-sign"></span></a>';
                 var app_opacity         = '<input type="number" style="'      + style + '" class="app-opacity" value="'        + app_properties[l].appOpacity       + '" size="2">';
                 var def_pattern_position= '<input type="number" style="'      + style + '" class="app-def-pattern-position" value="'        + app_properties[l].appDefPatternPosition       + '" size="2">';
                 var app_default_pattern = `<select style='` + style + `'; float: left; width: 300px;" class="app-def-pattern" data-id='` + group.id + `'>'` + def_patterns_options + `'</select><div class="col-md-12 app_pattern_layers_OC" data-id='` + group.id + `' id="app_pattern_layers_OC"></div><input type="hidden" style='` + style+ `' class="app-pattern-properties" data-id='` + group.id + `' value='` +app_properties[l].appPatternProperties+ `'>`;
-                var custom_scale_x      = '<input type="text" style="' + style + '" class="app-custom-scale-x" value="'         + appCustomScaleX     + '" size="4">';
+                var custom_scale_x      = `<input type="text" style="` + style + `" class="app-custom-scale-x" value="`         + appCustomScaleX     + `" size="4">`;
                 var custom_scale_y      = '<input type="text" style="' + style + '" class="app-custom-scale-y" value='          + appCustomScaleY     + ' size="4">'
-                var rotated_tailsweep   = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '>';
+                var rotated_tailsweep   = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: ' + app_properties[l].id + '"><span class="glyphicon glyphicon-info-sign"></span></a>';
 
                 // Append options to selectbox
                 var select_append       = '<select class="app-def-item" style="' + style + '" data-id="' + c + '">';
@@ -2641,7 +2671,7 @@ $(document).ready(function() {
         var tr = '<tr class="application-row">';
         var c = 0;
         fields.forEach(function(entry) {
-            if( c === 15 ){
+            if( c === 15 ) {
                 tr += '<td class="msc">' + entry + '</td>';
             } else if(c === 16){
                 tr += '<td class="tsc">' + entry + '</td>';
