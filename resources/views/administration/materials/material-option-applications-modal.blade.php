@@ -99,7 +99,7 @@
                             </select>
                             <input type="text" name="application_name" id="application_name" value="Logo" style="margin-bottom: 10px;">
                         </div>
-                        <table class="table table-bordered" id="applications_table">
+                        <table class="table table-bordered table-hover" id="applications_table">
                             <thead>
                                 <th></th>
                                 <th>App #</th>
