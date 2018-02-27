@@ -10173,8 +10173,11 @@ ub.funcs.fontOffSets = [
                 sport: 'Socks (Apparel)',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Wrestling Compression Shorts (Apparel)',
+                sublimatedPart: 'Extra',
+            },
             
-
             // Socks (Apparel)
         ],
 
@@ -10219,6 +10222,10 @@ ub.funcs.fontOffSets = [
                 if (ub.current_material.material.uniform_application_type !== "sublimated") { _result = undefined; }
             }
 
+            if (sport === "Wrestling Compression Shorts (Apparel)") {
+                if (ub.current_material.material.uniform_application_type !== "sublimated") { _result = undefined; }
+            }
+
             return _result;
 
         },
@@ -10259,6 +10266,10 @@ ub.funcs.fontOffSets = [
             }
 
             if (sport === "Lacrosse") {
+                if (ub.current_material.material.uniform_application_type !== "sublimated") { _result = undefined; }
+            }
+
+            if (sport === "Wrestling Compression Shorts (Apparel)") {
                 if (ub.current_material.material.uniform_application_type !== "sublimated") { _result = undefined; }
             }
           
