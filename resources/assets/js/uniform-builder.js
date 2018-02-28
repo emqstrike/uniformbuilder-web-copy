@@ -6821,14 +6821,21 @@ $(document).ready(function () {
             var _str = '';
             
             var d = { block_patterns: _optionsCollection, }
+
+            // Don't include Crew in the Quarternary options, todo: move this to a config list
+            d.block_patterns = _.filter(d.block_patterns, function (item) { return item.alias !== "Crew"; });
+
             var m = Mustache.render(t, d);
-            
+
             $('.quarternary-bar').html(m);
 
             // Don't show quarternary bar if there's no items
             if (_optionsCollection.length > 0) {
                 $('div.quarternary-bar').fadeIn();            
             }
+
+            // Side effect of whitelist
+            if (d.block_patterns.length === 0) { $('div.quarternary-bar').hide(); }
 
             $('div.quarternary-bar').css('margin-top', "0px");
 
