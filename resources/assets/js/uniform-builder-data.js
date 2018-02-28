@@ -2162,6 +2162,10 @@ $(document).ready(function() {
                 name: "Compression Pant (Apparel)",
                 alias: "compression-pant",
             },
+            { 
+                name: "Wrestling Compression Shorts (Apparel)",
+                alias: "wrestling-compression-shorts",
+            },
 
         ],
 
