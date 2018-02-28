@@ -2162,6 +2162,10 @@ $(document).ready(function() {
                 name: "Compression Pant (Apparel)",
                 alias: "compression-pant",
             },
+            { 
+                name: "Wrestling Compression Shorts (Apparel)",
+                alias: "wrestling-compression-shorts",
+            },
 
         ],
 
@@ -10173,8 +10177,11 @@ ub.funcs.fontOffSets = [
                 sport: 'Socks (Apparel)',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Wrestling Compression Shorts (Apparel)',
+                sublimatedPart: 'Extra',
+            },
             
-
             // Socks (Apparel)
         ],
 
@@ -10215,6 +10222,14 @@ ub.funcs.fontOffSets = [
 
             }
 
+            if (sport === "Lacrosse") {
+                if (ub.current_material.material.uniform_application_type !== "sublimated") { _result = undefined; }
+            }
+
+            if (sport === "Wrestling Compression Shorts (Apparel)") {
+                if (ub.current_material.material.uniform_application_type !== "sublimated") { _result = undefined; }
+            }
+
             return _result;
 
         },
@@ -10246,7 +10261,6 @@ ub.funcs.fontOffSets = [
 
             if (sport === "Hockey") {
 
-                // Disable free-form tool on football if block pattern is not infused 14
                 if (ub.current_material.material.uniform_application_type !== "sublimated") {
 
                     _result = undefined;
@@ -10254,8 +10268,15 @@ ub.funcs.fontOffSets = [
                 }
 
             }
-          
 
+            if (sport === "Lacrosse") {
+                if (ub.current_material.material.uniform_application_type !== "sublimated") { _result = undefined; }
+            }
+
+            if (sport === "Wrestling Compression Shorts (Apparel)") {
+                if (ub.current_material.material.uniform_application_type !== "sublimated") { _result = undefined; }
+            }
+          
             return _.size(_result) > 0;
 
         }
