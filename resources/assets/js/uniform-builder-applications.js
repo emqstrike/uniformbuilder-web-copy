@@ -6488,23 +6488,18 @@ $(document).ready(function() {
 
         if (typeof _sizesFromConfig !== "undefined") {
 
-            // Debug Info
-            if (ub.config.sport === "Football 2017") {
+            ub.utilities.info('Using sizes from backend: ');
 
-                console.log('Default Sizes: ');
-                console.log(_sizes);
-                console.log('Application #: ');
-                console.log(_id);
+            console.log('Default Sizes: ');
+            console.log(_sizes);
+            console.log('Application #: ');
+            console.log(_id);
 
-                ub.utilities.info('Using sizes from backend: ');
-                
-                console.log(_sizesFromConfig);
-                console.log(_sizesFromConfig.sizes);
-                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+            console.log(_sizesFromConfig);
+            console.log(_sizesFromConfig.sizes);
+            console.log(_.pluck(_sizesFromConfig.sizes, "size"));
 
-                _sizes = _sizesFromConfig;
-
-            }
+            if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport)) { _sizes = _sizesFromConfig; } 
 
         } else {
 
@@ -9714,7 +9709,6 @@ $(document).ready(function() {
         if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
             // _sizes = _.find(ub.data.applicationSizesPant.items, {name: applicationType, sport: sport, id});   
             _sizes = ub.data.applicationSizesPant.getSize(applicationType, sport, parseInt(id));
-
         }
 
         if (typeof _sizes === 'undefined') {
