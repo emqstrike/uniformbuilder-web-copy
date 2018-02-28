@@ -6672,7 +6672,6 @@ $(document).ready(function () {
                     $('span.slink[data-item="Knitted"]').show();
                 }
 
-
             } else if (_secondaryBarLabels.type === "both") {
 
                 $('span.slink[data-item="Jersey"]').html(_secondaryBarLabels.upperLabel);
@@ -6681,14 +6680,12 @@ $(document).ready(function () {
 
             }
 
-            if (sport === "Socks (Apparel)") {
-                console.error('1');
-                $('span.slink[data-item="Twill"]').hide();
-            } else {
-                console.error('2');
-                $('span.slink[data-item="Knitted"]').hide();
-            }
+        }
 
+        if (sport === "Socks (Apparel)") {
+            $('span.slink[data-item="Twill"]').hide();
+        } else {
+            $('span.slink[data-item="Knitted"]').hide();
         }
 
     }
