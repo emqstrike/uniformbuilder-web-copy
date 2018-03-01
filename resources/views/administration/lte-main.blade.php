@@ -45,7 +45,7 @@
 .introTrigger{
     font-size: 31px;
     padding: 10px;
-    
+
 }
 .introStart{
     display: none;
@@ -153,13 +153,13 @@
 <!-- Scripts -->
 @if (Session::get('accessToken'))
 <script type="text/javascript">
-    
+
     window.headerValue = "{{ base64_encode(Session::get('accessToken')) }}";
     window.api_host = "{{ env('API_HOST') }}";
     @if (Session::get('isLoggedIn'))
     window.loggedInUser = {{ Session::get('userId') }};
     @endif
-    
+
 </script>
 @endif
 
@@ -185,7 +185,7 @@
 <!-- <script src="/dist/js/app.min.js"></script> -->
 <script src="/dist/js/app.js"></script>
 <script src="/js/administration/jquery-confirm.js"></script>
-<script src="/intro-js/intro.js"></script>
+<script src="/intro-js/intro.min.js"></script>
 
 
 
@@ -193,7 +193,7 @@
 
 @yield('scripts')
 @yield('custom-scripts')
-    
+
      <script>
 
 
@@ -204,13 +204,13 @@
 
 
             $(".sidebar-toggle").trigger("click");
-            
+
         });
         $(".sidebar-toggle").click(function(){
             setTimeout(function () {
-                jQuery(".introStart").trigger("click"); 
+                jQuery(".introStart").trigger("click");
             }, 1000);
-         
+
         });
 
     $(".introStart").click(function() {
@@ -225,23 +225,23 @@
             }).onchange(function(targetElement) {
               console.log('change');
             }).onbeforechange(function(targetElement) {
-              
-            
+
+
           switch($(targetElement).attr("data-step")) {
             case "2":
-               
+
               break;
             case "3":
-                $(".treeview a").trigger("click");   
+                $(".treeview a").trigger("click");
             //     setTimeout(function () {
-            //     jQuery(".introStart").trigger("click"); 
+            //     jQuery(".introStart").trigger("click");
             // }, 1000);
               break;
             case "4":
-              
+
               break;
             case "5":
-             
+
               break;
           }
         }).start();
@@ -252,13 +252,13 @@
       $("#flexi_form_start").click(function() {
 
         introJs().onbeforechange(function(targetElement) {
-              
-            
+
+
           switch($(targetElement).attr("data-step")) {
             case "2":
           $( ".sidebar-toggle" ).trigger('click');
-            
-             
+
+
               break;
             case "3":
               $("input").addClass("error");
@@ -284,7 +284,7 @@
     updateObjectSizes();
 
     function sizesLoop(sizes,cl){
-      for (var item of sizes) { 
+      for (var item of sizes) {
        $(cl).append("<input type='checkbox' value="+ item +"> : "+item + "<br>");
       }
     }
@@ -308,7 +308,7 @@
     function createObjectAdultYouthSizes(th,size){
       var value = $(th).val();
       if($(th).is(':checked')){
-          size.push(value);    
+          size.push(value);
           console.log(value);
       }else{
           size.splice( $.inArray(value,size) ,1 );
@@ -320,18 +320,18 @@
 
     }
     function updateObjectSizes(){
-     
+
       if($("input[name='sizes']").val()){
          var sizes = $("input[name='sizes']").val();
           sizes = JSON.parse(sizes);
 
             $.each( sizes, function( key, value ) {
-              for (var item of value) { 
+              for (var item of value) {
 
                 $('.'+key+'Sizes :input[value='+ item +']').attr( "checked", true );
-              }            
+              }
             });
-      }     
+      }
     }
 
     </script>

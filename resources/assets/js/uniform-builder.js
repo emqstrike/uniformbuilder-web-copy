@@ -6672,7 +6672,6 @@ $(document).ready(function () {
                     $('span.slink[data-item="Knitted"]').show();
                 }
 
-
             } else if (_secondaryBarLabels.type === "both") {
 
                 $('span.slink[data-item="Jersey"]').html(_secondaryBarLabels.upperLabel);
@@ -6681,14 +6680,12 @@ $(document).ready(function () {
 
             }
 
-            if (sport === "Socks (Apparel)") {
-                console.error('1');
-                $('span.slink[data-item="Twill"]').hide();
-            } else {
-                console.error('2');
-                $('span.slink[data-item="Knitted"]').hide();
-            }
+        }
 
+        if (sport === "Socks (Apparel)") {
+            $('span.slink[data-item="Twill"]').hide();
+        } else {
+            $('span.slink[data-item="Knitted"]').hide();
         }
 
     }
@@ -6821,14 +6818,21 @@ $(document).ready(function () {
             var _str = '';
             
             var d = { block_patterns: _optionsCollection, }
+
+            // Don't include Crew in the Quarternary options, todo: move this to a config list
+            d.block_patterns = _.filter(d.block_patterns, function (item) { return item.alias !== "Crew"; });
+
             var m = Mustache.render(t, d);
-            
+
             $('.quarternary-bar').html(m);
 
             // Don't show quarternary bar if there's no items
             if (_optionsCollection.length > 0) {
                 $('div.quarternary-bar').fadeIn();            
             }
+
+            // Side effect of whitelist
+            if (d.block_patterns.length === 0) { $('div.quarternary-bar').hide(); }
 
             $('div.quarternary-bar').css('margin-top', "0px");
 
