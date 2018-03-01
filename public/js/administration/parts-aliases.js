@@ -7,7 +7,7 @@ $(document).ready(function(){
     window.material_id = null;
     window.parts_options = null;
 
-    window.questions_list = null;getQuestionsList
+    window.questions_list = null;
     window.item_id = null;
     window.questions_options = null;
     window.question_names = null;
