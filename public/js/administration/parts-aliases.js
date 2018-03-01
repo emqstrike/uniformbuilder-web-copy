@@ -50,7 +50,7 @@ $('.delete-part').on('click', function(){
                    });
                    $('#confirmation-modal').modal('hide');
                   $.each(id, function (index, value) {
-                     console.log(value);
+                     // console.log(value);
                      $('.part-' + value).fadeOut();
 
                      // Will stop running after "three"
@@ -79,7 +79,7 @@ $('.delete-part').on('click', function(){
         });
         
         var properties = JSON.stringify(temp);
-        console.log(properties);
+
         $('#properties').val(properties);
         
         var data = JSON.parse(properties);              
@@ -97,107 +97,88 @@ $('.delete-part').on('click', function(){
     $('.load-props').on('click', function(e){
       e.preventDefault();
       var properties = $('#properties').val();
-      if(properties !== "")
-      {  
+
+      var material_id = $('.material-id-parts').val();
+      window.material_id = material_id;
+      getParts(function(parts){ window.parts = parts; });
+      var part_names = $.map(window.parts, function(value, index) {
+          return [value];
+      });
+
+    var item_id = $('.item-id').val();
+    window.item_id = item_id;
+
+      getQuestionsList(function(questions_list){ window.questions_list = questions_list; });
+
+      var arranged_questions = _.sortBy(window.questions_list, function(e){ return e.QuestionID; });
+
+      getSourceFabrics(function(materials_fabrics){ window.source_fabrics = materials_fabrics; });
+      if(properties !== ""){  
         $('#getPartsModal').modal('show');
 
         setTimeout(function(){
-          //var properties = $('#properties').val();
-          //console.log(properties);
+
           var data = JSON.parse(properties);
-          data.forEach(function(entry)
-          {
-              var part_name = entry.part_name;
-              //part name loop
-                
-                var material_id = $('.material-id-parts').val();
-                window.material_id = material_id;
-                getParts(function(parts){ window.parts = parts; });
-                  var part_names = $.map(window.parts, function(value, index) {
-                      return [value];
-                  });
-                window.parts_options_names = null;
-                var part_name_options_elem = '';
+          data.forEach(function(entry){
 
-                  part_names.forEach(function(entry) {
-                      if(entry == part_name){
-                          part_name_options_elem += '<option value="'+entry+'" selected>'+entry+'</option>';
-                      } else {
-                          part_name_options_elem += '<option value="'+entry+'">'+entry+'</option>';
-                      }
-                  });
+            var part_name = entry.part_name;
+            window.parts_options_names = null;
+            var part_name_options_elem = '';
 
-              window.parts_options_names = part_name_options_elem;
-              // end of part name loop   
-              //part questions loop
-              var q_id = entry.part_questions;
-              var q_name = entry.edit_part_name;
-              var item_id = $('.item-id').val();
-              window.item_id = item_id;
-              getQuestionsList(function(questions_list){ window.questions_list = questions_list; });
-              window.questions_options = null;
-              var part_question_id_elem = '';
-              var question_names_elem = '';
-              window.questions_names = null;
-              var arranged_questions = _.sortBy(window.questions_list, function(e){ return e.QuestionID; });
-
-              arranged_questions.forEach(function(entry) {
-
-                  if(entry.QuestionID == q_id){
-                    part_question_id_elem += '<option value="'+entry.QuestionID+'" selected>['+entry.QuestionID+'] '+entry.Question+' --- '+entry.QuestionGroup+'</option>';
-                  }
-                  else {
-                    part_question_id_elem += '<option value="'+entry.QuestionID+'">['+entry.QuestionID+'] '+entry.Question+' --- '+entry.QuestionGroup+'</option>';
-                  }
-                  if(entry.Question==q_name){
-                    question_names_elem += '<option value="'+entry.Question+'" selected>'+entry.Question+'</option>';
-                  }
-                  else {
-                    question_names_elem += '<option value="'+entry.Question+'">'+entry.Question+'</option>';
-                  }  
-              });
-              window.questions_options = part_question_id_elem;
-              window.question_names = question_names_elem; 
-              // end part question loop
-
-              //edit part value loop
-              window.type = null;
-              var type_elem = '';
-              types.forEach(function(type) {
-                  if (type == entry.input_type) {
-                    type_elem += '<option value="'+type+'" selected>'+type+'</option>';
-                  }
-                  else {
-                    type_elem += '<option value="'+type+'">'+type+'</option>';
-                  }
-                });
-                window.type = type_elem;
-              //end edit part value loop
-              //fabrics loop
-              window.fabrics = null;
-              var fabric;
-              var url = "http://api-dev.qstrike.com/api/materials_fabrics/";
-              $.ajax({
-              url: url,
-              async: false,
-              type: "GET",
-              dataType: "json",
-              crossDomain: true,
-              contentType: 'application/json',
-              success: function(data){
-                fabric = data['materials_fabrics'];
-                    }
-              });
-              var fabric_elem = '<option value="null"></option>';
-              $.each(fabric, function (i, item){
-                if(item.material_name == entry.fabrics) {
-                  fabric_elem += `<option value="`+item.material_name+`" selected>`+item.material_name+` [`+item.factory_name+`]</option>`;
+            part_names.forEach(function(entry) {
+                if(entry == part_name){
+                    part_name_options_elem += '<option value="'+entry+'" selected>'+entry+'</option>';
                 } else {
-                  fabric_elem += `<option value="`+item.material_name+`">`+item.material_name+` [`+item.factory_name+`]</option>`;    
-                }                           
-              });
-              window.fabrics = fabric_elem;
+                    part_name_options_elem += '<option value="'+entry+'">'+entry+'</option>';
+                }
+            });
 
+            window.parts_options_names = part_name_options_elem;
+            var q_id = entry.part_questions;
+            var q_name = entry.edit_part_name;
+            
+            window.questions_options = null;
+            var part_question_id_elem = '';
+            var question_names_elem = '';
+            window.questions_names = null;
+            arranged_questions.forEach(function(entry) {
+                if(entry.QuestionID == q_id){
+                    part_question_id_elem += '<option value="'+entry.QuestionID+'" selected>['+entry.QuestionID+'] '+entry.Question+' --- '+entry.QuestionGroup+'</option>';
+                }
+                else {
+                    part_question_id_elem += '<option value="'+entry.QuestionID+'">['+entry.QuestionID+'] '+entry.Question+' --- '+entry.QuestionGroup+'</option>';
+                }
+                if(entry.Question==q_name){
+                    question_names_elem += '<option value="'+entry.Question+'" selected>'+entry.Question+'</option>';
+                }
+                else {
+                    question_names_elem += '<option value="'+entry.Question+'">'+entry.Question+'</option>';
+                }  
+            });
+            window.questions_options = part_question_id_elem;
+            window.question_names = question_names_elem; 
+            window.type = null;
+            var type_elem = '';
+            types.forEach(function(type) {
+                if (type == entry.input_type) {
+                    type_elem += '<option value="'+type+'" selected>'+type+'</option>';
+                }
+                else {
+                    type_elem += '<option value="'+type+'">'+type+'</option>';
+                }
+            });
+            window.type = type_elem;
+            window.fabrics = null;
+
+            var fabric_elem = '<option value="null"></option>';
+            $.each(window.source_fabrics, function (i, item){
+                if(item.material_name == entry.fabrics) {
+                    fabric_elem += `<option value="`+item.material_name+`" selected>`+item.material_name+` [`+item.factory_name+`]</option>`;
+                } else {
+                    fabric_elem += `<option value="`+item.material_name+`">`+item.material_name+` [`+item.factory_name+`]</option>`;    
+                }                           
+            });
+            window.fabrics = fabric_elem;
 
             var td_open = '<td>';
             var td_close = '</td>';
@@ -233,7 +214,6 @@ $('.delete-part').on('click', function(){
                         '</tr>';
             $('.properties-content').append(elem);
            });
-          
           }, 1000); //end timeout
       }
 
@@ -421,6 +401,25 @@ $('.delete-part').on('click', function(){
         });
     }
 
+    function getSourceFabrics(callback){
+        var materials_fabrics;
+        var url = "http://api-dev.qstrike.com/api/materials_fabrics/";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                materials_fabrics = data['materials_fabrics'];
+                if(typeof callback === "function") callback(materials_fabrics);
+                //Close loading modal
+                $('#getPartsModal').modal('hide');
+            }
+        });
+    }
+
     function getQuestionsList(callback){
         var questions_list;
         var url = "http://qx.azurewebsites.net/api/itemquestion?itemid="+window.item_id;
@@ -464,10 +463,10 @@ $('.delete-part').on('click', function(){
     }
 
     $('.uniform-category-id').on('change', function(){
-        console.log($(this).val());
+        // console.log($(this).val());
         window.sport_id = $(this).val();
         getBlockPatternsBySportId(function(colors){ window.block_patterns = block_patterns; });
-        console.log(window.sport_id);
+        // console.log(window.sport_id);
     });
 
 });
