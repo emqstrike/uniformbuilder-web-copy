@@ -11,8 +11,6 @@ var TeamStoreToolBox = {
     progress_modal: null,
 
     init: function() {
-        $('#team-store-toolbox, .team-store-toolbox').fadeIn('fast');
-
         $('#team-store-toolbox .create-team-store').on('click', TeamStoreToolBox.create_team_store);
         $('#team-store-toolbox .open-team-store').on('click', TeamStoreToolBox.open_team_store);
         $('#team-store-toolbox .update-images').on('click', TeamStoreToolBox.update_images);
@@ -26,7 +24,7 @@ var TeamStoreToolBox = {
         // Enable the teamstore icon at the LEFT MENU
         $('#left-side-toolbar span.team-store').show();
 
-        $('#show-team-store-toolbox, #team-store-toolbox').addClass('visible');
+        // $('#show-team-store-toolbox, #team-store-toolbox').addClass('visible');
     },
 
     has_team_store_account: function() {
