@@ -10,25 +10,26 @@ $(document).ready(function(){
 
     window.send_order = false;
     window.error_message = null;
+    window.questions_ready = [];
 
     function splitRosterToQXItems(){
         var grouped = _.groupBy(window.test_size_data, function(e) {
           return e.qx_item_id;
         });
-        console.log('GROUPED');
-        console.log(grouped);
+        
+        
         var items = [];
         for(var propt in grouped){
-            console.log('FOR LOOP');
+            
             items.push({
                 'qx_item_id' : propt,
                 'roster' : []
             });
-            console.log(propt + ': ' + JSON.stringify(grouped[propt]));
+            
         }
         window.roster.forEach(function(entry) {
-            console.log('WINDOW ENTRY');
-            console.log(entry);
+            
+            
             var size = entry.Size;
             var res = _.find(window.test_size_data, function(e){ return e.size == size; });
             var qx_item_id = res['qx_item_id'];
@@ -38,11 +39,11 @@ $(document).ready(function(){
                 }
             });
         });
-        console.log('WINDOW ROSTER');
-        console.log(window.roster);
+        
+        
 
-        console.log('ITEMS');
-        console.log(items);
+        
+        
         return items;
     }
 
@@ -160,8 +161,8 @@ $(document).ready(function(){
 
     $('.bc-display').on('click', function(e){
         e.preventDefault();
-        // console.log($(this).data('bc'));
-        console.log(JSON.stringify($(this).data('bc')));
+     
+        
     });
 
 
@@ -257,7 +258,7 @@ $(document).ready(function(){
         });
 
         $('.update-order-info').on('click', function(){
-            console.log('update');
+            
 
             var bill_organization = $('.order-bill-organization').val();
             var bill_contact_person = $('.order-bill-contact-person').val();
@@ -281,7 +282,7 @@ $(document).ready(function(){
                         phone: bill_phone,
                         fax: bill_fax
                     };
-            console.log(data);
+            
             $.ajax({
                 url: '//' + api_host + '/api/billing_info/update',
                 type: "POST",
@@ -292,7 +293,7 @@ $(document).ready(function(){
                 headers: {"accessToken": atob(headerValue)},
                 success: function(response){
                     if (response.success) {
-                        console.log("Success! Billing Info is updated.");
+                        
                         UpdateShipping(ship_id, order_id);
                     }
                 }
@@ -319,8 +320,8 @@ $(document).ready(function(){
                             phone: ship_phone,
                             email: ship_email
                         };
-                console.log('Shipping_data' + JSON.stringify(data));
-                console.log('order id >>' + order_id);
+                
+                
                 $.ajax({
                     url: '//' + api_host + '/api/shipping_info/update',
                     type: "POST",
@@ -331,7 +332,7 @@ $(document).ready(function(){
                     headers: {"accessToken": atob(headerValue)},
                     success: function(response){
                         if (response.success) {
-                            console.log("Success! Shipping Info is updated.");
+                            
                             UpdateClientInfo(order_id);
                         }
                     }
@@ -346,7 +347,7 @@ $(document).ready(function(){
                             id: order_id,
                             client: client_name
                         };
-                console.log('Order Data - Client - ' + JSON.stringify(data));
+                
                 $.ajax({
                     url: '//' + api_host + '/api/order/update',
                     type: "POST",
@@ -357,7 +358,7 @@ $(document).ready(function(){
                     headers: {"accessToken": atob(headerValue)},
                     success: function(response){
                         if (response.success) {
-                            console.log("Success! Order Info is updated.");
+                            
                             document.location.reload();
                         }
                     }
@@ -416,7 +417,7 @@ $('.send-to-factory').on('click', function(e){
     e.preventDefault();
     // bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
     // PostOrder();
-    console.log('send to edit');
+    
     var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
     var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
     api_order_id = $(this).data('api-order-id');
@@ -467,22 +468,22 @@ $('.send-to-factory').on('click', function(e){
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
-        console.log('***** BUILDER CUSTOMIZATIONS ****');
-        console.log(bcx);
-        // console.log(bcx.lower.material_id);
-        // console.log(bcx.upper['Neck Trim']['colorObj']);
+        
+        
+     
+     
         window.customizer_material_id = null;
         window.pa_id = entry.id;
-        // console.log(JSON.stringify(bcx.lower));
+     
         // if(bcx.upper.material_id !== 'undefined'){
         if('material_id' in bcx.upper){
             window.customizer_material_id = bcx.upper.material_id;
-            console.log("HAS UPPER ID");
-            console.log(bcx.upper);
+            
+            
         } else {
             window.customizer_material_id = bcx.lower.material_id;
-            console.log("HAS LOWER ID");
-            console.log(bcx.upper);
+            
+            
         }
 
         var teamcolors = bcx.team_colors;
@@ -514,8 +515,8 @@ $('.send-to-factory').on('click', function(e){
 
         var error_message = validateMaterialPreReq();
         window.error_message = error_message['message'];
-        console.log('[ [ ERROR MESSAGE ] ]');
-        console.log(error_message);
+        
+        
         window.error_data = {
             'error_message' : error_message['data'],
             'order_id' : order_id,
@@ -524,16 +525,16 @@ $('.send-to-factory').on('click', function(e){
             'material_id' : window.customizer_material_id,
             'type' : 'json'
         };
-        // console.log(window.error_data);
+     
         if(error_message['message'] != ''){
-            console.log(window.error_data);
+            
             // bootbox.dialog({ message: '<div class="text-center">'+error_message+'</div>' });
             // bootbox.alert('<div class="text-center">'+error_message+'</div>');
             // bootbox.dialog({ message: '<div class="text-center">'+error_message+'</div>' });
             // bootbox.confirm('<div class="text-center">'+error_message+'</div><>', function(result) {
             //     if (result) {
             //         // currentForm.submit();
-            //         console.log('~ ~ ~ send ajax request!')
+                 
             //     }
             // });
             // window.error_data = {};
@@ -599,6 +600,9 @@ $('.send-to-factory').on('click', function(e){
 
         var questions_valid = applyConfigs(api_order_id);
 
+        
+        
+
         entry.orderQuestions = {
             "OrderQuestion": questions_valid
         };
@@ -624,6 +628,10 @@ $('.send-to-factory').on('click', function(e){
         delete entry.order_id;
         delete entry.pid;
         delete entry.questions;
+
+        // entry.orderQuestions = {
+        //     "OrderQuestion": window.questions_ready
+        // };
 
     });
 
@@ -653,36 +661,36 @@ $('.send-to-factory').on('click', function(e){
             "Sport": "All",
             "TeamName": "Wildcats"
         };
-        console.log(order);
+        
         // "RepID": 154, Jeremy
         // "RepID": 1148, Geeks
         // var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
         // window.test_size_data = JSON.parse(x);
         var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
         window.test_size_data = JSON.parse(x.properties);
-        console.log('Window Test Size Data');
-        console.log(window.test_size_data);
+        
+        
         // window.test_size_data = JSON.parse(window.material.sizing_config_prop); // uncomment this line on production
         var order_items_split = splitRosterToQXItems();
         var order_parts_split = [];
-        console.log('ORDER ITEMS SPLIT');
-        console.log(order_items_split);
+        
+        
         order_items_split.forEach(function(entry, i) {
             var x = JSON.parse(JSON.stringify(window.order_parts[0]));
             x.orderPart.ItemID = entry.qx_item_id;
             if( item_id_override ){
                 x.orderPart.ItemID = item_id_override;
-                console.log('has item id override');
+                
             } else {
-                console.log('no item id override');
+                
             }
-            console.log('ENTRY ROSTER');
-            console.log(entry.roster);
+            
+            
             var roster_sizes = _.map(entry.roster, function(e){ return e.size; });
             var roster = [];
 
-            console.log('ROSTER SIZES');
-            console.log(roster_sizes);
+            
+            
 
             window.roster.forEach(function(y, j) {
                 if( _.contains(roster_sizes, y.Size) ){
@@ -700,15 +708,15 @@ $('.send-to-factory').on('click', function(e){
                 }
             });
 
-            console.log('ROSTER');
-            console.log(roster);
+            
+            
 
             if( roster.length > 0 ){
                 x.orderItems = roster;
                 order_parts_split.push(x); 
-                // console.log('HAS ROSTER');
+             
             } else {
-                // console.log('NO ROSTER');
+             
             }
         });
 
@@ -716,11 +724,11 @@ $('.send-to-factory').on('click', function(e){
             "order": order,
             "orderParts" : order_parts_split
         };
-    console.log('DATA OBJECT >>>');
+    
     strResult = JSON.stringify(orderEntire);
-    console.log(strResult);
+    
 
-    console.log(JSON.stringify(orderEntire['orderParts']));
+    
 
     // SEND ORDER TO EDIT
     // if(window.send_order){
@@ -736,20 +744,20 @@ $('.send-to-factory').on('click', function(e){
     //                 var parts = [];
     //                 $.each(data, function( index, value ) {
     //                     orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-    //                     console.log(JSON.stringify(orderEntire));
+                     
     //                     parts.push(orderEntire['orderParts'][index]['orderPart']);
     //                 });
-    //                 console.log(JSON.stringify(parts));
+                 
     //                 updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
     //                 // document.location.reload(); // UNCOMMENT
-    //                 // console.log(data[0].OrderID);
+                    
     //             },
     //             error: function (xhr, ajaxOptions, thrownError) {
     //                 //Error Code Here
     //             }
     //         });
     //     } else {
-    //         console.log('Material has no item_id')
+         
     //     }
     // }
 });
@@ -769,7 +777,7 @@ function updateFOID(id, factory_order_id, parts){
                     value['factory_order_id'] = factory_order_id;
                 });
                 updateItemsPID(parts);
-                console.log("Success! Factory ID is updated.");
+                
                 // document.location.reload();
             }
         }
@@ -787,7 +795,7 @@ function updateItemsPID(parts){
         headers: {"accessToken": atob(headerValue)},
         success: function(response){
             if (response.success) {
-                console.log("Success! Items PID is updated.");
+                
                 document.location.reload();
             }
         }
@@ -824,9 +832,9 @@ function applyConfigs(api_order_id){
 
 
     properties.forEach(function(entry) {
-        console.log("<<<<<< ENTRY >>>>>>");
+        
 
-        console.log(entry.input_type);
+        
         var type = entry.input_type;
 
         var question_id = parseInt(entry.part_questions);
@@ -839,19 +847,19 @@ function applyConfigs(api_order_id){
         var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
         var data_pushed = false;
         // RESUME HERE
-        // console.log(builder_customizations);
+     
 
         if( type == "Pattern" ){
-            console.log("* * * PATTERN CODE BLOCK * * *");
+            
             try {
                 pattern = builder_customizations[type][entry.part_name]['pattern']['pattern_obj']['name'];
                 value = pattern.replace(/[0-9]/g, '');
             } catch(err) {
-                console.log(err.message);
+                
             }
 
         } else if( type == "Color" ){
-            console.log("* * * COLOR CODE BLOCK * * *");
+            
             try {
                 color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
                 color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
@@ -860,20 +868,20 @@ function applyConfigs(api_order_id){
                 }
                 value = color_name + " " + "(" + color_code + ")";
             } catch(err) {
-                console.log(err.message);
+                
             }
 
         } else if( type == "Material" ){
-            console.log("* * * MATERIAL CODE BLOCK * * *");
+            
             try {
                 value = entry.edit_part_value;
             } catch(err) {
-                console.log(err.message);
+                
             }
 
         } else if( type == "Team_Color" ){
             var idx = 0;
-            console.log("* * * TEAM COLOR CODE BLOCK * * *");
+            
             if(entry.part_questions == "347"){
                 value = getQuestionColorValue(builder_customizations, idx);
             } else if(entry.part_questions == "348"){
@@ -894,122 +902,31 @@ function applyConfigs(api_order_id){
             }
         } else if( type == "Sock_Color" ){
             var idx = 0;
-            console.log("* * * SOCK COLOR CODE BLOCK * * *");
-            if( builder_customizations['randomFeeds']['Top Welt'] != undefined ){
-                console.log('==== Top Welt ====');
-                var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
-                console.log("==== Z[0] ====");
-                console.log(z[0]);
-                if( z.length > 1 ){
-                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
-                    questions.push({
-                        "QuestionID" : 403,
-                        "Value" : val
-                    });
-                    data_pushed = true;
-                }
-                console.log('==== Z ====');
-                console.log(z.length);
-            }
-
-            if( builder_customizations['randomFeeds']['Arch'] != undefined ){
-                var z = builder_customizations['randomFeeds']['Arch']['layers'];
-                console.log('==== Arch Welt ====');
-                console.log("==== Z[0] ====");
-                console.log(z[0]);
-                if( z.length > 1 ){
-                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
-                    questions.push({
-                        "QuestionID" : 400,
-                        "Value" : val
-                    });
-                    data_pushed = true;
-                }
-            }
-
-            if( builder_customizations['randomFeeds']['Toe'] != undefined ){
-                var z = builder_customizations['randomFeeds']['Toe']['layers'];
-                console.log('==== Toe ====');
-                console.log("==== Z[0] ====");
-                console.log(z[0]);
-                if( z.length > 1 ){
-                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
-                    questions.push({
-                        "QuestionID" : 399,
-                        "Value" : val
-                    });
-                    data_pushed = true;
-                }
-            }
-
-            if( builder_customizations['randomFeeds']['Heel'] != undefined ){
-                var z = builder_customizations['randomFeeds']['Heel']['layers'];
-                console.log('==== Heel ====');
-                console.log("==== Z[0] ====");
-                console.log(z[0]);
-                if( z.length > 1 ){
-                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
-                    questions.push({
-                        "QuestionID" : 398,
-                        "Value" : val
-                    });
-                    data_pushed = true;
-                }
-            }
-
-            if( builder_customizations['randomFeeds']['Padding'] != undefined ){
-                var z = builder_customizations['randomFeeds']['Padding']['layers'];
-                console.log('==== Padding ====');
-                console.log("==== Z[0] ====");
-                console.log(z[0]);
-                if( z.length > 1 ){
-                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
-                    questions.push({
-                        "QuestionID" : 401,
-                        "Value" : val
-                    });
-                    data_pushed = true;
-                }
-            }
-
-            if( builder_customizations['randomFeeds']['Body'] != undefined ){
-                var z = builder_customizations['randomFeeds']['Body']['layers'];
-                console.log('==== Body ====');
-                console.log("==== Z[0] ====");
-                console.log(z[0]);
-                if( z.length > 1 ){
-                    var val = translateToSocksColor(z[0].colorObj.name, z[0].colorCode);
-                    questions.push({
-                        "QuestionID" : 402,
-                        "Value" : val
-                    });
-                    data_pushed = true;
-                }
-            }
+            
 
             try {
-                console.log(">>>>>>> BUILDER CUSTOMIZATIONS");
-                console.log(builder_customizations['lower'][entry.part_name]);
+                
+                
                 color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
                 color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
 
                 value = translateToSocksColor(color_name, color_code);
 
             } catch(err) {
-                console.log(err.message);
+                
             }
 
         } else if( type == "Random_Feed" ){
             var idx = 0;
-            console.log("* * * RANDOM FEED CODE BLOCK * * *");
-            console.log(builder_customizations);
+            
+            
             if(builder_customizations['randomFeeds'] > 0){
-                console.log("RANDOM FEED MAIN IF BLOCK");
+                
                 if( builder_customizations['randomFeeds']['Top Welt'] != undefined ){
-                    console.log('==== Top Welt ====');
+                    
                     var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
-                    console.log("==== Z[0] ====");
-                    console.log(z[0]);
+                    
+                    
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                         questions.push({
@@ -1018,15 +935,15 @@ function applyConfigs(api_order_id){
                         });
                         data_pushed = true;
                     }
-                    console.log('==== Z ====');
-                    console.log(z.length);
+                    
+                    
                 }
 
                 if( builder_customizations['randomFeeds']['Arch'] != undefined ){
                     var z = builder_customizations['randomFeeds']['Arch']['layers'];
-                    console.log('==== Arch Welt ====');
-                    console.log("==== Z[0] ====");
-                    console.log(z[0]);
+                    
+                    
+                    
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                         questions.push({
@@ -1039,9 +956,9 @@ function applyConfigs(api_order_id){
 
                 if( builder_customizations['randomFeeds']['Toe'] != undefined ){
                     var z = builder_customizations['randomFeeds']['Toe']['layers'];
-                    console.log('==== Toe ====');
-                    console.log("==== Z[0] ====");
-                    console.log(z[0]);
+                    
+                    
+                    
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                         questions.push({
@@ -1054,9 +971,9 @@ function applyConfigs(api_order_id){
 
                 if( builder_customizations['randomFeeds']['Heel'] != undefined ){
                     var z = builder_customizations['randomFeeds']['Heel']['layers'];
-                    console.log('==== Heel ====');
-                    console.log("==== Z[0] ====");
-                    console.log(z[0]);
+                    
+                    
+                    
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                         questions.push({
@@ -1069,9 +986,9 @@ function applyConfigs(api_order_id){
 
                 if( builder_customizations['randomFeeds']['Padding'] != undefined ){
                     var z = builder_customizations['randomFeeds']['Padding']['layers'];
-                    console.log('==== Padding ====');
-                    console.log("==== Z[0] ====");
-                    console.log(z[0]);
+                    
+                    
+                    
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                         questions.push({
@@ -1084,43 +1001,65 @@ function applyConfigs(api_order_id){
 
                 if( builder_customizations['randomFeeds']['Body'] != undefined ){
                     var z = builder_customizations['randomFeeds']['Body']['layers'];
-                    console.log('BC 432');
-                    console.log(builder_customizations);
-                    console.log('==== Body ====');
-                    console.log("==== Z[0] ====");
-                    console.log(z[0]);
+                    
+                    
+                    
+                    
+                    
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                        console.log('[IF] VAL 2 >>>>');
-                        console.log(val2);
+                        
+                        
                         questions.push({
                             "QuestionID" : 432,
                             "Value" : val2
                         });
                         data_pushed = true;
-                    } else {
-                        console.log('[ELSE]');
-                        questions.push({
-                            "QuestionID" : 432,
-                            "Value" : '(Choose Color If Random Feed Is Desired)'
-                        });
-                        data_pushed = true;
                     }
                 }
             } else {
-                console.log("RANDOM FEED MAIN ELSE BLOCK");
+                
+                blankRandomFeeds = [{
+                    "QuestionID" : 428,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                },{
+                    "QuestionID" : 429,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                },{
+                    "QuestionID" : 430,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                },{
+                    "QuestionID" : 431,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                },{
+                    "QuestionID" : 432,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                },{
+                    "QuestionID" : 433,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                }];
+
+                blankRandomFeeds.forEach(function(entry) {
+                    questions.push(entry);
+                });
+
+                
+                
+
+                data_pushed = true;
+
             }
 
             try {
-                console.log(">>>>>>> BUILDER CUSTOMIZATIONS");
-                console.log(builder_customizations['lower'][entry.part_name]);
+                
+                
                 color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
                 color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
 
                 value = translateToSocksColor(color_name, color_code);
 
             } catch(err) {
-                console.log(err.message);
+                
             }
             
         }
@@ -1136,11 +1075,15 @@ function applyConfigs(api_order_id){
 
     });
 
-    console.log(questions);
+    
+    
     questions = _.uniq(questions, function(item, key, a) { 
         return item.QuestionID;
     });
+    
+    
     return questions;
+    // window.questions_ready = questions;
 }
 
 function getQuestionColorValue(builder_customizations, idx){
@@ -1154,7 +1097,7 @@ function getQuestionColorValue(builder_customizations, idx){
         value = color_name + " " + "(" + color_code + ")";
         return value;
     } catch(err) {
-        console.log(err.message);
+        
     }
 }
 
