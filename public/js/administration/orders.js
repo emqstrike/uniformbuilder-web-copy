@@ -467,8 +467,8 @@ $('.send-to-factory').on('click', function(e){
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
-        // console.log('***** BUILDER CUSTOMIZATIONS ****');
-        // console.log(bcx.upper.material_id);
+        console.log('***** BUILDER CUSTOMIZATIONS ****');
+        console.log(bcx);
         // console.log(bcx.lower.material_id);
         // console.log(bcx.upper['Neck Trim']['colorObj']);
         window.customizer_material_id = null;
@@ -706,9 +706,9 @@ $('.send-to-factory').on('click', function(e){
             if( roster.length > 0 ){
                 x.orderItems = roster;
                 order_parts_split.push(x); 
-                console.log('HAS ROSTER');
+                // console.log('HAS ROSTER');
             } else {
-                console.log('NO ROSTER');
+                // console.log('NO ROSTER');
             }
         });
 
@@ -716,42 +716,42 @@ $('.send-to-factory').on('click', function(e){
             "order": order,
             "orderParts" : order_parts_split
         };
-
+    console.log('DATA OBJECT >>>');
     strResult = JSON.stringify(orderEntire);
     console.log(strResult);
 
     console.log(JSON.stringify(orderEntire['orderParts']));
 
     // SEND ORDER TO EDIT
-    if(window.send_order){
-        if(window.material.item_id !== undefined){
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: JSON.stringify(orderEntire),
-                contentType: 'application/json;',
-                success: function (data) {
-                    alert('Order was sent to EDIT!');
-                    var factory_order_id = data[0].OrderID;
-                    var parts = [];
-                    $.each(data, function( index, value ) {
-                        orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-                        console.log(JSON.stringify(orderEntire));
-                        parts.push(orderEntire['orderParts'][index]['orderPart']);
-                    });
-                    console.log(JSON.stringify(parts));
-                    updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
-                    // document.location.reload(); // UNCOMMENT
-                    // console.log(data[0].OrderID);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    //Error Code Here
-                }
-            });
-        } else {
-            console.log('Material has no item_id')
-        }
-    }
+    // if(window.send_order){
+    //     if(window.material.item_id !== undefined){
+    //         $.ajax({
+    //             url: url,
+    //             type: "POST",
+    //             data: JSON.stringify(orderEntire),
+    //             contentType: 'application/json;',
+    //             success: function (data) {
+    //                 alert('Order was sent to EDIT!');
+    //                 var factory_order_id = data[0].OrderID;
+    //                 var parts = [];
+    //                 $.each(data, function( index, value ) {
+    //                     orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+    //                     console.log(JSON.stringify(orderEntire));
+    //                     parts.push(orderEntire['orderParts'][index]['orderPart']);
+    //                 });
+    //                 console.log(JSON.stringify(parts));
+    //                 updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+    //                 // document.location.reload(); // UNCOMMENT
+    //                 // console.log(data[0].OrderID);
+    //             },
+    //             error: function (xhr, ajaxOptions, thrownError) {
+    //                 //Error Code Here
+    //             }
+    //         });
+    //     } else {
+    //         console.log('Material has no item_id')
+    //     }
+    // }
 });
 
 function updateFOID(id, factory_order_id, parts){
@@ -827,6 +827,7 @@ function applyConfigs(api_order_id){
         console.log("<<<<<< ENTRY >>>>>>");
 
         console.log(entry.input_type);
+        var type = entry.input_type;
 
         var question_id = parseInt(entry.part_questions);
         var value = null;
@@ -838,10 +839,10 @@ function applyConfigs(api_order_id){
         var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
         var data_pushed = false;
         // RESUME HERE
-        console.log(builder_customizations);
+        // console.log(builder_customizations);
 
-        if( entry.input_type == "Pattern" ){
-
+        if( type == "Pattern" ){
+            console.log("* * * PATTERN CODE BLOCK * * *");
             try {
                 pattern = builder_customizations[type][entry.part_name]['pattern']['pattern_obj']['name'];
                 value = pattern.replace(/[0-9]/g, '');
@@ -849,7 +850,8 @@ function applyConfigs(api_order_id){
                 console.log(err.message);
             }
 
-        } else if( entry.input_type == "Color" ){
+        } else if( type == "Color" ){
+            console.log("* * * COLOR CODE BLOCK * * *");
             try {
                 color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
                 color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
@@ -861,17 +863,17 @@ function applyConfigs(api_order_id){
                 console.log(err.message);
             }
 
-        } else if( entry.input_type == "Material" ){
-
+        } else if( type == "Material" ){
+            console.log("* * * MATERIAL CODE BLOCK * * *");
             try {
                 value = entry.edit_part_value;
             } catch(err) {
                 console.log(err.message);
             }
 
-        } else if( entry.input_type == "Team_Color" ){
+        } else if( type == "Team_Color" ){
             var idx = 0;
-
+            console.log("* * * TEAM COLOR CODE BLOCK * * *");
             if(entry.part_questions == "347"){
                 value = getQuestionColorValue(builder_customizations, idx);
             } else if(entry.part_questions == "348"){
@@ -890,9 +892,9 @@ function applyConfigs(api_order_id){
                 idx = 5;
                 value = getQuestionColorValue(builder_customizations, idx);
             }
-        } else if( entry.input_type == "Sock_Color" ){
+        } else if( type == "Sock_Color" ){
             var idx = 0;
-
+            console.log("* * * SOCK COLOR CODE BLOCK * * *");
             if( builder_customizations['randomFeeds']['Top Welt'] != undefined ){
                 console.log('==== Top Welt ====');
                 var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
@@ -903,11 +905,6 @@ function applyConfigs(api_order_id){
                     questions.push({
                         "QuestionID" : 403,
                         "Value" : val
-                    });
-                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                    questions.push({
-                        "QuestionID" : 433,
-                        "Value" : val2
                     });
                     data_pushed = true;
                 }
@@ -926,11 +923,6 @@ function applyConfigs(api_order_id){
                         "QuestionID" : 400,
                         "Value" : val
                     });
-                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                    questions.push({
-                        "QuestionID" : 430,
-                        "Value" : val2
-                    });
                     data_pushed = true;
                 }
             }
@@ -945,11 +937,6 @@ function applyConfigs(api_order_id){
                     questions.push({
                         "QuestionID" : 399,
                         "Value" : val
-                    });
-                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                    questions.push({
-                        "QuestionID" : 429,
-                        "Value" : val2
                     });
                     data_pushed = true;
                 }
@@ -966,11 +953,6 @@ function applyConfigs(api_order_id){
                         "QuestionID" : 398,
                         "Value" : val
                     });
-                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                    questions.push({
-                        "QuestionID" : 428,
-                        "Value" : val2
-                    });
                     data_pushed = true;
                 }
             }
@@ -985,11 +967,6 @@ function applyConfigs(api_order_id){
                     questions.push({
                         "QuestionID" : 401,
                         "Value" : val
-                    });
-                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                    questions.push({
-                        "QuestionID" : 431,
-                        "Value" : val2
                     });
                     data_pushed = true;
                 }
@@ -1006,13 +983,132 @@ function applyConfigs(api_order_id){
                         "QuestionID" : 402,
                         "Value" : val
                     });
-                    var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                    questions.push({
-                        "QuestionID" : 432,
-                        "Value" : val2
-                    });
                     data_pushed = true;
                 }
+            }
+
+            try {
+                console.log(">>>>>>> BUILDER CUSTOMIZATIONS");
+                console.log(builder_customizations['lower'][entry.part_name]);
+                color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
+                color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
+
+                value = translateToSocksColor(color_name, color_code);
+
+            } catch(err) {
+                console.log(err.message);
+            }
+
+        } else if( type == "Random_Feed" ){
+            var idx = 0;
+            console.log("* * * RANDOM FEED CODE BLOCK * * *");
+            console.log(builder_customizations);
+            if(builder_customizations['randomFeeds'] > 0){
+                console.log("RANDOM FEED MAIN IF BLOCK");
+                if( builder_customizations['randomFeeds']['Top Welt'] != undefined ){
+                    console.log('==== Top Welt ====');
+                    var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
+                    console.log("==== Z[0] ====");
+                    console.log(z[0]);
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                        questions.push({
+                            "QuestionID" : 433,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    }
+                    console.log('==== Z ====');
+                    console.log(z.length);
+                }
+
+                if( builder_customizations['randomFeeds']['Arch'] != undefined ){
+                    var z = builder_customizations['randomFeeds']['Arch']['layers'];
+                    console.log('==== Arch Welt ====');
+                    console.log("==== Z[0] ====");
+                    console.log(z[0]);
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                        questions.push({
+                            "QuestionID" : 430,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    }
+                }
+
+                if( builder_customizations['randomFeeds']['Toe'] != undefined ){
+                    var z = builder_customizations['randomFeeds']['Toe']['layers'];
+                    console.log('==== Toe ====');
+                    console.log("==== Z[0] ====");
+                    console.log(z[0]);
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                        questions.push({
+                            "QuestionID" : 429,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    }
+                }
+
+                if( builder_customizations['randomFeeds']['Heel'] != undefined ){
+                    var z = builder_customizations['randomFeeds']['Heel']['layers'];
+                    console.log('==== Heel ====');
+                    console.log("==== Z[0] ====");
+                    console.log(z[0]);
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                        questions.push({
+                            "QuestionID" : 428,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    }
+                }
+
+                if( builder_customizations['randomFeeds']['Padding'] != undefined ){
+                    var z = builder_customizations['randomFeeds']['Padding']['layers'];
+                    console.log('==== Padding ====');
+                    console.log("==== Z[0] ====");
+                    console.log(z[0]);
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                        questions.push({
+                            "QuestionID" : 431,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    }
+                }
+
+                if( builder_customizations['randomFeeds']['Body'] != undefined ){
+                    var z = builder_customizations['randomFeeds']['Body']['layers'];
+                    console.log('BC 432');
+                    console.log(builder_customizations);
+                    console.log('==== Body ====');
+                    console.log("==== Z[0] ====");
+                    console.log(z[0]);
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                        console.log('[IF] VAL 2 >>>>');
+                        console.log(val2);
+                        questions.push({
+                            "QuestionID" : 432,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    } else {
+                        console.log('[ELSE]');
+                        questions.push({
+                            "QuestionID" : 432,
+                            "Value" : '(Choose Color If Random Feed Is Desired)'
+                        });
+                        data_pushed = true;
+                    }
+                }
+            } else {
+                console.log("RANDOM FEED MAIN ELSE BLOCK");
             }
 
             try {
