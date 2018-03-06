@@ -11848,6 +11848,24 @@ ub.funcs.fontOffSets = [
 
     }
 
+    // EXCLUDE in quarternary filters
+
+    ub.data.filterExclusions = {
+
+        items: [
+            "Crew",
+            "Men's",
+            "Goal",
+        ], 
+
+        isExcluded: function (alias) {
+
+            return _.contains(this.items, alias);
+
+        }
+
+    }
+
     ub.dialog = bootbox;
 
 });
