@@ -10545,7 +10545,7 @@ ub.funcs.fontOffSets = [
                 ]
             },
             {
-                block_pattern: 'Game Day Coaches Jacket',
+                block_pattern: 'Game Day Jacket',
                 neck_options: ["Men's", "Women's"],
                 material_option: 'Zipper', 
                 valid_colors: [
@@ -10558,7 +10558,7 @@ ub.funcs.fontOffSets = [
                 ]
             },
              {
-                block_pattern: 'Game Day Coaches Jacket',
+                block_pattern: 'Game Day Jacket',
                 neck_options: ["Men's", "Women's"],
                 material_option: 'Arm Elastic', 
                 valid_colors: [
