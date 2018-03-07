@@ -12,18 +12,16 @@ $(document).ready(function(){
     window.questions_options = null;
     window.question_names = null;
     window.type = null;
-    window.types = ['Color', 'Pattern', 'Material' , 'Team_Color', 'Piping', 'Sock_Color', 'Allowed_Fabrics'];
+    window.types = ['Allowed_Fabrics','Color','Material','Pattern', 'Piping','Random_Feed','Sock_Color','Team_Color'];
     window.fabrics = null;
     
 
 
 $('.delete-part').on('click', function(){
 
-
        var id = [];
        id.push( $(this).data('part-id'));
-       
-   
+
        modalConfirm('Remove part', 'Are you sure you want to delete the part?', id);
    });
 
@@ -31,7 +29,7 @@ $('.delete-part').on('click', function(){
         var id = $(this).data('value');
         var url = "//api-dev.qstrike.com/api/parts_alias/delete/";
         //var url = "//localhost:8888/api/parts_alias/delete/";
-       
+
         $.ajax({
            url: url,
            type: "POST",
@@ -54,9 +52,8 @@ $('.delete-part').on('click', function(){
                      $('.part-' + value).fadeOut();
 
                      // Will stop running after "three"
-                     
+
                    });
-                   
 
                }
            }
@@ -269,13 +266,15 @@ $('.delete-part').on('click', function(){
         var input_edit_part_value = '<input type="text" class="edit-part-value" value="">';
         var fabrics = '<select class="fabrics from-control">'+window.fabrics+'</select>';
         var input_type = `<select class="type from-control">
-                                <option value="Pattern">Pattern</option>
+                                <option value="Allowed_Fabrics">Allowed Fabrics</option>
                                 <option value="Color">Color</option>
                                 <option value="Material">Material</option>
-                                <option value="Team_Color">Team Color</option>
+                                <option value="Pattern">Pattern</option>
                                 <option value="Piping">Piping</option>
+                                <option value="Random_Feed">Random Feed</option>
                                 <option value="Sock_Color">Sock Color</option>
-                                <option value="Allowed_Fabrics">Allowed Fabrics</option>
+                                <option value="Team_Color">Team Color</option>
+                                
                             </select>`;
         var delete_row = '<a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
         var elem = '<tr class="layer-row">' +
