@@ -766,7 +766,6 @@ $('.send-to-factory').on('click', function(e){
                     var parts = [];
                     $.each(data, function( index, value ) {
                         orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-                     
                         parts.push(orderEntire['orderParts'][index]['orderPart']);
                     });
                     console.log(JSON.stringify(parts));
@@ -779,7 +778,7 @@ $('.send-to-factory').on('click', function(e){
                 }
             });
         } else {
-         
+
         }
     }
 });
@@ -856,8 +855,9 @@ function applyConfigs(api_order_id){
     properties.forEach(function(entry) {
         console.log("entry part name");
         console.log(entry.part_name);
-        
-        var type = entry.input_type;
+
+        console.log("UNIFORM TYPE >>> ");
+        console.log(type);
 
         var question_id = parseInt(entry.part_questions);
         var value = null;
@@ -869,9 +869,11 @@ function applyConfigs(api_order_id){
         var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
         var data_pushed = false;
         // RESUME HERE
+        console.log("[ builder_customizations ]");
+        console.log(builder_customizations);
      
 
-        if( type == "Pattern" ){
+        if( entry.input_type == "Pattern" ){
             
             try {
                 pattern = builder_customizations[type][entry.part_name]['pattern']['pattern_obj']['name'];
@@ -880,8 +882,8 @@ function applyConfigs(api_order_id){
                 
             }
 
-        } else if( type == "Color" ){
-            
+        } else if( entry.input_type == "Color" ){
+            console.log('Color block');
             try {
                 color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
                 color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
@@ -889,11 +891,14 @@ function applyConfigs(api_order_id){
                     color_name = "Charcoal Gray";
                 }
                 value = color_name + " " + "(" + color_code + ")";
+                console.log('Color Value:');
+                console.log(value);
             } catch(err) {
-                
+                console.log('Error in Color block !');
+                console.log(err.message);
             }
 
-        } else if( type == "Material" ){
+        } else if( entry.input_type == "Material" ){
             
             try {
                 value = entry.edit_part_value;
@@ -901,7 +906,7 @@ function applyConfigs(api_order_id){
                 
             }
 
-        } else if( type == "Team_Color" ){
+        } else if( entry.input_type == "Team_Color" ){
             var idx = 0;
             
             if(entry.part_questions == "347"){
@@ -922,7 +927,7 @@ function applyConfigs(api_order_id){
                 idx = 5;
                 value = getQuestionColorValue(builder_customizations, idx);
             }
-        } else if( type == "Sock_Color" ){
+        } else if( entry.input_type == "Sock_Color" ){
             var idx = 0;
             var no_translation = ["260", "261", "262", "406"];
             try {
@@ -940,7 +945,7 @@ function applyConfigs(api_order_id){
 
             }
 
-        } else if( type == "Random_Feed" ){
+        } else if( entry.input_type == "Random_Feed" ){
             var idx = 0;
 
             if(builder_customizations['randomFeeds'] > 0){
