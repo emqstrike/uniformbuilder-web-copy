@@ -668,6 +668,9 @@ $('.send-to-factory').on('click', function(e){
         // window.test_size_data = JSON.parse(window.material.sizing_config_prop); // uncomment this line on production
         var order_items_split = splitRosterToQXItems();
         var order_parts_split = [];
+
+        console.log("Window Material");
+        console.log(window.material);
         
         
         order_items_split.forEach(function(entry, i) {
@@ -681,44 +684,44 @@ $('.send-to-factory').on('click', function(e){
             }
 
             var roster_sizes = _.map(entry.roster, function(e){ return e.size; });
-            console.log('roster sizes:');
-            console.log(roster_sizes);
+            // console.log('roster sizes:');
+            // console.log(roster_sizes);
 
-            console.log('entry roster:');
-            console.log(entry.roster);
+            // console.log('entry roster:');
+            // console.log(entry.roster);
             var roster = [];
             window.roster_formatted = false;
 
             window.roster.forEach(function(y, j) {
-                if( y.Size == "3-5" ){
-                    y.Size = "Kids (3-5)";
-                } else if( y.Size == "5-7" ){
-                    y.Size = "Youth (5-7)";
-                } else if( y.Size == "8-12" ){
-                    y.Size = "Adult (8-12)";
-                } else if( y.Size == "13-14" ){
-                    y.Size = "XL (13-14)";
-                }
-                roster.push(y);
-                // if( _.contains(roster_sizes, y.Size) ){
-                //     ctr = roster_sizes.length;
-                //     console.log('Y');
-                //     console.log(y);
-                //     // add size prefix for socks
-                //     if( y.Size == "3-5" ){
-                //         y.Size = "Kids (3-5)";
-                //     } else if( y.Size == "5-7" ){
-                //         y.Size = "Youth (5-7)";
-                //     } else if( y.Size == "8-12" ){
-                //         y.Size = "Adult (8-12)";
-                //     } else if( y.Size == "13-14" ){
-                //         y.Size = "XL (13-14)";
-                //     }
-                //     roster.push(y);
-                //     // window.roster_formatted = true;
+                // if( y.Size == "3-5" ){
+                //     y.Size = "Kids (3-5)";
+                // } else if( y.Size == "5-7" ){
+                //     y.Size = "Youth (5-7)";
+                // } else if( y.Size == "8-12" ){
+                //     y.Size = "Adult (8-12)";
+                // } else if( y.Size == "13-14" ){
+                //     y.Size = "XL (13-14)";
                 // }
-                console.log('ROSTER');
-                console.log(roster);
+                // roster.push(y);
+                if( _.contains(roster_sizes, y.Size) ){
+                    ctr = roster_sizes.length;
+                    console.log('Y');
+                    console.log(y);
+                    // add size prefix for socks
+                    if( y.Size == "3-5" ){
+                        y.Size = "Kids (3-5)";
+                    } else if( y.Size == "5-7" ){
+                        y.Size = "Youth (5-7)";
+                    } else if( y.Size == "8-12" ){
+                        y.Size = "Adult (8-12)";
+                    } else if( y.Size == "13-14" ){
+                        y.Size = "XL (13-14)";
+                    }
+                    roster.push(y);
+                    // window.roster_formatted = true;
+                }
+                // console.log('ROSTER');
+                // console.log(roster);
             });
 
             if( roster.length > 0 ){
@@ -744,37 +747,37 @@ $('.send-to-factory').on('click', function(e){
     
 
     // SEND ORDER TO EDIT
-    if(window.send_order){
-        console.log('window send order');
-        if(window.material.item_id !== undefined){
-            console.log('window material item_id is defined');
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: JSON.stringify(orderEntire),
-                contentType: 'application/json;',
-                success: function (data) {
-                    alert('Order was sent to EDIT!');
-                    var factory_order_id = data[0].OrderID;
-                    var parts = [];
-                    $.each(data, function( index, value ) {
-                        orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+    // if(window.send_order){
+    //     console.log('window send order');
+    //     if(window.material.item_id !== undefined){
+    //         console.log('window material item_id is defined');
+    //         $.ajax({
+    //             url: url,
+    //             type: "POST",
+    //             data: JSON.stringify(orderEntire),
+    //             contentType: 'application/json;',
+    //             success: function (data) {
+    //                 alert('Order was sent to EDIT!');
+    //                 var factory_order_id = data[0].OrderID;
+    //                 var parts = [];
+    //                 $.each(data, function( index, value ) {
+    //                     orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
                      
-                        parts.push(orderEntire['orderParts'][index]['orderPart']);
-                    });
-                    console.log(JSON.stringify(parts));
-                    updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
-                    // document.location.reload(); // UNCOMMENT
+    //                     parts.push(orderEntire['orderParts'][index]['orderPart']);
+    //                 });
+    //                 console.log(JSON.stringify(parts));
+    //                 updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+    //                 // document.location.reload(); // UNCOMMENT
 
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    //Error Code Here
-                }
-            });
-        } else {
+    //             },
+    //             error: function (xhr, ajaxOptions, thrownError) {
+    //                 //Error Code Here
+    //             }
+    //         });
+    //     } else {
          
-        }
-    }
+    //     }
+    // }
 });
 
 function updateFOID(id, factory_order_id, parts){
