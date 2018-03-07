@@ -6820,7 +6820,7 @@ $(document).ready(function () {
             var d = { block_patterns: _optionsCollection, }
 
             // Don't include Crew in the Quarternary options, todo: move this to a config list
-            d.block_patterns = _.filter(d.block_patterns, function (item) { return item.alias !== "Crew"; });
+            d.block_patterns = _.filter(d.block_patterns, function (item) { return !ub.data.filterExclusions.isExcluded(item.alias); });
 
             var m = Mustache.render(t, d);
 

@@ -10181,6 +10181,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling Compression Shorts (Apparel)',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Basketball',
+                sublimatedPart: 'Extra',
+            },
             
             // Socks (Apparel)
         ],
@@ -11843,6 +11847,24 @@ ub.funcs.fontOffSets = [
             _result = _.find(this.items, {sport: sport});
 
             return _.size(_result) > 0;
+
+        }
+
+    }
+
+    // EXCLUDE in quarternary filters
+
+    ub.data.filterExclusions = {
+
+        items: [
+            "Crew",
+            "Men's",
+            "Goal",
+        ], 
+
+        isExcluded: function (alias) {
+
+            return _.contains(this.items, alias);
 
         }
 
