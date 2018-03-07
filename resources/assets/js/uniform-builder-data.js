@@ -10181,6 +10181,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling Compression Shorts (Apparel)',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Basketball',
+                sublimatedPart: 'Extra',
+            },
             
             // Socks (Apparel)
         ],
