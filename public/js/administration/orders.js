@@ -16,20 +16,18 @@ $(document).ready(function(){
         var grouped = _.groupBy(window.test_size_data, function(e) {
           return e.qx_item_id;
         });
-        
-        
+
         var items = [];
         for(var propt in grouped){
-            
+
             items.push({
                 'qx_item_id' : propt,
                 'roster' : []
             });
-            
+
         }
         window.roster.forEach(function(entry) {
-            
-            
+
             var size = entry.Size;
             var res = _.find(window.test_size_data, function(e){ return e.size == size; });
             var qx_item_id = res['qx_item_id'];
@@ -609,6 +607,7 @@ $('.send-to-factory').on('click', function(e){
             z.forEach(function(en) {
                 ctr = parseInt(en.Quantity);
                 delete en.Quantity;
+                en.Cut = en.SleeveCut;
                 delete en.SleeveCut;
                 for(i = 0; i<ctr; i++){
                     window.roster.push(en);
@@ -692,22 +691,10 @@ $('.send-to-factory').on('click', function(e){
             var roster = [];
             window.roster_formatted = false;
 
+            socks_uniform_category_ids = ["17","33"];
+
             window.roster.forEach(function(y, j) {
-                // if( y.Size == "3-5" ){
-                //     y.Size = "Kids (3-5)";
-                // } else if( y.Size == "5-7" ){
-                //     y.Size = "Youth (5-7)";
-                // } else if( y.Size == "8-12" ){
-                //     y.Size = "Adult (8-12)";
-                // } else if( y.Size == "13-14" ){
-                //     y.Size = "XL (13-14)";
-                // }
-                // roster.push(y);
-                if( _.contains(roster_sizes, y.Size) ){
-                    ctr = roster_sizes.length;
-                    console.log('Y');
-                    console.log(y);
-                    // add size prefix for socks
+                if(!socks_uniform_category_ids.indexOf(window.material.uniform_category_id)){
                     if( y.Size == "3-5" ){
                         y.Size = "Kids (3-5)";
                     } else if( y.Size == "5-7" ){
@@ -718,7 +705,24 @@ $('.send-to-factory').on('click', function(e){
                         y.Size = "XL (13-14)";
                     }
                     roster.push(y);
-                    // window.roster_formatted = true;
+                } else {
+                    if( _.contains(roster_sizes, y.Size) ){
+                        ctr = roster_sizes.length;
+                        console.log('Y');
+                        console.log(y);
+                        // add size prefix for socks
+                        if( y.Size == "3-5" ){
+                            y.Size = "Kids (3-5)";
+                        } else if( y.Size == "5-7" ){
+                            y.Size = "Youth (5-7)";
+                        } else if( y.Size == "8-12" ){
+                            y.Size = "Adult (8-12)";
+                        } else if( y.Size == "13-14" ){
+                            y.Size = "XL (13-14)";
+                        }
+                        roster.push(y);
+                        // window.roster_formatted = true;
+                    }
                 }
                 // console.log('ROSTER');
                 // console.log(roster);
@@ -747,37 +751,37 @@ $('.send-to-factory').on('click', function(e){
     
 
     // SEND ORDER TO EDIT
-    // if(window.send_order){
-    //     console.log('window send order');
-    //     if(window.material.item_id !== undefined){
-    //         console.log('window material item_id is defined');
-    //         $.ajax({
-    //             url: url,
-    //             type: "POST",
-    //             data: JSON.stringify(orderEntire),
-    //             contentType: 'application/json;',
-    //             success: function (data) {
-    //                 alert('Order was sent to EDIT!');
-    //                 var factory_order_id = data[0].OrderID;
-    //                 var parts = [];
-    //                 $.each(data, function( index, value ) {
-    //                     orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+    if(window.send_order){
+        console.log('window send order');
+        if(window.material.item_id !== undefined){
+            console.log('window material item_id is defined');
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify(orderEntire),
+                contentType: 'application/json;',
+                success: function (data) {
+                    alert('Order was sent to EDIT!');
+                    var factory_order_id = data[0].OrderID;
+                    var parts = [];
+                    $.each(data, function( index, value ) {
+                        orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
                      
-    //                     parts.push(orderEntire['orderParts'][index]['orderPart']);
-    //                 });
-    //                 console.log(JSON.stringify(parts));
-    //                 updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
-    //                 // document.location.reload(); // UNCOMMENT
+                        parts.push(orderEntire['orderParts'][index]['orderPart']);
+                    });
+                    console.log(JSON.stringify(parts));
+                    updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+                    // document.location.reload(); // UNCOMMENT
 
-    //             },
-    //             error: function (xhr, ajaxOptions, thrownError) {
-    //                 //Error Code Here
-    //             }
-    //         });
-    //     } else {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //Error Code Here
+                }
+            });
+        } else {
          
-    //     }
-    // }
+        }
+    }
 });
 
 function updateFOID(id, factory_order_id, parts){
@@ -940,12 +944,12 @@ function applyConfigs(api_order_id){
             var idx = 0;
 
             if(builder_customizations['randomFeeds'] > 0){
-                
+
                 if( builder_customizations['randomFeeds']['Top Welt'] != undefined ){
-                    
+
                     var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
-                    
-                    
+
+
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                         questions.push({
@@ -954,15 +958,12 @@ function applyConfigs(api_order_id){
                         });
                         data_pushed = true;
                     }
-                    
-                    
+
                 }
 
                 if( builder_customizations['randomFeeds']['Arch'] != undefined ){
                     var z = builder_customizations['randomFeeds']['Arch']['layers'];
-                    
-                    
-                    
+
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                         questions.push({
@@ -975,9 +976,7 @@ function applyConfigs(api_order_id){
 
                 if( builder_customizations['randomFeeds']['Toe'] != undefined ){
                     var z = builder_customizations['randomFeeds']['Toe']['layers'];
-                    
-                    
-                    
+
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                         questions.push({
@@ -990,9 +989,7 @@ function applyConfigs(api_order_id){
 
                 if( builder_customizations['randomFeeds']['Heel'] != undefined ){
                     var z = builder_customizations['randomFeeds']['Heel']['layers'];
-                    
-                    
-                    
+
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                         questions.push({
