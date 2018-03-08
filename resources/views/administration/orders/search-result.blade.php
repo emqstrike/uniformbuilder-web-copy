@@ -594,7 +594,7 @@ function applyConfigs(api_order_id){
     getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
     function getOrderParts(callback){
         var order_parts;
-        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        var url = "//api.prolook.com/api/order/items/"+api_order_id;
         $.ajax({
             url: url,
             async: false,
