@@ -832,7 +832,7 @@ class UniformBuilderController extends Controller
 
                 $html .=   '<td align="center">';
                 $html .=   'Accent: ' . $application['accent_obj']['title'] . "<br />";
-                $html .=   'Font: ' . $application['font_obj']['name'] . "<br />";
+                $html .=   'Font: ' . $application['font_obj']['alias'] . "<br />";
                 $html .=   'Text: ' . strtoupper($application['text']) . "<br />";
 
                 if (isset($application['pattern_obj'])) {
