@@ -2447,7 +2447,7 @@ $(document).ready(function () {
                 e.setting_type === 'static_layer') { return; }
 
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
-                
+
                 if (typeof e.code !== "undefined") {
                     ub.utilities.info(e.code.toTitleCase() + ' layer detected, skipping add to Team Colors...');     
                 }
@@ -2456,7 +2456,8 @@ $(document).ready(function () {
 
             }
 
-            
+            if (typeof e.code === "undefined") { return; }
+
             if (typeof e.code !== 'undefined') {
 
                 
@@ -6199,7 +6200,12 @@ $(document).ready(function () {
 
                 if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
 
-                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
+                    if (typeof layer.team_color_id !== "undefined") {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: layer.team_color_id };    
+                    } else {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};    
+                    }
+                    
                 }
                 ///
 
