@@ -10304,6 +10304,7 @@ ub.funcs.fontOffSets = [
             "Tech-Tee (Apparel)", 
             "Game Day Jackets (Apparel)",
             'Tennis',
+            "Compression Pant (Apparel)",
             ],
         options: [
                 {
@@ -11177,6 +11178,7 @@ ub.funcs.fontOffSets = [
                 code: 'body',
             },
         ],
+
         shouldSkip: function (sport, code) {
 
             var _result = _.find(this.items, {sport: sport, code: code});
@@ -11198,7 +11200,11 @@ ub.funcs.fontOffSets = [
 
             }
 
-            return (typeof _result !== "undefined");
+            if (code === "body" || code === "extra") { console.log(code); }
+            
+            return (typeof _result !== "undefined") || 
+                ((ub.data.hiddenBody.currentUniformOk() && code === "body") || 
+                    (ub.data.hiddenBody.currentUniformOk() && code === "extra"));
 
         }
 
