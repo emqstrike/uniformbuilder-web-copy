@@ -146,6 +146,115 @@ function getPatterns(callback){
     });
 }
 
+function initBuildQuestions(){
+    $('.build-question-values').on('click', function(e){
+        window.api_order_id = $('.order-id').html();
+        getOrderParts(function(order_parts){ window.order_parts = order_parts; });
+        window.order_parts.forEach(function(entry) {
+            builder_customizations = JSON.parse(entry.builder_customizations);
+            window.customizer_material_id = null;
+            window.pa_id = entry.id;
+            if('material_id' in builder_customizations.upper){
+                window.customizer_material_id = builder_customizations.upper.material_id;
+                // console.log("HAS UPPER ID");
+                // console.log(builder_customizations.upper);
+            } else {
+                window.customizer_material_id = builder_customizations.lower.material_id;
+                // console.log("HAS LOWER ID");
+                // console.log(builder_customizations.upper);
+            }
+
+            var teamcolors = builder_customizations.team_colors;
+
+            entry.orderPart = {
+                "ID" : entry.id,
+                "Description" : entry.description,
+                "DesignSheet" : '//customizer.prolook.com' + builder_customizations.pdfOrderForm
+            };
+
+            getMaterial(function(material){ window.material = material; });
+
+            // var error_message = validateMaterialPreReq();
+            // validateMaterialPreReq();
+            // window.error_data = {
+            //     'error_message' : error_message['data'],
+            //     'order_id' : order_id,
+            //     'order_code' : api_order_id,
+            //     'client' : client,
+            //     'material_id' : window.customizer_material_id,
+            //     'type' : 'json'
+            // };
+            // checkErrors(error_message);
+
+            getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
+
+            window.qx_item_ref = window.pa.ref_qstrike_mat_id;
+            entry.orderPart.ItemID = window.material.item_id;
+
+            var questions_valid = applyConfigs(api_order_id);
+
+            console.log(questions_valid);
+            entry.orderQuestions = {
+                "OrderQuestion": questions_valid
+            };
+
+            entry.orderItems = JSON.parse(entry.roster);
+            window.roster = entry.orderItems;
+            delete entry.orderItems[0].Quantity;
+            delete entry.orderItems[0].SleeveCut;
+            delete entry.builder_customizations;
+            delete entry.description;
+            delete entry.factory_order_id;
+            delete entry.id;
+            delete entry.item_id;
+            delete entry.oid;
+            delete entry.roster;
+            delete entry.order_id;
+            delete entry.pid;
+            delete entry.questions;
+
+        });
+
+        if('material_id' in builder_customizations.upper){
+            window.customizer_material_id = builder_customizations.upper.material_id;
+            // console.log("HAS UPPER ID");
+            // console.log(builder_customizations.upper);
+        } else {
+            window.customizer_material_id = builder_customizations.lower.material_id;
+            // console.log("HAS LOWER ID");
+            // console.log(builder_customizations.upper);
+        }
+
+        getMaterial(function(material){ window.material = material; });
+        function getMaterial(callback){
+            var material;
+            var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    material = data['material'];
+                    if(typeof callback === "function") callback(material);
+                }
+            });
+        }
+
+        console.log('build-question-values');
+        getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
+
+        window.qx_item_ref = window.pa.ref_qstrike_mat_id;
+        entry.orderPart.ItemID = window.material.item_id;
+
+        var questions_valid = applyConfigs(api_order_id);
+
+        console.log(questions_valid);
+    });
+}
+
 // SEND ORDER TO EDIT
 $('.generate-data').on('click', function(e){
 
@@ -158,7 +267,8 @@ $('.generate-data').on('click', function(e){
     // console.log('send to edit');
     var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
     var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
-    api_order_id = $(this).data('api-order-id');
+    // api_order_id = $(this).data('api-order-id');
+    api_order_id = $('.order-id').html();
     order_id = $(this).data('order-id');
     client = $(this).data('client');
 
@@ -393,7 +503,11 @@ $('.generate-data').on('click', function(e){
 
 function getOrderParts(callback){
     var order_parts;
+<<<<<<< HEAD
     var url = "//api.prolook.com/api/order/items/"+api_order_id;
+=======
+    var url = "//api-dev.qstrike.com/api/order/items/"+window.api_order_id;
+>>>>>>> b1adce5b9e1939ef8117da1e9e17da39444f94fd
     $.ajax({
         url: url,
         async: false,
@@ -571,6 +685,7 @@ $('.view-order-items').on('click', function(e){
         });
     });
     $('.order-items').append(elem);
+    initBuildQuestions();
 });
 
 function getOrderItems(callback){

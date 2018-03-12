@@ -10181,6 +10181,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling Compression Shorts (Apparel)',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Basketball',
+                sublimatedPart: 'Extra',
+            },
             
             // Socks (Apparel)
         ],
@@ -10300,6 +10304,7 @@ ub.funcs.fontOffSets = [
             "Tech-Tee (Apparel)", 
             "Game Day Jackets (Apparel)",
             'Tennis',
+            "Compression Pant (Apparel)",
             ],
         options: [
                 {
@@ -10545,7 +10550,7 @@ ub.funcs.fontOffSets = [
                 ]
             },
             {
-                block_pattern: 'Game Day Coaches Jacket',
+                block_pattern: 'Game Day Jacket',
                 neck_options: ["Men's", "Women's"],
                 material_option: 'Zipper', 
                 valid_colors: [
@@ -10558,7 +10563,7 @@ ub.funcs.fontOffSets = [
                 ]
             },
              {
-                block_pattern: 'Game Day Coaches Jacket',
+                block_pattern: 'Game Day Jacket',
                 neck_options: ["Men's", "Women's"],
                 material_option: 'Arm Elastic', 
                 valid_colors: [
@@ -11173,6 +11178,7 @@ ub.funcs.fontOffSets = [
                 code: 'body',
             },
         ],
+
         shouldSkip: function (sport, code) {
 
             var _result = _.find(this.items, {sport: sport, code: code});
@@ -11194,7 +11200,11 @@ ub.funcs.fontOffSets = [
 
             }
 
-            return (typeof _result !== "undefined");
+            if (code === "body" || code === "extra") { console.log(code); }
+            
+            return (typeof _result !== "undefined") || 
+                ((ub.data.hiddenBody.currentUniformOk() && code === "body") || 
+                    (ub.data.hiddenBody.currentUniformOk() && code === "extra"));
 
         }
 
@@ -11843,6 +11853,24 @@ ub.funcs.fontOffSets = [
             _result = _.find(this.items, {sport: sport});
 
             return _.size(_result) > 0;
+
+        }
+
+    }
+
+    // EXCLUDE in quarternary filters
+
+    ub.data.filterExclusions = {
+
+        items: [
+            "Crew",
+            "Men's",
+            "Goal",
+        ], 
+
+        isExcluded: function (alias) {
+
+            return _.contains(this.items, alias);
 
         }
 

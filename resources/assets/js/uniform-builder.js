@@ -2447,7 +2447,7 @@ $(document).ready(function () {
                 e.setting_type === 'static_layer') { return; }
 
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
-                
+
                 if (typeof e.code !== "undefined") {
                     ub.utilities.info(e.code.toTitleCase() + ' layer detected, skipping add to Team Colors...');     
                 }
@@ -2456,7 +2456,8 @@ $(document).ready(function () {
 
             }
 
-            
+            if (typeof e.code === "undefined") { return; }
+
             if (typeof e.code !== 'undefined') {
 
                 
@@ -6199,7 +6200,12 @@ $(document).ready(function () {
 
                 if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
 
-                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
+                    if (typeof layer.team_color_id !== "undefined") {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: layer.team_color_id };    
+                    } else {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};    
+                    }
+                    
                 }
                 ///
 
@@ -6820,7 +6826,7 @@ $(document).ready(function () {
             var d = { block_patterns: _optionsCollection, }
 
             // Don't include Crew in the Quarternary options, todo: move this to a config list
-            d.block_patterns = _.filter(d.block_patterns, function (item) { return item.alias !== "Crew"; });
+            d.block_patterns = _.filter(d.block_patterns, function (item) { return !ub.data.filterExclusions.isExcluded(item.alias); });
 
             var m = Mustache.render(t, d);
 
