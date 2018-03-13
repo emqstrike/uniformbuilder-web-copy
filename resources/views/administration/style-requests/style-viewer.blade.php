@@ -237,7 +237,7 @@ $(function(){
 
     function getDefaultMaterials(callback){
         var materials;
-        var url = "//api-dev.qstrike.com/api/materials/category/"+window.default_sport;
+        var url = "//" + api_host + "/api/materials/category/"+window.default_sport;
         $.ajax({
             url: url,
             async: false,
@@ -256,7 +256,7 @@ $(function(){
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
         var sports;
-        var url = "http://api-dev.qstrike.com/api/categories";
+        var url = "//" + api_host + "/api/categories";
         $.ajax({
             url: url,
             async: false,
@@ -431,7 +431,7 @@ $(function(){
         var data = {id: id, item_id: item_id, customizer_available: customizer_available};
         // console.log(data);
         $.ajax({
-            url: "//api-dev.qstrike.com/api/material/updatePartial",
+            url: "//" + api_host + "/api/material/updatePartial",
             type: "POST",
             data: JSON.stringify(data),
             dataType: "json",

@@ -97,7 +97,7 @@ getSizingConfig(function(item_sizes){ window.item_sizes = item_sizes; });
 
 function getSizingConfig(callback){
     var item_sizes;
-    var url = "//api-dev.qstrike.com/api/item_sizes";
+    var url = "//" + api_host + "/api/item_sizes";
     $.ajax({
         url: url,
         async: false,
@@ -114,7 +114,7 @@ function getSizingConfig(callback){
 
 function getColors(callback){
     var colors;
-    var url = "//api-dev.qstrike.com/api/colors";
+    var url = "//" + api_host + "/api/colors";
     $.ajax({
         url: url,
         async: false,
@@ -131,7 +131,7 @@ function getColors(callback){
 
 function getPatterns(callback){
     var patterns;
-    var url = "//api-dev.qstrike.com/api/patterns";
+    var url = "//" + api_host + "/api/patterns";
     $.ajax({
         url: url,
         async: false,
@@ -228,7 +228,7 @@ function initBuildQuestions(){
         getMaterial(function(material){ window.material = material; });
         function getMaterial(callback){
             var material;
-            var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
+            var url = "//" + api_host + "/api/material/"+window.customizer_material_id;
             $.ajax({
                 url: url,
                 async: false,
@@ -503,7 +503,7 @@ $('.generate-data').on('click', function(e){
 
 function getOrderParts(callback){
     var order_parts;
-    var url = "//api-dev.qstrike.com/api/order/items/"+window.api_order_id;
+    var url = "//" + api_host + "/api/order/items/"+window.api_order_id;
     $.ajax({
         url: url,
         async: false,
@@ -520,7 +520,7 @@ function getOrderParts(callback){
 
 function getMaterial(callback){
     var material;
-    var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
+    var url = "//" + api_host + "/api/material/"+window.customizer_material_id;
     $.ajax({
         url: url,
         async: false,
@@ -537,7 +537,7 @@ function getMaterial(callback){
 
 function getPAConfigs(callback){
     var parts_aliases;
-    var url = "//api-dev.qstrike.com/api/parts_alias/"+window.material.parts_alias_id;
+    var url = "//" + api_host + "/api/parts_alias/"+window.material.parts_alias_id;
     $.ajax({
         url: url,
         async: false,
@@ -570,7 +570,7 @@ function checkErrors(error_message){
             callback: function (result) {
                 if (result) {
                     $.ajax({
-                        url: 'http://api-dev.qstrike.com/api/test/slack_message/order_error',
+                        url: '//' + api_host + 'api/test/slack_message/order_error',
                         type: "POST",
                         data: JSON.stringify(window.error_data),
                         contentType: 'application/json;',
@@ -705,7 +705,7 @@ function applyConfigs(api_order_id){
     getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
     function getOrderParts(callback){
         var order_parts;
-        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        var url = "//" + api_host + "/api/order/items/"+api_order_id;
         $.ajax({
             url: url,
             async: false,
