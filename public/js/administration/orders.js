@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
     window.colors = null;
     window.patterns = null;
     window.pa_id = null;
@@ -37,11 +36,7 @@ $(document).ready(function(){
                 }
             });
         });
-        
-        
 
-        
-        
         return items;
     }
 
@@ -318,8 +313,7 @@ $(document).ready(function(){
                             phone: ship_phone,
                             email: ship_email
                         };
-                
-                
+
                 $.ajax({
                     url: '//' + api_host + '/api/shipping_info/update',
                     type: "POST",
@@ -330,7 +324,6 @@ $(document).ready(function(){
                     headers: {"accessToken": atob(headerValue)},
                     success: function(response){
                         if (response.success) {
-                            
                             UpdateClientInfo(order_id);
                         }
                     }
@@ -345,7 +338,7 @@ $(document).ready(function(){
                             id: order_id,
                             client: client_name
                         };
-                
+
                 $.ajax({
                     url: '//' + api_host + '/api/order/update',
                     type: "POST",
@@ -356,7 +349,6 @@ $(document).ready(function(){
                     headers: {"accessToken": atob(headerValue)},
                     success: function(response){
                         if (response.success) {
-                            
                             document.location.reload();
                         }
                     }
@@ -655,15 +647,15 @@ $('.send-to-factory').on('click', function(e){
             "Sport": "All",
             "TeamName": "Wildcats"
         };
-        
+
         // "RepID": 154, Jeremy
         // "RepID": 1148, Geeks
         // var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
         // window.test_size_data = JSON.parse(x);
         var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
         window.test_size_data = JSON.parse(x.properties);
-        
-        
+
+
         // window.test_size_data = JSON.parse(window.material.sizing_config_prop); // uncomment this line on production
         var order_items_split = splitRosterToQXItems();
         var order_parts_split = [];
@@ -731,9 +723,9 @@ $('.send-to-factory').on('click', function(e){
             if( roster.length > 0 ){
                 x.orderItems = roster;
                 order_parts_split.push(x); 
-             
+
             } else {
-             
+
             }
         });
 
@@ -747,8 +739,6 @@ $('.send-to-factory').on('click', function(e){
     console.log(orderEntire);
     console.log('strResult>>>');
     console.log(strResult);
-
-    
 
     // SEND ORDER TO EDIT
     if(window.send_order){
