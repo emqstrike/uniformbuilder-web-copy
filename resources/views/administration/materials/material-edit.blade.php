@@ -762,7 +762,7 @@ $( document ).ready(function() {
     getPriceItems(function(price_items){ window.price_items = price_items; });
     function getPriceItems(callback){
         var price_items;
-        var url = "//api-dev.qstrike.com/api/price_items";
+        var url = "//" + api_host + "/api/price_items";
         $.ajax({
             url: url,
             async: false,
@@ -894,8 +894,7 @@ $( document ).ready(function() {
 
     function getBlockPatterns(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
-        // var url = "//localhost:8888/api/block_patterns";
+        var url = "//" + api_host + "/api/block_patterns";
         $.ajax({
             url: url,
             async: false,

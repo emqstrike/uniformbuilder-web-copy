@@ -647,43 +647,28 @@ $(function(){
     this.addRemoveLinks = true;
 
     Dropzone.options.myAwesomeDropzone = {
-        // addRemoveLinks: true,
         success: function(file, response){
-            //alert(response);
-            // console.log(file);
-            // console.log(response);
             filesData.push({
                 'name' : file.name,
                 'url' : response
             });
-            // console.log(filesData);
             $('.design-sheet-path').val(filesData[0].url);
-            // buildRows(filesData);
         },
         complete: function(file){
-            // console.log('completed');
             files.push(file.name);
-            // $('.design-sheet-path').val(file.url);
             updateData();
-            // console.log(files);
-            // console.log(file);
-            // hidePleaseWait();
         },
         removedfile: function(file) {
             files.splice(files.indexOf(file.name), 1);
-            // console.log(files);
-            // console.log(filesData);
         },
         drop: function(){
-            // showPleaseWait();
-            // $('.progress-modal-message').html('Uploading image . . .');
         },
     };
 
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
         var sports;
-        var url = "//api-dev.qstrike.com/api/categories";
+        var url = "//" + api_host + "/api/categories";
         $.ajax({
             url: url,
             async: false,
@@ -701,7 +686,7 @@ $(function(){
     getBlockPatterns(function(block_patterns){ window.block_pattern = block_patterns; });
     function getBlockPatterns(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
+        var url = "//" + api_host + "/api/block_patterns";
         $.ajax({
             url: url,
             async: false,

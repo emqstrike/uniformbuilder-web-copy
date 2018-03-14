@@ -90,28 +90,6 @@ function OpenInNewTab(url) {
   win.focus();
 }
 
-// window.mascots = null;
-
-// getMascots(function(mascots){ window.mascots = mascots; });
-   
-// function getMascots(callback){
-//     var mascots;
-//     var url = "//api-dev.qstrike.com/api/mascots";
-//     $.ajax({
-//         url: url,
-//         async: false,
-//         type: "GET",
-//         dataType: "json",
-//         crossDomain: true,
-//         contentType: 'application/json',
-//         success: function(data){
-//             mascots = data['mascots'];
-//             if(typeof callback === "function") callback(mascots);
-//         }
-//     });
-// }
-// console.log(window.mascots);
-
 $('.data-table').DataTable({
     "paging": true,
     "lengthChange": true,
@@ -119,28 +97,6 @@ $('.data-table').DataTable({
     "ordering": false,
     "info": true,
     "autoWidth": true,
-    // initComplete: function () {
-    //     this.api().columns().every( function () {
-
-    //         var column = this;
-    //         var select = $('<select><option value=""></option></select>')
-    //             .appendTo( $(column.footer()).empty() )
-    //             .on( 'change', function () {
-    //                 var val = $.fn.dataTable.util.escapeRegex(
-    //                     $(this).val()
-    //                 );
-
-    //                 column
-    //                 .search( val ? '^'+val+'$' : '', true, false )
-    //                     .draw();
-    //             } );
-
-    //         column.data().unique().sort().each( function ( d, j ) {
-
-    //             select.append( '<option value="'+d+'">'+d+'</option>' );
-    //         } );
-    //     } );
-    // }
 });
 
 

@@ -733,7 +733,7 @@ $(function(){
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
         var sports;
-        var url = "//api-dev.qstrike.com/api/categories";
+        var url = "//" + api_host + "/api/categories";
         $.ajax({
             url: url,
             async: false,
@@ -751,7 +751,7 @@ $(function(){
     getBlockPatterns(function(block_patterns){ window.block_pattern = block_patterns; });
     function getBlockPatterns(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
+        var url = "//" + api_host + "/api/block_patterns";
         $.ajax({
             url: url,
             async: false,

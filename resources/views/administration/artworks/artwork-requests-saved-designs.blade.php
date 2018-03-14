@@ -205,7 +205,7 @@ function insertMessage(data){
     var content = data.content;
     console.log(data);
     $.ajax({
-        url: '//api-dev.qstrike.com/api/message',
+        url: '//' + api_host + '/api/message',
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',
@@ -224,7 +224,7 @@ function rejectArtwork(order_code, content){
     data.order_code = order_code;
     data.content = content;
     $.ajax({
-        url: '//api-dev.qstrike.com/api/artwork_request/reject',
+        url: '//' + api_host + '/api/artwork_request/reject',
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',

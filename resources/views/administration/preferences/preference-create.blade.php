@@ -213,7 +213,6 @@ $(document).ready(function(){
     function getMascots(callback){
         var items;
         var url = "//" + api_host + "/api/mascots";
-        // var url = "//api-dev.qstrike.com/api/mascots";
         $.ajax({
             url: url,
             async: false,

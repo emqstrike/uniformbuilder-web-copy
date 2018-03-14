@@ -126,8 +126,7 @@ $(function(){
 
     function getBlockPatterns(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
-        // var url = "//localhost:8888/api/block_patterns";
+        var url = "//" + api_host + "/api/block_patterns";
         $.ajax({
             url: url,
             async: false,

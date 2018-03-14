@@ -106,7 +106,6 @@ $(function(){
     getAdmins(function(users){ window.users = users; });
     function getAdmins(callback){
         var users;
-        // var url = "//api-dev.qstrike.com/api/users";
         var url = "//" + api_host + "/api/users";
         $.ajax({
             url: url,

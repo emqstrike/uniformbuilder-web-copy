@@ -89,9 +89,7 @@
     $(document).on('click', '.confirmButtonYes', function(){
         
         var id = $(this).data('materials-fabric-id');
-
-        //var url = "http://localhost:8888/api/materials_fabric/delete";
-        var url = "//api-dev.qstrike.com/api/materials_fabric/delete/";
+        var url = "//" + api_host + "/api/materials_fabric/delete/";
                    
         $.ajax({
             url: url,

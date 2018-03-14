@@ -648,7 +648,7 @@ $(document).ready(function(){
 
     function getBlockPatterms(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
+        var url = "//" + api_host + "/api/block_patterns";
         $.ajax({
             url: url,
             async: false,
@@ -1149,7 +1149,7 @@ $(document).ready(function(){
 
         function getFonts(callback){
             var mascots;
-            var url = "//api-dev.qstrike.com/api/fonts";
+            var url = "//" + api_host + "/api/fonts";
             $.ajax({
                 url: url,
                 async: false,

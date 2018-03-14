@@ -204,7 +204,7 @@ $(document).ready(function(){
 
     function getPriceItems(callback){
         var price_items;
-        var url = "//api-dev.qstrike.com/api/price_items";
+        var url = "//" + api_host + "/api/price_items";
         $.ajax({
             url: url,
             async: false,
