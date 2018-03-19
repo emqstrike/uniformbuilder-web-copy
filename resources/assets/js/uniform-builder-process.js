@@ -929,15 +929,7 @@ $(document).ready(function() {
 
         var _type = '';
         
-        if (ub.current_material.material.factory_code === "BLB") {
-
-            _type = "Sublimated";
-
-        } else {
-
-            _type ="Tackle Twill";
-
-        }
+        _type = ub.config.uniform_application_type.toTitleCase(); 
 
         var _submitted = '1';
 
@@ -1165,17 +1157,7 @@ $(document).ready(function() {
 
         });
 
-        var _type = '';
-
-        if (ub.current_material.material.factory_code === "BLB") {
-
-            _type = "Sublimated";
-
-        } else {
-
-            _type ="Tackle Twill";
-
-        }
+        var _type = ub.config.uniform_application_type.toTitleCase(); 
 
         var orderInput = {
 
