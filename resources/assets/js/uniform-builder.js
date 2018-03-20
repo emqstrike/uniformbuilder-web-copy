@@ -447,6 +447,8 @@ $(document).ready(function () {
             $('div#uniform-price-adult').html(_adultStr + "<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             // $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
 
+            if (typeof _getPrice.youth_min_msrp === "undefined") { $('div#uniform-price-youth').addClass('hide'); }
+
             $('div.header-container').css('display','none !important');
 
             ub.funcs.perUniformPriceCustomizerCleanup();
@@ -1334,23 +1336,16 @@ $(document).ready(function () {
 
         var substringMatcher = function(strs) {
           return function findMatches(q, cb) {
-            var matches, substringRegex;
+            
+            var matches = [];
 
-            // an array that will be populated with substring matches
-            matches = [];
-
-            // regex used to determine if a string contains the substring `q`
-            substrRegex = new RegExp(q, 'i');
-
-            // iterate through the pool of strings and for any string that
-            // contains the substring `q`, add it to the `matches` array
+            // Use a simplier matcher
             $.each(strs, function(i, str) {
-              if (substrRegex.test(str)) {
-                matches.push(str);
-              }
+              if (str.indexOf(q) !== -1) { matches.push(str); }
             });
 
             cb(matches);
+
           };
         };
 
@@ -1370,7 +1365,7 @@ $(document).ready(function () {
 
             if (type === 'materials') {
 
-                _object = _.find(ub.materials, {name: name});
+                _object = _.find(ub.materials, {searchName: name});
                 _id = _object.id;
                 _thumbnail = _object.thumbnail_path;
 
@@ -1410,13 +1405,11 @@ $(document).ready(function () {
 
         ub.addToSearchResults = function (type, data) {
 
-            var _key = Math.round(+new Date()/1000).toString(); 
+            var _key = $('input#search_field').val();
             var _searchResultsObject = ub.searchResults;
 
             if (!Array.isArray(_searchResultsObject[_key])) {
-
                 _searchResultsObject[_key] = [];
-
             }
 
             var _object = ub.funcs.getSearchObject(type, data);
@@ -1458,7 +1451,8 @@ $(document).ready(function () {
 
                     $('.typeahead').typeahead({
                         minLength: 3,
-                        highlight: true
+                        highlight: true,
+                        limit: 30,
                     },
                     {
                         name: 'materials',
@@ -1514,7 +1508,7 @@ $(document).ready(function () {
                     ub.funcs.showMainLinks();
 
                     ub.funcs.closePickersDialog();
-                    
+
                 }
 
             }
@@ -1579,52 +1573,58 @@ $(document).ready(function () {
 
             if (material.uniform_category === "Football" || material.uniform_category === "Wrestling" || "Baseball") {
 
-                    var _pricingTable = JSON.parse(material.pricing);
-                    material.parsedPricingTable = _pricingTable;
-                    
-                    if (material.pricing === null) {
+                var _pricingTable = JSON.parse(material.pricing);
+                material.parsedPricingTable = _pricingTable;
+                
+                if (material.pricing === null) {
 
-                        material.parsedPricingTable = {
+                    material.parsedPricingTable = {
 
-                            youth_min_msrp: ' (Call for Pricing)',
-                            adult_min_msrp: ' (Call for Pricing)',
-                            youth_sale: 'nosale',
-                            adult_sale: 'nosale',
-                            callForPricing: 'callForPricingOff'
-
-                        }
-                        
-                    } else {
-
-                        callForPricing: 'callForPricingOn'
-    
-                        if (_pricingTable.youth_min_web_price_sale === "0.00") {
-
-                            _pricingTable.youth_sale = "nosale";    
-
-                        } else {
-
-                            _pricingTable.youth_sale = "sale";    
-
-                        }
-
-                        if (_pricingTable.adult_min_web_price_sale === "0.00") {
-
-                            _pricingTable.adult_sale = "nosale";    
-
-                        } else {
-
-                            _pricingTable.adult_sale = "sale";    
-
-                        }
+                        youth_min_msrp: ' (Call for Pricing)',
+                        adult_min_msrp: ' (Call for Pricing)',
+                        youth_sale: 'nosale',
+                        adult_sale: 'nosale',
+                        callForPricing: 'callForPricingOff'
 
                     }
                     
+                } else {
+
+                    callForPricing: 'callForPricingOn';
+
+                    if (_pricingTable.youth_min_web_price_sale === "0.00") {
+
+                        _pricingTable.youth_sale = "nosale";    
+
+                    } else {
+
+                        _pricingTable.youth_sale = "sale";    
+
+                    }
+
+                    if (_pricingTable.adult_min_web_price_sale === "0.00") {
+
+                        _pricingTable.adult_sale = "nosale";    
+
+                    } else {
+
+                        _pricingTable.adult_sale = "sale";    
+
+                    }
+
                 }
+                
+            }
 
         }
 
-        ub.load_materials = function (obj, object_name){
+        ub.funcs.getSearchName = function (material) {
+            return material.name.trim() + ' (' + material.gender + ')';
+        }
+
+
+
+        ub.load_materials = function (obj, object_name) {
 
             ub.displayDoneAt('Styles loaded.');
             ub.materials = {};
@@ -1635,6 +1635,7 @@ $(document).ready(function () {
 
             _.each (ub.materials, function (material) {
 
+                material.searchName = ub.funcs.getSearchName(material);
                 material.calculatedPrice = ub.funcs.getPrice(material);
                 ub.funcs.processMaterialPrice(material);
 
@@ -1643,9 +1644,7 @@ $(document).ready(function () {
                 material.is_favorite = (typeof _result !== "undefined"); // Mark Favorite items
 
                 if (material.thumbnail_path_left === "") {
-                    
                     material.thumbnail_path_left = material.thumbnail_path;
-
                 }
 
                 if ((material.uniform_category === "Baseball" && material.type === "lower") || 
@@ -1654,21 +1653,23 @@ $(document).ready(function () {
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
-                    ub.funcs.isSocks()) {
-
+                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
+                
                     material.thumbnail_path_left = material.thumbnail_path_front;
-
                 }
 
-                 if (material.uniform_category === "Cinch Sack (Apparel)") {
-
+                if (material.uniform_category === "Cinch Sack (Apparel)") {
                     material.thumbnail_path_left = material.thumbnail_path_back;
-
                 }
    
             });
 
-            ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
+            var _searchSource = _.map(ub.materials, function (material) {
+                return ub.funcs.getSearchName(material);
+            });
+
+            // ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
+            ub.data.searchSource['materials'] = _searchSource;
             ub.displayDoneAt('Price Preparation Complete.');
             ub.displayDoneAt('Preparing Search...');
 
@@ -2446,7 +2447,7 @@ $(document).ready(function () {
                 e.setting_type === 'static_layer') { return; }
 
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
-                
+
                 if (typeof e.code !== "undefined") {
                     ub.utilities.info(e.code.toTitleCase() + ' layer detected, skipping add to Team Colors...');     
                 }
@@ -2455,7 +2456,8 @@ $(document).ready(function () {
 
             }
 
-            
+            if (typeof e.code === "undefined") { return; }
+
             if (typeof e.code !== 'undefined') {
 
                 
@@ -2652,19 +2654,7 @@ $(document).ready(function () {
 
             }
 
-            if (application_obj.type === "mascot"){
-
-                ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
-
-                // if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
-                if (ub.page === "order") { ub.funcs.customArtworkRequestCheckOrders(application_obj); }
-                if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
-
-                // if (ub.page === "saved-design" || ub.page === "order") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
-
-            }
-
-            if (application_obj.type === "embellishments"){
+            if (application_obj.type === "embellishments") {
 
                 ub.funcs.update_application_embellishments(application_obj.application, application_obj.embellishment);
 
@@ -2672,7 +2662,38 @@ $(document).ready(function () {
 
             }
 
-            if (application_obj.type === "logo"){
+            if (application_obj.type === "mascot") {
+
+                var _primaryView = ub.funcs.getPrimaryViewObject(application_obj.application);
+                var _inksoftID = _primaryView.application.inksoftDesignID;
+
+                if (typeof _primaryView !== "undefined") {
+
+                    if (typeof _inksoftID !== "undefined") {
+
+                        if (_inksoftID.length > 0) { 
+
+                            window.is.isMessage(_inksoftID, application_obj.code, true);
+                            
+                        } else {
+
+                            ub.funcs.processMascots(application_obj);
+                        
+                        }
+
+                    } else {
+
+                        ub.funcs.processMascots(application_obj);
+                        
+                    }
+
+                } 
+                
+                // if (ub.page === "saved-design" || ub.page === "order") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
+
+            }
+
+            if (application_obj.type === "logo") {
 
                 ub.update_application_logo(application_obj);
 
@@ -2726,6 +2747,16 @@ $(document).ready(function () {
         }
 
     };
+
+    ub.funcs.processMascots = function (application_obj) {
+
+        ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
+
+        // if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+        if (ub.page === "order") { ub.funcs.customArtworkRequestCheckOrders(application_obj); }
+        if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
+
+    }
 
     ub.funcs.activateLeftView = function () {
 
@@ -6169,7 +6200,12 @@ $(document).ready(function () {
 
                 if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
 
-                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
+                    if (typeof layer.team_color_id !== "undefined") {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: layer.team_color_id };    
+                    } else {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};    
+                    }
+                    
                 }
                 ///
 
@@ -6613,6 +6649,7 @@ $(document).ready(function () {
         $('span.slink[data-item="Pant"]').attr('data-gender', gender);
         $('span.slink[data-item="Twill"]').attr('data-gender', gender);
         $('span.slink[data-item="Sublimated"]').data('gender', gender);
+        $('span.slink[data-item="Knitted"]').data('gender', gender);
 
         $('span.slink[data-item="Jersey"]').html("Jersey");
         $('span.slink[data-item="Pant"]').html("Pant");
@@ -6636,6 +6673,11 @@ $(document).ready(function () {
                 $('span.slink[data-item="Pant"]').html(_secondaryBarLabels.lowerLabel);
                 $('span.slink[data-item="Twill"]').hide();
 
+                if (sport === "Socks (Apparel)") {
+                    $('span.slink[data-item="Twill"]').hide();
+                    $('span.slink[data-item="Knitted"]').show();
+                }
+
             } else if (_secondaryBarLabels.type === "both") {
 
                 $('span.slink[data-item="Jersey"]').html(_secondaryBarLabels.upperLabel);
@@ -6644,6 +6686,12 @@ $(document).ready(function () {
 
             }
 
+        }
+
+        if (sport === "Socks (Apparel)") {
+            $('span.slink[data-item="Twill"]').hide();
+        } else {
+            $('span.slink[data-item="Knitted"]').hide();
         }
 
     }
@@ -6776,14 +6824,21 @@ $(document).ready(function () {
             var _str = '';
             
             var d = { block_patterns: _optionsCollection, }
+
+            // Don't include Crew in the Quarternary options, todo: move this to a config list
+            d.block_patterns = _.filter(d.block_patterns, function (item) { return !ub.data.filterExclusions.isExcluded(item.alias); });
+
             var m = Mustache.render(t, d);
-            
+
             $('.quarternary-bar').html(m);
 
             // Don't show quarternary bar if there's no items
             if (_optionsCollection.length > 0) {
                 $('div.quarternary-bar').fadeIn();            
             }
+
+            // Side effect of whitelist
+            if (d.block_patterns.length === 0) { $('div.quarternary-bar').hide(); }
 
             $('div.quarternary-bar').css('margin-top', "0px");
 
@@ -7016,10 +7071,8 @@ $(document).ready(function () {
 
                     // If the uniform doesnt have a thumbnail use the sports picker thumb
                     if (imgt.attr('src') === ("?v=" + ub.config.asset_version)) {
-
                         var _filename =  '/images/main-ui/pickers/' + actualGender.toTitleCase() + '/' + ub.data.sportAliases.getAlias(gender).alias + '.png';
                         imgt.attr('src', _filename);
-
                     }
 
                     var _resultPrice = $(this).find('span.calculatedPrice').html();
@@ -7031,19 +7084,14 @@ $(document).ready(function () {
                         var _uid = $(this).data('id');
 
                         if (typeof _uid !== "undefined") {
-
                             _uid = _uid.toString();
-
                         }
 
                         _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
                         
                         if (typeof _result !== "undefined") {
-
                             $(this).find('div.favorite').show();
-
                         }
-
 
                     }
 
@@ -7053,9 +7101,29 @@ $(document).ready(function () {
 
                         if (_priceItemName) {
                             $(this).find('div.price_item_template_name').show();
+                            $(this).find('div.material_id').show();
                         } else {
                             $(this).find('div.price_item_template_name').hide();    
+                            $(this).find('div.material_id').hide();    
                         }
+
+                    }
+
+                    if ($(this).data('youth-price') === "") {
+
+                        console.warn('Hiding Youth Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
+
+                        $(this).find('span.youthPrice').addClass('hide');
+                        $(this).find('span.youthPriceSale').addClass('hide');
+
+                    }
+
+                    if ($(this).data('adult-price') === "") {
+
+                        console.warn('Hiding Adult Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
+
+                        $(this).find('span.adultPrice').addClass('hide');                        
+                        $(this).find('span.adultPriceSale').addClass('hide');                        
 
                     }
 
@@ -7064,7 +7132,9 @@ $(document).ready(function () {
             );
 
             ub.funcs.hideIpadUniforms();
-            ub.funcs.cleanupPricesPerSport(_sport);
+
+            // Disable this to provide for the new way of price cleanup
+            // ub.funcs.cleanupPricesPerSport(_sport);
 
             $('.picker-header').html('Choose a Style');
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
@@ -7082,7 +7152,7 @@ $(document).ready(function () {
             var _options = [];
 
             if (gender === "Football") {
-            
+
                 itemsWOUpper = _.filter(items, {type: 'lower'});
                 _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
 
@@ -7107,10 +7177,8 @@ $(document).ready(function () {
                 if (option === null) { return; }
 
                 _blockPatternsCollection.push({
-
                     alias: option.replace('Baseball Jersey','').toTitleCase(),
                     item: option,
-
                 });
 
             });
@@ -7170,8 +7238,14 @@ $(document).ready(function () {
 
                 var _dataItem = $(this).data('item');
                 var _gender = $(this).data('gender').toLowerCase();
+                var _sport = gender;
 
                 if (_dataItem === "separator") { return; }
+
+                var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
+                if (_availableForUnisex) {
+                    actualGender = 'unisex'    
+                }
 
                 $('span.secondary-filters').removeClass('active');
                 $(this).addClass('active');
@@ -7183,6 +7257,10 @@ $(document).ready(function () {
                 } else if (_dataItem === "Twill") {
 
                     ub.filters.secondary = "tackle_twill";
+
+                } else if (_dataItem === "Knitted") {
+
+                    ub.filters.secondary = "knitted";
 
                 } else {
 
@@ -7255,6 +7333,10 @@ $(document).ready(function () {
             $('span.primary-filters').on('click', function () {
 
                 var _gender = $(this).data('gender').toLowerCase();
+                var _sport = gender;
+                var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
+
+                if (_availableForUnisex) { actualGender = 'unisex'; }
 
                 $('span.primary-filters').removeClass('active');
                 $(this).addClass('active');
@@ -7340,24 +7422,22 @@ $(document).ready(function () {
 
             ub.funcs.hideSecondaryBar();
 
-            var template = $('#m-picker-items-search-results').html();
-            var uniques = _.map(_.groupBy(items, function(doc) {
-              return doc.id;
-            }),function(grouped){
-              return grouped[0];
-            });
-
+            var template = $('#m-picker-items-uniforms').html();
+            var _plucked = _.pluck(items, 'id');
+            var _transformed = _.map (_plucked, function (item) { return _.find(ub.materials, {id: item}); });
             var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
 
-            if (!_betaUniformsOk ) {
+            if (!_betaUniformsOk) {
 
-                uniques = _.reject(uniques, function (item) { return ub.data.tempSports.isSportOK(item.uniform_category); });
+                _transformed = _.reject(_transformed, function (item) { return ub.data.tempSports.isSportOK(item.uniform_category); });
 
             } 
+
+            _transformedUnique = _.uniq(_transformed);
                 
             var data = {
                 picker_type: type,
-                picker_items: uniques,
+                picker_items: _transformedUnique,
                 uniform_type: function () {
 
                     return function (text, render) {
@@ -7374,7 +7454,73 @@ $(document).ready(function () {
             }
 
             var markup = Mustache.render(template, data);
-            $scrollerElement.html(markup);
+            $.when($scrollerElement.html(markup)).then(
+
+                $('.main-picker-items').each(function(item) {
+
+                    var imgt = $(this).find('img');
+
+                    // If the uniform doesnt have a thumbnail use the sports picker thumb
+                    if (imgt.attr('src') === ("?v=" + ub.config.asset_version)) {
+                        var _filename =  '/images/main-ui/pickers/' + actualGender.toTitleCase() + '/' + ub.data.sportAliases.getAlias(gender).alias + '.png';
+                        imgt.attr('src', _filename);
+                    }
+
+                    var _resultPrice = $(this).find('span.calculatedPrice').html();
+
+                    // if (_resultPrice === "Call for Pricing") { $(this).find('span.callForTeamPricing').html(''); }
+
+                    if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
+
+                        var _uid = $(this).data('id');
+
+                        if (typeof _uid !== "undefined") {
+                            _uid = _uid.toString();
+                        }
+
+                        _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
+                        
+                        if (typeof _result !== "undefined") {
+                            $(this).find('div.favorite').show();
+                        }
+
+                    }
+
+                    _priceItemName = ub.config.features.isOn('uniforms','priceItemName');
+
+                    if (typeof _priceItemName !== "undefined") {
+
+                        if (_priceItemName) {
+                            $(this).find('div.price_item_template_name').show();
+                            $(this).find('div.material_id').show();
+                        } else {
+                            $(this).find('div.price_item_template_name').hide();    
+                            $(this).find('div.material_id').hide();    
+                        }
+
+                    }
+
+                    if ($(this).data('youth-price') === "") {
+
+                        console.warn('Hiding Youth Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
+
+                        $(this).find('span.youthPrice').addClass('hide');
+                        $(this).find('span.youthPriceSale').addClass('hide');
+
+                    }
+
+                    if ($(this).data('adult-price') === "") {
+
+                        console.warn('Hiding Adult Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
+
+                        $(this).find('span.adultPrice').addClass('hide');                        
+                        $(this).find('span.adultPriceSale').addClass('hide');                        
+
+                    }
+
+                })
+
+            );
 
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
 
@@ -7580,6 +7726,9 @@ $(document).ready(function () {
 
     ub.funcs.initUniformsPicker = function (sport, gender, fromDirectLink) {
 
+        var _availableForUnisex = ub.data.uniSexSports.isUniSex(sport);
+        if (_availableForUnisex) { gender = 'unisex'; }
+
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
@@ -7587,11 +7736,13 @@ $(document).ready(function () {
         $('div#main-picker-container').show();
 
         var _actualGender = gender;
-        
+
         if (sport === "Football") {
             items = _.filter(ub.materials, function (material)  {
                 return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === gender.toLowerCase();
             });
+        } else if (_availableForUnisex)  {
+            items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
         } else {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
         }

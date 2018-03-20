@@ -44,7 +44,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' id="style_requests_table" class='table table-bordered style-requests data-table'>
+                    <table data-toggle='table' id="style_requests_table" class='table table-bordered table-hover style-requests data-table'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -263,6 +263,7 @@
                     <select class="form-control brand">
                         <option value="none">None</option>
                         <option value="prolook">Prolook</option>
+                        <option value="richardson">Richardson</option>
                 </select>
                 </div>
             </div>

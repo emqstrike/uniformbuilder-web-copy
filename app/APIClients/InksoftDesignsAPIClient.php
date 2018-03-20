@@ -17,7 +17,7 @@ class InksoftDesignsAPIClient extends APIClient
         if ($result->success)
         {
             $inksoft_designs = $result->inksoft_designs;
-        }        
+        }
         return $inksoft_designs;
     }
 
@@ -25,9 +25,9 @@ class InksoftDesignsAPIClient extends APIClient
     {
         $response = $this->post(env('ENDPOINT_VERSION','v1-0').'/inksoft_design', [
             'json' => $data
-        ]);      
+        ]);
         return $this->decoder->decode($response->getBody());
-        
+
     }
 
     public function updateDesign($data)
@@ -37,12 +37,12 @@ class InksoftDesignsAPIClient extends APIClient
         ]);
         return $this->decoder->decode($response->getBody());
     }
-    
+
     public function show($id)
     {
         $response = $this->get(env('ENDPOINT_VERSION','v1-0').'/inksoft_design/' . $id);
         $result = $this->decoder->decode($response->getBody());
-        
+
         if ($result->success)
         {
             $inksoft_designs = $result->inksoft_designs;
@@ -55,7 +55,7 @@ class InksoftDesignsAPIClient extends APIClient
     {
         $response = $this->get(env('ENDPOINT_VERSION','v1-0').'/inksoft_design/getByDesignID/' . $id);
         $result = $this->decoder->decode($response->getBody());
-        
+
         if ($result->success)
         {
             $inksoft_designs = $result->inksoft_designs;

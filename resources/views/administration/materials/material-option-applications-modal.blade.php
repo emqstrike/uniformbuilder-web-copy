@@ -99,7 +99,7 @@
                             </select>
                             <input type="text" name="application_name" id="application_name" value="Logo" style="margin-bottom: 10px;">
                         </div>
-                        <table class="table table-bordered" id="applications_table">
+                        <table class="table table-bordered table-hover" id="applications_table">
                             <thead>
                                 <th></th>
                                 <th>App #</th>
@@ -128,6 +128,8 @@
                                 <th>Opacity</th>
                                 <th>Pattern Position</th>
                                 <th>Default Pattern</th>
+                                <th>Custom Scale X</th>
+                                <th>Custom Scale Y</th>
                                 <th>Flipped</th>
                             </thead>
                             <tbody class="front-applications">

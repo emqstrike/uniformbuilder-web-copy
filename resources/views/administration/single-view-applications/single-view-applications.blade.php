@@ -25,6 +25,7 @@
                             <th>Block Pattern</th>
                             <th>Option</th>
                             <th>Type</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -52,7 +53,6 @@
                                 @else
                                 {{ 'No' }}
                                 @endif
-
                             </td>
                             <td>
                                 <a href="single_view_applications/edit/{{ $item->id }}" class="btn btn-xs btn-primary">
@@ -106,7 +106,7 @@ $(document).ready(function(){
         console.log(e);
     }
 
-    $('.delete-single-view-applications').on('click', function(){
+    $(document).on('click', '.delete-single-view-applications', function(){
        var id = [];
        id.push( $(this).data('single-view-applications-id'));
        modalConfirm('Remove Single View Applications', 'Are you sure you want to delete the single view application?', id);

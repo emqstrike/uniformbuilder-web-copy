@@ -29,7 +29,7 @@
                             <th>Artwork Status</th>
                             <th>Order Status</th>
                             <th>Rep ID</th>
-                            <th>FOID</th>
+                            <th class="alert alert-warning">ITEM ID OVERRIDE</th>
                             <th>Date Submitted</th>
                             <th>Actions</th>
                         </tr>
@@ -120,7 +120,7 @@
                                 </select>
                             </td>
                             <td>
-                                {{ $order->factory_order_id }}
+                                <input type="number" class="form-control item-id-override">
                             </td>
                             <td>
                                 {{ $order->created_at }}
@@ -196,6 +196,7 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
+<script type="text/javascript" src="/admin-utils.js"></script>
 <script type="text/javascript" src="/js/administration/orders.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
