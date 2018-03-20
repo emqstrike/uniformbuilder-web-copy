@@ -5750,6 +5750,7 @@ $(document).ready(function() {
         var _mascotID     = mascotId.toString();
         var _mascotObj    = _.find(ub.data.mascots, {id: _mascotID});
         var _id           = settingsObj.id;
+        var _layerCount   = _.size(_mascotObj.layers_properties);
 
         ub.funcs.removeApplicationByID(_id);
 
@@ -5757,8 +5758,11 @@ $(document).ready(function() {
 
         if (_mascotID !== '1039') {
 
-            settingsObj.color_array = ub.funcs.getDefaultColors();    
-        
+            settingsObj.color_array = ub.funcs.getDefaultColors(); 
+
+            // Single Layer Mascot default
+            if (_layerCount === 1) { settingsObj.color_array = [settingsObj.color_array[0]]; }
+
         } else {
 
             settingsObj.color_array = [];
