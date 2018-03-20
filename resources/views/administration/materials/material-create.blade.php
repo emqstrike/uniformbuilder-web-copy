@@ -436,6 +436,7 @@
                                 <select name="brand" class="form-control">
                                         <option value="none">None</option>
                                         <option value="prolook">Prolook</option>
+                                        <option value="richardson">Richardson</option>
                                 </select>
                             </div>
                         </div>
