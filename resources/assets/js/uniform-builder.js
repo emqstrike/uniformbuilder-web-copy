@@ -8200,6 +8200,77 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.rebindSaveButtons = function (data) {
+
+            var $container = $('div.saved-designs-list');
+            var $imgThumbs = $('img.tview');
+                
+            $imgThumbs.unbind('click');
+            $imgThumbs.on('click', function () {
+
+                var _file = $(this).data('file');
+                var _str = "<img src ='" + _file + "' />";
+                
+                ub.showModalTool(_str);
+
+            });
+
+            $('span.action-button.view').on('click', function () {
+
+                var _savedDesignID = $(this).data('saved-design-id');
+                window.location.href =  '/my-saved-design/' + _savedDesignID + '/render';
+                
+            });
+
+            $('span.action-button.delete').on('click', function () {
+
+                var _deleteDesignID = $(this).data('saved-design-id');
+                var _name = $(this).data('name');
+
+                ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
+
+            });
+
+            bindShareDesigns();
+
+            $(document).on('change', '.fil-to,.fil-from', function () {
+
+                var filterFrom = $('.fil-from').val();
+                var filterTo = $('.fil-to').val();
+                var template = $('#m-saved-designs-table').html();
+                var filteredDataString = JSON.stringify(data.savedDesigns);
+                var filteredData =JSON.parse(filteredDataString);
+
+                filteredData.forEach(function (value, i) {
+                    value.created_at = value.created_at.split(' ').slice(0, 1).join(' ');
+                    if(filterFrom <= value.created_at && filterTo >= value.created_at){    
+                    }else{
+                     delete filteredData[i];   
+                    }
+                });
+
+                var filteredDataRemoveEmpty = filteredData.filter(function (x) {
+                    return (x !== (undefined || ''));
+                });
+
+                var filtered_data = {savedDesigns: filteredDataRemoveEmpty,}        
+            
+                var markup = Mustache.render(template, filtered_data);
+                $container.html(markup); 
+                
+                $( ".created-at" ).each(function( index ) {
+                  var date = util.dateFormat($( this ).text());
+                  date = date.split(' ').slice(0, 3).join(' ');
+                  $( this ).text(date);
+                });
+                
+                ub.funcs.runDataTable();    
+                ub.funcs.rebindSaveButtons();
+
+            });
+
+        };
+
         ub.funcs.displayMySavedDesigns = function () {
          
             $.ajax({
@@ -8216,9 +8287,7 @@ $(document).ready(function () {
                     var $container = $('div.saved-designs-list');
                     var template = $('#m-saved-designs-table').html();
                     var data = {
-
                         savedDesigns: ub.funcs.parseJSON(response.saved_designs),
-
                     }
          
                     data.savedDesigns.forEach(function (value, i) {
@@ -8227,84 +8296,18 @@ $(document).ready(function () {
                     });
           
                     var markup = Mustache.render(template, data);
+
                     $container.html(markup);
+
                     $( ".created-at" ).each(function( index ) {
                       var date = util.dateFormat($( this ).text());
                       date = date.split(' ').slice(0, 3).join(' ');
                       $( this ).text(date);
                     });
-                    ub.funcs.runDataTable();
-                    var $imgThumbs = $('img.tview');
-                
-                    $imgThumbs.unbind('click');
-                    $imgThumbs.on('click', function () {
-
-                        var _file = $(this).data('file');
-                        var _str = "<img src ='" + _file + "' />";
-                        
-                        ub.showModalTool(_str);
-
-                    });
-
-  
-               
-
-                    $('span.action-button.view').on('click', function () {
-
-                        var _savedDesignID = $(this).data('saved-design-id');
-                        window.location.href =  '/my-saved-design/' + _savedDesignID + '/render';
-                        
-                    });
-
-                    $('span.action-button.share').on('click', function () {
-
-                        // var _shareDesignID = $(this).data('saved-design-id');
-                        // var _name = $(this).data('name');
-                        
-                        // ub.funcs.shareSavedDesign(_shareDesignID, _name);
-
-                        // $('.share-uniform-design')
-
-                    });
-
-                    $('span.action-button.delete').on('click', function () {
-
-                        var _deleteDesignID = $(this).data('saved-design-id');
-                        var _name = $(this).data('name');
-
-                        ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
-
-                    });
-                    $(document).on('change', '.fil-to,.fil-from', function(){
-                        var filterFrom = $('.fil-from').val();
-                        var filterTo = $('.fil-to').val();
-                        var template = $('#m-saved-designs-table').html();
-                        var filteredDataString = JSON.stringify(data.savedDesigns);
-                        var filteredData =JSON.parse(filteredDataString);
-
-                        filteredData.forEach(function (value, i) {
-                            value.created_at = value.created_at.split(' ').slice(0, 1).join(' ');
-                           if(filterFrom <= value.created_at && filterTo >= value.created_at){    
-                            }else{
-                             delete filteredData[i];   
-                            }
-                        });
-                        var filteredDataRemoveEmpty = filteredData.filter(function(x){
-                          return (x !== (undefined || ''));
-                        });
-                        var filtered_data = {savedDesigns: filteredDataRemoveEmpty,}        
                     
-                        var markup = Mustache.render(template, filtered_data);
-                        $container.html(markup); 
-                        console.log(filteredData);
-                        $( ".created-at" ).each(function( index ) {
-                          var date = util.dateFormat($( this ).text());
-                          date = date.split(' ').slice(0, 3).join(' ');
-                          $( this ).text(date);
-                        });
-                        ub.funcs.runDataTable();    
-                  });   
-                  bindShareDesigns();
+                    ub.funcs.runDataTable();
+
+                    ub.funcs.rebindSaveButtons(data); 
             
                 }
                 
