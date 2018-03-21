@@ -52,6 +52,7 @@
                                 <li><a href="/styles/women/game-day-coaches-jackets" class="game-day-coaches-jackets">Game Day Coaches Jackets</a></li>
                                 <li><a href="/styles/women/cage-jacket" class="cage-jacket">Cage Jacket</a></li>
                                 <li><a href="/styles/women/hoodie" class="sport-link-icons">Hoodie</a></li>
+                                <li><a href="/styles/women/one-fourth-zip-jacket" class="sport-link-icons">Quarter Zip Jacket</a></li>
                                 <li><a href="/styles/women/cinch-sack" class="sport-link-icons">Cinch Sack</a></li>
                                 <li><a href="/styles/women/socks" class="sport-link-icons">Socks</a></li>
                             </ul>
