@@ -35,7 +35,15 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Items to update URL</label>
                             <div class="col-md-6">
+<<<<<<< Updated upstream
                                 <input type="text" class="form-control items-to-update-url-input" name="name" value="https://api.prolook.com/api/price_items">
+=======
+<<<<<<< HEAD
+                                <input type="text" class="form-control items-to-update-url-input" name="name" value="//{{ env('APP.ENV') }}/api/price_items">
+=======
+                                <input type="text" class="form-control items-to-update-url-input" name="name" value="https://api.prolook.com/api/price_items">
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
                             </div>
                             <a href="#" class="btn btn-primary get-items-to-update">GET</a>
                         </div>
@@ -156,7 +164,15 @@ $('.generate-preview').on('click', function(e){
     function submitChunks() {
         if ( window.total_chunk == window.chunks_uploaded ) return;
         $.ajax({
+<<<<<<< Updated upstream
             url: "//api.prolook.com/api/price_items/updatePIManual",
+=======
+<<<<<<< HEAD
+            url: "//" + api_host + "/api/price_items/updatePIManual",
+=======
+            url: "//api.prolook.com/api/price_items/updatePIManual",
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
             type: "POST",
             data: JSON.stringify(window.chunked_data[window.chunks_uploaded]),
             dataType: "json",

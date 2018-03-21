@@ -147,7 +147,15 @@ $(function(){
 
         function getBlockPatterns(callback){
             var block_patterns;
+<<<<<<< Updated upstream
             var url = "//api.prolook.com/api/block_patterns";
+=======
+<<<<<<< HEAD
+            var url = "//" + api_host + "/api/block_patterns";
+=======
+            var url = "//api.prolook.com/api/block_patterns";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
             $.ajax({
                 url: url,
                 async: false,

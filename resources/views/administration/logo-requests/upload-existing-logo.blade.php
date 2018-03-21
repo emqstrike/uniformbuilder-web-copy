@@ -78,7 +78,15 @@ $(document).ready(function(){
     getMascots(function(mascots){ window.mascots = mascots; });
     function getMascots(callback){
         var mascots;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/mascots";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/mascots";
+=======
+        var url = "//api.prolook.com/api/mascots";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,

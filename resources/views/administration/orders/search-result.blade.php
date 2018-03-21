@@ -97,7 +97,15 @@ getSizingConfig(function(item_sizes){ window.item_sizes = item_sizes; });
 
 function getSizingConfig(callback){
     var item_sizes;
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/item_sizes";
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/item_sizes";
+=======
+    var url = "//api.prolook.com/api/item_sizes";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     $.ajax({
         url: url,
         async: false,
@@ -114,7 +122,15 @@ function getSizingConfig(callback){
 
 function getColors(callback){
     var colors;
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/colors";
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/colors";
+=======
+    var url = "//api.prolook.com/api/colors";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     $.ajax({
         url: url,
         async: false,
@@ -131,7 +147,15 @@ function getColors(callback){
 
 function getPatterns(callback){
     var patterns;
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/patterns";
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/patterns";
+=======
+    var url = "//api.prolook.com/api/patterns";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     $.ajax({
         url: url,
         async: false,
@@ -504,10 +528,20 @@ $('.generate-data').on('click', function(e){
 function getOrderParts(callback){
     var order_parts;
 <<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
+    var url = "//" + api_host + "/api/order/items/"+window.api_order_id;
+=======
+<<<<<<< HEAD
+>>>>>>> Stashed changes
     var url = "//api.prolook.com/api/order/items/"+api_order_id;
 =======
     var url = "//api-dev.qstrike.com/api/order/items/"+window.api_order_id;
 >>>>>>> b1adce5b9e1939ef8117da1e9e17da39444f94fd
+<<<<<<< Updated upstream
+=======
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     $.ajax({
         url: url,
         async: false,
@@ -524,7 +558,15 @@ function getOrderParts(callback){
 
 function getMaterial(callback){
     var material;
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/material/"+window.customizer_material_id;
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/material/"+window.customizer_material_id;
+=======
+    var url = "//api.prolook.com/api/material/"+window.customizer_material_id;
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     $.ajax({
         url: url,
         async: false,
@@ -541,7 +583,15 @@ function getMaterial(callback){
 
 function getPAConfigs(callback){
     var parts_aliases;
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/parts_alias/"+window.material.parts_alias_id;
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/parts_alias/"+window.material.parts_alias_id;
+=======
+    var url = "//api.prolook.com/api/parts_alias/"+window.material.parts_alias_id;
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     $.ajax({
         url: url,
         async: false,
@@ -574,7 +624,15 @@ function checkErrors(error_message){
             callback: function (result) {
                 if (result) {
                     $.ajax({
+<<<<<<< Updated upstream
                         url: 'https://api.prolook.com/api/test/slack_message/order_error',
+=======
+<<<<<<< HEAD
+                        url: '//' + api_host + 'api/test/slack_message/order_error',
+=======
+                        url: 'https://api.prolook.com/api/test/slack_message/order_error',
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
                         type: "POST",
                         data: JSON.stringify(window.error_data),
                         contentType: 'application/json;',
@@ -709,7 +767,15 @@ function applyConfigs(api_order_id){
     getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
     function getOrderParts(callback){
         var order_parts;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/order/items/"+api_order_id;
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/order/items/"+api_order_id;
+=======
+        var url = "//api.prolook.com/api/order/items/"+api_order_id;
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,

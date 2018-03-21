@@ -762,7 +762,15 @@ $( document ).ready(function() {
     getPriceItems(function(price_items){ window.price_items = price_items; });
     function getPriceItems(callback){
         var price_items;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/price_items";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/price_items";
+=======
+        var url = "//api.prolook.com/api/price_items";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,
@@ -894,8 +902,17 @@ $( document ).ready(function() {
 
     function getBlockPatterns(callback){
         var block_patterns;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/block_patterns";
         // var url = "//localhost:8888/api/block_patterns";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/block_patterns";
+=======
+        var url = "//api.prolook.com/api/block_patterns";
+        // var url = "//localhost:8888/api/block_patterns";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,

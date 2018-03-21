@@ -168,7 +168,15 @@ hideStyleInfo = function () {
 getStyles(function(styles){ window.styles = styles; });
 function getStyles(callback){
     var styles;
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/materials/styleSheets";
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/materials/styleSheets";
+=======
+    var url = "//api.prolook.com/api/materials/styleSheets";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     $.ajax({
         url: url,
         async: false,
@@ -186,7 +194,15 @@ function getStyles(callback){
 getAllStyles(function(all_styles){ window.all_styles = all_styles; });
 function getAllStyles(callback){
     var all_styles;
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/materials";
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/materials";
+=======
+    var url = "//api.prolook.com/api/materials";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     $.ajax({
         url: url,
         async: false,
@@ -248,7 +264,15 @@ $("#myChart").click(
         getStylesBySport(function(style_category){ window.style_category = style_category; });
         function getStylesBySport(callback){
             var style_category;
+<<<<<<< Updated upstream
             var url = "//api.prolook.com/api/materials/category/"+window.active_sport;
+=======
+<<<<<<< HEAD
+            var url = "//" + api_host + "/api/materials/category/"+window.active_sport;
+=======
+            var url = "//api.prolook.com/api/materials/category/"+window.active_sport;
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
             $.ajax({
                 url: url,
                 async: false,

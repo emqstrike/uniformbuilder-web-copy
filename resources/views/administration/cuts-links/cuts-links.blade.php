@@ -106,7 +106,15 @@ $(document).ready(function(){
 
    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/cuts_links/delete/";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/cuts_links/delete/";
+=======
+        var url = "//api.prolook.com/api/cuts_links/delete/";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         //var url = "//localhost:8888/api/cuts_links/delete/";
        
         $.ajax({

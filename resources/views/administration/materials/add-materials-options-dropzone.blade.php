@@ -114,7 +114,15 @@ this.addRemoveLinks = true;
 
 function getColors(callback){
     var colors;
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/colors";
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/colors";
+=======
+    var url = "//api.prolook.com/api/colors";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     $.ajax({
         url: url,
         async: false,
@@ -253,7 +261,15 @@ $('.submit-data').on('click', function(e){
     showPleaseWait();
     $('.progress-modal-message').html('Saving images . . .');
 	$.ajax({
+<<<<<<< Updated upstream
         url: "//api.prolook.com/api/material_options/insert_multiple_from_dropzone",
+=======
+<<<<<<< HEAD
+        url: "//" + api_host + "/api/material_options/insert_multiple_from_dropzone",
+=======
+        url: "//api.prolook.com/api/material_options/insert_multiple_from_dropzone",
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         type: "POST",
         data: data,
         dataType: "json",

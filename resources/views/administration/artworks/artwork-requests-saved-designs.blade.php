@@ -205,7 +205,15 @@ function insertMessage(data){
     var content = data.content;
     console.log(data);
     $.ajax({
+<<<<<<< Updated upstream
         url: '//api.prolook.com/api/message',
+=======
+<<<<<<< HEAD
+        url: '//' + api_host + '/api/message',
+=======
+        url: '//api.prolook.com/api/message',
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',
@@ -224,7 +232,15 @@ function rejectArtwork(order_code, content){
     data.order_code = order_code;
     data.content = content;
     $.ajax({
+<<<<<<< Updated upstream
         url: '//api.prolook.com/api/artwork_request/reject',
+=======
+<<<<<<< HEAD
+        url: '//' + api_host + '/api/artwork_request/reject',
+=======
+        url: '//api.prolook.com/api/artwork_request/reject',
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',

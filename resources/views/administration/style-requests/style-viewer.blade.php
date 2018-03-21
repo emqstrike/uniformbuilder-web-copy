@@ -237,7 +237,15 @@ $(function(){
 
     function getDefaultMaterials(callback){
         var materials;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/materials/category/"+window.default_sport;
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/materials/category/"+window.default_sport;
+=======
+        var url = "//api.prolook.com/api/materials/category/"+window.default_sport;
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,
@@ -256,7 +264,15 @@ $(function(){
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
         var sports;
+<<<<<<< Updated upstream
         var url = "https://api.prolook.com/api/categories";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/categories";
+=======
+        var url = "https://api.prolook.com/api/categories";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,
@@ -431,7 +447,15 @@ $(function(){
         var data = {id: id, item_id: item_id, customizer_available: customizer_available};
         // console.log(data);
         $.ajax({
+<<<<<<< Updated upstream
             url: "//api.prolook.com/api/material/updatePartial",
+=======
+<<<<<<< HEAD
+            url: "//" + api_host + "/api/material/updatePartial",
+=======
+            url: "//api.prolook.com/api/material/updatePartial",
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
             type: "POST",
             data: JSON.stringify(data),
             dataType: "json",

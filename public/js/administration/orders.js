@@ -51,7 +51,15 @@ $(document).ready(function(){
 
     function getSizingConfig(callback){
         var item_sizes;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/item_sizes";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/item_sizes";
+=======
+        var url = "//api.prolook.com/api/item_sizes";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,
@@ -68,7 +76,15 @@ $(document).ready(function(){
 
     function getColors(callback){
         var colors;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/colors";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/colors";
+=======
+        var url = "//api.prolook.com/api/colors";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,
@@ -85,7 +101,15 @@ $(document).ready(function(){
 
     function getPatterns(callback){
         var patterns;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/patterns";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/patterns";
+=======
+        var url = "//api.prolook.com/api/patterns";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,
@@ -382,7 +406,15 @@ $('.updatePart').on('click', function(e){
     };
 
     $.ajax({
+<<<<<<< Updated upstream
         url: '//api.prolook.com/api/order/updatePartFromFactory',
+=======
+<<<<<<< HEAD
+        url: '//' + api_host + '/api/order/updatePartFromFactory',
+=======
+        url: '//api.prolook.com/api/order/updatePartFromFactory',
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         type: "POST",
         data: JSON.stringify(data),
         dataType: "json",
@@ -447,7 +479,15 @@ $('.send-to-factory').on('click', function(e){
 
     function getOrderParts(callback){
         var order_parts;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/order/items/"+api_order_id;
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/order/items/"+api_order_id;
+=======
+        var url = "//api.prolook.com/api/order/items/"+api_order_id;
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,
@@ -496,7 +536,15 @@ $('.send-to-factory').on('click', function(e){
         getMaterial(function(material){ window.material = material; });
         function getMaterial(callback){
             var material;
+<<<<<<< Updated upstream
             var url = "//api.prolook.com/api/material/"+window.customizer_material_id;
+=======
+<<<<<<< HEAD
+            var url = "//" + api_host + "/api/material/"+window.customizer_material_id;
+=======
+            var url = "//api.prolook.com/api/material/"+window.customizer_material_id;
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
             $.ajax({
                 url: url,
                 async: false,
@@ -551,7 +599,15 @@ $('.send-to-factory').on('click', function(e){
                 callback: function (result) {
                     if (result) {
                         $.ajax({
+<<<<<<< Updated upstream
                             url: 'https://api.prolook.com/api/test/slack_message/order_error',
+=======
+<<<<<<< HEAD
+                            url: '//' + api_host + '/api/test/slack_message/order_error',
+=======
+                            url: 'https://api.prolook.com/api/test/slack_message/order_error',
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
                             type: "POST",
                             data: JSON.stringify(window.error_data),
                             contentType: 'application/json;',
@@ -581,7 +637,15 @@ $('.send-to-factory').on('click', function(e){
 
         function getPAConfigs(callback){
             var parts_aliases;
+<<<<<<< Updated upstream
             var url = "//api.prolook.com/api/parts_alias/"+window.material.parts_alias_id;
+=======
+<<<<<<< HEAD
+            var url = "//" + api_host + "/api/parts_alias/"+window.material.parts_alias_id;
+=======
+            var url = "//api.prolook.com/api/parts_alias/"+window.material.parts_alias_id;
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
             $.ajax({
                 url: url,
                 async: false,
@@ -829,7 +893,15 @@ function applyConfigs(api_order_id){
     getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
     function getOrderParts(callback){
         var order_parts;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/order/items/"+api_order_id;
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/order/items/"+api_order_id;
+=======
+        var url = "//api.prolook.com/api/order/items/"+api_order_id;
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,

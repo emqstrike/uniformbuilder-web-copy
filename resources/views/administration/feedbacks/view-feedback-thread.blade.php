@@ -111,7 +111,15 @@ $('.reply-feedback').on('click', function(){
     var reply_content = $('.reply-content').val();
     var user_id = $('.user-id').val();
     var subject = $('.subject').val();
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/message";
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/message";
+=======
+    var url = "//api.prolook.com/api/message";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
 
     var data = {
         subject: subject,

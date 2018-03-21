@@ -683,7 +683,15 @@ $(function(){
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
         var sports;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/categories";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/categories";
+=======
+        var url = "//api.prolook.com/api/categories";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,
@@ -701,7 +709,15 @@ $(function(){
     getBlockPatterns(function(block_patterns){ window.block_pattern = block_patterns; });
     function getBlockPatterns(callback){
         var block_patterns;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/block_patterns";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/block_patterns";
+=======
+        var url = "//api.prolook.com/api/block_patterns";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,

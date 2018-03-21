@@ -139,7 +139,15 @@ $(document).ready(function(){
     getPriceItems(function(price_items){ window.price_items = price_items; });
     function getPriceItems(callback){
         var price_items;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/price_items";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/price_items";
+=======
+        var url = "//api.prolook.com/api/price_items";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,
@@ -157,7 +165,15 @@ $(document).ready(function(){
     getPriceItemTemplates(function(price_item_templates){ window.price_item_templates = price_item_templates; });
     function getPriceItemTemplates(callback){
         var price_item_templates;
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/price_item_templates";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/price_item_templates";
+=======
+        var url = "//api.prolook.com/api/price_item_templates";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             async: false,

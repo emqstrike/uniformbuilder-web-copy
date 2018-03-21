@@ -90,6 +90,11 @@ function OpenInNewTab(url) {
   win.focus();
 }
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
 // window.mascots = null;
 
 // getMascots(function(mascots){ window.mascots = mascots; });
@@ -112,6 +117,10 @@ function OpenInNewTab(url) {
 // }
 // console.log(window.mascots);
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
 $('.data-table').DataTable({
     "paging": true,
     "lengthChange": true,

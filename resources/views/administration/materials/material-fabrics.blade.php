@@ -89,9 +89,19 @@
     $(document).on('click', '.confirmButtonYes', function(){
         
         var id = $(this).data('materials-fabric-id');
+<<<<<<< Updated upstream
 
         //var url = "https://localhost:8888/api/materials_fabric/delete";
         var url = "//api.prolook.com/api/materials_fabric/delete/";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/materials_fabric/delete/";
+=======
+
+        //var url = "https://localhost:8888/api/materials_fabric/delete";
+        var url = "//api.prolook.com/api/materials_fabric/delete/";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
                    
         $.ajax({
             url: url,

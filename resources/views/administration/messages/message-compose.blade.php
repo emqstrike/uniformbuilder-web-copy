@@ -140,7 +140,14 @@ $(document).ready(function(){
     getAdmins(function(admins){ window.admins = admins; });
     function getAdmins(callback){
         var admins;
+<<<<<<< Updated upstream
         // var url = "//api.prolook.com/api/users/admins";
+=======
+<<<<<<< HEAD
+=======
+        // var url = "//api.prolook.com/api/users/admins";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         var url = "//" + api_host + "/api/users/admins";
         $.ajax({
             url: url,

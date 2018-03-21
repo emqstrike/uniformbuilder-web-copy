@@ -164,8 +164,17 @@ $(document).ready(function(){
     }
 
     function updatePriceItem(data){
+<<<<<<< Updated upstream
         var url = "//api.prolook.com/api/price_item/update";
         //var url = "//localhost:8888/api/price_item/update";
+=======
+<<<<<<< HEAD
+        var url = "//" + api_host + "/api/price_item/update";
+=======
+        var url = "//api.prolook.com/api/price_item/update";
+        //var url = "//localhost:8888/api/price_item/update";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
         $.ajax({
             url: url,
             type: "POST",

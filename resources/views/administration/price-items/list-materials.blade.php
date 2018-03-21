@@ -56,8 +56,17 @@ getMaterials(function(materials){ window.materials = materials; });
 
 function getMaterials(callback){
     var materials;
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/materials";
     // var url = "localhost:8888/api/materials";
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/materials";
+=======
+    var url = "//api.prolook.com/api/materials";
+    // var url = "localhost:8888/api/materials";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     $.ajax({
         url: url,
         async: false,

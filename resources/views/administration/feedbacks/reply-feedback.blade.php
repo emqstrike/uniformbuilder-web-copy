@@ -96,7 +96,15 @@ $(document).ready(function(){
 $('.animated').autosize({append: "\n"});
 
 function linkUser(admin_id, message_id){ // records the admin id that replied to the feedback
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/linkAdmin";
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/linkAdmin";
+=======
+    var url = "//api.prolook.com/api/linkAdmin";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     var data = {
         admin_id: admin_id,
         message: message
@@ -130,7 +138,15 @@ $('.reply-feedback').on('click', function(){
     var reply_content = $('.reply-content').val();
     var user_id = $('.user-id').val();
     var subject = $('.subject').val();
+<<<<<<< Updated upstream
     var url = "//api.prolook.com/api/message";
+=======
+<<<<<<< HEAD
+    var url = "//" + api_host + "/api/message";
+=======
+    var url = "//api.prolook.com/api/message";
+>>>>>>> c88c648330b46adcd3f1fdad8611414f33cadafe
+>>>>>>> Stashed changes
     var admin_id = $('.admin-id').val();
 
     var data = {
