@@ -25,6 +25,7 @@
                             <li><a href="/styles/men/compression" class="sport-link-icons">Compression</a></li>
                             <li><a href="/styles/men/tech-tee" class="sport-link-icons">Tech-Tee</a></li>
                             <li><a href="/styles/men/game-day-coaches-jackets" class="game-day-coaches-jackets">Game Day Coaches Jackets</a></li>
+                            <li><a href="/styles/men/cage-jacket" class="cage-jacket">Cage Jacket</a></li>
                             <li><a href="/styles/men/one-fourth-zip-jacket" class="sport-link-icons">Quarter Zip Jacket</a></li>
                             <li><a href="/styles/men/fan-replica-jersey" class="sport-link-icons">Fan Replica Jersey</a></li>
                             <li><a href="/styles/men/team-shorts" class="sport-link-icons">2017 Team Short with Pockets</a></li>
@@ -39,6 +40,8 @@
                         <li><a href="/styles/women/fastpitch" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/baseball.svg"> Fastpitch</a></li>
                         <li><a href="/styles/women/soccer" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/soccer.svg"> Soccer</a></li>
                         <li><a href="/styles/women/basketball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/basketball.svg"> Basketball</a></li>
+                        <li><a href="/styles/women/hockey" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/hockey.svg"> Hockey</a></li>
+
                         <li class="dropdown-submenu sport-link-icons">
                             <a tabindex="-1" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/polo.svg"> Apparel</a>
                             <ul class="dropdown-menu">
@@ -47,6 +50,7 @@
                                 <li><a href="/styles/women/tech-tee" class="sport-link-icons">Tech-Tee</a></li>
                                 <li><a href="/styles/women/fan-replica-jersey" class="sport-link-icons">Fan Replica Jersey</a></li>
                                 <li><a href="/styles/women/game-day-coaches-jackets" class="game-day-coaches-jackets">Game Day Coaches Jackets</a></li>
+                                <li><a href="/styles/women/cage-jacket" class="cage-jacket">Cage Jacket</a></li>
                                 <li><a href="/styles/women/hoodie" class="sport-link-icons">Hoodie</a></li>
                                 <li><a href="/styles/women/cinch-sack" class="sport-link-icons">Cinch Sack</a></li>
                                 <li><a href="/styles/women/socks" class="sport-link-icons">Socks</a></li>
