@@ -933,6 +933,10 @@ $(document).ready(function () {
             }
 
         }
+
+        ub.funcs.updateTagStyleCount = function () {
+            $('span.slink > span.count').html(_.size(ub.data.tagged_styles));
+        };
  
         ub.callback = function (obj, object_name) {
 
@@ -1021,7 +1025,8 @@ $(document).ready(function () {
                 if (object_name === 'tagged_styles') {
 
                     ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
-                    $('span.slink > span.count').html(_.size(ub.data.tagged_styles));
+
+                    ub.funcs.updateTagStyleCount();
 
                 } 
                 
@@ -1674,15 +1679,13 @@ $(document).ready(function () {
             ub.displayDoneAt('Preparing Search...');
 
             if (ub.page === "builder") { ub.prepareTypeAhead(); }
-            
-            if (ub.config.styles) {
+            if (ub.config.styles) { ub.funcs.callDirectLinks(); }
 
-                ub.funcs.callDirectLinks();
+            var _mapped = _.map(ub.data.tagged_styles, function (tagStyle) { return _.find(ub.materials, {id: tagStyle.uniform_id}); });
 
-            }
-
-            // console.error('Tagged Styles Loaded here ... ');
-            // console.log(ub.data.tagged_styles);
+            // Remove inactive styles that were tagged
+            ub.data.tagged_styles = _.filter(ub.data.tagged_styles, function (tagStyle) { return typeof _.find(_mapped, {id: tagStyle.uniform_id}) !== "undefined"; });
+            ub.funcs.updateTagStyleCount();
 
         }
 
