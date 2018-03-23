@@ -10161,6 +10161,7 @@ $(document).ready(function() {
                                                                  item.name.indexOf('Piping') > -1 || 
                                                                  item.name.indexOf('Stripe') > -1 ||
                                                                  item.name.indexOf('Front Insert') > -1 ||
+                                                                 item.name.indexOf('Zipper') > -1 ||
                                                                  item.name.indexOf('Prolook') > -1; });
 
             if (ub.funcs.isSocks()) { 
