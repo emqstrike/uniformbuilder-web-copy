@@ -10546,7 +10546,6 @@ ub.funcs.fontOffSets = [
                     'GR',
                 ]
             }, 
-
             {
                 block_pattern: 'Quarter Zip Jacket',
                 neck_options: ['Long Sleeve', 'Short Sleeve'],
@@ -10614,46 +10613,48 @@ ub.funcs.fontOffSets = [
                     'RB',
                 ]
             },
-            {
-                block_pattern: 'SFN Hoodie',
-                neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
-                material_option: 'Zipper', 
-                valid_colors: [
-                    'B',    
-                    'W',
-                    'R',
-                    'GR',
-                    'NB',
-                    'RB',
-                ]
-            },
-            {
-                block_pattern: 'SFN Hoodie',
-                neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
-                material_option: 'Hood Cuff', 
-                valid_colors: [
-                    'B',    
-                    'W',
-                    'R',
-                    'GR',
-                    'NB',
-                    'RB',
-                ]
-            },
-            {
-                block_pattern: 'SFN Hoodie',
-                neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
-                material_option: 'Arm Cuff', 
-                valid_colors: [
-                    'B',    
-                    'W',
-                    'R',
-                    'GR',
-                    'NB',
-                    'RB',
-                ]
-            },
 
+            // SFN Hoodie
+                {
+                    block_pattern: 'SFN Hoodie',
+                    neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
+                    material_option: 'Zipper', 
+                    valid_colors: [
+                        'B',    
+                        'W',
+                        'R',
+                        'GR',
+                        'NB',
+                        'RB',
+                    ]
+                },
+                {
+                    block_pattern: 'SFN Hoodie',
+                    neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
+                    material_option: 'Hood Cuff', 
+                    valid_colors: [
+                        'B',    
+                        'W',
+                        'R',
+                        'GR',
+                        'NB',
+                        'RB',
+                    ]
+                },
+                {
+                    block_pattern: 'SFN Hoodie',
+                    neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
+                    material_option: 'Arm Cuff', 
+                    valid_colors: [
+                        'B',    
+                        'W',
+                        'R',
+                        'GR',
+                        'NB',
+                        'RB',
+                    ]
+                },
+            // End SFN Hoodie
 
             // Team Store
             {
@@ -10669,6 +10670,31 @@ ub.funcs.fontOffSets = [
                     'RB',
                 ]
             },
+
+            // After migration. Note: Don't delete the previous ones above so that the old saved designs wont be messed up
+            {
+                block_pattern: 'Cage Jackets',
+                neck_options: ['Long Sleeves', 'Short Sleeves'],
+                material_option: 'Zipper', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
+            {
+                block_pattern: 'Quarter Zip Jacket',
+                neck_options: ['Long Sleeve', 'Short Sleeve'],
+                material_option: 'Zipper',
+                valid_colors: [
+                    'B',
+                    'W',
+
+                ]
+            }, 
         ],
         getLimitedColorSet: function (materialOption) {
 
