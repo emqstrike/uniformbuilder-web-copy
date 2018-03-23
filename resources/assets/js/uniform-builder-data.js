@@ -10538,7 +10538,7 @@ ub.funcs.fontOffSets = [
         items: [
             {
                 block_pattern: 'Soccer',
-                neck_options: ['Goalie (M)', 'Goalie (W)', 'Jersey (M)', 'Jersey (W)', 'Short (W)'],
+                neck_options: ['Goalie (M)', 'Goalie (W)', 'Jersey (M)', 'Jersey (W)', 'Short (W)', 'Short (M)'],
                 material_option: 'Pro-Dry',
                 valid_colors: [
                     'B',
