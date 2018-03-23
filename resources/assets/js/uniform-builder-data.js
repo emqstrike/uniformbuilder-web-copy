@@ -11959,6 +11959,23 @@ ub.funcs.fontOffSets = [
 
     }
 
+    // Non Tackle Twill Categories 
+    ub.data.nonTackleTwillItems = {
+
+        items: [
+            'Socks (Apparel)',
+            'Fan Replica Jersey (Apparel)',
+        ],
+        isNonTackleTwill: function (uniformCategory) {
+
+            var _result = undefined;
+            _result = _.contains(this.items, uniformCategory);
+            return _result;
+
+        }
+
+    }
+
     ub.dialog = bootbox;
 
 });
