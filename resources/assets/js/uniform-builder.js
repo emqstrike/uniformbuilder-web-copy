@@ -1681,6 +1681,9 @@ $(document).ready(function () {
 
             }
 
+            // console.error('Tagged Styles Loaded here ... ');
+            // console.log(ub.data.tagged_styles);
+
         }
 
         ub.load_orders = function (obj, object_name){
