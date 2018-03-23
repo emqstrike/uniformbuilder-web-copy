@@ -1504,7 +1504,7 @@ $(document).ready(function () {
 
                     });
 
-                    $('#search_field').attr("placeholder","Search: Style or Saved Designs");
+                    $('#search_field').attr("placeholder","Search: Style");
                     ub.funcs.showMainLinks();
 
                     ub.funcs.closePickersDialog();
