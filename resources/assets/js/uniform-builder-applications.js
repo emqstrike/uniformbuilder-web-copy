@@ -10162,6 +10162,9 @@ $(document).ready(function() {
                                                                  item.name.indexOf('Stripe') > -1 ||
                                                                  item.name.indexOf('Front Insert') > -1 ||
                                                                  item.name.indexOf('Zipper') > -1 ||
+                                                                 item.name.indexOf('Sleeve Cuff') > -1 ||
+                                                                 item.name.indexOf('Hood Cuff') > -1 ||
+                                                                 item.name.indexOf('Pocket Cuff') > -1 ||
                                                                  item.name.indexOf('Prolook') > -1; });
 
             if (ub.funcs.isSocks()) { 
