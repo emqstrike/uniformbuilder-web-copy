@@ -11949,6 +11949,9 @@ ub.funcs.fontOffSets = [
             "Crew",
             "Men's",
             "Goal",
+            "Default", // Hoodie
+            "Cinch Sack",
+            "Men's ",
         ], 
 
         isExcluded: function (alias) {
