@@ -11965,6 +11965,7 @@ ub.funcs.fontOffSets = [
         items: [
             'Socks (Apparel)',
             'Fan Replica Jersey (Apparel)',
+            'Cage Jacket (Apparel)',
         ],
         isNonTackleTwill: function (uniformCategory) {
 
