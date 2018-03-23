@@ -876,7 +876,6 @@ class UniformBuilderController extends Controller
                 } else {
 
                     $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
-                    $html .=   '<a href="http://' . env('WEBSITE_URL') . '/administration/mascot/edit/' . $application['mascot']['id'] . '" target="_new">Link To Mascot Details</a> <br />';
                     $html .=   '<a href="' . $application['mascot']['ai_file'] . '" target="_new">Link To Mascot PDF File</a> <br />';
 
                 }
