@@ -1341,7 +1341,7 @@ $(document).ready(function () {
 
             // Use a simplier matcher
             $.each(strs, function(i, str) {
-              if (str.indexOf(q) !== -1) { matches.push(str); }
+              if (str.toLowerCase().indexOf(q.toLowerCase()) !== -1) { matches.push(str); }
             });
 
             cb(matches);
