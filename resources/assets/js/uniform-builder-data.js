@@ -2166,6 +2166,10 @@ $(document).ready(function() {
                 name: "Wrestling Compression Shorts (Apparel)",
                 alias: "wrestling-compression-shorts",
             },
+            {
+                name: "Cage Jacket (Apparel)",
+                alias: "cage-jacket",
+            },
 
         ],
 
@@ -2709,6 +2713,11 @@ $(document).ready(function() {
                     name: 'Basketball',
                     active: "1",
                 },
+                {
+                    code: 'hockey',
+                    name: 'Hockey',
+                    active: "1",
+                },
 
             ],
             
@@ -2772,6 +2781,11 @@ $(document).ready(function() {
                     active: "1",
                 },
                 {
+                    code: 'cage-jacket',
+                    name: 'Cage Jacket (Apparel)',
+                    active: "1",
+                },
+                {
                     code: 'fan-replica-jersey',
                     name: 'Fan Replica Jersey (Apparel)',
                     active: "1",
@@ -2796,6 +2810,7 @@ $(document).ready(function() {
                     name: 'Socks (Apparel)',
                     active: "1",
                 },
+                
             ],
         },
         {
@@ -2817,6 +2832,11 @@ $(document).ready(function() {
                     active: "1",
                 },
                 {
+                    code: '1-4 zip',
+                    name: 'Quarter Zip Jacket (Apparel)',
+                    active: "1",
+                },
+                {
                     code: 'game-day-jackets',
                     name: 'Game Day Jackets (Apparel)',
                     active: "1",
@@ -2824,6 +2844,11 @@ $(document).ready(function() {
                 {
                     code: 'hoodie',
                     name: 'Hoodie (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'cage-jacket',
+                    name: 'Cage Jacket (Apparel)',
                     active: "1",
                 },
                 {
@@ -8213,6 +8238,14 @@ ub.funcs.fontOffSets = [
             sport: 'Socks (Apparel)',
             filters: ['All', 'Jersey', 'Socks'],
         },
+        {
+            sport: 'Polo (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Cage Jacket (Apparel)',
+            filters: ['All', 'Jersey'],
+        },
           
     ];
 
@@ -9993,6 +10026,7 @@ ub.funcs.fontOffSets = [
             'Field Hockey',
             'Compression Pant (Apparel)',
             'Socks (Apparel)',
+            'Cage Jacket (Apparel)',
         ],
         options: [
             'Fight Short',
@@ -10185,6 +10219,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Basketball',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Cage Jacket (Apparel)',
+                sublimatedPart: 'Extra',
+            },
             
             // Socks (Apparel)
         ],
@@ -10305,6 +10343,7 @@ ub.funcs.fontOffSets = [
             "Game Day Jackets (Apparel)",
             'Tennis',
             "Compression Pant (Apparel)",
+            "Cage Jacket (Apparel)",
             ],
         options: [
                 {
@@ -10507,7 +10546,6 @@ ub.funcs.fontOffSets = [
                     'GR',
                 ]
             }, 
-
             {
                 block_pattern: 'Quarter Zip Jacket',
                 neck_options: ['Long Sleeve', 'Short Sleeve'],
@@ -10575,46 +10613,48 @@ ub.funcs.fontOffSets = [
                     'RB',
                 ]
             },
-            {
-                block_pattern: 'SFN Hoodie',
-                neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
-                material_option: 'Zipper', 
-                valid_colors: [
-                    'B',    
-                    'W',
-                    'R',
-                    'GR',
-                    'NB',
-                    'RB',
-                ]
-            },
-            {
-                block_pattern: 'SFN Hoodie',
-                neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
-                material_option: 'Hood Cuff', 
-                valid_colors: [
-                    'B',    
-                    'W',
-                    'R',
-                    'GR',
-                    'NB',
-                    'RB',
-                ]
-            },
-            {
-                block_pattern: 'SFN Hoodie',
-                neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
-                material_option: 'Arm Cuff', 
-                valid_colors: [
-                    'B',    
-                    'W',
-                    'R',
-                    'GR',
-                    'NB',
-                    'RB',
-                ]
-            },
 
+            // SFN Hoodie
+                {
+                    block_pattern: 'SFN Hoodie',
+                    neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
+                    material_option: 'Zipper', 
+                    valid_colors: [
+                        'B',    
+                        'W',
+                        'R',
+                        'GR',
+                        'NB',
+                        'RB',
+                    ]
+                },
+                {
+                    block_pattern: 'SFN Hoodie',
+                    neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
+                    material_option: 'Hood Cuff', 
+                    valid_colors: [
+                        'B',    
+                        'W',
+                        'R',
+                        'GR',
+                        'NB',
+                        'RB',
+                    ]
+                },
+                {
+                    block_pattern: 'SFN Hoodie',
+                    neck_options: ['Long Sleeve', 'Short Sleeve', 'Sleeveless'],
+                    material_option: 'Arm Cuff', 
+                    valid_colors: [
+                        'B',    
+                        'W',
+                        'R',
+                        'GR',
+                        'NB',
+                        'RB',
+                    ]
+                },
+            // End SFN Hoodie
 
             // Team Store
             {
@@ -10630,6 +10670,31 @@ ub.funcs.fontOffSets = [
                     'RB',
                 ]
             },
+
+            // After migration. Note: Don't delete the previous ones above so that the old saved designs wont be messed up
+            {
+                block_pattern: 'Cage Jackets',
+                neck_options: ['Long Sleeves', 'Short Sleeves'],
+                material_option: 'Zipper', 
+                valid_colors: [
+                    'B',    
+                    'W',
+                    'R',
+                    'GR',
+                    'NB',
+                    'RB',
+                ]
+            },
+            {
+                block_pattern: 'Quarter Zip Jacket',
+                neck_options: ['Long Sleeve', 'Short Sleeve'],
+                material_option: 'Zipper',
+                valid_colors: [
+                    'B',
+                    'W',
+
+                ]
+            }, 
         ],
         getLimitedColorSet: function (materialOption) {
 
@@ -10940,7 +11005,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Hockey' },
 
             { sport: 'Socks (Apparel)' },
-
+            { sport: 'Cage Jacket (Apparel)' },
 
         ],
 
@@ -11544,6 +11609,12 @@ ub.funcs.fontOffSets = [
                 gender: ['men',],    
             },
             {
+                shortCode: 'hockey',
+                urlAlias: 'Hockey',  
+                thumbFilename: 'hockey.png',  
+                gender: ['men','women'],    
+            },
+            {
                 shortCode: 'cinch-sack',
                 urlAlias: 'Cinch Sack (Apparel)',
                 thumbFilename: 'cinch_sack.png',
@@ -11553,7 +11624,7 @@ ub.funcs.fontOffSets = [
                 shortCode: 'one-fourth-zip-jacket',
                 urlAlias: 'Quarter Zip Jacket (Apparel)',
                 thumbFilename: '1-4 zip.png',
-                gender: ['men',],       
+                gender: ['men','women'],       
             },
             {
                 shortCode: 'fan-replica-jersey',
@@ -11583,6 +11654,12 @@ ub.funcs.fontOffSets = [
                 shortCode: 'socks',
                 urlAlias: 'Socks (Apparel)',
                 thumbFilename: 'socks.png',
+                gender: ['men', 'women'],    
+            },
+            {
+                shortCode: 'cage-jacket',
+                urlAlias: 'Cage Jacket (Apparel)',
+                thumbFilename: 'cage-jacket.png',
                 gender: ['men', 'women'],    
             },
         ],
@@ -11841,9 +11918,15 @@ ub.funcs.fontOffSets = [
     ub.data.uniSexSports = {
 
         items: [
+            
             { sport: 'Socks (Apparel)', },
             { sport: 'Cinch Sack (Apparel)', },
             { sport: 'Hoodie (Apparel)', },
+            { sport: 'Cage Jacket (Apparel)', },
+            { sport: 'Quarter Zip Jacket (Apparel)', },
+
+            { sport: 'Hockey', },
+
         ],
 
         isUniSex: function (sport) {
