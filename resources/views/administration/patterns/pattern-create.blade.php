@@ -9,7 +9,7 @@ select:hover {
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -86,6 +86,16 @@ li.select2-selection__choice {
                             <div class="col-md-6 front-view">
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
                             </div>
+                        </div>
+                        <div class="form-group">
+                                <label class="col-md-4 control-label">Brand</label>
+                                <div class="col-md-6">
+                                <select class="form-control brand" name="brand">
+                                        <option value="none">None</option>
+                                        <option value="prolook">Prolook</option>
+                                        <option value="richardson">Richardson</option>
+                                </select>
+                              </div>
                         </div>
 
                         <!-- <div class="form-group">
@@ -243,7 +253,7 @@ $(document).ready(function(){
     });
 
         if($('#sports_value').val()){
-        var sports = JSON.parse($('#sports_value').val());   
+        var sports = JSON.parse($('#sports_value').val());
     }
     // var sports = JSON.parse($('#sports_value').val());
 

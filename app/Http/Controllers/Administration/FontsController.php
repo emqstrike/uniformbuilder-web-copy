@@ -117,6 +117,7 @@ class FontsController extends Controller
         $alias = $request->input('alias');
         $blockPatternOptions = $request->input('block_pattern_options_value');
         $blockPatterns = $request->input('block_patterns_value');
+        $brand = $request->input('brand');
         // dd($request->input('block_patterns_value'));
 
         $userID = $request->input('user_id');
@@ -150,7 +151,8 @@ class FontsController extends Controller
             'updated_by' => $userID,
             'alias' =>$alias,
             'block_pattern_options' => $blockPatternOptions,
-            'block_patterns' => $blockPatterns
+            'block_patterns' => $blockPatterns,
+            'brand' => $brand
         ];
 
         if ($fontType != 'default')

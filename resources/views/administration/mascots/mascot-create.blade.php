@@ -86,8 +86,16 @@ select:hover {
                                 <input type="file" class="form-control ai-file" name="ai_file" accept=".ai,.pdf">
                             </div>
                         </div>
-
-                        
+                        <div class="form-group">
+                                <label class="col-md-4 control-label">Brand</label>
+                                <div class="col-md-6">
+                                <select class="form-control brand" name="brand">
+                                        <option value="none">None</option>
+                                        <option value="prolook">Prolook</option>
+                                        <option value="richardson">Richardson</option>
+                                </select>
+                              </div>
+                        </div>
 
 
 <!--                         <div class="form-group">

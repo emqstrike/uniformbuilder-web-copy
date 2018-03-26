@@ -3,7 +3,7 @@
 
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -51,7 +51,7 @@ li.select2-selection__choice {
                                 <input type="name" class="form-control pattern-name" name="name" value="{{ $pattern->name }}">
                             </div>
                         </div>
-                      
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sports</label>
                             <div class="col-md-6">
@@ -96,7 +96,16 @@ li.select2-selection__choice {
                                 </select>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" >Brand</label>
+                            <div class="col-md-6">
+                                <select name="brand" class="form-control">
+                                        <option value="none" @if($pattern->brand == "none") selected="selected"@endif>None</option>
+                                        <option value="prolook" @if($pattern->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                        <option value="richardson" @if($pattern->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Thumbnail</label>
                             <div class="col-md-6 front-view">
@@ -234,7 +243,7 @@ function bindBPOS(){
                 });
             });
             // var z = _.uniq(block_pattern_options);
-            
+
             // z.forEach(function(i) {
             //     $('.block-pattern-options').append('<option value="'+i+'">'+i+'</option>');
             // });
@@ -273,9 +282,9 @@ function bindBPOS(){
 ];
 
 
- 
+
     if($('#sports_value').val()){
-        var sports = JSON.parse($('#sports_value').val());   
+        var sports = JSON.parse($('#sports_value').val());
     }
     // var sports = JSON.parse($('#sports_value').val());
 
@@ -298,7 +307,7 @@ function bindBPOS(){
 
 
     if($('#block_pattern_options_value').val()){
-        var bpos = JSON.parse($('#block_pattern_options_value').val());   
+        var bpos = JSON.parse($('#block_pattern_options_value').val());
     }
     // var sports = JSON.parse($('#sports_value').val());
 
@@ -326,7 +335,7 @@ function bindBPOS(){
     //                         return '<div>"' + escape(data.text) + '"</div>';
     //                     }
     //                 },
-                     
+
 
     //                 // onDelete: function(values) {
     //                 //     return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
@@ -358,7 +367,7 @@ var $select = $('#select-gear').selectize({
                             return '<div>"' + escape(data.text) + '"</div>';
                         }
                     },
-                     
+
 
                     // onDelete: function(values) {
                     //     return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
@@ -367,7 +376,7 @@ var $select = $('#select-gear').selectize({
 
 
 
-    
+
 
 });
 </script>
