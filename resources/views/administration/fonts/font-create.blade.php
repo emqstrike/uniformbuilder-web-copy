@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -16,15 +16,15 @@ li.select2-selection__choice {
 .inputs {
     width: 45px;
 }
-.table td, 
+.table td,
 .table th {
     white-space: nowrap;
     width: 1%;
 }
 .test + .tooltip > .tooltip-inner {
-      background-color: #73AD21; 
-      color: #FFFFFF; 
-      border: 1px solid green; 
+      background-color: #73AD21;
+      color: #FFFFFF;
+      border: 1px solid green;
       padding: 15px;
       font-size: 20px;
   }
@@ -156,6 +156,18 @@ li.select2-selection__choice {
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                                <label class="col-md-5 control-label">Brand</label>
+                                <div class="col-md-4">
+                                <select class="form-control brand" name="brand">
+                                        <option value="none">None</option>
+                                        <option value="prolook">Prolook</option>
+                                        <option value="richardson">Richardson</option>
+                                </select>
+                              </div>
+                        </div>
+
+
                         <div class="form-group">
                             <label class="col-md-5 control-label">Tail Sweep Properties</label>
                             <div class="col-md-4">

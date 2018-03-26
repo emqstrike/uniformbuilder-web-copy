@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -159,6 +159,17 @@ li.select2-selection__choice {
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label" >Brand</label>
+                           <div class="col-md-4">
+                                <select name="brand" class="form-control">
+                                        <option value="none" @if($font->brand == "none") selected="selected"@endif>None</option>
+                                        <option value="prolook" @if($font->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                        <option value="richardson" @if($font->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                </select>
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <label class="col-md-5 control-label">Block Pattern</label>
@@ -290,7 +301,7 @@ li.select2-selection__choice {
                             </table>
                             </div>
                         </div>
-                        
+
                     <div class="form-group twill-fst"> <!-- START -->
                         <div class="alert alert-info"><h3>Twill Font Size Tables</h3></div>
                         <div class="form-group">
@@ -606,7 +617,7 @@ li.select2-selection__choice {
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 </div>
 
   <!-- Modal -->
@@ -627,7 +638,7 @@ li.select2-selection__choice {
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 </div>
 @endsection
 
@@ -805,7 +816,7 @@ $(document).ready(function(){
     $('.animated').autosize({append: "\n"});
 
     if($('#sports_value').val()){
-        var sports = JSON.parse($('#sports_value').val());   
+        var sports = JSON.parse($('#sports_value').val());
     }
     var fstbls = $('#old_font_size_tables').val();
     if(fstbls != ""){
@@ -1171,7 +1182,7 @@ $(document).ready(function(){
             });
             var open = "<tr class=\"layers-row\">";
             var layer = "<td><select class=\"fo-layer layer"+length+"\"  name=\"fo_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
-            
+
             var type_options = '';
             var fonts_options = '';
 
