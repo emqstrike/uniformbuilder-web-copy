@@ -10943,8 +10943,13 @@ $(document).ready(function() {
             var _caption = ub.funcs.getSampleCaption(app);
             var _primaryView = ub.funcs.getPrimaryView(app.application);
             var _perspectivePart = '<span class="perspective">(' + _primaryView.substring(0,1).toUpperCase() + ')</span>';
-            var _applicationTypePart = ' <span class="application_type">' + _applicationType + '</span>';
-            var _captionPart = '<span class="caption">' + _caption + '</span>';
+
+            var _appTypeAlias =  _applicationType;
+            
+            if (_applicationType === "EMBELLISHMENTS") { _appTypeAlias = 'C. MASCOT'; }
+
+            var _applicationTypePart = ' <span class="application_type">' + _appTypeAlias + '</span>';
+            var _captionPart = '<span class="caption">' + window.util.truncate(_caption) + '</span>';
             var _codePart = '<span class="code"> #' + app.code + '</span>';
 
             _htmlStr += '<span class="layer unselectable" data-location-id="' + app.code + '" data-zIndex="' + app.zIndex + '">' + _codePart + _captionPart + _perspectivePart + _applicationTypePart + '</span>';
