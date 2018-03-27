@@ -10477,7 +10477,7 @@ ub.funcs.fontOffSets = [
                 // SFN 
                 {
                     sport: 'Basketball',
-                    option: "SNF 2018 Short (M)",  
+                    option: "SFN 2018 Short (M)",  
                 },
                 // 2018 Basketball 
                 {
