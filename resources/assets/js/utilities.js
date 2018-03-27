@@ -94,7 +94,11 @@ $( document ).ready(function() {
             return s;
 
         },
+        truncate: function (str) {
 
+            return str.replace(/^(.{9}).+/, "$1…");
+
+        },
         dateFormat: function(created_at){
             var text = created_at;
             var serverDate = moment.utc(text).local().format('LLL'); 
