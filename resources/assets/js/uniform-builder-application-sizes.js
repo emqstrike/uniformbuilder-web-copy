@@ -1501,6 +1501,9 @@ $(document).ready(function() {
                     sport: 'basketball',
                     sizes:  [
                                 {
+                                    size: 2,
+                                },
+                                {
                                     size: 2.5,
                                 },
                             ],
