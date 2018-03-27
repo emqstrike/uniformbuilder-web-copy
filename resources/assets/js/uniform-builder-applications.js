@@ -6316,10 +6316,17 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.isTackleTwill = function () {
+        return ub.config.uniform_application_type === "tackle_twill";
+    }
+
+
     ub.funcs.isSublimated = function () {
-
         return ub.config.uniform_application_type === "sublimated";
+    }
 
+    ub.funcs.isKnitted = function () {
+        return ub.config.uniform_application_type === "knitted";
     }
 
     ub.funcs.changeMascotOpacity = function (id, position) {
@@ -11089,7 +11096,7 @@ $(document).ready(function() {
 
         });
 
-        if (!ub.data.freeFormToolEnabledSports.isValid(ub.current_material.material.uniform_category) ) {
+        if (ub.funcs.isTackleTwill()) {
 
             $('span.add-application').addClass('inactive');
             $('em.dragMessage').remove();
@@ -11099,8 +11106,10 @@ $(document).ready(function() {
 
         $('span.add-application').unbind('click');
         $('span.add-application').on('click', function () {
-
-            $('a.change-view[data-view="locations-add"]').click();
+            
+            if (!ub.funcs.isTackleTwill()) {
+                $('a.change-view[data-view="locations-add"]').click();
+            }
 
         });
 
