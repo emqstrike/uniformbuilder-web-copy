@@ -10473,6 +10473,30 @@ ub.funcs.fontOffSets = [
                     sport: 'Football 2017',
                     option: "Waist 2017 Reversible",  
                 },
+
+                // SFN 
+                {
+                    sport: 'Basketball',
+                    option: "SNF 2018 Short (M)",  
+                },
+                // 2018 Basketball 
+                {
+                    sport: 'Basketball',
+                    option: "Cavaliers Neck",  
+                },
+                {
+                    sport: 'Basketball',
+                    option: "V-Neck",  
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Lakers Neck",  
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Round Neck",
+                },
+
         ],
         currentUniformOk: function () {
 
