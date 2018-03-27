@@ -207,7 +207,7 @@ $(document).ready(function() {
 
                 var _y = 190;
 
-                var _scale = 0.45;
+                var _scale = 0.40;
 
                 // ub['left_view'].position.set(30, _y);
                 // ub['front_view'].position.set(380, _y);
