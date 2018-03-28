@@ -2651,7 +2651,7 @@ $(document).ready(function() {
 
                     if (typeof ub.config.savedDesignInfo !== "object") { // Process Custom Scale Field only if this is not a saved design, because that one already have an override scale
 
-                        if (typeof view.application.appCustomScale !== "undefined" && _settingsObject.application_type === "embellishments") {
+                        if (typeof view.application.appCustomScale !== "undefined" && ub.funcs.isSublimated()) {
 
                             var _scaleX = point.scale.x;
                             var _scaleY = point.scale.y;
@@ -2668,6 +2668,10 @@ $(document).ready(function() {
 
                         }
 
+                    }
+
+                    if (view.application.scale.x === 0 && view.application.scale.y === 0 ) {
+                        view.application.scale = {x: 1, y: 1};
                     }
 
                 //// Process End Override ScaleX and ScaleY from Custom Font Scale Field from the backend
