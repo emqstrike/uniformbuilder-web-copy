@@ -2670,10 +2670,12 @@ $(document).ready(function() {
 
                     }
 
-                    if (view.application.scale.x === 0 && view.application.scale.y === 0 ) {
-                        view.application.scale = {x: 1, y: 1};
+                    if (typeof view.application.scale !== "undefined") {
+                        if (view.application.scale.x === 0 && view.application.scale.y === 0 ) {
+                            view.application.scale = {x: 1, y: 1};
+                        }    
                     }
-
+                    
                 //// Process End Override ScaleX and ScaleY from Custom Font Scale Field from the backend
 
                 //// Process Override ScaleX and ScaleY from GA Font Tool
