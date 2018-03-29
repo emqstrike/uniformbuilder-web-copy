@@ -437,9 +437,7 @@ $(document).ready(function () {
             }
 
             var _type = ub.current_material.material.uniform_application_type.replace('_', ' ');
-
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
-
             var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
 
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
@@ -448,6 +446,7 @@ $(document).ready(function () {
             // $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
 
             if (typeof _getPrice.youth_min_msrp === "undefined") { $('div#uniform-price-youth').addClass('hide'); }
+            if (typeof _getPrice.adult_min_msrp == "undefined") { $('div#uniform-price-adult').hide(); }
 
             $('div.header-container').css('display','none !important');
 
