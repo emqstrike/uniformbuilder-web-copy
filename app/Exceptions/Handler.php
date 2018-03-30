@@ -61,6 +61,11 @@ class Handler extends ExceptionHandler
 	        }
 	}
 
+        if (parent::shouldReport($exception))
+        {
+            Log::error($exception);
+        }
+
         return parent::report($e);
     }
 
