@@ -650,11 +650,23 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Styles PDF</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control styles-pdf-text" name="styles-pdf-text" value="{{ $material->styles_pdf }}">
+                            </div>
+                                <div class="col-md-2">
+                                    <a href="#" class="btn btn-danger btn-xs delete-styles-pdf"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="styles_pdf"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete PDF
+                                    </a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"></label>
                             <div class="col-md-4 material">
                                 <input type="file" class="form-control styles-pdf" name="styles_pdf" accept=".ai,.pdf" >
-                            </div>
-                            <div class="col-md-4 material">
-                                <input type="text" class="form-control styles-pdf-text" name="styles-pdf-text" value="{{ $material->styles_pdf }}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -976,6 +988,36 @@ $( document ).ready(function() {
                 if (response.success) {
                     $('#confirmation-modal').modal('hide');
                     $('.' + field).fadeOut();
+                }
+            }
+        });
+    });
+
+    $('.delete-styles-pdf').on('click', function(e){
+        e.preventDefault();
+        var id =  $(this).data('material-id');
+        var field = $(this).data('field');
+        $('#confirmation-modal .confirm-yes').data('field', field);
+        modalConfirm('Remove PDF Link', 'Are you sure you want to remove this Styles PDF?', id);
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+
+        var id = $(this).data('value');
+        var field = $(this).data('field');
+        var url = "//" + api_host + "/api/material/deleteStylesPDF";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id, field: field}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    location.reload();
                 }
             }
         });
