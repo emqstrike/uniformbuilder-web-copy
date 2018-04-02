@@ -520,12 +520,10 @@ $(document).ready(function(){
         modalConfirm('Remove font', 'Are you sure you want to delete the font?', id);
     });
 
-    $('#confirmation-modal .confirm-yes').on('click', function(){
+    $('#confirmation-modal .confirm-yes').on('click', function() {
         var id = $(this).data('value');
 
-
-       var url = "//" + api_host + "/api/font/delete/";
-       //var url = "//localhost:8888/api/font/delete/";
+       var url = "//" + api_host + "/api/font/delete";
 
         $.ajax({
             url: url,
@@ -570,8 +568,8 @@ $(document).ready(function(){
     $(document).on('click', '#multipleDelete', function() {
         if($(this).is(':checked')){
             multipleRemove.push($(this).data("font-id"));
-       
- 
+
+
         }else{
            multipleRemove.splice( $.inArray($(this).data("font-id"),multipleRemove) ,1 );
 
@@ -579,7 +577,7 @@ $(document).ready(function(){
        multipleRemove = multipleRemove.sort();
 
 
- 
+
     });
 
     $(document).on('click', '.multiple-delete-font', function() {
@@ -591,7 +589,7 @@ $(document).ready(function(){
         $("#filterSports button").removeClass("btn-primary");
         $(this).addClass("btn-primary");
         var Sports = $(this).data("filter");
-        $("tbody tr").hide();     
+        $("tbody tr").hide();
         $( "tr #sports-column" ).each(function( index ) {
             if ($(this).text().indexOf(Sports) > -1)
                 {
@@ -601,6 +599,6 @@ $(document).ready(function(){
         });
     });
 
-    
+
 
 });
