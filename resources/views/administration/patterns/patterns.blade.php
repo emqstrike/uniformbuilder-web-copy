@@ -68,9 +68,11 @@
                             </a>
                         </small>
                     </h1>
-                    <button class="button brand-filter" value=".prolook">Prolook</button>
+                    <h4>Brands</h4>
+                    <button class="button brand-filter btn-primary" value=".all-brand">All</button>
+                    <button class="button brand-filter " value=".prolook">Prolook</button>
                     <button class="button brand-filter" value=".richardson">Richardson</button>
-                    <br>
+                    <h4>Asset Target</h4>
                     <button class="button btn-primary filter" value=".all">All</button>
                     <button class="button filter" value=".web">Web</button>
                     <button class="button filter" value=".ipad">Ipad</button>
