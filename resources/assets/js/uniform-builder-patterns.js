@@ -62,12 +62,13 @@ $(document).ready(function () {
         oImg.applyFilters(canvas.renderAll.bind(canvas));
         canvas.renderAll();
 
-        setTimeout(function(){ 
-                var _dUrl = canvas.toDataURL();
-            _.each(_patternObj.layers, function (l) {
-                
-                $('svg#svg_pcw' + l.layer_no + ' > defs > pattern > image').attr('xlink:href', _dUrl);
+        setTimeout(function() {             
+            var _dUrl = canvas.toDataURL();
 
+            _.each(_patternObj.layers, function (l) {
+
+                $('svg#svg_pcw' + l.layer_no + ' > defs > pattern > image').attr('xlink:href', _dUrl);
+                
             });    
 
         }, 50);
@@ -79,6 +80,7 @@ $(document).ready(function () {
             var layer = _.find(_settingsObject.pattern.pattern_obj.layers, {layer_no: layerID.toString()});
 
             layer.color = _tintColor;
+            layer.color_code = colorOBJ.color_code;
             
             var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
 
@@ -860,8 +862,8 @@ $(document).ready(function () {
 
                 $("path#arc" + index + '-' + layerID).on("click", function () {
 
-                    $("path.arc-" + layerID).attr("class", "growStroke arc-" + layerID);
-                    $(this).attr("class", "selectedStroke growStroke arc-" + layerID);
+                   $("path.arc-" + layerID).attr("class", "growStroke arc-" + layerID);
+                   $(this).attr("class", "selectedStroke growStroke arc-" + layerID);
 
                    var _colorID           = $(this).data('color-id');
                    var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});

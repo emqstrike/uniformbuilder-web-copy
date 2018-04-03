@@ -1501,6 +1501,9 @@ $(document).ready(function() {
                     sport: 'basketball',
                     sizes:  [
                                 {
+                                    size: 2,
+                                },
+                                {
                                     size: 2.5,
                                 },
                             ],
@@ -2324,7 +2327,9 @@ $(document).ready(function() {
             if (sport === "game-day-coaches-jackets")           { return _result[0]; }
             if (sport === "field-hockey")                       { return _result[0]; }
             if (sport === "compression-pant")                   { return _result[0]; }
+            if (sport === "wrestling-compression-shorts")       { return _result[0]; }
 
+            
             if (typeof _object === "undefined") {
 
                 ub.utilities.warn('Mascot sizes for ' + sport + ' #' + id  + ' not found.');
@@ -2332,6 +2337,21 @@ $(document).ready(function() {
             }
 
             return _object;
+
+        }
+
+    }
+
+    ub.data.mascotSizesFromBackend = {
+
+        items: [
+            'Football 2017',
+            'Wrestling Compression Shorts',
+        ],
+
+        isValid: function (sport) {
+
+            return _.find(this.items, sport) !== "undefined";
 
         }
 

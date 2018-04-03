@@ -539,13 +539,42 @@ $(document).ready(function () {
         _teamColorObj.push(colorObj); 
 
         if (typeof cancelColorPickerUpdate === "undefined") {
-
             if (ub.data.afterLoadCalled) { ub.funcs.drawColorPickers(); }
-            
-            ub.funcs.updatePatterns();
-        
         }
         
+    };
+
+    ub.funcs.ifColorIsUsedOnPatterns = function (colorObj) {
+
+        var _result = false; 
+
+        if (ub.data.afterLoadCalled !== 1) {return;}
+
+        _materialOptionsWithPattern = ub.funcs.getMaterialOptionsWithPattern();
+
+        _.each(ub.current_material.settings[ub.config.type], function (item) {
+ 
+            if (typeof item.pattern !== "undefined") {
+ 
+                if (item.pattern.pattern_id !== "" && item.pattern.pattern_id !== "blank") {
+
+                    _.each(item.pattern.pattern_obj.layers, function (item) {
+                        
+                        colorItem = ub.funcs.getColorObjByHexCode(item.default_color);
+                        
+                        // Is Used
+                        if (colorItem.id === colorObj.id) { _result = true; }
+
+                    });
+
+                }
+
+            }
+
+        });
+
+        return _result;
+
     };
 
     ub.funcs.removeColorFromTeamColors = function (colorObj) {
@@ -557,8 +586,10 @@ $(document).ready(function () {
         _teamColorObj.splice(_indexOfColorObj, 1);
 
         ub.funcs.drawColorPickers();
-        ub.funcs.updatePatterns();
 
+        // Selective execution here ... Update pattern only if the color being removed is currently in used by the pattern
+        if (ub.funcs.ifColorIsUsedOnPatterns(colorObj)){ ub.funcs.updatePatterns(); }
+        
     };
 
     ub.funcs.drawColorPickers = function () {

@@ -59,6 +59,13 @@ class UniformBuilderController extends Controller
         $this->inksoftDesignsAPIClient = $inksoftDesignsAPIClient;
     }
 
+    function log_info($msg_str) {
+
+        $run = true;
+        if ($run) { Log::info($msg_str); }
+
+    }
+
     public function showBuilder($config = [])
     {
 
@@ -685,6 +692,8 @@ class UniformBuilderController extends Controller
 
     function generatePipingsTable ($pipings, $uniform_category) {
 
+        $this->log_info('generatePipingsTable');
+
         $html = '';
         $html .= '<br /><br />';
         $html .= '<h3>PIPINGS</h3>';
@@ -763,14 +772,16 @@ class UniformBuilderController extends Controller
 
     function generateApplicationsTable ($applications, $uniform_category) {
 
+        $this->log_info('generateApplicationsTable');
+
         $html = '';
         $html .= '<br /><br />';
         $html .= '<h3>APPLICATIONS</h3>';
         $html .= '<table border="1" cellpadding="3">';
 
         $html .= '<tr>';
-        $html .=   '<td align="center">';
-        $html .=   '<strong>LOCATION</strong>';
+        $html .=   '<td align="center" width="5%">';
+        $html .=   '<strong>#</strong>';
         $html .=   '</td>';
         $html .=   '<td align="center">';
         $html .=   '<strong>APPLICATION TYPE</strong>';
@@ -781,7 +792,7 @@ class UniformBuilderController extends Controller
         $html .=   '<td align="center">';
         $html .=   '<strong>SIZE</strong>';
         $html .=   '</td>';
-        $html .=   '<td align="center">';
+        $html .=   '<td align="center" width="35%">';
         $html .=   '<strong>COLORS / PATTERNS</strong>';
         $html .=   '</td>';
 
@@ -798,6 +809,8 @@ class UniformBuilderController extends Controller
             
             // Skip applications that are turned off
             if (isset($application['status']) and $application['status'] === "off") { continue; }
+
+            $this->log_info('---' . $application['code'] . ' ' . $appType);
 
             $ctrApplications += 1;
             $bgcolor = '#fff';
@@ -819,7 +832,7 @@ class UniformBuilderController extends Controller
 
                 $html .=   '<td align="center">';
                 $html .=   'Accent: ' . $application['accent_obj']['title'] . "<br />";
-                $html .=   'Font: ' . $application['font_obj']['name'] . "<br />";
+                $html .=   'Font: ' . $application['font_obj']['alias'] . "<br />";
                 $html .=   'Text: ' . strtoupper($application['text']) . "<br />";
 
                 if (isset($application['pattern_obj'])) {
@@ -863,7 +876,6 @@ class UniformBuilderController extends Controller
                 } else {
 
                     $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
-                    $html .=   '<a href="http://' . env('WEBSITE_URL') . '/administration/mascot/edit/' . $application['mascot']['id'] . '" target="_new">Link To Mascot Details</a> <br />';
                     $html .=   '<a href="' . $application['mascot']['ai_file'] . '" target="_new">Link To Mascot PDF File</a> <br />';
 
                 }
@@ -963,43 +975,91 @@ class UniformBuilderController extends Controller
             if ($appType == "EMBELLISHMENTS" ) {
                 $html .=   'Refer to Prepared File<br />';    
             } else {
+
                 $colors = '';
+                $accentLabel = '';
+                $isTextApplicationType = false;
+                $withPattern = false; 
+                $patternName = '';
+                $label = '';
 
-                // if prolook items reverse, base color should be on 
-                $reversedColorArray = array_reverse($application['color_array']);
-
-                foreach ($reversedColorArray as &$color) {
-                    $colors .= $color['color_code'] . ",";
+                if (isset($application['pattern_obj'])) { 
+                    if ($application['pattern_obj']['name'] !== "Blank") { 
+                        $withPattern = true; 
+                        $patternName = $application['pattern_obj']['name'];
+                    }
                 }
 
-                $colorsTrimmed = 'Accent: ' . rtrim($colors, ",");
-                $colorsTrimmed .= "<br />";
+                // Every other text type applications
+                if ($appType <> "MASCOT") {
 
-                $html .= $colorsTrimmed;
+                    $isTextApplicationType = true;
+                    $accentLabel = $application['accent_obj']['title'];
+                    $label = $accentLabel;
+
+                    if ($withPattern) { $label .= " --- " . $patternName; }
+
+                }
+
+                $html .= "";
+
+                // If Prolook items reverse, base color should be Outer - Inner 
+                $reversedColorArray = array_reverse($application['color_array']);
+
+                if ($isTextApplicationType) {
+                    foreach ($reversedColorArray as &$color) {
+                        if (is_array($color)) { 
+                            $colors .= $color['color_code'] . "/"; 
+                        }
+                    }
+                } else {
+
+                    foreach ($application['color_array'] as &$color) {
+                        if (is_array($color)) { 
+                            $colors .= $color['color_code'] . "/"; 
+                        }
+                    }
+
+                }
+                
+                $colors = rtrim($colors, "/");
+
+                // Pop base color if it has a pattern
+                if ($isTextApplicationType && $withPattern) {
+                    if (is_array($reversedColorArray)) {
+                        if ($accentLabel <> "Single Color") {
+                            
+                            $tokens = explode('/', $colors);
+                            array_pop($tokens);
+                            $colors = implode('/', $tokens);
+                            
+                        }
+                    }
+                }
+
+                $html .= $label . "<br />";
+
+                $html .= $colors;
 
                 $colorsTrimmed = '';
                 
-                if (isset($application['pattern_obj'])) {
+                if ($withPattern && $isTextApplicationType) {
 
-                    if ($application['pattern_obj']['name'] !== "Blank") {
+                    $colors = '';
 
-                        $colors = '';
-
-                        foreach ($application['pattern_obj']['layers'] as &$layer) {
-                            if (array_key_exists('color_code', $layer)) {
-                                $colors .= $layer['color_code'] . ",";    
-                            } else {
-                                $colors .= "?,";    
-                            }
+                    foreach ($application['pattern_obj']['layers'] as &$layer) {
+                        if (array_key_exists('color_code', $layer)) {
+                            $colors .= $layer['color_code'] . "/";    
+                        } else {
+                            $colors .= "?,";    
                         }
-
-                        $colorsTrimmed = 'Pattern: ' . rtrim($colors, ",");
-
                     }
 
-                    $html .= $colorsTrimmed;
+                    $colorsTrimmed = ' --- ' . rtrim($colors, "/");
 
                 }
+
+                $html .= $colorsTrimmed;
 
             }
 
@@ -1016,6 +1076,8 @@ class UniformBuilderController extends Controller
     }
 
     function generateRosterTable ($rosters, $sport) {
+
+        $this->log_info('generateRosterTable');
 
         $html = '';
         $html .= '<br /><br />';
@@ -1109,6 +1171,8 @@ class UniformBuilderController extends Controller
     }
 
     function generateMaterialOptionsTable ($itemData) {
+
+        $this->log_info('generateMaterialOptionsTable');
 
         $orItem = $itemData;
         $bc = $itemData['builder_customizations'];
@@ -1557,6 +1621,8 @@ class UniformBuilderController extends Controller
 
     function generateItemTable ($itemData, $fname, $mainInfo, $material_id) {
 
+        $this->log_info('generateItemTable');
+
         $styleURL = '<a href="' . $itemData["url"]  . '"><strong>BUILDER URL</strong></a>';
         $pdfURL   = '<a href="' . env("WEBSITE_URL") . $fname . '"><strong>PDF URL</strong></a>';
         $cutURL   = '<a href="' . $itemData["builder_customizations"]["cut_pdf"] . '"><strong>CUT PDF URL</strong></a>';
@@ -1853,6 +1919,8 @@ class UniformBuilderController extends Controller
     }
 
     public function generateOrderForm(Request $request){
+
+        $this->log_info('generateOrderForm');
 
         $r = $request->all();
         $fname = $this->generatePDF($r);

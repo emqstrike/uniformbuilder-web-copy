@@ -437,9 +437,7 @@ $(document).ready(function () {
             }
 
             var _type = ub.current_material.material.uniform_application_type.replace('_', ' ');
-
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
-
             var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
 
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
@@ -448,6 +446,7 @@ $(document).ready(function () {
             // $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
 
             if (typeof _getPrice.youth_min_msrp === "undefined") { $('div#uniform-price-youth').addClass('hide'); }
+            if (typeof _getPrice.adult_min_msrp == "undefined") { $('div#uniform-price-adult').hide(); }
 
             $('div.header-container').css('display','none !important');
 
@@ -933,6 +932,10 @@ $(document).ready(function () {
             }
 
         }
+
+        ub.funcs.updateTagStyleCount = function () {
+            $('span.slink > span.count').html(_.size(ub.data.tagged_styles));
+        };
  
         ub.callback = function (obj, object_name) {
 
@@ -1021,7 +1024,8 @@ $(document).ready(function () {
                 if (object_name === 'tagged_styles') {
 
                     ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
-                    $('span.slink > span.count').html(_.size(ub.data.tagged_styles));
+
+                    ub.funcs.updateTagStyleCount();
 
                 } 
                 
@@ -1341,7 +1345,7 @@ $(document).ready(function () {
 
             // Use a simplier matcher
             $.each(strs, function(i, str) {
-              if (str.indexOf(q) !== -1) { matches.push(str); }
+              if (str.toLowerCase().indexOf(q.toLowerCase()) !== -1) { matches.push(str); }
             });
 
             cb(matches);
@@ -1504,7 +1508,7 @@ $(document).ready(function () {
 
                     });
 
-                    $('#search_field').attr("placeholder","Search: Style or Saved Designs");
+                    $('#search_field').attr("placeholder","Search: Style");
                     ub.funcs.showMainLinks();
 
                     ub.funcs.closePickersDialog();
@@ -1674,12 +1678,13 @@ $(document).ready(function () {
             ub.displayDoneAt('Preparing Search...');
 
             if (ub.page === "builder") { ub.prepareTypeAhead(); }
-            
-            if (ub.config.styles) {
+            if (ub.config.styles) { ub.funcs.callDirectLinks(); }
 
-                ub.funcs.callDirectLinks();
+            var _mapped = _.map(ub.data.tagged_styles, function (tagStyle) { return _.find(ub.materials, {id: tagStyle.uniform_id}); });
 
-            }
+            // Remove inactive styles that were tagged
+            ub.data.tagged_styles = _.filter(ub.data.tagged_styles, function (tagStyle) { return typeof _.find(_mapped, {id: tagStyle.uniform_id}) !== "undefined"; });
+            ub.funcs.updateTagStyleCount();
 
         }
 
@@ -2447,7 +2452,7 @@ $(document).ready(function () {
                 e.setting_type === 'static_layer') { return; }
 
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
-                
+
                 if (typeof e.code !== "undefined") {
                     ub.utilities.info(e.code.toTitleCase() + ' layer detected, skipping add to Team Colors...');     
                 }
@@ -2456,7 +2461,8 @@ $(document).ready(function () {
 
             }
 
-            
+            if (typeof e.code === "undefined") { return; }
+
             if (typeof e.code !== 'undefined') {
 
                 
@@ -6199,7 +6205,12 @@ $(document).ready(function () {
 
                 if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
 
-                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
+                    if (typeof layer.team_color_id !== "undefined") {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: layer.team_color_id };    
+                    } else {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};    
+                    }
+                    
                 }
                 ///
 
@@ -6672,7 +6683,6 @@ $(document).ready(function () {
                     $('span.slink[data-item="Knitted"]').show();
                 }
 
-
             } else if (_secondaryBarLabels.type === "both") {
 
                 $('span.slink[data-item="Jersey"]').html(_secondaryBarLabels.upperLabel);
@@ -6681,13 +6691,10 @@ $(document).ready(function () {
 
             }
 
-            if (sport === "Socks (Apparel)") {
-                $('span.slink[data-item="Twill"]').html('Knitted');
-                $('span.slink[data-item="Twill"]').show();
-            }
-
-
         }
+
+        if (sport !== "Socks (Apparel)") { $('span.slink[data-item="Knitted"]').hide(); }
+        if (ub.data.nonTackleTwillItems.isNonTackleTwill(sport)) { $('span.slink[data-item="Twill"]').hide(); }
 
     }
 
@@ -6819,14 +6826,21 @@ $(document).ready(function () {
             var _str = '';
             
             var d = { block_patterns: _optionsCollection, }
+
+            // Don't include Crew in the Quarternary options, todo: move this to a config list
+            d.block_patterns = _.filter(d.block_patterns, function (item) { return !ub.data.filterExclusions.isExcluded(item.alias); });
+
             var m = Mustache.render(t, d);
-            
+
             $('.quarternary-bar').html(m);
 
             // Don't show quarternary bar if there's no items
             if (_optionsCollection.length > 0) {
                 $('div.quarternary-bar').fadeIn();            
             }
+
+            // Side effect of whitelist
+            if (d.block_patterns.length === 0) { $('div.quarternary-bar').hide(); }
 
             $('div.quarternary-bar').css('margin-top', "0px");
 
@@ -7245,6 +7259,10 @@ $(document).ready(function () {
                 } else if (_dataItem === "Twill") {
 
                     ub.filters.secondary = "tackle_twill";
+
+                } else if (_dataItem === "Knitted") {
+
+                    ub.filters.secondary = "knitted";
 
                 } else {
 
@@ -8184,6 +8202,77 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.rebindSaveButtons = function (data) {
+
+            var $container = $('div.saved-designs-list');
+            var $imgThumbs = $('img.tview');
+                
+            $imgThumbs.unbind('click');
+            $imgThumbs.on('click', function () {
+
+                var _file = $(this).data('file');
+                var _str = "<img src ='" + _file + "' />";
+                
+                ub.showModalTool(_str);
+
+            });
+
+            $('span.action-button.view').on('click', function () {
+
+                var _savedDesignID = $(this).data('saved-design-id');
+                window.location.href =  '/my-saved-design/' + _savedDesignID + '/render';
+                
+            });
+
+            $('span.action-button.delete').on('click', function () {
+
+                var _deleteDesignID = $(this).data('saved-design-id');
+                var _name = $(this).data('name');
+
+                ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
+
+            });
+
+            bindShareDesigns();
+
+            $(document).on('change', '.fil-to,.fil-from', function () {
+
+                var filterFrom = $('.fil-from').val();
+                var filterTo = $('.fil-to').val();
+                var template = $('#m-saved-designs-table').html();
+                var filteredDataString = JSON.stringify(data.savedDesigns);
+                var filteredData =JSON.parse(filteredDataString);
+
+                filteredData.forEach(function (value, i) {
+                    value.created_at = value.created_at.split(' ').slice(0, 1).join(' ');
+                    if(filterFrom <= value.created_at && filterTo >= value.created_at){    
+                    }else{
+                     delete filteredData[i];   
+                    }
+                });
+
+                var filteredDataRemoveEmpty = filteredData.filter(function (x) {
+                    return (x !== (undefined || ''));
+                });
+
+                var filtered_data = {savedDesigns: filteredDataRemoveEmpty,}        
+            
+                var markup = Mustache.render(template, filtered_data);
+                $container.html(markup); 
+                
+                $( ".created-at" ).each(function( index ) {
+                  var date = util.dateFormat($( this ).text());
+                  date = date.split(' ').slice(0, 3).join(' ');
+                  $( this ).text(date);
+                });
+                
+                ub.funcs.runDataTable();    
+                ub.funcs.rebindSaveButtons();
+
+            });
+
+        };
+
         ub.funcs.displayMySavedDesigns = function () {
          
             $.ajax({
@@ -8200,9 +8289,7 @@ $(document).ready(function () {
                     var $container = $('div.saved-designs-list');
                     var template = $('#m-saved-designs-table').html();
                     var data = {
-
                         savedDesigns: ub.funcs.parseJSON(response.saved_designs),
-
                     }
          
                     data.savedDesigns.forEach(function (value, i) {
@@ -8211,84 +8298,18 @@ $(document).ready(function () {
                     });
           
                     var markup = Mustache.render(template, data);
+
                     $container.html(markup);
+
                     $( ".created-at" ).each(function( index ) {
                       var date = util.dateFormat($( this ).text());
                       date = date.split(' ').slice(0, 3).join(' ');
                       $( this ).text(date);
                     });
-                    ub.funcs.runDataTable();
-                    var $imgThumbs = $('img.tview');
-                
-                    $imgThumbs.unbind('click');
-                    $imgThumbs.on('click', function () {
-
-                        var _file = $(this).data('file');
-                        var _str = "<img src ='" + _file + "' />";
-                        
-                        ub.showModalTool(_str);
-
-                    });
-
-  
-               
-
-                    $('span.action-button.view').on('click', function () {
-
-                        var _savedDesignID = $(this).data('saved-design-id');
-                        window.location.href =  '/my-saved-design/' + _savedDesignID + '/render';
-                        
-                    });
-
-                    $('span.action-button.share').on('click', function () {
-
-                        // var _shareDesignID = $(this).data('saved-design-id');
-                        // var _name = $(this).data('name');
-                        
-                        // ub.funcs.shareSavedDesign(_shareDesignID, _name);
-
-                        // $('.share-uniform-design')
-
-                    });
-
-                    $('span.action-button.delete').on('click', function () {
-
-                        var _deleteDesignID = $(this).data('saved-design-id');
-                        var _name = $(this).data('name');
-
-                        ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
-
-                    });
-                    $(document).on('change', '.fil-to,.fil-from', function(){
-                        var filterFrom = $('.fil-from').val();
-                        var filterTo = $('.fil-to').val();
-                        var template = $('#m-saved-designs-table').html();
-                        var filteredDataString = JSON.stringify(data.savedDesigns);
-                        var filteredData =JSON.parse(filteredDataString);
-
-                        filteredData.forEach(function (value, i) {
-                            value.created_at = value.created_at.split(' ').slice(0, 1).join(' ');
-                           if(filterFrom <= value.created_at && filterTo >= value.created_at){    
-                            }else{
-                             delete filteredData[i];   
-                            }
-                        });
-                        var filteredDataRemoveEmpty = filteredData.filter(function(x){
-                          return (x !== (undefined || ''));
-                        });
-                        var filtered_data = {savedDesigns: filteredDataRemoveEmpty,}        
                     
-                        var markup = Mustache.render(template, filtered_data);
-                        $container.html(markup); 
-                        console.log(filteredData);
-                        $( ".created-at" ).each(function( index ) {
-                          var date = util.dateFormat($( this ).text());
-                          date = date.split(' ').slice(0, 3).join(' ');
-                          $( this ).text(date);
-                        });
-                        ub.funcs.runDataTable();    
-                  });   
-                  bindShareDesigns();
+                    ub.funcs.runDataTable();
+
+                    ub.funcs.rebindSaveButtons(data); 
             
                 }
                 
