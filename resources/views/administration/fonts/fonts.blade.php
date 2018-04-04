@@ -35,14 +35,17 @@
                             </a>
                         </small>
                     </h1>
-
-                    <h3>Sports</h3>
+                    <h4>Brands</h4>
+                        <button class="button brand-filter btn-primary" value=".all-brand">All</button>
+                        <button class="button brand-filter" value=".prolook">Prolook</button>
+                        <button class="button brand-filter" value=".richardson">Richardson</button>
+                    <h4>Sports</h4>
                     <div id="filterSports" class="col-md-12 button-group" style="margin-top: 10px;">
-                         <button class="button btn-primary" data-filter="">All</button>
+                         <button class="button filterSports btn-primary" data-filter="">All</button>
                          @foreach ($sports as $sport)
-                             <button class="button" data-filter="{{ $sport->name }}">{{ $sport->name }}</button>
-                         @endforeach 
-                    </div>   
+                             <button class="button filterSports" data-filter="{{ $sport->name }}">{{ $sport->name }}</button>
+                         @endforeach
+                    </div>
                 </div>
 
                 <div class="box-body">
@@ -60,23 +63,23 @@
                             <th>Tail Sweep</th>
                             <th>Script</th>
                             <th>Block Font</th>
-                            <th>Sports</th>  
+                            <th>Sports</th>
                             <th>Block Patterns</th>
                             <th>Options</th>
+                            <th>Brand</th>
                             <th>Active Status</th>
                             <th>Last Updated</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="isotope">
 
                     @forelse ($fonts as $font)
 
-                        <tr class='font-{{ $font->id }} {{ (!$font->active) ? ' inactive' : '' }}'>
+                        <tr class='font-{{ $font->id }} {{ (!$font->active) ? ' inactive' : '' }} {{ $font->brand }} all-brand'>
                             <td>
                                 {{ $font->id }}
                             </td>
-
                             <td>
                                 <div class="checkbox">
                                   <input type="checkbox" id="multipleDelete" name="remove[]" data-font-id="{{ $font->id }}" value="">
@@ -122,6 +125,9 @@
                             </td>
                             <td>
                                 {{ $font->block_pattern_options }}
+                            </td>
+                            <td id ="brand-column">
+                                {{ $font->brand }}
                             </td>
                             <td>
                                 <a href="#" class="btn btn-default btn-xs disable-font" data-font-id="{{ $font->id }}" role="button" {{ ($font->active) ? : 'disabled="disabled"' }}>
@@ -172,13 +178,13 @@
 
 <!-- Confirmation Modal -->
 <div class="modal confirmation-modal" id="clone-confirmation-modal" aria-hidden="false">
-    <div class="modal-dialog"> 
-        <div class="modal-content"> 
-            <div class="modal-header"> 
-                <button type="button" class="close" data-dismiss="modal">×</button> 
-                <h4 class="modal-title">Title</h4> 
-            </div> 
-            <div class="modal-body">Message</div> 
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Title</h4>
+            </div>
+            <div class="modal-body">Message</div>
             <div class="modal-footer">
                 <button class="btn btn-danger @if (isset($yes_class_name)) {{ $yes_class_name }} @else confirm-yes @endif" data-value=''
                 @if (isset($attributes))
