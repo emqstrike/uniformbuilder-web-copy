@@ -37,8 +37,16 @@
                             </a>
                         </small>
                     </h1>
+
                     <div class="col-md-12">
-                        <h3>Categories</h3>
+                    <h4>Brands</h4>
+                        <button class="button brand-filter btn-primary" value="" data-filter="">All</button>
+                        <button class="button brand-filter" value=".prolook" data-filter="prolook">Prolook</button>
+                        <button class="button brand-filter" value=".richardson" data-filter="richardson">Richardson</button>
+                    </div>
+
+                    <div class="col-md-12">
+                    <h4>Categories</h4>
                     </div>
                     <div id="filters" class="col-md-12 button-group" style="margin-top: 10px;">
                     <button class="button btn-primary" data-filter="*">All</button>
@@ -46,32 +54,30 @@
                              <button class="button" data-filter="Off">Off</button>
                          @foreach ($mascot_categories as $mascot_category)
                              <button class="button" data-filter="{{ $mascot_category->name }}">{{ $mascot_category->name }}</button>
-                         @endforeach                                                               
+                         @endforeach
                      </div>
- 
+
                      <div class="col-md-12">
-                     <h3>Sports</h3>
+                     <h4>Sports</h4>
                      </div>
                      <div id="filterSports" class="col-md-12 button-group" style="margin-top: 10px;">
                          <button class="button btn-primary" data-filter="">All</button>
                          @foreach ($sports as $sport)
                              <button class="button" data-filter=".{{ $sport->name }}">{{ $sport->name }}</button>
-                         @endforeach 
+                         @endforeach
                     </div>
-                    
-                        
-                    
+
 
                 </div>
-                
+
                 <div class="box-body isotope" id="box_body">
                 @forelse ($mascots as $mascot)
                         @if( $mascot->active == 1)
-                        <div class="col-md-2 mascot-row On" data-category="{{ $mascot->category }}" @if (isset($mascot->sports)) data-sports="{{ $mascot->sports }}@endif">
+                        <div class="col-md-2 mascot-row On {{ $mascot->brand }}" data-category="{{ $mascot->category }}" @if (isset($mascot->sports)) data-sports="{{ $mascot->sports }}@endif">
                         @else
-                        <div class="col-md-2 mascot-row Off " data-category="{{ $mascot->category }}" @if (isset($mascot->sports)) data-sports="{{ $mascot->sports }}@endif"> 
-                       
-                        
+                        <div class="col-md-2 mascot-row Off {{ $mascot->brand }}" data-category="{{ $mascot->category }}" @if (isset($mascot->sports)) data-sports="{{ $mascot->sports }}@endif">
+
+
                         @endif
                             <div class="panel panel-default">
                                 <div class="panel-heading" style="height: 70px;">
@@ -103,7 +109,7 @@
                                     @else
                                         <img src="http://dummyimage.com/100" width="100px" height="100px">
                                     @endif
-                                    
+
                                     <div>
                                         <a href="/administration/mascot/edit/{{ $mascot->id }}" class="btn btn-primary btn-xs edit-mascot" data-mascot-id="{{ $mascot->id }}" role="button">
                                             <i class="glyphicon glyphicon-edit"></i>
@@ -168,24 +174,22 @@
 
 @section('scripts')
 <script>
-    
-  $("#filters button").each(function(i) {
+
+    $("#filters button").each(function(i) {
         var filteredMascotClass=($(this).data("filter")).replace(/[\W_]/g,"");
 
         $(this).attr("data-filter","."+filteredMascotClass);
-
-          if(i==0){
-        $(this).attr("data-filter","*");
+        if(i==0){
+            $(this).attr("data-filter","*");
         }
-        });
-        $(".mascot-row").each(function(i) {
+    });
+
+    $(".mascot-row").each(function(i) {
         var filteredClass=($(this).data("category")).replace(/[\W_]/g,"");
 
         $(this).attr("data-category",filteredClass);
         $(this).addClass(filteredClass);
-          
-
-        });
+    });
 
 </script>
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
@@ -195,7 +199,7 @@
 <script type="text/javascript" src="/js/administration/mascots.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-   
+
 
 
     $('.data-table').DataTable({
