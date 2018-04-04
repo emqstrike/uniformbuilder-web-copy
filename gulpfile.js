@@ -1,4 +1,5 @@
 var elixir = require('laravel-elixir');
+require('laravel-elixir-webpack-react');
 
 /*
  |--------------------------------------------------------------------------
@@ -94,6 +95,9 @@ elixir(function(mix) {
     	],
     	
     	// Result
-    	'public/uniform-builder/css/uniform-builder.css');
-    
+    	'public/uniform-builder/css/uniform-builder.css')
+
+		// React Components
+        .webpack('app.js');
+
 });
