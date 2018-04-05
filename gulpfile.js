@@ -1,5 +1,8 @@
 var elixir = require('laravel-elixir');
+var fs = require('fs');
 require('laravel-elixir-webpack-react');
+// var inProduction = elixir.config.production;
+
 
 /*
  |--------------------------------------------------------------------------
@@ -14,6 +17,7 @@ require('laravel-elixir-webpack-react');
 
 
 elixir(function(mix) {
+    // var env = fs.readFileSync('./.env', 'utf-8');
 
 	// Todo, convert this to mix.js after upgrading to Laravel 5.5
 	mix.scripts([
@@ -95,9 +99,26 @@ elixir(function(mix) {
     	],
     	
     	// Result
-    	'public/uniform-builder/css/uniform-builder.css')
+    	'public/uniform-builder/css/uniform-builder.css');
 
-		// React Components
-        .webpack('app.js');
+
+
+
+	// React Components
+    // mix.react('resources/assets/js/app.js', 'public/js');
+	mix.webpack('app.js');
+
+    // Auto reload on file changes
+    // if (!inProduction) {
+    //     mix.browserSync({
+    //         proxy: 'http://localhost:3000'
+    //     });
+    // }
+    // mix.browserSync({
+    //     proxy : 'localhost:3000',
+    //     files: ['public/**/*.css', 'resources/**/*']
+    //     // files: ['public/js/app.js']
+    // });
+
 
 });
