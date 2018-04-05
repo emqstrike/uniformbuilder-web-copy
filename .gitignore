@@ -9,3 +9,5 @@ Vagrantfile
 after.sh
 aliases
 \.idea/
+
+public/js/app\.js

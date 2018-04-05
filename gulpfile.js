@@ -1,6 +1,6 @@
 var elixir = require('laravel-elixir');
-var fs = require('fs');
 require('laravel-elixir-webpack-react');
+// var fs = require('fs');
 // var inProduction = elixir.config.production;
 
 

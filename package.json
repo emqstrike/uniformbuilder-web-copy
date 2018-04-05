@@ -3,6 +3,9 @@
   "scripts": {
     "serve": "php artisan serve --port=3000",
     "tail": "tail -f storage/logs/laravel.log",
+    "standard": "standard 'resources/assets/js/components/*.js' --verbose | snazzy",
+    "standard-fix": "standard 'resources/assets/js/components/*.js' --fix --verbose | snazzy",
+    "prettier": "prettier-standard 'resources/assets/js/components/*.js'",
     "build": "gulp",
     "watch": "gulp watch",
     "prod": "gulp --production"
@@ -23,6 +26,9 @@
     "laravel-elixir-webpack-official": "^1.0.10",
     "laravel-elixir-webpack-react": "^1.0.1",
     "laravel-mix": "^2.1.11",
-    "livereload": "^0.7.0"
+    "livereload": "^0.7.0",
+    "prettier-standard": "^8.0.0",
+    "snazzy": "^7.1.1",
+    "standard": "^11.0.1"
   }
 }
