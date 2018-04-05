@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
+// import CssBaseline from 'material-ui/CssBaseline'
 
 class SavedDesigns extends Component {
   constructor (props) {
@@ -35,23 +36,7 @@ class SavedDesigns extends Component {
   render () {
     return (
       <div>
-        {/* <h2>Hey, { window.name }</h2> */}
-
-        <p>Test ko 1</p>
-
-        {/* <table className="table"> */}
-        {/* <thead> */}
-        {/* <tr> */}
-        {/* <th>ID</th> */}
-        {/* <th>Name</th> */}
-        {/* <th>Email</th> */}
-        {/* </tr> */}
-        {/* </thead> */}
-
-        {/* <tbody> */}
-        {/* { this.renderUsers() } */}
-        {/* </tbody> */}
-        {/* </table> */}
+        <p>Test ko hehe</p>
       </div>
     )
   }
