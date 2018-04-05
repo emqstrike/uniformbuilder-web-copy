@@ -6694,7 +6694,19 @@ $(document).ready(function () {
         }
 
         if (sport !== "Socks (Apparel)") { $('span.slink[data-item="Knitted"]').hide(); }
-        if (ub.data.nonTackleTwillItems.isNonTackleTwill(sport)) { $('span.slink[data-item="Twill"]').hide(); }
+        
+        if (ub.data.nonTackleTwillItems.isNonTackleTwill(sport)) { 
+            $('span.slink[data-item="Twill"]').hide(); 
+        }
+
+        // Todo get this from the actual available uniform list
+        if (ub.data.tackleTwillOnly.isTackleTwillOnly(sport)) { 
+            $('span.slink[data-item="Twill"]').show(); 
+            $('span.slink[data-item="Sublimated"]').hide(); 
+        } else {
+            $('span.slink[data-item="Sublimated"]').show();
+        }
+
 
     }
 
