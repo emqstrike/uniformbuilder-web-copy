@@ -111,12 +111,7 @@
                                 </select>
                             </td>
                             <td>
-                                <!-- <input type="number" name="rep-id" class="form-control rep-id" value="154"> -->
                                 <select class="form-control rep-id" name="rep-id">
-                                    <option value="154">Jeremy Macy (154)</option>
-                                    <option value="69">Dan Mullins (69)</option>
-                                    <option value="141">Jared Blanchard (141)</option>
-                                    <option value="1148">Geeks (1148)</option>
                                 </select>
                             </td>
                             <td>
