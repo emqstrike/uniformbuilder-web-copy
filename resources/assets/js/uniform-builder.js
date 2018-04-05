@@ -6699,10 +6699,14 @@ $(document).ready(function () {
             $('span.slink[data-item="Twill"]').hide(); 
         }
 
+        // Todo get this from the actual available uniform list
         if (ub.data.tackleTwillOnly.isTackleTwillOnly(sport)) { 
             $('span.slink[data-item="Twill"]').show(); 
             $('span.slink[data-item="Sublimated"]').hide(); 
+        } else {
+            $('span.slink[data-item="Sublimated"]').show();
         }
+
 
     }
 
