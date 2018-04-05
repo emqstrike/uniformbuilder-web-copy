@@ -131,12 +131,12 @@ $(document).ready(function() {
     ub.stage.interactive            = true;
     ub.pCanvas                      = document.getElementById(ub.container_div);
     ub.renderer                     = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
-    ub.renderer.backgroundColor     = 0xeeeeee;
+    ub.renderer.backgroundColor     = 0x61605e;
 
-    var _bg                         = window.ub.pixi.new_sprite('/images/uiV1/bg.jpg');
+    // var _bg                         = window.ub.pixi.new_sprite('/images/uiV1/bg.jpg');
     
-    ub.stage.addChild(_bg); 
-    ub.bg = _bg;
+    // ub.stage.addChild(_bg); 
+    // ub.bg = _bg;
 
     ub.stage.addChild(ub.left_view);
     ub.stage.addChild(ub.front_view);
