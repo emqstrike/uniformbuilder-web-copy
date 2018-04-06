@@ -12004,6 +12004,26 @@ ub.funcs.fontOffSets = [
 
     }
 
+    // Sublimated Categories 
+    ub.data.tackleTwillOnly = {
+
+        items: [
+            'Basketball',
+            'Lacrosse',
+        ],
+        isTackleTwillOnly: function (uniformCategory) {
+
+            var _result = undefined;
+            _result = _.contains(this.items, uniformCategory);
+            return _result;
+
+        }
+
+    }
+
+    
+
+
     ub.dialog = bootbox;
 
 });
