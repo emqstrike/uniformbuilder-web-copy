@@ -105,6 +105,7 @@ $(document).ready(function(){
     function getSalesReps(callback){
         var sales_reps;
         var url = "//" + api_host +"/api/sales_reps";
+
         $.ajax({
             url: url,
             async: false,
@@ -120,9 +121,14 @@ $(document).ready(function(){
     }
 
     var reps_elem = "";
-    _.each(window.sales_reps, function(rep) {
+    var active_sales_reps = _.filter(window.sales_reps , function(rep){
+        return rep.active == 1;
+    });
+
+    _.each(active_sales_reps, function(rep) {
         reps_elem +=    `<option value=`+rep.rep_id+`>`+rep.last_name+`, `+rep.first_name+` (`+rep.rep_id+`)</option>`;
     });
+
     $('.rep-id').append(reps_elem);
 
     $('.change-order-status').on('change', function(){
