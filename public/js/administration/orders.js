@@ -104,7 +104,7 @@ $(document).ready(function(){
 
     function getSalesReps(callback){
         var sales_reps;
-        var url = "//api-dev.qstrike.com/api/sales_reps";
+        var url = "//" + api_host +"/api/sales_reps";
         $.ajax({
             url: url,
             async: false,
