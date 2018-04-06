@@ -5,6 +5,7 @@ $(document).ready(function(){
     window.pa_id = null;
     window.test_size_data = null;
     window.item_sizes = null;
+    window.sales_reps = null;
 
     window.roster = [];
 
@@ -37,17 +38,18 @@ $(document).ready(function(){
                 }
             });
         });
-        
-        
 
-        
-        
+
+
+
+
         return items;
     }
 
     getColors(function(colors){ window.colors = colors; });
     getPatterns(function(patterns){ window.patterns = patterns; });
     getSizingConfig(function(item_sizes){ window.item_sizes = item_sizes; });
+    getSalesReps(function(sales_reps){ window.sales_reps = sales_reps; });
 
     function getSizingConfig(callback){
         var item_sizes;
@@ -99,6 +101,29 @@ $(document).ready(function(){
             }
         });
     }
+
+    function getSalesReps(callback){
+        var sales_reps;
+        var url = "//" + api_host +"/api/sales_reps";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                sales_reps = data['sales_reps'];
+                if(typeof callback === "function") callback(sales_reps);
+            }
+        });
+    }
+
+    var reps_elem = "";
+    _.each(window.sales_reps, function(rep) {
+        reps_elem +=    `<option value=`+rep.rep_id+`>`+rep.last_name+`, `+rep.first_name+` (`+rep.rep_id+`)</option>`;
+    });
+    $('.rep-id').append(reps_elem);
 
     $('.change-order-status').on('change', function(){
         var id = $(this).data('order-id');
@@ -159,8 +184,8 @@ $(document).ready(function(){
 
     $('.bc-display').on('click', function(e){
         e.preventDefault();
-     
-        
+
+
     });
 
 
@@ -256,7 +281,7 @@ $(document).ready(function(){
         });
 
         $('.update-order-info').on('click', function(){
-            
+
 
             var bill_organization = $('.order-bill-organization').val();
             var bill_contact_person = $('.order-bill-contact-person').val();
@@ -280,7 +305,7 @@ $(document).ready(function(){
                         phone: bill_phone,
                         fax: bill_fax
                     };
-            
+
             $.ajax({
                 url: '//' + api_host + '/api/billing_info/update',
                 type: "POST",
@@ -291,7 +316,7 @@ $(document).ready(function(){
                 headers: {"accessToken": atob(headerValue)},
                 success: function(response){
                     if (response.success) {
-                        
+
                         UpdateShipping(ship_id, order_id);
                     }
                 }
@@ -318,8 +343,8 @@ $(document).ready(function(){
                             phone: ship_phone,
                             email: ship_email
                         };
-                
-                
+
+
                 $.ajax({
                     url: '//' + api_host + '/api/shipping_info/update',
                     type: "POST",
@@ -330,7 +355,7 @@ $(document).ready(function(){
                     headers: {"accessToken": atob(headerValue)},
                     success: function(response){
                         if (response.success) {
-                            
+
                             UpdateClientInfo(order_id);
                         }
                     }
@@ -345,7 +370,7 @@ $(document).ready(function(){
                             id: order_id,
                             client: client_name
                         };
-                
+
                 $.ajax({
                     url: '//' + api_host + '/api/order/update',
                     type: "POST",
@@ -356,7 +381,7 @@ $(document).ready(function(){
                     headers: {"accessToken": atob(headerValue)},
                     success: function(response){
                         if (response.success) {
-                            
+
                             document.location.reload();
                         }
                     }
@@ -415,7 +440,7 @@ $('.send-to-factory').on('click', function(e){
     e.preventDefault();
     // bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
     // PostOrder();
-    
+
     var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
     var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
     api_order_id = $(this).data('api-order-id');
@@ -466,22 +491,22 @@ $('.send-to-factory').on('click', function(e){
 
     window.order_parts.forEach(function(entry) {
         bcx = JSON.parse(entry.builder_customizations);
-        
-        
-     
-     
+
+
+
+
         window.customizer_material_id = null;
         window.pa_id = entry.id;
-     
+
         // if(bcx.upper.material_id !== 'undefined'){
         if('material_id' in bcx.upper){
             window.customizer_material_id = bcx.upper.material_id;
-            
-            
+
+
         } else {
             window.customizer_material_id = bcx.lower.material_id;
-            
-            
+
+
         }
 
         var teamcolors = bcx.team_colors;
@@ -513,8 +538,8 @@ $('.send-to-factory').on('click', function(e){
 
         var error_message = validateMaterialPreReq();
         window.error_message = error_message['message'];
-        
-        
+
+
         window.error_data = {
             'error_message' : error_message['data'],
             'order_id' : order_id,
@@ -523,16 +548,16 @@ $('.send-to-factory').on('click', function(e){
             'material_id' : window.customizer_material_id,
             'type' : 'json'
         };
-     
+
         if(error_message['message'] != ''){
-            
+
             // bootbox.dialog({ message: '<div class="text-center">'+error_message+'</div>' });
             // bootbox.alert('<div class="text-center">'+error_message+'</div>');
             // bootbox.dialog({ message: '<div class="text-center">'+error_message+'</div>' });
             // bootbox.confirm('<div class="text-center">'+error_message+'</div><>', function(result) {
             //     if (result) {
             //         // currentForm.submit();
-                 
+
             //     }
             // });
             // window.error_data = {};
@@ -655,23 +680,23 @@ $('.send-to-factory').on('click', function(e){
             "Sport": "All",
             "TeamName": "Wildcats"
         };
-        
+
         // "RepID": 154, Jeremy
         // "RepID": 1148, Geeks
         // var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
         // window.test_size_data = JSON.parse(x);
         var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
         window.test_size_data = JSON.parse(x.properties);
-        
-        
+
+
         // window.test_size_data = JSON.parse(window.material.sizing_config_prop); // uncomment this line on production
         var order_items_split = splitRosterToQXItems();
         var order_parts_split = [];
 
         console.log("Window Material");
         console.log(window.material);
-        
-        
+
+
         order_items_split.forEach(function(entry, i) {
             var x = JSON.parse(JSON.stringify(window.order_parts[0]));
             x.orderPart.ItemID = entry.qx_item_id;
@@ -679,7 +704,7 @@ $('.send-to-factory').on('click', function(e){
                 x.orderPart.ItemID = item_id_override;
 
             } else {
-                
+
             }
 
             var roster_sizes = _.map(entry.roster, function(e){ return e.size; });
@@ -730,10 +755,10 @@ $('.send-to-factory').on('click', function(e){
 
             if( roster.length > 0 ){
                 x.orderItems = roster;
-                order_parts_split.push(x); 
-             
+                order_parts_split.push(x);
+
             } else {
-             
+
             }
         });
 
@@ -748,7 +773,7 @@ $('.send-to-factory').on('click', function(e){
     console.log('strResult>>>');
     console.log(strResult);
 
-    
+
 
     // SEND ORDER TO EDIT
     if(window.send_order){
@@ -798,7 +823,7 @@ function updateFOID(id, factory_order_id, parts){
                     value['factory_order_id'] = factory_order_id;
                 });
                 updateItemsPID(parts);
-                
+
                 // document.location.reload();
             }
         }
@@ -816,7 +841,7 @@ function updateItemsPID(parts){
         headers: {"accessToken": atob(headerValue)},
         success: function(response){
             if (response.success) {
-                
+
                 document.location.reload();
             }
         }
@@ -871,15 +896,15 @@ function applyConfigs(api_order_id){
         // RESUME HERE
         console.log("[ builder_customizations ]");
         console.log(builder_customizations);
-     
+
 
         if( entry.input_type == "Pattern" ){
-            
+
             try {
                 pattern = builder_customizations[type][entry.part_name]['pattern']['pattern_obj']['name'];
                 value = pattern.replace(/[0-9]/g, '');
             } catch(err) {
-                
+
             }
 
         } else if( entry.input_type == "Color" ){
@@ -899,16 +924,16 @@ function applyConfigs(api_order_id){
             }
 
         } else if( entry.input_type == "Material" ){
-            
+
             try {
                 value = entry.edit_part_value;
             } catch(err) {
-                
+
             }
 
         } else if( entry.input_type == "Team_Color" ){
             var idx = 0;
-            
+
             if(entry.part_questions == "347"){
                 value = getQuestionColorValue(builder_customizations, idx);
             } else if(entry.part_questions == "348"){
@@ -1007,9 +1032,9 @@ function applyConfigs(api_order_id){
 
                 if( builder_customizations['randomFeeds']['Padding'] != undefined ){
                     var z = builder_customizations['randomFeeds']['Padding']['layers'];
-                    
-                    
-                    
+
+
+
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
                         questions.push({
@@ -1022,15 +1047,15 @@ function applyConfigs(api_order_id){
 
                 if( builder_customizations['randomFeeds']['Body'] != undefined ){
                     var z = builder_customizations['randomFeeds']['Body']['layers'];
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
                     if( z.length > 1 ){
                         var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
-                        
-                        
+
+
                         questions.push({
                             "QuestionID" : 432,
                             "Value" : val2
@@ -1039,7 +1064,7 @@ function applyConfigs(api_order_id){
                     }
                 }
             } else {
-                
+
                 blankRandomFeeds = [{
                     "QuestionID" : 428,
                     "Value" : '(Choose Color If Random Feed Is Desired)'
@@ -1064,25 +1089,25 @@ function applyConfigs(api_order_id){
                     questions.push(entry);
                 });
 
-                
-                
+
+
 
                 data_pushed = true;
 
             }
 
             try {
-                
-                
+
+
                 color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
                 color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
 
                 value = translateToSocksColor(color_name, color_code);
 
             } catch(err) {
-                
+
             }
-            
+
         }
 
         if( data_pushed == false ){
@@ -1096,13 +1121,13 @@ function applyConfigs(api_order_id){
 
     });
 
-    
-    
-    questions = _.uniq(questions, function(item, key, a) { 
+
+
+    questions = _.uniq(questions, function(item, key, a) {
         return item.QuestionID;
     });
-    
-    
+
+
     return questions;
     // window.questions_ready = questions;
 }
@@ -1110,7 +1135,7 @@ function applyConfigs(api_order_id){
 function getQuestionColorValue(builder_customizations, idx){
     try {
         color_code = builder_customizations['team_colors'][idx]['color_code'];
-        
+
         color_name = builder_customizations['team_colors'][idx]['name'];
         if(color_name == "Charcoal Grey"){
             color_name = "Charcoal Gray";
@@ -1118,7 +1143,7 @@ function getQuestionColorValue(builder_customizations, idx){
         value = color_name + " " + "(" + color_code + ")";
         return value;
     } catch(err) {
-        
+
     }
 }
 
