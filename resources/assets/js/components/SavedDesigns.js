@@ -36,7 +36,7 @@ class SavedDesigns extends Component {
   render () {
     return (
       <div>
-        <p>Test ko hehe</p>
+        <p>...</p>
       </div>
     )
   }
