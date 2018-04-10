@@ -7199,13 +7199,17 @@ $(document).ready(function () {
 
             // Add Blanks
 
-            _blockPatternsCollection.push({
+            if (ub.filters.secondary !== "knitted") {
 
-                alias: 'Blank Styles',
-                item: 'Blank Styles',
+                _blockPatternsCollection.push({
 
-            });
+                    alias: 'Blank Styles',
+                    item: 'Blank Styles',
 
+                });    
+
+            }
+            
             // Add Favorites
             _blockPatternsCollection.push({
 
