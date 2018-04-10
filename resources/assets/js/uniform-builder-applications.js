@@ -2651,7 +2651,17 @@ $(document).ready(function() {
 
                     if (typeof ub.config.savedDesignInfo !== "object") { // Process Custom Scale Field only if this is not a saved design, because that one already have an override scale
 
-                        if (typeof view.application.appCustomScale !== "undefined" && ub.funcs.isSublimated()) {
+                        var _customScaleUndefined = typeof view.application.appCustomScale === "undefined";
+                        var _customScaleBlank = false;
+
+                        if (!_customScaleUndefined) {
+                            _customScaleBlank = view.application.appCustomScale.x === "0" && view.application.appCustomScale.y === "0";
+                        } 
+
+                        if (
+                            (!_customScaleUndefined && !_customScaleBlank) && 
+                            ub.funcs.isSublimated()
+                            ) {
 
                             var _scaleX = point.scale.x;
                             var _scaleY = point.scale.y;
@@ -11586,20 +11596,20 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.isSublimated = function () {
+    // ub.funcs.isSublimated = function () {
 
-        var _factoryCode = ub.current_material.material.factory_code;
-        var _result = false;
+    //     var _factoryCode = ub.current_material.material.factory_code;
+    //     var _result = false;
 
-        if (_factoryCode === "BLB") {
+    //     if (_factoryCode === "BLB") {
 
-            _result = true;
+    //         _result = true;
 
-        }
+    //     }
 
-        return _result;
+    //     return _result;
 
-    }
+    // }
 
     ub.funcs.removePatternMasks = function () {
 
