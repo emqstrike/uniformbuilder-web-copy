@@ -7199,7 +7199,7 @@ $(document).ready(function () {
 
             // Add Blanks
 
-            if (ub.filters.secondary !== "knitted") {
+            if (ub.filters.secondary !== "knitted" && ub.filters.secondary !== "tackle_twill") {
 
                 _blockPatternsCollection.push({
 
