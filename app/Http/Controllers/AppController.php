@@ -19,7 +19,7 @@ class AppController extends Controller
 //        $this->middleware('auth');
 //    }
 
-    public function index()
+    public function mySavedDesigns()
     {
 //        JavaScript::put([
 //            'name' => Auth::user()->name
