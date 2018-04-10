@@ -36,8 +36,6 @@ $(document).ready(function() {
 
         ub.funcs.removePanels();
         ub.funcs.resetZoom();
-
-        ub.bg.alpha = 0.7;
         
         if (ub.render) {
             ub.funcs.prepareThumbnails();
@@ -187,9 +185,7 @@ $(document).ready(function() {
 
         // End Rearrange UI
 
-        ub.funcs.showViews();
-        ub.bg.alpha = 1;
-
+        
         $('a.change-view[data-view="front"]').click();
         ub.status.fullView.setStatus(false);
         ub.status.fullViewZoom.setStatus(false, undefined);
