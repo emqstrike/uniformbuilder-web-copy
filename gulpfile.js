@@ -106,7 +106,9 @@ elixir(function(mix) {
 
 	// React Components
     // mix.react('resources/assets/js/app.js', 'public/js');
+    mix.sass('app.scss');
 	mix.webpack('app.js');
+    mix.version(['css/app.css', 'js/app.js']);
 
     // Auto reload on file changes
     // if (!inProduction) {
