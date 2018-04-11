@@ -35,7 +35,7 @@
                                {{$item->id}}
                             </td>
                             <td>
-                                {{$item->sport_name}}    
+                                {{$item->sport_name}}
                             </td>
                             <td>
                                 {{$item->block_pattern}}
@@ -47,16 +47,16 @@
                                 {{$item->cuts_pdf}}
                             </td>
                             <td class="td-buttons">
-                                <a href="#" class="btn btn-default btn-xs " >
+                            <!--     <a href="#" class="btn btn-default btn-xs " >
                                     <i class="glyphicon glyphicon-info-sign"> Info</i>
-                                </a>
+                                </a> -->
                                 <a href="/administration/cuts_links/edit/{{$item->id}}" class="edit-cut-link btn btn-info btn-xs">
                                     <i class="glyphicon glyphicon-edit"> Edit</i>
                                 </a>
                                 <a href="#" class="delete-cut-links btn btn-xs btn-danger" data-cut-link-id="{{ $item->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"> Remove</i>
                                 </a>
-                                
+
                             </td>
                         </tr>
 
@@ -96,7 +96,7 @@ $(document).ready(function(){
         "info": true,
         "autoWidth": false
     });
-    
+
     $('.delete-cut-links').on('click', function(){
        var id = [];
        id.push( $(this).data('cut-link-id'));
@@ -108,7 +108,7 @@ $(document).ready(function(){
         var id = $(this).data('value');
         var url = "//api-dev.qstrike.com/api/cuts_links/delete/";
         //var url = "//localhost:8888/api/cuts_links/delete/";
-       
+
         $.ajax({
            url: url,
            type: "POST",
@@ -130,8 +130,8 @@ $(document).ready(function(){
                      console.log(value);
                      $('.cut-link-' + value).fadeOut();
                      // Will stop running after "three"
-                     
-                   });              
+
+                   });
 
                }
            }
