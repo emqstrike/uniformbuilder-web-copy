@@ -118,7 +118,7 @@ $(document).ready(function(){
        var id = [];
        id.push( $(this).data('application-size-id'));
        console.log(id);
-       modalConfirm('Remove Application Size', 'Are you sure you want to delete the applicatin size?', id);
+       modalConfirm('Remove Application Size', 'Are you sure you want to delete the application size?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
