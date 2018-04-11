@@ -54,9 +54,9 @@
                                 <button class="view-zip-codes btn btn-default btn-sm">View</button>
                             </td>
                             <td>
-                                @if($rep->is_manager == 1) 
+                                @if($rep->is_manager == 1)
                                     {{'Yes'}}
-                                @else 
+                                @else
                                     {{'No'}}
                                 @endif
                             </td>
@@ -70,31 +70,31 @@
                                 {{$rep->dealer_id}}
                             </td>
                             <td>
-                                @if($rep->is_corporate == 1) 
-                                    {{'Corporate'}}                              
-                                @else 
+                                @if($rep->is_corporate == 1)
+                                    {{'Corporate'}}
+                                @else
                                     {{'Not Corporate'}}
                                 @endif
                             </td>
                             <td>
-                                @if($rep->active == 1) 
-                                    <font color="green">Active</font>                              
-                                @else 
+                                @if($rep->active == 1)
+                                    <font color="green">Active</font>
+                                @else
                                     {{'Inactive'}}
                                 @endif
                             </td>
                             <td class="td-buttons">
 
-                                <a href="#" class="rep-info btn btn-default btn-xs " >
+                              <!--   <a href="#" class="rep-info btn btn-default btn-xs " >
                                    <i class="glyphicon glyphicon-info-sign">Profile</i>
-                                </a>
+                                </a> -->
                                 <a href="/administration/sales_reps/edit/{{$rep->id}}" class="edit-part btn btn-info btn-xs">
                                     <i class="glyphicon glyphicon-edit">Edit</i>
                                 </a>
                                 <a href="#" class="delete-rep btn btn-xs btn-danger" data-rep-id="{{ $rep->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash">Remove</i>
                                 </a>
-                                
+
                             </td>
                         </tr>
 
@@ -128,7 +128,7 @@
       <div class="modal-body" align="center">
             <div class="codes">
                 <textarea name="zips" class="zips" cols="70" rows="30" readonly="readonly">
-                    
+
                 </textarea>
             </div>
       </div>
