@@ -106,9 +106,7 @@ $(document).ready(function(){
 
    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//api-dev.qstrike.com/api/cuts_links/delete/";
-        //var url = "//localhost:8888/api/cuts_links/delete/";
-
+        var url = "//" + api_host + "/api/cuts_links/delete/";
         $.ajax({
            url: url,
            type: "POST",
@@ -130,7 +128,6 @@ $(document).ready(function(){
                      console.log(value);
                      $('.cut-link-' + value).fadeOut();
                      // Will stop running after "three"
-
                    });
 
                }
