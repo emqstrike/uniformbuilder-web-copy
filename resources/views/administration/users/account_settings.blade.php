@@ -15,7 +15,7 @@
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
-                            </ul>   
+                            </ul>
                         </div>
                     @endif
 
@@ -40,7 +40,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Email Address</label>
                             <div class="col-md-6 user">
-                                <input type="text" class="form-control user-email" disabled="disabled" value="{{ $user->email }}">
+                                <input type="text" class="form-control" disabled="disabled" value="{{ $user->email }}">
                             </div>
                         </div>
 

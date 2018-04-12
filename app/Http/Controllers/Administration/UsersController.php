@@ -133,8 +133,7 @@ class UsersController extends Controller
         $role = $request->input('role');
         $data = [
             'first_name' => $firstName,
-            'last_name' => $lastName,
-            'role' => $role
+            'last_name' => $lastName
         ];
 
         $userId = null;
