@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" action="/administration/account_settings/change_password" method="POST" id='update-user-form'>
+                    <form class="form-horizontal" id="change-password-form" role="form" action="/administration/account_settings/change_password" method="POST" id='update-user-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="user_id" value="{{ $user->id }}">
 
@@ -49,7 +49,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary update-user" disabled>
+                                <button type="submit" class="btn btn-primary update-user">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Password
                                 </button>
@@ -73,7 +73,12 @@
 <script type="text/javascript">
 $( document ).ready(function() {
     var isReady = 0;
-    $( ".user-confirm-new-password" ).focusout(function() {
+
+    document.getElementById('change-password-form').onsubmit = function() {
+        confirmPassword();
+    };
+
+    function confirmPassword(){
         var newPassword = $('.user-new-password').val();
         var newConfirm = $('.user-confirm-new-password').val();
         if (newPassword != newConfirm) {
@@ -83,11 +88,18 @@ $( document ).ready(function() {
                 type: 'warning',
                 hide: true
             });
-            $('.update-user').prop('disabled', true);
+            return false;
         } else {
-            $('.update-user').prop('disabled', false);
+            new PNotify({
+                title: 'Success',
+                text: 'Passwords matched',
+                type: 'success',
+                hide: true
+            });
+            return true;
         }
-    });
+    }
+
 });
 </script>
 @endsection
