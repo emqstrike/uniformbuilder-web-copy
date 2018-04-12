@@ -16,10 +16,10 @@
                         <span class="fa fa-money"></span>
                         Price Items
                         <small>
-                            <a href="/administration/font/add" class='btn btn-xs btn-success'>
+                          <!--   <a href="/administration/price_item/add" class='btn btn-xs btn-success'>
                                 <span class="glyphicon glyphicon-plus-sign"></span>
                                 Add New Price Item
-                            </a>
+                            </a> -->
                             <a href="/administration/price_item/materials" class='btn btn-xs btn-primary'>
                                 View Uniforms (List)
                             </a>
