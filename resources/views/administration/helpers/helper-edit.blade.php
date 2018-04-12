@@ -165,7 +165,7 @@ $(document).ready(function(){
     var related = JSON.parse($('#related_value').val());
 console.log(related);
     $('.sports').select2({
-        placeholder: "Select user types",
+        placeholder: "Select sports",
         multiple: true,
         allowClear: true
     });
