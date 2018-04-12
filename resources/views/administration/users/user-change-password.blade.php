@@ -51,8 +51,13 @@
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary update-user" disabled>
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Update User
+                                    Update Password
                                 </button>
+                                <a href="/administration/account_settings/{{ Session::get('userId') }}" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>
+                                    Cancel
+                                </a>
+
                             </div>
                         </div>
                     </form>
