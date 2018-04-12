@@ -200,9 +200,6 @@
       $(function(){
         $(".introTrigger").click(function() {
 
-
-
-
             $(".sidebar-toggle").trigger("click");
 
         });
