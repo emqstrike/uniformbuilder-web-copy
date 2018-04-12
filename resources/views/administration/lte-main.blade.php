@@ -71,13 +71,13 @@
         </a>
 
         <nav class="navbar navbar-static-top" role="navigation">
-            <a href="#" data-step="1" data-intro="This is a tooltip!" class="sidebar-toggle"   data-toggle="offcanvas" role="button">
+            <a href="#" data-step="1" class="sidebar-toggle"   data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
 
             </a>
-            <i class="glyphicon glyphicon-question-sign introTrigger" aria-hidden="true"></i>
+            <!-- <i class="glyphicon glyphicon-question-sign introTrigger" aria-hidden="true"></i> -->
 
-        <a class="btn btn-large btn-success introStart"   >Show me how</a>
+        <!-- <a class="btn btn-large btn-success introStart"   >Show me how</a> -->
 
             <div class="navbar-custom-menu" >
                 <ul class="nav navbar-nav">
@@ -107,9 +107,6 @@
                             <li class="user-footer">
                                 <div class="pull-left">
                                     <a href="/administration/account_settings/{{ Session::get('userId') }}" class="btn btn-default btn-flat">Profile</a>
-                                </div>
-                                <div class="pull-left">
-                                    <a href="/administration/account_settings/change_password/{{ Session::get('userId') }}" class="btn btn-default btn-flat">Password</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="/administration/logout" class="btn btn-default btn-flat">Sign out</a>
@@ -199,9 +196,6 @@
 
       $(function(){
         $(".introTrigger").click(function() {
-
-
-
 
             $(".sidebar-toggle").trigger("click");
 
