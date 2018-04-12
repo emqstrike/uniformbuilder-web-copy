@@ -8,7 +8,7 @@
             <div class="box">
                 <div class="box-header">
                     <h2>
-                        Search Order
+                        Search Sent Order
                     </h2>
                     <center>
                         <div class="row">
