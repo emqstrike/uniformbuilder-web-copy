@@ -104,7 +104,7 @@ class UsersController extends Controller
 
         if ($response->success)
         {
-            return Redirect::to('administration/account_settings/change_password/' . $id)
+            return Redirect::to('administration/account_settings/' . $id)
                             ->with('message', $response->message);
         }
         else
@@ -133,8 +133,7 @@ class UsersController extends Controller
         $role = $request->input('role');
         $data = [
             'first_name' => $firstName,
-            'last_name' => $lastName,
-            'role' => $role
+            'last_name' => $lastName
         ];
 
         $userId = null;

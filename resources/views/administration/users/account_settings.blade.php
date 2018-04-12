@@ -15,7 +15,7 @@
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
-                            </ul>   
+                            </ul>
                         </div>
                     @endif
 
@@ -40,7 +40,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Email Address</label>
                             <div class="col-md-6 user">
-                                <input type="text" class="form-control user-email" disabled="disabled" value="{{ $user->email }}">
+                                <input type="text" class="form-control" disabled="disabled" value="{{ $user->email }}">
                             </div>
                         </div>
 
@@ -50,14 +50,19 @@
                                 <label class="control-label"> {{ ucfirst($user->type) }} </label>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Password</label>
+                            <div class="col-md-6">
+                            <a href="/administration/account_settings/change_password/{{ Session::get('userId') }}" class="btn btn-default btn-flat">Change</a>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-lg btn-primary update-user">
+                                <button type="submit" class="btn btn-primary update-user">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update User
                                 </button>
-                                <a href="/administration/main" class="btn btn-lg btn-danger">
+                                <a href="/administration/main" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>
