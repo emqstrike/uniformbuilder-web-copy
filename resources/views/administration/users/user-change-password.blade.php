@@ -73,7 +73,7 @@
 <script type="text/javascript">
 $( document ).ready(function() {
     var isReady = 0;
-    $( ".new-password" ).keyup(function() {
+    $( ".user-confirm-new-password" ).focusout(function() {
         var newPassword = $('.user-new-password').val();
         var newConfirm = $('.user-confirm-new-password').val();
         if (newPassword != newConfirm) {
