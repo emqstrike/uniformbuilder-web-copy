@@ -14,9 +14,9 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h2>
+                    <h6>
                         ( Showing 20 recent orders )
-                    </h2>
+                    </h6>
                 </div>
                 <div class="box-body">
                     <table class='table table-bordered table-striped table-hover'>
