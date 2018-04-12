@@ -7750,6 +7750,9 @@ $(document).ready(function() {
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
+                if (_settingsObject.application.layer.indexOf('Shoulder') !== -1) { _applicationType = "shoulder_number"; }
+                if (_settingsObject.application.layer.indexOf('Sleeve') !== -1) { _applicationType = "sleeve_number"; }
+
             }
 
             _settingsObject.accent_obj          = ub.funcs.getSampleAccent();
@@ -10498,7 +10501,7 @@ $(document).ready(function() {
         if (ub.sport === "Cinch Sack (Apparel)") {
 
             _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
-                return view.perspective !== "left" && view.perspective !== "right" ;
+                return view.perspective !== "left" && view.perspective !== "right";
             });
 
         }
@@ -10779,6 +10782,7 @@ $(document).ready(function() {
                 var _side = $('span.side.active').data('id');
 
                 ub.funcs.newApplication(_perspective, _part, _type, _side);
+
                 dialog.modal('hide');
 
             });
