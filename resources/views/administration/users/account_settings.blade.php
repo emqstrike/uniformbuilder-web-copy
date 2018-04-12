@@ -85,44 +85,25 @@
 
 @section('custom-scripts')
 <script type="text/javascript">
-function isReady() {
-    var firstName = $('.user-first-name').val();
-    var lastName = $('.user-last-name').val();
-    var password = $('.user-password').val();
-    var confirm = $('.user-confirm-password').val();
-    var userType = $('.user-type');
-    if (firstName && lastName) {
-        if (password || confirm) {
-            if (password.length < 6) {
-                new PNotify({
-                    title: 'Warning',
-                    text: 'Password should at least have a minimum of 6 characters',
-                    type: 'warning',
-                    hide: true
-                });
-                return false;
-            }
-            if (password.val() != confirm.val()) {
-                new PNotify({
-                    title: 'Warning',
-                    text: 'Passwords does not match',
-                    type: 'warning',
-                    hide: true
-                });
-                return false;
-            }
-        }
-        return true;
-    }
-    return false;
-}
+$( document ).ready(function() {
 
-$('#update-user-form input').on('change', function(){
-    if (isReady()) {
-        $('#update-user-form .update-user').fadeIn();
-    } else {
-        $('#update-user-form .update-user').fadeOut()
-    }
+    $('.update-user').click(function(e) {
+            e.preventDefault();
+            var firstName = $('.user-first-name').val();
+            var lastName = $('.user-last-name').val();
+            if (firstName && lastName ) {
+                $('#update-user-form').submit();
+            }
+            else {
+                new PNotify({
+                    title: 'Warning',
+                    text: 'First and Last name are required.',
+                    type: 'warning',
+                    hide: true
+                });
+            }
+    });
 });
+
 </script>
 @endsection
