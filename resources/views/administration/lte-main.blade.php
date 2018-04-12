@@ -75,7 +75,7 @@
                 <span class="sr-only">Toggle navigation</span>
 
             </a>
-            <i class="glyphicon glyphicon-question-sign introTrigger" aria-hidden="true"></i>
+            <!-- <i class="glyphicon glyphicon-question-sign introTrigger" aria-hidden="true"></i> -->
 
         <a class="btn btn-large btn-success introStart"   >Show me how</a>
 
