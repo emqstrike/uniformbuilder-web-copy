@@ -137,7 +137,7 @@
     });
 
     $(document).on('click', '.disable-accent', function(){
-   
+
         var id = $(this).data('accent-id');
         var url = "//" + api_host + "/api/accent/disable/";
         //var url = "//localhost:8888/api/accent/disable/";
