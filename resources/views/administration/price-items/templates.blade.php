@@ -1,6 +1,7 @@
 @extends('administration.lte-main')
 
 @section('styles')
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 @endsection
 
@@ -56,7 +57,7 @@
                                 </a>
                                 <a href="#" class="delete-template btn btn-xs btn-danger pull-right" data-template-id="{{ $template->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"> Remove</i>
-                                </a>        
+                                </a>
 
                             </td>
                         </tr>
@@ -84,11 +85,23 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script>
 $(document).ready(function(){
+
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": false,
+        "info": true,
+        "autoWidth": false,
+        "pageLength" : 20,
+    });
+
 
     $('.delete-template').on('click', function(e){
         e.preventDefault();
@@ -101,7 +114,7 @@ $(document).ready(function(){
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/price_item_template/delete";
-       
+
         $.ajax({
            url: url,
            type: "POST",
@@ -123,8 +136,8 @@ $(document).ready(function(){
                      console.log(value);
                      $('.template-' + value).fadeOut();
                      // Will stop running after "three"
-                     
-                   });              
+
+                   });
 
                }
            }
