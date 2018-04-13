@@ -130,7 +130,7 @@ li.select2-selection__choice {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Sports</label>
+                            <label class="col-md-4 control-label">Uniform Category</label>
                             <div class="col-md-6">
                                 <input type="hidden" name="sports_value" id="sports" value="{{ $feature_flag->sports }}">
                                 <select name="sports[]" class="form-control sports" multiple="multiple">
@@ -189,7 +189,6 @@ $(document).ready(function(){
     }
 
     $(".user-types").change(function() {
-        // console.log($(this).val());
         $('#user_types_value').val($(this).val());
     });
 
@@ -202,13 +201,11 @@ $(document).ready(function(){
     });
 
     $(".user-roles").change(function() {
-        // console.log($(this).val());
         $('#user_roles_value').val($(this).val());
     });
 
     $('.user-roles').select2('val', user_roles);
 
-    // ************** USERS
 
     $('.users').select2({
         placeholder: "Select users",
@@ -217,7 +214,6 @@ $(document).ready(function(){
     });
 
     $(".users").change(function() {
-        // console.log($(this).val());
         $('#users').val($(this).val());
     });
 
@@ -230,18 +226,10 @@ $(document).ready(function(){
     }
 
 
-    // ************** END USERS
-
-
-
-
-
-
-
     var sports = JSON.parse($('#sports').val());
 
     $('.sports').select2({
-        placeholder: "Select user types",
+        placeholder: "Select Uniform Category",
         multiple: true,
         allowClear: true
     });

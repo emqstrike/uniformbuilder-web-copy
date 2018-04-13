@@ -130,7 +130,7 @@ li.select2-selection__choice {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Sports</label>
+                            <label class="col-md-4 control-label">Uniform Category</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="sports-val" name="sports_value">
                                 <select name="sports[]" id="users" class="form-control sports" multiple="multiple">
@@ -214,7 +214,7 @@ $(document).ready(function(){
     });
 
     $('.sports').select2({
-        placeholder: "Select Sports",
+        placeholder: "Select Uniform Category",
         multiple: true,
         allowClear: true
     });
