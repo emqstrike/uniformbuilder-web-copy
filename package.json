@@ -6,7 +6,7 @@
     "standard": "standard 'resources/assets/js/components/*.js' --verbose | snazzy",
     "standard-fix": "standard 'resources/assets/js/components/*.js' --fix --verbose | snazzy",
     "prettier": "prettier-standard 'resources/assets/js/components/*.js'",
-    "webpack-build": "cross-env NODE_ENV=development webpack --progress --profile --colors",
+    "webpack-build": "cross-env NODE_ENV=development webpack --watch --progress --profile --colors",
     "webpack-prod": "cross-env NODE_ENV=production webpack -p --progress --profile --colors",
     "gulp-build": "gulp",
     "gulp-watch": "gulp watch",
