@@ -3,9 +3,8 @@
   "scripts": {
     "laravel-serve": "php artisan serve --port=3000",
     "laravel-tail": "tail -f storage/logs/laravel.log",
-    "standard": "standard 'resources/assets/js/components/*.js' --verbose | snazzy",
-    "standard-fix": "standard 'resources/assets/js/components/*.js' --fix --verbose | snazzy",
-    "prettier": "prettier-standard 'resources/assets/js/components/*.js'",
+    "standard-fix": "standard 'src/js/components/*.js' --fix --verbose | snazzy",
+    "prettier": "prettier-standard 'src/js/components/*.js'",
     "webpack-build": "cross-env NODE_ENV=development webpack --watch --progress --profile --colors",
     "webpack-prod": "cross-env NODE_ENV=production webpack -p --progress --profile --colors",
     "gulp-build": "gulp",
