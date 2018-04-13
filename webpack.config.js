@@ -51,7 +51,7 @@ module.exports = {
         filename: 'app.min.js'
     },
     // devServer: {
-    //     contentBase: path.join(__dirname, 'dist'),
+    //     contentBase: path.join(__dirname, 'public/dist'),
     //     compress: true,
     //     port: 3000,
     //     inline: true,

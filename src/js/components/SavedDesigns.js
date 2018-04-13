@@ -37,7 +37,7 @@ class SavedDesigns extends Component {
   render () {
     return (
       <Button variant="raised" color="primary">
-          Hello World
+          Hello World 2
       </Button>
     )
   }
