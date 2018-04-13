@@ -691,19 +691,18 @@ $(document).ready(function() {
         var _applicationType    = _settingsObject.application_type;
         var _uniformCategory    = ub.current_material.material.uniform_category;
         var _alias              = ub.data.sportAliases.getAlias(_uniformCategory);
-        var _sizes              = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+        var _sizes              = ub.funcs.getApplicationSizes('mascot', _alias.alias);  // Force Mascot
         var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
-
 
         // Change This for Embellishment Specific Size Settings   
 
             if (ub.current_material.material.uniform_category === "Football") {
 
-                if (_id === '2' && _applicationType === 'mascot') {
+                if (_id === '2' && (_applicationType === 'mascot' || _applicationType === 'embellishments')) {
                     _sizes = ub.funcs.getApplicationSizes('mascot_2');            
                 }
 
-                if (_id === '5' && _applicationType === 'mascot') {
+                if (_id === '5' && (_applicationType === 'mascot' || _applicationType === 'embellishments')) {
                     _sizes = ub.funcs.getApplicationSizes('mascot_5');            
                 }
 
@@ -719,18 +718,18 @@ $(document).ready(function() {
 
                 } else if (ub.funcs.isCurrentType('lower') && ub.funcs.isSocks()) {
 
-                    _sizes = ub.funcs.getApplicationSizes(_applicationType, _alias.alias, _id);
+                    _sizes = ub.funcs.getApplicationSizes('mascot', _alias.alias, _id);
 
                 } else {
 
-                    _sizes = ub.funcs.getApplicationSizesPant(_applicationType, _alias.alias, _id);
+                    _sizes = ub.funcs.getApplicationSizesPant('mascot', _alias.alias, _id);
 
                 }
 
             } else {
 
                 console.warn('no sizes setting defaulting to generic');
-                _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+                _sizes        = ub.funcs.getApplicationSizes('mascot');    
 
             }
 
@@ -787,9 +786,10 @@ $(document).ready(function() {
 
             _inputSizes = [{size: '0.5', }];
 
-        } else {
+        } 
+        else {
 
-            _inputSizes = [{size: '4', }];
+            _inputSizes = _sizes.sizes;
 
         }
 
@@ -1149,7 +1149,7 @@ $(document).ready(function() {
                 _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
-                if (ub.config.uniform_application_type !== "sublimated") {
+                if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type === "tackle_twill") {
                     if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
                 }
 
@@ -1246,7 +1246,7 @@ $(document).ready(function() {
                 var oldScale = ub.funcs.clearScale(_settingsObject);
                 _settingsObject.oldScale = oldScale;
 
-                ub.funcs.changeMascotSize(_selectedSize, _settingsObject);
+                ub.funcs.changeCustomMascotSize(_selectedSize, _settingsObject);
 
                 var _matchingID = undefined;
                 _matchingID = ub.data.matchingIDs.getMatchingID(_id);
@@ -1772,7 +1772,7 @@ $(document).ready(function() {
 
     ub.funcs.afterLoadEmbellishments = function () {
 
-        if (ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
+        if (ub.config.uniform_application_type === "sublimated") {
             $('span.add-art').addClass('sublimated');
         } else {
             $('span.add-art').addClass('non-sublimated');
@@ -1828,7 +1828,9 @@ $(document).ready(function() {
     $('span.add-art').on('click', function () {
 
        // Guard Expression for non-sublimated styles 
-       if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
+       //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
+
+        if (ub.config.uniform_application_type !== "knitted") {
     
            var dialog = bootbox.dialog({
                 title: 'Sorry! This is not allowed here.',
@@ -2166,6 +2168,30 @@ $(document).ready(function() {
         }
 
     // End Embellishment Popup
+
+        ub.funcs.changeCustomMascotSize = function (size, settingsObj, source) {
+
+            var _id = settingsObj.id;
+            ub.funcs.removeApplicationByID(_id);
+
+            if (typeof source === "undefined") {
+
+                var oldScale = undefined;
+
+                if (typeof settingsObj.oldScale !== "undefined") {
+                    oldScale = settingsObj.oldScale;   
+                }
+
+                ub.funcs.pushOldState('change custom mascot size', 'application', settingsObj, { size: settingsObj.size, oldScale: oldScale });
+
+            }
+
+            settingsObj.size = parseFloat(size);
+            settingsObj.font_size = parseFloat(size);
+
+            ub.funcs.update_application_embellishments(settingsObj.application, settingsObj.embellishment); 
+
+        }
 
 
 });
