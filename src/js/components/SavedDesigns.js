@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
 // import CssBaseline from 'material-ui/CssBaseline'
+import Button from 'material-ui/Button';
 
 class SavedDesigns extends Component {
   constructor (props) {
@@ -35,9 +36,9 @@ class SavedDesigns extends Component {
 
   render () {
     return (
-      <div>
-        <p>...</p>
-      </div>
+      <Button variant="raised" color="primary">
+          Hello World
+      </Button>
     )
   }
 }

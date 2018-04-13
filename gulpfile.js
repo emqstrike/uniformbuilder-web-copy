@@ -1,8 +1,4 @@
 var elixir = require('laravel-elixir');
-require('laravel-elixir-webpack-react');
-// var fs = require('fs');
-// var inProduction = elixir.config.production;
-
 
 /*
  |--------------------------------------------------------------------------
@@ -100,27 +96,5 @@ elixir(function(mix) {
     	
     	// Result
     	'public/uniform-builder/css/uniform-builder.css');
-
-
-
-
-	// React Components
-    // mix.react('resources/assets/js/app.js', 'public/js');
-    mix.sass('app.scss');
-	mix.webpack('app.js');
-    mix.version(['css/app.css', 'js/app.js']);
-
-    // Auto reload on file changes
-    // if (!inProduction) {
-    //     mix.browserSync({
-    //         proxy: 'http://localhost:3000'
-    //     });
-    // }
-    // mix.browserSync({
-    //     proxy : 'localhost:3000',
-    //     files: ['public/**/*.css', 'resources/**/*']
-    //     // files: ['public/js/app.js']
-    // });
-
 
 });

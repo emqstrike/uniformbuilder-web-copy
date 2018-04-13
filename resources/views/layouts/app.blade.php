@@ -8,10 +8,11 @@
     <link rel="icon" type="image/png" href="/images/branding/favicon.ico">
     <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href={{ elixir("css/app.css") }}>
+    {{--<link rel="stylesheet" href={{ elixir("css/app.css") }}>--}}
 </head>
 <body>
 <div id="root"></div>
-<script src={{ elixir("js/app.js") }}></script>
+{{--<script src={{ elixir("js/app.js") }}></script>--}}
+<script src={{ asset("dist/app.min.js") }}></script>
 </body>
 </html>
