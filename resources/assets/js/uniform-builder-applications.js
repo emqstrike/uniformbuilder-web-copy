@@ -2651,7 +2651,17 @@ $(document).ready(function() {
 
                     if (typeof ub.config.savedDesignInfo !== "object") { // Process Custom Scale Field only if this is not a saved design, because that one already have an override scale
 
-                        if (typeof view.application.appCustomScale !== "undefined" && ub.funcs.isSublimated()) {
+                        var _customScaleUndefined = typeof view.application.appCustomScale === "undefined";
+                        var _customScaleBlank = false;
+
+                        if (!_customScaleUndefined) {
+                            _customScaleBlank = view.application.appCustomScale.x === "0" && view.application.appCustomScale.y === "0";
+                        } 
+
+                        if (
+                            (!_customScaleUndefined && !_customScaleBlank) && 
+                            ub.funcs.isSublimated()
+                            ) {
 
                             var _scaleX = point.scale.x;
                             var _scaleY = point.scale.y;
@@ -6957,9 +6967,10 @@ $(document).ready(function() {
                 _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
-                if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
+                //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
+                //if (ub.config.uniform_application_type !== "tackle_twill" && ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
                     if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
-                }
+                //}
 
                 _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
@@ -7739,6 +7750,9 @@ $(document).ready(function() {
                 _applicationType = _sizeObj.resultApplicationType;
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
+
+                if (_settingsObject.application.layer.indexOf('Shoulder') !== -1) { _applicationType = "shoulder_number"; }
+                if (_settingsObject.application.layer.indexOf('Sleeve') !== -1) { _applicationType = "sleeve_number"; }
 
             }
 
@@ -8727,9 +8741,10 @@ $(document).ready(function() {
                 _htmlBuilder        +=                 '<div class="caption">Stock Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
-                if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
+                //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
+                //if (ub.config.uniform_application_type === "tackle_twill" || ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted") {
                     if (!_.contains(_validApplicationTypes, 'embellishments')) { _deactivated = 'deactivatedOptionButton'; }    
-                }
+                //}
 
                 _htmlBuilder        +=           '<div class="optionButton ' + _deactivated + '" data-type="embellishments">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-embellishments-large.png">' + '</div>';
@@ -10488,7 +10503,7 @@ $(document).ready(function() {
         if (ub.sport === "Cinch Sack (Apparel)") {
 
             _newApplication.application.views = _.filter(_newApplication.application.views, function (view) {
-                return view.perspective !== "left" && view.perspective !== "right" ;
+                return view.perspective !== "left" && view.perspective !== "right";
             });
 
         }
@@ -10769,6 +10784,7 @@ $(document).ready(function() {
                 var _side = $('span.side.active').data('id');
 
                 ub.funcs.newApplication(_perspective, _part, _type, _side);
+
                 dialog.modal('hide');
 
             });
@@ -11586,20 +11602,20 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.isSublimated = function () {
+    // ub.funcs.isSublimated = function () {
 
-        var _factoryCode = ub.current_material.material.factory_code;
-        var _result = false;
+    //     var _factoryCode = ub.current_material.material.factory_code;
+    //     var _result = false;
 
-        if (_factoryCode === "BLB") {
+    //     if (_factoryCode === "BLB") {
 
-            _result = true;
+    //         _result = true;
 
-        }
+    //     }
 
-        return _result;
+    //     return _result;
 
-    }
+    // }
 
     ub.funcs.removePatternMasks = function () {
 

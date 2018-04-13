@@ -63,7 +63,7 @@
                                     <i class="glyphicon glyphicon-edit"> Edit</i>
                                 </a>
                                 <a href="#" class="duplicate-application-size btn btn-xs btn-default" data-application-size-id="{{ $item->id }}" data-application-size-name="{{ $item->name }}" role="button">
-                                    <i class="glyphicon glyphicon-copy"></i>
+                                    <i class="glyphicon glyphicon-copy"> Clone</i>
                                 </a>
 
                                 <a href="#" class="delete-application-size btn btn-xs btn-danger" data-application-size-id="{{ $item->id }}" role="button">
@@ -118,7 +118,7 @@ $(document).ready(function(){
        var id = [];
        id.push( $(this).data('application-size-id'));
        console.log(id);
-       modalConfirm('Remove Application Size', 'Are you sure you want to delete the applicatin size?', id);
+       modalConfirm('Remove Application Size', 'Are you sure you want to delete the application size?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){

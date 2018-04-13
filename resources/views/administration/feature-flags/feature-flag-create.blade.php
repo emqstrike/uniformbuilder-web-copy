@@ -123,9 +123,9 @@ li.select2-selection__choice {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">State</label>
-                            <div class="col-md-6">
-                                <input type="name" class="form-control" name="state" value="">
+                            <label class="col-md-4 control-label">State (Abbreviation)</label>
+                            <div class="col-md-1">
+                                <input type="name" id="state_input" maxlength="2" class="form-control" name="state" value="">
                             </div>
                         </div>
 
@@ -179,6 +179,16 @@ $(document).ready(function(){
         multiple: false,
         allowClear: true
     });
+
+    var maxStateChars = $("#state_input");
+    var max_length = maxStateChars.attr('maxlength');
+    if (max_length > 0) {
+        maxStateChars.bind('keyup', function(e){
+            length = new Number(maxStateChars.val().length);
+            counter = max_length-length;
+            $("#sessionNum_counter").text(counter);
+        });
+    }
 
     $(".user-types").change(function() {
         $('.users-types-val').val($(this).val());

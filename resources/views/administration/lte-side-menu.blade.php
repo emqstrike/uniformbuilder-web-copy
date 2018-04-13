@@ -30,7 +30,7 @@
       </li>
       <li>
         <a href="/administration/orders/search_order">
-          <i class="glyphicon glyphicon-search"></i> <span>Search Order</span>
+          <i class="glyphicon glyphicon-search"></i> <span>Search Sent Order</span>
         </a>
       </li>
     </ul>

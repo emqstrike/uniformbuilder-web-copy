@@ -48,7 +48,7 @@
                                 {{ $tailsweep->id }}
                             </td>
                             <td>
-                                {{ $tailsweep->name }}<br />     
+                                {{ $tailsweep->name }}<br />
                             </td>
                             <td>
                                 {{ $tailsweep->code }}
@@ -70,20 +70,20 @@
                              <td>
                                 {{ $tailsweep->long }}
                             </td>
-                             <td>     
-                                        
+                             <td>
+
                                 <a href="/administration/tailsweep/edit/{{ $tailsweep->id }}" class="btn btn-primary btn-xs edit-tailsweep" data-tailsweep-id="{{ $tailsweep->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
 
-                                <a href="#" class="btn btn-danger pull-right btn-xs delete-tailsweep" data-tailsweep-id="{{ $tailsweep->id }}" role="button">
+                                <a href="#" class="btn btn-danger btn-xs delete-tailsweep" data-tailsweep-id="{{ $tailsweep->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
                                 </a>
-                            
+
                             </td>
-                   
+
                         </tr>
 
                     @empty
@@ -110,54 +110,48 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<!-- <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/tailsweeps.js"></script> -->
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<!-- <script type="text/javascript" src="/js/administration/tailsweeps.js"></script> -->
 <script type="text/javascript">
-    $(document).on('click', '.delete-tailsweep', function(){
-      $.confirm({
-      title: 'Tailsweep',
-      content: 'Are you want to delete tailsweep?',
-      confirmButton: 'YES',
-      cancelButton: 'NO',
-      confirmButtonClass: 'confirmButtonYes btn-danger',
-      cancelButtonClass: 'confirmButtonNo btn-success',
-      });
-      $(".confirmButtonYes").attr('data-tailsweep-id',$(this).data('tailsweep-id'));
-     
+$(document).ready(function(){
 
-     
+    $(document).on('click', '.delete-tailsweep', function() {
+
+       var id = [];
+       id.push( $(this).data('tailsweep-id'));
+       modalConfirm('Remove Tailsweep', 'Are you sure you want to remove this Tailsweep?', id);
     });
 
-    $(document).on('click', '.confirmButtonYes', function(){
-      
-        var id = $(this).data('tailsweep-id');
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
         console.log(id);
-        // var url = "http://localhost:8888/api/tailsweep/delete";
-       var url = "//" + api_host + "/api/tailsweep/delete/";
-                   
+        var url = "//" + api_host + "/api/tailsweep/delete/";
         $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    // $('#confirmation-modal').modal('hide');
-                    $('.font-' + id).fadeOut();
-                     $( ".tailsweeps" ).load( location+" .tailsweeps" );  
+           url: url,
+           type: "POST",
+           data: JSON.stringify({id: id}),
+           dataType: "json",
+           crossDomain: true,
+           contentType: 'application/json',
+           headers: {"accessToken": atob(headerValue)},
+           success: function(response){
+                   if (response.success) {
+                   new PNotify({
+                       title: 'Success',
+                       text: response.message,
+                       type: 'success',
+                       hide: true
+                   });
+                   $('#confirmation-modal').modal('hide');
+                    $.each(id, function (index, value) {
+                        $('.tailsweep-' + value).fadeOut();
 
-                }
-            }
-        });
-     });
+                    });
+               }
+           }
+       });
+    });
+});
 </script>
 @endsection
