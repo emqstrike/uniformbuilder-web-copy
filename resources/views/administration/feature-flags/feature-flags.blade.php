@@ -52,17 +52,6 @@
 @endsection
 
 @section('content')
-
-@if (Session::has('message'))
-<div class="alert alert-{{ Session::get('alert-class') }} alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
-
-    <strong class='flash-sub-title'></strong><span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
-
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
@@ -183,7 +172,6 @@
 $(document).ready(function(){
 
       $('.toggle-feature-flag').on('click', function(){
-
             var id = $(this).data('feature-flag-id');
             var url = "//" + api_host + "/api/feature/toggle/";
             $.ajax({
@@ -196,7 +184,6 @@ $(document).ready(function(){
                 headers: {"accessToken": atob(headerValue)},
                 success: function(response){
                     if (response.success) {
-
                         new PNotify({
                             title: 'Success',
                             text: response.message,
@@ -238,6 +225,15 @@ $(document).ready(function(){
             }
         });
     });
+
+    @if (Session::has('message'))
+        new PNotify({
+            title: 'Success',
+            text: "{{ Session::get('message') }}",
+            type: 'success',
+            hide: true
+        });
+    @endif
 });
 
 </script>
