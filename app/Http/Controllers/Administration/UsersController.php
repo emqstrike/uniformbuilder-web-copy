@@ -252,4 +252,49 @@ class UsersController extends Controller
             'user'  =>  $user
         ]);
     }
+
+    public function updateName(Request $request)
+    {
+        $firstName = $request->input('first_name');
+        $lastName = $request->input('last_name');
+        $data = [
+            'first_name' => $firstName,
+            'last_name' => $lastName
+        ];
+
+        $userId = null;
+        if (!empty($request->input('user_id')))
+        {
+            $userId = $request->input('user_id');
+            $data['id'] = $userId;
+        }
+
+        $response = null;
+        if (!empty($userId))
+        {
+            Log::info('Attempts to update User#' . $userId);
+            $response = $this->client->updateUser($data);
+        }
+
+        if ($response->success)
+        {
+            if (isset($data['id']))
+            {
+                if (Session::get('userId') == $data['id'])
+                {
+                    Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
+                }
+            }
+
+            Log::info('Save or Modify User: Success');
+            return Redirect::to('/administration/account_settings/'.$userId)
+                            ->with('message', 'Successfully updated user information');
+        }
+        else
+        {
+            Log::info('Save or Modify User: Failed');
+            return Redirect::to('/administration/account_settings/'.$userId)
+                            ->with('message', $response->message);
+        }
+    }
 }

@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" action="/administration/user/update" method="POST" id='update-user-form'>
+                    <form class="form-horizontal" role="form" action="/administration/account_settings/update" method="POST" id='update-user-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="user_id" value="{{ Session::get('userId') }}">
 
@@ -78,9 +78,8 @@
 @endsection
 
 @section('scripts')
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
-
 @endsection
 
 @section('custom-scripts')
@@ -103,6 +102,15 @@ $( document ).ready(function() {
                 });
             }
     });
+
+    @if(Session::has('message'))
+         new PNotify({
+            title: 'Success',
+            text: "{{ Session::get('message') }}",
+            type: 'success',
+            hide: true
+        });
+    @endif
 });
 
 </script>
