@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -36,21 +36,21 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Feature Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="name" value="">
+                                <input type="name" class="form-control" name="name" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Group</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="group" value="">
+                                <input type="name" class="form-control" name="group" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Category</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="category" value="">
+                                <input type="name" class="form-control" name="category" required>
                             </div>
                         </div>
 
@@ -125,7 +125,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">State (Abbreviation)</label>
                             <div class="col-md-1">
-                                <input type="name" id="state_input" maxlength="2" class="form-control" name="state" value="">
+                                <input type="name" id="state_input" maxlength="2" class="form-control" name="state" required>
                             </div>
                         </div>
 

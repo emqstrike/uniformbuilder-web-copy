@@ -142,19 +142,13 @@
                             </div>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-danger delete-feature-flag" data-feature-flag-id="{{ $feature_flag->id }}">Remove</a>
-                        </td>
-
-
-                        <td>
                             <a href="/administration/feature_flag/edit/{{ $feature_flag->id }}" class="btn btn-primary btn-xs edit-feature-flag-flag" data-feature-flag-flag-id="{{ $feature_flag->id }}" role="button">
                                 <i class="glyphicon glyphicon-edit"></i>
                                 Edit
                             </a>
-                            <!-- <a href="#" class="btn btn-danger pull-right btn-xs delete-block-pattern" data-block-pattern-id="{{ $feature_flag->id }}" data-block-pattern-name="{{ $feature_flag->name }}" role="button">
-                                <i class="glyphicon glyphicon-trash"></i>
-                                Remove
-                            </a> -->
+                            <a href="#" class="btn btn-danger pull-right btn-xs delete-feature-flag" data-feature-flag-id="{{ $feature_flag->id }}" role="button">
+                                <i class="glyphicon glyphicon-trash"> Remove</i>
+                            </a>
                         </td>
                     </tr>
 
@@ -189,9 +183,9 @@
 $(document).ready(function(){
 
       $('.toggle-feature-flag').on('click', function(){
+
             var id = $(this).data('feature-flag-id');
             var url = "//" + api_host + "/api/feature/toggle/";
-
             $.ajax({
                 url: url,
                 type: "POST",
@@ -217,39 +211,34 @@ $(document).ready(function(){
 
 
 
-      $('.delete-feature-flag').on('click', function(){
-            var id = $(this).data('feature-flag-id');
-         var url = "//" + api_host + "/api/feature/delete/";
-         //   var url = "//localhost:8888/api/feature/delete";
+    $('.delete-feature-flag').on('click', function(){
+        var id = $(this).data('feature-flag-id');
+        var url = "//" + api_host + "/api/feature/delete/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
 
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
 
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: JSON.stringify({id: id}),
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": atob(headerValue)},
-                success: function(response){
-                    if (response.success) {
+                    $( ".data-table" ).load( location+" .data-table" );
 
-                        new PNotify({
-                            title: 'Success',
-                            text: response.message,
-                            type: 'success',
-                            hide: true
-                        });
-
-                        $( ".data-table" ).load( location+" .data-table" );
-
-                    }
                 }
-            });
+            }
         });
+    });
 });
-
-
 
 </script>
 @endsection
