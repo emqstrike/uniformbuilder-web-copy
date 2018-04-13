@@ -16,7 +16,7 @@
                         <span class="fa fa-money"></span>
                         Price Items
                         <small>
-                            <a href="/administration/font/add" class='btn btn-xs btn-success'>
+                            <a href="/administration/price_item/add" class='btn btn-xs btn-success'>
                                 <span class="glyphicon glyphicon-plus-sign"></span>
                                 Add New Price Item
                             </a>
@@ -50,7 +50,10 @@
                                 {{ $price_item->price_item }}
                             </td>
                             <td>
+                                @if($price_item->dealer_id == 6)
                                 Pro Look Sports
+                                @endif
+
                             </td>
                             <td>
                                 $ <input type="text" value="{{ $price_item->msrp }}" class="row-msrp" id="row-msrp" disabled>
@@ -63,7 +66,7 @@
                                 <a href="#" class="save-price-item btn btn-default btn-xs" data-id="{{ $price_item->id }}"><i class="glyphicon glyphicon-floppy-save"></i></a>
                             </td>
                             <td>
-                                <a href="#" class="delete-price-item btn btn-danger btn-xs">Remove</a>
+                                <a href="#" class="delete-price-item btn btn-danger btn-xs" data-price-item-id="{{ $price_item->id }}">Remove</a>
                             </td>
                         </tr>
 
@@ -98,23 +101,17 @@ $(document).ready(function(){
 
     $(".save-price-item").each(function(i) {
         $(this).attr('disabled','disabled');
-
     });
 
     $(document).on('click', '.edit-price-item', function(e) {
         e.preventDefault();
         $(this).parent().siblings('td').find('.row-msrp').prop('disabled', false);
-       $(this).parent().siblings('td').find('.row-web-price-sale').prop('disabled', false);;
-       //$(this).hide();
+        $(this).parent().siblings('td').find('.row-web-price-sale').prop('disabled', false);
     });
 
     $(document).on('change', '.row-msrp', function() {
         var save_button = $(this).parent().siblings('td').find('.save-price-item');
-        //save_button.text('Save');
-        //save_button.removeClass( "btn-primary" );
-        //save_button.addClass( "btn-warning" );
-         save_button.removeAttr('disabled');
-
+        save_button.removeAttr('disabled');
         var msrp = $(this).val();
         console.log(msrp);
         var web_price_sale = $(this).parent().siblings('td').find('.row-web-price-sale').val();
@@ -126,9 +123,6 @@ $(document).ready(function(){
 
     $(document).on('change', '.row-web-price-sale', function() {
         var save_button = $(this).parent().siblings('td').find('.save-price-item');
-        // save_button.text('Save');
-        // save_button.removeClass( "btn-primary" );
-        // save_button.addClass( "btn-warning" );
         save_button.removeAttr('disabled');
         var msrp = $(this).parent().siblings('td').find('.row-msrp').val();
         console.log(msrp);
@@ -145,9 +139,6 @@ $(document).ready(function(){
         var id = $(this).data('id');
 
         printData(msrp, web_price_sale, id);
-        // $(this).hide();
-        //var edit_button = $(this).parent().siblings('td').find('.edit-price-item');
-        //edit_button.show();
     });
 
     function printData(msrp, web_price_sale, id){
@@ -159,13 +150,11 @@ $(document).ready(function(){
             "msrp" : msrp,
             "web_price_sale" : web_price_sale
         };
-        //console.log(data);
-       updatePriceItem(data);
+        updatePriceItem(data);
     }
 
     function updatePriceItem(data){
-        var url = "//api-dev.qstrike.com/api/price_item/update";
-        //var url = "//localhost:8888/api/price_item/update";
+        var url = "//"+api_host+"/api/price_item/update";
         $.ajax({
             url: url,
             type: "POST",
@@ -177,7 +166,7 @@ $(document).ready(function(){
                 document.location.reload();
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                //Error Code Here
+
             }
         });
     }
@@ -191,8 +180,45 @@ $(document).ready(function(){
         "autoWidth": false,
         "pageLength" : 20,
     });
-});
 
+    $(document).on('click', '.delete-price-item', function() {
+       var id = [];
+       id.push( $(this).data('price-item-id'));
+       console.log(id);
+       modalConfirm('Remove Price Item', 'Are you sure you want to delete this price item?', id);
+   });
+
+   $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/price_item/delete/";
+        $.ajax({
+           url: url,
+           type: "POST",
+           data: JSON.stringify({id: id}),
+           dataType: "json",
+           crossDomain: true,
+           contentType: 'application/json',
+           headers: {"accessToken": atob(headerValue)},
+           success: function(response){
+               if (response.success) {
+                   new PNotify({
+                       title: 'Success',
+                       text: response.message,
+                       type: 'success',
+                       hide: true
+                   });
+                   $('#confirmation-modal').modal('hide');
+                  $.each(id, function (index, value) {
+                     console.log(value);
+                     $('.price_item-' + value).fadeOut();
+                     // Will stop running after "three"
+                   });
+
+               }
+           }
+       });
+   });
+});
 
 </script>
 @endsection
