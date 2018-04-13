@@ -770,7 +770,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateApplicationsTable ($applications, $uniform_category) {
+    function generateApplicationsTable ($applications, $uniform_category, $uat) {
 
         $this->log_info('generateApplicationsTable');
 
@@ -908,7 +908,7 @@ class UniformBuilderController extends Controller
                 $html .=   '</td>';                
             }
 
-            if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" ) {
+            if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" or ($appType == "EMBELLISHMENTS" and $uat == "Tackle Twill")) {
 
                 $html .=   '<td align="center">';
 
@@ -1869,7 +1869,7 @@ class UniformBuilderController extends Controller
         $html .= '<table>';
         $html .=    '<tr>';
         $html .=        '<td width="100%">';
-        $html .=            $this->generateApplicationsTable($applications, $uniform_category);
+        $html .=            $this->generateApplicationsTable($applications, $uniform_category, $firstOrderItem["applicationType"]); 
         $html .=        '</td>';
         $html .=    '</tr>';
         $html .='</table>';
