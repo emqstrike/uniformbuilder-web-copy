@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { render } from 'react-dom'
 // import CssBaseline from 'material-ui/CssBaseline'
 import Button from 'material-ui/Button'
+import 'sass/main.scss'
 
 class SavedDesigns extends Component {
   constructor (props) {
