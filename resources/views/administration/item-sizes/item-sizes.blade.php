@@ -43,7 +43,7 @@
                                     <i class="glyphicon glyphicon-edit"> Edit</i>
                                 </a>
                                 <a href="#" class="duplicate-item-size btn btn-xs btn-default" data-item-size-id="{{ $item->id }}" data-item-size-desc="{{ $item->description }}" role="button">
-                                    <i class="glyphicon glyphicon-copy"></i>
+                                    <i class="glyphicon glyphicon-copy"> Clone</i>
                                 </a>
                                 <a href="#" class="delete-item-size btn btn-xs btn-danger" data-item-size-id="{{ $item->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"> Remove</i>
@@ -121,17 +121,17 @@ $(document).ready(function(){
           console.log(e);
     }
 
-    $('.delete-item-size').on('click', function(){
-       var id = [];
-       id.push( $(this).data('item-size-id'));
-       console.log(id);
-       modalConfirm('Remove Item Size', 'Are you sure you want to delete the item size?', id);
-   });
+    $('#item-sizes-table').on('click', '.delete-item-size', function(e){
+      e.preventDefault();
+      var id = [];
+      id.push( $(this).data('item-size-id'));
+      console.log(id);
+      modalConfirm('Remove Item Size', 'Are you sure you want to delete the item size?', id);
+    });
 
-   $('#confirmation-modal .confirm-yes').on('click', function(){
+    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/item_size/delete";
-
         $.ajax({
            url: url,
            type: "POST",
@@ -153,13 +153,11 @@ $(document).ready(function(){
                      console.log(value);
                      $('.item-size-' + value).fadeOut();
                      // Will stop running after "three"
-
                    });
-
                }
            }
        });
-   });
+    });
 
   $('#item-sizes-table').on('click', '.duplicate-item-size', function(e){
         e.preventDefault();
