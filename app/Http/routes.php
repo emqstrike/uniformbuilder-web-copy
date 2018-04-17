@@ -84,14 +84,18 @@ Route::get('getting_started', 'Help\HelpController@getting_started');
 
 });
 
-
 // Administration Routes
 Route::group(array('prefix' => 'administration'), function() {
+
+    Route::group(array('prefix' => 'master_pages'), function() {
+    });
+
     Route::get('custom_artwork_requests', 'Administration\CustomArtworkRequestController@index')->name('indexCustomArtworkRequests');
     Route::get('custom_artwork_requests/processing', 'Administration\CustomArtworkRequestController@getProcessing')->name('getProcessingCustomArtworkRequests');
     Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
 
     Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard']);
+    Route::get('/'.env('ENDPOINT_VERSION','v1-0').'', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard']);
 
     // Logins
     Route::get('login', 'Administration\AuthenticationController@loginForm');
@@ -487,6 +491,10 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('brandings/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\BrandingsController@store']);
     Route::get('brandings/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\BrandingsController@create']);
     Route::get('brandings/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\BrandingsController@edit']);
+
+    Route::group(['prefix' => 'master_pages' ], function() {
+        Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'Administration\MasterFontsController@index']);
+    });
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
