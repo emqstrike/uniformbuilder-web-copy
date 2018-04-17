@@ -21,7 +21,6 @@
 <link rel="stylesheet" type="text/css" href="/css/jquery-confirm.css">
 <link rel="stylesheet" type="text/css" href="/css/introjs.css">
 
-
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -295,6 +294,7 @@
     $('.adultSizes input').on('click', function(){
 
       createObjectAdultYouthSizes(this,adult_sizes);
+
     });
     $('.youthSizes input').on('click', function(){
       createObjectAdultYouthSizes(this,youth_sizes);
