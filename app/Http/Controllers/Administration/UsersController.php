@@ -99,9 +99,7 @@ class UsersController extends Controller
             'new_password' => $newPassword,
             'old_password' => $oldPassword
         ];
-
         $response = $this->client->updatePassword($data);
-
         if ($response->success)
         {
             return Redirect::to('administration/account_settings/' . $id)
@@ -207,9 +205,6 @@ class UsersController extends Controller
 
         if ($response->success)
         {
-            Log::info('Save or Modify User: Success');
-            return Redirect::to('/administration/users');
-
             if (isset($data['id']))
             {
                 if (Session::get('userId') == $data['id'])
@@ -217,16 +212,18 @@ class UsersController extends Controller
                     Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
                 }
             }
-            // return redirect()->back()
-            //                 ->with('message', 'Successfully updated user information');
+
+            Log::info('Save or Modify User: Success');
+            return Redirect::to('/administration/users')
+                                ->with('message', 'Successfully updated user information');
+
+
         }
         else
         {
             Log::info('Save or Modify User: Failed');
-            return Redirect::to('/administration/users');
-
-            // return redirect()->back()
-            //                 ->with('message', $response->message);
+            return Redirect::to('/administration/users')
+                                ->with('message', $response->message);
         }
     }
 
@@ -254,5 +251,50 @@ class UsersController extends Controller
             'user_designs' => $user_designs,
             'user'  =>  $user
         ]);
+    }
+
+    public function updateName(Request $request)
+    {
+        $firstName = $request->input('first_name');
+        $lastName = $request->input('last_name');
+        $data = [
+            'first_name' => $firstName,
+            'last_name' => $lastName
+        ];
+
+        $userId = null;
+        if (!empty($request->input('user_id')))
+        {
+            $userId = $request->input('user_id');
+            $data['id'] = $userId;
+        }
+
+        $response = null;
+        if (!empty($userId))
+        {
+            Log::info('Attempts to update User#' . $userId);
+            $response = $this->client->updateUser($data);
+        }
+
+        if ($response->success)
+        {
+            if (isset($data['id']))
+            {
+                if (Session::get('userId') == $data['id'])
+                {
+                    Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
+                }
+            }
+
+            Log::info('Save or Modify User: Success');
+            return Redirect::to('/administration/account_settings/'.$userId)
+                            ->with('message', 'Successfully updated user information');
+        }
+        else
+        {
+            Log::info('Save or Modify User: Failed');
+            return Redirect::to('/administration/account_settings/'.$userId)
+                            ->with('message', $response->message);
+        }
     }
 }

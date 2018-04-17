@@ -119,7 +119,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('user/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@addUserForm']);
     Route::get('user/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@editUserForm']);
     Route::get('account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@accountSettings']);
-    Route::post('account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);
+    Route::post('account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@updateName']);
     Route::get('account_settings/change_password/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePasswordForm']);
     Route::post('account_settings/change_password', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@changePassword']);
     Route::get('rejected_users' , ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@getRejectedUsers']);
@@ -221,7 +221,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('model/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\BaseModelsController@addModelForm']);
     Route::get('model/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\BaseModelsController@editModelForm']);
 
-    // Patterns
+    //Patterns
     Route::get('patterns', ['middleware' => 'adminAccess', 'uses' => 'Administration\PatternsController@index']);
     Route::post('pattern/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PatternsController@store']);
     Route::post('pattern/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PatternsController@store']);
@@ -237,6 +237,9 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('price_items', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemsController@index']);
     Route::get('price_item/materials', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemsController@materialsTable']);
     Route::get('price_items/manual_update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemsController@manualUpdate']);
+    Route::get('price_item/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemsController@addPriceItem']);
+    Route::post('price_item', ['middleware' => 'adminAccess', 'uses' => 'Administration\PriceItemsController@store']);
+
 
     // Preferences
     Route::get('preferences', ['middleware' => 'adminAccess', 'uses' => 'Administration\PreferencesController@index']);

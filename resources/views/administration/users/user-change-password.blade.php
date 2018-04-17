@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" id="change-password-form" role="form" action="/administration/account_settings/change_password" method="POST" id='update-user-form'>
+                    <form class="form-horizontal" role="form" action="/administration/account_settings/change_password" method="POST" id='update-user-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="user_id" value="{{ $user->id }}">
 
@@ -74,11 +74,8 @@
 $( document ).ready(function() {
     var isReady = 0;
 
-    document.getElementById('change-password-form').onsubmit = function() {
-        confirmPassword();
-    };
-
-    function confirmPassword(){
+    $('.update-user').click(function(e) {
+        e.preventDefault();
         var newPassword = $('.user-new-password').val();
         var newConfirm = $('.user-confirm-new-password').val();
         if (newPassword != newConfirm) {
@@ -88,7 +85,6 @@ $( document ).ready(function() {
                 type: 'warning',
                 hide: true
             });
-            return false;
         } else {
             new PNotify({
                 title: 'Success',
@@ -96,10 +92,9 @@ $( document ).ready(function() {
                 type: 'success',
                 hide: true
             });
-            return true;
+            $('#update-user-form').submit();
         }
-    }
-
+      });
 });
 </script>
 @endsection

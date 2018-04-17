@@ -34,14 +34,14 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control color-name" name="name" value="{{ old('name') }}">
+                                <input type="name" class="form-control color-name" name="name" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-6">
-                                <textarea name="description" class="form-control autosized"></textarea>
+                                <textarea name="description" class="form-control autosized" required></textarea>
                             </div>
                         </div>
 

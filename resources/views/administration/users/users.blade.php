@@ -52,23 +52,23 @@
                                     {{ $user->first_name }} {{ $user->last_name }}
                                 </td>
                                 <td>
-                                    {{ ucfirst($user->type) }}                                   
+                                    {{ ucfirst($user->type) }}
                                 </td>
                                 <td>
                                     {{ $user->created_at }}
                                 </td>
                                 <td>
-                                
+
                                     <span class="label label-primary">{{ $user->email }}</span>
                                 </td>
                                 <td>
-                                    {{ $user->rep_first_name }} {{ $user->rep_last_name }} 
+                                    {{ $user->rep_first_name }} {{ $user->rep_last_name }}
                                 </td>
                                  <td>
-                                    {{ $user->rep_dealer }} 
+                                    {{ $user->rep_dealer }}
                                 </td>
                                 <td>
-                                    {{ $user->dealer }} 
+                                    {{ $user->dealer }}
                                 </td>
                                 <td>
                                     {{ $user->last_login }}
@@ -118,14 +118,14 @@
                             <tr>
                                 <td></td>
                                 <td></td>
-                                <td></td>                             
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>                                
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tfoot>
                     </table>

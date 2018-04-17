@@ -19,7 +19,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" action="/administration/user/update" method="POST" id='update-user-form'>
+                    <form class="form-horizontal" role="form" action="/administration/account_settings/update" method="POST" id='update-user-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="user_id" value="{{ Session::get('userId') }}">
 
@@ -78,51 +78,40 @@
 @endsection
 
 @section('scripts')
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
-
 @endsection
 
 @section('custom-scripts')
 <script type="text/javascript">
-function isReady() {
-    var firstName = $('.user-first-name').val();
-    var lastName = $('.user-last-name').val();
-    var password = $('.user-password').val();
-    var confirm = $('.user-confirm-password').val();
-    var userType = $('.user-type');
-    if (firstName && lastName) {
-        if (password || confirm) {
-            if (password.length < 6) {
-                new PNotify({
-                    title: 'Warning',
-                    text: 'Password should at least have a minimum of 6 characters',
-                    type: 'warning',
-                    hide: true
-                });
-                return false;
-            }
-            if (password.val() != confirm.val()) {
-                new PNotify({
-                    title: 'Warning',
-                    text: 'Passwords does not match',
-                    type: 'warning',
-                    hide: true
-                });
-                return false;
-            }
-        }
-        return true;
-    }
-    return false;
-}
+$( document ).ready(function() {
 
-$('#update-user-form input').on('change', function(){
-    if (isReady()) {
-        $('#update-user-form .update-user').fadeIn();
-    } else {
-        $('#update-user-form .update-user').fadeOut()
-    }
+    $('.update-user').click(function(e) {
+            e.preventDefault();
+            var firstName = $('.user-first-name').val();
+            var lastName = $('.user-last-name').val();
+            if (firstName && lastName ) {
+                $('#update-user-form').submit();
+            }
+            else {
+                new PNotify({
+                    title: 'Warning',
+                    text: 'First and Last name are required.',
+                    type: 'warning',
+                    hide: true
+                });
+            }
+    });
+
+    @if(Session::has('message'))
+         new PNotify({
+            title: 'Success',
+            text: "{{ Session::get('message') }}",
+            type: 'success',
+            hide: true
+        });
+    @endif
 });
+
 </script>
 @endsection
