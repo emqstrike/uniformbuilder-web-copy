@@ -19,12 +19,21 @@ class AppController extends Controller
 //        $this->middleware('auth');
 //    }
 
-    public function mySavedDesigns()
-    {
+    public function showHome() {
+
+        return view('app');
+    }
+
+    public function mySavedDesigns() {
 //        JavaScript::put([
 //            'name' => Auth::user()->name
 //        ]);
 
-        return view('saved-designs');
+        return view('app');
+    }
+
+    public function nicoTest() {
+
+        return view('app');
     }
 }

@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import Button from 'material-ui/Button'
 import 'sass/main.scss'
 
-class SavedDesigns extends Component {
+class NicoComponent extends Component {
   constructor (props) {
     super(props)
 
@@ -38,10 +38,10 @@ class SavedDesigns extends Component {
   render () {
     return (
       <Button variant='raised' color='primary'>
-        SAVED DESIGNS
+        NICO TEST COMPONENT
       </Button>
     )
   }
 }
 
-export default SavedDesigns
+export default NicoComponent
