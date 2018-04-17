@@ -203,16 +203,15 @@ $('.reject-artwork').on('click', function(e){
 function insertMessage(data){
     var order_code = data.order_code;
     var content = data.content;
+    var url = "//" + api_host + "/api/message";
     console.log(data);
     $.ajax({
-        url: '//api-dev.qstrike.com/api/message',
+        url: url,
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',
         success: function (data) {
-            // alert(data['message']);
             rejectArtwork(order_code, content);
-            // window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
         }
@@ -223,8 +222,9 @@ function rejectArtwork(order_code, content){
     var data = {};
     data.order_code = order_code;
     data.content = content;
+    var var url = "//" + api_host + "/api/artwork_request/reject";
     $.ajax({
-        url: '//api-dev.qstrike.com/api/artwork_request/reject',
+        url: url,
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',
