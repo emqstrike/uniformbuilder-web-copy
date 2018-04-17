@@ -78,6 +78,20 @@
       </li>
     </ul>
   </li>
+  <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
+    <a href="#" >
+      <i class="fa fa-bookmark"></i>
+      <span>Master Pages</span>
+      <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu">
+      <lidata-position='right'>
+        <a href="/administration/master_pages/fonts">
+          <i class="fa fa-font"></i> <span>Fonts</span>
+        </a>
+      </li>
+    </ul>
+  </li>
 
     <li class="treeview" data-position='right'>
         <a href="#" >
