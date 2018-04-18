@@ -36,6 +36,7 @@ $(document).ready(function() {
 
         ub.funcs.removePanels();
         ub.funcs.resetZoom();
+        ub.funcs.deactivateMoveTool();
         
         if (ub.render) {
             ub.funcs.prepareThumbnails();

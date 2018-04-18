@@ -1075,7 +1075,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateRosterTable ($rosters, $sport) {
+    function generateRosterTable ($rosters, $sport, $type) {
 
         $this->log_info('generateRosterTable');
 
@@ -1105,10 +1105,10 @@ class UniformBuilderController extends Controller
 
         }    
 
-        if ($sport === "Football") {
+        if ($sport === "Football" && $type !== "lower") {
 
             $html .=   '<td align="center">';
-            $html .=   '<strong>LASTNAME APPLICATION</strong>';
+            $html .=   '<strong>LASTNAME APPLICATION' . $type . '</strong>';
             $html .=   '</td>';
             $html .=   '<td align="center">';
             $html .=   '<strong>SLEEVE TYPE</strong>';
@@ -1149,7 +1149,7 @@ class UniformBuilderController extends Controller
 
             }
 
-            if ($sport === "Football") {
+            if ($sport === "Football" && $type !== "lower") {
 
                 $html .=   '<td align="center">';
                 $html .=   $roster['lastNameApplication'];
@@ -1729,7 +1729,13 @@ class UniformBuilderController extends Controller
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
         $sport = $bc['uniform_category'];
-
+        
+        $type = 'upper';
+        
+        if (array_key_exists('material_id', $bc['lower'])) {
+            $type = 'lower';
+        }
+        
         $uniform_category = $bc['uniform_category'];
 
         // dd($bc['builder_customizations']['roster']);
@@ -1855,7 +1861,7 @@ class UniformBuilderController extends Controller
         $html .= '<table>';
         $html .=    '<tr>';
         $html .=        '<td width="100%">';
-        $html .=            $this->generateRosterTable($roster, $sport);
+        $html .=            $this->generateRosterTable($roster, $sport, $type);
         $html .=        '</td>';
         $html .=    '</tr>';
         $html .='</table>';
