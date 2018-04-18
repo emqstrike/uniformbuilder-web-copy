@@ -1830,7 +1830,7 @@ $(document).ready(function() {
        // Guard Expression for non-sublimated styles 
        //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
 
-        if (ub.config.uniform_application_type !== "knitted") {
+        if (ub.config.uniform_application_type !== "knitted" && ub.config.uniform_application_type !== "sublimated") {
     
            var dialog = bootbox.dialog({
                 title: 'Sorry! This is not allowed here.',
