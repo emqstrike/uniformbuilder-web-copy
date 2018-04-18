@@ -816,6 +816,11 @@ $(document).ready(function () {
 
         var _colorObj = _.find(ub.data.colors, {color_code: colorCode });
 
+        if (typeof _colorObj === "undefined") {
+            console.error('Cant find colorCode ' + colorCode)
+            _colorObj = _.first(ub.data.colors);
+        }
+
         if (colorCode == 'none') {
 
                 _colorObj = {
