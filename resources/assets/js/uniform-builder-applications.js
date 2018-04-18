@@ -6208,6 +6208,9 @@ $(document).ready(function() {
 
             /// Rotate
 
+            console.error(_v);
+            console.error(settingsObject.code);
+
             var _start = ub.objects[_v + '_view']['objects_' + settingsObject.code].rotation;
 
             _start = _start;
