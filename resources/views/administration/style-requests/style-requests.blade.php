@@ -174,8 +174,6 @@
     </div>
 
 
-    <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
-
     <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
@@ -449,7 +447,6 @@ $(function(){
 
     $('#style_requests_table').on('click', '.file-link', function(e){
         e.preventDefault()
-        // console.log('file link');
         var url = $(this).data('link');
         OpenInNewTab(url);
     });
@@ -466,14 +463,11 @@ $(function(){
     $(document).on('change', '.sport', function() {
         var exist = false;
         window.uniform_category_id = $('.sport option:selected').data('uniform-category-id');
-        // console.log(window.uniform_category_id);
         $('.block-pattern').html('');
         var ucid = window.uniform_category_id.toString();
         var filtered_block_patterns = _.filter(window.block_pattern, function(e){ return e.uniform_category_id == ucid; });
-        // console.log(filtered_block_patterns);
-
         var sorted_block_patterns = _.sortBy(filtered_block_patterns, function(o) { return o.name; });
-        // console.log(sorted_sports);
+
         var block_pattern_value = window.block_pattern_value;
         $( '#block_pattern' ).html('');
 
@@ -505,14 +499,13 @@ $(function(){
     $(document).on('change', '.block-pattern', function() {
         var exist = false;
         window.block_pattern_id = $('.block-pattern option:selected').data('block-pattern-id');
-        // console.log(window.uniform_category_id);
+
         $('.block-pattern-option').html('<option value="none" data-block-pattern-id="0">Select Block Pattern Option</option>');
 
         var block_pattern = _.filter(window.block_pattern, function(e){ return e.id == window.block_pattern_id.toString(); });
-        // console.log(block_pattern);
+
 
         if(block_pattern[0].neck_options != "null"){
-
 
             var x = JSON.parse(block_pattern[0].neck_options);
 
@@ -522,8 +515,7 @@ $(function(){
                 list.push(_.flatten(_.pick(item, 'children')));
             });
             var result = _.flatten(list);
-            // console.log('result')
-            // console.log(result);
+
             var option_value = window.option_value;
             $('.block-pattern-option').html('');
             result.forEach(function(entry) {
@@ -540,15 +532,13 @@ $(function(){
             });
 
         }
-        // console.log("bpoexist"+exist);
+
         if(!exist && option_value != null) {
-            // console.log("true");
+
             $('.enable_custom_bpo').prop('checked', true);
             $('.custom_option').val(option_value);
             $('.enable_custom_bpo').trigger('change');
         }
-        // $('.block-pattern-option').trigger('change');
-
 
     });
 
@@ -700,24 +690,18 @@ $(function(){
     Dropzone.options.myAwesomeDropzone = {
         // addRemoveLinks: true,
         success: function(file, response){
-            //alert(response);
-            // console.log(file);
-            // console.log(response);
+
             filesData.push({
                 'name' : file.name,
                 'url' : response
             });
-            // console.log(filesData);
             $('.design-sheet-path').val(filesData[0].url);
             // buildRows(filesData);
         },
         complete: function(file){
-            // console.log('completed');
             files.push(file.name);
             // $('.design-sheet-path').val(file.url);
             updateData();
-            // console.log(files);
-            // console.log(file);
             // hidePleaseWait();
         },
         removedfile: function(file) {
@@ -734,7 +718,7 @@ $(function(){
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
         var sports;
-        var url = "//api-dev.qstrike.com/api/categories";
+        var url = "//" +api_host+ "/api/categories";
         $.ajax({
             url: url,
             async: false,
@@ -752,7 +736,7 @@ $(function(){
     getBlockPatterns(function(block_patterns){ window.block_pattern = block_patterns; });
     function getBlockPatterns(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
+        var url = "//" +api_host+ "/api/block_patterns";
         $.ajax({
             url: url,
             async: false,
@@ -770,7 +754,6 @@ $(function(){
     buildSportsDropdown();
     function buildSportsDropdown(){
         var sorted_sports = _.sortBy(window.sports, function(o) { return o.name; });
-        // console.log(sorted_sports);
         var sport_value = window.sport_value;
         $( '.sport' ).html('');
         sorted_sports.forEach(function(entry) {
@@ -878,7 +861,6 @@ $(function(){
         else {
             $('.block-pattern').removeAttr('disabled');
             $('.custom_block_pattern').attr('disabled','true');
-            // $('.block-pattern').trigger('change');
         }
     });
 

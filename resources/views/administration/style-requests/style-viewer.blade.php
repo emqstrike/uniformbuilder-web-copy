@@ -237,7 +237,7 @@ $(function(){
 
     function getDefaultMaterials(callback){
         var materials;
-        var url = "//api-dev.qstrike.com/api/materials/category/"+window.default_sport;
+        var url = "//" +api_host+ "/api/materials/category/"+window.default_sport;
         $.ajax({
             url: url,
             async: false,
@@ -256,7 +256,7 @@ $(function(){
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
         var sports;
-        var url = "http://api-dev.qstrike.com/api/categories";
+        var url = "//" +api_host+ "/api/categories";
         $.ajax({
             url: url,
             async: false,
@@ -406,12 +406,8 @@ $(function(){
 
     $('.update-button').on('click', function(e){
         e.preventDefault();
-        // showPleaseWait();
-        // modalConfirm('Remove font', 'Are you sure you want to delete the font?', id);
         modalConfirm('Update style', 'Are you sure you want to update the style information?');
-        // $('.progress-modal-message').html('Loading style information...');
-        // window.current_index = window.current_index - 1;
-        // generateValues("previous");
+
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
@@ -419,19 +415,13 @@ $(function(){
         $('#confirmation-modal').modal('hide');
         showPleaseWait();
         $('.progress-modal-message').html('Updating style information...');
-        //  var id = $(this).data('value');
-
-
-        // var url = "//" + api_host + "/api/font/delete/";
-        // //var url = "//localhost:8888/api/font/delete/";
-
         var id = window.default_material_id;
         var item_id = $('.qstrike-item-id-input').val();
         var customizer_available = $('.show-in-customizer-input').val();
         var data = {id: id, item_id: item_id, customizer_available: customizer_available};
-        // console.log(data);
+        var url = "//" +api_host+ "/api/material/updatePartial";
         $.ajax({
-            url: "//api-dev.qstrike.com/api/material/updatePartial",
+            url: url,
             type: "POST",
             data: JSON.stringify(data),
             dataType: "json",
@@ -439,7 +429,6 @@ $(function(){
             contentType: 'application/json',
             success: function(response){
                 if (response.success) {
-                    // console.log('Success');
                     $('#confirmation-modal').modal('hide');
                     var pleaseWait = $('#pleaseWaitDialog');
                     hidePleaseWait = function () {
