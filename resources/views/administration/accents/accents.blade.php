@@ -98,7 +98,6 @@
 $(document).ready(function(){
 
     $(document).on('click', '.delete-accent', function() {
-
        var id = [];
        id.push( $(this).data('accent-id'));
        modalConfirm('Remove Accent', 'Are you sure you want to remove this Accent?', id);

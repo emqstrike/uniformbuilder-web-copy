@@ -14,9 +14,7 @@ $(document).ready(function(){
    		$('.zips').val(zip);
    	}
 
-   	$('.delete-rep').on('click', function(){
-
-
+    $(document).on('click', '.delete-rep', function() {
        var id = [];
        id.push( $(this).data('rep-id'));
 

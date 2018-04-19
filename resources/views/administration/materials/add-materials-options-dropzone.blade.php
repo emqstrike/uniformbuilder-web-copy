@@ -80,14 +80,6 @@
       <div class="modal-header">
           <h1 class="progress-modal-message"></h1>
       </div>
-      <!-- <div class="modal-body">
-        <div class="progress">
-          <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-            <span class="sr-only">40% Complete (success)</span>
-          </div>
-          <i class='icon-spinner icon-spin icon-large'></i>
-        </div>
-      </div> -->
     </div>
   </div>
 </div>
@@ -99,22 +91,13 @@
 <script type="text/javascript" src="/dropzone/dropzone.js"></script>
 <script>
 $(document).ready(function() {
-
-// var myDropzone     = new Dropzone("div#attachment", {
-//     url: uploadFilePath,
-//     paramName: 'someParameter[image]'
-// });
 var files = [];
 var filesData = [];
 this.addRemoveLinks = true;
-// myDropzone.on('sending', function(file, xhr, formData){
-//     formData.append('someParameter[image]', file);
-//     formData.append('someParameter[userName]', 'bob');
-// });
 
 function getColors(callback){
     var colors;
-    var url = "//api-dev.qstrike.com/api/colors";
+    var url = "//" +api_host+ "/api/colors";
     $.ajax({
         url: url,
         async: false,
@@ -232,7 +215,6 @@ $(document).on('change', '.origin, .perspective, .mo-allow-color, .mo-allow-patt
 	refreshJSON();
 });
 
-//  modal
     var pleaseWait = $('#pleaseWaitDialog');
 
     showPleaseWait = function() {
@@ -242,7 +224,6 @@ $(document).on('change', '.origin, .perspective, .mo-allow-color, .mo-allow-patt
     hidePleaseWait = function () {
         pleaseWait.modal('hide');
     };
-// modal
 
 $('.submit-data').on('click', function(e){
 	e.preventDefault();
@@ -252,8 +233,9 @@ $('.submit-data').on('click', function(e){
     console.log(data);
     showPleaseWait();
     $('.progress-modal-message').html('Saving images . . .');
+    var url = "//" +api_host+ "/api/material_options/insert_multiple_from_dropzone";
 	$.ajax({
-        url: "//api-dev.qstrike.com/api/material_options/insert_multiple_from_dropzone",
+        url: url,
         type: "POST",
         data: data,
         dataType: "json",
@@ -312,7 +294,6 @@ function refreshJSON(){
 
 function buildRows(filesData){
 	$('.material-options-rows').html('');
-	// filesData.forEach(function(entry) {
 	$.each(filesData, function(i, entry) {
 		window.colors = null;
 		getColors(function(colors){ window.colors = colors; });
@@ -328,7 +309,6 @@ function buildRows(filesData){
         var zd = zc.join();
 		var base_name = entry_name[0].replace("_", " ");
 
-		// entry_name = base_name.replace(/[0-9]/g, '');
         entry_name = zd;
 		entry_name = entry_name.replace(",", " ");
 		entry_name = entry_name.replace(",", " ");
@@ -383,21 +363,14 @@ function buildRows(filesData){
 Dropzone.options.myAwesomeDropzone = {
 	addRemoveLinks: true,
     success: function(file, response){
-        //alert(response);
-        // console.log(file);
-        // console.log(response);
         filesData.push({
     		'name' : file.name,
     		'url' : response
     	});
-    	// console.log(filesData);
     	buildRows(filesData);
     },
     complete: function(file){
-        // console.log('completed');
         files.push(file.name);
-    	// console.log(files);
-    	// console.log(file);
         hidePleaseWait();
     },
     removedfile: function(file) {
