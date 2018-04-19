@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -39,11 +39,11 @@ li.select2-selection__choice {
                     @endif
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/cuts_links/update" enctype="multipart/form-data" id='cut_links_form'>
-                        
+
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        
+
                         <input type="hidden" name="id" value="{{$cut_links->id}}">
-                        <input type="hidden" id="pattern_id" value="{{ $cut_links->block_pattern_id}}">                                      
+                        <input type="hidden" id="pattern_id" value="{{ $cut_links->block_pattern_id}}">
                         <input type="hidden" id="existing_neck_option" value="{{ $cut_links->neck_option }}">
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
@@ -51,7 +51,7 @@ li.select2-selection__choice {
                                 <select name="sport" class="form-control sport">
                                     @foreach($sports as $sport)
                                         <option value="{{ $sport->id }}" @if($cut_links->sport == $sport->id) selected="selected"@endif>{{ $sport->name }}</option>
-                                    @endforeach 
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -79,9 +79,9 @@ li.select2-selection__choice {
                                 <input type="file" class="form-control cuts-pdf" name="cuts_pdf" accept=".ai,.pdf">
                             </div>
                         </div>
-                                          
+
                         <hr>
-                                                       
+
                         </div>
 
                         <div class="form-group">
@@ -97,7 +97,7 @@ li.select2-selection__choice {
                             </div>
                         </div>
                         <br><br>
-                        
+
                     </form>
                 </div>
             </div>
@@ -118,7 +118,7 @@ li.select2-selection__choice {
 <script src="/underscore/underscore.js"></script>
 <script>
 $(function(){
-    
+
     window.block_patterns = null;
     getBlockPatterns(function(block_patterns){
         window.block_patterns = block_patterns;
@@ -126,8 +126,7 @@ $(function(){
 
     function getBlockPatterns(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
-        // var url = "//localhost:8888/api/block_patterns";
+        var url = "//" +api_host+ "/api/block_patterns";
         $.ajax({
             url: url,
             async: false,
@@ -140,14 +139,14 @@ $(function(){
                 if(typeof callback === "function") callback(block_patterns);
             }
         });
-    }    
+    }
     var sport = null;
     var block_pattern_id = $('#pattern_id').val();
-    var existing_neck_option = $('#existing_neck_option').val(); 
+    var existing_neck_option = $('#existing_neck_option').val();
     $(document).on('change', '.sport', function() {
     sport = $('.sport').val();
-        getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; }); 
-        var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id === sport; });
+        getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
+        var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id == sport; });
                 $( '#block_pattern' ).html('');
                 $.each(x, function(i, item) {
                     if( block_pattern_id == item.id ){
@@ -157,11 +156,11 @@ $(function(){
                     $('#block_pattern' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
                     }
                 });
-    $('#block_pattern').trigger('change');           
-    });  
+    $('#block_pattern').trigger('change');
+    });
     $('.sport').trigger('change');
     $.each(window.block_patterns, function(i, item) {
-        if( item.id === block_pattern_id ){
+        if( item.id == block_pattern_id ){
             window.neck_options = JSON.parse(item.neck_options);
             $.each(window.neck_options, function(i, item) {
                 if( existing_neck_option == item.name ){
@@ -188,9 +187,9 @@ $(function(){
         } else {
         }
     });
-  }); 
+  });
 
-});   
+});
 
 </script>
 @endsection
