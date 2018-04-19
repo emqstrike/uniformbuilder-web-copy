@@ -26,7 +26,7 @@
                         <input type="hidden" name="preference_id" value="{{ $preference->id }}">
                         <input type="hidden" name="existing_colors_properties" value="{{ $preference->colors_properties }}" id="existing-colors-properties">
                         <input type="hidden" name="colors_properties" id="existing-layers-properties">
-                        
+
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Logo</label>
@@ -72,7 +72,7 @@
                             <div class="col-md-6">
                                 <select name='font' class="form-control preference-font">
                                 @foreach ($fonts as $font)
-                                <option value='{{ $font->name }}' 
+                                <option value='{{ $font->name }}'
                                 <?php if($font->name == $preference->font){ echo "selected"; } ?>
                                 >{{ $font->name }}</option>
                                 @endforeach
@@ -235,11 +235,11 @@ $(document).ready(function(){
                 $(this).find(src_class).addClass('ma-options-src');
 
                 var hexString = $(this).find(default_color_class).val()
-                
+
                 if(hexString.replace('#','')){
                     hexString = hexString.replace('#','');
                 }
-                
+
                 layers_properties[ctr]['default_color'] = hexString;
                 layers_properties[ctr]['filename'] = $(this).find(src_class).val();
 
@@ -259,7 +259,7 @@ $(document).ready(function(){
 
         $('#colors_properties').val(layersProperties);
         $('#existing-layers-properties').val(layersProperties);
-        
+
     }
 
     var current_mascot = $('#current_mascot').val();
@@ -272,8 +272,7 @@ $(document).ready(function(){
 
     function getMascots(callback){
         var items;
-        // var url = "//" + api_host + "/api/mascots";
-        var url = "//api-dev.qstrike.com/api/mascots";
+        var url = "//" + api_host + "/api/mascots";
         $.ajax({
             url: url,
             async: false,

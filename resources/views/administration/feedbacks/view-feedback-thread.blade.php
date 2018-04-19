@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -102,7 +102,7 @@ $(document).ready(function(){
 
 $('.animated').autosize({append: "\n"});
 
-    
+
 var parent_id = $(".thread-div").last().data("message-id").toString();
 
 $('.reply-feedback').on('click', function(){
@@ -111,7 +111,7 @@ $('.reply-feedback').on('click', function(){
     var reply_content = $('.reply-content').val();
     var user_id = $('.user-id').val();
     var subject = $('.subject').val();
-    var url = "//api-dev.qstrike.com/api/message";
+    var url = "//" + api_host + "/api/message";
 
     var data = {
         subject: subject,

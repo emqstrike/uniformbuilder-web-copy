@@ -149,7 +149,7 @@ $(document).ready(function() {
     ub.funcs.hideColumns = function () {
 
         // Hide lastname, sleevetype and lastname application on everything except football
-        if (!ub.funcs.isFootball()) {
+        if (!ub.funcs.isFootball() || (ub.funcs.isFootball() && ub.config.type === "lower")) {
         
             $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
 
@@ -2090,11 +2090,12 @@ $(document).ready(function() {
         ub.funcs.hideColumns();
 
         // // Hide Last Name Application and Sleeve Type when not tackle twill football
-                
+
         if (
             !ub.funcs.isFootball() ||
             (ub.funcs.isFootball() && ub.current_material.material.factory_code === "BLB") || 
-            ub.current_material.material.price_item_code === "FBMJ"
+            ub.current_material.material.price_item_code === "FBMJ" || 
+            (ub.funcs.isFootball() && ub.config.type === "lower")
         )
         {
 

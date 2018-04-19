@@ -42,12 +42,12 @@ class MascotSizesController extends Controller
     }
 
     public function editMascotSizeForm($id)
-    {   
-        
+    {
+
         $mascot_size = $this->client->getMascotSize($id);
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
-        
+
         return view('administration.mascots.mascot-size-edit', [
             'sports' => $sports,
             'mascot_size' => $mascot_size
@@ -74,7 +74,7 @@ class MascotSizesController extends Controller
             $mascot_size_id = $request->input('mascot_size_id');
         }
 
-        $data = [            
+        $data = [
             'sport' => $sport,
             'properties' => $properties,
             'block_pattern_options' => $blockPatternOptions,
@@ -82,14 +82,14 @@ class MascotSizesController extends Controller
             'active' => $active,
             'notes' => $notes
         ];
-// dd($data);
+
         $response = null;
         if (!empty($mascot_size_id))
         {
             Log::info('Attempts to update MascotSize#' . $mascot_size_id);
-            $data['id'] = $mascot_size_id;          
-           
-            $response = $this->client->updateMascotSize($data);         
+            $data['id'] = $mascot_size_id;
+
+            $response = $this->client->updateMascotSize($data);
         }
         else
         {

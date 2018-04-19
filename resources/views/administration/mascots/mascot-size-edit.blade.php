@@ -3,7 +3,7 @@
 
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -191,28 +191,18 @@ function updateData(){
         };
         window.properties.push(x);
     });
-    console.log(JSON.stringify(window.properties));
     $('#props_data').val(JSON.stringify(window.properties));
 }
 
 function updateFields(){
     $('.prop-data').on('keyup', function(){
         updateData();
-        // window.properties = [];
-        // $(".prop-row").each(function(i) {
-        //     var x = {
-        //         size: $(this).find('.prop-size').val(),
-        //         scale: $(this).find('.prop-scale').val()
-        //     };
-        //     window.properties.push(x);
-        // });
+
     });
-    // console.log(JSON.stringify(window.properties));
 }
 
-$(document).on("change",".sport",function(){     
+$(document).on("change",".sport",function(){
     bindBPOS();
-    console.log("change sport");
 });
 
 window.block_patterns = null;
@@ -221,7 +211,7 @@ getBlockPatterms(function(block_patterns){ window.block_patterns = block_pattern
 
 function getBlockPatterms(callback){
     var block_patterns;
-    var url = "//api-dev.qstrike.com/api/block_patterns";
+    var url = "//" +api_host+ "/api/block_patterns";
     $.ajax({
         url: url,
         async: false,
@@ -236,23 +226,15 @@ function getBlockPatterms(callback){
     });
 }
 
-console.log(window.block_patterns);
 bindBPOS();
 function bindBPOS(){
-    // var sports = $('.sports-val').val().split('"').join('');
     var sports = $('.sport').val();
-    // console.log(sports);
     var sports_arr = null;
     var block_pattern_options = [];
-    // console.log('[[SPORTS]]');
-    // console.log(sports);
     if(sports != null){
         sports_arr = sports.split(",");
-        console.log(sports_arr);
         sports_arr.forEach(function(entry) {
-            // console.log('ENTRY: ' + entry);
             var x = _.filter(window.block_patterns, function(e){ return e.uniform_category === entry; });
-            // console.log(x);
             x.forEach(function(entry) {
                 var y = JSON.parse(entry.neck_options);
                 var list = [];
@@ -276,9 +258,8 @@ function bindBPOS(){
 }
 
 if($('#block_pattern_options_value').val()){
-        var bpos = JSON.parse($('#block_pattern_options_value').val());   
+        var bpos = JSON.parse($('#block_pattern_options_value').val());
     }
-    // var sports = JSON.parse($('#sports_value').val());
 
     $('.block-pattern-options').select2({
         placeholder: "Select block pattern option",
@@ -291,7 +272,6 @@ if($('#block_pattern_options_value').val()){
     });
 
     $('.block-pattern-options').select2('val', bpos);
-
 
 });
 </script>

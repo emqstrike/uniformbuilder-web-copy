@@ -40,13 +40,13 @@
     position: absolute; top: 0; bottom: 0;
     right: 37px;
     border: 2px solid #999999; border-radius: 9px;
-    transition: all 0.3s ease-in 0s; 
+    transition: all 0.3s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
     margin-left: 0;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px; 
+    right: 0px;
 }
 </style>
 @endsection
@@ -101,7 +101,7 @@
                         <tbody>
 
                  @forelse ($helpers as $helper)
-                    <tr class='feature-flag-{{ $helper->id }}'>
+                    <tr class='helper-{{ $helper->id }}'>
                         <td>
                             {{ $helper->id }}
                         </td>
@@ -117,7 +117,7 @@
                         <td>
                             {{ $helper->category }}
                         </td>
-                        <td class='sports-list'>
+                        <td>
                             {{ $helper->sports }}
                         </td>
                         <td>
@@ -129,9 +129,7 @@
                         <td>
                             {{ $helper->pdf_url }}
                         </td>
-
-                           
-                            <td>
+                        <td>
                             <div class="onoffswitch">
                                  <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-helpers" id="switch-{{ $helper->id }}" data-helpers-id="{{ $helper->id }}" {{ ($helper->active) ? 'checked' : '' }}>
                                    <label class="onoffswitch-label" for="switch-{{ $helper->id }}">
@@ -139,22 +137,18 @@
                                     <span class="onoffswitch-switch"></span>
                                 </label>
                             </div>
-                        </td>  
-                        <td>
-                                <a href="#" class="btn btn-danger delete-helper" data-helper-id="{{ $helper->id }}">Remove</a>
-                            </td>
-
-
+                        </td>
                         <td>
                             <a href="/administration/helper/edit/{{ $helper->id }}" class="btn btn-primary btn-xs edit-helper" data-helper-id="{{ $helper->id }}" role="button">
                                 <i class="glyphicon glyphicon-edit"></i>
                                 Edit
                             </a>
+                            <a href="#" class="btn btn-danger pull-right btn-xs delete-helper" data-helper-id="{{ $helper->id }}" role="button">
+                                <i class="glyphicon glyphicon-trash"> Remove</i>
+                            </a>
                         </td>
                     </tr>
-
                 @empty
-
                     <tr>
                         <td colspan='3'>
                             No Helpers Found
@@ -162,7 +156,6 @@
                     </tr>
 
                 @endforelse
-
                         </tbody>
                     </table>
                 </div>
@@ -171,7 +164,7 @@
     </div>
 </section>
 
-{{-- @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal']) --}}
+@include('partials.confirmation-modal')
 
 @endsection
 
@@ -179,60 +172,14 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-<!-- <script type="text/javascript" src="/js/administration/feature-flags.js"></script> -->
+
 <script type="text/javascript">
 $(document).ready(function(){
-    // $('.data-table').DataTable({
-    //     "paging": true,
-    //     "lengthChange": false,
-    //     "searching": false,
-    //     "ordering": true,
-    //     "info": true,
-    //     "autoWidth": false
-    // });
-var sports_icons = {
-    "Baseball" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/baseball.png",
-    "Fastpitch" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/baseball.png",
-    "Basketball" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/basketball.png",
-    "Apparel" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/apparel.png",
-    "Football" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/football.png",
-    "Golf" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/golf.png",
-    "Hockey" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/hockey.png",
-    "Lacrosse" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/lacrosse.jpg",
-    "Soccer" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/soccer.png",
-    "Tennis" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/tennis.gif",
-    "Volleyball" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/volleyball.png",
-    "Wrestling" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/wrestling.png"
-};
 
-$(".sports-list").each(function(i) {
-    var x = null;
-    try {
-        x = JSON.parse($(this).html());
-        // console.log(x[0]);
-        $(this).html('');
-         for(item in x) {
-          // console.log(item);
-          s = x[item];
-          // console.log(s);
-          $(this).append('<img src="' + sports_icons[s] + '" style="height: 30px; width: 30px; margin-right: 5px;" alt="' + s + '">');
-        }
-    }
-    catch(err) {
-        console.log(err.message);
-    }
-});
-
-
-
-
-
-
-  $('.toggle-helpers').on('click', function(){
+        $('.toggle-helpers').on('click', function(){
             var id = $(this).data('helpers-id');
             var url = "//" + api_host + "/api/helper/toggle/";
-            //var url = "//localhost:8888/api/helper/toggle/";
-  
+
             $.ajax({
                 url: url,
                 type: "POST",
@@ -243,7 +190,7 @@ $(".sports-list").each(function(i) {
                 headers: {"accessToken": atob(headerValue)},
                 success: function(response){
                     if (response.success) {
-                      
+
                         new PNotify({
                             title: 'Success',
                             text: response.message,
@@ -254,44 +201,38 @@ $(".sports-list").each(function(i) {
                     }
                 }
             });
-        }); 
+        });
 
-
-
-      $('.delete-helper').on('click', function(){
+        $(document).on('click', '.delete-helper', function() {
             var id = $(this).data('helper-id');
-           var url = "//" + api_host + "/api/helper/delete/";
-            //var url = "//localhost:8888/api/helper/delete";
-        
+            modalConfirm('Remove Helper', 'Are you sure you want to remove this helper?', id);
+        });
+
+        $('#confirmation-modal .confirm-yes').on('click', function(){
+            var id = $(this).data('value');
+            var url = "//" + api_host + "/api/helper/delete/";
             $.ajax({
-                url: url,
-                type: "POST",
-                data: JSON.stringify({id: id}),
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": atob(headerValue)},
-                success: function(response){
-                    if (response.success) {
-                      
-                        new PNotify({
-                            title: 'Success',
-                            text: response.message,
-                            type: 'success',
-                            hide: true
-                        });
-
-                        $( ".data-table" ).load( location+" .data-table" );
-                     
-                    }
-                }
-            });
-        }); 
-
-
-
-
-
+               url: url,
+               type: "POST",
+               data: JSON.stringify({id: id}),
+               dataType: "json",
+               crossDomain: true,
+               contentType: 'application/json',
+               headers: {"accessToken": atob(headerValue)},
+               success: function(response){
+                       if (response.success) {
+                       new PNotify({
+                           title: 'Success',
+                           text: response.message,
+                           type: 'success',
+                           hide: true
+                       });
+                       $('#confirmation-modal').modal('hide');
+                            $('.helper-'+id).fadeOut();
+                   }
+               }
+           });
+        });
 });
 </script>
 @endsection

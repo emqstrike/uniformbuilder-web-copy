@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -42,7 +42,7 @@ li.select2-selection__choice {
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         <input type="hidden" name="id" id="id">
-                                           
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-4">
@@ -52,7 +52,7 @@ li.select2-selection__choice {
                                     @endforeach
                                 </select>
                             </div>
-                        </div>                       
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-4">
@@ -113,13 +113,13 @@ li.select2-selection__choice {
 $(function(){
         window.block_patterns = null;
 
-        getBlockPatterns(function(block_patterns){ 
-            window.block_patterns = block_patterns; 
+        getBlockPatterns(function(block_patterns){
+            window.block_patterns = block_patterns;
         });
 
         function getBlockPatterns(callback){
             var block_patterns;
-            var url = "//api-dev.qstrike.com/api/block_patterns";
+            var url = "//" +api_host+ "/api/block_patterns";
             $.ajax({
                 url: url,
                 async: false,
@@ -133,17 +133,17 @@ $(function(){
                 }
             });
         }
-        var sport = null; 
+        var sport = null;
         $(document).on('change', '.sport', function() {
         sport = $('.sport').val();
-            getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; }); 
-            var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id === sport; });
+            getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
+            var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id == sport; });
                     $( '#block_pattern' ).html('');
                     $.each(x, function(i, item) {
                         $('#block_pattern' ).append( '<option value="' + item.id + '">' + item.name + '</option>' );
                     });
-        $('#block_pattern').trigger('change');           
-        });        
+        $('#block_pattern').trigger('change');
+        });
         $('.sport').trigger('change');
         var block_patterns_array = $('#block_patterns_data').text();
         var z = JSON.parse(block_patterns_array);
@@ -160,9 +160,9 @@ $(function(){
             } else {
             }
         });
-      });          
+      });
     $('#block_pattern').trigger('change');
 
-});   
+});
 </script>
 @endsection
