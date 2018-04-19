@@ -25,7 +25,7 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+        <!-- <li class="header">MAIN NAVIGATION</li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
@@ -51,7 +51,7 @@
             <li><a href="../layout/boxed.html"><i class="fa fa-search"></i> Search Orders</a></li>
             <li><a href="../layout/fixed.html"><i class="fa fa-paper-plane"></i> Sent Orders</a></li>
           </ul>
-        </li>
+        </li> -->
 
         
         <!-- <li>
@@ -107,7 +107,34 @@
             <li><a href="../forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
           </ul>
         </li> -->
-        <li class="header">MASTER INFORMATION</li>
+        <li class="header">MAIN NAVIGATION</li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+            <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-shopping-cart"></i> <span>Orders</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="../layout/top-nav.html"><i class="fa fa-cart-plus"></i> Recent Orders</a></li>
+            <li><a href="../layout/boxed.html"><i class="fa fa-search"></i> Search Orders</a></li>
+            <li><a href="../layout/fixed.html"><i class="fa fa-paper-plane"></i> Sent Orders</a></li>
+          </ul>
+        </li>
         <!-- <li><a href="#"><i class="fa fa-github-square"></i> Brands</a></li> -->
         <li>
           <a href="#">
@@ -140,10 +167,27 @@
             <li><a href="../tables/simple.html"><i class="fa fa-pencil"></i> Colors</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-map"></i> Fabrics</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-building"></i> Factories</a></li>
-            <li><a href="../tables/data.html"><i class="fa fa-font"></i> Fonts</a></li>
+            <li><a href="/fonts"><i class="fa fa-font"></i> Fonts</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-bars"></i> Gradients</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-github-alt"></i> Mascots</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-modx"></i> Patterns</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-list-alt"></i> <span>User Interactions</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="../tables/simple.html"><i class="fa fa-comments"></i> Feedbacks</a></li>
+            <li><a href="../tables/simple.html"><i class="fa fa-object-ungroup"></i> Inksoft Designs</a></li>
+            <li><a href="../tables/data.html"><i class="fa fa-linux"></i> Logo Requests</a></li>
+            <li><a href="../tables/data.html"><i class="fa fa-image"></i> Saved Designs</a></li>
+            <li><a href="../tables/data.html"><i class="fa fa-tags"></i> Tagged Styles</a></li>
+            <li><a href="../tables/data.html"><i class="fa fa-user-plus"></i> User Pairings</a></li>
           </ul>
         </li>
 
@@ -176,7 +220,7 @@
           </ul>
         </li>
 
-        <li class="header">USER INTERACTIONS</li>
+        <!-- <li class="header">USER INTERACTIONS</li>
 
         <li>
           <a href="#">
@@ -212,7 +256,7 @@
           <a href="#">
             <i class="fa fa-user-plus"></i> <span>User Pairings</span>
           </a>
-        </li>
+        </li> -->
 
         <!-- <li>
           <a href="../mailbox/mailbox.html">

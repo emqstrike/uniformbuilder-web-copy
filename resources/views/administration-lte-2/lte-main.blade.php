@@ -76,7 +76,7 @@
 @yield('styles')
 </head>
 <!-- <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse"> -->
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-black sidebar-mini">
 <div class="wrapper">
 
     @include('administration-lte-2.lte-main-topbar')
