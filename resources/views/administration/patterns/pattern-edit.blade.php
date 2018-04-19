@@ -297,10 +297,7 @@ var $select = $('#select-gear').selectize({
                             return '<div>"' + escape(data.text) + '"</div>';
                         }
                     },
-
                 });
-
-
 });
 </script>
 @endsection
