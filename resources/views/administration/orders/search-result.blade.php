@@ -95,9 +95,10 @@ getColors(function(colors){ window.colors = colors; });
 getPatterns(function(patterns){ window.patterns = patterns; });
 getSizingConfig(function(item_sizes){ window.item_sizes = item_sizes; });
 
+console.log('testdhevs'+window.item_sizes);
 function getSizingConfig(callback){
     var item_sizes;
-    var url = "//api-dev.qstrike.com/api/item_sizes";
+    var url = "//" +api_host+ "/api/item_sizes";
     $.ajax({
         url: url,
         async: false,
@@ -114,7 +115,7 @@ function getSizingConfig(callback){
 
 function getColors(callback){
     var colors;
-    var url = "//api-dev.qstrike.com/api/colors";
+    var url = "//" +api_host+ "/api/colors";
     $.ajax({
         url: url,
         async: false,
@@ -131,7 +132,7 @@ function getColors(callback){
 
 function getPatterns(callback){
     var patterns;
-    var url = "//api-dev.qstrike.com/api/patterns";
+    var url = "//" +api_host+ "/api/patterns";
     $.ajax({
         url: url,
         async: false,
@@ -156,12 +157,8 @@ function initBuildQuestions(){
             window.pa_id = entry.id;
             if('material_id' in builder_customizations.upper){
                 window.customizer_material_id = builder_customizations.upper.material_id;
-                // console.log("HAS UPPER ID");
-                // console.log(builder_customizations.upper);
             } else {
                 window.customizer_material_id = builder_customizations.lower.material_id;
-                // console.log("HAS LOWER ID");
-                // console.log(builder_customizations.upper);
             }
 
             var teamcolors = builder_customizations.team_colors;
@@ -173,18 +170,6 @@ function initBuildQuestions(){
             };
 
             getMaterial(function(material){ window.material = material; });
-
-            // var error_message = validateMaterialPreReq();
-            // validateMaterialPreReq();
-            // window.error_data = {
-            //     'error_message' : error_message['data'],
-            //     'order_id' : order_id,
-            //     'order_code' : api_order_id,
-            //     'client' : client,
-            //     'material_id' : window.customizer_material_id,
-            //     'type' : 'json'
-            // };
-            // checkErrors(error_message);
 
             getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
 
@@ -217,18 +202,14 @@ function initBuildQuestions(){
 
         if('material_id' in builder_customizations.upper){
             window.customizer_material_id = builder_customizations.upper.material_id;
-            // console.log("HAS UPPER ID");
-            // console.log(builder_customizations.upper);
         } else {
             window.customizer_material_id = builder_customizations.lower.material_id;
-            // console.log("HAS LOWER ID");
-            // console.log(builder_customizations.upper);
         }
 
         getMaterial(function(material){ window.material = material; });
         function getMaterial(callback){
             var material;
-            var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
+            var url = "//" +api_host+ "/api/material/"+window.customizer_material_id;
             $.ajax({
                 url: url,
                 async: false,
@@ -264,29 +245,12 @@ $('.generate-data').on('click', function(e){
     window.pa = null;
     window.team_colors = null;
 
-    // console.log('send to edit');
     var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
     var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
-    // api_order_id = $(this).data('api-order-id');
+
     api_order_id = $('.order-id').html();
     order_id = $(this).data('order-id');
     client = $(this).data('client');
-
-    // ship_contact = $(this).data('ship-contact');
-    // ship_address = $(this).data('ship-address');
-    // ship_phone = $(this).data('ship-phone');
-    // ship_city = $(this).data('ship-city');
-    // ship_state = $(this).data('ship-state');
-    // ship_zip = $(this).data('ship-zip');
-    // ship_email = $(this).data('ship-email');
-
-    // billing_contact = $(this).data('bill-contact');
-    // billing_address = $(this).data('bill-address');
-    // billing_city = $(this).data('bill-city');
-    // billing_state = $(this).data('bill-state');
-    // billing_zip = $(this).data('bill-zip');
-    // billing_email = $(this).data('bill-email');
-    // billing_phone = $(this).data('bill-phone');
 
     test_address = '9183 South North Ave. Spartanburg, SC 29301';
     test_contact_no = '(541) 754-1111';
@@ -319,12 +283,9 @@ $('.generate-data').on('click', function(e){
         window.pa_id = entry.id;
         if('material_id' in builder_customizations.upper){
             window.customizer_material_id = builder_customizations.upper.material_id;
-            // console.log("HAS UPPER ID");
-            // console.log(builder_customizations.upper);
+
         } else {
             window.customizer_material_id = builder_customizations.lower.material_id;
-            // console.log("HAS LOWER ID");
-            // console.log(builder_customizations.upper);
         }
 
         var teamcolors = builder_customizations.team_colors;
@@ -337,17 +298,7 @@ $('.generate-data').on('click', function(e){
 
         getMaterial(function(material){ window.material = material; });
 
-        // var error_message = validateMaterialPreReq();
         validateMaterialPreReq();
-        // window.error_data = {
-        //     'error_message' : error_message['data'],
-        //     'order_id' : order_id,
-        //     'order_code' : api_order_id,
-        //     'client' : client,
-        //     'material_id' : window.customizer_material_id,
-        //     'type' : 'json'
-        // };
-        // checkErrors(error_message);
 
         getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
 
@@ -404,16 +355,11 @@ $('.generate-data').on('click', function(e){
             "Sport": "All",
             "TeamName": "Wildcats"
         };
-        // console.log(order);
 
         var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
         window.test_size_data = JSON.parse(x.properties);
-        // console.log('Window Test Size Data');
-        // console.log(window.test_size_data);
         var order_items_split = splitRosterToQXItems();
         var order_parts_split = [];
-        // console.log('ORDER ITEMS SPLIT');
-        // console.log(order_items_split);
         order_items_split.forEach(function(entry, i) {
             var x = JSON.parse(JSON.stringify(window.order_parts[0]));
             x.orderPart.ItemID = entry.qx_item_id;
@@ -452,7 +398,7 @@ $('.generate-data').on('click', function(e){
 
             if( roster.length > 0 ){
                x.orderItems = roster;
-                order_parts_split.push(x); 
+                order_parts_split.push(x);
                 console.log('HAS ROSTER');
             } else {
                 console.log('NO ROSTER');
@@ -465,45 +411,12 @@ $('.generate-data').on('click', function(e){
         };
 
     strResult = JSON.stringify(orderEntire);
-    // console.log(strResult);
 
-    // console.log(JSON.stringify(orderEntire['orderParts']));
-
-    // SEND ORDER TO EDIT
-    // if(window.send_order){
-    //     if(window.material.item_id !== undefined){
-    //         $.ajax({
-    //             url: url,
-    //             type: "POST",
-    //             data: JSON.stringify(orderEntire),
-    //             contentType: 'application/json;',
-    //             success: function (data) {
-    //                 alert('Order was sent to EDIT!');
-    //                 var factory_order_id = data[0].OrderID;
-    //                 var parts = [];
-    //                 $.each(data, function( index, value ) {
-    //                     orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
-    //                     console.log(JSON.stringify(orderEntire));
-    //                     parts.push(orderEntire['orderParts'][index]['orderPart']);
-    //                 });
-    //                 console.log(JSON.stringify(parts));
-    //                 updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
-    //                 // document.location.reload(); // UNCOMMENT
-    //                 // console.log(data[0].OrderID);
-    //             },
-    //             error: function (xhr, ajaxOptions, thrownError) {
-    //                 //Error Code Here
-    //             }
-    //         });
-    //     } else {
-    //         console.log('Material has no item_id')
-    //     }
-    // }
 });
 
 function getOrderParts(callback){
     var order_parts;
-    var url = "//api-dev.qstrike.com/api/order/items/"+window.api_order_id;
+    var url = "//" +api_host+ "/api/order/items/"+window.api_order_id;
     $.ajax({
         url: url,
         async: false,
@@ -520,7 +433,7 @@ function getOrderParts(callback){
 
 function getMaterial(callback){
     var material;
-    var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
+    var url = "//" +api_host+ "/api/material/"+window.customizer_material_id;
     $.ajax({
         url: url,
         async: false,
@@ -537,7 +450,7 @@ function getMaterial(callback){
 
 function getPAConfigs(callback){
     var parts_aliases;
-    var url = "//api-dev.qstrike.com/api/parts_alias/"+window.material.parts_alias_id;
+    var url = "//" +api_host+ "/api/parts_alias/"+window.material.parts_alias_id;
     $.ajax({
         url: url,
         async: false,
@@ -570,7 +483,7 @@ function checkErrors(error_message){
             callback: function (result) {
                 if (result) {
                     $.ajax({
-                        url: 'http://api-dev.qstrike.com/api/test/slack_message/order_error',
+                        url: "http://" +api_host+ "/api/test/slack_message/order_error",
                         type: "POST",
                         data: JSON.stringify(window.error_data),
                         contentType: 'application/json;',
@@ -686,7 +599,7 @@ $('.view-order-items').on('click', function(e){
 
 function getOrderItems(callback){
     var order_items;
-    var url = "//localhost:8888/api/v1-0/order/items/"+window.order_id;
+    var url = "//" +api_host+ "/api/v1-0/order/items/"+window.order_id;
     $.ajax({
         url: url,
         async: false,
@@ -705,7 +618,7 @@ function applyConfigs(api_order_id){
     getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
     function getOrderParts(callback){
         var order_parts;
-        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        var url = "// "+api_host+" /api/order/items/"+api_order_id;
         $.ajax({
             url: url,
             async: false,
@@ -931,7 +844,7 @@ function applyConfigs(api_order_id){
             } catch(err) {
                 console.log(err.message);
             }
-            
+
         }
 
         if( data_pushed == false ){
@@ -946,28 +859,11 @@ function applyConfigs(api_order_id){
     });
 
     console.log(questions);
-    questions = _.uniq(questions, function(item, key, a) { 
+    questions = _.uniq(questions, function(item, key, a) {
         return item.QuestionID;
     });
     return questions;
 }
-
-// function drawOrderItems(){
-//     elem = '';
-//     window.order_items.forEach(function(entry, i) {
-//         roster_elem = drawRoster(entry.roster);
-//         elem += '<tr><td>Style</td><td>'+entry.description+'</td>';
-
-//     });
-// }
-
-// function drawRoster(data){
-//     elem = '';
-//     roster = JSON.parse(data);
-//     roster.forEach(function(entry, i) {
-//         elem += '<tr><td>SIZE</td>Quantity</tr>'
-//     });
-// }
 
 });
 </script>

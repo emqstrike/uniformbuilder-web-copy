@@ -129,7 +129,7 @@ var defaultElem = $( ".prop-row" ).clone();
 
 function getPriceItems(callback){
     var price_items;
-    var url = "//api-dev.qstrike.com/api/price_items";
+    var url = "//" +api_host+ "/api/price_items";
     $.ajax({
         url: url,
         async: false,
@@ -194,7 +194,7 @@ function refreshProperty(){
     $(".prop-row").each(function(i) {
         var x = $(this).find('.sizes').val();
         var price_item = $(this).find('.price-items').val();
-        var prices = _.find(window.price_items, function(e){ return e.price_item === price_item; });
+        var prices = _.find(window.price_items, function(e){ return e.price_item == price_item; });
 
         var data = {
             "size" : $(this).find('.sizes').val(),
