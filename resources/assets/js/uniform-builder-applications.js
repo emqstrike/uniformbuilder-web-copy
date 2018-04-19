@@ -6208,6 +6208,9 @@ $(document).ready(function() {
 
             /// Rotate
 
+            console.error(_v);
+            console.error(settingsObject.code);
+
             var _start = ub.objects[_v + '_view']['objects_' + settingsObject.code].rotation;
 
             _start = _start;
@@ -10799,26 +10802,27 @@ $(document).ready(function() {
 
             /// End Init Code
 
-        });
+            // Art Only 
 
-        // End Select Perspective 
+            if (typeof artOnly !== "undefined") {
 
-        // Art Only 
+                if (artOnly) {
 
-        if (typeof artOnly !== "undefined") {
+                    $('span.optionButton').not('[data-type="embellishments"]').hide();
+                    $('span.optionButton[data-type="mascot"]').removeClass('active');
+                    $('span.optionButton[data-type="embellishments"]').addClass('active');
 
-            if(artOnly) {
-                
-                $('span.optionButton').not('[data-type="embellishments"]').hide();
-                $('span.optionButton[data-type="embellishments"]').trigger('click');
+                    $('span.okButton').text('Next');
 
-                $('span.okButton').text('Next');
+                }
 
             }
 
-        }
-
         // End Art Only 
+
+        });
+
+        // End Select Perspective 
 
     };
 
