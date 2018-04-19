@@ -78,7 +78,7 @@ $(document).ready(function(){
     getMascots(function(mascots){ window.mascots = mascots; });
     function getMascots(callback){
         var mascots;
-        var url = "//api-dev.qstrike.com/api/mascots";
+        var url = "//" +api_host+ "/api/mascots";
         $.ajax({
             url: url,
             async: false,
@@ -143,11 +143,11 @@ $(document).ready(function(){
 
     $(document).on('change', '.mascot-filter', function() {
 
-        var filteredMascots=[];        
+        var filteredMascots=[];
         var mascotValue = $(this).val();
-     
-            jQuery.each(mascots, function(index, item) {    
-              
+
+            jQuery.each(mascots, function(index, item) {
+
                 if(((item.name).toLowerCase()).indexOf(mascotValue.toLowerCase()) > -1)
                 {
                     filteredMascots.push( index );
@@ -157,17 +157,17 @@ $(document).ready(function(){
             });
 
         var mascotFilterIndex=$(".mascot-filter").index(this);
-            if($(this).val()){             
-           
+            if($(this).val()){
+
                 $('.msc:eq('+ mascotFilterIndex +') .dd-container li').hide();
                 jQuery.each(filteredMascots, function(index, item) {
-                    
+
                     $('.msc:eq('+ mascotFilterIndex +') .dd-container li:eq('+item+')').show();
                 });
             }else{
                  $('.msc:eq('+ mascotFilterIndex +') .dd-container li').show();
             }
-         
+
        console.log(filteredMascots);
     });
 });
