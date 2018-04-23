@@ -2170,6 +2170,10 @@ $(document).ready(function() {
                 name: "Cage Jacket (Apparel)",
                 alias: "cage-jacket",
             },
+            {
+                name: "Compression Pant (Apparel)",
+                alias: "compression-pant-apparel",
+            },
 
         ],
 
@@ -2788,6 +2792,11 @@ $(document).ready(function() {
                 {
                     code: 'fan-replica-jersey',
                     name: 'Fan Replica Jersey (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'compression-pant',
+                    name: 'Compression Pant (Apparel)',
                     active: "1",
                 },
                 {
@@ -8246,6 +8255,10 @@ ub.funcs.fontOffSets = [
             sport: 'Cage Jacket (Apparel)',
             filters: ['All', 'Jersey'],
         },
+        {
+            sport: 'Compression Pant (Apparel)',
+            filters: ['All'],
+        },
           
     ];
 
@@ -10223,6 +10236,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Cage Jacket (Apparel)',
                 sublimatedPart: 'Extra',
             },
+            {
+                sport: 'Wrestling Compression Short Sleeve (Apparel)',
+                sublimatedPart: 'Extra',
+            },
             
             // Socks (Apparel)
         ],
@@ -11030,6 +11047,7 @@ ub.funcs.fontOffSets = [
 
             { sport: 'Socks (Apparel)' },
             { sport: 'Cage Jacket (Apparel)' },
+            { sport: 'Compression Pant (Apparel)' },
 
         ],
 
@@ -11686,6 +11704,12 @@ ub.funcs.fontOffSets = [
                 thumbFilename: 'cage-jacket.png',
                 gender: ['men', 'women'],    
             },
+            {
+                shortCode: 'compression-pant',
+                urlAlias: 'Compression Pant (Apparel)',
+                thumbFilename: 'compression-pant.png',
+                gender: ['men',],    
+            },
         ],
 
         getAlias: function (shortCode)  {
@@ -11994,6 +12018,7 @@ ub.funcs.fontOffSets = [
             'Fan Replica Jersey (Apparel)',
             'Cage Jacket (Apparel)',
             'Game Day Jackets (Apparel)',
+            'Compression Pant (Apparel)',
         ],
         isNonTackleTwill: function (uniformCategory) {
 
