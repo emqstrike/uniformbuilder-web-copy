@@ -28,6 +28,7 @@
                             <li><a href="/styles/men/cage-jacket" class="cage-jacket">Cage Jacket</a></li>
                             <li><a href="/styles/men/one-fourth-zip-jacket" class="sport-link-icons">Quarter Zip Jacket</a></li>
                             <li><a href="/styles/men/fan-replica-jersey" class="sport-link-icons">Fan Replica Jersey</a></li>
+                            <li><a href="/styles/men/compression-pant" class="sport-link-icons">Compression Pant</a></li>
                             <li><a href="/styles/men/team-shorts" class="sport-link-icons">2017 Team Short with Pockets</a></li>
                             <li><a href="/styles/men/signature-coaches-short" class="sport-link-icons">Signature Coaches Short</a></li>
                             <li><a href="/styles/men/cinch-sack" class="sport-link-icons">Cinch Sack</a></li>
