@@ -3,7 +3,7 @@
 
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -118,7 +118,6 @@ select:hover {
 
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-<!-- <script type="text/javascript" src="/js/administration/mascot-sizes.js"></script> -->
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript">
@@ -192,19 +191,11 @@ function updateData(){
 function updateFields(){
     $('.prop-data').on('keyup', function(){
         updateData();
-        // window.properties = [];
-        // $(".prop-row").each(function(i) {
-        //     var x = {
-        //         size: $(this).find('.prop-size').val(),
-        //         scale: $(this).find('.prop-scale').val()
-        //     };
-        //     window.properties.push(x);
-        // });
     });
-    // console.log(JSON.stringify(window.properties));
+
 }
 
-$(document).on("change",".sport",function(){     
+$(document).on("change",".sport",function(){
     bindBPOS();
     console.log("change sport");
 });
@@ -270,7 +261,7 @@ function bindBPOS(){
 }
 
     if($('#block_pattern_options_value').val()){
-        var bpos = JSON.parse($('#block_pattern_options_value').val());   
+        var bpos = JSON.parse($('#block_pattern_options_value').val());
     }
     // var sports = JSON.parse($('#sports_value').val());
 

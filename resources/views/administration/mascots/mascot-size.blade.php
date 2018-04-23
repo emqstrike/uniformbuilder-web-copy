@@ -5,8 +5,6 @@
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 @endsection
 
-
-
 @section('content')
 
 <section class="content">
@@ -31,6 +29,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Sport</th>
+                            <th>Block Pattern</th>
                             <th>Block Pattern Option</th>
                             <th>Type</th>
                             <th>Notes</th>
@@ -44,9 +43,12 @@
                         <tr class='mascot-size-{{ $mascot_size->id }}'>
                             <td>
                                 {{ $mascot_size->id }}
-                            </td>            
+                            </td>
                             <td>
                                 {{ $mascot_size->sport }}
+                            </td>
+                            <td>
+                                {{ $mascot_size->block_patterns }}
                             </td>
                             <td>
                                 {{ $mascot_size->block_pattern_options }}
@@ -58,7 +60,7 @@
                                 {{ $mascot_size->notes }}
                             </td>
                             <td>
-                                @if( $mascot_size->active )
+                                @if( $mascot_size->active )g
                                     Yes
                                 @else
                                     No
@@ -69,7 +71,7 @@
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
-                                <a href="#" class="btn btn-danger pull-right btn-xs delete-mascot-size" data-mascot-size-id="{{ $mascot_size->id }}" role="button">
+                                <a href="#" class="btn btn-danger btn-xs delete-mascot-size" data-mascot-size-id="{{ $mascot_size->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
                                 </a>
@@ -88,7 +90,7 @@
 
                     @endforelse
 
-                  
+
 
                     </tbody>
                     </table>
@@ -123,7 +125,7 @@ $(document).ready(function(){
     });
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/mascot_size/delete/";      
+        var url = "//" + api_host + "/api/mascot_size/delete/";
         $.ajax({
             url: url,
             type: "POST",
@@ -141,10 +143,8 @@ $(document).ready(function(){
                         hide: true
                     });
                     $('#confirmation-modal').modal('hide');
-             
-                        $('.mascot-size-' + id).fadeOut();
-             
 
+                        $('.mascot-size-' + id).fadeOut();
                 }
             }
         });
