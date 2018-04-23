@@ -1501,6 +1501,9 @@ $(document).ready(function() {
                     sport: 'basketball',
                     sizes:  [
                                 {
+                                    size: 2,
+                                },
+                                {
                                     size: 2.5,
                                 },
                             ],
@@ -2296,6 +2299,50 @@ $(document).ready(function() {
 
                 ],
             },
+            // Field Hockey
+            {
+                name: 'mascot',
+                sport: 'wrestling-compression-shorts',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            },
+                            {
+                                size: 6,
+                            },
+                            {
+                                size: 7,
+                            },
+                            {
+                                size: 8,
+                            },
+                            {
+                                size: 9,
+                            },
+                            {
+                                size: 10,
+                            },
+                            {
+                                size: 11,
+                            },
+                            {
+                                size: 12,
+                            }
+                ],
+            },
 
         ], 
         getSize: function (applicationType, sport, id) {
@@ -2324,6 +2371,7 @@ $(document).ready(function() {
             if (sport === "game-day-coaches-jackets")           { return _result[0]; }
             if (sport === "field-hockey")                       { return _result[0]; }
             if (sport === "compression-pant")                   { return _result[0]; }
+            if (sport === "wrestling-compression-shorts")       { return _result[0]; }
 
             if (typeof _object === "undefined") {
 
@@ -2332,6 +2380,21 @@ $(document).ready(function() {
             }
 
             return _object;
+
+        }
+
+    }
+
+    ub.data.mascotSizesFromBackend = {
+
+        items: [
+            'Football 2017',
+            'Wrestling Compression Shorts',
+        ],
+
+        isValid: function (sport) {
+
+            return _.find(this.items, sport) !== "undefined";
 
         }
 

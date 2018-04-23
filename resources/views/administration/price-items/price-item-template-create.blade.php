@@ -34,14 +34,14 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control color-name" name="name" value="{{ old('name') }}">
+                                <input type="name" class="form-control color-name" name="name" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-6">
-                                <textarea name="description" class="form-control autosized"></textarea>
+                                <textarea name="description" class="form-control autosized" required></textarea>
                             </div>
                         </div>
 
@@ -129,7 +129,7 @@ var defaultElem = $( ".prop-row" ).clone();
 
 function getPriceItems(callback){
     var price_items;
-    var url = "//api-dev.qstrike.com/api/price_items";
+    var url = "//" +api_host+ "/api/price_items";
     $.ajax({
         url: url,
         async: false,
@@ -194,7 +194,7 @@ function refreshProperty(){
     $(".prop-row").each(function(i) {
         var x = $(this).find('.sizes').val();
         var price_item = $(this).find('.price-items').val();
-        var prices = _.find(window.price_items, function(e){ return e.price_item === price_item; });
+        var prices = _.find(window.price_items, function(e){ return e.price_item == price_item; });
 
         var data = {
             "size" : $(this).find('.sizes').val(),

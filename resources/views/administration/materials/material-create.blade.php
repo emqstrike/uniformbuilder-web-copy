@@ -165,6 +165,7 @@
                                 <select name='gender' class="form-control gender">
                                     <option value='men'>Men</option>
                                     <option value='women'>Women</option>
+                                    <option value='unisex'>Unisex</option>
                                 </select>
                             </div>
                         </div>
@@ -436,6 +437,7 @@
                                 <select name="brand" class="form-control">
                                         <option value="none">None</option>
                                         <option value="prolook">Prolook</option>
+                                        <option value="richardson">Richardson</option>
                                 </select>
                             </div>
                         </div>

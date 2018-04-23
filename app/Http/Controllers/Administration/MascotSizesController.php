@@ -54,7 +54,6 @@ class MascotSizesController extends Controller
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
-
         return view('administration.mascots.mascot-size-edit', [
             'sports' => $sports,
             'mascot_size' => $mascot_size,

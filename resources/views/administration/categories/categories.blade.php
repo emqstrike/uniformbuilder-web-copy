@@ -23,7 +23,7 @@
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        <span class="fa fa-building-o"></span>
+                        <span class="fa fa-soccer-ball-o"></span>
                         Uniform Categories
                         <small>
                             <a href="/administration/category/add" class='btn btn-xs btn-success'>
@@ -53,13 +53,19 @@
                                 {{ $category->name }}
                             </td>
                             <td>
-                                <img src="{{ $category->thumbnail_male }}" style="height: 105px; width: 70px;">
+                            @if ($category->thumbnail_male)
+                                <img src="{{ $category->thumbnail_male }}" style="height: 100px; width: 70px;">
+                            @endif
                             </td>
                             <td>
-                                <img src="{{ $category->thumbnail_female }}" style="height: 105px; width: 70px;">
+                            @if ($category->thumbnail_female)
+                                <img src="{{ $category->thumbnail_female }}" style="height: 100px; width: 70px;">
+                            @endif
                             </td>
                             <td>
-                                <img src="{{ $category->thumbnail_youth }}" style="height: 105px; width: 70px;">
+                            @if ($category->thumbnail_youth)
+                                <img src="{{ $category->thumbnail_youth }}" style="height: 100px; width: 70px;">
+                            @endif
                             </td>
                             <td>
                                 {{ $category->sizes }}
@@ -103,7 +109,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>                     
+                            <td></td>
                         </tr>
                     </tfoot>
                     </table>

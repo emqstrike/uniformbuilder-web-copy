@@ -437,15 +437,16 @@ $(document).ready(function () {
             }
 
             var _type = ub.current_material.material.uniform_application_type.replace('_', ' ');
-
             var _getPrice = ub.funcs.getPriceElements(ub.current_material.material);
-
             var _adultStr = '<span class="adult-str">Adult &nbsp</span>';
 
             $('div#uniform_name').html('<span class="type">' + _type + '</span><br />' + ub.current_material.material.name);
             $('div#uniform-price-youth').html("Youth <span class='youthPriceCustomizer " + _getPrice.youth_sale + "'> from $" + _getPrice.youth_min_msrp + "</span> <span class='youthPriceCustomizerSale " + _getPrice.youth_sale + "'>"  +  'now from $' + _getPrice.youth_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             $('div#uniform-price-adult').html(_adultStr + "<span class='adultPriceCustomizer " + _getPrice.adult_sale + "'>from $" + _getPrice.adult_min_msrp + "</span> <span class='adultPriceCustomizerSale " + _getPrice.adult_sale + "'>"  +  'now from $' + _getPrice.adult_min_web_price_sale + '<span class="sales-badge">Sale!</span></span><br />');
             // $('div#uniform-price-call-for-team-pricing').addClass(_getPrice.callForPricing);
+
+            if (typeof _getPrice.youth_min_msrp === "undefined") { $('div#uniform-price-youth').addClass('hide'); }
+            if (typeof _getPrice.adult_min_msrp == "undefined") { $('div#uniform-price-adult').hide(); }
 
             $('div.header-container').css('display','none !important');
 
@@ -931,6 +932,10 @@ $(document).ready(function () {
             }
 
         }
+
+        ub.funcs.updateTagStyleCount = function () {
+            $('span.slink > span.count').html(_.size(ub.data.tagged_styles));
+        };
  
         ub.callback = function (obj, object_name) {
 
@@ -1019,7 +1024,8 @@ $(document).ready(function () {
                 if (object_name === 'tagged_styles') {
 
                     ub.data.tagged_styles = _.filter(ub.data.tagged_styles, {user_id: ub.user.id.toString()});
-                    $('span.slink > span.count').html(_.size(ub.data.tagged_styles));
+
+                    ub.funcs.updateTagStyleCount();
 
                 } 
                 
@@ -1334,23 +1340,16 @@ $(document).ready(function () {
 
         var substringMatcher = function(strs) {
           return function findMatches(q, cb) {
-            var matches, substringRegex;
+            
+            var matches = [];
 
-            // an array that will be populated with substring matches
-            matches = [];
-
-            // regex used to determine if a string contains the substring `q`
-            substrRegex = new RegExp(q, 'i');
-
-            // iterate through the pool of strings and for any string that
-            // contains the substring `q`, add it to the `matches` array
+            // Use a simplier matcher
             $.each(strs, function(i, str) {
-              if (substrRegex.test(str)) {
-                matches.push(str);
-              }
+              if (str.toLowerCase().indexOf(q.toLowerCase()) !== -1) { matches.push(str); }
             });
 
             cb(matches);
+
           };
         };
 
@@ -1370,7 +1369,7 @@ $(document).ready(function () {
 
             if (type === 'materials') {
 
-                _object = _.find(ub.materials, {name: name});
+                _object = _.find(ub.materials, {searchName: name});
                 _id = _object.id;
                 _thumbnail = _object.thumbnail_path;
 
@@ -1410,13 +1409,11 @@ $(document).ready(function () {
 
         ub.addToSearchResults = function (type, data) {
 
-            var _key = Math.round(+new Date()/1000).toString(); 
+            var _key = $('input#search_field').val();
             var _searchResultsObject = ub.searchResults;
 
             if (!Array.isArray(_searchResultsObject[_key])) {
-
                 _searchResultsObject[_key] = [];
-
             }
 
             var _object = ub.funcs.getSearchObject(type, data);
@@ -1458,7 +1455,8 @@ $(document).ready(function () {
 
                     $('.typeahead').typeahead({
                         minLength: 3,
-                        highlight: true
+                        highlight: true,
+                        limit: 30,
                     },
                     {
                         name: 'materials',
@@ -1510,11 +1508,11 @@ $(document).ready(function () {
 
                     });
 
-                    $('#search_field').attr("placeholder","Search: Style or Saved Designs");
+                    $('#search_field').attr("placeholder","Search: Style");
                     ub.funcs.showMainLinks();
 
                     ub.funcs.closePickersDialog();
-                    
+
                 }
 
             }
@@ -1579,52 +1577,58 @@ $(document).ready(function () {
 
             if (material.uniform_category === "Football" || material.uniform_category === "Wrestling" || "Baseball") {
 
-                    var _pricingTable = JSON.parse(material.pricing);
-                    material.parsedPricingTable = _pricingTable;
-                    
-                    if (material.pricing === null) {
+                var _pricingTable = JSON.parse(material.pricing);
+                material.parsedPricingTable = _pricingTable;
+                
+                if (material.pricing === null) {
 
-                        material.parsedPricingTable = {
+                    material.parsedPricingTable = {
 
-                            youth_min_msrp: ' (Call for Pricing)',
-                            adult_min_msrp: ' (Call for Pricing)',
-                            youth_sale: 'nosale',
-                            adult_sale: 'nosale',
-                            callForPricing: 'callForPricingOff'
-
-                        }
-                        
-                    } else {
-
-                        callForPricing: 'callForPricingOn'
-    
-                        if (_pricingTable.youth_min_web_price_sale === "0.00") {
-
-                            _pricingTable.youth_sale = "nosale";    
-
-                        } else {
-
-                            _pricingTable.youth_sale = "sale";    
-
-                        }
-
-                        if (_pricingTable.adult_min_web_price_sale === "0.00") {
-
-                            _pricingTable.adult_sale = "nosale";    
-
-                        } else {
-
-                            _pricingTable.adult_sale = "sale";    
-
-                        }
+                        youth_min_msrp: ' (Call for Pricing)',
+                        adult_min_msrp: ' (Call for Pricing)',
+                        youth_sale: 'nosale',
+                        adult_sale: 'nosale',
+                        callForPricing: 'callForPricingOff'
 
                     }
                     
+                } else {
+
+                    callForPricing: 'callForPricingOn';
+
+                    if (_pricingTable.youth_min_web_price_sale === "0.00") {
+
+                        _pricingTable.youth_sale = "nosale";    
+
+                    } else {
+
+                        _pricingTable.youth_sale = "sale";    
+
+                    }
+
+                    if (_pricingTable.adult_min_web_price_sale === "0.00") {
+
+                        _pricingTable.adult_sale = "nosale";    
+
+                    } else {
+
+                        _pricingTable.adult_sale = "sale";    
+
+                    }
+
                 }
+                
+            }
 
         }
 
-        ub.load_materials = function (obj, object_name){
+        ub.funcs.getSearchName = function (material) {
+            return material.name.trim() + ' (' + material.gender + ')';
+        }
+
+
+
+        ub.load_materials = function (obj, object_name) {
 
             ub.displayDoneAt('Styles loaded.');
             ub.materials = {};
@@ -1635,6 +1639,7 @@ $(document).ready(function () {
 
             _.each (ub.materials, function (material) {
 
+                material.searchName = ub.funcs.getSearchName(material);
                 material.calculatedPrice = ub.funcs.getPrice(material);
                 ub.funcs.processMaterialPrice(material);
 
@@ -1643,9 +1648,7 @@ $(document).ready(function () {
                 material.is_favorite = (typeof _result !== "undefined"); // Mark Favorite items
 
                 if (material.thumbnail_path_left === "") {
-                    
                     material.thumbnail_path_left = material.thumbnail_path;
-
                 }
 
                 if ((material.uniform_category === "Baseball" && material.type === "lower") || 
@@ -1654,31 +1657,34 @@ $(document).ready(function () {
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
-                    ub.funcs.isSocks()) {
-
+                    (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
+                
                     material.thumbnail_path_left = material.thumbnail_path_front;
-
                 }
 
-                 if (material.uniform_category === "Cinch Sack (Apparel)") {
-
+                if (material.uniform_category === "Cinch Sack (Apparel)") {
                     material.thumbnail_path_left = material.thumbnail_path_back;
-
                 }
    
             });
 
-            ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
+            var _searchSource = _.map(ub.materials, function (material) {
+                return ub.funcs.getSearchName(material);
+            });
+
+            // ub.data.searchSource['materials'] = _.pluck(ub.materials, 'name');
+            ub.data.searchSource['materials'] = _searchSource;
             ub.displayDoneAt('Price Preparation Complete.');
             ub.displayDoneAt('Preparing Search...');
 
             if (ub.page === "builder") { ub.prepareTypeAhead(); }
-            
-            if (ub.config.styles) {
+            if (ub.config.styles) { ub.funcs.callDirectLinks(); }
 
-                ub.funcs.callDirectLinks();
+            var _mapped = _.map(ub.data.tagged_styles, function (tagStyle) { return _.find(ub.materials, {id: tagStyle.uniform_id}); });
 
-            }
+            // Remove inactive styles that were tagged
+            ub.data.tagged_styles = _.filter(ub.data.tagged_styles, function (tagStyle) { return typeof _.find(_mapped, {id: tagStyle.uniform_id}) !== "undefined"; });
+            ub.funcs.updateTagStyleCount();
 
         }
 
@@ -1905,6 +1911,7 @@ $(document).ready(function () {
         if (_app.hasNumber === 1) { _set.push ('number'); }
         if (_app.hasPlayerName === 1) { _set.push ('player_name'); }
         if (_app.hasTeamName === 1) { _set.push ('team_name'); }
+        if (_app.hasEmbellishment === 1) { _set.push ('embellishments'); }
 
         return _set;
 
@@ -2446,7 +2453,7 @@ $(document).ready(function () {
                 e.setting_type === 'static_layer') { return; }
 
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
-                
+
                 if (typeof e.code !== "undefined") {
                     ub.utilities.info(e.code.toTitleCase() + ' layer detected, skipping add to Team Colors...');     
                 }
@@ -2455,7 +2462,8 @@ $(document).ready(function () {
 
             }
 
-            
+            if (typeof e.code === "undefined") { return; }
+
             if (typeof e.code !== 'undefined') {
 
                 
@@ -2611,10 +2619,12 @@ $(document).ready(function () {
 
             }
 
+            if (typeof application_obj.patternID === "undefined") {
+                application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
+                if (application_obj.withPattern && application_obj.patternID !== null) { ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); }
+            }
             // Application Pattern
-            application_obj = ub.funcs.prepBackendPatternSettings(application_obj);
-            if (application_obj.withPattern && application_obj.patternID !== null) { ub.funcs.changePatternFromBackend(application_obj, application_obj.patternID, application_obj.patternConfigFromBackend); }
-
+    
             // Application Opacity
             application_obj = ub.funcs.prepareBackendOpacitySettings(application_obj);
             if (application_obj.withOpacity) { ub.funcs.changeMascotOpacityFromBackend(application_obj, application_obj.opacityConfig); }
@@ -2650,19 +2660,7 @@ $(document).ready(function () {
 
             }
 
-            if (application_obj.type === "mascot"){
-
-                ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
-
-                // if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
-                if (ub.page === "order") { ub.funcs.customArtworkRequestCheckOrders(application_obj); }
-                if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
-
-                // if (ub.page === "saved-design" || ub.page === "order") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
-
-            }
-
-            if (application_obj.type === "embellishments"){
+            if (application_obj.type === "embellishments") {
 
                 ub.funcs.update_application_embellishments(application_obj.application, application_obj.embellishment);
 
@@ -2670,7 +2668,38 @@ $(document).ready(function () {
 
             }
 
-            if (application_obj.type === "logo"){
+            if (application_obj.type === "mascot") {
+
+                var _primaryView = ub.funcs.getPrimaryViewObject(application_obj.application);
+                var _inksoftID = _primaryView.application.inksoftDesignID;
+
+                if (typeof _primaryView !== "undefined") {
+
+                    if (typeof _inksoftID !== "undefined") {
+
+                        if (_inksoftID.length > 0) { 
+
+                            window.is.isMessage(_inksoftID, application_obj.code, true);
+                            
+                        } else {
+
+                            ub.funcs.processMascots(application_obj);
+                        
+                        }
+
+                    } else {
+
+                        ub.funcs.processMascots(application_obj);
+                        
+                    }
+
+                } 
+                
+                // if (ub.page === "saved-design" || ub.page === "order") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
+
+            }
+
+            if (application_obj.type === "logo") {
 
                 ub.update_application_logo(application_obj);
 
@@ -2724,6 +2753,16 @@ $(document).ready(function () {
         }
 
     };
+
+    ub.funcs.processMascots = function (application_obj) {
+
+        ub.funcs.update_application_mascot(application_obj.application, application_obj.mascot);
+
+        // if (ub.page === "order") { ub.funcs.customArtworkRequestCheck(application_obj); }
+        if (ub.page === "order") { ub.funcs.customArtworkRequestCheckOrders(application_obj); }
+        if (ub.page === "saved-design") { ub.funcs.customArtworkRequestCheckSavedDesign(application_obj); }
+
+    }
 
     ub.funcs.activateLeftView = function () {
 
@@ -6167,7 +6206,12 @@ $(document).ready(function () {
 
                 if (typeof ub.data.colorsUsed[_paddedHex] === 'undefined') {
 
-                    ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};
+                    if (typeof layer.team_color_id !== "undefined") {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: layer.team_color_id };    
+                    } else {
+                        ub.data.colorsUsed[_paddedHex] = {hexCode: _paddedHex, parsedValue: util.decimalToHex(sprite.tint, 6), teamColorID: ub.funcs.getMaxTeamColorID() + 1};    
+                    }
+                    
                 }
                 ///
 
@@ -6611,6 +6655,7 @@ $(document).ready(function () {
         $('span.slink[data-item="Pant"]').attr('data-gender', gender);
         $('span.slink[data-item="Twill"]').attr('data-gender', gender);
         $('span.slink[data-item="Sublimated"]').data('gender', gender);
+        $('span.slink[data-item="Knitted"]').data('gender', gender);
 
         $('span.slink[data-item="Jersey"]').html("Jersey");
         $('span.slink[data-item="Pant"]').html("Pant");
@@ -6634,6 +6679,11 @@ $(document).ready(function () {
                 $('span.slink[data-item="Pant"]').html(_secondaryBarLabels.lowerLabel);
                 $('span.slink[data-item="Twill"]').hide();
 
+                if (sport === "Socks (Apparel)") {
+                    $('span.slink[data-item="Twill"]').hide();
+                    $('span.slink[data-item="Knitted"]').show();
+                }
+
             } else if (_secondaryBarLabels.type === "both") {
 
                 $('span.slink[data-item="Jersey"]').html(_secondaryBarLabels.upperLabel);
@@ -6643,6 +6693,21 @@ $(document).ready(function () {
             }
 
         }
+
+        if (sport !== "Socks (Apparel)") { $('span.slink[data-item="Knitted"]').hide(); }
+        
+        if (ub.data.nonTackleTwillItems.isNonTackleTwill(sport)) { 
+            $('span.slink[data-item="Twill"]').hide(); 
+        }
+
+        // Todo get this from the actual available uniform list
+        if (ub.data.tackleTwillOnly.isTackleTwillOnly(sport)) { 
+            $('span.slink[data-item="Twill"]').show(); 
+            $('span.slink[data-item="Sublimated"]').hide(); 
+        } else {
+            $('span.slink[data-item="Sublimated"]').show();
+        }
+
 
     }
 
@@ -6774,14 +6839,21 @@ $(document).ready(function () {
             var _str = '';
             
             var d = { block_patterns: _optionsCollection, }
+
+            // Don't include Crew in the Quarternary options, todo: move this to a config list
+            d.block_patterns = _.filter(d.block_patterns, function (item) { return !ub.data.filterExclusions.isExcluded(item.alias); });
+
             var m = Mustache.render(t, d);
-            
+
             $('.quarternary-bar').html(m);
 
             // Don't show quarternary bar if there's no items
             if (_optionsCollection.length > 0) {
                 $('div.quarternary-bar').fadeIn();            
             }
+
+            // Side effect of whitelist
+            if (d.block_patterns.length === 0) { $('div.quarternary-bar').hide(); }
 
             $('div.quarternary-bar').css('margin-top', "0px");
 
@@ -7014,10 +7086,8 @@ $(document).ready(function () {
 
                     // If the uniform doesnt have a thumbnail use the sports picker thumb
                     if (imgt.attr('src') === ("?v=" + ub.config.asset_version)) {
-
                         var _filename =  '/images/main-ui/pickers/' + actualGender.toTitleCase() + '/' + ub.data.sportAliases.getAlias(gender).alias + '.png';
                         imgt.attr('src', _filename);
-
                     }
 
                     var _resultPrice = $(this).find('span.calculatedPrice').html();
@@ -7029,19 +7099,14 @@ $(document).ready(function () {
                         var _uid = $(this).data('id');
 
                         if (typeof _uid !== "undefined") {
-
                             _uid = _uid.toString();
-
                         }
 
                         _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
                         
                         if (typeof _result !== "undefined") {
-
                             $(this).find('div.favorite').show();
-
                         }
-
 
                     }
 
@@ -7051,9 +7116,29 @@ $(document).ready(function () {
 
                         if (_priceItemName) {
                             $(this).find('div.price_item_template_name').show();
+                            $(this).find('div.material_id').show();
                         } else {
                             $(this).find('div.price_item_template_name').hide();    
+                            $(this).find('div.material_id').hide();    
                         }
+
+                    }
+
+                    if ($(this).data('youth-price') === "") {
+
+                        console.warn('Hiding Youth Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
+
+                        $(this).find('span.youthPrice').addClass('hide');
+                        $(this).find('span.youthPriceSale').addClass('hide');
+
+                    }
+
+                    if ($(this).data('adult-price') === "") {
+
+                        console.warn('Hiding Adult Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
+
+                        $(this).find('span.adultPrice').addClass('hide');                        
+                        $(this).find('span.adultPriceSale').addClass('hide');                        
 
                     }
 
@@ -7062,7 +7147,9 @@ $(document).ready(function () {
             );
 
             ub.funcs.hideIpadUniforms();
-            ub.funcs.cleanupPricesPerSport(_sport);
+
+            // Disable this to provide for the new way of price cleanup
+            // ub.funcs.cleanupPricesPerSport(_sport);
 
             $('.picker-header').html('Choose a Style');
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
@@ -7080,7 +7167,7 @@ $(document).ready(function () {
             var _options = [];
 
             if (gender === "Football") {
-            
+
                 itemsWOUpper = _.filter(items, {type: 'lower'});
                 _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
 
@@ -7105,23 +7192,25 @@ $(document).ready(function () {
                 if (option === null) { return; }
 
                 _blockPatternsCollection.push({
-
                     alias: option.replace('Baseball Jersey','').toTitleCase(),
                     item: option,
-
                 });
 
             });
 
             // Add Blanks
 
-            _blockPatternsCollection.push({
+            if (ub.filters.secondary !== "knitted" && ub.filters.secondary !== "tackle_twill") {
 
-                alias: 'Blank Styles',
-                item: 'Blank Styles',
+                _blockPatternsCollection.push({
 
-            });
+                    alias: 'Blank Styles',
+                    item: 'Blank Styles',
 
+                });    
+
+            }
+            
             // Add Favorites
             _blockPatternsCollection.push({
 
@@ -7168,8 +7257,14 @@ $(document).ready(function () {
 
                 var _dataItem = $(this).data('item');
                 var _gender = $(this).data('gender').toLowerCase();
+                var _sport = gender;
 
                 if (_dataItem === "separator") { return; }
+
+                var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
+                if (_availableForUnisex) {
+                    actualGender = 'unisex'    
+                }
 
                 $('span.secondary-filters').removeClass('active');
                 $(this).addClass('active');
@@ -7181,6 +7276,10 @@ $(document).ready(function () {
                 } else if (_dataItem === "Twill") {
 
                     ub.filters.secondary = "tackle_twill";
+
+                } else if (_dataItem === "Knitted") {
+
+                    ub.filters.secondary = "knitted";
 
                 } else {
 
@@ -7253,6 +7352,10 @@ $(document).ready(function () {
             $('span.primary-filters').on('click', function () {
 
                 var _gender = $(this).data('gender').toLowerCase();
+                var _sport = gender;
+                var _availableForUnisex = ub.data.uniSexSports.isUniSex(_sport);
+
+                if (_availableForUnisex) { actualGender = 'unisex'; }
 
                 $('span.primary-filters').removeClass('active');
                 $(this).addClass('active');
@@ -7338,24 +7441,22 @@ $(document).ready(function () {
 
             ub.funcs.hideSecondaryBar();
 
-            var template = $('#m-picker-items-search-results').html();
-            var uniques = _.map(_.groupBy(items, function(doc) {
-              return doc.id;
-            }),function(grouped){
-              return grouped[0];
-            });
-
+            var template = $('#m-picker-items-uniforms').html();
+            var _plucked = _.pluck(items, 'id');
+            var _transformed = _.map (_plucked, function (item) { return _.find(ub.materials, {id: item}); });
             var _betaUniformsOk = ub.config.features.isOn('uniforms','betaSportUniforms');
 
-            if (!_betaUniformsOk ) {
+            if (!_betaUniformsOk) {
 
-                uniques = _.reject(uniques, function (item) { return ub.data.tempSports.isSportOK(item.uniform_category); });
+                _transformed = _.reject(_transformed, function (item) { return ub.data.tempSports.isSportOK(item.uniform_category); });
 
             } 
+
+            _transformedUnique = _.uniq(_transformed);
                 
             var data = {
                 picker_type: type,
-                picker_items: uniques,
+                picker_items: _transformedUnique,
                 uniform_type: function () {
 
                     return function (text, render) {
@@ -7372,7 +7473,73 @@ $(document).ready(function () {
             }
 
             var markup = Mustache.render(template, data);
-            $scrollerElement.html(markup);
+            $.when($scrollerElement.html(markup)).then(
+
+                $('.main-picker-items').each(function(item) {
+
+                    var imgt = $(this).find('img');
+
+                    // If the uniform doesnt have a thumbnail use the sports picker thumb
+                    if (imgt.attr('src') === ("?v=" + ub.config.asset_version)) {
+                        var _filename =  '/images/main-ui/pickers/' + actualGender.toTitleCase() + '/' + ub.data.sportAliases.getAlias(gender).alias + '.png';
+                        imgt.attr('src', _filename);
+                    }
+
+                    var _resultPrice = $(this).find('span.calculatedPrice').html();
+
+                    // if (_resultPrice === "Call for Pricing") { $(this).find('span.callForTeamPricing').html(''); }
+
+                    if (typeof ub.user.id !== 'undefined' && window.ub.config.material_id === -1) {
+
+                        var _uid = $(this).data('id');
+
+                        if (typeof _uid !== "undefined") {
+                            _uid = _uid.toString();
+                        }
+
+                        _result = _.find(ub.data.tagged_styles, {uniform_id: _uid});
+                        
+                        if (typeof _result !== "undefined") {
+                            $(this).find('div.favorite').show();
+                        }
+
+                    }
+
+                    _priceItemName = ub.config.features.isOn('uniforms','priceItemName');
+
+                    if (typeof _priceItemName !== "undefined") {
+
+                        if (_priceItemName) {
+                            $(this).find('div.price_item_template_name').show();
+                            $(this).find('div.material_id').show();
+                        } else {
+                            $(this).find('div.price_item_template_name').hide();    
+                            $(this).find('div.material_id').hide();    
+                        }
+
+                    }
+
+                    if ($(this).data('youth-price') === "") {
+
+                        console.warn('Hiding Youth Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
+
+                        $(this).find('span.youthPrice').addClass('hide');
+                        $(this).find('span.youthPriceSale').addClass('hide');
+
+                    }
+
+                    if ($(this).data('adult-price') === "") {
+
+                        console.warn('Hiding Adult Price for ' + $(this).data('item') + ' (' + $(this).data('id') + ')');
+
+                        $(this).find('span.adultPrice').addClass('hide');                        
+                        $(this).find('span.adultPriceSale').addClass('hide');                        
+
+                    }
+
+                })
+
+            );
 
             $('div.back-link').html('<img src="/images/main-ui/back.png" /> <span> | </span>');
 
@@ -7578,6 +7745,9 @@ $(document).ready(function () {
 
     ub.funcs.initUniformsPicker = function (sport, gender, fromDirectLink) {
 
+        var _availableForUnisex = ub.data.uniSexSports.isUniSex(sport);
+        if (_availableForUnisex) { gender = 'unisex'; }
+
         $('body').addClass('pickers-enabled');
 
         $('div#main-row').hide();
@@ -7585,11 +7755,13 @@ $(document).ready(function () {
         $('div#main-picker-container').show();
 
         var _actualGender = gender;
-        
+
         if (sport === "Football") {
             items = _.filter(ub.materials, function (material)  {
                 return (material.uniform_category === 'Football' || material.uniform_category === 'Football 2017') && material.gender === gender.toLowerCase();
             });
+        } else if (_availableForUnisex)  {
+            items = _.filter(ub.materials, {uniform_category: sport, gender: gender }); // All socks are in men
         } else {
             items = _.filter(ub.materials, {uniform_category: sport, gender: gender.toLowerCase() });
         }
@@ -8047,6 +8219,77 @@ $(document).ready(function () {
 
         }
 
+        ub.funcs.rebindSaveButtons = function (data) {
+
+            var $container = $('div.saved-designs-list');
+            var $imgThumbs = $('img.tview');
+                
+            $imgThumbs.unbind('click');
+            $imgThumbs.on('click', function () {
+
+                var _file = $(this).data('file');
+                var _str = "<img src ='" + _file + "' />";
+                
+                ub.showModalTool(_str);
+
+            });
+
+            $('span.action-button.view').on('click', function () {
+
+                var _savedDesignID = $(this).data('saved-design-id');
+                window.location.href =  '/my-saved-design/' + _savedDesignID + '/render';
+                
+            });
+
+            $('span.action-button.delete').on('click', function () {
+
+                var _deleteDesignID = $(this).data('saved-design-id');
+                var _name = $(this).data('name');
+
+                ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
+
+            });
+
+            bindShareDesigns();
+
+            $(document).on('change', '.fil-to,.fil-from', function () {
+
+                var filterFrom = $('.fil-from').val();
+                var filterTo = $('.fil-to').val();
+                var template = $('#m-saved-designs-table').html();
+                var filteredDataString = JSON.stringify(data.savedDesigns);
+                var filteredData =JSON.parse(filteredDataString);
+
+                filteredData.forEach(function (value, i) {
+                    value.created_at = value.created_at.split(' ').slice(0, 1).join(' ');
+                    if(filterFrom <= value.created_at && filterTo >= value.created_at){    
+                    }else{
+                     delete filteredData[i];   
+                    }
+                });
+
+                var filteredDataRemoveEmpty = filteredData.filter(function (x) {
+                    return (x !== (undefined || ''));
+                });
+
+                var filtered_data = {savedDesigns: filteredDataRemoveEmpty,}        
+            
+                var markup = Mustache.render(template, filtered_data);
+                $container.html(markup); 
+                
+                $( ".created-at" ).each(function( index ) {
+                  var date = util.dateFormat($( this ).text());
+                  date = date.split(' ').slice(0, 3).join(' ');
+                  $( this ).text(date);
+                });
+                
+                ub.funcs.runDataTable();    
+                ub.funcs.rebindSaveButtons();
+
+            });
+
+        };
+
         ub.funcs.displayMySavedDesigns = function () {
          
             $.ajax({
@@ -8063,9 +8306,7 @@ $(document).ready(function () {
                     var $container = $('div.saved-designs-list');
                     var template = $('#m-saved-designs-table').html();
                     var data = {
-
                         savedDesigns: ub.funcs.parseJSON(response.saved_designs),
-
                     }
          
                     data.savedDesigns.forEach(function (value, i) {
@@ -8074,84 +8315,18 @@ $(document).ready(function () {
                     });
           
                     var markup = Mustache.render(template, data);
+
                     $container.html(markup);
+
                     $( ".created-at" ).each(function( index ) {
                       var date = util.dateFormat($( this ).text());
                       date = date.split(' ').slice(0, 3).join(' ');
                       $( this ).text(date);
                     });
-                    ub.funcs.runDataTable();
-                    var $imgThumbs = $('img.tview');
-                
-                    $imgThumbs.unbind('click');
-                    $imgThumbs.on('click', function () {
-
-                        var _file = $(this).data('file');
-                        var _str = "<img src ='" + _file + "' />";
-                        
-                        ub.showModalTool(_str);
-
-                    });
-
-  
-               
-
-                    $('span.action-button.view').on('click', function () {
-
-                        var _savedDesignID = $(this).data('saved-design-id');
-                        window.location.href =  '/my-saved-design/' + _savedDesignID + '/render';
-                        
-                    });
-
-                    $('span.action-button.share').on('click', function () {
-
-                        // var _shareDesignID = $(this).data('saved-design-id');
-                        // var _name = $(this).data('name');
-                        
-                        // ub.funcs.shareSavedDesign(_shareDesignID, _name);
-
-                        // $('.share-uniform-design')
-
-                    });
-
-                    $('span.action-button.delete').on('click', function () {
-
-                        var _deleteDesignID = $(this).data('saved-design-id');
-                        var _name = $(this).data('name');
-
-                        ub.funcs.deleteSavedDesign(_deleteDesignID, _name);
-
-                    });
-                    $(document).on('change', '.fil-to,.fil-from', function(){
-                        var filterFrom = $('.fil-from').val();
-                        var filterTo = $('.fil-to').val();
-                        var template = $('#m-saved-designs-table').html();
-                        var filteredDataString = JSON.stringify(data.savedDesigns);
-                        var filteredData =JSON.parse(filteredDataString);
-
-                        filteredData.forEach(function (value, i) {
-                            value.created_at = value.created_at.split(' ').slice(0, 1).join(' ');
-                           if(filterFrom <= value.created_at && filterTo >= value.created_at){    
-                            }else{
-                             delete filteredData[i];   
-                            }
-                        });
-                        var filteredDataRemoveEmpty = filteredData.filter(function(x){
-                          return (x !== (undefined || ''));
-                        });
-                        var filtered_data = {savedDesigns: filteredDataRemoveEmpty,}        
                     
-                        var markup = Mustache.render(template, filtered_data);
-                        $container.html(markup); 
-                        console.log(filteredData);
-                        $( ".created-at" ).each(function( index ) {
-                          var date = util.dateFormat($( this ).text());
-                          date = date.split(' ').slice(0, 3).join(' ');
-                          $( this ).text(date);
-                        });
-                        ub.funcs.runDataTable();    
-                  });   
-                  bindShareDesigns();
+                    ub.funcs.runDataTable();
+
+                    ub.funcs.rebindSaveButtons(data); 
             
                 }
                 

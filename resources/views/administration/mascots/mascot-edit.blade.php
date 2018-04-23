@@ -3,7 +3,7 @@
 @section('content')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
     li.select2-selection__choice {
     color: black !important;
 }
@@ -102,6 +102,16 @@
                             <div class="col-md-6 front-view">
                                 <a href="{{ $mascot->ai_file }}"> {{ $mascot->ai_file }} </a>
                                 <input type="file" class="form-control ai-file" name="ai_file" accept=".ai,.pdf">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" >Brand</label>
+                           <div class="col-md-6">
+                                <select name="brand" class="form-control">
+                                        <option value="none" @if($mascot->brand == "none") selected="selected"@endif>None</option>
+                                        <option value="prolook" @if($mascot->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                        <option value="richardson" @if($mascot->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                </select>
                             </div>
                         </div>
 
@@ -277,7 +287,7 @@ $(document).ready(function(){
             // console.log("LENGTH: "+length);
             var open = "<tr class=\"layers-row\">";
             var layer = "<td><select class=\"ma-layer layer"+length+"\"  name=\"ma_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
-            
+
             var team_color_id_options = '';
 
             for(var i = 1; i <= 10; i++){
@@ -295,7 +305,7 @@ $(document).ready(function(){
             imgURL = myJson[length]['filename'].replace(" ", "%20");
             // console.log(imgURL);
             var thumbnail = '<td><img src="'+imgURL+'" style="width: 30px; height: 30px; background-color: #000;"><input type="hidden" class="default_img" name="image-existing-source" value="'+myJson[length]['filename']+'"></td>';
-            
+
             var colors_select="";
             var select_hex_code_bg = "";
             $.each(test, function(entryIndex, entry) {
@@ -374,11 +384,11 @@ $(document).ready(function(){
             $(this).find(src_class).addClass('ma-options-src');
 
             var hexString = $(this).find(default_color_class).val()
-            
+
             if(hexString.replace('#','')){
                 hexString = hexString.replace('#','');
             }
-            
+
             layers_properties[length]['default_color'] = hexString;
             layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
 
@@ -387,7 +397,7 @@ $(document).ready(function(){
             layers_properties[length]['filename'] = $(this).find(src_class).val();
 
                 }
-            
+
             layers_properties[length]['team_color_id'] = $(this).find(team_color_id_class).val();
 
             length--;
@@ -398,9 +408,9 @@ $(document).ready(function(){
         $('#layers-properties').val(layersProperties);
         $('#existing-colors-properties').val(layersProperties);
     }
-  
-     
-  
+
+
+
       // $(".mascot_tags").select2({
       //       placeholder: "Select colors",
       //       multiple: true,
@@ -408,28 +418,28 @@ $(document).ready(function(){
       //   });
       // var mascotValue = $(".mascotTagsValue").val();
       // mascotValue = JSON.parse(mascotValue);
-      //  $(".mascot_tags").select2().val(mascotValue).trigger("change"); 
-       
-          
+      //  $(".mascot_tags").select2().val(mascotValue).trigger("change");
+
+
 
 
 
     if($('#sports_value').val()){
-        var sports = JSON.parse($('#sports_value').val()); 
+        var sports = JSON.parse($('#sports_value').val());
     }
- 
+
     $('.sports').select2({
         placeholder: "Select sports",
         multiple: true,
         allowClear: true
     });
- 
+
     $(".sports").change(function() {
         $('#sports_value').val($(this).val());
     });
- 
+
     $('.sports').select2('val', sports);
-      
+
 });
 </script>
 @endsection

@@ -79,6 +79,11 @@ class OrdersController extends Controller
         ]);
     }
 
+    public function indexSearchOrder(Request $request)
+    {
+        return view('administration.orders.search-order');
+    }
+
     public function indexSentOrders(Request $request)
     {
         $orders = $this->client->getSentOrders();
@@ -93,6 +98,19 @@ class OrdersController extends Controller
         $response = $this->client->updateStatus('order/updateStatus', [
             'status' => $status
         ]);
+    }
+
+    public function orderSearch($foid)
+    {
+        $order = $this->client->searchOrderByFOID($foid);
+        // dd($order);
+        if($order){
+            return view('administration.orders.search-result', [
+                'order' => $order
+            ]);
+        } else {
+            dd("Order not found");
+        }
     }
 
 }

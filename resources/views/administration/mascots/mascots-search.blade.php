@@ -77,8 +77,6 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-// $('.file-link').on('click', function(e){
-// $(document).on('click', '.file-link', function() {
 $('#mascots_search_table .file-link').on('click', function(){
     console.log('file link');
     var url = $(this).data('link');
@@ -89,28 +87,6 @@ function OpenInNewTab(url) {
   var win = window.open(url, '_blank');
   win.focus();
 }
-
-// window.mascots = null;
-
-// getMascots(function(mascots){ window.mascots = mascots; });
-   
-// function getMascots(callback){
-//     var mascots;
-//     var url = "//api-dev.qstrike.com/api/mascots";
-//     $.ajax({
-//         url: url,
-//         async: false,
-//         type: "GET",
-//         dataType: "json",
-//         crossDomain: true,
-//         contentType: 'application/json',
-//         success: function(data){
-//             mascots = data['mascots'];
-//             if(typeof callback === "function") callback(mascots);
-//         }
-//     });
-// }
-// console.log(window.mascots);
 
 $('.data-table').DataTable({
     "paging": true,
@@ -142,7 +118,6 @@ $('.data-table').DataTable({
     //     } );
     // }
 });
-
 
 });
 </script>

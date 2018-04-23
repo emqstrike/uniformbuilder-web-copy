@@ -140,12 +140,13 @@ $(document).ready(function () {
 
             // Remove 'Left' from caption
             $('span.piping > span.caption').each(function (index) {
-                var text= $(this).context.innerHTML;
+
+                if (typeof $(this)[0] !== "object") { return; }
+
+                var text = $(this)[0].innerHTML;
 
                 if (text.indexOf('Left') > -1) {
-
                     $('span.piping[data-piping-name="' + text + '"]').find('span.caption').html(text.replace('Left ', ''));
-
                 }
                 
             });
@@ -563,7 +564,8 @@ $(document).ready(function () {
 
         });
 
-        delete ub.current_material.settings.pipings[pipingSet];
+        ub.current_material.settings.pipings[pipingSet].enabled = 0;
+        ub.current_material.settings.pipings[pipingSet].numberOfColors = 0;
 
     }
 

@@ -1,33 +1,30 @@
 $(document).ready(function(){
-   
+
 
     $('.view-zip-codes').on('click', function(e){
         e.preventDefault();
         //Open loading modal
         getZIP($(this));
-        $('#viewZIPCodes').modal('show');    
-       
+        $('#viewZIPCodes').modal('show');
+
     });
 
    	function getZIP(thisObj) {
    		var zip = thisObj.parent().parent().find('.zip-codes').val();
-   		$('.zips').val(zip);   		
+   		$('.zips').val(zip);
    	}
 
-   	$('.delete-rep').on('click', function(){
-
-
+    $(document).on('click', '.delete-rep', function() {
        var id = [];
        id.push( $(this).data('rep-id'));
-       
+
    	   modalConfirm('Remove Sales Rep', 'Are you sure you want to remove this Sales Rep?', id);
    });
 
    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//api-dev.qstrike.com/api/sales_rep/delete/";
-        //var url = "//localhost:8888/api/sales_rep/delete/";
-       
+        var url = "//" + api_host + "/api/sales_rep/delete/";
+
         $.ajax({
            url: url,
            type: "POST",
@@ -50,9 +47,9 @@ $(document).ready(function(){
                      $('.reps-' + value).fadeOut();
 
                      // Will stop running after "three"
-                     
+
                    });
-                   
+
 
                }
            }
@@ -61,4 +58,4 @@ $(document).ready(function(){
 
 });
 
-   
+

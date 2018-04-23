@@ -36,8 +36,7 @@ $(document).ready(function() {
 
         ub.funcs.removePanels();
         ub.funcs.resetZoom();
-
-        ub.bg.alpha = 0.7;
+        ub.funcs.deactivateMoveTool();
         
         if (ub.render) {
             ub.funcs.prepareThumbnails();
@@ -187,9 +186,7 @@ $(document).ready(function() {
 
         // End Rearrange UI
 
-        ub.funcs.showViews();
-        ub.bg.alpha = 1;
-
+        
         $('a.change-view[data-view="front"]').click();
         ub.status.fullView.setStatus(false);
         ub.status.fullViewZoom.setStatus(false, undefined);
@@ -207,7 +204,7 @@ $(document).ready(function() {
 
                 var _y = 190;
 
-                var _scale = 0.45;
+                var _scale = 0.40;
 
                 // ub['left_view'].position.set(30, _y);
                 // ub['front_view'].position.set(380, _y);

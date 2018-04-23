@@ -1,5 +1,18 @@
 $(document).ready(function() {                    
 
+    ub.funcs.isSocks = function () {
+
+        if (typeof ub.current_material.material === "undefined") { return false; }
+
+        return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)");
+    }
+
+    ub.funcs.isFootball = function () {
+        
+        return ub.config.sport === "Football" || ub.config.sport === "Football 2017";
+        
+    };
+
     ub.funcs.fadeOutCustomizer = function () {
 
 
@@ -135,12 +148,11 @@ $(document).ready(function() {
 
     ub.funcs.hideColumns = function () {
 
-
         // Hide lastname, sleevetype and lastname application on everything except football
-        if (!ub.funcs.isCurrentSport('Football')) {
-
+        if (!ub.funcs.isFootball() || (ub.funcs.isFootball() && ub.config.type === "lower")) {
+        
             $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
-            
+
         }
 
         // Hide Lastname on Socks
@@ -283,8 +295,8 @@ $(document).ready(function() {
             });
             
             if (
-                !ub.funcs.isCurrentSport('Football') ||
-                (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "BLB") || 
+                !ub.funcs.isFootball() || 
+                (ub.funcs.isFootball() && ub.current_material.material.factory_code === "BLB") || 
                 ub.current_material.material.price_item_code === "FBMJ"
             )
             {
@@ -346,7 +358,7 @@ $(document).ready(function() {
         var _sleeveType          = row.find('select.sleeve-type').val();
         var _lastNameApplication = row.find('select.lastname-application').val();
 
-        if (!ub.funcs.isCurrentSport('Football')) {
+        if (!ub.funcs.isFootball()) {
 
             _sleeveType = 'N/A';
             
@@ -917,15 +929,7 @@ $(document).ready(function() {
 
         var _type = '';
         
-        if (ub.current_material.material.factory_code === "BLB") {
-
-            _type = "Sublimated";
-
-        } else {
-
-            _type ="Tackle Twill";
-
-        }
+        _type = ub.config.uniform_application_type.toTitleCase(); 
 
         var _submitted = '1';
 
@@ -1153,17 +1157,7 @@ $(document).ready(function() {
 
         });
 
-        var _type = '';
-
-        if (ub.current_material.material.factory_code === "BLB") {
-
-            _type = "Sublimated";
-
-        } else {
-
-            _type ="Tackle Twill";
-
-        }
+        var _type = ub.config.uniform_application_type.toTitleCase(); 
 
         var orderInput = {
 
@@ -1868,7 +1862,7 @@ $(document).ready(function() {
             ub.funcs.addPlayerToRoster(player);
             _lastSize = player.Size;
 
-            if (ub.current_material.settings.uniform_category === "Football") {
+            if (ub.funcs.isFootball()) {
 
                 var _numberObject = _.find(ub.data.playerNumbers, {number: player.Number})
                 _numberObject.status = "used";
@@ -2096,11 +2090,12 @@ $(document).ready(function() {
         ub.funcs.hideColumns();
 
         // // Hide Last Name Application and Sleeve Type when not tackle twill football
-                
+
         if (
-            !ub.funcs.isCurrentSport('Football') ||
-            (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "BLB") || 
-            ub.current_material.material.price_item_code === "FBMJ"
+            !ub.funcs.isFootball() ||
+            (ub.funcs.isFootball() && ub.current_material.material.factory_code === "BLB") || 
+            ub.current_material.material.price_item_code === "FBMJ" || 
+            (ub.funcs.isFootball() && ub.config.type === "lower")
         )
         {
 
@@ -2485,20 +2480,6 @@ $(document).ready(function() {
         };
 
         ub.funcs.cleanupsBeforeSave = function () {
-
-            // Remove Disabled Pipings
-            var _disabledPipings = {};
-            
-            _.each(ub.current_material.settings.pipings, function (piping, key) {
-                
-                if (piping.enabled === 0) {
-
-                    _disabledPipings[key] = piping;
-                    delete ub.current_material.settings.pipings[key];
-
-                }
-
-            });
 
             // Remove Disabled Random Feeds
             var _disabledRandomFeed = {};

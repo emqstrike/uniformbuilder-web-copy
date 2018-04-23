@@ -59,6 +59,13 @@ class UniformBuilderController extends Controller
         $this->inksoftDesignsAPIClient = $inksoftDesignsAPIClient;
     }
 
+    function log_info($msg_str) {
+
+        $run = true;
+        if ($run) { Log::info($msg_str); }
+
+    }
+
     public function showBuilder($config = [])
     {
 
@@ -89,7 +96,7 @@ class UniformBuilderController extends Controller
             if (is_null($material))
             {
 
-                $materialId = -1;                
+                $materialId = -1;
 
             } else {
 
@@ -157,14 +164,90 @@ class UniformBuilderController extends Controller
                 Session::put('order', null);
 
                 $params['saved_design_user_id'] = $config['saved_design_user_id'];
-                
+
                 $params['saved_design_name'] = $config['saved_design_name'];
                 $params['page'] = 'saved-design';
                 $bc = $config['builder_customizations'];
                 $params['saved_design_id'] = $config['id'];
                 $params['material_id'] = $config['material_id'];
                 $params['builder_customizations'] = $config['builder_customizations'];
-                $params['saved_design_name'] = $config['saved_design_name'];              
+                $params['saved_design_name'] = $config['saved_design_name'];
+
+                 // Notify Slack
+                $data = '';
+                if(!is_null(Session::get('accessToken')) && !is_null(Session::get('userId'))) {
+                    $active_user_id = Session::get('userId');
+                    $active_user_name = Session::get('fullname');
+                    $created_by_user_id = $config['saved_design_user_id'];
+                    $result['user'] = $this->usersAPIClient->getUser($created_by_user_id);
+                    $created_by_user = $result['user'];
+                    $created_by_user_name = $created_by_user->first_name . ' ' . $created_by_user->last_name;
+                } else {
+                    $active_user_id = 1196;
+                    $active_user_name = 'Guest Account';
+                    $created_by_user_id = $config['saved_design_user_id'];
+                    $created_by_user_name = 'User';
+                }
+
+                $title = "User ".$active_user_name." [".$active_user_id."] viewed saved design [".$params['saved_design_name']."].";
+                $link = "http://customizer.prolook.com/my-saved-design/".$params['saved_design_id'].".";
+                $created_by_user_link = "http://customizer.prolook.com/administration/user/orders/".$created_by_user_id;
+                $low_res_front = $config['low_res_front'];
+                $low_res_back = $config['low_res_back'];
+                $low_res_left = $config['low_res_left'];
+                $low_res_right = $config['low_res_right'];
+
+                $fields = [
+                    [
+                        'title' => "Name:",
+                        'value' => $params['saved_design_name'],
+                        'short' => true
+                    ],
+                    [
+                        'title' => "Viewed By:",
+                        'value' => $active_user_name." [".$active_user_id."].",
+                        'short' => true
+                    ],
+                    [
+                        'title' => "Created By:",
+                        'value' => "$created_by_user_link",
+                        'short' => false
+                    ],
+
+                    [
+                        'title' => "Link:",
+                        'value' => "$link",
+                        'short' => false
+                    ],
+                    [
+                        'title' => "Front Thumbnail link:",
+                        'value' => "$low_res_front",
+                        'short' => false
+                    ],
+                    [
+                        'title' => "Back Thumbnail link:",
+                        'value' => "$low_res_back",
+                        'short' => false
+                    ],
+                    [
+                        'title' => "Right Thumbnail link:",
+                        'value' => "$low_res_left",
+                        'short' => false
+                    ],
+                    [
+                        'title' => "Left Thumbnail link:",
+                        'value' => "$low_res_right",
+                        'short' => false
+                    ]
+                ];
+
+                Slack::to('#a-views')->attach([
+                                                'fallback' => $title,
+                                                'color'=> 'good',
+                                                'title' => $title,
+                                                'image_url' => $low_res_front,
+                                                'fields' => $fields
+                                                ])->send($data);
 
             } elseif ($pageType['page'] === "order") {
 
@@ -195,12 +278,12 @@ class UniformBuilderController extends Controller
                 $params['order_code']    = $config['order_code'];
                 $params['order_id_short'] = $config['order_id_short'];
                 $params['order_id_parent'] = $config['order_id_parent'];
-                
+
             }
-            
+
         }
 
-        if (isset($config['type']) && $config['type'] === 'Saved Design' && isset($config['created_at'])) { 
+        if (isset($config['type']) && $config['type'] === 'Saved Design' && isset($config['created_at'])) {
             $params['created_at'] = $config['created_at'];
         }
 
@@ -267,7 +350,7 @@ class UniformBuilderController extends Controller
 
         if( isset($order[0]) ) {
 
-            $order = $order[0]; 
+            $order = $order[0];
             $orderID = $order->order_id;
             $builder_customizations = json_decode($order->builder_customizations);
 
@@ -290,14 +373,14 @@ class UniformBuilderController extends Controller
             ]);
 
             $params = [
-            
+
                 'page_title' => 'Order Info: ' . $orderId,
                 'material_id' => $materialID,
                 'order_id' => $orderId,
                 'description' => $order->description,
                 'order_code' => $orderId,
                 'order_id_short' => $order->id,
-                'order_id_parent' => $orderInfo->id, 
+                'order_id_parent' => $orderInfo->id,
 
                 'type' => 'Order',
                 'pdfOrderForm' => $builder_customizations->pdfOrderForm,
@@ -311,9 +394,9 @@ class UniformBuilderController extends Controller
                 'builder_customizations' => null,
                 'page' => 'view-order-info',
                 'type' => 'view-order-info',
-            
+
             ];
-            
+
             return view('editor.view-order-info', $params);
 
         }
@@ -336,7 +419,7 @@ class UniformBuilderController extends Controller
 
         if( isset($order[0]) ) {
 
-            $order = $order[0]; 
+            $order = $order[0];
             $orderID = $order->order_id;
             $builder_customizations = json_decode($order->builder_customizations);
 
@@ -365,9 +448,9 @@ class UniformBuilderController extends Controller
                 'order_id_short' => $order->id,
                 'builder_customizations' => $orderID,
                 'type' => 'Order',
-                'order_id_parent' => $orderInfo->id, 
+                'order_id_parent' => $orderInfo->id,
             ];
-            
+
             return $this->showBuilder($config);
 
         }
@@ -577,7 +660,7 @@ class UniformBuilderController extends Controller
         $folder_name = "uploaded_files";
 
         try {
-            
+
             $newFile = $request->file('file');
 
             if (isset($newFile))
@@ -669,7 +752,7 @@ class UniformBuilderController extends Controller
                 .substr($charid, 8, 4).$hyphen
                 .substr($charid,12, 4).$hyphen
                 .substr($charid,16, 4).$hyphen
-                .substr($charid,20,12); 
+                .substr($charid,20,12);
             return $uuid;
 
         }
@@ -684,6 +767,8 @@ class UniformBuilderController extends Controller
     }
 
     function generatePipingsTable ($pipings, $uniform_category) {
+
+        $this->log_info('generatePipingsTable');
 
         $html = '';
         $html .= '<br /><br />';
@@ -736,7 +821,7 @@ class UniformBuilderController extends Controller
             $html .=   '<td align="center">';
 
             $colors = '';
-            $val = 1; 
+            $val = 1;
             $noOfColors = intval($piping['numberOfColors']);
             foreach ($piping['layers'] as &$color) {
 
@@ -761,7 +846,9 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateApplicationsTable ($applications, $uniform_category) {
+    function generateApplicationsTable ($applications, $uniform_category, $uat) {
+
+        $this->log_info('generateApplicationsTable');
 
         $html = '';
         $html .= '<br /><br />';
@@ -769,8 +856,8 @@ class UniformBuilderController extends Controller
         $html .= '<table border="1" cellpadding="3">';
 
         $html .= '<tr>';
-        $html .=   '<td align="center">';
-        $html .=   '<strong>LOCATION</strong>';
+        $html .=   '<td align="center" width="5%">';
+        $html .=   '<strong>#</strong>';
         $html .=   '</td>';
         $html .=   '<td align="center">';
         $html .=   '<strong>APPLICATION TYPE</strong>';
@@ -781,7 +868,7 @@ class UniformBuilderController extends Controller
         $html .=   '<td align="center">';
         $html .=   '<strong>SIZE</strong>';
         $html .=   '</td>';
-        $html .=   '<td align="center">';
+        $html .=   '<td align="center" width="35%">';
         $html .=   '<strong>COLORS / PATTERNS</strong>';
         $html .=   '</td>';
 
@@ -795,9 +882,11 @@ class UniformBuilderController extends Controller
 
             // Skip free / unused applications
             if ($appType == "FREE") { continue; }
-            
+
             // Skip applications that are turned off
             if (isset($application['status']) and $application['status'] === "off") { continue; }
+
+            $this->log_info('---' . $application['code'] . ' ' . $appType);
 
             $ctrApplications += 1;
             $bgcolor = '#fff';
@@ -819,7 +908,7 @@ class UniformBuilderController extends Controller
 
                 $html .=   '<td align="center">';
                 $html .=   'Accent: ' . $application['accent_obj']['title'] . "<br />";
-                $html .=   'Font: ' . $application['font_obj']['name'] . "<br />";
+                $html .=   'Font: ' . $application['font_obj']['alias'] . "<br />";
                 $html .=   'Text: ' . strtoupper($application['text']) . "<br />";
 
                 if (isset($application['pattern_obj'])) {
@@ -854,7 +943,7 @@ class UniformBuilderController extends Controller
 
                     if ($userfile_extn === 'png' or $userfile_extn === 'gif' or $userfile_extn === 'jpg' or $userfile_extn === 'jpeg' or $userfile_extn === 'bmp') {
 
-                        $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '"><br />';    
+                        $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '"><br />';
 
                     }
 
@@ -862,8 +951,7 @@ class UniformBuilderController extends Controller
 
                 } else {
 
-                    $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';    
-                    $html .=   '<a href="http://' . env('WEBSITE_URL') . '/administration/mascot/edit/' . $application['mascot']['id'] . '" target="_new">Link To Mascot Details</a> <br />';
+                    $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';
                     $html .=   '<a href="' . $application['mascot']['ai_file'] . '" target="_new">Link To Mascot PDF File</a> <br />';
 
                 }
@@ -883,7 +971,7 @@ class UniformBuilderController extends Controller
                    $html .=   'Watermark Intensity: 100% <br />';
                 }
 
-                $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '"><br />';    
+                $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '"><br />';
                 $html .=   '<a href="' . $embellishment['svg_filename'] . '" target="_new">Link To Prepared File</a> <br />';
                 $html .=   '<a href="http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
                 $html .=   '</td>';
@@ -893,24 +981,24 @@ class UniformBuilderController extends Controller
              else {
                 $html .=   '<td align="center">';
                 $html .=   '<strong></strong>';
-                $html .=   '</td>';                
+                $html .=   '</td>';
             }
 
-            if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" ) {
+            if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" or ($appType == "EMBELLISHMENTS" and $uat == "Tackle Twill")) {
 
                 $html .=   '<td align="center">';
 
                 // Applications greater than 70 are free-form tool applications, best fit for GA's
                 if (intval($application['code']) > 70) {
 
-                    $html .=   'Refer to Thumbnail<br />';    
+                    $html .=   'Refer to Thumbnail<br />';
 
                 } else {
 
                     if (isset($application['font_size'])) {
-                        $html .=   $application['font_size'] . '" <br />';    
+                        $html .=   $application['font_size'] . '" <br />';
                     } elseif (isset($application['size'])) {
-                        $html .=   $application['size'] . '" <br />';    
+                        $html .=   $application['size'] . '" <br />';
                     }
 
                 }
@@ -924,82 +1012,130 @@ class UniformBuilderController extends Controller
                 // Applications greater than 70 are free-form tool applications, best fit for GA's
                 if (intval($application['code']) > 70 ) {
 
-                    $html .=   'Refer to Thumbnail<br />';    
+                    $html .=   'Refer to Thumbnail<br />';
 
                 } else {
 
                     if (isset($application['size'])) {
-                        $html .=   $application['size'] . '" <br />';    
+                        $html .=   $application['size'] . '" <br />';
                     } elseif (isset($application['font_size'])) {
-                        $html .=   $application['font_size'] . '" <br />';    
+                        $html .=   $application['font_size'] . '" <br />';
                     }
 
                 }
 
-                $html .=   '</td>';                
+                $html .=   '</td>';
 
             } else if ($appType == "EMBELLISHMENTS" ) {
-            
+
              $html .=   '<td align="center">';
 
                 // Applications greater than 70 are free-form tool applications, best fit for GA's
                 if (intval($application['code']) > 70 ) {
 
-                    $html .=   'Refer to Thumbnail<br />';    
+                    $html .=   'Refer to Thumbnail<br />';
 
                 }
-                $html .=   '</td>';    
+                $html .=   '</td>';
 
             } else {
 
                 $html .=   '<td align="center">';
                 $html .=   '<strong></strong>';
-                $html .=   '</td>';                
+                $html .=   '</td>';
 
             }
 
             $html .=   '<td align="center">';
 
             if ($appType == "EMBELLISHMENTS" ) {
-                $html .=   'Refer to Prepared File<br />';    
+                $html .=   'Refer to Prepared File<br />';
             } else {
-                $colors = '';
 
-                // if prolook items reverse, base color should be on 
+                $colors = '';
+                $accentLabel = '';
+                $isTextApplicationType = false;
+                $withPattern = false;
+                $patternName = '';
+                $label = '';
+
+                if (isset($application['pattern_obj'])) {
+                    if ($application['pattern_obj']['name'] !== "Blank") {
+                        $withPattern = true;
+                        $patternName = $application['pattern_obj']['name'];
+                    }
+                }
+
+                // Every other text type applications
+                if ($appType <> "MASCOT") {
+
+                    $isTextApplicationType = true;
+                    $accentLabel = $application['accent_obj']['title'];
+                    $label = $accentLabel;
+
+                    if ($withPattern) { $label .= " --- " . $patternName; }
+
+                }
+
+                $html .= "";
+
+                // If Prolook items reverse, base color should be Outer - Inner
                 $reversedColorArray = array_reverse($application['color_array']);
 
-                foreach ($reversedColorArray as &$color) {
-                    $colors .= $color['color_code'] . ",";
-                }
-
-                $colorsTrimmed = 'Accent: ' . rtrim($colors, ",");
-                $colorsTrimmed .= "<br />";
-
-                $html .= $colorsTrimmed;
-
-                $colorsTrimmed = '';
-                
-                if (isset($application['pattern_obj'])) {
-
-                    if ($application['pattern_obj']['name'] !== "Blank") {
-
-                        $colors = '';
-
-                        foreach ($application['pattern_obj']['layers'] as &$layer) {
-                            if (array_key_exists('color_code', $layer)) {
-                                $colors .= $layer['color_code'] . ",";    
-                            } else {
-                                $colors .= "?,";    
-                            }
+                if ($isTextApplicationType) {
+                    foreach ($reversedColorArray as &$color) {
+                        if (is_array($color)) {
+                            $colors .= $color['color_code'] . "/";
                         }
+                    }
+                } else {
 
-                        $colorsTrimmed = 'Pattern: ' . rtrim($colors, ",");
-
+                    foreach ($application['color_array'] as &$color) {
+                        if (is_array($color)) {
+                            $colors .= $color['color_code'] . "/";
+                        }
                     }
 
-                    $html .= $colorsTrimmed;
+                }
+
+                $colors = rtrim($colors, "/");
+
+                // Pop base color if it has a pattern
+                if ($isTextApplicationType && $withPattern) {
+                    if (is_array($reversedColorArray)) {
+                        if ($accentLabel <> "Single Color") {
+
+                            $tokens = explode('/', $colors);
+                            array_pop($tokens);
+                            $colors = implode('/', $tokens);
+
+                        }
+                    }
+                }
+
+                $html .= $label . "<br />";
+
+                $html .= $colors;
+
+                $colorsTrimmed = '';
+
+                if ($withPattern && $isTextApplicationType) {
+
+                    $colors = '';
+
+                    foreach ($application['pattern_obj']['layers'] as &$layer) {
+                        if (array_key_exists('color_code', $layer)) {
+                            $colors .= $layer['color_code'] . "/";
+                        } else {
+                            $colors .= "?,";
+                        }
+                    }
+
+                    $colorsTrimmed = ' --- ' . rtrim($colors, "/");
 
                 }
+
+                $html .= $colorsTrimmed;
 
             }
 
@@ -1015,7 +1151,9 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateRosterTable ($rosters, $sport) {
+    function generateRosterTable ($rosters, $sport, $type) {
+
+        $this->log_info('generateRosterTable');
 
         $html = '';
         $html .= '<br /><br />';
@@ -1041,12 +1179,12 @@ class UniformBuilderController extends Controller
             $html .=   '<strong>LASTNAME</strong>';
             $html .=   '</td>';
 
-        }    
+        }
 
-        if ($sport === "Football") {
+        if ($sport === "Football" && $type !== "lower") {
 
             $html .=   '<td align="center">';
-            $html .=   '<strong>LASTNAME APPLICATION</strong>';
+            $html .=   '<strong>LASTNAME APPLICATION' . $type . '</strong>';
             $html .=   '</td>';
             $html .=   '<td align="center">';
             $html .=   '<strong>SLEEVE TYPE</strong>';
@@ -1087,7 +1225,7 @@ class UniformBuilderController extends Controller
 
             }
 
-            if ($sport === "Football") {
+            if ($sport === "Football" && $type !== "lower") {
 
                 $html .=   '<td align="center">';
                 $html .=   $roster['lastNameApplication'];
@@ -1109,6 +1247,8 @@ class UniformBuilderController extends Controller
     }
 
     function generateMaterialOptionsTable ($itemData) {
+
+        $this->log_info('generateMaterialOptionsTable');
 
         $orItem = $itemData;
         $bc = $itemData['builder_customizations'];
@@ -1142,7 +1282,7 @@ class UniformBuilderController extends Controller
         }
 
         $html .= '</tr>';
-        
+
         $ctrParts = 0;
 
         foreach ($parts as &$part) {
@@ -1169,7 +1309,7 @@ class UniformBuilderController extends Controller
 
             $hasPattern = false;
 
-            if (array_key_exists('pattern', $part)) { 
+            if (array_key_exists('pattern', $part)) {
                 if ($part['pattern']['pattern_id'] != '') {
                     if ($part['pattern']['pattern_obj']['name'] != 'Blank') {
                         $hasPattern = true;
@@ -1203,11 +1343,11 @@ class UniformBuilderController extends Controller
                     if ($randomFeeds[$titledPart]['enabled'] != '0') {
                          $html .= "Use Random Feed Color";
                     } else {
-                        $html .=   $part['colorObj']['color_code'];                        
+                        $html .=   $part['colorObj']['color_code'];
                     }
 
                 } else {
-                    $html .=   $part['colorObj']['color_code'];                        
+                    $html .=   $part['colorObj']['color_code'];
                 }
 
             } else {
@@ -1215,13 +1355,13 @@ class UniformBuilderController extends Controller
                 if (!$hasPattern) {
 
                     if (array_key_exists('colorObj', $part)) {
-                        $html .=   $part['colorObj']['color_code'];                        
+                        $html .=   $part['colorObj']['color_code'];
                     } else {
-                        $html .=   'Default';    
+                        $html .=   'Default';
                     }
-                    
+
                 } else {
-                        $html .=   'Use Pattern Color';    
+                        $html .=   'Use Pattern Color';
                 }
 
             }
@@ -1231,7 +1371,7 @@ class UniformBuilderController extends Controller
 
             if ($hasPattern) {
 
-                $html .= '<strong>' . $part['pattern']['pattern_obj']['name'] . "</strong>" . " / ";    
+                $html .= '<strong>' . $part['pattern']['pattern_obj']['name'] . "</strong>" . " / ";
 
                 $colors = '';
                 foreach ($part['pattern']['pattern_obj']['layers'] as &$layer) {
@@ -1246,7 +1386,7 @@ class UniformBuilderController extends Controller
 
             $html .=   '</td>';
 
-            // Random Feeds 
+            // Random Feeds
             if ($bc['uniform_category'] == "Crew Socks (Apparel)" || $bc['uniform_category'] == "Socks (Apparel)") {
 
                 $html .=   '<td align="center">';
@@ -1260,7 +1400,7 @@ class UniformBuilderController extends Controller
                 if (array_key_exists($titledPart, $randomFeeds)) {
 
                     if ($randomFeeds[$titledPart]['enabled'] != '0') {
-                    
+
                         $colors = '';
                         $index = 1;
                         foreach ($randomFeeds[$titledPart]['layers'] as &$layer) {
@@ -1283,7 +1423,7 @@ class UniformBuilderController extends Controller
                 $html .=   '</td>';
 
             }
-            // End Random Feeds 
+            // End Random Feeds
 
             $html .= '</tr>';
 
@@ -1557,20 +1697,22 @@ class UniformBuilderController extends Controller
 
     function generateItemTable ($itemData, $fname, $mainInfo, $material_id) {
 
+        $this->log_info('generateItemTable');
+
         $styleURL = '<a href="' . $itemData["url"]  . '"><strong>BUILDER URL</strong></a>';
         $pdfURL   = '<a href="' . env("WEBSITE_URL") . $fname . '"><strong>PDF URL</strong></a>';
         $cutURL   = '<a href="' . $itemData["builder_customizations"]["cut_pdf"] . '"><strong>CUT PDF URL</strong></a>';
         $stylesPDFURL   = '<a href="' . $itemData["builder_customizations"]["styles_pdf"] . '"><strong>STYLE PDF URL</strong></a>';
 
-        if ($itemData["builder_customizations"]["cut_pdf"] === '') { $cutURL = 'No Cut PDF detected.'; } 
-        if ($itemData["builder_customizations"]["styles_pdf"] === '') { $stylesPDFURL = 'No STYLE PDF detected.'; } 
+        if ($itemData["builder_customizations"]["cut_pdf"] === '') { $cutURL = 'No Cut PDF detected.'; }
+        if ($itemData["builder_customizations"]["styles_pdf"] === '') { $stylesPDFURL = 'No STYLE PDF detected.'; }
 
         $html = '';
         $html .= '<table>';
 
         $html .= '<tr>';
         $html .=     '<td width="100%" style="font-size: 1.0em;">';
-        $html .=       'STYLE<br />'; 
+        $html .=       'STYLE<br />';
         $html .=       '<strong>#' .  $material_id  . ', ' . $itemData["description"] . ' (' . $itemData["applicationType"]  .')</strong><br />';
         $html .=       '<strong>' .  $itemData["sku"]  . '</strong><br />';
         $html .=     '</td>';
@@ -1600,13 +1742,13 @@ class UniformBuilderController extends Controller
         $table .= '<p style="font-size: 0.8em">';
         $table .= $firstOrderItem['notes'];
         $table .= '</p>';
-        
+
         if ($firstOrderItem['additional_attachments'] !== "") {
             $table .= '<br /><br />';
             $table .= '<strong>ATTACHMENT</strong>';
-            $table .= '<p>'; 
-            $table .= '<a href="' . $firstOrderItem['additional_attachments'] . '" target="_new">Open Attachment</a>';    
-            $table .= '</p>'; 
+            $table .= '<p>';
+            $table .= '<a href="' . $firstOrderItem['additional_attachments'] . '" target="_new">Open Attachment</a>';
+            $table .= '</p>';
         }
 
         $table .= '<strong>SIZING TABLE</strong><br /><br />';
@@ -1656,13 +1798,19 @@ class UniformBuilderController extends Controller
 
         Log::info('Init Generate PDF');
 
-        $pdf = new TCPDF(); 
+        $pdf = new TCPDF();
 
-        $filename = $this->getGUID(); 
+        $filename = $this->getGUID();
         $path = public_path('design_sheets/' . $filename . '.pdf');
 
         $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
         $sport = $bc['uniform_category'];
+
+        $type = 'upper';
+
+        if (array_key_exists('material_id', $bc['lower'])) {
+            $type = 'lower';
+        }
 
         $uniform_category = $bc['uniform_category'];
 
@@ -1674,7 +1822,7 @@ class UniformBuilderController extends Controller
         $backViewImage = $bc['thumbnails']['back_view'];
         $leftViewImage = $bc['thumbnails']['left_view'];
         $rightViewImage = $bc['thumbnails']['right_view'];
-        
+
         //$image = @file_get_contents($frontViewImage);
         // $outputFilenameFront = '';
         // if ($image != '') {
@@ -1789,7 +1937,7 @@ class UniformBuilderController extends Controller
         $html .= '<table>';
         $html .=    '<tr>';
         $html .=        '<td width="100%">';
-        $html .=            $this->generateRosterTable($roster, $sport);
+        $html .=            $this->generateRosterTable($roster, $sport, $type);
         $html .=        '</td>';
         $html .=    '</tr>';
         $html .='</table>';
@@ -1803,14 +1951,14 @@ class UniformBuilderController extends Controller
         $html .= '<table>';
         $html .=    '<tr>';
         $html .=        '<td width="100%">';
-        $html .=            $this->generateApplicationsTable($applications, $uniform_category);
+        $html .=            $this->generateApplicationsTable($applications, $uniform_category, $firstOrderItem["applicationType"]);
         $html .=        '</td>';
         $html .=    '</tr>';
         $html .='</table>';
 
-        $pdf->writeHTML($html, true, false, true, false, '');      
+        $pdf->writeHTML($html, true, false, true, false, '');
 
-        // Piping 
+        // Piping
 
         if ($uniform_category === "Baseball" or $uniform_category == "Fastpitch") {
 
@@ -1826,11 +1974,11 @@ class UniformBuilderController extends Controller
             $html .=    '</tr>';
             $html .='</table>';
 
-            $pdf->writeHTML($html, true, false, true, false, '');     
+            $pdf->writeHTML($html, true, false, true, false, '');
 
         }
 
-        // End Piping 
+        // End Piping
 
         $pdf->Output($path, 'F');
 
@@ -1849,10 +1997,12 @@ class UniformBuilderController extends Controller
         if (env('APP_ENV') <> "local") { Slack::send($message); }
 
         return $transformedPath;
-        
+
     }
 
     public function generateOrderForm(Request $request){
+
+        $this->log_info('generateOrderForm');
 
         $r = $request->all();
         $fname = $this->generatePDF($r);
@@ -1865,7 +2015,7 @@ class UniformBuilderController extends Controller
 
         $pdf = new TCPDF();
 
-        $filename = $this->getGUID(); 
+        $filename = $this->getGUID();
         $path = storage_path('app/design_sheets/' . $filename . '.pdf');
         $svg_file = storage_path('originals/spartansxs_2.svg');
 
@@ -2070,6 +2220,10 @@ class UniformBuilderController extends Controller
                 'type' => 'Saved Design',
                 'saved_design_name' => $savedDesign->name,
                 'created_at' => $savedDesign->created_at,
+                'low_res_front' => $savedDesign->low_res_front_thumbnail,
+                'low_res_back' => $savedDesign->low_res_back_thumbnail,
+                'low_res_left' => $savedDesign->low_res_left_thumbnail,
+                'low_res_right' => $savedDesign->low_res_right_thumbnail
             ];
 
             if ($render) { $config['render'] = true; }
@@ -2294,7 +2448,7 @@ class UniformBuilderController extends Controller
             'category_id' => -1,
             'builder_customizations' => null,
             'page' => 'forgot-password',
-        
+
         ];
 
         return view('editor.forgot-password', $params);

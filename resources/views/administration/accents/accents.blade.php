@@ -1,6 +1,9 @@
 @extends('administration.lte-main')
 
-
+@section('styles')
+<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+@endsection
 
 @section('content')
     <script src=""></script>
@@ -11,7 +14,7 @@
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        
+
                         Accents
                         <small>
                             <a href="/administration/accent/add" class='btn btn-xs btn-success'>
@@ -35,38 +38,36 @@
 
                     @forelse ($accents as $key => $accent)
 
-                      <tr class='accent-{{ $accent->id }} '>
-	                      <td>{{ $accent->name }}</td>
-	                      <td>{{ $accent->code }}</td>
-	                      <td>
-                          <!-- <img src="{{ $accent->thumbnail_path }}" height="100" width="100"> -->
-                          </td>
-	                       <td>
-                      
-                          <a href="#" class="btn btn-default btn-xs disable-accent" data-accent-id="{{ $accent->id }}" role="button" {{ ($accent->active) ? : 'disabled="disabled"' }}>
-                              <i class="glyphicon glyphicon-eye-close"></i>
-                              Disable
-                          </a>
-                          <a href="#" class="btn btn-info btn-xs enable-accent" data-accent-id="{{ $accent->id }}" role="button" {{ ($accent->active) ? 'disabled="disabled"' : '' }}>
-                              <i class="glyphicon glyphicon-eye-open"></i>
-                              Enable
-                          </a>       
-                                    
-            							<a href="/administration/accent/edit/{{ $accent->id }}" class="btn btn-primary btn-xs edit-accent" data-accent-id="{{ $accent->id }}" role="button">
-            							    <i class="glyphicon glyphicon-edit"></i>
-            							    Edit
-            							</a>
-                                    @if(  $key  > -1)
-            							<a href="#" class="btn btn-danger pull-right btn-xs delete-accent" data-accent-id="{{ $accent->id }}" role="button">
-            							    <i class="glyphicon glyphicon-trash"></i>
-            							    Remove
-            							</a>
-                                @endif
+                        <tr class='accent-{{ $accent->id }} '>
+                            <td>{{ $accent->name }}</td>
+                            <td>{{ $accent->code }}</td>
+                            <td>
+                            <!-- <img src="{{ $accent->thumbnail_path }}" height="100" width="100"> -->
                             </td>
-                               
-                            
+                            <td>
+        						<a href="/administration/accent/edit/{{ $accent->id }}" class="btn btn-primary btn-xs edit-accent" data-accent-id="{{ $accent->id }}" role="button">
+		          				    <i class="glyphicon glyphicon-edit"></i>
+				        		    Edit
+						        </a>
+                                <a href="#" class="btn btn-default btn-xs disable-accent" data-accent-id="{{ $accent->id }}" role="button" {{ ($accent->active) ? : 'disabled="disabled"' }}>
+                                    <i class="glyphicon glyphicon-eye-close"></i>
+                                    Disable
+                                </a>
+                                <a href="#" class="btn btn-info btn-xs enable-accent" data-accent-id="{{ $accent->id }}" role="button" {{ ($accent->active) ? 'disabled="disabled"' : '' }}>
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                    Enable
+                                </a>
+                                    @if(  $key  > -1)
+                                    <a href="#" class="btn btn-danger btn-xs delete-accent" data-accent-id="{{ $accent->id }}" role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Remove
+                                    </a>
+                                    @endif
+                            </td>
 
-                      </tr>
+
+
+                        </tr>
 
                     @empty
 
@@ -85,32 +86,59 @@
         </div>
     </div>
 </section>
-	
+
+@include('partials.confirmation-modal')
 @endsection
 
 @section('custom-scripts')
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript">
-    $(document).on('click', '.delete-accent', function(){
-      $.confirm({
-      title: 'Accent',
-      content: 'Are you want to delete accent?',
-      confirmButton: 'YES',
-      cancelButton: 'NO',
-      confirmButtonClass: 'confirmButtonYes btn-danger',
-      cancelButtonClass: 'confirmButtonNo btn-success',
-      });
-      $(".confirmButtonYes").attr('data-accent-id',$(this).data('accent-id'));
-     
+$(document).ready(function(){
 
-     
+    $(document).on('click', '.delete-accent', function() {
+       var id = [];
+       id.push( $(this).data('accent-id'));
+       modalConfirm('Remove Accent', 'Are you sure you want to remove this Accent?', id);
     });
-     $(document).on('click', '.enable-accent', function(){
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        console.log(id);
+        var url = "//" + api_host + "/api/accent/delete";
+        $.ajax({
+           url: url,
+           type: "POST",
+           data: JSON.stringify({id: id}),
+           dataType: "json",
+           crossDomain: true,
+           contentType: 'application/json',
+           headers: {"accessToken": atob(headerValue)},
+           success: function(response){
+                   if (response.success) {
+                   new PNotify({
+                       title: 'Success',
+                       text: response.message,
+                       type: 'success',
+                       hide: true
+                   });
+                   $('#confirmation-modal').modal('hide');
+                    $.each(id, function (index, value) {
+                        console.log(value);
+                        $('.accent-' + value).fadeOut();
+                     // Will stop running after "three"
+                    });
+               }
+           }
+       });
+    });
+
+    $(document).on('click', '.enable-accent', function(){
 
       console.log("enable-accent");
         var id = $(this).data('accent-id');
-         var url = "//" + api_host + "/api/accent/enable/";
-        //var url = "//localhost:8888/api/accent/enable/";
+        var url = "//" + api_host + "/api/accent/enable/";
         $.ajax({
             url: url,
             type: "POST",
@@ -137,7 +165,7 @@
     });
 
     $(document).on('click', '.disable-accent', function(){
-   
+
         var id = $(this).data('accent-id');
         var url = "//" + api_host + "/api/accent/disable/";
         //var url = "//localhost:8888/api/accent/disable/";
@@ -165,38 +193,7 @@
             }
         });
     });
-    $(document).on('click', '.confirmButtonYes', function(){
-      
-        var id = $(this).data('accent-id');
-        console.log(id);
-        // var url = "http://localhost:8888/api/accent/delete";
-        var url = "//" + api_host + "/api/accent/delete/";
-                   
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    // $('#confirmation-modal').modal('hide');
-                    $('.font-' + id).fadeOut();
-                     $( ".accents" ).load( location+" .accents" );  
-
-                }
-            }
-        });
-     });
+   });
 </script>
 <!-- <script type="text/javascript" src="/js/administration/accents.js"></script> -->
-
 @endsection

@@ -75,6 +75,19 @@ class OrdersAPIClient extends APIClient
         return $orders;
     }
 
+    public function searchOrderByFOID($foid)
+    {
+        $response = $this->get('orders/search_order_by_foid/'.$foid);
+        $result = $this->decoder->decode($response->getBody());
+
+        $order = [];
+        if ($result->success)
+        {
+            $order = $result->order;
+        }
+        return $order;
+    }
+
     public function getStats($year = null, $month = null, $day = null)
     {
         $endpoint = 'stats/orders/' . $year;

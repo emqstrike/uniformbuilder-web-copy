@@ -171,6 +171,7 @@
                                 <select name='gender' class="form-control gender">
                                     <option value='men'@if($material->gender == 'men') selected="selected"@endif>Men</option>
                                     <option value='women'@if($material->gender == 'women') selected="selected"@endif>Women</option>
+                                    <option value='unisex'@if($material->gender == 'unisex') selected="selected"@endif>Unisex</option>
                                 </select>
                             </div>
                         </div>
@@ -561,62 +562,6 @@
                                 @endif
                             </div>
                         </div>
-
-                        <!-- <div class="form-group">
-                            <input type="hidden" name="sizes" id="sizes" value="{{ $material->sizes }}">
-                            <table class="Table table-bordered col-md-12">
-                                <tbody>
-                                    <tr style="font-weight: bold;">
-                                        <td style="width: 30px;">Adult Sizes</td>
-                                        <td style="width: 30px;">3XS</td>
-                                        <td style="width: 30px;">2XS</td>
-                                        <td style="width: 30px;">XS</td>
-                                        <td style="width: 30px;">S</td>
-                                        <td style="width: 30px;">M</td>
-                                        <td style="width: 30px;">L</td>
-                                        <td style="width: 30px;">XL</td>
-                                        <td style="width: 30px;">2XL</td>
-                                        <td style="width: 30px;">3XL</td>
-                                        <td style="width: 30px;">4XL</td>
-                                        <td style="width: 30px;">5XL</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 30px;"></td>
-                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="3XS"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="2XS"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="XS"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="S"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="M"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="L"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="XL"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="2XL"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="3XL"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="4XL"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd a-size" data-size="5XL"></select></td>
-                                    </tr>
-                                    <tr style="font-weight: bold;">
-                                        <td style="width: 30px;">Youth Sizes</td>
-                                        <td style="width: 30px;">YS</td>
-                                        <td style="width: 30px;">YM</td>
-                                        <td style="width: 30px;">YL</td>
-                                        <td style="width: 30px;">YXL</td>
-                                        <td style="width: 30px;">Y2XL</td>
-                                        <td style="width: 30px;">Y3XL</td>
-                                        <td style="width: 30px;" colspan="5"></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width: 30px;"></td>
-                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="YS"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="YM"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="YL"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="YXL"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="Y2XL"></select></td>
-                                        <td style="width: 30px;"><select class="pi-dd y-size" data-size="Y3XL"></select></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> -->
-
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-8">
@@ -649,11 +594,23 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Styles PDF</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control styles-pdf-text" name="styles-pdf-text" value="{{ $material->styles_pdf }}">
+                            </div>
+                                <div class="col-md-2">
+                                    <a href="#" class="btn btn-danger btn-xs delete-styles-pdf"
+                                        data-material-id="{{ $material->id }}"
+                                        data-field="styles_pdf"
+                                        role="button">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        Delete PDF
+                                    </a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"></label>
                             <div class="col-md-4 material">
                                 <input type="file" class="form-control styles-pdf" name="styles_pdf" accept=".ai,.pdf" >
-                            </div>
-                            <div class="col-md-4 material">
-                                <input type="text" class="form-control styles-pdf-text" name="styles-pdf-text" value="{{ $material->styles_pdf }}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -687,6 +644,7 @@
                                 <select name="brand" class="form-control">
                                         <option value="none" @if($material->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($material->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                        <option value="richardson" @if($material->brand == "richardson") selected="selected"@endif>Richardson</option>
                                 </select>
                             </div>
                         </div>
@@ -722,10 +680,6 @@
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Update Material
                                 </button>
-                                <!-- <a href="#" class="btn btn-success edit-material">
-                                    <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Update Material
-                                </a> -->
                                 <a href="/administration/materials" class="btn btn-danger" style="margin-right: 15px;">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
@@ -743,8 +697,6 @@
 @include('partials.confirmation-modal')
 {{-- @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field']) --}}
 
-
-
 @endsection
 
 @section('scripts')
@@ -761,7 +713,7 @@ $( document ).ready(function() {
     getPriceItems(function(price_items){ window.price_items = price_items; });
     function getPriceItems(callback){
         var price_items;
-        var url = "//api-dev.qstrike.com/api/price_items";
+        var url = "//" +api_host+ "/api/price_items";
         $.ajax({
             url: url,
             async: false,
@@ -782,53 +734,11 @@ $( document ).ready(function() {
     });
 
     $(".pi-dd").each(function(i) {
-        // $(this).append(price_items_dd);
     });
-    // if( $('#sizes').val() != "" ){
-    //     var size_obj = JSON.parse($('#sizes').val().slice(1, -1));
-    //     console.log(size_obj);
-    //     size_obj['adult'].forEach(function(entry) {
-    //         // console.log(entry.size);
-    //         $(".pi-dd").each(function(i) {
-    //             var elem = $(this);
-    //             if( elem.data('size') == entry.size ){
-    //                 // elem.append('<option selected>HERE!</option');
-    //                 elem.find('option').each(function(index,element){
-    //                     if( element.value == entry.price_item ){
-    //                         // console.log('Match!');
-    //                         $(this).prop("selected", "selected");
-    //                     }
-    //                 });
-    //             }
-    //         });
-    //     });
-
-    //     size_obj['youth'].forEach(function(entry) {
-    //         // console.log(entry.size);
-    //         $(".pi-dd").each(function(i) {
-    //             var elem = $(this);
-    //             if( elem.data('size') == entry.size ){
-    //                 // elem.append('<option selected>HERE!</option');
-    //                 elem.find('option').each(function(index,element){
-    //                     if( element.value == entry.price_item ){
-    //                         // console.log('Match!');
-    //                         $(this).prop("selected", "selected");
-    //                     }
-    //                 });
-    //             }
-    //         });
-    //     });
-    // }
-
 
     $(".pi-dd").change(function() {
-        // buildPIxSizes(); // REMOVE COMMENT ***
     });
 
-    // $(document).on('click', '.check-data', function() {
-    //     buildPIxSizes();
-    // });
-// var sizes = [];
     function buildPIxSizes(){
         sizes = {};
         sizes['adult'] = [];
@@ -860,8 +770,6 @@ $( document ).ready(function() {
         $('#sizes').val( '"' + strResult + '"' );
     }
 
-    // console.log(window.price_items);
-
     tinymce.init({
         selector:'textarea.material-description'
     });
@@ -877,7 +785,6 @@ $( document ).ready(function() {
 
     $('.edit-material').on('click', function(){
         saveEditor();
-        // console.log('SAVE');
     });
 
     function saveEditor(){
@@ -893,8 +800,7 @@ $( document ).ready(function() {
 
     function getBlockPatterns(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
-        // var url = "//localhost:8888/api/block_patterns";
+        var url = "//" +api_host+ "/api/block_patterns";
         $.ajax({
             url: url,
             async: false,
@@ -904,21 +810,16 @@ $( document ).ready(function() {
             contentType: 'application/json',
             success: function(data){
                 block_patterns = data['block_patterns'];
-                // console.log("Mascots: "+items);
                 if(typeof callback === "function") callback(block_patterns);
             }
         });
     }
 
-    // console.log( window.block_patterns );
-
     var block_pattern_id = $('#block_pattern_id').val();
     var existing_neck_option = $('#existing_neck_option').val();
 
-    // console.log(existing_neck_option);
-
     $.each(window.block_patterns, function(i, item) {
-        if( item.id === block_pattern_id ){
+        if( item.id == block_pattern_id ){
             window.neck_options = JSON.parse(item.neck_options);
             $.each(window.neck_options, function(i, item) {
                 if( existing_neck_option == item.name ){
@@ -939,7 +840,7 @@ $( document ).ready(function() {
         $( '#neck_option' ).html('');
 
         $.each(window.block_patterns, function(i, item) {
-            if( item.id === id ){
+            if( item.id == id ){
                 window.neck_options = JSON.parse(item.neck_options);
                 $.each(window.neck_options, function(i, item) {
                     $( '#neck_option' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
@@ -979,6 +880,36 @@ $( document ).ready(function() {
         });
     });
 
+    $('.delete-styles-pdf').on('click', function(e){
+        e.preventDefault();
+        var id =  $(this).data('material-id');
+        var field = $(this).data('field');
+        $('#confirmation-modal .confirm-yes').data('field', field);
+        modalConfirm('Remove PDF Link', 'Are you sure you want to remove this Styles PDF?', id);
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+
+        var id = $(this).data('value');
+        var field = $(this).data('field');
+        var url = "//" + api_host + "/api/material/deleteStylesPDF";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id, field: field}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    location.reload();
+                }
+            }
+        });
+    });
+
     var item_size_array = $('#item_sizes_string').text();
     var size_prop = JSON.parse(item_size_array);
 
@@ -994,9 +925,7 @@ $( document ).ready(function() {
                 $('#sizing_config_prop').text(item.properties);
             }
         });
-
     }
-
 
 });
 </script>

@@ -3543,7 +3543,7 @@ div.header-container.main {
 
     }
 
-    .price_item_template_name {
+    .price_item_template_name, .material_id {
         margin-top: 10px;
         font-size: 0.8em;
         color: red;
@@ -3584,12 +3584,16 @@ div.header-container.main {
         }
 
         span.youthPriceCustomizerSale.nosale, span.adultPriceCustomizerSale.nosale {
-
             display: none;
+        }
 
+        span.youthPriceCustomizer.hide, span.adultPriceCustomizer.hide, span.youthPriceCustomizerSale.hide, span.adultPriceCustomizerSale.hide {
+            display: none !important;
         }
 
     } 
+
+    div#uniform-price-youth.hide { display: none; }
 
     div#uniform-price-adult { margin-top: 7em; }
 
@@ -11067,12 +11071,12 @@ span.load-line.awesomeness {
 
         position: absolute;
         width: 550px;
-        height: 170px;
-        bottom: 100px;
-        left: 120px;
+        height: 140px;
+        bottom: 0px;
+        right: 25px;
         background-color: white;
         display: none;
-
+        line-height: 14px;
         padding: 7px;
         z-index: 1000;
 
@@ -11098,7 +11102,7 @@ span.load-line.awesomeness {
                 label { width: 70px; }
                 strong.number {
 
-                    width: 300px;
+                    width: 230px; 
                     display: inline-block;
 
                 }

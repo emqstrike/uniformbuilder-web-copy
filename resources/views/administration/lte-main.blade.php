@@ -21,7 +21,6 @@
 <link rel="stylesheet" type="text/css" href="/css/jquery-confirm.css">
 <link rel="stylesheet" type="text/css" href="/css/introjs.css">
 
-
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -45,7 +44,7 @@
 .introTrigger{
     font-size: 31px;
     padding: 10px;
-    
+
 }
 .introStart{
     display: none;
@@ -71,13 +70,13 @@
         </a>
 
         <nav class="navbar navbar-static-top" role="navigation">
-            <a href="#" data-step="1" data-intro="This is a tooltip!" class="sidebar-toggle"   data-toggle="offcanvas" role="button">
+            <a href="#" data-step="1" class="sidebar-toggle"   data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
 
             </a>
-            <i class="glyphicon glyphicon-question-sign introTrigger" aria-hidden="true"></i>
+            <!-- <i class="glyphicon glyphicon-question-sign introTrigger" aria-hidden="true"></i> -->
 
-        <a class="btn btn-large btn-success introStart"   >Show me how</a>
+        <!-- <a class="btn btn-large btn-success introStart"   >Show me how</a> -->
 
             <div class="navbar-custom-menu" >
                 <ul class="nav navbar-nav">
@@ -107,9 +106,6 @@
                             <li class="user-footer">
                                 <div class="pull-left">
                                     <a href="/administration/account_settings/{{ Session::get('userId') }}" class="btn btn-default btn-flat">Profile</a>
-                                </div>
-                                <div class="pull-left">
-                                    <a href="/administration/account_settings/change_password/{{ Session::get('userId') }}" class="btn btn-default btn-flat">Password</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="/administration/logout" class="btn btn-default btn-flat">Sign out</a>
@@ -153,13 +149,13 @@
 <!-- Scripts -->
 @if (Session::get('accessToken'))
 <script type="text/javascript">
-    
+
     window.headerValue = "{{ base64_encode(Session::get('accessToken')) }}";
     window.api_host = "{{ env('API_HOST') }}";
     @if (Session::get('isLoggedIn'))
     window.loggedInUser = {{ Session::get('userId') }};
     @endif
-    
+
 </script>
 @endif
 
@@ -185,7 +181,7 @@
 <!-- <script src="/dist/js/app.min.js"></script> -->
 <script src="/dist/js/app.js"></script>
 <script src="/js/administration/jquery-confirm.js"></script>
-<script src="/intro-js/intro.js"></script>
+<script src="/intro-js/intro.min.js"></script>
 
 
 
@@ -193,24 +189,21 @@
 
 @yield('scripts')
 @yield('custom-scripts')
-    
+
      <script>
 
 
       $(function(){
         $(".introTrigger").click(function() {
 
-
-
-
             $(".sidebar-toggle").trigger("click");
-            
+
         });
         $(".sidebar-toggle").click(function(){
             setTimeout(function () {
-                jQuery(".introStart").trigger("click"); 
+                jQuery(".introStart").trigger("click");
             }, 1000);
-         
+
         });
 
     $(".introStart").click(function() {
@@ -225,23 +218,23 @@
             }).onchange(function(targetElement) {
               console.log('change');
             }).onbeforechange(function(targetElement) {
-              
-            
+
+
           switch($(targetElement).attr("data-step")) {
             case "2":
-               
+
               break;
             case "3":
-                $(".treeview a").trigger("click");   
+                $(".treeview a").trigger("click");
             //     setTimeout(function () {
-            //     jQuery(".introStart").trigger("click"); 
+            //     jQuery(".introStart").trigger("click");
             // }, 1000);
               break;
             case "4":
-              
+
               break;
             case "5":
-             
+
               break;
           }
         }).start();
@@ -252,13 +245,13 @@
       $("#flexi_form_start").click(function() {
 
         introJs().onbeforechange(function(targetElement) {
-              
-            
+
+
           switch($(targetElement).attr("data-step")) {
             case "2":
           $( ".sidebar-toggle" ).trigger('click');
-            
-             
+
+
               break;
             case "3":
               $("input").addClass("error");
@@ -284,7 +277,7 @@
     updateObjectSizes();
 
     function sizesLoop(sizes,cl){
-      for (var item of sizes) { 
+      for (var item of sizes) {
        $(cl).append("<input type='checkbox' value="+ item +"> : "+item + "<br>");
       }
     }
@@ -301,6 +294,7 @@
     $('.adultSizes input').on('click', function(){
 
       createObjectAdultYouthSizes(this,adult_sizes);
+
     });
     $('.youthSizes input').on('click', function(){
       createObjectAdultYouthSizes(this,youth_sizes);
@@ -308,7 +302,7 @@
     function createObjectAdultYouthSizes(th,size){
       var value = $(th).val();
       if($(th).is(':checked')){
-          size.push(value);    
+          size.push(value);
           console.log(value);
       }else{
           size.splice( $.inArray(value,size) ,1 );
@@ -320,18 +314,18 @@
 
     }
     function updateObjectSizes(){
-     
+
       if($("input[name='sizes']").val()){
          var sizes = $("input[name='sizes']").val();
           sizes = JSON.parse(sizes);
 
             $.each( sizes, function( key, value ) {
-              for (var item of value) { 
+              for (var item of value) {
 
                 $('.'+key+'Sizes :input[value='+ item +']').attr( "checked", true );
-              }            
+              }
             });
-      }     
+      }
     }
 
     </script>

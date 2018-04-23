@@ -206,7 +206,7 @@ getBlockPatterms(function(block_patterns){ window.block_patterns = block_pattern
 
 function getBlockPatterms(callback){
     var block_patterns;
-    var url = "//api-dev.qstrike.com/api/block_patterns";
+    var url = "//" +api_host+ "/api/block_patterns";
     $.ajax({
         url: url,
         async: false,
@@ -224,20 +224,13 @@ function getBlockPatterms(callback){
 console.log(window.block_patterns);
 bindBPOS();
 function bindBPOS(){
-    // var sports = $('.sports-val').val().split('"').join('');
     var sports = $('.sport').val();
-    // console.log(sports);
     var sports_arr = null;
     var block_pattern_options = [];
-    // console.log('[[SPORTS]]');
-    // console.log(sports);
     if(sports != null){
         sports_arr = sports.split(",");
-        console.log(sports_arr);
         sports_arr.forEach(function(entry) {
-            // console.log('ENTRY: ' + entry);
             var x = _.filter(window.block_patterns, function(e){ return e.uniform_category === entry; });
-            // console.log(x);
             x.forEach(function(entry) {
                 var y = JSON.parse(entry.neck_options);
                 var list = [];
@@ -246,7 +239,6 @@ function bindBPOS(){
                     list.push(_.flatten(_.pick(item, 'children')));
                 });
                 var result = _.flatten(list);
-
                 result.forEach(function(i) {
                     block_pattern_options.push(i.name);
                 });
@@ -263,7 +255,6 @@ function bindBPOS(){
     if($('#block_pattern_options_value').val()){
         var bpos = JSON.parse($('#block_pattern_options_value').val());
     }
-    // var sports = JSON.parse($('#sports_value').val());
 
     $('.block-pattern-options').select2({
         placeholder: "Select block pattern option",

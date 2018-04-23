@@ -9,14 +9,8 @@ $(document).ready(function(){
     var layers_properties = {};
 
     $(document).on('click', '.clone-row', function() {
-        console.log('clone-row');
-        // if( $( ".layers-row" ) ){
-        //     console.log('if');
-        //     // $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
-        //     updater();
-        //     var length = $('.layers-row').length;
-        // } else {
-        //     console.log('else');
+        console.log('clone-row x');
+
             var elem = `<tr class="layers-row">
                                             <td>
                                                 <input type="text" class="neck-option-name layer1" name="neck_option_name[]">
@@ -35,29 +29,24 @@ $(document).ready(function(){
                                             </td>
                                         </tr>`;
             $('#layers-row-container').append(elem);
-            updater();
             var length = $('.layers-row').length;
-        // }
+            updater();
+            updateJSON(length, 1);
     });
 
-    // $(document).on('change', 'input', function() {
-    //     updater();
-    //     var length = $('.layers-row').length;
-    // });
+    $(document).on('change', 'input', function() {
+        updater();
+        updateJSON(length, 1);
+    });
 
     updater();
     function updater(edit){
-
         $('.neck-option-name, .neck-option-placeholder-overrides').keyup(function(){
-
             console.log($(this).val());
             var length = $('.layers-row').length;
             updateJSON(length, edit);
-
         });
     }
-
-    // TODO ADD ON/OFF TOGGLER
 
     $('.delete-block-pattern').on('click', function(){
 
@@ -98,7 +87,6 @@ $(document).ready(function(){
     $(".neck-options-container").each(function(i) {
 
         var data = $(this).val();
-        console.log(data);
 
         if( data != "" && data != null ){
             try {
@@ -138,7 +126,6 @@ $(document).ready(function(){
 
     function updateJSON(length, edit){
 
-        console.log('Update JSON');
         layers_properties = {};
         var ctr = 1;
 
@@ -169,7 +156,6 @@ $(document).ready(function(){
 
                 var existing_file_class = ".neck-option-existing-file.layer" + ctr;
 
-                // console.log('Name VAL: ' + $(this).find(name_class).val());
                 layers_properties[ctr]['name'] = $(this).find(name_class).val();
                 layers_properties[ctr]['placeholder_overrides'] = $(this).find(placeholder_class).val();
                 if( edit == 1 ){
@@ -183,7 +169,12 @@ $(document).ready(function(){
                 }
             }
             ctr++;
-
+            $('.btn-remove-option').on('click', function(){
+                console.log('rimuv');
+                $(this).parent().parent().remove();
+                var length = $('.layers-row').length;
+                updateJSON(length, 1);
+            });
         });
 
         var layersProperties = JSON.stringify(layers_properties);
@@ -226,7 +217,6 @@ $(document).ready(function(){
             x++;
 
             $('.btn-remove-option').on('click', function(){
-                // console.log('rimuv');
                 $(this).parent().parent().remove();
                 var length = $('.layers-row').length;
                 updateJSON(length, 1);

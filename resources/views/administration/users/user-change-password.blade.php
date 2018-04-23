@@ -49,10 +49,15 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary update-user" disabled>
+                                <button type="submit" class="btn btn-primary update-user">
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Update User
+                                    Update Password
                                 </button>
+                                <a href="/administration/account_settings/{{ Session::get('userId') }}" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>
+                                    Cancel
+                                </a>
+
                             </div>
                         </div>
                     </form>
@@ -68,7 +73,9 @@
 <script type="text/javascript">
 $( document ).ready(function() {
     var isReady = 0;
-    $( ".new-password" ).keyup(function() {
+
+    $('.update-user').click(function(e) {
+        e.preventDefault();
         var newPassword = $('.user-new-password').val();
         var newConfirm = $('.user-confirm-new-password').val();
         if (newPassword != newConfirm) {
@@ -78,11 +85,16 @@ $( document ).ready(function() {
                 type: 'warning',
                 hide: true
             });
-            $('.update-user').prop('disabled', true);
         } else {
-            $('.update-user').prop('disabled', false);
+            new PNotify({
+                title: 'Success',
+                text: 'Passwords matched',
+                type: 'success',
+                hide: true
+            });
+            $('#update-user-form').submit();
         }
-    });
+      });
 });
 </script>
 @endsection

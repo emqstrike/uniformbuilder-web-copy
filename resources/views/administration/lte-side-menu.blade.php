@@ -28,6 +28,11 @@
           <i class="glyphicon glyphicon-ok"></i> <span>Sent Orders</span>
         </a>
       </li>
+      <li>
+        <a href="/administration/orders/search_order">
+          <i class="glyphicon glyphicon-search"></i> <span>Search Sent Order</span>
+        </a>
+      </li>
     </ul>
   </li>
   <li class="treeview" data-step="2" data-intro="Manage price items" data-position='right'>
@@ -315,18 +320,6 @@
       <span>Cuts Links</span>
       </a>
   </li>
-  <li data-position='right'>
-    <a href="/administration/dealers">
-      <i class="fa fa-handshake-o"></i>
-      <span>Dealers</span>
-      </a>
-  </li>
-  <!-- <li data-position='right'>
-    <a href="/administration/style_requests">
-      <i class="fa fa-file-text-o"></i>
-      <span>Style Requests</span>
-      </a>
-  </li> -->
   <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
     <a href="#" >
       <i class="fa fa-file-text-o"></i>
@@ -392,5 +385,30 @@
           </li>
 
         </ul>
+  </li>
+  <li class="treeview" data-step="3" data-intro="For Clients settings." data-position='right'>
+      <a href="#">
+      <i class="fa fa-handshake-o"></i>
+      <span>Clients</span>
+        <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li  data-step="17" data-intro="For Brands settings.">
+            <a href="/administration/brandings">
+            <i class="fa fa-industry"></i> <span>Brands</span>
+            </a>
+          </li>
+          <li  data-step="17" data-intro="For Dealders settings.">
+            <a href="/administration/dealers">
+          <i class="fa fa-handshake-o"></i> <span>Dealers</span>
+          </a>
+          </li>
+        </ul>
+  </li>
+  <li data-position='right'>
+    <a href="/administration/user_pairings">
+      <i class="fa fa-link"></i>
+      <span>User Pairings</span>
+      </a>
   </li>
 </ul>

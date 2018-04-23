@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -36,21 +36,21 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Feature Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="name" value="">
+                                <input type="name" class="form-control" name="name" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Group</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="group" value="">
+                                <input type="name" class="form-control" name="group" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Category</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="category" value="">
+                                <input type="name" class="form-control" name="category" required>
                             </div>
                         </div>
 
@@ -123,14 +123,14 @@ li.select2-selection__choice {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">State</label>
-                            <div class="col-md-6">
-                                <input type="name" class="form-control" name="state" value="">
+                            <label class="col-md-4 control-label">State (Abbreviation)</label>
+                            <div class="col-md-1">
+                                <input type="name" id="state_input" maxlength="2" class="form-control" name="state" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Sports</label>
+                            <label class="col-md-4 control-label">Uniform Category</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="sports-val" name="sports_value">
                                 <select name="sports[]" id="users" class="form-control sports" multiple="multiple">
@@ -180,6 +180,16 @@ $(document).ready(function(){
         allowClear: true
     });
 
+    var maxStateChars = $("#state_input");
+    var max_length = maxStateChars.attr('maxlength');
+    if (max_length > 0) {
+        maxStateChars.bind('keyup', function(e){
+            length = new Number(maxStateChars.val().length);
+            counter = max_length-length;
+            $("#sessionNum_counter").text(counter);
+        });
+    }
+
     $(".user-types").change(function() {
         $('.users-types-val').val($(this).val());
     });
@@ -204,7 +214,7 @@ $(document).ready(function(){
     });
 
     $('.sports').select2({
-        placeholder: "Select Sports",
+        placeholder: "Select Uniform Category",
         multiple: true,
         allowClear: true
     });

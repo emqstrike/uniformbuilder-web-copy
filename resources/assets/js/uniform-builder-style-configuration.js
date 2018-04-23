@@ -63,8 +63,9 @@ $(document).ready(function () {
             if (ub.funcs.isSocks()) { _size = 2.5; }
 
             // New Socks 
-            if (ub.config.sport === "Socks (Apparel)") { _size = size; }            
-            
+            if (ub.config.sport === "Socks (Apparel)") { _size = size; }  
+            if (ub.config.blockPattern === "Crew Sock") { _size = 2.5; }         
+
             _scale = _.find(ub.styleValues.mascotScales.items[0].properties, {size: _size.toString()});
 
             if (typeof _scale === "undefined") {

@@ -119,10 +119,11 @@ $(document).ready(function(){
         "autoWidth": false
     });
 
-    $('.delete-mascot-size').on('click', function(){
+    $(document).on('click', '.delete-mascot-size', function(){
         var id = $(this).data('mascot-size-id');
         modalConfirm('Remove mascot-size', 'Are you sure you want to delete the mascot-size?', id);
     });
+
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/mascot_size/delete/";
@@ -143,8 +144,7 @@ $(document).ready(function(){
                         hide: true
                     });
                     $('#confirmation-modal').modal('hide');
-
-                        $('.mascot-size-' + id).fadeOut();
+                    $('.mascot-size-' + id).fadeOut();
                 }
             }
         });

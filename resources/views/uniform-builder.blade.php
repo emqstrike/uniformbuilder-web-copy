@@ -134,6 +134,7 @@
             <span class="slink main-picker-items secondary-filters active" data-picker-type="gender" data-item="All">All</span>
             <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Sublimated">Sublimated</span>
             <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Twill">Tackle Twill</span>
+            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Knitted">Knitted</span>
 
         </div>
 
@@ -205,7 +206,7 @@
 @include('partials.controls.ui-controls')
 
 <!-- Third Party Scripts -->
-<script src="{{$asset_storage}}/jquery/jquery-1.11.3.min.js?v={{$asset_version}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/underscore/underscore.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/bootstrap/js/bootstrap.min.js?v={{$asset_version}}"></script>
@@ -217,7 +218,7 @@
 <script src="{{$asset_storage}}/scrollTo/jquery.scrollTo.js?v={{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/js/libs/creditly/creditly.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/js/libs/mustache/mustache.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/js/libs/mustache/mustache-2.2.3.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/js/libs/smoke/smoke.js?v={{$asset_version}}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
 
@@ -230,7 +231,7 @@
 <script src="{{$asset_storage}}/dropdown/jquery.dropdown.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/outside-events/jquery.ba-outside-events.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/colorpicker/js/bootstrap-colorpicker.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/typeahead/typeahead.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/typeahead/typeahead-modded.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/isotope/isotope.pkgd.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/Sortable.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/sortable/jquery.binding.js?v={{$asset_version}}"></script>

@@ -12,6 +12,8 @@ $(document).ready(function () {
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
+        var _headers = "";
+
         ub.utilities.info('');
         ub.utilities.info('----- Base Uniform Info -----');
         ub.utilities.info('ID: ' + material.id);
@@ -43,29 +45,62 @@ $(document).ready(function () {
         ub.utilities.info('');
         
         ub.utilities.info('-------- Applications -------');
+
+        _headers = "Code".rpad(' ', 7) + "Type".rpad(' ', 15) + " View".rpad(' ', 7) + " " + " Size".lpad(' ', 5) + " Active".lpad(' ', 5) + " Color".lpad(' ', 11) + " Opacity".lpad(' ', 8) + "Position / Frontend".lpad(' ', 45) + "Position / Backend".lpad(' ', 45) + " Scale".lpad(' ', 46);
+
+        console.log(_headers);
+
         _.each(settings.applications, function (app) { 
-            
+
             var _str = '#' + app.code.rpad(' ', 5) + ' ' + app.type.rpad(' ', 15); 
-            var _primaryView = undefined; 
+            var _primaryView = undefined;
             var _colorArray = "";
             var _status = "";
-            
+            var _primaryViewObjectScale = ""; var _scaleStr = "";
+            var _primaryViewObjectPosition = ""; var _positionStr = "";
+            var _opacity = (typeof app.opacity !== "undefined" ? app.opacity : '100%').lpad(' ', 7);
+
             _.each(app.application.views, function (view) {
 
                 if (view.application.isPrimary === 1) {
 
+                    _primaryViewObject = view; 
                     _primaryView = view.perspective;
+                    _primaryViewObjectScale = view.application.scale;
+                    _primaryViewObjectPosition = view.application.center;
+
                     return;
 
                 }
 
             });
 
-            if (typeof _primaryView === "undefined") {
+            if (typeof _primaryViewObjectScale !== "undefined") { 
 
-                _primaryView = 'No Primary View Set!';
+                 _scaleStr = "{x: " + _primaryViewObjectScale.x + ", y: " + _primaryViewObjectScale.y + "}"; 
+
+            } else {
+                
+                var _appObj = ub.objects[_primaryView + '_view']['objects_' + app.code];
+
+                if (typeof _appObj !== "undefined") {
+                    var _scale = _appObj.scale;
+                    _scaleStr = '{x: ' + _scale.x + ',y: ' + _scale.y + '}';
+                } else {
+                    _scaleStr = 'scale not set.';
+                }
+
+                
+            }
+
+            if (typeof _primaryViewObjectPosition !== "undefined") { 
+
+                _positionStrF =  "{x: " + _primaryViewObjectPosition.x + ", y: " + _primaryViewObjectPosition.y + "}"; 
+                _positionStrB = "{x: " + ((_primaryViewObjectPosition.x/2)-3) + ", y: " + (_primaryViewObjectPosition.y/2) + "}"; 
 
             }
+
+            if (typeof _primaryView === "undefined") { _primaryView = 'No Primary View Set!';}
 
             _status = "on".lpad(' ', 5);
             if (app.status === "off") {
@@ -78,11 +113,10 @@ $(document).ready(function () {
             } 
 
             // See config instead 
-            if (app.type === "embellishments") {
-                _colorArray = "";
-            }
+            if (app.type === "embellishments") { _colorArray = app.embellishment.design_id.toString().lpad(' ', 10); }
 
-            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray;
+            _str += ' ' + _primaryView.rpad(' ', 7) + ' ' + ( (typeof app.font_size !== "undefined" ? app.font_size + '"': "none")).lpad(' ', 5) + " " + _status + " " + _colorArray + " " + _opacity + " " + _positionStrF.lpad(' ', 45) + _positionStrB.lpad(' ', 45) + " " + _scaleStr.lpad(' ', 45);
+
             ub.utilities.info(_str);
 
         });
@@ -416,9 +450,19 @@ $(document).ready(function () {
 
         }
 
-        ub.updatePanel = function (code, app) {
+        ub.updateApplicationSpecsPanel = function (code) {
 
             if (!_.contains(ub.fontGuideIDs, window.ub.valid)) { return; }
+
+            var _application = ub.funcs.getApplicationSettings(code);
+            var _primaryView = ub.funcs.getPrimaryViewObject(_application.application);
+
+            if (typeof _primaryView === "undefined") { 
+
+                ub.utilities.error('No Primary view set for ' + code);
+                return;
+
+            }
 
             var $previewPanelBody = $('div.preview-panel');
 
@@ -435,19 +479,20 @@ $(document).ready(function () {
 
                 $('div.preview-panel').draggable();
 
-
             }
 
-            var template = $('#m-preview-panel-rotation').html();
+            var template = $('#m-preview-panel-content').html();
 
             var data = {
                 applicationCode: code,
-                radians: ((parseFloat(app.rotation) * Math.PI) / 180).toFixed(4),
-                degrees: parseFloat(app.rotation).toFixed(4),
-                positionX: app.center.x.toFixed(4),
-                positionY: app.center.y.toFixed(4),
-                scaleX: typeof app.scale === "undefined" ? 1: app.scale.x.toFixed(4),
-                scaleY: typeof app.scale === "undefined" ? 1: app.scale.y.toFixed(4),
+                radians: ((parseFloat(_primaryView.application.rotation) * Math.PI) / 180).toFixed(4),
+                degrees: parseFloat(_primaryView.application.rotation).toFixed(4),
+                positionX: _primaryView.application.center.x.toFixed(4), // Frontend
+                positionY: _primaryView.application.center.y.toFixed(4), // Frontend
+                positionXBackend: ((_primaryView.application.center.x / 2 ) - 3).toFixed(4), // Backend
+                positionYBackend: (_primaryView.application.center.y.toFixed(4) / 2).toFixed(4), // Backend
+                scaleX: typeof _primaryView.application.scale === "undefined" ? 1: _primaryView.application.scale.x.toFixed(4),
+                scaleY: typeof _primaryView.application.scale === "undefined" ? 1: _primaryView.application.scale.y.toFixed(4),
             };
 
             var markup = Mustache.render(template, data);

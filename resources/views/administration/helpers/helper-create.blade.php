@@ -36,21 +36,21 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Feature Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="feature" value="">
+                                <input type="name" class="form-control" name="feature" value="" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Group</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="group" value="">
+                                <input type="name" class="form-control" name="group" value="" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Category</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="category" value="">
+                                <input type="name" class="form-control" name="category" value="" required>
                             </div>
                         </div>
 
@@ -73,7 +73,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-8">
-                                <textarea class="form-control helper-description" name=""></textarea>
+                                <textarea class="form-control helper-description" name="" required></textarea>
                                 <input type="hidden" name="description" id="description">
                             </div>
                         </div>
@@ -128,7 +128,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Index</label>
                             <div class="col-md-6">
-                                <input type="number" step="0.001" class="form-control" name="index" value="">
+                                <input type="number" step="0.001" class="form-control" name="index" value="" required>
                             </div>
                         </div>
 

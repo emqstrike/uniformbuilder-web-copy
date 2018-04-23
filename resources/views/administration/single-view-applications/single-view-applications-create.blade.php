@@ -131,7 +131,7 @@ $(function(){
 
         function getBlockPatterns(callback){
             var block_patterns;
-            var url = "//api-dev.qstrike.com/api/block_patterns";
+            var url = "//" +api_host+ "/api/block_patterns";
             $.ajax({
                 url: url,
                 async: false,
@@ -149,7 +149,7 @@ $(function(){
         $(document).on('change', '.sport', function() {
             sport = $('.sport').val();
                 getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
-                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id === sport; });
+                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id == sport; });
                         $( '#block_pattern' ).html('');
                         $.each(x, function(i, item) {
                             $('#block_pattern' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
