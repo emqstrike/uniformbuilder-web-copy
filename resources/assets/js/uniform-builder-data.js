@@ -2170,6 +2170,10 @@ $(document).ready(function() {
                 name: "Cage Jacket (Apparel)",
                 alias: "cage-jacket",
             },
+            {
+                name: "Compression Pant (Apparel)",
+                alias: "compression-pant-apparel",
+            },
 
         ],
 
@@ -2788,6 +2792,11 @@ $(document).ready(function() {
                 {
                     code: 'fan-replica-jersey',
                     name: 'Fan Replica Jersey (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'compression-pant-apparel',
+                    name: 'Compression Pant (Apparel)',
                     active: "1",
                 },
                 {
@@ -8246,6 +8255,10 @@ ub.funcs.fontOffSets = [
             sport: 'Cage Jacket (Apparel)',
             filters: ['All', 'Jersey'],
         },
+        {
+            sport: 'Compression Pant (Apparel)',
+            filters: ['All'],
+        },
           
     ];
 
@@ -11034,6 +11047,7 @@ ub.funcs.fontOffSets = [
 
             { sport: 'Socks (Apparel)' },
             { sport: 'Cage Jacket (Apparel)' },
+            { sport: 'Compression Pant (Apparel)' },
 
         ],
 
