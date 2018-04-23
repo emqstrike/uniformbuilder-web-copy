@@ -35,26 +35,40 @@ select:hover {
                         <input type="hidden" name="mascot_size_id" value="{{ $mascot_size->id }}">
                         <input type="hidden" id="old_props_data" value="{{ $mascot_size->properties }}">
                         <input type="hidden" id="props_data" value="" name="props_data">
+
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Sport</label>
+                            <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
-                                <select class="form-control sport" name='sport'>
-                                @foreach ($sports as $sport)
-                                    @if($mascot_size->sport == $sport->name)
-                                        <option value='{{ $sport->name }}' selected>{{ $sport->name }}</option>
-                                    @else
-                                        <option value='{{ $sport->name }}'>{{ $sport->name }}</option>
-                                    @endif
-                                @endforeach
-                                </select>
+                                <input type="name" class="form-control" name="name" value="{{ $mascot_size->name }}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Target Block Pattern Option</label>
+                            <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">
-                                <input type="hidden" class="block-pattern-options-val" id="block_pattern_options_value" name="block_pattern_options_value" value="{{ $mascot_size->block_pattern_options }}">
-                                <select name="block_pattern_options[]" class="form-control block-pattern-options" multiple="multiple">
-
+                                <select class="form-control sport" name="uniform_category_id" id="uniform_category_id" >
+                                    <option value="">None</option>
+                                    @foreach ($sports as $sport)
+                                        @if ($sport->active)
+                                        <option value='{{ $sport->id }}' @if($sport->id == $mascot_size->uniform_category_id) selected="selected"@endif>{{ $sport->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <label class="col-md-4 control-label">Block Pattern</label>
+                            <div class="col-md-6">
+                                <input type="hidden" class="block-pattern-val" id="block_pattern_value" name="block_pattern_value" value="{{ $mascot_size->block_patterns }}">
+                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple">
+                                </select>
+                            </div>
+                        </div>
+                       <textarea name="hide" style="display:none;" id="block_patterns_data"><?php echo json_encode($block_patterns, JSON_FORCE_OBJECT);?></textarea>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Neck Option</label>
+                            <div class="col-md-6">
+                                <input type="hidden" class="neck-option-val" id="neck_option_value" name="block_pattern_options_value" value="{{ $mascot_size->block_pattern_options }}">
+                               <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple">
                                 </select>
                             </div>
                         </div>
@@ -73,6 +87,16 @@ select:hover {
                                 <select name="active" class="form-control active">
                                     <option value="0" @if($mascot_size->active == 0) selected @endif>No</option>
                                     <option value="1" @if($mascot_size->active == 1) selected @endif>Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" >Brand</label>
+                           <div class="col-md-6">
+                                <select name="brand" class="form-control">
+                                        <option value="none" @if($mascot_size->brand == "none") selected="selected"@endif>None</option>
+                                        <option value="prolook" @if($mascot_size->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                        <option value="richardson" @if($mascot_size->brand == "richardson") selected="selected"@endif>Richardson</option>
                                 </select>
                             </div>
                         </div>
@@ -201,78 +225,112 @@ function updateFields(){
     });
 }
 
-$(document).on("change",".sport",function(){
-    bindBPOS();
-});
-
 window.block_patterns = null;
-
-getBlockPatterms(function(block_patterns){ window.block_patterns = block_patterns; });
-
-function getBlockPatterms(callback){
-    var block_patterns;
-    var url = "//" +api_host+ "/api/block_patterns";
-    $.ajax({
-        url: url,
-        async: false,
-        type: "GET",
-        dataType: "json",
-        crossDomain: true,
-        contentType: 'application/json',
-        success: function(data){
-            block_patterns = data['block_patterns'];
-            if(typeof callback === "function") callback(block_patterns);
-        }
+    getBlockPatterns(function(block_patterns){
+        window.block_patterns = block_patterns;
     });
-}
 
-bindBPOS();
-function bindBPOS(){
-    var sports = $('.sport').val();
-    var sports_arr = null;
-    var block_pattern_options = [];
-    if(sports != null){
-        sports_arr = sports.split(",");
-        sports_arr.forEach(function(entry) {
-            var x = _.filter(window.block_patterns, function(e){ return e.uniform_category === entry; });
-            x.forEach(function(entry) {
-                var y = JSON.parse(entry.neck_options);
-                var list = [];
-                _.each(y, function(item){
-                    list.push(_.omit(item, 'children'));
-                    list.push(_.flatten(_.pick(item, 'children')));
-                });
-                var result = _.flatten(list);
+    function getBlockPatterns(callback){
+        var block_patterns;
+        var url = "//" +api_host+ "/api/block_patterns";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                block_patterns = data['block_patterns'];
+                if(typeof callback === "function") callback(block_patterns);
+            }
+        });
+    }
+    var sport = null;
+    var block_patterns_val = $('#block_pattern_value').val();
+    var block_patterns_value = block_patterns_val.toString().split(",");
 
-                result.forEach(function(i) {
-                    block_pattern_options.push(i.name);
+    $(document).on('change', '.sport', function() {
+    sport = $('.sport').val();
+        getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
+        var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id == sport; });
+                block_patterns_value.forEach(function(pattern) {
+                    $( '#block_pattern' ).html('');
+                    $.each(x, function(i, item) {
+                        if( pattern == item.name ){
+                        $('#block_pattern' ).append( '<option value="' + item.name + '" selected>' + item.name + '</option>' );
+                        }
+                        else {
+                        $('#block_pattern' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+                        }
+                    });
                 });
+        $('#block_pattern').trigger('change');
+    });
+
+    $('.sport').trigger('change');
+
+    var block_patterns_array = $('#block_patterns_data').text();
+    var z = JSON.parse(block_patterns_array);
+    window.block_patterns = _.flatten(z, true);
+
+    $(document).on('change', '#block_pattern', function() {
+    var options = [];
+    var bps = $('#block_pattern_value').val();
+    var bps_name = bps.toString().split(",");
+    console.log(bps_name);
+        bps_name.forEach( function(item_name) {
+            var name = item_name
+            $.each(z, function(i, item) {
+               if( item.name == name ){
+                    var optx = JSON.parse(item.neck_options);
+                    $.each(optx, function(i, item) {
+                        options.push(item.name);
+                    });
+                } else {
+                }
             });
         });
-        var z = _.sortBy(_.uniq(block_pattern_options));
-        $('.block-pattern-options').html('');
-        z.forEach(function(i) {
-            $('.block-pattern-options').append('<option value="'+i+'">'+i+'</option>');
+
+        var y = _.sortBy(_.uniq(options));
+        $( '#neck_option' ).html('');
+        y.forEach(function(i) {
+            $('#neck_option').append('<option value="'+i+'">'+i+'</option>');
         });
-    }
-}
+        $('.material-neck-option').trigger('change');
+    });
 
-if($('#block_pattern_options_value').val()){
-        var bpos = JSON.parse($('#block_pattern_options_value').val());
+    if($('#block_pattern_value').val()){
+        var bp = JSON.parse($('#block_pattern_value').val());
     }
+    $('.block-pattern').select2({
+        placeholder: "Select block pattern",
+        multiple: true,
+        allowClear: true
+    });
 
-    $('.block-pattern-options').select2({
+    $(".block-pattern").change(function() {
+        $('#block_pattern_value').val($(this).val());
+    });
+
+    $('.block-pattern').select2('val', bp);
+
+    if($('#neck_option_value').val()){
+        var bpos = JSON.parse($('#neck_option_value').val());
+    }
+    $('.material-neck-option').select2({
         placeholder: "Select block pattern option",
         multiple: true,
         allowClear: true
     });
 
-    $(".block-pattern-options").change(function() {
-        $('#block_pattern_options_value').val($(this).val());
+    $(".material-neck-option").change(function() {
+        $('#neck_option_value').val($(this).val());
     });
 
-    $('.block-pattern-options').select2('val', bpos);
+    $('.material-neck-option').select2('val', bpos);
 
 });
+
 </script>
 @endsection

@@ -28,10 +28,12 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Name</th>
                             <th>Sport</th>
                             <th>Block Pattern</th>
                             <th>Block Pattern Option</th>
                             <th>Type</th>
+                            <th>Brand</th>
                             <th>Notes</th>
                             <th>Active</th>
                             <th>Action</th>
@@ -45,6 +47,9 @@
                                 {{ $mascot_size->id }}
                             </td>
                             <td>
+                                {{ $mascot_size->name }}
+                            </td>
+                            <td>
                                 {{ $mascot_size->sport }}
                             </td>
                             <td>
@@ -56,11 +61,14 @@
                             <td>
                                 {{ $mascot_size->type }}
                             </td>
+                            <td>
+                                {{ $mascot_size->brand }}
+                            </td>
                              <td>
                                 {{ $mascot_size->notes }}
                             </td>
                             <td>
-                                @if( $mascot_size->active )g
+                                @if( $mascot_size->active )
                                     Yes
                                 @else
                                     No
@@ -83,8 +91,8 @@
                     @empty
 
                         <tr>
-                            <td colspan='4'>
-                                No Fonts
+                            <td colspan='10'>
+                                No Mascot Sizes
                             </td>
                         </tr>
 
@@ -116,7 +124,8 @@ $(document).ready(function(){
         "searching": true,
         "ordering": false,
         "info": true,
-        "autoWidth": false
+        "autoWidth": false,
+        "pageLength": 20
     });
 
     $(document).on('click', '.delete-mascot-size', function(){

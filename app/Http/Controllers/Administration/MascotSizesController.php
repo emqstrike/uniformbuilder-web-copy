@@ -63,14 +63,17 @@ class MascotSizesController extends Controller
 
     public function store(Request $request)
     {
-        $sport = $request->input('sport');
+        $name = $request->input('name');
+        $uniform_category_id = $request->input('uniform_category_id');
         $properties = $request->input('props_data');
         $type = $request->input('type');
         $active = $request->input('active');
         $notes = $request->input('notes');
+        $brand = $request->input('brand');
+
 
         if( $request->input('block_pattern_value') ){
-            $block = explode(",", $request->input('block_pattern_value'));
+            $blockPatterns = explode(",", $request->input('block_pattern_value'));
         } else {
             $blockPatterns = "";
         }
@@ -88,13 +91,15 @@ class MascotSizesController extends Controller
         }
 
         $data = [
-            'sport' => $sport,
+            'name' => $name,
             'properties' => $properties,
             'block_pattern_options' => $blockPatternOptions,
             'type' => $type,
             'active' => $active,
             'notes' => $notes,
-            'block_patterns' => $blockPatterns
+            'block_patterns' => $blockPatterns,
+            'brand' => $brand,
+            'uniform_category_id' => $uniform_category_id
         ];
 
         $response = null;
