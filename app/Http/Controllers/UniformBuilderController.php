@@ -191,6 +191,7 @@ class UniformBuilderController extends Controller
 
                 $title = "User ".$active_user_name." [".$active_user_id."] viewed saved design [".$params['saved_design_name']."].";
                 $link = "http://customizer.prolook.com/my-saved-design/".$params['saved_design_id'].".";
+                $created_by_user_link = "http://customizer.prolook.com/administration/user/orders/".$created_by_user_id;
                 $low_res_front = $config['low_res_front'];
                 $low_res_back = $config['low_res_back'];
                 $low_res_left = $config['low_res_left'];
@@ -200,11 +201,6 @@ class UniformBuilderController extends Controller
                     [
                         'title' => "Name:",
                         'value' => $params['saved_design_name'],
-                        'short' => false
-                    ],
-                    [
-                        'title' => "Created By:",
-                        'value' => $created_by_user_name." [".$created_by_user_id."].",
                         'short' => true
                     ],
                     [
@@ -212,6 +208,12 @@ class UniformBuilderController extends Controller
                         'value' => $active_user_name." [".$active_user_id."].",
                         'short' => true
                     ],
+                    [
+                        'title' => "Created By:",
+                        'value' => "$created_by_user_link",
+                        'short' => false
+                    ],
+
                     [
                         'title' => "Link:",
                         'value' => "$link",
