@@ -65,7 +65,7 @@ select:hover {
                         </div>
                        <textarea name="hide" style="display:none;" id="block_patterns_data"><?php echo json_encode($block_patterns, JSON_FORCE_OBJECT);?></textarea>
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Neck Option</label>
+                            <label class="col-md-4 control-label">Block Pattern Options</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="neck-option-val" id="neck_option_value" name="block_pattern_options_value" value="{{ $mascot_size->block_pattern_options }}">
                                <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple">
