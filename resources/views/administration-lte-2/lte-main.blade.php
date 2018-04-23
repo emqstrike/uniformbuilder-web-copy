@@ -89,10 +89,10 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
+      <!-- <h1>
         Blank page
         <small>it all starts here</small>
-      </h1>
+      </h1> -->
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Examples</a></li>
@@ -103,132 +103,13 @@
     <!-- Main content -->
     <section class="content">
 
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Title</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                    title="Collapse">
-              <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-              <i class="fa fa-times"></i></button>
-          </div>
-        </div>
-        <div class="box-body">
-          Start creating your amazing application!
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-          Footer
-        </div>
-        <!-- /.box-footer-->
-      </div>
-      <!-- /.box -->
+      @yield('content')
 
     </section>
     <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
-
-  <!-- <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
-    </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-    reserved.
-  </footer> -->
-
-
-
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <!-- <div class="control-sidebar-bg"></div> -->
-
-    <!-- <header class="main-header">
-        <a href="#" class="logo">
-            <span class="logo-mini">
-                <img src="{{ env('LOGO_URL') }}" height='20em'>
-            </span>
-            <span class="logo-lg">
-                <img src="{{ env('LOGO_URL') }}" height='35em'>
-            </span>
-        </a>
-
-        <nav class="navbar navbar-static-top" role="navigation">
-            <a href="#" data-step="1" class="sidebar-toggle"   data-toggle="offcanvas" role="button">
-                <span class="sr-only">Toggle navigation</span>
-
-            </a>
-
-            <div class="navbar-custom-menu" >
-                <ul class="nav navbar-nav">
-                    <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="https://s3-us-west-2.amazonaws.com/prolook/images/user-c.png" class="user-image" alt="User Image">
-                            <span class="hidden-xs">
-                                @if (Session::get('fullname'))
-                                {{ Session::get('fullname') }}
-                                @endif
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="user-header">
-                                <img src="https://s3-us-west-2.amazonaws.com/prolook/images/user-c.png" class="img-circle" alt="User Image">
-                                <p>
-                                    @if (Session::get('fullname'))
-                                    {{ Session::get('fullname') }}
-                                    @endif
-                                </p>
-                            </li>
-
-                            <li class="user-body">
-                                <a href="/administration/messages"><i class="fa fa-envelope"></i>Messages</a>
-                            </li>
-
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="/administration/account_settings/{{ Session::get('userId') }}" class="btn btn-default btn-flat">Profile</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a href="/administration/logout" class="btn btn-default btn-flat">Sign out</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header> -->
-
-    <!-- <aside class="main-sidebar">
-        <section class="sidebar">
-          @if (Session::get('adminFullAccess'))
-            @include('administration-lte-2.lte-side-menu')
-          @endif
-        </section>
-    </aside> -->
-
-    <!-- <div class="content-wrapper">
-        <section class="content-header">
-            @yield('header-content')
-        </section>
-
-        <section class="content">
-            @yield('content')
-        </section>
-    </div>
-
-    <footer class="main-footer">
-        <strong>Copyright &copy; {{ date('Y') }} {{ env('WEBSITE_NAME') }}.</strong> All rights reserved.
-    </footer> -->
-
 </div>
 
-<!-- <style type="text/css">
-    @yield('custom-styles')
-</style> -->
 
 <!-- Scripts -->
 @if (Session::get('accessToken'))

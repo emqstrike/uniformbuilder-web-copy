@@ -53,7 +53,6 @@
           </ul>
         </li> -->
 
-        
         <!-- <li>
           <a href="../widgets.html">
             <i class="fa fa-th"></i> <span>Widgets</span>
@@ -144,19 +143,6 @@
 
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>Users</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="../tables/simple.html"><i class="fa fa-users"></i> All Users</a></li>
-            <li><a href="../tables/data.html"><i class="fa fa-folder"></i> User Transactions</a></li>
-          </ul>
-        </li>
-
-        <li class="treeview">
-          <a href="#">
             <i class="fa fa-list-alt"></i> <span>Master Data</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -165,12 +151,25 @@
           <ul class="treeview-menu">
             <li><a href="../tables/simple.html"><i class="fa fa-th-large"></i> Block Patterns</a></li>
             <li><a href="../tables/simple.html"><i class="fa fa-pencil"></i> Colors</a></li>
-            <li><a href="../tables/data.html"><i class="fa fa-map"></i> Fabrics</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/fabrics"><i class="fa fa-map"></i> Fabrics</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-building"></i> Factories</a></li>
-            <li><a href="/fonts"><i class="fa fa-font"></i> Fonts</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/fonts"><i class="fa fa-font"></i> Fonts</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-bars"></i> Gradients</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-github-alt"></i> Mascots</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-modx"></i> Patterns</a></li>
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-users"></i> <span>Users</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="../tables/simple.html"><i class="fa fa-users"></i> All Users</a></li>
+            <li><a href="../tables/data.html"><i class="fa fa-folder"></i> User Transactions</a></li>
           </ul>
         </li>
 

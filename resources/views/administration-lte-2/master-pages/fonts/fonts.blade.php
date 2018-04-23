@@ -19,6 +19,7 @@
     overflow-y: scroll;
     max-height: 636px;
 }
+
 </style>
 <section class="content">
     <div class="row">
@@ -26,16 +27,16 @@
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        <span class="fa fa-font"></span>
-                        Fonts
-                        <small>
+                        <!-- <span class="fa fa-font"></span> -->
+                        Master Fonts
+                        <!-- <small>
                             <a href="/administration/font/add" class='btn btn-xs btn-success'>
                                 <span class="glyphicon glyphicon-plus-sign"></span>
                                 Add New Font
                             </a>
-                        </small>
+                        </small> -->
                     </h1>
-                    <h4>Brands</h4>
+                    <!-- <h4>Brands</h4>
                         <button class="button brand-filter btn-primary" value=".all-brand">All</button>
                         <button class="button brand-filter" value=".prolook">Prolook</button>
                         <button class="button brand-filter" value=".richardson">Richardson</button>
@@ -45,7 +46,7 @@
                          @foreach ($sports as $sport)
                              <button class="button filterSports" data-filter="{{ $sport->name }}">{{ $sport->name }}</button>
                          @endforeach
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="box-body">
@@ -74,7 +75,7 @@
                     </thead>
                     <tbody class="isotope">
 
-                    @forelse ($fonts as $font)
+                    {{-- @forelse ($fonts as $font) --}
 
                         <tr class='font-{{ $font->id }} {{ (!$font->active) ? ' inactive' : '' }} {{ $font->brand }} all-brand'>
                             <td>
@@ -95,7 +96,7 @@
                                     {{ $font->type }}
                                 </span>
                             </td>
-                             <td>
+                            <td>
                                 @if ($font->tail_sweep)
                                     Yes
                                 @else
@@ -166,7 +167,7 @@
                             </td>
                         </tr>
 
-                    @endforelse
+                    {{-- @endforelse --}}
 
                     </tbody>
                     </table>
