@@ -2795,7 +2795,7 @@ $(document).ready(function() {
                     active: "1",
                 },
                 {
-                    code: 'compression-pant-apparel',
+                    code: 'compression-pant',
                     name: 'Compression Pant (Apparel)',
                     active: "1",
                 },
@@ -11704,6 +11704,12 @@ ub.funcs.fontOffSets = [
                 thumbFilename: 'cage-jacket.png',
                 gender: ['men', 'women'],    
             },
+            {
+                shortCode: 'compression-pant',
+                urlAlias: 'Compression Pant (Apparel)',
+                thumbFilename: 'compression-pant.png',
+                gender: ['men',],    
+            },
         ],
 
         getAlias: function (shortCode)  {
@@ -12012,6 +12018,7 @@ ub.funcs.fontOffSets = [
             'Fan Replica Jersey (Apparel)',
             'Cage Jacket (Apparel)',
             'Game Day Jackets (Apparel)',
+            'Compression Pant (Apparel)',
         ],
         isNonTackleTwill: function (uniformCategory) {
 
