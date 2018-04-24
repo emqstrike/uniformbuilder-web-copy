@@ -2,7 +2,6 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
-
 @endsection
 
 @section('custom-styles')
@@ -10,11 +9,6 @@
 @endsection
 
 @section('content')
-<style type="text/css">
-    .bootstrap-table{
-    overflow-y: scroll;
-    max-height: 636px;
-}
 
 </style>
 <section class="content">
@@ -28,7 +22,7 @@
                 </div>
 
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered fonts' id="fonts_table">
+                    <table data-toggle='table' class='table data-table table-bordered master-fabrics' id="master_fabrics_table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -36,9 +30,36 @@
                             <th>Brand</th>
                             <th>Name</th>
                             <th>Factory</th>
+                            <th class="col-md-1"></th>
                         </tr>
                     </thead>
                     <tbody class="isotope">
+
+                    @forelse ($fabrics as $fabric)
+
+                    <tr>
+                        <td>{{ $fabric->id }}</td>
+                        <td>{{ $fabric->code }}</td>
+                        <td>{{ $fabric->brand_id }}</td>
+                        <td>{{ $fabric->name }}</td>
+                        <td>{{ $fabric->factory_id }}</td>
+                        <td class="col-md-1">
+                            <center>
+                                <a href="#" class="btn btn-primary btn-sm btn-flat">Edit</a>
+                                <a href="#" class="btn btn-danger btn-sm btn-flat delete-record">Delete</a>
+                            </center>
+                        </td>
+                    </tr>
+
+                    @empty
+
+                        <tr>
+                            <td colspan='6'>
+                                No Fabric Data Found
+                            </td>
+                        </tr>
+
+                    @endforelse
 
                     </tbody>
                     </table>
@@ -48,61 +69,64 @@
     </div>
 </section>
 
-<!-- Confirmation Modal -->
-<div class="modal confirmation-modal" id="clone-confirmation-modal" aria-hidden="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title">Title</h4>
-            </div>
-            <div class="modal-body">Message</div>
-            <div class="modal-footer">
-                <button class="btn btn-danger @if (isset($yes_class_name)) {{ $yes_class_name }} @else confirm-yes @endif" data-value=''
-                @if (isset($attributes))
-                    @if (count($attributes) > 0)
-                        @foreach ($attributes as $attribute)
-                            data-{{ $attribute }}=""
-                        @endforeach
-                    @endif
-                @endif
-                >
-                    <li class="glyphicon glyphicon-ok"></li>
-                    Yes
-                </button>
-                <button class="btn btn-default confirm-no" data-dismiss="modal">
-                    <li class="glyphicon glyphicon-remove"></li>
-                    No
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@include('partials.confirmation-modal')
-
 @endsection
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/fonts.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-$("tr").each(function(i) {
-    if( $(this).hasClass( "inactive" ) ){
-        $(this).css('background-color', '#e8e8e8');
-        // $(this).css('text-shadow', '1px 1px #000');
-    }
+console.log('it gets here');
+// $('.data-table').DataTable({
+//     "paging": true,
+//     "lengthChange": false,
+//     "searching": true,
+//     "ordering": false,
+//     "info": true,
+//     "autoWidth": true
+// });
+
+$('.delete-record').on('click', function(e){
+    // e.preventDefault();
+
+    // var data = {};
+    // data.subject = "This order was rejected because of the following reasons: ";
+    // data.order_code = $(this).data('order-code');
+    // // data.status = "rejected";
+    // data.type = "ORDERS";
+    // data.sender_id = "0";
+    // data.recipient_id = $(this).data('user-id').toString();
+
+    // console.log(data);
+
+    bootbox.prompt({
+        size: "medium",
+        title: "Delete Record.",
+        message: "Reject artwork?",
+        buttons: {
+            'cancel': {
+                label: 'Cancel'
+                // className: 'btn-default pull-left'
+            },
+            'confirm': {
+                label: 'Reject Artwork',
+                className: 'btn-danger pull-right'
+            }
+        },
+        callback: function(result){ /* result is a boolean; true = OK, false = Cancel*/
+            // if(result){
+            //     bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
+            //     var order_link = 'http://customizer.prolook.com/order/'+data.order_code;
+            //     var message = "Please edit the order and submit it again using this link: "+order_link;
+            //     data.content = result+". "+message; // message content
+            //     console.log(data);
+            //     insertMessage(data);
+            // } else {
+            //     console.log('Canceled.');
+            // }
+        }
+    });
 });
-    // $('.data-table').DataTable({
-    //     "paging": true,
-    //     "lengthChange": false,
-    //     "searching": false,
-    //     "ordering": true,
-    //     "info": true,
-    //     "autoWidth": false
-    // });
+
 });
 </script>
 @endsection

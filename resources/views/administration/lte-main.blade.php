@@ -183,7 +183,6 @@
 
      <script>
 
-
       $(function(){
         $(".introTrigger").click(function() {
 

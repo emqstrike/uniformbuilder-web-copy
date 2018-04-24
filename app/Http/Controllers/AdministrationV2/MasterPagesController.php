@@ -21,6 +21,7 @@ class MasterPagesController extends Controller
     public function __construct(APIClient $apiClient)
     {
         $this->client = $apiClient;
+        $this->masterFabricsAPIClient = new \App\APIClients\MasterFabricsAPIClient();
     }
 
     public function fontsIndex()
@@ -44,11 +45,15 @@ class MasterPagesController extends Controller
 
     public function fabricsIndex()
     {
+        $fabrics = $this->masterFabricsAPIClient->getAllFabrics();
+
         $user_id = Session::get('userId');
         $superusers = env('BACKEND_SUPERUSERS');
         $su_array = explode(',', $superusers);
         if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.master-pages.fabrics.fabrics');
+            return view('administration-lte-2.master-pages.fabrics.fabrics', [
+                'fabrics' => $fabrics
+                ]);
         }
         else {
                 return redirect('administration');

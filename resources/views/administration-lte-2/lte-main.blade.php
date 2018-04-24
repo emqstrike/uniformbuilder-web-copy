@@ -73,6 +73,7 @@
 }
 </style> -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 @yield('styles')
 </head>
 <!-- <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse"> -->
@@ -163,11 +164,15 @@
 <!-- AdminLTE App -->
 <script src="/admin-lte-2/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="/admin-lte-2/dist/js/demo.js"></script>
+<!-- <script src="/admin-lte-2/dist/js/demo.js"></script> -->
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+
+<script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script>
-  $(document).ready(function () {
-    $('.sidebar-menu').tree()
-  })
+  // $(document).ready(function () {
+  //   $('.sidebar-menu').tree()
+  // })
 </script>
 
 @yield('scripts')
