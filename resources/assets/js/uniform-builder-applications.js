@@ -10961,10 +10961,6 @@ $(document).ready(function() {
             var _zIndex             = app.zIndex;
             var _applicationType    = app.application_type.toUpperCase().replace('_',' ');
 
-            if (_applicationType === "SLEEVE NUMBER") {
-                _applicationType = "NUMBER";
-            }
-
             var _applicationCode    = app.code;
             var _caption = ub.funcs.getSampleCaption(app);
             var _primaryView = ub.funcs.getPrimaryView(app.application);
