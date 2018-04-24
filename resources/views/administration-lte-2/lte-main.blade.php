@@ -118,6 +118,7 @@
 
     window.headerValue = "{{ base64_encode(Session::get('accessToken')) }}";
     window.api_host = "{{ env('API_HOST') }}";
+    window.endpoint_version = "{{ env('ENDPOINT_VERSION') }}";
     @if (Session::get('isLoggedIn'))
     window.loggedInUser = {{ Session::get('userId') }};
     @endif
