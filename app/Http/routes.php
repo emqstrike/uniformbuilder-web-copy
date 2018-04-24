@@ -98,7 +98,9 @@ Route::group(array('prefix' => 'administration'), function() {
 
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard']);
 
-        Route::get('/fonts', ['middleware' => 'adminAccess', 'uses' => 'Administration\MaserPagesController@fontsIndex']);
+        Route::get('/fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex']);
+
+        Route::get('/fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex']);
 
     });
 
