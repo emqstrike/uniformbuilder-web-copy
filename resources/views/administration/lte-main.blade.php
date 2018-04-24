@@ -37,20 +37,15 @@
 <!-- webFontLoader -->
 <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
 
-
-
 <style type="text/css">
 /*intro css*/
 .introTrigger{
     font-size: 31px;
     padding: 10px;
-
 }
 .introStart{
     display: none;
 }
-
-
 </style>
 
 
@@ -183,15 +178,10 @@
 <script src="/js/administration/jquery-confirm.js"></script>
 <script src="/intro-js/intro.min.js"></script>
 
-
-
-
-
 @yield('scripts')
 @yield('custom-scripts')
 
      <script>
-
 
       $(function(){
         $(".introTrigger").click(function() {

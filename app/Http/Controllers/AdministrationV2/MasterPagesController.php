@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Administration;
+namespace App\Http\Controllers\AdministrationV2;
 
 use \Redirect;
 use Session;
@@ -15,26 +15,44 @@ use App\APIClients\FontsAPIClient as APIClient;
 
 class MasterPagesController extends Controller
 {
+
     protected $client;
 
     public function __construct(APIClient $apiClient)
     {
         $this->client = $apiClient;
+        $this->masterFabricsAPIClient = new \App\APIClients\MasterFabricsAPIClient();
     }
 
-    public function index()
+    public function fontsIndex()
     {
-        $fonts = $this->client->getAllFonts();
-        $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
-        $sports = $categoriesAPIClient->getUniformCategories();
+        // $fonts = $this->client->getAllFonts();
+        // $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        // $sports = $categoriesAPIClient->getUniformCategories();
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+        if (in_array($user_id, $su_array)) {
+            return view('administration-lte-2.master-pages.fonts.fonts', [
+                // 'fonts' => $fonts,
+                // 'sports' => $sports
+                ]);
+        }
+        else {
+                return redirect('administration');
+        }
+    }
+
+    public function fabricsIndex()
+    {
+        $fabrics = $this->masterFabricsAPIClient->getAllFabrics();
 
         $user_id = Session::get('userId');
         $superusers = env('BACKEND_SUPERUSERS');
         $su_array = explode(',', $superusers);
         if (in_array($user_id, $su_array)) {
-            return view('administration.fonts.fonts', [
-                'fonts' => $fonts,
-                'sports' => $sports
+            return view('administration-lte-2.master-pages.fabrics.fabrics', [
+                'fabrics' => $fabrics
                 ]);
         }
         else {

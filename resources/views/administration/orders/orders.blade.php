@@ -115,6 +115,7 @@
                             </td>
                             <td>
                                 <select class="form-control rep-id" name="rep-id">
+                                    <option value="1148">Geeks [Developers]</option>
                                 </select>
                             </td>
                             <td>
