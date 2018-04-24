@@ -10900,10 +10900,6 @@ $(document).ready(function() {
         var _caption = ub.funcs.getSampleCaption(_settingsObject);
         var _applicationType    = _settingsObject.application_type.toUpperCase().replace('_',' ');
 
-        if (_applicationType === "SLEEVE NUMBER") {
-            _applicationType = "NUMBER";
-        }
-
         $locationLayer.find('span.caption').html(_caption);
         $locationLayer.find('span.application_type').html(_applicationType);
 
