@@ -6519,7 +6519,7 @@ $(document).ready(function() {
         // New application sizes values from backend
         var _sizesFromConfig = ub.data.applicationSizes.getConfiguration(_applicationType, _id);
 
-        if (typeof _sizesFromConfig !== "undefined") {
+        if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
             ub.utilities.info('Using sizes from backend: ');
 
@@ -6536,7 +6536,7 @@ $(document).ready(function() {
 
         } else {
 
-            if (ub.config.sport === "Football 2017") {
+            if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
                 ub.utilities.info('Application Type: ' + _applicationType);
                 ub.utilities.info('alias: ' + _alias.alias);
@@ -8288,7 +8288,7 @@ $(document).ready(function() {
         if (typeof _sizesFromConfig !== "undefined") {
 
             // Debug Info
-            if (ub.config.sport === "Football 2017") {
+            if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
                 console.log('Default Sizes: ');
                 console.log(_sizes);
@@ -8307,7 +8307,7 @@ $(document).ready(function() {
 
         } else {
 
-            if (ub.config.sport === "Football 2017") {
+            if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
                 ub.utilities.info('Application Type: ' + _applicationType);
                 ub.utilities.info('alias: ' + _alias.alias);

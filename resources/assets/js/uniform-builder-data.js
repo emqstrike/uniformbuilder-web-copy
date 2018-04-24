@@ -9960,6 +9960,23 @@ ub.funcs.fontOffSets = [
                         font_size: 4,
                         sport: ['Default', 'Baseball', 'Fastpitch'],
                     },
+
+                    // TODO: get this from application number defaults @dhevs
+                    { 
+                        applicationNumbers: [2],
+                        resultApplicationType: 'front_number',
+                        size: 8,
+                        font_size: 8,
+                        sport: ['Test'], // Richardson Test
+                    },
+                    { 
+                        applicationNumbers: [5],
+                        resultApplicationType: 'back_number',
+                        size: 10,
+                        font_size: 10,
+                        sport: ['Test'], // Richardson Test
+                    },
+
                 ] 
 
             }
@@ -9969,6 +9986,9 @@ ub.funcs.fontOffSets = [
 
             var _result = undefined;
             var _items = _.find(this.items, {type: type});
+
+            console.log('Start output here...')
+
 
             if (typeof _items === "undefined") { ub.utilities.warn('Initial Size not found for ' + type + ' on location #' + applicationNumber); }
 
@@ -12047,8 +12067,23 @@ ub.funcs.fontOffSets = [
 
     }
 
-    
+    // Add active / inactive to application sizes in the backend to remove this datastructure @dhevs
+    ub.data.consumeApplicationSizes = {
 
+        items: [
+            'Test', // Richardson Test Block
+            'Football 2017',
+        ],
+        isValid: function (uniformCategory) {
+
+            var _result = undefined;
+            _result = _.contains(this.items, uniformCategory);
+
+            return _result;
+
+        }
+
+    }
 
     ub.dialog = bootbox;
 
