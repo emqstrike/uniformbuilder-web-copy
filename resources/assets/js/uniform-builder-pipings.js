@@ -884,6 +884,8 @@ $(document).ready(function () {
 
                     _.each(piping.colors_array, function (color, index) {
 
+                        if (color === "none") { return; }
+
                         var _color = ub.funcs.getColorByColorCode(color);
                         
                         _colorArray.push(_color);
