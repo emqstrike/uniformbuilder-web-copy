@@ -19,7 +19,7 @@
                     <h1>
                         Fabrics Master List
                     </h1>
-                    <a href="#" class="btn btn-success btn-sm btn-flat" data-target="#myModalNorm" data-toggle="modal">Add</a>
+                    <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                 </div>
 
                 <div class="box-body">
@@ -46,7 +46,7 @@
                         <td class="td-fabric-factory-id">{{ $fabric->factory_id }}</td>
                         <td class="col-md-1">
                             <center>
-                                <a href="#" class="btn btn-primary btn-sm btn-flat">Edit</a>
+                                <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
                                 <a href="#" class="btn btn-danger btn-sm btn-flat delete-record">Delete</a>
                             </center>
                         </td>
@@ -69,10 +69,9 @@
         </div>
     </div>
 </section>
+@include('administration-lte-2.master-pages.fabrics.fabrics-modal')
 
 @endsection
-
-@include('administration-lte-2.master-pages.fabrics.fabrics-modal')
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
@@ -80,13 +79,15 @@
 $(document).ready(function(){
 
 window.delete_data_html = null;
+window.modal_action = null;
+
 $('.data-table').DataTable({
     "paging": true,
-    "lengthChange": false,
+    "lengthChange": true,
     "searching": true,
     "ordering": false,
     "info": true,
-    "autoWidth": true
+    "autoWidth": true,
 });
 
 $('.submit-new-record').on('click', function(e){
@@ -97,9 +98,45 @@ $('.submit-new-record').on('click', function(e){
     data.name = $('.input-name').val();
     data.factory_id = $('.input-factory-id').val();
 
-    var url = "//" + api_host + "/api/" + endpoint_version + "/master_fabric";
+    if(window.modal_action == 'add'){
+        var url = "//" + api_host + "/api/" + endpoint_version + "/master_fabric";
+        addRecord(data, url);
+    } else if(window.modal_action == 'update'){
+        data.id =  $('.input-id').val();
+        var url = "//" + api_host + "/api/" + endpoint_version + "/master_fabric/update";
+        updateRecord(data, url);
+    }
+});
 
-    deleteRecord(data, url);
+$('.add-record').on('click', function(e){
+    e.preventDefault();
+    window.modal_action = 'add';
+    $('.modal-title').text('Add Fabric Information');
+    $('.submit-new-record').text('Add Record');
+    $('.input-code').val('');
+    $('.input-brand-id').val('0');
+    $('.input-name').val('');
+    $('.input-factory-id').val('0');
+});
+
+$('.edit-record').on('click', function(e){
+    e.preventDefault();
+    window.modal_action = 'update';
+    $('.modal-title').text('Edit Fabric Information');
+    $('.submit-new-record').text('Update Record');
+    var data = {};
+    data.id = $(this).parent().parent().parent().find('.td-fabric-id').text();
+    data.code = $(this).parent().parent().parent().find('.td-fabric-code').text();
+    data.brand_id = $(this).parent().parent().parent().find('.td-fabric-brand-id').text();
+    data.name = $(this).parent().parent().parent().find('.td-fabric-name').text();
+    data.factory_id = $(this).parent().parent().parent().find('.td-fabric-factory-id').text();
+
+    $('.input-id').val(data.id);
+    $('.input-code').val(data.code);
+    $('.input-brand-id').val(data.brand_id);
+    $('.input-name').val(data.name);
+    $('.input-factory-id').val(data.factory_id);
+    // deleteRecord(data, url);
 });
 
 $('.delete-record').on('click', function(e){
@@ -174,6 +211,24 @@ function addRecord(data, url){
         headers: {"accessToken": atob(headerValue)},
         success: function (data) {
             console.log('Successfully added record.');
+            window.location.reload();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        }
+    });
+}
+
+function updateRecord(data, url){
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(data),
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json;',
+        headers: {"accessToken": atob(headerValue)},
+        success: function (data) {
+            console.log('Successfully updated record.');
             window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
