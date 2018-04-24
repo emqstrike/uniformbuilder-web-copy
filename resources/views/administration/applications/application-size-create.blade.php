@@ -101,6 +101,16 @@ li.select2-selection__choice {
                             </div>
                         </div>
                         <div class="form-group">
+                                <label class="col-md-4 control-label">Brand</label>
+                                <div class="col-md-6">
+                                <select class="form-control brand" name="brand">
+                                        <option value="none">None</option>
+                                        <option value="prolook">Prolook</option>
+                                        <option value="richardson">Richardson</option>
+                                </select>
+                              </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Notes</label>
                             <div class="col-md-6">
                                <textarea class="form-control notes" name="notes"></textarea>

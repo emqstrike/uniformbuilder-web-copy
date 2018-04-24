@@ -10,17 +10,21 @@ use App\Utilities\FileUploader;
 use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
+use App\APIClients\BlockPatternsAPIClient;
 use App\APIClients\MascotSizesAPIClient as APIClient;
 
 class MascotSizesController extends Controller
 {
     protected $client;
 
-    public function __construct(APIClient $apiClient)
+    public function __construct(
+        APIClient $apiClient,
+        BlockPatternsAPIClient $blockPatternsAPIClient
+    )
     {
         $this->client = $apiClient;
+        $this->blockPatternClient = $blockPatternsAPIClient;
     }
-
     /**
      * MascotSizes
      */
@@ -36,8 +40,10 @@ class MascotSizesController extends Controller
     {
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
         return view('administration.mascots.mascot-size-create', [
-           'sports' => $sports
+           'sports' => $sports,
+           'block_patterns' => $block_patterns
         ]);
     }
 
@@ -47,20 +53,30 @@ class MascotSizesController extends Controller
         $mascot_size = $this->client->getMascotSize($id);
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
-
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
         return view('administration.mascots.mascot-size-edit', [
             'sports' => $sports,
-            'mascot_size' => $mascot_size
+            'mascot_size' => $mascot_size,
+            'block_patterns' => $block_patterns
         ]);
     }
 
     public function store(Request $request)
     {
-        $sport = $request->input('sport');
+        $name = $request->input('name');
+        $uniform_category_id = $request->input('uniform_category_id');
         $properties = $request->input('props_data');
         $type = $request->input('type');
         $active = $request->input('active');
         $notes = $request->input('notes');
+        $brand = $request->input('brand');
+
+
+        if( $request->input('block_pattern_value') ){
+            $blockPatterns = explode(",", $request->input('block_pattern_value'));
+        } else {
+            $blockPatterns = "";
+        }
 
         if( $request->input('block_pattern_options_value') ){
             $blockPatternOptions = explode(",", $request->input('block_pattern_options_value'));
@@ -75,12 +91,15 @@ class MascotSizesController extends Controller
         }
 
         $data = [
-            'sport' => $sport,
+            'name' => $name,
             'properties' => $properties,
             'block_pattern_options' => $blockPatternOptions,
             'type' => $type,
             'active' => $active,
-            'notes' => $notes
+            'notes' => $notes,
+            'block_patterns' => $blockPatterns,
+            'brand' => $brand,
+            'uniform_category_id' => $uniform_category_id
         ];
 
         $response = null;
@@ -99,7 +118,6 @@ class MascotSizesController extends Controller
 
         if ($response->success)
         {
-
             Log::info('Success');
             return Redirect::to('administration/mascot_sizes')
                             ->with('message', $response->message);

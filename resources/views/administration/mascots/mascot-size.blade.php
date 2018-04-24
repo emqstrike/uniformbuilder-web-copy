@@ -5,8 +5,6 @@
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 @endsection
 
-
-
 @section('content')
 
 <section class="content">
@@ -30,9 +28,12 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Name</th>
                             <th>Sport</th>
+                            <th>Block Pattern</th>
                             <th>Block Pattern Option</th>
                             <th>Type</th>
+                            <th>Brand</th>
                             <th>Notes</th>
                             <th>Active</th>
                             <th>Action</th>
@@ -46,13 +47,22 @@
                                 {{ $mascot_size->id }}
                             </td>
                             <td>
+                                {{ $mascot_size->name }}
+                            </td>
+                            <td>
                                 {{ $mascot_size->sport }}
+                            </td>
+                            <td>
+                                {{ $mascot_size->block_patterns }}
                             </td>
                             <td>
                                 {{ $mascot_size->block_pattern_options }}
                             </td>
                             <td>
                                 {{ $mascot_size->type }}
+                            </td>
+                            <td>
+                                {{ $mascot_size->brand }}
                             </td>
                              <td>
                                 {{ $mascot_size->notes }}
@@ -69,7 +79,7 @@
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
-                                <a href="#" class="btn btn-danger pull-right btn-xs delete-mascot-size" data-mascot-size-id="{{ $mascot_size->id }}" role="button">
+                                <a href="#" class="btn btn-danger btn-xs delete-mascot-size" data-mascot-size-id="{{ $mascot_size->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
                                 </a>
@@ -81,8 +91,8 @@
                     @empty
 
                         <tr>
-                            <td colspan='4'>
-                                No Fonts
+                            <td colspan='10'>
+                                No Mascot Sizes
                             </td>
                         </tr>
 
@@ -114,7 +124,8 @@ $(document).ready(function(){
         "searching": true,
         "ordering": false,
         "info": true,
-        "autoWidth": false
+        "autoWidth": false,
+        "pageLength": 20
     });
 
     $(document).on('click', '.delete-mascot-size', function(){
@@ -142,10 +153,7 @@ $(document).ready(function(){
                         hide: true
                     });
                     $('#confirmation-modal').modal('hide');
-
-                        $('.mascot-size-' + id).fadeOut();
-
-
+                    $('.mascot-size-' + id).fadeOut();
                 }
             }
         });
