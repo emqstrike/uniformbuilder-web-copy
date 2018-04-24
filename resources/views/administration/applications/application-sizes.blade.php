@@ -27,6 +27,7 @@
                             <th>Option</th>
                             <th>Type</th>
                             <th>Uniform Application Type</th>
+                            <th>Brand</th>
                             <th>Notes</th>
                             <th>Actions</th>
                         </tr>
@@ -54,6 +55,9 @@
                             </td>
                             <td>
                                 {{ $item->uniform_application_type }}
+                            </td>
+                            <td>
+                                {{ $item->brand }}
                             </td>
                             <td>
                                 {{ $item->notes }}
