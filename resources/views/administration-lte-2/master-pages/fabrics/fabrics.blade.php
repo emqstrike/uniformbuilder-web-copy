@@ -96,9 +96,8 @@ $('.submit-new-record').on('click', function(e){
     data.brand_id = $('.input-brand-id').val();
     data.name = $('.input-name').val();
     data.factory_id = $('.input-factory-id').val();
-    console.log(data);
 
-    var url = "//" + api_host + "/" + endpoint_version + "/master_fabric";
+    var url = "//" + api_host + "/api/" + endpoint_version + "/master_fabric";
 
     deleteRecord(data, url);
 });
@@ -133,7 +132,7 @@ $('.delete-record').on('click', function(e){
             if(result){
                 bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
                 
-                var url = "//" + api_host + "/" + endpoint_version + "/master_fabric/delete";
+                var url = "//" + api_host + "/api/" + endpoint_version + "/master_fabric/delete";
                 var data = {};
                 data.id = window.delete_record_id;
 
@@ -151,9 +150,13 @@ function deleteRecord(data, url){
         url: url,
         type: "POST",
         data: JSON.stringify(data),
+        dataType: "json",
+        crossDomain: true,
         contentType: 'application/json;',
+        headers: {"accessToken": atob(headerValue)},
         success: function (data) {
-            console.log('Successfully deleted record.');x
+            console.log('Successfully deleted record.');
+            window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
         }
@@ -161,14 +164,17 @@ function deleteRecord(data, url){
 }
 
 function addRecord(data, url){
-    console.log(data);
     $.ajax({
         url: url,
         type: "POST",
         data: JSON.stringify(data),
+        dataType: "json",
+        crossDomain: true,
         contentType: 'application/json;',
+        headers: {"accessToken": atob(headerValue)},
         success: function (data) {
-            console.log('Successfully added record.');x
+            console.log('Successfully added record.');
+            window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
         }
