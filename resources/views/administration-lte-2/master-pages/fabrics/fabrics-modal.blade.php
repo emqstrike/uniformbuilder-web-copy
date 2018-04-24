@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="myModalNorm" tabindex="-1" role="dialog" 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -14,7 +14,7 @@
                     Add Fabric
                 </h4>
             </div>
-            
+
             <!-- Modal Body -->
             <div class="modal-body">
                 
@@ -43,6 +43,7 @@
                         <option value="2">BLB</option>
                         <option value="3">SOX</option>
                       </select>
+                      <input type="hidden" class="input-id">
                   </div>
                   <center><button type="submit" class="btn btn-success submit-new-record">Add Record</button></center>
                 </form>
