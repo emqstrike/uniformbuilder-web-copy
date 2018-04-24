@@ -105,6 +105,16 @@ li.select2-selection__choice {
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label" >Brand</label>
+                            <div class="col-md-6">
+                                <select name="brand" class="form-control">
+                                        <option value="none" @if($application_size->brand == "none") selected="selected"@endif>None</option>
+                                        <option value="prolook" @if($application_size->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                        <option value="richardson" @if($application_size->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Notes</label>
                             <div class="col-md-6">
                                <textarea class="form-control notes" name="notes">{{ $application_size->notes }}</textarea>
