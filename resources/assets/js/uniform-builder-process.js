@@ -13,6 +13,12 @@ $(document).ready(function() {
         
     };
 
+    ub.funcs.isLower = function () {
+
+        return ub.config.type === "lower";
+        
+    }
+
     ub.funcs.fadeOutCustomizer = function () {
 
 
@@ -2127,7 +2133,10 @@ $(document).ready(function() {
 
                 _size           = $(this).data('size');
 
-                if (!ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.uniform_group !== "Apparel") {
+                if (!ub.funcs.isCurrentSport('Wrestling') && 
+                    ub.current_material.material.uniform_group !== "Apparel" && 
+                    !(ub.funcs.isFootball() && ub.funcs.isLower())
+                    ) {
 
                     _numbers    = ub.funcs.createNumbersSelectionPopup(_size);
 
