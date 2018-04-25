@@ -11,7 +11,7 @@
                        <span class="sr-only">Close</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    Add Fabric
+                    Add Font
                 </h4>
             </div>
 
@@ -20,29 +20,12 @@
                 
                 <form role="form">
                   <div class="form-group">
-                    <label>Code</label>
-                      <input type="text" class="form-control input-code" placeholder="Enter code"/>
-                  </div>
-                  <div class="form-group">
-                    <label>Brand</label>
-                      <select class="form-control input-brand-id">
-                        <option value="0">No Brand</option>
-                        <option value="1">Prolook</option>
-                        <option value="2">Richardson</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
                     <label>Name</label>
-                      <input type="text" class="form-control input-name" placeholder="Fabric Name"/>
+                      <input type="text" class="form-control input-name" placeholder="Enter name"/>
                   </div>
                   <div class="form-group">
-                    <label>Factory</label>
-                      <select class="form-control input-factory-id">
-                        <option value="0">Unassigned</option>
-                        <option value="1">PMP</option>
-                        <option value="2">BLB</option>
-                        <option value="3">SOX</option>
-                      </select>
+                    <label>Sports</label>
+                      <input type="text" class="form-control input-sports" placeholder="Enter sports"/>
                       <input type="hidden" class="input-id">
                   </div>
                   <center><button type="submit" class="btn btn-success submit-new-record">Add Record</button></center>
