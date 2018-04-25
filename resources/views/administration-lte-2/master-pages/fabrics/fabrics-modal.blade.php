@@ -50,33 +50,6 @@
 
             </div>
 
-            <!-- Modal Footer -->
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-danger"
-                        data-dismiss="modal">
-                            Cancel
-                </button>
-                <button type="button" class="btn btn-primary">
-                    Save changes
-                </button>
-            </div> -->
         </div>
     </div>
 </div>
-
-
-
-
-
-<!-- Post Info -->
-<!-- <div style='position:fixed;bottom:0;left:0; background:lightgray;width:100%;'>
-    About this SO Question:
-    <a href='http://stackoverflow.com/q/26562900/1366033'>
-        Twitter Bootstap - form in Modal fomatting
-    </a><br/>
-    Fork This Skeleton Here: 
-    <a href='http://jsfiddle.net/KyleMit/kcpma/'>
-        Bootstrap 3 Skeleton
-    </a><br/>
-</div>
-
