@@ -22,23 +22,21 @@ class MasterPagesController extends Controller
     {
         $this->client = $apiClient;
         $this->masterFabricsAPIClient = new \App\APIClients\MasterFabricsAPIClient();
+        $this->masterFontsAPIClient = new \App\APIClients\MasterFontsAPIClient();
     }
 
     public function fontsIndex()
     {
-        // $fonts = $this->client->getAllFonts();
-        // $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
-        // $sports = $categoriesAPIClient->getUniformCategories();
+        $fonts = $this->masterFontsAPIClient->getAllFonts();
+
         $user_id = Session::get('userId');
         $superusers = env('BACKEND_SUPERUSERS');
         $su_array = explode(',', $superusers);
         if (in_array($user_id, $su_array)) {
             return view('administration-lte-2.master-pages.fonts.fonts', [
-                // 'fonts' => $fonts,
-                // 'sports' => $sports
+                'fonts' => $fonts
                 ]);
-        }
-        else {
+        } else {
                 return redirect('administration');
         }
     }
@@ -54,8 +52,7 @@ class MasterPagesController extends Controller
             return view('administration-lte-2.master-pages.fabrics.fabrics', [
                 'fabrics' => $fabrics
                 ]);
-        }
-        else {
+        } else {
                 return redirect('administration');
         }
     }
