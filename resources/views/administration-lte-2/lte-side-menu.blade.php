@@ -49,7 +49,7 @@
             <li><a href="../tables/simple.html"><i class="fa fa-pencil"></i> Colors</a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/fabrics"><i class="fa fa-map"></i> Fabrics <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="../tables/data.html"><i class="fa fa-building"></i> Factories</a></li>
-            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/fonts"><i class="fa fa-font"></i> Fonts</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/fonts"><i class="fa fa-font"></i> Fonts <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="../tables/data.html"><i class="fa fa-bars"></i> Gradients</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-github-alt"></i> Mascots</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-modx"></i> Patterns</a></li>
