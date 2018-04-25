@@ -5,47 +5,41 @@ $(document).ready(function () {
 
     ub.styleValues.mascotScales = {
 
-        items: [],
+        items: [], // This was returning a single record object now from the backend instead of an array 
 
         hasValues: function () {
-
-            return ub.styleValues.mascotScales.items.length > 0;
-
+            return typeof ub.styleValues.mascotScales.items !== "undefined";
         },
 
         cleanUp: function (sport, type, neckOption) {
 
             var _items = ub.styleValues.mascotScales.items;
-            var _cleanedUp = _.filter(_items, function (item) {
+            var _blockPatternOptions = "";
+            var _properties = "";
 
-                var _blockPatternOptions = "";
-                var _properties = "";
-                if (item.block_pattern_options !== "") {
-                    _blockPatternOptions = JSON.parse(item.block_pattern_options);
-                }
-                _properties = JSON.parse(item.properties);
+            if (_items.block_pattern_options !== "" && typeof _items.block_pattern_options !== "undefined") {
+                _blockPatternOptions = JSON.parse(_items.block_pattern_options);
+            }
 
-                item.block_pattern_options = _blockPatternOptions;
-                item.properties = _properties;
+            if (_items.properties !== "" && typeof _items.properties !== "undefined") {
+                _properties = JSON.parse(_items.properties);
+            }
 
-                return  item.sport === sport && 
-                    item.type === item.type && 
-                    (_.contains(_blockPatternOptions, ub.utilities.domParserDecoder(neckOption)) || item.block_pattern_options === "") && 
-                    item.active === "1";
-
-            });
-
-            ub.styleValues.mascotScales.items = _cleanedUp;
+            _items.block_pattern_options = _blockPatternOptions;
+            _items.properties = _properties;
+        
+            ub.styleValues.mascotScales.items = _items;
 
         },
 
         fetchValues: function () {
 
             var _apiCode = 'getMascotScales';
+            var _parameters = '/' + ub.config.sport + '/' + ub.config.blockPattern  + '/' + ub.config.option + '/' + ub.config.type;
 
-            ubep.fetch(_apiCode, function (result) {
-                
-                ub.styleValues.mascotScales.items = result.mascot_sizes;
+            ubep.fetch(_apiCode, _parameters, function (result) {
+
+                ub.styleValues.mascotScales.items = result.mascot_size;
                 ub.styleValues.mascotScales.cleanUp(ub.config.sport, ub.config.type, ub.config.option);
                 ub.utilities.info('Mascot Scales Loaded.');
 
@@ -66,7 +60,7 @@ $(document).ready(function () {
             if (ub.config.sport === "Socks (Apparel)") { _size = size; }  
             if (ub.config.blockPattern === "Crew Sock") { _size = 2.5; }         
 
-            _scale = _.find(ub.styleValues.mascotScales.items[0].properties, {size: _size.toString()});
+            _scale = _.find(ub.styleValues.mascotScales.items.properties, {size: _size.toString()});
 
             if (typeof _scale === "undefined") {
                 ub.utilities.error('Mascot Scale for Size ' + size + ' is not found. Using {x: 0.5, y: 0.5}.' ); 
