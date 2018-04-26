@@ -2,14 +2,9 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
-
 @endsection
 
 @section('custom-styles')
-
-@foreach ($fonts as $font)
-@font-face { font-family: "{{ $font->name }}"; src: url("{{ $font->font_path }}"); }
-@endforeach
 
 @endsection
 
@@ -27,147 +22,46 @@
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        <!-- <span class="fa fa-font"></span> -->
-                        Master Fonts
-                        <!-- <small>
-                            <a href="/administration/font/add" class='btn btn-xs btn-success'>
-                                <span class="glyphicon glyphicon-plus-sign"></span>
-                                Add New Font
-                            </a>
-                        </small> -->
+                        Fonts Master List
                     </h1>
-                    <!-- <h4>Brands</h4>
-                        <button class="button brand-filter btn-primary" value=".all-brand">All</button>
-                        <button class="button brand-filter" value=".prolook">Prolook</button>
-                        <button class="button brand-filter" value=".richardson">Richardson</button>
-                    <h4>Sports</h4>
-                    <div id="filterSports" class="col-md-12 button-group" style="margin-top: 10px;">
-                         <button class="button filterSports btn-primary" data-filter="">All</button>
-                         @foreach ($sports as $sport)
-                             <button class="button filterSports" data-filter="{{ $sport->name }}">{{ $sport->name }}</button>
-                         @endforeach
-                    </div> -->
+                    <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                 </div>
 
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered fonts' id="fonts_table">
+                    <table data-toggle='table' class='table data-table table-bordered fonts' id="fonts_table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>
-                                <a href="#" class="btn btn-danger btn-xs multiple-delete-font" role="button">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                    Remove Checked
-                                </a>
-                            </th>
-                            <th>Font Name</th>
-                            <th>Tail Sweep</th>
-                            <th>Script</th>
-                            <th>Block Font</th>
+                            <th>Name</th>
                             <th>Sports</th>
-                            <th>Block Patterns</th>
-                            <th>Options</th>
-                            <th>Brand</th>
-                            <th>Active Status</th>
-                            <th>Last Updated</th>
-                            <th>Actions</th>
+                            <th></th>
                         </tr>
                     </thead>
-                    <tbody class="isotope">
+                    <tbody>
 
-                    {{-- @forelse ($fonts as $font) --}
+                    @forelse ($fonts as $font)
 
-                        <tr class='font-{{ $font->id }} {{ (!$font->active) ? ' inactive' : '' }} {{ $font->brand }} all-brand'>
-                            <td>
-                                {{ $font->id }}
-                            </td>
-                            <td>
-                                <div class="checkbox">
-                                  <input type="checkbox" id="multipleDelete" name="remove[]" data-font-id="{{ $font->id }}" value="">
-                                </div>
-                            </td>
-                            <td>
-                                {{ $font->name }}<br />
-                                @if ($font->type == 'default')
-                                <span class="label label-info">
-                                @else
-                                <span class="label label-success">
-                                @endif
-                                    {{ $font->type }}
-                                </span>
-                            </td>
-                            <td>
-                                @if ($font->tail_sweep)
-                                    Yes
-                                @else
-                                    No
-                                @endif
-                            </td>
-                            <td>
-                                @if ($font->script)
-                                    Yes
-                                @else
-                                    No
-                                @endif
-                            </td>
-                            <td>
-                                @if ($font->block_font)
-                                    Yes
-                                @else
-                                    No
-                                @endif
-                            </td>
-
-                            <td  id ="sports-column">
-                                {{ $font->sports }}
-                            </td>
-                            <td>
-                                {{ $font->block_patterns }}
-                            </td>
-                            <td>
-                                {{ $font->block_pattern_options }}
-                            </td>
-                            <td id ="brand-column">
-                                {{ $font->brand }}
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-default btn-xs disable-font" data-font-id="{{ $font->id }}" role="button" {{ ($font->active) ? : 'disabled="disabled"' }}>
-                                    <i class="glyphicon glyphicon-eye-close"></i>
-                                    Disable
-                                </a>
-                                <a href="#" class="btn btn-info btn-xs enable-font" data-font-id="{{ $font->id }}" role="button" {{ ($font->active) ? 'disabled="disabled"' : '' }}>
-                                    <i class="glyphicon glyphicon-eye-open"></i>
-                                    Enable
-                                </a>
-                            </td>
-                            <td>
-                                {{ $font->updated_at }}
-                            </td>
-                            <td>
-                                <a href="/administration/font/edit/{{ $font->id }}" class="btn btn-primary btn-xs edit-font" data-font-id="{{ $font->id }}" role="button">
-                                    <i class="glyphicon glyphicon-edit"></i>
-                                    Edit
-                                </a>
-                                <a href="#" class="btn btn-default btn-xs clone-font" data-font-id="{{ $font->id }}" role="button">
-                                    <i class="glyphicon glyphicon-copy"></i>
-                                    Clone
-                                </a>
-                                <a href="#" class="btn btn-danger pull-right btn-xs delete-font" data-font-id="{{ $font->id }}" role="button">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                    Remove
-                                </a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td class="td-font-id">{{ $font->id }}</td>
+                        <td class="td-font-name">{{ $font->name }}</td>
+                        <td class="td-font-sports">{{ $font->sports }}</td>
+                        <td class="col-md-1">
+                            <center>
+                                <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
+                                <a href="#" class="btn btn-danger btn-sm btn-flat delete-record">Delete</a>
+                            </center>
+                        </td>
+                    </tr>
 
                     @empty
 
                         <tr>
                             <td colspan='4'>
-                                No Fonts
+                                No Font Data Found
                             </td>
                         </tr>
 
-                    {{-- @endforelse --}}
+                    @endforelse
 
                     </tbody>
                     </table>
@@ -176,62 +70,150 @@
         </div>
     </div>
 </section>
-
-<!-- Confirmation Modal -->
-<div class="modal confirmation-modal" id="clone-confirmation-modal" aria-hidden="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title">Title</h4>
-            </div>
-            <div class="modal-body">Message</div>
-            <div class="modal-footer">
-                <button class="btn btn-danger @if (isset($yes_class_name)) {{ $yes_class_name }} @else confirm-yes @endif" data-value=''
-                @if (isset($attributes))
-                    @if (count($attributes) > 0)
-                        @foreach ($attributes as $attribute)
-                            data-{{ $attribute }}=""
-                        @endforeach
-                    @endif
-                @endif
-                >
-                    <li class="glyphicon glyphicon-ok"></li>
-                    Yes
-                </button>
-                <button class="btn btn-default confirm-no" data-dismiss="modal">
-                    <li class="glyphicon glyphicon-remove"></li>
-                    No
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@include('partials.confirmation-modal')
+@include('administration-lte-2.master-pages.fonts.fonts-modal')
 
 @endsection
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/fonts.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-$("tr").each(function(i) {
-    if( $(this).hasClass( "inactive" ) ){
-        $(this).css('background-color', '#e8e8e8');
-        // $(this).css('text-shadow', '1px 1px #000');
+
+window.delete_data_html = null;
+window.modal_action = null;
+
+$('.data-table').DataTable({
+    "paging": true,
+    "lengthChange": true,
+    "searching": true,
+    "ordering": false,
+    "info": true,
+    "autoWidth": true,
+});
+
+$('.submit-new-record').on('click', function(e){
+    e.preventDefault();
+    var data = {};
+    data.code = $('.input-code').val();
+    data.name = $('.input-name').val();
+    data.sports = $('.input-sports').val();
+
+    if(window.modal_action == 'add'){
+        var url = "//" + api_host + "/api/" + endpoint_version + "/master_font";
+        addUpdateRecord(data, url);
+    } else if(window.modal_action == 'update'){
+        data.id =  $('.input-id').val();
+        var url = "//" + api_host + "/api/" + endpoint_version + "/master_font/update";
+        addUpdateRecord(data, url);
     }
 });
-    // $('.data-table').DataTable({
-    //     "paging": true,
-    //     "lengthChange": false,
-    //     "searching": false,
-    //     "ordering": true,
-    //     "info": true,
-    //     "autoWidth": false
-    // });
+
+$('.add-record').on('click', function(e){
+    e.preventDefault();
+    window.modal_action = 'add';
+    $('.modal-title').text('Add Font Information');
+    $('.submit-new-record').text('Add Record');
+    $('.input-name').val('');
+    $('.input-sports').val('');
+});
+
+$('.edit-record').on('click', function(e){
+    e.preventDefault();
+    window.modal_action = 'update';
+    $('.modal-title').text('Edit Font Information');
+    $('.submit-new-record').text('Update Record');
+    var data = {};
+    data.id = $(this).parent().parent().parent().find('.td-font-id').text();
+    data.name = $(this).parent().parent().parent().find('.td-font-name').text();
+    data.sports = $(this).parent().parent().parent().find('.td-font-sports').text();
+
+    $('.input-id').val(data.id);
+    $('.input-name').val(data.name);
+    $('.input-sports').val(data.sports);
+});
+
+$('.delete-record').on('click', function(e){
+
+    window.delete_data_html = '';
+    window.delete_record_id = $(this).parent().parent().parent().find('.td-font-id').text();
+    elem = `<table class="table table-bordered table-striped">`+
+            `<tr><td><h4>ID</h4></td><td>`+window.delete_record_id+`</td></tr>`+
+            `<tr><td><h4>Name</h4></td><td>`+$(this).parent().parent().parent().find('.td-font-name').text()+`</td></tr>`+
+            `<tr><td><h4>Sports</h4></td><td>`+$(this).parent().parent().parent().find('.td-font-sports').text()+`</td></tr>`+
+            `</table>`;
+    window.delete_data_html = elem;
+
+    bootbox.confirm({
+        size: "medium",
+        title: "Delete Record?",
+        message: window.delete_data_html,
+        buttons: {
+            'cancel': {
+                label: 'Cancel'
+            },
+            'confirm': {
+                label: 'Delete',
+                className: 'btn-danger pull-right'
+            }
+        },
+        callback: function(result){
+            if(result){
+                bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
+                
+                var url = "//" + api_host + "/api/" + endpoint_version + "/master_font/delete";
+                var data = {};
+                data.id = window.delete_record_id;
+
+                deleteRecord(data, url);
+            } else {
+                console.log('Deletion Canceled.');
+            }
+        }
+    });
+});
+
+function deleteRecord(data, url){
+    console.log(data);
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(data),
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json;',
+        headers: {"accessToken": atob(headerValue)},
+        success: function (data) {
+            console.log('Successfully deleted record.');
+            window.location.reload();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        }
+    });
+}
+
+function addUpdateRecord(data, url){
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(data),
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json;',
+        headers: {"accessToken": atob(headerValue)},
+        success: function (data) {
+            if(window.modal_action == 'add'){
+                console.log('Successfully added record.');
+            } else if(window.modal_action == 'update'){
+                console.log('Successfully updated record.');
+            }
+
+            window.location.reload();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        }
+    });
+}
+
 });
 </script>
 @endsection

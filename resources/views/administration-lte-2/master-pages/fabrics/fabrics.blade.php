@@ -100,11 +100,11 @@ $('.submit-new-record').on('click', function(e){
 
     if(window.modal_action == 'add'){
         var url = "//" + api_host + "/api/" + endpoint_version + "/master_fabric";
-        addRecord(data, url);
+        addUpdateRecord(data, url);
     } else if(window.modal_action == 'update'){
         data.id =  $('.input-id').val();
         var url = "//" + api_host + "/api/" + endpoint_version + "/master_fabric/update";
-        updateRecord(data, url);
+        addUpdateRecord(data, url);
     }
 });
 
@@ -200,7 +200,7 @@ function deleteRecord(data, url){
     });
 }
 
-function addRecord(data, url){
+function addUpdateRecord(data, url){
     $.ajax({
         url: url,
         type: "POST",
@@ -210,25 +210,12 @@ function addRecord(data, url){
         contentType: 'application/json;',
         headers: {"accessToken": atob(headerValue)},
         success: function (data) {
-            console.log('Successfully added record.');
-            window.location.reload();
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-        }
-    });
-}
+            if(window.modal_action == 'add'){
+                console.log('Successfully added record.');
+            } else if(window.modal_action == 'update'){
+                console.log('Successfully updated record.');
+            }
 
-function updateRecord(data, url){
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: JSON.stringify(data),
-        dataType: "json",
-        crossDomain: true,
-        contentType: 'application/json;',
-        headers: {"accessToken": atob(headerValue)},
-        success: function (data) {
-            console.log('Successfully updated record.');
             window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
