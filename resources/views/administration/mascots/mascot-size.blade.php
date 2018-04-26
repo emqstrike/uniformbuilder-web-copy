@@ -29,7 +29,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Sport</th>
+                            <th id="select-filter">Sport</th>
                             <th>Block Pattern</th>
                             <th>Block Pattern Option</th>
                             <th>Type</th>
@@ -84,23 +84,29 @@
                                     Remove
                                 </a>
                             </td>
-
-
                         </tr>
-
                     @empty
-
                         <tr>
                             <td colspan='10'>
                                 No Mascot Sizes
                             </td>
                         </tr>
-
                     @endforelse
-
-
-
                     </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -125,7 +131,25 @@ $(document).ready(function(){
         "ordering": false,
         "info": true,
         "autoWidth": false,
-        "pageLength": 20
+        "pageLength": 20,
+        initComplete: function () {
+            this.api().columns().every( function () {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        }
     });
 
     $(document).on('click', '.delete-mascot-size', function(){
