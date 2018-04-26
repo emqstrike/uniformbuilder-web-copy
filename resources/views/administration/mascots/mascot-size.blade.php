@@ -29,10 +29,10 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th id="select-filter">Sport</th>
-                            <th>Block Pattern</th>
-                            <th>Block Pattern Option</th>
-                            <th>Type</th>
+                            <th class="select-filter">Sport</th>
+                            <th class="select-filter">Block Pattern</th>
+                            <th class="select-filter">>Block Pattern Option</th>
+                            <th class="select-filter">Type</th>
                             <th>Brand</th>
                             <th>Notes</th>
                             <th>Active</th>
@@ -120,6 +120,7 @@
 
 @section('scripts')
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript">
@@ -133,7 +134,7 @@ $(document).ready(function(){
         "autoWidth": false,
         "pageLength": 20,
         initComplete: function () {
-            this.api().columns().every( function () {
+            this.api().columns('.select-filter').every( function () {
                 var column = this;
                 var select = $('<select><option value=""></option></select>')
                     .appendTo( $(column.footer()).empty() )
