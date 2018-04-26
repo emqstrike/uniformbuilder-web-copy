@@ -168,7 +168,7 @@ $('.delete-record').on('click', function(e){
         callback: function(result){
             if(result){
                 bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
-                
+
                 var url = "//" + api_host + "/api/" + endpoint_version + "/master_fabric/delete";
                 var data = {};
                 data.id = window.delete_record_id;
