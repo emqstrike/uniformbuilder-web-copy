@@ -100,6 +100,11 @@ $(document).ready(function () {
 					console.log('Hiding 80');
 					application.status = "off";
 				}
+
+				if (key === "81") {
+					console.log('Hiding 81');
+					application.status = "off";
+				}
 				
 			});
 
