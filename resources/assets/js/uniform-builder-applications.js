@@ -6199,19 +6199,18 @@ $(document).ready(function() {
         });
 
         var _divisor = 10; // For Mascots
+        var _v = ub.funcs.getPrimaryView(settingsObject.application);
+        var _obj = ub.objects[_v + '_view']['objects_' + settingsObject.code];
+
         if (applicationType !== "mascot") { _divisor = 100; } // For Text Applications
 
         // Custom Size
-        if (ub.funcs.isFreeFormToolEnabled(_id)) {
 
-            var _v = ub.funcs.getPrimaryView(settingsObject.application);
+        if (ub.funcs.isFreeFormToolEnabled(_id) && typeof _obj !== "undefined") {
 
             /// Rotate
 
-            console.error(_v);
-            console.error(settingsObject.code);
-
-            var _start = ub.objects[_v + '_view']['objects_' + settingsObject.code].rotation;
+            var _start = _obj.rotation;
 
             _start = _start;
             _start = _start.toString().substr(0,5);

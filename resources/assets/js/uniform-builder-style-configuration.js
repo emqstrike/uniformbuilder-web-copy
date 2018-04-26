@@ -9,7 +9,7 @@ $(document).ready(function () {
 
         hasValues: function () {
 
-            return typeof ub.styleValues.mascotScales.items !== "undefined";
+            return typeof ub.styleValues.mascotScales.match !== "undefined";
 
         },
 
@@ -54,19 +54,24 @@ $(document).ready(function () {
             var _size = size;
             var _scale;
             var _result = undefined;
+            var _noSettings = typeof ub.styleValues.mascotScales.match === "undefined";
 
             // Legacy Socks 
             if (ub.funcs.isSocks()) { _size = 2.5; }
 
             // New Socks 
             if (ub.config.sport === "Socks (Apparel)") { _size = size; }  
-            if (ub.config.blockPattern === "Crew Sock") { _size = 2.5; }         
-
-            _scale = _.find(ub.styleValues.mascotScales.match.properties, {size: _size.toString()});
+            if (ub.config.blockPattern === "Crew Sock") { _size = 2.5; }  
+            
+            if (_noSettings) { 
+                _scale = undefined; 
+            } else {
+                _scale = _.find(ub.styleValues.mascotScales.match.properties, {size: _size.toString()});    
+            }
 
             if (typeof _scale === "undefined") {
                 ub.utilities.error('Mascot Scale for Size ' + size + ' is not found. Using {x: 0.5, y: 0.5}.' ); 
-                _result = {x: 0.5, y: 0.5};
+                _result = undefined;
             } else {
                 _result = {x: parseFloat(_scale.scale), y: parseFloat(_scale.scale)};
             }
