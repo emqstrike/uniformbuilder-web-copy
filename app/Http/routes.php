@@ -97,10 +97,12 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::group(['prefix' => env('ENDPOINT_VERSION','v1-0') ], function() {
 
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard']);
-
+        //Master Lists
         Route::get('/fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex']);
 
         Route::get('/fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex']);
+
+        Route::get('/patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@patternsIndex']);
 
     });
 
