@@ -1096,7 +1096,7 @@ $(document).ready(function () {
 
         ub.loaderWOToken = function (url, object_name, cb) {
 
-            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+            //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
             $.ajax({
             
