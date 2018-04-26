@@ -59,7 +59,7 @@ class FabricsController extends Controller
             $fabricId = $request->input('fabric_id');
             $data['id'] = $fabricId;
         }
-     
+
 
         $response = null;
         if (!empty($fabricId))
