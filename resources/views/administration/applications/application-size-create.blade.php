@@ -101,6 +101,16 @@ li.select2-selection__choice {
                             </div>
                         </div>
                         <div class="form-group">
+                                <label class="col-md-4 control-label">Brand</label>
+                                <div class="col-md-6">
+                                <select class="form-control brand" name="brand">
+                                        <option value="none">None</option>
+                                        <option value="prolook">Prolook</option>
+                                        <option value="richardson">Richardson</option>
+                                </select>
+                              </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Notes</label>
                             <div class="col-md-6">
                                <textarea class="form-control notes" name="notes"></textarea>
@@ -157,11 +167,11 @@ li.select2-selection__choice {
 
 @section('custom-scripts')
 <script src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script src="/js/administration/common.js"></script>
 <script src="/jquery-ui/jquery-ui.min.js"></script>
 <script src="/js/libs/select2/select2.min.js"></script>
 <script src="/js/ddslick.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script src="/js/administration/application-sizes.js"></script>
 
 <script>
@@ -171,10 +181,11 @@ $(function(){
         getBlockPatterns(function(block_patterns){
             window.block_patterns = block_patterns;
         });
-
+        console.log(window.block_patterns);
         function getBlockPatterns(callback){
             var block_patterns;
-            var url = "//api-dev.qstrike.com/api/block_patterns";
+            var url = "//" +api_host+ "/api/block_patterns";
+            console.log(url);
             $.ajax({
                 url: url,
                 async: false,
@@ -192,9 +203,11 @@ $(function(){
         $(document).on('change', '.sport', function() {
         sport = $('.sport').val();
             getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
-            var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id === sport; });
+            var sportOK = _.filter(window.block_patterns, function(e) {
+                            return e.uniform_category_id == sport;
+                            });
                     $( '#block_pattern' ).html('');
-                    $.each(x, function(i, item) {
+                    $.each(sportOK, function(i, item) {
                         $('#block_pattern' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
                     });
         $('#block_pattern').trigger('change');
@@ -207,7 +220,6 @@ $(function(){
         var options = [];
         var bps = $('#block_pattern_value').val();
         var bps_name = bps.toString().split(",");
-        console.log(bps_name);
             bps_name.forEach( function(item_name) {
                 var name = item_name;
                 $.each(z, function(i, item) {
@@ -226,6 +238,7 @@ $(function(){
         y.forEach(function(i) {
             $('#neck_option').append('<option value="'+i+'">'+i+'</option>');
         });
+        $('.material-neck-option').trigger('change');
       });
 
     if($('#neck_option_value').val()){

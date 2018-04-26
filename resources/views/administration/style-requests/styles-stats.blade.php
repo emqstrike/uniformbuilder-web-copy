@@ -155,8 +155,8 @@ window.labels = [];
 window.data = [];
 window.data_colors = [];
 
-var style_info = $('#style_info'); 
-    
+var style_info = $('#style_info');
+
 showStyleInfo = function() {
     style_info.modal('show');
 };
@@ -168,7 +168,7 @@ hideStyleInfo = function () {
 getStyles(function(styles){ window.styles = styles; });
 function getStyles(callback){
     var styles;
-    var url = "//api-dev.qstrike.com/api/materials/styleSheets";
+    var url = "//" +api_host+ "/api/materials/styleSheets";
     $.ajax({
         url: url,
         async: false,
@@ -186,7 +186,7 @@ function getStyles(callback){
 getAllStyles(function(all_styles){ window.all_styles = all_styles; });
 function getAllStyles(callback){
     var all_styles;
-    var url = "//api-dev.qstrike.com/api/materials";
+    var url = "//" +api_host+ "/api/materials";
     $.ajax({
         url: url,
         async: false,
@@ -238,17 +238,17 @@ var myChart = new Chart(ctx, {
     }
 });
 
-$("#myChart").click( 
+$("#myChart").click(
     function(evt){
 
-        var activePoints = myChart.getElementsAtEvent(evt);          
+        var activePoints = myChart.getElementsAtEvent(evt);
 
         window.active_sport = window.labels[activePoints[0]["_index"]];
 
         getStylesBySport(function(style_category){ window.style_category = style_category; });
         function getStylesBySport(callback){
             var style_category;
-            var url = "//api-dev.qstrike.com/api/materials/category/"+window.active_sport;
+            var url = "//" +api_host+ "/api/materials/category/"+window.active_sport;
             $.ajax({
                 url: url,
                 async: false,

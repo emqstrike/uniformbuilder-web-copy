@@ -2170,6 +2170,10 @@ $(document).ready(function() {
                 name: "Cage Jacket (Apparel)",
                 alias: "cage-jacket",
             },
+            {
+                name: "Compression Pant (Apparel)",
+                alias: "compression-pant-apparel",
+            },
 
         ],
 
@@ -2788,6 +2792,11 @@ $(document).ready(function() {
                 {
                     code: 'fan-replica-jersey',
                     name: 'Fan Replica Jersey (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'compression-pant',
+                    name: 'Compression Pant (Apparel)',
                     active: "1",
                 },
                 {
@@ -8246,6 +8255,10 @@ ub.funcs.fontOffSets = [
             sport: 'Cage Jacket (Apparel)',
             filters: ['All', 'Jersey'],
         },
+        {
+            sport: 'Compression Pant (Apparel)',
+            filters: ['All'],
+        },
           
     ];
 
@@ -9947,6 +9960,23 @@ ub.funcs.fontOffSets = [
                         font_size: 4,
                         sport: ['Default', 'Baseball', 'Fastpitch'],
                     },
+
+                    // TODO: get this from application number defaults @dhevs
+                    { 
+                        applicationNumbers: [2],
+                        resultApplicationType: 'front_number',
+                        size: 8,
+                        font_size: 8,
+                        sport: ['Test'], // Richardson Test
+                    },
+                    { 
+                        applicationNumbers: [5],
+                        resultApplicationType: 'back_number',
+                        size: 10,
+                        font_size: 10,
+                        sport: ['Test'], // Richardson Test
+                    },
+
                 ] 
 
             }
@@ -9956,6 +9986,9 @@ ub.funcs.fontOffSets = [
 
             var _result = undefined;
             var _items = _.find(this.items, {type: type});
+
+            console.log('Start output here...')
+
 
             if (typeof _items === "undefined") { ub.utilities.warn('Initial Size not found for ' + type + ' on location #' + applicationNumber); }
 
@@ -10221,6 +10254,10 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Cage Jacket (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Wrestling Compression Short Sleeve (Apparel)',
                 sublimatedPart: 'Extra',
             },
             
@@ -11030,6 +11067,7 @@ ub.funcs.fontOffSets = [
 
             { sport: 'Socks (Apparel)' },
             { sport: 'Cage Jacket (Apparel)' },
+            { sport: 'Compression Pant (Apparel)' },
 
         ],
 
@@ -11686,6 +11724,12 @@ ub.funcs.fontOffSets = [
                 thumbFilename: 'cage-jacket.png',
                 gender: ['men', 'women'],    
             },
+            {
+                shortCode: 'compression-pant',
+                urlAlias: 'Compression Pant (Apparel)',
+                thumbFilename: 'compression-pant.png',
+                gender: ['men',],    
+            },
         ],
 
         getAlias: function (shortCode)  {
@@ -11994,6 +12038,7 @@ ub.funcs.fontOffSets = [
             'Fan Replica Jersey (Apparel)',
             'Cage Jacket (Apparel)',
             'Game Day Jackets (Apparel)',
+            'Compression Pant (Apparel)',
         ],
         isNonTackleTwill: function (uniformCategory) {
 
@@ -12022,8 +12067,23 @@ ub.funcs.fontOffSets = [
 
     }
 
-    
+    // Add active / inactive to application sizes in the backend to remove this datastructure @dhevs
+    ub.data.consumeApplicationSizes = {
 
+        items: [
+            'Test', // Richardson Test Block
+            'Football 2017',
+        ],
+        isValid: function (uniformCategory) {
+
+            var _result = undefined;
+            _result = _.contains(this.items, uniformCategory);
+
+            return _result;
+
+        }
+
+    }
 
     ub.dialog = bootbox;
 

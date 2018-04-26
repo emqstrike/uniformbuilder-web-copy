@@ -105,6 +105,16 @@ li.select2-selection__choice {
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-4 control-label" >Brand</label>
+                            <div class="col-md-6">
+                                <select name="brand" class="form-control">
+                                        <option value="none" @if($application_size->brand == "none") selected="selected"@endif>None</option>
+                                        <option value="prolook" @if($application_size->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                        <option value="richardson" @if($application_size->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Notes</label>
                             <div class="col-md-6">
                                <textarea class="form-control notes" name="notes">{{ $application_size->notes }}</textarea>
@@ -178,7 +188,7 @@ $(function(){
 
     function getBlockPatterns(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
+        var url = "//" +api_host+ "/api/block_patterns";
         $.ajax({
             url: url,
             async: false,
@@ -199,7 +209,7 @@ $(function(){
     $(document).on('change', '.sport', function() {
     sport = $('.sport').val();
         getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
-        var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id === sport; });
+        var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id == sport; });
                 block_patterns_value.forEach(function(pattern) {
                     $( '#block_pattern' ).html('');
                     $.each(x, function(i, item) {
@@ -243,6 +253,7 @@ $(function(){
         y.forEach(function(i) {
             $('#neck_option').append('<option value="'+i+'">'+i+'</option>');
         });
+        $('.material-neck-option').trigger('change');
     });
 
     if($('#block_pattern_value').val()){

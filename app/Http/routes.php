@@ -63,8 +63,6 @@ Route::get('/forgot-password', 'UniformBuilderController@forgotPassword');
 // Custom Artwork Requests
 Route::get('/my-custom-artwork-requests', 'UniformBuilderController@myCustomArtworkRequests');
 
-
-
 // Display the Order
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
@@ -95,7 +93,16 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
 
     Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard']);
-    Route::get('/'.env('ENDPOINT_VERSION','v1-0').'', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard']);
+
+    Route::group(['prefix' => env('ENDPOINT_VERSION','v1-0') ], function() {
+
+        Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard']);
+
+        Route::get('/fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex']);
+
+        Route::get('/fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex']);
+
+    });
 
     // Logins
     Route::get('login', 'Administration\AuthenticationController@loginForm');

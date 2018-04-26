@@ -802,7 +802,6 @@ $('.send-to-factory').on('click', function(e){
                     console.log(JSON.stringify(parts));
                     updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
                     // document.location.reload(); // UNCOMMENT
-
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     //Error Code Here

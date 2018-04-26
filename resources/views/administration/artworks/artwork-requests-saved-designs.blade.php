@@ -171,10 +171,10 @@ $('.reject-artwork').on('click', function(e){
 
     // console.log(data);
 
-    bootbox.prompt({ 
+    bootbox.prompt({
         size: "medium",
         title: "Reject artwork? Enter note.",
-        message: "Reject artwork?", 
+        message: "Reject artwork?",
         buttons: {
             'cancel': {
                 label: 'Cancel'
@@ -185,7 +185,7 @@ $('.reject-artwork').on('click', function(e){
                 className: 'btn-danger pull-right'
             }
         },
-        callback: function(result){ /* result is a boolean; true = OK, false = Cancel*/ 
+        callback: function(result){ /* result is a boolean; true = OK, false = Cancel*/
             if(result){
                 bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
                 var order_link = 'http://customizer.prolook.com/order/'+data.order_code;
@@ -200,31 +200,31 @@ $('.reject-artwork').on('click', function(e){
     });
 });
 
-function insertMessage(data){
+function insertMessage(data) {
     var order_code = data.order_code;
     var content = data.content;
     console.log(data);
+    var url = "//" + api_host + "/api/message";
     $.ajax({
-        url: '//api-dev.qstrike.com/api/message',
+        url: url,
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',
         success: function (data) {
-            // alert(data['message']);
             rejectArtwork(order_code, content);
-            // window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
         }
     });
 }
 
-function rejectArtwork(order_code, content){
+function rejectArtwork(order_code, content) {
     var data = {};
     data.order_code = order_code;
     data.content = content;
+    var url = "//" + api_host + "/api/artwork_request/reject";
     $.ajax({
-        url: '//api-dev.qstrike.com/api/artwork_request/reject',
+        url: url,
         type: "POST",
         data: JSON.stringify(data),
         contentType: 'application/json;',

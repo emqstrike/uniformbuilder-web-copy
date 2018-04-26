@@ -54,16 +54,6 @@
                                         </thead>
                                     </tr>
                                     <tbody class="property-body">
-<!--                                         <tr class="prop-row">
-                                            <td>
-                                                <select class="form-control sizes">
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select class="form-control price-items">
-                                                </select>
-                                            </td>
-                                        </tr> -->
                                     </tbody>
                                 </table>
                             </div>
@@ -84,7 +74,7 @@
                     </form>
                 </div>
             </div>
-        </div>  
+        </div>
     </div>
 </div>
 
@@ -108,6 +98,7 @@ $(document).ready(function(){
 
     $('.autosized').autosize({append: "\n"});
     getPriceItems(function(price_items){ window.price_items = price_items; });
+    console.log(window.price_items);
     loadAdultYouth();
     selectChange();
 
@@ -119,7 +110,6 @@ $(document).ready(function(){
     $( "tbody" ).disableSelection();
 
     function loadAdultYouth(){
-
         _.each(template_props.properties.adult, function(i){
             var size = i.size;
             var price_item = i.price_item;
@@ -129,9 +119,7 @@ $(document).ready(function(){
 
             var e = '.sizes-'+ctr;
             var f = '.price-item-'+ctr;
-
             selectedValues(e, f, size, price_item);
-
             ctr++;
         });
 
@@ -154,7 +142,7 @@ $(document).ready(function(){
     function selectedValues(e, f, size, price_item){
         _.each(sizes, function(i){
             var elem = '<option value="' + i + '">' + i + '</option>';
-            if(size === i){
+            if(size == i){
                 elem = '<option value="' + i + '" selected>' + i + '</option>';
             }
             $(e).append(elem);
@@ -163,7 +151,7 @@ $(document).ready(function(){
         _.each(window.price_items, function(i){
             var j = i.price_item;
             var elem = '<option value="' + j + '">' + j + '</option>';
-            if(price_item === j){
+            if(price_item == j){
                 elem = '<option value="' + j + '" selected>' + j + '</option>';
             }
             $(f).append(elem);
@@ -173,6 +161,7 @@ $(document).ready(function(){
 
     $('.add-property').on('click', function(e){
         e.preventDefault();
+        console.log('test');
         var x  = $( ".prop-row:first" ).clone();
         y = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
 
@@ -204,7 +193,7 @@ $(document).ready(function(){
 
     function getPriceItems(callback){
         var price_items;
-        var url = "//api-dev.qstrike.com/api/price_items";
+        var url = "//" +api_host+ "/api/price_items";
         $.ajax({
             url: url,
             async: false,
@@ -230,7 +219,7 @@ $(document).ready(function(){
             var x = $(this).find('.sizes').val();
             var price_item = $(this).find('.price-items').val();
             console.log('price_item'+price_item);
-            var prices = _.find(window.price_items, function(e){ return e.price_item === price_item; });
+            var prices = _.find(window.price_items, function(e){ return e.price_item == price_item; });
 
             var data = {
                 "size" : $(this).find('.sizes').val(),
@@ -300,7 +289,6 @@ $(document).ready(function(){
         $('.price-items').append(elem);
     });
 }
-
 
 });
 </script>

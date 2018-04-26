@@ -156,7 +156,7 @@ $('.generate-preview').on('click', function(e){
     function submitChunks() {
         if ( window.total_chunk == window.chunks_uploaded ) return;
         $.ajax({
-            url: "//api-dev.qstrike.com/api/price_items/updatePIManual",
+            url: "//" +api_host+ "/api/price_items/updatePIManual",
             type: "POST",
             data: JSON.stringify(window.chunked_data[window.chunks_uploaded]),
             dataType: "json",
@@ -229,7 +229,7 @@ function updateData(transfer_format, generate_preview){
         var destination_val = parseInt(entry[$('.destination-field').val()]);
         var source_field = $('.source-field').val();
 
-        var data = _.find(window.source_data, function (obj) { return obj[source_field] === destination_val; });
+        var data = _.find(window.source_data, function (obj) { return obj[source_field] == destination_val; });
         var updated_entry = JSON.parse(JSON.stringify(entry));
         // var updated_entry = new Object();
         // updated_entry.id = entry.id;
