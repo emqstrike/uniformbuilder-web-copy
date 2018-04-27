@@ -193,6 +193,8 @@ $(document).ready(function() {
         ub.funcs.restorePointer();
         ub.funcs.setVisibleView('front');
 
+        ub[ub.active_view + '_view'].alpha = 1
+
     };
 
  
