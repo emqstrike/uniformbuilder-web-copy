@@ -36,7 +36,12 @@
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_file" accept="image/*">
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Cut Preview</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control cut-preview-file" name="cut_preview" accept="image/*">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">

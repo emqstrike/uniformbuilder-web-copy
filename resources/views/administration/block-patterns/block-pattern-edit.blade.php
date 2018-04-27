@@ -40,6 +40,14 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail File</label>
+                            <div class="col-md-6">
+                                <img  class="img-cut-preview" src="{{ $block_pattern->cut_preview }}" style="height: 210px; width: 140px;">
+                                <input type="file" class="form-control cut-preview-file" name="cut_preview" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">
                                 <select name="uniform_category_id" class="form-control">
