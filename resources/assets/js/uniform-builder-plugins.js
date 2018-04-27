@@ -1092,6 +1092,10 @@
         var elements = "";
         var _frontObject = _.find(pipingObject.perspectives, {perspective: perspective});
 
+        console.log('');
+        console.log(pipingObject);
+        console.log(pipingSettingsObject);
+
         _.each(_frontObject.layers, function (layer, index) {
             
             if (index + 1 > colorCount) { return; }

@@ -72,39 +72,39 @@ $(document).ready(function () {
 
 			_.each(ub.current_material.settings.applications, function (application, key) {
 
-				console.log(application)
-				console.log(application.application.layer);
-				console.log(key);
+			// 	console.log(application)
+			// 	console.log(application.application.layer);
+			// 	console.log(key);
 
-				if (application.application.layer === "Back Insert") {
-					console.log('Deleting ' + key);
-					delete ub.current_material.settings.applications[key];	
-				}
+			// 	if (application.application.layer === "Back Insert") {
+			// 		console.log('Deleting ' + key);
+			// 		delete ub.current_material.settings.applications[key];	
+			// 	}
 
-				if (key ===  "83") {
-					console.log('Hiding 83');
-					application.status = "off";
-				}
+			// 	if (key ===  "83") {
+			// 		console.log('Hiding 83');
+			// 		application.status = "off";
+			// 	}
 
-				if (key === "78") {
-					console.log('Hiding 78');
-					application.status = "off";
-				}
+			// 	if (key === "78") {
+			// 		console.log('Hiding 78');
+			// 		application.status = "off";
+			// 	}
 
-				if (key ===  "82") {
-					console.log('Hiding 82');
-					application.status = "off";
-				}
+			// 	if (key ===  "82") {
+			// 		console.log('Hiding 82');
+			// 		application.status = "off";
+			// 	}
 
-				if (key === "80") {
-					console.log('Hiding 80');
-					application.status = "off";
-				}
+			// 	if (key === "80") {
+			// 		console.log('Hiding 80');
+			// 		application.status = "off";
+			// 	}
 
-				if (key === "81") {
-					console.log('Hiding 81');
-					application.status = "off";
-				}
+			// 	if (key === "81") {
+			// 		console.log('Hiding 81');
+			// 		application.status = "off";
+			// 	}
 				
 			});
 
