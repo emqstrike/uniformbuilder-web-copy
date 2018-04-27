@@ -7756,6 +7756,11 @@ $(document).ready(function() {
                 if (_settingsObject.application.layer.indexOf('Shoulder') !== -1) { _applicationType = "shoulder_number"; }
                 if (_settingsObject.application.layer.indexOf('Sleeve') !== -1) { _applicationType = "sleeve_number"; }
 
+                var _primaryView = ub.funcs.getPrimaryView(_settingsObject.application);
+
+                if (_primaryView === "front") { _applicationType = "front_number"; }
+                if (_primaryView === "back") { _applicationType = "back_number"; }
+
             }
 
             _settingsObject.accent_obj          = ub.funcs.getSampleAccent();
