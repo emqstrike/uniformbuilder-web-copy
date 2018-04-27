@@ -817,8 +817,13 @@ $(document).ready(function () {
         var _colorObj = _.find(ub.data.colors, {color_code: colorCode });
 
         if (typeof _colorObj === "undefined") {
-            console.error('Cant find colorCode ' + colorCode)
+            
+            if (colorCode !== "none") {
+                console.error('Cant find colorCode ' + colorCode); // Only log if not none, none comes from turned off piping layers, when not in pipng its disabled colors e.g. Y, need to print those for the GA's
+            }
+            
             _colorObj = _.first(ub.data.colors);
+
         }
 
         if (colorCode == 'none') {

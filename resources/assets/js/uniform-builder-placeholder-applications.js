@@ -58,12 +58,12 @@ $(document).ready(function () {
             {
                 sport: "Crew Socks (Apparel)",
                 part: 'Sublimated',
-                validTypes: ["logo", "team_name"],
+                validTypes: ["logo", "team_name", "embellishments"],
             },
             {
                 sport: "Default",
                 part: "Default",
-                validTypes: ["logo","number","player_name","team_name"],
+                validTypes: ["logo","number","player_name","team_name", "embellishments"],
             }
         ], 
 

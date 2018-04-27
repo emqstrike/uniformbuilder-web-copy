@@ -884,7 +884,7 @@ $(document).ready(function () {
 
                     _.each(piping.colors_array, function (color, index) {
 
-                        if (color === "none") { return; }
+                        // if (color === "none") { return; } // historical: causing disabled layers error, verify piping setup
 
                         var _color = ub.funcs.getColorByColorCode(color);
                         
