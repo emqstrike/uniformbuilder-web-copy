@@ -11262,36 +11262,47 @@ $(document).ready(function() {
             $('div#changeApplicationUI').remove();
 
         });
+
         ub.funcs.activateLayer(application_id);
 
     };
 
     ub.funcs.gotoFirstApplication = function () {
 
-        var obj1 = a = ub.funcs.getApplicationSettings(1);
-        var $layersContainer = $('div.layers-container');
-
-        if ((ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) && ub.current_material.material.type === "lower") {
-
-            $('span.layer[data-location-id="38"]').trigger('click');
-            $layersContainer.scrollTo($('span.layer[data-location-id="38"]'));
-
-        } else if (ub.funcs.isCurrentSport('Baseball') && ub.current_material.material.type === "upper") {
-
-            $('span.layer[data-location-id="1"]').trigger('click');
-            $layersContainer.scrollTo($('span.layer[data-location-id="1"]'));
-
-        } else if (typeof obj1 === "object") {
-
-            $('span.layer[data-location-id="1"]').trigger('click');
-            $layersContainer.scrollTo($('span.layer[data-location-id="1"]'));
-
-        } else {
-
-            var $span = $('span.layer').first();
-            if (typeof $span !== "undefined") { $span.trigger('click'); }
-
+        if ($('span.layer').length > 0) {
+            $('span.layer').first().trigger('click');    
         }
+
+        // var _keys = _.keys(ub.current_material.settings.applications);
+
+        // if (_keys.length > 0) {
+        //     var _firstApplication = _keys[0];
+        // }
+
+        // var obj1 = a = ub.funcs.getApplicationSettings(1);
+        // var $layersContainer = $('div.layers-container');
+
+        // if ((ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) && ub.current_material.material.type === "lower") {
+
+        //     $('span.layer[data-location-id="38"]').trigger('click');
+        //     $layersContainer.scrollTo($('span.layer[data-location-id="38"]'));
+
+        // } else if (ub.funcs.isCurrentSport('Baseball') && ub.current_material.material.type === "upper") {
+
+        //     $('span.layer[data-location-id="1"]').trigger('click');
+        //     $layersContainer.scrollTo($('span.layer[data-location-id="1"]'));
+
+        // } else if (typeof obj1 === "object") {
+
+        //     $('span.layer[data-location-id="1"]').trigger('click');
+        //     $layersContainer.scrollTo($('span.layer[data-location-id="1"]'));
+
+        // } else {
+
+        //     var $span = $('span.layer').first();
+        //     if (typeof $span !== "undefined") { $span.trigger('click'); }
+
+        // }
 
     }
 
