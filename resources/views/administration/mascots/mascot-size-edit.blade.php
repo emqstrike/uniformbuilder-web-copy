@@ -45,7 +45,7 @@ select:hover {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">
-                                <select class="form-control sport" name="uniform_category_id" id="uniform_category_id" >
+                                <select class="form-control sport" name="uniform_category_id" id="uniform_category_id" required="true">
                                     <option value="">None</option>
                                     @foreach ($sports as $sport)
                                         @if ($sport->active)
@@ -59,7 +59,7 @@ select:hover {
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="block-pattern-val" id="block_pattern_value" name="block_pattern_value" value="{{ $mascot_size->block_patterns }}">
-                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple">
+                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple" required="true">
                                 </select>
                             </div>
                         </div>
@@ -68,7 +68,7 @@ select:hover {
                             <label class="col-md-4 control-label">Block Pattern Options</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="neck-option-val" id="neck_option_value" name="block_pattern_options_value" value="{{ $mascot_size->block_pattern_options }}">
-                               <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple">
+                               <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple" required="true">
                                 </select>
                             </div>
                         </div>
