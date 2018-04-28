@@ -6527,11 +6527,15 @@ $(document).ready(function() {
             console.log('Application #: ');
             console.log(_id);
 
-            console.log(_sizesFromConfig);
-            console.log(_sizesFromConfig.sizes);
-            console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+            if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") { 
 
-            if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport)) { _sizes = _sizesFromConfig; } 
+                console.log(_sizesFromConfig);
+                console.log(_sizesFromConfig.sizes);
+                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+
+                _sizes = _sizesFromConfig; 
+                
+            } 
 
         } else {
 
