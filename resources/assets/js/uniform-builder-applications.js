@@ -7807,7 +7807,7 @@ $(document).ready(function() {
                     _matchingSide.application.name  = _applicationType.toTitleCase();
                     _matchingSide.application.type  = _applicationType;
 
-                    ub.funcs.setAppSize(_matchingID, _size);
+                    ub.funcs.setAppSize(_matchingID, _sizeObj.size);
                     ub.create_application(_matchingSide, undefined);
 
                 }
