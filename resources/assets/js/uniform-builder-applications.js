@@ -10228,6 +10228,14 @@ $(document).ready(function() {
 
                 }
 
+                if (ub.config.option === "Home Run Sublimated") {
+
+                    _list = _.reject(_list, function (item) { 
+                        return item.name.indexOf('Sublimated') === -1 && ub.current_material.material.uniform_category === "Socks (Apparel)";
+                    });                    
+
+                }
+
             }
 
             if (ub.funcs.isCurrentSport('Wrestling'))   {  
