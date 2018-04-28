@@ -1821,18 +1821,16 @@ $(document).ready(function() {
             ],
             getSizes: function (sport, type, locationNumber) {
 
+                if (sport === "football 2017") { sport = "football"; }
+
                 var _result = _.filter(this.items, {sport: sport, name: type});
 
                 if (typeof _result === "undefined") {
-
                     ub.utilities.warn(type + ' Sizes for ' + type + ' not found.' );
-
                 }
 
                 _result = _.find(_result, function (item) {
-
                     return _.contains(item.applicationNumbers, locationNumber);
-
                 });
 
                 if (typeof _result === "undefined") {
