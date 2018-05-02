@@ -37,9 +37,14 @@ $(document).ready(function () {
         fetchValues: function () {
 
             var _apiCode = 'getMascotScales';
-            var _parameters = '/' + ub.config.sport + '/' + ub.config.blockPattern  + '/' + ub.config.option + '/' + ub.config.type;
+            var _parameters = {
+                "block_pattern_options": ub.utilities.domParserDecoder(ub.config.option),
+                "block_patterns":  ub.utilities.domParserDecoder(ub.config.blockPattern),
+                "category": ub.config.sport,
+                "type": ub.config.type
+            }
 
-            ubep.fetch(_apiCode, _parameters, function (result) {
+            ubep.fetchPOST(_apiCode, _parameters, function (result) {
 
                 ub.styleValues.mascotScales.match = result.mascot_size;
                 ub.styleValues.mascotScales.cleanUp(ub.config.sport, ub.config.type, ub.config.option);
@@ -62,13 +67,13 @@ $(document).ready(function () {
             // New Socks 
             if (ub.config.sport === "Socks (Apparel)") { _size = size; }  
             if (ub.config.blockPattern === "Crew Sock") { _size = 2.5; }  
-            
+
             if (_noSettings) { 
                 _scale = undefined; 
             } else {
                 _scale = _.find(ub.styleValues.mascotScales.match.properties, {size: _size.toString()});    
             }
-
+  
             if (typeof _scale === "undefined") {
                 ub.utilities.error('Mascot Scale for Size ' + size + ' is not found. Using {x: 0.5, y: 0.5}.' ); 
                 _result = undefined;
