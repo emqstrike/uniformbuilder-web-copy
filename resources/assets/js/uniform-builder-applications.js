@@ -6527,11 +6527,15 @@ $(document).ready(function() {
             console.log('Application #: ');
             console.log(_id);
 
-            console.log(_sizesFromConfig);
-            console.log(_sizesFromConfig.sizes);
-            console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+            if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") { 
 
-            if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport)) { _sizes = _sizesFromConfig; } 
+                console.log(_sizesFromConfig);
+                console.log(_sizesFromConfig.sizes);
+                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+
+                _sizes = _sizesFromConfig; 
+                
+            } 
 
         } else {
 
@@ -7807,7 +7811,7 @@ $(document).ready(function() {
                     _matchingSide.application.name  = _applicationType.toTitleCase();
                     _matchingSide.application.type  = _applicationType;
 
-                    ub.funcs.setAppSize(_matchingID, _size);
+                    ub.funcs.setAppSize(_matchingID, _sizeObj.size);
                     ub.create_application(_matchingSide, undefined);
 
                 }
@@ -10224,6 +10228,14 @@ $(document).ready(function() {
 
                     _list = _.reject(_list, function (item) { 
                         return item.name.indexOf('Body') === -1 && ub.current_material.material.uniform_category === "Socks (Apparel)";
+                    });                    
+
+                }
+
+                if (ub.config.option === "Home Run Sublimated") {
+
+                    _list = _.reject(_list, function (item) { 
+                        return item.name.indexOf('Sublimated') === -1 && ub.current_material.material.uniform_category === "Socks (Apparel)";
                     });                    
 
                 }

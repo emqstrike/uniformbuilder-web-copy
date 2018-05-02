@@ -9944,6 +9944,13 @@ ub.funcs.fontOffSets = [
                         sport: ['Default', 'Baseball', 'Fastpitch'],
                     },
                     {
+                        applicationNumbers: [9, 10],
+                        resultApplicationType: 'sleeve_number',
+                        size: 3,
+                        font_size: 3,
+                        sport: ['Football 2017'],
+                    },
+                    {
                         applicationNumbers: [32, 33],
                         resultApplicationType: 'shoulder_number',
                         size: 3,
