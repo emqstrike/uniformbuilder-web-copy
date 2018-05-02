@@ -37,9 +37,14 @@ $(document).ready(function () {
         fetchValues: function () {
 
             var _apiCode = 'getMascotScales';
-            var _parameters = '/' + ub.config.sport + '/' + ub.config.blockPattern  + '/' + ub.config.option + '/' + ub.config.type;
+            var _parameters = {
+                "block_pattern_options": ub.utilities.domParserDecoder(ub.config.option),
+                "block_patterns":  ub.utilities.domParserDecoder(ub.config.blockPattern),
+                "category": ub.config.sport,
+                "type": ub.config.type
+            }
 
-            ubep.fetch(_apiCode, _parameters, function (result) {
+            ubep.fetchPOST(_apiCode, _parameters, function (result) {
 
                 ub.styleValues.mascotScales.match = result.mascot_size;
                 ub.styleValues.mascotScales.cleanUp(ub.config.sport, ub.config.type, ub.config.option);
@@ -62,13 +67,43 @@ $(document).ready(function () {
             // New Socks 
             if (ub.config.sport === "Socks (Apparel)") { _size = size; }  
             if (ub.config.blockPattern === "Crew Sock") { _size = 2.5; }  
-            
+
             if (_noSettings) { 
                 _scale = undefined; 
             } else {
                 _scale = _.find(ub.styleValues.mascotScales.match.properties, {size: _size.toString()});    
             }
 
+            // if (ub.config.sport === "Tech-Tee (Apparel)") { 
+            //     if (_size === 1) { _scale = {x: 0.1, y: 0.1 }; }
+            //     if (_size === 2) { _scale = {x: 0.2, y: 0.2 }; }
+            //     if (_size === 3) { _scale = {x: 0.3, y: 0.3 }; }
+            //     if (_size === 4) { _scale = {x: 0.4, y: 0.4 }; }
+            //     if (_size === 5) { _scale = {x: 0.5, y: 0.5 }; }
+            //     if (_size === 6) { _scale = {x: 0.6, y: 0.6 }; }
+            //     if (_size === 7) { _scale = {x: 0.7, y: 0.7 }; }
+            //     if (_size === 8) { _scale = {x: 0.8, y: 0.8 }; }
+            //     if (_size === 9) { _scale = {x: 0.9, y: 0.9 }; }
+            //     if (_size === 10) { _scale = {x: 0.10, y: 0.10 }; }
+            //     if (_size === 11) { _scale = {x: 0.11, y: 0.11 }; }
+            //     if (_size === 12) { _scale = {x: 0.12, y: 0.12 }; }
+            // }
+
+            // if (ub.config.sport === "Compression (Apparel)") { 
+            //     if (_size === 1) { _scale = {x: 0.1, y: 0.1 }; }
+            //     if (_size === 2) { _scale = {x: 0.2, y: 0.2 }; }
+            //     if (_size === 3) { _scale = {x: 0.3, y: 0.3 }; }
+            //     if (_size === 4) { _scale = {x: 0.4, y: 0.4 }; }
+            //     if (_size === 5) { _scale = {x: 0.5, y: 0.5 }; }
+            //     if (_size === 6) { _scale = {x: 0.6, y: 0.6 }; }
+            //     if (_size === 7) { _scale = {x: 0.7, y: 0.7 }; }
+            //     if (_size === 8) { _scale = {x: 0.8, y: 0.8 }; }
+            //     if (_size === 9) { _scale = {x: 0.9, y: 0.9 }; }
+            //     if (_size === 10) { _scale = {x: 0.10, y: 0.10 }; }
+            //     if (_size === 11) { _scale = {x: 0.11, y: 0.11 }; }
+            //     if (_size === 12) { _scale = {x: 0.12, y: 0.12 }; }
+            // }
+            
             if (typeof _scale === "undefined") {
                 ub.utilities.error('Mascot Scale for Size ' + size + ' is not found. Using {x: 0.5, y: 0.5}.' ); 
                 _result = undefined;
