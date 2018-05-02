@@ -133,7 +133,31 @@ $(document).ready(function() {
                 
             });
 
+        },
+
+        fetchPOST: function (str, parameters, cb) {
+
+            $.ajax({
+
+                url: ub.endpoints.getFullUrlString(str),
+                data: JSON.stringify(parameters),
+                type: "POST",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    if (response.success) {
+                        cb(response);
+                    }
+
+                }
+                
+            });
+
         }
+
 
     };
 
