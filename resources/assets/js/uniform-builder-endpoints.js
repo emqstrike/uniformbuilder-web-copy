@@ -117,7 +117,7 @@ $(document).ready(function() {
 
             $.ajax({
 
-                url: ub.endpoints.getFullUrlString(str),
+                url: ub.endpoints.getFullUrlString(str) + parameters,
                 type: "GET",
                 crossDomain: true,
                 contentType: 'application/json',
