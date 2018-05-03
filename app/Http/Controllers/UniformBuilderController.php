@@ -1225,7 +1225,7 @@ class UniformBuilderController extends Controller
 
             }
 
-            if ($sport === "Football" && $type !== "lower") {
+            if (($sport === "Football" || $sport === "Baseball") && $type !== "lower") {
 
                 $html .=   '<td align="center">';
                 $html .=   $roster['lastNameApplication'];
