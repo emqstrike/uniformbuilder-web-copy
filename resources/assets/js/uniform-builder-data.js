@@ -12078,6 +12078,26 @@ ub.funcs.fontOffSets = [
 
     }
 
+
+    // Blacklist of uniforms that don't need the number popup appear
+    ub.data.numberPopupExcemptions = {
+
+        items: [
+            'Baseball', 
+            'Football 2017',
+        ],
+        isValid: function (uniformCategory, uniformType) {
+
+            var _result = undefined;
+            _result = _.contains(this.items, uniformCategory);
+
+            return typeof _result !== "undefined" && uniformType === "lower"
+
+        }
+
+    }
+ 
+
     // Add active / inactive to application sizes in the backend to remove this datastructure @dhevs
     ub.data.consumeApplicationSizes = {
 
