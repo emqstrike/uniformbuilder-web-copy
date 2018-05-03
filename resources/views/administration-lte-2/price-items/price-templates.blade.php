@@ -13,7 +13,7 @@
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        <span class="fa fa-cube"></span>
+                        <span class="fa fa-dollar"></span>
                         Price Item Templates
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
