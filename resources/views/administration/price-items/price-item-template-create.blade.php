@@ -176,7 +176,6 @@ function initSizesAndPI(){
         $('.sizes').append(elem);
     });
 
-
     _.each(window.price_items, function(i){
         var pi = i.price_item;
         var elem = '<option value="' + pi + '">' + pi + '</option>';
@@ -235,7 +234,6 @@ function refreshProperty(){
 
     $('#size_property').val(JSON.stringify(size_properties));
 }
-
 
 
 });

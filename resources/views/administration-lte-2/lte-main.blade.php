@@ -156,6 +156,7 @@
 </div> -->
 
 <script src="/admin-lte-2/jquery/dist/jquery.min.js"></script>
+
 <!-- Bootstrap 3.3.7 -->
 <script src="/admin-lte-2/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- SlimScroll -->
@@ -168,8 +169,8 @@
 <!-- <script src="/admin-lte-2/dist/js/demo.js"></script> -->
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
-
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
+
 <script>
   // $(document).ready(function () {
   //   $('.sidebar-menu').tree()

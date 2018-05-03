@@ -106,6 +106,8 @@ Route::group(array('prefix' => 'administration'), function() {
 
         Route::get('/colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index']);
 
+        Route::get('/price_templates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemTemplatesController@index']);
+
     });
 
     // Logins
