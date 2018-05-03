@@ -37,28 +37,28 @@
                     <tbody>
                     @forelse ($colors as $color)
                         <tr class='color-{{ $color->id }} {{ (!$color->active) ? ' inactive' : '' }}'>
-                            <td>
+                            <td class="col-md-1">
                                 {{ $color->id }}
                             </td>
-                            <td>
+                            <td class="col-md-1">
                                 {{ $color->order }}
                             </td>
-                            <td>
+                            <td class="col-md-2">
                                 <input type="text" class="form-control color-name" name="color-name" value="{{ $color->name }}" disabled="true">
                             </td>
-                            <td>
+                            <td class="col-md-1">
                             <select class="form-control sublimation-only" name='sublimation_only' disabled="true">
                                     <option value='0' @if ($color->sublimation_only == '0') selected @endif>No</option>
                                     <option value='1' @if ($color->sublimation_only == '1') selected @endif>Yes</option>
                                 </select>
                             </td>
-                            <td style='background-color: #{{ $color->hex_code }}; width: 300px; height: 30px; border: 1px solid #ddd;'>
+                            <td style='background-color: #{{ $color->hex_code }}; height: 30px; border: 1px solid #ddd;' class="col-md-2">
                                 <span id="color-code" class='badge'>{{ $color->color_code }}</span>
                                 <input type="text" size="3" id="color-code-text" style="display: none"value="{{ $color->color_code }}">
                                 <input type="hidden" name="hex-code" id="hex-code" value="{{ $color->hex_code }}">
                                 <input class="form-control colorpicker" id="colorpicker" type="hidden">
                             </td>
-                            <td>
+                            <td class="col-md-2">
                                 <a href="#" class="btn btn-default btn-xs btn-flat disable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? : 'disabled="disabled"' }}>
                                     <i class="glyphicon glyphicon-eye-close"></i>
                                     Disable

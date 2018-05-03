@@ -21,11 +21,11 @@
                 <form role="form">
                   <div class="form-group">
                     <label>Color Name</label>
-                      <input type="name" class="form-control input-color-name" name="name">
+                      <input type="text" class="form-control input-color-name" name="name" required="true">
                   </div>
                   <div class="form-group">
                     <label class="control-label">Color Code</label>
-                      <input type="name" class="form-control input-color-code" name="color_code">
+                      <input type="text" class="form-control input-color-code" name="color_code" required="true">
                   </div>
                   <div class="form-group">
                             <label class="control-label">Color</label>
