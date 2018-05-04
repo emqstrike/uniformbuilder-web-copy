@@ -1,0 +1,968 @@
+@extends('administration-lte-2.lte-main')
+
+@section('styles')
+<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+@endsection
+
+@section('custom-styles')
+
+@endsection
+
+@section('content')
+
+</style>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h1>
+                        Orders
+                    </h1>
+                </div>
+
+                <div class="box-body">
+                    <table data-toggle='table' class='table data-table table-bordered orders' id="orders_table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Order Code</th>
+                            <th>Client</th>
+                            <th>Submitted by User ID</th>
+                            <th>Test Order</th>
+                            <th>FOID</th>
+                            <th>Assigned Sales Rep</th>
+                            <th>Date Submitted</th>
+                            <th class="col-md-1"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    @forelse ($orders as $order)
+
+                    <tr>
+                        <td class="td-order-id">{{ $order->id }}</td>
+                        <td class="td-order-code">{{ $order->order_id }}</td>
+                        <td class="td-order-client">{{ $order->client }}</td>
+                        <td class="td-order-user-id">{{ $order->user_id }}</td>
+                        <td class="td-order-test-order">@if( $order->test_order ) Yes @else No @endif</td>
+                        <td class="td-factory-order-id">{{ $order->factory_order_id }}</td>
+                        <td class="td-assigned-sales-rep">
+                            <select class="form-control rep-id" name="rep-id">
+                                <option value="1148">Select Sales Rep</option>
+                            </select>
+                        </td>
+                        <td class="td-order-date-submitted">{{ $order->created_at }}</td>
+                        <td class="col-md-1">
+                            <center>
+                                <a href="#" class="btn btn-primary btn-sm btn-flat send-to-factory">Send to Edit</a>
+                            </center>
+                        </td>
+                    </tr>
+
+                    @empty
+
+                        <tr>
+                            <td colspan='6'>
+                                No Orders Found
+                            </td>
+                        </tr>
+
+                    @endforelse
+
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@endsection
+
+@section('scripts')
+<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/bootbox.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": false,
+        "info": true,
+        "autoWidth": true,
+    });
+
+
+
+
+    window.roster = [];
+    window.item_sizes = null;
+    window.test_size_data = null;
+
+
+
+
+    getColors(function(colors){ window.colors = colors; });
+    getPatterns(function(patterns){ window.patterns = patterns; });
+    getSizingConfig(function(item_sizes){ window.item_sizes = item_sizes; });
+    getSalesReps(function(sales_reps){ window.sales_reps = sales_reps; });
+
+
+
+
+    var reps_elem = "";
+    var active_sales_reps = _.filter(window.sales_reps , function(rep){
+        return rep.active == 1;
+    });
+
+    _.each(active_sales_reps, function(rep) {
+        reps_elem +=    `<option value=`+rep.rep_id+`>`+rep.last_name+`, `+rep.first_name+` (`+rep.rep_id+`)</option>`;
+    });
+
+    $('.rep-id').append(reps_elem);
+
+
+
+
+$('.send-to-factory').on('click', function(e){
+
+    window.team_colors = null;
+
+    e.preventDefault();
+    // bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
+    // PostOrder();
+
+    var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
+    var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
+    api_order_id = $(this).parent().parent().parent().find('.td-order-code').text();
+    order_id = $(this).data('order-id');
+    client = $(this).parent().parent().parent().find('.td-order-client').text();
+    client = escapeSingleQuotes(client);
+
+    ship_contact = $(this).data('ship-contact');
+    ship_address = $(this).data('ship-address');
+    ship_phone = $(this).data('ship-phone');
+    ship_city = $(this).data('ship-city');
+    ship_state = $(this).data('ship-state');
+    ship_zip = $(this).data('ship-zip');
+    ship_email = $(this).data('ship-email');
+
+    billing_contact = $(this).data('bill-contact');
+    billing_address = $(this).data('bill-address');
+    billing_city = $(this).data('bill-city');
+    billing_state = $(this).data('bill-state');
+    billing_zip = $(this).data('bill-zip');
+    billing_email = $(this).data('bill-email');
+    billing_phone = $(this).data('bill-phone');
+
+
+    window.order_parts = null;
+    getOrderParts(function(order_parts){ window.order_parts = order_parts; });
+
+
+
+    function getOrderParts(callback){
+        var order_parts;
+        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                order_parts = data['order'];
+                if(typeof callback === "function") callback(order_parts);
+            }
+        });
+    }
+
+
+
+    window.order_parts.forEach(function(entry) {
+        bcx = JSON.parse(entry.builder_customizations);
+        window.customizer_material_id = null;
+        window.pa_id = entry.id;
+
+        if('material_id' in bcx.upper){
+            window.customizer_material_id = bcx.upper.material_id;
+
+        } else {
+            window.customizer_material_id = bcx.lower.material_id;
+
+        }
+
+        var teamcolors = bcx.team_colors;
+
+        entry.orderPart = {
+            "ID" : entry.id,
+            "Description" : entry.description,
+            "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
+        };
+
+        getMaterial(function(material){ window.material = material; });
+
+        function getMaterial(callback){
+            var material;
+            var url = "//api-dev.qstrike.com/api/material/"+window.customizer_material_id;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    material = data['material'];
+                    if(typeof callback === "function") callback(material);
+                }
+            });
+        }
+
+        var error_message = validateMaterialPreReq();
+        window.error_message = error_message['message'];
+
+
+        window.error_data = {
+            'error_message' : error_message['data'],
+            'order_id' : order_id,
+            'order_code' : api_order_id,
+            'client' : client,
+            'material_id' : window.customizer_material_id,
+            'type' : 'json'
+        };
+
+        if(error_message['message'] != ''){
+
+            // bootbox.dialog({ message: '<div class="text-center">'+error_message+'</div>' });
+            // bootbox.alert('<div class="text-center">'+error_message+'</div>');
+            // bootbox.dialog({ message: '<div class="text-center">'+error_message+'</div>' });
+            // bootbox.confirm('<div class="text-center">'+error_message+'</div><>', function(result) {
+            //     if (result) {
+            //         // currentForm.submit();
+
+            //     }
+            // });
+            // window.error_data = {};
+            bootbox.confirm({
+                message: '<div><h3>Errors Encountered:</h3></div><div class="text-center">'+error_message['message']+'</div>',
+                buttons: {
+                    confirm: {
+                        label: 'Send Report',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: 'http://api-dev.qstrike.com/api/test/slack_message/order_error',
+                            type: "POST",
+                            data: JSON.stringify(window.error_data),
+                            contentType: 'application/json;',
+                            success: function (data) {
+                                bootbox.dialog({ message: 'Our backend team received the error report.' });
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                bootbox.dialog({ message: "Error in sending error report. That's a lot of error..." });
+                            }
+                        });
+                    }
+                }
+            });
+            window.send_order = false;
+            return;
+        } else {
+            window.send_order = true;
+            bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
+        }
+
+        window.pa = null;
+        getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
+
+        window.qx_item_ref = window.pa.ref_qstrike_mat_id;
+        // entry.orderPart.ItemID = window.qx_item_ref;
+        entry.orderPart.ItemID = window.material.item_id;
+
+        function getPAConfigs(callback){
+            var parts_aliases;
+            var url = "//api-dev.qstrike.com/api/parts_alias/"+window.material.parts_alias_id;
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                dataType: "json",
+                crossDomain: true,
+                contentType: 'application/json',
+                success: function(data){
+                    parts_aliases = data['part_alias'];
+                    if(typeof callback === "function") callback(parts_aliases);
+                }
+            });
+        }
+
+        var questions_valid = applyConfigs(api_order_id);
+
+        entry.orderQuestions = {
+            "OrderQuestion": questions_valid
+        };
+
+        var z = JSON.parse(entry.roster);
+        console.log("Z>>>");
+        console.log(z);
+        // if(!window.roster_formatted){
+            z.forEach(function(en) {
+                ctr = parseInt(en.Quantity);
+                delete en.Quantity;
+                en.Cut = en.SleeveCut;
+                delete en.SleeveCut;
+                for(i = 0; i<ctr; i++){
+                    try {
+                        window.roster.push(en);
+                    }
+                    catch(err) {
+                        console.log(err.message);
+                    }
+                }
+            });
+        // }
+        console.log('WINDOW ROSTER');
+        console.log(window.roster);
+        delete entry.builder_customizations;
+        delete entry.description;
+        delete entry.factory_order_id;
+        delete entry.id;
+        delete entry.item_id;
+        delete entry.oid;
+        delete entry.roster;
+        delete entry.order_id;
+        delete entry.pid;
+        delete entry.questions;
+
+    });
+
+        var url = 'http://qx.azurewebsites.net/api/Order/PostOrderDetails';
+
+        var order = {
+            "Client": client,
+            "ShippingAttention": ship_contact,
+            "ShippingAddress": ship_address,
+            "ShippingPhone": ship_phone,
+            "ShippingCity": ship_city,
+            "ShippingState": ship_state,
+            "ShippingZipCode": ship_zip,
+            "ShippingEmail": ship_email,
+            "BillingAttention": billing_contact,
+            "BillingAddress": billing_address,
+            "BillingAddress2": "",
+            "BillingCity": billing_city,
+            "BillingState": billing_state,
+            "BillingZipCode": billing_zip,
+            "BillingEmail": billing_email,
+            "BillingPhone": billing_phone,
+            "APICode": 1,
+            "Gender": 0,
+            "RepID": rep_id,
+            "RepIDEnteredBy": 0,
+            "Sport": "All",
+            "TeamName": "Wildcats"
+        };
+
+        console.log("WINDOW MATERIAL");
+        console.log(window.material);
+        // SAVED
+        var x = _.find(window.item_sizes, function(e){ return e.id == window.material.qx_sizing_config; });
+        console.log("X PROPERTIES");
+        console.log(x);
+        window.test_size_data = JSON.parse(x.properties);
+
+
+        // window.test_size_data = JSON.parse(window.material.sizing_config_prop); // uncomment this line on production
+        var order_items_split = splitRosterToQXItems();
+        var order_parts_split = [];
+
+        console.log("Window Material");
+        console.log(window.material);
+
+
+        order_items_split.forEach(function(entry, i) {
+            var x = JSON.parse(JSON.stringify(window.order_parts[0]));
+            x.orderPart.ItemID = entry.qx_item_id;
+            if( item_id_override ){
+                x.orderPart.ItemID = item_id_override;
+
+            } else {
+
+            }
+
+            var roster_sizes = _.map(entry.roster, function(e){ return e.size; });
+            // console.log('roster sizes:');
+            // console.log(roster_sizes);
+
+            // console.log('entry roster:');
+            // console.log(entry.roster);
+            var roster = [];
+            window.roster_formatted = false;
+
+            socks_uniform_category_ids = ["17","33"];
+
+            window.roster.forEach(function(y, j) {
+                if(!socks_uniform_category_ids.indexOf(window.material.uniform_category_id)){
+                    if( y.Size == "3-5" ){
+                        y.Size = "Kids (3-5)";
+                    } else if( y.Size == "5-7" ){
+                        y.Size = "Youth (5-7)";
+                    } else if( y.Size == "8-12" ){
+                        y.Size = "Adult (8-12)";
+                    } else if( y.Size == "13-14" ){
+                        y.Size = "XL (13-14)";
+                    }
+                    roster.push(y);
+                } else {
+                    if( _.contains(roster_sizes, y.Size) ){
+                        ctr = roster_sizes.length;
+                        console.log('Y');
+                        console.log(y);
+                        // add size prefix for socks
+                        if( y.Size == "3-5" ){
+                            y.Size = "Kids (3-5)";
+                        } else if( y.Size == "5-7" ){
+                            y.Size = "Youth (5-7)";
+                        } else if( y.Size == "8-12" ){
+                            y.Size = "Adult (8-12)";
+                        } else if( y.Size == "13-14" ){
+                            y.Size = "XL (13-14)";
+                        }
+                        roster.push(y);
+                        // window.roster_formatted = true;
+                    }
+                }
+                // console.log('ROSTER');
+                // console.log(roster);
+            });
+
+            if( roster.length > 0 ){
+                x.orderItems = roster;
+                order_parts_split.push(x);
+
+            } else {
+
+            }
+        });
+
+        var orderEntire = {
+            "order": order,
+            "orderParts" : order_parts_split
+        };
+
+    strResult = JSON.stringify(orderEntire);
+    console.log('orderEntire>>>');
+    console.log(orderEntire);
+    console.log('strResult>>>');
+    console.log(strResult);
+
+
+
+    // SEND ORDER TO EDIT
+    if(window.send_order){
+        console.log('window send order');
+        if(window.material.item_id !== undefined){
+            console.log('window material item_id is defined');
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify(orderEntire),
+                contentType: 'application/json;',
+                success: function (data) {
+                    alert('Order was sent to EDIT!');
+                    var factory_order_id = data[0].OrderID;
+                    var parts = [];
+                    $.each(data, function( index, value ) {
+                        orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
+                        parts.push(orderEntire['orderParts'][index]['orderPart']);
+                    });
+                    console.log(JSON.stringify(parts));
+                    updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
+                    // document.location.reload(); // UNCOMMENT
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //Error Code Here
+                }
+            });
+        } else {
+
+        }
+    }
+});
+
+
+
+
+function escapeSingleQuotes(jsonString) {
+    return jsonString.replace(/(['])/g, "\\$1");
+}
+
+
+
+
+function validateMaterialPreReq(){
+    var error_message = '';
+    var error_message_data = '';
+    if(window.material.item_id == '' || window.material.item_id == 0 || window.material.item_id == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Item ID.</div>';
+        error_message_data += "Invalid Item ID.";
+    }
+
+    if(window.material.price_item_template_id == '' || window.material.price_item_template_id == 0 || window.material.price_item_template_id == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Price Item Template Used.</div>';
+        error_message_data += "Invalid Price Item Template Used.";
+    }
+
+    if(window.material.qx_sizing_config == '' || window.material.qx_sizing_config == 0 || window.material.qx_sizing_config == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Size Configuration.</div>';
+        error_message_data += "Invalid Size Configuration.";
+    }
+
+    if(window.material.parts_alias_id == '' || window.material.parts_alias_id == 0 || window.material.parts_alias_id == undefined){
+        error_message += '<div class="alert alert-danger">Invalid Parts Alias Configuration.</div>';
+        error_message_data += "Invalid Parts Alias Configuration.";
+    }
+
+    var error_info = {
+        'message' : error_message,
+        'data' : error_message_data,
+    }
+    return error_info;
+}
+
+function applyConfigs(api_order_id){
+    getOrderParts(function(order_parts){ window.order_parts_b = order_parts; });
+    function getOrderParts(callback){
+        var order_parts;
+        var url = "//api-dev.qstrike.com/api/order/items/"+api_order_id;
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                order_parts = data['order'];
+                if(typeof callback === "function") callback(order_parts);
+            }
+        });
+    }
+    // use the parts alias config for assign correct values to correct parts
+    var sport_id = window.pa.uniform_category_id;
+    var type = window.pa.type.toLowerCase();
+
+
+    var properties = JSON.parse(window.pa.properties);
+    var questions = [];
+
+
+    properties.forEach(function(entry) {
+        console.log("entry part name");
+        console.log(entry.part_name);
+
+        console.log("UNIFORM TYPE >>> ");
+        console.log(type);
+
+        var question_id = parseInt(entry.part_questions);
+        var value = null;
+        var name = null;
+        var color_code = null;
+        var color_name = null;
+        var color = null;
+        var pattern = null;
+        var builder_customizations = JSON.parse(window.order_parts_b[0]['builder_customizations']);
+        var data_pushed = false;
+        // RESUME HERE
+        console.log("[ builder_customizations ]");
+        console.log(builder_customizations);
+
+
+        if( entry.input_type == "Pattern" ){
+
+            try {
+                pattern = builder_customizations[type][entry.part_name]['pattern']['pattern_obj']['name'];
+                value = pattern.replace(/[0-9]/g, '');
+            } catch(err) {
+
+            }
+
+        } else if( entry.input_type == "Color" ){
+            console.log('Color block');
+            try {
+                color_code = builder_customizations[type][entry.part_name]['colorObj']['color_code'];
+                color_name = builder_customizations[type][entry.part_name]['colorObj']['name'];
+                if(color_name == "Charcoal Grey"){
+                    color_name = "Charcoal Gray";
+                }
+                value = color_name + " " + "(" + color_code + ")";
+                console.log('Color Value:');
+                console.log(value);
+            } catch(err) {
+                console.log('Error in Color block !');
+                console.log(err.message);
+            }
+
+        } else if( entry.input_type == "Material" ){
+
+            try {
+                value = entry.edit_part_value;
+            } catch(err) {
+
+            }
+
+        } else if( entry.input_type == "Team_Color" ){
+            var idx = 0;
+
+            if(entry.part_questions == "347"){
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "348"){
+                idx = 1;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "349"){
+                idx = 2;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "350"){
+                idx = 3;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "465"){
+                idx = 4;
+                value = getQuestionColorValue(builder_customizations, idx);
+            } else if(entry.part_questions == "466"){
+                idx = 5;
+                value = getQuestionColorValue(builder_customizations, idx);
+            }
+        } else if( entry.input_type == "Sock_Color" ){
+            var idx = 0;
+            var no_translation = ["260", "261", "262", "406"];
+            try {
+
+                color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
+                color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
+
+                if(!no_translation.indexOf(entry.part_questions)){
+                    value = translateToSocksColor(color_name, color_code);
+                } else {
+                    value = color_name + " " + "(" + color_code + ")";
+                }
+
+            } catch(err) {
+
+            }
+
+        } else if( entry.input_type == "Random_Feed" ){
+            var idx = 0;
+
+            if(builder_customizations['randomFeeds'] > 0){
+
+                if( builder_customizations['randomFeeds']['Top Welt'] != undefined ){
+
+                    var z = builder_customizations['randomFeeds']['Top Welt']['layers'];
+
+
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                        questions.push({
+                            "QuestionID" : 433,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    }
+
+                }
+
+                if( builder_customizations['randomFeeds']['Arch'] != undefined ){
+                    var z = builder_customizations['randomFeeds']['Arch']['layers'];
+
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                        questions.push({
+                            "QuestionID" : 430,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    }
+                }
+
+                if( builder_customizations['randomFeeds']['Toe'] != undefined ){
+                    var z = builder_customizations['randomFeeds']['Toe']['layers'];
+
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                        questions.push({
+                            "QuestionID" : 429,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    }
+                }
+
+                if( builder_customizations['randomFeeds']['Heel'] != undefined ){
+                    var z = builder_customizations['randomFeeds']['Heel']['layers'];
+
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                        questions.push({
+                            "QuestionID" : 428,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    }
+                }
+
+                if( builder_customizations['randomFeeds']['Padding'] != undefined ){
+                    var z = builder_customizations['randomFeeds']['Padding']['layers'];
+
+
+
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+                        questions.push({
+                            "QuestionID" : 431,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    }
+                }
+
+                if( builder_customizations['randomFeeds']['Body'] != undefined ){
+                    var z = builder_customizations['randomFeeds']['Body']['layers'];
+
+
+
+
+
+                    if( z.length > 1 ){
+                        var val2 = translateToSocksColor(z[1].colorObj.name, z[1].colorCode);
+
+
+                        questions.push({
+                            "QuestionID" : 432,
+                            "Value" : val2
+                        });
+                        data_pushed = true;
+                    }
+                }
+            } else {
+
+                blankRandomFeeds = [{
+                    "QuestionID" : 428,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                },{
+                    "QuestionID" : 429,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                },{
+                    "QuestionID" : 430,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                },{
+                    "QuestionID" : 431,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                },{
+                    "QuestionID" : 432,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                },{
+                    "QuestionID" : 433,
+                    "Value" : '(Choose Color If Random Feed Is Desired)'
+                }];
+
+                blankRandomFeeds.forEach(function(entry) {
+                    questions.push(entry);
+                });
+
+
+
+
+                data_pushed = true;
+
+            }
+
+            try {
+
+
+                color_code = builder_customizations['lower'][entry.part_name]['colorObj']['color_code'];
+                color_name = builder_customizations['lower'][entry.part_name]['colorObj']['name'];
+
+                value = translateToSocksColor(color_name, color_code);
+
+            } catch(err) {
+
+            }
+
+        }
+
+        if( data_pushed == false ){
+            var data = {
+                "QuestionID" : question_id,
+                "Value" : value
+            };
+
+            questions.push(data);
+        }
+
+    });
+
+
+
+    questions = _.uniq(questions, function(item, key, a) {
+        return item.QuestionID;
+    });
+
+
+    return questions;
+    // window.questions_ready = questions;
+}
+
+
+
+
+function splitRosterToQXItems(){
+    var grouped = _.groupBy(window.test_size_data, function(e) {
+      return e.qx_item_id;
+    });
+
+    var items = [];
+    for(var propt in grouped){
+
+        items.push({
+            'qx_item_id' : propt,
+            'roster' : []
+        });
+
+    }
+    window.roster.forEach(function(entry) {
+
+        var size = entry.Size;
+        var res = _.find(window.test_size_data, function(e){ return e.size == size; });
+        var qx_item_id = res['qx_item_id'];
+        items.forEach(function(e) {
+            if(e.qx_item_id == qx_item_id){
+                e.roster.push(res);
+            }
+        });
+    });
+
+    return items;
+}
+
+
+
+
+function getSizingConfig(callback){
+    var item_sizes;
+    var url = "//api-dev.qstrike.com/api/item_sizes";
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            item_sizes = data['item_sizes'];
+            if(typeof callback === "function") callback(item_sizes);
+        }
+    });
+}
+
+
+
+
+function getColors(callback){
+    var colors;
+    var url = "//api-dev.qstrike.com/api/colors";
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            colors = data['colors'];
+            if(typeof callback === "function") callback(colors);
+        }
+    });
+}
+
+
+
+
+function getPatterns(callback){
+    var patterns;
+    var url = "//api-dev.qstrike.com/api/patterns";
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            patterns = data['patterns'];
+            if(typeof callback === "function") callback(patterns);
+        }
+    });
+}
+
+
+
+
+function getSalesReps(callback){
+    var sales_reps;
+    var url = "//" + api_host +"/api/sales_reps";
+
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            sales_reps = data['sales_reps'];
+            if(typeof callback === "function") callback(sales_reps);
+        }
+    });
+}
+
+
+
+
+function updateFOID(id, factory_order_id, parts){
+    $.ajax({
+        url: '//' + api_host + '/api/order/updateFOID',
+        type: "POST",
+        data: JSON.stringify({id: id, factory_order_id: factory_order_id}),
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
+            if (response.success) {
+                $.each(parts, function( index, value ) {
+                    value['factory_order_id'] = factory_order_id;
+                });
+                updateItemsPID(parts);
+
+                // document.location.reload();
+            }
+        }
+    });
+}
+
+});
+</script>
+@endsection
