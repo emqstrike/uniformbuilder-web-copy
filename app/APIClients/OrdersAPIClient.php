@@ -48,6 +48,21 @@ class OrdersAPIClient extends APIClient
         return $orders;
     }
 
+    public function getOrdersMinified()
+    {
+        $endpoint = 'ordersMinified';
+
+        $response = $this->get($endpoint);
+        $result = $this->decoder->decode($response->getBody());
+
+        $orders = [];
+        if ($result->success)
+        {
+            $orders = $result->orders;
+        }
+        return $orders;
+    }
+
     public function getTestOrders()
     {
         $response = $this->get('orders/test_orders');

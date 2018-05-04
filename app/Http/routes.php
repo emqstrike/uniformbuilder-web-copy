@@ -108,6 +108,8 @@ Route::group(array('prefix' => 'administration'), function() {
 
         Route::get('/price_templates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemTemplatesController@index']);
 
+        Route::get('ordersMinified', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified']);
+
     });
 
     // Logins
