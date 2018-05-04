@@ -19,6 +19,19 @@ class OrdersController extends Controller
         $this->client = $apiClient;
     }
 
+    public function ordersMinified(Request $request)
+    {
+        $orders = $this->client->getOrdersMinified();
+        foreach($orders as $order)
+        {
+            $order->created_at = date('M-d-Y', strtotime($order->created_at));
+        }
+
+        return view('administration-lte-2.orders.orders', [
+            'orders' => $orders
+        ]);
+    }
+
     public function index(Request $request)
     {
         $status = $request->get('status');

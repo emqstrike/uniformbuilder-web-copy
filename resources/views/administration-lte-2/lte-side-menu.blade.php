@@ -26,7 +26,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="../layout/top-nav.html"><i class="fa fa-cart-plus"></i> Recent Orders</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/ordersMinified"><i class="fa fa-cart-plus"></i> Orders</a></li>
             <li><a href="../layout/boxed.html"><i class="fa fa-search"></i> Search Orders</a></li>
             <li><a href="../layout/fixed.html"><i class="fa fa-paper-plane"></i> Sent Orders</a></li>
           </ul>
