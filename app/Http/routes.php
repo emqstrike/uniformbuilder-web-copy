@@ -110,6 +110,9 @@ Route::group(array('prefix' => 'administration'), function() {
 
         Route::get('/users', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@index']);
 
+        Route::get('ordersMinified', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified']);
+
+
     });
 
     // Logins
