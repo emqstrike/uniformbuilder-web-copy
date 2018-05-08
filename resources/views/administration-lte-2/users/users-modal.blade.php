@@ -17,13 +17,12 @@
 
             <!-- Modal Body -->
             <div class="modal-body">
-                <form role="form">
+                <form id="myForm" role="form" action="#" method="POST">
                   <div class="form-group">
                     <input type="hidden" name="created_by" value="{{ Session::get('userId') }}">
                     <input type="hidden" name="user_create_origin" value="administration">
                     <input type="hidden" class="form-control input-user-id" name="id">
                     <label>First Name</label>
-
                       <input type="name" class="form-control input-first-name" name="first_name" required>
                   </div>
                   <div class="form-group">
