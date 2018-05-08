@@ -19,6 +19,7 @@
 <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
 <link rel="stylesheet" href="/admin-lte-2/dist/css/skins/_all-skins.min.css">
+<link rel="stylesheet" type="text/css" href="/admin-lte-2/js/libs/pnotify/pnotify.custom.min.css">
 
 
 
@@ -170,7 +171,7 @@
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
-
+<script type="text/javascript" src="/admin-lte-2/js/libs/pnotify/pnotify.custom.min.js"></script>
 <script>
   // $(document).ready(function () {
   //   $('.sidebar-menu').tree()
