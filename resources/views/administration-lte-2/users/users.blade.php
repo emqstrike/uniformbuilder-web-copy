@@ -107,7 +107,7 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-    $("#myModal").css("z-index", "1500");
+
     window.modal_action = null;
 
     $('.add-record').on('click', function(e) {
@@ -141,7 +141,7 @@ $(document).ready(function(){
         $('.input-user-zip').val(data.zip);
     });
 
-    $('.submit-new-record').on('click', function(e){
+    $("#myForm").submit(function(e){
         e.preventDefault();
         var data = {};
         data.first_name = $('.input-first-name').val();
@@ -175,7 +175,6 @@ $(document).ready(function(){
         } else {
             addUpdateRecord(data, url);
         }
-
     });
 
     function addUpdateRecord(data, url){
@@ -341,14 +340,16 @@ $(document).ready(function(){
         });
     });
 
-@if (Session::has('message'))
-    new PNotify({
-        title: 'Success',
-        text: "{{ Session::get('message') }}",
-        type: 'success',
-        hide: true
-    });
-@endif
+
+
+    @if (Session::has('message'))
+        new PNotify({
+            title: 'Success',
+            text: "{{ Session::get('message') }}",
+            type: 'success',
+            hide: true
+        });
+    @endif
 });
 </script>
 
