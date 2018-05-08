@@ -54,9 +54,11 @@
                         <td class="td-order-test-order">@if( $order->test_order ) Yes @else No @endif</td>
                         <td class="td-factory-order-id">{{ $order->factory_order_id }}</td>
                         <td class="td-assigned-sales-rep">
+                            @if( !$order->factory_order_id )
                             <select class="form-control rep-id" name="rep-id">
                                 <option value="1148">Select Sales Rep</option>
                             </select>
+                            @endif
                         </td>
                         <td class="td-order-date-submitted">{{ $order->created_at }}</td>
                         <td class="col-md-1">
