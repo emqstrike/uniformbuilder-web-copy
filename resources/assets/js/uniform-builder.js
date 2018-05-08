@@ -1911,7 +1911,7 @@ $(document).ready(function () {
         if (_app.hasNumber === 1) { _set.push ('number'); }
         if (_app.hasPlayerName === 1) { _set.push ('player_name'); }
         if (_app.hasTeamName === 1) { _set.push ('team_name'); }
-        if (_app.hasEmbellishment === 1) { _set.push ('embellishments'); }
+        if (_app.hasEmbellishment === 1 || ub.funcs.isSublimated()) { _set.push ('embellishments'); }
 
         return _set;
 
