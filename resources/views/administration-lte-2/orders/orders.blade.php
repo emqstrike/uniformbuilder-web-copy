@@ -22,12 +22,13 @@
                 </div>
 
                 <div class="box-body">
-                    <table data-toggle='table' class='table data-table table-bordered orders' id="orders_table">
+                    <table data-toggle='table' class='table data-table table-bordered table-striped orders' id="orders_table">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Order Code</th>
                             <th>Client</th>
+                            <th>PDF Link</th>
                             <th>Submitted by User ID</th>
                             <th>Test Order</th>
                             <th>FOID</th>
@@ -40,23 +41,32 @@
 
                     @forelse ($orders as $order)
 
-                    <tr>
+                    <tr class="tbody-row @if( $order->factory_order_id ) success @endif">
                         <td class="td-order-id">{{ $order->id }}</td>
                         <td class="td-order-code">{{ $order->order_id }}</td>
                         <td class="td-order-client">{{ $order->client }}</td>
+                        <td class="td-order-pdf-link">
+                            <center>
+                                <a href="#" class="btn btn-info btn-sm btn-flat view-pdf">PDF</a>
+                            </center>
+                        </td>
                         <td class="td-order-user-id">{{ $order->user_id }}</td>
                         <td class="td-order-test-order">@if( $order->test_order ) Yes @else No @endif</td>
                         <td class="td-factory-order-id">{{ $order->factory_order_id }}</td>
                         <td class="td-assigned-sales-rep">
+                            @if( !$order->factory_order_id )
                             <select class="form-control rep-id" name="rep-id">
                                 <option value="1148">Select Sales Rep</option>
                             </select>
+                            @endif
                         </td>
                         <td class="td-order-date-submitted">{{ $order->created_at }}</td>
                         <td class="col-md-1">
+                            @if( !$order->factory_order_id )
                             <center>
                                 <a href="#" class="btn btn-primary btn-sm btn-flat send-to-factory">Send to Edit</a>
                             </center>
+                            @endif
                         </td>
                     </tr>
 
@@ -94,6 +104,12 @@ $(document).ready(function(){
         "ordering": false,
         "info": true,
         "autoWidth": true,
+        drawCallback: function () {
+            console.log( 'Table redrawn ' );
+            $('.rep-id').html('<option value="1148">Select Sales Rep</option>');
+            $('.rep-id').append(window.sales_reps_dd);
+            // sendToEdit();
+        }
     });
 
 
@@ -102,6 +118,10 @@ $(document).ready(function(){
     window.roster = [];
     window.item_sizes = null;
     window.test_size_data = null;
+    window.sales_reps_dd = null;
+    window.order = null;
+    window.order_code = null;
+    window.order_info = null;
 
 
 
@@ -123,12 +143,41 @@ $(document).ready(function(){
         reps_elem +=    `<option value=`+rep.rep_id+`>`+rep.last_name+`, `+rep.first_name+` (`+rep.rep_id+`)</option>`;
     });
 
+    window.sales_reps_dd = reps_elem;
+
+    // $('#MyTableId tbody').on('click', '.My_Button_id', function () {
+    // });
     $('.rep-id').append(reps_elem);
+    $('#orders_table .rep-id').append(reps_elem);
 
+    $('#orders_table').on('click', '.paginate_button', function () {
+        // $('.rep_id').html('');
+        // $('.rep-id').append(reps_elem);
+        console.log('click');
+    });
+    // $('#order_table .rep-id').append(reps_elem);
+    // $("#order_table .rep-id").each(function() {
+    //     // $rep_id_dd = $(this).find('.rep-id');
+    //     $(this).append(reps_elem);
+    // });
 
+// sendToEdit();
 
+// function sendToEdit(){
+$(document).on('click', '.view-pdf', function(e) {
+    window.order_code = $(this).parent().parent().parent().find('.td-order-code').text();
+    console.log(window.order_code);
+    getOrderItem(function(order_info){ window.order_info = order_info; });
+    console.log(window.order_info);
+    var bc = JSON.parse(window.order_info['items'][0]['builder_customizations']);
+    var url = '//customizer.prolook.com'+bc.pdfOrderForm;
+    console.log('open pdf!');
+    console.log(url);
+    OpenInNewTab(url);
+});
 
-$('.send-to-factory').on('click', function(e){
+// $('#orders_table .send-to-factory').on('click', function(e){
+$(document).on('click', '.send-to-factory', function(e) {
 
     window.team_colors = null;
 
@@ -136,28 +185,66 @@ $('.send-to-factory').on('click', function(e){
     // bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
     // PostOrder();
 
-    var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
+    // var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
+    var rep_id = parseInt($(this).parent().parent().parent().find('.rep-id').val());
     var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
     api_order_id = $(this).parent().parent().parent().find('.td-order-code').text();
-    order_id = $(this).data('order-id');
+    // order_id = $(this).data('order-id');
     client = $(this).parent().parent().parent().find('.td-order-client').text();
     client = escapeSingleQuotes(client);
+    var order_id = $(this).parent().parent().parent().find('.td-order-id').text();
 
-    ship_contact = $(this).data('ship-contact');
-    ship_address = $(this).data('ship-address');
-    ship_phone = $(this).data('ship-phone');
-    ship_city = $(this).data('ship-city');
-    ship_state = $(this).data('ship-state');
-    ship_zip = $(this).data('ship-zip');
-    ship_email = $(this).data('ship-email');
+    window.order_id = order_id;
+    getOrderDetails(function(order){ window.order = order; });
 
-    billing_contact = $(this).data('bill-contact');
-    billing_address = $(this).data('bill-address');
-    billing_city = $(this).data('bill-city');
-    billing_state = $(this).data('bill-state');
-    billing_zip = $(this).data('bill-zip');
-    billing_email = $(this).data('bill-email');
-    billing_phone = $(this).data('bill-phone');
+    // ship_contact = $(this).data('ship-contact');
+    // ship_address = $(this).data('ship-address');
+    // ship_phone = $(this).data('ship-phone');
+    // ship_city = $(this).data('ship-city');
+    // ship_state = $(this).data('ship-state');
+    // ship_zip = $(this).data('ship-zip');
+    // ship_email = $(this).data('ship-email');
+
+    ship_contact = window.order.ship_contact_person;
+    ship_address = window.order.ship_address;
+    ship_phone = window.order.ship_phone;
+    ship_city = window.order.ship_city;
+    ship_state = window.order.ship_state;
+    ship_zip = window.order.ship_zip;
+    ship_email = window.order.ship_email;
+
+    billing_contact = window.order.bill_contact_person;
+    billing_address = window.order.bill_address;
+    billing_city = window.order.bill_city;
+    billing_state = window.order.bill_state;
+    billing_zip = window.order.bill_zip;
+    billing_email = window.order.bill_email;
+    billing_phone = window.order.bill_phone;
+
+    // billing_contact = $(this).data('bill-contact');
+    // billing_address = $(this).data('bill-address');
+    // billing_city = $(this).data('bill-city');
+    // billing_state = $(this).data('bill-state');
+    // billing_zip = $(this).data('bill-zip');
+    // billing_email = $(this).data('bill-email');
+    // billing_phone = $(this).data('bill-phone');
+
+    
+    // var order_url = '//' + api_host + '/api/order/'+order_id;
+    // $.ajax({
+    //     url: order_url,
+    //     type: "GET",
+    //     dataType: "json",
+    //     crossDomain: true,
+    //     contentType: 'application/json',
+    //     success: function(response){
+    //         window.order = data['order'];
+    //         console.log('RESPONSE');
+    //         console.log(response);
+    //     }
+    // });
+    console.log('WINDOW ORDER');
+    console.log(window.order);
 
 
     window.order_parts = null;
@@ -489,9 +576,11 @@ $('.send-to-factory').on('click', function(e){
                         orderEntire['orderParts'][index]['orderPart']['PID'] = value.PID;
                         parts.push(orderEntire['orderParts'][index]['orderPart']);
                     });
+                    console.log('FACTORY ORDER ID >>>>>');
+                    console.log(factory_order_id);
                     console.log(JSON.stringify(parts));
                     updateFOID(order_id, factory_order_id, parts); // UNCOMMENT
-                    // document.location.reload(); // UNCOMMENT
+                    document.location.reload(); // UNCOMMENT
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     //Error Code Here
@@ -502,6 +591,8 @@ $('.send-to-factory').on('click', function(e){
         }
     }
 });
+
+// }
 
 
 
@@ -952,6 +1043,8 @@ function updateFOID(id, factory_order_id, parts){
         headers: {"accessToken": atob(headerValue)},
         success: function(response){
             if (response.success) {
+                console.log('UPDATED FOID')
+                console.log(factory_order_id);
                 $.each(parts, function( index, value ) {
                     value['factory_order_id'] = factory_order_id;
                 });
@@ -961,6 +1054,95 @@ function updateFOID(id, factory_order_id, parts){
             }
         }
     });
+}
+
+
+
+
+function getOrderDetails(id){
+
+    var url= '//' + api_host + '/api/order/'+window.order_id;
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            order = data['order'];
+            if(typeof callback === "function") callback(order);
+        }
+    });
+
+}
+
+
+
+
+function updateItemsPID(parts){
+    $.ajax({
+        url: '//' + api_host + '/api/order/updatePID',
+        type: "POST",
+        data: JSON.stringify(parts),
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
+            if (response.success) {
+
+                document.location.reload();
+            }
+        }
+    });
+}
+
+
+
+
+function getQuestionColorValue(builder_customizations, idx){
+    try {
+        color_code = builder_customizations['team_colors'][idx]['color_code'];
+
+        color_name = builder_customizations['team_colors'][idx]['name'];
+        if(color_name == "Charcoal Grey"){
+            color_name = "Charcoal Gray";
+        }
+        value = color_name + " " + "(" + color_code + ")";
+        return value;
+    } catch(err) {
+
+    }
+}
+
+
+
+
+function OpenInNewTab(url) {
+    var win = window.open(url, '_blank');
+    // win.focus();
+}
+
+
+
+
+function getOrderItem(){
+
+    var url= '//' + api_host + '/api/order/orderswItems/'+window.order_code;
+    $.ajax({
+        url: url,
+        async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data){
+            order_info = data['order_info'];
+            if(typeof callback === "function") callback(order_info);
+        }
+    });
+
 }
 
 });

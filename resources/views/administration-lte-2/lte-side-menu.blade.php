@@ -26,9 +26,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/ordersMinified"><i class="fa fa-cart-plus"></i> Orders</a></li>
-            <li><a href="../layout/boxed.html"><i class="fa fa-search"></i> Search Orders</a></li>
-            <li><a href="../layout/fixed.html"><i class="fa fa-paper-plane"></i> Sent Orders</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/ordersMinified"><i class="fa fa-cart-plus"></i> Orders <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
         </li>
         <li>
