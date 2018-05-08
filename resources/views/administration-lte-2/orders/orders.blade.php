@@ -41,7 +41,7 @@
 
                     @forelse ($orders as $order)
 
-                    <tr class="tbody-row">
+                    <tr class="tbody-row @if( $order->factory_order_id ) success @endif">
                         <td class="td-order-id">{{ $order->id }}</td>
                         <td class="td-order-code">{{ $order->order_id }}</td>
                         <td class="td-order-client">{{ $order->client }}</td>
@@ -60,9 +60,11 @@
                         </td>
                         <td class="td-order-date-submitted">{{ $order->created_at }}</td>
                         <td class="col-md-1">
+                            @if( !$order->factory_order_id )
                             <center>
                                 <a href="#" class="btn btn-primary btn-sm btn-flat send-to-factory">Send to Edit</a>
                             </center>
+                            @endif
                         </td>
                     </tr>
 
