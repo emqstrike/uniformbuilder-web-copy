@@ -436,8 +436,8 @@ $('.pdf-link').on('click', function(e){
 });
 
 function OpenInNewTab(url) {
-  var win = window.open(url, '_blank');
-  win.focus();
+    var win = window.open(url, '_blank');
+    win.focus();
 }
 
 $('.send-to-factory').on('click', function(e){

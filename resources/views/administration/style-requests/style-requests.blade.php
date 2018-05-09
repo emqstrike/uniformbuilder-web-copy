@@ -406,7 +406,7 @@ $(function(){
                     return $(this).data('message');
                 }
             });
-       }
+        }
       //   initComplete: function () {
       //     this.api().columns('#select-filter').every( function () {
 
