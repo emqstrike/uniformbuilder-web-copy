@@ -72,7 +72,7 @@
                           <option value="executive">Executive</option>
                       </select>
                     </div>
-                  <center><button type="submit" class="btn btn-success submit-new-record">Add Record</button></center>
+                  <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
             </div>
         </div>

@@ -1,7 +1,6 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 <script type="text/css">
 </script>
 @endsection
@@ -100,9 +99,7 @@
 @endsection
 
 @section('scripts')
-
 <script type="text/javascript" src="/js/administration/common.js"></script>
-
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -249,7 +246,8 @@ $(document).ready(function(){
     }
     });
 
-    $('.enable-user').on('click', function(){
+    $(document).on('click', '.enable-user', function(e) {
+        e.preventDefault();
         var id = $(this).data('user-id');
         var url = "//" + api_host + "/api/user/enable/";
         $.ajax({
@@ -277,7 +275,9 @@ $(document).ready(function(){
         });
     });
 
-    $('.disable-user').on('click', function(){
+    $(document).on('click', '.disable-user', function(e) {
+        e.preventDefault();
+    // $('.disable-user').on('click', function(){
         var id = $(this).data('user-id');
         var url = "//" + api_host + "/api/user/disable/";
         $.ajax({
