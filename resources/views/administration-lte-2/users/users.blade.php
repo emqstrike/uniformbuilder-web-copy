@@ -101,8 +101,6 @@
 
 @section('scripts')
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 
 <script type="text/javascript">
