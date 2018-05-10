@@ -173,37 +173,35 @@ $(document).ready(function(){
     });
 
     function addUpdateRecord(data, url){
-        console.log(data);
-        console.log(url);
-        // $.ajax({
-        //     url: url,
-        //     type: "POST",
-        //     data: JSON.stringify(data),
-        //     dataType: "json",
-        //     crossDomain: true,
-        //     contentType: 'application/json;',
-        //     headers: {"accessToken": atob(headerValue)},
-        //     success: function (data) {
-        //         if(data.success){
-        //             window.location.reload();
-        //             new PNotify({
-        //                 title: 'Success',
-        //                 text: data.message,
-        //                 type: 'success',
-        //                 hide: true
-        //             });
-        //         } else {
-        //             new PNotify({
-        //                 title: 'Error',
-        //                 text: data.message,
-        //                 type: 'error',
-        //                 hide: true
-        //             });
-        //         }
-        //     },
-        //     error: function (xhr, ajaxOptions, thrownError) {
-        //     }
-        // });
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json;',
+            headers: {"accessToken": atob(headerValue)},
+            success: function (data) {
+                if(data.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: data.message,
+                        type: 'success',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            }
+        });
     };
 
     $("#myModal").on("hidden.bs.modal", function() {
