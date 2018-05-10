@@ -102,7 +102,6 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/administration/colors.js"></script>
 
 <script type="text/javascript">
 
@@ -265,6 +264,90 @@ $(document).ready(function(){
             }
         });
     }
+
+    $(document).on('click', '.enable-color', function(e) {
+        e.preventDefault();
+        var id = $(this).data('color-id');
+        var url = "//" + api_host + "/api/color/enable/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.color-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $(elem + ' .disable-color').removeAttr('disabled');
+                    $(elem + ' .enable-color').attr('disabled', 'disabled');
+                    $(elem).removeClass('inactive');
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.disable-color', function(e) {
+        e.preventDefault();
+        var id = $(this).data('color-id');
+        var url = "//" + api_host + "/api/color/disable/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.color-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $(elem + ' .enable-color').removeAttr('disabled');
+                    $(elem + ' .disable-color').attr('disabled', 'disabled');
+                    $(elem).addClass('inactive');
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.delete-color', function(e) {
+        e.preventDefault();
+        var id = $(this).data('color-id');
+        modalConfirm('Remove color', 'Are you sure you want to delete the color?', id);
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/color/delete/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    $('.color-' + id).fadeOut();
+                }
+            }
+        });
+    });
 
     $('.data-table').DataTable({
         "paging": true,
