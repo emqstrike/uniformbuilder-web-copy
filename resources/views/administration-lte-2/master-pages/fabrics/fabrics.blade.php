@@ -108,7 +108,7 @@ $('.submit-new-record').on('click', function(e){
     }
 });
 
-$('.add-record').on('click', function(e){
+$(document).on('click', '.add-record', function(e) {
     e.preventDefault();
     window.modal_action = 'add';
     $('.modal-title').text('Add Fabric Information');
@@ -119,7 +119,7 @@ $('.add-record').on('click', function(e){
     $('.input-factory-id').val('0');
 });
 
-$('.edit-record').on('click', function(e){
+$(document).on('click', '.edit-record', function(e) {
     e.preventDefault();
     window.modal_action = 'update';
     $('.modal-title').text('Edit Fabric Information');
@@ -136,10 +136,9 @@ $('.edit-record').on('click', function(e){
     $('.input-brand-id').val(data.brand_id);
     $('.input-name').val(data.name);
     $('.input-factory-id').val(data.factory_id);
-    // deleteRecord(data, url);
 });
 
-$('.delete-record').on('click', function(e){
+$(document).on('click', '.delete-record', function(e) {
 
     window.delete_data_html = '';
     window.delete_record_id = $(this).parent().parent().parent().find('.td-fabric-id').text();
