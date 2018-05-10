@@ -116,7 +116,7 @@ window.categories = null;
         }
     });
 
-    $('.add-record').on('click', function(e){
+    $(document).on('click', '.add-record', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
         $('.modal-title').text('Add Patterm Information');
@@ -128,7 +128,7 @@ window.categories = null;
         $(".input-uniform-category-id").select2("val", $('#category_value').val());
     });
 
-    $('.edit-record').on('click', function(e){
+    $(document).on('click', '.edit-record', function(e) {
         e.preventDefault();
         window.modal_action = 'update';
         $('.modal-title').text('Edit Pattern Information');
@@ -155,7 +155,7 @@ window.categories = null;
         $(".input-uniform-category-id").select2("val", '');
     });
 
-    $('.delete-record').on('click', function(e){
+    $(document).on('click', '.delete-record', function(e) {
 
         window.delete_data_html = '';
         window.delete_record_id = $(this).parent().parent().parent().find('.td-pattern-id').text();

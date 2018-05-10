@@ -108,7 +108,7 @@ $('.submit-new-record').on('click', function(e){
     }
 });
 
-$('.add-record').on('click', function(e){
+$(document).on('click', '.add-record', function(e) {
     e.preventDefault();
     window.modal_action = 'add';
     $('.modal-title').text('Add Font Information');
@@ -117,7 +117,7 @@ $('.add-record').on('click', function(e){
     $('.input-sports').val('');
 });
 
-$('.edit-record').on('click', function(e){
+$(document).on('click', '.edit-record', function(e) {
     e.preventDefault();
     window.modal_action = 'update';
     $('.modal-title').text('Edit Font Information');
@@ -132,7 +132,7 @@ $('.edit-record').on('click', function(e){
     $('.input-sports').val(data.sports);
 });
 
-$('.delete-record').on('click', function(e){
+$(document).on('click', '.delete-record', function(e) {
 
     window.delete_data_html = '';
     window.delete_record_id = $(this).parent().parent().parent().find('.td-font-id').text();
