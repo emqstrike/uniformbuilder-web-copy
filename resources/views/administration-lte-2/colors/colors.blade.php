@@ -1,6 +1,5 @@
 @extends('administration-lte-2.lte-main')
 
-
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 @endsection
@@ -194,15 +193,13 @@ $(document).ready(function(){
             }
         });
     }
-
-    $('.submit-new-record').on('click', function(e){
+    $("#myForm").submit(function(e) {
         e.preventDefault();
         var data = {};
         data.color_code = $('.input-color-code').val();
         data.name = $('.input-color-name').val();
         var hex_code = $('#create-hex-code').val();
         data.hex_code = hex_code.replace(/#/g, '');
-        console.log(JSON.stringify(data));
         addColor(data);
     });
 
@@ -225,7 +222,6 @@ $(document).ready(function(){
 
     function addColor(data) {
         var url = "//" + api_host + "/api/color";
-
         $.ajax({
             url: url,
             type: "POST",
