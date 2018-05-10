@@ -56,7 +56,7 @@
                         <td class="td-assigned-sales-rep">
                             @if( !$order->factory_order_id )
                             <select class="form-control rep-id" name="rep-id">
-                                <option value="1148">Select Sales Rep</option>
+                                <option value="0">Select Sales Rep</option>
                             </select>
                             @endif
                         </td>
@@ -64,7 +64,7 @@
                         <td class="col-md-1">
                             @if( !$order->factory_order_id )
                             <center>
-                                <a href="#" class="btn btn-primary btn-sm btn-flat send-to-factory">Send to Edit</a>
+                                <a href="#" class="btn btn-primary btn-sm btn-flat send-to-factory" disabled>Send to Edit</a>
                             </center>
                             @endif
                         </td>
@@ -106,7 +106,7 @@ $(document).ready(function(){
         "autoWidth": true,
         drawCallback: function () {
             console.log( 'Table redrawn ' );
-            $('.rep-id').html('<option value="1148">Select Sales Rep</option>');
+            $('.rep-id').html('<option value="0">Select Sales Rep</option>');
             $('.rep-id').append(window.sales_reps_dd);
             // sendToEdit();
         }
@@ -162,6 +162,19 @@ $(document).ready(function(){
     // });
 
 // sendToEdit();
+
+$(document).on('change', '.rep-id', function(e) {
+    var option_selected = $(this).val();
+    var ste_button = $(this).parent().parent().parent().find('.send-to-factory');
+    if(option_selected != '0'){
+        ste_button.attr('disabled', false);
+    } else {
+        ste_button.attr("disabled", true);
+    }
+
+    console.log('OPTION SELECTED');
+    console.log(option_selected);
+});
 
 // function sendToEdit(){
 $(document).on('click', '.view-pdf', function(e) {
