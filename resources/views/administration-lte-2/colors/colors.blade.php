@@ -185,8 +185,22 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             contentType: 'application/json;',
             success: function (data) {
-                alert('Successfully updated!');
-                document.location.reload();
+                if(data.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: data.message,
+                        type: 'success',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 //Error Code Here
@@ -229,8 +243,22 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             contentType: 'application/json;',
             success: function (data) {
-                alert('Successfully added record!');
-                document.location.reload();
+                if(data.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: data.message,
+                        type: 'success',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 //Error Code Here

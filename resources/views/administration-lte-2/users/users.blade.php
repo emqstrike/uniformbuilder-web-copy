@@ -277,7 +277,6 @@ $(document).ready(function(){
 
     $(document).on('click', '.disable-user', function(e) {
         e.preventDefault();
-    // $('.disable-user').on('click', function(){
         var id = $(this).data('user-id');
         var url = "//" + api_host + "/api/user/disable/";
         $.ajax({
