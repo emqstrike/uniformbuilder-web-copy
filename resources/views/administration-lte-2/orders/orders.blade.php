@@ -165,7 +165,7 @@ $(document).ready(function(){
 
 $(document).on('change', '.rep-id', function(e) {
     var option_selected = $(this).val();
-    var ste_button = $(this).parent().parent().parent().find('.send-to-factory');
+    var ste_button = $(this).parent().parent().find('.send-to-factory');
     if(option_selected != '0'){
         ste_button.attr('disabled', false);
     } else {
