@@ -108,7 +108,6 @@ $(document).ready(function(){
             console.log( 'Table redrawn ' );
             $('.rep-id').html('<option value="0">Select Sales Rep</option>');
             $('.rep-id').append(window.sales_reps_dd);
-            // sendToEdit();
         }
     });
 
@@ -145,23 +144,8 @@ $(document).ready(function(){
 
     window.sales_reps_dd = reps_elem;
 
-    // $('#MyTableId tbody').on('click', '.My_Button_id', function () {
-    // });
     $('.rep-id').append(reps_elem);
     $('#orders_table .rep-id').append(reps_elem);
-
-    $('#orders_table').on('click', '.paginate_button', function () {
-        // $('.rep_id').html('');
-        // $('.rep-id').append(reps_elem);
-        console.log('click');
-    });
-    // $('#order_table .rep-id').append(reps_elem);
-    // $("#order_table .rep-id").each(function() {
-    //     // $rep_id_dd = $(this).find('.rep-id');
-    //     $(this).append(reps_elem);
-    // });
-
-// sendToEdit();
 
 $(document).on('change', '.rep-id', function(e) {
     var option_selected = $(this).val();
@@ -176,7 +160,7 @@ $(document).on('change', '.rep-id', function(e) {
     console.log(option_selected);
 });
 
-// function sendToEdit(){
+
 $(document).on('click', '.view-pdf', function(e) {
     window.order_code = $(this).parent().parent().parent().find('.td-order-code').text();
     console.log(window.order_code);
@@ -189,20 +173,15 @@ $(document).on('click', '.view-pdf', function(e) {
     OpenInNewTab(url);
 });
 
-// $('#orders_table .send-to-factory').on('click', function(e){
 $(document).on('click', '.send-to-factory', function(e) {
 
     window.team_colors = null;
 
     e.preventDefault();
-    // bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
-    // PostOrder();
 
-    // var rep_id = $(this).parent().siblings('td').find('.rep-id').val();
     var rep_id = parseInt($(this).parent().parent().parent().find('.rep-id').val());
     var item_id_override = $(this).parent().siblings('td').find('.item-id-override').val();
     api_order_id = $(this).parent().parent().parent().find('.td-order-code').text();
-    // order_id = $(this).data('order-id');
     client = $(this).parent().parent().parent().find('.td-order-client').text();
     client = escapeSingleQuotes(client);
     var order_id = $(this).parent().parent().parent().find('.td-order-id').text();
@@ -210,13 +189,6 @@ $(document).on('click', '.send-to-factory', function(e) {
     window.order_id = order_id;
     getOrderDetails(function(order){ window.order = order; });
 
-    // ship_contact = $(this).data('ship-contact');
-    // ship_address = $(this).data('ship-address');
-    // ship_phone = $(this).data('ship-phone');
-    // ship_city = $(this).data('ship-city');
-    // ship_state = $(this).data('ship-state');
-    // ship_zip = $(this).data('ship-zip');
-    // ship_email = $(this).data('ship-email');
 
     ship_contact = window.order.ship_contact_person;
     ship_address = window.order.ship_address;
@@ -234,28 +206,6 @@ $(document).on('click', '.send-to-factory', function(e) {
     billing_email = window.order.bill_email;
     billing_phone = window.order.bill_phone;
 
-    // billing_contact = $(this).data('bill-contact');
-    // billing_address = $(this).data('bill-address');
-    // billing_city = $(this).data('bill-city');
-    // billing_state = $(this).data('bill-state');
-    // billing_zip = $(this).data('bill-zip');
-    // billing_email = $(this).data('bill-email');
-    // billing_phone = $(this).data('bill-phone');
-
-    
-    // var order_url = '//' + api_host + '/api/order/'+order_id;
-    // $.ajax({
-    //     url: order_url,
-    //     type: "GET",
-    //     dataType: "json",
-    //     crossDomain: true,
-    //     contentType: 'application/json',
-    //     success: function(response){
-    //         window.order = data['order'];
-    //         console.log('RESPONSE');
-    //         console.log(response);
-    //     }
-    // });
     console.log('WINDOW ORDER');
     console.log(window.order);
 
@@ -339,16 +289,6 @@ $(document).on('click', '.send-to-factory', function(e) {
 
         if(error_message['message'] != ''){
 
-            // bootbox.dialog({ message: '<div class="text-center">'+error_message+'</div>' });
-            // bootbox.alert('<div class="text-center">'+error_message+'</div>');
-            // bootbox.dialog({ message: '<div class="text-center">'+error_message+'</div>' });
-            // bootbox.confirm('<div class="text-center">'+error_message+'</div><>', function(result) {
-            //     if (result) {
-            //         // currentForm.submit();
-
-            //     }
-            // });
-            // window.error_data = {};
             bootbox.confirm({
                 message: '<div><h3>Errors Encountered:</h3></div><div class="text-center">'+error_message['message']+'</div>',
                 buttons: {
@@ -387,9 +327,7 @@ $(document).on('click', '.send-to-factory', function(e) {
 
         window.pa = null;
         getPAConfigs(function(parts_aliases){ window.pa = parts_aliases; });
-
         window.qx_item_ref = window.pa.ref_qstrike_mat_id;
-        // entry.orderPart.ItemID = window.qx_item_ref;
         entry.orderPart.ItemID = window.material.item_id;
 
         function getPAConfigs(callback){
@@ -418,7 +356,6 @@ $(document).on('click', '.send-to-factory', function(e) {
         var z = JSON.parse(entry.roster);
         console.log("Z>>>");
         console.log(z);
-        // if(!window.roster_formatted){
             z.forEach(function(en) {
                 ctr = parseInt(en.Quantity);
                 delete en.Quantity;
@@ -485,7 +422,6 @@ $(document).on('click', '.send-to-factory', function(e) {
         window.test_size_data = JSON.parse(x.properties);
 
 
-        // window.test_size_data = JSON.parse(window.material.sizing_config_prop); // uncomment this line on production
         var order_items_split = splitRosterToQXItems();
         var order_parts_split = [];
 
@@ -504,11 +440,6 @@ $(document).on('click', '.send-to-factory', function(e) {
             }
 
             var roster_sizes = _.map(entry.roster, function(e){ return e.size; });
-            // console.log('roster sizes:');
-            // console.log(roster_sizes);
-
-            // console.log('entry roster:');
-            // console.log(entry.roster);
             var roster = [];
             window.roster_formatted = false;
 
@@ -542,11 +473,10 @@ $(document).on('click', '.send-to-factory', function(e) {
                             y.Size = "XL (13-14)";
                         }
                         roster.push(y);
-                        // window.roster_formatted = true;
+
                     }
                 }
-                // console.log('ROSTER');
-                // console.log(roster);
+
             });
 
             if( roster.length > 0 ){
@@ -604,8 +534,6 @@ $(document).on('click', '.send-to-factory', function(e) {
         }
     }
 });
-
-// }
 
 
 
@@ -926,7 +854,6 @@ function applyConfigs(api_order_id){
 
 
     return questions;
-    // window.questions_ready = questions;
 }
 
 
@@ -1062,8 +989,6 @@ function updateFOID(id, factory_order_id, parts){
                     value['factory_order_id'] = factory_order_id;
                 });
                 updateItemsPID(parts);
-
-                // document.location.reload();
             }
         }
     });
@@ -1134,7 +1059,6 @@ function getQuestionColorValue(builder_customizations, idx){
 
 function OpenInNewTab(url) {
     var win = window.open(url, '_blank');
-    // win.focus();
 }
 
 
