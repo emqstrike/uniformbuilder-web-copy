@@ -106,9 +106,7 @@ $(document).ready(function(){
                         <a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a>
                     </td>
                 </tr>`;
-            // y += "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
         $('.property-body').append(x);
-        // $(x).append(y);
         deleteButton();
         initSizesAndPI();
     }
@@ -116,7 +114,7 @@ $(document).ready(function(){
     $('.add-record').on('click', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
-        $('.modal-title').text('Add Price Tepmlate Information');
+        $('.modal-title').text('Add Price Template Information');
         $('.submit-new-record').text('Add Record');
         loadDefault();
         selectChange();
