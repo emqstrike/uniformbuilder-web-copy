@@ -25,6 +25,8 @@
 <link rel="stylesheet" type="text/css" href="/admin-lte-2/css/libs/pnotify/pnotify.custom.min.css">
 <!-- Spectrum -->
 <link rel="stylesheet" type="text/css" href="/admin-lte-2/css/libs/spectrum/spectrum.css">
+<!-- Select2 -->
+<link rel="stylesheet" type="text/css" href="/admin-lte-2/css/libs/select2/select2.min.css">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
@@ -173,6 +175,8 @@
 <script type="text/javascript" src="/admin-lte-2/js/libs/pnotify/pnotify.custom.min.js"></script>
 <!-- Spectrum -->
 <script type="text/javascript" src="/admin-lte-2/js/libs/spectrum/spectrum.js"></script>
+<!-- Select2 -->
+<script type="text/javascript" src="/admin-lte-2/js/libs/select2/select2.min.js"></script>
 <!-- Underscore -->
 <script type="text/javascript" src="/admin-lte-2/js/libs/underscore/underscore-min.js"></script>
 <!-- <script>

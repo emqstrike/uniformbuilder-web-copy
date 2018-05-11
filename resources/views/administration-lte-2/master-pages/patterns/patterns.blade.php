@@ -1,8 +1,7 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
-<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+
 <style type="text/css">
 li.select2-selection__choice {
     color: black !important;
@@ -30,7 +29,7 @@ li.select2-selection__choice {
                 </div>
 
                 <div class="box-body">
-                    <table data-toggle='table' class='table data-table table-bordered master-patterns' id="master_patterns_table">
+                    <table data-toggle='table' class='table data-table table-bordered master-patterns display' id="master_patterns_table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -56,7 +55,6 @@ li.select2-selection__choice {
                         </td>
                     </tr>
                     @empty
-
                         <tr>
                             <td colspan='6'>
                                 No Pattern Data Found
@@ -76,9 +74,7 @@ li.select2-selection__choice {
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
-<script type="text/javascript" src="/underscore/underscore.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -119,7 +115,7 @@ window.categories = null;
     $('.add-record').on('click', function(e){
         e.preventDefault();
         window.modal_action = 'add';
-        $('.modal-title').text('Add Patterm Information');
+        $('.modal-title').text('Add Pattern Information');
         $('.submit-new-record').text('Add Record');
         $('.input-brand-id').val('0');
         $('.input-name').val('');
@@ -128,7 +124,7 @@ window.categories = null;
         $(".input-uniform-category-id").select2("val", $('#category_value').val());
     });
 
-    $('.edit-record').on('click', function(e){
+    $(document).on('click', '.edit-record',  function(e) {
         e.preventDefault();
         window.modal_action = 'update';
         $('.modal-title').text('Edit Pattern Information');
@@ -155,8 +151,8 @@ window.categories = null;
         $(".input-uniform-category-id").select2("val", '');
     });
 
-    $('.delete-record').on('click', function(e){
-
+    $(document).on('click', '.delete-record',  function(e) {
+        e.preventDefault();
         window.delete_data_html = '';
         window.delete_record_id = $(this).parent().parent().parent().find('.td-pattern-id').text();
         elem = `<table class="table table-bordered table-striped">
