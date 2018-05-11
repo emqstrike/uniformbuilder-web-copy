@@ -102,9 +102,7 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
-
 <script type="text/javascript">
-
 $(document).ready(function(){
 
     $('#create_colorpicker').spectrum({
@@ -121,7 +119,6 @@ $(document).ready(function(){
 
     $(document).on('click', '.edit-button', function(e) {
         e.preventDefault();
-
         $(this).parent().siblings('td').find('.color-name').prop('disabled', false);
         $(this).parent().siblings('td').find('.sublimation-only').prop('disabled', false);
         $(this).parent().siblings('td').find('#color-code').css("visibility" , "hidden");
@@ -206,6 +203,7 @@ $(document).ready(function(){
             }
         });
     }
+
     $("#myForm").submit(function(e) {
         e.preventDefault();
         var data = {};
