@@ -69,17 +69,23 @@
         </div>
     </div>
 </section>
+<textarea id="fabrics_list" style="display: none;"><?php echo json_encode($fabrics, JSON_FORCE_OBJECT);?></textarea>
 @include('administration-lte-2.master-pages.fabrics.fabrics-modal')
 
 @endsection
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 
+
+
 window.delete_data_html = null;
 window.modal_action = null;
+
+
 
 $('.data-table').DataTable({
     "paging": true,
@@ -89,6 +95,41 @@ $('.data-table').DataTable({
     "info": true,
     "autoWidth": true,
 });
+
+
+
+x = _.pluck(JSON.parse($('#fabrics_list').text()), 'name');
+$.each(x,function(i,item){
+    x[i] = item.toLowerCase();
+});
+
+
+$(document).on('keyup', '.input-name', function() {
+    var name = $(this).val();
+    console.log('validate');
+    validateFabricName(name.toLowerCase());
+});
+
+function validateFabricName(name){
+    if(x.indexOf(name) != -1)
+    {  
+        console.log('name taken');
+        PNotify.removeAll();
+        new PNotify({
+            title: 'Error',
+            text: 'Fabric Name Already Taken',
+            type: 'error',
+            hide: true
+        });
+
+        $('.submit-new-record').prop('disabled', true);
+    } else {
+        console.log('name available');
+        $('.submit-new-record').prop('disabled', false);
+    }
+}
+
+
 
 $('.submit-new-record').on('click', function(e){
     e.preventDefault();
@@ -108,7 +149,9 @@ $('.submit-new-record').on('click', function(e){
     }
 });
 
-$('.add-record').on('click', function(e){
+
+
+$(document).on('click', '.add-record', function(e) {
     e.preventDefault();
     window.modal_action = 'add';
     $('.modal-title').text('Add Fabric Information');
@@ -119,7 +162,7 @@ $('.add-record').on('click', function(e){
     $('.input-factory-id').val('0');
 });
 
-$('.edit-record').on('click', function(e){
+$(document).on('click', '.edit-record', function(e) {
     e.preventDefault();
     window.modal_action = 'update';
     $('.modal-title').text('Edit Fabric Information');
@@ -136,10 +179,9 @@ $('.edit-record').on('click', function(e){
     $('.input-brand-id').val(data.brand_id);
     $('.input-name').val(data.name);
     $('.input-factory-id').val(data.factory_id);
-    // deleteRecord(data, url);
 });
 
-$('.delete-record').on('click', function(e){
+$(document).on('click', '.delete-record', function(e) {
 
     window.delete_data_html = '';
     window.delete_record_id = $(this).parent().parent().parent().find('.td-fabric-id').text();
