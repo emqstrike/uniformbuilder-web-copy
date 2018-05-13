@@ -114,6 +114,8 @@ Route::group(array('prefix' => 'administration'), function() {
 
         Route::get('ordersMinified', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified']);
 
+        Route::get('style_request', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestIndex']);
+
 
     });
 
