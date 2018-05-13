@@ -27,6 +27,19 @@ class MasterPagesController extends Controller
 
     }
 
+    public function styleRequestIndex()
+    {
+
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+        if (in_array($user_id, $su_array)) {
+            return view('administration-lte-2.style-request.style-request');
+        } else {
+                return redirect('administration');
+        }
+    }
+
     public function fontsIndex()
     {
         $fonts = $this->masterFontsAPIClient->getAllFonts();
