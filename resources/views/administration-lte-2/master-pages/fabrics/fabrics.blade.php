@@ -106,7 +106,6 @@ $.each(x,function(i,item){
 
 $(document).on('keyup', '.input-name', function() {
     var name = $(this).val();
-    console.log('validate');
     validateFabricName(name.toLowerCase());
 });
 

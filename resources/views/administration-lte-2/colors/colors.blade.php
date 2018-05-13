@@ -1,6 +1,5 @@
 @extends('administration-lte-2.lte-main')
 
-
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 @endsection
@@ -186,23 +185,35 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             contentType: 'application/json;',
             success: function (data) {
-                alert('Successfully updated!');
-                document.location.reload();
+                if(data.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: data.message,
+                        type: 'success',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 //Error Code Here
             }
         });
     }
-
-    $('.submit-new-record').on('click', function(e){
+    $("#myForm").submit(function(e) {
         e.preventDefault();
         var data = {};
         data.color_code = $('.input-color-code').val();
         data.name = $('.input-color-name').val();
         var hex_code = $('#create-hex-code').val();
         data.hex_code = hex_code.replace(/#/g, '');
-        console.log(JSON.stringify(data));
         addColor(data);
     });
 
@@ -225,7 +236,6 @@ $(document).ready(function(){
 
     function addColor(data) {
         var url = "//" + api_host + "/api/color";
-
         $.ajax({
             url: url,
             type: "POST",
@@ -233,8 +243,22 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             contentType: 'application/json;',
             success: function (data) {
-                alert('Successfully added record!');
-                document.location.reload();
+                if(data.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: data.message,
+                        type: 'success',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 //Error Code Here

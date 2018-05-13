@@ -18,14 +18,14 @@
             <!-- Modal Body -->
             <div class="modal-body">
 
-                <form role="form">
+                <form id="myForm" role="form" action="#" method="POST">
                   <div class="form-group">
                     <label>Color Name</label>
-                      <input type="text" class="form-control input-color-name" name="name" required="true">
+                      <input type="text" class="form-control input-color-name" name="name" required>
                   </div>
                   <div class="form-group">
                     <label class="control-label">Color Code</label>
-                      <input type="text" class="form-control input-color-code" name="color_code" required="true">
+                      <input type="text" class="form-control input-color-code" name="color_code" required>
                   </div>
                   <div class="form-group">
                             <label class="control-label">Color</label>
