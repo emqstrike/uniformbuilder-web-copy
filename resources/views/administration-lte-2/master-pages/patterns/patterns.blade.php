@@ -1,8 +1,7 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
-<link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+
 <style type="text/css">
 li.select2-selection__choice {
     color: black !important;
@@ -30,7 +29,7 @@ li.select2-selection__choice {
                 </div>
 
                 <div class="box-body">
-                    <table data-toggle='table' class='table data-table table-bordered master-patterns' id="master_patterns_table">
+                    <table data-toggle='table' class='table data-table table-bordered master-patterns display' id="master_patterns_table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -56,7 +55,6 @@ li.select2-selection__choice {
                         </td>
                     </tr>
                     @empty
-
                         <tr>
                             <td colspan='6'>
                                 No Pattern Data Found
@@ -76,9 +74,7 @@ li.select2-selection__choice {
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
-<script type="text/javascript" src="/underscore/underscore.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -89,6 +85,7 @@ window.categories = null;
     getUniformCategoies(function(categories){
         window.categories = categories;
     });
+    loadUniformCategories();
 
     $('.data-table').DataTable({
         "paging": true,
@@ -99,7 +96,13 @@ window.categories = null;
         "autoWidth": true,
     });
 
-    $('.submit-new-record').on('click', function(e){
+    $('.input-uniform-category-id').select2({
+        placeholder: "Category",
+        multiple: true,
+        allowClear: true
+    });
+
+    $("#myForm").submit(function(e) {
         e.preventDefault();
         var data = {};
         data.brand_id = $('.input-brand-id').val();
@@ -108,24 +111,24 @@ window.categories = null;
         data.sports = sports.split(",");
         if(window.modal_action == 'add'){
             var url = "//" + api_host + "/api/" + endpoint_version + "/master_pattern";
-            addRecord(data, url);
+            addUpdateRecord(data, url);
         } else if(window.modal_action == 'update'){
             data.id =  $('.input-id').val();
             var url = "//" + api_host + "/api/" + endpoint_version + "/master_pattern/update";
-            updateRecord(data, url);
+            addUpdateRecord(data, url);
         }
     });
 
     $(document).on('click', '.add-record', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
-        $('.modal-title').text('Add Patterm Information');
+        $('.modal-title').text('Add Pattern Information');
         $('.submit-new-record').text('Add Record');
         $('.input-brand-id').val('0');
         $('.input-name').val('');
-        $('#category_value').val('');
-        loadUniformCategories();
-        $(".input-uniform-category-id").select2("val", $('#category_value').val());
+        $('#category_value').val('')
+        $(".input-uniform-category-id").val("");
+        $(".input-uniform-category-id").trigger("change");
     });
 
     $(document).on('click', '.edit-record', function(e) {
@@ -138,25 +141,27 @@ window.categories = null;
         data.brand_id = $(this).parent().parent().parent().find('.td-pattern-brand-id').text();
         data.name = $(this).parent().parent().parent().find('.td-pattern-name').text();
         sports = $(this).parent().parent().parent().find('.td-pattern-category').text();
-        data.sports = sports.replace(/[\[\]'"]+/g, '');
-
+        sports_value = sports.replace(/[\[\]'"]+/g, '');
+        data.sports = sports_value;
         $('.input-id').val(data.id);
         $('.input-brand-id').val(data.brand_id);
         $('.input-name').val(data.name);
-        $('#category_value').val(data.sports);
-        loadUniformCategories();
-        $(".input-uniform-category-id").select2("val", $('#category_value').val().split(','));
+        $('#category_value').val(sports_value);
+        $(".input-uniform-category-id").val(sports_value.split(','));
+        $(".input-uniform-category-id").trigger("change");
     });
 
     $("#myModal").on("hidden.bs.modal", function() {
         $('.input-brand-id').val('0');
         $('.input-name').val('');
         $('#category_value').val('');
-        $(".input-uniform-category-id").select2("val", '');
+        $(".input-uniform-category-id").val("");
+        $(".input-uniform-category-id").trigger("change");
     });
 
-    $(document).on('click', '.delete-record', function(e) {
 
+    $(document).on('click', '.delete-record',  function(e) {
+        e.preventDefault();
         window.delete_data_html = '';
         window.delete_record_id = $(this).parent().parent().parent().find('.td-pattern-id').text();
         elem = `<table class="table table-bordered table-striped">
@@ -207,17 +212,29 @@ window.categories = null;
             contentType: 'application/json;',
             headers: {"accessToken": atob(headerValue)},
             success: function (data) {
-                console.log('Successfully deleted record.');
-                window.location.reload();
+                if(data.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Warning',
+                        text: data.message,
+                        type: 'warning',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
             }
         });
     }
 
-    function addRecord(data, url){
-          console.log(data);
-          console.log(url);
+    function addUpdateRecord(data, url){
         $.ajax({
             url: url,
             type: "POST",
@@ -227,26 +244,22 @@ window.categories = null;
             contentType: 'application/json;',
             headers: {"accessToken": atob(headerValue)},
             success: function (data) {
-                console.log('Successfully added record.');
-                window.location.reload();
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-            }
-        });
-    }
-
-    function updateRecord(data, url){
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify(data),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json;',
-            headers: {"accessToken": atob(headerValue)},
-            success: function (data) {
-                console.log('Successfully updated record.');
-                window.location.reload();
+                if(data.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: data.message,
+                        type: 'success',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
+                }
             },
             error: function (xhr, ajaxOptions, thrownError) {
             }
@@ -278,15 +291,10 @@ window.categories = null;
         });
     }
 
-    $('.input-uniform-category-id').select2({
-        placeholder: "Category",
-        multiple: true,
-        allowClear: true
-    });
-
     $(".input-uniform-category-id").change(function() {
         $('#category_value').val($(this).val());
     });
+
 });
 </script>
 @endsection

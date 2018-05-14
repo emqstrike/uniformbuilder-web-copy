@@ -32,7 +32,7 @@
                                 <input id='create_colorpicker' />
                                 <input type='hidden' name="hex_code" id="create-hex-code" value="#ff0000">
                   </div>
-                  <center><button type="submit" class="btn btn-success submit-new-record">Add Record</button></center>
+                  <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
             </div>
         </div>

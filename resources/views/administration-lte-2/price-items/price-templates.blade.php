@@ -1,12 +1,9 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
-<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 @endsection
 
 @section('content')
-
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
@@ -19,7 +16,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='data-table table-bordered price-templates' id='price-templates'>
+                    <table data-toggle='table' class='data-table table-bordered price-templates display' id='price-templates'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -65,12 +62,8 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/libs/autosize.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
 $(document).ready(function(){
@@ -97,7 +90,7 @@ $(document).ready(function(){
 
     function loadDefault() {
         $('.property-body').empty();
-         var x = `<tr class="prop-row">
+        var x = `<tr class="prop-row">
                     <td>
                         <select class="form-control sizes">
                         </select>
@@ -109,17 +102,23 @@ $(document).ready(function(){
                     <td>
                         <input type="text" class="form-control item-id">
                     </td>
+                    <td>
+                        <a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a>
+                    </td>
                 </tr>`;
-
-           $('.property-body').append(x);
-           initSizesAndPI();
+        $('.property-body').append(x);
+        deleteButton();
+        initSizesAndPI();
     }
 
     $('.add-record').on('click', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
-        $('.modal-title').text('Add Price Tepmlate Information');
+        $('.modal-title').text('Add Price Template Information');
         $('.submit-new-record').text('Add Record');
+        loadDefault();
+        selectChange();
+        refreshProperty();
     });
 
     $(document).on('click', '.edit-record', function(e) {
@@ -145,7 +144,7 @@ $(document).ready(function(){
 
     });
 
-    $('.submit-new-record').on('click', function(e){
+    $("#myForm").submit(function(e) {
         e.preventDefault();
         var data = {};
         data.description = $('.input-description').val();
@@ -173,12 +172,22 @@ $(document).ready(function(){
             contentType: 'application/json;',
             headers: {"accessToken": atob(headerValue)},
             success: function (data) {
-                if(window.modal_action == 'add'){
-                    console.log('Successfully added record.');
-                } else if(window.modal_action == 'update'){
-                    console.log('Successfully updated record.');
+                if(data.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: data.message,
+                        type: 'success',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
                 }
-                window.location.reload();
             },
             error: function (xhr, ajaxOptions, thrownError) {
             }
@@ -213,8 +222,22 @@ $(document).ready(function(){
             contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function (data) {
-                console.log('Successfully deleted record.');
-                window.location.reload();
+            if(data.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Warning',
+                        text: data.message,
+                        type: 'warning',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
+                }
             },
                 error: function (xhr, ajaxOptions, thrownError) {
             }
@@ -330,10 +353,7 @@ $(document).ready(function(){
     $('.add-property').on('click', function(e){
         e.preventDefault();
         var x  = $( ".prop-row:first" ).clone();
-        y = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
-
         $('.property-body').append(x);
-        $(x).append(y);
         deleteButton();
         selectChange();
         refreshProperty();
