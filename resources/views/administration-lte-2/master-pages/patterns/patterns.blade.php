@@ -119,7 +119,7 @@ window.categories = null;
         }
     });
 
-    $('.add-record').on('click', function(e){
+    $(document).on('click', '.add-record', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
         $('.modal-title').text('Add Pattern Information');
@@ -131,7 +131,7 @@ window.categories = null;
         $(".input-uniform-category-id").trigger("change");
     });
 
-    $(document).on('click', '.edit-record',  function(e) {
+    $(document).on('click', '.edit-record', function(e) {
         e.preventDefault();
         window.modal_action = 'update';
         $('.modal-title').text('Edit Pattern Information');
@@ -158,6 +158,7 @@ window.categories = null;
         $(".input-uniform-category-id").val("");
         $(".input-uniform-category-id").trigger("change");
     });
+
 
     $(document).on('click', '.delete-record',  function(e) {
         e.preventDefault();

@@ -96,7 +96,7 @@
             <li><a href="../tables/simple.html"><i class="fa fa-cubes"></i> All styles</a></li>
             <li><a href="../tables/simple.html"><i class="fa fa-bars"></i> Style Sets</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-search"></i> Search Style</a></li>
-            <li><a href="../tables/data.html"><i class="fa fa-plus-square"></i> Request a Style</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/style_request"><i class="fa fa-plus-square"></i> Request a Style</a></li>
           </ul>
         </li>
 
