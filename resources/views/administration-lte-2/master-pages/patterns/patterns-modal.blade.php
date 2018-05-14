@@ -18,7 +18,7 @@
             <!-- Modal Body -->
             <div class="modal-body">
 
-                <form role="form">
+                <form id="myForm" role="form" action="#" method="POST">
                   <div class="form-group">
                     <label>Brand</label>
                       <select class="form-control input-brand-id">
@@ -29,12 +29,12 @@
                   </div>
                   <div class="form-group">
                     <label>Name</label>
-                      <input type="text" class="form-control input-name" placeholder="Fabric Name"/>
+                      <input type="text" class="form-control input-name" placeholder="Pattern Name" required>
                   </div>
                   <div class="form-group">
                     <label>Uniform Category</label>
                       <input type="hidden" id="category_value" name="category_value">
-                      <select name="uniform_category_id[]" class="form-control input-uniform-category-id" multiple="multiple" style="width: 100%;">
+                      <select name="uniform_category_id[]" class="form-control input-uniform-category-id" style="width: 100%;">
                       </select>
                   </div>
                   <div class="form-group">
@@ -44,7 +44,7 @@
                       </select>
                       <input type="hidden" class="input-id">
                   </div>
-                  <center><button type="submit" class="btn btn-success submit-new-record">Add Record</button></center>
+                  <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
             </div>
         </div>
