@@ -175,10 +175,12 @@
 <script type="text/javascript" src="/admin-lte-2/js/libs/pnotify/pnotify.custom.min.js"></script>
 <!-- Spectrum -->
 <script type="text/javascript" src="/admin-lte-2/js/libs/spectrum/spectrum.js"></script>
-<!-- Select2 -->
-<script type="text/javascript" src="/admin-lte-2/js/libs/select2/select2.min.js"></script>
+<!-- Common -->
+<script type="text/javascript" src="/js/administration/common.js"></script>
 <!-- Underscore -->
 <script type="text/javascript" src="/admin-lte-2/js/libs/underscore/underscore-min.js"></script>
+<!-- Select2 -->
+<script type="text/javascript" src="/admin-lte-2/js/libs/select2/select2.min.js"></script>
 <!-- <script>
   // $(document).ready(function () {
   //   $('.sidebar-menu').tree()
