@@ -56,7 +56,7 @@ li.select2-selection__choice {
                     </tr>
                     @empty
                         <tr>
-                            <td colspan='6'>
+                            <td colspan='5'>
                                 No Pattern Data Found
                             </td>
                         </tr>
@@ -74,27 +74,17 @@ li.select2-selection__choice {
 @endsection
 
 @section('scripts')
-
 <script type="text/javascript">
 $(document).ready(function(){
 
-window.delete_data_html = null;
-window.modal_action = null;
-window.categories = null;
+    window.delete_data_html = null;
+    window.modal_action = null;
+    window.categories = null;
 
     getUniformCategoies(function(categories){
         window.categories = categories;
     });
     loadUniformCategories();
-
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": false,
-        "info": true,
-        "autoWidth": true,
-    });
 
     $('.input-uniform-category-id').select2({
         placeholder: "Category",
@@ -279,7 +269,7 @@ window.categories = null;
         var url = "//" +api_host+ "/api/categories";
         $.ajax({
             url: url,
-            async: false,
+            async: true,
             type: "GET",
             dataType: "json",
             crossDomain: true,
@@ -293,6 +283,15 @@ window.categories = null;
 
     $(".input-uniform-category-id").change(function() {
         $('#category_value').val($(this).val());
+    });
+
+    $('.data-table').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": false,
+        "info": true,
+        "autoWidth": true,
     });
 
 });
