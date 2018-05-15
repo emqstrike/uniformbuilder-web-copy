@@ -269,7 +269,7 @@ $(document).ready(function(){
         var url = "//" +api_host+ "/api/categories";
         $.ajax({
             url: url,
-            async: true,
+            async: false,
             type: "GET",
             dataType: "json",
             crossDomain: true,
