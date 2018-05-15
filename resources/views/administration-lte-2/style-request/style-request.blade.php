@@ -118,7 +118,8 @@
                             <div class="form-group">
                                 <label>Gender</label>
                                 <select class="form-control rules-gender">
-                                    <option value="">men</option>
+                                    <option value="men">Men</option>
+                                    <option value="women">Women</option>
                                 </select>
                             </div>
 
