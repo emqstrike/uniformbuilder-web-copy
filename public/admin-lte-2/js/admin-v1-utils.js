@@ -1,6 +1,7 @@
 window.accents_url = '//'+api_host+'/api/accents';
 window.block_patterns_url = '//'+api_host+'/api/block_patterns';
 window.fonts_url = '//'+api_host+'/api/fonts';
+window.mascots_url = '//'+api_host+'/api/mascots';
 window.patterns_url = '//'+api_host+'/api/patterns';
 window.price_item_templates_url = '//'+api_host+'/api/price_item_templates';
 window.sports_categories_url = '//'+api_host+'/api/categories';
@@ -13,6 +14,26 @@ window.style_request_priorities = [{
 									{
 									'name' : 'high',
 									'id' : 'high'}];
+
+function updateBPOdd(data, selected_bp_id, bpo_class){ // Populate block pattern options dropdown based on block pattern selected
+	var selected_block_pattern = _.find(data, function(e){ return e.id == selected_bp_id; });
+	var block_pattern_options = JSON.parse(selected_block_pattern.neck_options);
+	var bpos = [];
+
+	Object.keys(block_pattern_options).forEach(function(key,index) {
+		bpos.push(block_pattern_options[key]);
+	});
+	$(bpo_class).html('');
+	bpos.forEach(function(e) {
+		$(bpo_class).append('<option value="'+e.name+'">'+e.name+'</option>');
+	});
+}
+
+function populateDDwithNums(dd_class, length){
+	for(i = 1; i <= length; i++){
+	    $(dd_class).append('<option value="'+i+'">'+i+'</option>');
+	}
+}
 
 function buildPITTable(data, tbody_id){ // CUSTOM -> USED IN STYLES REQUEST PAGE
 	$(tbody_id).html('');
