@@ -17,7 +17,7 @@
 
             <!-- Modal Body -->
             <div class="modal-body">
-                <form role="form">
+                <form role="form" id="myForm" action="#" method="POST">
                   <div class="form-group">
                     <input type="hidden" name="size_props" id="size_property">
                     <label>Name</label>
@@ -30,7 +30,7 @@
                   </div>
                   <div class="form-group">
                             <label class="control-label">Properties</label>
-                                <a href="#" class="btn btn-success btn-xs add-property">Add Property</a>
+                                <a href="#" class="btn btn-success btn-xs btn-flat add-property">Add Property</a>
                                 <table class="table table-bordered table-striped">
                                     <tr>
                                         <thead>
@@ -57,7 +57,7 @@
                                     </tbody>
                                 </table>
                         </div>
-                  <center><button type="submit" class="btn btn-success submit-new-record">Add Record</button></center>
+                  <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
             </div>
         </div>
