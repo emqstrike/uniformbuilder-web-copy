@@ -201,6 +201,7 @@ class MaterialsOptionsController extends Controller
 
         $materialOptionName = $request->input('name');
         $settingType = $request->input('setting_type');
+        $partType = $request->input('part_type');
         $layerLevel = $request->input('layer_level');
         $teamColorId = $request->input('team_color_id');
         $groupId = $request->input('group_id');
@@ -246,7 +247,8 @@ class MaterialsOptionsController extends Controller
             'pattern_id' => $patternId,
             'pattern_properties' => $pattern_properties,
             'default_display' => $default_display,
-            'build_type' => $build_type
+            'build_type' => $build_type,
+            'part_type' => $partType
         ];
 // dd(json_encode($data));
         try

@@ -1379,6 +1379,7 @@ $(document).ready(function() {
             option: {
                 id: $(this).data('material-option-id'),
                 name: $(this).data('material-option-name'),
+                part_type: $(this).data('material-option-part-type'),
                 origin: $(this).data('material-option-origin'),
                 layer_level: $(this).data('material-option-layer-level'),
                 default_color: $(this).data('material-option-default-color'),
@@ -1431,6 +1432,9 @@ $(document).ready(function() {
         $('.material-id').prop("value", material.id);
         $('.material-option-id').prop("value", material.option.id);
         $('#material-option-name').val(material.option.name);
+        $('#saved-part-type').val(material.option.part_type);
+        $('#saved-part-type').text(material.option.part_type);
+        $('#saved-part-type').attr('selected','selected');
         $('#group_id').val(material.option.group_id);
         $('#saved-setting-type').val(material.option.type);
         $('#saved-setting-type').text(material.option.type);
@@ -1602,7 +1606,7 @@ $(document).ready(function() {
         $('#default_display').html('');
         $('#default_display').append( default_display_options );
 
-
+        $('#saved-part-type').attr('selected',true);
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
         $('#edit-material-option-info-modal .material-option-path').attr('src', material.option.path);
