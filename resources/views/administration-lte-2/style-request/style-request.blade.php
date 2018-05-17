@@ -252,6 +252,13 @@ $('.rules-bp').on('change', function(e){
     updateBPOdd(block_patterns, selected_bp_id, '.rules-bp-options');
 });
 
+$(document).on('change', 'select', function() {
+    console.log($('.rules-accents').val());
+    console.log($('.rules-fonts').val());
+    console.log($('.rules-mascots').val());
+    console.log($('.rules-patterns').val());
+});
+
 });
 </script>
 @endsection
