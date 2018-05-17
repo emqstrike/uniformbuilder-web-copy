@@ -55,11 +55,6 @@ li.select2-selection__choice {
                         </td>
                     </tr>
                     @empty
-                        <tr>
-                            <td colspan='5'>
-                                No Pattern Data Found
-                            </td>
-                        </tr>
 
                     @endforelse
 
@@ -76,6 +71,15 @@ li.select2-selection__choice {
 @section('scripts')
 <script type="text/javascript">
 $(document).ready(function(){
+
+    $('.data-table').DataTable({
+    "paging": true,
+    "lengthChange": true,
+    "searching": true,
+    "ordering": false,
+    "info": true,
+    "autoWidth": true,
+});
 
     window.delete_data_html = null;
     window.modal_action = null;
@@ -283,15 +287,6 @@ $(document).ready(function(){
 
     $(".input-uniform-category-id").change(function() {
         $('#category_value').val($(this).val());
-    });
-
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": false,
-        "info": true,
-        "autoWidth": true,
     });
 
 });
