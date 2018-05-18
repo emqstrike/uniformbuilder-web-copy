@@ -22,7 +22,7 @@
                 <div class="col-md-12">
                     <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Part Type:</label>
                     <select name='part_type' class='form-control part-type'>
-                        <option value='blank'>None</option>
+                        <option value=''>None</option>
                         <option value='twill'>Twill</option>
                         <option value='sublimated'>Sublimated</option>
                         <option id='saved-part-type'></option>
