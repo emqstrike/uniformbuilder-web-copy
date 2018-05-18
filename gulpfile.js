@@ -66,6 +66,12 @@ elixir(function(mix) {
 			'uniform-builder-qa-tools.js',
 			'uniform-builder-color-utilities.js',
 			'uniform-builder-data-patches.js',
+
+			// Richardson
+			'richardson/uniform-builder-richardson-data.js',
+			'richardson/uniform-builder-richardson.js',
+			// End Richardson
+
 			'uniform-builder.js',
 			'uniform-builder-sports-specific.js',
 			'uniform-builder-custom-artwork-requests.js',
@@ -88,6 +94,9 @@ elixir(function(mix) {
     		'third-party/tipped/tipped.less',	
     		'third-party/select2/select2.less',	
     		
+    		// Richardson
+    		'richardson/uniform-builder-richardson.less',
+
     		// Source 
     		'uniform-builder.less',
 

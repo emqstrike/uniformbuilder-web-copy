@@ -9,6 +9,41 @@ $(document).ready(function () {
 
     /// UI Functions
 
+    // Richardson UI
+    
+    ub.funcs.uiV3 = function () {
+
+        console.log('Using uiV3 - Richardson');
+        console.log(ub.config.brand);
+
+        ub.uiVersion = 'v3';
+
+        ub.dimensions.width = 1000;
+        ub.dimensions.height = 1100;
+
+        $('a.mod_primary').click();
+
+        $('#design_name_container').css({'text-align':'center','width':'100%'});
+        $('div.main_steps_bar').show();
+        $('div#right-sidebar > a.sidebar-buttons').hide();
+        $('div#right-main-window').css('float', 'left');
+        $('div#right-main-window.team-color-pane').show();
+        $('div#right-main-window').css('display','block');
+        $('div#right-main-window').css('height','700px');
+        $('div#right-main-window').css('width','550px');
+        $('div#right-main-window.team-color-pane').addClass('team_color_pane');
+        $('div#right-main-window.team-color-pane').css('display','block');
+        $('div#left-pane-column').css('padding-right', '5px !important');
+        $('div#right-pane-column').css('padding-left', '5px !important');
+        $("div.pane-main-window").css('overflow','visible !important');
+
+        var $sidebar_buttons = $('#right-sidebar > a.sidebar-buttons');
+        $sidebar_buttons.hide();
+
+        $('div.old-change-views').hide();
+
+    }
+
     ub.funcs.uiV2 = function () {
 
         ub.uiVersion = 'v2';
@@ -67,9 +102,13 @@ $(document).ready(function () {
         $(window).trigger('resize');
 
     };
-    
-    ub.funcs.uiV2();
 
+    if (ub.config.brand === ub.CONSTANTS.richardson) {
+        ub.funcs.uiV3();
+    } else {
+        ub.funcs.uiV2();
+    }
+    
     /// End UI Functions
 
 });

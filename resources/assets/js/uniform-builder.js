@@ -44,6 +44,13 @@ $(document).ready(function () {
                 ub.current_material.mascot_groups_categories_url = ub.config.api_host + '/api/mascots_groups_categories/';
                 ub.current_material.single_view_applications = ub.config.api_host + '/api/v1-0/single_view_applications/';
 
+                if (ub.r.isBrandRichardson()) {
+
+                    ub.current_material.colorPallete2Url = ub.config.api_host + '/api/color_set/13';
+                    ub.loader(ub.current_material.colorPallete2Url, 'color_set', ub.callback);
+
+                }
+
                 ub.loader(ub.current_material.mascots_url, 'mascots', ub.callback);
                 ub.loader(ub.current_material.mascot_categories_url, 'mascots_categories', ub.callback);
                 ub.loader(ub.current_material.mascot_groups_categories_url, 'mascots_groups_categories', ub.callback);
@@ -607,6 +614,8 @@ $(document).ready(function () {
             // Info
             ub.funcs.printUniformInfo(ub.current_material.material, ub.current_material.settings);
 
+            if (ub.config.brand === ub.CONSTANTS.richardson) { ub.r.init(); }
+
         };
 
         ub.funcs.updateLabels = function () {
@@ -957,7 +966,25 @@ $(document).ready(function () {
                 'logo_request',
                 'application_size',
                 'single_view_applications',
-                ];
+            ];
+
+            // if (ub.r.isBrandRichardson()) {
+
+            //         ub.current_material.colorPallete1Url = ub.config.api_host + '/api/color_set/12';
+            //         ub.current_material.colorPallete2Url = ub.config.api_host + '/api/color_set/13';
+            //         ub.current_material.colorPallete3Url = ub.config.api_host + '/api/color_set/14';
+
+            //         ub.loader(ub.current_material.colorPallete1Url, 'colorPallete1', ub.callback);
+            //         ub.loader(ub.current_material.colorPallete2Url, 'colorPallete2', ub.callback);
+            //         ub.loader(ub.current_material.colorPallete3Url, 'colorPallete2', ub.callback);
+
+            // }
+
+            if (ub.r.isBrandRichardson()) {
+
+                _createObjectList.push('color_set');
+
+            }
 
             if (_.contains(_createObjectList, object_name)) {
 
@@ -1006,6 +1033,14 @@ $(document).ready(function () {
             if (object_name === 'colors') { ub.funcs.prepareColors(); }
             if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
 
+            if (ub.r.isBrandRichardson()) {
+
+                if (object_name === 'color_set') { 
+                    ub.r.processColorPallete(object_name, obj);
+                }
+                
+            }
+
             if (object_name === 'cuts_links') {
 
                 ub.current_material.settings.cut_pdf = "";
@@ -1040,6 +1075,8 @@ $(document).ready(function () {
                      typeof(ub.data.mascots_categories) !== 'undefined' &&
                      typeof(ub.data.tagged_styles) !== 'undefined' &&
                      typeof(ub.data.mascots_groups_categories) !== 'undefined';
+
+            if (ub.r.isBrandRichardson()) { ok = ok && (ub.data.color_set); }
 
             if (ok) {
 
@@ -2416,6 +2453,7 @@ $(document).ready(function () {
     ub.loadSettings = function (settings) {
 
         ub.current_material.settings            = settings;
+
         var uniform_type                        = ub.current_material.material.type;
         var _hasFrontBody                       = false;
         var _hasBody                            = false;
@@ -2455,7 +2493,7 @@ $(document).ready(function () {
             if (ub.data.skipTeamColorProcessing.shouldSkip(ub.current_material.material.uniform_category, e.code)) { 
 
                 if (typeof e.code !== "undefined") {
-                    ub.utilities.info(e.code.toTitleCase() + ' layer detected, skipping add to Team Colors...');     
+                    ub.utilities.info(e.code.toTitleCase() + ' layer detected, skipping add to Team Colors...');
                 }
                 
                 return;

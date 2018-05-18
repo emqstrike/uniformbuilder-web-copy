@@ -56,6 +56,18 @@
             
             </div>
 
+            <div id="left-view-buttons">
+
+                <span class="up toolbar-item" data-view="front"> <img src="/images/brand-specific/front.png" /> </span>
+
+                <span class="down toolbar-item" data-view="back"> <img src="/images/brand-specific/back.png" /> </span>
+
+                <span class="left toolbar-item" data-view="left"> <img src="/images/brand-specific/left.png" /> </span>
+
+                <span class="right toolbar-item" data-view="right"> <img src="/images/brand-specific/right.png" /> </span>
+
+            </div>
+
             <div class="canvas-views" id="main_view">
             </div>
 
@@ -224,6 +236,12 @@
             @include('partials.panels.attachments')
 
             @include('partials.panels.mod_main')
+
+            @if (env('BRAND') == "Richardson")
+
+                @include('partials.richardson.top-info')
+
+            @endif
 
             @include('partials.panels.mod_primary')
 

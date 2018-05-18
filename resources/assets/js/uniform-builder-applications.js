@@ -4422,7 +4422,12 @@ $(document).ready(function() {
         ub.funcs.deActivateLocations();
         ub.funcs.activeStyle('colors');
 
-        $('#color-wheel-container').fadeIn();
+        if (ub.r.isBrandRichardson()) {
+            console.log('Richardson brand detected, cancelling wheel color picker.');
+            ub.r.createScrollingColorPickerWithPatterns();
+        } else {
+            $('#color-wheel-container').fadeIn();    
+        }
 
     }
 
@@ -4500,6 +4505,7 @@ $(document).ready(function() {
 
     ub.funcs.activeStyle = function (tab) {
 
+        // TODO: Refactor because this is ugly!!!!, use normal disable / enable thru class like the other grouped elements
         $('a.change-view[data-view="colors"]').removeClass('active-change-view');    
         $('a.change-view[data-view="layers"]').removeClass('active-change-view'); 
         $('a.change-view[data-view="randomFeed"]').removeClass('active-change-view'); 

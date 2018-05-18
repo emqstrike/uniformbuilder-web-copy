@@ -740,6 +740,12 @@ $(document).ready(function () {
 
                    ub.funcs.ui.setMaterialOptionColor(modLabel.name, _colorOBJ, 'from color picker');
 
+                   console.log('Modlabel Name');
+                   console.log(modLabel.name)
+
+                   console.log('ColorObj');
+                   console.log(_colorOBJ);
+
                    var $previewCircle     = $(this).parent().find('circle');
                    $previewCircle.css('fill', '#' + _colorOBJ.hex_code);
 

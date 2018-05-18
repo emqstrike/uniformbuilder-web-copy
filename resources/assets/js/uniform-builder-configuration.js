@@ -110,7 +110,7 @@ $(document).ready(function(){
     ub.config.print_version = function () {
 
         var args = [
-            '\n %c %c %c ✰ ' + 'Prolook Uniform Builder v' + ub.VERSION +  ' ✰  %c ' + ' %c ' + ' ENV: ' + ub.config.app_env + ' | Host: ' +  ub.config.host + ' | API: ' + ub.config.api_host + ' %c %c %c\n\n',
+            '\n %c %c %c ✰ ' + ub.config.brand + ' Customizer v' + ub.VERSION +  ' ✰  %c ' + ' %c ' + ' ENV: ' + ub.config.app_env + ' | Host: ' +  ub.config.host + ' | API: ' + ub.config.api_host + ' %c %c %c\n\n',
             'background: #3d3d3d; padding:5px 0;',
             'background: #3d3d3d; padding:5px 0;',
             'color: #fff; background: #030307; padding:5px 0;',

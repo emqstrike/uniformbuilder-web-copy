@@ -205,6 +205,13 @@
 
 @include('partials.controls.ui-controls')
 
+<!-- Consolidate all Richardson specific global functions here -->
+@if (env('BRAND') == "Richardson") 
+    @include('partials.richardson.richardson-ui-controls')    
+@endif
+<!-- End Consolidate ... -->
+
+
 <!-- Third Party Scripts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js?v={{$asset_version}}"></script>
@@ -263,6 +270,9 @@
         window.is           = {};
 
         window.ub.config = {
+
+            brand: "{{ env('BRAND') }}", 
+
             app_env: "{{ env('APP_ENV') }}", 
             api_host: "http://{{ env('API_HOST') }}",
             asset_version: "{{$asset_version}}",
@@ -294,6 +304,16 @@
                 sport: "{{ isset($sport) ? $sport : null }}",
             },
             @endif
+
+        };
+
+        // Constants
+        window.ub.CONSTANTS = {
+
+            richardson: "Richardson",
+            prolook: "Prolook",
+
+            backgroundColor: ub.config.brand === "Richardson" ? 0xffffff : 0x61605e,
 
         };
 
