@@ -2818,6 +2818,11 @@ $(document).ready(function() {
                     active: "1",
                 },
                 {
+                    code: 'wrestling-compression-shorts',
+                    name: 'Wrestling Compression Shorts (Apparel)',
+                    active: "1",
+                },
+                {
                     code: 'cinch_sack',
                     name: 'Cinch Sack (Apparel)',
                     active: "1",
@@ -8271,6 +8276,10 @@ ub.funcs.fontOffSets = [
             sport: 'Field Hockey',
             filters: ['All', 'Jersey', 'Skorts'],
         },
+        {
+            sport: 'Wrestling Compression Shorts (Apparel)',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
           
     ];
 
@@ -10279,9 +10288,12 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling Compression Short Sleeve (Apparel)',
                 sublimatedPart: 'Extra',
             },
-
             {
                 sport: 'Field Hockey',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Wrestling Compression Shorts (Apparel)',
                 sublimatedPart: 'Extra',
             },
             
@@ -11094,6 +11106,7 @@ ub.funcs.fontOffSets = [
             { sport: 'Compression Pant (Apparel)' },
 
             { sport: 'Field Hockey' },
+            { sport: 'Wrestling Compression Shorts (Apparel)' },
 
         ],
 
@@ -11206,6 +11219,11 @@ ub.funcs.fontOffSets = [
                 sport: 'Socks (Apparel)',
                 type: 'lower',
                 lowerLabel: 'Socks',
+            },
+            {
+                sport: 'Wrestling Compression Shorts (Apparel)',
+                type: 'lower',
+                lowerLabel: 'Shorts',
             },
             {
                 sport: 'Default', // Football
@@ -11761,6 +11779,12 @@ ub.funcs.fontOffSets = [
                 urlAlias: 'Field Hockey',
                 thumbFilename: 'field-hockey.png',
                 gender: ['women',],    
+            },
+            {
+                shortCode: 'wrestling-compression-shorts',
+                urlAlias: 'Wrestling Compression Shorts (Apparel)',
+                thumbFilename: 'wrestling-compression-shorts.png',
+                gender: ['men',],    
             },
         ],
 
