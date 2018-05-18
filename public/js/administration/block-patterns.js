@@ -9,7 +9,6 @@ $(document).ready(function(){
     var layers_properties = {};
 
     $(document).on('click', '.clone-row', function() {
-        console.log('clone-row x');
 
             var elem = `<tr class="layers-row">
                                             <td>
@@ -36,13 +35,11 @@ $(document).ready(function(){
 
     $(document).on('change', 'input', function() {
         updater();
-        updateJSON(length, 1);
     });
 
     updater();
     function updater(edit){
         $('.neck-option-name, .neck-option-placeholder-overrides').keyup(function(){
-            console.log($(this).val());
             var length = $('.layers-row').length;
             updateJSON(length, edit);
         });
@@ -91,7 +88,7 @@ $(document).ready(function(){
         if( data != "" && data != null ){
             try {
                 var json = JSON.parse(data);
-                console.log(json);
+
                 var container = $(this).closest('.neck-options-cell');
                 var ctr = 1;
 
@@ -107,13 +104,6 @@ $(document).ready(function(){
                         '<center><img src="' + thumbnail + '" class="img-thumbnail" style="height: 100px; width: 120px;">' +
                         '</div></div></div>'
                     );
-                    $('.neck-option-name').keyup(function(){
-
-                        console.log($(this).val());
-                        var length = $('.layers-row').length;
-                        updateJSON(length, edit);
-
-                    });
                 });
             }
             catch(err) {
@@ -170,7 +160,6 @@ $(document).ready(function(){
             }
             ctr++;
             $('.btn-remove-option').on('click', function(){
-                console.log('rimuv');
                 $(this).parent().parent().remove();
                 var length = $('.layers-row').length;
                 updateJSON(length, 1);
@@ -178,7 +167,6 @@ $(document).ready(function(){
         });
 
         var layersProperties = JSON.stringify(layers_properties);
-        console.log(layersProperties);
         $('#neck_options').val(layersProperties);
 
     }
@@ -222,9 +210,15 @@ $(document).ready(function(){
                 updateJSON(length, 1);
             });
 
-            $('.neck-option-name, .neck-option-placeholder-overrides').keyup(function(){
+            $('.neck-option-name').keyup(function(){
 
-                console.log($(this).val());
+                var length = $('.layers-row').length;
+                updateJSON(length, 1);
+
+            });
+
+            $('.neck-option-placeholder-overrides').keyup(function(){
+
                 var length = $('.layers-row').length;
                 updateJSON(length, 1);
 

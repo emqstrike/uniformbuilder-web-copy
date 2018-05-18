@@ -30,6 +30,7 @@
                             <li><a href="/styles/men/fan-replica-jersey" class="sport-link-icons">Fan Replica Jersey</a></li>
                             <li><a href="/styles/men/compression-pant" class="sport-link-icons">Compression Pant</a></li>
                             <li><a href="/styles/men/team-shorts" class="sport-link-icons">2017 Team Short with Pockets</a></li>
+                            <li><a href="/styles/men/wrestling-compression-shorts" class="sport-link-icons">Wrestling Compression Shorts</a></li>
                             <li><a href="/styles/men/signature-coaches-short" class="sport-link-icons">Signature Coaches Short</a></li>
                             <li><a href="/styles/men/cinch-sack" class="sport-link-icons">Cinch Sack</a></li>
                             <li><a href="/styles/men/socks" class="sport-link-icons">Socks</a></li>
@@ -42,6 +43,8 @@
                         <li><a href="/styles/women/soccer" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/soccer.svg"> Soccer</a></li>
                         <li><a href="/styles/women/basketball" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/basketball.svg"> Basketball</a></li>
                         <li><a href="/styles/women/hockey" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/hockey.svg"> Hockey</a></li>
+                        <li><a href="/styles/women/field-hockey" class="sport-link-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/hockey.svg"> Field Hockey</a></li>
+
 
                         <li class="dropdown-submenu sport-link-icons">
                             <a tabindex="-1" href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/images/sport-icons/polo.svg"> Apparel</a>

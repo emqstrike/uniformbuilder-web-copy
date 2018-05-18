@@ -155,7 +155,7 @@ $(document).ready(function() {
     ub.funcs.hideColumns = function () {
 
         // Hide lastname, sleevetype and lastname application on everything except football
-        if (!ub.funcs.isFootball() || (ub.funcs.isFootball() && ub.config.type === "lower")) {
+        if (!ub.funcs.isFootball() || ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)) {
         
             $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
 
@@ -2100,8 +2100,8 @@ $(document).ready(function() {
         if (
             !ub.funcs.isFootball() ||
             (ub.funcs.isFootball() && ub.current_material.material.factory_code === "BLB") || 
-            ub.current_material.material.price_item_code === "FBMJ" || 
-            (ub.funcs.isFootball() && ub.config.type === "lower")
+            ub.current_material.material.price_item_code === "FBMJ" ||
+            ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)
         )
         {
 
@@ -2135,7 +2135,7 @@ $(document).ready(function() {
 
                 if (!ub.funcs.isCurrentSport('Wrestling') && 
                     ub.current_material.material.uniform_group !== "Apparel" && 
-                    !(ub.funcs.isFootball() && ub.funcs.isLower())
+                    !ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)
                     ) {
 
                     _numbers    = ub.funcs.createNumbersSelectionPopup(_size);

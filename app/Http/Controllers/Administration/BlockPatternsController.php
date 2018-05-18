@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
 use App\Utilities\FileUploader;
+use App\Utilities\FileUploaderV2;
 use App\Utilities\Random;
 use Webmozart\Json\JsonDecoder;
 use App\Http\Controllers\Controller;
@@ -87,7 +88,32 @@ class BlockPatternsController extends Controller
                                                     $thumbnailFile,
                                                     $name,
                                                     'thumbnail',
-                                                    "block_pattern/{name}/thumbnail.png"
+                                                    "block_pattern/thumbnail"
+                                                );
+                }
+            }
+
+        }
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/block_patterns')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+        try {
+            $folder_name = "cut_preview";
+            // Cut Preview
+            $cutPreview = $request->file('cut_preview');
+            if (isset($cutPreview))
+            {
+                if ($cutPreview->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['cut_preview'] = FileUploader::upload(
+                                                    $cutPreview,
+                                                    $randstr,
+                                                    'thumbnail',
+                                                    $folder_name
                                                 );
                 }
             }

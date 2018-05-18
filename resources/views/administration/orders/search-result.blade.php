@@ -50,7 +50,10 @@
                                     </tr>
                                    <tr>
                                         <td><b>Design Sheet</b></td>
-                                        {{-- <td><a href="//customizer.prolook.com/{{ $order->design_sheet }}" class="btn btn-primary pdf-link">Link</a></td> --}}
+                                    </tr>
+                                    <tr>
+                                        <td><b>Uniform Builder</b></td>
+                                        <td id="build_link"><a href="http://customizer.prolook.com/order/{{ $order->order_id }}?customize-uniform" target="_blank">http://customizer.prolook.com/order/{{ $order->order_id }}?customize-uniform</a></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">

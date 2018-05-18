@@ -111,7 +111,7 @@ class MaterialsAPIClient extends APIClient
 
     public function getMaterialsBySport($sport)
     {
-        $response = $this->get('materials/category/' . $sport);
+        $response = $this->get('materials/optimized/category/' . $sport);
         $result = $this->decoder->decode($response->getBody());
         if ($result->success)
         {

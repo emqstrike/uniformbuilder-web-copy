@@ -2174,6 +2174,10 @@ $(document).ready(function() {
                 name: "Compression Pant (Apparel)",
                 alias: "compression-pant-apparel",
             },
+            {
+                name: "Polo (Apparel)",
+                alias: "polo-apparel",
+            },
 
         ],
 
@@ -2722,7 +2726,11 @@ $(document).ready(function() {
                     name: 'Hockey',
                     active: "1",
                 },
-
+                {
+                    code: 'field-hockey',
+                    name: 'Field Hockey',
+                    active: "1",
+                }, 
             ],
             
         },
@@ -2807,6 +2815,11 @@ $(document).ready(function() {
                 {
                     code: 'signature-coaches-short',
                     name: 'Signature Coaches Short (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'wrestling-compression-shorts',
+                    name: 'Wrestling Compression Shorts (Apparel)',
                     active: "1",
                 },
                 {
@@ -8259,6 +8272,14 @@ ub.funcs.fontOffSets = [
             sport: 'Compression Pant (Apparel)',
             filters: ['All'],
         },
+        {
+            sport: 'Field Hockey',
+            filters: ['All', 'Jersey', 'Skorts'],
+        },
+        {
+            sport: 'Wrestling Compression Shorts (Apparel)',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
           
     ];
 
@@ -9940,6 +9961,13 @@ ub.funcs.fontOffSets = [
                         sport: ['Default', 'Baseball', 'Fastpitch'],
                     },
                     {
+                        applicationNumbers: [9, 10],
+                        resultApplicationType: 'sleeve_number',
+                        size: 3,
+                        font_size: 3,
+                        sport: ['Football 2017'],
+                    },
+                    {
                         applicationNumbers: [32, 33],
                         resultApplicationType: 'shoulder_number',
                         size: 3,
@@ -10258,6 +10286,14 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Wrestling Compression Short Sleeve (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Field Hockey',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Wrestling Compression Shorts (Apparel)',
                 sublimatedPart: 'Extra',
             },
             
@@ -11069,6 +11105,9 @@ ub.funcs.fontOffSets = [
             { sport: 'Cage Jacket (Apparel)' },
             { sport: 'Compression Pant (Apparel)' },
 
+            { sport: 'Field Hockey' },
+            { sport: 'Wrestling Compression Shorts (Apparel)' },
+
         ],
 
         isSportOK: function (sport) {
@@ -11180,6 +11219,11 @@ ub.funcs.fontOffSets = [
                 sport: 'Socks (Apparel)',
                 type: 'lower',
                 lowerLabel: 'Socks',
+            },
+            {
+                sport: 'Wrestling Compression Shorts (Apparel)',
+                type: 'lower',
+                lowerLabel: 'Shorts',
             },
             {
                 sport: 'Default', // Football
@@ -11730,6 +11774,18 @@ ub.funcs.fontOffSets = [
                 thumbFilename: 'compression-pant.png',
                 gender: ['men',],    
             },
+            {
+                shortCode: 'field-hockey',
+                urlAlias: 'Field Hockey',
+                thumbFilename: 'field-hockey.png',
+                gender: ['women',],    
+            },
+            {
+                shortCode: 'wrestling-compression-shorts',
+                urlAlias: 'Wrestling Compression Shorts (Apparel)',
+                thumbFilename: 'wrestling-compression-shorts.png',
+                gender: ['men',],    
+            },
         ],
 
         getAlias: function (shortCode)  {
@@ -12066,6 +12122,26 @@ ub.funcs.fontOffSets = [
         }
 
     }
+
+
+    // Blacklist of uniforms that don't need the number popup appear
+    ub.data.numberPopupExcemptions = {
+
+        items: [
+            'Baseball', 
+            'Football 2017',
+        ],
+        isValid: function (uniformCategory, uniformType) {
+
+            var _result = undefined;
+            _result = _.contains(this.items, uniformCategory);
+
+            return typeof _result !== "undefined" && uniformType === "lower"
+
+        }
+
+    }
+ 
 
     // Add active / inactive to application sizes in the backend to remove this datastructure @dhevs
     ub.data.consumeApplicationSizes = {

@@ -73,7 +73,8 @@ $(document).ready(function() {
             {
                 name: 'Get Mascot Scales',
                 code: 'getMascotScales',
-                url: 'api/v1-0/mascot_sizes',
+                //url: 'api/v1-0/mascot_sizes', // old endpoint
+                url: 'api/v1-0/get_mascot_size',
                 info: 'Get Mascot Scales',
             },
             {
@@ -112,12 +113,12 @@ $(document).ready(function() {
 
         },
 
-        fetch: function (str, cb) {
+        fetch: function (str, parameters, cb) {
 
             $.ajax({
 
-                url: ub.endpoints.getFullUrlString(str),
-                type: "GET", 
+                url: ub.endpoints.getFullUrlString(str) + parameters,
+                type: "GET",
                 crossDomain: true,
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
@@ -125,9 +126,30 @@ $(document).ready(function() {
                 success: function (response) {
 
                     if (response.success) {
-
                         cb(response);
+                    }
 
+                }
+                
+            });
+
+        },
+
+        fetchPOST: function (str, parameters, cb) {
+
+            $.ajax({
+
+                url: ub.endpoints.getFullUrlString(str),
+                data: JSON.stringify(parameters),
+                type: "POST",
+                crossDomain: true,
+                contentType: 'application/json',
+                headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
+
+                success: function (response) {
+
+                    if (response.success) {
+                        cb(response);
                     }
 
                 }
@@ -135,6 +157,7 @@ $(document).ready(function() {
             });
 
         }
+
 
     };
 

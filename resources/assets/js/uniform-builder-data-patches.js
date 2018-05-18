@@ -14,6 +14,7 @@ $(document).ready(function () {
 		var _id5882 = ["5882"];
 
 		var _id5924 = ["5924"];
+		var _id11214 = ["11214"];
 
 		// Volg
 		if (typeof ub.config.savedDesignInfo === "object" && _.contains(_idsV, ub.config.savedDesignInfo.savedDesignID)) {
@@ -61,6 +62,53 @@ $(document).ready(function () {
 			ub.current_material.settings.applications[84].status = "off";
 			ub.current_material.settings.applications[79].status = "off";
 			ub.current_material.settings.applications[78].status = "off";
+			
+		}
+
+		// 11214
+		if (typeof ub.config.savedDesignInfo === "object" &&  _.contains(_id11214, ub.config.savedDesignInfo.savedDesignID)) {
+			
+			console.error('---- Start Patch ----');
+
+			_.each(ub.current_material.settings.applications, function (application, key) {
+
+				console.log(application)
+				console.log(application.application.layer);
+				console.log(key);
+
+				if (application.application.layer === "Back Insert") {
+					console.log('Deleting ' + key);
+					delete ub.current_material.settings.applications[key];	
+				}
+
+				if (key ===  "83") {
+					console.log('Hiding 83');
+					application.status = "off";
+				}
+
+				if (key === "78") {
+					console.log('Hiding 78');
+					application.status = "off";
+				}
+
+				if (key ===  "82") {
+					console.log('Hiding 82');
+					application.status = "off";
+				}
+
+				if (key === "80") {
+					console.log('Hiding 80');
+					application.status = "off";
+				}
+
+				if (key === "81") {
+					console.log('Hiding 81');
+					application.status = "off";
+				}
+				
+			});
+
+			console.error('---- End Patch ----');
 			
 		}
 		

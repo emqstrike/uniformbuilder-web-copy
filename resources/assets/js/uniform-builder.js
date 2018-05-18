@@ -1096,7 +1096,7 @@ $(document).ready(function () {
 
         ub.loaderWOToken = function (url, object_name, cb) {
 
-            delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
+            //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
             $.ajax({
             
@@ -1907,11 +1907,11 @@ $(document).ready(function () {
         var _set = [];
         var _app = view.application;
 
-        if (_app.hasLogo === 1) { _set.push ('logo'); }
-        if (_app.hasNumber === 1) { _set.push ('number'); }
-        if (_app.hasPlayerName === 1) { _set.push ('player_name'); }
-        if (_app.hasTeamName === 1) { _set.push ('team_name'); }
-        if (_app.hasEmbellishment === 1) { _set.push ('embellishments'); }
+        if (_app.hasLogo === 1 || ub.funcs.isSublimated()) { _set.push ('logo'); }
+        if (_app.hasNumber === 1 || ub.funcs.isSublimated()) { _set.push ('number'); }
+        if (_app.hasPlayerName === 1 || ub.funcs.isSublimated()) { _set.push ('player_name'); }
+        if (_app.hasTeamName === 1 || ub.funcs.isSublimated()) { _set.push ('team_name'); }
+        if (_app.hasEmbellishment === 1 || ub.funcs.isSublimated()) { _set.push ('embellishments'); }
 
         return _set;
 
@@ -2465,7 +2465,6 @@ $(document).ready(function () {
             if (typeof e.code === "undefined") { return; }
 
             if (typeof e.code !== 'undefined') {
-
                 
                 var _materialOption = _.find(ub.current_material.materials_options, {name: e.code.toTitleCase()});
                 var _team_color_id  =  parseInt(_materialOption.team_color_id);
@@ -2476,7 +2475,7 @@ $(document).ready(function () {
                 e.has_pattern       = _allowPattern;
 
                 if (e.has_pattern === 1) {
-
+                 
                     if (_materialOption.pattern_properties !== null && _materialOption.pattern_properties !== "") {
 
                         if (typeof e.pattern === "undefined" || e.pattern.pattern_id === "") {
@@ -2492,14 +2491,17 @@ $(document).ready(function () {
                         }
 
                         // For unprocessed pattern
+
                         if (typeof e.pattern === "undefined") { e.pattern = ub.funcs.getPatternObjectFromMaterialOptionBlank(_materialOption); }
 
                         _patternLog += e.pattern.pattern_id + ' set for ' + _materialOption.name + '\n';
                         
                     } else {
 
-                        _patternLog += 'No Default Pattern is set for ' + _materialOption.name + ' using Blank.\n';
-                        e.pattern = ub.funcs.getPatternObjectFromMaterialOptionBlank(_materialOption);
+                        if (typeof e.pattern === "undefined") {
+                            _patternLog += 'No Default Pattern is set for ' + _materialOption.name + ' using Blank.\n';
+                            e.pattern = ub.funcs.getPatternObjectFromMaterialOptionBlank(_materialOption);
+                        }
                         
                     }
                     

@@ -10,6 +10,8 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <!-- Bootstrap 3.3.7 -->
 <link rel="stylesheet" href="/admin-lte-2/bootstrap/dist/css/bootstrap.min.css">
+<!-- Datatables -->
+<link rel="stylesheet" href="/admin-lte-2/datatables/css/dataTables.bootstrap.min.css">
 <!-- Font Awesome -->
 <link rel="stylesheet" href="/admin-lte-2/font-awesome/css/font-awesome.min.css">
 <!-- Ionicons -->
@@ -19,10 +21,14 @@
 <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
 <link rel="stylesheet" href="/admin-lte-2/dist/css/skins/_all-skins.min.css">
+<!-- PNotify -->
+<link rel="stylesheet" type="text/css" href="/admin-lte-2/css/libs/pnotify/pnotify.custom.min.css">
+<!-- Spectrum -->
+<link rel="stylesheet" type="text/css" href="/admin-lte-2/css/libs/spectrum/spectrum.css">
+<!-- Select2 -->
+<link rel="stylesheet" type="text/css" href="/admin-lte-2/css/libs/select2/select2.min.css">
 
-
-
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
 <!-- <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
@@ -40,10 +46,6 @@
 <link rel="stylesheet" type="text/css" href="/css/jquery-confirm.css">
 <link rel="stylesheet" type="text/css" href="/css/introjs.css"> -->
 
-
-
-
-
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -60,8 +62,6 @@
 <!-- webFontLoader -->
 <!-- <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script> -->
 
-
-
 <!-- <style type="text/css">
 .introTrigger{
     font-size: 31px;
@@ -72,8 +72,7 @@
     display: none;
 }
 </style> -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
+
 @yield('styles')
 </head>
 <!-- <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse"> -->
@@ -94,11 +93,11 @@
         Blank page
         <small>it all starts here</small>
       </h1> -->
-      <ol class="breadcrumb">
+<!--       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Examples</a></li>
         <li class="active">Blank page</li>
-      </ol>
+      </ol> -->
     </section>
 
     <!-- Main content -->
@@ -110,7 +109,6 @@
     <!-- /.content -->
   </div>
 </div>
-
 
 <!-- Scripts -->
 @if (Session::get('accessToken'))
@@ -155,7 +153,13 @@
 <!-- <div class="control-sidebar-bg"></div>
 </div> -->
 
-<script src="/admin-lte-2/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/admin-lte-2/jquery/dist/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript" src="/admin-lte-2/jquery-ui/dist/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="/admin-lte-2/datatables/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript" src="/admin-lte-2/datatables/js/dataTables.bootstrap.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="/admin-lte-2/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- SlimScroll -->
@@ -166,22 +170,25 @@
 <script src="/admin-lte-2/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <!-- <script src="/admin-lte-2/dist/js/demo.js"></script> -->
-
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
-
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
-<script>
+<!-- PNotify -->
+<script type="text/javascript" src="/admin-lte-2/js/libs/pnotify/pnotify.custom.min.js"></script>
+<!-- Spectrum -->
+<script type="text/javascript" src="/admin-lte-2/js/libs/spectrum/spectrum.js"></script>
+<!-- Underscore -->
+<script type="text/javascript" src="/admin-lte-2/js/libs/underscore/underscore-min.js"></script>
+<!-- Select2 -->
+<script type="text/javascript" src="/admin-lte-2/js/libs/select2/select2.min.js"></script>
+<!-- Common -->
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<!-- <script>
   // $(document).ready(function () {
   //   $('.sidebar-menu').tree()
   // })
-</script>
-
+</script> -->
 @yield('scripts')
 @yield('custom-scripts')
-
      <!-- <script>
-
-
       $(function(){
         $(".introTrigger").click(function() {
 
@@ -196,8 +203,6 @@
         });
 
     $(".introStart").click(function() {
-
-
 
             introJs().oncomplete(function(targetElement) {
 
@@ -258,65 +263,6 @@
         }).start();
       });
     </script>
-    <script type="text/javascript">
-    var adult_sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
-    var youth_sizes = ['YS','YM','YL','YXL','Y2XL','Y3XL'];
-    sizesLoop(adult_sizes,".adultSizes");
-    sizesLoop(youth_sizes,".youthSizes");
-    updateObjectSizes();
-
-    function sizesLoop(sizes,cl){
-      for (var item of sizes) {
-       $(cl).append("<input type='checkbox' value="+ item +"> : "+item + "<br>");
-      }
-    }
-
-    var sizes = {};
-    var adult_sizes = [];
-    var youth_sizes = [];
-    if($("input[name='sizes']").val()){
-      sizes = $("input[name='sizes']").val();
-      sizes = JSON.parse(sizes);
-      adult_sizes = sizes.adult;
-      youth_sizes = sizes.youth;
-    }
-    $('.adultSizes input').on('click', function(){
-
-      createObjectAdultYouthSizes(this,adult_sizes);
-
-    });
-    $('.youthSizes input').on('click', function(){
-      createObjectAdultYouthSizes(this,youth_sizes);
-    });
-    function createObjectAdultYouthSizes(th,size){
-      var value = $(th).val();
-      if($(th).is(':checked')){
-          size.push(value);
-          console.log(value);
-      }else{
-          size.splice( $.inArray(value,size) ,1 );
-
-      }
-      sizes = {"adult": adult_sizes,"youth": youth_sizes};
-      sizes = JSON.stringify(sizes);
-      $("input[name='sizes']").val(sizes);
-
-    }
-    function updateObjectSizes(){
-
-      if($("input[name='sizes']").val()){
-         var sizes = $("input[name='sizes']").val();
-          sizes = JSON.parse(sizes);
-
-            $.each( sizes, function( key, value ) {
-              for (var item of value) {
-
-                $('.'+key+'Sizes :input[value='+ item +']').attr( "checked", true );
-              }
-            });
-      }
-    }
-
-    </script> -->
+    -->
   </body>
 </html>
