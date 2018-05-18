@@ -2726,7 +2726,11 @@ $(document).ready(function() {
                     name: 'Hockey',
                     active: "1",
                 },
-
+                {
+                    code: 'field-hockey',
+                    name: 'Field Hockey',
+                    active: "1",
+                }, 
             ],
             
         },
@@ -8263,6 +8267,10 @@ ub.funcs.fontOffSets = [
             sport: 'Compression Pant (Apparel)',
             filters: ['All'],
         },
+        {
+            sport: 'Field Hockey',
+            filters: ['All', 'Jersey', 'Skorts'],
+        },
           
     ];
 
@@ -10271,6 +10279,11 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling Compression Short Sleeve (Apparel)',
                 sublimatedPart: 'Extra',
             },
+
+            {
+                sport: 'Field Hockey',
+                sublimatedPart: 'Extra',
+            },
             
             // Socks (Apparel)
         ],
@@ -11080,6 +11093,8 @@ ub.funcs.fontOffSets = [
             { sport: 'Cage Jacket (Apparel)' },
             { sport: 'Compression Pant (Apparel)' },
 
+            { sport: 'Field Hockey' },
+
         ],
 
         isSportOK: function (sport) {
@@ -11740,6 +11755,12 @@ ub.funcs.fontOffSets = [
                 urlAlias: 'Compression Pant (Apparel)',
                 thumbFilename: 'compression-pant.png',
                 gender: ['men',],    
+            },
+            {
+                shortCode: 'field-hockey',
+                urlAlias: 'Field Hockey',
+                thumbFilename: 'field-hockey.png',
+                gender: ['women',],    
             },
         ],
 
