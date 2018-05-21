@@ -9347,7 +9347,7 @@ $(document).ready(function () {
                         window.location.href = window.ub.config.host;
                     } else {
 
-                        $.smkAlert({text: 'There is an error processing this request', type:'error', permanent: false, time: 5, marginTop: '90px'});
+                        $.smkAlert({text: response.message, type:'error', permanent: false, time: 5, marginTop: '90px'});
 
                     }
 
@@ -9388,7 +9388,7 @@ $(document).ready(function () {
                         window.location.href = window.ub.config.host;
                     } else {
 
-                        $.smkAlert({text: 'There is an error processing this request', type:'error', permanent: false, time: 5, marginTop: '90px'});
+                        $.smkAlert({text: response.message, type:'error', permanent: false, time: 5, marginTop: '90px'});
 
                     }
 
