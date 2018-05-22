@@ -45,6 +45,18 @@ class FontsController extends Controller
         }
     }
 
+    public function indexMinified()
+    {
+        $fonts = $this->client->getAllFonts();
+        // $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
+        // $sports = $categoriesAPIClient->getUniformCategories();
+
+        // $user_id = Session::get('userId');
+        return view('administration.fonts.fonts-minified', [
+            'fonts' => $fonts
+            ]);
+    }
+
     public function addFontForm()
     {
 
@@ -63,7 +75,14 @@ class FontsController extends Controller
                 ]);
         }
         else {
+            if (Session::get('fontsMinifiedOnly')){
+                return view('administration.fonts.font-create', [
+                    'fonts' => $fonts,
+                    'categories' => $uniformCategories
+                ]);
+            } else {
                 return redirect('administration');
+            }
         }
     }
 
@@ -181,8 +200,13 @@ class FontsController extends Controller
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
-            return Redirect::to('/administration/fonts')
+            if (Session::get('fontsMinifiedOnly')){
+                return Redirect::to('/administration/fonts_minified')
                             ->with('message', 'There was a problem uploading your files');
+            } else {
+                return Redirect::to('/administration/fonts')
+                            ->with('message', 'There was a problem uploading your files');
+            }
         }
 
         // $myJson['0'] = {};
