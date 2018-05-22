@@ -4167,11 +4167,14 @@ $(document).ready(function() {
             var _ctr              = $(this).data('ctr');
             var _ht               = _name;
             var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
+            var _patternActivated = false;
 
             ub.current_part = _ctr;
             ub.funcs.clearPatternUI();
 
-            if (!ub.funcs.activatePatterns()) {
+            _patternActivated     = ub.funcs.activatePatterns();
+
+            if (!_patternActivated) {
                 ub.funcs.activateColorPickers();    
             }
 
@@ -4192,6 +4195,10 @@ $(document).ready(function() {
             }
 
             ub.funcs.moveToColorPickerByIndex(_ctr - 1);
+
+            if (_patternActivated) {
+                $('#color-wheel-container').hide();
+            }
 
             ub.active_part = _fullname;
 
