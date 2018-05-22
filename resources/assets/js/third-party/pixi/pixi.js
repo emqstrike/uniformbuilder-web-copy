@@ -25536,6 +25536,10 @@ InteractionManager.prototype.mapPositionToPoint = function ( point, x, y )
  */
 InteractionManager.prototype.processInteractive = function (point, displayObject, func, hitTest, interactive )
 {
+
+    // Uniform Builder Override 
+    if (typeof displayObject === "undefined") { return; }
+
     if(!displayObject.visible)
     {
         return false;
