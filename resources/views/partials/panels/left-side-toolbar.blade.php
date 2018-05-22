@@ -10,26 +10,25 @@
     <br />
 @if (\Session::has('is_show_teamstore_toolbox'))
     @if (\Session::get('is_show_teamstore_toolbox'))
-    <hr class="left-side-divider middle middle-bottom fav-top margin-b0" />
+    <hr class="left-side-divider middle middle-bottom fav-top" />
 
-    <div class="team-store-toolbox visible">
-        <span class="toolbar-item team-store" id="show-team-store-toolbox">
-            <i class="fa fa-group" aria-hidden="true"></i>
-            <span class="toolbar-item-label">TEAM STORE</span>
-        </span>
+    <span class="toolbar-item team-store" id="show-team-store-toolbox">
+        <i class="fa fa-group" aria-hidden="true"></i>
+        <span class="toolbar-item-label">TEAM STORE</span>
+    </span>
 
-        @include('partials.panels.team-store-toolbox')
-    </div>
+    <br />
     @endif
 @endif
-    <hr class="left-side-divider middle middle-bottom margin-t0" />
+
+    <hr class="left-side-divider middle middle-bottom" />
 
     <span class="toolbar-item fullscreen-btn">
         <i class="fa fa-arrows-alt" aria-hidden="true"></i><br />
         <span class="toolbar-item-label">PREVIEW</span>
-    </span>
+    </span>        
 
-    <div class="spacer"> </div>
+    <div class="spacer"> </div>  
 
     <span class="toolbar-item undo-btn">
         <i class="fa fa-undo" aria-hidden="true"></i><br />
