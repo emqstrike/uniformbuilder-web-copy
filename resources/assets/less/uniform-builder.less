@@ -9890,17 +9890,42 @@ strong.hello {
         span.toolbar-item {
             i.fa { margin-bottom: 10px; }
         }
-     
+
+        .margin-b0 {
+            margin-bottom: 0 !important;
+        }
+
+        .margin-t0 {
+            margin-top: 0 !important;
+        }
+
+        .team-store-toolbox {
+            position: relative;
+            padding: 10px 0;
+            margin: 10px 0;
+
+            &.visible {
+                background-color: #acacac;
+                display: none;
+            }
+
+            #show-team-store-toolbox {
+                &.visible {
+                    color: #FFF;
+                }
+            }
+
+            #team-store-toolbox {
+                left: 81px;
+            }
+        }
     }
 
     div#top-left-side-toolbar  {
-        
         top: 170px;
 
         span.toolbar-item {
-
-            color: #1d1d1d;  
-
+            color: #1d1d1d;
         }
 
     }
@@ -10060,7 +10085,7 @@ strong.hello {
                 font-size: 0.8em;
                 text-align: left;
                 border: 1px solid #888888;
-                
+
                 span.code {
 
                     display: inline-block;
@@ -10070,7 +10095,6 @@ strong.hello {
                     color: #acacac;
                     margin-right: 7px;
                     font-size: 0.8em;
-                    
                 }
 
                 span.caption {
@@ -10119,11 +10143,8 @@ strong.hello {
             border: 1px solid #3d3d3d;
 
             span.code {
-
                 color: white;
-                
             }
-
         }
 
         span.layers-close {
@@ -10149,17 +10170,13 @@ strong.hello {
     }
 
     div#layers-order.on {
-
         display: block;
         top: 0px;
-        
     }
 
     div#layers-order.off {
-
         display: none;
         top: -200px;
-        
     }
 
 /* End Layers Order */
@@ -10167,9 +10184,8 @@ strong.hello {
 /* Team Store Tools */ 
 
 div#team-store-toolbox {
-
-    cursor: grab;
     position: absolute;
+    top: 0;
     display: none;
     width: 160px;
     height: 490px;
@@ -10195,7 +10211,7 @@ div#team-store-toolbox {
 
     .navbar-nav>li {
         margin-top: 30px;
-
+        cursor: pointer;
     }
 
 
@@ -10212,15 +10228,6 @@ div#team-store-toolbox {
     }
 
 }
-
-
-div#team-store-toolbox.visible {
-
-    margin-top: 120px;
-    margin-left: 120px;
-
-}
-
 
 /* End Team Store Tools */
 
