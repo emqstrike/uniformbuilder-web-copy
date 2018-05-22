@@ -2370,6 +2370,7 @@ $(document).ready(function() {
             if (sport === "field-hockey")                       { return _result[0]; }
             if (sport === "compression-pant")                   { return _result[0]; }
             if (sport === "wrestling-compression-shorts")       { return _result[0]; }
+            if (sport === "basketball")                         { return _result[0]; }
 
             if (typeof _object === "undefined") {
 
