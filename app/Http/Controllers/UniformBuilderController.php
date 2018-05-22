@@ -879,9 +879,13 @@ class UniformBuilderController extends Controller
         foreach ($applications as &$application) {
 
             $appType = strtoupper(str_replace("_"," ",$application['application_type']));
+            $appTypeCaption = $appType;
 
             // Skip free / unused applications
             if ($appType == "FREE") { continue; }
+            if ($appType == "EMBELLISHMENTS") { $appTypeCaption = "CUSTOM MASCOT"; }
+
+
 
             // Skip applications that are turned off
             if (isset($application['status']) and $application['status'] === "off") { continue; }
@@ -901,7 +905,7 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
 
             $html .=   '<td align="center">';
-            $html .=   $appType;
+            $html .=   $appTypeCaption;
             $html .=   '</td>';
 
             if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" ) {
