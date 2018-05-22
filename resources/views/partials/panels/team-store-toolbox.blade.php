@@ -18,12 +18,19 @@ $team_store_user_id = (isset($team_store_user_id)) ? $team_store_user_id : null;
     data-team-name="{{ $team_name }}"
     data-team-colors="{{ $csv_team_colors }}"
     data-team-store-user-id="{{ $team_store_user_id }}">
-
+    
     <div class="header">
 
         <span class="header-text">
             Team Store Tools
         </span>
+
+        <span class="close">
+                
+            <i class="fa fa-times" aria-hidden="true"></i><br />
+
+        </span>
+
     </div>
 
     <div class="menu">

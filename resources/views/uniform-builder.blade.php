@@ -166,6 +166,8 @@
     @include('partials.panels.roster-input')
     @include('partials.panels.order-form')
     @include('partials.panels.validate-order-form')
+    @include('partials.panels.team-store-toolbox')
+
 </div>
 
 @yield('my-saved-designs')
