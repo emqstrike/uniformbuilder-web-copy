@@ -64,10 +64,6 @@ class AuthenticationController extends Controller
                 $config_string = 'user-restrictions.'.$result->user->id;
                 $user_restriction = config($config_string);
 
-                if($result->user->id == 190){
-                    Session::put('adminFullAccess', false);
-                }
-
                 if ($user_restriction == 'fonts-minified-only') {
                     Session::put('fontsMinifiedOnly', true);
                 } else {

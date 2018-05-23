@@ -1,6 +1,6 @@
 <?php
 
 return [
-	'190' => 'fonts-minified-only',
+	'1624' => 'fonts-minified-only',
 	'fonts-minified-only' => 'fonts_minified'
 ];
