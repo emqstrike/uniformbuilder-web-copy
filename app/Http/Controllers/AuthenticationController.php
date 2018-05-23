@@ -141,7 +141,7 @@ class AuthenticationController extends AdminAuthController
                 $response = $decoder->decode($response->getBody());
 
                 if (filter_var($response->feature->active, FILTER_VALIDATE_BOOLEAN)) {
-                    if ($response->feature->switch != 'disable') {
+                    if ($response->feature->switch == 'enable') {
                         $user_ids = str_replace('"', '', $response->feature->user_ids);
                         $user_ids = str_replace('"', '', substr($user_ids, 1, -1));
 
