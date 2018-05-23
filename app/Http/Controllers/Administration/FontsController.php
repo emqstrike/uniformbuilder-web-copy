@@ -27,7 +27,7 @@ class FontsController extends Controller
      */
     public function index()
     {
-        $fonts = $this->client->getAllFonts();
+        $fonts = $this->client->getFonts();
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
 
@@ -53,11 +53,9 @@ class FontsController extends Controller
 
     public function indexMinified()
     {
-        $fonts = $this->client->getAllFonts();
-        // $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
-        // $sports = $categoriesAPIClient->getUniformCategories();
+        $user_id = Session::get('userId');
+        $fonts = $this->client->getFontsCreatedBy($user_id);
 
-        // $user_id = Session::get('userId');
         return view('administration.fonts.fonts-minified', [
             'fonts' => $fonts
         ]);
