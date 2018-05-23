@@ -61,9 +61,24 @@ class AuthenticationController extends Controller
                 Session::put('role', $result->user->role);
                 Session::flash('flash_message', 'Welcome to ' . env('BUILDER_NAME'));
 
+                $config_string = 'user-restrictions.'.$result->user->id;
+                $user_restriction = config($config_string);
+
+                if($result->user->id == 190){
+                    Session::put('adminFullAccess', false);
+                }
+
+                if ($user_restriction == 'fonts-minified-only') {
+                    Session::put('fontsMinifiedOnly', true);
+                } else {
+                    Session::put('fontsMinifiedOnly', false);
+                }
+
                 Log::info('Successful User Login');
                 if (Session::get('adminFullAccess')) {
                     return redirect('administration');
+                } elseif (Session::get('fontsMinifiedOnly')){
+                    return redirect('administration/'.config('user-restrictions.'.$user_restriction));
                 } else {
                     return redirect('administration/saved_designs');
                 }
