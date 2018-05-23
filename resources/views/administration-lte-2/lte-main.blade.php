@@ -81,8 +81,9 @@
 
     @include('administration-lte-2.lte-main-topbar')
 
-    @include('administration-lte-2.lte-side-menu')
-
+    @if (Session::get('adminFullAccess'))
+      @include('administration-lte-2.lte-side-menu')
+    @endif
     <!-- =============================================== -->
 
   <!-- Content Wrapper. Contains page content -->

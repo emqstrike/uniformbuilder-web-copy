@@ -64,7 +64,9 @@ class AuthenticationController extends Controller
                 $config_string = 'user-restrictions.'.$result->user->id;
                 $user_restriction = config($config_string);
 
-                if($result->user->id == 1624){
+                $superusers = env('BACKEND_SUPERUSERS');
+                $su_array = explode(',', $superusers);
+                if (!in_array($result->user->id, $su_array)) {
                     Session::put('adminFullAccess', false);
                 }
 
@@ -80,7 +82,7 @@ class AuthenticationController extends Controller
                 } elseif (Session::get('fontsMinifiedOnly')){
                     return redirect('administration/'.config('user-restrictions.'.$user_restriction));
                 } else {
-                    return redirect('administration/saved_designs');
+                    return redirect('administration');
                 }
             }
             else
