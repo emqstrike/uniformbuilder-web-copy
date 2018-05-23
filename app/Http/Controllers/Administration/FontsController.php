@@ -42,9 +42,7 @@ class FontsController extends Controller
         }
         else {
             if (Session::get('fontsMinifiedOnly')){
-                return view('administration.fonts.fonts-minified', [
-                    'fonts' => $fonts
-                ]);
+                return redirect('administration/fonts_minified');
             } else {
                 return redirect('administration');
             }
@@ -55,7 +53,7 @@ class FontsController extends Controller
     {
         $user_id = Session::get('userId');
         $fonts = $this->client->getFontsCreatedBy($user_id);
-
+// dd('test');
         return view('administration.fonts.fonts-minified', [
             'fonts' => $fonts
         ]);
