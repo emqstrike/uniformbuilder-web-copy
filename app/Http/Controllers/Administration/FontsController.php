@@ -41,7 +41,13 @@ class FontsController extends Controller
                 ]);
         }
         else {
+            if (Session::get('fontsMinifiedOnly')){
+                return view('administration.fonts.fonts-minified', [
+                    'fonts' => $fonts
+                ]);
+            } else {
                 return redirect('administration');
+            }
         }
     }
 
@@ -54,7 +60,7 @@ class FontsController extends Controller
         // $user_id = Session::get('userId');
         return view('administration.fonts.fonts-minified', [
             'fonts' => $fonts
-            ]);
+        ]);
     }
 
     public function addFontForm()
@@ -106,7 +112,15 @@ class FontsController extends Controller
                 ]);
         }
         else {
+            if (Session::get('fontsMinifiedOnly')){
+                return view('administration.fonts.font-edit', [
+                    'fonts' => $fonts,
+                    'font' => $font,
+                    'categories' => $uniformCategories
+                ]);
+            } else {
                 return redirect('administration');
+            }
         }
     }
 
@@ -118,11 +132,9 @@ class FontsController extends Controller
         $script = 0;
         $blockFont = 0;
 
-
         if($request->input('tail_sweep')){$tailSweep = 1;}
         if($request->input('script')){$script = 1;}
         if($request->input('block_font')){$blockFont = 1;}
-
 
         $fontType = (empty($request->input('type'))) ? 'default' : $request->input('type');
         $fontParent = $request->input('parent_id');
@@ -271,14 +283,24 @@ class FontsController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('administration/fonts')
+            if (Session::get('fontsMinifiedOnly')){
+                return Redirect::to('/administration/fonts_minified')
                             ->with('message', $response->message);
+            } else {
+                return Redirect::to('/administration/fonts')
+                            ->with('message', $response->message);
+            }
         }
         else
         {
             Log::info('Failed');
-            return Redirect::to('administration/fonts')
+            if (Session::get('fontsMinifiedOnly')){
+                return Redirect::to('/administration/fonts_minified')
+                            ->with('message', $response->message);
+            } else {
+                return Redirect::to('administration/fonts')
                             ->with('message', 'There was a problem saving your font');
+            }
         }
     }
 }
