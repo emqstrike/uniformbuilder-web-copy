@@ -276,6 +276,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('font/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\FontsController@store']);
     Route::get('font/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\FontsController@addFontForm']);
     Route::get('font/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\FontsController@editFontForm']);
+    Route::get('fonts_minified', ['middleware' => 'adminAccess', 'uses' => 'Administration\FontsController@indexMinified']);
 
     // Gradients
     Route::get('gradients', ['middleware' => 'adminAccess', 'uses' => 'Administration\GradientsController@index']);
