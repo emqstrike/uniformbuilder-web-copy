@@ -1884,9 +1884,12 @@ $(document).ready(function() {
 
     ub.funcs.modifyOrderFormUIBySport = function () {
 
-        if (ub.funcs.isSocks()) { 
-            $('span.adult-sizes').html('SHOE SIZES: '); 
-            $('span.adult-header').html('Shoe Sizes: '); 
+        if (ub.funcs.isSocks()) {
+            $('span.adult-sizes').html('ADULT SHOE SIZES: '); 
+            $('span.adult-header').html('Adult Shoe Sizes: '); 
+
+            $('span.youth-sizes').html('YOUTH SHOE SIZES: '); 
+            $('span.youth-header').html('Youth Shoe Sizes: '); 
         }
 
     }
