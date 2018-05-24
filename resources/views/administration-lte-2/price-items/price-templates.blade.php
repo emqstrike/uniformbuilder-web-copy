@@ -21,6 +21,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Category ID</th>
                             <th>Description</th>
                             <th>Actions</th>
                         </tr>
@@ -32,6 +33,7 @@
                         <tr class='template-{{ $template->id }}'>
                             <td class="td-template-id col-md-1">{{ $template->id }}</td>
                             <td class="td-template-name col-md-4">{{ $template->name }}</td>
+                            <td class="td-template-sport-category-id col-md-1">{{ $template->sport_category_id }}</td>
                             <td class="td-template-description col-md-4">{{ $template->description }}</td>
                             <td class="col-md-1">
                                 <input type="hidden" name="size_props" class="template-size-props" value="{{ $template->properties }}">
@@ -70,6 +72,13 @@ $(document).ready(function(){
 
     window.modal_action = null;
     window.template_props = null;
+    window.categories = null;
+
+    getUniformCategoies(function(categories){
+        window.categories = categories;
+    });
+
+    loadUniformCategories();
 
     $('.data-table').DataTable({
         "paging": true,
@@ -85,6 +94,7 @@ $(document).ready(function(){
         $('.input-price-name').val('');
         $('.input-description').val('');
         $('#size_property').val('');
+        $('.sport').val(0);
         loadDefault();
     });
 
@@ -129,12 +139,14 @@ $(document).ready(function(){
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-template-id').html();
         data.name = $(this).parent().parent().parent().find('.td-template-name').html();
+        data.sport_category_id = $(this).parent().parent().parent().find('.td-template-sport-category-id').html();
         data.description = $(this).parent().parent().parent().find('.td-template-description').html();
         var props = $(this).parent().parent().parent().find('.template-size-props').val();
         window.template_props = JSON.parse(props);
         data.props = props;
         $('.input-price-id').val(data.id);
         $('.input-price-name').val(data.name);
+        $('.sport').val(data.sport_category_id);
         $('.input-description').val(data.description);
         $('#size_property').val(data.props);
         $('.property-body').empty();
@@ -149,6 +161,7 @@ $(document).ready(function(){
         var data = {};
         data.description = $('.input-description').val();
         data.name = $('.input-price-name').val();
+        data.sport_category_id = $('.sport').find(":selected").val();
         var props = $('#size_property').val();
         data.properties = JSON.parse(props);
 
@@ -442,6 +455,31 @@ $(document).ready(function(){
 
         $('#size_property').val(JSON.stringify(size_properties));
 
+    }
+
+    function loadUniformCategories() {
+        var category_elem = "";
+        _.each(window.categories, function(category) {
+            category_elem += `<option value=` + category.id + `>` + category.name + `</option>`;
+        });
+        $('.sport').append(category_elem);
+    }
+
+    function getUniformCategoies(callback){
+        var categories;
+        var url = "//" +api_host+ "/api/categories";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                categories = data['categories'];
+                if(typeof callback === "function") callback(categories);
+            }
+        });
     }
 
 });

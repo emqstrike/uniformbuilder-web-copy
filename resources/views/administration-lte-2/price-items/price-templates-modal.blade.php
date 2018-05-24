@@ -25,6 +25,12 @@
                       <input type="name" class="form-control input-price-name" name="name" required>
                   </div>
                   <div class="form-group">
+                      <label>Category</label>
+                        <select name="sport" class="form-control sport">
+                        <option value="0">None</option>
+                        </select>
+                  </div>
+                  <div class="form-group">
                     <label class="control-label">Description</label>
                     <textarea name="description" class="form-control input-description autosized" required></textarea>
                   </div>
