@@ -30,8 +30,8 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th class="select-filter">Sport</th>
-                            <th class="select-filter">Block Pattern</th>
-                            <th class="select-filter">>Block Pattern Option</th>
+                            <th>Block Pattern</th>
+                            <th>Block Pattern Option</th>
                             <th class="select-filter">Type</th>
                             <th>Brand</th>
                             <th>Notes</th>
