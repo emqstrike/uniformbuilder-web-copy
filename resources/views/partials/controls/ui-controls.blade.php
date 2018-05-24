@@ -2777,7 +2777,7 @@
 
             <div class="header">
 
-                Embellishments
+                Custom Mascots
 
                 <div class="close-popup">
                         
