@@ -112,7 +112,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-5 control-label">Upload Font File</label>
                             <div class="col-md-4 material">
-                                <input type="file" class="form-control font-file" name="font_path" accept="font/*">
+                                <input type="file" class="form-control font-file" name="font_path" accept="font/*" required>
                             </div>
                         </div>
 
