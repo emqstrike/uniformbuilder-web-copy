@@ -1,5 +1,5 @@
 @extends('administration.lte-main')
- 
+
 @section('content')
 
 <div class="container-fluid main-content">
@@ -69,7 +69,7 @@
                                 <select name='default_rep_id' class="form-control default-rep-id">
                                     <option value="">none</option>
                                     @foreach($sales_reps as $rep)
-                                        <option value="{{ $rep->id }}">{{ $rep->last_name }}, {{ $rep->first_name }}</option>
+                                        <option value="{{ $rep->rep_id }}">{{ $rep->last_name }}, {{ $rep->first_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -102,7 +102,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Dealer</label>
                             <div class="col-md-6">
-                                <select name='dealership_id' class="form-control user-type">                                   
+                                <select name='dealership_id' class="form-control user-type">
                                 <option value="">none</option>
                                     @foreach($dealers as $dealer)
                                         <option value="{{ $dealer->id }}">{{ $dealer->name }}</option>
