@@ -78,7 +78,7 @@
                                 <select name='default_rep_id' class="form-control default-rep-id">
                                     <option value="">none</option>
                                     @foreach($sales_reps as $rep)
-                                        <option value="{{ $rep->id }}" @if($rep->id == $user->default_rep_id) selected="selected"@endif>{{ $rep->last_name }}, {{ $rep->first_name }}</option>
+                                        <option value="{{ $rep->rep_id }}" @if($rep->rep_id == $user->default_rep_id) selected="selected"@endif>{{ $rep->last_name }}, {{ $rep->first_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
