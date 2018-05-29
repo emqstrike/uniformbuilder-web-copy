@@ -607,6 +607,11 @@ $(document).ready(function () {
             // Info
             ub.funcs.printUniformInfo(ub.current_material.material, ub.current_material.settings);
 
+            // FG
+            if (typeof ub.user.id !== 'undefined') {
+                if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
+            }
+
         };
 
         ub.funcs.updateLabels = function () {
