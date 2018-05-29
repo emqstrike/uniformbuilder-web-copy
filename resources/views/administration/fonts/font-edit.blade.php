@@ -592,6 +592,25 @@ li.select2-selection__choice {
         </div>
     </div>
 </div>
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4> Twill Font size tables data</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div>
+              <textarea class="fst-data-field form-control animated"></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Modal -->
   <div class="modal fade" id="myModalB" role="dialog">
     <div class="modal-dialog">

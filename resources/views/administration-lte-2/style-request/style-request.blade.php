@@ -214,31 +214,12 @@ $(document).ready(function(){
 
 $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
-initSelect2('.pa-allowed-apps','Select valid applications'); // initSelect2(DROPDOWN_ELEMENT_CLASS, PLACEHOLDER TEXT);
-initSelect2('.rules-accents','Select valid accents');
-initSelect2('.rules-fonts','Select valid fonts');
-initSelect2('.rules-mascots','Select valid patterns');
-initSelect2('.rules-patterns','Select valid patterns');
+initializeSelect2s();
+getMultDataFromAPI();
+populateSelectElems();
+populateNumDDs();
 
-getDataFromAPI(sports_categories_url, 'categories'); // getDataFromAPI(API_URL, RETURN_TEXT_AND_WINDOW_VARIABLE);
-getDataFromAPI(block_patterns_url, 'block_patterns');
-getDataFromAPI(accents_url, 'accents');
-getDataFromAPI(fonts_url, 'fonts');
-getDataFromAPI(mascots_url, 'mascots');
-getDataFromAPI(patterns_url, 'patterns');
-getDataFromAPI(price_item_templates_url, 'price_item_templates');
-
-populateSelectElem(categories, 'name', 'id', '.style-category'); // getDataFromAPI(DATA_SOURCE(DS), DROPDOWN_TEXT_FROM_DS_FIELD, DROPDOWN_VALUE_FROM_DS_FIELD, DROPDOWN_ELEMENT_CLASS);
-populateSelectElem(block_patterns, 'name', 'id', '.rules-bp');
-populateSelectElem(accents, 'name', 'id', '.rules-accents');
-populateSelectElem(fonts, 'name', 'id', '.rules-fonts');
-populateSelectElem(patterns, 'name', 'id', '.rules-patterns');
-populateSelectElem(mascots, 'name', 'id', '.rules-mascots');
-populateSelectElem(price_item_templates, 'name', 'id', '.rules-pi-template');
-populateSelectElem(style_request_priorities, 'name', 'id', '.style-priority');
-
-populateDDwithNums('.rules-max-applications', 10);
-populateDDwithNums('.pa-allowed-apps', 60);
+/* DOM EVENTS */
 
 $('.rules-pi-template').on('change', function(e){
     var pi_id = $(this).val();
@@ -258,6 +239,42 @@ $(document).on('change', 'select', function() {
     console.log($('.rules-mascots').val());
     console.log($('.rules-patterns').val());
 });
+
+/* DOM EVENTS --- END */
+
+function populateNumDDs(){
+    populateDDwithNums('.rules-max-applications', 10);
+    populateDDwithNums('.pa-allowed-apps', 60);
+}
+
+function initializeSelect2s(){
+    initSelect2('.pa-allowed-apps','Select valid applications'); // initSelect2(DROPDOWN_ELEMENT_CLASS, PLACEHOLDER TEXT);
+    initSelect2('.rules-accents','Select valid accents');
+    initSelect2('.rules-fonts','Select valid fonts');
+    initSelect2('.rules-mascots','Select valid patterns');
+    initSelect2('.rules-patterns','Select valid patterns');
+}
+
+function getMultDataFromAPI(){
+    getDataFromAPI(sports_categories_url, 'categories'); // getDataFromAPI(API_URL, RETURN_TEXT_AND_WINDOW_VARIABLE);
+    getDataFromAPI(block_patterns_url, 'block_patterns');
+    getDataFromAPI(accents_url, 'accents');
+    getDataFromAPI(fonts_url, 'fonts');
+    getDataFromAPI(mascots_url, 'mascots');
+    getDataFromAPI(patterns_url, 'patterns');
+    getDataFromAPI(price_item_templates_url, 'price_item_templates');
+}
+
+function populateSelectElems(){
+    populateSelectElem(categories, 'name', 'id', '.style-category'); // getDataFromAPI(DATA_SOURCE(DS), DROPDOWN_TEXT_FROM_DS_FIELD, DROPDOWN_VALUE_FROM_DS_FIELD, DROPDOWN_ELEMENT_CLASS);
+    populateSelectElem(block_patterns, 'name', 'id', '.rules-bp');
+    populateSelectElem(accents, 'name', 'id', '.rules-accents');
+    populateSelectElem(fonts, 'name', 'id', '.rules-fonts');
+    populateSelectElem(patterns, 'name', 'id', '.rules-patterns');
+    populateSelectElem(mascots, 'name', 'id', '.rules-mascots');
+    populateSelectElem(price_item_templates, 'name', 'id', '.rules-pi-template');
+    populateSelectElem(style_request_priorities, 'name', 'id', '.style-priority');
+}
 
 });
 </script>
