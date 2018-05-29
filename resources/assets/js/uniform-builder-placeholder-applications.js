@@ -28,8 +28,8 @@ $(document).ready(function () {
 
                 return item.sport === sport && 
                     item.type === type && 
-                    _.contains(item.blockPattern, blockPattern) && 
-                    _.contains(item.neckOption, neckOption);
+                    _.contains(item.blockPattern, ub.utilities.domParserDecoder(blockPattern)) && 
+                    _.contains(item.neckOption, ub.utilities.domParserDecoder(neckOption));
 
             });
 
