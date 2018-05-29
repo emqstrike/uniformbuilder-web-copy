@@ -9,6 +9,20 @@
     border: 1px solid #C8C8C8 !important;
     border-radius: 5px !important;
 }
+.glyphicon.spinning {
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
 </style>
 @endsection
 
@@ -201,37 +215,107 @@
     </div>
 </section>
 
+<div class="modal fade" tabindex="-1" role="dialog" id="loadingModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><span class="glyphicon glyphicon-refresh spinning"></span> Loading</h4>
+      </div>
+      <div class="modal-body">
+        <p class="modal-text-body"></p>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/bootbox.min.js"></script>
-<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript" src="/admin-lte-2/js/admin-v1-utils.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 
+var loaded_accents = false;
+var loaded_block_patterns = false;
+var loaded_fonts = false;
+var loaded_price_item_templates = false;
+
 $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
-initializeSelect2s();
-getMultDataFromAPI();
-populateSelectElems();
-populateNumDDs();
+getDataFromAPI(sports_categories_url, 'categories'); // getDataFromAPI(API_URL, RETURN_TEXT_AND_WINDOW_VARIABLE);
+populateSelectElem(categories, 'name', 'id', '.style-category'); // getDataFromAPI(DATA_SOURCE(DS), DROPDOWN_TEXT_FROM_DS_FIELD, DROPDOWN_VALUE_FROM_DS_FIELD, DROPDOWN_ELEMENT_CLASS);
+
+
+
 
 /* DOM EVENTS */
 
-$('.rules-pi-template').on('change', function(e){
-    var pi_id = $(this).val();
-    var pi_template = _.find(price_item_templates, function(e){ return e.id == pi_id; });
-    console.log(pi_template);
-    buildPITTable(pi_template, '#tbody_sizes'); // buildPITTable(DATA, TBODY_ELEM_ID);
+
+
+
+$('.rules-bp').on('click', function(e){
+    e.preventDefault();
+    if(!loaded_block_patterns){
+        showLoadingModal();
+        setLoadingModalText('Block patterns...');
+        getDataSyncAs(block_patterns_url, 'block_patterns', 'false', 'name', 'id', '.rules-bp');
+        loaded_block_patterns = true;
+    }
 });
 
 $('.rules-bp').on('change', function(e){
     var selected_bp_id = $(this).val();
     updateBPOdd(block_patterns, selected_bp_id, '.rules-bp-options');
 });
+
+
+
+
+
+$('.rules-pi-template').on('click', function(e){
+    e.preventDefault();
+    if(!loaded_price_item_templates){
+        showLoadingModal();
+        setLoadingModalText('Price Item Templates...');
+        getDataSyncAs(price_item_templates_url, 'price_item_templates', 'false', 'name', 'id', '.rules-pi-template');
+        loaded_price_item_templates = true;
+    }
+});
+
+$('.rules-pi-template').on('change', function(e){
+    var pi_id = $(this).val();
+    var pi_template = _.find(price_item_templates, function(e){ return e.id == pi_id; });
+    buildPITTable(pi_template, '#tbody_sizes'); // buildPITTable(DATA, TBODY_ELEM_ID);
+});
+
+
+
+
+$('.rules-accents').on('click', function(e){
+    if(!loaded_accents){
+        showLoadingModal();
+        setLoadingModalText('Accents...');
+        getDataSyncAs(accents_url, 'accents', 'false', 'name', 'id', '.rules-accents');
+        loaded_accents = true;
+        initSelect2('.rules-accents','Select valid accents');
+    }
+});
+
+
+
+
+$('.rules-fonts').on('click', function(e){
+    if(!loaded_fonts){
+        showLoadingModal();
+        setLoadingModalText('Fonts...');
+        getDataSyncAs(fonts_url, 'fonts', 'false', 'name', 'id', '.rules-fonts');
+        loaded_fonts = true;
+        initSelect2('.rules-fonts','Select valid fonts');
+    }
+});
+
+
 
 $(document).on('change', 'select', function() {
     console.log($('.rules-accents').val());
@@ -242,39 +326,39 @@ $(document).on('change', 'select', function() {
 
 /* DOM EVENTS --- END */
 
-function populateNumDDs(){
-    populateDDwithNums('.rules-max-applications', 10);
-    populateDDwithNums('.pa-allowed-apps', 60);
-}
+// function populateNumDDs(){
+//     populateDDwithNums('.rules-max-applications', 10);
+//     populateDDwithNums('.pa-allowed-apps', 60);
+// }
 
-function initializeSelect2s(){
-    initSelect2('.pa-allowed-apps','Select valid applications'); // initSelect2(DROPDOWN_ELEMENT_CLASS, PLACEHOLDER TEXT);
-    initSelect2('.rules-accents','Select valid accents');
-    initSelect2('.rules-fonts','Select valid fonts');
-    initSelect2('.rules-mascots','Select valid patterns');
-    initSelect2('.rules-patterns','Select valid patterns');
-}
+// function initializeSelect2s(){
+//     initSelect2('.pa-allowed-apps','Select valid applications'); // initSelect2(DROPDOWN_ELEMENT_CLASS, PLACEHOLDER TEXT);
+//     initSelect2('.rules-accents','Select valid accents');
+//     initSelect2('.rules-fonts','Select valid fonts');
+//     initSelect2('.rules-mascots','Select valid patterns');
+//     initSelect2('.rules-patterns','Select valid patterns');
+// }
 
-function getMultDataFromAPI(){
-    getDataFromAPI(sports_categories_url, 'categories'); // getDataFromAPI(API_URL, RETURN_TEXT_AND_WINDOW_VARIABLE);
-    getDataFromAPI(block_patterns_url, 'block_patterns');
-    getDataFromAPI(accents_url, 'accents');
-    getDataFromAPI(fonts_url, 'fonts');
-    getDataFromAPI(mascots_url, 'mascots');
-    getDataFromAPI(patterns_url, 'patterns');
-    getDataFromAPI(price_item_templates_url, 'price_item_templates');
-}
+// function getMultDataFromAPI(){
+//     getDataFromAPI(sports_categories_url, 'categories'); // getDataFromAPI(API_URL, RETURN_TEXT_AND_WINDOW_VARIABLE);
+//     getDataFromAPI(block_patterns_url, 'block_patterns');
+//     getDataFromAPI(accents_url, 'accents');
+//     getDataFromAPI(fonts_url, 'fonts');
+//     getDataFromAPI(mascots_url, 'mascots');
+//     getDataFromAPI(patterns_url, 'patterns');
+//     getDataFromAPI(price_item_templates_url, 'price_item_templates');
+// }
 
-function populateSelectElems(){
-    populateSelectElem(categories, 'name', 'id', '.style-category'); // getDataFromAPI(DATA_SOURCE(DS), DROPDOWN_TEXT_FROM_DS_FIELD, DROPDOWN_VALUE_FROM_DS_FIELD, DROPDOWN_ELEMENT_CLASS);
-    populateSelectElem(block_patterns, 'name', 'id', '.rules-bp');
-    populateSelectElem(accents, 'name', 'id', '.rules-accents');
-    populateSelectElem(fonts, 'name', 'id', '.rules-fonts');
-    populateSelectElem(patterns, 'name', 'id', '.rules-patterns');
-    populateSelectElem(mascots, 'name', 'id', '.rules-mascots');
-    populateSelectElem(price_item_templates, 'name', 'id', '.rules-pi-template');
-    populateSelectElem(style_request_priorities, 'name', 'id', '.style-priority');
-}
+// function populateSelectElems(){
+//     populateSelectElem(categories, 'name', 'id', '.style-category'); // getDataFromAPI(DATA_SOURCE(DS), DROPDOWN_TEXT_FROM_DS_FIELD, DROPDOWN_VALUE_FROM_DS_FIELD, DROPDOWN_ELEMENT_CLASS);
+//     populateSelectElem(block_patterns, 'name', 'id', '.rules-bp');
+//     populateSelectElem(accents, 'name', 'id', '.rules-accents');
+//     populateSelectElem(fonts, 'name', 'id', '.rules-fonts');
+//     populateSelectElem(patterns, 'name', 'id', '.rules-patterns');
+//     populateSelectElem(mascots, 'name', 'id', '.rules-mascots');
+//     populateSelectElem(price_item_templates, 'name', 'id', '.rules-pi-template');
+//     populateSelectElem(style_request_priorities, 'name', 'id', '.style-priority');
+// }
 
 });
 </script>

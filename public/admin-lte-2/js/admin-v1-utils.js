@@ -63,6 +63,7 @@ function populateSelectElem(data, option_text, option_val, dd_class){
 		elem += '<option value="'+e[option_val]+'">'+capitalizeFirstLetter(e[option_text])+'</option>';
 	});
 	$(dd_class).append(elem);
+	console.log('populate select elem');
 }
 
 function initSelect2(dd_class, placeholder_message){
@@ -77,6 +78,23 @@ function getDataFromAPI(url, result_text){
 	window.gdfapi_url = url;
 	window.gdfapi_result_text = result_text;
 	getDataCallback(function(data){ window[result_text] = data; });
+}
+
+function getDataSyncAs(url, result_text, as_case, name, id, elem_class){
+	$.ajax({
+		url: url,
+		async: as_case,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data) {
+            window[result_text] = data[result_text];
+            console.log(window[result_text]);
+            populateSelectElem(window[result_text], name, id, elem_class);
+            $('#loadingModal').modal('hide');
+        }
+    });
 }
 
 function getDataCallback(callback){
@@ -98,4 +116,15 @@ function getDataCallback(callback){
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function showLoadingModal(){
+	$('#loadingModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+}
+
+function setLoadingModalText(text){
+	$('.modal-text-body').text(text);
 }
