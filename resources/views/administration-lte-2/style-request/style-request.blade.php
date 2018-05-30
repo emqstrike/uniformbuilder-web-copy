@@ -55,6 +55,7 @@
                             <div class="form-group">
                                 <label>Style Category</label>
                                 <select class="form-control style-category">
+                                    <option value="0">Select Category...</option>
                                 </select>
                             </div>
 
@@ -236,10 +237,15 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-var loaded_accents = false;
-var loaded_block_patterns = false;
-var loaded_fonts = false;
-var loaded_price_item_templates = false;
+active_category_id = 0;
+active_category_name = '';
+
+loaded_accents = false;
+loaded_block_patterns = false;
+loaded_fonts = false;
+loaded_mascots = false;
+loaded_patterns = false;
+loaded_price_item_templates = false;
 
 $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
@@ -250,6 +256,15 @@ populateSelectElem(categories, 'name', 'id', '.style-category'); // getDataFromA
 
 
 /* DOM EVENTS */
+
+
+
+
+$('.style-category').on('change', function(e){
+    active_category_id = $(this).val();
+    active_category_name = $(".style-category option:selected").text();
+    setDatabyActiveCategory();
+});
 
 
 
@@ -312,6 +327,32 @@ $('.rules-fonts').on('click', function(e){
         getDataSyncAs(fonts_url, 'fonts', 'false', 'name', 'id', '.rules-fonts');
         loaded_fonts = true;
         initSelect2('.rules-fonts','Select valid fonts');
+    }
+});
+
+
+
+
+$('.rules-mascots').on('click', function(e){
+    if(!loaded_mascots){
+        showLoadingModal();
+        setLoadingModalText('Mascots...');
+        getDataSyncAs(mascots_url, 'mascots', 'false', 'name', 'id', '.rules-mascots');
+        loaded_mascots = true;
+        initSelect2('.rules-mascots','Select valid mascots');
+    }
+});
+
+
+
+
+$('.rules-patterns').on('click', function(e){
+    if(!loaded_patterns){
+        showLoadingModal();
+        setLoadingModalText('Patterns...');
+        getDataSyncAs(patterns_url, 'patterns', 'false', 'name', 'id', '.rules-patterns');
+        loaded_patterns = true;
+        initSelect2('.rules-patterns','Select valid patterns');
     }
 });
 

@@ -15,6 +15,22 @@ window.style_request_priorities = [{
 									'name' : 'high',
 									'id' : 'high'}];
 
+function setDatabyActiveCategory(){
+
+	if(loaded_fonts){
+		var filtered_fonts = [];
+		fonts.forEach(function(e) {
+			var sports = e.sports;
+
+			if(sports.indexOf(active_category_name) !== -1){ filtered_fonts.push(e); console.log('meets condition'); }
+		});
+
+		if(filtered_fonts.length > 0){
+			populateSelectElem(filtered_fonts, 'name', 'id', '.rules-fonts');
+		}
+	}
+}
+
 function updateBPOdd(data, selected_bp_id, bpo_class){ // Populate block pattern options dropdown based on block pattern selected
 	var selected_block_pattern = _.find(data, function(e){ return e.id == selected_bp_id; });
 	var block_pattern_options = JSON.parse(selected_block_pattern.neck_options);
@@ -58,6 +74,7 @@ function buildPITTable(data, tbody_id){ // CUSTOM -> USED IN STYLES REQUEST PAGE
 }
 
 function populateSelectElem(data, option_text, option_val, dd_class){
+	$(dd_class).html('');
 	var elem = '';
 	data.forEach(function(e) {
 		elem += '<option value="'+e[option_val]+'">'+capitalizeFirstLetter(e[option_text])+'</option>';
@@ -87,7 +104,7 @@ function getDataSyncAs(url, result_text, as_case, name, id, elem_class){
         type: "GET",
         dataType: "json",
         crossDomain: true,
-        contentType: 'application/json',
+        contentType: 'application/json', 
         success: function(data) {
             window[result_text] = data[result_text];
             console.log(window[result_text]);
