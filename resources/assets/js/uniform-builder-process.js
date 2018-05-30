@@ -590,7 +590,7 @@ $(document).ready(function() {
 
         };
 
-        var _url = 'http://api-dev.qstrike.com/api/feedback';
+        var _url = ub.config.api_host + '/api/feedback';
         //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
         $.ajax({
