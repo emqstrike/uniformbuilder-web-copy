@@ -15,6 +15,49 @@ window.style_request_priorities = [{
 									'name' : 'high',
 									'id' : 'high'}];
 
+function validateActiveCategorySport(loaded_data_cond, data, ddclass){
+	if(loaded_data_cond && data != null){
+		var filtered_data = [];
+		data.forEach(function(e) {
+			if(e.sports != null){
+				var sports = e.sports;
+
+				if(sports.indexOf(active_category_name) !== -1){ filtered_data.push(e); }
+			}
+		});
+
+		if(filtered_data.length > 0){
+			populateSelectElem(filtered_data, 'name', 'id', ddclass);
+		}
+		console.log(filtered_data.length);
+	}
+}
+
+function validateActiveCategoryUCID(loaded_data_cond, data, ddclass){
+	if(loaded_data_cond && data != null){
+		var filtered_data = [];
+		data.forEach(function(e) {
+			if(e.uniform_category_id != null){
+				var uniform_category_id = e.uniform_category_id;
+
+				if(uniform_category_id == active_category_id){ filtered_data.push(e); }
+			}
+		});
+
+		if(filtered_data.length > 0){
+			populateSelectElem(filtered_data, 'name', 'id', ddclass);
+		}
+		console.log(filtered_data.length);
+		console.log(filtered_data);
+	}
+}
+
+function setDatabyActiveCategory(){
+	validateActiveCategorySport(loaded_fonts, fonts, '.rules-fonts');
+	validateActiveCategorySport(loaded_patterns, patterns, '.rules-patterns');
+	validateActiveCategoryUCID(loaded_block_patterns, block_patterns, '.rules-bp');
+}
+
 function updateBPOdd(data, selected_bp_id, bpo_class){ // Populate block pattern options dropdown based on block pattern selected
 	var selected_block_pattern = _.find(data, function(e){ return e.id == selected_bp_id; });
 	var block_pattern_options = JSON.parse(selected_block_pattern.neck_options);
@@ -29,8 +72,8 @@ function updateBPOdd(data, selected_bp_id, bpo_class){ // Populate block pattern
 	});
 }
 
-function populateDDwithNums(dd_class, length){
-	for(i = 1; i <= length; i++){
+function populateDDwithNums(dd_class, min, max){
+	for(i = min; i <= max; i++){
 	    $(dd_class).append('<option value="'+i+'">'+i+'</option>');
 	}
 }
@@ -58,11 +101,14 @@ function buildPITTable(data, tbody_id){ // CUSTOM -> USED IN STYLES REQUEST PAGE
 }
 
 function populateSelectElem(data, option_text, option_val, dd_class){
+	$(dd_class).html('');
 	var elem = '';
+	data = _.sortBy(data, function(e){ return e.name; });
 	data.forEach(function(e) {
 		elem += '<option value="'+e[option_val]+'">'+capitalizeFirstLetter(e[option_text])+'</option>';
 	});
 	$(dd_class).append(elem);
+	console.log('populate select elem');
 }
 
 function initSelect2(dd_class, placeholder_message){
@@ -77,6 +123,23 @@ function getDataFromAPI(url, result_text){
 	window.gdfapi_url = url;
 	window.gdfapi_result_text = result_text;
 	getDataCallback(function(data){ window[result_text] = data; });
+}
+
+function getDataSyncAs(url, result_text, as_case, name, id, elem_class){
+	$.ajax({
+		url: url,
+		async: as_case,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json', 
+        success: function(data) {
+            window[result_text] = data[result_text];
+            console.log(window[result_text]);
+            populateSelectElem(window[result_text], name, id, elem_class);
+            $('#loadingModal').modal('hide');
+        }
+    });
 }
 
 function getDataCallback(callback){
@@ -98,4 +161,15 @@ function getDataCallback(callback){
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function showLoadingModal(){
+	$('#loadingModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+}
+
+function setLoadingModalText(text){
+	$('.modal-text-body').text(text);
 }
