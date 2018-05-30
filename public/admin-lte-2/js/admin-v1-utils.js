@@ -20,14 +20,33 @@ function setDatabyActiveCategory(){
 	if(loaded_fonts){
 		var filtered_fonts = [];
 		fonts.forEach(function(e) {
-			var sports = e.sports;
+			if(e.sports != null){
+				var sports = e.sports;
 
-			if(sports.indexOf(active_category_name) !== -1){ filtered_fonts.push(e); console.log('meets condition'); }
+				if(sports.indexOf(active_category_name) !== -1){ filtered_fonts.push(e); }
+			}
 		});
 
 		if(filtered_fonts.length > 0){
 			populateSelectElem(filtered_fonts, 'name', 'id', '.rules-fonts');
 		}
+		console.log(filtered_fonts.length);
+	}
+
+	if(loaded_patterns){
+		var filtered_patterns = [];
+		patterns.forEach(function(e) {
+			if(e.sports != null){
+				var sports = e.sports;
+
+				if(sports.indexOf(active_category_name) !== -1){ filtered_patterns.push(e); }
+			}
+		});
+
+		if(filtered_patterns.length > 0){
+			populateSelectElem(filtered_patterns, 'name', 'id', '.rules-patterns');
+		}
+		console.log(filtered_patterns.length);
 	}
 }
 
