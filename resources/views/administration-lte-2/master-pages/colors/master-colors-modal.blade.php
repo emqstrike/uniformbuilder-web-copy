@@ -11,7 +11,7 @@
                        <span class="sr-only">Close</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    Add Color
+                    Add Master Color
                 </h4>
             </div>
 
@@ -19,19 +19,6 @@
             <div class="modal-body">
 
                 <form id="myForm" role="form" action="#" method="POST">
-                  <div class="form-group">
-                    <label>Color Name</label>
-                      <input type="text" class="form-control input-color-name" name="name" required>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label">Color Code</label>
-                      <input type="text" class="form-control input-color-code" name="color_code" required>
-                  </div>
-                  <div class="form-group">
-                            <label class="control-label">Color</label>
-                                <input id='create_colorpicker' />
-                                <input type='hidden' name="hex_code" id="create-hex-code" value="#ff0000">
-                  </div>
                   <div class="form-group">
                     <label>Brand</label>
                       <select class="form-control input-brand-id">
@@ -41,8 +28,21 @@
                       </select>
                   </div>
                   <div class="form-group">
-                  <label class="control-label">Master Color ID</label>
-                      <input type="number" class="form-control input-master-color" name="master_color" required>
+                    <label>Name</label>
+                      <input type="text" class="form-control input-name" placeholder="Pattern Name" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Uniform Category</label>
+                      <input type="hidden" id="category_value" name="category_value">
+                      <select name="uniform_category_id[]" class="form-control input-uniform-category-id" style="width: 100%;">
+                      </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Factory</label>
+                      <select class="form-control input-factory-id">
+                        <option value="0">Unassigned</option>
+                      </select>
+                      <input type="hidden" class="input-id">
                   </div>
                   <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
