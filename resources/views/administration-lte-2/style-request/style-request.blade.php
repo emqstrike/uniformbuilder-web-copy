@@ -68,13 +68,13 @@
                                 <label>Rules</label>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="rules-radio" id="optionsRadios1" value="option1" checked>
+                                        <input type="radio" name="rules-radio" id="ruleCaseRadioBtn1" class="rules-radiobtn" value="create_new" checked>
                                         Create new
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="rules-radio" id="optionsRadios2" value="option2">
+                                        <input type="radio" name="rules-radio" id="ruleCaseRadioBtn2" class="rules-radiobtn" value="apply_existing">
                                         Apply existing
                                     </label>
                                 </div>
@@ -104,7 +104,7 @@
 
                             <div class="form-group">
                                 <center>
-                                    <a href="#" class="btn btn-flat btn-xl btn-success" disabled>Submit</a>
+                                    <a href="#" class="btn btn-flat btn-xl btn-success" disabled>Submit Style Request</a>
                                 </center>
                             </div>
                         </form>
@@ -112,22 +112,29 @@
                     <div class="col-md-4 div-bordered">
                         <h3>Rules</h3>
                         <form id="style_info_form">
+                            <div class="form-group alert alert-info" id="rule_list_div" style="display: none;">
+                                <label>Select Rule</label>
+                                <select class="form-control rules-list">
+                                </select>
+                            </div>
+
                             <div class="form-group">
                                 <label>Block Pattern</label>
-                                <select class="form-control rules-bp">
+                                <select class="form-control rules-bp rules-dependent">
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label>Block Pattern Options</label>
-                                <select class="form-control rules-bp-options">
+                                <select class="form-control rules-bp-options rules-dependent">
                                     <option value="">F03</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label>Price Item Template</label>
-                                <select class="form-control rules-pi-template">
+                                <select class="form-control rules-pi-template rules-dependent">
+                                    <option value="0">Select Price Item Template...</option>
                                 </select>
                             </div>
 
@@ -148,7 +155,7 @@
 
                             <div class="form-group">
                                 <label>Gender</label>
-                                <select class="form-control rules-gender">
+                                <select class="form-control rules-gender rules-dependent">
                                     <option value="men">Men</option>
                                     <option value="women">Women</option>
                                 </select>
@@ -156,25 +163,25 @@
 
                             <div class="form-group">
                                 <label>Accents</label>
-                                <select class="form-control rules-accents" multiple="multiple">
+                                <select class="form-control rules-accents rules-dependent" multiple="multiple">
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label>Fonts</label>
-                                <select class="form-control rules-fonts" multiple="multiple">
+                                <select class="form-control rules-fonts rules-dependent" multiple="multiple">
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label>Mascots</label>
-                                <select class="form-control rules-mascots" multiple="multiple">
+                                <select class="form-control rules-mascots rules-dependent" multiple="multiple">
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label>Patterns</label>
-                                <select class="form-control rules-patterns" multiple="multiple">
+                                <select class="form-control rules-patterns rules-dependent" multiple="multiple">
                                 </select>
                             </div>
                         </form>
@@ -184,13 +191,13 @@
                         <form id="style_info_form">
                             <div class="form-group">
                                 <label>Application Locations</label>
-                                <select class="form-control pa-allowed-apps" multiple="multiple">
+                                <select class="form-control pa-allowed-apps rules-dependent" multiple="multiple">
                                 </select>
                             </div>
 
                             <div class="form-group col-md-3">
                                 <label>Max # of Applications</label>
-                                <select class="form-control rules-max-applications">
+                                <select class="form-control rules-max-applications rules-dependent">
                                 </select>
                             </div>
 
@@ -237,6 +244,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+rule_case = $('#ruleCaseRadioBtn1').val();
+
 active_category_id = 0;
 active_category_name = '';
 
@@ -247,11 +256,17 @@ loaded_mascots = false;
 loaded_patterns = false;
 loaded_price_item_templates = false;
 
+fonts = null;
+patterns = null;
+
 $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
 getDataFromAPI(sports_categories_url, 'categories'); // getDataFromAPI(API_URL, RETURN_TEXT_AND_WINDOW_VARIABLE);
 populateSelectElem(categories, 'name', 'id', '.style-category'); // getDataFromAPI(DATA_SOURCE(DS), DROPDOWN_TEXT_FROM_DS_FIELD, DROPDOWN_VALUE_FROM_DS_FIELD, DROPDOWN_ELEMENT_CLASS);
-
+populateDDwithNums('.rules-max-applications', 0, 10);
+populateDDwithNums('.pa-allowed-apps', 1, 60);
+populateSelectElem(style_request_priorities, 'name', 'id', '.style-priority');
+initSelect2('.pa-allowed-apps','Select valid applications'); 
 
 
 
@@ -259,11 +274,36 @@ populateSelectElem(categories, 'name', 'id', '.style-category'); // getDataFromA
 
 
 
+$('.rules-radiobtn').on('change', function(e){
+    var radio_val = $('input[name=rules-radio]:checked').val();
+
+    rule_case = radio_val;
+    console.log('radio change');
+    validateRuleCase(rule_case);
+});
+
+function validateRuleCase(rule_case){
+    if(rule_case == "create_new"){
+        $( ".rules-dependent" ).each(function( e ) {
+            $(this).attr('disabled', false);
+            $('#rule_list_div').fadeOut();
+        });
+    } else if (rule_case == "apply_existing"){
+        $( ".rules-dependent" ).each(function( e ) {
+            $(this).attr('disabled', true);
+            $('#rule_list_div').fadeIn();
+        });
+    }
+}
+
 
 $('.style-category').on('change', function(e){
     active_category_id = $(this).val();
     active_category_name = $(".style-category option:selected").text();
     setDatabyActiveCategory();
+
+    var selected_bp_id = $('.rules-bp').val();
+    updateBPOdd(block_patterns, selected_bp_id, '.rules-bp-options');
 });
 
 
