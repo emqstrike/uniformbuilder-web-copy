@@ -127,10 +127,15 @@ class FontsController extends Controller
         $tailSweep = 0;
         $script = 0;
         $blockFont = 0;
+        $customizerAvailable = 0;
+        $ipadAvailable = 0;
+
 
         if($request->input('tail_sweep')){$tailSweep = 1;}
         if($request->input('script')){$script = 1;}
         if($request->input('block_font')){$blockFont = 1;}
+        if($request->input('customizer_available')){$customizerAvailable = 1;}
+        if($request->input('ipad_available')){$ipadAvailable = 1;}
 
         $fontType = (empty($request->input('type'))) ? 'default' : $request->input('type');
         $fontParent = $request->input('parent_id');
@@ -179,7 +184,9 @@ class FontsController extends Controller
             'alias' =>$alias,
             'block_pattern_options' => $blockPatternOptions,
             'block_patterns' => $blockPatterns,
-            'brand' => $brand
+            'brand' => $brand,
+            'customizer_available' => $customizerAvailable,
+            'ipad_available' => $ipadAvailable
         ];
 
         if ($fontType != 'default')
