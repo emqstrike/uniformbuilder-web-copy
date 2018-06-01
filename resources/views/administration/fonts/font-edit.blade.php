@@ -201,6 +201,18 @@ li.select2-selection__choice {
                                 <textarea class="form-control tail-sweep-properties animated" name="tail_sweep_properties"><?php echo substr(stripslashes($font->tail_sweep_properties), 1, -1); ?></textarea>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Customizer Available</label>
+                            <div class="col-md-4">
+                                <input type="checkbox"  name="customizer_available" @if($font->customizer_available == 1)value="1" checked @endif>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Ipad Available</label>
+                            <div class="col-md-4">
+                                <input type="checkbox"  name="ipad_available" @if($font->ipad_available == 1)value="1" checked @endif>
+                            </div>
+                        </div>
 
                         <div class="form-group" style="border: 1px solid black; padding: 10px;">
                             <center>
