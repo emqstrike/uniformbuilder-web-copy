@@ -24,6 +24,7 @@ class MasterPagesController extends Controller
         $this->masterFabricsAPIClient = new \App\APIClients\MasterFabricsAPIClient();
         $this->masterPatternsAPIClient = new \App\APIClients\MasterPatternsAPIClient();
         $this->masterFontsAPIClient = new \App\APIClients\MasterFontsAPIClient();
+        $this->masterColorsAPIClient = new \App\APIClients\MasterColorsAPIClient();
 
     }
 
@@ -82,6 +83,23 @@ class MasterPagesController extends Controller
         if (in_array($user_id, $su_array)) {
             return view('administration-lte-2.master-pages.patterns.patterns', [
                 'patterns' => $patterns
+                ]);
+        }
+        else {
+                return redirect('administration');
+        }
+    }
+
+    public function colorsIndex()
+    {
+        $colors = $this->masterColorsAPIClient->getAllColors();
+
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+        if (in_array($user_id, $su_array)) {
+            return view('administration-lte-2.master-pages.colors.master-colors', [
+                'colors' => $colors
                 ]);
         }
         else {

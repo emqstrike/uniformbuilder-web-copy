@@ -32,6 +32,18 @@
                                 <input id='create_colorpicker' />
                                 <input type='hidden' name="hex_code" id="create-hex-code" value="#ff0000">
                   </div>
+                  <div class="form-group">
+                    <label>Brand</label>
+                      <select class="form-control input-brand-id">
+                        <option value="0">No Brand</option>
+                        <option value="1">Prolook</option>
+                        <option value="2">Richardson</option>
+                      </select>
+                  </div>
+                  <div class="form-group">
+                  <label class="control-label">Master Color ID</label>
+                      <input type="number" class="form-control input-master-color" name="master_color" required>
+                  </div>
                   <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
                 </form>
             </div>
