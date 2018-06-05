@@ -15,13 +15,23 @@ window.style_request_priorities = [{
 									'name' : 'high',
 									'id' : 'high'}];
 
+function sortArr(data, category_case, data_field){ // filter by category id or name
+	var filtered_data = [];
+	data.forEach(function(e) {
+		if(e[data_field] != null){
+			var x = e[data_field];
+			if(x.indexOf(category_case) !== -1){ filtered_data.push(e); }
+		}
+	});
+	return filtered_data;
+}
+
 function validateActiveCategorySport(loaded_data_cond, data, ddclass){
 	if(loaded_data_cond && data != null){
 		var filtered_data = [];
 		data.forEach(function(e) {
 			if(e.sports != null){
 				var sports = e.sports;
-
 				if(sports.indexOf(active_category_name) !== -1){ filtered_data.push(e); }
 			}
 		});
@@ -30,6 +40,25 @@ function validateActiveCategorySport(loaded_data_cond, data, ddclass){
 			populateSelectElem(filtered_data, 'name', 'id', ddclass);
 		}
 		console.log(filtered_data.length);
+	}
+}
+
+function validateActivSportCatID(loaded_data_cond, data, ddclass){
+	if(loaded_data_cond && data != null){
+		var filtered_data = [];
+		data.forEach(function(e) {
+			if(e.sport_category_id != null){
+				var sport_category_id = e.sport_category_id;
+
+				if(sport_category_id == active_category_id){ filtered_data.push(e); }
+			}
+		});
+
+		if(filtered_data.length > 0){
+			populateSelectElem(filtered_data, 'name', 'id', ddclass);
+		}
+		console.log(filtered_data.length);
+		console.log(filtered_data);
 	}
 }
 
@@ -53,9 +82,21 @@ function validateActiveCategoryUCID(loaded_data_cond, data, ddclass){
 }
 
 function setDatabyActiveCategory(){
-	validateActiveCategorySport(loaded_fonts, fonts, '.rules-fonts');
-	validateActiveCategorySport(loaded_patterns, patterns, '.rules-patterns');
-	validateActiveCategoryUCID(loaded_block_patterns, block_patterns, '.rules-bp');
+	if(loaded_fonts){
+		validateActiveCategorySport(loaded_fonts, fonts, '.rules-fonts');
+	}
+
+	if(loaded_patterns){
+		validateActiveCategorySport(loaded_patterns, patterns, '.rules-patterns');
+	}
+
+	if(loaded_block_patterns){
+		validateActiveCategoryUCID(loaded_block_patterns, block_patterns, '.rules-bp');
+	}
+
+	if(loaded_price_item_templates){
+		validateActivSportCatID(loaded_price_item_templates, price_item_templates, '.rules-pi-template');
+	}
 }
 
 function updateBPOdd(data, selected_bp_id, bpo_class){ // Populate block pattern options dropdown based on block pattern selected
@@ -100,7 +141,65 @@ function buildPITTable(data, tbody_id){ // CUSTOM -> USED IN STYLES REQUEST PAGE
 	$(tbody_id).append(elem);
 }
 
+// function rePopulateSelectElemByActiveSport(data, option_text, option_val, dd_class){
+// 	$(dd_class).html('');
+// 	var elem = '';
+// 	data = _.sortBy(data, function(e){ return e.name; });
+// 	console.log('Active category name');
+// 	console.log(active_category_name);
+// 	var filtered_data = [];
+//     data.forEach(function(e) {
+//         if(e.sports != null){
+//             var sports = e.sports;
+//             if(sports.indexOf(active_category_name) !== -1){ filtered_data.push(e); }
+//         }
+//     });
+
+// 	filtered_data.forEach(function(e) {
+// 		elem += '<option value="'+e[option_val]+'">'+capitalizeFirstLetter(e[option_text])+'</option>';
+// 	});
+// 	$(dd_class).append(elem);
+// 	console.log('populate select elem');
+// }
+
+function repopulateElem(data, option_text, option_val, dd_class){
+	console.log('[[ repopulate ELEM ]]');
+	$(dd_class).html('');
+	var elem = '';
+	data = _.sortBy(data, function(e){ return e.name; });
+	console.log('Active category name');
+	console.log(active_category_name);
+	var filtered_data = [];
+	if(window.currentActivity == "price_item_templates"){
+		data.forEach(function(e) {
+	        if(e.sport_category_id != null){
+	            var sport_category_id = e.sport_category_id;
+	            if(sport_category_id == active_category_id){ filtered_data.push(e); }
+	        }
+	    });
+	// } else if(window.currentActivity == "fonts" || window.currentActivity == "patterns"){
+	} else if(window.currentActivity == "fonts" || window.currentActivity == "patterns"){
+		data.forEach(function(e) {
+	        if(e.sports != null){
+	            var sports = e.sports;
+	            if(sports.indexOf(active_category_name) !== -1){ filtered_data.push(e); }
+	        }
+	    });
+	} else {
+		filtered_data = data;
+	}
+
+	console.log('DATA LENGTH: '+filtered_data.length);
+	filtered_data.forEach(function(e) {
+		elem += '<option value="'+e[option_val]+'">'+capitalizeFirstLetter(e[option_text])+'</option>';
+	});
+	$(dd_class).append(elem);
+	console.log('populate select elem');
+}
+
 function populateSelectElem(data, option_text, option_val, dd_class){
+	active_category_id = $(".style-category").val();
+    active_category_name = $(".style-category option:selected").text();
 	$(dd_class).html('');
 	var elem = '';
 	data = _.sortBy(data, function(e){ return e.name; });
@@ -125,18 +224,25 @@ function getDataFromAPI(url, result_text){
 	getDataCallback(function(data){ window[result_text] = data; });
 }
 
-function getDataSyncAs(url, result_text, as_case, name, id, elem_class){
+function getDataSyncAs(url, result_text, as_case, name, id, elem_class, repopulate = false){
 	$.ajax({
 		url: url,
 		async: as_case,
         type: "GET",
         dataType: "json",
         crossDomain: true,
-        contentType: 'application/json', 
+        contentType: 'application/json',
         success: function(data) {
             window[result_text] = data[result_text];
-            console.log(window[result_text]);
-            populateSelectElem(window[result_text], name, id, elem_class);
+            try{
+            	sortArr(window[result_text], active_category_name, 'sports');
+            } catch(err){
+            	console.log(err.message);
+            }
+            populateSelectElem(window[result_text], 'name', 'id', elem_class);
+            if(repopulate){
+            	repopulateElem(window[result_text], 'name', 'id', elem_class);
+            }
             $('#loadingModal').modal('hide');
         }
     });
@@ -172,4 +278,8 @@ function showLoadingModal(){
 
 function setLoadingModalText(text){
 	$('.modal-text-body').text(text);
+}
+
+function setCurrentActivity(currentactivity){
+	window.currentActivity = currentactivity;
 }

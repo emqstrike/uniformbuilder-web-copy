@@ -244,6 +244,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+window.current_activity = null;
+
 rule_case = $('#ruleCaseRadioBtn1').val();
 
 active_category_id = 0;
@@ -298,12 +300,15 @@ function validateRuleCase(rule_case){
 
 
 $('.style-category').on('change', function(e){
+    setCurrentActivity("style_category");
     active_category_id = $(this).val();
     active_category_name = $(".style-category option:selected").text();
     setDatabyActiveCategory();
 
     var selected_bp_id = $('.rules-bp').val();
-    updateBPOdd(block_patterns, selected_bp_id, '.rules-bp-options');
+    if(loaded_block_patterns){
+        updateBPOdd(block_patterns, selected_bp_id, '.rules-bp-options');
+    }
 });
 
 
@@ -314,12 +319,13 @@ $('.rules-bp').on('click', function(e){
     if(!loaded_block_patterns){
         showLoadingModal();
         setLoadingModalText('Block patterns...');
-        getDataSyncAs(block_patterns_url, 'block_patterns', 'false', 'name', 'id', '.rules-bp');
+        getDataSyncAs(block_patterns_url, 'block_patterns', 'false', 'name', 'id', '.rules-bp', true);
         loaded_block_patterns = true;
     }
 });
 
 $('.rules-bp').on('change', function(e){
+    setCurrentActivity("block_patterns");
     var selected_bp_id = $(this).val();
     updateBPOdd(block_patterns, selected_bp_id, '.rules-bp-options');
 });
@@ -329,16 +335,18 @@ $('.rules-bp').on('change', function(e){
 
 
 $('.rules-pi-template').on('click', function(e){
+    setCurrentActivity("price_item_templates");
     e.preventDefault();
     if(!loaded_price_item_templates){
         showLoadingModal();
         setLoadingModalText('Price Item Templates...');
-        getDataSyncAs(price_item_templates_url, 'price_item_templates', 'false', 'name', 'id', '.rules-pi-template');
+        getDataSyncAs(price_item_templates_url, 'price_item_templates', 'false', 'name', 'id', '.rules-pi-template', true);
         loaded_price_item_templates = true;
     }
 });
 
 $('.rules-pi-template').on('change', function(e){
+    setCurrentActivity("price_item_templates");
     var pi_id = $(this).val();
     var pi_template = _.find(price_item_templates, function(e){ return e.id == pi_id; });
     buildPITTable(pi_template, '#tbody_sizes'); // buildPITTable(DATA, TBODY_ELEM_ID);
@@ -348,10 +356,11 @@ $('.rules-pi-template').on('change', function(e){
 
 
 $('.rules-accents').on('click', function(e){
+    setCurrentActivity("accents");
     if(!loaded_accents){
         showLoadingModal();
         setLoadingModalText('Accents...');
-        getDataSyncAs(accents_url, 'accents', 'false', 'name', 'id', '.rules-accents');
+        getDataSyncAs(accents_url, 'accents', 'false', 'name', 'id', '.rules-accents', true);
         loaded_accents = true;
         initSelect2('.rules-accents','Select valid accents');
     }
@@ -361,10 +370,11 @@ $('.rules-accents').on('click', function(e){
 
 
 $('.rules-fonts').on('click', function(e){
+    setCurrentActivity("fonts");
     if(!loaded_fonts){
         showLoadingModal();
         setLoadingModalText('Fonts...');
-        getDataSyncAs(fonts_url, 'fonts', 'false', 'name', 'id', '.rules-fonts');
+        getDataSyncAs(fonts_url, 'fonts', 'false', 'name', 'id', '.rules-fonts', true);
         loaded_fonts = true;
         initSelect2('.rules-fonts','Select valid fonts');
     }
@@ -374,10 +384,11 @@ $('.rules-fonts').on('click', function(e){
 
 
 $('.rules-mascots').on('click', function(e){
+    setCurrentActivity("mascots");
     if(!loaded_mascots){
         showLoadingModal();
         setLoadingModalText('Mascots...');
-        getDataSyncAs(mascots_url, 'mascots', 'false', 'name', 'id', '.rules-mascots');
+        getDataSyncAs(mascots_url, 'mascots', 'false', 'name', 'id', '.rules-mascots', true);
         loaded_mascots = true;
         initSelect2('.rules-mascots','Select valid mascots');
     }
@@ -387,10 +398,11 @@ $('.rules-mascots').on('click', function(e){
 
 
 $('.rules-patterns').on('click', function(e){
+    setCurrentActivity("patterns");
     if(!loaded_patterns){
         showLoadingModal();
         setLoadingModalText('Patterns...');
-        getDataSyncAs(patterns_url, 'patterns', 'false', 'name', 'id', '.rules-patterns');
+        getDataSyncAs(patterns_url, 'patterns', 'false', 'name', 'id', '.rules-patterns', true);
         loaded_patterns = true;
         initSelect2('.rules-patterns','Select valid patterns');
     }
