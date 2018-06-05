@@ -60,8 +60,20 @@
                             </div>
 
                             <div class="form-group">
+                                <label>Style Type</label>
+                                <select class="form-control style-type">
+                                    <option value="tackle_twill">Tackle Twill</option>
+                                    <option value="sublimated">Sublimated</option>
+                                    <option value="infused">Infused</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
                                 <label>QStrike Item ID</label>
-                                <input type="number" class="form-control style-qstrike-item-id">
+                                <div class="input-group">
+                                    <input type="number" class="form-control style-qstrike-item-id">
+                                    <div class="input-group-addon" id="qiid_div"><span id="qiid" class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></div>
+                                </div>
                             </div>
 
                             <div class="form-group">
@@ -97,9 +109,7 @@
 
                             <div class="form-group">
                                 <label>Notes</label>
-                                <textarea class="form-control">
-                                    
-                                </textarea>
+                                <textarea class="form-control"></textarea>
                             </div>
 
                             <div class="form-group">
@@ -112,7 +122,7 @@
                     <div class="col-md-4 div-bordered">
                         <h3>Rules</h3>
                         <form id="style_info_form">
-                            <div class="form-group alert alert-info" id="rule_list_div" style="display: none;">
+                            <div class="form-group" id="rule_list_div" style="display: none;">
                                 <label>Select Rule</label>
                                 <select class="form-control rules-list">
                                 </select>
@@ -206,8 +216,8 @@
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Part Name</th>
-                                            <th>QStrike Part</th>
+                                            <th>Customizer Part Name</th>
+                                            <th>QStrike Part Name</th>
                                             <th>Color Set</th>
                                             <th>Fabrics Allowed</th>
                                         </tr>
@@ -264,15 +274,20 @@ patterns = null;
 $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
 getDataFromAPI(sports_categories_url, 'categories'); // getDataFromAPI(API_URL, RETURN_TEXT_AND_WINDOW_VARIABLE);
-populateSelectElem(categories, 'name', 'id', '.style-category'); // getDataFromAPI(DATA_SOURCE(DS), DROPDOWN_TEXT_FROM_DS_FIELD, DROPDOWN_VALUE_FROM_DS_FIELD, DROPDOWN_ELEMENT_CLASS);
+populateSelectElem(categories, 'name', 'id', '.style-category', true); // populateSelectElem(DATA_SOURCE(DS), DROPDOWN_TEXT_FROM_DS_FIELD, DROPDOWN_VALUE_FROM_DS_FIELD, DROPDOWN_ELEMENT_CLASS);
 populateDDwithNums('.rules-max-applications', 0, 10);
 populateDDwithNums('.pa-allowed-apps', 1, 60);
-populateSelectElem(style_request_priorities, 'name', 'id', '.style-priority');
+populateSelectElem(style_request_priorities, 'name', 'id', '.style-priority', false);
 initSelect2('.pa-allowed-apps','Select valid applications'); 
 
 
 
 /* DOM EVENTS */
+
+$('.style-qstrike-item-id').on('change', function(e){
+    var item_id = $(this).val();
+    getQStrikeItemData(item_id);
+});
 
 
 
@@ -292,8 +307,12 @@ function validateRuleCase(rule_case){
         });
     } else if (rule_case == "apply_existing"){
         $( ".rules-dependent" ).each(function( e ) {
+            $('#rule_list_div').addClass("alert alert-info");
             $(this).attr('disabled', true);
             $('#rule_list_div').fadeIn();
+            setTimeout(function(){
+                $('#rule_list_div').removeClass("alert alert-info");
+            },1500);
         });
     }
 }
@@ -393,7 +412,6 @@ $('.rules-mascots').on('click', function(e){
         initSelect2('.rules-mascots','Select valid mascots');
     }
 });
-
 
 
 

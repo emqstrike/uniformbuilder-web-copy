@@ -14,6 +14,7 @@ window.style_request_priorities = [{
 									{
 									'name' : 'high',
 									'id' : 'high'}];
+window.qstrike_item_url = 'http://qx.azurewebsites.net/api/item?itemid=';
 
 function sortArr(data, category_case, data_field){ // filter by category id or name
 	var filtered_data = [];
@@ -37,7 +38,7 @@ function validateActiveCategorySport(loaded_data_cond, data, ddclass){
 		});
 
 		if(filtered_data.length > 0){
-			populateSelectElem(filtered_data, 'name', 'id', ddclass);
+			populateSelectElem(filtered_data, 'name', 'id', ddclass, true);
 		}
 		console.log(filtered_data.length);
 	}
@@ -55,7 +56,7 @@ function validateActivSportCatID(loaded_data_cond, data, ddclass){
 		});
 
 		if(filtered_data.length > 0){
-			populateSelectElem(filtered_data, 'name', 'id', ddclass);
+			populateSelectElem(filtered_data, 'name', 'id', ddclass, true);
 		}
 		console.log(filtered_data.length);
 		console.log(filtered_data);
@@ -74,7 +75,7 @@ function validateActiveCategoryUCID(loaded_data_cond, data, ddclass){
 		});
 
 		if(filtered_data.length > 0){
-			populateSelectElem(filtered_data, 'name', 'id', ddclass);
+			populateSelectElem(filtered_data, 'name', 'id', ddclass, true);
 		}
 		console.log(filtered_data.length);
 		console.log(filtered_data);
@@ -141,27 +142,6 @@ function buildPITTable(data, tbody_id){ // CUSTOM -> USED IN STYLES REQUEST PAGE
 	$(tbody_id).append(elem);
 }
 
-// function rePopulateSelectElemByActiveSport(data, option_text, option_val, dd_class){
-// 	$(dd_class).html('');
-// 	var elem = '';
-// 	data = _.sortBy(data, function(e){ return e.name; });
-// 	console.log('Active category name');
-// 	console.log(active_category_name);
-// 	var filtered_data = [];
-//     data.forEach(function(e) {
-//         if(e.sports != null){
-//             var sports = e.sports;
-//             if(sports.indexOf(active_category_name) !== -1){ filtered_data.push(e); }
-//         }
-//     });
-
-// 	filtered_data.forEach(function(e) {
-// 		elem += '<option value="'+e[option_val]+'">'+capitalizeFirstLetter(e[option_text])+'</option>';
-// 	});
-// 	$(dd_class).append(elem);
-// 	console.log('populate select elem');
-// }
-
 function repopulateElem(data, option_text, option_val, dd_class){
 	console.log('[[ repopulate ELEM ]]');
 	$(dd_class).html('');
@@ -177,7 +157,6 @@ function repopulateElem(data, option_text, option_val, dd_class){
 	            if(sport_category_id == active_category_id){ filtered_data.push(e); }
 	        }
 	    });
-	// } else if(window.currentActivity == "fonts" || window.currentActivity == "patterns"){
 	} else if(window.currentActivity == "fonts" || window.currentActivity == "patterns"){
 		data.forEach(function(e) {
 	        if(e.sports != null){
@@ -189,25 +168,24 @@ function repopulateElem(data, option_text, option_val, dd_class){
 		filtered_data = data;
 	}
 
-	console.log('DATA LENGTH: '+filtered_data.length);
 	filtered_data.forEach(function(e) {
 		elem += '<option value="'+e[option_val]+'">'+capitalizeFirstLetter(e[option_text])+'</option>';
 	});
 	$(dd_class).append(elem);
-	console.log('populate select elem');
 }
 
-function populateSelectElem(data, option_text, option_val, dd_class){
+function populateSelectElem(data, option_text, option_val, dd_class, sort_cond){
 	active_category_id = $(".style-category").val();
     active_category_name = $(".style-category option:selected").text();
 	$(dd_class).html('');
 	var elem = '';
-	data = _.sortBy(data, function(e){ return e.name; });
+	if(sort_cond){
+		data = _.sortBy(data, function(e){ return e.name; });
+	}
 	data.forEach(function(e) {
 		elem += '<option value="'+e[option_val]+'">'+capitalizeFirstLetter(e[option_text])+'</option>';
 	});
 	$(dd_class).append(elem);
-	console.log('populate select elem');
 }
 
 function initSelect2(dd_class, placeholder_message){
@@ -239,9 +217,9 @@ function getDataSyncAs(url, result_text, as_case, name, id, elem_class, repopula
             } catch(err){
             	console.log(err.message);
             }
-            populateSelectElem(window[result_text], 'name', 'id', elem_class);
+            populateSelectElem(window[result_text], 'name', 'id', elem_class, true);
             if(repopulate){
-            	repopulateElem(window[result_text], 'name', 'id', elem_class);
+            	repopulateElem(window[result_text], 'name', 'id', elem_class, true);
             }
             $('#loadingModal').modal('hide');
         }
@@ -249,6 +227,7 @@ function getDataSyncAs(url, result_text, as_case, name, id, elem_class, repopula
 }
 
 function getDataCallback(callback){
+	console.log('getDataCallback');
 	var data;
     var url = window.gdfapi_url;
     $.ajax({
@@ -259,7 +238,9 @@ function getDataCallback(callback){
         crossDomain: true,
         contentType: 'application/json',
         success: function(data){
+        	console.log(data);
             data = data[gdfapi_result_text];
+            console.log(data);
             if(typeof callback === "function") callback(data);
         }
     });
@@ -282,4 +263,36 @@ function setLoadingModalText(text){
 
 function setCurrentActivity(currentactivity){
 	window.currentActivity = currentactivity;
+}
+
+function getQStrikeItemData(item_id){
+	$.ajax({
+		url: qstrike_item_url+item_id,
+		async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data) {
+            if(data.length > 0){
+            	$('#qiid').removeClass("glyphicon-question-sign");
+            	$('#qiid').addClass("glyphicon-ok");
+            	$('#qiid_div').removeClass("alert-danger");
+            	$('#qiid_div').addClass("alert-success");
+            } else {
+            	$('#qiid').removeClass("glyphicon-ok");
+            	$('#qiid').addClass("glyphicon-remove");
+            	$('#qiid_div').removeClass("alert-success");
+            	$('#qiid_div').addClass("alert-danger");
+            }
+
+            if($('.style-qstrike-item-id').val().length < 1){
+            	$('#qiid_div').removeClass("alert-success");
+            	$('#qiid_div').addClass("alert-danger");
+            	$('#qiid').removeClass("glyphicon-ok");
+            	$('#qiid').removeClass("glyphicon-remove");
+            	$('#qiid').removeClass("glyphicon-question-sign");
+            }
+        }
+    });
 }
