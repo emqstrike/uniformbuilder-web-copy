@@ -10088,6 +10088,7 @@ ub.funcs.fontOffSets = [
             'Compression Pant (Apparel)',
             'Socks (Apparel)',
             'Cage Jacket (Apparel)',
+            'Wrestling 2018',
         ],
         options: [
             'Fight Short',
@@ -10296,8 +10297,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling Compression Shorts (Apparel)',
                 sublimatedPart: 'Extra',
             },
-            
-            // Socks (Apparel)
+            {
+                sport: 'Wrestling 2018',
+                sublimatedPart: 'Extra',
+            },   
         ],
 
         get: function (sport) {
@@ -12149,6 +12152,7 @@ ub.funcs.fontOffSets = [
         items: [
             'Test', // Richardson Test Block
             'Football 2017',
+            'Wrestling 2018',
         ],
         isValid: function (uniformCategory) {
 
