@@ -10169,7 +10169,7 @@ $(document).ready(function() {
         ub.tools.activeTool.deactivate();
         ub.funcs.updateLayerTool();
 
-        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
+        ub.funcs.gotoFirstMaterialOption();
         $('body').css('cursor', 'auto');
 
     };
@@ -11327,7 +11327,9 @@ $(document).ready(function() {
 
     ub.funcs.gotoFirstMaterialOption = function () {
 
-        $('div.pd-dropdown-links[data-fullname="body"]').trigger('click');
+        var _firstPart = $($('div.pd-dropdown-links')[1]).data('fullname');
+
+        $('div.pd-dropdown-links[data-fullname="' + _firstPart + '"]').trigger('click');
 
     }
 

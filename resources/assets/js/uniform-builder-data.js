@@ -2178,7 +2178,10 @@ $(document).ready(function() {
                 name: "Polo (Apparel)",
                 alias: "polo-apparel",
             },
-
+            {
+                name: "Wrestling 2018",
+                alias: "wrestling-2018",
+            },
         ],
 
         getAlias: function (sportName) {
