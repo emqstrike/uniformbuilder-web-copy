@@ -120,11 +120,12 @@ $(document).ready(function () {
 
 	ub.dataPatches.forRandomFeedPatching = function () {
 
-		console.log('Running Random Feed Post Patch for 13233');
-		
 		var _id13233 = ["13233"];
+		var _ok = typeof ub.config.savedDesignInfo === "object" &&  _.contains(_id13233, ub.config.savedDesignInfo.savedDesignID);
 
-		return (typeof ub.config.savedDesignInfo === "object" &&  _.contains(_id13233, ub.config.savedDesignInfo.savedDesignID));
+		if (_ok) { ub.current_material.settings.randomFeeds = {}; }
+
+		return _ok;
 
 	}
 
