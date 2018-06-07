@@ -530,7 +530,8 @@ $(document).ready(function () {
 
         });
 
-        delete ub.current_material.settings.randomFeeds[randomFeedSet];
+        ub.current_material.settings.randomFeeds[randomFeedSet].enabled = 0;
+        ub.current_material.settings.randomFeeds[randomFeedSet].numberOfColors = 0;
 
     }
 
@@ -834,7 +835,6 @@ $(document).ready(function () {
                 var _colorArray = [];
                 var _layers = [];
 
-
                 // Normalize randomFeed Position From source 
 
                 _.each (randomFeed.perspectives, function (perspective) {
@@ -891,10 +891,14 @@ $(document).ready(function () {
                 randomFeed.sortID = ub.data.randomFeedArrangement.getSortID(randomFeed.set).order;
                 
                 // Skip setup of randomFeed settings if coming from saved design, so the saved data will be rendered instead of the default randomFeed style
-                if (typeof ub.current_material.settings.randomFeeds[randomFeed.set] !== "undefined") { return; }
 
-                if (randomFeed.enabled === 1) {
+                var _hasSavedRandomFeedData = (typeof ub.current_material.settings.randomFeeds[randomFeed.set] !== "undefined");
 
+                if (_hasSavedRandomFeedData) { return; }
+
+                if (ub.dataPatches.forRandomFeedPatching()) { return; }
+
+                if (!_hasSavedRandomFeedData && randomFeed.enabled === 1) {
 
                     ub.current_material.settings.randomFeeds[randomFeed.set] = {
 
