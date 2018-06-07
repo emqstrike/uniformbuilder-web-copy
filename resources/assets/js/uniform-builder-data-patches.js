@@ -111,11 +111,21 @@ $(document).ready(function () {
 			console.error('---- End Patch ----');
 			
 		}
-		
+
 	}
 
 	ub.dataPatches.run = function () {
 		ub.dataPatches.patch4874to5728();
 	};
+
+	ub.dataPatches.forRandomFeedPatching = function () {
+
+		console.log('Running Random Feed Post Patch for 13233');
+		
+		var _id13233 = ["13233"];
+
+		return (typeof ub.config.savedDesignInfo === "object" &&  _.contains(_id13233, ub.config.savedDesignInfo.savedDesignID));
+
+	}
 
 });
