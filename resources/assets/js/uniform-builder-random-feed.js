@@ -892,7 +892,7 @@ $(document).ready(function () {
                 
                 // Skip setup of randomFeed settings if coming from saved design, so the saved data will be rendered instead of the default randomFeed style
 
-                var _hasSavedRandomFeedData = (typeof ub.current_material.settings.randomFeeds[randomFeed.set] !== "undefined");
+                var _hasSavedRandomFeedData = (typeof ub.current_material.settings.randomFeeds[randomFeed.set] !== "undefined" || _.isEmpty(ub.current_material.settings.randomFeeds));
 
                 if (_hasSavedRandomFeedData) { return; }
 
@@ -926,6 +926,8 @@ $(document).ready(function () {
             });
 
             ub.data.randomFeeds = _.sortBy(ub.data.randomFeeds, 'sortID');
+
+            ub.dataPatches.forRandomFeedPatching();
 
         } else {
 
