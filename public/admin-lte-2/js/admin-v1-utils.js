@@ -1,19 +1,12 @@
 window.accents_url = '//'+api_host+'/api/accents';
 window.block_patterns_url = '//'+api_host+'/api/block_patterns';
 window.fonts_url = '//'+api_host+'/api/fonts';
-window.mascots_url = '//'+api_host+'/api/mascots';
+// window.mascots_url = '//'+api_host+'/api/mascots';
+window.mascot_categories_url = '//'+api_host+'/api/mascot_categories';
 window.patterns_url = '//'+api_host+'/api/patterns';
 window.price_item_templates_url = '//'+api_host+'/api/price_item_templates';
 window.sports_categories_url = '//'+api_host+'/api/categories';
-window.style_request_priorities = [{
-									'name' : 'low',
-									'id' : 'low'},
-									{
-									'name' : 'mid',
-									'id' : 'mid'},
-									{
-									'name' : 'high',
-									'id' : 'high'}];
+window.style_request_priorities = [{ 'name' : 'low', 'id' : 'low'}, { 'name' : 'mid', 'id' : 'mid'}, { 'name' : 'high', 'id' : 'high'}];
 window.qstrike_item_url = 'http://qx.azurewebsites.net/api/item?itemid=';
 
 function sortArr(data, category_case, data_field){ // filter by category id or name
@@ -157,7 +150,7 @@ function repopulateElem(data, option_text, option_val, dd_class){
 	            if(sport_category_id == active_category_id){ filtered_data.push(e); }
 	        }
 	    });
-	} else if(window.currentActivity == "fonts" || window.currentActivity == "patterns"){
+	} else if(window.currentActivity == "fonts" || window.currentActivity == "patterns" || window.currentActivity == "block_patterns"){
 		data.forEach(function(e) {
 	        if(e.sports != null){
 	            var sports = e.sports;
@@ -171,6 +164,7 @@ function repopulateElem(data, option_text, option_val, dd_class){
 	filtered_data.forEach(function(e) {
 		elem += '<option value="'+e[option_val]+'">'+capitalizeFirstLetter(e[option_text])+'</option>';
 	});
+
 	$(dd_class).append(elem);
 }
 
@@ -202,6 +196,25 @@ function getDataFromAPI(url, result_text){
 	getDataCallback(function(data){ window[result_text] = data; });
 }
 
+function exportRule(data){
+	$.ajax({
+		url: '//'+api_host+'/api/'+endpoint_version+'/rule',
+        type: "POST",
+        data: JSON.stringify(data),
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response) {
+            if (response.success) {
+            	console.log('RESPONSE');
+                console.log(response);
+            }
+            $('#loadingModal').modal('hide');
+        }
+    });
+}
+
 function getDataSyncAs(url, result_text, as_case, name, id, elem_class, repopulate = false){
 	$.ajax({
 		url: url,
@@ -212,12 +225,17 @@ function getDataSyncAs(url, result_text, as_case, name, id, elem_class, repopula
         contentType: 'application/json',
         success: function(data) {
             window[result_text] = data[result_text];
+            console.log(window[result_text]);
             try{
             	sortArr(window[result_text], active_category_name, 'sports');
             } catch(err){
             	console.log(err.message);
             }
-            populateSelectElem(window[result_text], 'name', 'id', elem_class, true);
+            try{
+            	populateSelectElem(window[result_text], 'name', 'id', elem_class, true);
+            } catch(err){
+            	console.log(err.message);
+            }
             if(repopulate){
             	repopulateElem(window[result_text], 'name', 'id', elem_class, true);
             }

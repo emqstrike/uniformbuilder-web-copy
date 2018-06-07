@@ -168,6 +168,7 @@
                                 <select class="form-control rules-gender rules-dependent">
                                     <option value="men">Men</option>
                                     <option value="women">Women</option>
+                                    <option value="unisex">Unisex</option>
                                 </select>
                             </div>
 
@@ -184,8 +185,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Mascots</label>
-                                <select class="form-control rules-mascots rules-dependent" multiple="multiple">
+                                <label>Mascot Categories</label>
+                                <select class="form-control rules-mascot-categories rules-dependent" multiple="multiple">
                                 </select>
                             </div>
 
@@ -224,6 +225,15 @@
                                     </thead>
                                     <tbody id="tbody_parts"></tbody>
                                 </table>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <label>Description</label>
+                                <input type="text" class="form-control new-rule-description">
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <a href="#" class="form-control btn btn-success export-rule-btn">Export Rule</a>
                             </div>
                         </form>
                     </div>
@@ -264,7 +274,7 @@ active_category_name = '';
 loaded_accents = false;
 loaded_block_patterns = false;
 loaded_fonts = false;
-loaded_mascots = false;
+loaded_mascot_categories = false;
 loaded_patterns = false;
 loaded_price_item_templates = false;
 
@@ -334,6 +344,7 @@ $('.style-category').on('change', function(e){
 
 
 $('.rules-bp').on('click', function(e){
+    setCurrentActivity("block_patterns");
     e.preventDefault();
     if(!loaded_block_patterns){
         showLoadingModal();
@@ -402,16 +413,19 @@ $('.rules-fonts').on('click', function(e){
 
 
 
-$('.rules-mascots').on('click', function(e){
+
+$('.rules-mascot-categories').on('click', function(e){
     setCurrentActivity("mascots");
-    if(!loaded_mascots){
+    if(!loaded_mascot_categories){
         showLoadingModal();
         setLoadingModalText('Mascots...');
-        getDataSyncAs(mascots_url, 'mascots', 'false', 'name', 'id', '.rules-mascots', true);
-        loaded_mascots = true;
-        initSelect2('.rules-mascots','Select valid mascots');
+        getDataSyncAs(mascot_categories_url, 'mascots_categories', 'false', 'name', 'id', '.rules-mascot-categories', false);
+        loaded_mascot_categories = true;
+        initSelect2('.rules-mascot-categories','Select valid mascot categories');
     }
 });
+
+
 
 
 
@@ -426,14 +440,31 @@ $('.rules-patterns').on('click', function(e){
     }
 });
 
-
-
-$(document).on('change', 'select', function() {
-    console.log($('.rules-accents').val());
-    console.log($('.rules-fonts').val());
-    console.log($('.rules-mascots').val());
-    console.log($('.rules-patterns').val());
+$('.export-rule-btn').on('click', function(e){
+    e.preventDefault();
+    var data = {};
+    data.description = $('.new-rule-description').val();
+    data.sport = $(".style-category option:selected").text();
+    data.sport_id = $(".style-category").val();
+    data.block_pattern = $(".rules-bp option:selected").text();
+    data.block_pattern_id = $(".rules-bp").val();
+    data.block_pattern_option = $(".rules-bp-options option:selected").text();
+    // data.style_type = ;
+    data.price_item_template_id = $(".rules-pi-template").val();
+    // data.price_item_template_properties = ;
+    data.gender = $(".rules-gender").val();
+    data.accents = JSON.stringify($(".rules-accents").val());
+    data.fonts = JSON.stringify($(".rules-fonts").val());
+    data.mascot_categories = JSON.stringify($(".rules-mascot-categories").val());
+    data.patterns = JSON.stringify($(".rules-patterns").val());
+    data.application_locations = JSON.stringify($(".pa-allowed-apps").val());
+    data.max_application_locations = $(".rules-max-applications").val();
+    // data.parts = ;
+    // data.piping_locations = ;
+    console.log(data);
+    exportRule(data);
 });
+
 
 /* DOM EVENTS --- END */
 
