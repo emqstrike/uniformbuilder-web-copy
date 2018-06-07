@@ -112,6 +112,7 @@ Route::group(array('prefix' => 'administration'), function() {
         Route::get('/users', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@index']);
         Route::get('/account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings']);
         Route::post('/account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName']);
+        Route::get('/users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength']);
 
         Route::get('ordersMinified', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified']);
 
