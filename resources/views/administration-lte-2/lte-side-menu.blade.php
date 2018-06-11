@@ -63,6 +63,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/users"><i class="fa fa-users"></i> All Users<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+<li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/users/password_strength"><i class="fa fa-pie-chart"></i> Password Strength Graph<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="../tables/data.html"><i class="fa fa-folder"></i> User Transactions</a></li>
           </ul>
         </li>
