@@ -9,9 +9,12 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="box">
                 <center>
-                    <h1>
+                    <h2>
+                        <p>Password Strength Graph</p>
+                    </h2>
+                    <h3>
                         <p class="password-strength"></p>
-                    </h1>
+                    </h3>
                 </center>
                 <center>
                     <div class="box-body" style="width: 800px; height: 800px; margin-top: 50px;">
