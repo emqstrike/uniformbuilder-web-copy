@@ -8266,6 +8266,8 @@ $(document).ready(function() {
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
+        if (typeof _settingsObject === "undefined") { return; }
+
         ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
 
@@ -10169,7 +10171,7 @@ $(document).ready(function() {
         ub.tools.activeTool.deactivate();
         ub.funcs.updateLayerTool();
 
-        $('div.pd-dropdown-links[data-name="Body"]').trigger('click');
+        ub.funcs.gotoFirstMaterialOption();
         $('body').css('cursor', 'auto');
 
     };
@@ -11327,7 +11329,8 @@ $(document).ready(function() {
 
     ub.funcs.gotoFirstMaterialOption = function () {
 
-        $('div.pd-dropdown-links[data-fullname="body"]').trigger('click');
+        var _firstPart = $($('div.pd-dropdown-links')[1]).data('fullname');
+        $('div.pd-dropdown-links[data-fullname="' + _firstPart + '"]').trigger('click');
 
     }
 

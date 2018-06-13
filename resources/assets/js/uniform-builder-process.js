@@ -2493,19 +2493,19 @@ $(document).ready(function() {
 
         ub.funcs.cleanupsBeforeSave = function () {
 
-            // Remove Disabled Random Feeds
-            var _disabledRandomFeed = {};
+            // // Remove Disabled Random Feeds
+            // var _disabledRandomFeed = {};
             
-            _.each(ub.current_material.settings.randomFeeds, function (randomFeed, key) {
+            // _.each(ub.current_material.settings.randomFeeds, function (randomFeed, key) {
                 
-                if (randomFeed.enabled === 0) {
+            //     if (randomFeed.enabled === 0) {
 
-                    _disabledRandomFeed[key] = randomFeed;
-                    delete ub.current_material.settings.randomFeeds[key];
+            //         _disabledRandomFeed[key] = randomFeed;
+            //         delete ub.current_material.settings.randomFeeds[key];
 
-                }
+            //     }
 
-            });
+            // });
 
         }
 
