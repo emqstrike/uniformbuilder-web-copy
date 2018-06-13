@@ -8,6 +8,7 @@ window.price_item_templates_url = '//'+api_host+'/api/price_item_templates';
 window.sports_categories_url = '//'+api_host+'/api/categories';
 window.style_request_priorities = [{ 'name' : 'low', 'id' : 'low'}, { 'name' : 'mid', 'id' : 'mid'}, { 'name' : 'high', 'id' : 'high'}];
 window.qstrike_item_url = 'http://qx.azurewebsites.net/api/item?itemid=';
+window.qstrike_item_questions_url = 'http://qx.azurewebsites.net/api/itemquestion?itemid=';
 
 function sortArr(data, category_case, data_field){ // filter by category id or name
 	var filtered_data = [];
@@ -174,7 +175,11 @@ function populateSelectElem(data, option_text, option_val, dd_class, sort_cond){
 	$(dd_class).html('');
 	var elem = '';
 	if(sort_cond){
-		data = _.sortBy(data, function(e){ return e.name; });
+		if(window.currentActivity == 'rules_state'){
+			data = _.sortBy(data, function(e){ return e.description; });
+		} else {
+			data = _.sortBy(data, function(e){ return e.name; });
+		}
 	}
 	data.forEach(function(e) {
 		elem += '<option value="'+e[option_val]+'">'+capitalizeFirstLetter(e[option_text])+'</option>';
@@ -294,17 +299,22 @@ function getQStrikeItemData(item_id){
         success: function(data) {
             if(data.length > 0){
             	$('#qiid').removeClass("glyphicon-question-sign");
-            	$('#qiid').addClass("glyphicon-ok");
+            	$('#qiid').removeClass("glyphicon-remove");
             	$('#qiid_div').removeClass("alert-danger");
+            	$('#qiid').addClass("glyphicon-ok");
             	$('#qiid_div').addClass("alert-success");
+            	getQStrikeItemQuestions(item_id);
             } else {
+            	$('#qiid').removeClass("glyphicon-question-sign");
             	$('#qiid').removeClass("glyphicon-ok");
             	$('#qiid').addClass("glyphicon-remove");
             	$('#qiid_div').removeClass("alert-success");
             	$('#qiid_div').addClass("alert-danger");
+            	window.qstrike_item_questions = [];
             }
-
-            if($('.style-qstrike-item-id').val().length < 1){
+            var qx_item_id = $('.style-qstrike-item-id').val();
+            var qx_item_id_length = qx_item_id.length;
+            if(qx_item_id_length < 1){
             	$('#qiid_div').removeClass("alert-success");
             	$('#qiid_div').addClass("alert-danger");
             	$('#qiid').removeClass("glyphicon-ok");
@@ -313,4 +323,88 @@ function getQStrikeItemData(item_id){
             }
         }
     });
+}
+
+function getQStrikeItemQuestions(item_id){
+	console.log('getQStrikeItemQuestions');
+	console.log(qstrike_item_questions_url+item_id);
+	$.ajax({
+		url: qstrike_item_questions_url+item_id,
+		async: false,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data) {
+            window.qstrike_item_questions = data;
+            console.log(window.qstrike_item_questions);
+            buildQuestionsDD();
+        }
+    });
+}
+
+function buildQuestionsDD(){
+	var elem = '';
+	qstrike_item_questions.forEach(function(e) {
+		elem += '<option value="'+e.Question+'">'+e.Question+'</option>';
+	});
+	questions_dropdown = elem;
+	console.log(questions_dropdown);
+}
+
+function getDataSyncAsMin(result_text){
+	$.ajax({
+		url: '//'+api_host+'/api/'+endpoint_version+'/'+result_text,
+        type: "GET",
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        success: function(data) {
+        	window[result_text] = data[result_text]
+            bindRulesDD();
+        }
+    });
+}
+
+function bindRulesDD(){
+	populateSelectElem(window.rules, 'description', 'id', '.rules-list', true);
+}
+
+function loadActiveRulesData(){
+	loadRulesDAta(JSON.parse(active_rule_data.fonts), '.rules-fonts', 'fonts');
+	loadRulesDAta(JSON.parse(active_rule_data.accents), '.rules-accents', 'accents');
+	loadRulesDAta(JSON.parse(active_rule_data.mascot_categories), '.rules-mascot-categories', 'mascot-categories');
+	loadRulesDAta(JSON.parse(active_rule_data.patterns), '.rules-patterns', 'patterns');
+	loadRulesDAta(JSON.parse(active_rule_data.application_locations), '.pa-allowed-apps', 'applications');
+	var block_pattern_data = {
+		'block_pattern' : active_rule_data.block_pattern,
+		'block_pattern_id' : active_rule_data.block_pattern_id
+	};
+	loadRulesDAta(block_pattern_data, '.rules-bp', 'block pattern');
+	loadRulesDAta(active_rule_data.block_pattern_option, '.rules-bp-options', 'block pattern option');
+	loadRulesDAta(active_rule_data.max_application_locations, '.rules-max-applications', 'max application location');
+	$('.new-rule-description').val(active_rule_data.description);
+}
+
+function loadRulesDAta(data, dd_class, select2text){
+	populateExistingRuleVals(data, dd_class, select2text);
+	if(data.constructor === Array){
+		initSelect2(dd_class,'Select valid ' + select2text);
+	}
+}
+
+function populateExistingRuleVals(data, dd_class, select2text){
+	var elem = '';
+	if(data.constructor === Array){
+		data.forEach(function(e) {
+			elem += '<option value="'+e+'" selected>'+e+'</option>';
+		});
+	} else {
+		if( select2text === 'block pattern' ){
+			elem += '<option value="'+data.block_pattern_id+'" selected>'+data.block_pattern+'</option>';
+		} else {
+			elem += '<option value="'+data+'" selected>'+data+'</option>';
+		}
+	}
+	$(dd_class).append(elem);
 }

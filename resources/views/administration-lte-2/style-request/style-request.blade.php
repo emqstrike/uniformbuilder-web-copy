@@ -214,6 +214,9 @@
 
                             <div class="form-group col-md-12">
                                 <label>Parts</label>
+                                <a href="#" class="btn btn-xs btn-info add-parts-btn">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
@@ -221,6 +224,7 @@
                                             <th>QStrike Part Name</th>
                                             <th>Color Set</th>
                                             <th>Fabrics Allowed</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbody_parts"></tbody>
@@ -229,11 +233,11 @@
 
                             <div class="form-group col-md-12">
                                 <label>Description</label>
-                                <input type="text" class="form-control new-rule-description">
+                                <input type="text" class="form-control new-rule-description rules-dependent">
                             </div>
 
                             <div class="form-group col-md-2">
-                                <a href="#" class="form-control btn btn-success export-rule-btn">Export Rule</a>
+                                <a href="#" class="form-control btn btn-success export-rule-btn rules-dependent">Export Rule</a>
                             </div>
                         </form>
                     </div>
@@ -267,6 +271,7 @@ $(document).ready(function(){
 window.current_activity = null;
 
 rule_case = $('#ruleCaseRadioBtn1').val();
+active_rule_data = null;
 
 active_category_id = 0;
 active_category_name = '';
@@ -278,8 +283,12 @@ loaded_mascot_categories = false;
 loaded_patterns = false;
 loaded_price_item_templates = false;
 
+valid_qx_item_id = false;
+
 fonts = null;
 patterns = null;
+qstrike_item_questions = null;
+questions_dropdown = '';
 
 $('#datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
@@ -292,7 +301,16 @@ initSelect2('.pa-allowed-apps','Select valid applications');
 
 
 
+
+
 /* DOM EVENTS */
+
+$('.rules-list').on('change', function(e){
+    var active_rule_id = $(this).val();
+    active_rule_data = _.find(rules, function(e){ return e.id == active_rule_id; });
+    console.log(active_rule_data);
+    loadActiveRulesData();
+});
 
 $('.style-qstrike-item-id').on('change', function(e){
     var item_id = $(this).val();
@@ -302,6 +320,7 @@ $('.style-qstrike-item-id').on('change', function(e){
 
 
 $('.rules-radiobtn').on('change', function(e){
+    setCurrentActivity("rules_state");
     var radio_val = $('input[name=rules-radio]:checked').val();
 
     rule_case = radio_val;
@@ -324,8 +343,13 @@ function validateRuleCase(rule_case){
                 $('#rule_list_div').removeClass("alert alert-info");
             },1500);
         });
+
+        getDataSyncAsMin("rules");
     }
 }
+
+
+
 
 
 $('.style-category').on('change', function(e){
@@ -353,6 +377,25 @@ $('.rules-bp').on('click', function(e){
         loaded_block_patterns = true;
     }
 });
+
+
+
+
+
+$('.add-parts-btn').on('click', function(e){
+    e.preventDefault();
+    var row = '';
+    row += '<tr><td></td>';
+    row += '<td><select class="form-control qstrike-part-name">'+questions_dropdown+'</select></td>';
+    row += '<td></td>';
+    row += '<td></td>';
+    row += '<td><a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td></tr>';
+    $('#tbody_parts').append(row);
+});
+
+
+
+
 
 $('.rules-bp').on('change', function(e){
     setCurrentActivity("block_patterns");
@@ -385,6 +428,7 @@ $('.rules-pi-template').on('change', function(e){
 
 
 
+
 $('.rules-accents').on('click', function(e){
     setCurrentActivity("accents");
     if(!loaded_accents){
@@ -395,6 +439,7 @@ $('.rules-accents').on('click', function(e){
         initSelect2('.rules-accents','Select valid accents');
     }
 });
+
 
 
 
@@ -442,27 +487,29 @@ $('.rules-patterns').on('click', function(e){
 
 $('.export-rule-btn').on('click', function(e){
     e.preventDefault();
-    var data = {};
-    data.description = $('.new-rule-description').val();
-    data.sport = $(".style-category option:selected").text();
-    data.sport_id = $(".style-category").val();
-    data.block_pattern = $(".rules-bp option:selected").text();
-    data.block_pattern_id = $(".rules-bp").val();
-    data.block_pattern_option = $(".rules-bp-options option:selected").text();
-    // data.style_type = ;
-    data.price_item_template_id = $(".rules-pi-template").val();
-    // data.price_item_template_properties = ;
-    data.gender = $(".rules-gender").val();
-    data.accents = JSON.stringify($(".rules-accents").val());
-    data.fonts = JSON.stringify($(".rules-fonts").val());
-    data.mascot_categories = JSON.stringify($(".rules-mascot-categories").val());
-    data.patterns = JSON.stringify($(".rules-patterns").val());
-    data.application_locations = JSON.stringify($(".pa-allowed-apps").val());
-    data.max_application_locations = $(".rules-max-applications").val();
-    // data.parts = ;
-    // data.piping_locations = ;
-    console.log(data);
-    exportRule(data);
+    if(!$(this).attr('disabled')){
+        var data = {};
+        data.description = $('.new-rule-description').val();
+        data.sport = $(".style-category option:selected").text();
+        data.sport_id = $(".style-category").val();
+        data.block_pattern = $(".rules-bp option:selected").text();
+        data.block_pattern_id = $(".rules-bp").val();
+        data.block_pattern_option = $(".rules-bp-options option:selected").text();
+        // data.style_type = ;
+        data.price_item_template_id = $(".rules-pi-template").val();
+        // data.price_item_template_properties = ;
+        data.gender = $(".rules-gender").val();
+        data.accents = JSON.stringify($(".rules-accents").val());
+        data.fonts = JSON.stringify($(".rules-fonts").val());
+        data.mascot_categories = JSON.stringify($(".rules-mascot-categories").val());
+        data.patterns = JSON.stringify($(".rules-patterns").val());
+        data.application_locations = JSON.stringify($(".pa-allowed-apps").val());
+        data.max_application_locations = $(".rules-max-applications").val();
+        // data.parts = ;
+        // data.piping_locations = ;
+        console.log(data);
+        exportRule(data);
+    }
 });
 
 
