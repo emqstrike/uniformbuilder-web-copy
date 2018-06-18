@@ -275,9 +275,13 @@ active_rule_data = null;
 
 active_category_id = 0;
 active_category_name = '';
+colors_sets_dd = '';
+master_fabrics_dd = '';
 
 loaded_accents = false;
 loaded_block_patterns = false;
+loaded_colors_sets = false;
+loaded_master_fabrics = false;
 loaded_fonts = false;
 loaded_mascot_categories = false;
 loaded_patterns = false;
@@ -384,11 +388,17 @@ $('.rules-bp').on('click', function(e){
 
 $('.add-parts-btn').on('click', function(e){
     e.preventDefault();
+    if(!loaded_colors_sets){
+        getDataSyncAsMin("colors_sets");
+    }
+    if(!loaded_master_fabrics){
+        getDataSyncAsMin("master_fabrics");
+    }
     var row = '';
-    row += '<tr><td></td>';
+    row += '<tr><td><input type="text" c;ass="form-control part-name"></td>';
     row += '<td><select class="form-control qstrike-part-name">'+questions_dropdown+'</select></td>';
-    row += '<td></td>';
-    row += '<td></td>';
+    row += '<td><select class="form-control part-colors-set">'+colors_sets_dd+'</select></td>';
+    row += '<td><select class="form-control part-fabrics-allowed">'+master_fabrics_dd+'</select></td>';
     row += '<td><a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td></tr>';
     $('#tbody_parts').append(row);
 });
@@ -402,8 +412,6 @@ $('.rules-bp').on('change', function(e){
     var selected_bp_id = $(this).val();
     updateBPOdd(block_patterns, selected_bp_id, '.rules-bp-options');
 });
-
-
 
 
 
