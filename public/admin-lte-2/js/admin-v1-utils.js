@@ -291,6 +291,7 @@ function setLoadingModalText(text){
 
 function setCurrentActivity(currentactivity){
 	window.currentActivity = currentactivity;
+	console.log(window.currentActivity)
 }
 
 function getQStrikeItemData(item_id){
@@ -371,7 +372,7 @@ function getDataSyncAsMin(result_text){
         		window[result_text] = data[result_text]
         	}
 
-        	if(window.current_activity == "rules_state"){
+        	if(window.currentActivity == "rules_state"){
         		bindRulesDD();
         	}
 
@@ -445,9 +446,9 @@ function updateDDValues(data, dd_class){
 		if(dd_class == '.part-fabrics-allowed'){
 			elem += '<option value="'+e.id+'">'+e.code+'</option>';
 		} else if(dd_class == '.part-colors-set'){
-			elem += '<option value="'+e.id+'">'+e.name+'</option>';
+			elem += '<option value="'+e.id+'" data-name="'+e.name+'">'+e.name+'</option>';
 		} else if(dd_class == '.qstrike-part-name'){
-			elem += '<option value="'+e.QuestionID+'">'+e.Question+'</option>';
+			elem += '<option value="'+e.QuestionID+'" data-name="'+e.Question+'">'+e.Question+'</option>';
 		}
 	});
 
@@ -458,17 +459,29 @@ function updateDDValues(data, dd_class){
 
 	if(dd_class == ".part-fabrics-allowed"){
 		$(dd_class).each(function(i) {
-			// var listValue=$(this)[0].length;
-  	// 		if (listValue == 0) {
-				$(this).select2({
-					placeholder: 'select valid fabrics',
-					multiple: true,
-					allowClear: true
-				});
-			// }
+			$(this).select2({
+				placeholder: 'select valid fabrics',
+				multiple: true,
+				allowClear: true
+			});
 		});
 		master_fabrics_dd = elem;
 	} else if(dd_class == ".part-colors-set"){
 		colors_sets_dd = elem;
 	}
+}
+
+function updatePartsData(){
+	var data = [];
+	$('.part-row').each(function(i) {
+		var row_data = {};
+		row_data.question = $(this).find('.qstrike-part-name option:selected').text();
+		row_data.question_id = $(this).find('.qstrike-part-name').val();
+		row_data.color_set_name = $(this).find('.part-colors-set option:selected').text();
+		row_data.color_set_id = $(this).find('.part-colors-set').val();
+		row_data.master_fabrics_ids = $(this).find('.part-fabrics-allowed').val();
+		data.push(row_data);
+	});
+	console.log(data);
+	active_rule_parts_data = data;
 }
