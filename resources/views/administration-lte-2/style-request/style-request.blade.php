@@ -319,6 +319,15 @@ $('.rules-list').on('change', function(e){
 $('.style-qstrike-item-id').on('change', function(e){
     var item_id = $(this).val();
     getQStrikeItemData(item_id);
+    if(loaded_master_fabrics){
+        updateDDValues(master_fabrics, '.part-fabrics-allowed');
+    }
+    if(loaded_colors_sets){
+        updateDDValues(colors_sets, '.part-colors-set');
+    }
+    if(qstrike_item_questions){
+        updateDDValues(qstrike_item_questions, '.qstrike-part-name');
+    }
 });
 
 
@@ -521,7 +530,10 @@ $('.export-rule-btn').on('click', function(e){
 });
 
 
+
 /* DOM EVENTS --- END */
+
+
 
 });
 </script>

@@ -365,7 +365,7 @@ function getDataSyncAsMin(result_text){
         crossDomain: true,
         contentType: 'application/json',
         success: function(data) {
-        	if(dd_class = '.part-fabrics-allowed'){
+        	if(result_text == "master_fabrics"){
         		window[result_text] = data['fabrics']
         	} else {
         		window[result_text] = data[result_text]
@@ -446,10 +446,11 @@ function updateDDValues(data, dd_class){
 			elem += '<option value="'+e.id+'">'+e.code+'</option>';
 		} else if(dd_class == '.part-colors-set'){
 			elem += '<option value="'+e.id+'">'+e.name+'</option>';
+		} else if(dd_class == '.qstrike-part-name'){
+			elem += '<option value="'+e.QuestionID+'">'+e.Question+'</option>';
 		}
-
 	});
-	colors_sets_dd = elem;
+
 	$(dd_class).each(function(i) {
 		$(this).html('');
 		$(this).html(elem);
@@ -457,11 +458,17 @@ function updateDDValues(data, dd_class){
 
 	if(dd_class == ".part-fabrics-allowed"){
 		$(dd_class).each(function(i) {
-			$(this).select2({
-				placeholder: 'select valid fabrics',
-				multiple: true,
-				allowClear: true
-			});
+			// var listValue=$(this)[0].length;
+  	// 		if (listValue == 0) {
+				$(this).select2({
+					placeholder: 'select valid fabrics',
+					multiple: true,
+					allowClear: true
+				});
+			// }
 		});
+		master_fabrics_dd = elem;
+	} else if(dd_class == ".part-colors-set"){
+		colors_sets_dd = elem;
 	}
 }
