@@ -411,4 +411,11 @@
       <span>User Pairings</span>
       </a>
   </li>
+    
+    <li data-position='right'>
+        <a href="{{ route('pages') }}">
+            <i class="fa fa-file-text"></i>
+            <span>Pages</span>
+        </a>
+    </li>
 </ul>
