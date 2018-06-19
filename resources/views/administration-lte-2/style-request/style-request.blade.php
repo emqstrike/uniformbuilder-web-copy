@@ -119,7 +119,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-4 div-bordered">
+                    <div class="col-md-3 div-bordered">
                         <h3>Rules</h3>
                         <form id="style_info_form">
                             <div class="form-group" id="rule_list_div" style="display: none;">
@@ -156,7 +156,7 @@
                                             <th>Size</th>
                                             <th>Price Item</th>
                                             <th>MSRP</th>
-                                            <th>Web Price Sale</th>
+                                            <th>Web Price</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbody_sizes"></tbody>
@@ -197,7 +197,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-6 div-bordered">
+                    <div class="col-md-7 div-bordered">
                         <h3>Parts & Applications</h3>
                         <form id="style_info_form">
                             <div class="form-group">
@@ -217,7 +217,7 @@
                                 <a href="#" class="btn btn-xs btn-info add-parts-btn">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                 </a>
-                                <table class="table table-bordered table-striped">
+                                <table class="table table-bordered table-striped parts-table">
                                     <thead>
                                         <tr>
                                             <th>Customizer Part Name</th>
@@ -268,16 +268,21 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-window.current_activity = null;
+window.currentActivity = null;
 
 rule_case = $('#ruleCaseRadioBtn1').val();
 active_rule_data = null;
+active_rule_parts_data = null;
 
 active_category_id = 0;
 active_category_name = '';
+colors_sets_dd = '';
+master_fabrics_dd = '';
 
 loaded_accents = false;
 loaded_block_patterns = false;
+loaded_colors_sets = false;
+loaded_master_fabrics = false;
 loaded_fonts = false;
 loaded_mascot_categories = false;
 loaded_patterns = false;
@@ -315,6 +320,15 @@ $('.rules-list').on('change', function(e){
 $('.style-qstrike-item-id').on('change', function(e){
     var item_id = $(this).val();
     getQStrikeItemData(item_id);
+    if(loaded_master_fabrics){
+        updateDDValues(master_fabrics, '.part-fabrics-allowed');
+    }
+    if(loaded_colors_sets){
+        updateDDValues(colors_sets, '.part-colors-set');
+    }
+    if(qstrike_item_questions){
+        updateDDValues(qstrike_item_questions, '.qstrike-part-name');
+    }
 });
 
 
@@ -384,13 +398,20 @@ $('.rules-bp').on('click', function(e){
 
 $('.add-parts-btn').on('click', function(e){
     e.preventDefault();
+    if(!loaded_colors_sets){
+        getDataSyncAsMin("colors_sets");
+    }
+    if(!loaded_master_fabrics){
+        getDataSyncAsMin("master_fabrics");
+    }
     var row = '';
-    row += '<tr><td></td>';
+    row += '<tr class="part-row"><td><input type="text" class="form-control part-name"></td>';
     row += '<td><select class="form-control qstrike-part-name">'+questions_dropdown+'</select></td>';
-    row += '<td></td>';
-    row += '<td></td>';
-    row += '<td><a href="#" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td></tr>';
+    row += '<td><select class="form-control part-colors-set">'+colors_sets_dd+'</select></td>';
+    row += '<td><select class="form-control part-fabrics-allowed">'+master_fabrics_dd+'</select></td>';
+    row += '<td><a href="#" class="btn btn-xs btn-danger remove-part-row"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td></tr>';
     $('#tbody_parts').append(row);
+    updatePartsData();
 });
 
 
@@ -403,7 +424,26 @@ $('.rules-bp').on('change', function(e){
     updateBPOdd(block_patterns, selected_bp_id, '.rules-bp-options');
 });
 
+$(document).on('click', '.remove-part-row', function(e) {
+    e.preventDefault();
+    $(this).parent().parent().fadeOut().remove();
+    updatePartsData();
+});
 
+$(document).on('keyup', '.part-name', function() {
+    updatePartsData();
+});
+
+
+$(document).on('change', '.parts-table', function(e) {
+    console.log('parts table changed');
+    updatePartsData();
+});
+
+// add events for these
+// table keyup
+// table add row *
+// table delete row *
 
 
 
@@ -495,9 +535,9 @@ $('.export-rule-btn').on('click', function(e){
         data.block_pattern = $(".rules-bp option:selected").text();
         data.block_pattern_id = $(".rules-bp").val();
         data.block_pattern_option = $(".rules-bp-options option:selected").text();
-        // data.style_type = ;
+        data.style_type = $(".style-type").val();
         data.price_item_template_id = $(".rules-pi-template").val();
-        // data.price_item_template_properties = ;
+        data.price_item_template_properties = price_item_templates;
         data.gender = $(".rules-gender").val();
         data.accents = JSON.stringify($(".rules-accents").val());
         data.fonts = JSON.stringify($(".rules-fonts").val());
@@ -505,6 +545,7 @@ $('.export-rule-btn').on('click', function(e){
         data.patterns = JSON.stringify($(".rules-patterns").val());
         data.application_locations = JSON.stringify($(".pa-allowed-apps").val());
         data.max_application_locations = $(".rules-max-applications").val();
+        data.parts = JSON.stringify(active_rule_parts_data);
         // data.parts = ;
         // data.piping_locations = ;
         console.log(data);
@@ -513,7 +554,10 @@ $('.export-rule-btn').on('click', function(e){
 });
 
 
+
 /* DOM EVENTS --- END */
+
+
 
 });
 </script>
