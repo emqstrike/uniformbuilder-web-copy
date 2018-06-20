@@ -306,8 +306,6 @@ initSelect2('.pa-allowed-apps','Select valid applications');
 
 
 
-
-
 /* DOM EVENTS */
 
 $('.rules-list').on('change', function(e){

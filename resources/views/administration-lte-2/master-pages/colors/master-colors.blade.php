@@ -71,13 +71,13 @@ li.select2-selection__choice {
 $(document).ready(function(){
 
     $('.data-table').DataTable({
-    "paging": true,
-    "lengthChange": true,
-    "searching": true,
-    "ordering": false,
-    "info": true,
-    "autoWidth": true,
-});
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": false,
+        "info": true,
+        "autoWidth": true,
+    });
 
     window.delete_data_html = null;
     window.modal_action = null;
