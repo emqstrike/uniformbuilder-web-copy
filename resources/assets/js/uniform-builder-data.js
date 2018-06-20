@@ -8174,118 +8174,6 @@ ub.funcs.fontOffSets = [
 
     ];
 
-    ub.data.sportFilters = [
-        {
-            sport: 'Football',
-            filters: ['All', 'Jersey', 'Pant'],
-        },
-        {
-            sport: 'Football 2017',
-            filters: ['All', 'Jersey', 'Pant'],
-        },
-        {
-            sport: 'Basketball',
-            filters: ['All', 'Jersey', 'Shorts'],
-        },
-        {
-            sport: 'Baseball',
-            filters: ['All', 'Jersey', 'Pant'],
-        }, 
-        {
-            sport: 'Fastpitch',
-            filters: ['All', 'Jersey', 'Pant'],
-        }, 
-        {
-            sport: 'Wrestling',
-            filters: ['All', 'Singlet', 'Fight Shorts'],
-        },
-        {
-            sport: 'Crew Socks (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Compression (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Tech-Tee (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Cinch Sack (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Volleyball',
-            filters: ['All', 'Jersey', 'Compression Shorts'],
-        },
-        {
-            sport: 'Hoodie (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Quarter Zip Jacket (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Polo (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Fan Replica Jersey (Apparel)',
-            filters: ['All'],
-        }, 
-        {
-            sport: 'Soccer',
-            filters: ['All', 'Jersey', 'Shorts'],
-        },
-        {
-            sport: 'Lacrosse',
-            filters: ['All', 'Jersey', 'Shorts'],
-        },
-        {
-            sport: 'Hockey',
-            filters: ['All', 'Jersey', 'Shorts'],
-        },
-        {
-            sport: '2017 Team Short with Pockets (Apparel)',
-            filters: ['All', 'Jersey', 'Team Shorts'],
-        },
-        {
-            sport: 'Signature Coaches Short (Apparel)',
-            filters: ['All', 'Jersey', 'Shorts'],
-        },
-        {
-            sport: 'Game Day Jackets (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Socks (Apparel)',
-            filters: ['All', 'Jersey', 'Socks'],
-        },
-        {
-            sport: 'Polo (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Cage Jacket (Apparel)',
-            filters: ['All', 'Jersey'],
-        },
-        {
-            sport: 'Compression Pant (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Field Hockey',
-            filters: ['All', 'Jersey', 'Skorts'],
-        },
-        {
-            sport: 'Wrestling Compression Shorts (Apparel)',
-            filters: ['All', 'Jersey', 'Shorts'],
-        },
-          
-    ];
-
     ub.funcs.load_fonts = function () {
 
         var font_builder = '';
@@ -11156,7 +11044,6 @@ ub.funcs.fontOffSets = [
                 lowerLabel: 'Fight Shorts',
             //  tackleTwillHidden: true,        // Use this in the future
             },
-
             {
                 sport: 'Volleyball',
                 type: 'both',
@@ -11238,6 +11125,32 @@ ub.funcs.fontOffSets = [
                 lowerLabel: 'Shorts',
             },
             {
+                sport: 'Hockey',
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Pants',
+            },
+            {
+                sport: 'Game Day Jackets (Apparel)',
+                type: 'upper',
+                upperLabel: 'Jacket',
+            },
+            {
+                sport: 'Cage Jacket (Apparel)',
+                type: 'upper',
+                upperLabel: 'Jackets',
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                type: 'upper',
+                upperLabel: 'Jersey',
+            },
+            {
+                sport: 'Compression Pant (Apparel)',
+                type: 'lower',
+                lowerLabel: ' Pants',
+            },
+            {
                 sport: 'Default', // Football
                 type: 'both',
                 upperLabel: 'Jersey',
@@ -11255,6 +11168,127 @@ ub.funcs.fontOffSets = [
         }
 
     }
+
+     ub.data.sportFilters = [
+        {
+            sport: 'Football',
+            filters: ['All', 'Jersey', 'Pant'],
+        },
+        {
+            sport: 'Football 2017',
+            filters: ['All', 'Jersey', 'Pant'],
+        },
+        {
+            sport: 'Basketball',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Baseball',
+            filters: ['All', 'Jersey', 'Pant'],
+        }, 
+        {
+            sport: 'Fastpitch',
+            filters: ['All', 'Jersey', 'Pant'],
+        }, 
+        {
+            sport: 'Wrestling',
+            filters: ['All', 'Singlet', 'Fight Shorts'],
+        },
+        {
+            sport: 'Crew Socks (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Compression (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Tech-Tee (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Volleyball',
+            filters: ['All', 'Jersey', 'Compression Shorts'],
+        },
+        {
+            sport: 'Hoodie (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Quarter Zip Jacket (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Polo (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Fan Replica Jersey (Apparel)',
+            filters: ['All'],
+        }, 
+        {
+            sport: 'Soccer',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Lacrosse',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Hockey',
+            filters: ['All', 'Jersey', 'Pants'],
+        },
+        {
+            sport: '2017 Team Short with Pockets (Apparel)',
+            filters: ['All', 'Jersey', 'Team Shorts'],
+        },
+        {
+            sport: 'Signature Coaches Short (Apparel)',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Game Day Jackets (Apparel)',
+            filters: ['All', 'Jackets'],
+        },
+        {
+            sport: 'Socks (Apparel)',
+            filters: ['All', 'Jersey', 'Socks'],
+        },
+        {
+            sport: 'Polo (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Cage Jacket (Apparel)',
+            filters: ['All', 'Jackets'],
+        },
+        {
+            sport: 'Compression Pant (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Field Hockey',
+            filters: ['All', 'Jersey', 'Skorts'],
+        },
+        {
+            sport: 'Fan Replica Jersey (Apparel)',
+            filters: ['All', 'Jersey'],
+        },
+        {
+            sport: 'Wrestling Compression Shorts (Apparel)',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Compression Short (Apparel)',
+            filters: ['All', 'Pants'],
+        },
+        {
+            sport: 'Cinch Sack (Apparel)',
+            filters: ['All', 'Cinch Sack'],
+        },
+
+          
+    ];
 
     // Todo: Detect this at runtime instead
     ub.data.sportsWithExtraLayer = {
