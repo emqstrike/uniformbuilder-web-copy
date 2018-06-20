@@ -26,10 +26,12 @@ $(document).ready(function () {
 
             _result = _.find(this.items, function (item) {
 
-                return item.sport === sport && 
+                var _res =  item.sport === sport && 
                     item.type === type && 
                     _.contains(item.blockPattern, ub.utilities.domParserDecoder(blockPattern)) && 
                     _.contains(item.neckOption, ub.utilities.domParserDecoder(neckOption));
+
+                return _res;
 
             });
 
