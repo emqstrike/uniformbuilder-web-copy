@@ -8660,6 +8660,12 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Football 2017',
                 applicationNumber: '5',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '5',
                 size: 3,
                 pullUpHeight: 0,
             },
@@ -8885,7 +8891,7 @@ ub.funcs.fontOffSets = [
         ], 
 
         getPullUp: function (sport, parentSize, applicationNumber) {
-
+            
             var _parentSize = parentSize; 
 
             // Handle unset teamnames
