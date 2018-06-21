@@ -59,6 +59,7 @@ class AuthenticationController extends Controller
                 Session::put('accountType', $result->user->type);
                 Session::put('accessToken', $result->access_token);
                 Session::put('role', $result->user->role);
+                Session::put('userType', $result->user->type);
                 Session::flash('flash_message', 'Welcome to ' . env('BUILDER_NAME'));
 
                 $config_string = 'user-restrictions.'.$result->user->id;
