@@ -4,47 +4,58 @@
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 
     <style type="text/css">
         div#box_body {
             overflow-y: scroll;
             max-height: 500px;
         }
+    
+        li.select2-selection__choice {
+            color: black !important;
+        }
     </style>
 @endsection
 
 @section('content')
-    <input type="hidden" name="_token" value="{{ csrf_token() }}" id="x-csrf-token">
-    
-    <section class="content">
+    <div class="content">
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h1>Edit Page</h1>
+                        <h1>Add New Page Rule</h1>
                         @include('administration.partials.flash-message')
                     </div>
 
                     <div class="box-body">
-                        <form action="{{ route('update_page', ['id' => $page->id]) }}" method="POST" class="form-horizontal">
-                            {{ method_field('PATCH') }}
+                        <form action="{{ route('store_new_page_rule') }}" method="POST" class="form-horizontal">
                             {{ csrf_field() }}
-
-                            <input type="hidden" name="id" value="{{ $page->id }}">
+                            <input type="hidden" name="brand" value="{{ env('BRAND') }}">
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Code</label>
+                                <label class="col-md-4 control-label">Type</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="code" value="{{ $page->code }}" required>
+                                    <select name="type" id="type" class="form-control">
+                                        <option value="administrator">Administrator</option>
+                                        <option value="normal">Normal</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label">Brand</label>
+                                <label class="col-md-4 control-label">Role</label>
                                 <div class="col-md-6">
-                                    <select name="brand" class="form-control">
-                                        @foreach ($brandings as $brand)
-                                            <option value="{{ $brand->site_name }}">{{ $brand->site_name }}</option>
+                                    <select name="role" id="role" class="form-control"></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Allowed Pages</label>
+                                <div class="col-md-6">
+                                    <select name="allowed_pages[]" class="form-control pages" multiple="multiple">
+                                        @foreach ($pages as $page)
+                                            <option value="{{ $page->code }}">{{ $page->code }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -54,10 +65,10 @@
                                 <div class="col-md-6 col-md-offset-4">
                                     <button class="btn btn-primary" type="submit">
                                         <span class="glyphicon glyphicon-floppy-disk"></span>
-                                        Update Page
+                                        Add Page
                                     </button>
 
-                                    <a href="{{ route('pages') }}" class="btn btn-danger">
+                                    <a href="{{ route('page_rules') }}" class="btn btn-danger">
                                         <span class="glyphicon glyphicon-arrow-left"></span>
                                         Cancel
                                     </a>
@@ -68,5 +79,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+@endsection
+
+@section('scripts')
+    @include('administration.partials.page-rules.scripts')
 @endsection

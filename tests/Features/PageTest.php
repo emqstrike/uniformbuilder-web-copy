@@ -58,9 +58,8 @@ class PageTest extends TestCase
     {
         $page = array('code' => 'page_one', 'brand' => 'prolook');
 
-        $response = $this->call('POST', route('add_new_page'), $page);
+        $response = $this->call('POST', route('store_new_page'), $page);
 
-        $this->assertEquals(200, $response->status());
         $this->visit(route('pages'))
              ->see($page['code'])
              ->see($page['brand']);

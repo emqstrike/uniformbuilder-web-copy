@@ -81,4 +81,25 @@ class PageClientTest extends TestCase
 
         $this->assertTrue($response->success);
     }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     */
+    public function itCanGetPagesByBrand()
+    {
+        $prolookData = array('code' => 'page_one', 'brand' => 'prolook');
+        $prolookPage = $this->pageClient->create($prolookData)->page;
+
+        $richardsonData = array('code' => 'page_one', 'brand' => 'richardson');
+        $richardsonPage = $this->pageClient->create($richardsonData)->page;
+
+        $response = $this->pageClient->getByBrand($prolookPage->brand);
+
+        $this->assertTrue($response->success);
+        foreach ($response->pages as $page) {
+            $this->assertEquals($prolookPage->brand, $page->brand);
+            $this->assertNotEquals($richardsonPage->brand, $page->brand);
+        }
+    }
 }

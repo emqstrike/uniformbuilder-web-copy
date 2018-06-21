@@ -82,7 +82,7 @@ Route::get('getting_started', 'Help\HelpController@getting_started');
 });
 
 // Administration Routes
-Route::group(array('prefix' => 'administration'), function() {
+Route::group(array('prefix' => 'administration', 'middleware' => 'restrictedUserAccess'), function() {
 
     Route::group(array('prefix' => 'master_pages'), function() {
     });
@@ -529,9 +529,22 @@ Route::group(array('prefix' => 'administration'), function() {
     // Pages
     Route::get('pages', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@index'])->name('pages');
     Route::get('page/{id}/edit', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@edit'])->name('edit_page');
-    Route::post('page/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@store'])->name('add_new_page');
+    Route::get('page/create', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@create'])->name('add_new_page');
+    Route::post('page/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@store'])->name('store_new_page');
     Route::patch('page/{id}/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@update'])->name('update_page');
     Route::get('page/{id}/delete', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@delete'])->name('delete_page');
+
+    // Page Rules
+    Route::get('page_rules', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@index'])->name('page_rules');
+    Route::get('page_rules/{id}/edit', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@edit'])->name('edit_page_rule');
+    Route::get('page_rule/create', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@create'])->name('add_new_page_rule');
+    Route::post('page_rule/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@store'])->name('store_new_page_rule');
+    Route::patch('page_rule/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@update'])->name('update_page_rule');
+    Route::get('page_rule{id}/delete', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@delete'])->name('delete_page_rule');
+
+    // Roles
+    Route::get('roles/get_available_admin_roles_in_page_rules', 'Administration\RoleController@getAvailableAdminRolesForPageRules')->name('get_available_admin_roles_in_page_rules');
+    Route::get('roles/get_available_normal_roles_in_page_rules', 'Administration\RoleController@getAvailableNormalRolesForPageRules')->name('get_available_normal_roles_in_page_rules');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

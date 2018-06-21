@@ -21,21 +21,18 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h1>Edit Page</h1>
+                        <h1>Add New Page</h1>
                         @include('administration.partials.flash-message')
                     </div>
 
                     <div class="box-body">
-                        <form action="{{ route('update_page', ['id' => $page->id]) }}" method="POST" class="form-horizontal">
-                            {{ method_field('PATCH') }}
+                        <form action="{{ route('store_new_page') }}" method="POST" class="form-horizontal">
                             {{ csrf_field() }}
-
-                            <input type="hidden" name="id" value="{{ $page->id }}">
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Code</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="code" value="{{ $page->code }}" required>
+                                    <input type="text" class="form-control" name="code" value="{{ old('code') }}" required>
                                 </div>
                             </div>
 
@@ -43,9 +40,7 @@
                                 <label class="col-md-4 control-label">Brand</label>
                                 <div class="col-md-6">
                                     <select name="brand" class="form-control">
-                                        @foreach ($brandings as $brand)
-                                            <option value="{{ $brand->site_name }}">{{ $brand->site_name }}</option>
-                                        @endforeach
+                                        <option value="prolook">Prolook</option>
                                     </select>
                                 </div>
                             </div>
@@ -54,7 +49,7 @@
                                 <div class="col-md-6 col-md-offset-4">
                                     <button class="btn btn-primary" type="submit">
                                         <span class="glyphicon glyphicon-floppy-disk"></span>
-                                        Update Page
+                                        Add Page
                                     </button>
 
                                     <a href="{{ route('pages') }}" class="btn btn-danger">

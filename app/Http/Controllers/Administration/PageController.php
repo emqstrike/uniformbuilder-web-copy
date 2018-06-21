@@ -2,49 +2,84 @@
 
 namespace App\Http\Controllers\Administration;
 
+use App\APIClients\BrandingsAPIClient;
 use App\APIClients\PageClient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PageController extends Controller
 {
     protected $pageClient;
+    protected $brandingClient;
 
-    public function __construct(PageClient $pageClient) {
+    public function __construct(PageClient $pageClient, BrandingsAPIClient $brandingClient) {
         $this->pageClient = $pageClient;
+        $this->brandingClient = $brandingClient;
     }
     
     public function index()
     {
-        $pages = $this->pageClient->getPages()->pages;
+        $pages = [];
+        $result = $this->pageClient->getPages();
+
+        if ($result->success) {
+            $pages = $result->pages;
+        }
 
         return view('administration.pages.page', compact('pages'));
     }
 
     public function store(Request $request)
     {
-        $this->pageClient->create($request->all());
+        $result = $this->pageClient->create($request->all());
+
+        if ($result->success) {
+            return redirect()->route('pages')->with('flash_message_success', $result->message);
+        }
+
+        return back()->with('flash_message_error', $result->message);
+    }
+
+    public function create()
+    {
+        return view('administration.pages.create');
     }
 
     public function update(Request $request)
     {
-        $page = $this->pageClient->update($request->all());
+        $result = $this->pageClient->update($request->all());
 
-        if ($page) {
-            return redirect()->route('pages');
+        if ($result->success) {
+            return redirect()->route('pages')->with('flash_message_success', $result->message);
         }
+
+        return back()->with('flash_message_error', $result->message);
     }
 
     public function edit($id)
     {
-        $page = $this->pageClient->getPage($id)->page;
-        return view('administration.pages.edit', compact('page'));
+        $page = [];
+        $result = $this->pageClient->getPage($id);
+
+        $brandings = $this->brandingClient->getAll();
+
+        if ($result->success) {
+            $page = $result->page;
+        }
+
+        return view('administration.pages.edit', compact('page', 'brandings'));
     }
 
     public function delete($id)
     {
         $result = $this->pageClient->deletePage($id);
-        return redirect()->route('pages')->with('message', $result->message);
+
+        if ($result->success) {
+            return redirect()->route('pages')->with('flash_message_success', $result->message);
+        }
+
+        return redirect()->route('pages')->with('flash_message_error', $result->message);
     }
 }
