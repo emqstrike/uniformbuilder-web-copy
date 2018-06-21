@@ -25,17 +25,60 @@ class MasterPagesController extends Controller
         $this->masterPatternsAPIClient = new \App\APIClients\MasterPatternsAPIClient();
         $this->masterFontsAPIClient = new \App\APIClients\MasterFontsAPIClient();
         $this->masterColorsAPIClient = new \App\APIClients\MasterColorsAPIClient();
-
+        $this->styleRequestsAPIClient = new \App\APIClients\StyleRequestsAPIClient();
     }
 
     public function styleRequestIndex()
+    {
+        $style_requests = $this->styleRequestsAPIClient->getAll();
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+
+        $high_priority_count = 0;
+        $in_progress_count = 0;
+        $rejected_count = 0;
+        $pending_count = 0;
+
+        foreach($style_requests as $style_request)
+        {
+            if($style_request->priority == "high"){
+                $high_priority_count++;
+            }
+
+            if($style_request->status == "in_progress"){
+                $in_progress_count++;
+            }
+
+            if($style_request->status == "rejected"){
+                $rejected_count++;
+            }
+
+            if($style_request->status == "pending"){
+                $pending_count++;
+            }
+        }
+        if (in_array($user_id, $su_array)) {
+            return view('administration-lte-2.style-request.style-requests', [
+                'style_requests' => $style_requests,
+                'high_priority_count' => $high_priority_count,
+                'in_progress_count' => $in_progress_count,
+                'rejected_count' => $rejected_count,
+                'pending_count' => $pending_count
+            ]);
+        } else {
+                return redirect('administration');
+        }
+    }
+
+    public function styleRequestAdd()
     {
 
         $user_id = Session::get('userId');
         $superusers = env('BACKEND_SUPERUSERS');
         $su_array = explode(',', $superusers);
         if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.style-request.style-request');
+            return view('administration-lte-2.style-request.style-request-add');
         } else {
                 return redirect('administration');
         }

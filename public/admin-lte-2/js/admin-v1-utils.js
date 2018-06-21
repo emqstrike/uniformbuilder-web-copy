@@ -1,5 +1,6 @@
 window.accents_url = '//'+api_host+'/api/accents';
 window.block_patterns_url = '//'+api_host+'/api/block_patterns';
+window.colors_sets_url = '//'+api_host+'/api/colors_sets';
 window.fonts_url = '//'+api_host+'/api/fonts';
 // window.mascots_url = '//'+api_host+'/api/mascots';
 window.mascot_categories_url = '//'+api_host+'/api/mascot_categories';
@@ -174,6 +175,10 @@ function populateSelectElem(data, option_text, option_val, dd_class, sort_cond){
     active_category_name = $(".style-category option:selected").text();
 	$(dd_class).html('');
 	var elem = '';
+	console.log('ACTIVITY: '+window.currentActivity);
+	if(window.currentActivity == "rules_state"){
+		elem += '<option value="">Select Rule...</option>';
+	}
 	if(sort_cond){
 		if(window.currentActivity == 'rules_state'){
 			data = _.sortBy(data, function(e){ return e.description; });
@@ -286,6 +291,7 @@ function setLoadingModalText(text){
 
 function setCurrentActivity(currentactivity){
 	window.currentActivity = currentactivity;
+	console.log(window.currentActivity)
 }
 
 function getQStrikeItemData(item_id){
@@ -360,8 +366,21 @@ function getDataSyncAsMin(result_text){
         crossDomain: true,
         contentType: 'application/json',
         success: function(data) {
-        	window[result_text] = data[result_text]
-            bindRulesDD();
+        	if(result_text == "master_fabrics"){
+        		window[result_text] = data['fabrics']
+        	} else {
+        		window[result_text] = data[result_text]
+        	}
+
+        	if(window.currentActivity == "rules_state"){
+        		bindRulesDD();
+        	}
+
+        	if(result_text == "colors_sets"){
+        		updateDDValues(window[result_text], '.part-colors-set');
+        	} else if(result_text == "master_fabrics"){
+        		updateDDValues(window[result_text], '.part-fabrics-allowed');
+        	}
         }
     });
 }
@@ -384,6 +403,16 @@ function loadActiveRulesData(){
 	loadRulesDAta(active_rule_data.block_pattern_option, '.rules-bp-options', 'block pattern option');
 	loadRulesDAta(active_rule_data.max_application_locations, '.rules-max-applications', 'max application location');
 	$('.new-rule-description').val(active_rule_data.description);
+
+	if(!loaded_price_item_templates){
+		getDataSyncAs(price_item_templates_url, 'price_item_templates', 'false', 'name', 'id', '.rules-pi-template', true);
+	}
+
+	setTimeout(function(){
+		var pi_id = active_rule_data.price_item_template_id;
+	    var pi_template = _.find(price_item_templates, function(e){ return e.id == pi_id; });
+	    buildPITTable(pi_template, '#tbody_sizes');
+	}, 6000);
 }
 
 function loadRulesDAta(data, dd_class, select2text){
@@ -395,6 +424,7 @@ function loadRulesDAta(data, dd_class, select2text){
 
 function populateExistingRuleVals(data, dd_class, select2text){
 	var elem = '';
+	$(dd_class).html('');
 	if(data.constructor === Array){
 		data.forEach(function(e) {
 			elem += '<option value="'+e+'" selected>'+e+'</option>';
@@ -407,4 +437,51 @@ function populateExistingRuleVals(data, dd_class, select2text){
 		}
 	}
 	$(dd_class).append(elem);
+}
+
+function updateDDValues(data, dd_class){
+	var elem = '';
+	$(dd_class).html('');
+	data.forEach(function(e) {
+		if(dd_class == '.part-fabrics-allowed'){
+			elem += '<option value="'+e.id+'">'+e.code+'</option>';
+		} else if(dd_class == '.part-colors-set'){
+			elem += '<option value="'+e.id+'" data-name="'+e.name+'">'+e.name+'</option>';
+		} else if(dd_class == '.qstrike-part-name'){
+			elem += '<option value="'+e.QuestionID+'" data-name="'+e.Question+'">'+e.Question+'</option>';
+		}
+	});
+
+	$(dd_class).each(function(i) {
+		$(this).html('');
+		$(this).html(elem);
+	});
+
+	if(dd_class == ".part-fabrics-allowed"){
+		$(dd_class).each(function(i) {
+			$(this).select2({
+				placeholder: 'select valid fabrics',
+				multiple: true,
+				allowClear: true
+			});
+		});
+		master_fabrics_dd = elem;
+	} else if(dd_class == ".part-colors-set"){
+		colors_sets_dd = elem;
+	}
+}
+
+function updatePartsData(){
+	var data = [];
+	$('.part-row').each(function(i) {
+		var row_data = {};
+		row_data.question = $(this).find('.qstrike-part-name option:selected').text();
+		row_data.question_id = $(this).find('.qstrike-part-name').val();
+		row_data.color_set_name = $(this).find('.part-colors-set option:selected').text();
+		row_data.color_set_id = $(this).find('.part-colors-set').val();
+		row_data.master_fabrics_ids = $(this).find('.part-fabrics-allowed').val();
+		data.push(row_data);
+	});
+	console.log(data);
+	active_rule_parts_data = data;
 }
