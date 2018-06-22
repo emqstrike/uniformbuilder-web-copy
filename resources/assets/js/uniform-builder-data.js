@@ -10469,7 +10469,50 @@ ub.funcs.fontOffSets = [
                     sport: 'Basketball',
                     option: "Round Neck",
                 },
-
+                {
+                    sport: 'Basketball',
+                    option: "Side Seam Jersey",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Kentucky Jersey (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Kentucky Jersey (W)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Laker Neck Jersey (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Laker Neck Jersey (W)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Wildcat Neck Jersey (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Wildcat Neck Jersey (W)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Wildcat Neck Jersey (W)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "4 Inch Side Panel Short (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "4 Inch Side Panel Short (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "4 Inch Side Panel Short (W)",
+                },
         ],
         currentUniformOk: function () {
 
