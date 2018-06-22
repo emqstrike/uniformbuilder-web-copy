@@ -137,27 +137,49 @@ class AuthenticationController extends AdminAuthController
                 #
                 # TEAM STORE LOGIN HANDLER
                 #
-                $allowed_users = [
-                    'administrator'
-                ];
-                if (in_array($result->user->type, $allowed_users))
-                {
-                    Session::put('is_show_teamstore_toolbox', true);
-                    Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
+                $response = $this->client->get('get_feature_by_name/' . config('teamstores.feature_name'));
+                $response = $decoder->decode($response->getBody());
 
-                    $client = new UserTeamStoreClient;
-                    $response = $client->get_store_by_token($access_token);
-                    if ($response->success)
-                    {
-                        $this->setTeamStoreConfiguration(
-                            $response->store->store_id,
-                            $response->store->owner_id,
-                            $response->store->store_code,
-                            $response->store->store_name,
-                            $response->store->colors
-                        );
+                if (filter_var($response->feature->active, FILTER_VALIDATE_BOOLEAN)) {
+                    if ($response->feature->switch == 'enable') {
+                        $user_ids = str_replace('"', '', $response->feature->user_ids);
+                        $user_ids = str_replace('"', '', substr($user_ids, 1, -1));
+
+                        if ($user_ids) {
+                            $user_ids = explode(",", $user_ids);
+                        } else {
+                            $user_ids = [];
+                        }
+
+                        if ((in_array($result->user->id, $user_ids)) || (count($user_ids) == 0)) {
+                            Session::put('teamStoreFeatureIsEnabled', true);
+
+                            $allowed_users = [
+                                'administrator'
+                            ];
+
+                            if (in_array($result->user->type, $allowed_users)) {
+                                Session::put('is_show_teamstore_toolbox', true);
+                                Log::info('User #' . $user->email . ' (' . $user->type . ') is entitled to open TEAM STORE (beta) version');
+
+                                $client = new UserTeamStoreClient;
+                                $response = $client->get_store_by_token($access_token);
+
+                                if ($response->success) {
+                                    $this->setTeamStoreConfiguration(
+                                        $response->store->store_id,
+                                        $response->store->owner_id,
+                                        $response->store->store_code,
+                                        $response->store->store_name,
+                                        $response->store->colors
+                                    );
+                                }
+                            }
+                        }
                     }
                 }
+
+                
 
                 #
                 # CUSTOMIZER LOGIN HANDLER
