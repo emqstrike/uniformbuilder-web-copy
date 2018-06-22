@@ -11216,7 +11216,7 @@ ub.funcs.fontOffSets = [
         },
         {
             sport: 'Quarter Zip Jacket (Apparel)',
-            filters: ['All'],
+            filters: ['All', 'Jackets'],
         },
         {
             sport: 'Polo (Apparel)',
