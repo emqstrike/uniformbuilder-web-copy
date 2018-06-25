@@ -796,6 +796,7 @@ $(document).ready(function () {
         var _materialOption = materialOption;
 
         var _htmlBuilder    = "<div id='patternUI'>";
+
         var _patternName    = _patternObj.name;
         var _thumbnail      = _patternObj.icon;
 
