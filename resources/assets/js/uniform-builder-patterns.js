@@ -797,11 +797,6 @@ $(document).ready(function () {
 
         var _htmlBuilder    = "<div id='patternUI'>";
 
-        console.log('Input Pattern: ');
-        console.log(inputPattern);
-
-        console.log('pattern: ');
-        console.log(_patternObj)
         var _patternName    = _patternObj.name;
         var _thumbnail      = _patternObj.icon;
 
@@ -1057,12 +1052,6 @@ $(document).ready(function () {
             var firstMaterialOption     = _materialOptions[0];
             var patternObject           = _settingsObject.pattern;
 
-            console.log('_settingsObject: ');
-            console.log(_settingsObject);
-
-            console.log('Pattern Object: ');
-            console.log(patternObject);
-
             if (typeof patternObject === 'undefined') {
 
                 _returnValue = false;
@@ -1070,13 +1059,6 @@ $(document).ready(function () {
 
             }
             else {
-
-                if (typeof patternObject.pattern_obj === "undefined") {
-
-                    _returnValue = false;
-                    return _returnValue;
-
-                }
 
                 ub.funcs.createPatternUI(patternObject, firstMaterialOption); 
 
