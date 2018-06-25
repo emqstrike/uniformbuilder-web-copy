@@ -10513,6 +10513,11 @@ ub.funcs.fontOffSets = [
                     sport: 'Basketball',
                     option: "4 Inch Side Panel Short (W)",
                 },
+                {
+                    sport: 'Basketball',
+                    option: "Kentucky Jersey(M)",
+                },
+
         ],
         currentUniformOk: function () {
 
