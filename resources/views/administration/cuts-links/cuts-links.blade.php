@@ -47,9 +47,6 @@
                                 {{$item->cuts_pdf}}
                             </td>
                             <td class="td-buttons">
-                            <!--     <a href="#" class="btn btn-default btn-xs " >
-                                    <i class="glyphicon glyphicon-info-sign"> Info</i>
-                                </a> -->
                                 <a href="/administration/cuts_links/edit/{{$item->id}}" class="edit-cut-link btn btn-info btn-xs">
                                     <i class="glyphicon glyphicon-edit"> Edit</i>
                                 </a>
@@ -97,7 +94,7 @@ $(document).ready(function(){
         "autoWidth": false
     });
 
-    $('.delete-cut-links').on('click', function(){
+    $(document).on('click', '.delete-cut-links', function(){
        var id = [];
        id.push( $(this).data('cut-link-id'));
        console.log(id);
