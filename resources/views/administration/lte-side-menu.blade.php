@@ -86,7 +86,7 @@
         </a>
 
         <ul class="treeview-menu">
-            <li>
+      <!--       <li>
                 <a href="/administration/artwork_requests" >
                     <i class="glyphicon glyphicon-picture"></i> <span>Artwork Requests (Orders)</span>
                 </a>
@@ -101,7 +101,7 @@
                     <i class="glyphicon glyphicon-picture"></i>
                     <span>Custom Artwork Requests</span>
                 </a>
-            </li>
+            </li> -->
             <li>
                 <a href="/administration/logo_requests" >
                     <i class="glyphicon glyphicon-picture"></i> <span>Logo Requests ( ALL )</span>
