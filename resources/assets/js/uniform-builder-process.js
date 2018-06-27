@@ -1339,6 +1339,7 @@ $(document).ready(function() {
         ub.funcs.showValidateOrderForm();
 
         ub.funcs.generatePDF();
+        console.log('RUNNING SQS');
 
     }
 
