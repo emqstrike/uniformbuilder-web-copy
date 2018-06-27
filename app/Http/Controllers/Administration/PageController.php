@@ -22,7 +22,7 @@ class PageController extends Controller
     public function index()
     {
         $pages = [];
-        $result = $this->pageClient->getPages();
+        $result = $this->pageClient->getByBrand(env('BRAND'));
 
         if ($result->success) {
             $pages = $result->pages;

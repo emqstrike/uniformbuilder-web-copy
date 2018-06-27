@@ -20,7 +20,9 @@ class PageRulesTest extends TestCase
         /*
          * Truncate test data for each tests
         */
-        (new DeveloperAPIClient())->truncateTable('page_rules');
+        if (env('APP_ENV') == 'testing') {
+            (new DeveloperAPIClient())->truncateTable('page_rules');
+        }
     }
 
     /**
@@ -29,7 +31,7 @@ class PageRulesTest extends TestCase
      */
     public function itCanAddPageRule()
     {
-        $pages = json_encode(['page_one', 'page_two', 'page_three']);
+        $pages = ['page_one', 'page_two', 'page_three'];
         $data = ['type' => 'administrator', 'role' => 'ga', 'allowed_pages' => $pages, 'brand' => 'Prolook'];
 
         $response = $this->call('POST', route('store_new_page_rule'), $data);
@@ -37,7 +39,6 @@ class PageRulesTest extends TestCase
         $this->visit(route('page_rules'))
              ->see($data['type'])
              ->see($data['role'])
-             ->see($data['allowed_pages'])
              ->see($data['brand']);
 
         $response = $this->pageRuleClient->getPageRules();
@@ -45,7 +46,7 @@ class PageRulesTest extends TestCase
         foreach ($response->page_rules as $pageRule) {
             $this->assertEquals($data['type'], $pageRule->type);
             $this->assertEquals($data['role'], $pageRule->role);
-            $this->assertEquals($data['allowed_pages'], $pageRule->allowed_pages);
+            $this->assertEquals(json_encode($data['allowed_pages']), $pageRule->allowed_pages);
             $this->assertEquals($data['brand'], $pageRule->brand);
         }
     }

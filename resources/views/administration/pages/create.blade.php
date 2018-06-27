@@ -29,19 +29,12 @@
                         <form action="{{ route('store_new_page') }}" method="POST" class="form-horizontal">
                             {{ csrf_field() }}
 
+                            <input type="hidden" name="{{ env('BRAND') }}">
+
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Code</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="code" value="{{ old('code') }}" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Brand</label>
-                                <div class="col-md-6">
-                                    <select name="brand" class="form-control">
-                                        <option value="prolook">Prolook</option>
-                                    </select>
                                 </div>
                             </div>
 

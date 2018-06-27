@@ -20,7 +20,9 @@ class PageRuleClientTest extends TestCase
         /*
          * Truncate test data for each tests
         */
-        (new DeveloperAPIClient())->truncateTable('page_rules');
+        if (env('APP_ENV') == 'testing') {
+            (new DeveloperAPIClient())->truncateTable('page_rules');
+        }
     }
 
     /**

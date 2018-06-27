@@ -103,7 +103,7 @@
 
     <!-- Main content -->
     <section class="content">
-
+        {{ $sampleMenu }}
       @yield('content')
 
     </section>

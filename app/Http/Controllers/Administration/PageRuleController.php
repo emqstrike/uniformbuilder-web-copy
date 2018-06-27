@@ -9,6 +9,7 @@ use App\APIClients\RoleClient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class PageRuleController extends Controller
@@ -32,7 +33,7 @@ class PageRuleController extends Controller
     public function index()
     {
         $pageRules = [];
-        $result = $this->pageRuleClient->getPageRules();
+        $result = $this->pageRuleClient->getByBrand(env('BRAND'));
 
         if ($result->success) {
             $pageRules = $result->page_rules;
@@ -60,7 +61,7 @@ class PageRuleController extends Controller
         $data['allowed_pages'] = json_encode($data['allowed_pages']);
 
         $result = $this->pageRuleClient->create($data);
-
+       
         if ($result->success) {
             return redirect()->route('page_rules')->with('flash_message_success', $result->message);
         }

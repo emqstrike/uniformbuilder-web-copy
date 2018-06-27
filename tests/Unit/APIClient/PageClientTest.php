@@ -21,7 +21,9 @@ class PageClientTest extends TestCase
         /*
          * Truncate test data for each tests
         */
-        (new DeveloperAPIClient())->truncateTable('pages');
+        if (env('APP_ENV') == 'testing') {
+            (new DeveloperAPIClient())->truncateTable('pages');
+        }
     }
 
     /**

@@ -50,6 +50,10 @@ class RedirectRestrictedUser
             }
         }
 
-        return back();
+        if (env('ENDPOINT_VERSION') == 'v1-0') {
+            return redirect()->route('v1_admin_dashboard');
+        } else {
+            return redirect()->route('admin_dashboard');
+        }
     }
 }
