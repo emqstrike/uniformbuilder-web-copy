@@ -45,14 +45,14 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="name" value="">
+                                <input type="name" class="form-control" name="name" value="" required="true">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">
-                                <select class="form-control sport" name="uniform_category_id">
+                                <select class="form-control sport" name="uniform_category_id" required="true">
                                     <option value="">None</option>
                                     @foreach ($sports as $sport)
                                         @if ($sport->active)
@@ -66,7 +66,7 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="block-pattern-val" id="block_pattern_value" name="block_pattern_value">
-                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple">
+                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple" required="true">
                                 </select>
                             </div>
                         </div>
@@ -75,7 +75,7 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Neck Option</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="neck-option-val" id="neck_option_value" name="neck_option_value">
-                                <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple">
+                                <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple" required="true">
                                 </select>
                             </div>
                         </div>
@@ -91,7 +91,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Uniform Application Type</label>
                             <div class="col-md-6">
-                                <select name='uniform_application_type' class="form-control uniform-application-type">
+                                <select name='uniform_application_type' class="form-control uniform-application-type" required="true">
                                     <option value='none'>None</option>
                                     <option value='infused'>Infused</option>
                                     <option value='sublimated'>Sublimated</option>
@@ -103,7 +103,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                                 <label class="col-md-4 control-label">Brand</label>
                                 <div class="col-md-6">
-                                <select class="form-control brand" name="brand">
+                                <select class="form-control brand" name="brand" required="true">
                                         <option value="none">None</option>
                                         <option value="prolook">Prolook</option>
                                         <option value="richardson">Richardson</option>
