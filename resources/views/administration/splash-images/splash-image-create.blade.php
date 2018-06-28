@@ -30,11 +30,11 @@
                                 </fieldset>
                                <fieldset class="form-group">
                                     <label for="formGroupExampleInput">Front Image : </label>
-                                      <input type="file" class="form-control" name="front_image" accept="image/*">
+                                      <input type="file" class="form-control" name="front_image" accept="image/*" required="true">
                                 </fieldset>
                                 <fieldset class="form-group">
                                     <label for="formGroupExampleInput">Back Image : </label>
-                                      <input type="file" class="form-control" name="back_image" accept="image/*">
+                                      <input type="file" class="form-control" name="back_image" accept="image/*" required="true">
                                 </fieldset>
                                 <fieldset class="form-group">
                                 <button class="btn btn-primaryt">Add Flash Image</button>
