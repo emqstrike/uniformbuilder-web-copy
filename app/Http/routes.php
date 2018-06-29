@@ -11,6 +11,10 @@
 |
 */
 
+App::bind('App\Menus\V1Menu', function() {
+    return new \App\Menus\V1Menu();
+});
+
 Route::get('/', function () {
     return redirect('/index');
 });

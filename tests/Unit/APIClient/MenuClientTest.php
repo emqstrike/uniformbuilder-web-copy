@@ -29,7 +29,7 @@ class MenuClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanGetAllMenu()
+    public function it_can_get_all_menu()
     {
         $menus = [];
 
@@ -55,13 +55,14 @@ class MenuClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanAddMenu()
+    public function it_can_add_menu()
     {
         $data = [
             'route_name' => 'this_is_a_route_name', 
             'menu_text' => 'this is a menu text', 
             'icon_class' => 'this_is_icon_class',
             'parent_id' => 0,
+            'brand' => 'prolook'
         ];
 
         $menu = $this->menuClient->create($data)->menu;
@@ -77,7 +78,7 @@ class MenuClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanUpdateMenu()
+    public function it_can_update_menu()
     {
         $data = [
             'route_name' => 'this_is_a_route_name', 
@@ -99,7 +100,7 @@ class MenuClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanGetMenuById()
+    public function it_can_get_menu_by_id()
     {
         $data = [
             'route_name' => 'this_is_a_route_name', 
@@ -121,7 +122,7 @@ class MenuClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanDeleteMenu()
+    public function it_can_delete_menu()
     {
         $data = [
             'route_name' => 'this_is_a_route_name', 
@@ -140,7 +141,7 @@ class MenuClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanGetMenusByBrand()
+    public function it_can_get_menus_by_brand()
     {
         $parentMenu = [
             'route_name' => 'this_is_a_route_name', 

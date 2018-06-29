@@ -24,8 +24,9 @@ class MenuController extends Controller
     {
         $menus = [];
 
-        if ($this->menuClient->getMenusByBrand(env('BRAND'))->success) {
-            $menus = $this->menuClient->getMenusByBrand(env('BRAND'))->menus;
+        $result = $this->menuClient->getMenusByBrand(env('BRAND'));
+        if ($result->success) {
+            $menus = $result->menus;
         }
 
         return view('administration.menus.index', compact('menus'));
@@ -47,12 +48,15 @@ class MenuController extends Controller
         $currentMenu = [];
         $menus = [];
 
-        if ($this->menuClient->getById($id)->success) {
-            $currentMenu = $this->menuClient->getById($id)->menu;
+        $result = $this->menuClient->getById($id);
+
+        if ($result->success) {
+            $currentMenu = $result->menu;
         }
 
-        if ($this->menuClient->getAllMenus()->success) {
-            $menus = $this->menuClient->getAllMenus()->menus;
+        $result = $this->menuClient->getAllMenus();
+        if ($result->success) {
+            $menus = $result->menus;
         }
 
         return view('administration.menus.edit', compact('currentMenu', 'menus'));
@@ -63,12 +67,14 @@ class MenuController extends Controller
         $menus = [];
         $pages = [];
 
-        if ($this->menuClient->getMenusByBrand(env('BRAND'))->success) {
-            $menus = $this->menuClient->getMenusByBrand(env('BRAND'))->menus;
+        $result = $this->menuClient->getMenusByBrand(env('BRAND'));
+        if ($result->success) {
+            $menus = $result->menus;
         }
 
-        if ($this->pageClient->getByBrand(env('BRAND'))->success) {
-            $pages = $this->pageClient->getByBrand(env('BRAND'))->pages;
+        $result = $this->pageClient->getByBrand(env('BRAND'));
+        if ($result->success) {
+            $pages = $result->pages;
         }
 
         return view('administration.menus.create', compact('menus', 'pages'));

@@ -46,8 +46,9 @@ class PageRuleController extends Controller
     {
         $pages = [];
 
-        if ($this->pageClient->getByBrand(env('BRAND'))->success) {
-            $pages = $this->pageClient->getByBrand(env('BRAND'))->pages;
+        $result = $this->pageClient->getByBrand(env('BRAND'));
+        if ($result->success) {
+            $pages = $result->pages;
         }
 
         $brands = $this->brandingClient->getAll();
@@ -74,14 +75,17 @@ class PageRuleController extends Controller
         $pageRule = [];
         $pages = [];
 
-        if ($this->pageClient->getByBrand(env('BRAND'))->success) {
-            $pages = $this->pageClient->getByBrand(env('BRAND'))->pages;
+        $result = $this->pageClient->getByBrand(env('BRAND'));
+
+        if ($result->success) {
+            $pages = $result->pages;
         }
 
         $brands = $this->brandingClient->getAll();
 
-        if ($this->pageRuleClient->getPageRule($id)->success) {
-            $pageRule = $this->pageRuleClient->getPageRule($id)->page_rule;
+        $result = $this->pageRuleClient->getPageRule($id);
+        if ($result->success) {
+            $pageRule = $result->page_rule;
         }
 
         $allowedPages = json_decode($pageRule->allowed_pages, true);

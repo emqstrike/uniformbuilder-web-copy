@@ -29,7 +29,7 @@ class PageRulesTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanAddPageRule()
+    public function it_can_add_page_rule()
     {
         $pages = ['page_one', 'page_two', 'page_three'];
         $data = ['type' => 'administrator', 'role' => 'ga', 'allowed_pages' => $pages, 'brand' => 'Prolook'];

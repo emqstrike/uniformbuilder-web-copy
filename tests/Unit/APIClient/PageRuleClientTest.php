@@ -29,7 +29,7 @@ class PageRuleClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanAddPageRule()
+    public function it_can_add_page_rule()
     {
         $pages = json_encode(['page_one', 'page_two', 'page_three']);
         $expectedResult = ['type' => 'administrator', 'role' => 'ga', 'allowed_pages' => $pages, 'brand' => 'Prolook'];
@@ -45,7 +45,7 @@ class PageRuleClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanGetAllPageRules()
+    public function it_can_get_all_page_rules()
     {
         $pageRules = [];
         $roles = ['ga', 'qa', 'rep', 'dev', 'rep_manager', 'dealer', 'coach', 'executive'];
@@ -67,7 +67,7 @@ class PageRuleClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanGetPageRuleByBrand()
+    public function it_can_get_page_rule_by_brand()
     {
         $pages = json_encode(['page_one', 'page_two', 'page_three']);
         $pageRule = ['type' => 'administrator', 'role' => 'ga', 'allowed_pages' => $pages, 'brand' => 'Prolook'];
@@ -90,7 +90,7 @@ class PageRuleClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanGetPageRule()
+    public function it_can_get_page_rule()
     {
         $pages = json_encode(['page_one', 'page_two', 'page_three']);
         $pageRule = ['type' => 'administrator', 'role' => 'ga', 'allowed_pages' => $pages, 'brand' => 'Prolook'];
@@ -108,7 +108,7 @@ class PageRuleClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanUpdatePageRule()
+    public function it_can_update_page_rule()
     {
         $pages = json_encode(['page_one', 'page_two', 'page_three']);
         $pageRule = ['type' => 'administrator', 'role' => 'ga', 'allowed_pages' => $pages, 'brand' => 'Prolook'];
@@ -125,7 +125,7 @@ class PageRuleClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanDeletePageRule()
+    public function it_can_delete_page_rule()
     {
         $pages = json_encode(['page_one', 'page_two', 'page_three']);
         $pageRule = ['type' => 'administrator', 'role' => 'ga', 'allowed_pages' => $pages, 'brand' => 'Prolook'];
