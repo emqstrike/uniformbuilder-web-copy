@@ -44,7 +44,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-4">
-                                <select class="form-control sport" name="sport">
+                                <select class="form-control sport" name="sport" required="true">
                                     <option value="">None</option>
                                     @foreach ($sports as $sport)
                                         @if ($sport->active)
@@ -57,13 +57,13 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Uniform Category ID</label>
                             <div class="col-md-4">
-                               <input type="number" name="uniform_category_id" class="form-control uniform_category_id">
+                               <input type="number" name="uniform_category_id" class="form-control uniform_category_id" required="true">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-4">
-                                <textarea name="description" class="form-control"></textarea>
+                                <textarea name="description" class="form-control" required="true"></textarea>
                             </div>
                         </div>
 
