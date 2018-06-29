@@ -33,21 +33,21 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Mascot Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-name" name="name" value="{{ $mascot->name }}">
+                                <input type="name" class="form-control mascot-name" name="name" value="{{ $mascot->name }}" required="true">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Code</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-code" name="code" value="{{ $mascot->code }}">
+                                <input type="name" class="form-control mascot-code" name="code" value="{{ $mascot->code }}" required="true">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Category</label>
                             <div class="col-md-6">
-                                <select name='category' class="form-control mascot-category">
+                                <select name='category' class="form-control mascot-category" required="true">
                                     @foreach ($mascots_categories as $mascot_category)
                                         <option value='{{ $mascot_category }}' <?php if($mascot_category == $mascot->category){ echo "selected"; } ?>>{{ $mascot_category }}</option>
                                     @endforeach
@@ -58,7 +58,7 @@
                             <label class="col-md-4 control-label">Sports</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="sports-val" id="sports_value" name="sports_value" value="{{ $mascot->sports }}">
-                                <select name="sports[]" class="form-control sports" multiple="multiple">
+                                <select name="sports[]" class="form-control sports" multiple="multiple" required="true">
                                     @foreach ($categories as $category)
                                         @if ($category->active)
                                         <option value='{{ $category->name }}'>
@@ -93,7 +93,7 @@
                             <label class="col-md-4 control-label">Icon</label>
                             <div class="col-md-6 front-view">
                                 <img src="{{ $mascot->icon }}">
-                                <input type="file" class="form-control icon" name="icon" accept="image/*">
+                                <input type="file" class="form-control icon" name="icon" accept="image/*" >
                             </div>
                         </div>
 
@@ -101,13 +101,13 @@
                             <label class="col-md-4 control-label">File</label>
                             <div class="col-md-6 front-view">
                                 <a href="{{ $mascot->ai_file }}"> {{ $mascot->ai_file }} </a>
-                                <input type="file" class="form-control ai-file" name="ai_file" accept=".ai,.pdf">
+                                <input type="file" class="form-control ai-file" name="ai_file" accept=".ai,.pdf" >
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label" >Brand</label>
                            <div class="col-md-6">
-                                <select name="brand" class="form-control">
+                                <select name="brand" class="form-control" required="true">
                                         <option value="none" @if($mascot->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($mascot->brand == "prolook") selected="selected"@endif>Prolook</option>
                                         <option value="richardson" @if($mascot->brand == "richardson") selected="selected"@endif>Richardson</option>
@@ -155,7 +155,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="file" class="ma-options-src layer1" name="ma_image[]">
+                                                <input type="file" class="ma-options-src layer1" name="ma_image[]" >
                                             </td>
                                             <td>
                                                 <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
