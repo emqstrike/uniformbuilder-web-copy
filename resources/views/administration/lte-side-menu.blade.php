@@ -163,7 +163,7 @@
         </a>
       </li>
       <li data-step="9" data-intro="For Materials settings.">
-        <a href="/administration/materials/Football">
+        <a href="/administration/materials/Football 2017">
           <i class="fa fa-cubes"></i> <span>Materials</span>
         </a>
       </li>
