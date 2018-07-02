@@ -55,37 +55,7 @@ $(document).ready(function(){
         });
     });
 
-    $('.delete-design').on('click', function(){
-        var id = $(this).data('design-id');
-        modalConfirm('Remove Fabric', 'Are you sure you want to delete the design?', id);
-    });
 
-    $('#confirmation-modal .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/design_set/delete/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    document.location.reload();
-                    $('#confirmation-modal').modal('hide');
-                    $('.design-set').fadeOut();
-                }
-            }
-        });
-    });
 
     $('.delete-design-set-thumbnail-path').on('click', function(){
         var id = $(this).data('design-id');console.log(id);
