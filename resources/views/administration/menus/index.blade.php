@@ -1,5 +1,4 @@
 @extends('administration.lte-main')
-<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
