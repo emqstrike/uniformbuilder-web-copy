@@ -10,15 +10,6 @@ select:hover {
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
 
-li.select2-selection__choice {
-    color: black !important;
-}
-
-.animated {
-    -webkit-transition: height 0.2s;
-    -moz-transition: height 0.2s;
-    transition: height 0.2s;
-}
 </style>
 @endsection
 
@@ -56,7 +47,7 @@ li.select2-selection__choice {
                             <div class="col-md-6">
 
                                 <input type="hidden" class="sports-val" id="sports_value" name="sports_value" >
-                                <select name="sports[]" class="form-control sports" multiple="multiple">
+                                <select name="sports[]" class="form-control sports" multiple="multiple" required>
                                     @foreach ($categories as $category)
                                         @if ($category->active)
                                         <option value='{{ $category->name }}'>
@@ -84,99 +75,19 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Thumbnail</label>
                             <div class="col-md-6 front-view">
-                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*" required>
                             </div>
                         </div>
                         <div class="form-group">
                                 <label class="col-md-4 control-label">Brand</label>
                                 <div class="col-md-6">
-                                <select class="form-control brand" name="brand">
+                                <select class="form-control brand" name="brand" required>
                                         <option value="none">None</option>
                                         <option value="prolook">Prolook</option>
                                         <option value="richardson">Richardson</option>
                                 </select>
                               </div>
                         </div>
-
-                        <!-- <div class="form-group">
-                            <label class="col-md-4 control-label">Team Color ID</label>
-                            <div class="col-md-6">
-                                <select name='team_color_id' class="form-control pattern-team-color-id">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Layer <span class="badge">1</span></label>
-                            <div class="col-md-6 material">
-                                <input type="file" class="form-control layer-1-file" name="layer_1_path" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Default colors</label>
-                            <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_1_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                @foreach ($color as $colors)
-                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Layer <span class="badge">2</span></label>
-                            <div class="col-md-6 material">
-                                <input type="file" class="form-control layer-2-file" name="layer_2_path" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Default colors</label>
-                            <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_2_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                @foreach ($color as $colors)
-                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Layer <span class="badge">3</span></label>
-                            <div class="col-md-6 material">
-                                <input type="file" class="form-control layer-3-file" name="layer_3_path" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Default colors</label>
-                            <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_3_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                @foreach ($color as $colors)
-                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Layer <span class="badge">4</span></label>
-                            <div class="col-md-6 material">
-                                <input type="file" class="form-control layer-4-file" name="layer_4_path" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Default colors</label>
-                            <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_4_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                @foreach ($color as $colors)
-                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Pattern Layers
@@ -203,7 +114,7 @@ li.select2-selection__choice {
                                                 <select class="layer-default-color layer1" name=""></select>
                                             </td>
                                             <td>
-                                                <input type="file" class="pattern-layer-file layer1" name="pattern_layer_image[]">
+                                                <input type="file" class="pattern-layer-file layer1" name="pattern_layer_image[]" required>
                                             </td>
                                             <td>
                                                 <select id="pattern_tc_id_dp" class="pattern-team-color-id" name=""></select>
