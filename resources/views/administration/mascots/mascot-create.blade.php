@@ -44,7 +44,7 @@ select:hover {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Code</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control mascot-code" name="code" value="{{ old('code') }}" required="true">
+                                <input type="name" class="form-control mascot-code" name="code" value="{{ old('code') }}" >
                             </div>
                         </div>
                         <div class="form-group">
