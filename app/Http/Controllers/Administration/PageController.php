@@ -82,4 +82,20 @@ class PageController extends Controller
 
         return redirect()->route('pages')->with('flash_message_error', $result->message);
     }
+
+    public function getV1Pages()
+    {
+        $result = $this->pageClient->getByBrand(env('BRAND'));
+        $pages = [];
+
+        if ($result->success) {
+            foreach ($result->pages as $page) {
+                if (strpos(route($page->code), 'v1-0')) {
+                    $pages[] = $page;
+                }
+            }
+        }
+
+        return $pages;
+    }
 }

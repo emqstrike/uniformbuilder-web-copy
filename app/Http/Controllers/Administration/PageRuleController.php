@@ -116,4 +116,19 @@ class PageRuleController extends Controller
 
         return back()->with('flash_message_error', $result->message);
     }
+
+    public function getPageRuleByTypeAndRole($type, $role)
+    {
+        $result = $this->pageRuleClient->getByBrand(env('BRAND'));
+
+        if ($result->success) {
+            foreach ($result->page_rules as $page_rule) {
+                if (($type == $page_rule->type) && ($role == $page_rule->role)) {
+                    return response()->json($page_rule);
+                }
+            }
+        }
+
+        return null;
+    }
 }

@@ -43,12 +43,51 @@ class V1Menu
             }
         }
 
+        $superUsers = explode(",", env('BACKEND_SUPERUSERS'));
+
+        if (in_array(Session::get('userId'), $superUsers)) {
+            return $this->getSuperUserV1Menus($menus);
+        }
+
         if ($menus && $this->rule) {
             $menus = $this->getV1Menus($menus);
             return $this->excludeParentMenusWithoutSubMenu($menus);
         }
 
         return null;
+    }
+
+    private function getSuperUserV1Menus($menus)
+    {
+        $_menus = [];
+
+        foreach ($menus as $key => $menu) {
+            if (Route::getRoutes()->hasNamedRoute($menu->route_name)) {
+                if (strpos(route($menu->route_name), 'v1-0')) {
+                    $_menus[$key] = [
+                        'route_name' => preg_replace('/\s+/', '_', $menu->route_name),
+                        'menu_text' => $menu->menu_text,
+                        'icon_class' => $menu->icon_class,
+                        'parent_id' => $menu->parent_id,
+                    ];
+                }
+            } elseif ($menu->route_name == '#') {
+                $_menus[$key] = [
+                    'route_name' => preg_replace('/\s+/', '_', $menu->route_name),
+                    'menu_text' => $menu->menu_text,
+                    'icon_class' => $menu->icon_class,
+                    'parent_id' => $menu->parent_id,
+                ];
+            }
+
+            if (isset($menu->subMenu)) {
+                if (count($menu->subMenu) > 0) {
+                    $_menus[$key]['subMenu'] = $this->getSuperUserV1Menus($menu->subMenu);
+                }
+            }
+        }
+
+        return $_menus;
     }
 
     private function getV1Menus($menus)
@@ -60,7 +99,7 @@ class V1Menu
                 if (strpos(route($menu->route_name), 'v1-0')) {
                     if (in_array($menu->route_name, json_decode($this->rule->allowed_pages, true))) {
                         $_menus[$key] = [
-                            'route_name' => $menu->route_name,
+                            'route_name' => preg_replace('/\s+/', '_', $menu->route_name),
                             'menu_text' => $menu->menu_text,
                             'icon_class' => $menu->icon_class,
                             'parent_id' => $menu->parent_id,
@@ -69,7 +108,7 @@ class V1Menu
                 }
             } elseif ($menu->route_name == '#') {
                 $_menus[$key] = [
-                    'route_name' => $menu->route_name,
+                    'route_name' => preg_replace('/\s+/', '_', $menu->route_name),
                     'menu_text' => $menu->menu_text,
                     'icon_class' => $menu->icon_class,
                     'parent_id' => $menu->parent_id,

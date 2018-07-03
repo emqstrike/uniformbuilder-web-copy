@@ -11,10 +11,6 @@
 |
 */
 
-App::bind('App\Menus\V1Menu', function() {
-    return new \App\Menus\V1Menu();
-});
-
 Route::get('/', function () {
     return redirect('/index');
 });
@@ -148,6 +144,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('users', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@index'])->name('users');
     Route::post('user/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);
     Route::post('user/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);
+    Route::patch('user/update_allowed_pages', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@updateAllowedPages'])->name('update_allowed_pages');
     Route::get('user/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@addUserForm'])->name('add_new_user');
     Route::get('user/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@editUserForm'])->name('modify_user');
     Route::get('account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@accountSettings']);
@@ -542,6 +539,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('page/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@store'])->name('store_new_page');
     Route::patch('page/{id}/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@update'])->name('update_page');
     Route::get('page/{id}/delete', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@delete'])->name('delete_page');
+    Route::get('pages/v1-0', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@getV1Pages'])->name('get_v1_pages');
 
     // Page Rules
     Route::get('page_rules', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@index'])->name('page_rules');
@@ -550,6 +548,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::post('page_rule/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@store'])->name('store_new_page_rule');
     Route::patch('page_rule/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@update'])->name('update_page_rule');
     Route::get('page_rule{id}/delete', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@delete'])->name('delete_page_rule');
+    Route::get('page_rule/{type}/{role}', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@getPageRuleByTypeAndRole'])->name('get_page_rule_by_type_and_role');
 
     // Roles
     Route::get('roles/get_available_admin_roles_in_page_rules', 'Administration\RoleController@getAvailableAdminRolesForPageRules')->name('get_available_admin_roles_in_page_rules');
