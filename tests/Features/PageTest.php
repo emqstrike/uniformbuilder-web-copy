@@ -22,14 +22,16 @@ class PageTest extends TestCase
         /*
          * Truncate test data for each tests
         */
-        (new DeveloperAPIClient())->truncateTable('pages');
+        if (env('APP_ENV') == 'testing') {
+            (new DeveloperAPIClient())->truncateTable('pages');
+        }
     }
 
     /**
      * @test
      * @runInSeparateProcess
      */
-    public function itCanlistAllPages()
+    public function it_can_list_all_pages()
     {
         $pages = array(
             array('code' => 'page_one', 'brand' => 'prolook'),
@@ -54,22 +56,21 @@ class PageTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanAddPage()
+    public function it_can_add_page()
     {
-        $page = array('code' => 'page_one', 'brand' => 'prolook');
+        $page = array('code' => 'page_one');
 
         $response = $this->call('POST', route('store_new_page'), $page);
 
         $this->visit(route('pages'))
-             ->see($page['code'])
-             ->see($page['brand']);
+             ->see($page['code']);
     }
 
     /**
      * @test
      * @runInSeparateProcess
      */
-    public function itCanEditPage()
+    public function it_can_edit_page()
     {
         $data = array('code' => 'page_one', 'brand' => 'prolook');
         $page = $this->pageClient->create($data)->page;
@@ -85,24 +86,23 @@ class PageTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanUpdatePage()
+    public function it_can_update_page()
     {
-        $data = array('code' => 'page_one', 'brand' => 'prolook');
+        $data = array('code' => 'page_one');
         $page = $this->pageClient->create($data)->page;
 
-        $exptectedResult = array('id' => $page->id, 'code' => 'page_updated', 'brand' => 'richardson');
+        $exptectedResult = array('id' => $page->id, 'code' => 'page_updated');
         $this->call('PATCH', route('update_page', ['id' => $page->id]), $exptectedResult);
 
         $this->visit(route('pages'))
-             ->see($exptectedResult['code'])
-             ->see($exptectedResult['brand']);
+             ->see($exptectedResult['code']);
     }
 
     /**
      * @test
      * @runInSeparateProcess
      */
-    public function itCanRemovePage()
+    public function it_can_remove_page()
     {
         $data = array('code' => 'page_one', 'brand' => 'prolook');
         $page = $this->pageClient->create($data)->page;

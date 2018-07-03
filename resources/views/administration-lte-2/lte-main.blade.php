@@ -1,3 +1,5 @@
+@inject('sampleMenu', 'App\Menus\V1Menu')
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -103,7 +105,6 @@
 
     <!-- Main content -->
     <section class="content">
-
       @yield('content')
 
     </section>

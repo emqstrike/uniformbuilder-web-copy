@@ -1,5 +1,4 @@
 @extends('administration.lte-main')
-<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
@@ -39,17 +38,14 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Type</label>
                                 <div class="col-md-6">
-                                    <select name="type" id="type" class="form-control">
-                                        <option value="administrator">Administrator</option>
-                                        <option value="normal">Normal</option>
-                                    </select>
+                                    <input type="text" class="form-control" name="type" value="{{ ucwords($pageRule->type) }}" disabled="disabled">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Role</label>
                                 <div class="col-md-6">
-                                    <select name="role" id="role" class="form-control"></select>
+                                    <input type="text" class="form-control" name="role" value="{{ $pageRule->role }}" disabled="disabled">
                                 </div>
                             </div>
 

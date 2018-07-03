@@ -434,4 +434,11 @@
             </li>
         </ul>
     </li>
+
+    <li data-position='right'>
+        <a href="{{ route('menus') }}">
+            <i class="fa fa-link"></i>
+            <span>Menus</span>
+        </a>
+    </li>
 </ul>

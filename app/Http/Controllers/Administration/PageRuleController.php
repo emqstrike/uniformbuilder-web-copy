@@ -9,6 +9,7 @@ use App\APIClients\RoleClient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class PageRuleController extends Controller
@@ -32,7 +33,7 @@ class PageRuleController extends Controller
     public function index()
     {
         $pageRules = [];
-        $result = $this->pageRuleClient->getPageRules();
+        $result = $this->pageRuleClient->getByBrand(env('BRAND'));
 
         if ($result->success) {
             $pageRules = $result->page_rules;
@@ -45,8 +46,9 @@ class PageRuleController extends Controller
     {
         $pages = [];
 
-        if ($this->pageClient->getByBrand(env('BRAND'))->success) {
-            $pages = $this->pageClient->getByBrand(env('BRAND'))->pages;
+        $result = $this->pageClient->getByBrand(env('BRAND'));
+        if ($result->success) {
+            $pages = $result->pages;
         }
 
         $brands = $this->brandingClient->getAll();
@@ -60,7 +62,7 @@ class PageRuleController extends Controller
         $data['allowed_pages'] = json_encode($data['allowed_pages']);
 
         $result = $this->pageRuleClient->create($data);
-
+       
         if ($result->success) {
             return redirect()->route('page_rules')->with('flash_message_success', $result->message);
         }
@@ -73,14 +75,17 @@ class PageRuleController extends Controller
         $pageRule = [];
         $pages = [];
 
-        if ($this->pageClient->getByBrand(env('BRAND'))->success) {
-            $pages = $this->pageClient->getByBrand(env('BRAND'))->pages;
+        $result = $this->pageClient->getByBrand(env('BRAND'));
+
+        if ($result->success) {
+            $pages = $result->pages;
         }
 
         $brands = $this->brandingClient->getAll();
 
-        if ($this->pageRuleClient->getPageRule($id)->success) {
-            $pageRule = $this->pageRuleClient->getPageRule($id)->page_rule;
+        $result = $this->pageRuleClient->getPageRule($id);
+        if ($result->success) {
+            $pageRule = $result->page_rule;
         }
 
         $allowedPages = json_decode($pageRule->allowed_pages, true);
@@ -110,5 +115,20 @@ class PageRuleController extends Controller
         }
 
         return back()->with('flash_message_error', $result->message);
+    }
+
+    public function getPageRuleByTypeAndRole($type, $role)
+    {
+        $result = $this->pageRuleClient->getByBrand(env('BRAND'));
+
+        if ($result->success) {
+            foreach ($result->page_rules as $page_rule) {
+                if (($type == $page_rule->type) && ($role == $page_rule->role)) {
+                    return response()->json($page_rule);
+                }
+            }
+        }
+
+        return null;
     }
 }

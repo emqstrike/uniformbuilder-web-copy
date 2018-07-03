@@ -21,14 +21,16 @@ class PageClientTest extends TestCase
         /*
          * Truncate test data for each tests
         */
-        (new DeveloperAPIClient())->truncateTable('pages');
+        if (env('APP_ENV') == 'testing') {
+            (new DeveloperAPIClient())->truncateTable('pages');
+        }
     }
 
     /**
      * @test
      * @runInSeparateProcess
      */
-    public function itCanAddPage()
+    public function it_can_add_page()
     {
         $expectedResult = array('code' => 'page_one', 'brand' => 'prolook');
 
@@ -41,7 +43,7 @@ class PageClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanUpdatePage()
+    public function it_can_update_page()
     {
         $data = array('code' => 'page_one', 'brand' => 'prolook');
         $page = $this->pageClient->create($data)->page;
@@ -57,7 +59,7 @@ class PageClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanGetPage()
+    public function it_can_get_page()
     {
         $expectedResult = array('code' => 'page_one', 'brand' => 'prolook');
         $page = $this->pageClient->create($expectedResult)->page;
@@ -72,7 +74,7 @@ class PageClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanRemovePage()
+    public function it_can_remove_page()
     {
         $data = array('code' => 'page_one', 'brand' => 'prolook');
         $page = $this->pageClient->create($data)->page;
@@ -86,7 +88,7 @@ class PageClientTest extends TestCase
      * @test
      * @runInSeparateProcess
      */
-    public function itCanGetPagesByBrand()
+    public function it_can_get_pages_by_brand()
     {
         $prolookData = array('code' => 'page_one', 'brand' => 'prolook');
         $prolookPage = $this->pageClient->create($prolookData)->page;

@@ -1,8 +1,23 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-<script type="text/css">
-</script>
+    <meta name="_token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+
+    <style type="text/css">
+        div#box_body {
+            overflow-y: scroll;
+            max-height: 500px;
+        }
+
+        span.select2 {
+            width: 100% !important;
+        }
+    
+        li.select2-selection__choice {
+            color: black !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -27,6 +42,7 @@
                                 <th>Name</th>
                                 <th id="select-filter">Account Type</th>
                                 <th>Email</th>
+                                <th>Allowed Pages</th>
                                 <th id="select-filter">Rep Name</th>
                                 <th>Last Login</th>
                                 <th>Active Status</th>
@@ -41,6 +57,7 @@
                                 <td>{{ $user->first_name }} {{ $user->last_name }}<input type="hidden" class="user-first-name" value="{{ $user->first_name }}"><input type="hidden" class="user-last-name" value="{{ $user->last_name }}"></td>
                                 <td class="td-user-type">{{ ucfirst($user->type) }}</td>
                                 <td class="td-user-email">{{ $user->email }}</td>
+                                <td class="td-user-allowed-pages">{{ $user->allowed_pages }}</td>
                                 <td>{{ $user->rep_first_name }} {{ $user->rep_last_name }}</td>
                                 <td>{{ $user->last_login }}
                                     <input type="hidden" class="user-role" value="{{ $user->role }}">
@@ -57,6 +74,7 @@
                                 </td>
                                 <td>
                                     <a href="#" class="btn btn-primary btn-xs btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
+                                    <a href="#" class="btn btn-success btn-xs btn-flat edit-allowed-pages" data-target="#allowedPagesModal" data-toggle="modal">Edit allowed pages</a>
                                     @if (1 == 0)
                                         @if ($user->email != Session::get('email'))
                                         <a href="#" class="btn btn-danger pull-right btn-xs btn-flat delete-user" data-user-id="{{ $user->id }}" role="button">Delete</a>
@@ -94,11 +112,14 @@
 </section>
 </div>
 @include('administration-lte-2.users.users-modal')
+@include('administration-lte-2.users.allowed-pages-modal')
 @include('partials.confirmation-modal')
 
 @endsection
 
 @section('scripts')
+@include('administration-lte-2.partials.users.allowed-pages-scripts')
+
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -336,8 +357,6 @@ $(document).ready(function(){
             }
         });
     });
-
-
 
     @if (Session::has('message'))
         new PNotify({

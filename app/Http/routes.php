@@ -81,8 +81,12 @@ Route::get('getting_started', 'Help\HelpController@getting_started');
 
 });
 
+Route::get('test_sample', function() {
+    return route('fabrics');
+});
+
 // Administration Routes
-Route::group(array('prefix' => 'administration', 'middleware' => 'restrictedUserAccess'), function() {
+Route::group(array('prefix' => 'administration'), function() {
 
     Route::group(array('prefix' => 'master_pages'), function() {
     });
@@ -91,34 +95,34 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'restrictedUser
     Route::get('custom_artwork_requests/processing', 'Administration\CustomArtworkRequestController@getProcessing')->name('getProcessingCustomArtworkRequests');
     Route::get('upload_custom_artwork/{id}', 'Administration\CustomArtworkRequestController@upload')->name('uploadCustomArtworkRequest');
 
-    Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard']);
+    Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@dashboard'])->name('admin_dashboard');
 
-    Route::group(['prefix' => env('ENDPOINT_VERSION','v1-0') ], function() {
+    Route::group(['prefix' => env('ENDPOINT_VERSION','v1-0')], function() {
+        Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard'])->name('v1_admin_dashboard');
+        Route::group(['middleware' => 'restrictedUserAccess'], function() {
+            //Master Lists
+            Route::get('/fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex'])->name('v1_fabrics');
 
-        Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard']);
-        //Master Lists
-        Route::get('/fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex']);
+            Route::get('/fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex'])->name('v1_fonts');
 
-        Route::get('/fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex']);
+            Route::get('/patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@patternsIndex'])->name('v1_patterns');
 
-        Route::get('/patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@patternsIndex']);
+            Route::get('/colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index'])->name('v1_colors');
+            Route::get('/master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex'])->name('v1_master_colors');
 
-        Route::get('/colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index']);
-        Route::get('/master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex']);
+            Route::get('/price_templates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemTemplatesController@index'])->name('v1_price_templates');
 
-        Route::get('/price_templates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemTemplatesController@index']);
+            Route::get('/users', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@index'])->name('v1_users');
+            Route::get('/account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings'])->name('v1_edit_user');
+            Route::post('/account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName'])->name('v1_updated_user');
 
-        Route::get('/users', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@index']);
-        Route::get('/account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings']);
-        Route::post('/account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName']);
-        Route::get('/users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength']);
+            Route::get('ordersMinified', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified'])->name('v1_orders_minified');
 
-        Route::get('ordersMinified', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified']);
-
-        Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestIndex']);
-        Route::get('style_request/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestAdd']);
-
-
+            Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestIndex'])->name('v1_style_requests');
+            Route::get('style_request/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestAdd'])->name('v1_add_style_requests');
+        });
+        
+        Route::get('/users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength'])->name('v1_password_strength');
     });
 
     // Logins
@@ -140,6 +144,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'restrictedUser
     Route::get('users', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@index'])->name('users');
     Route::post('user/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);
     Route::post('user/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);
+    Route::patch('user/update_allowed_pages', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@updateAllowedPages'])->name('update_allowed_pages');
     Route::get('user/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@addUserForm'])->name('add_new_user');
     Route::get('user/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@editUserForm'])->name('modify_user');
     Route::get('account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@accountSettings']);
@@ -534,6 +539,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'restrictedUser
     Route::post('page/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@store'])->name('store_new_page');
     Route::patch('page/{id}/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@update'])->name('update_page');
     Route::get('page/{id}/delete', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@delete'])->name('delete_page');
+    Route::get('pages/v1-0', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageController@getV1Pages'])->name('get_v1_pages');
 
     // Page Rules
     Route::get('page_rules', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@index'])->name('page_rules');
@@ -542,10 +548,18 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'restrictedUser
     Route::post('page_rule/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@store'])->name('store_new_page_rule');
     Route::patch('page_rule/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@update'])->name('update_page_rule');
     Route::get('page_rule{id}/delete', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@delete'])->name('delete_page_rule');
+    Route::get('page_rule/{type}/{role}', ['middleware' => 'adminAccess', 'uses' => 'Administration\PageRuleController@getPageRuleByTypeAndRole'])->name('get_page_rule_by_type_and_role');
 
     // Roles
     Route::get('roles/get_available_admin_roles_in_page_rules', 'Administration\RoleController@getAvailableAdminRolesForPageRules')->name('get_available_admin_roles_in_page_rules');
     Route::get('roles/get_available_normal_roles_in_page_rules', 'Administration\RoleController@getAvailableNormalRolesForPageRules')->name('get_available_normal_roles_in_page_rules');
+
+    Route::get('menus', ['middleware' => 'adminAccess', 'uses' => 'Administration\MenuController@index'])->name('menus');
+    Route::post('menu', ['middleware' => 'adminAccess', 'uses' => 'Administration\MenuController@store'])->name('store_new_menu');
+    Route::get('menu/create', ['middleware' => 'adminAccess', 'uses' => 'Administration\MenuController@create'])->name('add_new_menu');
+    Route::get('menus/{id}/edit', ['middleware' => 'adminAccess', 'uses' => 'Administration\MenuController@edit'])->name('edit_menu');
+    Route::patch('menu/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\MenuController@update'])->name('update_menu');
+    Route::get('menus/{id}/delete', ['middleware' => 'adminAccess', 'uses' => 'Administration\MenuController@delete'])->name('delete_menu');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

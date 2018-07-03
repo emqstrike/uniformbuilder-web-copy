@@ -1,5 +1,4 @@
 @extends('administration.lte-main')
-<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 @section('styles')
     <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
@@ -31,22 +30,12 @@
                             {{ csrf_field() }}
 
                             <input type="hidden" name="id" value="{{ $page->id }}">
+                            <input type="hidden" name="brand" value="{{ env('BRAND') }}">
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label">Code</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" name="code" value="{{ $page->code }}" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label">Brand</label>
-                                <div class="col-md-6">
-                                    <select name="brand" class="form-control">
-                                        @foreach ($brandings as $brand)
-                                            <option value="{{ $brand->site_name }}">{{ $brand->site_name }}</option>
-                                        @endforeach
-                                    </select>
                                 </div>
                             </div>
 
