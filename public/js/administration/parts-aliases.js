@@ -394,7 +394,6 @@ $('.delete-part').on('click', function(){
             success: function(data){
                 parts = data['parts'];
                 if(typeof callback === "function") callback(parts);
-                //Close loading modal
                 $('#getPartsModal').modal('hide');
             }
         });
