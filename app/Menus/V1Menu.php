@@ -4,6 +4,7 @@ namespace App\Menus;
 
 use App\APIClients\MenuClient;
 use App\APIClients\PageRuleClient;
+use App\APIClients\UsersAPIClient;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -12,7 +13,8 @@ class V1Menu
 {
     protected $menuClient;
     protected $pageRuleClient;
-    protected $rule;
+    protected $userClient;
+    protected $allowedPages;
 
     public function __construct()
     {
@@ -27,6 +29,7 @@ class V1Menu
 
         $type = Session::get('userType');
         $role = Session::get('role');
+        $userAllowedPages = json_decode(Session::get('userAllowedPages'), true);
 
         $result = $this->menuClient->getMenusByBrand(env('BRAND'));
 
@@ -38,7 +41,7 @@ class V1Menu
         if ($result->success) {
             foreach($result->page_rules as $pageRule) {
                 if (($type == $pageRule->type) && ($role == $pageRule->role)) {
-                    $this->rule = $pageRule;
+                    $this->allowedPages = json_decode($pageRule->allowed_pages, true);
                 }
             }
         }
@@ -49,7 +52,11 @@ class V1Menu
             return $this->getSuperUserV1Menus($menus);
         }
 
-        if ($menus && $this->rule) {
+        if ($menus && $this->allowedPages) {
+            if (! empty($userAllowedPages)) {
+                $this->allowedPages = array_merge($this->allowedPages, $userAllowedPages);
+            }
+
             $menus = $this->getV1Menus($menus);
             return $this->excludeParentMenusWithoutSubMenu($menus);
         }
@@ -97,7 +104,7 @@ class V1Menu
         foreach ($menus as $key => $menu) {
             if (Route::getRoutes()->hasNamedRoute($menu->route_name)) {
                 if (strpos(route($menu->route_name), 'v1-0')) {
-                    if (in_array($menu->route_name, json_decode($this->rule->allowed_pages, true))) {
+                    if (in_array($menu->route_name, $this->allowedPages)) {
                         $_menus[$key] = [
                             'route_name' => preg_replace('/\s+/', '_', $menu->route_name),
                             'menu_text' => $menu->menu_text,

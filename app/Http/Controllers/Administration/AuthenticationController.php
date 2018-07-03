@@ -53,6 +53,7 @@ class AuthenticationController extends Controller
             if ($result->success && $result->user->type == 'administrator')
             {
                 Session::put('userId', $result->user->id);
+                Session::put('userAllowedPages', $result->user->allowed_pages);
                 Session::put('isLoggedIn', $result->success);
                 Session::put('fullname', $result->user->first_name . ' ' . $result->user->last_name);
                 Session::put('email', $result->user->email);
