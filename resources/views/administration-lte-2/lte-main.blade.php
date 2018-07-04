@@ -73,6 +73,16 @@
 }
 </style> -->
 
+<style>
+    #breadcrumbs {
+        margin: 0 15px;
+    }
+
+    .breadcrumb {
+        background: #ffffff;
+    }
+</style>
+
 @yield('styles')
 </head>
 <!-- <body class="hold-transition skin-black-light sidebar-mini sidebar-collapse"> -->
@@ -103,7 +113,7 @@
 
     <!-- Main content -->
     <section class="content">
-
+        @include('administration-lte-2.partials.breadcrumb')
       @yield('content')
 
     </section>
