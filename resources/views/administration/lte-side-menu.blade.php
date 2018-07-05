@@ -177,11 +177,11 @@
           <i class="fa fa-cubes"></i> <span>Fabric Factory</span>
         </a>
       </li>
-      <li data-step="9" data-intro="For Mockup Sets.">
+<!--       <li data-step="9" data-intro="For Mockup Sets.">
         <a href="/administration/mockup_sets">
           <i class="fa fa-cubes"></i> <span>Mockup Sets</span>
         </a>
-      </li>
+      </li> -->
       <li data-step="9" data-intro="For Materials settings.">
         <a href="/administration/news_letters">
           <i class="fa fa-cubes"></i> <span>News Letters</span>
