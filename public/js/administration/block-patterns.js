@@ -228,6 +228,31 @@ $(document).ready(function(){
 
     }
 
+    $('.toggle-block-pattern').on('click', function() {
+        var id = $(this).data('block-pattern-id');
+        var url = "//" + api_host + "/api/block_pattern/toggle/";
+
+        $.ajax({
+            url: url,
+            type: "PATCH",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    console.log(response.message);
+                }
+            }
+        });
+    });
 
 
 });
