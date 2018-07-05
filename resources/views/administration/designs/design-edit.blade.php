@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -36,7 +36,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control design-set-name" name="name" value="{{ $design->name }}">
+                                <input type="name" class="form-control design-set-name" name="name" value="{{ $design->name }}" required>
                             </div>
                         </div>
 

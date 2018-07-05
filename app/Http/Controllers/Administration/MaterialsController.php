@@ -80,7 +80,7 @@ class MaterialsController extends Controller
     {
         Log::info('Index');
 
-        $sport = "Football";
+        $sport = "Football 2017";
         if( null !== Session::get('active_sport') ){
             $sport = Session::get('active_sport');
         }

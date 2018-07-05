@@ -25,7 +25,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table class='data-table table table-bordered'>
+                    <table class='data-table table table-bordered' id='design-set-table'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -121,10 +121,11 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/designs.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
     $('.data-table').DataTable({
@@ -134,6 +135,39 @@ $(document).ready(function(){
         "ordering": true,
         "info": true,
         "autoWidth": false
+    });
+
+    $(document).on('click', '.delete-design', function(e){
+        e.preventDefault();
+        var id = $(this).data('design-id');
+        modalConfirm('Remove Design Set', 'Are you sure you want to delete the design?', id);
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/design_set/delete/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    document.location.reload();
+                    $('#confirmation-modal').modal('hide');
+                    $('.design-set').fadeOut();
+                }
+            }
+        });
     });
 });
 </script>

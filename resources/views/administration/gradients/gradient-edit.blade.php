@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Gradient Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control base-gradient-name" name="name" value="{{ $gradient->name }}">
+                                <input type="name" class="form-control base-gradient-name" name="name" value="{{ $gradient->name }}" required="true">
                             </div>
                         </div>
 
@@ -34,7 +34,7 @@
                             <label class="col-md-4 control-label">
                                 Gradient File
                             </label>
-                            
+
                             <div class="col-md-6">
                                 <input type="file" class="form-control gradient-file" name="gradient_path" accept="image/*">
                                 <img src="{{ $gradient->gradient_path }}" width="100px" height="100px">

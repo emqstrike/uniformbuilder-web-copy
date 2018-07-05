@@ -86,7 +86,7 @@
         </a>
 
         <ul class="treeview-menu">
-            <li>
+      <!--       <li>
                 <a href="/administration/artwork_requests" >
                     <i class="glyphicon glyphicon-picture"></i> <span>Artwork Requests (Orders)</span>
                 </a>
@@ -101,7 +101,7 @@
                     <i class="glyphicon glyphicon-picture"></i>
                     <span>Custom Artwork Requests</span>
                 </a>
-            </li>
+            </li> -->
             <li>
                 <a href="/administration/logo_requests" >
                     <i class="glyphicon glyphicon-picture"></i> <span>Logo Requests ( ALL )</span>
@@ -163,7 +163,7 @@
         </a>
       </li>
       <li data-step="9" data-intro="For Materials settings.">
-        <a href="/administration/materials/Football">
+        <a href="/administration/materials/Football 2017">
           <i class="fa fa-cubes"></i> <span>Materials</span>
         </a>
       </li>
