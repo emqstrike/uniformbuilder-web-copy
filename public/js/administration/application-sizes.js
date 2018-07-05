@@ -5,7 +5,7 @@ $(document).ready(function(){
         loadConfigurations(data);
     }
 
-    window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot', 'embellishments'];
+    window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot', 'embellishments', 'short_number', 'pant_number'];
 
     $(".add-props").on('click', function(e) {
         e.preventDefault();
@@ -70,7 +70,7 @@ $(document).ready(function(){
         var app_numbers_ref = [];
         var app_sizes_ref = [];
         var default_sizes = [];
-        window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot', 'embellishments'];
+        window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot', 'embellishments', 'short_number', 'pant_number'];
         data.forEach(function(entry, i) {
             var app_nums = entry.application_number;
             app_numbers_ref.push(app_nums);
