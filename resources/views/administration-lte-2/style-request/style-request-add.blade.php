@@ -23,6 +23,11 @@
     from { -webkit-transform: rotate(0deg); }
     to { -webkit-transform: rotate(360deg); }
 }
+
+.select2-container.form-control {
+     height: auto !important;
+     width: auto !important;
+}
 </style>
 @endsection
 
@@ -227,7 +232,112 @@
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tbody_parts"></tbody>
+                                    <tbody id="tbody_parts">
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label>Max # of Pipings</label>
+                                <select class="form-control rules-max-pipings rules-dependent">
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <label>Pipings</label>                                
+                                <table class="table table-bordered table-striped pipings-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Allow</th>
+                                            <th colspan="3">Sizes</th>
+                                            <th>Piping</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody_pipings">
+                                        <tr class="center piping-row">
+                                            <td>
+                                                <input type="checkbox" class="allow" value="true" />
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-2" value="1/2" />
+                                                <label>1/2</label>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-4" value="1/4" />
+                                                <label>1/4</label>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-8" value="1/8" />
+                                                <label>1/8</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="piping-set" value="Center Piping" disabled>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="neck piping-row">
+                                            <td>
+                                                <input type="checkbox" class="allow" value="true" />
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-2" value="1/2" />
+                                                <label>1/2</label>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-4" value="1/4" />
+                                                <label>1/4</label>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-8" value="1/8" />
+                                                <label>1/8</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="piping-set" value="Neck Piping" disabled>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="tunnel piping-row">
+                                            <td>
+                                                <input type="checkbox" class="allow" value="true" />
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-2" value="1/2" />
+                                                <label>1/2</label>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-4" value="1/4" />
+                                                <label>1/4</label>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-8" value="1/8" />
+                                                <label>1/8</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="piping-set" value="Tunnel Piping" disabled>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="yoke piping-row">
+                                            <td>
+                                                <input type="checkbox" class="allow" value="true" />
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-2" value="1/2" />
+                                                <label>1/2</label>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-4" value="1/4" />
+                                                <label>1/4</label>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="1-8" value="1/8" />
+                                                <label>1/8</label>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="piping-set" value="Yoke Piping" disabled>
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
 
@@ -302,7 +412,9 @@ populateSelectElem(categories, 'name', 'id', '.style-category', true); // popula
 populateDDwithNums('.rules-max-applications', 0, 10);
 populateDDwithNums('.pa-allowed-apps', 1, 60);
 populateSelectElem(style_request_priorities, 'name', 'id', '.style-priority', false);
-initSelect2('.pa-allowed-apps','Select valid applications'); 
+initSelect2('.pa-allowed-apps','Select valid applications');
+
+populateDDwithNums('.rules-max-pipings', 0, 3);
 
 
 
@@ -346,7 +458,16 @@ function validateRuleCase(rule_case){
             $(this).attr('disabled', false);
             $('#rule_list_div').fadeOut();
         });
+
+        $('.rules-loaded-input').each(function(i) {
+            $(this).prop('disabled', false);
+        });
     } else if (rule_case == "apply_existing"){
+
+        $('.rules-loaded-input').each(function(i) {
+            $(this).prop('disabled', true);
+        });
+
         $( ".rules-dependent" ).each(function( e ) {
             $('#rule_list_div').addClass("alert alert-info");
             $(this).attr('disabled', true);
@@ -424,8 +545,10 @@ $('.rules-bp').on('change', function(e){
 
 $(document).on('click', '.remove-part-row', function(e) {
     e.preventDefault();
-    $(this).parent().parent().fadeOut().remove();
-    updatePartsData();
+    if(rule_case == "create_new"){
+        $(this).parent().parent().fadeOut().remove();
+        updatePartsData();
+    }
 });
 
 $(document).on('keyup', '.part-name', function() {
@@ -436,6 +559,11 @@ $(document).on('keyup', '.part-name', function() {
 $(document).on('change', '.parts-table', function(e) {
     console.log('parts table changed');
     updatePartsData();
+});
+
+$(document).on('change', '.pipings-table', function(e) {
+    console.log('pipings table changed');
+    updatePipingsData();
 });
 
 // add events for these
