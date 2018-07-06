@@ -234,7 +234,7 @@ $(document).ready(function(){
 
         $.ajax({
             url: url,
-            type: "PATCH",
+            type: "POST",
             data: JSON.stringify({id: id}),
             dataType: "json",
             crossDomain: true,
