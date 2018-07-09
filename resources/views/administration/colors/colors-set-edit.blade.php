@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
     li.select2-selection__choice {
     color: black !important;
 }
@@ -46,7 +46,6 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Color Set Type</label>
                             <div class="col-md-6">
-                                <!-- <input type="name" class="form-control color-code" name="color_code" value="{{ old('name') }}"> -->
                                 <select class="form-control" name='uniform_type'>
                                     <option value="custom" @if($colors_sets->uniform_type == "custom") selected="selected"@endif>Custom</option>
                                     <option value="twill" @if($colors_sets->uniform_type == "twill") selected="selected"@endif>Twill</option>
@@ -58,7 +57,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Colors</label>
                             <div class="col-md-6">
-                                <input type="hidden" class="colors-val" name="colors_value" value="{{ $colors_sets->colors }}">
+                                 <textarea class="colors-val" name="colors_value" style="display:none;"></textarea>
                                 <select name="colors[]" class="form-control colors" multiple="multiple">
                                     @foreach ($colors as $color)
                                         @if ($color->active)
@@ -110,7 +109,7 @@ $(document).ready(function(){
     });
     var colors_val = $(".colors-val").val();
     colors_val = JSON.parse(colors_val);
-    $(".colors").select2().val(colors_val).trigger("change"); 
+    $(".colors").select2().val(colors_val).trigger("change");
 });
 </script>
 @endsection
