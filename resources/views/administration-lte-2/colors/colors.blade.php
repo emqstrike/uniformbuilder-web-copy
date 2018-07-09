@@ -153,9 +153,20 @@ $(document).ready(function(){
             });
     });
 
-    $(document).on('change', '.color-name, .sublimation-only, #color-code-text, #colorpicker, .brand-id, .master-color',  function() {
+    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand-id, .master-color',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
         save_button.removeAttr('disabled');
+        $(this).parent().siblings('td').find('.color-name').trigger('change');
+    });
+
+    $(document).on('change', '.color-name',  function() {
+        var save_button = $(this).parent().siblings('td').find('.save-button');
+        var color_name = $(this).val();
+        if(color_name == '') {
+            save_button.attr('disabled', 'true');
+        } else {
+            save_button.removeAttr('disabled');
+        }
     });
 
     $(document).on('click', '.save-button', function() {
