@@ -1,6 +1,6 @@
 # Code Map
 
-Most of the important JS files are located in /resources/assets/js
+Most of the important JS files are located in https://github.com/qstrike/uniformbuilder-web/tree/master/resources/assets/js
 
 ## Main JS Files
 
