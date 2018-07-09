@@ -31,7 +31,7 @@ class ColorsSetsController extends Controller
     {
         $colors_sets = $this->client->getColorsSets();
         $colors = $this->colorsClient->getColors();
-        
+
         return view('administration.colors.colors-sets', [
             'colors_sets' => $colors_sets,
             'colors' => $colors
@@ -70,7 +70,7 @@ class ColorsSetsController extends Controller
             'uniform_type' => $uniformType,
             'colors' => $colors
         ];
-        
+
         $response = null;
 
         if (!empty($id))
@@ -79,7 +79,7 @@ class ColorsSetsController extends Controller
             $response = $this->client->updateColorsSet($data);
         }
         else
-        {            
+        {
             Log::info('Attempts to create a new Colors Set' . json_encode($data));
             $response = $this->client->createColorsSet($data);
         }
@@ -95,8 +95,8 @@ class ColorsSetsController extends Controller
             return Redirect::to('/administration/colors_sets')
                             ->with('message', 'There was a problem saving.');
         }
-        
-        
+
+
     }
 
 }
