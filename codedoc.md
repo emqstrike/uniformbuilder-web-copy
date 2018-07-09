@@ -70,6 +70,17 @@ Most of the important JS files are located in https://github.com/qstrike/uniform
 
     - General Configuration values (that are not yet transferred to the backend)
 
+**ubconfig**
+
+    - Main Config File with version info and feature flag setup
+
+## Third Party Interop
+
+**ubinterop**
+
+    - Inksoft interop code 
+
+
 ## Pattern Handling
 
 **ubj@ub.funcs.coordinateAdjustments**
@@ -126,6 +137,11 @@ Most of the important JS files are located in https://github.com/qstrike/uniform
     - Drawing of the small color pickers for Mascots and Applications 
     - uba@ub.funcs.changeActiveColorSmallColorPicker
 
+## Others
+
+**ubconfig@ub.config.print_version**
+    
+    - Print customizer version and other info such as API Url in the console
 
 
 
