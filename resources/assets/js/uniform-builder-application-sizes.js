@@ -1527,10 +1527,12 @@ $(document).ready(function() {
                     sport: 'basketball',
                     applicationNumbers: [6],
                     sizes: [
-                        {size: 2.5},
+                        {size: 1},
+                        {size: 2},
+                        {size: 3},
+                        {size: 4},
                     ],
                 },
-
                 {
                     name: 'mascot',
                     sport: 'basketball',
