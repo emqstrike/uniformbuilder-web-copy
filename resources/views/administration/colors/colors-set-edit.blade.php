@@ -57,7 +57,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Colors</label>
                             <div class="col-md-6">
-                                 <textarea class="colors-val" name="colors_value" style="display:none;"></textarea>
+                                <textarea class="colors-val" name="colors_value" style="display:none;">{{ $colors_sets->colors }}</textarea>
                                 <select name="colors[]" class="form-control colors" multiple="multiple">
                                     @foreach ($colors as $color)
                                         @if ($color->active)
