@@ -8313,7 +8313,7 @@ $(document).ready(function() {
                 console.log(_id);
 
                 ub.utilities.info('Using sizes from backend: ');
-                
+
                 console.log(_sizesFromConfig);
                 console.log(_sizesFromConfig.sizes);
                 console.log(_.pluck(_sizesFromConfig.sizes, "size"));
@@ -9795,13 +9795,10 @@ $(document).ready(function() {
 
         if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling')) {
 
-            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias});                
+            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias}); 
 
-            if (ub.config.sport === "Lacrosse" && ub.config.type === "lower") {
-
-                _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias);
-
-            }
+            if (ub.config.sport === "Lacrosse" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
+            if (ub.config.sport === "Basketball" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
 
         }
 
@@ -9813,7 +9810,8 @@ $(document).ready(function() {
             ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
             _sizes = ub.data.applicationSizes.getSizes('default', applicationType);
         }
-        
+
+
         return _sizes;
 
     }

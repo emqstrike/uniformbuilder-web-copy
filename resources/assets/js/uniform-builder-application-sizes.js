@@ -2084,6 +2084,20 @@ $(document).ready(function() {
                 ],
             },
 
+             {
+                name: 'front_number',
+                sport: 'basketball',
+                applicationNumbers: [12,13,16,17],
+                sizes:  [
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
+                ],
+            },
+
             // Lacrosse
 
             {
