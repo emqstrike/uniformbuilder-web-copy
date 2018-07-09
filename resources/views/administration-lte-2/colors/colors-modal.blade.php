@@ -25,7 +25,7 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">Color Code</label>
-                      <input type="text" class="form-control input-color-code" name="color_code" required>
+                      <input type="text" class="form-control input-color-code" name="color_code" maxlength="2" required>
                   </div>
                   <div class="form-group">
                             <label class="control-label">Color</label>

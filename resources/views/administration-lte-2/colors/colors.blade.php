@@ -54,7 +54,7 @@
                             </td>
                             <td style='background-color: #{{ $color->hex_code }}; height: 30px; border: 1px solid #ddd;' class="col-md-2">
                                 <span id="color-code" class='badge'>{{ $color->color_code }}</span>
-                                <input type="text" size="3" id="color-code-text" style="display: none"value="{{ $color->color_code }}">
+                                <input type="text" size="3" id="color-code-text" style="display: none"value="{{ $color->color_code }}" maxlength="2">
                                 <input type="hidden" name="hex-code" id="hex-code" value="{{ $color->hex_code }}">
                                 <input class="form-control colorpicker" id="colorpicker" type="hidden">
                             </td>
@@ -153,9 +153,20 @@ $(document).ready(function(){
             });
     });
 
-    $(document).on('change', '.color-name, .sublimation-only, #color-code-text, #colorpicker, .brand-id, .master-color',  function() {
+    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand-id, .master-color',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
         save_button.removeAttr('disabled');
+        $(this).parent().siblings('td').find('.color-name').trigger('change');
+    });
+
+    $(document).on('change', '.color-name',  function() {
+        var save_button = $(this).parent().siblings('td').find('.save-button');
+        var color_name = $(this).val();
+        if(color_name == '') {
+            save_button.attr('disabled', 'true');
+        } else {
+            save_button.removeAttr('disabled');
+        }
     });
 
     $(document).on('click', '.save-button', function() {
