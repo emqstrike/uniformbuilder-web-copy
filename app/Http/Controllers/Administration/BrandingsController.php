@@ -64,7 +64,6 @@ class BrandingsController extends Controller
         $template_folder = $request->input('template_folder');
 
         $data = [
-            'id' => $id,
             'site_name' => $site_name,
             'site_code' => $site_code,
             'template_folder' => $template_folder
@@ -73,6 +72,7 @@ class BrandingsController extends Controller
         $response=null;
         if (!empty($id))
         {
+            $data['id'] = $id;
             Log::info('Attempts to update Brand#' . $id);
             $response = $this->client->updateBrand($data);
         }
