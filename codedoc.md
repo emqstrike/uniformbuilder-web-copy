@@ -1,6 +1,12 @@
 # Code Map
 
+Most of the important JS files are located in https://github.com/qstrike/uniformbuilder-web/tree/master/resources/assets/js
+
 ## Main JS Files
+
+**ubdata**
+
+    - Configuration Values 
 
 **ubj**
 
@@ -10,11 +16,11 @@
 
     - Handles the create of applications and handling of mouse events
 
-**ubp**
+**ubproc**
 
     - Handles the ordering process
 
-**ubp**
+**ubpl**
 
     - Helper functions for creating the color pickers, and the text and mascot sprites for the applications
 
@@ -22,19 +28,58 @@
 
     - Team Color Functions and Other Color Management Functions
 
+**ubren**
+
+    - Screen Management Functions (Fullscreen Preview, Zooming, etc)
+
 **ubutilities**
 
     - General Utility Functions
+
+**ubshort**
+
+    - Keyboard Shortcut handlers 
 
 **ubpip**
 
     - Piping Code
 
+**ubrando**
+
+    - Random Feed Functions
+
 **ubf**
 
     - Font Processing Code
 
-** util
+## Data and Configuration 
+
+**ubdata**
+
+    - General Configuration values (that are not yet transferred to the backend)
+
+**ubpla**
+
+    - Application Creation Behavior such as single view applications
+
+**ubsize**
+
+    - Application Sizes (Mascot sizes, Pant applications and Upper uniform applications, etc...)
+
+**ubdata**
+
+    - General Configuration values (that are not yet transferred to the backend)
+
+**ubconfig**
+
+    - Main Config File with version info and feature flag setup
+
+## Third Party Interop
+
+**ubinterop**
+
+    - Inksoft interop code 
+
 
 ## Pattern Handling
 
@@ -92,6 +137,11 @@
     - Drawing of the small color pickers for Mascots and Applications 
     - uba@ub.funcs.changeActiveColorSmallColorPicker
 
+## Others
+
+**ubconfig@ub.config.print_version**
+    
+    - Print customizer version and other info such as API Url in the console
 
 
 
