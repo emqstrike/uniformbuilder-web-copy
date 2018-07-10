@@ -1525,7 +1525,7 @@ $(document).ready(function() {
                 {
                     name: 'mascot',
                     sport: 'basketball',
-                    applicationNumbers: [6],
+                    applicationNumbers: [1, 6, 7, 31, 30],
                     sizes: [
                         {size: 1},
                         {size: 2},
@@ -1533,17 +1533,7 @@ $(document).ready(function() {
                         {size: 4},
                     ],
                 },
-                {
-                    name: 'mascot',
-                    sport: 'basketball',
-                    applicationNumbers: [7, 31, 30],
-                    sizes: [
-                        {size: 1},
-                        {size: 2},
-                        {size: 3},
-                        {size: 4},
-                    ],
-                },
+                
                 {
                     name: 'mascot',
                     sport: 'basketball',
