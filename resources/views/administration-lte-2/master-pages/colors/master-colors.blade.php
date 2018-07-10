@@ -109,7 +109,7 @@ $(document).ready(function(){
     $(document).on('click', '.edit-record', function(e) {
         e.preventDefault();
         window.modal_action = 'update';
-        $('.modal-title').text('Edit Pattern Information');
+        $('.modal-title').text('Edit Color Information');
         $('.submit-new-record').text('Update Record');
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-color-id').text();
