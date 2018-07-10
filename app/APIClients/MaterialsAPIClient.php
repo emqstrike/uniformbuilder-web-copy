@@ -1,6 +1,8 @@
 <?php
 namespace App\APIClients;
 
+use Illuminate\Support\Facades\Log;
+
 class MaterialsAPIClient extends APIClient
 {
     public function __construct()
@@ -19,6 +21,20 @@ class MaterialsAPIClient extends APIClient
             $materials = $result->materials;
         }
         return $materials;
+    }
+
+    public function getTotalCount()
+    {
+        $response = $this->get('materials/total_count');
+        $result = $this->decoder->decode($response->getBody());
+
+        $count = 0;
+
+        if ($result->success) {
+            $count = $result->count;
+        }
+        
+        return $count;
     }
 
     public function getUpperBodyUniforms()
