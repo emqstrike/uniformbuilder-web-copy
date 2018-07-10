@@ -130,7 +130,7 @@ function validateFabricName(name){
 
 
 
-// $('.submit-new-record').on('click', function(e){
+
 $("#myForm").submit(function(e) {
     e.preventDefault();
     var data = {};
