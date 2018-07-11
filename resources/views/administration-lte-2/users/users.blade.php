@@ -46,6 +46,7 @@
                                 <th>Name</th>
                                 <th id="select-filter">Account Type</th>
                                 <th>Email</th>
+                                <th>Default Allowed Pages</th>
                                 <th>Allowed Pages</th>
                                 <th id="select-filter">Rep Name</th>
                                 <th>Last Login</th>
@@ -61,7 +62,20 @@
                                 <td>{{ $user->first_name }} {{ $user->last_name }}<input type="hidden" class="user-first-name" value="{{ $user->first_name }}"><input type="hidden" class="user-last-name" value="{{ $user->last_name }}"></td>
                                 <td class="td-user-type">{{ ucfirst($user->type) }}</td>
                                 <td class="td-user-email">{{ $user->email }}</td>
-                                <td class="td-user-allowed-pages">{{ $user->allowed_pages }}</td>
+                                <td class="td-default-allowed-pages">
+                                    @if ($user->default_allowed_pages)
+                                        @foreach (json_decode($user->default_allowed_pages, true) as $defaultAllowedPage)
+                                            {{ $defaultAllowedPage }}<br>
+                                        @endforeach
+                                    @endif
+                                </td>
+                                <td class="td-user-allowed-pages">
+                                    @if ($user->allowed_pages)
+                                        @foreach (json_decode($user->allowed_pages, true) as $allowedPage)
+                                            {{ $allowedPage }}<br>
+                                        @endforeach
+                                    @endif
+                                </td>
                                 <td>{{ $user->rep_first_name }} {{ $user->rep_last_name }}</td>
                                 <td>{{ $user->last_login }}
                                     <input type="hidden" class="user-role" value="{{ $user->role }}">
