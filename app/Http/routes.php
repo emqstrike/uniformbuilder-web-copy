@@ -144,7 +144,7 @@ Route::group(array('prefix' => 'administration'), function() {
     Route::get('users', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@index'])->name('users');
     Route::post('user/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);
     Route::post('user/update', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@store']);
-    Route::patch('user/update_allowed_pages', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@updateAllowedPages'])->name('update_allowed_pages');
+    Route::post('user/update_allowed_pages', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@updateAllowedPages'])->name('update_allowed_pages');
     Route::get('user/add', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@addUserForm'])->name('add_new_user');
     Route::get('user/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@editUserForm'])->name('modify_user');
     Route::get('account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'Administration\UsersController@accountSettings']);

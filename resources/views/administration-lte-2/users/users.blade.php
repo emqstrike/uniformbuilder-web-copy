@@ -17,6 +17,10 @@
         li.select2-selection__choice {
             color: black !important;
         }
+
+        .select2-selection__clear {
+            display: none;
+        }
     </style>
 @endsection
 
