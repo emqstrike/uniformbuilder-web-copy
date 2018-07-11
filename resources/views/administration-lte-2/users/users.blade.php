@@ -69,7 +69,7 @@
                                         @endforeach
                                     @endif
                                 </td>
-                                <td class="td-user-allowed-pages">
+                                <td class="td-user-allowed-pages" data-user-allowed-pages="{{ $user->allowed_pages }}">
                                     @if ($user->allowed_pages)
                                         @foreach (json_decode($user->allowed_pages, true) as $allowedPage)
                                             {{ $allowedPage }}<br>

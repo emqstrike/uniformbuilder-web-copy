@@ -5,13 +5,12 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
             }
-        })
+        });
 
         $(document).on('click', '.edit-allowed-pages', function(e) {
             e.preventDefault();
 
-            var user_allowed_pages = $(this).parent().parent().find('.td-user-allowed-pages').html();
-
+            var user_allowed_pages = $(this).parent().parent().find('.td-user-allowed-pages').data('user-allowed-pages');
             var data = {};
 
             data.user_id = $(this).parent().parent().find('.td-user-id').html();
@@ -56,10 +55,6 @@
 
                 $.get("{{ route('get_v1_pages') }}", function(data, status) {
                     var html = "";
-
-                    if (user_allowed_pages != "") {
-                        user_allowed_pages = JSON.parse(user_allowed_pages);
-                    }
 
                     jQuery.each(data, function(key, value) {
                         if (allowed_pages.indexOf(value.code) < 0) {    
@@ -116,6 +111,6 @@
                     }
                 }
             })
-        })
+        });
     });
 </script>
