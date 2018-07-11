@@ -8,6 +8,20 @@ class SavedDesignsAPIClient extends APIClient
         parent::__construct();
     }
 
+    public function getTotalCount()
+    {
+        $response = $this->get('saved_designs/total_count');
+        $result = $this->decoder->decode($response->getBody());
+
+        $count = 0;
+
+        if ($result->success) {
+            $count = $result->count;
+        }
+        
+        return $count;
+    }
+
     public function getAll()
     {
         $response = $this->get('saved_designs');

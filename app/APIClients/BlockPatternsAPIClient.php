@@ -19,6 +19,20 @@ class BlockPatternsAPIClient extends APIClient
         return null;
     }
 
+    public function getTotalCount($filter = null)
+    {
+        $response = $this->get('block_patterns/total_count/' . $filter);
+        $result = $this->decoder->decode($response->getBody());
+
+        $count = 0;
+
+        if ($result->success) {
+            $count = $result->count;
+        }
+
+        return $count;
+    }
+
     public function getBlockPatterns()
     {
         $response = $this->get('block_patterns');
