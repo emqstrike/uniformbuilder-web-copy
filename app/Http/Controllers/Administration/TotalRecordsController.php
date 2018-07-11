@@ -55,7 +55,7 @@ class TotalRecordsController extends Controller
         $active_table = $activeTable;
 
         if ($activeTable == 'saved_designs') {
-            $count = $this->savedDesignsAPIClient->getAll();
+            $count = $this->savedDesignsAPIClient->getTotalCount();
         } else if ($activeTable == 'materials') {
             $count = $this->materialsAPIClient->getTotalCount();
         } else if ($activeTable == 'uniform_categories') {
