@@ -21,6 +21,18 @@ class UsersAPIClient extends APIClient
         return $users;
     }
 
+    public function getTotalCount()
+    {
+        $response = $this->get('users/total_count');
+        $result = $this->decoder->decode($response->getBody());
+
+        $count = 0;
+        if ($result->success) {
+            $count = $result->count;
+        }
+        return $count;
+    }
+
     public function getUser($id)
     {
         $response = $this->get('user/' . $id);
