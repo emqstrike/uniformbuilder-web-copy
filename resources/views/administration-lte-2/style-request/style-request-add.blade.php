@@ -555,7 +555,6 @@ $(document).on('keyup', '.part-name', function() {
     updatePartsData();
 });
 
-
 $(document).on('change', '.parts-table', function(e) {
     console.log('parts table changed');
     updatePartsData();
