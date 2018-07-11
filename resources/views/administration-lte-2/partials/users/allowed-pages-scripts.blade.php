@@ -63,10 +63,8 @@
 
                     jQuery.each(data, function(key, value) {
                         if (allowed_pages.indexOf(value.code) < 0) {    
-                            if ((typeof user_allowed_pages) == 'object') {
-                                if (user_allowed_pages.indexOf(value.code) >= 0) {
-                                    html += "<option selected='selected' value='" + value.code + "'>" + value.code + "</option>";
-                                }
+                            if (user_allowed_pages.indexOf(value.code) >= 0) {
+                                html += "<option selected='selected' value='" + value.code + "'>" + value.code + "</option>";
                             } else {
                                 html += "<option value='" + value.code + "'>" + value.code + "</option>";
                             }

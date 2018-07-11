@@ -49,16 +49,17 @@ class V1Menu
         $superUsers = explode(",", env('BACKEND_SUPERUSERS'));
 
         if (in_array(Session::get('userId'), $superUsers)) {
-            return $this->getSuperUserV1Menus($menus);
+            $menus = $this->getSuperUserV1Menus($menus);
+            return $menus;
         }
 
         if ($menus && $this->allowedPages) {
             if (! empty($userAllowedPages)) {
                 $this->allowedPages = array_merge($this->allowedPages, $userAllowedPages);
             }
-
             $menus = $this->getV1Menus($menus);
-            return $this->excludeParentMenusWithoutSubMenu($menus);
+            $menus = $this->excludeParentMenusWithoutSubMenu($menus);
+            return $menus;
         }
 
         return null;
@@ -69,18 +70,20 @@ class V1Menu
         $_menus = [];
 
         foreach ($menus as $key => $menu) {
-            if (Route::getRoutes()->hasNamedRoute($menu->route_name)) {
-                if (strpos(route($menu->route_name), 'v1-0')) {
+            $routeName = preg_replace('/\s+/', '', $menu->route_name);
+
+            if (Route::getRoutes()->hasNamedRoute($routeName)) {
+                if (strpos(route($routeName), 'v1-0')) {
                     $_menus[$key] = [
-                        'route_name' => preg_replace('/\s+/', '_', $menu->route_name),
+                        'route_name' => $routeName,
                         'menu_text' => $menu->menu_text,
                         'icon_class' => $menu->icon_class,
                         'parent_id' => $menu->parent_id,
                     ];
                 }
-            } elseif ($menu->route_name == '#') {
+            } elseif ($routeName == '#') {
                 $_menus[$key] = [
-                    'route_name' => preg_replace('/\s+/', '_', $menu->route_name),
+                    'route_name' => $routeName,
                     'menu_text' => $menu->menu_text,
                     'icon_class' => $menu->icon_class,
                     'parent_id' => $menu->parent_id,
@@ -102,20 +105,22 @@ class V1Menu
         $_menus = [];
 
         foreach ($menus as $key => $menu) {
-            if (Route::getRoutes()->hasNamedRoute($menu->route_name)) {
-                if (strpos(route($menu->route_name), 'v1-0')) {
-                    if (in_array($menu->route_name, $this->allowedPages)) {
+            $routeName = preg_replace('/\s+/', '', $menu->route_name);
+
+            if (Route::getRoutes()->hasNamedRoute($routeName)) {
+                if (strpos(route($routeName), 'v1-0')) {
+                    if (in_array($routeName, $this->allowedPages)) {
                         $_menus[$key] = [
-                            'route_name' => preg_replace('/\s+/', '_', $menu->route_name),
+                            'route_name' => $routeName,
                             'menu_text' => $menu->menu_text,
                             'icon_class' => $menu->icon_class,
                             'parent_id' => $menu->parent_id,
                         ];
                     } 
                 }
-            } elseif ($menu->route_name == '#') {
+            } elseif ($routeName == '#') {
                 $_menus[$key] = [
-                    'route_name' => preg_replace('/\s+/', '_', $menu->route_name),
+                    'route_name' => $routeName,
                     'menu_text' => $menu->menu_text,
                     'icon_class' => $menu->icon_class,
                     'parent_id' => $menu->parent_id,
