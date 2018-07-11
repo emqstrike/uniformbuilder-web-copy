@@ -55,26 +55,25 @@ class TotalRecordsController extends Controller
         $active_table = $activeTable;
 
         if ($activeTable == 'saved_designs') {
-            $table = $this->savedDesignsAPIClient->getAll();
+            $count = $this->savedDesignsAPIClient->getTotalCount();
         } else if ($activeTable == 'materials') {
-            $table = $this->materialsAPIClient->getMaterials();
+            $count = $this->materialsAPIClient->getTotalCount();
         } else if ($activeTable == 'uniform_categories') {
-            $table = $this->uniformCategoriesClient->getUniformCategories();
+            $count = $this->uniformCategoriesClient->getTotalCount();
         } else if ($activeTable == 'block_patterns') {
-            $table = $this->blockPatternsAPIClient->getBlockPatterns();
+            $count = $this->blockPatternsAPIClient->getTotalCount();
         } else if ($activeTable == 'neck_options') {
-            $table = $this->blockPatternsAPIClient->getBlockPatterns();
+            $count = $this->blockPatternsAPIClient->getTotalCount('neck_options');
         } else if ($activeTable == 'users') {
-            $table = $this->usersAPIClient->getUsers();
+            $count = $this->usersAPIClient->getTotalCount();
         } else if ($activeTable == 'orders') {
-            $table = $this->ordersAPIClient->getAllOrdersNoLimit();
+            $count = $this->ordersAPIClient->getTotalCount();
         } else {
-            $table = '';
+            $count = 0;
         }
-
+        
         return view('administration.statistics.total-records', [
-            'table' => $table,
-            'sports' => $sports,
+            'count' => $count,
             'active_table' => $active_table
         ]);
 
