@@ -217,6 +217,19 @@ class OrdersAPIClient extends APIClient
         return null;
     }
 
+    public function getTotalCount()
+    {
+        $response = $this->get('orders/getAllOrders/noLimit/total_count');
+        $result = $this->decoder->decode($response->getBody());
+        $count = 0;
+
+        if ($result->success) {
+            $count = $result->count;
+        }
+        
+        return $count;
+    }
+
     public function getAllOrdersNoLimit()
     {
         $response = $this->get('orders/getAllOrders/noLimit');

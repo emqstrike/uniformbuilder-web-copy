@@ -158,9 +158,9 @@ $(document).ready(function(){
 
 window.block_patterns = null;
 
-getBlockPatterms(function(block_patterns){ window.block_patterns = block_patterns; });
+getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
 
-function getBlockPatterms(callback){
+function getBlockPatterns(callback){
     var block_patterns;
     var url = "//" +api_host+ "/api/block_patterns";
     $.ajax({
