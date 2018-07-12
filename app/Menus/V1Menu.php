@@ -92,6 +92,7 @@ class V1Menu
 
             if (isset($menu->subMenu)) {
                 if (count($menu->subMenu) > 0) {
+                    Log::info(print_r($menu->subMenu, true));
                     $_menus[$key]['subMenu'] = $this->getSuperUserV1Menus($menu->subMenu);
                 }
             }
@@ -116,6 +117,12 @@ class V1Menu
                             'icon_class' => $menu->icon_class,
                             'parent_id' => $menu->parent_id,
                         ];
+
+                        if (isset($menu->subMenu)) {
+                            if (count($menu->subMenu) > 0) {
+                                $_menus[$key]['subMenu'] = $this->getV1Menus($menu->subMenu);
+                            }
+                        }
                     } 
                 }
             } elseif ($routeName == '#') {
@@ -125,14 +132,15 @@ class V1Menu
                     'icon_class' => $menu->icon_class,
                     'parent_id' => $menu->parent_id,
                 ];
-            }
 
-            if (isset($menu->subMenu)) {
-                if (count($menu->subMenu) > 0) {
-                    $_menus[$key]['subMenu'] = $this->getV1Menus($menu->subMenu);
+                if (isset($menu->subMenu)) {
+                    if (count($menu->subMenu) > 0) {
+                        $_menus[$key]['subMenu'] = $this->getV1Menus($menu->subMenu);
+                    }
                 }
             }
         }
+
         return $_menus;
     }
 
