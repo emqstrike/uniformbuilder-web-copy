@@ -40,7 +40,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Price Item ID</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="price_item_id" required>
+                                <input type="number" class="form-control" name="price_item_id" required>
                             </div>
                         </div>
 
