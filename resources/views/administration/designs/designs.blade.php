@@ -68,15 +68,6 @@
                             <td>
                                 {{ $design->lower_body_uniform }}
                             </td>
-<!--                             <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td> -->
                             <td>
                                 <a href="#" class="btn btn-default btn-xs disable-design" data-design-id="{{ $design->id }}" role="button" {{ ($design->active) ? : 'disabled="disabled"' }}>
                                     <i class="glyphicon glyphicon-eye-close"></i>
