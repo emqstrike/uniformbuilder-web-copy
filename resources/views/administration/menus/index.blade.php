@@ -55,3 +55,19 @@
         </div>
     </section>
 @endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('.remove-menu').click(function(e) {
+                e.preventDefault();
+
+                var response = confirm('Are you sure you want to delete?');
+
+                if (response == true) {
+                    window.location = $(this).attr('href');
+                }
+            });
+        });
+    </script>
+@endsection

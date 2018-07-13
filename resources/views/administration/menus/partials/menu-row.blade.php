@@ -23,7 +23,7 @@
             Edit
         </a>
 
-        <a href="{{ route('delete_menu', ['id' => $menu->id]) }}" class="btn btn-danger btn-xs" role="button">
+        <a href="{{ route('delete_menu', ['id' => $menu->id]) }}" class="btn btn-danger btn-xs remove-menu" role="button">
             <i class="glyphicon glyphicon-trash"></i>
             Remove
         </a>
