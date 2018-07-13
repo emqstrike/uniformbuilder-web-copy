@@ -12,6 +12,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Users')
                     <h1>
                         <span class="glyphicon glyphicon-user"></span>
                         Users

@@ -9,6 +9,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Price Item Templates')
                     <h1>
                         <span class="fa fa-dollar"></span>
                         Price Item Templates
