@@ -47,9 +47,9 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">Assigned Sales Rep</label>
-                    <select name='default_rep_id' class="form-control default-rep-id">
+                    <select name='default_rep_id' class="form-control input-rep-id">
                         <option value="">none</option>
-                        </select>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label class="control-label">Type</label>
