@@ -92,7 +92,6 @@ class V1Menu
 
             if (isset($menu->subMenu)) {
                 if (count($menu->subMenu) > 0) {
-                    Log::info(print_r($menu->subMenu, true));
                     $_menus[$key]['subMenu'] = $this->getSuperUserV1Menus($menu->subMenu);
                 }
             }
