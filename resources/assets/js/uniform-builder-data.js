@@ -10344,6 +10344,7 @@ ub.funcs.fontOffSets = [
                     option: "Short Sleeve",
                 },
               
+                // Volleyball
                 {
                     sport: 'Volleyball',
                     option: "Cap Sleeve",
@@ -10360,6 +10361,19 @@ ub.funcs.fontOffSets = [
                     sport: 'Volleyball',
                     option: "Short Sleeve",
                 },
+                {
+                    sport: 'Volleyball',
+                    option: "Men Volleyball Jersey",
+                },
+                {
+                    sport: 'Volleyball',
+                    option: "Crew Neck Sleeveless Shirt",
+                },
+                {
+                    sport: 'Volleyball',
+                    option: "Sublimated Short",
+                },
+                // End Volleyball
 
                 {
                     sport: 'Hockey',
