@@ -1,5 +1,6 @@
 $(document).ready(function(){
-    $('.enable-design').on('click', function(){
+    $('#design-set-table').on('click', '.enable-design', function(e){
+        e.preventDefault();
         var id = $(this).data('design-id');
         var url = "//" + api_host + "/api/design_set/enable/";
         $.ajax({
@@ -22,12 +23,13 @@ $(document).ready(function(){
                     $(elem + ' .disable-design').removeAttr('disabled');
                     $(elem + ' .enable-design').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
+                    window.location.reload();
                 }
             }
         });
     });
-
-    $('.disable-design').on('click', function(){
+    $('#design-set-table').on('click', '.disable-design', function(e){
+        e.preventDefault();
         var id = $(this).data('design-id');
         var url = "//" + api_host + "/api/design_set/disable/";
         $.ajax({
@@ -50,12 +52,11 @@ $(document).ready(function(){
                     $(elem + ' .disable-design').attr('disabled', 'disabled');
                     $(elem + ' .enable-design').removeAttr('disabled');
                     $('.design-' + id).addClass('inactive');
+                    window.location.reload();
                 }
             }
         });
     });
-
-
 
     $('.delete-design-set-thumbnail-path').on('click', function(){
         var id = $(this).data('design-id');console.log(id);

@@ -1,8 +1,8 @@
 @extends('administration.lte-main')
 
 @section('styles')
-
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 
 @endsection
 
@@ -78,11 +78,15 @@
                                     Enable
                                 </a>
                             </td>
+
                             <td>
+                                @if ($design->active)
                                 <a href="/administration/design_set/edit/{{ $design->id }}" class="btn btn-primary btn-xs edit-design" data-design-id="{{ $design->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
+                                @else
+                                @endif
                                 <a href="#" class="btn btn-danger pull-right btn-xs delete-design" data-design-id="{{ $design->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
@@ -117,6 +121,8 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/designs.js"></script>
 
+
+
 <script type="text/javascript">
 $(document).ready(function(){
     $('.data-table').DataTable({
@@ -125,7 +131,9 @@ $(document).ready(function(){
         "searching": true,
         "ordering": true,
         "info": true,
-        "autoWidth": false
+        "autoWidth": false,
+        "stateSave": true
+
     });
 
     $(document).on('click', '.delete-design', function(e){
@@ -160,6 +168,15 @@ $(document).ready(function(){
             }
         });
     });
+
+    @if (Session::has('message'))
+        new PNotify({
+            title: 'Success',
+            text: "{{ Session::get('message') }}",
+            type: 'success',
+            hide: true
+        });
+    @endif
 });
 </script>
 @endsection

@@ -74,14 +74,14 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">MSRP</label>
                             <div class="col-md-6">
-                                <input type="number" step="any" class="form-control" name="msrp" required>
+                                <input type="number" step="any" class="form-control input-msrp" name="msrp" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Web Price Sale</label>
                             <div class="col-md-6">
-                                <input type="number" step="any" class="form-control" name="web_price_sale" required>
+                                <input type="number" step="any" class="form-control input-web-price-sale" name="web_price_sale" required>
                             </div>
                         </div>
 
@@ -119,7 +119,31 @@ $(document).ready(function() {
         $(this).val($(this).val().toUpperCase());
     });
 
+    $('.input-msrp').on('change', function(){
+        var val = $(this).val();
+        if(+val < 10) {
+            $(this).val(10);
+            alert('Must be minimum of $10');
+        }
+    });
 
+    $('.input-web-price-sale').on('change', function(){
+        var msrp = $('.input-msrp').val();
+        var val = $(this).val();
+        if(+val > +msrp) {
+            $(this).val(msrp);
+            alert("Web Sale Price cannot be higher than MSRP!");
+        }
+    });
+
+    @if (Session::has('message'))
+        new PNotify({
+            title: 'Success',
+            text: "{{ Session::get('message') }}",
+            type: 'success',
+            hide: true
+        });
+    @endif
 
 });
 </script>
