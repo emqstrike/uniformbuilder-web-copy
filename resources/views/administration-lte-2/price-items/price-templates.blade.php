@@ -113,10 +113,6 @@ $(document).ready(function(){
                         <input type="text" class="form-control item-id">
                     </td>
                 </tr>`;
-                    // <td>
-                    //     <a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a>
-                    // </td>
-                // </tr>`;
         $('.property-body').append(x);
         deleteButton();
         initSizesAndPI();
