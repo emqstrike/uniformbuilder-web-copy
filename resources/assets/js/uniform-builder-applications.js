@@ -7601,6 +7601,14 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.clearInksoftID = function (settingsObject) {
+
+        _.each (settingsObject.application.views, function (view) {
+            view.application.inksoftDesignID = undefined;
+        });
+
+    }
+
     ub.funcs.changeApplicationType = function (settingsObject, type) {
 
         var _settingsObject = settingsObject;
@@ -7666,6 +7674,7 @@ $(document).ready(function() {
             if (ub.funcs.isCurrentSport('Football') && ub.current_material.material.type === "lower" && ub.config.uniform_application_type === "sublimated") { _size =  4;    }
 
             ub.funcs.setAppSize(_id, _size);
+            ub.funcs.clearInksoftID(_settingsObject); // Remove Inksoft ID from settings object in case it was changed from custom to stock
 
             var _matchingSide;
             var _matchingID = undefined;
