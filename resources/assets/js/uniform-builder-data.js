@@ -10388,6 +10388,26 @@ ub.funcs.fontOffSets = [
                     sport: 'Hockey',
                     option: "Game Scooped V-Neck with Buckle",
                 },
+                {
+                    sport: 'Hockey',
+                    option: "Scooped-V",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Scooped-V with Buckle",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Grinder V-Neck",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Grinder V-Neck with Buckle",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Game V-Neck",
+                },
                 // End Hockey
 
                 {
