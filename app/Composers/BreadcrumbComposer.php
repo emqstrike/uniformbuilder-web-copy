@@ -2,8 +2,10 @@
 
 namespace App\Composers;
 
-use Illuminate\View\View;
+use App\Utilities\URLChecker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class BreadcrumbComposer
 {
@@ -22,9 +24,14 @@ class BreadcrumbComposer
     protected function parseSegments()
     {
         return collect($this->request->segments())->map(function ($segment, $key) {
-            return [
-                $segment => implode('/', array_slice($this->request->segments(), 0, $key + 1))
-            ];
+            $uri = implode('/', array_slice($this->request->segments(), 0, $key + 1));
+            $url =  env('APP_URL') . "/" . $uri;
+
+            if(! URLChecker::is404($url)) {
+                return [
+                    $segment => $uri
+                ];
+            }
         });
     }
 }

@@ -16,6 +16,8 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Fabrics Master List')
+                    
                     <h1>
                         Fabrics Master List
                     </h1>

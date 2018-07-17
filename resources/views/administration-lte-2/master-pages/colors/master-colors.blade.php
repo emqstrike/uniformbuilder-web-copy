@@ -22,6 +22,7 @@ li.select2-selection__choice {
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Colors Master List')
                     <h1>
                         Colors Master List
                     </h1>
