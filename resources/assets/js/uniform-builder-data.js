@@ -10375,6 +10375,7 @@ ub.funcs.fontOffSets = [
                 },
                 // End Volleyball
 
+                // Hockey 
                 {
                     sport: 'Hockey',
                     option: "Game Jersey",
@@ -10383,6 +10384,12 @@ ub.funcs.fontOffSets = [
                     sport: 'Hockey',
                     option: "Sublimated Jersey",
                 },
+                {
+                    sport: 'Hockey',
+                    option: "Game Scooped V-Neck with Buckle",
+                },
+                // End Hockey
+
                 {
                     sport: 'Fan Replica Jersey (Apparel)',
                     option: "Men's",
