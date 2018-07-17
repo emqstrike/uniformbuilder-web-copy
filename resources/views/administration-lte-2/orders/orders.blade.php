@@ -16,6 +16,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Orders')
                     <h1>
                         Orders
                     </h1>
