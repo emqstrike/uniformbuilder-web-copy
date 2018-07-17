@@ -46,11 +46,23 @@ class UniformCategoriesController extends Controller
 
         $name = $request->input('name');
         $sizes = $request->input('sizes');
+        $code = $request->input('code');
+        $type = $request->input('type');
+        $active_type = $request->input('active_type');
+        $active_male = $request->input('active_male');
+        $active_female = $request->input('active_female');
+        $active_youth = $request->input('active_youth');
+
         $data = [
             'name' => $name,
-            'sizes' => $sizes
+            'sizes' => $sizes,
+            'code' => $code,
+            'type' => $type,
+            'active_type' => $active_type,
+            'active_male' => $active_male,
+            'active_female' => $active_female,
+            'active_youth' => $active_youth
         ];
-
 
         $id = null;
         if (!empty($request->input('uniform_category_id')))
