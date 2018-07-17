@@ -32,12 +32,14 @@
                     <table class='data-table table table-bordered'>
                     <thead>
                         <tr>
+                            <th>ID</th>
+                            <th>Sort Order</th>
                             <th id="select-filter">Categories</th>
                             <th>Code</th>
-                            <th>Male</th>
-                            <th>Female</th>
+                            <th>Men</th>
+                            <th>Women</th>
                             <th>Youth</th>
-                            <!-- <th>Sizes</th> -->
+                            <th>Type</th>
                             <th id="select-filter">Active Type</th>
                             <th>Actions</th>
                         </tr>
@@ -47,6 +49,12 @@
 
                         <tr class='category-{{ $category->id }} {{ (!$category->active) ? ' inactive' : '' }}'>
                             <td>
+                                {{ $category->id }}
+                            </td>
+                            <td>
+                                {{ $category->sort_order }}
+                            </td>
+                            <td>
                                 {{ $category->name }}
                             </td>
                             <td>
@@ -55,6 +63,8 @@
                             <td align="center">
                             @if ($category->thumbnail_male)
                                 <img src="{{ $category->thumbnail_male }}" style="height: 80px; width: 88=px;">
+                            @else
+                                <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg" style="height: 80px; width: 88=px;">
                             @endif
                             <br>
                             @if($category->active_male)
@@ -66,6 +76,8 @@
                             <td align="center">
                             @if ($category->thumbnail_female)
                                 <img src="{{ $category->thumbnail_female }}" style="height: 80px; width: 88=px;">
+                            @else
+                                <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg" style="height: 80px; width: 88=px;">
                             @endif
                             <br>
                             @if($category->active_female)
@@ -77,6 +89,8 @@
                             <td align="center">
                             @if ($category->thumbnail_youth)
                                 <img src="{{ $category->thumbnail_youth }}" style="height: 80px; width: 88=px;">
+                            @else
+                                <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg" style="height: 80px; width: 88=px;">
                             @endif
                             <br>
                             @if($category->active_youth)
@@ -85,9 +99,9 @@
                                 <font color="gray" size="2">Inactive</font>
                             @endif
                             </td>
-              <!--               <td>
-                                {{ $category->sizes }}
-                            </td> -->
+                            <td>
+                                {{ $category->type }}
+                            </td>
                             <td align="center">
                                 {{ $category->active_type }}
                             </td>
@@ -128,7 +142,9 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <!-- <td></td> -->
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                         </tr>
