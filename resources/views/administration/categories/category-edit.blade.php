@@ -38,6 +38,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Sort Order</label>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control sort-order" name="sort_order" value="{{ $category->sort_order }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-6">
                                 <select class="form-control type" name="type">
