@@ -14,7 +14,7 @@
 <meta name="keywords" content="custom uniform, custom football uniform, custom basketball uniform, custom baseball uniform, custom volleyball uniform, uniform builder, prolook unifom builder, team uniforms">
 
 <link rel="icon" type="image/png" href="/images/branding/favicon.ico" />
-<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css?v={{$asset_version}}">
 <link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css?v={{$asset_version}}">
@@ -66,13 +66,13 @@
 
     <!-- MAIN ROW -->
     <div class="row main_viewport" class=''>
-    
+
         <div id="left-pane-column" class="left-pane-column-full">
-            
+
             <!-- Main Preview Window -->
             @yield('left-pane')
 
-        </div>    
+        </div>
 
     </div>
 
@@ -90,19 +90,19 @@
 
     <!-- END MAIN ROW -->
 
-    <!-- Scrolling Pickers --> 
+    <!-- Scrolling Pickers -->
 
     @include('partials.panels.texts')
 
     <div class='header-container forceHide'>
-            
+
         <div class='back-link' data-destination="gender"></div>
         <h2 class='picker-header'>CHOOSE A GENDER</h2>
 
     </div>
 
     <div id="main-picker-container">
-        
+
         <div id="topbar">
 
             <span class="slink main-picker-items my-favorites" data-picker-type="gender" data-item="My-Favorites"><i class="fa fa-star" aria-hidden="true"></i> My Favorites (<span class="count">0</span>)</span>
@@ -111,13 +111,13 @@
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Men">Men</span>
             <span class="slink main-picker-items" data-picker-type="gender" data-item="Women">Women</span>
             <!-- <span class="slink main-picker-items" data-picker-type="gender" data-item="Youth">Youth</span> -->
-            
+
             <span class="slink main-picker-items loading" data-picker-type="gender" data-item="Loading">
                <img src="/images/loading.gif" width="50" height="50" />
             </span>
 
             <span class="slink-search">
-                
+
                 <i class="fa fa-search fa-search-icon" aria-hidden="true"></i>
                 <input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
 
@@ -148,13 +148,13 @@
         <div class="quarternary-bar">
 
             <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="All">All</span>
-            
+
         </div>
 
         <div id="main-picker-scroller">
-            
+
         </div>
-        
+
         <div class="uniform_details"><span class="uniform_name">Test:</span><span class="uniform_description"></span></div>
 
     </div>
@@ -241,8 +241,8 @@
 <script src="{{$asset_storage}}/gl-matrix/gl-matrix.js?v={{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/slider/jquery.limitslider.js?v={{$asset_version}}"></script>
-<script src="{{$asset_storage}}/round-slider/roundslider.min.js?v={{$asset_version}}"></script> 
-<script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script> 
+<script src="{{$asset_storage}}/round-slider/roundslider.min.js?v={{$asset_version}}"></script>
+<script src="{{$asset_storage}}/noUiSlider/nouislider.js?v={{$asset_version}}"></script>
 
 <script src="{{$asset_storage}}/bootbox/bootbox.min.js?v={{$asset_version}}"></script>
 <script src="{{$asset_storage}}/intro-js/intro.min.js?v={{$asset_version}}"></script>
@@ -263,11 +263,11 @@
         window.is           = {};
 
         window.ub.config = {
-            app_env: "{{ env('APP_ENV') }}", 
-            api_host: "http://{{ env('API_HOST') }}",
+            app_env: "{{ env('APP_ENV') }}",
+            api_host: "//{{ env('API_HOST') }}",
             asset_version: "{{$asset_version}}",
-            team_store_api_host: "http://{{ env('TEAM_STORE_API_BASE') }}",
-            
+            team_store_api_host: "//{{ env('TEAM_STORE_API_BASE') }}",
+
             material_id: {{ $material_id }},
             uniform_name: "{{ isset($material->name) ? $material->name : 'none' }}",
 
@@ -279,15 +279,15 @@
             gender: "{{ isset($material->gender) ? $material->gender : 'none' }}",
             asset_target: "{{ isset($material->asset_target) ? $material->asset_target : 'none' }}",
 
-            category_id: {{ $category_id }}, 
-            host: 'http://{{ Request::server ("HTTP_HOST") }}',
+            category_id: {{ $category_id }},
+            host: '//{{ Request::server ("HTTP_HOST") }}',
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
 
             orderID: "{{ isset($order_id) ? $order_id : 'none' }}",
             orderCode: "{{ isset($order_code) ? $order_code : 'none' }}",
             orderIDParent: "{{ isset($order_id_parent) ? $order_id_parent: 'undefined' }}",
-            
-            @if (isset($styles)) 
+
+            @if (isset($styles))
             styles: {
                 load: "{{ isset($styles) ? $styles : false }}",
                 gender: "{{ isset($gender) ? $gender : undefined }}",
@@ -316,7 +316,7 @@
         @if (Session::get('isLoggedIn'))
 
             window.ub.user = {
-                id: {{ Session::get('userId') }},   
+                id: {{ Session::get('userId') }},
                 fullname: "{{ Session::get('fullname') }}",
                 firstName: "{{ Session::get('firstName') }}",
                 lastName: "{{ Session::get('lastName') }}",
@@ -455,7 +455,7 @@
             }
 
             if(new Date(ub.config.savedDesignInfo.createdAt) < ub.config.switchToFrontBody &&
-                (ub.config.sport === "Baseball" || ub.config.sport === "Fastpitch") 
+                (ub.config.sport === "Baseball" || ub.config.sport === "Fastpitch")
             ) {
 
                 ub.config.savedDesignInfo.frontBodyOverride = true;
@@ -511,14 +511,14 @@
 
             if (ub.config.pageType == "Saved Design") {
 
-                // Fill this in ... 
-                
+                // Fill this in ...
+
             }
 
             window.ub.temp = s;
 
             $('#genPDF').on('click', function () {
-             
+
                 var doc = new jsPDF();
                 var image = $('div.ub_qrcode > canvas').get(0).toDataURL("image/png", 1.0);
                 var front_view = ub.getThumbnailImage('front_view');
@@ -529,7 +529,7 @@
                 doc.save('qrcode.pdf');
 
             });
-            
+
             $('div.ub_qrcode').qrcode({
                 "size": 100,
                 "color": "#3a3",
@@ -540,8 +540,8 @@
         else {
 
             window.ub.temp = undefined;
-            
-        }    
+
+        }
 
         // end #load_order
 
@@ -558,7 +558,7 @@
     <div class="team_color_picker_options" data-team-color-id = '-1'>
 
         <div class="color_items_container">
-            
+
         </div>
 
     </div>
