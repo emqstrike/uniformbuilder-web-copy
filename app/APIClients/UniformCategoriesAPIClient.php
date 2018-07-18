@@ -32,6 +32,20 @@ class UniformCategoriesAPIClient extends APIClient
         return $categories;
     }
 
+    public function getTotalCount()
+    {
+        $response = $this->get('categories/total_count');
+        $result = $this->decoder->decode($response->getBody());
+
+        $count = 0;
+
+        if ($result->success) {
+            $count = $result->count;
+        }
+        
+        return $count;
+    }
+
     public function isCategoryTaken($name, $id = null)
     {
         $response = $this->get('category/name/' . $name);

@@ -31,7 +31,7 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">Email Address</label>
-                    <input type="text" class="form-control input-user-email" name="email" required>
+                    <input type="email" class="form-control input-user-email" name="email" required>
                   </div>
                   <div class="form-group">
                     <label class="control-label">Password</label>
@@ -47,9 +47,9 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">Assigned Sales Rep</label>
-                    <select name='default_rep_id' class="form-control default-rep-id">
+                    <select name='default_rep_id' class="form-control input-rep-id">
                         <option value="">none</option>
-                        </select>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label class="control-label">Type</label>

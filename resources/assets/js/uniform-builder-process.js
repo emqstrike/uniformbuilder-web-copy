@@ -70,22 +70,6 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.getActiveSizes = function () {
-
-        var _activeSizes = [];
-
-        $('span.size[data-status="on"]').each (function () {
-
-            var _size = $(this).data('size').toString();
-            
-            _activeSizes.push(_size);
-
-        });
-
-        return _activeSizes;
-
-    }
-
     ub.funcs.removeSizesTabs = function (size) {
 
         $('span.tabButton[data-size="' + size + '"]').hide();
@@ -109,6 +93,23 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.getActiveSizes = function () {
+
+        var _activeSizes = [];
+
+        $('span.size[data-status="on"]').each (function () {
+
+            var _size = $(this).data('size').toString();
+            
+            _activeSizes.push(_size);
+
+        });
+
+        return _activeSizes;
+
+    }
+
+  
     ub.funcs.reInitHover = function () {
 
         $('tr.roster-row').hover(
@@ -1685,10 +1686,8 @@ $(document).ready(function() {
     ub.funcs.submitUniform = function (orderInfo) {
 
         if ($('tr.roster-row').length === 0) {
-            
-            $.smkAlert({text: 'Please add Sizes and Roster before proceeding.', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+            ub.funcs.noRosterMessage();
             return;
-            
         }
 
         ub.funcs.perUniformValidation(orderInfo);
@@ -2186,6 +2185,11 @@ $(document).ready(function() {
         $('span.add-item-to-order').unbind('click');
         $('span.add-item-to-order').on('click', function () {
 
+            if ($('span.size[data-status="on"]').length === 0) {
+                ub.funcs.noRosterMessage();
+                return;
+            }
+
             ub.funcs.submitUniform(ub.data.orderInfo);
 
         });
@@ -2228,6 +2232,10 @@ $(document).ready(function() {
 
         }
 
+    }
+
+    ub.funcs.noRosterMessage = function () {
+        $.smkAlert({text: 'Please add Sizes and Roster before proceeding.', type:'warning', permanent: false, time: 5, marginTop: '90px'});
     }
 
     ub.funcs.goto = function (location) {

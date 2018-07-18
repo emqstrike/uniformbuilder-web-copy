@@ -64,7 +64,11 @@ select:hover {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Target Block Pattern Option</label>
                             <div class="col-md-6">
+<<<<<<< HEAD
                                 <input type="hidden" class="block-pattern-options-val" id="block_pattern_options_value" name="block_pattern_options_value" value="{{ $pattern->block_pattern_options }}">
+=======
+                                <input type="hidden" class="block-pattern-options-val" id="block_pattern_options_value" name="block_pattern_options_value">
+>>>>>>> 44d573e1caf1e1a2f3df162944b322a34a145b94
                                 <select name="block_pattern_options[]" class="form-control block-pattern-options" multiple="multiple">
                                 </select>
                             </div>
@@ -159,10 +163,12 @@ select:hover {
 @section('custom-scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/patterns.js"></script>
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
     $('select:not(:has(option))').attr('visible', false);
 
     $('.layer-default-color').change(function(){
@@ -172,10 +178,30 @@ $(document).ready(function(){
         $(this).css('text-shadow', '1px 1px #000');
     });
 
-        if($('#sports_value').val()){
+    window.block_patterns = null;
+
+    getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
+
+    function getBlockPatterns(callback){
+        var block_patterns;
+        var url = "//" +api_host+ "/api/block_patterns";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                block_patterns = data['block_patterns'];
+                if(typeof callback === "function") callback(block_patterns);
+            }
+        });
+    }
+
+    if($('#sports_value').val()){
         var sports = JSON.parse($('#sports_value').val());
     }
-    // var sports = JSON.parse($('#sports_value').val());
 
     $('.sports').select2({
         placeholder: "Select sports",
@@ -185,9 +211,52 @@ $(document).ready(function(){
 
     $(".sports").change(function() {
         $('#sports_value').val($(this).val());
+        bindBPOS();
+        console.log('change sports binded BPOS');
     });
 
     $('.sports').select2('val', sports);
+
+    $('.block-pattern-options').select2({
+        placeholder: "Select block pattern option",
+        multiple: true,
+        allowClear: true
+    });
+
+    function bindBPOS(){
+        var sports = $('.sports-val').val().split('"').join('');
+        var sports_arr = null;
+        var block_pattern_options = [];
+        if(sports != null){
+            sports_arr = sports.split(",");
+            console.log(sports_arr);
+            sports_arr.forEach(function(entry) {
+                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category == entry; });
+                x.forEach(function(entry) {
+                    var y = JSON.parse(entry.neck_options);
+
+                    var list = [];
+                    _.each(y, function(item){
+                        list.push(_.omit(item, 'children'));
+                        list.push(_.flatten(_.pick(item, 'children')));
+                    });
+                    var result = _.flatten(list);
+                    result.forEach(function(i) {
+                        block_pattern_options.push(i.name);
+                    });
+                });
+            });
+            var z = _.sortBy(_.uniq(block_pattern_options));
+            $('.block-pattern-options').html('');
+            z.forEach(function(i) {
+                $('.block-pattern-options').append('<option value="'+i+'">'+i+'</option>');
+            });
+        }
+    }
+
+    $(".block-pattern-options").change(function() {
+        $('#block_pattern_options_value').val($(this).val());
+    });
 
 
 });

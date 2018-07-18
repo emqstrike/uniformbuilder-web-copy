@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	window.au.initialize = function () {									
 
-		window.au.config.api_host = '//api-dev.qstrike.com';
+		window.au.config.api_host = '//' + api_host;
 
 		au.endpoints.accents_url = window.au.config.api_host + '/api/accents/';
 		au.endpoints.colors_url = window.au.config.api_host + '/api/colors/';

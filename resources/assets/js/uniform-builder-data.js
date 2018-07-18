@@ -8775,6 +8775,18 @@ ub.funcs.fontOffSets = [
                 size: 3,
                 pullUpHeight: 0,
             },
+            {
+                sport: 'Basketball',
+                applicationNumber: '5',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Basketball',
+                applicationNumber: '5',
+                size: 1,
+                pullUpHeight: 0,
+            },
 
         ], 
 
@@ -10332,6 +10344,7 @@ ub.funcs.fontOffSets = [
                     option: "Short Sleeve",
                 },
               
+                // Volleyball
                 {
                     sport: 'Volleyball',
                     option: "Cap Sleeve",
@@ -10348,7 +10361,21 @@ ub.funcs.fontOffSets = [
                     sport: 'Volleyball',
                     option: "Short Sleeve",
                 },
+                {
+                    sport: 'Volleyball',
+                    option: "Men Volleyball Jersey",
+                },
+                {
+                    sport: 'Volleyball',
+                    option: "Crew Neck Sleeveless Shirt",
+                },
+                {
+                    sport: 'Volleyball',
+                    option: "Sublimated Short",
+                },
+                // End Volleyball
 
+                // Hockey 
                 {
                     sport: 'Hockey',
                     option: "Game Jersey",
@@ -10357,6 +10384,32 @@ ub.funcs.fontOffSets = [
                     sport: 'Hockey',
                     option: "Sublimated Jersey",
                 },
+                {
+                    sport: 'Hockey',
+                    option: "Game Scooped V-Neck with Buckle",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Scooped-V",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Scooped-V with Buckle",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Grinder V-Neck",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Grinder V-Neck with Buckle",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Game V-Neck",
+                },
+                // End Hockey
+
                 {
                     sport: 'Fan Replica Jersey (Apparel)',
                     option: "Men's",
