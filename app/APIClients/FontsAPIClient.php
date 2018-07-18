@@ -84,7 +84,7 @@ class FontsAPIClient extends APIClient
 
     public function getAllFonts()
     {
-        $response = $this->get('fonts/all');
+        $response = $this->get('fonts');
         $result = $this->decoder->decode($response->getBody());
 
         $fonts = [];

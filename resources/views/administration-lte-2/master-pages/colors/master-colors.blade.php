@@ -22,6 +22,7 @@ li.select2-selection__choice {
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Colors Master List')
                     <h1>
                         Colors Master List
                     </h1>
@@ -71,13 +72,13 @@ li.select2-selection__choice {
 $(document).ready(function(){
 
     $('.data-table').DataTable({
-    "paging": true,
-    "lengthChange": true,
-    "searching": true,
-    "ordering": false,
-    "info": true,
-    "autoWidth": true,
-});
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": false,
+        "info": true,
+        "autoWidth": true,
+    });
 
     window.delete_data_html = null;
     window.modal_action = null;
@@ -109,7 +110,7 @@ $(document).ready(function(){
     $(document).on('click', '.edit-record', function(e) {
         e.preventDefault();
         window.modal_action = 'update';
-        $('.modal-title').text('Edit Pattern Information');
+        $('.modal-title').text('Edit Color Information');
         $('.submit-new-record').text('Update Record');
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-color-id').text();

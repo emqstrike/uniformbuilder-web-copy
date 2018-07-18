@@ -1,8 +1,8 @@
 @extends('administration.lte-main')
 
 @section('styles')
-
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 
 @endsection
 
@@ -25,7 +25,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table class='data-table table table-bordered'>
+                    <table class='data-table table table-bordered' id='design-set-table'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -68,15 +68,6 @@
                             <td>
                                 {{ $design->lower_body_uniform }}
                             </td>
-<!--                             <td>
-
-                            </td>
-                            <td>
-
-                            </td>
-                            <td>
-
-                            </td> -->
                             <td>
                                 <a href="#" class="btn btn-default btn-xs disable-design" data-design-id="{{ $design->id }}" role="button" {{ ($design->active) ? : 'disabled="disabled"' }}>
                                     <i class="glyphicon glyphicon-eye-close"></i>
@@ -87,11 +78,15 @@
                                     Enable
                                 </a>
                             </td>
+
                             <td>
+                                @if ($design->active)
                                 <a href="/administration/design_set/edit/{{ $design->id }}" class="btn btn-primary btn-xs edit-design" data-design-id="{{ $design->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
+                                @else
+                                @endif
                                 <a href="#" class="btn btn-danger pull-right btn-xs delete-design" data-design-id="{{ $design->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
@@ -121,10 +116,13 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/designs.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+
+
+
 <script type="text/javascript">
 $(document).ready(function(){
     $('.data-table').DataTable({
@@ -133,8 +131,52 @@ $(document).ready(function(){
         "searching": true,
         "ordering": true,
         "info": true,
-        "autoWidth": false
+        "autoWidth": false,
+        "stateSave": true
+
     });
+
+    $(document).on('click', '.delete-design', function(e){
+        e.preventDefault();
+        var id = $(this).data('design-id');
+        modalConfirm('Remove Design Set', 'Are you sure you want to delete the design?', id);
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/design_set/delete/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    document.location.reload();
+                    $('#confirmation-modal').modal('hide');
+                    $('.design-set').fadeOut();
+                }
+            }
+        });
+    });
+
+    @if (Session::has('message'))
+        new PNotify({
+            title: 'Success',
+            text: "{{ Session::get('message') }}",
+            type: 'success',
+            hide: true
+        });
+    @endif
 });
 </script>
 @endsection

@@ -16,6 +16,8 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Fabrics Master List')
+                    
                     <h1>
                         Fabrics Master List
                     </h1>
@@ -111,7 +113,7 @@ $(document).on('keyup', '.input-name', function() {
 
 function validateFabricName(name){
     if(x.indexOf(name) != -1)
-    {  
+    {
         console.log('name taken');
         PNotify.removeAll();
         new PNotify({
@@ -130,7 +132,8 @@ function validateFabricName(name){
 
 
 
-$('.submit-new-record').on('click', function(e){
+
+$("#myForm").submit(function(e) {
     e.preventDefault();
     var data = {};
     data.code = $('.input-code').val();

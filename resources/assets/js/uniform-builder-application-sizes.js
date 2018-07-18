@@ -1525,16 +1525,7 @@ $(document).ready(function() {
                 {
                     name: 'mascot',
                     sport: 'basketball',
-                    applicationNumbers: [6],
-                    sizes: [
-                        {size: 2.5},
-                    ],
-                },
-
-                {
-                    name: 'mascot',
-                    sport: 'basketball',
-                    applicationNumbers: [7, 31, 30],
+                    applicationNumbers: [1, 6, 7, 31, 30],
                     sizes: [
                         {size: 1},
                         {size: 2},
@@ -1542,6 +1533,7 @@ $(document).ready(function() {
                         {size: 4},
                     ],
                 },
+                
                 {
                     name: 'mascot',
                     sport: 'basketball',
@@ -2081,6 +2073,20 @@ $(document).ready(function() {
                                 size: 4,
                             }
 
+                ],
+            },
+
+             {
+                name: 'front_number',
+                sport: 'basketball',
+                applicationNumbers: [12,13,16,17],
+                sizes:  [
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
                 ],
             },
 

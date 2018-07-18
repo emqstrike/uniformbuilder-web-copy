@@ -33,28 +33,28 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Price Item Name</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="price_item_name">
+                                <input type="text" class="form-control" name="price_item_name" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Price Item ID</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="price_item_id">
+                                <input type="number" class="form-control" name="price_item_id" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Factory</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control factory" name="factory" maxlength="3">
+                                <input type="text" class="form-control factory" name="factory" maxlength="3" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Dealer</label>
                             <div class="col-md-6">
-                                <select class="form-control" name="dealer_id">
+                                <select class="form-control" name="dealer_id" required>
                                     <option value="6">Pro Look Sports</option>
                                 </select>
                             </div>
@@ -63,7 +63,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">
-                                <select name="sport" class="form-control sport">
+                                <select name="sport" class="form-control sport" required>
                                     @foreach($sports as $sport)
                                         <option value="{{ $sport->name }}">{{ $sport->name }}</option>
                                     @endforeach
@@ -74,14 +74,14 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">MSRP</label>
                             <div class="col-md-6">
-                                <input type="number" step="any" class="form-control" name="msrp">
+                                <input type="number" step="any" class="form-control input-msrp" name="msrp" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Web Price Sale</label>
                             <div class="col-md-6">
-                                <input type="number" step="any" class="form-control" name="web_price_sale">
+                                <input type="number" step="any" class="form-control input-web-price-sale" name="web_price_sale" required>
                             </div>
                         </div>
 
@@ -118,6 +118,32 @@ $(document).ready(function() {
     $('.factory').keyup(function(){
         $(this).val($(this).val().toUpperCase());
     });
+
+    $('.input-msrp').on('change', function(){
+        var val = $(this).val();
+        if(+val < 10) {
+            $(this).val(10);
+            alert('Must be minimum of $10');
+        }
+    });
+
+    $('.input-web-price-sale').on('change', function(){
+        var msrp = $('.input-msrp').val();
+        var val = $(this).val();
+        if(+val > +msrp) {
+            $(this).val(msrp);
+            alert("Web Sale Price cannot be higher than MSRP!");
+        }
+    });
+
+    @if (Session::has('message'))
+        new PNotify({
+            title: 'Success',
+            text: "{{ Session::get('message') }}",
+            type: 'success',
+            hide: true
+        });
+    @endif
 
 });
 </script>

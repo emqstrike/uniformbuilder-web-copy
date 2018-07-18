@@ -310,7 +310,7 @@ class MascotsController extends Controller
         try
         {
             $mascotLayerFiles = $request->file('ma_image');
-            $ctr = count($mascotLayerFiles);
+            $ctr = count((array) $mascotLayerFiles);
             if (is_array($mascotLayerFiles) || is_object($mascotLayerFiles)) {
                 foreach ($mascotLayerFiles as $mascotLayerFile) {
                     if (!is_null($mascotLayerFile))

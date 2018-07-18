@@ -12,6 +12,7 @@ use App\APIClients\SalesRepresentativesAPIClient;
 use App\APIClients\DealersAPIClient;
 use App\APIClients\SavedDesignsAPIClient;
 use App\APIClients\OrdersAPIClient;
+use ZxcvbnPhp\Zxcvbn;
 
 use App\APIClients\UsersAPIClient as APIClient;
 
@@ -98,7 +99,7 @@ class UsersController extends Controller
                 if (Session::get('userId') == $data['id'])
                 {
                     Session::put('fullname', $data["first_name"] . ' ' . $data["last_name"]);
-                }
+            }
             }
 
             Log::info('Save or Modify User: Success');
@@ -112,4 +113,11 @@ class UsersController extends Controller
                             ->with('message', $response->message);
         }
     }
+
+    public function passwordStrength()
+    {
+        return view('administration-lte-2.users.users-password-strength');
+    }
+
+
 }

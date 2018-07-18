@@ -76,6 +76,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Cuts PDF</label>
                             <div class="col-md-4 material">
+                                <input type="text" class="form-control" value="{{ $cut_links->cuts_pdf }}" disabled>
                                 <input type="file" class="form-control cuts-pdf" name="cuts_pdf" accept=".ai,.pdf">
                             </div>
                         </div>

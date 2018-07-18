@@ -6579,7 +6579,7 @@ $(document).ready(function() {
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType">' + _title + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="applicationType">' + "Stock Mascot" + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
 
@@ -6977,7 +6977,7 @@ $(document).ready(function() {
 
                 _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Stock Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
                 //if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type !== "knitted") {
@@ -7601,6 +7601,14 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.clearInksoftID = function (settingsObject) {
+
+        _.each (settingsObject.application.views, function (view) {
+            view.application.inksoftDesignID = undefined;
+        });
+
+    }
+
     ub.funcs.changeApplicationType = function (settingsObject, type) {
 
         var _settingsObject = settingsObject;
@@ -7666,6 +7674,7 @@ $(document).ready(function() {
             if (ub.funcs.isCurrentSport('Football') && ub.current_material.material.type === "lower" && ub.config.uniform_application_type === "sublimated") { _size =  4;    }
 
             ub.funcs.setAppSize(_id, _size);
+            ub.funcs.clearInksoftID(_settingsObject); // Remove Inksoft ID from settings object in case it was changed from custom to stock
 
             var _matchingSide;
             var _matchingID = undefined;
@@ -8266,6 +8275,8 @@ $(document).ready(function() {
         var _id               = application_id.toString();
         var _settingsObject   = _.find(ub.current_material.settings.applications, {code: _id});
 
+        if (typeof _settingsObject === "undefined") { return; }
+
         ub.funcs.deactivatePanels();
         ub.funcs.preProcessApplication(application_id);
 
@@ -8311,7 +8322,7 @@ $(document).ready(function() {
                 console.log(_id);
 
                 ub.utilities.info('Using sizes from backend: ');
-                
+
                 console.log(_sizesFromConfig);
                 console.log(_sizesFromConfig.sizes);
                 console.log(_.pluck(_sizesFromConfig.sizes, "size"));
@@ -9793,13 +9804,10 @@ $(document).ready(function() {
 
         if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling')) {
 
-            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias});                
+            _sizes = _.find(ub.data.applicationSizes.items, {name: applicationType, sport: alias}); 
 
-            if (ub.config.sport === "Lacrosse" && ub.config.type === "lower") {
-
-                _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias);
-
-            }
+            if (ub.config.sport === "Lacrosse" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
+            if (ub.config.sport === "Basketball" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
 
         }
 
@@ -9811,7 +9819,8 @@ $(document).ready(function() {
             ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
             _sizes = ub.data.applicationSizes.getSizes('default', applicationType);
         }
-        
+
+
         return _sizes;
 
     }
@@ -10922,9 +10931,13 @@ $(document).ready(function() {
         var _settingsObject = ub.funcs.getSettingsObject(appID);
         var _caption = ub.funcs.getSampleCaption(_settingsObject);
         var _applicationType    = _settingsObject.application_type.toUpperCase().replace('_',' ');
+        var _appTypeAlias =  _applicationType;
+
+        if (_applicationType === "EMBELLISHMENTS") { _appTypeAlias = 'C. MASCOT'; }
+        if (_applicationType === "MASCOT") { _appTypeAlias = 'S. MASCOT'; }
 
         $locationLayer.find('span.caption').html(_caption);
-        $locationLayer.find('span.application_type').html(_applicationType);
+        $locationLayer.find('span.application_type').html(_appTypeAlias);
 
     }
 
@@ -10988,6 +11001,7 @@ $(document).ready(function() {
             var _appTypeAlias =  _applicationType;
             
             if (_applicationType === "EMBELLISHMENTS") { _appTypeAlias = 'C. MASCOT'; }
+            if (_applicationType === "MASCOT") { _appTypeAlias = 'S. MASCOT'; }
 
             var _applicationTypePart = ' <span class="application_type">' + _appTypeAlias + '</span>';
             var _captionPart = '<span class="caption">' + window.util.truncate(_caption) + '</span>';
@@ -11328,7 +11342,6 @@ $(document).ready(function() {
     ub.funcs.gotoFirstMaterialOption = function () {
 
         var _firstPart = $($('div.pd-dropdown-links')[1]).data('fullname');
-
         $('div.pd-dropdown-links[data-fullname="' + _firstPart + '"]').trigger('click');
 
     }

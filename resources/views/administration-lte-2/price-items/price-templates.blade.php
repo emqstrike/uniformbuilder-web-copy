@@ -9,6 +9,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Price Item Templates')
                     <h1>
                         <span class="fa fa-dollar"></span>
                         Price Item Templates
@@ -111,9 +112,6 @@ $(document).ready(function(){
                     </td>
                     <td>
                         <input type="text" class="form-control item-id">
-                    </td>
-                    <td>
-                        <a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a>
                     </td>
                 </tr>`;
         $('.property-body').append(x);
@@ -277,7 +275,7 @@ $(document).ready(function(){
             var size = i.size;
             var price_item = i.price_item;
             var item_id = i.item_id;
-            var x = `<tr class="prop-row">
+            var x = `<tr class="prop-row prop-`+ctr+`">
                         <td>
                             <select class="form-control sizes-` + ctr + ` sizes"></select>
                         </td>
@@ -287,11 +285,16 @@ $(document).ready(function(){
                         <td>
                             <input type="text" class="form-control item-id-`+ctr+` item-id" value=`+ item_id +`>
                         </td>
-                        `;
-            x +=    `<td>
-                        <a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a>
-                    </td></tr>`;
+                    </tr>`;
             $('.property-body').append(x);
+
+            if(ctr != 0) {
+                var y = `<td>
+                            <a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a>
+                        </td>`;
+                $('.prop-'+ctr+'').append(y);
+            }
+               console.log(x);
             var e = '.sizes-'+ctr;
             var f = '.price-item-'+ctr;
 
@@ -303,7 +306,7 @@ $(document).ready(function(){
             var size = i.size;
             var price_item = i.price_item;
             var item_id = i.item_id;
-            var x = `<tr class="prop-row">
+            var x = `<tr class="prop-row prop-`+ctr+`">
                         <td>
                             <select class="form-control sizes-` + ctr + ` sizes"></select>
                         </td>
@@ -312,13 +315,15 @@ $(document).ready(function(){
                         </td>
                         <td>
                             <input type="text" class="form-control item-id-`+ctr+` item-id">
-                        </td>`;
-                x +=    `<td>
-                            <a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a>
                         </td>
-                    </tr>`;
+                     </tr>`;
             $('.property-body').append(x);
-
+            if(ctr != 0) {
+                var y = `<td>
+                             <a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a>
+                         </td>`;
+                $('.prop-'+ctr+'').append(y);
+            }
             var e = '.sizes-'+ctr;
             var f = '.price-item-'+ctr;
             selectedValues(e, f, size, price_item);
@@ -366,7 +371,9 @@ $(document).ready(function(){
     $('.add-property').on('click', function(e){
         e.preventDefault();
         var x  = $( ".prop-row:first" ).clone();
+        y = "<td><a href='#' class='btn btn-xs btn-danger remove-prop'><span class='glyphicon glyphicon-remove'></span></a></td>";
         $('.property-body').append(x);
+        $(x).append(y);
         deleteButton();
         selectChange();
         refreshProperty();

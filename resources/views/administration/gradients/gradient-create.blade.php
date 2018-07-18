@@ -25,14 +25,14 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Gradient Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control gradient-name" name="name" value="{{ old('name') }}">
+                                <input type="name" class="form-control gradient-name" name="name" value="{{ old('name') }}" required="true">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Upload Gradient File</label>
                             <div class="col-md-6 material">
-                                <input type="file" class="form-control gradient-file" name="gradient_path" accept="image/*">
+                                <input type="file" class="form-control gradient-file" name="gradient_path" accept="image/*" required="true">
                             </div>
                         </div>
 

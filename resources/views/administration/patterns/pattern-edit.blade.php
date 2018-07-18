@@ -4,15 +4,6 @@
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
 
-li.select2-selection__choice {
-    color: black !important;
-}
-
-.animated {
-    -webkit-transition: height 0.2s;
-    -moz-transition: height 0.2s;
-    transition: height 0.2s;
-}
 </style>
 
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/selectize.css">
@@ -48,7 +39,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Pattern Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control pattern-name" name="name" value="{{ $pattern->name }}">
+                                <input type="name" class="form-control pattern-name" name="name" value="{{ $pattern->name }}" required>
                             </div>
                         </div>
 
@@ -56,7 +47,7 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Sports</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="sports-val" id="sports_value" name="sports_value" value="{{ $pattern->sports }}">
-                                <select name="sports[]" class="form-control sports" multiple="multiple">
+                                <select name="sports[]" class="form-control sports" multiple="multiple" required>
                                     @foreach ($categories as $category)
                                         @if ($category->active)
                                         <option value='{{ $category->name }}'>
@@ -73,7 +64,7 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Target Block Pattern Option</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="block-pattern-options-val" id="block_pattern_options_value" name="block_pattern_options_value" value="{{ $pattern->block_pattern_options }}">
-                                <select name="block_pattern_options[]" class="form-control block-pattern-options" multiple="multiple">
+                                <select name="block_pattern_options[]" class="form-control block-pattern-options" multiple="multiple" required>
                                 </select>
                             </div>
                         </div>
@@ -81,7 +72,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Asset Target</label>
                             <div class="col-md-6">
-                                <select class="form-control pattern-asset-target" name="asset_target" id="asset_target">
+                                <select class="form-control pattern-asset-target" name="asset_target" id="asset_target" required>
                                     <option value="web" @if( $pattern->asset_target == "web" ) selected="selected"@endif>Web</option>
                                     <option value="ipad" @if( $pattern->asset_target == "ipad" ) selected="selected"@endif>iPad</option>
                                     <option value="team_stores" @if( $pattern->asset_target == "team_stores" ) selected="selected"@endif>Team Stores</option>
@@ -91,7 +82,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label" >Brand</label>
                             <div class="col-md-6">
-                                <select name="brand" class="form-control">
+                                <select name="brand" class="form-control" required>
                                         <option value="none" @if($pattern->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($pattern->brand == "prolook") selected="selected"@endif>Prolook</option>
                                         <option value="richardson" @if($pattern->brand == "richardson") selected="selected"@endif>Richardson</option>
@@ -167,9 +158,9 @@ $(document).ready(function(){
 
 window.block_patterns = null;
 
-getBlockPatterms(function(block_patterns){ window.block_patterns = block_patterns; });
+getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
 
-function getBlockPatterms(callback){
+function getBlockPatterns(callback){
     var block_patterns;
     var url = "//" +api_host+ "/api/block_patterns";
     $.ajax({

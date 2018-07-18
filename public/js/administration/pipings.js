@@ -513,7 +513,7 @@ $(".global-color").append(globalColorSelector(colors));
         $.ajax({
 
             data: formData,
-            url: "//api-dev.qstrike.com/api/fileUpload",
+            url: "//" + api_host + "/api/fileUpload",
             type: "POST", 
             processData: false,  // tell jQuery not to process the data
             contentType: false,
@@ -545,7 +545,7 @@ $(".global-color").append(globalColorSelector(colors));
     function getColors(){
 		return $.ajax({
 		    type: 'GET',
-		    url: "http://api-dev.qstrike.com/api/colors",
+		    url: "//" + api_host + "/api/colors",
 		    async: false,
 		    dataType: 'json',
 		    data: { action : 'getHotelsList' },
