@@ -177,7 +177,6 @@ class MaterialsController extends Controller
             'material' => $material,
             'options' => $options,
         ]);
-
     }
 
     public function dropZone($id)
