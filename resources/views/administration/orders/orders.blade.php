@@ -195,7 +195,7 @@
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
-<!-- <script type="text/javascript" src="/admin-utils.js"></script> -->
+<script type="text/javascript" src="/admin-utils.js"></script>
 <script type="text/javascript" src="/js/administration/orders.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

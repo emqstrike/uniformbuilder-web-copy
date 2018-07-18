@@ -64,11 +64,7 @@ select:hover {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Target Block Pattern Option</label>
                             <div class="col-md-6">
-<<<<<<< HEAD
-                                <input type="hidden" class="block-pattern-options-val" id="block_pattern_options_value" name="block_pattern_options_value" value="{{ $pattern->block_pattern_options }}">
-=======
                                 <input type="hidden" class="block-pattern-options-val" id="block_pattern_options_value" name="block_pattern_options_value">
->>>>>>> 44d573e1caf1e1a2f3df162944b322a34a145b94
                                 <select name="block_pattern_options[]" class="form-control block-pattern-options" multiple="multiple">
                                 </select>
                             </div>
