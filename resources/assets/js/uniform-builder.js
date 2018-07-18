@@ -268,9 +268,21 @@ $(document).ready(function () {
 
         };
 
+        ub.funcs.isCustomizerAvailable = function () {
+            return ub.current_material.material.customizer_available === "1";
+        }
+
+        ub.funcs.turnOnOrderButton = function () {
+            $('a.footer-buttons[data-view="team-info"]').removeClass('disabled');
+        }
+
+        ub.funcs.turnOffOrderButton = function () {
+            $('a.footer-buttons[data-view="team-info"]').addClass('disabled');
+        }
+
         ub.funcs.beforeLoad = function () {
 
-            $('a.change-view[data-view="team-info"]').addClass('disabled');
+            ub.funcs.turnOffOrderButton();
 
             if (typeof ub.user.id === 'number')  { ub.funcs.updateMessageCount(); }
 
@@ -388,9 +400,11 @@ $(document).ready(function () {
                 
                 // Hide Save and Order buttons, this will be processed manually
                 $('a.footer-buttons[data-view="save"]').addClass('disabled');
-                $('a.footer-buttons[data-view="team-info"]').addClass('disabled');
+                ub.funcs.turnOffOrderButton();
                 
             }
+
+            if (!ub.funcs.isCustomizerAvailable()) { ub.funcs.turnOffOrderButton(); }
 
         }
 

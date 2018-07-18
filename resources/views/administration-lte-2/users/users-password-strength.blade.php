@@ -8,6 +8,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="box">
+                @section('page-title', 'Password Strength Graph')
                 <center>
                     <h2>
                         <p>Password Strength Graph</p>

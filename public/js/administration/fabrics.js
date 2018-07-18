@@ -10,7 +10,7 @@ $(document).ready(function(){
             var id = $(this).data('value');
             console.log(id);
             //var url = "//localhost:8888/api/fabric/delete/";
-            var url = "//api-dev.qstrike.com/api/fabric/delete/";
+            var url = "//" + api_host + "/api/fabric/delete/";
             $.ajax({
                 url: url,
                 type: "POST",

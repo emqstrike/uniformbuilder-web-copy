@@ -21,6 +21,8 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Fonts Master List')
+                    
                     <h1>
                         Fonts Master List
                     </h1>

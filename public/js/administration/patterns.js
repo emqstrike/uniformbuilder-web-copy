@@ -9,7 +9,7 @@ $(document).ready(function(){
 
     function getColors(callback){
         var colors;
-        var url = "//api-dev.qstrike.com/api/colors";
+        var url = "//" + api_host + "/api/colors";
         $.ajax({
             url: url,
             async: false,
