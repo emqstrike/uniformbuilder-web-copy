@@ -280,7 +280,8 @@
             asset_target: "{{ isset($material->asset_target) ? $material->asset_target : 'none' }}",
 
             category_id: {{ $category_id }},
-            host: '//{{ Request::server ("HTTP_HOST") }}',
+            // host: '{{ Request::server ("HTTP_HOST") }}',
+            host: "{{ env('CUSTOMIZER_HOST') }}",
             thumbnails_path: "{{ env('S3_PATH') }}" + 'thumbnails/',
 
             orderID: "{{ isset($order_id) ? $order_id : 'none' }}",
