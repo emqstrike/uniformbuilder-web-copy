@@ -7040,9 +7040,9 @@ $(document).ready(function () {
             }
 
             if (gender == 'Men') { 
-                data.is_men = true 
+                data.is_men = true;
             } else if (gender == 'Women') { 
-                data.is_women = true 
+                data.is_women = true;
             } else {
                 data.is_youth = true;
             }

@@ -450,7 +450,7 @@
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
             @endif
-
+                
                 @{{#is_men}}
                     <img src="@{{thumbnail_male}}?v={{$asset_version}}">
                 @{{/is_men}}
