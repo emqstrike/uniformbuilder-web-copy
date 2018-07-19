@@ -870,6 +870,11 @@ $(document).ready(function () {
     
             ub.data.mascots = _.filter (ub.data.mascots, {active: '1'});
 
+            // Hide Richardson Mascots #Richardson #BrandSpecific
+            if (!_.contains(ub.fontGuideIDs, window.ub.valid)) {
+                ub.data.mascots = _.filter(ub.data.mascots, {brand: 'prolook'})
+            }
+
             _.each(ub.data.mascots, function (mascot, index) {
 
                 mascot.layers_properties = JSON.parse(mascot.layers_properties);
