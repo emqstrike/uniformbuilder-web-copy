@@ -22,7 +22,7 @@
             <div class="box">
                 <div class="box-header">
                     @section('page-title', 'Fonts Master List')
-                    
+
                     <h1>
                         Fonts Master List
                     </h1>
@@ -107,8 +107,12 @@ $("#myForm").submit(function(e) {
         var url = "//" + api_host + "/api/" + endpoint_version + "/master_font/update";
         addUpdateRecord(data, url);
     }
+    $('.submit-new-record').attr('disabled', 'true');
 });
 
+   $("#myModal").on("hidden.bs.modal", function() {
+        $('.submit-new-record').removeAttr('disabled');
+    });
 $(document).on('click', '.add-record', function(e) {
     e.preventDefault();
     window.modal_action = 'add';
