@@ -233,6 +233,7 @@ $(document).ready(function(){
         data.brand_id = $('.input-brand-id').val();
         data.master_color_id = $('.input-master-color').val();
         addColor(data);
+        $('.submit-new-record').attr('disabled', 'true');
     });
 
     $("#myModal").on("hidden.bs.modal", function() {
@@ -252,6 +253,7 @@ $(document).ready(function(){
                 $('#create-hex-code').val(tinycolor);
             }
             });
+        $('.submit-new-record').removeAttr('disabled');
     });
 
     function addColor(data) {
