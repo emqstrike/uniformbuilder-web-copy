@@ -35,11 +35,11 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">Password</label>
-                    <input type="password" class="form-control input-user-password" name="password">
+                    <input type="password" class="form-control input-user-password" name="password" value="">
                   </div>
                   <div class="form-group">
                     <label class="control-label">Confirm Password</label>
-                    <input type="password" class="form-control input-confirm-password" name="confirm_password">
+                    <input type="password" class="form-control input-confirm-password" name="confirm_password" value="">
                   </div>
                   <div class="form-group">
                     <label class="control-label">Zip Code</label>
