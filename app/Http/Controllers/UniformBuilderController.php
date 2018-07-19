@@ -1188,7 +1188,7 @@ class UniformBuilderController extends Controller
         if ($sport === "Football" && $type !== "lower") {
 
             $html .=   '<td align="center">';
-            $html .=   '<strong>LASTNAME APPLICATION' . $type . '</strong>';
+            $html .=   '<strong>LASTNAME APPLICATION</strong>';
             $html .=   '</td>';
             $html .=   '<td align="center">';
             $html .=   '<strong>SLEEVE TYPE</strong>';
