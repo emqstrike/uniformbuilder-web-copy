@@ -97,6 +97,7 @@ $(document).ready(function(){
         $('#size_property').val('');
         $('.sport').val(0);
         loadDefault();
+        $('.submit-new-record').removeAttr('disabled');
     });
 
     function loadDefault() {
@@ -162,8 +163,6 @@ $(document).ready(function(){
         data.sport_category_id = $('.sport').find(":selected").val();
         var props = $('#size_property').val();
         data.properties = JSON.parse(props);
-
-
         if(window.modal_action == 'add'){
             var url = "//" + api_host +"/api/price_item_template";
         } else if(window.modal_action == 'update')  {
@@ -171,6 +170,8 @@ $(document).ready(function(){
             var url = "//" + api_host +"/api/price_item_template/update";
         }
         addUpdateRecord(data, url);
+        $('.submit-new-record').attr('disabled', 'true');
+
     });
 
     function addUpdateRecord(data, url){

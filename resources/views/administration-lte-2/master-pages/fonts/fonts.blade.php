@@ -113,6 +113,7 @@ $("#myForm").submit(function(e) {
    $("#myModal").on("hidden.bs.modal", function() {
         $('.submit-new-record').removeAttr('disabled');
     });
+
 $(document).on('click', '.add-record', function(e) {
     e.preventDefault();
     window.modal_action = 'add';
