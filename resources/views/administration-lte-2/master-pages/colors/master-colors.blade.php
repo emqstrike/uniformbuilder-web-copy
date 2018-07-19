@@ -96,6 +96,8 @@ $(document).ready(function(){
             var url = "//" + api_host + "/api/" + endpoint_version + "/master_color/update";
             addUpdateRecord(data, url);
         }
+        $('submit-new-record').attr('disabled', 'true');
+
     });
 
     $(document).on('click', '.add-record', function(e) {
@@ -124,6 +126,7 @@ $(document).ready(function(){
     $("#myModal").on("hidden.bs.modal", function() {
         $('.input-name').val('');
         $('.input-color-code').val('');
+        $('submit-new-record').removeAttr('disabled');
     });
 
     $(document).on('click', '.delete-record',  function(e) {
