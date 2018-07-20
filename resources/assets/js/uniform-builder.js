@@ -80,7 +80,7 @@ $(document).ready(function () {
                 ub.materials_url = ub.config.api_host + '/api/materials/styleSheets';
 
                 ub.displayDoneAt('Loading Categories ...');
-                ub.loader(ub.categories_url, 'categories', ub.load_categories);
+                ub.loader(ub.categories_url, 'categories', ub.loadCategories);
 
                 ub.displayDoneAt('Loading Styles ...');
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
@@ -7038,14 +7038,10 @@ $(document).ready(function () {
                 picker_items: items,
                 apparel: _apparel,
             }
-
-            if (gender == 'Men') { 
-                data.is_men = true;
-            } else if (gender == 'Women') { 
-                data.is_women = true;
-            } else {
-                data.is_youth = true;
-            }
+            
+            _.isEqual(gender, 'Men')    ? data.is_men   = true : '';
+            _.isEqual(gender, 'Women')  ? data.is_women = true : '';
+            _.isEqual(gender, 'Youth')  ? data.is_youth = true : '';
             
             var markup = Mustache.render(template, data);
             $scrollerElement.html(markup);

@@ -1,98 +1,102 @@
 $(document).ready(function() {
 
 
-	ub.load_categories = function (categories) {
+	ub.loadCategories = function (categories) {
 
-		ub.displayDoneAt('Categories loaded.');
+        if (_.size(categories) > 0) {
 
-		var men_sports,
-            women_sports,
-            youth_sports,
-            men_apparel,
-            women_apparel,
-            youth_apparel;
+    		ub.displayDoneAt('Categories loaded.');
 
-        men_sports = ub.funcs.menActiveSortsApparel(categories, {
-                        type: 'sports', 
-                        active: '1',
-                        active_male: '1',
-                        active_type: 'active'
-                    });
+    		var menSports,
+                womenSports,
+                youthSports,
+                menApparel,
+                womenApparel,
+                youthApparel;
 
-       	men_apparel = ub.funcs.menActiveSortsApparel(categories, {
-                        type: 'apparel', 
-                        active: '1',
-                        active_male: '1',
-                        active_type: 'active'
-                    });
+            menSports = ub.funcs.menActiveSortsApparel(categories, {
+                            type: 'sports', 
+                            active: '1',
+                            active_male: '1',
+                            active_type: 'active'
+                        });
 
-       	women_sports = ub.funcs.womenActiveSportsApparel(categories, {
-                        type: 'sports', 
-                        active: '1',
-                        active_female: '1',
-                        active_type: 'active'
-                    });
+           	menApparel = ub.funcs.menActiveSortsApparel(categories, {
+                            type: 'apparel', 
+                            active: '1',
+                            active_male: '1',
+                            active_type: 'active'
+                        });
 
-       	women_apparel = ub.funcs.womenActiveSportsApparel(categories, {
-                        type: 'apparel', 
-                        active: '1',
-                        active_female: '1',
-                        active_type: 'active'
-                    });
+           	womenSports = ub.funcs.womenActiveSportsApparel(categories, {
+                            type: 'sports', 
+                            active: '1',
+                            active_female: '1',
+                            active_type: 'active'
+                        });
 
-       	youth_sports = ub.funcs.youthActiveSportsApparel(categories, {
-                        type: 'sports', 
-                        active: '1',
-                        active_youth: '1',
-                        active_type: 'active'
-                    });
+           	womenApparel = ub.funcs.womenActiveSportsApparel(categories, {
+                            type: 'apparel', 
+                            active: '1',
+                            active_female: '1',
+                            active_type: 'active'
+                        });
 
-       	youth_apparel = ub.funcs.youthActiveSportsApparel(categories, {
-                        type: 'apparel', 
-                        active: '1',
-                        active_youth: '1',
-                        active_type: 'active'
-                    });
+           	youthSports = ub.funcs.youthActiveSportsApparel(categories, {
+                            type: 'sports', 
+                            active: '1',
+                            active_youth: '1',
+                            active_type: 'active'
+                        });
 
-       	ub.data.activeSports.items = ub.funcs.getActiveSports(categories, {
-	   									active: '1',
-	   									active_type: 'active'
-	   								});
+           	youthApparel = ub.funcs.youthActiveSportsApparel(categories, {
+                            type: 'apparel', 
+                            active: '1',
+                            active_youth: '1',
+                            active_type: 'active'
+                        });
 
-       	ub.data.tempSports.items = ub.funcs.getTempSports(categories, {
-	   									active: '1',
-	   									active_type: 'temp'
-	   								});
+           	ub.data.activeSports.items = ub.funcs.getActiveSports(categories, {
+    	   									active: '1',
+    	   									active_type: 'active'
+    	   								});
 
-       	ub.data.sports = [
-            {
-                gender: 'Men',
-                sports: _.sortBy(men_sports, 'sort_order')
-            },
-            {
-                gender: 'Women',
-                sports: _.sortBy(women_sports, 'sort_order')
-            },
-            {
-                gender: 'Youth',
-                sports: _.sortBy(youth_sports, 'sort_order')
-            }
-        ];
+           	ub.data.tempSports.items = ub.funcs.getTempSports(categories, {
+    	   									active: '1',
+    	   									active_type: 'temp'
+    	   								});
 
-        ub.data.apparel = [
-            {
-                gender: 'Men',
-                sports: _.sortBy(men_apparel, 'sort_order')
-            },
-            {
-                gender: 'Women',
-                sports: _.sortBy(women_apparel, 'sort_order')
-            },
-            {
-                gender: 'Youth',
-                sports: _.sortBy(youth_apparel, 'sort_order')
-            }
-        ];
+           	ub.data.sports = [
+                {
+                    gender: 'Men',
+                    sports: _.sortBy(menSports, 'sort_order_male')
+                },
+                {
+                    gender: 'Women',
+                    sports: _.sortBy(womenSports, 'sort_order_female')
+                },
+                {
+                    gender: 'Youth',
+                    sports: _.sortBy(youthSports, 'sort_order_youth')
+                }
+            ];
+
+            ub.data.apparel = [
+                {
+                    gender: 'Men',
+                    sports: _.sortBy(menApparel, 'sort_order_male')
+                },
+                {
+                    gender: 'Women',
+                    sports: _.sortBy(womenApparel, 'sort_order_female')
+                },
+                {
+                    gender: 'Youth',
+                    sports: _.sortBy(youthApparel, 'sort_order_youth')
+                }
+            ];
+
+        }
 
 	}
 
