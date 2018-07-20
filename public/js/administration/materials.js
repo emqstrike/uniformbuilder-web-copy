@@ -2674,10 +2674,11 @@ $(document).ready(function() {
     function generateTRow(fields){
         var tr = '<tr class="application-row">';
         var c = 0;
+
         fields.forEach(function(entry) {
-            if( c === 15 ) {
+            if( c === 16 ) {
                 tr += '<td class="msc">' + entry + '</td>';
-            } else if(c === 16){
+            } else if(c === 17){
                 tr += '<td class="tsc">' + entry + '</td>';
             }else {
                 tr += '<td>' + entry + '</td>';
