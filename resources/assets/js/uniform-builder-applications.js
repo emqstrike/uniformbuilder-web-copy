@@ -10185,11 +10185,7 @@ $(document).ready(function() {
 
     ub.funcs.activateBody = function () {
 
-        if (ub.data.hiddenBody.currentUniformOk()) {
-            $('div.pd-dropdown-links[data-name="Front Body"]').trigger('click');    
-        } else {
-            $('div.pd-dropdown-links[data-name="Body"]').trigger('click');    
-        }
+        $('div.pd-dropdown-links[data-ctr="1"]').trigger('click'); // 1 is first body part [Body, Front Body or Left Body]
 
     }
 
