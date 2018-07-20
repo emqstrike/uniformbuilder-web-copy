@@ -1,7 +1,8 @@
 @extends('administration.lte-main')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+    <meta name="_token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 @endsection
 
 @section('content')
@@ -23,17 +24,34 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='table table-bordered fonts'>
+                    <table data-toggle='table' class='table table-bordered messages-table'>
                     <thead>
                         <tr>
+                            <th>ID</th>
+                            <th>Subject</th>
                             <th>Content</th>
-                            <th>From</th>
+                            <th>Type</th>
+                            <th>Order Code</th>
                             <th>Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-
+                        @if ($messages)
+                            @foreach ($messages as $message)
+                                <tr id="message-{{ $message->id }}">
+                                    <td>{{ $message->id }}</td>
+                                    <td>{{ $message->subject }}</td>
+                                    <td>{{ $message->content }}</td>
+                                    <td>{{ $message->type }}</td>
+                                    <td>{{ $message->order_code }}</td>
+                                    <td>{{ Carbon\Carbon::parse($message->created_at)->toFormattedDateString() }}</td>
+                                    <td>
+                                        <a href="#" data-message-id="{{ $message->id }}" class="btn btn-danger btn-xs edit-user delete-message">Delete</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                     </tbody>
                     </table>
                 </div>
@@ -47,80 +65,46 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/administration/common.js"></script>
-<script>
-$(document).ready(function(){
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+    <script type="text/javascript" src="/js/administration/common.js"></script>
 
-    $(".save-price-item").each(function(i) {
-        $(this).hide();
-    });
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            })
 
-    $(document).on('change', '.row-msrp', function() {
-        var save_button = $(this).parent().siblings('td').find('.save-price-item');
-        save_button.text('Save');
-        save_button.removeClass( "btn-primary" );
-        save_button.addClass( "btn-warning" );
-        save_button.show();
+            $('.messages-table').DataTable();
 
-        var msrp = $(this).val();
-        var web_price_sale = $(this).parent().siblings('td').find('.row-web-price-sale').val();
-        if( msrp < web_price_sale ){
-            $(this).val(web_price_sale);
-            alert("MSRP cannot be lower than Web Sale Price!");
-        }
-    });
+            $('.delete-message').click(function(event) {
+                event.preventDefault();
 
-    $(document).on('change', '.row-web-price-sale', function() {
-        var save_button = $(this).parent().siblings('td').find('.save-price-item');
-        save_button.text('Save');
-        save_button.removeClass( "btn-primary" );
-        save_button.addClass( "btn-warning" );
-        save_button.show();
-        var msrp = $(this).parent().siblings('td').find('.row-msrp').val();
-        var web_price_sale = $(this).val();
-        if( web_price_sale > msrp ){
-            $(this).val(msrp);
-            alert("Web Sale Price cannot be higher than MSRP!");
-        }
-    });
+                var response = confirm('Are you sure you want to delete?');
 
-    $(document).on('click', '.save-price-item', function() {
-        var msrp = $(this).parent().siblings('td').find('.row-msrp').val();
-        var web_price_sale = $(this).parent().siblings('td').find('.row-web-price-sale').val();
-        var id = $(this).data('id');
+                if (response == true) {
+                    var id = $(this).data('message-id');
 
-        printData(msrp, web_price_sale, id);
-    });
+                    $.ajax({
+                        method: 'POST',
+                        url: "//{{ env('API_HOST') }}/api/messages/delete",
+                        data: JSON.stringify({id: id}),
+                        success: function(response) {
+                            if (response.success) {
+                                new PNotify({
+                                    title: 'Success',
+                                    text: response.message,
+                                    type: 'success',
+                                    hide: true
+                                });
 
-    function printData(msrp, web_price_sale, id){
-        // console.log('MSRP:' + msrp);
-        // console.log('Web Price Sale:' + web_price_sale);
-        // console.log('ID:' + id);
-        var data = {
-            "id" : id,
-            "msrp" : msrp,
-            "web_price_sale" : web_price_sale
-        };
-        updatePriceItem(data);
-    }
-
-    function updatePriceItem(data){
-        $.ajax({
-            url: '//' + api_host + '/api/price_item/update',
-            type: "POST",
-            data: JSON.stringify(data),
-            contentType: 'application/json;',
-            success: function (data) {
-                alert('Successfully updated!');
-                document.location.reload();
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                //Error Code Here
-            }
+                                $('#message-' + id).fadeOut();
+                            }
+                        }
+                    });
+                }
+            });
         });
-    }
-
-});
-</script>
+    </script>
 @endsection
