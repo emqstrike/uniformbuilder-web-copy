@@ -1,18 +1,18 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
-use \Session;
-use \Redirect;
+use App\APIClients\SplashImageAPIClient as APIClient;
+use App\APIClients\UniformCategoriesAPIClient;
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use App\Utilities\Log;
-use Illuminate\Http\Request;
+use App\Http\Requests\SplashImageRequest;
 use App\Utilities\FileUploader;
+use App\Utilities\Log;
 use App\Utilities\Random;
 use Aws\S3\Exception\S3Exception;
-use App\Http\Controllers\Controller;
-use App\APIClients\SplashImageAPIClient as APIClient;
-
-use App\APIClients\UniformCategoriesAPIClient;
+use Illuminate\Http\Request;
+use \Redirect;
+use \Session;
 
 
 class SplashImagesController extends Controller
@@ -53,7 +53,7 @@ class SplashImagesController extends Controller
 
     }
 
-    public function store(Request $request){
+    public function store(SplashImageRequest $request){
 
           
 
@@ -163,6 +163,7 @@ class SplashImagesController extends Controller
                 $data['id'] = $splashId;
            
                 $response = $this->client->updateSplashImage($data);
+               
                 return Redirect::to('administration/splash_image/edit/' . $data['id'])
                                 ->with('message', $response->message);
             }
