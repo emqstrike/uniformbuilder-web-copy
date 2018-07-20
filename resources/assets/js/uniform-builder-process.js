@@ -995,6 +995,7 @@ $(document).ready(function() {
             order_items: [
                 {
 
+                    brand: ub.current_material.material.brand,
                     item_id: _itemID,
                     description: _uniformName,
                     type: ub.current_material.material.type,
@@ -1211,6 +1212,7 @@ $(document).ready(function() {
             },
             order_items: [
                 {
+                    brand: ub.current_material.material.brand,
                     item_id: _itemID,
                     type: ub.current_material.material.type,
                     description: _uniformName,
