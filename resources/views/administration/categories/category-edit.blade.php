@@ -38,9 +38,23 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Sort Order</label>
+                            <label class="col-md-4 control-label">Sort Order Male</label>
                             <div class="col-md-6">
-                                <input type="number" class="form-control sort-order" name="sort_order" value="{{ $category->sort_order }}">
+                                <input type="number" class="form-control sort-order-male" name="sort_order_male" value="{{ $category->sort_order_male }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sort Order Female</label>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control sort-order-female" name="sort_order_female" value="{{ $category->sort_order_female }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Sort Order Youth</label>
+                            <div class="col-md-6">
+                                <input type="number" class="form-control sort-order-youth" name="sort_order_youth" value="{{ $category->sort_order_youth }}">
                             </div>
                         </div>
 
