@@ -33,12 +33,14 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Sort Order</th>
                             <th id="select-filter">Categories</th>
                             <th>Code</th>
                             <th>Men</th>
                             <th>Women</th>
                             <th>Youth</th>
+                            <th>Sort Order Male</th>
+                            <th>Sort Order Female</th>
+                            <th>Sort Order Youth</th>
                             <th>Type</th>
                             <th id="select-filter">Active Type</th>
                             <th>Actions</th>
@@ -50,9 +52,6 @@
                         <tr class='category-{{ $category->id }} {{ (!$category->active) ? ' inactive' : '' }}'>
                             <td>
                                 {{ $category->id }}
-                            </td>
-                            <td>
-                                {{ $category->sort_order }}
                             </td>
                             <td>
                                 {{ $category->name }}
@@ -100,6 +99,15 @@
                             @endif
                             </td>
                             <td>
+                                {{ $category->sort_order_male}}
+                            </td>
+                            <td>
+                                {{ $category->sort_order_female}}
+                            </td>
+                            <td>
+                                {{ $category->sort_order_youth}}
+                            </td>
+                            <td>
                                 {{ $category->type }}
                             </td>
                             <td align="center">
@@ -137,6 +145,8 @@
                     </tbody>
                     <tfoot>
                         <tr>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

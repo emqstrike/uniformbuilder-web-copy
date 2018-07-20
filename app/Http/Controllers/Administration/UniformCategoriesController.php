@@ -52,7 +52,9 @@ class UniformCategoriesController extends Controller
         $active_male = $request->input('active_male');
         $active_female = $request->input('active_female');
         $active_youth = $request->input('active_youth');
-        $sort_order = $request->input('sort_order');
+        $sort_order_male = $request->input('sort_order_male');
+        $sort_order_female = $request->input('sort_order_female');
+        $sort_order_youth = $request->input('sort_order_youth');
 
         $data = [
             'name' => $name,
@@ -63,7 +65,9 @@ class UniformCategoriesController extends Controller
             'active_male' => $active_male,
             'active_female' => $active_female,
             'active_youth' => $active_youth,
-            'sort_order' => $sort_order
+            'sort_order_male' => $sort_order_male,
+            'sort_order_female' => $sort_order_female,
+            'sort_order_youth' => $sort_order_youth
         ];
 
         $id = null;
