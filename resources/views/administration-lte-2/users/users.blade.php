@@ -137,6 +137,9 @@ $(document).ready(function(){
         $('.input-user-role').val(data.role);
         $('.input-rep-id').val(data.rep_id);
         $('.input-user-zip').val(data.zip);
+
+        $('.input-user-password').val("");
+        $('.input-confirm-password').val("");
     });
 
     $("#myForm").submit(function(e){
@@ -159,7 +162,7 @@ $(document).ready(function(){
         } else if(window.modal_action == 'update')  {
             data.id = $('.input-user-id').val();
             var url = "//" + api_host +"/api/user/update";
-            if(newPassword != "") {
+            if(newPassword !== "" && newConfirm !== ""){
                 data.password = newPassword;
             }
         }
@@ -172,6 +175,9 @@ $(document).ready(function(){
                 hide: true
             });
         } else {
+            console.log("[[ DATA INFO BELOW ]]")
+            console.log(data);
+            console.log(url);
             addUpdateRecord(data, url);
         }
     });

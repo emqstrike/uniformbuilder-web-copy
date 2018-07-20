@@ -863,26 +863,6 @@ $(document).ready(function () {
 
         };
 
-
-        ub.data.mascotsCategories = {};
-
-        ub.funcs.transformMascots = function () {
-    
-            ub.data.mascots = _.filter (ub.data.mascots, {active: '1'});
-
-            _.each(ub.data.mascots, function (mascot, index) {
-
-                mascot.layers_properties = JSON.parse(mascot.layers_properties);
-
-                ub.data.mascotsCategories[mascot.category] = {
-                    name: mascot.category,
-                    id: mascot.mascot_category_id,
-                };
-
-            });
-
-        }
-
         /// Load Assets 
 
         ub.callback_update = function (obj, object_name) {

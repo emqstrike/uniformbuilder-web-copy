@@ -205,6 +205,22 @@ $(document).ready(function () {
 
                 var _colorObj = ub.funcs.getColorObjByPosition(e.team_color_id);
 
+                if (typeof _colorObj === "undefined") {
+
+                    console.warn('Color not provided for Team Color ID #' + _team_color_id + ' , using default. ' + _materialOption.default_color);
+                    
+                    if (_team_color_id.toString() === _materialOption.team_color_id) { 
+                        _colorObj = ub.funcs.getColorByColorCode(_materialOption.default_color); 
+                        console.log(_colorObj);
+                    }
+
+                } else {
+
+                    console.log('Using Color provided via URL: ' + _colorObj.color_code);
+                    console.log(_colorObj);
+
+                }
+
                 ub.data.teamStoresteamColors[_team_color_id] = {
 
                     teamColorID: _team_color_id,
@@ -214,6 +230,8 @@ $(document).ready(function () {
                     newColorObj: _colorObj,
 
                 }
+
+                console.log(ub.data.teamStoresteamColors[_team_color_id]);
 
                 if (typeof _colorObj !== "undefined") {
                     e.colorObj = _colorObj;
