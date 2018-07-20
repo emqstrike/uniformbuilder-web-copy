@@ -10,7 +10,12 @@
 
     .tt-suggestion.tt-selectable {
         border-bottom: 1px solid #e1e1e1;
+        cursor: pointer;
         padding: 5px 10px;
+    }
+
+    .tt-suggestion.tt-selectable:hover {
+        background: #e1e1e1;
     }
 </style>
 @endsection
