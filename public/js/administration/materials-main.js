@@ -151,7 +151,7 @@ $(document).ready(function() {
                         hide: true
                     });
                     console.log('toggle success');
-             
+
                  window.location.reload(true);
                 } else {
                     console.log('toggle fail');
@@ -285,7 +285,7 @@ $(document).ready(function() {
 
         if(sports_selected != ""){
         $("#block-patterns-filter select option").hide();
-            $.each(materials_data, function(i, item){         
+            $.each(materials_data, function(i, item){
                 if(sports_selected == item.uniform_category){
                     $('#block-patterns-filter select option[value="' + item.block_pattern + '"]').show();
                      $('#block-patterns-filter select option[value=""]').show();
@@ -293,40 +293,40 @@ $(document).ready(function() {
                 }
             });
             $("#necks-filter select option").hide();
-            $.each(materials_data, function(i, item){         
+            $.each(materials_data, function(i, item){
                 if(sports_selected == item.uniform_category){
                     console.log(sports_selected);
                     console.log(item.uniform_category);
                     console.log(item.neck_option);
                     $('#necks-filter select option[value="' + item.neck_option + '"]').show();
                     $('#necks-filter select option[value=""]').show();
-                }               
+                }
             });
         }else{
             $("#block-patterns-filter select option").show();
-        }   
+        }
 
 
     });
 
     $(document).on('change','#block-patterns-filter',function(){
-           
+
         var block_patterns_selected = $(this).find("option:selected").val();
         var materials_data = $("#materials-data").val();
         materials_data = JSON.parse(materials_data);
-        
+
         if(block_patterns_selected != ""){
         $("#necks-filter select option").hide();
-            $.each(materials_data, function(i, item){         
+            $.each(materials_data, function(i, item){
                 if(block_patterns_selected == item.block_pattern){
-                
+
                     $('#necks-filter select option[value="' + item.neck_option + '"]').show();
                     $('#necks-filter select option[value=""]').show();
-                }               
+                }
             });
         }else{
             $("#necks-filter select option").show();
-        }               
+        }
     });
 
 
