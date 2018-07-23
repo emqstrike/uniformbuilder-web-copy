@@ -3,6 +3,20 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
+    .tt-menu {
+        background: #fff;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    }
+
+    .tt-suggestion.tt-selectable {
+        border-bottom: 1px solid #e1e1e1;
+        cursor: pointer;
+        padding: 5px 10px;
+    }
+
+    .tt-suggestion.tt-selectable:hover {
+        background: #e1e1e1;
+    }
 </style>
 @endsection
 
