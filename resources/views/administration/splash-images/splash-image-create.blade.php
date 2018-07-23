@@ -10,6 +10,8 @@
                     <div class="panel-body">
                         <div class="col-md-12">
                             <form method="POST" action="/administration/splash_image/add" enctype="multipart/form-data">
+                                @include('administration.partials.validation-error')
+
                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <fieldset class="form-group">
                                     <label for="formGroupExampleInput">Name : </label>
