@@ -465,9 +465,26 @@ $(document).ready(function(){
         var newLength = $('.layers-row').length;
     });
 
+    $(document).on('click', '.btn-remove-layer', function() {
+        var rowCount = $('.layers-row').length;
+        console.log('rowCount ', rowCount);
+        
+        if (rowCount > 1) {
+            $(this).closest('tr').remove();
+            var newRowCount = $('.layers-row').length;
+
+            $(".layers-row").each(function(i) {
+                $(this).find(".layer-number").text(newRowCount);
+                $(this).find(".layer-number").val(newRowCount);
+                newRowCount--;
+            });
+        }
+    });
+
     function renumberRows(length){
         layers_properties = {};
         $(".layers-row").each(function(i) {
+            console.log(i);
             var thisLayer = "layer"+length;
             var layer_class = ".fo-layer.layer" + length;
 
