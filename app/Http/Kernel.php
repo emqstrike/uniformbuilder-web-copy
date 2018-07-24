@@ -30,5 +30,6 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'adminAccess' => \App\Http\Middleware\VerifyAdministrationAccess::class,
+        'disablePreventBack' => \App\Http\Middleware\DisablePreventBack::class,
     ];
 }
