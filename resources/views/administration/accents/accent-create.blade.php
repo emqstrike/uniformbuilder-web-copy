@@ -85,7 +85,7 @@
                             </fieldset>
                              <fieldset class="form-group">
                                 <label for="formGroupExampleInput">Thumbnail : </label>
-                                  <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
+                                  <input type="file" class="form-control thumbnail-file" name="thumbnail_path_uploader" accept="image/*">
                             </fieldset>       
                             <fieldset class="form-group">
                                 <label for="formGroupExampleInput">Size : </label>
