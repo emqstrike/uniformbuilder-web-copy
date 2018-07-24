@@ -118,7 +118,7 @@ $(document).ready(function(){
         "autoWidth": false
     });
 
-    $('.delete-application-size').on('click', function(){
+    $(document).on('click', '.delete-application-size', function() {
        var id = [];
        id.push( $(this).data('application-size-id'));
        console.log(id);

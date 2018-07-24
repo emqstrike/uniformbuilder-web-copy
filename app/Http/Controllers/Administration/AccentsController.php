@@ -63,17 +63,23 @@ class AccentsController extends Controller
 
         $accentName = $request->input('name');
         $accentCode = $request->input('code');
-        $thumbnail_path = $request->input('thumbnail_path');
+
+        if ($request->has('thumbnail_path')) {
+            $thumbnail_path = $request->input('thumbnail_path');
+        } else {
+            $thumbnail_path = $request->input('thumbnail_path_uploader');
+        }
+        
         $accentProperties = $request->input('accent_properties');
         $secondary_id = $request->input('secondary_id');
-           if(!isset($secondary_id)){
-            $secondary_id = 0;
 
-           }
+        if ( !isset($secondary_id)) {
+            $secondary_id = 0;
+        }
         
-          $accentId = null;
-        if (!empty($request->input('accent_id')))
-        {
+        $accentId = null;
+
+        if (! empty($request->input('accent_id'))) {
             $accentId = $request->input('accent_id');
         }
 
@@ -88,37 +94,32 @@ class AccentsController extends Controller
         $materialFolder = $accentName;
 
         try {
-            $accentThumbnailPath = $request->file('thumbnail_path');
-            if (isset($accentThumbnailPath))
-            {
-                if ($accentThumbnailPath->isValid())
-                {
-                    $filename = Random::randomize(12);
-                    // $data['thumbnail_path'] = "qx";
-                    $data['thumbnail_path'] = FileUploader::upload(
-                                                    $accentThumbnailPath,
-                                                    $accentName,
-                                                    'material_option',
-                                                    "materials",
-                                                    "{$accentName}/{$filename}.png"
-                                                );
+            if (! is_null($request->thumbnail_path_uploader)) {
+                $accentThumbnailPath = $request->file('thumbnail_path_uploader');
+
+                if (isset($accentThumbnailPath)) {
+                    if ($accentThumbnailPath->isValid()) {
+                        $filename = Random::randomize(12);
+                        // $data['thumbnail_path'] = "qx";
+                        $data['thumbnail_path'] = FileUploader::upload(
+                            $accentThumbnailPath,
+                            $accentName,
+                            'material_option',
+                            "materials",
+                            "{$accentName}/{$filename}.png"
+                        );
+                    }
                 }
             }
-
-        }
-        catch (S3Exception $e)
-        {
+        } catch (S3Exception $e) {
             $message = $e->getMessage();
             return Redirect::to('/administration/accents')
                             ->with('message', 'There was a problem uploading your files');
         }
 
+       $response = null;
 
-        
-           $response = null;
-
-        if (!empty($accentId))
-        {
+        if (!empty($accentId)) {
             Log::info('Attempts to update accent#' . $accentId);
 
             $data['id'] = $accentId;
@@ -126,40 +127,25 @@ class AccentsController extends Controller
             $response = $this->client->updateAccent($data);
             return Redirect::to('administration/accent/edit/' . $data['id'])
                             ->with('message', $response->message);
-        }
-        else
-        {
+        } else {
             Log::info('Attempts to create a new accent ' . json_encode($data));
             $response = $this->client->createAccent($data);
         }
 
-        if ($response->success)
-        {
+        if ($response->success) {
             Log::info('Success');
             return Redirect::to('administration/accents')
                             ->with('message', $response->message);
-        }
-        else
-        {
+        } else {
             Log::info('Failed');
             return Redirect::to('administration/accents')
                             ->with('message', 'There was a problem saving the accent');
         }
-
-
-
-
-
     }
 
-      public function editAccentForm($id)
+     public function editAccentForm($id)
     {
-
-
         $accent = $this->client->getAccent($id);
-
-     
-
         $fonts = $this->fontClient->getAllFonts();
         $colors = $this->colorsClient->getColors();
 
@@ -168,9 +154,6 @@ class AccentsController extends Controller
            'fonts' => $fonts,
            'colors' => $colors
         ]);
-
-        
-
     }
 
 
