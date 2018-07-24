@@ -159,7 +159,7 @@ $(document).ready(function(){
         getOrderItem(function(order_info){ window.order_info = order_info; });
         console.log(window.order_info);
         var bc = JSON.parse(window.order_info['items'][0]['builder_customizations']);
-        var url = '//customizer.prolook.com'+bc.pdfOrderForm;
+        var url = CUSTOMIZER_HOST+bc.pdfOrderForm;
         console.log('open pdf!');
         console.log(url);
         OpenInNewTab(url);
@@ -240,7 +240,7 @@ $(document).ready(function(){
                 entry.orderPart = {
                     "ID" : entry.id,
                     "Description" : entry.description,
-                    "DesignSheet" : '//customizer.prolook.com' + bcx.pdfOrderForm
+                    "DesignSheet" : CUSTOMIZER_HOST+bcx.pdfOrderForm
                 };
 
                 getMaterial(function(material){ window.material = material; });
