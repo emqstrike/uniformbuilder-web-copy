@@ -83,7 +83,7 @@ Route::get('getting_started', 'Help\HelpController@getting_started');
 });
 
 // Administration Routes
-Route::group(array('prefix' => 'administration'), function() {
+Route::group(array('prefix' => 'administration', 'middleware' => 'disablePreventBack'), function() {
 
     Route::group(array('prefix' => 'master_pages'), function() {
     });
