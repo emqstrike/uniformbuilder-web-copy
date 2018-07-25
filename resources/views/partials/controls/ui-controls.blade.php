@@ -435,7 +435,12 @@
                 @{{/is_youth}}
 
                 <span class="main-picker-item-caption">
-                    @{{name}}
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
                 </span>
 
             </div>
@@ -464,7 +469,12 @@
                 @{{/is_youth}}
 
                 <span class="main-picker-item-caption">
-                    @{{name}}
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
                 </span>
 
             </div>
