@@ -164,7 +164,7 @@ $(document).ready(function(){
         var save_button = $(this).parent().siblings('td').find('.save-button');
         var color_name = $(this).val();
         if(color_name == '') {
-            save_button.attr('disabled', 'true');
+            save_button.attr('disabled', 'disabled');
         } else {
             save_button.removeAttr('disabled');
         }
@@ -188,7 +188,9 @@ $(document).ready(function(){
             "master_color_id" : master_color_id,
             "brand_id" : brand_id
         };
-        updateColor(data);
+        if(!$(this).attr('disabled')) {
+            updateColor(data);
+        }
     });
 
     function updateColor(data) {
