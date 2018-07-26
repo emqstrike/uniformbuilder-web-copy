@@ -2623,7 +2623,7 @@ $(document).ready(function() {
 
     /// LREST
 
-    ub.funcs.lRest = function (e, p, fromMiddleScreen) {
+    ub.funcs.lRest = function (e, p, fromMiddleScreen, src) {
 
         if (e.trim().length === 0 || p.trim().length === 0) { return; }
 
@@ -2673,23 +2673,24 @@ $(document).ready(function() {
                     $('a.change-view[data-view="save"]').removeClass('disabled');
                     $('a.change-view[data-view="open-design"]').removeClass('disabled');
 
-                    if (typeof fromMiddleScreen !== 'undefined') {
+                    if (typeof fromMiddleScreen !== 'undefined') { // from order btn clicked or save button
 
                         $('div#primaryQuickRegistrationPopup').remove();
-                        ub.funcs.initRoster();
+
+                        if (src === "order") {
+                            ub.funcs.initRoster();
+                        } else if (src === "save") {
+                            ub.funcs.initSaveDesign();
+                        }
 
                     } else {
 
                         // Return to pickers, if not editing any material
                         if(typeof ub.current_material.material === "undefined") {
-
                             window.location.href = "/";
-
                         } else { 
-
                             ub.funcs.ok();
                             ub.funcs.checkDefaultRepID();
-
                         }
 
                     }
@@ -2700,14 +2701,10 @@ $(document).ready(function() {
                 } else {
 
                     if (typeof fromMiddleScreen !== 'undefined') {
-                        
                         var _forgotPasswordLink = ' <a href="/forgot-password" target="_new">did you forget your password?</a>';
                         $('em.message').html(response.message + ", " + _forgotPasswordLink);
-
                     } else {
-
                         $.smkAlert({text: response.message, type: 'warning', time: 3, marginTop: '260px'});
-
                     }
 
                 }

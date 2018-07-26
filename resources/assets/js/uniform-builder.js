@@ -362,13 +362,7 @@ $(document).ready(function () {
 
         ub.funcs.prepareBottomTabs = function () {
 
-            if (typeof (window.ub.user.id) === "undefined") {
-                $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
-                $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
-            } else {
-                $('a.change-view[data-view="save"]').removeClass('disabled');
-                $('a.change-view[data-view="open-design"]').removeClass('disabled');
-            }
+            $('a.change-view[data-view="save"]').removeClass('disabled');
 
             if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
                 $('a.change-view[data-view="pipings"]').removeClass('hidden');                                
@@ -5423,7 +5417,8 @@ $(document).ready(function () {
 
         }
 
-    ub.funcs.createQuickRegistrationPopup = function () {
+    // src = ['order' | 'save']
+    ub.funcs.createQuickRegistrationPopup = function (src) {
 
         if ($('div#primaryQuickRegistrationPopup').is(':visible')) { return; }
 
@@ -5494,7 +5489,7 @@ $(document).ready(function () {
                 var _e = $('input.quickRegistrationEmail').val();
                 var _p = $('input.quickRegistrationPassword').val();
 
-                ub.funcs.lRest(_e, _p, true);
+                ub.funcs.lRest(_e, _p, true, src);
 
             }
 
@@ -5532,10 +5527,21 @@ $(document).ready(function () {
                                 headerValue: response.accessToken,
                             };
 
+                            var template = $('#m-loggedInNavbar').html();
+                            var data = { firstName: response.firstName, }
+                            var markup = Mustache.render(template, data);
+                            $('div.user-profile.pull-right').html(markup);
+                            $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
+
                             $popup.remove();
                             ub.status.quickRegistrationPopup = false;
 
-                            ub.funcs.initRoster();
+                            if (src === "order") {
+                                ub.funcs.initRoster();
+                            } else if (src === "save") {
+                                ub.funcs.initSaveDesign();
+                            }
+                            
                             return true;
 
                         }
@@ -5639,9 +5645,9 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.quickRegistration = function () {
+    ub.funcs.quickRegistration = function (src) {
 
-        ub.funcs.createQuickRegistrationPopup();
+        ub.funcs.createQuickRegistrationPopup(src);
 
     }
 
@@ -5679,7 +5685,7 @@ $(document).ready(function () {
                 if (ub.data.afterLoadCalled === 0) { return; }
 
                 if (typeof (window.ub.user.id) === "undefined") {
-                    ub.funcs.quickRegistration();
+                    ub.funcs.quickRegistration("order");
                     return true;
                 }
 
@@ -5900,12 +5906,12 @@ $(document).ready(function () {
 
                 if (view === 'save') {
 
-                    if(typeof (window.ub.user.id) === "undefined") {
-                        alert('Only logged-in users can save their designs.')
-                        return;
+                    if (typeof (window.ub.user.id) === "undefined") {
+                        ub.funcs.quickRegistration("save");
+                    } else {
+                        ub.funcs.initSaveDesign();    
                     }
 
-                    ub.funcs.initSaveDesign();
                     return;
 
                 }
