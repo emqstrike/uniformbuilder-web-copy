@@ -1,7 +1,7 @@
 @extends('administration.lte-main')
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">    
+    <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 @endsection
 
 @section('content')
@@ -36,7 +36,7 @@
                        <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">
-                                <select class="form-control sport" name="sport">
+                                <select class="form-control sport" name="sport" required>
                                     <option value="">None</option>
                                     @foreach ($sports as $sport)
                                         @if ($sport->active)
@@ -50,7 +50,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-6">
-                                <textarea name="description" class="form-control autosized"> {{$item_sizes->description}} </textarea>
+                                <textarea name="description" class="form-control autosized" required> {{$item_sizes->description}} </textarea>
                             </div>
                         </div>
 
@@ -69,7 +69,7 @@
                                         </thead>
                                     </tr>
                                     <tbody class="property-body">
-                                      
+
                                     </tbody>
                                 </table>
                             </div>
@@ -104,11 +104,11 @@
 @section('custom-scripts')
 <script type="text/javascript">
 $(document).ready(function(){
- 
+
     var sizes = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL','3-5','5-7','8-12','13-14','Y Goalie','M Goalie','L Goalie','YXS','YS','YS/YM','YM','YL','YL/YXL','YXL','Y2XL','Y3XL','1 Size','22-30','26-34','32-44','46-54','24-34','36-46','36-48','50-54','30-36','38-42','22','23','24','24 (YXS)','25','26','26 (YS)','27','28','28 (YM)','29','30','31','32','32 (YL)','33','34','34 (YXL)','35','36','36 (S)','37','38','38 (M)','39','40','41','42','42 (L)','43','44','45','46','46 (XL)','47','48','49','50','50 (2XL)','51','52','53','54','54 (3XL)','26/YXS','28/YS','30/YM','32/YL','32/XS','34/YXL','34/S','36/M','40/L','44/XL','46/2XL'];
     var size_properties = {};
     var defaultElem  = $( ".prop-row:first" ).clone();
-    $('.autosized').autosize({append: "\n"});  
+    $('.autosized').autosize({append: "\n"});
 
     if ( $('#old_size_property').val() ){
             var data = JSON.parse($('#old_size_property').val());
@@ -117,24 +117,24 @@ $(document).ready(function(){
 
     $('.add-edit-property').on('click', function(e){
         e.preventDefault();
-        var x  = $( ".prop-row:first" ).clone();          
+        var x  = $( ".prop-row:first" ).clone();
         if(x.length > 0){
             $('.property-body').append(x);
-        }      
-        else {           
+        }
+        else {
             loadDefault();
-        }      
-        deleteButton();  
+        }
+        deleteButton();
         updateProperties();
     });
-   
+
     function deleteButton(){
         $('.remove-prop').on('click', function(e){
             e.preventDefault();
             $(this).parent().parent().remove();
             updateProperties();
         });
-    }   
+    }
 
     function loadProperties(data)
     {
@@ -146,8 +146,8 @@ $(document).ready(function(){
                             <select class="form-control size-`+i+`" id="size">
                             </select>
                         </td>
-                        <td>  
-                            <input class="form-control qx-item-id" type="text" name="qx_item_id" id="qx-item-id" value="`+item_id+`">
+                        <td>
+                            <input class="form-control qx-item-id" type="number" name="qx_item_id" id="qx-item-id" value="`+item_id+`" required>
                         </td>';
                         <td>
                             <a href='#' class='btn btn-xs btn-danger remove-prop'>
@@ -158,7 +158,7 @@ $(document).ready(function(){
 
            $('.property-body').append(x);
 
-           var a = '.size-'+i;         
+           var a = '.size-'+i;
 
            selectedValues(a, size) ;
         });
@@ -173,9 +173,9 @@ $(document).ready(function(){
             }
             $(a).append(elem);
         });
-        deleteButton();       
+        deleteButton();
         updateProperties();
-    } 
+    }
 
     function updateProperties() {
       var data = [];
@@ -188,7 +188,7 @@ $(document).ready(function(){
 
         });
         console.log(JSON.stringify(data));
-        $('#size_property').val(JSON.stringify(data));        
+        $('#size_property').val(JSON.stringify(data));
     }
 
     $("#item-size-form").on("change", "#size", function(e){
@@ -209,8 +209,8 @@ $(document).ready(function(){
                             <select class="form-control size" id="size">
                             </select>
                         </td>
-                        <td>  
-                            <input class="form-control qx-item-id" type="text" name="qx_item_id" id="qx-item-id">
+                        <td>
+                            <input class="form-control qx-item-id" type="number" name="qx_item_id" id="qx-item-id" required>
                         </td>';
                         <td>
                             <a href='#' class='btn btn-xs btn-danger remove-prop'>
@@ -219,7 +219,7 @@ $(document).ready(function(){
                         </td>
                     </tr>`;
 
-           $('.property-body').append(y);  
+           $('.property-body').append(y);
            initSizes();
     }
 
@@ -228,7 +228,7 @@ $(document).ready(function(){
             var elem = '<option value="' + i + '">' + i + '</option>';
             $('#size').append(elem);
         });
-    }  
+    }
 });
 
 </script>
