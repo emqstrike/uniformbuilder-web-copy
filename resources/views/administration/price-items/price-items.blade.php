@@ -113,10 +113,15 @@ $(document).ready(function(){
         var save_button = $(this).parent().siblings('td').find('.save-price-item');
         save_button.removeAttr('disabled');
         var msrp = $(this).val();
+        var minimum_price = 10;
         var web_price_sale = $(this).parent().parent().find('.row-web-price-sale').val();
         if( +msrp < +web_price_sale ){
             $(this).val(web_price_sale);
             alert("MSRP cannot be lower than Web Sale Price!");
+        }
+        if( +msrp < +minimum_price ){
+            $(this).val(minimum_price);
+            alert("MSRP cannot be lower than $10");
         }
     });
 
