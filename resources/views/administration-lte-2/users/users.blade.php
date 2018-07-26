@@ -31,6 +31,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Users')
                     <h1>
                         <span class="glyphicon glyphicon-user"></span>
                         Users
@@ -143,6 +144,7 @@
 $(document).ready(function(){
 
     window.modal_action = null;
+    window.sales_reps = null;
 
     $('.add-record').on('click', function(e) {
         e.preventDefault();
@@ -172,7 +174,11 @@ $(document).ready(function(){
         $('.input-user-email').val(data.email);
         $('.input-user-type').val(data.type);
         $('.input-user-role').val(data.role);
+        $('.input-rep-id').val(data.rep_id);
         $('.input-user-zip').val(data.zip);
+
+        $('.input-user-password').val("");
+        $('.input-confirm-password').val("");
     });
 
     $("#myForm").submit(function(e){
@@ -183,6 +189,7 @@ $(document).ready(function(){
         data.email = $('.input-user-email').val();
         data.type = $('.input-user-type').val();
         data.role = $('.input-user-role option:selected').val();
+        data.default_rep_id = $('.input-rep-id option:selected').val();
         data.zip = $('.input-user-zip').val();
 
         var newPassword = $('.input-user-password').val();
@@ -194,7 +201,7 @@ $(document).ready(function(){
         } else if(window.modal_action == 'update')  {
             data.id = $('.input-user-id').val();
             var url = "//" + api_host +"/api/user/update";
-            if(newPassword != "") {
+            if(newPassword !== "" && newConfirm !== ""){
                 data.password = newPassword;
             }
         }
@@ -207,6 +214,9 @@ $(document).ready(function(){
                 hide: true
             });
         } else {
+            console.log("[[ DATA INFO BELOW ]]")
+            console.log(data);
+            console.log(url);
             addUpdateRecord(data, url);
         }
     });
@@ -375,6 +385,31 @@ $(document).ready(function(){
             }
         });
     });
+
+    getSalesReps(function(sales_reps){ window.sales_reps = sales_reps; });
+    function getSalesReps(callback){
+        var sales_reps;
+        var url = "//" +api_host+ "/api/sales_reps";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                sales_reps = data['sales_reps'];
+                if(typeof callback === "function") callback(sales_reps);
+            }
+        });
+    }
+
+    var sr_elem ='';
+    var sorted_sales_reps = _.sortBy(window.sales_reps, function(e) { return e.last_name });
+    _.each(sorted_sales_reps, function(sr) {
+        sr_elem += '<option value="'+sr.id+'">'+sr.last_name+', '+sr.first_name+'['+sr.rep_id+']</option>';
+    });
+    $('.input-rep-id').append(sr_elem);
 
     @if (Session::has('message'))
         new PNotify({

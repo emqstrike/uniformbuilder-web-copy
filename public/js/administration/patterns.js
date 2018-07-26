@@ -9,7 +9,7 @@ $(document).ready(function(){
 
     function getColors(callback){
         var colors;
-        var url = "//api-dev.qstrike.com/api/colors";
+        var url = "//" + api_host + "/api/colors";
         $.ajax({
             url: url,
             async: false,
@@ -47,15 +47,15 @@ $(document).ready(function(){
         updater(edit);
     });
 
-    $( "tbody" ).disableSelection();
-    $( "tbody.layers" ).sortable({
-        start: function( ) {
-            $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
-        },
-        stop: function( ) {
-            layerNumbers();
-        }
-    });
+    // $("tbody").disableSelection();
+    // $( "tbody.layers" ).sortable({
+    //     start: function( ) {
+    //         $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
+    //     },
+    //     stop: function( ) {
+    //         layerNumbers();
+    //     }
+    // });
 
     updater();
     function updater(edit){
@@ -396,11 +396,9 @@ $(document).ready(function(){
 
      $(document).on('click', '.clone-pattern', function(e) {
         e.preventDefault();
+
         var id = $(this).data('pattern-id');
         var url = "//" + api_host + "/api/pattern/duplicate/";
-
-
-       // var url = "//localhost:8888/api/pattern/duplicate/";
 
         $.ajax({
             url: url,
@@ -419,12 +417,10 @@ $(document).ready(function(){
                         hide: true
                     });
 
-                     $( ".box-body" ).load( location+" .patterns" ); 
-                     $('html, body').scrollTop( $(document).height() );
-           
-             
-                    
+                    location.reload();
 
+                    // $( ".box-body" ).load( location+" .patterns" );
+                    // $('html, body').scrollTop( $(document).height() );
                 }
             }
         });

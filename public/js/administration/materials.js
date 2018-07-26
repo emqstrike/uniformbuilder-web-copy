@@ -749,6 +749,7 @@ $(document).ready(function() {
                     app_y,
                     app_primary,
                     app_logo,
+                    embellishment,
                     app_team_name,
                     app_player_name,
                     app_number,
@@ -762,7 +763,6 @@ $(document).ready(function() {
                     default_text,
                     vertical_text,
                     default_number,
-                    embellishment,
                     inksoft_design_id,
                     app_opacity,
                     def_pattern_position,
@@ -1832,6 +1832,7 @@ $(document).ready(function() {
                     app_y,
                     app_primary,
                     app_logo,
+                    embellishment,
                     app_team_name,
                     app_player_name,
                     app_dnumber,
@@ -1846,7 +1847,6 @@ $(document).ready(function() {
                     default_text,
                     vertical_text,
                     default_number,
-                    embellishment,
                     inksoft_design_id,
                     app_opacity,
                     def_pattern_position,
@@ -2488,7 +2488,7 @@ $(document).ready(function() {
 
     function getColors(callback){
         var colors;
-        var url = "//api-dev.qstrike.com/api/colors";
+        var url = "//" + api_host + "/api/colors";
         $.ajax({
             url: url,
             async: false,
@@ -2505,7 +2505,7 @@ $(document).ready(function() {
 
         function getAccents(callback){
         var mascots;
-       var url = "//api-dev.qstrike.com/api/accents";
+       var url = "//" + api_host + "/api/accents";
         // var url = "//localhost:8888/api/accents";
         $.ajax({
             url: url,
@@ -2523,7 +2523,7 @@ $(document).ready(function() {
     }
     function getTailsweeps(callback){
         var tailsweep;
-       var url = "//api-dev.qstrike.com/api/tailsweeps";
+       var url = "//" + api_host + "/api/tailsweeps";
      //var url = "//localhost:8888/api/tailsweeps";
         $.ajax({
             url: url,
@@ -2543,7 +2543,7 @@ $(document).ready(function() {
 
     function getFonts(callback){
         var mascots;
-        var url = "//api-dev.qstrike.com/api/fonts";
+        var url = "//" + api_host + "/api/fonts";
         $.ajax({
             url: url,
             async: false,
@@ -2560,7 +2560,7 @@ $(document).ready(function() {
 
     function getMascots(callback){
         var mascots;
-        var url = "//api-dev.qstrike.com/api/mascots";
+        var url = "//" + api_host + "/api/mascots";
         $.ajax({
             url: url,
             async: false,
@@ -2577,7 +2577,7 @@ $(document).ready(function() {
 
     function getPatterns(callback){
         var patterns;
-        var url = "//api-dev.qstrike.com/api/patterns";
+        var url = "//" + api_host + "/api/patterns";
         $.ajax({
             url: url,
             async: false,
@@ -2674,10 +2674,11 @@ $(document).ready(function() {
     function generateTRow(fields){
         var tr = '<tr class="application-row">';
         var c = 0;
+
         fields.forEach(function(entry) {
-            if( c === 15 ) {
+            if( c === 16 ) {
                 tr += '<td class="msc">' + entry + '</td>';
-            } else if(c === 16){
+            } else if(c === 17){
                 tr += '<td class="tsc">' + entry + '</td>';
             }else {
                 tr += '<td>' + entry + '</td>';

@@ -149,11 +149,23 @@ $(document).ready(function() {
                 success: function (response) {
 
                     if (response.success) {
+
+                        ub.displayDoneAt('Mascot Sizes Loaded ...');
                         cb(response);
+                        
+                    } else {
+                        
+                        if (ub.devtools.debugMode) {
+                            console.log(' ');
+                            console.error('No Mascot Size detected for the following parameters: ');
+                            console.error(parameters);
+                            console.log(' ');
+                        }
+
                     }
 
-                }
-                
+                }, 
+
             });
 
         }

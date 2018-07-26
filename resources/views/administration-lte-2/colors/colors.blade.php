@@ -11,6 +11,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Colors')
                     <h1>
                         <span class="fa fa-tint"></span>
                         Colors
@@ -163,7 +164,7 @@ $(document).ready(function(){
         var save_button = $(this).parent().siblings('td').find('.save-button');
         var color_name = $(this).val();
         if(color_name == '') {
-            save_button.attr('disabled', 'true');
+            save_button.attr('disabled', 'disabled');
         } else {
             save_button.removeAttr('disabled');
         }
@@ -187,7 +188,9 @@ $(document).ready(function(){
             "master_color_id" : master_color_id,
             "brand_id" : brand_id
         };
-        updateColor(data);
+        if(!$(this).attr('disabled')) {
+            updateColor(data);
+        }
     });
 
     function updateColor(data) {
@@ -232,6 +235,7 @@ $(document).ready(function(){
         data.brand_id = $('.input-brand-id').val();
         data.master_color_id = $('.input-master-color').val();
         addColor(data);
+        $('.submit-new-record').attr('disabled', 'true');
     });
 
     $("#myModal").on("hidden.bs.modal", function() {
@@ -251,6 +255,7 @@ $(document).ready(function(){
                 $('#create-hex-code').val(tinycolor);
             }
             });
+        $('.submit-new-record').removeAttr('disabled');
     });
 
     function addColor(data) {

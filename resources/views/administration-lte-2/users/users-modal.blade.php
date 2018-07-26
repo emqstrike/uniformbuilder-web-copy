@@ -35,11 +35,11 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">Password</label>
-                    <input type="password" class="form-control input-user-password" name="password">
+                    <input type="password" class="form-control input-user-password" name="password" value="">
                   </div>
                   <div class="form-group">
                     <label class="control-label">Confirm Password</label>
-                    <input type="password" class="form-control input-confirm-password" name="confirm_password">
+                    <input type="password" class="form-control input-confirm-password" name="confirm_password" value="">
                   </div>
                   <div class="form-group">
                     <label class="control-label">Zip Code</label>
@@ -47,9 +47,9 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">Assigned Sales Rep</label>
-                    <select name='default_rep_id' class="form-control default-rep-id">
+                    <select name='default_rep_id' class="form-control input-rep-id">
                         <option value="">none</option>
-                        </select>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label class="control-label">Type</label>

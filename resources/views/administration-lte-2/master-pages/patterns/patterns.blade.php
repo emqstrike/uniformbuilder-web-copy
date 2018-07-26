@@ -22,6 +22,7 @@ li.select2-selection__choice {
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Patterns Master List')
                     <h1>
                         Patterns Master List
                     </h1>
@@ -111,6 +112,7 @@ $(document).ready(function(){
             var url = "//" + api_host + "/api/" + endpoint_version + "/master_pattern/update";
             addUpdateRecord(data, url);
         }
+        $('.submit-new-record').attr('disabled', 'true');
     });
 
     $(document).on('click', '.add-record', function(e) {
@@ -151,6 +153,7 @@ $(document).ready(function(){
         $('#category_value').val('');
         $(".input-uniform-category-id").val("");
         $(".input-uniform-category-id").trigger("change");
+        $('.submit-new-record').removeAttr('disabled');
     });
 
 

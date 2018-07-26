@@ -86,7 +86,7 @@ Route::get('test_sample', function() {
 });
 
 // Administration Routes
-Route::group(array('prefix' => 'administration'), function() {
+Route::group(array('prefix' => 'administration', 'middleware' => 'disablePreventBack'), function() {
 
     Route::group(array('prefix' => 'master_pages'), function() {
     });

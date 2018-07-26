@@ -1252,6 +1252,22 @@ $(document).ready(function(){
         window.lp = layersProperties;
         $('#font_properties').val(layersProperties);
     }
+
+    $(document).on('click', '.btn-remove-layer', function() {
+        var rowCount = $('.layers-row').length;
+        console.log('rowCount ', rowCount);
+        
+        if (rowCount > 1) {
+            $(this).closest('tr').remove();
+            var newRowCount = $('.layers-row').length;
+
+            $(".layers-row").each(function(i) {
+                $(this).find(".layer-number").text(newRowCount);
+                $(this).find(".layer-number").val(newRowCount);
+                newRowCount--;
+            });
+        }
+    });
 });
 </script>
 @endsection

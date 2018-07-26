@@ -17,11 +17,13 @@ li.select2-selection__choice {
 @section('content')
 
 </style>
+
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Colors Master List')
                     <h1>
                         Colors Master List
                     </h1>
@@ -95,6 +97,7 @@ $(document).ready(function(){
             var url = "//" + api_host + "/api/" + endpoint_version + "/master_color/update";
             addUpdateRecord(data, url);
         }
+        $('.submit-new-record').attr('disabled', 'true');
     });
 
     $(document).on('click', '.add-record', function(e) {
@@ -123,6 +126,7 @@ $(document).ready(function(){
     $("#myModal").on("hidden.bs.modal", function() {
         $('.input-name').val('');
         $('.input-color-code').val('');
+        $('.submit-new-record').removeAttr('disabled');
     });
 
     $(document).on('click', '.delete-record',  function(e) {

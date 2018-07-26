@@ -18,9 +18,6 @@
     table.borderless td,table.borderless th{
         border: none !important;
     }
-    .has-loading {
-      background: transparent url('http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif') center no-repeat;
-    }
 </style>
 @endsection
 
@@ -165,9 +162,9 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <img src="back-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
-                                        <img src="left-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
-                                        <img src="right-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
+                                        <img src="" class="back-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
+                                        <img src="" class="left-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
+                                        <img src="" class="right-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
                                     </td>
                                     <td>
                                         <center>
@@ -308,10 +305,29 @@ $(function(){
         $('.show-in-customizer-input option[value="' + window.materials[window.current_index].customizer_available +'"]').prop("selected", true);
         $('.show-sport-dd option[value="' + window.default_sport +'"]').prop("selected", true);
 
-        $('.front-image').attr("src",window.materials[window.current_index].thumbnail_path);
-        $('.back-image').attr("src",window.materials[window.current_index].thumbnail_path_back);
-        $('.left-image').attr("src",window.materials[window.current_index].thumbnail_path_left);
-        $('.right-image').attr("src",window.materials[window.current_index].thumbnail_path_right);
+        if((window.materials[window.current_index].thumbnail_path) == null || (window.materials[window.current_index].thumbnail_path) == ""){
+            $('.front-image').attr("src", "https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg");
+        } else {
+            $('.front-image').attr("src",window.materials[window.current_index].thumbnail_path);
+        }
+
+        if((window.materials[window.current_index].thumbnail_path_back) == null || (window.materials[window.current_index].thumbnail_path_back) == ""){
+            $('.back-image').attr("src", "https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg");
+        } else {
+            $('.back-image').attr("src",window.materials[window.current_index].thumbnail_path_back);
+        }
+
+        if((window.materials[window.current_index].thumbnail_path_left) == null || (window.materials[window.current_index].thumbnail_path_left) == ""){
+            $('.left-image').attr("src", "https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg");
+        } else {
+            $('.left-image').attr("src",window.materials[window.current_index].thumbnail_path_left);
+        }
+
+        if((window.materials[window.current_index].thumbnail_path_right) == null || (window.materials[window.current_index].thumbnail_path_right) == ""){
+            $('.right-image').attr("src", "https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg");
+        } else {
+            $('.right-image').attr("src",window.materials[window.current_index].thumbnail_path_right);
+        }
 
         window.default_material_id = window.materials[window.current_index].id;
         setTimeout(hidePleaseWait(), 5000);
