@@ -5525,13 +5525,10 @@ $(document).ready(function () {
                                 fullname: "New User",
                                 email: _email,
                                 headerValue: response.accessToken,
+                                type: "quickRegistration",
                             };
 
-                            var template = $('#m-loggedInNavbar').html();
-                            var data = { firstName: response.firstName, }
-                            var markup = Mustache.render(template, data);
-                            $('div.user-profile.pull-right').html(markup);
-                            $.smkAlert({text: response.message + '!', type:'success', time: 3, marginTop: '80px'});
+                            $.smkAlert({text: 'You have sucessfully registered an account using ' + _email + '! Please check your email for your temp password', type:'success', time: 3, marginTop: '80px'});
 
                             $popup.remove();
                             ub.status.quickRegistrationPopup = false;

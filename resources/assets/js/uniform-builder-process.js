@@ -2271,7 +2271,34 @@ $(document).ready(function() {
 
     ///// Save Design //////
 
-         ub.funcs.updatePopup = function () {
+        ub.funcs.checkEmailPopup = function () {
+
+            var _designName = $('input.design-name').val();
+            $('div.save-design').fadeOut();
+            
+            var template = $('#m-save-design-guest').html();
+            var data = { title: 'Save Design', designName: _designName };
+            var markup = Mustache.render(template, data);
+
+            var dialog = bootbox.dialog({
+                title: 'Success!',
+                message: markup,
+            });
+
+            dialog.init(function() {
+
+                $('button.close').unbind('click');
+                $('button.close').on('click', function () {
+                   
+                    dialog.modal('hide');
+
+                });
+
+            });
+            
+        }    
+
+        ub.funcs.updatePopup = function () {
 
             var _designName = $('input.design-name').val();
             $('div.save-design').fadeOut();
@@ -2409,7 +2436,11 @@ $(document).ready(function() {
                     
                     if (response.success) {
 
-                        ub.funcs.updatePopup();
+                        if (typeof window.ub.user.type !== "undefined") {
+                            ub.funcs.checkEmailPopup();
+                        } else {
+                            ub.funcs.updatePopup();    
+                        }
 
                         var is_add_to_team_store = false;
                         if (typeof($('#is_add_to_team_store').val()) == "undefined") {
