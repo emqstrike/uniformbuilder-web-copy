@@ -1006,6 +1006,7 @@ $(document).ready(function() {
                     roster: _transformedRoster,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
+                    application_type: _type, 
                     additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
 
@@ -1225,9 +1226,11 @@ $(document).ready(function() {
                     material_id: ub.current_material.material.id,
                     url: ub.config.host + window.document.location.pathname,
                     price: ub.funcs.getPrice(ub.current_material.material),
-                    applicationType: _type,
+                    applicationType: _type, //TODO: Deprecate this field
+                    application_type: _type, 
                     additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
+
                 },
             ]
         };        
