@@ -5903,11 +5903,22 @@ $(document).ready(function () {
 
                 if (view === 'save') {
 
-                    if (typeof (window.ub.user.id) === "undefined") {
-                        ub.funcs.quickRegistration("save");
-                    } else {
-                        ub.funcs.initSaveDesign();    
-                    }
+                    var _msg = "Are you sure you want to save this design?";
+
+                    bootbox.confirm(_msg, function (result) { 
+                    
+                        if (result) {
+
+                            if (typeof (window.ub.user.id) === "undefined") {
+                                ub.funcs.quickRegistration("save");
+                            } else {
+                                ub.funcs.initSaveDesign();    
+                            }
+
+                        }
+
+
+                    });
 
                     return;
 
