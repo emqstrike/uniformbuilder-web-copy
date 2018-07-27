@@ -3,52 +3,72 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 <style type="text/css">
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 27.2px;
+    }
+    .switch input {display:none;}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20.08px;
+      width: 20.08px;
+      left: 3.2px;
+      bottom: 3.2px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #39d2b4;
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px #77dd77;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(20.08px);
+      -ms-transform: translateX(20.08px);
+      transform: translateX(20.08px);
+    }
 
-.switch input {display:none;}
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #77dd77;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #77dd77;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
+    .file {
+      position: relative;
+    }
+    .file label {
+      background: #39D2B4;
+      padding: 5px 20px;
+      color: #fff;
+      font-weight: bold;
+      font-size: .9em;
+      transition: all .4s;
+    }
+    .file input {
+      position: absolute;
+      display: inline-block;
+      left: 0;
+      top: 0;
+      opacity: 0.01;
+      cursor: pointer;
+    }
+    .file input:hover + label,
+    .file input:focus + label {
+      background: #34495E;
+      color: #39D2B4;
+    }
 
 </style>
 @endsection
@@ -62,10 +82,15 @@ input:checked + .slider:before {
                 <div class="box-header">
                     @section('page-title', 'Mascots')
                     <h1>
-                        <span class="fa fa-image"></span>
+                        <span class="fa fa-futbol-o"></span>
                         Mascots
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
+                    <hr>
+                    Uniform Category:
+                    <select class="active-sport">
+                        <option value="{{ $active_sport }}">{{ $active_sport }}</option>
+                    </select>
                 </div>
                 <div class="box-body">
                     <table class='data-table table display table-bordered'>
@@ -74,10 +99,12 @@ input:checked + .slider:before {
                             <th>ID</th>
                             <th>Name</th>
                             <th>Code</th>
-                            <th id="select-filter">Sports</th>
+                            <th id="select-filter">Category</th>
+                            <th>Sports</th>
                             <th>Icon</th>
                             <th>Typhographic</th>
-                            <th>Brand</th>
+                            <th id="select-filter">Brand</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -92,6 +119,9 @@ input:checked + .slider:before {
                             </td>
                             <td class="col-md-1">
                                 {{ $mascot->code }}
+                            </td>
+                            <td class="col-md-2">
+                                {{ $mascot->category }}
                             </td>
                             <td class="col-md-2">
                                 {{ $mascot->sports }}
@@ -110,15 +140,10 @@ input:checked + .slider:before {
                                       <input type="checkbox">
                                       <span class="slider"></span>
                                     </label>
-                      <!--               <label class="onoffswitch-label" for="switch-typographic-{{ $mascot->id }}">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label> -->
                                 </div>
                             </td>
                             <td>
                                 {{ $mascot->brand }}
-                            </td>
                             </td>
                             <td class="col-md-2">
                                 <a href="#" class="btn btn-default btn-xs btn-flat disable-mascot" data-mascot-id="{{ $mascot->id }}" role="button" {{ ($mascot->active) ? : 'disabled="disabled"' }}>
@@ -129,16 +154,12 @@ input:checked + .slider:before {
                                     <i class="glyphicon glyphicon-eye-open"></i>
                                     Enable
                                 </a>
-
+                            </td>
+                            <td class="col-md-2">
                                 <a href="#" class="btn btn-primary btn-xs btn-flat edit-button" data-mascot-id="{{ $mascot->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
-                                <a href="#" class="btn btn-default btn-xs btn-flat save-button" data-mascot-id="{{ $mascot->id }}" role="button" disabled="true">
-                                    <i class="glyphicon glyphicon-floppy-save"></i>
-                                    Save
-                                </a>
-
                                 <a href="#" class="btn btn-danger btn-xs btn-flat delete-mascot" data-mascot-id="{{ $mascot->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
@@ -147,15 +168,27 @@ input:checked + .slider:before {
                         </tr>
 
                     @empty
-
                         <tr>
                             <td colspan='9'>
                                 No Mascots
                             </td>
                         </tr>
-
                     @endforelse
                     </tbody>
+                    <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -171,6 +204,91 @@ input:checked + .slider:before {
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
+    window.sports = null;
+    window.mascot_categories = null;
+
+    getSports(function(sports){ window.sports = sports; });
+    getMascotCategories(function(categories){ window.mascot_categories = categories; });
+
+    function getSports(callback){
+        var sports;
+        var url = "//" + api_host + "/api/categories";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                sports = data['categories'];
+                if(typeof callback === "function") callback(sports);
+            }
+        });
+    }
+
+    function getMascotCategories(callback){
+        var categories;
+        var url = "//" + api_host + "/api/mascot_categories";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                categories = data['mascots_categories'];
+                if(typeof callback === "function") callback(categories);
+            }
+        });
+    }
+
+    loadMascotCategories();
+    loadUniformCategories();
+
+    window.active_sport = $('.active-sport').val();
+    sports = _.filter(window.sports, function(e){
+        return window.active_sport !== e.name;
+    });
+
+    sports_sorted = _.sortBy(sports, function(o) { return o.name; });
+
+    var elem = '';
+    if(window.active_sport != 'All') {
+        elem += '<option value="All">All</option>';
+    }
+
+    sports_sorted.forEach(function(entry) {
+        elem += '<option value="'+entry.name+'">'+entry.name+'</option>';
+    });
+    $('.active-sport').append(elem);
+
+    $(document).on('change', '.active-sport', function() {
+        window.location = "/administration/v1-0/mascots/"+$(this).val();
+    });
+
+    function loadUniformCategories() {
+        var category_elem = '<option value="All">All</option>';
+        sorted_category = _.sortBy(window.sports, function (s) { return s.name });
+
+        _.each(sorted_category, function(category) {
+            category_elem += `<option value=` + category.name + `>` + category.name + `</option>`;
+        });
+        $('.input-uniform-category').append(category_elem);
+    }
+
+    function loadMascotCategories() {
+        var mcategory_elem = '';
+        sorted_mcategory = _.sortBy(window.mascot_categories, function (m) { return m.name });
+
+        _.each(sorted_mcategory, function(category) {
+            mcategory_elem += `<option value=` + category.name + `>` + category.name + `</option>`;
+        });
+        $('.input-mascot-category').append(mcategory_elem);
+    }
+
 
     $(document).on('click', '.edit-button', function(e) {
         e.preventDefault();
@@ -200,71 +318,30 @@ $(document).ready(function(){
         }
     });
 
-    $(document).on('click', '.save-button', function() {
-        var id = $(this).data('color-id');
-        var name = $(this).parent().siblings('td').find('.color-name').val();
-        var color_code = $(this).parent().siblings('td').find('#color-code-text').val();
-        var hex_code = $(this).parent().siblings('td').find('#hex-code').val();
-        hex_code = hex_code.replace(/#/g, '');
-        var sublimation_only = $(this).parent().siblings('td').find('.sublimation-only').val();
-        var master_color_id = $(this).parent().siblings('td').find('.master-color').val();
-        var brand_id = $(this).parent().siblings('td').find('.brand-id').val();
-        var data = {
-            "id" : id,
-            "name" : name,
-            "color_code" : color_code,
-            "hex_code" : hex_code,
-            "sublimation_only" : sublimation_only,
-            "master_color_id" : master_color_id,
-            "brand_id" : brand_id
-        };
-        if(!$(this).attr('disabled')) {
-            updateColor(data);
-        }
-    });
-
-    function updateColor(data) {
-        var url = "//" + api_host + "/api/color/update";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify(data),
-            headers: {"accessToken": atob(headerValue)},
-            contentType: 'application/json;',
-            success: function (data) {
-                if(data.success){
-                    window.location.reload();
-                    new PNotify({
-                        title: 'Success',
-                        text: data.message,
-                        type: 'success',
-                        hide: true
-                    });
-                } else {
-                    new PNotify({
-                        title: 'Error',
-                        text: data.message,
-                        type: 'error',
-                        hide: true
-                    });
-                }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                //Error Code Here
-            }
-        });
-    }
-
     $("#myForm").submit(function(e) {
         e.preventDefault();
         var data = {};
-        data.color_code = $('.input-color-code').val();
-        data.name = $('.input-color-name').val();
-        var hex_code = $('#create-hex-code').val();
-        data.hex_code = hex_code.replace(/#/g, '');
-        data.brand_id = $('.input-brand-id').val();
+        data.name = $('.input-mascot-name').val();
+        data.code = $('.input-mascot-code').val();
+        data.category = $('.input-mascot-category').val();
+        data.sports = $('.input-uniform-category').val();
+        data.icon = $('.input-icon').val();
+        data.ai_file = $('.input-ai-file').val();
+        data.brand = $('.input-brand').val();
         data.master_color_id = $('.input-master-color').val();
-        addColor(data);
+
+        if(window.modal_action == 'add'){
+        var url = "//" + api_host + "/api/mascot";
+        console.log(url);
+        console.log(data);
+            // addUpdateRecord(data, url);
+        } else if(window.modal_action == 'update'){
+            data.id =  $('.input-id').val();
+            var url = "//" + api_host + "/api/mascot/update";
+            console.log(url);
+            console.log(data);
+            // addUpdateRecord(data, url);
+        }
         $('.submit-new-record').attr('disabled', 'true');
     });
 
@@ -288,7 +365,7 @@ $(document).ready(function(){
         $('.submit-new-record').removeAttr('disabled');
     });
 
-    function addColor(data) {
+    function addUpdateRecord(data) {
         var url = "//" + api_host + "/api/color";
         $.ajax({
             url: url,
@@ -410,7 +487,27 @@ $(document).ready(function(){
         "searching": true,
         "ordering": false,
         "info": true,
-        "autoWidth": false
+        "autoWidth": false,
+        initComplete: function () {
+        this.api().columns('#select-filter').every( function () {
+            var column = this;
+            var select = $(`<select><option value=""></option></select>`)
+                .appendTo( $(column.footer()).empty() )
+                .on( 'change', function () {
+                    var val = $.fn.dataTable.util.escapeRegex(
+                        $(this).val()
+                    );
+
+                    column
+                    .search( val ? '^'+val+'$' : '', true, false )
+                        .draw();
+                } );
+            column.data().unique().sort().each( function ( d, j ) {
+
+                select.append( `<option value="`+d+`">`+d+`</option>` );
+            } );
+        } );
+    }
     });
 });
 </script>

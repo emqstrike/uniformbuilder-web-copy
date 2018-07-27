@@ -151,16 +151,21 @@ class MasterPagesController extends Controller
         }
     }
 
-    public function mascotsIndex()
+    public function mascotsIndex($active_sport = null)
     {
-        $mascots = $this->mascotsAPIClient->getMascots();
+        if($active_sport == null) {
+            $active_sport = "All";
+        }
+
+        $mascots = $this->mascotsAPIClient->getMascotBySport($active_sport);
 
         $user_id = Session::get('userId');
         $superusers = env('BACKEND_SUPERUSERS');
         $su_array = explode(',', $superusers);
         if (in_array($user_id, $su_array)) {
             return view('administration-lte-2.mascots.mascots', [
-                'mascots' => $mascots
+                'mascots' => $mascots,
+                'active_sport' => $active_sport
                 ]);
         }
         else {

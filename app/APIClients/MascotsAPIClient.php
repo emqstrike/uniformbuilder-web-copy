@@ -96,4 +96,15 @@ class MascotsAPIClient extends APIClient
 
         return $this->decoder->decode($response->getBody());
     }
+
+    public function getMascotBySport($active_sport)
+    {
+        $response = $this->get('mascots/sport/'.$active_sport);
+        $result = $this->decoder->decode($response->getBody());
+        if ($result->success)
+        {
+            return $result->mascots;
+        }
+        return null;
+    }
 }
