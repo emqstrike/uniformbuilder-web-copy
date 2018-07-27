@@ -18,6 +18,7 @@ $(document).ready(function () {
         ub.utilities.info('');
         ub.utilities.info('----- Base Uniform Info -----');
         ub.utilities.info('ID: ' + material.id);
+        ub.utilities.info('Item ID: ' + material.item_id);
         ub.utilities.info('Uniform: ' + material.name);
         ub.utilities.info('Neck Option: ' + material.neck_option);
         ub.utilities.info('Block Pattern ID: ' + material.block_pattern_id);
