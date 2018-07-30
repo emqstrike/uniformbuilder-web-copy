@@ -5903,11 +5903,22 @@ $(document).ready(function () {
 
                 if (view === 'save') {
 
-                    if (typeof (window.ub.user.id) === "undefined") {
-                        ub.funcs.quickRegistration("save");
-                    } else {
-                        ub.funcs.initSaveDesign();    
-                    }
+                    var _msg = "Are you sure you want to save this design?";
+
+                    bootbox.confirm(_msg, function (result) { 
+                    
+                        if (result) {
+
+                            if (typeof (window.ub.user.id) === "undefined") {
+                                ub.funcs.quickRegistration("save");
+                            } else {
+                                ub.funcs.initSaveDesign();    
+                            }
+
+                        }
+
+
+                    });
 
                     return;
 
@@ -7170,7 +7181,7 @@ $(document).ready(function () {
             var itemsWOUpper = items;
             var _options = [];
 
-            if (gender === "Football") {
+            if (gender === "Football" || gender === "Football 2017") {
 
                 itemsWOUpper = _.filter(items, {type: 'lower'});
                 _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    

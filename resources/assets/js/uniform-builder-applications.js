@@ -6485,7 +6485,7 @@ $(document).ready(function() {
         var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
 
 
-        if (ub.current_material.material.uniform_category === "Football") {
+        if (ub.funcs.isCurrentSport('Football')) {
 
             if (_id === '2' && _applicationType === 'mascot') {
                 _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
@@ -6499,7 +6499,7 @@ $(document).ready(function() {
 
             _sizes = ub.funcs.getApplicationSizes('mascot_wrestling');
 
-        } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
+        } else if (!ub.funcs.isCurrentSport('Football') && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
             
             if (ub.funcs.isCurrentType('upper')) {
                 
@@ -6534,7 +6534,7 @@ $(document).ready(function() {
             console.log('Application #: ');
             console.log(_id);
 
-            if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") { 
+            if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") {
 
                 console.log(_sizesFromConfig);
                 console.log(_sizesFromConfig.sizes);
