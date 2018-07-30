@@ -395,10 +395,12 @@ $(document).ready(function () {
     ub.funcs.updateTextPatternPanel = function (patternObj) {
 
         var _patternObj = patternObj;
-        var _thumbnail = '/images/patterns/Blank/1.png';
         var _name = 'Blank';
         var _templateStr = '';
         var _colorContainer = '';
+
+        var blankPattern = _.find(ub.data.patterns.items, {name: _name});
+        var _thumbnail = blankPattern.icon;
 
         if (typeof _patternObj !== "undefined") {
 
@@ -912,7 +914,11 @@ $(document).ready(function () {
             var _color          = "#" + util.padHex((_defaultColor).toString(16),6);
             var _localName      = "/images/patterns/" + _patternName + "/" + _layer_no + ".png";
 
-            fabric.Image.fromURL(_localName, function (oImg) {
+            var patternName     = _.find(ub.data.patterns.items, {name:_patternName});
+            var thumbnailLayer  = _.find(patternName.thumbnailLayers, {layer_no: _layer_no});
+            var loadedImage     = (typeof thumbnailLayer === 'undefined') ? _localName : thumbnailLayer.filename;
+
+            fabric.Image.fromURL(loadedImage, function (oImg) {
                 
                 ub.data.previewContainer[_layer_no] = oImg;
 
@@ -950,7 +956,7 @@ $(document).ready(function () {
 
                 });
 
-           });
+           }, { crossOrigin: 'anonymous' });
 
         });
 
