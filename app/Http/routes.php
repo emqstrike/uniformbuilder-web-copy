@@ -10,7 +10,6 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
 Route::get('/', function () {
     return redirect('/index');
 });
@@ -524,6 +523,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::group(['prefix' => 'master_pages' ], function() {
         Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'Administration\MasterFontsController@index']);
     });
+
+    // Analytics
+    Route::get('analytics/{startDate?}/{endDate?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\AnalyticsController@index'])->name('analytics');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');
