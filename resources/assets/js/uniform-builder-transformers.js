@@ -72,8 +72,24 @@ $(document).ready(function () {
                 sports: JSON.parse(_object.sports),
                 blockPatternOptions: JSON.parse(_object.block_pattern_options),
                 layers: [],
+                thumbnailLayers: [],
                 asset_target: _object.asset_target,
             };
+
+            var thumbnailLayers = JSON.parse(_object.thumbnail_layers);
+
+            _.each(thumbnailLayers, function (thumbnailLayer) {
+
+                var layer = {
+
+                     layer_no: parseInt(thumbnailLayer.layer),
+                     filename: thumbnailLayer.file_path
+
+                };
+
+                _newObject.thumbnailLayers.push(layer);
+
+            });
 
             var _patternProperties = JSON.parse(_object.pattern_properties);
 

@@ -368,13 +368,7 @@ $(document).ready(function () {
 
         ub.funcs.prepareBottomTabs = function () {
 
-            if (typeof (window.ub.user.id) === "undefined") {
-                $('a.change-view[data-view="save"]').attr('title','You must be logged-in to use this feature');
-                $('a.change-view[data-view="open-design"]').attr('title','You must be logged-in to use this feature');
-            } else {
-                $('a.change-view[data-view="save"]').removeClass('disabled');
-                $('a.change-view[data-view="open-design"]').removeClass('disabled');
-            }
+            $('a.change-view[data-view="save"]').removeClass('disabled');
 
             if(ub.funcs.isCurrentSport('Baseball') || ub.funcs.isCurrentSport('Fastpitch')) {
                 $('a.change-view[data-view="pipings"]').removeClass('hidden');                                
@@ -5429,7 +5423,8 @@ $(document).ready(function () {
 
         }
 
-    ub.funcs.createQuickRegistrationPopup = function () {
+    // src = ['order' | 'save']
+    ub.funcs.createQuickRegistrationPopup = function (src) {
 
         if ($('div#primaryQuickRegistrationPopup').is(':visible')) { return; }
 
@@ -5500,7 +5495,7 @@ $(document).ready(function () {
                 var _e = $('input.quickRegistrationEmail').val();
                 var _p = $('input.quickRegistrationPassword').val();
 
-                ub.funcs.lRest(_e, _p, true);
+                ub.funcs.lRest(_e, _p, true, src);
 
             }
 
@@ -5536,12 +5531,20 @@ $(document).ready(function () {
                                 fullname: "New User",
                                 email: _email,
                                 headerValue: response.accessToken,
+                                type: "quickRegistration",
                             };
+
+                            $.smkAlert({text: 'You have sucessfully registered an account using ' + _email + '! Please check your email for your temp password', type:'success', time: 3, marginTop: '80px'});
 
                             $popup.remove();
                             ub.status.quickRegistrationPopup = false;
 
-                            ub.funcs.initRoster();
+                            if (src === "order") {
+                                ub.funcs.initRoster();
+                            } else if (src === "save") {
+                                ub.funcs.initSaveDesign();
+                            }
+                            
                             return true;
 
                         }
@@ -5645,9 +5648,9 @@ $(document).ready(function () {
 
     }
 
-    ub.funcs.quickRegistration = function () {
+    ub.funcs.quickRegistration = function (src) {
 
-        ub.funcs.createQuickRegistrationPopup();
+        ub.funcs.createQuickRegistrationPopup(src);
 
     }
 
@@ -5685,7 +5688,7 @@ $(document).ready(function () {
                 if (ub.data.afterLoadCalled === 0) { return; }
 
                 if (typeof (window.ub.user.id) === "undefined") {
-                    ub.funcs.quickRegistration();
+                    ub.funcs.quickRegistration("order");
                     return true;
                 }
 
@@ -5906,12 +5909,23 @@ $(document).ready(function () {
 
                 if (view === 'save') {
 
-                    if(typeof (window.ub.user.id) === "undefined") {
-                        alert('Only logged-in users can save their designs.')
-                        return;
-                    }
+                    var _msg = "Are you sure you want to save this design?";
 
-                    ub.funcs.initSaveDesign();
+                    bootbox.confirm(_msg, function (result) { 
+                    
+                        if (result) {
+
+                            if (typeof (window.ub.user.id) === "undefined") {
+                                ub.funcs.quickRegistration("save");
+                            } else {
+                                ub.funcs.initSaveDesign();    
+                            }
+
+                        }
+
+
+                    });
+
                     return;
 
                 }
@@ -7177,7 +7191,7 @@ $(document).ready(function () {
             var itemsWOUpper = items;
             var _options = [];
 
-            if (gender === "Football") {
+            if (gender === "Football" || gender === "Football 2017") {
 
                 itemsWOUpper = _.filter(items, {type: 'lower'});
                 _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
