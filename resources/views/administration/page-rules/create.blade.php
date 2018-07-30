@@ -25,6 +25,7 @@
                     <div class="box-header">
                         <h1>Add New Page Rule</h1>
                         @include('administration.partials.flash-message')
+                        @include('administration.partials.validation-error')
                     </div>
 
                     <div class="box-body">

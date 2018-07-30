@@ -8,6 +8,7 @@ use App\APIClients\PageRuleClient;
 use App\APIClients\RoleClient;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Requests\PageRuleRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -56,7 +57,7 @@ class PageRuleController extends Controller
         return view('administration.page-rules.create', compact('pages', 'brands'));
     }
 
-    public function store(Request $request)
+    public function store(PageRuleRequest $request)
     {
         $data = $request->all();
         $data['allowed_pages'] = json_encode($data['allowed_pages']);
@@ -92,7 +93,7 @@ class PageRuleController extends Controller
         return view('administration.page-rules.edit', compact('pageRule', 'pages', 'brands', 'allowedPages'));
     }
 
-    public function update(Request $request)
+    public function update(PageRuleRequest $request)
     {
         $data = $request->all();
         $data['allowed_pages'] = json_encode($data['allowed_pages']);
