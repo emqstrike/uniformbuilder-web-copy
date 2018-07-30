@@ -44,7 +44,7 @@ $(document).ready(function() {
                 return undefined; 
             };
 
-            var _sizesObject = _.first(ub.data.applicationSizes.configurations);
+            var _sizesObject = _.find(ub.data.applicationSizes.configurations, {uniform_application_type: ub.config.uniform_application_type});
             var _applicationTypes = _sizesObject.parsedProperties;
             var _applicationTypeResults = _.filter(_applicationTypes, {type: applicationType});
             var _locationResults = _.filter(_applicationTypeResults, function (applicationResult) {

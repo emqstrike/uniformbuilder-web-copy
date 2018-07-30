@@ -7181,7 +7181,7 @@ $(document).ready(function () {
             var itemsWOUpper = items;
             var _options = [];
 
-            if (gender === "Football") {
+            if (gender === "Football" || gender === "Football 2017") {
 
                 itemsWOUpper = _.filter(items, {type: 'lower'});
                 _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    
