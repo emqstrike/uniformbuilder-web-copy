@@ -8,16 +8,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Uniform Category</div>
                 <div class="panel-body">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @include('administration.partials.validation-error')
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/category/add" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -106,12 +97,7 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Youth Thumbnail File</label>
-                            <div class="col-md-6">
-                                <input type="file" class="form-control youth-thumbnail-file" name="thumbnail_youth" accept="image/*">
-                            </div>
+                        
                          <div class="form-group">
                             <label class="col-md-4 control-label">Sizes</label>
                             <div class="col-md-4 Sizes">

@@ -116,13 +116,15 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('/account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings'])->name('v1_edit_user');
             Route::post('/account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName'])->name('v1_updated_user');
 
+
             Route::get('ordersMinified', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified'])->name('v1_orders_minified');
 
             Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestIndex'])->name('v1_style_requests');
             Route::get('style_request/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestAdd'])->name('v1_add_style_requests');
+
+            Route::get('/users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength'])->name('v1_password_strength');
+            Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
         });
-        
-        Route::get('/users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength'])->name('v1_password_strength');
     });
 
     // Logins
