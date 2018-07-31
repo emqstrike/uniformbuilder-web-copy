@@ -18,9 +18,9 @@
             var url = "";
 
             if (type == 'administrator') {
-               url = "//{{ env('APP_URL') }}/administration/roles/get_available_admin_roles_in_page_rules";
+               url = "{{ env('APP_URL') }}/administration/roles/get_available_admin_roles_in_page_rules";
             } else if (type == 'normal') {
-                url = "//{{ env('APP_URL') }}/administration/roles/get_available_normal_roles_in_page_rules";
+                url = "{{ env('APP_URL') }}/administration/roles/get_available_normal_roles_in_page_rules";
             }
 
             $.get(url, function(data, status) {
