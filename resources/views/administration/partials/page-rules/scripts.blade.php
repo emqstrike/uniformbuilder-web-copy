@@ -18,17 +18,9 @@
             var url = "";
 
             if (type == 'administrator') {
-                @if (\Request::isSecure())
-                    url = "{{ secure_url(URL::route('get_available_admin_roles_in_page_rules', [], false)) }}"
-                @else
-                    url = "{{ route('get_available_admin_roles_in_page_rules') }}";
-                @endif
+               url = "//{{ env('API_HOST') }}/administration/roles/get_available_admin_roles_in_page_rules";
             } else if (type == 'normal') {
-                @if (\Request::isSecure())
-                    url = "{{ secure_url(URL::route('get_available_normal_roles_in_page_rules', [], false)) }}"
-                @else
-                    url = "{{ route('get_available_normal_roles_in_page_rules') }}";
-                @endif
+                url = "//{{ env('API_HOST') }}/administration/roles/get_available_normal_roles_in_page_rules";
             }
 
             $.get(url, function(data, status) {
