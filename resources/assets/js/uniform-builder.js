@@ -620,6 +620,10 @@ $(document).ready(function () {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
             }
 
+            if (ub.config.useAllColors) {
+                ub.funcs.addAllColorToTeamColors();
+            }
+
         };
 
         ub.funcs.updateLabels = function () {
@@ -2746,6 +2750,8 @@ $(document).ready(function () {
             ub.funcs.activateLeftView();
 
         }
+
+        // use all color if config value is set
 
     };
 

@@ -3727,9 +3727,11 @@ $(document).ready(function() {
                     return;     
                 }
 
-                if(_sizeOfTeamColors > 8){
-                    ub.startModal(2);
-                    return;     
+                if (!ub.config.useAllColors) {
+                    if(_sizeOfTeamColors > 8){
+                        ub.startModal(2);
+                        return;     
+                    }
                 }
                 
             }
@@ -4276,9 +4278,11 @@ $(document).ready(function() {
 
         var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
  
-        if (_sizeOfTeamColors > 8) {
-            ub.startModal();
-            return; 
+        if (!ub.config.useAllColors) {
+            if (_sizeOfTeamColors > 8) {
+                ub.startModal();
+                return; 
+            }
         }
 
         // if ($('div#cw').html().length === 0) {
@@ -8047,11 +8051,13 @@ $(document).ready(function() {
                 ok = false;;     
             }
 
-            if(_sizeOfTeamColors > 8){
-                ub.startModal(2);
-                ok = false;     
+            if (!ub.config.useAllColors) {
+                if(_sizeOfTeamColors > 8){
+                    ub.startModal(2);
+                    ok = false;     
+                }
             }
-            
+    
         }
 
         return ok;
