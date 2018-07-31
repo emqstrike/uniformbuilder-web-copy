@@ -19,6 +19,11 @@ $(document).ready(function(){
 
     };
 
+    // Primarily used for other brands, so we can use all colors
+    // without breaking the team color setup used for a number of features 
+
+    ub.config.useAllColors = false;
+
     // Feature Flag Mapping
     ub.config.features = {
 
