@@ -15,11 +15,20 @@
 
             $('#role').prop('disabled', true);
 
+            var url = "";
+
             if (type == 'administrator') {
-                var url = "{{ route('get_available_admin_roles_in_page_rules') }}";
-                console.log("{{ route('get_available_admin_roles_in_page_rules') }}");
+                @if (\Request::isSecure())
+                    url = "{{ secure_url(URL::route('get_available_admin_roles_in_page_rules', [], false)) }}"
+                @else
+                    url = "{{ route('get_available_admin_roles_in_page_rules') }}";
+                @endif
             } else if (type == 'normal') {
-                var url = "{{ route('get_available_normal_roles_in_page_rules') }}";
+                @if (\Request::isSecure())
+                    url = "{{ secure_url(URL::route('get_available_normal_roles_in_page_rules', [], false)) }}"
+                @else
+                    url = "{{ route('get_available_normal_roles_in_page_rules') }}";
+                @endif
             }
 
             $.get(url, function(data, status) {
