@@ -17,6 +17,7 @@
 
             if (type == 'administrator') {
                 var url = "{{ route('get_available_admin_roles_in_page_rules') }}";
+                console.log("{{ route('get_available_admin_roles_in_page_rules') }}");
             } else if (type == 'normal') {
                 var url = "{{ route('get_available_normal_roles_in_page_rules') }}";
             }
