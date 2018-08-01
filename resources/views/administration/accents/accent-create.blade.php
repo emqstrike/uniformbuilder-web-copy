@@ -80,6 +80,10 @@
                                  <input type="text"  value="Default Name" class="form-control inputText" id="fName" name="name" placeholder="">
                             </fieldset>
                             <fieldset class="form-group">
+                                <label for="formGroupExampleInput">Alias : </label>
+                                 <input type="text" class="form-control" id="fAlias" name="alias" placeholder="">
+                            </fieldset>
+                            <fieldset class="form-group">
                                 <label for="formGroupExampleInput">Code : </label>
                                  <input type="text" value="default_name" name="code" class="form-control" id="fCode" placeholder="">
                             </fieldset>
