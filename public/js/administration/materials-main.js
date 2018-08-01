@@ -41,7 +41,7 @@ $(document).ready(function() {
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
         var sports;
-        var url = "//api-dev.qstrike.com/api/categories";
+        var url = "//" + api_host + "/api/categories";
         $.ajax({
             url: url,
             async: false,
@@ -151,7 +151,7 @@ $(document).ready(function() {
                         hide: true
                     });
                     console.log('toggle success');
-             
+
                  window.location.reload(true);
                 } else {
                     console.log('toggle fail');
@@ -228,44 +228,6 @@ $(document).ready(function() {
         }
     });
 
-    $('.duplicate-material').on('click', function(){
-        var id = $(this).data('material-id');
-        var name = $(this).data('material-name');
-        modalConfirm(
-            'Duplicate Material',
-            'Are you sure you want to duplicate the Material: '+ name +'?',
-            id,
-            'confirm-yes',
-            'confirmation-modal-duplicate-material'
-        );
-    });
-
-    $('#confirmation-modal-duplicate-material .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/material/duplicate/"+id;
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $('#confirmation-modal').modal('hide');
-                    window.location.reload(true);
-                }
-            }
-        });
-    });
-
     $(document).on('click', '#filtersCategory button', function() {
         $("#filters button[data-category]").hide().removeClass("btn-primary");
         $("#filters button:first-child").addClass("btn-primary");
@@ -285,7 +247,7 @@ $(document).ready(function() {
 
         if(sports_selected != ""){
         $("#block-patterns-filter select option").hide();
-            $.each(materials_data, function(i, item){         
+            $.each(materials_data, function(i, item){
                 if(sports_selected == item.uniform_category){
                     $('#block-patterns-filter select option[value="' + item.block_pattern + '"]').show();
                      $('#block-patterns-filter select option[value=""]').show();
@@ -293,40 +255,40 @@ $(document).ready(function() {
                 }
             });
             $("#necks-filter select option").hide();
-            $.each(materials_data, function(i, item){         
+            $.each(materials_data, function(i, item){
                 if(sports_selected == item.uniform_category){
                     console.log(sports_selected);
                     console.log(item.uniform_category);
                     console.log(item.neck_option);
                     $('#necks-filter select option[value="' + item.neck_option + '"]').show();
                     $('#necks-filter select option[value=""]').show();
-                }               
+                }
             });
         }else{
             $("#block-patterns-filter select option").show();
-        }   
+        }
 
 
     });
 
     $(document).on('change','#block-patterns-filter',function(){
-           
+
         var block_patterns_selected = $(this).find("option:selected").val();
         var materials_data = $("#materials-data").val();
         materials_data = JSON.parse(materials_data);
-        
+
         if(block_patterns_selected != ""){
         $("#necks-filter select option").hide();
-            $.each(materials_data, function(i, item){         
+            $.each(materials_data, function(i, item){
                 if(block_patterns_selected == item.block_pattern){
-                
+
                     $('#necks-filter select option[value="' + item.neck_option + '"]').show();
                     $('#necks-filter select option[value=""]').show();
-                }               
+                }
             });
         }else{
             $("#necks-filter select option").show();
-        }               
+        }
     });
 
 

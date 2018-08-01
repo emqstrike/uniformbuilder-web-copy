@@ -934,10 +934,7 @@ $(document).ready(function() {
             _user_id = 0;
         }
 
-        var _type = '';
-        
-        _type = ub.config.uniform_application_type.toTitleCase(); 
-
+        var _type = ub.config.uniform_application_type.toTitleCase(); 
         var _submitted = '1';
 
         if (typeof save === "number") {
@@ -955,6 +952,7 @@ $(document).ready(function() {
                 user_id: _user_id,
                 user_name: ub.user.fullname,
                 origin: ub.config.app_env,
+                test_order: ub.funcs.submitAsTestOrder(),
 
             },
             athletic_director: {
@@ -995,6 +993,7 @@ $(document).ready(function() {
             order_items: [
                 {
 
+                    brand: ub.current_material.material.brand,
                     item_id: _itemID,
                     description: _uniformName,
                     type: ub.current_material.material.type,
@@ -1005,6 +1004,7 @@ $(document).ready(function() {
                     roster: _transformedRoster,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
+                    application_type: ub.config.uniform_application_type, 
                     additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
 
@@ -1093,6 +1093,10 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.submitAsTestOrder = function () {
+        return ub.config.features.isOn('uniforms','testOrders') ? 1 : 0;
+    };
+
     // This is a dublicate of the Submit Order Form, refactor this
     ub.funcs.prepareData = function () {
 
@@ -1175,6 +1179,7 @@ $(document).ready(function() {
                 material_id: ub.current_material.material.id,
                 url: ub.config.host + window.document.location.pathname,
                 user_name: ub.user.fullname,
+                test_order: ub.funcs.submitAsTestOrder(),
             },
             athletic_director: {
 
@@ -1211,6 +1216,7 @@ $(document).ready(function() {
             },
             order_items: [
                 {
+                    brand: ub.current_material.material.brand,
                     item_id: _itemID,
                     type: ub.current_material.material.type,
                     description: _uniformName,
@@ -1224,8 +1230,10 @@ $(document).ready(function() {
                     url: ub.config.host + window.document.location.pathname,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
+                    application_type: ub.config.uniform_application_type, 
                     additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
+
                 },
             ]
         };        
@@ -2269,7 +2277,34 @@ $(document).ready(function() {
 
     ///// Save Design //////
 
-         ub.funcs.updatePopup = function () {
+        ub.funcs.checkEmailPopup = function () {
+
+            var _designName = $('input.design-name').val();
+            $('div.save-design').fadeOut();
+            
+            var template = $('#m-save-design-guest').html();
+            var data = { title: 'Save Design', designName: _designName };
+            var markup = Mustache.render(template, data);
+
+            var dialog = bootbox.dialog({
+                title: 'Success!',
+                message: markup,
+            });
+
+            dialog.init(function() {
+
+                $('button.close').unbind('click');
+                $('button.close').on('click', function () {
+                   
+                    dialog.modal('hide');
+
+                });
+
+            });
+            
+        }    
+
+        ub.funcs.updatePopup = function () {
 
             var _designName = $('input.design-name').val();
             $('div.save-design').fadeOut();
@@ -2407,7 +2442,11 @@ $(document).ready(function() {
                     
                     if (response.success) {
 
-                        ub.funcs.updatePopup();
+                        if (typeof window.ub.user.type !== "undefined") {
+                            ub.funcs.checkEmailPopup();
+                        } else {
+                            ub.funcs.updatePopup();    
+                        }
 
                         var is_add_to_team_store = false;
                         if (typeof($('#is_add_to_team_store').val()) == "undefined") {
@@ -2621,7 +2660,7 @@ $(document).ready(function() {
 
     /// LREST
 
-    ub.funcs.lRest = function (e, p, fromMiddleScreen) {
+    ub.funcs.lRest = function (e, p, fromMiddleScreen, src) {
 
         if (e.trim().length === 0 || p.trim().length === 0) { return; }
 
@@ -2671,23 +2710,24 @@ $(document).ready(function() {
                     $('a.change-view[data-view="save"]').removeClass('disabled');
                     $('a.change-view[data-view="open-design"]').removeClass('disabled');
 
-                    if (typeof fromMiddleScreen !== 'undefined') {
+                    if (typeof fromMiddleScreen !== 'undefined') { // from order btn clicked or save button
 
                         $('div#primaryQuickRegistrationPopup').remove();
-                        ub.funcs.initRoster();
+
+                        if (src === "order") {
+                            ub.funcs.initRoster();
+                        } else if (src === "save") {
+                            ub.funcs.initSaveDesign();
+                        }
 
                     } else {
 
                         // Return to pickers, if not editing any material
                         if(typeof ub.current_material.material === "undefined") {
-
                             window.location.href = "/";
-
                         } else { 
-
                             ub.funcs.ok();
                             ub.funcs.checkDefaultRepID();
-
                         }
 
                     }
@@ -2698,14 +2738,10 @@ $(document).ready(function() {
                 } else {
 
                     if (typeof fromMiddleScreen !== 'undefined') {
-                        
                         var _forgotPasswordLink = ' <a href="/forgot-password" target="_new">did you forget your password?</a>';
                         $('em.message').html(response.message + ", " + _forgotPasswordLink);
-
                     } else {
-
                         $.smkAlert({text: response.message, type: 'warning', time: 3, marginTop: '260px'});
-
                     }
 
                 }

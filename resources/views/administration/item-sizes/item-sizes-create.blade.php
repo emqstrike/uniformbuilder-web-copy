@@ -1,7 +1,7 @@
 @extends('administration.lte-main')
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">    
+    <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 @endsection
 
 @section('content')
@@ -34,7 +34,7 @@
                        <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">
-                                <select class="form-control sport" name="sport">
+                                <select class="form-control sport" name="sport" required>
                                     <option value="">None</option>
                                     @foreach ($sports as $sport)
                                         @if ($sport->active)
@@ -48,7 +48,7 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-6">
-                                <textarea name="description" class="form-control autosized"></textarea>
+                                <textarea name="description" class="form-control autosized" required></textarea>
                             </div>
                         </div>
 
@@ -73,7 +73,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input class="form-control qx-item-id" type="text" name="qx_item_id" id="qx-item-id">
+                                                <input class="form-control qx-item-id" type="number" name="qx_item_id" id="qx-item-id" required>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -116,7 +116,7 @@ $(document).ready(function(){
     $('.autosized').autosize({append: "\n"});
     initSizes();
 
-    var defaultElem = $( ".prop-row" ).clone();    
+    var defaultElem = $( ".prop-row" ).clone();
 
     $('.add-property').on('click', function(e){
         e.preventDefault();
@@ -125,7 +125,7 @@ $(document).ready(function(){
 
         $('.property-body').append(x);
         $(x).append(y);
-        deleteButton();      
+        deleteButton();
         updateProperties();
     });
 
@@ -152,12 +152,12 @@ $(document).ready(function(){
                 "qx_item_id" : $(this).find('#qx-item-id').val()
             };
             data.push(temp);
-            
+
         });
         console.log(JSON.stringify(data));
-        $('#size_property').val(JSON.stringify(data));        
+        $('#size_property').val(JSON.stringify(data));
     }
-  
+
     $("#item-size-form").on("change", "#size", function(e){
          updateProperties();
     });

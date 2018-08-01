@@ -16,6 +16,8 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Fabrics Master List')
+
                     <h1>
                         Fabrics Master List
                     </h1>
@@ -80,12 +82,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-
-
 window.delete_data_html = null;
 window.modal_action = null;
-
-
 
 $('.data-table').DataTable({
     "paging": true,
@@ -96,13 +94,10 @@ $('.data-table').DataTable({
     "autoWidth": true,
 });
 
-
-
 x = _.pluck(JSON.parse($('#fabrics_list').text()), 'name');
 $.each(x,function(i,item){
     x[i] = item.toLowerCase();
 });
-
 
 $(document).on('keyup', '.input-name', function() {
     var name = $(this).val();
@@ -111,7 +106,7 @@ $(document).on('keyup', '.input-name', function() {
 
 function validateFabricName(name){
     if(x.indexOf(name) != -1)
-    {  
+    {
         console.log('name taken');
         PNotify.removeAll();
         new PNotify({
@@ -128,9 +123,7 @@ function validateFabricName(name){
     }
 }
 
-
-
-$('.submit-new-record').on('click', function(e){
+$("#myForm").submit(function(e) {
     e.preventDefault();
     var data = {};
     data.code = $('.input-code').val();
@@ -146,9 +139,12 @@ $('.submit-new-record').on('click', function(e){
         var url = "//" + api_host + "/api/" + endpoint_version + "/master_fabric/update";
         addUpdateRecord(data, url);
     }
+    $('.submit-new-record').attr('disabled', 'true');
 });
 
-
+    $("#myModal").on("hidden.bs.modal", function() {
+        $('.submit-new-record').removeAttr('disabled');
+    });
 
 $(document).on('click', '.add-record', function(e) {
     e.preventDefault();

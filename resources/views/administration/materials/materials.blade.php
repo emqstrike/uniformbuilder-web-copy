@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 <style>
-.table td, 
+.table td,
 .table th {
     white-space: nowrap;
     width: 1%;
@@ -25,14 +25,13 @@
 @endsection
 
 @section('content')
-
 <!-- Confirmation Modal -->
 <div class="modal confirmation-modal" @if (isset($confirmation_modal_id)) id="{{ $confirmation_modal_id }}" @else id="confirmation-modal" @endif aria-hidden="false">
-    <div class="modal-dialog"> 
-        <div class="modal-content"> 
-            <div class="modal-header"> 
-                <button type="button" class="close" data-dismiss="modal">×</button> 
-                <h4 class="modal-title">Title</h4> 
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Title</h4>
             </div>
             <div class="modal-body">Message</div>
             <div class="modal-footer">
@@ -87,13 +86,13 @@
                                 <th>Name</th>
                                 <th>Sport</th>
                                 <th>Block Pattern</th>
-                                <th>Neck</th>                                
+                                <th>Neck</th>
                                 <th>Type</th>
                                 <th>Gender</th>
                                 <th>Active</th>
                                 <th>Asset Target</th>
                                 <th>Blank</th>
-                                <th>Uniform Application Type</th>                               
+                                <th>Uniform Application Type</th>
                                {{--  <th>Customizer Available</th> --}}
                                 <th>Actions</th>
                                 <th>Price Item</th>
@@ -118,7 +117,7 @@
                 </td>
                 <td>
                     {{ $material->neck_option }}
-                </td>              
+                </td>
                 <td>
                     {{ $material->type }}
                 </td>
@@ -142,7 +141,7 @@
                 </td>
                 <td>
                     {{ $material->uniform_application_type }}
-                </td>             
+                </td>
                {{--  <td>
                     <div class="onoffswitch">
                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox customizer-available" id="customizer-available-{{ $material->id }}" data-material-id="{{ $material->id }}" {{ ($material->customizer_available) ? 'checked' : '' }}>
@@ -155,7 +154,7 @@
                 <td class="td-buttons">
                     <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-xs btn-primary">Edit</a>
                     <a href="/administration/material/view_material_options/{{ $material->id }}" class="btn btn-xs btn-default">Material Options</a>
-        <!--            <a href="#" class="btn btn-xs btn-primary toggle-material" data-material-id="{{ $material->id }}">Toggle</a>-->               
+        <!--            <a href="#" class="btn btn-xs btn-primary toggle-material" data-material-id="{{ $material->id }}">Toggle</a>-->
                     <a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-xs btn-default" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
@@ -221,7 +220,7 @@
 
 @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
 
-@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-duplicate-material'])
+<!-- @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-duplicate-material']) -->
 
 @endsection
 

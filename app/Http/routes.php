@@ -83,7 +83,7 @@ Route::get('getting_started', 'Help\HelpController@getting_started');
 });
 
 // Administration Routes
-Route::group(array('prefix' => 'administration'), function() {
+Route::group(array('prefix' => 'administration', 'middleware' => 'disablePreventBack'), function() {
 
     Route::group(array('prefix' => 'master_pages'), function() {
     });
@@ -119,7 +119,7 @@ Route::group(array('prefix' => 'administration'), function() {
         Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestIndex']);
         Route::get('style_request/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestAdd']);
 
-
+        Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
     });
 
     // Logins

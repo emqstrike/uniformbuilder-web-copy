@@ -8,16 +8,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Uniform Category</div>
                 <div class="panel-body">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @include('administration.partials.validation-error')
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/category/add" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -25,7 +16,34 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label">Uniform Category Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control color-name" name="name" value="{{ old('name') }}">
+                                <input type="name" class="form-control color-name" name="name" >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Uniform Category Code</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control category-code" name="code">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Type</label>
+                            <div class="col-md-6">
+                                <select class="form-control type" name="type">
+                                    <option value="sports">Sports</option>
+                                    <option value="apparel">Apparel</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Active Type</label>
+                            <div class="col-md-6">
+                                <select class="form-control active-type" name="active_type">
+                                    <option value="active">Active</option>
+                                    <option value="temp">Temporary</option>
+                                </select>
                             </div>
                         </div>
 
@@ -37,9 +55,29 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Is Male Thumbnail Active?</label>
+                            <div class="col-md-2">
+                                <select class="form-control active-male" name="active_male">
+                                    <option value="0">Inactive</option>
+                                    <option value="1">Active</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Female Thumbnail File</label>
                             <div class="col-md-6">
                                 <input type="file" class="form-control female-thumbnail-file" name="thumbnail_female" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Is Female Thumbnail Active?</label>
+                            <div class="col-md-2">
+                                <select class="form-control active-female" name="active_female">
+                                    <option value="0">Inactive</option>
+                                    <option value="1">Active</option>
+                                </select>
                             </div>
                         </div>
 
@@ -49,11 +87,17 @@
                                 <input type="file" class="form-control youth-thumbnail-file" name="thumbnail_youth" accept="image/*">
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Youth Thumbnail File</label>
-                            <div class="col-md-6">
-                                <input type="file" class="form-control youth-thumbnail-file" name="thumbnail_youth" accept="image/*">
+                            <label class="col-md-4 control-label">Is Youth Thumbnail Active?</label>
+                            <div class="col-md-2">
+                                <select class="form-control active-youth" name="active_youth">
+                                    <option value="0">Inactive</option>
+                                    <option value="1">Active</option>
+                                </select>
                             </div>
+                        </div>
+                        
                          <div class="form-group">
                             <label class="col-md-4 control-label">Sizes</label>
                             <div class="col-md-4 Sizes">
@@ -68,7 +112,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary create-color">

@@ -169,6 +169,10 @@ class BlockPatternsController extends Controller
         }
         else
         {
+            if (! count(json_decode($data['neck_options'], true)) > 0) {
+                return back()->with('flash_message_error', 'Please add at least 1 neck option');
+            } 
+
             Log::info('Attempts to create a new Block Pattern ' . json_encode($data));
             $response = $this->client->createBlockPattern($data);
         }
