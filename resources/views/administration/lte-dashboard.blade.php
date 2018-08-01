@@ -102,7 +102,7 @@
     var year = $(this).val();
     ordersChart.destroy();
     $.ajax({
-      url: 'http://' + apiHost + '/api' + endpoints.orders + year,
+      url: '//' + api_host + '/api' + endpoints.orders + year,
       method: 'GET',
       dataType: 'JSON',
       success: function(response) {
@@ -140,7 +140,7 @@
     var year = $(this).val();
     savedDesignsChart.destroy();
     $.ajax({
-      url: 'http://' + apiHost + '/api' + endpoints.saved_designs + year,
+      url: '//' + api_host + '/api' + endpoints.saved_designs + year,
       method: 'GET',
       dataType: 'JSON',
       success: function(response) {
@@ -178,7 +178,7 @@
     var year = $(this).val();
     usersChart.destroy();
     $.ajax({
-      url: 'http://' + apiHost + '/api' + endpoints.users + year,
+      url: '//' + api_host + '/api' + endpoints.users + year,
       method: 'GET',
       dataType: 'JSON',
       success: function(response) {

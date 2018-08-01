@@ -1185,10 +1185,10 @@ class UniformBuilderController extends Controller
 
         }
 
-        if ($sport === "Football" && $type !== "lower") {
+        if ($sport === "Football 2017" && $type !== "lower") {
 
             $html .=   '<td align="center">';
-            $html .=   '<strong>LASTNAME APPLICATION' . $type . '</strong>';
+            $html .=   '<strong>LASTNAME APPLICATION</strong>';
             $html .=   '</td>';
             $html .=   '<td align="center">';
             $html .=   '<strong>SLEEVE TYPE</strong>';
@@ -1224,12 +1224,12 @@ class UniformBuilderController extends Controller
             if ($sport !== "Crew Socks (Apparel)") {
 
                 $html .=   '<td align="center">';
-                $html .=   strtoupper($roster['lastname']);
+                $html .=   $roster['lastname'];
                 $html .=   '</td>';
 
             }
 
-            if (($sport === "Football" || $sport === "Baseball") && $type !== "lower") {
+            if (($sport === "Football 2017" || $sport === "Baseball") && $type !== "lower") {
 
                 $html .=   '<td align="center">';
                 $html .=   $roster['lastNameApplication'];

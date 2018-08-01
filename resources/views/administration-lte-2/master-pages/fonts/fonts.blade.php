@@ -21,6 +21,8 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Fonts Master List')
+
                     <h1>
                         Fonts Master List
                     </h1>
@@ -91,10 +93,9 @@ $('.data-table').DataTable({
     "autoWidth": true,
 });
 
-$('.submit-new-record').on('click', function(e){
+$("#myForm").submit(function(e) {
     e.preventDefault();
     var data = {};
-    data.code = $('.input-code').val();
     data.name = $('.input-name').val();
     data.sports = $('.input-sports').val();
 
@@ -106,7 +107,12 @@ $('.submit-new-record').on('click', function(e){
         var url = "//" + api_host + "/api/" + endpoint_version + "/master_font/update";
         addUpdateRecord(data, url);
     }
+    $('.submit-new-record').attr('disabled', 'true');
 });
+
+   $("#myModal").on("hidden.bs.modal", function() {
+        $('.submit-new-record').removeAttr('disabled');
+    });
 
 $(document).on('click', '.add-record', function(e) {
     e.preventDefault();
@@ -159,7 +165,7 @@ $(document).on('click', '.delete-record', function(e) {
         callback: function(result){
             if(result){
                 bootbox.dialog({ message: '<div class="text-center"><i class="fa fa-spin fa-spinner"></i> Loading...</div>' });
-                
+
                 var url = "//" + api_host + "/api/" + endpoint_version + "/master_font/delete";
                 var data = {};
                 data.id = window.delete_record_id;
@@ -183,8 +189,22 @@ function deleteRecord(data, url){
         contentType: 'application/json;',
         headers: {"accessToken": atob(headerValue)},
         success: function (data) {
-            console.log('Successfully deleted record.');
-            window.location.reload();
+                 if(data.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Warning',
+                        text: data.message,
+                        type: 'warning',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
+                }
         },
         error: function (xhr, ajaxOptions, thrownError) {
         }
@@ -201,13 +221,22 @@ function addUpdateRecord(data, url){
         contentType: 'application/json;',
         headers: {"accessToken": atob(headerValue)},
         success: function (data) {
-            if(window.modal_action == 'add'){
-                console.log('Successfully added record.');
-            } else if(window.modal_action == 'update'){
-                console.log('Successfully updated record.');
+            if(data.success){
+                window.location.reload();
+                new PNotify({
+                    title: 'Success',
+                    text: data.message,
+                    type: 'success',
+                    hide: true
+                });
+            } else {
+                new PNotify({
+                    title: 'Error',
+                    text: data.message,
+                    type: 'error',
+                    hide: true
+                });
             }
-
-            window.location.reload();
         },
         error: function (xhr, ajaxOptions, thrownError) {
         }

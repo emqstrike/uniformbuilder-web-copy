@@ -402,6 +402,7 @@ function loadActiveRulesData(){
 	loadRulesDAta(block_pattern_data, '.rules-bp', 'block pattern');
 	loadRulesDAta(active_rule_data.block_pattern_option, '.rules-bp-options', 'block pattern option');
 	loadRulesDAta(active_rule_data.max_application_locations, '.rules-max-applications', 'max application location');
+	loadRulesPartsTable(JSON.parse(active_rule_data.parts));
 	$('.new-rule-description').val(active_rule_data.description);
 
 	if(!loaded_price_item_templates){
@@ -413,6 +414,71 @@ function loadActiveRulesData(){
 	    var pi_template = _.find(price_item_templates, function(e){ return e.id == pi_id; });
 	    buildPITTable(pi_template, '#tbody_sizes');
 	}, 6000);
+}
+
+function loadRulesPartsTable(data){
+	$('#tbody_parts').html('');
+	var elem = '';
+	var fabrics = [];
+	data.forEach(function(e, idx) {
+		elem += '<tr><td><input type="text" value="'+e.part_name+'" class=" form-control rules-loaded-input part-name" disabled></td>';
+		elem += '<td><select class="form-control qstrike-part-name rules-loaded-input" disabled><option value="'+e.question+'" selected>'+e.question+'</option></select></td>';
+		elem += '<td><select class="form-control part-colors-set rules-loaded-input" disabled><option value="'+e.color_set_name+'" selected>'+e.color_set_name+'</option></select></td>';
+		elem += '<td><select class="form-control part-fabrics-allowed rules-loaded-input fabrics-dd-idx-'+idx+'" disabled></select></td>';
+		elem += '<td><a href="#" class="btn btn-xs btn-danger remove-part-row"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></td></tr>';
+		fabrics.push(e.master_fabrics_ids);
+	});
+	$('#tbody_parts').append(elem);
+	$('.part-fabrics-allowed').each(function(i) {
+		$(this).select2({
+			placeholder: 'Select valid options',
+			multiple: true,
+			allowClear: true
+		});
+	});
+	selectFabrics(fabrics);
+}
+
+function selectFabrics(fabrics){
+	if(!loaded_master_fabrics){
+        $.ajax({
+			url: '//'+api_host+'/api/'+endpoint_version+'/master_fabrics',
+			async: false,
+	        type: "GET",
+	        dataType: "json",
+	        crossDomain: true,
+	        contentType: 'application/json',
+	        success: function(data) {
+	            var data = data['fabrics'];
+
+				fabrics.forEach(function(e, idx) {
+					var elem = '';
+					console.log('fabrics - E');
+					console.log(e);
+			    	data.forEach(function(f) {
+			    		console.log('data - F');
+			    		console.log(f);
+			    		if(e.indexOf(f.id.toString()) != -1){
+			    			elem += '<option value="'+f.id+'" selected>'+f.code+'</option>';
+			    		} else {
+			    			elem += '<option value="'+f.id+'">'+f.code+'</option>';
+			    		}
+					});
+					$('.fabrics-dd-idx-'+idx).append(elem);
+					// initSelect2('.fabrics-dd-idx-'+idx,'Select valid option');
+					// $('.part-row').each(function(i) {
+				});
+				// $('.part-fabrics-allowed').each(function(i) {
+				// 	$(this).select2({
+				// 		placeholder: 'Select valid options',
+				// 		multiple: true,
+				// 		allowClear: true
+				// 	});
+				// });
+	        }
+	    });
+    }
+    
 }
 
 function loadRulesDAta(data, dd_class, select2text){
@@ -482,6 +548,33 @@ function updatePartsData(){
 		row_data.master_fabrics_ids = $(this).find('.part-fabrics-allowed').val();
 		data.push(row_data);
 	});
+	console.log(data);
+	active_rule_parts_data = data;
+}
+
+function updatePipingsData(){
+	var data = [];
+	$('.piping-row').each(function(i) {
+		var row_data = {};
+		row_data.allowed = false;
+		if($(this).find('.allow').is(':checked')){
+			row_data.allowed = true;
+		}
+		var sizes = [];
+		if($(this).find('.1-2').is(':checked')){
+			sizes.push($(this).find('.1-2').val());
+		}
+		if($(this).find('.1-4').is(':checked')){
+			sizes.push($(this).find('.1-4').val());
+		}
+		if($(this).find('.1-8').is(':checked')){
+			sizes.push($(this).find('.1-8').val());
+		}
+		row_data.sizes = sizes;
+		row_data.set = $(this).find('.piping-set').val();
+		data.push(row_data);
+	});
+	console.log('PIPINGS DATA');
 	console.log(data);
 	active_rule_parts_data = data;
 }

@@ -1,15 +1,16 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
-use \Session;
-use \Redirect;
+use App\APIClients\UniformCategoriesAPIClient as APIClient;
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Http\Requests\UniformCategoryRequest;
+use App\Utilities\FileUploader;
 use App\Utilities\Log;
 use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
 use Webmozart\Json\JsonDecoder;
-use App\Http\Controllers\Controller;
-use App\APIClients\UniformCategoriesAPIClient as APIClient;
+use \Redirect;
+use \Session;
 
 class UniformCategoriesController extends Controller
 {
@@ -41,16 +42,34 @@ class UniformCategoriesController extends Controller
         return view('administration.categories.category-create');
     }
 
-    public function store(Request $request)
+    public function store(UniformCategoryRequest $request)
     {
 
         $name = $request->input('name');
         $sizes = $request->input('sizes');
+        $code = $request->input('code');
+        $type = $request->input('type');
+        $active_type = $request->input('active_type');
+        $active_male = $request->input('active_male');
+        $active_female = $request->input('active_female');
+        $active_youth = $request->input('active_youth');
+        $sort_order_male = $request->input('sort_order_male');
+        $sort_order_female = $request->input('sort_order_female');
+        $sort_order_youth = $request->input('sort_order_youth');
+
         $data = [
             'name' => $name,
-            'sizes' => $sizes
+            'sizes' => $sizes,
+            'code' => $code,
+            'type' => $type,
+            'active_type' => $active_type,
+            'active_male' => $active_male,
+            'active_female' => $active_female,
+            'active_youth' => $active_youth,
+            'sort_order_male' => $sort_order_male,
+            'sort_order_female' => $sort_order_female,
+            'sort_order_youth' => $sort_order_youth
         ];
-
 
         $id = null;
         if (!empty($request->input('uniform_category_id')))

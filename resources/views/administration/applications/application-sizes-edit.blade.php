@@ -49,14 +49,14 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="name" value="{{ $application_size->name }}">
+                                <input type="name" class="form-control" name="name" value="{{ $application_size->name }}" required="true">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">
-                                <select class="form-control sport" name="uniform_category_id" id="uniform_category_id" >
+                                <select class="form-control sport" name="uniform_category_id" id="uniform_category_id" required="true">
                                     <option value="">None</option>
                                     @foreach ($sports as $sport)
                                         @if ($sport->active)
@@ -70,7 +70,7 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="block-pattern-val" id="block_pattern_value" name="block_pattern_value" value="{{ $application_size->block_pattern }}">
-                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple">
+                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple" required="true">
                                 </select>
                             </div>
                         </div>
@@ -79,7 +79,7 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Neck Option</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="neck-option-val" id="neck_option_value" name="neck_option_value" value="{{ $application_size->neck_option }}">
-                               <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple">
+                               <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple" required="true">
                                 </select>
                             </div>
                         </div>
@@ -95,7 +95,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Uniform Application Type</label>
                             <div class="col-md-6">
-                                <select name='uniform_application_type' class="form-control uniform-application-type">
+                                <select name='uniform_application_type' class="form-control uniform-application-type" required="true">
                                     <option value='none'@if( $application_size->uniform_application_type == "none" ) selected @endif>None</option>
                                     <option value='infused'@if( $application_size->uniform_application_type == "infused" ) selected @endif>Infused</option>
                                     <option value='sublimated'@if( $application_size->uniform_application_type == "sublimated" ) selected @endif>Sublimated</option>
@@ -107,7 +107,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label" >Brand</label>
                             <div class="col-md-6">
-                                <select name="brand" class="form-control">
+                                <select name="brand" class="form-control" required="true">
                                         <option value="none" @if($application_size->brand == "none") selected="selected"@endif>None</option>
                                         <option value="prolook" @if($application_size->brand == "prolook") selected="selected"@endif>Prolook</option>
                                         <option value="richardson" @if($application_size->brand == "richardson") selected="selected"@endif>Richardson</option>
