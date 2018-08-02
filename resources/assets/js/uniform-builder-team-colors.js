@@ -986,4 +986,38 @@ $(document).ready(function () {
 
     };
 
+    // diff is the result of _.difference(ub.data.colors, ub.current_material.settings.team_colors)
+    // or all colors thats not added to ... settings.team_colors
+    // but only add after the initial team colors is setup first
+
+    ub.funcs.addAllColorToTeamColors = function () {
+    
+        var _baseColors = ub.funcs.getBaseColors();
+        var _diffColors = _.difference(_baseColors, ub.current_material.settings.team_colors);
+
+        _.each (_diffColors, function (colorObj) {
+
+            var $btnSelector = $('button[data-target="Team-color-picker"][data-color-label="' + colorObj.color_code + '"]');
+            var color        = $btnSelector.data('color');
+            var colorID      = $btnSelector.data('color-id');
+            var colorStatus  = $btnSelector.data('status');
+            var colorCode    = $btnSelector.data('color-code');
+            var colorLabel   = $btnSelector.data('color-label');
+            var _index       = ub.current_material.settings.team_colors.length + 1;
+
+            $btnSelector.first().data('status','selected');
+            $btnSelector.first().html('<i class="fa fa-check" aria-hidden="true"></i>');
+            $btnSelector.first().html(_index);
+
+            if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {                
+                $btnSelector.first().css('color', '#3d3d3d');
+                $btnSelector.first().css('text-shadow', '1px 1px #d7d7d7');
+            }
+
+            ub.funcs.addColorToTeamColors(colorObj);
+
+        });
+
+    }
+
 });

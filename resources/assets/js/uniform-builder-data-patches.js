@@ -111,11 +111,22 @@ $(document).ready(function () {
 			console.error('---- End Patch ----');
 			
 		}
-		
+
 	}
 
 	ub.dataPatches.run = function () {
 		ub.dataPatches.patch4874to5728();
 	};
+
+	ub.dataPatches.forRandomFeedPatching = function () {
+
+		var _id13233 = ["13233"];
+		var _ok = typeof ub.config.savedDesignInfo === "object" &&  _.contains(_id13233, ub.config.savedDesignInfo.savedDesignID);
+
+		if (_ok) { ub.current_material.settings.randomFeeds = {}; }
+
+		return _ok;
+
+	}
 
 });

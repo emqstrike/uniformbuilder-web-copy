@@ -56,10 +56,10 @@
 
                             </td>
                             <td>
-                                $ <input type="text" value="{{ $price_item->msrp }}" class="row-msrp" id="row-msrp" disabled>
+                                <input type="number" value="{{ $price_item->msrp }}" class="row-msrp" id="row-msrp" disabled>
                             </td>
                             <td>
-                                $ <input type="text" value="{{ $price_item->web_price_sale }}" class="row-web-price-sale" id="row-web-price-sale" disabled>
+                                <input type="number" value="{{ $price_item->web_price_sale }}" class="row-web-price-sale" id="row-web-price-sale" disabled>
                             </td>
                             <td>
                                 <a href="#" class="edit-price-item btn btn-primary btn-xs" data-id="{{ $price_item->id }}"><i class="glyphicon glyphicon-edit"></i></a>
@@ -113,21 +113,24 @@ $(document).ready(function(){
         var save_button = $(this).parent().siblings('td').find('.save-price-item');
         save_button.removeAttr('disabled');
         var msrp = $(this).val();
-        console.log(msrp);
-        var web_price_sale = $(this).parent().siblings('td').find('.row-web-price-sale').val();
-        if( msrp < web_price_sale ){
+        var minimum_price = 10;
+        var web_price_sale = $(this).parent().parent().find('.row-web-price-sale').val();
+        if( +msrp < +web_price_sale ){
             $(this).val(web_price_sale);
             alert("MSRP cannot be lower than Web Sale Price!");
+        }
+        if( +msrp < +minimum_price ){
+            $(this).val(minimum_price);
+            alert("MSRP cannot be lower than $10");
         }
     });
 
     $(document).on('change', '.row-web-price-sale', function() {
         var save_button = $(this).parent().siblings('td').find('.save-price-item');
         save_button.removeAttr('disabled');
-        var msrp = $(this).parent().siblings('td').find('.row-msrp').val();
-        console.log(msrp);
+        var msrp = $(this).parent().parent().find('.row-msrp').val();
         var web_price_sale = $(this).val();
-        if( web_price_sale > msrp ){
+        if( +web_price_sale > +msrp ){
             $(this).val(msrp);
             alert("Web Sale Price cannot be higher than MSRP!");
         }

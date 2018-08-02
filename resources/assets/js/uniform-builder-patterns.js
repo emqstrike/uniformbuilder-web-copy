@@ -540,6 +540,8 @@ $(document).ready(function () {
         var _uniform_type               = ub.current_material.material.type;
         var app_containers              = ub.current_material.containers[_uniform_type].application_containers;
 
+        _patternObject                  = JSON.parse(JSON.stringify(_patternObject)); // deep copy
+        
         var _primaryView = ub.funcs.getPrimaryView(settingsObj.application);
         var _spriteCollection = ub.objects[_primaryView + '_view']['objects_' + settingsObj.code];
 
@@ -571,13 +573,9 @@ $(document).ready(function () {
 
             }
             
-            
-            
         });
-
-        var _patternObj = _.find(ub.data.patterns.items, {id: patternID.toString()});
-
-        settingsObj.pattern_obj = _patternObj;
+        
+        settingsObj.pattern_obj = _patternObject;
 
         if (typeof settingsObj.pattern_obj === 'object') {
 
@@ -796,6 +794,7 @@ $(document).ready(function () {
         var _materialOption = materialOption;
 
         var _htmlBuilder    = "<div id='patternUI'>";
+
         var _patternName    = _patternObj.name;
         var _thumbnail      = _patternObj.icon;
 

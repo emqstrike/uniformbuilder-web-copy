@@ -96,7 +96,7 @@ $(document).ready(function() {
             "placeholder_overrides": phData,
         };
 
-        var _url = 'http://api-dev.qstrike.com/api/block_pattern/update';
+        var _url = ub.config.api_host + '/api/block_pattern/update';
         //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
         $.ajax({

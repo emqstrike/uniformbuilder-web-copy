@@ -7,8 +7,9 @@ $(document).ready(function () {
     ub.qa = {};
     ub.ga = {};
     ub.devtools = {};
+    ub.devtools.debugMode = true;
 
-    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 190, 1, 588, 2, 948];
+    ub.fontGuideIDs = [172, 73, 87, 85, 543, 547, 83, 190, 1, 588, 2, 948, 1979, 1625];
 
     ub.funcs.printUniformInfo = function (material, settings) {
 
@@ -17,6 +18,7 @@ $(document).ready(function () {
         ub.utilities.info('');
         ub.utilities.info('----- Base Uniform Info -----');
         ub.utilities.info('ID: ' + material.id);
+        ub.utilities.info('Item ID: ' + material.item_id);
         ub.utilities.info('Uniform: ' + material.name);
         ub.utilities.info('Neck Option: ' + material.neck_option);
         ub.utilities.info('Block Pattern ID: ' + material.block_pattern_id);
@@ -32,6 +34,7 @@ $(document).ready(function () {
         ub.utilities.info('Style Group: ' + ub.current_material.material.style_group);
         ub.utilities.info('Hidden Body: ' + ub.data.hiddenBody.currentUniformOk());
         ub.utilities.info('Placeholder Override Items: ' +  ub.data.placeHolderOverrides.items.length);
+        ub.utilities.info('Customizer Available: ' + ub.current_material.material.customizer_available);
 
         if (typeof ub.config.savedDesignInfo === "object") {
            ub.utilities.info('- Save Design Info -'); 

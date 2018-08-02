@@ -23,17 +23,58 @@ $(document).ready(function () {
         getItem: function (sport, type, blockPattern, neckOption) {
 
             var _result = false;
+            var _isSingleView = false;
+            var _blockPatternDecoded = ub.utilities.domParserDecoder(blockPattern);
+            var _neckOptionDecoded = ub.utilities.domParserDecoder(neckOption);
 
             _result = _.find(this.items, function (item) {
 
-                return item.sport === sport && 
+                if (sport === item.sport) {
+
+                    if (ub.devtools.debugMode) {
+
+                        ub.utilities.info('----');
+
+                        ub.utilities.info(sport);
+                        ub.utilities.info(type);
+
+                        ub.utilities.info(item.sport);
+                        ub.utilities.info(item.type);
+
+                        ub.utilities.info(item.blockPattern);
+                        ub.utilities.info(item.neckOption);
+
+                        ub.utilities.info(_blockPatternDecoded);
+                        ub.utilities.info(_neckOptionDecoded);
+
+                        ub.utilities.info('contains block pattern: ' + _.contains(item.blockPattern, _blockPatternDecoded));
+                        ub.utilities.info('contains neck option: ' + _.contains(item.neckOption, _neckOptionDecoded));
+
+                        ub.utilities.info('----');
+
+                    }
+
+
+                }
+
+                var _res =  item.sport === sport && 
                     item.type === type && 
-                    _.contains(item.blockPattern, blockPattern) && 
-                    _.contains(item.neckOption, neckOption);
+                    _.contains(item.blockPattern, _blockPatternDecoded) && 
+                    _.contains(item.neckOption, _neckOptionDecoded);
+
+                if (_res && ub.devtools.debugMode) { ub.utilities.info('Single View Application detected for ' + sport + ' / ' + type + ' / ' + _blockPatternDecoded + ' / ' + _neckOptionDecoded); }
+                
+                return _res;
 
             });
 
-            return _.size(_result) > 0;
+            _isSingleView = _.size(_result) > 0;
+
+            if (!_isSingleView && ub.devtools.debugMode) {
+                ub.utilities.warn('Single View Application not set for ' + sport + ' / ' + type + ' / ' + _blockPatternDecoded + ' / ' + _neckOptionDecoded);
+            }
+
+            return _isSingleView;
 
         }
 

@@ -58,7 +58,7 @@ class RegistrationController extends Controller
         {
             Log::info('Save New User: Success', 'FRONT END');
             return Redirect::to($this->redirectUrl)
-                            ->with('message', 'Successfully saved changes');
+                            ->with('message', 'Successfully Registered');
         }
         else
         {

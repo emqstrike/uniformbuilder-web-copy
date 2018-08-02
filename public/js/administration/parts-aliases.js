@@ -14,7 +14,7 @@ $(document).ready(function(){
     window.type = null;
     window.types = ['Allowed_Fabrics','Color','Material','Pattern', 'Piping','Random_Feed','Sock_Color','Team_Color'];
     window.fabrics = null;
-    
+
 
 
 $('.delete-part').on('click', function(){
@@ -27,9 +27,7 @@ $('.delete-part').on('click', function(){
 
    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//api-dev.qstrike.com/api/parts_alias/delete/";
-        //var url = "//localhost:8888/api/parts_alias/delete/";
-
+        var url = "//" +api_host+ "/api/parts_alias/delete/";
         $.ajax({
            url: url,
            type: "POST",
@@ -37,7 +35,7 @@ $('.delete-part').on('click', function(){
            dataType: "json",
            crossDomain: true,
            contentType: 'application/json',
-           //headers: {"accessToken": atob(headerValue)},
+           headers: {"accessToken": atob(headerValue)},
            success: function(response){
                if (response.success) {
                    new PNotify({
@@ -60,7 +58,7 @@ $('.delete-part').on('click', function(){
        });
    });
 
-    
+
     function updateJSON(){
        var temp =[];
         $(".layer-row").each(function(i) {
@@ -74,12 +72,12 @@ $('.delete-part').on('click', function(){
                  };
                 temp.push(x);
         });
-        
+
         var properties = JSON.stringify(temp);
 
         $('#properties').val(properties);
-        
-        var data = JSON.parse(properties);              
+
+        var data = JSON.parse(properties);
     }
 
     function setValue(thisObj){
@@ -110,7 +108,7 @@ $('.delete-part').on('click', function(){
       var arranged_questions = _.sortBy(window.questions_list, function(e){ return e.QuestionID; });
 
       getSourceFabrics(function(materials_fabrics){ window.source_fabrics = materials_fabrics; });
-      if(properties !== ""){  
+      if(properties !== ""){
         $('#getPartsModal').modal('show');
 
         setTimeout(function(){
@@ -133,7 +131,7 @@ $('.delete-part').on('click', function(){
             window.parts_options_names = part_name_options_elem;
             var q_id = entry.part_questions;
             var q_name = entry.edit_part_name;
-            
+
             window.questions_options = null;
             var part_question_id_elem = '';
             var question_names_elem = '';
@@ -150,10 +148,10 @@ $('.delete-part').on('click', function(){
                 }
                 else {
                     question_names_elem += '<option value="'+entry.Question+'">'+entry.Question+'</option>';
-                }  
+                }
             });
             window.questions_options = part_question_id_elem;
-            window.question_names = question_names_elem; 
+            window.question_names = question_names_elem;
             window.type = null;
             var type_elem = '';
             types.forEach(function(type) {
@@ -172,14 +170,14 @@ $('.delete-part').on('click', function(){
                 if(item.material_name == entry.fabrics) {
                     fabric_elem += `<option value="`+item.material_name+`" selected>`+item.material_name+` [`+item.factory_name+`]</option>`;
                 } else {
-                    fabric_elem += `<option value="`+item.material_name+`">`+item.material_name+` [`+item.factory_name+`]</option>`;    
-                }                           
+                    fabric_elem += `<option value="`+item.material_name+`">`+item.material_name+` [`+item.factory_name+`]</option>`;
+                }
             });
             window.fabrics = fabric_elem;
 
             var td_open = '<td>';
             var td_close = '</td>';
-            var input_part_name = '<select class="part-name">'+window.parts_options_names+'</select>';                   
+            var input_part_name = '<select class="part-name">'+window.parts_options_names+'</select>';
             var input_question_id = '<select class="part-questions">'+window.questions_options+'</select>';
             var input_edit_part_name = '<select class="edit-part-name">'+window.question_names+'</select>';
             var input_edit_part_value = '<input type="text" class="edit-part-value" value="'+entry.edit_part_value+'">';
@@ -215,15 +213,15 @@ $('.delete-part').on('click', function(){
       }
 
     });
-    
 
-    
+
+
    //updateJSON EVENTS
-    $("#part_aliases_form").on("keyup", ".edit-part-value", function(e){    
+    $("#part_aliases_form").on("keyup", ".edit-part-value", function(e){
         e.preventDefault();
-        updateJSON();     
-    });         
-                
+        updateJSON();
+    });
+
     $("#part_aliases_form").on("change", ".part-name", function(e){
             e.preventDefault();
             setValue($(this));
@@ -274,7 +272,7 @@ $('.delete-part').on('click', function(){
                                 <option value="Random_Feed">Random Feed</option>
                                 <option value="Sock_Color">Sock Color</option>
                                 <option value="Team_Color">Team Color</option>
-                                
+
                             </select>`;
         var delete_row = '<a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
         var elem = '<tr class="layer-row">' +
@@ -332,7 +330,7 @@ $('.delete-part').on('click', function(){
             });
             window.parts_options = elem;
         }, 1000);
-        
+
     });
 
     $('.get-questions').on('click', function(e){
@@ -366,7 +364,7 @@ $('.delete-part').on('click', function(){
 
     function getBlockPatternsBySportId(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_pattern/sport/"+window.sport_id;
+        var url = "//" +api_host+ "/api/block_pattern/sport/"+window.sport_id;
         $.ajax({
             url: url,
             async: false,
@@ -383,7 +381,7 @@ $('.delete-part').on('click', function(){
 
     function getParts(callback){
         var parts;
-        var url = "//api-dev.qstrike.com/api/materials_options/list_parts_names/"+window.material_id;
+        var url = "//" +api_host+ "/api/materials_options/list_parts_names/"+window.material_id;
         $.ajax({
             url: url,
             async: false,
@@ -394,7 +392,6 @@ $('.delete-part').on('click', function(){
             success: function(data){
                 parts = data['parts'];
                 if(typeof callback === "function") callback(parts);
-                //Close loading modal
                 $('#getPartsModal').modal('hide');
             }
         });
@@ -402,7 +399,7 @@ $('.delete-part').on('click', function(){
 
     function getSourceFabrics(callback){
         var materials_fabrics;
-        var url = "http://api-dev.qstrike.com/api/materials_fabrics/";
+        var url = "//" +api_host+ "/api/materials_fabrics/";
         $.ajax({
             url: url,
             async: false,
@@ -421,7 +418,7 @@ $('.delete-part').on('click', function(){
 
     function getQuestionsList(callback){
         var questions_list;
-        var url = "http://qx.azurewebsites.net/api/itemquestion?itemid="+window.item_id;
+        var url = "//qx.azurewebsites.net/api/itemquestion?itemid="+window.item_id;
         $.ajax({
             url: url,
             async: false,
@@ -441,7 +438,7 @@ $('.delete-part').on('click', function(){
     function getFabrics(){
       window.fabrics = null;
       var fabric;
-      var url = "http://api-dev.qstrike.com/api/materials_fabrics/";
+      var url = "//" +api_host+ "/api/materials_fabrics/";
       $.ajax({
           url: url,
           async: false,
@@ -456,7 +453,7 @@ $('.delete-part').on('click', function(){
       var elem = '<option value="" selected></option>';
       $.each(fabric, function (i, item){
           elem += `<option value="`+item.material_name+`">`+item.material_name+` [`+item.factory_name+`]</option>`;
-               
+
       });
       window.fabrics = elem;
     }

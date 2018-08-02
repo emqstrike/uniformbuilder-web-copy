@@ -2254,6 +2254,22 @@
     
 </script>
 
+<script type="text/mustache" id="m-save-design-guest">
+    
+    <div class="save-design-post-dialog">
+
+        <p class='left'>
+            Your design '<strong>@{{designName}}</strong>' was saved successfully!
+        </p>
+
+        <p>
+           Please check your email for your temporary password so you can retrieve your saved designs. Thank you.
+        </p>
+
+    </div>
+    
+</script>
+
 <script type="text/mustache" id="m-loading-screen">
     
     <div class="loading-screen">
@@ -2777,7 +2793,7 @@
 
             <div class="header">
 
-                Embellishments
+                Custom Mascots
 
                 <div class="close-popup">
                         

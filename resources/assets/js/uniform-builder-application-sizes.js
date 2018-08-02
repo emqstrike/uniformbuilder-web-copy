@@ -44,7 +44,7 @@ $(document).ready(function() {
                 return undefined; 
             };
 
-            var _sizesObject = _.first(ub.data.applicationSizes.configurations);
+            var _sizesObject = _.find(ub.data.applicationSizes.configurations, {uniform_application_type: ub.config.uniform_application_type});
             var _applicationTypes = _sizesObject.parsedProperties;
             var _applicationTypeResults = _.filter(_applicationTypes, {type: applicationType});
             var _locationResults = _.filter(_applicationTypeResults, function (applicationResult) {
@@ -1525,16 +1525,7 @@ $(document).ready(function() {
                 {
                     name: 'mascot',
                     sport: 'basketball',
-                    applicationNumbers: [6],
-                    sizes: [
-                        {size: 2.5},
-                    ],
-                },
-
-                {
-                    name: 'mascot',
-                    sport: 'basketball',
-                    applicationNumbers: [7, 31, 30],
+                    applicationNumbers: [1, 6, 7, 31, 30],
                     sizes: [
                         {size: 1},
                         {size: 2},
@@ -1542,6 +1533,7 @@ $(document).ready(function() {
                         {size: 4},
                     ],
                 },
+                
                 {
                     name: 'mascot',
                     sport: 'basketball',
@@ -2084,6 +2076,20 @@ $(document).ready(function() {
                 ],
             },
 
+             {
+                name: 'front_number',
+                sport: 'basketball',
+                applicationNumbers: [12,13,16,17],
+                sizes:  [
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            }
+                ],
+            },
+
             // Lacrosse
 
             {
@@ -2297,7 +2303,6 @@ $(document).ready(function() {
 
                 ],
             },
-            // Field Hockey
             {
                 name: 'mascot',
                 sport: 'wrestling-compression-shorts',
@@ -2341,6 +2346,50 @@ $(document).ready(function() {
                             }
                 ],
             },
+            {
+                name: 'mascot',
+                sport: 'wrestling-2018',
+                applicationNumbers: [70],
+                sizes:  [
+                            {
+                                size: 1,
+                            },
+                            {
+                                size: 2,
+                            },
+                            {
+                                size: 3,
+                            },
+                            {
+                                size: 4,
+                            },
+                            {
+                                size: 5,
+                            },
+                            {
+                                size: 6,
+                            },
+                            {
+                                size: 7,
+                            },
+                            {
+                                size: 8,
+                            },
+                            {
+                                size: 9,
+                            },
+                            {
+                                size: 10,
+                            },
+                            {
+                                size: 11,
+                            },
+                            {
+                                size: 12,
+                            }
+                ],
+            },
+
 
         ], 
         getSize: function (applicationType, sport, id) {
@@ -2370,6 +2419,8 @@ $(document).ready(function() {
             if (sport === "field-hockey")                       { return _result[0]; }
             if (sport === "compression-pant")                   { return _result[0]; }
             if (sport === "wrestling-compression-shorts")       { return _result[0]; }
+            if (sport === "basketball")                         { return _result[0]; }
+            if (sport === "wrestling-2018")                     { return _result[0]; }
 
             if (typeof _object === "undefined") {
 

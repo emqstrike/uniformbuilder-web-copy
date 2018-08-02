@@ -11,6 +11,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Colors')
                     <h1>
                         <span class="fa fa-tint"></span>
                         Colors
@@ -23,9 +24,11 @@
                         <tr>
                             <th>ID</th>
                             <th>Order</th>
-                            <th>Color</th>
+                            <th>Master Color ID</th>
+                            <th>Color Name</th>
                             <th>Sublimation Only</th>
-                            <th>Edit</th>
+                            <th>Color</th>
+                            <th>Brand</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -38,6 +41,9 @@
                             <td class="col-md-1">
                                 {{ $color->order }}
                             </td>
+                            <td class="col-md-1">
+                                <input type="number" class="form-control master-color" name="master-color" value="{{ $color->master_color_id }}" disabled="true">
+                            </td>
                             <td class="col-md-2">
                                 <input type="text" class="form-control color-name" name="color-name" value="{{ $color->name }}" disabled="true">
                             </td>
@@ -49,9 +55,17 @@
                             </td>
                             <td style='background-color: #{{ $color->hex_code }}; height: 30px; border: 1px solid #ddd;' class="col-md-2">
                                 <span id="color-code" class='badge'>{{ $color->color_code }}</span>
-                                <input type="text" size="3" id="color-code-text" style="display: none"value="{{ $color->color_code }}">
+                                <input type="text" size="3" id="color-code-text" style="display: none"value="{{ $color->color_code }}" maxlength="2">
                                 <input type="hidden" name="hex-code" id="hex-code" value="{{ $color->hex_code }}">
                                 <input class="form-control colorpicker" id="colorpicker" type="hidden">
+                            </td>
+                            <td class="col-md-1">
+                                <select class="form-control brand-id" name='brand_id' disabled="true">
+                                    <option value='0' @if ($color->brand_id == '0') selected @endif>No Brand</option>
+                                    <option value='1' @if ($color->brand_id == '1') selected @endif>Prolook</option>
+                                    <option value='2' @if ($color->brand_id == '2') selected @endif>Richardson</option>
+                                </select>
+                            </td>
                             </td>
                             <td class="col-md-2">
                                 <a href="#" class="btn btn-default btn-xs btn-flat disable-color" data-color-id="{{ $color->id }}" role="button" {{ ($color->active) ? : 'disabled="disabled"' }}>
@@ -121,6 +135,8 @@ $(document).ready(function(){
         e.preventDefault();
         $(this).parent().siblings('td').find('.color-name').prop('disabled', false);
         $(this).parent().siblings('td').find('.sublimation-only').prop('disabled', false);
+        $(this).parent().siblings('td').find('.master-color').prop('disabled', false);
+        $(this).parent().siblings('td').find('.brand-id').prop('disabled', false);
         $(this).parent().siblings('td').find('#color-code').css("visibility" , "hidden");
         var color_code = $(this).parent().siblings('td').find('#color-code-text');
         color_code.show();
@@ -138,21 +154,20 @@ $(document).ready(function(){
             });
     });
 
+    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand-id, .master-color',  function() {
+        var save_button = $(this).parent().siblings('td').find('.save-button');
+        save_button.removeAttr('disabled');
+        $(this).parent().siblings('td').find('.color-name').trigger('change');
+    });
+
     $(document).on('change', '.color-name',  function() {
         var save_button = $(this).parent().siblings('td').find('.save-button');
-        save_button.removeAttr('disabled');
-    });
-    $(document).on('change', '.sublimation-only',  function() {
-        var save_button = $(this).parent().siblings('td').find('.save-button');
-        save_button.removeAttr('disabled');
-    });
-    $(document).on('change', '#color-code-text',  function() {
-        var save_button = $(this).parent().siblings('td').find('.save-button');
-        save_button.removeAttr('disabled');
-    });
-    $(document).on('change', '#colorpicker',  function() {
-        var save_button = $(this).parent().siblings('td').find('.save-button');
-        save_button.removeAttr('disabled');
+        var color_name = $(this).val();
+        if(color_name == '') {
+            save_button.attr('disabled', 'disabled');
+        } else {
+            save_button.removeAttr('disabled');
+        }
     });
 
     $(document).on('click', '.save-button', function() {
@@ -162,14 +177,20 @@ $(document).ready(function(){
         var hex_code = $(this).parent().siblings('td').find('#hex-code').val();
         hex_code = hex_code.replace(/#/g, '');
         var sublimation_only = $(this).parent().siblings('td').find('.sublimation-only').val();
+        var master_color_id = $(this).parent().siblings('td').find('.master-color').val();
+        var brand_id = $(this).parent().siblings('td').find('.brand-id').val();
         var data = {
             "id" : id,
             "name" : name,
             "color_code" : color_code,
             "hex_code" : hex_code,
-            "sublimation_only" : sublimation_only
+            "sublimation_only" : sublimation_only,
+            "master_color_id" : master_color_id,
+            "brand_id" : brand_id
         };
-        updateColor(data);
+        if(!$(this).attr('disabled')) {
+            updateColor(data);
+        }
     });
 
     function updateColor(data) {
@@ -211,12 +232,17 @@ $(document).ready(function(){
         data.name = $('.input-color-name').val();
         var hex_code = $('#create-hex-code').val();
         data.hex_code = hex_code.replace(/#/g, '');
+        data.brand_id = $('.input-brand-id').val();
+        data.master_color_id = $('.input-master-color').val();
         addColor(data);
+        $('.submit-new-record').attr('disabled', 'true');
     });
 
     $("#myModal").on("hidden.bs.modal", function() {
         $('.input-color-code').val('');
         $('.input-color-name').val('');
+        $('.input-master-color').val('');
+        $('.input-brand-id').val('0');
         $('#create-hex-code').val('#ff0000');
         $('#create_colorpicker').spectrum({
             color: "#ff0000",
@@ -229,6 +255,7 @@ $(document).ready(function(){
                 $('#create-hex-code').val(tinycolor);
             }
             });
+        $('.submit-new-record').removeAttr('disabled');
     });
 
     function addColor(data) {

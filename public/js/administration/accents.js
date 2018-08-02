@@ -40,7 +40,7 @@ $(document).ready(function(){
 
     
 
-  // $.getJSON("http://api-dev.qstrike.com/api/fonts", function(result){
+  // $.getJSON("//" + api_host + "/api/fonts", function(result){
   //     var data = {
   //       fonts: result.fonts
   //       , index: function() {
@@ -81,7 +81,7 @@ $(document).ready(function(){
 //  function getColors(layerName){
 //   console.log(layerName);
 //   console.log("//");
-//   $.getJSON("http://api-dev.qstrike.com/api/colors", function(result){
+//   $.getJSON("//" + api_host + "/api/colors", function(result){
 //       var data = {
 //         colors: result.colors
 //         , index: function() {

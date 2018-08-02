@@ -749,6 +749,7 @@ $(document).ready(function() {
                     app_y,
                     app_primary,
                     app_logo,
+                    embellishment,
                     app_team_name,
                     app_player_name,
                     app_number,
@@ -762,7 +763,6 @@ $(document).ready(function() {
                     default_text,
                     vertical_text,
                     default_number,
-                    embellishment,
                     inksoft_design_id,
                     app_opacity,
                     def_pattern_position,
@@ -1379,6 +1379,7 @@ $(document).ready(function() {
             option: {
                 id: $(this).data('material-option-id'),
                 name: $(this).data('material-option-name'),
+                part_type: $(this).data('material-option-part-type'),
                 origin: $(this).data('material-option-origin'),
                 layer_level: $(this).data('material-option-layer-level'),
                 default_color: $(this).data('material-option-default-color'),
@@ -1431,6 +1432,9 @@ $(document).ready(function() {
         $('.material-id').prop("value", material.id);
         $('.material-option-id').prop("value", material.option.id);
         $('#material-option-name').val(material.option.name);
+        $('#saved-part-type').val(material.option.part_type);
+        $('#saved-part-type').text(material.option.part_type);
+        $('#saved-part-type').attr('selected','selected');
         $('#group_id').val(material.option.group_id);
         $('#saved-setting-type').val(material.option.type);
         $('#saved-setting-type').text(material.option.type);
@@ -1602,7 +1606,7 @@ $(document).ready(function() {
         $('#default_display').html('');
         $('#default_display').append( default_display_options );
 
-
+        $('#saved-part-type').attr('selected',true);
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
         $('#edit-material-option-info-modal .material-option-path').attr('src', material.option.path);
@@ -1828,6 +1832,7 @@ $(document).ready(function() {
                     app_y,
                     app_primary,
                     app_logo,
+                    embellishment,
                     app_team_name,
                     app_player_name,
                     app_dnumber,
@@ -1842,7 +1847,6 @@ $(document).ready(function() {
                     default_text,
                     vertical_text,
                     default_number,
-                    embellishment,
                     inksoft_design_id,
                     app_opacity,
                     def_pattern_position,
@@ -2484,7 +2488,7 @@ $(document).ready(function() {
 
     function getColors(callback){
         var colors;
-        var url = "//api-dev.qstrike.com/api/colors";
+        var url = "//" + api_host + "/api/colors";
         $.ajax({
             url: url,
             async: false,
@@ -2501,7 +2505,7 @@ $(document).ready(function() {
 
         function getAccents(callback){
         var mascots;
-       var url = "//api-dev.qstrike.com/api/accents";
+       var url = "//" + api_host + "/api/accents";
         // var url = "//localhost:8888/api/accents";
         $.ajax({
             url: url,
@@ -2519,7 +2523,7 @@ $(document).ready(function() {
     }
     function getTailsweeps(callback){
         var tailsweep;
-       var url = "//api-dev.qstrike.com/api/tailsweeps";
+       var url = "//" + api_host + "/api/tailsweeps";
      //var url = "//localhost:8888/api/tailsweeps";
         $.ajax({
             url: url,
@@ -2539,7 +2543,7 @@ $(document).ready(function() {
 
     function getFonts(callback){
         var mascots;
-        var url = "//api-dev.qstrike.com/api/fonts";
+        var url = "//" + api_host + "/api/fonts";
         $.ajax({
             url: url,
             async: false,
@@ -2556,7 +2560,7 @@ $(document).ready(function() {
 
     function getMascots(callback){
         var mascots;
-        var url = "//api-dev.qstrike.com/api/mascots";
+        var url = "//" + api_host + "/api/mascots";
         $.ajax({
             url: url,
             async: false,
@@ -2573,7 +2577,7 @@ $(document).ready(function() {
 
     function getPatterns(callback){
         var patterns;
-        var url = "//api-dev.qstrike.com/api/patterns";
+        var url = "//" + api_host + "/api/patterns";
         $.ajax({
             url: url,
             async: false,
@@ -2670,10 +2674,11 @@ $(document).ready(function() {
     function generateTRow(fields){
         var tr = '<tr class="application-row">';
         var c = 0;
+
         fields.forEach(function(entry) {
-            if( c === 15 ) {
+            if( c === 16 ) {
                 tr += '<td class="msc">' + entry + '</td>';
-            } else if(c === 16){
+            } else if(c === 17){
                 tr += '<td class="tsc">' + entry + '</td>';
             }else {
                 tr += '<td>' + entry + '</td>';

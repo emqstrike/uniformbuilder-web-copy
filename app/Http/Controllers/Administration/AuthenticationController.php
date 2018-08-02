@@ -61,11 +61,28 @@ class AuthenticationController extends Controller
                 Session::put('role', $result->user->role);
                 Session::flash('flash_message', 'Welcome to ' . env('BUILDER_NAME'));
 
+                $config_string = 'user-restrictions.'.$result->user->id;
+                $user_restriction = config($config_string);
+
+                $superusers = env('BACKEND_SUPERUSERS');
+                $su_array = explode(',', $superusers);
+                if (!in_array($result->user->id, $su_array)) {
+                    Session::put('adminFullAccess', false);
+                }
+
+                if ($user_restriction == 'fonts-minified-only') {
+                    Session::put('fontsMinifiedOnly', true);
+                } else {
+                    Session::put('fontsMinifiedOnly', false);
+                }
+
                 Log::info('Successful User Login');
                 if (Session::get('adminFullAccess')) {
                     return redirect('administration');
+                } elseif (Session::get('fontsMinifiedOnly')){
+                    return redirect('administration/'.config('user-restrictions.'.$user_restriction));
                 } else {
-                    return redirect('administration/saved_designs');
+                    return redirect('administration');
                 }
             }
             else

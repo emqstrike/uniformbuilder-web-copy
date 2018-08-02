@@ -201,6 +201,18 @@ li.select2-selection__choice {
                                 <textarea class="form-control tail-sweep-properties animated" name="tail_sweep_properties"><?php echo substr(stripslashes($font->tail_sweep_properties), 1, -1); ?></textarea>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Customizer Available</label>
+                            <div class="col-md-4">
+                                <input type="checkbox"  name="customizer_available" @if($font->customizer_available == 1)value="1" checked @endif>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Ipad Available</label>
+                            <div class="col-md-4">
+                                <input type="checkbox"  name="ipad_available" @if($font->ipad_available == 1)value="1" checked @endif>
+                            </div>
+                        </div>
 
                         <div class="form-group" style="border: 1px solid black; padding: 10px;">
                             <center>
@@ -592,19 +604,14 @@ li.select2-selection__choice {
         </div>
     </div>
 </div>
-<div class="container">
-  <h2>Modal Login Example</h2>
-  <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-default btn-lg" id="myBtn">Login</button>
-
-  <!-- Modal -->
+    <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4> TWILL Font size tables data</h4>
+          <h4> Twill Font size tables data</h4>
         </div>
         <div class="modal-body">
           <form role="form">
@@ -616,8 +623,6 @@ li.select2-selection__choice {
       </div>
     </div>
   </div>
-</div>
-
   <!-- Modal -->
   <div class="modal fade" id="myModalB" role="dialog">
     <div class="modal-dialog">
@@ -1247,6 +1252,22 @@ $(document).ready(function(){
         window.lp = layersProperties;
         $('#font_properties').val(layersProperties);
     }
+
+    $(document).on('click', '.btn-remove-layer', function() {
+        var rowCount = $('.layers-row').length;
+        console.log('rowCount ', rowCount);
+        
+        if (rowCount > 1) {
+            $(this).closest('tr').remove();
+            var newRowCount = $('.layers-row').length;
+
+            $(".layers-row").each(function(i) {
+                $(this).find(".layer-number").text(newRowCount);
+                $(this).find(".layer-number").val(newRowCount);
+                newRowCount--;
+            });
+        }
+    });
 });
 </script>
 @endsection

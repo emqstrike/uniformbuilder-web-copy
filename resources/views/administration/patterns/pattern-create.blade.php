@@ -10,15 +10,6 @@ select:hover {
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
 
-li.select2-selection__choice {
-    color: black !important;
-}
-
-.animated {
-    -webkit-transition: height 0.2s;
-    -moz-transition: height 0.2s;
-    transition: height 0.2s;
-}
 </style>
 @endsection
 
@@ -56,7 +47,7 @@ li.select2-selection__choice {
                             <div class="col-md-6">
 
                                 <input type="hidden" class="sports-val" id="sports_value" name="sports_value" >
-                                <select name="sports[]" class="form-control sports" multiple="multiple">
+                                <select name="sports[]" class="form-control sports" multiple="multiple" required>
                                     @foreach ($categories as $category)
                                         @if ($category->active)
                                         <option value='{{ $category->name }}'>
@@ -67,6 +58,15 @@ li.select2-selection__choice {
                                     <option value="All">All</option>
                                 </select>
 
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Target Block Pattern Option</label>
+                            <div class="col-md-6">
+                                <input type="hidden" class="block-pattern-options-val" id="block_pattern_options_value" name="block_pattern_options_value">
+                                <select name="block_pattern_options[]" class="form-control block-pattern-options" multiple="multiple">
+                                </select>
                             </div>
                         </div>
 
@@ -84,99 +84,19 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Thumbnail</label>
                             <div class="col-md-6 front-view">
-                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*" required>
                             </div>
                         </div>
                         <div class="form-group">
                                 <label class="col-md-4 control-label">Brand</label>
                                 <div class="col-md-6">
-                                <select class="form-control brand" name="brand">
+                                <select class="form-control brand" name="brand" required>
                                         <option value="none">None</option>
                                         <option value="prolook">Prolook</option>
                                         <option value="richardson">Richardson</option>
                                 </select>
                               </div>
                         </div>
-
-                        <!-- <div class="form-group">
-                            <label class="col-md-4 control-label">Team Color ID</label>
-                            <div class="col-md-6">
-                                <select name='team_color_id' class="form-control pattern-team-color-id">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Layer <span class="badge">1</span></label>
-                            <div class="col-md-6 material">
-                                <input type="file" class="form-control layer-1-file" name="layer_1_path" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Default colors</label>
-                            <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_1_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                @foreach ($color as $colors)
-                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Layer <span class="badge">2</span></label>
-                            <div class="col-md-6 material">
-                                <input type="file" class="form-control layer-2-file" name="layer_2_path" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Default colors</label>
-                            <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_2_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                @foreach ($color as $colors)
-                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Layer <span class="badge">3</span></label>
-                            <div class="col-md-6 material">
-                                <input type="file" class="form-control layer-3-file" name="layer_3_path" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Default colors</label>
-                            <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_3_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                @foreach ($color as $colors)
-                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Layer <span class="badge">4</span></label>
-                            <div class="col-md-6 material">
-                                <input type="file" class="form-control layer-4-file" name="layer_4_path" accept="image/*">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Default colors</label>
-                            <div class="col-md-6 material">
-                                <select class="form-control layer-default-color" name="layer_4_color" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
-                                @foreach ($color as $colors)
-                                <option data-color="#{{ $colors->hex_code }}" style="background-color: #{{ $colors->hex_code }};" value="{{ $colors->color_code }}">{{ $colors->name }}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        </div> -->
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Pattern Layers
@@ -203,7 +123,7 @@ li.select2-selection__choice {
                                                 <select class="layer-default-color layer1" name=""></select>
                                             </td>
                                             <td>
-                                                <input type="file" class="pattern-layer-file layer1" name="pattern_layer_image[]">
+                                                <input type="file" class="pattern-layer-file layer1" name="pattern_layer_image[]" required>
                                             </td>
                                             <td>
                                                 <select id="pattern_tc_id_dp" class="pattern-team-color-id" name=""></select>
@@ -239,10 +159,12 @@ li.select2-selection__choice {
 @section('custom-scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/patterns.js"></script>
 <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
     $('select:not(:has(option))').attr('visible', false);
 
     $('.layer-default-color').change(function(){
@@ -252,10 +174,30 @@ $(document).ready(function(){
         $(this).css('text-shadow', '1px 1px #000');
     });
 
-        if($('#sports_value').val()){
+    window.block_patterns = null;
+
+    getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
+
+    function getBlockPatterns(callback){
+        var block_patterns;
+        var url = "//" +api_host+ "/api/block_patterns";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                block_patterns = data['block_patterns'];
+                if(typeof callback === "function") callback(block_patterns);
+            }
+        });
+    }
+
+    if($('#sports_value').val()){
         var sports = JSON.parse($('#sports_value').val());
     }
-    // var sports = JSON.parse($('#sports_value').val());
 
     $('.sports').select2({
         placeholder: "Select sports",
@@ -265,9 +207,52 @@ $(document).ready(function(){
 
     $(".sports").change(function() {
         $('#sports_value').val($(this).val());
+        bindBPOS();
+        console.log('change sports binded BPOS');
     });
 
     $('.sports').select2('val', sports);
+
+    $('.block-pattern-options').select2({
+        placeholder: "Select block pattern option",
+        multiple: true,
+        allowClear: true
+    });
+
+    function bindBPOS(){
+        var sports = $('.sports-val').val().split('"').join('');
+        var sports_arr = null;
+        var block_pattern_options = [];
+        if(sports != null){
+            sports_arr = sports.split(",");
+            console.log(sports_arr);
+            sports_arr.forEach(function(entry) {
+                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category == entry; });
+                x.forEach(function(entry) {
+                    var y = JSON.parse(entry.neck_options);
+
+                    var list = [];
+                    _.each(y, function(item){
+                        list.push(_.omit(item, 'children'));
+                        list.push(_.flatten(_.pick(item, 'children')));
+                    });
+                    var result = _.flatten(list);
+                    result.forEach(function(i) {
+                        block_pattern_options.push(i.name);
+                    });
+                });
+            });
+            var z = _.sortBy(_.uniq(block_pattern_options));
+            $('.block-pattern-options').html('');
+            z.forEach(function(i) {
+                $('.block-pattern-options').append('<option value="'+i+'">'+i+'</option>');
+            });
+        }
+    }
+
+    $(".block-pattern-options").change(function() {
+        $('#block_pattern_options_value').val($(this).val());
+    });
 
 
 });

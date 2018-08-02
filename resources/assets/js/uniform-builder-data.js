@@ -131,13 +131,16 @@ $(document).ready(function() {
     ub.stage.interactive            = true;
     ub.pCanvas                      = document.getElementById(ub.container_div);
     ub.renderer                     = PIXI.autoDetectRenderer(ub.dimensions.width, ub.dimensions.height, {transparent: false}, false);
-    ub.renderer.backgroundColor     = ub.CONSTANTS.backgroundColor;
 
-    // var _bg                         = window.ub.pixi.new_sprite('/images/uiV1/bg.jpg');
+    var _bg                         = ub.CONSTANTS.backgroundColor;
+
+    if (ub.config.brand === "Prolook") {
+        var _bgImage                = window.ub.pixi.new_sprite('/images/uiV1/bg.jpg');
+        ub.stage.addChild(_bg); 
+        ub.bg = _bg;
+    }
     
-    // ub.stage.addChild(_bg); 
-    // ub.bg = _bg;
-
+    ub.renderer.backgroundColor = _bg;
     ub.stage.addChild(ub.left_view);
     ub.stage.addChild(ub.front_view);
     ub.stage.addChild(ub.back_view);
@@ -441,7 +444,10 @@ $(document).ready(function() {
                 name: "Polo (Apparel)",
                 alias: "polo-apparel",
             },
-
+            {
+                name: "Wrestling 2018",
+                alias: "wrestling-2018",
+            },
         ],
 
         getAlias: function (sportName) {
@@ -989,7 +995,11 @@ $(document).ready(function() {
                     name: 'Hockey',
                     active: "1",
                 },
-
+                {
+                    code: 'field-hockey',
+                    name: 'Field Hockey',
+                    active: "1",
+                }, 
             ],
             
         },
@@ -1074,6 +1084,11 @@ $(document).ready(function() {
                 {
                     code: 'signature-coaches-short',
                     name: 'Signature Coaches Short (Apparel)',
+                    active: "1",
+                },
+                {
+                    code: 'wrestling-compression-shorts',
+                    name: 'Wrestling Compression Shorts (Apparel)',
                     active: "1",
                 },
                 {
@@ -6425,110 +6440,6 @@ ub.funcs.fontOffSets = [
 
     ];
 
-    ub.data.sportFilters = [
-        {
-            sport: 'Football',
-            filters: ['All', 'Jersey', 'Pant'],
-        },
-        {
-            sport: 'Football 2017',
-            filters: ['All', 'Jersey', 'Pant'],
-        },
-        {
-            sport: 'Basketball',
-            filters: ['All', 'Jersey', 'Shorts'],
-        },
-        {
-            sport: 'Baseball',
-            filters: ['All', 'Jersey', 'Pant'],
-        }, 
-        {
-            sport: 'Fastpitch',
-            filters: ['All', 'Jersey', 'Pant'],
-        }, 
-        {
-            sport: 'Wrestling',
-            filters: ['All', 'Singlet', 'Fight Shorts'],
-        },
-        {
-            sport: 'Crew Socks (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Compression (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Tech-Tee (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Cinch Sack (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Volleyball',
-            filters: ['All', 'Jersey', 'Compression Shorts'],
-        },
-        {
-            sport: 'Hoodie (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Quarter Zip Jacket (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Polo (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Fan Replica Jersey (Apparel)',
-            filters: ['All'],
-        }, 
-        {
-            sport: 'Soccer',
-            filters: ['All', 'Jersey', 'Shorts'],
-        },
-        {
-            sport: 'Lacrosse',
-            filters: ['All', 'Jersey', 'Shorts'],
-        },
-        {
-            sport: 'Hockey',
-            filters: ['All', 'Jersey', 'Shorts'],
-        },
-        {
-            sport: '2017 Team Short with Pockets (Apparel)',
-            filters: ['All', 'Jersey', 'Team Shorts'],
-        },
-        {
-            sport: 'Signature Coaches Short (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Game Day Jackets (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Socks (Apparel)',
-            filters: ['All', 'Jersey', 'Socks'],
-        },
-        {
-            sport: 'Polo (Apparel)',
-            filters: ['All'],
-        },
-        {
-            sport: 'Cage Jacket (Apparel)',
-            filters: ['All', 'Jersey'],
-        },
-        {
-            sport: 'Compression Pant (Apparel)',
-            filters: ['All'],
-        },
-          
-    ];
-
     ub.funcs.load_fonts = function () {
 
         var font_builder = '';
@@ -6903,6 +6814,12 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Football 2017',
                 applicationNumber: '5',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Football 2017',
+                applicationNumber: '5',
                 size: 3,
                 pullUpHeight: 0,
             },
@@ -7124,11 +7041,23 @@ ub.funcs.fontOffSets = [
                 size: 3,
                 pullUpHeight: 0,
             },
+            {
+                sport: 'Basketball',
+                applicationNumber: '5',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Basketball',
+                applicationNumber: '5',
+                size: 1,
+                pullUpHeight: 0,
+            },
 
         ], 
 
         getPullUp: function (sport, parentSize, applicationNumber) {
-
+            
             var _parentSize = parentSize; 
 
             // Handle unset teamnames
@@ -8334,6 +8263,7 @@ ub.funcs.fontOffSets = [
             'Compression Pant (Apparel)',
             'Socks (Apparel)',
             'Cage Jacket (Apparel)',
+            'Wrestling 2018',
         ],
         options: [
             'Fight Short',
@@ -8534,8 +8464,18 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling Compression Short Sleeve (Apparel)',
                 sublimatedPart: 'Extra',
             },
-            
-            // Socks (Apparel)
+            {
+                sport: 'Field Hockey',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Wrestling Compression Shorts (Apparel)',
+                sublimatedPart: 'Extra',
+            },
+            {
+                sport: 'Wrestling 2018',
+                sublimatedPart: 'Extra',
+            },   
         ],
 
         get: function (sport) {
@@ -8670,6 +8610,7 @@ ub.funcs.fontOffSets = [
                     option: "Short Sleeve",
                 },
               
+                // Volleyball
                 {
                     sport: 'Volleyball',
                     option: "Cap Sleeve",
@@ -8686,7 +8627,21 @@ ub.funcs.fontOffSets = [
                     sport: 'Volleyball',
                     option: "Short Sleeve",
                 },
+                {
+                    sport: 'Volleyball',
+                    option: "Men Volleyball Jersey",
+                },
+                {
+                    sport: 'Volleyball',
+                    option: "Crew Neck Sleeveless Shirt",
+                },
+                {
+                    sport: 'Volleyball',
+                    option: "Sublimated Short",
+                },
+                // End Volleyball
 
+                // Hockey 
                 {
                     sport: 'Hockey',
                     option: "Game Jersey",
@@ -8695,6 +8650,32 @@ ub.funcs.fontOffSets = [
                     sport: 'Hockey',
                     option: "Sublimated Jersey",
                 },
+                {
+                    sport: 'Hockey',
+                    option: "Game Scooped V-Neck with Buckle",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Scooped-V",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Scooped-V with Buckle",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Grinder V-Neck",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Grinder V-Neck with Buckle",
+                },
+                {
+                    sport: 'Hockey',
+                    option: "Game V-Neck",
+                },
+                // End Hockey
+
                 {
                     sport: 'Fan Replica Jersey (Apparel)',
                     option: "Men's",
@@ -8806,6 +8787,54 @@ ub.funcs.fontOffSets = [
                 {
                     sport: 'Basketball',
                     option: "Round Neck",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Side Seam Jersey",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Kentucky Jersey (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Kentucky Jersey (W)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Laker Neck Jersey (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Laker Neck Jersey (W)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Wildcat Neck Jersey (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Wildcat Neck Jersey (W)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Wildcat Neck Jersey (W)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "4 Inch Side Panel Short (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "4 Inch Side Panel Short (M)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "4 Inch Side Panel Short (W)",
+                },
+                {
+                    sport: 'Basketball',
+                    option: "Kentucky Jersey(M)",
                 },
 
         ],
@@ -9343,6 +9372,9 @@ ub.funcs.fontOffSets = [
             { sport: 'Cage Jacket (Apparel)' },
             { sport: 'Compression Pant (Apparel)' },
 
+            { sport: 'Field Hockey' },
+            { sport: 'Wrestling Compression Shorts (Apparel)' },
+
         ],
 
         isSportOK: function (sport) {
@@ -9447,12 +9479,43 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Signature Coaches Short (Apparel)',
                 type: 'lower',
-                lowerLabel: 'Coaches Short',
+                lowerLabel: 'Shorts',
             },
             {
                 sport: 'Socks (Apparel)',
                 type: 'lower',
                 lowerLabel: 'Socks',
+            },
+            {
+                sport: 'Wrestling Compression Shorts (Apparel)',
+                type: 'lower',
+                lowerLabel: 'Shorts',
+            },
+            {
+                sport: 'Hockey',
+                type: 'both',
+                upperLabel: 'Jersey',
+                lowerLabel: 'Pants',
+            },
+            {
+                sport: 'Game Day Jackets (Apparel)',
+                type: 'upper',
+                upperLabel: 'Jacket',
+            },
+            {
+                sport: 'Cage Jacket (Apparel)',
+                type: 'upper',
+                upperLabel: 'Jackets',
+            },
+            {
+                sport: 'Fan Replica Jersey (Apparel)',
+                type: 'upper',
+                upperLabel: 'Jersey',
+            },
+            {
+                sport: 'Compression Pant (Apparel)',
+                type: 'lower',
+                lowerLabel: ' Pants',
             },
             {
                 sport: 'Default', // Football
@@ -9472,6 +9535,127 @@ ub.funcs.fontOffSets = [
         }
 
     }
+
+     ub.data.sportFilters = [
+        {
+            sport: 'Football',
+            filters: ['All', 'Jersey', 'Pant'],
+        },
+        {
+            sport: 'Football 2017',
+            filters: ['All', 'Jersey', 'Pant'],
+        },
+        {
+            sport: 'Basketball',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Baseball',
+            filters: ['All', 'Jersey', 'Pant'],
+        }, 
+        {
+            sport: 'Fastpitch',
+            filters: ['All', 'Jersey', 'Pant'],
+        }, 
+        {
+            sport: 'Wrestling',
+            filters: ['All', 'Singlet', 'Fight Shorts'],
+        },
+        {
+            sport: 'Crew Socks (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Compression (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Tech-Tee (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Volleyball',
+            filters: ['All', 'Jersey', 'Compression Shorts'],
+        },
+        {
+            sport: 'Hoodie (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Quarter Zip Jacket (Apparel)',
+            filters: ['All', 'Jackets'],
+        },
+        {
+            sport: 'Polo (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Fan Replica Jersey (Apparel)',
+            filters: ['All'],
+        }, 
+        {
+            sport: 'Soccer',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Lacrosse',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Hockey',
+            filters: ['All', 'Jersey', 'Pants'],
+        },
+        {
+            sport: '2017 Team Short with Pockets (Apparel)',
+            filters: ['All', 'Jersey', 'Team Shorts'],
+        },
+        {
+            sport: 'Signature Coaches Short (Apparel)',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Game Day Jackets (Apparel)',
+            filters: ['All', 'Jackets'],
+        },
+        {
+            sport: 'Socks (Apparel)',
+            filters: ['All', 'Jersey', 'Socks'],
+        },
+        {
+            sport: 'Polo (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Cage Jacket (Apparel)',
+            filters: ['All', 'Jackets'],
+        },
+        {
+            sport: 'Compression Pant (Apparel)',
+            filters: ['All'],
+        },
+        {
+            sport: 'Field Hockey',
+            filters: ['All', 'Jersey', 'Skorts'],
+        },
+        {
+            sport: 'Fan Replica Jersey (Apparel)',
+            filters: ['All', 'Jersey'],
+        },
+        {
+            sport: 'Wrestling Compression Shorts (Apparel)',
+            filters: ['All', 'Jersey', 'Shorts'],
+        },
+        {
+            sport: 'Compression Short (Apparel)',
+            filters: ['All', 'Pants'],
+        },
+        {
+            sport: 'Cinch Sack (Apparel)',
+            filters: ['All', 'Cinch Sack'],
+        },
+
+          
+    ];
 
     // Todo: Detect this at runtime instead
     ub.data.sportsWithExtraLayer = {
@@ -9645,8 +9829,8 @@ ub.funcs.fontOffSets = [
         items: [
             { name: 'Beta Sport Uniforms', code: 'betaSportUniforms', section: 'uniforms' },
             { name: 'Show price items of uniforms', code: 'priceItemName', section: 'uniforms' },
+            { name: 'Test Orders', code: 'testOrders', section: 'uniforms' },
         ],
-
         
         getCode: function (featureFlag) {
             
@@ -10001,6 +10185,18 @@ ub.funcs.fontOffSets = [
                 shortCode: 'compression-pant',
                 urlAlias: 'Compression Pant (Apparel)',
                 thumbFilename: 'compression-pant.png',
+                gender: ['men',],    
+            },
+            {
+                shortCode: 'field-hockey',
+                urlAlias: 'Field Hockey',
+                thumbFilename: 'field-hockey.png',
+                gender: ['women',],    
+            },
+            {
+                shortCode: 'wrestling-compression-shorts',
+                urlAlias: 'Wrestling Compression Shorts (Apparel)',
+                thumbFilename: 'wrestling-compression-shorts.png',
                 gender: ['men',],    
             },
         ],
@@ -10366,6 +10562,7 @@ ub.funcs.fontOffSets = [
         items: [
             'Test', // Richardson Test Block
             'Football 2017',
+            'Wrestling 2018',
         ],
         isValid: function (uniformCategory) {
 

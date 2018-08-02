@@ -22,6 +22,7 @@ li.select2-selection__choice {
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Patterns Master List')
                     <h1>
                         Patterns Master List
                     </h1>
@@ -55,11 +56,6 @@ li.select2-selection__choice {
                         </td>
                     </tr>
                     @empty
-                        <tr>
-                            <td colspan='5'>
-                                No Pattern Data Found
-                            </td>
-                        </tr>
 
                     @endforelse
 
@@ -76,6 +72,15 @@ li.select2-selection__choice {
 @section('scripts')
 <script type="text/javascript">
 $(document).ready(function(){
+
+    $('.data-table').DataTable({
+    "paging": true,
+    "lengthChange": true,
+    "searching": true,
+    "ordering": false,
+    "info": true,
+    "autoWidth": true,
+});
 
     window.delete_data_html = null;
     window.modal_action = null;
@@ -107,6 +112,7 @@ $(document).ready(function(){
             var url = "//" + api_host + "/api/" + endpoint_version + "/master_pattern/update";
             addUpdateRecord(data, url);
         }
+        $('.submit-new-record').attr('disabled', 'true');
     });
 
     $(document).on('click', '.add-record', function(e) {
@@ -147,6 +153,7 @@ $(document).ready(function(){
         $('#category_value').val('');
         $(".input-uniform-category-id").val("");
         $(".input-uniform-category-id").trigger("change");
+        $('.submit-new-record').removeAttr('disabled');
     });
 
 
@@ -283,15 +290,6 @@ $(document).ready(function(){
 
     $(".input-uniform-category-id").change(function() {
         $('#category_value').val($(this).val());
-    });
-
-    $('.data-table').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": false,
-        "info": true,
-        "autoWidth": true,
     });
 
 });

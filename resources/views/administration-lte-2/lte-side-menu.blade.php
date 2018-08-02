@@ -44,11 +44,11 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="../tables/simple.html"><i class="fa fa-th-large"></i> Block Patterns</a></li>
-            <li><a href="../tables/simple.html"><i class="fa fa-tint"></i> Colors</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/master_colors"><i class="fa fa-map"></i> Colors <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/fabrics"><i class="fa fa-map"></i> Fabrics <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="../tables/data.html"><i class="fa fa-building"></i> Factories</a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/fonts"><i class="fa fa-font"></i> Fonts <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
-            <li><a href="../tables/data.html"><i class="fa fa-bars"></i> Gradients</a></li>
+            <!-- <li><a href="../tables/data.html"><i class="fa fa-bars"></i> Gradients</a></li> -->
             <li><a href="../tables/data.html"><i class="fa fa-github-alt"></i> Mascots</a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/patterns"><i class="fa fa-table"></i> Patterns<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
@@ -63,6 +63,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/users"><i class="fa fa-users"></i> All Users<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+<li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/users/password_strength"><i class="fa fa-pie-chart"></i> Password Strength Graph<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="../tables/data.html"><i class="fa fa-folder"></i> User Transactions</a></li>
           </ul>
         </li>
@@ -78,7 +79,7 @@
             <li><a href="../tables/simple.html"><i class="fa fa-comments"></i> Feedbacks</a></li>
             <li><a href="../tables/simple.html"><i class="fa fa-object-ungroup"></i> Inksoft Designs</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-linux"></i> Logo Requests</a></li>
-            <li><a href="../tables/data.html"><i class="fa fa-image"></i> Saved Designs</a></li>
+            <li><a href="{{ route('saved_designs') }}"><i class="fa fa-image"></i> Saved Designs</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-tags"></i> Tagged Styles</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-user-plus"></i> User Pairings</a></li>
           </ul>
@@ -96,7 +97,7 @@
             <li><a href="../tables/simple.html"><i class="fa fa-cubes"></i> All styles</a></li>
             <li><a href="../tables/simple.html"><i class="fa fa-bars"></i> Style Sets</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-search"></i> Search Style</a></li>
-            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/style_request"><i class="fa fa-plus-square"></i> Request a Style</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/style_requests"><i class="fa fa-plus-square"></i> Request a Style</a></li>
           </ul>
         </li>
 

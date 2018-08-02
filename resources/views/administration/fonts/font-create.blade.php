@@ -81,7 +81,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-5 control-label">Font Name</label>
                             <div class="col-md-4">
-                                <input type="name" class="form-control font-name" name="name" value="{{ old('name') }}">
+                                <input type="name" class="form-control font-name" name="name" value="{{ old('name') }}" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -112,7 +112,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-5 control-label">Upload Font File</label>
                             <div class="col-md-4 material">
-                                <input type="file" class="form-control font-file" name="font_path" accept="font/*">
+                                <input type="file" class="form-control font-file" name="font_path" accept="font/*" required>
                             </div>
                         </div>
 
@@ -465,9 +465,26 @@ $(document).ready(function(){
         var newLength = $('.layers-row').length;
     });
 
+    $(document).on('click', '.btn-remove-layer', function() {
+        var rowCount = $('.layers-row').length;
+        console.log('rowCount ', rowCount);
+        
+        if (rowCount > 1) {
+            $(this).closest('tr').remove();
+            var newRowCount = $('.layers-row').length;
+
+            $(".layers-row").each(function(i) {
+                $(this).find(".layer-number").text(newRowCount);
+                $(this).find(".layer-number").val(newRowCount);
+                newRowCount--;
+            });
+        }
+    });
+
     function renumberRows(length){
         layers_properties = {};
         $(".layers-row").each(function(i) {
+            console.log(i);
             var thisLayer = "layer"+length;
             var layer_class = ".fo-layer.layer" + length;
 

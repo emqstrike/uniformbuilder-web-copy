@@ -1,5 +1,10 @@
 @extends('administration.lte-main')
- 
+
+@section('styles')
+<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
+@endsection
+
 @section('content')
 <style type="text/css">
 .onoffswitch {
@@ -39,22 +44,22 @@
     position: absolute; top: 0; bottom: 0;
     right: 37px;
     border: 2px solid #999999; border-radius: 9px;
-    transition: all 0.3s ease-in 0s; 
+    transition: all 0.3s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
     margin-left: 0;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px; 
+    right: 0px;
 }
 
 .li{
     display: inline-block;
-    max-width:50%; 
+    max-width:50%;
     width:50px;
     font-size:10px;
     text-align: center;
-    word-break:break-all; 
+    word-break:break-all;
     margin: 0;
     padding: 0;
 }
@@ -83,8 +88,8 @@
                     </small> -->
                 </div>
                 <div class="box-body">
-                    <input type="hidden" class="colors-all" value='<?php echo json_encode($colors, JSON_FORCE_OBJECT);?>'>
-                    <table class='data-table table table-bordered'>
+                    <textarea class="colors-all" style="display:none;"><?php echo json_encode($colors, JSON_FORCE_OBJECT);?></textarea>
+                    <table class='data-table table table-bordered' id="colors-set-table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -107,13 +112,13 @@
                             <td>
                                 {{ $set->uniform_type }}
                             </td>
-                           
+
                             <td>
                             <ul class="nav nav-pills colors-column">
                             </ul>
-                                <input type="hidden" class="colors" value='<?php echo json_encode($set->colors, JSON_FORCE_OBJECT);?>'>
+                                <textarea class="colors" style="display:none;"><?php echo json_encode($set->colors, JSON_FORCE_OBJECT);?></textarea>
                             </td>
-                        
+
                              <td>
                                 <div class="onoffswitch">
                                      <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-color-set" id="switch-{{ $set->id }}" data-color-set-id="{{ $set->id }}" {{ ($set->active) ? 'checked' : '' }}>
@@ -122,7 +127,7 @@
                                         <span class="onoffswitch-switch"></span>
                                     </label>
                                 </div>
-                            </td>        
+                            </td>
                         </td>
                             <td>
                                 <a href="/administration/colors_set/edit/{{$set->id}}" class="edit-color-set btn btn-info btn-xs">
@@ -155,15 +160,11 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 
-
-
     var all_colors = JSON.parse( $('.colors-all').val() );
-    // console.log( all_colors );
-
-
 
     $(".colors").each(function(i) {
         var strColors = $(this).val().replace(/\\"/g, '"');
@@ -181,41 +182,43 @@ $(document).ready(function(){
         $(this).siblings('.colors-column').append(elem);
     });
 
+    $('.toggle-color-set').on('click', function(){
+        var id = $(this).data('color-set-id');
+        var url = "//" + api_host + "/api/color_set/toggle/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
 
-
-  $('.toggle-color-set').on('click', function(){
-            var id = $(this).data('color-set-id');
-            var url = "//" + api_host + "/api/color_set/toggle/";
-           // var url = "//localhost:8888/api/color_set/toggle/";
-  
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: JSON.stringify({id: id}),
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": atob(headerValue)},
-                success: function(response){
-                    if (response.success) {
-                      
-                        new PNotify({
-                            title: 'Success',
-                            text: response.message,
-                            type: 'success',
-                            hide: true
-                        });
-                        console.log(response.message);
-                    }
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    console.log(response.message);
                 }
-            });
-        }); 
+            }
+        });
+    });
 
-      $('.delete-color-set').on('click', function(){
-            var id = $(this).data('color-set-id');
+    $('#colors-set-table').on('click', '.delete-color-set', function(e){
+        e.preventDefault();
+        var id = [];
+        id.push( $(this).data('color-set-id'));
+        console.log(id);
+        modalConfirm('Remove Color Set', 'Are you sure you want to delete the color set?', id);
+    });
+
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
             var url = "//" + api_host + "/api/color_set/delete/";
-           //var url = "//localhost:8888/api/color_set/delete";
-        
             $.ajax({
                 url: url,
                 type: "POST",
@@ -226,21 +229,18 @@ $(document).ready(function(){
                 headers: {"accessToken": atob(headerValue)},
                 success: function(response){
                     if (response.success) {
-                      
                         new PNotify({
                             title: 'Success',
                             text: response.message,
                             type: 'success',
                             hide: true
                         });
-
+                         $('#confirmation-modal').modal('hide');
                         $( ".data-table" ).load( location+" .data-table" );
-                     
                     }
                 }
             });
-        }); 
-
+        });
 
 });
 </script>

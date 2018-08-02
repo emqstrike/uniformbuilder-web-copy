@@ -23,6 +23,8 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="neck_options" id="neck_options" value="">
 
+                        @include('administration.partials.flash-message')
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern Name</label>
                             <div class="col-md-6">

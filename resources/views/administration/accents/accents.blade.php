@@ -29,6 +29,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Alias</th>
                             <th>Code</th>
                             <th>Thumbnail</th>
                             <th>Actions</th>
@@ -40,9 +41,12 @@
 
                         <tr class='accent-{{ $accent->id }} '>
                             <td>{{ $accent->name }}</td>
+                            <td>{{ $accent->alias }}</td>
                             <td>{{ $accent->code }}</td>
                             <td>
-                            <!-- <img src="{{ $accent->thumbnail_path }}" height="100" width="100"> -->
+                                @if ($accent->thumbnail_path)
+                                    <img src="{{ $accent->thumbnail_path }}" alt="" style="width: 50px;">
+                                @endif
                             </td>
                             <td>
         						<a href="/administration/accent/edit/{{ $accent->id }}" class="btn btn-primary btn-xs edit-accent" data-accent-id="{{ $accent->id }}" role="button">
@@ -57,20 +61,15 @@
                                     <i class="glyphicon glyphicon-eye-open"></i>
                                     Enable
                                 </a>
-                                    @if(  $key  > -1)
+                                @if(  $key  > -1)
                                     <a href="#" class="btn btn-danger btn-xs delete-accent" data-accent-id="{{ $accent->id }}" role="button">
                                         <i class="glyphicon glyphicon-trash"></i>
                                         Remove
                                     </a>
-                                    @endif
+                                @endif
                             </td>
-
-
-
                         </tr>
-
                     @empty
-
                         <tr>
                             <td colspan='4'>
                                 No Accents

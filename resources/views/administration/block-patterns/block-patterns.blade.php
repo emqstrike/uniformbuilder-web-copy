@@ -150,6 +150,7 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/administration/datatables.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/block-patterns.js"></script>

@@ -110,6 +110,7 @@
                                 <th>Y</th>
                                 <th>Primary</th>
                                 <th>Logo</th>
+                                <th>Embellishment</th>
                                 <th>Team name</th>
                                 <th>Player name</th>
                                 <th>Number</th>
@@ -123,7 +124,6 @@
                                 <th>Default Text</th>
                                 <th>Vertical Text</th>
                                 <th>Default Number</th>
-                                <th>Embellishment</th>
                                 <th>Inksoft Design ID</th>
                                 <th>Opacity</th>
                                 <th>Pattern Position</th>

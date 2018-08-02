@@ -879,9 +879,13 @@ class UniformBuilderController extends Controller
         foreach ($applications as &$application) {
 
             $appType = strtoupper(str_replace("_"," ",$application['application_type']));
+            $appTypeCaption = $appType;
 
             // Skip free / unused applications
             if ($appType == "FREE") { continue; }
+            if ($appType == "EMBELLISHMENTS") { $appTypeCaption = "CUSTOM MASCOT"; }
+
+
 
             // Skip applications that are turned off
             if (isset($application['status']) and $application['status'] === "off") { continue; }
@@ -901,7 +905,7 @@ class UniformBuilderController extends Controller
             $html .=   '</td>';
 
             $html .=   '<td align="center">';
-            $html .=   $appType;
+            $html .=   $appTypeCaption;
             $html .=   '</td>';
 
             if ($appType == "TEAM NAME" or $appType == "PLAYER NAME" or $appType == "SHOULDER NUMBER" or $appType == "SLEEVE NUMBER" or $appType == "FRONT NUMBER" or $appType == "BACK NUMBER" ) {
@@ -1181,10 +1185,10 @@ class UniformBuilderController extends Controller
 
         }
 
-        if ($sport === "Football" && $type !== "lower") {
+        if ($sport === "Football 2017" && $type !== "lower") {
 
             $html .=   '<td align="center">';
-            $html .=   '<strong>LASTNAME APPLICATION' . $type . '</strong>';
+            $html .=   '<strong>LASTNAME APPLICATION</strong>';
             $html .=   '</td>';
             $html .=   '<td align="center">';
             $html .=   '<strong>SLEEVE TYPE</strong>';
@@ -1220,12 +1224,12 @@ class UniformBuilderController extends Controller
             if ($sport !== "Crew Socks (Apparel)") {
 
                 $html .=   '<td align="center">';
-                $html .=   strtoupper($roster['lastname']);
+                $html .=   $roster['lastname'];
                 $html .=   '</td>';
 
             }
 
-            if (($sport === "Football" || $sport === "Baseball") && $type !== "lower") {
+            if (($sport === "Football 2017" || $sport === "Baseball") && $type !== "lower") {
 
                 $html .=   '<td align="center">';
                 $html .=   $roster['lastNameApplication'];

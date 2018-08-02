@@ -642,6 +642,7 @@ $(document).ready(function() {
         if (ub.data.afterLoadCalled === 0) { return; } // Skip activate when called on load prep
 
         ub.funcs.activateEmbellishments(application.id);
+        ub.funcs.updateLayerTool();
 
     };
 
@@ -1146,7 +1147,7 @@ $(document).ready(function() {
 
                 _htmlBuilder        +=           '<div data-type="mascot" class="optionButton ' + _deactivated + ' ' + _currentlySelectedType + '">';
                 _htmlBuilder        +=                 '<div class="icon">' + '<img src="/images/main-ui/icon-mascot-large.png">' + '</div>';
-                _htmlBuilder        +=                 '<div class="caption">Mascot ' + _selected + '</div>';
+                _htmlBuilder        +=                 '<div class="caption">Stock Mascot ' + _selected + '</div>';
                 _htmlBuilder        +=           '</div>';
 
                 if (ub.config.uniform_application_type !== "sublimated" && ub.config.uniform_application_type === "tackle_twill") {
