@@ -89,7 +89,7 @@
             data.allowed_pages = $('#allowed_pages').val();
 
             $.ajax({
-                url: "{{ env('APP_URL') }}/administration/user/updated_allowed_pages",
+                url: "{{ env('APP_URL') }}/administration/user/update_allowed_pages",
                 type: "POST",
                 data: data,
                 success: function(response) {
