@@ -134,7 +134,7 @@ $(document).ready(function() {
 
     var _bg                         = ub.CONSTANTS.backgroundColor;
 
-    if (ub.config.brand === "Prolook") {
+    if (ub.config.brand === ub.CONSTANTS.prolook) {
         var _bgImage                = window.ub.pixi.new_sprite('/images/uiV1/bg.jpg');
         ub.stage.addChild(_bg); 
         ub.bg = _bg;
