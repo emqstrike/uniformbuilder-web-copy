@@ -28,7 +28,7 @@
             $('#type').val(data.type);
             $('#role').val(data.role);
 
-            var url = "/administration/page_rule/" + data.type + "/" + data.role;
+            var url = "{{ env('APP_URL') }}/administration/page_rule/" + data.type + "/" + data.role;
 
             $.get(url, function(data, status) {
                 var allowed_pages = "";
