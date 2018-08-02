@@ -53,7 +53,7 @@
                     $('#default_allowed_pages').append(html);
                 }
 
-                $.get("{{ route('get_v1_pages') }}", function(data, status) {
+                $.get("{{ env('APP_URL') }}/administration/pages/v1-0", function(data, status) {
                     var html = "";
 
                     jQuery.each(data, function(key, value) {
@@ -89,7 +89,7 @@
             data.allowed_pages = $('#allowed_pages').val();
 
             $.ajax({
-                url: "{{ route('update_allowed_pages') }}",
+                url: "{{ env('APP_URL') }}/administration/user/updated_allowed_pages",
                 type: "POST",
                 data: data,
                 success: function(response) {
