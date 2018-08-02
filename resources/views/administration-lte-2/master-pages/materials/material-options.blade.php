@@ -1,25 +1,51 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
+    <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/custom.css">
+
     <style>
-        th {
+        .box-body th {
             text-align: center;
         }
 
-        th {
+        .box-body th {
             text-align: left;
         }
 
-        th h3 {
+        .box-body th h3 {
             text-align: center;
         }
 
-        td, th {
+        .box-body td, th {
             border: 1px solid #000000;
             padding: 15px;
             vertical-align: top;
         }
+
+        #applications_div {
+            border: 1px solid #000;
+            overflow-y: scroll;
+        }
+
+        #applications_div > div {
+            border: none !important;
+            margin-top: 0 !important;
+        }
+
+        .modal-wide .modal-body {
+            overflow: hidden;
+        }
     </style>
+@endsection
+
+@section('custom-styles')
+    @foreach ($fonts as $font)
+        @font-face { font-family: "{{ $font->name }}"; src: url("{{ $font->font_path }}"); }
+    @endforeach
 @endsection
 
 @section('content')
@@ -482,4 +508,46 @@
             </div>
         </div>
     </section>
+
+
+    @include('administration.materials.add-multiple-options-modal')
+    @include('administration.materials.material-option-boundary-modal')
+    @include('administration.materials.material-option-applications-modal')
+    @include('administration.materials.material-option-info-modal')
+    @include('administration.materials.material-option-modal')
+    @include('administration.materials.cleanup-material-modal')
+    @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])
+    @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-material-option'])
+    @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-cleanup-material-option'])
+    @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-multiple-material-option'])
+@endsection
+
+@section('scripts')
+<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+<script type="text/javascript" src="/js/administration/common.js"></script>
+<script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
+<script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/ddslick.min.js"></script>
+<script type="text/javascript" src="/underscore/underscore.js"></script>
+<script type="text/javascript" src="/js/administration/materials.js"></script>
+@if (Session::has('message'))
+<script type="text/javascript">
+$(document).ready(function(){
+    try {
+        $('.data-table').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+    } catch(e) {
+        console.log(e);
+    }
+});
+@endif
+</script>
 @endsection
