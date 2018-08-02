@@ -120,6 +120,26 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('style_request/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestAdd']);
 
         Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
+
+        /* Materials */
+        Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@index'])->name('v1_materials_index');
+        Route::get('materials/{sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@indexSport']);
+        Route::get('materials/full', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@indexFull']);
+        Route::post('material/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@store'])->name('v1_material_store');
+        Route::post('material/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@store']);
+        Route::get('material/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@addMaterialForm'])->name('v1_material_add');
+        Route::get('material/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@editMaterialForm'])->name('v1_material_edit');
+        Route::get('material/view_material_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@getMaterialOptions'])->name('v1_view_material_option');
+        Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@materialsOptionsSetup'])->name('v1_materials_options_setup');
+        Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@editPipingForm']);
+        Route::get('material/{id}/pipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@pipings']);
+        Route::get('material/{id}/random_feed', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@randomFeed']);
+        Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePiping']);
+        Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePipings']);
+        Route::post('material/updateRandomFeed', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateRandomFeed']);
+        Route::get('material/materials_options/dropzone/{material_id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@dropZone']);
+        Route::post('material/insert_dz_image', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@insertDropzoneImage']);
+        Route::post('material/insert_dz_design_sheet', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@insertDesignSheet']);
     });
 
     // Logins
