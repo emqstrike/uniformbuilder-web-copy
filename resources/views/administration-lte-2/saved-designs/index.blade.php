@@ -61,7 +61,7 @@
                                     <td>{{ $design->email }}</td>
                                     <td>{{ $design->created_at }}</td>
                                     <td>
-                                        <a href="http://customizer.prolook.com/my-saved-design/{{ $design->id }}" class="btn btn-primary btn-xs" target="_blank">View in Customizer</a>
+                                        <a href="{{ env('CUSTOMIZER_HOST') }}/my-saved-design/{{ $design->id }}" class="btn btn-primary btn-xs" target="_blank">View in Customizer</a>
                                     </td>
                             @empty
                                 <tr>
