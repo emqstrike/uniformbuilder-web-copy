@@ -3680,14 +3680,48 @@ div.header-container.main {
 
     /* Pattern UI */
 
+    div.blankPatternPreview {
+        width: 300px;
+        height: 300px;
+        position: relative; 
+        -moz-user-select: none;
+        border: solid 2px #333;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .blankPatternPreview:hover .simple-caption {
+        -moz-transform: translateY(-100%);
+        -o-transform: translateY(-100%);
+        -webkit-transform: translateY(-100%);
+        opacity: 1;
+        transform: translateY(-100%);
+        bottom: -20px;
+    }
+
+    .blankPatternPreview .simple-caption {
+        height: 30px;
+        width: 275px;
+        display: block;
+        line-height: 22pt;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .blankPatternPreview .caption {
+        background-color: ~'rgb(128,128,128, 0.8)';
+        position: absolute;
+        color: #fff;
+        left: 10px;
+    }
+
     div#patternUI {
 
         position: absolute;
-        top: 65px;
+        top: 90px;
         width: 550px;
         height: 500px;
         padding: 30px;
-        display: none;
         overflow: hidden;
 
         div.patternName {
@@ -3725,7 +3759,7 @@ div.header-container.main {
 
         div.patternPreviewContainer {
 
-            padding: 30px;
+            padding: 20px;
             text-align: center;
             padding-left: 94px;
 

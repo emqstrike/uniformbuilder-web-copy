@@ -2546,6 +2546,25 @@
 
 </script>
 
+<script type="text/mustache" id="m-patterns-blank">
+
+    <div id="patternUI">
+        <div class="patternName">
+            <label>Pattern Name: <span class="value">Blank</span></label>
+        </div>
+
+        <div class="patternPreviewContainer">
+            <div class="blankPatternPreview">
+                <img src="@{{thumbnail}}">
+                <span class="caption simple-caption">
+                    <p>Click to Change Pattern</p>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</script>
+
 <script type="text/mustache" id="m-patterns-panel">
 
     <div class="sub1 patternThumb">

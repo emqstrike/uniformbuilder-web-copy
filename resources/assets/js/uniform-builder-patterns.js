@@ -89,7 +89,7 @@ $(document).ready(function () {
                 var _materialOptionName     = _materialOption.name;
                 var _uniformType            = ub.current_material.material.type;
                 var _containers             = ub.current_material.containers[_uniformType][_materialOptionName].containers;
-                var views                   = ['front', 'back', 'left', 'right'];        
+                var views                   = ['front', 'back', 'left', 'right'];
                 var c                       = ub.current_material.containers[_uniformType][_materialOptionName].containers;
 
                 _.each(views, function (v) {
@@ -789,7 +789,7 @@ $(document).ready(function () {
 
 
     ub.data.currentPatternLayer = 0;
-    ub.funcs.createPatternUI = function (inputPattern, materialOption) {
+    ub.funcs.createPatternUIOLD = function (inputPattern, materialOption) {
 
         var _inputPattern   = inputPattern;
         var _patternObj     = inputPattern.pattern_obj;
@@ -888,6 +888,126 @@ $(document).ready(function () {
 
     };
 
+    ub.funcs.createPatternUI = function (inputPattern, materialOption) {
+        
+        console.log('inputPattern: ' + JSON.stringify(inputPattern));
+        console.log('materialOption: ' + JSON.stringify(materialOption));
+        
+        var inputPattern = inputPattern;
+        var materialOption = materialOption;
+
+        if (_.isEqual(inputPattern.pattern_obj.name, 'Blank')) {
+
+            var blankPattern            = _.find(ub.data.patterns.items, {name:'Blank'});
+                blankPattern            = ub.funcs.getPatternByID(blankPattern.id.toString());
+            var blankThumbnailLayer     = _.find(blankPattern.thumbnailLayers, {layer_no: 1});
+            
+            var template                = $("#m-patterns-blank").html();
+            var markup                  = Mustache.render(template, {thumbnail: blankThumbnailLayer.filename});
+            $('.modifier_main_container').append(markup);
+
+        } else {
+            // changePatternFromPopupApplications();
+        }
+        
+
+       //  var _inputPattern   = inputPattern;
+       //  var _patternObj     = inputPattern.pattern_obj;
+       //  var _materialOption = materialOption;
+
+       //  var _htmlBuilder    = "<div id='patternUI'>";
+
+       //  var _patternName    = _patternObj.name;
+       //  var _thumbnail      = _patternObj.icon;
+
+       //  var _teamColorObj   = ub.current_material.settings.team_colors;
+       //  var _colorSet       = ub.funcs.getBaseColors();
+       //  var _tempIndex      = 1;
+
+       //  _htmlBuilder        += "<div class='patternName'><glabel>Pattern Name: </label> <span class='value'>" + _patternName + "</span></div>";
+       // // _htmlBuilder        += '<div class="allPartsContainer"><input type="checkbox" name="applyToAllParts" value="apply" > APPLY TO ALL PARTS</div>';
+       //  _htmlBuilder        += '<div class="patternPreviewContainer"><canvas id="patternPreview" class="patternPreview"></canvas></div>';
+       //  _htmlBuilder        += '<div class="pattern-color-wheel-container">';
+
+       //  _.each(_patternObj.layers, function (layer) {
+
+       //      var fill        = 'white';
+       //      var layerID     = layer.layer_no;
+
+       //      _htmlBuilder    += '<div class="color-wheel pattern-color-wheel" id="pcw_' + layerID + '">';        
+       //      _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
+       //      _tempIndex      += 1;
+
+       //      _htmlBuilder    += '<defs><pattern id="image" x="50" y="-50" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="300" xlink:href=""></image></pattern></defs>';
+       //      _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="url(#image)" />';
+
+       //      _.each(_teamColorObj, function (colorObj, index) {
+
+       //          _htmlBuilder  +=  '<path class="growStroke arc-' + layerID + '" id="arc' + index + '-' + layerID + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
+
+       //      });
+
+       //      _htmlBuilder     += '</svg>';
+       //      _htmlBuilder     += '</div>';
+
+       //  });
+
+       //  _htmlBuilder     += '</div>';
+
+       //  if(_inputPattern.pattern_id !== "none" || _inputPattern.pattern_id !== "blank") {
+
+       //      _htmlBuilder     += "<div class='patternColorNavigator'><div class='left'><i class='fa fa-chevron-left' aria-hidden='true'></i></div><div class='label'>EDIT COLORS</div><div class='right'><i class='fa fa-chevron-right' aria-hidden='true'></i></div></div>";
+
+       //  }
+        
+       //  _htmlBuilder     += "</div>";
+
+       //  $('.modifier_main_container').append(_htmlBuilder);
+
+       //  _.each(_patternObj.layers, function (layer) {
+
+       //      var layerID     = layer.layer_no;
+
+       //      var _elements   = _teamColorObj.length;
+       //      var _length     = 360 / _elements;
+       //      var _start      = 0;
+
+       //      _.each(_teamColorObj, function (colorObj, index) {
+
+       //          var _nth    = index;
+       //          var _start  = _nth * _length;
+       //          var _end    = _start + _length;
+       //          var _id     = "arc" + index + '-' + layerID;
+
+       //          document.getElementById(_id).setAttribute("d", describeArc(250, 170, 125, _start, _end));
+
+       //          $("path#arc" + index + '-' + layerID).on("click", function () {
+
+       //             $("path.arc-" + layerID).attr("class", "growStroke arc-" + layerID);
+       //             $(this).attr("class", "selectedStroke growStroke arc-" + layerID);
+
+       //             var _colorID           = $(this).data('color-id');
+       //             var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});
+                   
+       //             ub.funcs.setMaterialOptionPatternColor(materialOption, _colorOBJ, layerID, _patternObj);
+
+       //          });
+
+       //      });
+
+       //  });    
+
+       //  var _sizeOf     = _.size(_patternObj.layers);
+       //  var _widthOfCW  = $('div.pattern-color-wheel').first().width();
+
+       //  $('div.pattern-color-wheel-container').css('width', (_sizeOf * _widthOfCW) + 'px');
+
+       //  $('#patternUI').fadeIn();
+
+       //  ub.funcs.createPatternPreview(_inputPattern);
+
+    };
+
 
     ub.data.previewContainer    = {};
     ub.data.previewCanvas       = {};
@@ -944,7 +1064,7 @@ $(document).ready(function () {
                 canvas.renderAll();
 
                 oImg.on('mousedown', function (){
-                    
+
                     ub.funcs.createPatternPopup();
 
                 });
