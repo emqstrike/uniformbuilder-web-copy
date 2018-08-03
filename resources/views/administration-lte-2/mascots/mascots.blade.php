@@ -44,32 +44,6 @@
       transform: translateX(20.08px);
     }
 
-
-    .file {
-      position: relative;
-    }
-    .file label {
-      background: #39D2B4;
-      padding: 5px 20px;
-      color: #fff;
-      font-weight: bold;
-      font-size: .9em;
-      transition: all .4s;
-    }
-    .file input {
-      position: absolute;
-      display: inline-block;
-      left: 0;
-      top: 0;
-      opacity: 0.01;
-      cursor: pointer;
-    }
-    .file input:hover + label,
-    .file input:focus + label {
-      background: #34495E;
-      color: #39D2B4;
-    }
-
 </style>
 @endsection
 
@@ -84,7 +58,9 @@
                     <h1>
                         <span class="fa fa-futbol-o"></span>
                         Mascots
-                        <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
+                        <a href="/administration/v1-0/mascot/add" class="btn btn-success btn-sm btn-flat add-record">
+                        Add
+                        </a>
                     </h1>
                     <hr>
                     Uniform Category:
@@ -156,7 +132,7 @@
                                 </a>
                             </td>
                             <td class="col-md-2">
-                                <a href="#" class="btn btn-primary btn-xs btn-flat edit-button" data-mascot-id="{{ $mascot->id }}" role="button">
+                                <a href="/administration/v1-0/mascot/edit/{{ $mascot->id }}" class="btn btn-primary btn-xs btn-flat edit-button" data-mascot-id="{{ $mascot->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
@@ -206,10 +182,8 @@
 $(document).ready(function(){
 
     window.sports = null;
-    window.mascot_categories = null;
 
     getSports(function(sports){ window.sports = sports; });
-    getMascotCategories(function(categories){ window.mascot_categories = categories; });
 
     function getSports(callback){
         var sports;
@@ -228,24 +202,6 @@ $(document).ready(function(){
         });
     }
 
-    function getMascotCategories(callback){
-        var categories;
-        var url = "//" + api_host + "/api/mascot_categories";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                categories = data['mascots_categories'];
-                if(typeof callback === "function") callback(categories);
-            }
-        });
-    }
-
-    loadMascotCategories();
     loadUniformCategories();
 
     window.active_sport = $('.active-sport').val();
@@ -277,124 +233,6 @@ $(document).ready(function(){
             category_elem += `<option value=` + category.name + `>` + category.name + `</option>`;
         });
         $('.input-uniform-category').append(category_elem);
-    }
-
-    function loadMascotCategories() {
-        var mcategory_elem = '';
-        sorted_mcategory = _.sortBy(window.mascot_categories, function (m) { return m.name });
-
-        _.each(sorted_mcategory, function(category) {
-            mcategory_elem += `<option value=` + category.name + `>` + category.name + `</option>`;
-        });
-        $('.input-mascot-category').append(mcategory_elem);
-    }
-
-
-    $(document).on('click', '.edit-button', function(e) {
-        e.preventDefault();
-        $(this).parent().siblings('td').find('.color-name').prop('disabled', false);
-        $(this).parent().siblings('td').find('.sublimation-only').prop('disabled', false);
-        $(this).parent().siblings('td').find('.master-color').prop('disabled', false);
-        $(this).parent().siblings('td').find('.brand-id').prop('disabled', false);
-        $(this).parent().siblings('td').find('#color-code').css("visibility" , "hidden");
-        var color_code = $(this).parent().siblings('td').find('#color-code-text');
-        color_code.show();
-        var hex_code = $(this).parent().siblings('td').find('#hex-code').val();
-    });
-
-    $(document).on('change', '.sublimation-only, #color-code-text, #colorpicker, .brand-id, .master-color',  function() {
-        var save_button = $(this).parent().siblings('td').find('.save-button');
-        save_button.removeAttr('disabled');
-        $(this).parent().siblings('td').find('.color-name').trigger('change');
-    });
-
-    $(document).on('change', '.color-name',  function() {
-        var save_button = $(this).parent().siblings('td').find('.save-button');
-        var color_name = $(this).val();
-        if(color_name == '') {
-            save_button.attr('disabled', 'disabled');
-        } else {
-            save_button.removeAttr('disabled');
-        }
-    });
-
-    $("#myForm").submit(function(e) {
-        e.preventDefault();
-        var data = {};
-        data.name = $('.input-mascot-name').val();
-        data.code = $('.input-mascot-code').val();
-        data.category = $('.input-mascot-category').val();
-        data.sports = $('.input-uniform-category').val();
-        data.icon = $('.input-icon').val();
-        data.ai_file = $('.input-ai-file').val();
-        data.brand = $('.input-brand').val();
-        data.master_color_id = $('.input-master-color').val();
-
-        if(window.modal_action == 'add'){
-        var url = "//" + api_host + "/api/mascot";
-        console.log(url);
-        console.log(data);
-            // addUpdateRecord(data, url);
-        } else if(window.modal_action == 'update'){
-            data.id =  $('.input-id').val();
-            var url = "//" + api_host + "/api/mascot/update";
-            console.log(url);
-            console.log(data);
-            // addUpdateRecord(data, url);
-        }
-        $('.submit-new-record').attr('disabled', 'true');
-    });
-
-    $("#myModal").on("hidden.bs.modal", function() {
-        $('.input-color-code').val('');
-        $('.input-color-name').val('');
-        $('.input-master-color').val('');
-        $('.input-brand-id').val('0');
-        $('#create-hex-code').val('#ff0000');
-        $('#create_colorpicker').spectrum({
-            color: "#ff0000",
-            preferredFormat: "hex",
-            showInput: true,
-            move: function(tinycolor) {
-                $('#create-hex-code').val(tinycolor);
-            },
-            hide: function(tinycolor) {
-                $('#create-hex-code').val(tinycolor);
-            }
-            });
-        $('.submit-new-record').removeAttr('disabled');
-    });
-
-    function addUpdateRecord(data) {
-        var url = "//" + api_host + "/api/color";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify(data),
-            headers: {"accessToken": atob(headerValue)},
-            contentType: 'application/json;',
-            success: function (data) {
-                if(data.success){
-                    window.location.reload();
-                    new PNotify({
-                        title: 'Success',
-                        text: data.message,
-                        type: 'success',
-                        hide: true
-                    });
-                } else {
-                    new PNotify({
-                        title: 'Error',
-                        text: data.message,
-                        type: 'error',
-                        hide: true
-                    });
-                }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                //Error Code Here
-            }
-        });
     }
 
     $(document).on('click', '.enable-color', function(e) {
@@ -455,15 +293,15 @@ $(document).ready(function(){
         });
     });
 
-    $(document).on('click', '.delete-color', function(e) {
+    $(document).on('click', '.delete-mascot', function(e) {
         e.preventDefault();
-        var id = $(this).data('color-id');
-        modalConfirm('Remove color', 'Are you sure you want to delete the color?', id);
+        var id = $(this).data('mascot-id');
+        modalConfirm('Remove Mascot', 'Are you sure you want to delete the Mascot?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/color/delete/";
+        var url = "//" + api_host + "/api/mascot/delete/";
         $.ajax({
             url: url,
             type: "POST",
@@ -473,10 +311,24 @@ $(document).ready(function(){
             contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
-                if (response.success) {
-                    $('#confirmation-modal').modal('hide');
-                    $('.color-' + id).fadeOut();
+               if(response.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Warning',
+                        text: response.message,
+                        type: 'warning',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: response.message,
+                        type: 'error',
+                        hide: true
+                    });
                 }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
             }
         });
     });

@@ -26,7 +26,6 @@ class MasterPagesController extends Controller
         $this->masterFontsAPIClient = new \App\APIClients\MasterFontsAPIClient();
         $this->masterColorsAPIClient = new \App\APIClients\MasterColorsAPIClient();
         $this->styleRequestsAPIClient = new \App\APIClients\StyleRequestsAPIClient();
-        $this->mascotsAPIClient = new \App\APIClients\MascotsAPIClient();
     }
 
     public function styleRequestIndex()
@@ -144,28 +143,6 @@ class MasterPagesController extends Controller
         if (in_array($user_id, $su_array)) {
             return view('administration-lte-2.master-pages.colors.master-colors', [
                 'colors' => $colors
-                ]);
-        }
-        else {
-                return redirect('administration');
-        }
-    }
-
-    public function mascotsIndex($active_sport = null)
-    {
-        if($active_sport == null) {
-            $active_sport = "All";
-        }
-
-        $mascots = $this->mascotsAPIClient->getMascotBySport($active_sport);
-
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.mascots.mascots', [
-                'mascots' => $mascots,
-                'active_sport' => $active_sport
                 ]);
         }
         else {

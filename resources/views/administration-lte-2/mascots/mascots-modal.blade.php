@@ -19,6 +19,7 @@
             <div class="modal-body">
 
                 <form id="myForm" role="form" action="#" method="POST">
+                  <input type="hidden" name="layers_properties" id="layers-properties">
                   <div class="form-group">
                     <label>Mascot Name</label>
                       <input type="text" class="form-control input-mascot-name" name="name" required>
@@ -37,13 +38,13 @@
                       <select name='uniform_category' class="form-control input-uniform-category" required="true">
                       </select>
                   </div>
-                  <div class="form-group file">
-                    <input type="file" class="form-control input-icon" name="icon"  accept="image/*" required>
-                    <label for="file" >Icon</label>
+                  <div class="form-group">
+                    <label for="input-icon">Icon</label>
+                    <input type="file" class="form-control input-icon" name="icon"  accept="image/*" id="input-icon" required>
                   </div>
-                  <div class="form-group file">
-                    <input type="file" class="form-control input-ai-file" name="ai_file"  accept=".ai,.pdf" required>
-                    <label for="file" >File</label>
+                  <div class="form-group">
+                    <label for="input-ai-file" >File</label>
+                    <input type="file" class="form-control input-ai-file" name="ai_file"  accept=".ai,.pdf" id="input-ai-file" required>
                   </div>
                   <div class="form-group">
                     <label>Brand</label>
@@ -65,7 +66,7 @@
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody id="layers-row-container">
+                                    <tbody id="layers-row-container" class="sortable-table">
                                         <tr class="layers-row">
                                             <td>
                                                 <select class="ma-layer layer1"  name="ma_layer[]" disabled>
@@ -86,9 +87,8 @@
                                                     <option value="10">10</option>
                                                 </select>
                                             </td>
-                                            <td class="file">
-                                                <input type="file" class="ma-options-src layer1" name="ma_image[]" required="true">
-                                                <label for="file" >File</label>
+                                            <td>
+                                                <input type="file" class="ma-options-src layer1" name="ma_image[]" required="true" id="ma-options-src">
                                             </td>
                                             <td>
                                                 <select class="form-control ma-default-color layer1" name="default_color[]" style="background-color: #000; color: #fff;text-shadow: 1px 1px #000;">
