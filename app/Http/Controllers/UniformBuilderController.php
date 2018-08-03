@@ -1224,7 +1224,7 @@ class UniformBuilderController extends Controller
             if ($sport !== "Crew Socks (Apparel)") {
 
                 $html .=   '<td align="center">';
-                $html .=   strtoupper($roster['lastname']);
+                $html .=   $roster['lastname'];
                 $html .=   '</td>';
 
             }

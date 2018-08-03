@@ -3727,9 +3727,11 @@ $(document).ready(function() {
                     return;     
                 }
 
-                if(_sizeOfTeamColors > 8){
-                    ub.startModal(2);
-                    return;     
+                if (!ub.config.useAllColors) {
+                    if(_sizeOfTeamColors > 8){
+                        ub.startModal(2);
+                        return;     
+                    }
                 }
                 
             }
@@ -4276,9 +4278,11 @@ $(document).ready(function() {
 
         var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
  
-        if (_sizeOfTeamColors > 8) {
-            ub.startModal();
-            return; 
+        if (!ub.config.useAllColors) {
+            if (_sizeOfTeamColors > 8) {
+                ub.startModal();
+                return; 
+            }
         }
 
         // if ($('div#cw').html().length === 0) {
@@ -6485,7 +6489,7 @@ $(document).ready(function() {
         var _isFreeFormEnabled  = ub.funcs.isFreeFormToolEnabled(_id);
 
 
-        if (ub.current_material.material.uniform_category === "Football") {
+        if (ub.funcs.isCurrentSport('Football')) {
 
             if (_id === '2' && _applicationType === 'mascot') {
                 _sizes            = ub.funcs.getApplicationSizes('mascot_2');            
@@ -6499,7 +6503,7 @@ $(document).ready(function() {
 
             _sizes = ub.funcs.getApplicationSizes('mascot_wrestling');
 
-        } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
+        } else if (!ub.funcs.isCurrentSport('Football') && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
             
             if (ub.funcs.isCurrentType('upper')) {
                 
@@ -6534,7 +6538,7 @@ $(document).ready(function() {
             console.log('Application #: ');
             console.log(_id);
 
-            if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") { 
+            if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") {
 
                 console.log(_sizesFromConfig);
                 console.log(_sizesFromConfig.sizes);
@@ -8047,11 +8051,13 @@ $(document).ready(function() {
                 ok = false;;     
             }
 
-            if(_sizeOfTeamColors > 8){
-                ub.startModal(2);
-                ok = false;     
+            if (!ub.config.useAllColors) {
+                if(_sizeOfTeamColors > 8){
+                    ub.startModal(2);
+                    ok = false;     
+                }
             }
-            
+    
         }
 
         return ok;

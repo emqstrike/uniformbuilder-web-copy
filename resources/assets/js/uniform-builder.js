@@ -620,6 +620,10 @@ $(document).ready(function () {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
             }
 
+            if (ub.config.useAllColors) {
+                ub.funcs.addAllColorToTeamColors();
+            }
+
         };
 
         ub.funcs.updateLabels = function () {
@@ -2746,6 +2750,8 @@ $(document).ready(function () {
             ub.funcs.activateLeftView();
 
         }
+
+        // use all color if config value is set
 
     };
 
@@ -5903,11 +5909,22 @@ $(document).ready(function () {
 
                 if (view === 'save') {
 
-                    if (typeof (window.ub.user.id) === "undefined") {
-                        ub.funcs.quickRegistration("save");
-                    } else {
-                        ub.funcs.initSaveDesign();    
-                    }
+                    var _msg = "Are you sure you want to save this design?";
+
+                    bootbox.confirm(_msg, function (result) { 
+                    
+                        if (result) {
+
+                            if (typeof (window.ub.user.id) === "undefined") {
+                                ub.funcs.quickRegistration("save");
+                            } else {
+                                ub.funcs.initSaveDesign();    
+                            }
+
+                        }
+
+
+                    });
 
                     return;
 
@@ -7170,7 +7187,7 @@ $(document).ready(function () {
             var itemsWOUpper = items;
             var _options = [];
 
-            if (gender === "Football") {
+            if (gender === "Football" || gender === "Football 2017") {
 
                 itemsWOUpper = _.filter(items, {type: 'lower'});
                 _blockPatterns = _.uniq(_.pluck(itemsWOUpper,'block_pattern'));    

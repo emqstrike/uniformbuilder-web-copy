@@ -124,11 +124,9 @@
                             <td class="col-md-2">
                                 <a href="#" class="btn btn-default btn-xs btn-flat disable-mascot" data-mascot-id="{{ $mascot->id }}" role="button" {{ ($mascot->active) ? : 'disabled="disabled"' }}>
                                     <i class="glyphicon glyphicon-eye-close"></i>
-                                    Disable
                                 </a>
                                 <a href="#" class="btn btn-info btn-xs btn-flat enable-mascot" data-mascot-id="{{ $mascot->id }}" role="button" {{ ($mascot->active) ? 'disabled="disabled"' : '' }}>
                                     <i class="glyphicon glyphicon-eye-open"></i>
-                                    Enable
                                 </a>
                             </td>
                             <td class="col-md-2">
@@ -235,10 +233,10 @@ $(document).ready(function(){
         $('.input-uniform-category').append(category_elem);
     }
 
-    $(document).on('click', '.enable-color', function(e) {
+     $(document).on('click', '.enable-mascot', function(e) {
         e.preventDefault();
-        var id = $(this).data('color-id');
-        var url = "//" + api_host + "/api/color/enable/";
+        var id = $(this).data('mascot-id');
+        var url = "//" + api_host + "/api/mascot/toggle";
         $.ajax({
             url: url,
             type: "POST",
@@ -249,25 +247,25 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    var elem = '.color-' + id;
+                    var elem = '.mascot-' + id;
                     new PNotify({
                         title: 'Success',
                         text: response.message,
                         type: 'success',
                         hide: true
                     });
-                    $(elem + ' .disable-color').removeAttr('disabled');
-                    $(elem + ' .enable-color').attr('disabled', 'disabled');
+                    $(elem + ' .disable-mascot').removeAttr('disabled');
+                    $(elem + ' .enable-mascot').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
                 }
             }
         });
     });
 
-    $(document).on('click', '.disable-color', function(e) {
+    $(document).on('click', '.disable-mascot', function(e) {
         e.preventDefault();
-        var id = $(this).data('color-id');
-        var url = "//" + api_host + "/api/color/disable/";
+        var id = $(this).data('mascot-id');
+        var url = "//" + api_host + "/api/mascot/toggle";
         $.ajax({
             url: url,
             type: "POST",
@@ -278,16 +276,43 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    var elem = '.color-' + id;
+                    var elem = '.mascot-' + id;
                     new PNotify({
                         title: 'Success',
                         text: response.message,
                         type: 'success',
                         hide: true
                     });
-                    $(elem + ' .enable-color').removeAttr('disabled');
-                    $(elem + ' .disable-color').attr('disabled', 'disabled');
+                    $(elem + ' .enable-mascot').removeAttr('disabled');
+                    $(elem + ' .disable-mascot').attr('disabled', 'disabled');
                     $(elem).addClass('inactive');
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.toggle-mascot-typographic', function(e){
+        e.preventDefault();
+        var id = $(this).data('mascot-id');
+        console.log(id);
+         var url = "//" + api_host + "/api/mascot/toggle_typographic/";
+         $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    var elem = '.material-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
                 }
             }
         });
