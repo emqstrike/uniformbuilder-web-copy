@@ -10650,6 +10650,18 @@ $(document).ready(function() {
 
                     }
 
+                    if(ub.funcs.isSocks()) { 
+
+                        _part = "Sublimated"; 
+                        
+                        if (typeof ub.data.modifierLabels["Body"] !== "undefined") {
+                            _part = "Body";
+                        }
+
+                        $('span.part[data-id="' + _part + '"]').addClass('active');
+
+                    }
+
                 }
 
             });
@@ -10772,7 +10784,8 @@ $(document).ready(function() {
 
             var _part = 'Body';
 
-            if(ub.funcs.isSocks()) { _part = "Sublimated" }
+            if(ub.funcs.isSocks()) { _part = "Sublimated"; }
+
             if(ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short") { _part = "Body Left" }
 
             /// Acitvate Part / Perspective
