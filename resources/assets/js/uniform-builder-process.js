@@ -934,10 +934,7 @@ $(document).ready(function() {
             _user_id = 0;
         }
 
-        var _type = '';
-        
-        _type = ub.config.uniform_application_type.toTitleCase(); 
-
+        var _type = ub.config.uniform_application_type.toTitleCase(); 
         var _submitted = '1';
 
         if (typeof save === "number") {
@@ -955,6 +952,7 @@ $(document).ready(function() {
                 user_id: _user_id,
                 user_name: ub.user.fullname,
                 origin: ub.config.app_env,
+                test_order: ub.funcs.submitAsTestOrder(),
 
             },
             athletic_director: {
@@ -1095,6 +1093,10 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.submitAsTestOrder = function () {
+        return ub.config.features.isOn('uniforms','testOrders') ? 1 : 0;
+    };
+
     // This is a dublicate of the Submit Order Form, refactor this
     ub.funcs.prepareData = function () {
 
@@ -1177,6 +1179,7 @@ $(document).ready(function() {
                 material_id: ub.current_material.material.id,
                 url: ub.config.host + window.document.location.pathname,
                 user_name: ub.user.fullname,
+                test_order: ub.funcs.submitAsTestOrder(),
             },
             athletic_director: {
 

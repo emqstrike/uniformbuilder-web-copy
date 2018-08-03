@@ -76,9 +76,15 @@ $(document).ready(function () {
                 // ub.design_sets_url = window.ub.config.api_host + '/api/design_sets/';
                 // ub.loader(ub.design_sets_url, 'design_sets', ub.load_design_sets);
 
+                ub.categories_url = ub.config.api_host + '/api/categories';
                 ub.materials_url = ub.config.api_host + '/api/materials/styleSheets';
+
+                ub.displayDoneAt('Loading Categories ...');
+                ub.loader(ub.categories_url, 'categories', ub.loadCategories);
+
                 ub.displayDoneAt('Loading Styles ...');
                 ub.loader(ub.materials_url, 'materials', ub.load_materials);
+
                 ub.afterLoadScripts();
 
             }
@@ -618,6 +624,10 @@ $(document).ready(function () {
             // FG
             if (typeof ub.user.id !== 'undefined') {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
+            }
+
+            if (ub.config.useAllColors) {
+                ub.funcs.addAllColorToTeamColors();
             }
 
         };
@@ -2746,6 +2756,8 @@ $(document).ready(function () {
             ub.funcs.activateLeftView();
 
         }
+
+        // use all color if config value is set
 
     };
 
@@ -7026,6 +7038,10 @@ $(document).ready(function () {
                 picker_items: items,
                 apparel: _apparel,
             }
+            
+            _.isEqual(gender, 'Men')    ? data.is_men   = true : '';
+            _.isEqual(gender, 'Women')  ? data.is_women = true : '';
+            _.isEqual(gender, 'Youth')  ? data.is_youth = true : '';
             
             var markup = Mustache.render(template, data);
             $scrollerElement.html(markup);
