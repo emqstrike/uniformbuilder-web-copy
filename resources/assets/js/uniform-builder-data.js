@@ -11117,7 +11117,7 @@ ub.funcs.fontOffSets = [
 
         isSportOK: function (sport) {
 
-            var _result = _.find(this.items, {sport: sport});
+            var _result = _.find(this.items, {name: sport});
             return (typeof _result !== "undefined") ? true: false;
 
         } 
@@ -11132,7 +11132,7 @@ ub.funcs.fontOffSets = [
 
         isSportOK: function (sport) {
 
-            var _result = _.find(this.items, {sport: sport});
+            var _result = _.find(this.items, {name: sport});
             return (typeof _result !== "undefined") ? true: false;
 
         } 
