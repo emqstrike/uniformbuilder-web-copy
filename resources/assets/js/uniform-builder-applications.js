@@ -10708,7 +10708,7 @@ $(document).ready(function() {
 
                     var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
 
-                    if (_part === "Body" && !_isLowerFootball2017Uniform) { 
+                    if (_part === "Body" && !_isLowerFootball2017Uniform && !ub.funcs.isSocks()) { 
 
                         $('span.perspective').removeClass('active');
                         $('span.perspective[data-id="front"]').addClass('active'); 
@@ -10783,7 +10783,7 @@ $(document).ready(function() {
 
                 $('span.part').removeClass('active');
 
-                if (ub.active_view === "back" || ub.active_view === "front") {
+                if (ub.active_view === "back" || ub.active_view === "front" || ub.funcs.isSocks()) {
 
                     _partToMakeActive =  ub.active_view.toTitleCase() + " Body";
                     $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');
