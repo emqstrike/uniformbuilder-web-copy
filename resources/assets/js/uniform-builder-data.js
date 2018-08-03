@@ -2182,6 +2182,10 @@ $(document).ready(function() {
                 name: "Wrestling 2018",
                 alias: "wrestling-2018",
             },
+            { 
+                name: "Socks (Apparel)",
+                alias: "socks",
+            },
         ],
 
         getAlias: function (sportName) {
