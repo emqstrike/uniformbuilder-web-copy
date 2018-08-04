@@ -1,3 +1,10 @@
+ <!-- Mascot Dropdown -->
+    <script type="text/mustache" id="m-maintenance-message">
+        
+        Prolook Customizer will have a scheduled system maintenance and will be offline temporarily on Sunday, August 5th from 8:00 PM EST - 5:00 AM EST.
+        
+    </script>
+
 
 <!-- Start Mascot UI's -->
 
