@@ -574,22 +574,20 @@ $(document).ready(function() {
         var _user_email = ub.user.email;
 
         if (typeof _user_id === "undefined") {
-
             _user_id = 0;
             _user_email = '';
-
         }
 
         var _postData = {
-
             "subject" : "Feedback",
             "order_code" : "",
             "content" : message,
             "type" : "feedback",
             "email" : _user_email,
-            "user_id" : _user_id,
-
         };
+
+        // Have a user id passed only when a user is logged in
+        if (typeof ub.user.id !== "undefined") { _postData.user_id = _user_id; }
 
         var _url = ub.config.api_host + '/api/feedback';
         //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
