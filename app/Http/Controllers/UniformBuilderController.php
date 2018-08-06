@@ -26,6 +26,8 @@ use App\Utilities\StringUtility;
 use App\Traits\OwnsUniformDesign;
 use App\Traits\HandleTeamStoreConfiguration;
 use App\TeamStoreClient\UserTeamStoreClient;
+use GuzzleHttp\Client;
+
 
 class UniformBuilderController extends Controller
 {
@@ -531,8 +533,8 @@ class UniformBuilderController extends Controller
             'render' => true
         ];
 
-        Log::info('(Request Before) Code  ' . $code);
-        Log::info('(Request Before) !isNull  ' . !is_null($code));
+        //Log::info( '(Request Before) Code  ' . $code);
+        //Log::info('(Request Before) !isNull  ' . !is_null($code));
         Log::info('(Request Before) has Team Colors  ' . $request->has('team_colors'));
         Log::info('(Request Before) Team Colors  ' . $request->team_colors);
         Log::info('Request Object ' . $request);
@@ -2007,8 +2009,84 @@ class UniformBuilderController extends Controller
     public function generateOrderForm(Request $request){
 
         $this->log_info('generateOrderForm');
-
         $r = $request->all();
+
+        // generate new pdf first here
+        Log::info('PROCESS NEW PDF');
+
+        $mainInfo = $r['builder_customizations'];
+        $bc = $r['builder_customizations']['order_items'][0]['builder_customizations'];
+        $firstOrderItem = $r['builder_customizations']['order_items'][0];
+        $brand = $r['builder_customizations']['order_items'][0]['brand'];
+
+        Log::info('=============================NEW PDF START===================================');
+
+//        $body = array(
+//            'item' => array(
+//                'item_type_id' => 'test',
+//                'string_key' => 'test2',
+//                'string_value' => 'test3',
+//                'string_extra' => 'test4',
+//                'is_public' => 'test5',
+//                'is_public_for_contacts' => 'test6'
+//            )
+//        );
+
+        if($brand === 'prolook') {
+            $selectedSource = 'Prolook Customizer';
+            $selectedTemplate = 'Prolook';
+        } else if($brand === 'richardson') {
+            $selectedSource = 'Richardson Customizer';
+            $selectedTemplate = 'Richardson';
+        } else {
+            $selectedSource = 'Prolook Customizer';
+            $selectedTemplate = 'Prolook';
+        }
+
+        $body = array(
+            'selectedSource' => $selectedSource,
+            'selectedTemplate' => $selectedTemplate,
+            'searchKey' => '2018-5FW',
+            'thumbnails' => $bc['thumbnails'],
+            'category' => $bc['uniform_category'],
+            'fullName' => $mainInfo['order']['user_name'],
+            'client' => $mainInfo['order']['client'],
+            'orderId' => 'a11b0e63e197',
+            'foid' => $firstOrderItem['factory_order_id'],
+            'description' => $firstOrderItem['description'],
+            'cutPdf' => $bc['cut_pdf'],
+            'stylesPdf' => $bc['styles_pdf'],
+            'roster' => $bc['roster'],
+            'pipings' => $bc['pipings'],
+            'createdDate' => '2018/08/01',
+            'notes' => $firstOrderItem['notes'],
+            'sizeBreakdown' => $bc['size_breakdown'],
+            'applications' => $bc['applications'],
+            'sizingTable' => $bc['sizingTable'],
+            'upper' => $bc['upper'],
+            'lower' => $bc['lower'],
+            'hiddenBody' => $bc['hiddenBody'],
+            'randomFeeds' => $bc['randomFeeds'],
+            'legacyPDF' => $firstOrderItem['design_sheet'],
+            'applicationType' => $firstOrderItem['applicationType']
+        );
+
+        // Send POST REQUEST to new pdf generator
+        $client = new Client;
+        // $request = $client->request('GET', 'https://api.cloudways.com/api/v1');
+        // $res = $request->getBody();
+
+        $params = ['form_params' => $body];
+        $res = $client->request('POST', 'http://localhost:7000/api/upload', $params);
+        if ($res->getStatusCode() == 200)
+        {
+            Log::info('SUCCESS NEW PDF IS GENERATED!');
+            // $json = (string)$res->getBody();
+            // Log::info($json);
+            Log::info($res->getBody()->getContents());
+        }
+        Log::info('=============================NEW PDF END===================================');
+
         $fname = $this->generatePDF($r);
 
         return response()->json(['success' => true, 'filename' => $fname ]);
