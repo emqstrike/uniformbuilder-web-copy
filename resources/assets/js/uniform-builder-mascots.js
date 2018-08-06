@@ -4,13 +4,7 @@ $(document).ready(function() {
 
     ub.funcs.transformMascots = function () {
 
-        var _one = 1;
-
-        if (ub.config.toString) { _one = '1'; }
-
-        console.log('One: ');
-        console.log(typeof _one);
-        console.log(_one);
+        var _one = '1';
 
         ub.data.mascots = _.filter (ub.data.mascots, {active: _one});
 
