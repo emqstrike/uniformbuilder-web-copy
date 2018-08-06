@@ -15,11 +15,11 @@ Route::get('/', function () {
     return redirect('/index');
 });
 
-// Route::get('/down', function () {
-//     return redirect('/down');
-// });
+Route::get('/down', function () {
+    return redirect('/down');
+});
 
-// Route::get('down', 'UniformBuilderController@downBuilder');
+Route::get('down', 'UniformBuilderController@downBuilder');
 
 Route::post('lrest', 'AuthenticationController@lrest');
 Route::post('login', 'AuthenticationController@login');
