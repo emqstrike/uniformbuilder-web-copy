@@ -14,8 +14,9 @@ class APIClient extends Client
     public function __construct()
     {
         $settings = [
-            'base_uri' => getenv('API_HOST') . '/api/'
+            'base_uri' => getenv('API_HOST') . '/api/';
         ];
+        
         $accessToken = Session::get('accessToken');
 
         if (!is_null($accessToken))

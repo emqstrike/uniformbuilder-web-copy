@@ -46,6 +46,7 @@ class UniformCategoriesController extends Controller
     {
 
         $name = $request->input('name');
+        $alias = $request->input('alias');
         $sizes = $request->input('sizes');
         $code = $request->input('code');
         $type = $request->input('type');
@@ -59,6 +60,7 @@ class UniformCategoriesController extends Controller
 
         $data = [
             'name' => $name,
+            'alias' => $alias,
             'sizes' => $sizes,
             'code' => $code,
             'type' => $type,
@@ -70,7 +72,7 @@ class UniformCategoriesController extends Controller
             'sort_order_female' => $sort_order_female,
             'sort_order_youth' => $sort_order_youth
         ];
-
+dd($data);
         $id = null;
         if (!empty($request->input('uniform_category_id')))
         {

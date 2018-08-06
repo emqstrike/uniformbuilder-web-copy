@@ -271,7 +271,12 @@ $(document).ready(function () {
         };
 
         ub.funcs.isCustomizerAvailable = function () {
-            return ub.current_material.material.customizer_available === "1";
+            
+            var _one = 1;
+
+            if (window.ub.config.toString) { _one = "1"; }
+            return ub.current_material.material.customizer_available === _one;
+            
         }
 
         ub.funcs.turnOnOrderButton = function () {
@@ -2082,7 +2087,11 @@ $(document).ready(function () {
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
-                    var _mascotObj  = _.find(ub.data.mascots, {id: view.application.defaultMascot});
+                    var _mascotID = parseInt(view.application.defaultMascot);
+
+                    if (ub.config.toString) { _mascotID = _mascotID.toString(); }
+
+                    var _mascotObj  = _.find(ub.data.mascots, {id: _mascotID});
                     var _colorArray = view.application.colors.split(',');
 
                     _output             = {};
