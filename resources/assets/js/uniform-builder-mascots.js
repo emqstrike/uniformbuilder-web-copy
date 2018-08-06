@@ -8,6 +8,10 @@ $(document).ready(function() {
 
         if (ub.config.toString) { _one = '1'; }
 
+        console.log('One: ');
+        console.log(typeof _one);
+        console.log(_one);
+
         ub.data.mascots = _.filter (ub.data.mascots, {active: _one});
 
         // Hide Richardson Mascots #Richardson #BrandSpecific
