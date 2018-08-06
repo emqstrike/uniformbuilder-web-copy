@@ -209,7 +209,7 @@ class PatternsController extends Controller
         $data['pattern_properties'] = json_encode($myJson, JSON_UNESCAPED_SLASHES);
         // $data['pattern_properties'] =  str_replace(" ", "-", $data['pattern_properties']);
 // dd($data);
-
+dd(json_decode($data));
         $response = null;
         if (!empty($patternId))
         {
