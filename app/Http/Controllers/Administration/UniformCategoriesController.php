@@ -72,7 +72,7 @@ class UniformCategoriesController extends Controller
             'sort_order_female' => $sort_order_female,
             'sort_order_youth' => $sort_order_youth
         ];
-
+dd($data);
         $id = null;
         if (!empty($request->input('uniform_category_id')))
         {
