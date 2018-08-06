@@ -28,6 +28,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <!-- end Timer -->
 
+</head>
 <body style="background: url('/images/main-ui/down/down-bg.jpg');background-repeat: no-repeat;background-size: cover;">
 
 <nav class="navbar navbar-default navbar-fixed-top">
