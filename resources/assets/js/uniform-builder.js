@@ -271,7 +271,12 @@ $(document).ready(function () {
         };
 
         ub.funcs.isCustomizerAvailable = function () {
-            return ub.current_material.material.customizer_available === "1";
+            
+            var _one = 1;
+
+            if (window.ub.config.toString) { _one = "1"; }
+            return ub.current_material.material.customizer_available === _one;
+            
         }
 
         ub.funcs.turnOnOrderButton = function () {
