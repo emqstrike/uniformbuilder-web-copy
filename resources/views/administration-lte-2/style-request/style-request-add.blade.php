@@ -108,18 +108,18 @@
                                 <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></div>
-                                    <input type="text" id="datepicker" class="form-control">
+                                    <input type="text" id="datepicker" class="form-control" name="style-deadline">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label>Notes</label>
-                                <textarea class="form-control"></textarea>
+                                <textarea class="form-control" name="style-notes"></textarea>
                             </div>
 
                             <div class="form-group">
                                 <center>
-                                    <a href="#" class="btn btn-flat btn-xl btn-success" disabled>Submit Style Request</a>
+                                    <a href="#" class="btn btn-flat btn-xl btn-success submit-style-request" disabled>Submit Style Request</a>
                                 </center>
                             </div>
                         </form>
@@ -416,7 +416,43 @@ initSelect2('.pa-allowed-apps','Select valid applications');
 
 populateDDwithNums('.rules-max-pipings', 0, 3);
 
+$('.submit-style-request').on('click', function(e){
+    e.preventDefault();
+    var data = {
+        'name' : $('.style-name').val(),
+        'sport' : $('.style-category').val(),
+        'qstrike_item_id' : $('.style-qstrike-item-id').val(),
+        'priority' : $('.style-priority').val(),
+        'design_sheet_url' : '',
+        'customizer_id' : '',
+        'deadline' : $('.style-deadline').val(),
+        'status' : 'Pending',
+        'notes' : $('.style-notes').val(),
+        'uniform_application_type' : $('.style-type').val(),
+        'is_fixed' : '',
+        'type' : '',
+        'brand' : brand
+    };
+});
 
+function submitStyleRequest(data){
+    var url = "//" + api_host + "/api/v1-0/style_request";
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        dataType: "json",
+        crossDomain: true,
+        contentType: 'application/json',
+        headers: {"accessToken": atob(headerValue)},
+        success: function(response){
+            if (response.success) {
+                window.location.reload();
+            }
+        }
+    });
+}
 
 /* DOM EVENTS */
 
@@ -483,8 +519,6 @@ function validateRuleCase(rule_case){
 
 
 
-
-
 $('.style-category').on('change', function(e){
     setCurrentActivity("style_category");
     active_category_id = $(this).val();
@@ -499,7 +533,6 @@ $('.style-category').on('change', function(e){
 
 
 
-
 $('.rules-bp').on('click', function(e){
     setCurrentActivity("block_patterns");
     e.preventDefault();
@@ -510,8 +543,6 @@ $('.rules-bp').on('click', function(e){
         loaded_block_patterns = true;
     }
 });
-
-
 
 
 
@@ -532,8 +563,6 @@ $('.add-parts-btn').on('click', function(e){
     $('#tbody_parts').append(row);
     updatePartsData();
 });
-
-
 
 
 
@@ -564,13 +593,6 @@ $(document).on('change', '.pipings-table', function(e) {
     console.log('pipings table changed');
     updatePipingsData();
 });
-
-// add events for these
-// table keyup
-// table add row *
-// table delete row *
-
-
 
 $('.rules-pi-template').on('click', function(e){
     setCurrentActivity("price_item_templates");
@@ -671,8 +693,6 @@ $('.export-rule-btn').on('click', function(e){
         data.application_locations = JSON.stringify($(".pa-allowed-apps").val());
         data.max_application_locations = $(".rules-max-applications").val();
         data.parts = JSON.stringify(active_rule_parts_data);
-        // data.parts = ;
-        // data.piping_locations = ;
         console.log(data);
         exportRule(data);
     }

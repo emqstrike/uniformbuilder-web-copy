@@ -10226,7 +10226,8 @@ $(document).ready(function() {
                                                                  item.name.indexOf('Hood Cuff') > -1 ||
                                                                  item.name.indexOf('Pocket Cuff') > -1 ||
                                                                  item.name.indexOf('Arm Cuff') > -1 ||
-                                                                 item.name.indexOf('Prolook') > -1; });
+                                                                 item.name.indexOf('Prolook') > -1 || 
+                                                                 item.name.indexOf('Belt Loop') > -1; });
 
             if (ub.funcs.isSocks()) { 
 
@@ -10650,6 +10651,18 @@ $(document).ready(function() {
 
                     }
 
+                    if(ub.funcs.isSocks()) { 
+
+                        _part = "Sublimated"; 
+                        
+                        if (typeof ub.data.modifierLabels["Body"] !== "undefined") {
+                            _part = "Body";
+                        }
+
+                        $('span.part[data-id="' + _part + '"]').addClass('active');
+
+                    }
+
                 }
 
             });
@@ -10708,7 +10721,7 @@ $(document).ready(function() {
 
                     var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
 
-                    if (_part === "Body" && !_isLowerFootball2017Uniform) { 
+                    if (_part === "Body" && !_isLowerFootball2017Uniform && !ub.funcs.isSocks()) { 
 
                         $('span.perspective').removeClass('active');
                         $('span.perspective[data-id="front"]').addClass('active'); 
@@ -10772,7 +10785,8 @@ $(document).ready(function() {
 
             var _part = 'Body';
 
-            if(ub.funcs.isSocks()) { _part = "Sublimated" }
+            if(ub.funcs.isSocks()) { _part = "Sublimated"; }
+
             if(ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short") { _part = "Body Left" }
 
             /// Acitvate Part / Perspective
@@ -10783,7 +10797,7 @@ $(document).ready(function() {
 
                 $('span.part').removeClass('active');
 
-                if (ub.active_view === "back" || ub.active_view === "front") {
+                if (ub.active_view === "back" || ub.active_view === "front" || ub.funcs.isSocks()) {
 
                     _partToMakeActive =  ub.active_view.toTitleCase() + " Body";
                     $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');

@@ -68,6 +68,13 @@ class UniformBuilderController extends Controller
 
     }
 
+    public function downBuilder()
+    {
+        $asset_storage = env('ASSET_STORAGE');
+        $asset_version = env('ASSET_VERSION');
+        return view('uniform-builder-down', ['asset_storage' => $asset_storage, 'asset_version' => $asset_version]);
+    }
+
     public function showBuilder($config = [])
     {
 

@@ -92,6 +92,7 @@
                                 <th>Active</th>
                                 <th>Asset Target</th>
                                 <th>Blank</th>
+                                <th>Customizer Available</th>
                                 <th>Uniform Application Type</th>
                                {{--  <th>Customizer Available</th> --}}
                                 <th>Actions</th>
@@ -138,6 +139,9 @@
                 </td>
                 <td>
                     {{ $material->is_blank }}
+                </td>
+                <td>
+                    @if($material->customizer_available) Yes @else No @endif
                 </td>
                 <td>
                     {{ $material->uniform_application_type }}

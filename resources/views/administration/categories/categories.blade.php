@@ -61,9 +61,9 @@
                             </td>
                             <td align="center">
                             @if ($category->thumbnail_male)
-                                <img src="{{ $category->thumbnail_male }}" style="height: 80px; width: 88=px;">
+                                <img src="{{ $category->thumbnail_male }}" style="height: 80px; width: 88px;">
                             @else
-                                <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg" style="height: 80px; width: 88=px;">
+                                <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg" style="height: 80px; width: 88px;">
                             @endif
                             <br>
                             @if($category->active_male)
