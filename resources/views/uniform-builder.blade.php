@@ -263,7 +263,7 @@
         window.is           = {};
 
         window.ub.config = {
-            toString: true,
+            toString: false,
             app_env: "{{ env('APP_ENV') }}",
             api_host: "//{{ env('API_HOST') }}",
             asset_version: "{{$asset_version}}",
