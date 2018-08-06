@@ -28,7 +28,7 @@ class CutsLinksController extends Controller
         APIClient $apiClient,
         BlockPatternsAPIClient $blockPatternsAPIClient,
         UniformCategoriesAPIClient $uniformCategoriesClient
-        
+
     )
     {
         $this->client = $apiClient;
@@ -56,9 +56,9 @@ class CutsLinksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
+    {
         $sports = $this->uniformCategoriesClient->getUniformCategories();
-        $block_patterns = $this->blockPatternClient->getBlockPatterns();     
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
         return view('administration.cuts-links.cuts-links-create',[
             'block_patterns' => $block_patterns,
             'sports' => $sports,
@@ -85,15 +85,15 @@ class CutsLinksController extends Controller
             'neck_option' => $neck
         ];
 
-        $folder_name = "mascot_ai_files";
+        $folder_name = "cuts_links";
 
         // Upload PDF file
         try {
-            $newFile = $request->file('cuts_pdf');          
-            if (isset($newFile)) {                
+            $newFile = $request->file('cuts_pdf');
+            if (isset($newFile)) {
                 if ($newFile->isValid()) {
                     $randstr = Random::randomize(12);
-                    $data['cuts_pdf'] = FileUploaderV2::upload($newFile, $randstr, 'file', $folder_name);                  
+                    $data['cuts_pdf'] = FileUploaderV2::upload($newFile, $randstr, 'file', $folder_name);
                 }
             }
         } catch (S3Exception $e) {
@@ -149,7 +149,7 @@ class CutsLinksController extends Controller
         $cut_links = $this->client->show($id);
         $sports = $this->uniformCategoriesClient->getUniformCategories();
         $block_patterns = $this->blockPatternClient->getBlockPatterns();
-       
+
 
         return view('administration.cuts-links.cuts-links-edit', compact('cut_links' , 'sports',  'block_patterns'));
     }

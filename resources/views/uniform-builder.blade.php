@@ -611,5 +611,9 @@
 </body>
 
 @include('partials.detect-mobile')
-
+<!--
+<?php
+print_r($_SERVER['SERVER_ADDR']);
+ ?>
+-->
 </html>

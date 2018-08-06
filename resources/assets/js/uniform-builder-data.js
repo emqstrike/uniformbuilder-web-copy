@@ -2182,6 +2182,10 @@ $(document).ready(function() {
                 name: "Wrestling 2018",
                 alias: "wrestling-2018",
             },
+            { 
+                name: "Socks (Apparel)",
+                alias: "socks",
+            },
         ],
 
         getAlias: function (sportName) {
@@ -11563,8 +11567,8 @@ ub.funcs.fontOffSets = [
         items: [
             { name: 'Beta Sport Uniforms', code: 'betaSportUniforms', section: 'uniforms' },
             { name: 'Show price items of uniforms', code: 'priceItemName', section: 'uniforms' },
+            { name: 'Test Orders', code: 'testOrders', section: 'uniforms' },
         ],
-
         
         getCode: function (featureFlag) {
             

@@ -7,6 +7,8 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
+            ub.utilities.maintenanceMessage();
+
             ub.errorCodes.prepareShortcuts();
 
             if (parseInt(ub.render) === 1) { ub.funcs.removePanels(); }
@@ -624,6 +626,10 @@ $(document).ready(function () {
             // FG
             if (typeof ub.user.id !== 'undefined') {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
+            }
+
+            if (ub.config.useAllColors) {
+                ub.funcs.addAllColorToTeamColors();
             }
 
         };
@@ -2752,6 +2758,8 @@ $(document).ready(function () {
             ub.funcs.activateLeftView();
 
         }
+
+        // use all color if config value is set
 
     };
 

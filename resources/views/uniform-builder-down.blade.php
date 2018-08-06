@@ -16,10 +16,10 @@
 <link rel="icon" type="image/png" href="/images/branding/favicon.ico" />
 <link href='//fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
-<link rel="stylesheet" href="{{ env('asset_storage') }}/bootstrap/css/bootstrap.min.css?v={{ env('asset_version') }}">
-<link rel="stylesheet" href="{{ env('asset_storage') }}/bootstrap/css/bootstrap-theme.min.css?v={{ env('asset_version') }}">
-<link rel="stylesheet" href="{{ env('asset_storage') }}/font-awesome/css/font-awesome.min.css?v={{ env('asset_version') }}">
-<link rel="stylesheet" href="{{ env('asset_storage') }}/uniform-builder/css/uniform-builder.css?v={{ env('asset_version') }}">
+<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css?v={{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css?v={{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css?v={{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css?v={{$asset_version}}">
 
 
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
@@ -28,6 +28,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <!-- end Timer -->
 
+</head>
 <body style="background: url('/images/main-ui/down/down-bg.jpg');background-repeat: no-repeat;background-size: cover;">
 
 <nav class="navbar navbar-default navbar-fixed-top">

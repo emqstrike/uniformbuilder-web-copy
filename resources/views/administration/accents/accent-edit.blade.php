@@ -81,6 +81,10 @@
                                  <input type="text"  value="{{ $accent->name }}" class="form-control inputText" id="fName" name="name" placeholder="">
                             </fieldset>
                             <fieldset class="form-group">
+                                <label for="formGroupExampleInput">Alias : </label>
+                                 <input type="text"  value="{{ $accent->alias }}" class="form-control inputText" id="fAlias" name="alias" placeholder="">
+                            </fieldset>
+                            <fieldset class="form-group">
                                 <label for="formGroupExampleInput">Code : </label>
                                  <input type="text" value="{{ $accent->code }}" name="code" class="form-control" id="fCode" placeholder="">
                             </fieldset>

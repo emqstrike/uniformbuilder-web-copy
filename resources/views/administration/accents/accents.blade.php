@@ -29,6 +29,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Alias</th>
                             <th>Code</th>
                             <th>Thumbnail</th>
                             <th>Actions</th>
@@ -40,6 +41,7 @@
 
                         <tr class='accent-{{ $accent->id }} '>
                             <td>{{ $accent->name }}</td>
+                            <td>{{ $accent->alias }}</td>
                             <td>{{ $accent->code }}</td>
                             <td>
                                 @if ($accent->thumbnail_path)
