@@ -2091,13 +2091,11 @@ $(document).ready(function () {
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
-                    var _mascotID = parseInt(view.application.defaultMascot);
+                    var _mascotID = view.application.defaultMascot;
 
                     console.error('Default Mascot ID: ');
                     console.log(view.application.defaultMascot);
                     console.log(typeof view.application.defaultMascot);
-
-                    if (ub.config.toString) { _mascotID = _mascotID.toString(); }
 
                     var _mascotObj  = _.find(ub.data.mascots, {id: _mascotID});
                     var _colorArray = view.application.colors.split(',');
