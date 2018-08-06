@@ -628,7 +628,7 @@ $(document).ready(function () {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
             }
 
-            if (ub.config.useAllColors) {
+            if (ub.branding.useAllColors) {
                 ub.funcs.addAllColorToTeamColors();
             }
 

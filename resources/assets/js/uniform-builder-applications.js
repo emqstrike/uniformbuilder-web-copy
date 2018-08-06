@@ -3727,7 +3727,7 @@ $(document).ready(function() {
                     return;     
                 }
 
-                if (!ub.config.useAllColors) {
+                if (!ub.branding.useAllColors) {
                     if(_sizeOfTeamColors > 8){
                         ub.startModal(2);
                         return;     
@@ -4278,7 +4278,7 @@ $(document).ready(function() {
 
         var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
  
-        if (!ub.config.useAllColors) {
+        if (!ub.branding.useAllColors) {
             if (_sizeOfTeamColors > 8) {
                 ub.startModal();
                 return; 
@@ -8051,7 +8051,7 @@ $(document).ready(function() {
                 ok = false;;     
             }
 
-            if (!ub.config.useAllColors) {
+            if (!ub.branding.useAllColors) {
                 if(_sizeOfTeamColors > 8){
                     ub.startModal(2);
                     ok = false;     
