@@ -1708,7 +1708,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generateItemTable ($itemData, $fname, $mainInfo, $material_id) {
+    function generateItemTable ($itemData, $fname, $mainInfo, $material_id, $newPdfLink) {
 
         $this->log_info('generateItemTable');
 
@@ -1716,6 +1716,7 @@ class UniformBuilderController extends Controller
         $pdfURL   = '<a href="' . env("WEBSITE_URL") . $fname . '"><strong>PDF URL</strong></a>';
         $cutURL   = '<a href="' . $itemData["builder_customizations"]["cut_pdf"] . '"><strong>CUT PDF URL</strong></a>';
         $stylesPDFURL   = '<a href="' . $itemData["builder_customizations"]["styles_pdf"] . '"><strong>STYLE PDF URL</strong></a>';
+        $newPDF = '<a href="' . $newPdfLink . '"><strong>NEW PDF URL</strong></a>';
 
         if ($itemData["builder_customizations"]["cut_pdf"] === '') { $cutURL = 'No Cut PDF detected.'; }
         if ($itemData["builder_customizations"]["styles_pdf"] === '') { $stylesPDFURL = 'No STYLE PDF detected.'; }
@@ -1734,7 +1735,7 @@ class UniformBuilderController extends Controller
         $html .= '<tr>';
         $html .=     '<td width="100%" style="font-size: 1.0em;">';
         $html .=       'URLS: <br />';
-        $html .=       $styleURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $pdfURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $cutURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $stylesPDFURL;
+        $html .=       $styleURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $pdfURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $cutURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $stylesPDFURL . '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' . $newPDF;
         $html .=     '</td>';
         $html .= '</tr>';
 
@@ -1807,7 +1808,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generatePDF ($builder_customizations) {
+    function generatePDF ($builder_customizations, $newPdfLink) {
 
         Log::info('Init Generate PDF');
 
@@ -1868,7 +1869,7 @@ class UniformBuilderController extends Controller
         $html .=   '<table width="100%">';
         $html .=     '<tr>';
         $html .=     '<td>';
-        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo, $firstOrderItem['material_id']);
+        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo, $firstOrderItem['material_id'], $newPdfLink);
         $html .=     '</td>';
         $html .=     '</tr>';
         $html .=   '</table>';
@@ -2085,20 +2086,20 @@ class UniformBuilderController extends Controller
 
         $params = ['form_params' => $body];
         $res = $client->request('POST', 'http://localhost:7000/api/upload', $params);
+        $newPdfLink = '';
         if ($res->getStatusCode() == 200)
         {
             Log::info('SUCCESS NEW PDF IS GENERATED!');
             // $json = (string)$res->getBody();
             // Log::info($json);
             Log::info($res->getBody()->getContents());
-//            $resJson = json_decode($res->getBody()->getContents(), true);
-//            $newPDF = $resJson['pdfUrl'];
-//            Log::info('NEW PDF LINK:');
-//            Log::info($newPDF);
+            $resJson = json_decode($res->getBody(), true);
+            $newPDF = $resJson['pdfUrl'];
+            $newPdfLink = $newPDF;
         }
         Log::info('=============================NEW PDF END===================================');
-
-        $fname = $this->generatePDF($r);
+        Log::info('NEW PDF: ' . $newPdfLink);
+        $fname = $this->generatePDF($r, $newPdfLink);
 
         return response()->json(['success' => true, 'filename' => $fname ]);
 
