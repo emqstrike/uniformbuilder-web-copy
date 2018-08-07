@@ -7,7 +7,7 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
-            ub.utilities.maintenanceMessage();
+            // ub.utilities.maintenanceMessage();
 
             ub.errorCodes.prepareShortcuts();
 
