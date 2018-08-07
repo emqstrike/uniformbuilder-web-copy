@@ -1667,6 +1667,7 @@ $(document).ready(function () {
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
+                    (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
                     (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
                 
                     material.thumbnail_path_left = material.thumbnail_path_front;
