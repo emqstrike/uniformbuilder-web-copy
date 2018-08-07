@@ -39,7 +39,6 @@
                                 <th>Number of visits</th>
                                 <th>Origin</th>
                                 <th>Date</th>
-                                <th>Response Time</th>
                             </tr>
                         </thead>
 
@@ -50,7 +49,6 @@
                                     <td>{{ $endpointVisit['page_views'] }}</td>
                                     <td>{{ $endpointVisit['country'] }}</td>
                                     <td>{{ $endpointVisit['date'] }}</td>
-                                    <td>{{ $endpointVisit['response_time'] }}</td>
                                 </tr>
                             @empty
                             @endforelse
