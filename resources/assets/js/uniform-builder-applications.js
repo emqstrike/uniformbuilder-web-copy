@@ -5386,9 +5386,13 @@ $(document).ready(function() {
         var sampleSize = '1.9em';
         var paddingTop = '40px';
 
+        var _one = 1;
+
+        if (ub.config.toString) { _one = '1'; }
+
         var data = {
             label: 'Choose Mascot: ',
-            mascots: _.filter(ub.data.mascots, {active: "1", category: 'Bulldogs'}),
+            mascots: _.filter(ub.data.mascots, {active: _one, category: 'Bulldogs'}),
             categories: _.sortBy(ub.data.mascots_categories, 'name'),
             groups_categories: _.sortBy(ub.data.mascots_groups_categories, 'name'),
             paddingTop: paddingTop,
