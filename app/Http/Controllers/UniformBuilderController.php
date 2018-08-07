@@ -2091,6 +2091,10 @@ class UniformBuilderController extends Controller
             // $json = (string)$res->getBody();
             // Log::info($json);
             Log::info($res->getBody()->getContents());
+//            $resJson = json_decode($res->getBody()->getContents(), true);
+//            $newPDF = $resJson['pdfUrl'];
+//            Log::info('NEW PDF LINK:');
+//            Log::info($newPDF);
         }
         Log::info('=============================NEW PDF END===================================');
 
