@@ -7,6 +7,8 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
+            ub.utilities.maintenanceMessage();
+
             ub.errorCodes.prepareShortcuts();
 
             if (parseInt(ub.render) === 1) { ub.funcs.removePanels(); }
@@ -269,7 +271,12 @@ $(document).ready(function () {
         };
 
         ub.funcs.isCustomizerAvailable = function () {
-            return ub.current_material.material.customizer_available === "1";
+            
+            var _one = 1;
+
+            if (window.ub.config.toString) { _one = "1"; }
+            return ub.current_material.material.customizer_available === _one;
+            
         }
 
         ub.funcs.turnOnOrderButton = function () {
@@ -626,7 +633,7 @@ $(document).ready(function () {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
             }
 
-            if (ub.config.useAllColors) {
+            if (ub.branding.useAllColors) {
                 ub.funcs.addAllColorToTeamColors();
             }
 
@@ -1660,6 +1667,7 @@ $(document).ready(function () {
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
+                    (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
                     (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
                 
                     material.thumbnail_path_left = material.thumbnail_path_front;
@@ -2080,7 +2088,8 @@ $(document).ready(function () {
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
-                    var _mascotObj  = _.find(ub.data.mascots, {id: view.application.defaultMascot});
+                    var _mascotID = view.application.defaultMascot;
+                    var _mascotObj  = _.find(ub.data.mascots, {id: _mascotID});
                     var _colorArray = view.application.colors.split(',');
 
                     _output             = {};
