@@ -518,7 +518,7 @@ $(document).ready(function() {
 
     ub.funcs.getDesignSummary = function (designID, applicationID) {
 
-        var _url = 'http://stores.inksoft.com/GetDesignSummary/80974/' + designID;
+        var _url = 'https://stores.inksoft.com/GetDesignSummary/80974/' + designID;
         var _settingsObject = ub.funcs.getApplicationSettings(applicationID);
 
         _settingsObject.application_type = 'embellishments';
