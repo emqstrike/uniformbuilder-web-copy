@@ -5386,13 +5386,9 @@ $(document).ready(function() {
         var sampleSize = '1.9em';
         var paddingTop = '40px';
 
-        var _one = 1;
-
-        if (ub.config.toString) { _one = '1'; }
-
         var data = {
             label: 'Choose Mascot: ',
-            mascots: _.filter(ub.data.mascots, {active: _one, category: 'Bulldogs'}),
+            mascots: _.filter(ub.data.mascots, {active: "1", category: 'Bulldogs'}),
             categories: _.sortBy(ub.data.mascots_categories, 'name'),
             groups_categories: _.sortBy(ub.data.mascots_groups_categories, 'name'),
             paddingTop: paddingTop,
@@ -5512,9 +5508,18 @@ $(document).ready(function() {
 
         $('span.groups_category_item').on('click', function () {
 
-            var _groups_category_id = ($(this).data('category')).toString();
+            var _groups_category_id = parseInt($(this).data('category'));
             var _groups_category_name = $(this).data('category-name');
+
+            if (ub.config.toString) { _groups_category_id = _groups_category_id.toString();  }
+
+            console.log('Category ID: ' + _groups_category_id);
+            console.log(typeof _groups_category_id);
+
             var _categories = _.filter(ub.data.mascots_categories, {mascots_group_category_id: _groups_category_id});
+
+            console.log('Categories: ');
+            console.log(_categories);
 
             if (_groups_category_id === "all") {
 
