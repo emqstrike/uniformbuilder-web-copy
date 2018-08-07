@@ -3727,7 +3727,7 @@ $(document).ready(function() {
                     return;     
                 }
 
-                if (!ub.config.useAllColors) {
+                if (!ub.branding.useAllColors) {
                     if(_sizeOfTeamColors > 8){
                         ub.startModal(2);
                         return;     
@@ -4278,7 +4278,7 @@ $(document).ready(function() {
 
         var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
  
-        if (!ub.config.useAllColors) {
+        if (!ub.branding.useAllColors) {
             if (_sizeOfTeamColors > 8) {
                 ub.startModal();
                 return; 
@@ -5508,9 +5508,18 @@ $(document).ready(function() {
 
         $('span.groups_category_item').on('click', function () {
 
-            var _groups_category_id = ($(this).data('category')).toString();
+            var _groups_category_id = parseInt($(this).data('category'));
             var _groups_category_name = $(this).data('category-name');
+
+            if (ub.config.toString) { _groups_category_id = _groups_category_id.toString();  }
+
+            console.log('Category ID: ' + _groups_category_id);
+            console.log(typeof _groups_category_id);
+
             var _categories = _.filter(ub.data.mascots_categories, {mascots_group_category_id: _groups_category_id});
+
+            console.log('Categories: ');
+            console.log(_categories);
 
             if (_groups_category_id === "all") {
 
@@ -8051,7 +8060,7 @@ $(document).ready(function() {
                 ok = false;;     
             }
 
-            if (!ub.config.useAllColors) {
+            if (!ub.branding.useAllColors) {
                 if(_sizeOfTeamColors > 8){
                     ub.startModal(2);
                     ok = false;     
@@ -10226,7 +10235,8 @@ $(document).ready(function() {
                                                                  item.name.indexOf('Hood Cuff') > -1 ||
                                                                  item.name.indexOf('Pocket Cuff') > -1 ||
                                                                  item.name.indexOf('Arm Cuff') > -1 ||
-                                                                 item.name.indexOf('Prolook') > -1; });
+                                                                 item.name.indexOf('Prolook') > -1 || 
+                                                                 item.name.indexOf('Belt Loop') > -1; });
 
             if (ub.funcs.isSocks()) { 
 
@@ -10650,6 +10660,18 @@ $(document).ready(function() {
 
                     }
 
+                    if(ub.funcs.isSocks()) { 
+
+                        _part = "Sublimated"; 
+                        
+                        if (typeof ub.data.modifierLabels["Body"] !== "undefined") {
+                            _part = "Body";
+                        }
+
+                        $('span.part[data-id="' + _part + '"]').addClass('active');
+
+                    }
+
                 }
 
             });
@@ -10708,7 +10730,7 @@ $(document).ready(function() {
 
                     var _isLowerFootball2017Uniform = (ub.current_material.material.uniform_category === "Football 2017" && ub.current_material.material.type === "lower");
 
-                    if (_part === "Body" && !_isLowerFootball2017Uniform) { 
+                    if (_part === "Body" && !_isLowerFootball2017Uniform && !ub.funcs.isSocks()) { 
 
                         $('span.perspective').removeClass('active');
                         $('span.perspective[data-id="front"]').addClass('active'); 
@@ -10772,7 +10794,8 @@ $(document).ready(function() {
 
             var _part = 'Body';
 
-            if(ub.funcs.isSocks()) { _part = "Sublimated" }
+            if(ub.funcs.isSocks()) { _part = "Sublimated"; }
+
             if(ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.neck_option === "Fight Short") { _part = "Body Left" }
 
             /// Acitvate Part / Perspective
@@ -10783,7 +10806,7 @@ $(document).ready(function() {
 
                 $('span.part').removeClass('active');
 
-                if (ub.active_view === "back" || ub.active_view === "front") {
+                if (ub.active_view === "back" || ub.active_view === "front" || ub.funcs.isSocks()) {
 
                     _partToMakeActive =  ub.active_view.toTitleCase() + " Body";
                     $('span.part[data-id="' + _partToMakeActive + '"]').addClass('active');

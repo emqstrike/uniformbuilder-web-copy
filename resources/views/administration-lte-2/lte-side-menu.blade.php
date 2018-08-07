@@ -61,6 +61,25 @@
         </li>
 
         <li class="treeview">
+            <a href="#">
+                <i class="fa fa-bar-chart"></i>
+                <span>Features and Helpers</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+
+            <ul class="treeview-menu">
+                <li>
+                    <a href="{{ route('v1_analytics_index') }}">
+                        <i class="fa fa-bar-chart"></i>
+                        Analytics
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-users"></i> <span>Users</span>
             <span class="pull-right-container">

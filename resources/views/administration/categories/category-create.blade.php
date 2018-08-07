@@ -21,6 +21,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-4 control-label">Uniform Category Alias</label>
+                            <div class="col-md-6">
+                                <input type="name" class="form-control color-alias" name="alias" >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-4 control-label">Uniform Category Code</label>
                             <div class="col-md-6">
                                 <input type="text" class="form-control category-code" name="code">
