@@ -1716,7 +1716,7 @@ class UniformBuilderController extends Controller
         $pdfURL   = '<a href="' . env("WEBSITE_URL") . $fname . '"><strong>PDF URL</strong></a>';
         $cutURL   = '<a href="' . $itemData["builder_customizations"]["cut_pdf"] . '"><strong>CUT PDF URL</strong></a>';
         $stylesPDFURL   = '<a href="' . $itemData["builder_customizations"]["styles_pdf"] . '"><strong>STYLE PDF URL</strong></a>';
-        $newPDF = '<a href="' . $newPdfLink . '"><strong>NEW PDF URL</strong></a>';
+        $newPDF = '<a href="' . $newPdfLink . '"><strong>BETA PDF URL</strong></a>';
 
         if ($itemData["builder_customizations"]["cut_pdf"] === '') { $cutURL = 'No Cut PDF detected.'; }
         if ($itemData["builder_customizations"]["styles_pdf"] === '') { $stylesPDFURL = 'No STYLE PDF detected.'; }
