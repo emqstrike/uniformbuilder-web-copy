@@ -10,7 +10,6 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
 Route::get('/', function () {
     return redirect('/index');
 });
@@ -134,7 +133,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::post('mascot/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@store']);
 
         Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
-
+        Route::get('analytics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\AnalyticsController@index'])->name('v1_analytics_index');
     });
 
     // Logins
@@ -539,6 +538,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::group(['prefix' => 'master_pages' ], function() {
         Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'Administration\MasterFontsController@index']);
     });
+
+    // Analytics
+    Route::get('analytics/{startDate?}/{endDate?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\AnalyticsController@index'])->name('analytics');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

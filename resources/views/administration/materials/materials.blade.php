@@ -93,6 +93,7 @@
                                 <th>Asset Target</th>
                                 <th>Blank</th>
                                 <th>Customizer Available</th>
+                                <th>Brand</th>
                                 <th>Uniform Application Type</th>
                                {{--  <th>Customizer Available</th> --}}
                                 <th>Actions</th>
@@ -142,6 +143,9 @@
                 </td>
                 <td>
                     @if($material->customizer_available) Yes @else No @endif
+                </td>
+                <td>
+                    {{ $material->brand }}
                 </td>
                 <td>
                     {{ $material->uniform_application_type }}
