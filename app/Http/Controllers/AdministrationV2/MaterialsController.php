@@ -672,4 +672,15 @@ class MaterialsController extends Controller
             'block_patterns' => $block_patterns
         ]);
     }
+
+    public function materialsOptionsSetup($id)
+    {
+        $material = $this->client->getMaterialQS($id);
+        $options = $this->optionsClient->getByMaterialId($id);
+
+        return view('administration-lte-2.master-pages.materials.material-options-setup', [
+            'material' => $material,
+            'options' => $options,
+        ]);
+    }
 }

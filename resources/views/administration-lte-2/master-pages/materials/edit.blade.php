@@ -329,7 +329,7 @@
                                     @if ($material->front_view_path)
                                         <div class="front_view_path">
                                             <img src="{{ $material->front_view_path }}" width="100px" height="100px">
-                                            <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                            <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                                 data-material-id="{{ $material->id }}"
                                                 data-field="front_view_path"
                                                 role="button">
@@ -348,7 +348,7 @@
                                     @if ($material->front_view_shape)
                                         <div class="front_view_shape">
                                             <img src="{{ $material->front_view_shape }}" width="100px" height="100px">
-                                            <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                            <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                                 data-material-id="{{ $material->id }}"
                                                 data-field="front_view_shape"
                                                 role="button">
@@ -367,7 +367,7 @@
                                     @if ($material->back_view_path)
                                         <div class="back_view_path">
                                             <img src="{{ $material->back_view_path }}" width="100px" height="100px">
-                                            <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                            <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                                 data-material-id="{{ $material->id }}"
                                                 data-field="back_view_path"
                                                 role="button">
@@ -386,7 +386,7 @@
                                     @if ($material->back_view_shape)
                                         <div class="back_view_shape">
                                             <img src="{{ $material->back_view_shape }}" width="100px" height="100px">
-                                            <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                            <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                                 data-material-id="{{ $material->id }}"
                                                 data-field="back_view_shape"
                                                 role="button">
@@ -405,7 +405,7 @@
                                     @if ($material->right_side_view_path)
                                         <div class="right_side_view_path">
                                             <img src="{{ $material->right_side_view_path }}" width="100px" height="100px">
-                                            <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                            <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                                 data-material-id="{{ $material->id }}"
                                                 data-field="right_side_view_path"
                                                 role="button">
@@ -424,7 +424,7 @@
                                     @if ($material->right_side_view_shape)
                                         <div class="right_side_view_shape">
                                             <img src="{{ $material->right_side_view_shape }}" width="100px" height="100px">
-                                            <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                            <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                                 data-material-id="{{ $material->id }}"
                                                 data-field="right_side_view_shape"
                                                 role="button">
@@ -443,7 +443,7 @@
                                     @if ($material->left_side_view_path)
                                         <div class="left_side_view_path">
                                             <img src="{{ $material->left_side_view_path }}" width="100px" height="100px">
-                                            <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                            <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                                 data-material-id="{{ $material->id }}"
                                                 data-field="left_side_view_path"
                                                 role="button">
@@ -462,7 +462,7 @@
                                     @if ($material->left_side_view_shape)
                                         <div class="left_side_view_shape">
                                             <img src="{{ $material->left_side_view_shape }}" width="100px" height="100px">
-                                            <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                            <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                                 data-material-id="{{ $material->id }}"
                                                 data-field="left_side_view_shape"
                                                 role="button">
@@ -482,7 +482,7 @@
                                 @if ($material->thumbnail_path)
                                     <div class="thumbnail_path">
                                         <img src="{{ $material->thumbnail_path }}" width="100px" height="100px">
-                                        <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                             data-material-id="{{ $material->id }}"
                                             data-field="thumbnail_path"
                                             role="button">
@@ -501,7 +501,7 @@
                                 @if ($material->thumbnail_path_front)
                                     <div class="thumbnail_path_front">
                                         <img src="{{ $material->thumbnail_path_front }}" width="100px" height="100px">
-                                        <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                             data-material-id="{{ $material->id }}"
                                             data-field="thumbnail_path_front"
                                             role="button">
@@ -520,7 +520,7 @@
                                 @if ($material->thumbnail_path_back)
                                     <div class="thumbnail_path_back">
                                         <img src="{{ $material->thumbnail_path_back }}" width="100px" height="100px">
-                                        <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                             data-material-id="{{ $material->id }}"
                                             data-field="thumbnail_path_back"
                                             role="button">
@@ -538,7 +538,7 @@
                                 @if ($material->thumbnail_path_left)
                                     <div class="thumbnail_path_left">
                                         <img src="{{ $material->thumbnail_path_left }}" width="100px" height="100px">
-                                        <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                             data-material-id="{{ $material->id }}"
                                             data-field="thumbnail_path_left"
                                             role="button">
@@ -556,7 +556,7 @@
                                 @if ($material->thumbnail_path_right)
                                     <div class="thumbnail_path_right">
                                         <img src="{{ $material->thumbnail_path_right }}" width="100px" height="100px">
-                                        <a href="#" class="btn btn-danger btn-xs delete-material-image"
+                                        <a href="#" class="btn btn-danger btn-sm btn-flat delete-material-image"
                                             data-material-id="{{ $material->id }}"
                                             data-field="thumbnail_path_right"
                                             role="button">
@@ -603,7 +603,7 @@
                                 <input type="text" class="form-control styles-pdf-text" name="styles-pdf-text" value="{{ $material->styles_pdf }}">
                             </div>
                             <div class="col-md-2">
-                                <a href="#" class="btn btn-danger btn-xs delete-styles-pdf"
+                                <a href="#" class="btn btn-danger btn-sm btn-flat delete-styles-pdf"
                                     data-material-id="{{ $material->id }}"
                                     data-field="styles_pdf"
                                     role="button">
@@ -681,11 +681,11 @@
                         </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary edit-material">
+                                    <button type="submit" class="btn btn-flat btn-primary edit-material">
                                         <span class="glyphicon glyphicon-floppy-disk"></span>
                                         Update Material
                                     </button>
-                                    <a href="/administration/materials" class="btn btn-danger" style="margin-right: 15px;">
+                                    <a href="/administration/materials" class="btn btn-flat btn-danger" style="margin-right: 15px;">
                                         <span class="glyphicon glyphicon-arrow-left"></span>
                                         Cancel
                                     </a>

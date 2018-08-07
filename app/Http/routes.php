@@ -134,6 +134,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
         Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
 
+
         /* Materials */
         Route::get('materials', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@index'])->name('v1_materials_index');
         Route::get('materials/{sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@indexSport']);

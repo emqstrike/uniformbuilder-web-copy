@@ -9,6 +9,7 @@
 
     <style>
         .box-body th {
+            background: #263135;
             text-align: center;
         }
 
@@ -17,11 +18,12 @@
         }
 
         .box-body th h3 {
+            color: #ffffff;
             text-align: center;
         }
 
         .box-body td, th {
-            border: 1px solid #000000;
+            border: 1px solid #e3e3e3;
             padding: 15px;
             vertical-align: top;
         }
@@ -31,6 +33,13 @@
             overflow-y: scroll;
         }
 
+        .material-option-item {
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
         #applications_div > div {
             border: none !important;
             margin-top: 0 !important;
@@ -38,6 +47,12 @@
 
         .modal-wide .modal-body {
             overflow: hidden;
+        }
+
+        .color-preview-pill {
+            display: inline-block;
+            margin-left: 16px;
+            margin-top: 5px !important;
         }
     </style>
 @endsection
@@ -56,16 +71,16 @@
                     <div class="box-header">
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="{{ route('v1_materials_index') }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
+                                <a href="{{ route('v1_materials_index') }}" class="btn btn-default btn-flat btn-lg" role="button">
                                     Back
                                 </a>
-                                <a href="{{ route('v1_materials_options_setup', ['id' => $material->id]) }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
+                                <a href="{{ route('v1_materials_options_setup', ['id' => $material->id]) }}" class="btn btn-default btn-flat btn-lg" role="button">
                                     Materials Options (Minified)
                                 </a>
                             </div>
 
                             <div class="col-md-6">
-                                <div style="margin-top: 25px;">
+                                <div>
                                     <textarea name="material_props_data" style="display:none;" id="material_props_data"><?php echo json_encode($options, JSON_FORCE_OBJECT);?></textarea>
                                         <div class="form-group">
                                             <div class="row">
@@ -82,7 +97,7 @@
                                                 </div>
 
                                                 <div class="col-md-2">
-                                                    <button type="submit" class="btn btn-default export_material_prop">
+                                                    <button type="submit" class="btn btn-flat btn-default export_material_prop">
                                                         Export <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                                                     </button>
                                                 </div>
@@ -96,13 +111,13 @@
 
                         <h1>Material Options of: {{ ucfirst($material->name) }}</h1>
 
-                        <a href="{{ route('v1_material_edit', ['id' => $material->id]) }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080; border-radius: 0px;">
+                        <a href="{{ route('v1_material_edit', ['id' => $material->id]) }}" class="btn btn-flat btn-default btn-xs edit-material" role="button">
                             Edit
                         </a>
-                        <a href="#" class='btn btn-xs btn-default cleanup-material' data-id="{{ $material->id }}" style="border: 1px solid #808080; border-radius: 0px;">
+                        <a href="#" class='btn btn-flat btn-xs btn-default cleanup-material' data-id="{{ $material->id }}">
                             Reset Properties
                         </a>
-                        <a href="#" class='btn btn-xs btn-default delete-multiple-material-option' style="border: 1px solid #808080; border-radius: 0px;">
+                        <a href="#" class='btn btn-flat btn-xs btn-default delete-multiple-material-option'>
                             Delete Selected
                         </a>
                     </div>
@@ -118,7 +133,7 @@
                             <thead>
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="front">
+                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="front">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                         FRONT
@@ -128,7 +143,7 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="back">
+                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="back">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                         BACK
@@ -138,7 +153,7 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="left">
+                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="left">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                         LEFT
@@ -148,7 +163,7 @@
 
                                 <th>
                                     <h3>
-                                        <a href="#" class='btn btn-xs btn-default add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="right">
+                                        <a href="#" class='btn btn-flat btn-xs btn-success add-multiple-material-option' style="border-radius: 0px;" data-material-id="{{ $material->id }}" data-add-to-perspective="right">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                         RIGHT
@@ -161,10 +176,9 @@
                                 <td>
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "front")
-                                            <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;"
-                                                 class="material-option-{{ $option->id }}  material-option-item"
+                                            <div class="material-option-{{ $option->id }}  material-option-item"
                                                  data-material-option-name="{{ $option->name }}">
-                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
+                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right btn-flat btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-id="{{ $material->id }}"
                                                             data-material-option-name="{{ $option->name }}"
@@ -189,13 +203,13 @@
                                                             role="button">
                                                     <i class="glyphicon glyphicon-screenshot"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right"
+                                                <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             role="button">
                                                     <i class="glyphicon glyphicon-refresh"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
+                                                <a href="#" class="btn btn-default btn-xs delete-material-option pull-right btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             role="button">
@@ -247,10 +261,9 @@
                                 <td>
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "back")
-                                            <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;"
-                                                 class="material-option-{{ $option->id }}  material-option-item"
+                                            <div class="material-option-{{ $option->id }}  material-option-item"
                                                  data-material-option-name="{{ $option->name }}">
-                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
+                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right btn-flat btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-id="{{ $material->id }}"
                                                             data-material-option-name="{{ $option->name }}"
@@ -275,13 +288,13 @@
                                                             role="button">
                                                     <i class="glyphicon glyphicon-screenshot"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right"
+                                                <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             role="button">
                                                     <i class="glyphicon glyphicon-refresh"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
+                                                <a href="#" class="btn btn-default btn-xs delete-material-option pull-right btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             role="button">
@@ -333,10 +346,9 @@
                                 <td>
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "left")
-                                            <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;"
-                                                 class="material-option-{{ $option->id }}  material-option-item"
+                                            <div class="material-option-{{ $option->id }}  material-option-item"
                                                  data-material-option-name="{{ $option->name }}">
-                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
+                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right btn-flat btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-id="{{ $material->id }}"
                                                             data-material-option-name="{{ $option->name }}"
@@ -361,13 +373,13 @@
                                                             role="button">
                                                     <i class="glyphicon glyphicon-screenshot"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right"
+                                                <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             role="button">
                                                     <i class="glyphicon glyphicon-refresh"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
+                                                <a href="#" class="btn btn-default btn-xs delete-material-option pull-right btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             role="button">
@@ -419,10 +431,9 @@
                                 <td>
                                     @foreach ($options as $option)
                                         @if ($option->perspective == "right")
-                                            <div style="margin-top: 10px; border: 1px solid #dcdcdc; padding: 3px; border-radius: 5px; margin-bottom: 10px;"
-                                                 class="material-option-{{ $option->id }}  material-option-item"
+                                            <div class="material-option-{{ $option->id }}  material-option-item"
                                                  data-material-option-name="{{ $option->name }}">
-                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right"
+                                                <a href="#" class="btn btn-default btn-xs material-option-applications pull-right btn-flat btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-id="{{ $material->id }}"
                                                             data-material-option-name="{{ $option->name }}"
@@ -447,13 +458,13 @@
                                                             role="button">
                                                     <i class="glyphicon glyphicon-screenshot"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right"
+                                                <a href="#" class="btn btn-default btn-xs cleanup-material-option pull-right btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             role="button">
                                                     <i class="glyphicon glyphicon-refresh"></i>
                                                 </a>
-                                                <a href="#" class="btn btn-default btn-xs delete-material-option pull-right"
+                                                <a href="#" class="btn btn-default btn-xs delete-material-option pull-right btn-flat"
                                                             data-material-option-id="{{ $option->id }}"
                                                             data-material-option-name="{{ $option->name }}"
                                                             role="button">
@@ -533,21 +544,34 @@
 <script type="text/javascript" src="/underscore/underscore.js"></script>
 <script type="text/javascript" src="/js/administration/materials.js"></script>
 @if (Session::has('message'))
-<script type="text/javascript">
-$(document).ready(function(){
-    try {
-        $('.data-table').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false
+    <script type="text/javascript">
+        $(document).ready(function(){
+            try {
+                $('.data-table').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false
+                });
+            } catch(e) {
+                console.log(e);
+            }
+
+            function formatColor(state) {
+                if (! state.id) {
+                    return state.text;
+                }
+
+                console.log('here', state);
+            }
+
+            $('#sublimated-colors').select2({
+                templateResult: formatColor,
+                templateSelection: formatColor
+            });
         });
-    } catch(e) {
-        console.log(e);
-    }
-});
+    </script>
 @endif
-</script>
 @endsection

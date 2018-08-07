@@ -1,10 +1,6 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/custom.css">
-
     <style>
         .table td,
         .table th {
@@ -116,24 +112,24 @@
                                             {{ $material->uniform_application_type }}
                                         </td>
                                         <td class="td-buttons">
-                                            <a href="{{ route('v1_material_edit', ['id' => $material->id]) }}" class="btn btn-xs btn-primary">Edit</a>
-                                            <a href="{{ route('v1_view_material_option', ['id' => $material->id]) }}" class="btn btn-xs btn-default">Material Options</a>
-                                            <a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-xs btn-default" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
+                                            <a href="{{ route('v1_material_edit', ['id' => $material->id]) }}" class="btn btn-sm btn-flat btn-primary">Edit</a>
+                                            <a href="{{ route('v1_view_material_option', ['id' => $material->id]) }}" class="btn btn-sm btn-flat btn-default">Material Options</a>
+                                            <a href="/administration/material/materials_options_setup/{{ $material->id }}" class="btn btn-sm btn-flat btn-default" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                                                 <span class="glyphicon glyphicon-cog"></span>
                                             </a>
-                                            <a href="#" class="btn btn-xs btn-default duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
+                                            <a href="#" class="btn btn-sm btn-flat btn-default duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                                                 <i class="glyphicon glyphicon-copy"></i>
                                             </a>
-                                            <a href="/administration/material/{{ $material->id }}/pipings" class="btn btn-xs btn-warning">
+                                            <a href="/administration/material/{{ $material->id }}/pipings" class="btn btn-sm btn-flat btn-warning">
                                                 <span class="glyphicon glyphicon-stats"></span>
                                             </a>
-                                            <a href="/administration/material/{{ $material->id }}/random_feed" class="btn btn-xs btn-warning">
+                                            <a href="/administration/material/{{ $material->id }}/random_feed" class="btn btn-sm btn-flat btn-warning">
                                                 <i class="fa fa-random" aria-hidden="true"></i>
                                             </a>
-                                            <a href="/administration/material/materials_options/dropzone/{{ $material->id }}" class="btn btn-xs btn-default">
+                                            <a href="/administration/material/materials_options/dropzone/{{ $material->id }}" class="btn btn-sm btn-flat btn-default">
                                                 <i class="fa fa-upload" aria-hidden="true"></i>
                                             </a>
-                                            <a href="#" class="btn btn-xs btn-danger delete-material" data-material-id="{{ $material->id }}">
+                                            <a href="#" class="btn btn-sm btn-flat btn-danger delete-material" data-material-id="{{ $material->id }}">
                                                 <i class="glyphicon glyphicon-trash"></i>
                                             </a>
                                         </td>
