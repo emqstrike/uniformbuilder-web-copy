@@ -30,7 +30,7 @@
                             <th>Order Code</th>
                             <th>Client</th>
                             <th>PDF Link</th>
-                            <th>Submitted by User ID</th>
+                            <th>Submitted by User</th>
                             <th>Test Order</th>
                             <th>FOID</th>
                             <th>Assigned Sales Rep</th>
@@ -51,7 +51,9 @@
                                 <a href="#" class="btn btn-info btn-sm btn-flat view-pdf">PDF</a>
                             </center>
                         </td>
-                        <td class="td-order-user-id">{{ $order->user_id }}</td>
+                        <td class="td-order-user-id">
+                            {{ $order->first_name }} {{ $order->last_name }} &lt;{{ $order->email }}&gt;
+                        </td>
                         <td class="td-order-test-order">@if( $order->test_order ) Yes @else No @endif</td>
                         <td class="td-factory-order-id">{{ $order->factory_order_id }}</td>
                         <td class="td-assigned-sales-rep">

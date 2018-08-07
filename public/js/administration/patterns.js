@@ -313,11 +313,9 @@ $(document).ready(function(){
 
 
 
-    $('.delete-pattern').on('click', function(){
-
+    $('.delete-pattern').on('click', function() {
         var id = [];
         id.push( $(this).data('pattern-id'));
-        
      
         modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern?', id);
     });
@@ -356,11 +354,8 @@ $(document).ready(function(){
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
-         var id = $(this).data('value');
+        var id = $(this).data('value');
         var url = "//" + api_host + "/api/pattern/delete/";
-
-
-        //var url = "//localhost:8888/api/pattern/delete/";
 
         $.ajax({
             url: url,
@@ -378,16 +373,15 @@ $(document).ready(function(){
                         type: 'success',
                         hide: true
                     });
-                    $('#confirmation-modal').modal('hide');
-                   $.each(id, function (index, value) {
-                      console.log(value);
-                      $('.pattern-' + value).fadeOut();
 
-                      // Will stop running after "three"
-                      
+                    $('#confirmation-modal').modal('hide');
+
+                    $.each(id, function (index, value) {
+                        console.log(value);
+                        $('.pattern-' + value).fadeOut();
                     });
                     
-
+                    location.reload();
                 }
             }
         });
@@ -538,26 +532,20 @@ $(document).ready(function(){
         layerNumbers();
     });
     var multipleRemove=[];
+
     $(document).on('click', '#multipleDelete', function() {
-        if($(this).is(':checked')){
+        if ($(this).is(':checked')) {
             multipleRemove.push($(this).data("pattern-id"));
-       
- 
-        }else{
-           multipleRemove.splice( $.inArray($(this).data("pattern-id"),multipleRemove) ,1 );
-
+        } else {
+           multipleRemove.splice( $.inArray($(this).data("pattern-id"), multipleRemove) , 1);
         }
-       multipleRemove = multipleRemove.sort();
-
- 
+        multipleRemove = multipleRemove.sort();
     });
 
     $(document).on('click', '.multiple-delete-pattern', function() {
-     
         modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern?', multipleRemove);
- 
-
     });
+
     //   var id = multipleRemove;
     //    // var url = "//" + api_host + "/api/pattern/deleteThumbnail";
     //    var url = "//localhost:8888/api/pattern/deleteThumbnail";
