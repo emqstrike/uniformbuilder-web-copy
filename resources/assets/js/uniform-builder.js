@@ -1012,11 +1012,7 @@ $(document).ready(function () {
             if (object_name === 'fonts') { ub.funcs.processFonts(); }
             if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
             if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
-            if (object_name === 'mascots') { 
-                console.error('Mascots: ');
-                console.log(ub.data.mascots);
-                ub.funcs.transformMascots(); 
-            }
+            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
             if (object_name === 'colors') { ub.funcs.prepareColors(); }
             if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
 
@@ -2092,11 +2088,6 @@ $(document).ready(function () {
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
                     var _mascotID = view.application.defaultMascot;
-
-                    console.error('Default Mascot ID: ');
-                    console.log(view.application.defaultMascot);
-                    console.log(typeof view.application.defaultMascot);
-
                     var _mascotObj  = _.find(ub.data.mascots, {id: _mascotID});
                     var _colorArray = view.application.colors.split(',');
 
