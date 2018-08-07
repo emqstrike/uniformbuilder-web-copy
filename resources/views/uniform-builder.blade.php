@@ -263,6 +263,7 @@
         window.is           = {};
 
         window.ub.config = {
+            toString: false,
             app_env: "{{ env('APP_ENV') }}",
             api_host: "//{{ env('API_HOST') }}",
             asset_version: "{{$asset_version}}",
@@ -296,6 +297,10 @@
             @endif
 
         };
+
+        if (window.ub.config.app_env === "local") {
+            window.ub.config.toString = true;
+        }
 
         /**
          * Extends jQuery - adds a center() reusable function
@@ -611,9 +616,5 @@
 </body>
 
 @include('partials.detect-mobile')
-<!--
-<?php
-print_r($_SERVER['SERVER_ADDR']);
- ?>
--->
+
 </html>
