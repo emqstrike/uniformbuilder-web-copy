@@ -34,7 +34,15 @@ elixir(function(mix) {
 			'uniform-builder-error-codes.js',
 			'uniform-builder-endpoints.js',
 			'uniform-builder-style-configuration.js',
-			'uniform-builder-branding.js',
+			
+			// Brand Specific 
+
+				// Richardson 
+				'richardson/uniform-builder-richardson-data.js',
+				'richardson/uniform-builder-richardson.js',
+
+				'uniform-builder-branding.js',
+
 			'uniform-builder-dealership.js',
 			'uniform-builder-data.js',
 			'uniform-builder-ui-data.js',
