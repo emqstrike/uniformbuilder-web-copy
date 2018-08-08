@@ -7,7 +7,7 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
-            ub.utilities.maintenanceMessage();
+            // ub.utilities.maintenanceMessage();
 
             ub.errorCodes.prepareShortcuts();
 
@@ -633,7 +633,7 @@ $(document).ready(function () {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
             }
 
-            if (ub.config.useAllColors) {
+            if (ub.branding.useAllColors) {
                 ub.funcs.addAllColorToTeamColors();
             }
 
@@ -1012,11 +1012,7 @@ $(document).ready(function () {
             if (object_name === 'fonts') { ub.funcs.processFonts(); }
             if (object_name === 'logo_request') { ub.funcs.processLogoRequests(); }
             if (object_name === 'patterns') { ub.funcs.transformPatterns(obj); }
-            if (object_name === 'mascots') { 
-                console.error('Mascots: ');
-                console.log(ub.data.mascots);
-                ub.funcs.transformMascots(); 
-            }
+            if (object_name === 'mascots') { ub.funcs.transformMascots(); }
             if (object_name === 'colors') { ub.funcs.prepareColors(); }
             if (object_name === 'single_view_applications') { ub.funcs.processSingleViewApplications(); }
 
@@ -1671,6 +1667,7 @@ $(document).ready(function () {
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
+                    (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
                     (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
                 
                     material.thumbnail_path_left = material.thumbnail_path_front;
@@ -2092,11 +2089,6 @@ $(document).ready(function () {
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
                     var _mascotID = view.application.defaultMascot;
-
-                    console.error('Default Mascot ID: ');
-                    console.log(view.application.defaultMascot);
-                    console.log(typeof view.application.defaultMascot);
-
                     var _mascotObj  = _.find(ub.data.mascots, {id: _mascotID});
                     var _colorArray = view.application.colors.split(',');
 
@@ -8441,12 +8433,20 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
+
+                    var _zero = 0;
+                    var _one = 1;
+
+                    if (ub.config.toString) {
+                        _zero = '0';
+                        _one = '1';
+                    }
    
                     $('div.my-orders-loading').hide();
 
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
-                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };     
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _zero}) };     
 
                     dataSaved.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
@@ -8460,7 +8460,7 @@ $(document).ready(function () {
                     var $containerSubmitted     = $('div.order-list.submitted');
                     var template                = $('#m-orders-table').html();
 
-                    var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
+                    var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _one}) };
 
                     dataSubmitted.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
