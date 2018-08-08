@@ -16,41 +16,20 @@
 <link rel="icon" type="image/png" href="/images/branding/favicon.ico" />
 <link href='//fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 
-<link rel="stylesheet" href="{{ env('asset_storage') }}/bootstrap/css/bootstrap.min.css?v={{ env('asset_version') }}">
-<link rel="stylesheet" href="{{ env('asset_storage') }}/bootstrap/css/bootstrap-theme.min.css?v={{ env('asset_version') }}">
-<link rel="stylesheet" href="{{ env('asset_storage') }}/font-awesome/css/font-awesome.min.css?v={{ env('asset_version') }}">
-<link rel="stylesheet" href="{{ env('asset_storage') }}/uniform-builder/css/uniform-builder.css?v={{ env('asset_version') }}">
+<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap.min.css?v={{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/bootstrap/css/bootstrap-theme.min.css?v={{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/font-awesome/css/font-awesome.min.css?v={{$asset_version}}">
+<link rel="stylesheet" href="{{$asset_storage}}/uniform-builder/css/uniform-builder.css?v={{$asset_version}}">
+
 
 <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
+
+<!-- Timer -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
-<style type="text/css">
-    body {
-        background: url('/images/main-ui/down/down-bg.jpg');
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-
-    #right-col-md-6-content {
-        display:table-cell;
-        vertical-align:middle;
-        text-align:center;
-    }
-
-    #clock {
-        font-size: 5em;
-        border-radius: 10px;
-        padding: 10px;
-    }
-
-    #margin-top-20 {
-        margin-top: 20px;
-    }
-</style>
+<!-- end Timer -->
 
 </head>
-
-<body>
+<body style="background: url('/images/main-ui/down/down-bg.jpg');background-repeat: no-repeat;background-size: cover;">
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -69,29 +48,29 @@
         <div class="col-sm-5 offset-sm-2 col-md-6 offset-md-0">
             
             <div class="row">
-                <div class="col-md-7 col-md-offset-1" id="right-col-md-6-content">
+                <div class="col-md-6 col-md-offset-2" style="display:table-cell; vertical-align:middle; text-align:center">
                     <img src="/images/main-ui/down/football-icon.gif">
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-7 col-md-offset-1" id="right-col-md-6-content">
+                <div class="col-md-6 col-md-offset-2" style="display:table-cell; vertical-align:middle; text-align:center">
                     <h1 style="font-size: 2.5em;"><b>Site under Maintenance!</b></h1>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-7 col-md-offset-1" id="right-col-md-6-content">
+                <div class="col-md-6 col-md-offset-2" style="display:table-cell; vertical-align:middle; text-align:center">
                     <p>
-                        The website is currently under maintenance. We will be back shortly.
+                        The website is currently under maintenance. We will be back shortly
                         <br/>
                         Thank you for your patience.
                     </p>
                 </div>
             </div>
 
-            <div class="row" id="margin-top-20">
-                <div class="col-md-7 col-md-offset-1" id="right-col-md-6-content">
+            <div class="row" style="margin-top: 20px">
+                <div class="col-md-6 col-md-offset-2" style="display:table-cell; vertical-align:middle; text-align:center">
                     <p>
                         Worst-case scenario..we most likely will be live sooner than this!
                     </p>
@@ -99,13 +78,25 @@
             </div>
 
             <!-- Timer -->
-            <div class="row" id="margin-top-20">
-                <div class="col-md-7 col-md-offset-1" id="right-col-md-6-content">
-                <span id="clock"></span>
+            <div class="row" style="margin-top: 25px;">
+                <div class="col-md-6 col-md-offset-2" style="display:table-cell; vertical-align:middle; text-align:center">
+                <span id="clock" style="font-size: 5em;border-radius: 10px;padding: 10px;"></span>
             </div>
 
         </div>
     </div>
+</div>
+
+<button id="modalButton" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+     <div id="messageModal">
+     </div>
+
+    </div>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -116,26 +107,26 @@
         // Update the count down every 1 second
         var x = setInterval(function() {
 
-            // Get todays date and time
-            var now = new Date().getTime();
+        // Get todays date and time
+        var now = new Date().getTime();
 
-            // Find the distance between now and the count down date
-            var distance = countDownDate - now;
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
 
-            // Time calculations for hours, minutes and seconds
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        // Time calculations for days, hours, minutes and seconds
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Display the result in the element with id="demo"
-            document.getElementById("clock").innerHTML =  hours + "h "
-            + minutes + "m " + seconds + "s ";
+        // Display the result in the element with id="demo"
+        document.getElementById("clock").innerHTML =  hours + "h "
+        + minutes + "m " + seconds + "s ";
 
-            // If the count down is finished, write some text
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("clock").innerHTML = "";
-            }
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("clock").innerHTML = "EXPIRED";
+        }
         }, 1000);
     });
     

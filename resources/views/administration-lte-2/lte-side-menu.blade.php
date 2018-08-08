@@ -49,9 +49,28 @@
             <li><a href="../tables/data.html"><i class="fa fa-building"></i> Factories</a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/fonts"><i class="fa fa-font"></i> Fonts <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <!-- <li><a href="../tables/data.html"><i class="fa fa-bars"></i> Gradients</a></li> -->
-            <li><a href="../tables/data.html"><i class="fa fa-github-alt"></i> Mascots</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascots"><i class="fa fa-futbol-o"></i> Mascots <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/patterns"><i class="fa fa-table"></i> Patterns<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
+        </li>
+
+        <li class="treeview">
+            <a href="#">
+                <i class="fa fa-bar-chart"></i>
+                <span>Features and Helpers</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+
+            <ul class="treeview-menu">
+                <li>
+                    <a href="{{ route('v1_analytics_index') }}">
+                        <i class="fa fa-bar-chart"></i>
+                        Analytics
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <li class="treeview">

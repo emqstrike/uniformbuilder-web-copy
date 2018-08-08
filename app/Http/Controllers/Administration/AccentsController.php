@@ -62,6 +62,7 @@ class AccentsController extends Controller
     public function store(Request $request){
 
         $accentName = $request->input('name');
+        $accentAlias = $request->input('alias');
         $accentCode = $request->input('code');
 
         if ($request->has('thumbnail_path')) {
@@ -85,6 +86,7 @@ class AccentsController extends Controller
 
         $data = [
             'name' => $accentName,
+            'alias' => $accentAlias,
             'code' => $accentCode,
             'thumbnail_path' => $thumbnail_path,
             'accent_properties' => $accentProperties,
@@ -150,9 +152,9 @@ class AccentsController extends Controller
         $colors = $this->colorsClient->getColors();
 
         return view('administration.accents.accent-edit', [
-        'accent' => $accent,
-           'fonts' => $fonts,
-           'colors' => $colors
+            'accent' => $accent,
+            'fonts' => $fonts,
+            'colors' => $colors
         ]);
     }
 
