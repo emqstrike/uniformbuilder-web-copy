@@ -1,3 +1,10 @@
+ <!-- Mascot Dropdown -->
+    <script type="text/mustache" id="m-maintenance-message">
+        
+        Prolook Customizer will have a scheduled system maintenance and will be offline temporarily on Sunday, August 5th from 8:00 PM EST - 5:00 AM EST. <br />The customizer will be under testing for the rest of the week, please report via the [Feedback] function any issue you might discover. This will help us a lot in improving the custommizer for everyone. Thank you! <br /><br /> #LiveYourGame
+        
+    </script>
+
 
 <!-- Start Mascot UI's -->
 
@@ -421,10 +428,26 @@
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
             @endif
-                <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png?v={{$asset_version}}">
+
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
 
                 <span class="main-picker-item-caption">
-                    @{{name}}
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
                 </span>
 
             </div>
@@ -439,10 +462,26 @@
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
             @endif
-                <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png?v={{$asset_version}}">
+                
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
 
                 <span class="main-picker-item-caption">
-                    @{{name}}
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
                 </span>
 
             </div>

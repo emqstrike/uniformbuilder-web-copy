@@ -2503,10 +2503,9 @@ $(document).ready(function() {
         });
     }
 
-        function getAccents(callback){
-        var mascots;
+    function getAccents(callback){
+       var accents;
        var url = "//" + api_host + "/api/accents";
-        // var url = "//localhost:8888/api/accents";
         $.ajax({
             url: url,
             async: false,
@@ -2515,8 +2514,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                    accents = $(data['accents']).filter(function (i,n){return n.active==="1" });
-
+                    accents = $(data['accents']).filter(function (i,n){return n.active == 1 });
                 if(typeof callback === "function") callback(accents);
             }
         });
