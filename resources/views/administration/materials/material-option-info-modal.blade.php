@@ -120,7 +120,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Default Color:</label>
-                        <select class="form-control default-color" name="default_color" style="color: #000;text-shadow: 1px 1px #000;" id="def-color">
+                        <select class="form-control default-color" name="default_color" id="def-color">
                             @foreach ($colors as $color)
                                 @if ($color->active)
                                     <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">
@@ -134,22 +134,24 @@
                 </div>
 
                 <div class="col-md-12">
-                    <label class="control-label">Colors:</label>
-                    <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
-                        @foreach ($colors as $color)
-                            @if ($color->active)
-                            <option value='{{ $color->color_code }}' selected="selected">
-                                {{ $color->name }}
-                            </option>
-                            @endif
-                        @endforeach
-                    </select>
+                    <div class="form-group">
+                        <label class="control-label">Colors:</label>
+                        <select name="colors[]" class="form-control colors" style="width: 100%" multiple="multiple">
+                            @foreach ($colors as $color)
+                                @if ($color->active)
+                                    <option data-color="#{{ $color->hex_code }}" value='{{ $color->color_code }}' selected="selected">
+                                        {{ $color->name }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
 
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="control-label">Sublimated Default Color:</label>
-                        <select class="form-control sublimated-default-color" name="sublimated_default_color" style="background-color: #fff; color: #000;text-shadow: 1px 1px #000;">
+                        <select class="form-control sublimated-default-color" name="sublimated_default_color">
                             @foreach ($colors as $color)
                                 @if ($color->active)
                                     <option data-color="#{{ $color->hex_code }}" style="background-color: #{{ $color->hex_code }};" value="{{ $color->color_code }}">

@@ -6,55 +6,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/custom.css">
-
-    <style>
-        .box-body th {
-            background: #263135;
-            text-align: center;
-        }
-
-        .box-body th {
-            text-align: left;
-        }
-
-        .box-body th h3 {
-            color: #ffffff;
-            text-align: center;
-        }
-
-        .box-body td, th {
-            border: 1px solid #e3e3e3;
-            padding: 15px;
-            vertical-align: top;
-        }
-
-        #applications_div {
-            border: 1px solid #000;
-            overflow-y: scroll;
-        }
-
-        .material-option-item {
-            border: 1px solid #dcdcdc;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            padding: 5px;
-        }
-
-        #applications_div > div {
-            border: none !important;
-            margin-top: 0 !important;
-        }
-
-        .modal-wide .modal-body {
-            overflow: hidden;
-        }
-
-        .color-preview-pill {
-            display: inline-block;
-            margin-left: 16px;
-            margin-top: 5px !important;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/administration-lte-2/materials.css">
 @endsection
 
 @section('custom-styles')
@@ -522,8 +474,8 @@
 
 
     @include('administration.materials.add-multiple-options-modal')
-    @include('administration.materials.material-option-boundary-modal')
-    @include('administration.materials.material-option-applications-modal')
+    @include('administration-lte-2.master-pages.materials.modal.material-option-boundary-modal')
+    @include('administration-lte-2.master-pages.materials.modal.material-option-applications-modal')
     @include('administration.materials.material-option-info-modal')
     @include('administration.materials.material-option-modal')
     @include('administration.materials.cleanup-material-modal')
@@ -534,44 +486,50 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
-<script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
-<script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
-<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/js/ddslick.min.js"></script>
-<script type="text/javascript" src="/underscore/underscore.js"></script>
-<script type="text/javascript" src="/js/administration/materials.js"></script>
-@if (Session::has('message'))
-    <script type="text/javascript">
-        $(document).ready(function(){
-            try {
-                $('.data-table').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": false,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false
-                });
-            } catch(e) {
-                console.log(e);
-            }
-
-            function formatColor(state) {
-                if (! state.id) {
-                    return state.text;
+    <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
+    <script type="text/javascript" src="/js/administration/common.js"></script>
+    <script type="text/javascript" src="/fabricjs/fabric.min.js"></script>
+    <script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
+    <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/ddslick.min.js"></script>
+    <script type="text/javascript" src="/underscore/underscore.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/materials.js"></script>
+    @if (Session::has('message'))
+        <script type="text/javascript">
+            $(document).ready(function(){
+                try {
+                    $('.data-table').DataTable({
+                        "paging": true,
+                        "lengthChange": false,
+                        "searching": false,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false
+                    });
+                } catch(e) {
+                    console.log(e);
                 }
+            });
+        </script>
+    @endif
 
-                console.log('here', state);
-            }
+    <script>
+        $(document).ready(function() {
+            $('#applications_table_container').scroll(function() {
+                var tableHeaderPosition = "translate(0," + $(this).scrollTop() + "px)";
+                var tableHeaderColumnPosition = "translate(" + $(this).scrollLeft() + "px, " + $(this).scrollTop() + "px)";
+                var tableColumnPosition = "translate(" + $(this).scrollLeft() + "px, 0)";
 
-            $('#sublimated-colors').select2({
-                templateResult: formatColor,
-                templateSelection: formatColor
+                var secondColumnPosition = $(this).scrollLeft() + 218;
+                secondColumnPosition = "translate(" + secondColumnPosition  + "px, 0)";
+
+                $('#applications_table_container th:first-child').css('transform', tableColumnPosition);
+                $('#applications_table_container th:nth-child(2)').css('transform', tableColumnPosition);
+
+                $('#applications_table_container td:first-child').css('transform', tableColumnPosition);
+                $('#applications_table_container td:nth-child(2)').css('transform', tableColumnPosition);
             });
         });
     </script>
-@endif
 @endsection
