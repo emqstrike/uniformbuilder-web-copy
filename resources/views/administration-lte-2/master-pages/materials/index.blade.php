@@ -120,7 +120,7 @@
                                             <a href="#" class="btn btn-sm btn-flat btn-default duplicate-material" data-material-id="{{ $material->id }}" data-material-name="{{ $material->name }}">
                                                 <i class="glyphicon glyphicon-copy"></i>
                                             </a>
-                                            <a href="/administration/material/{{ $material->id }}/pipings" class="btn btn-sm btn-flat btn-warning">
+                                            <a href="{{ route('v1_piping_add', ['id' => $material->id]) }}" class="btn btn-sm btn-flat btn-warning">
                                                 <span class="glyphicon glyphicon-stats"></span>
                                             </a>
                                             <a href="/administration/material/{{ $material->id }}/random_feed" class="btn btn-sm btn-flat btn-warning">

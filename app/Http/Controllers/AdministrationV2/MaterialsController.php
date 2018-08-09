@@ -683,4 +683,12 @@ class MaterialsController extends Controller
             'options' => $options,
         ]);
     }
+
+    public function pipings($id)
+    {
+        $material = $this->client->getMaterial($id);
+        return view('administration-lte-2..master-pages.materials.material-piping-dynamic', [
+            'material' => $material
+        ]);
+    }
 }

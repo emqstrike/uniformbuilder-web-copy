@@ -119,3 +119,7 @@
 .dd-select {
     position: inherit !important; 
 }
+
+.thumb-container {
+    box-shadow: none !important;
+}

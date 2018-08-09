@@ -146,7 +146,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('material/view_material_options/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@getMaterialOptions'])->name('v1_view_material_option');
         Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@materialsOptionsSetup'])->name('v1_materials_options_setup');
         Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@editPipingForm']);
-        Route::get('material/{id}/pipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@pipings']);
+        Route::get('material/{id}/pipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@pipings'])->name('v1_piping_add');
         Route::get('material/{id}/random_feed', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@randomFeed']);
         Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePiping']);
         Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePipings']);
