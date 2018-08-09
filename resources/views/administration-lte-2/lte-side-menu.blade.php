@@ -49,6 +49,7 @@
             <li><a href="../tables/data.html"><i class="fa fa-building"></i> Factories</a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/fonts"><i class="fa fa-font"></i> Fonts <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <!-- <li><a href="../tables/data.html"><i class="fa fa-bars"></i> Gradients</a></li> -->
+
             <li><a href="../tables/data.html"><i class="fa fa-github-alt"></i> Mascots</a></li>
             <li>
                 <a href="{{ route('v1_materials_index') }}">
@@ -56,6 +57,7 @@
                     Materials
                 </a>
             </li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascots"><i class="fa fa-futbol-o"></i> Mascots <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/patterns"><i class="fa fa-table"></i> Patterns<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
         </li>

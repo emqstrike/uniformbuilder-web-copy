@@ -7,7 +7,7 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
-            ub.utilities.maintenanceMessage();
+            // ub.utilities.maintenanceMessage();
 
             ub.errorCodes.prepareShortcuts();
 
@@ -8433,12 +8433,20 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
+
+                    var _zero = 0;
+                    var _one = 1;
+
+                    if (ub.config.toString) {
+                        _zero = '0';
+                        _one = '1';
+                    }
    
                     $('div.my-orders-loading').hide();
 
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
-                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };     
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _zero}) };     
 
                     dataSaved.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
@@ -8452,7 +8460,7 @@ $(document).ready(function () {
                     var $containerSubmitted     = $('div.order-list.submitted');
                     var template                = $('#m-orders-table').html();
 
-                    var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
+                    var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _one}) };
 
                     dataSubmitted.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
