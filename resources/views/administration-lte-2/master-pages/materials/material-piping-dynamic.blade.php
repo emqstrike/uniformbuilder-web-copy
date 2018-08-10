@@ -13,6 +13,38 @@
         .global-color {
             display: inline-block;
         }
+
+        #copy-piping-data-modal textarea,
+        #load-piping-data-modal textarea {
+            height: 20em;
+            padding: 10px;
+            resize: none;
+            width: 100%;
+        }
+
+        #copy-to-clipboard-tooltip {
+            background: #555555;
+            border-radius: 6px;
+            display: none;
+            color: #ffffff;
+            left: 0;
+            margin: 0 auto;
+            padding: 8px;
+            position: absolute;
+            right: 0;
+            top: -15px;
+            width: 150px;
+        }
+
+        #copy-to-clipboard-tooltip:after {
+            border-color: #555 transparent transparent transparent;
+            border-style: solid;
+            border-width: 5px;
+            bottom: -10px;
+            content: "";
+            left: 70px;
+            position: absolute;
+        }
     </style>
 @endsection
 
@@ -34,10 +66,8 @@
                                     <span class="glyphicon glyphicon-copy"></span>
                                     Copy
                                 </a>
-                                <textarea id="ta_pipings_data" style="display: none;"></textarea>
-
-                                <textarea id="ta_load_pipings" style="display: none;"></textarea>
-                                <a href="#" class="btn btn-flat btn-default load-piping">Load</a>
+                                
+                                <a href="#" class="btn btn-flat btn-default open-load-piping-modal-button">Load</a>
                             </div>
                         </div>
                     </div>
@@ -97,6 +127,8 @@
         </div>
     </section>
 
+    @include('administration-lte-2.master-pages.materials.modal.copy-piping-data')
+    @include('administration-lte-2.master-pages.materials.modal.load-data')
     @include('administration.materials.material-piping-polygon-modal')
     @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
 @endsection
@@ -107,4 +139,23 @@
     <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/administration/polygon.js"></script>
     <script type="text/javascript" src="/js/administration-lte-2/pipings.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#copy-data-to-clipboard').click(function() {
+                $('#copy-piping-data-modal textarea').select();
+                document.execCommand('copy');
+
+                $('#copy-to-clipboard-tooltip').fadeIn();
+
+                setTimeout(function() { 
+                    $('#copy-to-clipboard-tooltip').fadeOut();
+                }, 500);
+            });
+
+            $('.open-load-piping-modal-button').click(function() {
+                $('#load-piping-data-modal').modal('show');
+            });
+        });
+    </script>
 @endsection

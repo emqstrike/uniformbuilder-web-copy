@@ -32,14 +32,12 @@ function buildSetsDropdown(value){
     return dropdown;
 }
 
-$(".global-color").append(globalColorSelector(colors));
+    $(".global-color").append(globalColorSelector(colors));
+
     $('.copy-piping').on('click', function(e){
-        copyToClipboard();
-        function copyToClipboard() {
-            var data = $('#pipings_data').val().slice(1, -1).replace(new RegExp("\\\\", "g"), "");
-            $('#ta_pipings_data').val(data);
-            $('#ta_pipings_data').show();
-        }
+        var data = $('#pipings_data').val().slice(1, -1).replace(new RegExp("\\\\", "g"), "");
+        $('#copy-piping-data-modal textarea').val(data);
+        $('#copy-piping-data-modal').modal('show');
     });
 
     $('.load-piping').on('click', function(e){
@@ -208,6 +206,7 @@ $(".global-color").append(globalColorSelector(colors));
         changeImage();
         changeEvent();
         refreshJSON();
+        $('#load-piping-data-modal').modal('hide');
     }
 
     function deletePiping(){
