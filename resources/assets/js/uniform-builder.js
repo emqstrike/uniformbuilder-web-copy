@@ -6510,6 +6510,8 @@ $(document).ready(function () {
 
         }
 
+        if (sport === "Wrestling") { sport = "Wrestling 2018"; }
+
         ub.funcs.initUniformsPicker(sport, gender, true);
         ub.funcs.setupEvents();
 
