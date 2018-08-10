@@ -11150,6 +11150,13 @@ ub.funcs.fontOffSets = [
             //  tackleTwillHidden: true,        // Use this in the future
             },
             {
+                sport: 'Wrestling 2018',
+                type: 'both',
+                upperLabel: 'Singlet & Tops',
+                lowerLabel: 'Shorts',
+            //  tackleTwillHidden: true,        // Use this in the future
+            },
+            {
                 sport: 'Volleyball',
                 type: 'both',
                 upperLabel: 'Jersey',
@@ -11298,6 +11305,10 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Wrestling',
             filters: ['All', 'Singlet', 'Fight Shorts'],
+        },
+        {
+            sport: 'Wrestling 2018',
+            filters: ['All', 'Singlet & Tops', 'Shorts'],
         },
         {
             sport: 'Crew Socks (Apparel)',
