@@ -2,7 +2,7 @@
 
 @section('styles')
     <style>
-        .piping-table td {
+        td {
             vertical-align: bottom !important;
         }
 
@@ -14,8 +14,8 @@
             display: inline-block;
         }
 
-        #copy-piping-data-modal textarea,
-        #load-piping-data-modal textarea {
+        #copy-random-feed-data textarea,
+        #load-random-feed-modal textarea {
             height: 20em;
             padding: 10px;
             resize: none;
@@ -54,30 +54,31 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        @section('page-title', 'Modify Piping (Dynamic)')
-
+                        @section('page-title', 'Modify Random Feed')
+                        
                         <div class="row">
                             <div class="col-md-6">
-                                <h1>Modify Piping (Dynamic)</h1>
+                                <h1>Modify Random Feed</h1>
                             </div>
 
                             <div class="col-md-6 text-right" style="padding-top: 20px;">
-                                <a href="#" class="btn btn-flat btn-default copy-piping">
+                                <a href="#" class="btn btn-flat btn-default copy-random-feed">
                                     <span class="glyphicon glyphicon-copy"></span>
                                     Copy
                                 </a>
+
                                 
-                                <a href="#" class="btn btn-flat btn-default open-load-piping-modal-button">Load</a>
+                                <a href="#" class="btn btn-flat btn-default load-random-feed-modal">Load</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="box-body">
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_update_piping') }}" enctype="multipart/form-data" id='edit-piping-form'>
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('v1_update_random_feed') }}" enctype="multipart/form-data" id='edit-random-feed-form'>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="material_id" value="{{ $material->id }}">
-                            <input type="hidden" id="pipings_data" value="{{ $material->pipings }}">
-                            <input type="hidden" name="pipings" id="pipings">
+                            <input type="hidden" id="random_feed_data" value="{{ $material->random_feed }}">
+                            <input type="hidden" name="random_feed" id="random_feed">
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -87,9 +88,9 @@
 
                             <div class="row" style="margin-bottom: 20px;">
                                 <div class="col-md-6">
-                                    <a href="#" class="btn btn-flat btn-success add-piping">
+                                    <a href="#" class="btn btn-flat btn-success add-random-feed">
                                         <span class="glyphicon glyphicon-plus"></span>
-                                        Add Piping
+                                        Add Random Feed
                                     </a>
                                 </div>
 
@@ -101,24 +102,23 @@
                                 </div>
                             </div>
 
-
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="pipings-content"></div>
+                                    <div class="random-feed-content"></div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-12 text-center">
+                            <div class="form-group col-md-12">
+                                <center>
                                     <button type="submit" class="btn btn-flat btn-primary edit-material">
                                         <span class="glyphicon glyphicon-floppy-disk"></span>
-                                        Update Pipings
+                                        Update Random Feed
                                     </button>
-                                    <a href="{{ route('v1_materials_index') }}" class="btn btn-flat btn-danger" style="margin-right: 15px;">
+                                    <a href="/administration/materials" class="btn btn-flat btn-danger" style="margin-right: 15px;">
                                         <span class="glyphicon glyphicon-arrow-left"></span>
                                         Cancel
                                     </a>
-                                </div>
+                                </center>
                             </div>
                         </form>
                     </div>
@@ -127,10 +127,9 @@
         </div>
     </section>
 
-    @include('administration-lte-2.master-pages.materials.modal.copy-piping-data')
-    @include('administration-lte-2.master-pages.materials.modal.load-data')
-    @include('administration.materials.material-piping-polygon-modal')
     @include('partials.confirmation-modal', ['attributes' => ['field'], 'yes_class_name' => 'confirm-delete-field'])
+    @include('administration-lte-2.master-pages.materials.modal.copy-random-feed-data')
+    @include('administration-lte-2.master-pages.materials.modal.load-random-feed-modal')
 @endsection
 
 @section('scripts')
@@ -138,12 +137,12 @@
     <script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
     <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/administration/polygon.js"></script>
-    <script type="text/javascript" src="/js/administration-lte-2/pipings.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/random-feed.js"></script>
 
     <script>
         $(document).ready(function() {
             $('#copy-data-to-clipboard').click(function() {
-                $('#copy-piping-data-modal textarea').select();
+                $('#copy-random-feed-data textarea').select();
                 document.execCommand('copy');
 
                 $('#copy-to-clipboard-tooltip').fadeIn();
@@ -156,6 +155,10 @@
             $('.open-load-piping-modal-button').click(function() {
                 $('#load-piping-data-modal').modal('show');
             });
+
+            $('.load-random-feed-modal').click(function() {
+                $('#load-random-feed-modal').modal('show');
+            })
         });
     </script>
 @endsection

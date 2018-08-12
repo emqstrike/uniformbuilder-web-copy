@@ -691,4 +691,54 @@ class MaterialsController extends Controller
             'material' => $material
         ]);
     }
+
+    public function updatePipings(Request $request)
+    {
+        $material_id = $request->input('material_id');
+        $pipings = $request->input('pipings');
+
+        $data = [
+            'id' => $material_id,
+            'pipings' => $pipings
+        ];
+
+        $response = $this->client->updatePipings($data);
+
+        if ($response->success) {
+            Log::info('Success');
+            return redirect()->route('v1_materials_index')->with('message', 'Successfully saved changes');
+        } else {
+            Log::info('Failed');
+            return redirect()->route('v1_materials_index')->with('message', $response->message);
+        }
+    }
+
+    public function randomFeed($id)
+    {
+        $material = $this->client->getMaterial($id);
+        return view('administration-lte-2.master-pages.materials.material-random-feed', [
+            'material' => $material
+        ]);
+    }
+
+    public function updateRandomFeed(Request $request)
+    {
+        $material_id = $request->input('material_id');
+        $random_feed = $request->input('random_feed');
+
+        $data = [
+            'id' => $material_id,
+            'random_feed' => $random_feed
+        ];
+
+        $response = $this->client->updateRandomFeed($data);
+
+        if ($response->success) {
+            Log::info('Success');
+            return redirect()->route('v1_materials_index')->with('message', 'Successfully saved changes');
+        } else {
+            Log::info('Failed');
+            return redirect()->route('v1_materials_index')->with('message', $response->message);
+        }
+    }
 }

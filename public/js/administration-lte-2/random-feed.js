@@ -2,27 +2,19 @@ $(document).ready(function() {
 
 colors = getColors().colors;
 
-window.piping_sets = [
-                    "Yoke Piping",
-                    "Neck Piping",
-                    "Center Piping",
-                    "Left End of Sleeve Piping",
-                    "Left Sleeve Piping 1 inch Up",
-                    "Left Raglan Piping",
-                    "Left Set-in Piping",
-                    "Right End of Sleeve Piping",
-                    "Right Sleeve Piping 1 inch Up",
-                    "Right Raglan Piping",
-                    "Right Set-in Piping",
-                    "Tunnel Piping",
-                    "Right Pant Piping",
-                    "Left Pant Piping",
-                    "Sleeve Piping 1 inch Up",
+window.random_feed_sets = [
+                    "Top Welt",
+                    "Arch",
+                    "Padding",
+                    "Body",
+                    "Toe",
+                    "Heel",
+                    "Ankle Padding"
                 ];
 
 function buildSetsDropdown(value){
-    var dropdown = '<select class="form-control piping-set">';
-    window.piping_sets.forEach(function(entry) {
+    var dropdown = '<select class="form-control random-feed-set">';
+    window.random_feed_sets.forEach(function(entry) {
         if(entry == value){
             dropdown += '<option value="'+entry+'" selected>'+entry+'</option>';
         } else {
@@ -33,191 +25,195 @@ function buildSetsDropdown(value){
 }
 
     $(".global-color").append(globalColorSelector(colors));
-
-    $('.copy-piping').on('click', function(e){
-        var data = $('#pipings_data').val().slice(1, -1).replace(new RegExp("\\\\", "g"), "");
-        $('#copy-piping-data-modal textarea').val(data);
-        $('#copy-piping-data-modal').modal('show');
+    $('.copy-random-feed').on('click', function(e) {
+        var data = $('#random_feed_data').val().slice(1, -1).replace(new RegExp("\\\\", "g"), "");
+        $('#copy-random-feed-data textarea').val(data);
+        $('#copy-random-feed-data').modal('show');
     });
 
-    $('.load-piping').on('click', function(e){
-        var data = $('#ta_load_pipings').val();
+    $('.load-random-feed').on('click', function(e){
+        var data = $('#ta_load_random_feed').val();
         console.log(data);
-        loadPipings(data);
+        loadRandomFeeds(data);
     });
 
-    var pipings_data = $('#pipings_data').val();
+    var random_feed_data = $('#random_feed_data').val();
 
-    if(pipings_data){
-        if(pipings_data != null && pipings_data != '""'){
+    if(random_feed_data){
+        if(random_feed_data != null && random_feed_data != '""'){
             console.log('Has value');
-            loadPipings();
+            loadRandomFeeds();
         } else {
             console.log('None');
         }
     }
 
-    function loadPipings(copydata){
-
-        var pipings, x;
-        if(!copydata){
-            var pipings_data = $('#pipings_data').val();
-            pipings = pipings_data.slice(1, -1);
-            pipings = pipings.replace(new RegExp("\\\\", "g"), "");
-            x = pipings;
-            pipings = JSON.parse(pipings);
-        } else {
-            $('.pipings-content').html('');
-
-            pipings = JSON.parse(copydata);
-            x = pipings;
-        }
-
-        pipings.forEach(function(entry) {
-            console.log(entry);
-            var size = entry.size;
-
-        var ischecked = '';
-        if(entry.enabled == "1"){
-            ischecked = 'checked';
-        }
-
-        var pos1checked = '';
-        if(entry.color1 == true){
-            pos1checked = 'checked';
-        }
-
-        var pos2checked = '';
-        if(entry.color2 == true){
-            pos2checked = 'checked';
-        }
-
-        var pos3checked = '';
-        if(entry.color3 == true){
-            pos3checked = 'checked';
-        }
-
-        var selectbox = '<select class="form-control piping-size">';
-        var piping_sizes = ["1/8", "1/4", "1/2"];
-        piping_sizes.forEach(function(entry) {
-            if(entry == size){
-                selectbox += '<option value="'+entry+'" selected>'+entry+'</option>';
+    function loadRandomFeeds(copydata){
+        try{
+            var random_feed, x;
+            if(!copydata){
+                var random_feed_data = $('#random_feed_data').val();
+                random_feed = random_feed_data.slice(1, -1);
+                random_feed = random_feed.replace(new RegExp("\\\\", "g"), "");
+                x = random_feed;
+                random_feed = JSON.parse(random_feed);
+                console.log(random_feed);
             } else {
-                selectbox += '<option value="'+entry+'">'+entry+'</option>';
+                $('.random-feed-content').html('');
+
+                random_feed = JSON.parse(copydata);
+                x = random_feed;
             }
-        });
-        selectbox += '</select>';
 
-        if(!entry.colors_array){
-            entry.colors_array = ["","","",];
+            random_feed.forEach(function(entry) {
+                console.log(entry);
+                var size = entry.size;
+
+            var ischecked = '';
+            if(entry.enabled == "1"){
+                ischecked = 'checked';
+            }
+
+            var pos1checked = '';
+            if(entry.color1 == true){
+                pos1checked = 'checked';
+            }
+
+            var pos2checked = '';
+            if(entry.color2 == true){
+                pos2checked = 'checked';
+            }
+
+            var pos3checked = '';
+            if(entry.color3 == true){
+                pos3checked = 'checked';
+            }
+
+            var selectbox = '<select class="form-control random-feed-size">';
+            var random_feed_sizes = ["1/8", "1/4", "1/2"];
+            random_feed_sizes.forEach(function(entry) {
+                if(entry == size){
+                    selectbox += '<option value="'+entry+'" selected>'+entry+'</option>';
+                } else {
+                    selectbox += '<option value="'+entry+'">'+entry+'</option>';
+                }
+            });
+            selectbox += '</select>';
+
+            if(!entry.colors_array){
+                entry.colors_array = ["","","",];
+            }
+            if(!entry.team_color_id_array){
+                entry.team_color_id_array = ["","","",];
+            }
+
+            var set = buildSetsDropdown(entry.set);
+
+            var template = `<table class="table table-striped table-bordered table-hover random-feed-table">
+            <tr>
+                <td colspan="6">
+                    <b style="font-size: 18px; font-weight: normal; vertical-align: middle !important;">Piping Details</b>
+
+                    <a href="#" class="btn btn-flat btn-danger pull-right delete-random-feed">Remove</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <label>Sizing</label>`+selectbox+`</td>
+                    </div>
+                <td>
+                    <div>
+                        <label>Name</label>
+                        <input type="text" class="form-control random-feed-name" value="`+entry.name+`">
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <label>Set</label>
+                        `+set+`
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div>
+                        <label>Enable Random Feed</label><br>
+                        <input type="checkbox" class="random-feed-toggler big-checkbox" value="1" `+ischecked+`>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <th>Team Color ID</th>
+                <th>Front</th>
+                <th>Back</th>
+                <th>Left</th>
+                <th>Right</th>
+            </tr>
+            <tbody>
+                <tr>
+                    <td>
+                        <label>Position 1</label> <input type="checkbox" class="position-1" value="1" `+pos1checked+`>
+
+                        `+ getSelectColorTemplate(colors,entry.colors_array[0])  +`
+                    </td>
+                    <td><br><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[0] +`"></td>
+                    <td><input type="file" class="form-control file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
+                    <td><input type="file" class="form-control file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
+                    <td><input type="file" class="form-control file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
+                    <td><input type="file" class="form-control file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"></td>
+                </tr>
+                <tr>
+
+                    <td>
+                        <label>Position 2</label> <input type="checkbox" class="position-2" value="1" `+pos2checked+`>
+                        `+ getSelectColorTemplate(colors,entry.colors_array[1])  +`
+                    </td>
+                    <td><br><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[1] +`"></td>
+                    <td><input type="file" class="form-control file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
+                    <td><input type="file" class="form-control file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
+                    <td><input type="file" class="form-control file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
+                    <td><input type="file" class="form-control file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Position 3</label> <input type="checkbox" class="position-3" value="1" `+pos3checked+`>
+                        `+ getSelectColorTemplate(colors,entry.colors_array[2])  +`
+                    </td>
+                    <td><br><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[2] +`"></td>
+                    <td><input type="file" class="form-control file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
+                    <td><input type="file" class="form-control file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
+                    <td><input type="file" class="form-control file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
+                    <td><input type="file" class="form-control file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"></td>
+                </tr>
+            </tbody>
+            </table>`;
+
+            $('.random-feed-content').append(template);
+
+
+            }); // loop closing
+            deleteRandomFeed();
+            changeImage();
+            changeEvent();
+            refreshJSON();
+            $('#load-random-feed-modal').modal('hide');
+            $('#ta_load_random_feed').val('');
+        } catch(err){
+            console.log(err.message);
         }
-        if(!entry.team_color_id_array){
-            entry.team_color_id_array = ["","","",];
-        }
 
-        var set = buildSetsDropdown(entry.set);
-
-        var template = `<table class="table table-striped table-bordered table-hover piping-table">
-        <tr>
-            <td colspan="6">
-                <b style="font-size: 18px; font-weight: normal; vertical-align: middle !important;">Piping Details</b>
-                <a href="#" class="btn btn-flat btn-danger pull-right delete-piping">Remove</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div>
-                    <label>Sizing</label>
-                    `+selectbox+`
-                </div>
-            <td>
-                <div>
-                    <label>Name</label>
-                    <input type="text" class="form-control piping-name" value="`+entry.name+`">
-                </div>
-            </td>
-            <td>
-                <label>Set</label>
-                ` +set+`
-            </td>
-            <td></td>
-            <td></td>
-            <td>
-                <div>
-                    <label>Enable Piping</label><br>
-                    <input type="checkbox" class="piping-toggler big-checkbox" value="1" `+ischecked+`>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th></th>
-            <th>Team Color ID</th>
-            <th>Front</th>
-            <th>Back</th>
-            <th>Left</th>
-            <th>Right</th>
-        </tr>
-        <tbody>
-            <tr>
-                <td>
-                    <label>Position 1</label>
-                    <input type="checkbox" class="position-1" value="1" `+pos1checked+`>
-                    `+ getSelectColorTemplate(colors,entry.colors_array[0])  +`
-                </td>
-                <td><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[0] +`"></td>
-                <td><input type="file" class="form-control file-f-1 image" data-img-url="`+entry.perspectives[0].layers[0].filename+`"></td>
-                <td><input type="file" class="form-control file-b-1 image" data-img-url="`+entry.perspectives[1].layers[0].filename+`"></td>
-                <td><input type="file" class="form-control file-l-1 image" data-img-url="`+entry.perspectives[2].layers[0].filename+`"></td>
-                <td><input type="file" class="form-control file-r-1 image" data-img-url="`+entry.perspectives[3].layers[0].filename+`"></td>
-            </tr>
-            <tr>
-
-                <td>
-                    <label>Position 2</label>
-                    <input type="checkbox" class="position-2" value="1" `+pos2checked+`>
-                    `+ getSelectColorTemplate(colors,entry.colors_array[1])  +`
-                </td>
-                <td><br><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[1] +`"></td>
-                <td><input type="file" class="form-control file-f-2 image" data-img-url="`+entry.perspectives[0].layers[1].filename+`"></td>
-                <td><input type="file" class="form-control file-b-2 image" data-img-url="`+entry.perspectives[1].layers[1].filename+`"></td>
-                <td><input type="file" class="form-control file-l-2 image" data-img-url="`+entry.perspectives[2].layers[1].filename+`"></td>
-                <td><input type="file" class="form-control file-r-2 image" data-img-url="`+entry.perspectives[3].layers[1].filename+`"></td>
-            </tr>
-            <tr>
-                <td>
-                    <label>Position 3</label>
-                    <input type="checkbox" class="position-3" value="1" `+pos3checked+`>
-                    `+ getSelectColorTemplate(colors,entry.colors_array[2])  +`
-                </td>
-                <td><br><input class="form-control team_color_id_array" type="number" value="`+ entry.team_color_id_array[2] +`"></td>
-                <td><input type="file" class="form-control file-f-3 image" data-img-url="`+entry.perspectives[0].layers[2].filename+`"></td>
-                <td><input type="file" class="form-control file-b-3 image" data-img-url="`+entry.perspectives[1].layers[2].filename+`"></td>
-                <td><input type="file" class="form-control file-l-3 image" data-img-url="`+entry.perspectives[2].layers[2].filename+`"></td>
-                <td><input type="file" class="form-control file-r-3 image" data-img-url="`+entry.perspectives[3].layers[2].filename+`"></td>
-            </tr>
-        </tbody>
-        </table>`;
-
-        $('.pipings-content').append(template);
-
-
-        }); // loop closing
-        deletePiping();
-        changeImage();
-        changeEvent();
-        refreshJSON();
-        $('#load-piping-data-modal').modal('hide');
-        $('#ta_load_pipings').val('');
     }
 
-    function deletePiping(){
-        $('.delete-piping').on('click', function(e){
+    function deleteRandomFeed(){
+        $('.delete-random-feed').on('click', function(e){
             $(this).parent().parent().parent().parent().remove();
             refreshJSON();
         });
     }
 
-    $('.add-piping').on('click', function(e){
+    $('.add-random-feed').on('click', function(e){
         e.preventDefault();
         var selectedFirst = $(".global-color-selector option:selected").eq(0).val();
         var selectedSecond = $(".global-color-selector option:selected").eq(1).val();
@@ -226,18 +222,19 @@ function buildSetsDropdown(value){
         var sets_dropdown = buildSetsDropdown();
 
         console.log( 'Add Section . . .' );
-        var elem = `<table class="table table-striped table-bordered table-hover piping-table">
+        var elem = `<table class="table table-striped table-bordered table-hover random-feed-table">
         <tr>
             <td colspan="6">
                 <b style="font-size: 18px; font-weight: normal; vertical-align: middle !important;">Piping Details</b>
-                <a href="#" class="btn btn-flat btn-danger pull-right delete-piping">Remove</a>
+
+                <a href="#" class="btn btn-flat btn-danger pull-right delete-random-feed">Remove</a>
             </td>
         </tr>
         <tr>
             <td>
                 <div>
                     <label>Sizing</label>
-                    <select class="form-control piping-size">
+                    <select class="form-control random-feed-size">
                         <option value="1/8">1/8</option>
                         <option value="1/4">1/4</option>
                         <option value="1/2">1/2</option>
@@ -247,7 +244,7 @@ function buildSetsDropdown(value){
             <td>
                 <div>
                     <label>Name</label>
-                    <input type="text" class="form-control piping-name">
+                    <input type="text" class="form-control random-feed-name">
                 </div>
             </td>
             <td>
@@ -260,8 +257,8 @@ function buildSetsDropdown(value){
             <td></td>
             <td>
                 <div>
-                    <label>Enable Piping</label><br>
-                    <input type="checkbox" class="piping-toggler big-checkbox" value="1">
+                    <label>Enable Random Feed</label><br>
+                    <input type="checkbox" class="random-feed-toggler big-checkbox" value="1">
                 </div>
             </td>
         </tr>
@@ -276,8 +273,7 @@ function buildSetsDropdown(value){
         <tbody>
             <tr>
                 <td>
-                    <label>Position 1</label>
-                    <input type="checkbox" class="position-1" value="1">
+                    <label>Position 1 </label><input type="checkbox" class="position-1" value="1">
                     `+ getSelectColorTemplate(colors,selectedFirst)  +`
                 </td>
                 <td><br><input class="form-control team_color_id_array" type="number"></td>
@@ -286,11 +282,10 @@ function buildSetsDropdown(value){
                 <td><input type="file" class="form-control file-l-1 image" data-img-url=""></td>
                 <td><input type="file" class="form-control file-r-1 image" data-img-url=""></td>
             </tr>
-            <tr>
 
+            <tr>
                 <td>
-                    <label>Position 2</label>
-                    <input type="checkbox" class="position-2" value="1">
+                    <label>Position 2 </label> <input type="checkbox" class="position-2" value="1">
                     `+ getSelectColorTemplate(colors,selectedSecond)  +`
                 </td>
                 <td><br><input class="form-control team_color_id_array" type="number"></td>
@@ -301,8 +296,7 @@ function buildSetsDropdown(value){
             </tr>
             <tr>
                 <td>
-                    <label>Position 3</label>
-                    <input type="checkbox" class="position-3" value="1">
+                    <label>Position 3 </label><input type="checkbox" class="position-3" value="1">
                     `+ getSelectColorTemplate(colors,selectedThird)  +`
                 </td>
                 <td><br><input class="form-control team_color_id_array" type="number"></td>
@@ -313,8 +307,8 @@ function buildSetsDropdown(value){
             </tr>
         </tbody>
         </table>`;
-        $('.pipings-content').prepend(elem);
-        deletePiping();
+        $('.random-feed-content').prepend(elem);
+        deleteRandomFeed();
         changeImage();
         changeEvent();
         refreshJSON();
@@ -346,15 +340,15 @@ function buildSetsDropdown(value){
 
     function refreshJSON(){
         var data = [];
-        $(".piping-table").each(function(i) {
-            var name = $(this).find('.piping-set').val() + " " + $(this).find('.piping-size').val()
-            $(this).find('.piping-name').val(name);
+        $(".random-feed-table").each(function(i) {
+            var name = $(this).find('.random-feed-set').val() + " " + $(this).find('.random-feed-size').val()
+            $(this).find('.random-feed-name').val(name);
             var info = {
                 "name" : name,
-                "size" : $(this).find('.piping-size').val(),
-                "set" : $(this).find('.piping-set').val()
+                "size" : $(this).find('.random-feed-size').val(),
+                "set" : $(this).find('.random-feed-set').val()
             };
-            var cbx = $(this).find('.piping-toggler');
+            var cbx = $(this).find('.random-feed-toggler');
             if(cbx.is(":checked")){
                 info.enabled = 1;
             } else {
@@ -383,7 +377,7 @@ function buildSetsDropdown(value){
             }
 
             var colors_array = [];
-            $( $(this).find(".piping-colors option:selected") ).each(function( index ) {
+            $( $(this).find(".random-feed-colors option:selected") ).each(function( index ) {
                colors_array.push($( this ).val());
 
             });
@@ -474,7 +468,7 @@ function buildSetsDropdown(value){
             data.push(info);
             console.log(JSON.stringify(info));
         });
-        $('#pipings').val(JSON.stringify(data));
+        $('#random_feed').val(JSON.stringify(data));
     }
 
     function changeImage(){
@@ -571,7 +565,7 @@ function buildSetsDropdown(value){
             url: "//" + api_host + "/api/colors",
             async: false,
             dataType: 'json',
-            data: { action : 'getColors' },
+            data: { action : 'getHotelsList' },
             done: function(results) {
                 // uhm, maybe I don't even need this?
                 // return  results.colors.colors;
@@ -609,7 +603,7 @@ function buildSetsDropdown(value){
         if(c_code == "W" || c_code == "none" || !c_code){
             fontColor = "black";
         }
-        return template = `<select class='form-control piping-colors' style="background:#` + selectedColor + `;color:` + fontColor + `">` + template + `</select>`;
+        return template = `<select class='form-control random-feed-colors' style="background:#` + selectedColor + `;color:` + fontColor + `">` + template + `</select>`;
 
     }
 
@@ -635,7 +629,7 @@ function buildSetsDropdown(value){
     }
 
 
-     $(document).on('change', '.piping-colors', function(){
+     $(document).on('change', '.random-feed-colors', function(){
 
         var selectedColorValue = $(this).find("option:selected").attr("style");
         $(this).attr("style",selectedColorValue);

@@ -147,10 +147,10 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('material/materials_options_setup/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@materialsOptionsSetup'])->name('v1_materials_options_setup');
         Route::get('material/piping/{id}/{page_number}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@editPipingForm']);
         Route::get('material/{id}/pipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@pipings'])->name('v1_piping_add');
-        Route::get('material/{id}/random_feed', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@randomFeed']);
+        Route::get('material/{id}/random_feed', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@randomFeed'])->name('v1_random_feed');
         Route::post('material/piping/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePiping']);
-        Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePipings']);
-        Route::post('material/updateRandomFeed', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateRandomFeed']);
+        Route::post('material/updatePipings', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updatePipings'])->name('v1_update_piping');
+        Route::post('material/updateRandomFeed', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@updateRandomFeed'])->name('v1_update_random_feed');
         Route::get('material/materials_options/dropzone/{material_id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@dropZone']);
         Route::post('material/insert_dz_image', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@insertDropzoneImage']);
         Route::post('material/insert_dz_design_sheet', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsController@insertDesignSheet']);
