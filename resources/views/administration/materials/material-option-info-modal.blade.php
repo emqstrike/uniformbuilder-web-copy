@@ -154,6 +154,11 @@
                 </div>
 
                 <div class="col-md-12">
+                    <label class="control-label pattern-opacity" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Pattern Opacity:</label>
+                    <input type="number" name="pattern_opacity" id="pattern-opacity" max="100" min="1" maxlength="3">
+                </div>
+
+                <div class="col-md-12">
                     <label class="control-label label-default" style="padding: 5px; border-radius: 3px; margin-top: 5px;">Build Type:</label>
                     <select class="form-control build-type" name="build_type" id="build_type">
                     </select>

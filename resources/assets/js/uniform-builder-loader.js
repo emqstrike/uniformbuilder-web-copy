@@ -5,6 +5,9 @@ $(document).ready(function() {
 
 		ub.displayDoneAt('Categories loaded.');
 
+        var _one = 1;
+        if (window.ub.config.toString) { _one = "1"; }
+
 		var menSports,
             womenSports,
             youthSports,
@@ -14,53 +17,53 @@ $(document).ready(function() {
 
         menSports = ub.funcs.menActiveSportsApparel(categories, {
                         type: 'sports', 
-                        active: '1',
-                        active_male: '1',
+                        active: _one,
+                        active_male: _one,
                         active_type: 'active'
                     });
 
        	menApparel = ub.funcs.menActiveSportsApparel(categories, {
                         type: 'apparel', 
-                        active: '1',
-                        active_male: '1',
+                        active: _one,
+                        active_male: _one,
                         active_type: 'active'
                     });
 
        	womenSports = ub.funcs.womenActiveSportsApparel(categories, {
                         type: 'sports', 
-                        active: '1',
-                        active_female: '1',
+                        active: _one,
+                        active_female: _one,
                         active_type: 'active'
                     });
 
        	womenApparel = ub.funcs.womenActiveSportsApparel(categories, {
                         type: 'apparel', 
-                        active: '1',
-                        active_female: '1',
+                        active: _one,
+                        active_female: _one,
                         active_type: 'active'
                     });
 
        	youthSports = ub.funcs.youthActiveSportsApparel(categories, {
                         type: 'sports', 
-                        active: '1',
-                        active_youth: '1',
+                        active: _one,
+                        active_youth: _one,
                         active_type: 'active'
                     });
 
        	youthApparel = ub.funcs.youthActiveSportsApparel(categories, {
                         type: 'apparel', 
-                        active: '1',
-                        active_youth: '1',
+                        active: _one,
+                        active_youth: _one,
                         active_type: 'active'
                     });
 
        	ub.data.activeSports.items = ub.funcs.getActiveSports(categories, {
-	   									active: '1',
+	   									active: _one,
 	   									active_type: 'active'
 	   								});
 
        	ub.data.tempSports.items = ub.funcs.getTempSports(categories, {
-	   									active: '1',
+	   									active: _one,
 	   									active_type: 'temp'
 	   								});
 

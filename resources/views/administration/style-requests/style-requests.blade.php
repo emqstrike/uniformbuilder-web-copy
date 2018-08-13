@@ -555,8 +555,7 @@ $(function(){
 
     $(document).on('click', '.save-data', function(e){
         e.preventDefault();
-        var data = $('.data-string').val();
-
+        var data = JSON.parse($('.data-string').val());
         if (window.data.id != '')
         {
             var url = "//" + api_host + "/api/v1-0/style_request/update";
@@ -564,7 +563,7 @@ $(function(){
             $.ajax({
                 url: url,
                 type: "POST",
-                data: data,
+                data: JSON.stringify(data),
                 dataType: "json",
                 crossDomain: true,
                 contentType: 'application/json',
@@ -577,12 +576,15 @@ $(function(){
             });
         }
         else {
-            var url = "//" + api_host + "/api/v1-0/style_request";
 
+            delete data.id;
+            data.customizer_id = 0;
+            var url = "//" + api_host + "/api/v1-0/style_request";
+            console
             $.ajax({
                 url: url,
                 type: "POST",
-                data: data,
+                data: JSON.stringify(data),
                 dataType: "json",
                 crossDomain: true,
                 contentType: 'application/json',

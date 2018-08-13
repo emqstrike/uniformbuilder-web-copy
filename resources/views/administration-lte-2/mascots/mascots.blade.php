@@ -111,9 +111,8 @@
                             </td>
                             <td class="col-md-1">
                                 <div class="onoffswitch">
-                                    <input type="checkbox" name="onoffswitch2" class="onoffswitch-checkbox toggle-mascot-typographic" id="switch-typographic-{{ $mascot->id }}" data-mascot-id="{{ $mascot->id }}" {{ ($mascot->typographic) ? 'checked' : '' }}>
                                     <label class="switch">
-                                      <input type="checkbox">
+                                      <input type="checkbox" class="onoffswitch-checkbox toggle-mascot-typographic" id="switch-typographic-{{ $mascot->id }}" data-mascot-id="{{ $mascot->id }}" {{ ($mascot->typographic) ? 'checked' : '' }}>
                                       <span class="slider"></span>
                                     </label>
                                 </div>
@@ -306,7 +305,8 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    var elem = '.material-' + id;
+                    window.location.reload();
+                    var elem = '.mascot-' + id;
                     new PNotify({
                         title: 'Success',
                         text: response.message,

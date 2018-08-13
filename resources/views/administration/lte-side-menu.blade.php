@@ -76,6 +76,13 @@
           <i class="fa fa-info-circle"></i> <span>Total Records</span>
         </a>
       </li>
+
+      <li data-step="6" data-intro="Analytics">
+          <a href="{{ route('analytics') }}">
+              <i class="fa fa-bar-chart"></i>
+              <span>Analytics</span>
+          </a>
+      </li>
     </ul>
   </li>
 

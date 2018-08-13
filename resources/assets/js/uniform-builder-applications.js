@@ -3727,7 +3727,7 @@ $(document).ready(function() {
                     return;     
                 }
 
-                if (!ub.config.useAllColors) {
+                if (!ub.branding.useAllColors) {
                     if(_sizeOfTeamColors > 8){
                         ub.startModal(2);
                         return;     
@@ -4278,7 +4278,7 @@ $(document).ready(function() {
 
         var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
  
-        if (!ub.config.useAllColors) {
+        if (!ub.branding.useAllColors) {
             if (_sizeOfTeamColors > 8) {
                 ub.startModal();
                 return; 
@@ -5508,9 +5508,18 @@ $(document).ready(function() {
 
         $('span.groups_category_item').on('click', function () {
 
-            var _groups_category_id = ($(this).data('category')).toString();
+            var _groups_category_id = parseInt($(this).data('category'));
             var _groups_category_name = $(this).data('category-name');
+
+            if (ub.config.toString) { _groups_category_id = _groups_category_id.toString();  }
+
+            console.log('Category ID: ' + _groups_category_id);
+            console.log(typeof _groups_category_id);
+
             var _categories = _.filter(ub.data.mascots_categories, {mascots_group_category_id: _groups_category_id});
+
+            console.log('Categories: ');
+            console.log(_categories);
 
             if (_groups_category_id === "all") {
 
@@ -8051,7 +8060,7 @@ $(document).ready(function() {
                 ok = false;;     
             }
 
-            if (!ub.config.useAllColors) {
+            if (!ub.branding.useAllColors) {
                 if(_sizeOfTeamColors > 8){
                     ub.startModal(2);
                     ok = false;     

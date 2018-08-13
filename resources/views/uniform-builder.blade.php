@@ -205,6 +205,10 @@
 
 @include('partials.controls.ui-controls')
 
+<!-- Richardson UI Controls -->
+@include('partials.controls.ui-controls-richardson')
+<!-- End Richardson UI Controls --> 
+
 <!-- Third Party Scripts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js?v={{$asset_version}}"></script>
@@ -263,8 +267,10 @@
         window.is           = {};
 
         window.ub.config = {
+            brand: "{{ env('BRAND') }}",
+            toString: false,
             app_env: "{{ env('APP_ENV') }}",
-            api_host: "//{{ env('API_HOST') }}",
+            api_host: "https://{{ env('API_HOST') }}",
             asset_version: "{{$asset_version}}",
             team_store_api_host: "//{{ env('TEAM_STORE_API_BASE') }}",
 
@@ -296,6 +302,9 @@
             @endif
 
         };
+
+        // Restore this if the id's converts to string again
+        // if (window.ub.config.app_env === "local") { window.ub.config.toString = true; }
 
         /**
          * Extends jQuery - adds a center() reusable function

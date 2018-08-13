@@ -4,6 +4,21 @@ $(document).ready(function() {
 
     ub.utilities = {
 
+        maintenanceMessage: function () {
+
+            var template = $('#m-maintenance-message').html();
+            var data = { date: ''};
+            var markup = Mustache.render(template, data);
+
+            var dialog = bootbox.dialog({
+                title: 'Maintenance Schedule',
+                message: markup,
+            });
+
+            dialog.init(function() {});
+
+        },
+
         warn: function (msg, type, user) {
 
             // TODO: Persist / Log warnings to storage
