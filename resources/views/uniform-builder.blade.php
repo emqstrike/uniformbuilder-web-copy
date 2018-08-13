@@ -45,128 +45,26 @@
 @include('partials.navbar')
 
 <div id="main_container" class="container">
-    <div class="alert alert-info alert-dismissable flash-alert" style="display: none">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-            ×
-        </button>
-        <strong class='flash-sub-title'></strong> <span class='flash-message'>{{ Session::get('message') }}</span>
-    </div>
 
-    <div class="row">
+    @include('partials.alert')
 
-    </div>
+    <!-- Main Customizer Components -->
 
-    <div class="row" id="special_modifiers">
+        @include('partials.panels.main-customizer-window')
+        @include('partials.panels.pickers')
+        @include('partials.panels.left-side-toolbar')
+        @include('partials.panels.team-store-toolbox')
 
-        <div class="col-md-6">
+    <!-- End Main Customizer Components -->
 
-        </div>
 
-    </div>
+    <!-- Order Process -->
 
-    <!-- MAIN ROW -->
-    <div class="row main_viewport" class=''>
+        @include('partials.panels.roster-input')
+        @include('partials.panels.order-form')
+        @include('partials.panels.validate-order-form')
 
-        <div id="left-pane-column" class="left-pane-column-full">
-
-            <!-- Main Preview Window -->
-            @yield('left-pane')
-
-        </div>
-
-    </div>
-
-    <div id="main-row" class="row">
-        <div id="left-pane-column"  class="col-md-6">
-            <!-- Main Preview Window -->
-        </div>
-        <div id="right-pane-column" class="col-md-6">
-            <!-- Customizer -->
-
-            @yield('right-pane')
-
-        </div>
-    </div>
-
-    <!-- END MAIN ROW -->
-
-    <!-- Scrolling Pickers -->
-
-    @include('partials.panels.texts')
-
-    <div class='header-container forceHide'>
-
-        <div class='back-link' data-destination="gender"></div>
-        <h2 class='picker-header'>CHOOSE A GENDER</h2>
-
-    </div>
-
-    <div id="main-picker-container">
-
-        <div id="topbar">
-
-            <span class="slink main-picker-items my-favorites" data-picker-type="gender" data-item="My-Favorites"><i class="fa fa-star" aria-hidden="true"></i> My Favorites (<span class="count">0</span>)</span>
-
-            <span class="slink main-picker-items back-link" data-picker-type="gender" data-item="Home"><i class="fa fa-home" aria-hidden="true"></i></span>
-            <span class="slink main-picker-items" data-picker-type="gender" data-item="Men">Men</span>
-            <span class="slink main-picker-items" data-picker-type="gender" data-item="Women">Women</span>
-            <!-- <span class="slink main-picker-items" data-picker-type="gender" data-item="Youth">Youth</span> -->
-
-            <span class="slink main-picker-items loading" data-picker-type="gender" data-item="Loading">
-               <img src="/images/loading.gif" width="50" height="50" />
-            </span>
-
-            <span class="slink-search">
-
-                <i class="fa fa-search fa-search-icon" aria-hidden="true"></i>
-                <input id="search_field" type='text' class="typeahead" placeholder="Preparing search, please wait..." disabled></input>
-
-            </span>
-
-        </div>
-
-        <div class="secondary-bar">
-
-            <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="All">All</span>
-            <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Jersey">Jersey</span>
-            <span class="slink main-picker-items primary-filters" data-picker-type="gender" data-item="Pant">Pant</span>
-            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="separator"> | </span>
-            <span class="slink main-picker-items secondary-filters active" data-picker-type="gender" data-item="All">All</span>
-            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Sublimated">Sublimated</span>
-            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Twill">Tackle Twill</span>
-            <span class="slink main-picker-items secondary-filters" data-picker-type="gender" data-item="Knitted">Knitted</span>
-
-        </div>
-
-        <div class="tertiary-bar">
-
-            <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="All">All</span>
-            <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="Infused 14">INFUSED 14</span>
-
-        </div>
-
-        <div class="quarternary-bar">
-
-            <span class="slink main-picker-items primary-filters active" data-picker-type="gender" data-item="All">All</span>
-
-        </div>
-
-        <div id="main-picker-scroller">
-
-        </div>
-
-        <div class="uniform_details"><span class="uniform_name">Test:</span><span class="uniform_description"></span></div>
-
-    </div>
-
-    <!-- End Scrolling Pickers -->
-
-    @include('partials.panels.left-side-toolbar')
-
-    @include('partials.panels.roster-input')
-    @include('partials.panels.order-form')
-    @include('partials.panels.validate-order-form')
-    @include('partials.panels.team-store-toolbox')
+    <!-- End Order Process -->
 
 </div>
 
@@ -181,17 +79,6 @@
 @yield('reset-password')
 @yield('change-password')
 @yield('preview-embellishment')
-
-<!--
-
-    <div class="container-fluid uniform-suggestions">
-        <div class="col-md-12 you-might-like">
-            You might also like:
-        </div>
-        <div class="suggestions"></div>
-    </div>
-
--->
 
 @if (Session::get('isLoggedIn'))
     @include('partials.open-design-modal')
@@ -558,21 +445,7 @@
 
 </script>
 
-<!-- Uniform Builder Scripts -->
-    <script src="{{$asset_storage}}/uniform-builder/js/ub.js?v={{$asset_version}}"></script>
-<!-- End Uniform Builder Scripts -->
-
-<!-- Drop Down Test-->
-
-    <div class="team_color_picker_options" data-team-color-id = '-1'>
-
-        <div class="color_items_container">
-
-        </div>
-
-    </div>
-
-<!-- End Drop Down Test-->
+<script src="{{$asset_storage}}/uniform-builder/js/ub.js?v={{$asset_version}}"></script>
 
 <!-- QA Tools -->
 
@@ -599,19 +472,7 @@
 <!-- End Messages Panel -->
 
 <!-- Modal -->
-
-<button id="modalButton" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
-
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-     <div id="messageModal">
-     </div>
-
-    </div>
-  </div>
-</div>
-
+    @include('partials.panels.small-modal')
 <!-- End Modal -->
 
 @include('partials.inksoft')
