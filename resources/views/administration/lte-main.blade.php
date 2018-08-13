@@ -184,6 +184,10 @@
      <script>
 
       $(function(){
+        setTimeout(function() {
+            $('.alert').alert('close');
+        }, 2000);
+        
         $(".introTrigger").click(function() {
 
             $(".sidebar-toggle").trigger("click");
