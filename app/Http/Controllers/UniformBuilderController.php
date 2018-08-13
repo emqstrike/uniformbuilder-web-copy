@@ -1863,14 +1863,58 @@ class UniformBuilderController extends Controller
 
         $html .=   $this->generateClientDetailsTable($mainInfo);
 
-        $html .=   '<table width="100%">';
-        $html .=     '<tr>';
-        $html .=     '<td>';
-        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo, $firstOrderItem['material_id']);
-        $html .=     '</td>';
-        $html .=     '</tr>';
-        $html .=   '</table>';
+        $html .= '<table cellpadding="2">';
+        $html .= '<tr>';
+        $html .=   '<td>';
+        $html .=     'STYLE<br />';
+        $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .')</strong><br />';
+        $html .=       '<strong>' .  $firstOrderItem["sku"]  . '</strong>';
+        $html .=   '</td>';
+        $html .= '</tr>';
+        $html .= '</table>';
+        $pdf->writeHTML($html, true, false, true, false, '');
 
+//        $html .=   '<table width="100%">';
+//        $html .=     '<tr>';
+//        $html .=     '<td>';
+//        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo, $firstOrderItem['material_id']);
+//        $html .=     '</td>';
+//        $html .=     '</tr>';
+//        $html .=   '</table>';
+        $html  = '';
+        $html .= $style;
+        $html .= '<p>URLS:</p>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $builder_url_text = 'BUILDER URL';
+        $pdf_url_text = 'PDF URL';
+        $cut_url_text = 'CUT URL';
+        $style_url_text = 'STYLE URL';
+
+        $builder_url_link = $firstOrderItem["url"];
+        $pdf_url_link = env("WEBSITE_URL") . '/design_sheets/';
+        $cut_url_link = $firstOrderItem["builder_customizations"]["cut_pdf"];
+        $style_url_link = $firstOrderItem["builder_customizations"]["styles_pdf"];
+
+        $pdf->addHtmlLink($builder_url_link, $builder_url_text, false, false , array(0,0,255), -1, false);
+        $pdf->Write( 1, '     |     ', '', false, '', false, 0, false, false, 0, 0, '' );
+        $pdf->addHtmlLink($pdf_url_link, $pdf_url_text, false, false , array(0,0,255), -1, false);
+        $pdf->Write( 1, '     |     ', '', false, '', false, 0, false, false, 0, 0, '' );
+        if ($firstOrderItem["builder_customizations"]["cut_pdf"] === '') {
+            $pdf->Write( 1, 'No Cut PDF detected.', '', false, '', false, 0, false, false, 0, 0, '' );
+        } else {
+            $pdf->addHtmlLink($cut_url_link, $cut_url_text, false, false , array(0,0,255), -1, false);
+        }
+
+        $pdf->Write( 1, '     |     ', '', false, '', false, 0, false, false, 0, 0, '' );
+        if ($firstOrderItem["builder_customizations"]["styles_pdf"] === '') {
+            $pdf->Write( 1, 'No STYLE PDF detected.', '', false, '', false, 0, false, false, 0, 0, '' );
+        } else {
+            $pdf->addHtmlLink($style_url_link, $style_url_text, false, false , array(0,0,255), -1, false);
+        }
+
+        $html  = '<br /><br />';
+        $html .= $style;
         $html .=   '<table width="100%" style="height: 750px">';
         $html .=   '<tr>';
         $html .=   '<td style="text-align=center;">';
