@@ -6510,6 +6510,8 @@ $(document).ready(function () {
 
         }
 
+        if (sport === "Wrestling") { sport = "Wrestling 2018"; }
+
         ub.funcs.initUniformsPicker(sport, gender, true);
         ub.funcs.setupEvents();
 
@@ -6978,6 +6980,36 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.sortBlockPatternForFilters = function (sport, blockPatterns) {
+
+        var _results = blockPatterns;
+        var _temp = []; 
+        var _plucked;
+
+        if (sport === "Wrestling 2018") {
+
+            _.each (blockPatterns, function (blockPattern) {
+
+                var _sortID = ub.data.sortIDs.getSortID(blockPattern);
+                
+                _temp.push({
+                    blockPattern: blockPattern,
+                    sortID: _sortID,
+                });
+
+                _temp = _.sortBy(_temp, "sortID");
+
+            });
+
+            _plucked = _.pluck(_temp, "blockPattern");
+            _results = _plucked;
+
+        }
+
+        return _results;
+
+    };
+
     ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender) {
 
         ub.funcs.fadeOutElements();
@@ -7223,9 +7255,10 @@ $(document).ready(function () {
             _blockPatternsCollection = [];
             _optionsCollection = [];
 
-            var _tertiaryFiltersBlackList = ['BASEBALL', 'WRESTLING', 'Singlet', 'Fight Short', 'Baseball Pants', 'Compression', 'Volleyball'];
+            var _tertiaryFiltersBlackList = ['BASEBALL', 'WRESTLING', 'Fight Short', 'Baseball Pants', 'Compression', 'Volleyball'];
+            var _sortedBlockPattern = ub.funcs.sortBlockPatternForFilters(gender, _blockPatterns);
 
-            _.each(_blockPatterns, function (option) {
+            _.each(_sortedBlockPattern, function (option) {
 
                 if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
 
