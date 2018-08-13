@@ -205,6 +205,10 @@
 
 @include('partials.controls.ui-controls')
 
+<!-- Richardson UI Controls -->
+@include('partials.controls.ui-controls-richardson')
+<!-- End Richardson UI Controls --> 
+
 <!-- Third Party Scripts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="{{$asset_storage}}/jquery-ui/jquery-ui.min.js?v={{$asset_version}}"></script>
@@ -263,6 +267,7 @@
         window.is           = {};
 
         window.ub.config = {
+            brand: "{{ env('BRAND') }}",
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
             api_host: "https://{{ env('API_HOST') }}",

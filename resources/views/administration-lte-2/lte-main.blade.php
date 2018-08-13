@@ -165,7 +165,7 @@
 
 <script type="text/javascript" src="/admin-lte-2/jquery/dist/jquery-3.3.1.min.js"></script>
 
-<!-- <script type="text/javascript" src="/admin-lte-2/jquery-ui/dist/jquery-ui.min.js"></script> -->
+<script type="text/javascript" src="/admin-lte-2/jquery-ui/dist/jquery-ui.min.js"></script>
 
 <script type="text/javascript" src="/admin-lte-2/datatables/js/jquery.dataTables.min.js"></script>
 
@@ -197,7 +197,7 @@
   // })
 </script> -->
 
-<script src="/bootstrap/js/bootstrap.min.js"></script>
+<!-- <script src="/bootstrap/js/bootstrap.min.js"></script> -->
 <script src="/plugins/daterangepicker/daterangepicker.js"></script>
 <script src="/plugins/datepicker/bootstrap-datepicker.js"></script>
 
