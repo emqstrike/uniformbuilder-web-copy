@@ -47,31 +47,31 @@
 <div id="main_container" class="container">
 
     @include('partials.alert')
-    
+
     <!-- MAIN ROW -->
     <div class="row main_viewport" class=''>
 
         <div id="left-pane-column" class="left-pane-column-full">
-
             <!-- Main Preview Window -->
             @yield('left-pane')
-
         </div>
 
     </div>
 
     <div id="main-row" class="row">
+
+        <!--
         <div id="left-pane-column"  class="col-md-6">
-            <!-- Main Preview Window -->
+        
         </div>
-        <div id="right-pane-column" class="col-md-6">
+        -->
+
+        <div id="right-pane-column" class="offset-md-6 col-md-6">
             <!-- Customizer -->
-
             @yield('right-pane')
-
         </div>
-    </div>
 
+    </div>
     <!-- END MAIN ROW -->
 
     <!-- Scrolling Pickers -->
