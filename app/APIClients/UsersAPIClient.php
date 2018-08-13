@@ -207,13 +207,4 @@ class UsersAPIClient extends APIClient
         }
         return $users;
     }
-
-    public function updateAllowedPages($data)
-    {
-        $response = $this->post('user/allowed_pages', [
-            'json' => $data
-        ]);
-
-        return $this->decoder->decode($response->getBody());
-    }
 }
