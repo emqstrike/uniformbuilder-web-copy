@@ -126,7 +126,7 @@
                                             <a href="{{ route('v1_random_feed', ['id' => $material->id]) }}" class="btn btn-sm btn-flat btn-warning">
                                                 <i class="fa fa-random" aria-hidden="true"></i>
                                             </a>
-                                            <a href="/administration/material/materials_options/dropzone/{{ $material->id }}" class="btn btn-sm btn-flat btn-default">
+                                            <a href="{{ route('v1_material_options_dropzone', ['id' => $material->id]) }}" class="btn btn-sm btn-flat btn-default">
                                                 <i class="fa fa-upload" aria-hidden="true"></i>
                                             </a>
                                             <a href="#" class="btn btn-sm btn-flat btn-danger delete-material" data-material-id="{{ $material->id }}">

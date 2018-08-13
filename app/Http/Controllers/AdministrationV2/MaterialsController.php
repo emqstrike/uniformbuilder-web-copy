@@ -741,4 +741,17 @@ class MaterialsController extends Controller
             return redirect()->route('v1_materials_index')->with('message', $response->message);
         }
     }
+
+    public function dropZone($id)
+    {
+        Log::info('Materials Options QS');
+        $material = $this->client->getMaterialQS($id);
+        $options = $this->optionsClient->getByMaterialId($id);
+
+        return view('administration-lte-2.master-pages.materials.add-materials-options-dropzone', [
+            'material' => $material,
+            'options' => $options,
+        ]);
+
+    }
 }

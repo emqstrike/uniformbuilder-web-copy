@@ -494,7 +494,7 @@
     <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/ddslick.min.js"></script>
     <script type="text/javascript" src="/underscore/underscore.js"></script>
-    <script type="text/javascript" src="/js/administration-lte-2/materials.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/materials/materials.js"></script>
     @if (Session::has('message'))
         <script type="text/javascript">
             $(document).ready(function(){

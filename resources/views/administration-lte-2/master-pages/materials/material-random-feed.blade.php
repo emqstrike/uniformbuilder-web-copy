@@ -137,7 +137,7 @@
     <script type="text/javascript" src="/fabricjs/customiseControls.js"></script>
     <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/administration/polygon.js"></script>
-    <script type="text/javascript" src="/js/administration-lte-2/random-feed.js"></script>
+    <script type="text/javascript" src="/js/administration-lte-2/materials/random-feed.js"></script>
 
     <script>
         $(document).ready(function() {
