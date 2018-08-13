@@ -43,6 +43,7 @@ class MascotsGroupsCategoriesController extends Controller
 
     public function addMascotsGroupsCategoryForm()
     {
+
         return view('administration.mascots.mascots-groups-categories-create');
     }
 

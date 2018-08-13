@@ -43,6 +43,7 @@ class MascotsController extends Controller
 
     public function index()
     {
+
         $mascots = $this->client->getMascots();
         $mascot_categories = $this->mascotsCategoryClient->getMascotCategories();
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();

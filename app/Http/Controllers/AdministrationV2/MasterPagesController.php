@@ -137,8 +137,16 @@ class MasterPagesController extends Controller
     {
         $colors = $this->masterColorsAPIClient->getAllColors();
 
-        return view('administration-lte-2.master-pages.colors.master-colors', [
-            'colors' => $colors
-        ]);
+        $user_id = Session::get('userId');
+        $superusers = env('BACKEND_SUPERUSERS');
+        $su_array = explode(',', $superusers);
+        if (in_array($user_id, $su_array)) {
+            return view('administration-lte-2.master-pages.colors.master-colors', [
+                'colors' => $colors
+                ]);
+        }
+        else {
+                return redirect('administration');
+        }
     }
 }
