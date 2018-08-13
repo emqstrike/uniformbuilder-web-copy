@@ -445,21 +445,7 @@
 
 </script>
 
-<!-- Uniform Builder Scripts -->
-    <script src="{{$asset_storage}}/uniform-builder/js/ub.js?v={{$asset_version}}"></script>
-<!-- End Uniform Builder Scripts -->
-
-<!-- Drop Down Test-->
-
-    <div class="team_color_picker_options" data-team-color-id = '-1'>
-
-        <div class="color_items_container">
-
-        </div>
-
-    </div>
-
-<!-- End Drop Down Test-->
+<script src="{{$asset_storage}}/uniform-builder/js/ub.js?v={{$asset_version}}"></script>
 
 <!-- QA Tools -->
 

@@ -1059,7 +1059,6 @@ $(document).ready(function () {
                 ub.displayDoneAt('Configuration of style - ' + ub.config.uniform_name + ' started');
                 ub.utilities.info(' ');
 
-                ub.funcs.init_team_colors();
                 ub.funcs.transformedApplications();
                 ub.funcs.transformedBoundaries();
                 ub.funcs.get_modifier_labels();
