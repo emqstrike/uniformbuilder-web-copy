@@ -1938,11 +1938,11 @@ class UniformBuilderController extends Controller
         $frontCaption = '(Front)';
         $backCaption = '(Back)';
         $leftCaption = '(Left)';
-        $rigthCaption = '(Right)';
+        $rightCaption = '(Right)';
 
         if ($sport === "Crew Socks (Apparel)" || $sport === "Socks (Apparel)") {
             $leftCaption = '(Outside)';
-            $rigthCaption = '(Inside)';
+            $rightCaption = '(Inside)';
         }
 
         $html  = '';
@@ -1953,11 +1953,17 @@ class UniformBuilderController extends Controller
         $html .=     '<br /><br /><br /><br /><br /><br />';
         $html .=       '<table>';
         $html .=         '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
+//        $html .=         '<tr>';
+//        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $frontCaption . '</td>';
+//        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $backCaption . '</td>';
+//        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $leftCaption . '</td>';
+//        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $rigthCaption . '</td>';
+//        $html .=         '</tr>';
         $html .=         '<tr>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $frontCaption . '</td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $backCaption . '</td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $leftCaption . '</td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $rigthCaption . '</td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/></td>';
         $html .=         '</tr>';
         $html .=        '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=   '</table>';
@@ -1965,6 +1971,20 @@ class UniformBuilderController extends Controller
 
         $pdf->AddPage("L");
         $pdf->writeHTML($html, true, false, true, false, '');
+
+        $pdf->Write( 1, '                      ', '', false, '', false, 0, false, false, 0, 0, '' );
+        $pdf->addHtmlLink($frontViewImage , $frontCaption, false, false , array(0,0,255), -1, false);
+        $pdf->Write( 1, '                                            ', '', false, '', false, 0, false, false, 0, 0, '' );
+        $pdf->addHtmlLink($backViewImage, $backCaption, false, false , array(0,0,255), -1, false);
+        $pdf->Write( 1, '                                              ', '', false, '', false, 0, false, false, 0, 0, '' );
+        $pdf->addHtmlLink($leftViewImage, $leftCaption, false, false , array(0,0,255), -1, false);
+        $pdf->Write( 1, '                                               ', '', false, '', false, 0, false, false, 0, 0, '' );
+        $pdf->addHtmlLink($rightViewImage, $rightCaption, false, false , array(0,0,255), -1, false);
+
+//        $pdf->Write( 0, $frontCaption, '', false, '', false, 0, false, false, 0, 0, '' );
+//        $pdf->Write( 0, $backCaption, '', false, '', false, 0, false, false, 0, 0, '' );
+//        $pdf->Write( 0, $leftCaption, '', false, '', false, 0, false, false, 0, 0, '' );
+//        $pdf->Write( 0, $rightCaption, '', false, '', false, 0, false, false, 0, 0, '' );
 
         $pdf->AddPage("L");
 
