@@ -10437,22 +10437,6 @@ $(document).ready(function () {
         $.smkAlert({text: 'Updated team roster list', type:'info', permanent: false, time: 5, marginTop: '90px'});
     }
 
-    // function getUniformSuggestions(categoryId) {
-    //     $.ajax({
-    //         url: ub.config.api_host + '/api/materials/suggestions/' + categoryId,
-    //         success: function (response) {
-    //             if (response.success) {
-    //                 $.each(response.materials, function (i, material){
-    //                     if (material.id != ub.config.material_id) {
-    //                         $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
-    //                     }
-    //                 });
-    //             }
-    //         }
-    //     });
-    // }
-    // getUniformSuggestions(ub.config.category_id);
-
     // Uniform Sizes - Size Clicked Behavior
     $('.uniform-sizes .uniform-size').on('click', onSizeSelect);
 
