@@ -48,14 +48,6 @@
 
     @include('partials.alert')
     
-    <div class="row" id="special_modifiers">
-
-        <div class="col-md-6">
-
-        </div>
-
-    </div>
-
     <!-- MAIN ROW -->
     <div class="row main_viewport" class=''>
 
@@ -85,13 +77,6 @@
     <!-- Scrolling Pickers -->
 
     @include('partials.panels.texts')
-
-    <div class='header-container forceHide'>
-
-        <div class='back-link' data-destination="gender"></div>
-        <h2 class='picker-header'>CHOOSE A GENDER</h2>
-
-    </div>
 
     <div id="main-picker-container">
 
