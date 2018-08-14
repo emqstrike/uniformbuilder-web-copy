@@ -24,7 +24,7 @@ $(document).ready(function() {
 
     function buildSettingTypeDD(name) {
         var setting_types = ['shape', 'part', 'piping', 'panel', 'static_layer','highlights', 'shadows', 'body_inside', 'mesh_shadows', 'mesh_highlights'];
-        var elem = '<select class="mo-setting-type">';
+        var elem = '<select class="form-control mo-setting-type">';
 
         setting_types.forEach(function(entry) {
             if (entry == name.toLowerCase()) {
@@ -246,7 +246,7 @@ $(document).ready(function() {
 
             var setting_type_dd = buildSettingTypeDD(namex);
 
-            var team_color_id_dd = `<select class="mo-team-color-id">
+            var team_color_id_dd = `<select class="form-control mo-team-color-id">
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -260,15 +260,15 @@ $(document).ready(function() {
                                     </select>`;
 
             var elem = `<tr class="mo-row" data-mo-path="`+ entry.url +`">
-                            <td><input type="text" class="mo-name" value="`+ name +`"></td>
-                            <td><input type="number" class="mo-layer-number" value="` + layer_number +`"></td>
+                            <td><input type="text" class="form-control mo-name" value="`+ name +`"></td>
+                            <td><input type="number" class="form-control mo-layer-number" value="` + layer_number +`"></td>
                             <td>`+ setting_type_dd +`</td>
-                            <td><select class="mo-default-color">`+ colors_dropdown +`</select></td>
+                            <td><select class="form-control mo-default-color">`+ colors_dropdown +`</select></td>
                             <td><input class="mo-allow-pattern" type="checkbox" value="1"></td>
                             <td><input class="mo-allow-color" type="checkbox" value="1"></td>
                             <td>`+ team_color_id_dd +`</td>
-                            <td><input type="number" class="mo-group-id"></td>
-                            <td style="background-color: gray;"><img src="` + entry.url +`" style="height: 50px; width: 50px;"></td>
+                            <td><input type="number" class="form-control mo-group-id"></td>
+                            <td><img src="` + entry.url +`" style="height: 50px; width: 50px;"></td>
                         <tr>`;
             $('.material-options-rows').append(elem);
             refreshColorBG();
@@ -278,7 +278,8 @@ $(document).ready(function() {
         refreshJSON();
     }
 
-    Dropzone.options.myAwesomeDropzone = {
+    $('#materialDropzone').dropzone({
+        dictDefaultMessage: 'Drop files here',
         addRemoveLinks: true,
         success: function(file, response) {
             console.log('here');
@@ -311,5 +312,5 @@ $(document).ready(function() {
             showPleaseWait();
             $('.progress-modal-message').html('Uploading image . . .');
         },
-    };
+    });
 });
