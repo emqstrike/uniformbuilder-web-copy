@@ -10586,6 +10586,8 @@ ub.funcs.fontOffSets = [
                     // Hidden Body for baseball and fastpitch except when its a lower uniform
                     (
                         !((ub.config.sport === "Baseball" || ub.config.sport === "Fastpitch") && ub.config.type === "lower")
+                    ) && !(
+                        ub.config.sport === "Tennis" && ub.current_material.material.neck_option === "Skort"
                     );
 
         } 
