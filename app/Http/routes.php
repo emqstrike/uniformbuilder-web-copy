@@ -101,6 +101,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
     Route::group(['prefix' => env('ENDPOINT_VERSION','v1-0') ], function() {
 
+        Route::get('inksoft_designs/search', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@searchPage']);
+
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard']);
         //Master Lists
 
