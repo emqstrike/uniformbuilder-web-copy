@@ -149,7 +149,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/colors"><i class="fa fa-paint-brush"></i> Colors<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
-            <li><a href="../layout/boxed.html"><i class="fa fa-paint-brush"></i> Color Set</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/colors_sets"><i class="fa fa-paint-brush"></i> Colors Sets<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
         </li>
 

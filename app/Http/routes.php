@@ -113,7 +113,16 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('/colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index']);
         Route::get('/master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex']);
 
+        // Colors Sets
+        Route::get('colors_sets', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@index']);
+        Route::get('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@addColorsSetForm']);
+        Route::post('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@store']);
+        Route::post('colors_set/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@store']);
+        Route::get('colors_set/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@editColorsSetForm']);
+
+        //Price Items
         Route::get('/price_templates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemTemplatesController@index']);
+        Route::get('/price_items', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemsController@index']);
 
         Route::get('/users', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@index']);
         Route::get('/account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings']);
@@ -125,7 +134,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestIndex']);
         Route::get('style_request/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestAdd']);
 
-
+        //Mascots
         Route::get('mascots/{active_sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@index']);
         Route::get('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@addMascotForm']);
         Route::post('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@store']);

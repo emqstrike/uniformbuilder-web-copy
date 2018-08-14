@@ -1059,7 +1059,6 @@ $(document).ready(function () {
                 ub.displayDoneAt('Configuration of style - ' + ub.config.uniform_name + ' started');
                 ub.utilities.info(' ');
 
-                ub.funcs.init_team_colors();
                 ub.funcs.transformedApplications();
                 ub.funcs.transformedBoundaries();
                 ub.funcs.get_modifier_labels();
@@ -6510,6 +6509,8 @@ $(document).ready(function () {
 
         }
 
+        if (sport === "Wrestling") { sport = "Wrestling 2018"; }
+
         ub.funcs.initUniformsPicker(sport, gender, true);
         ub.funcs.setupEvents();
 
@@ -6978,6 +6979,36 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.sortBlockPatternForFilters = function (sport, blockPatterns) {
+
+        var _results = blockPatterns;
+        var _temp = []; 
+        var _plucked;
+
+        if (sport === "Wrestling 2018") {
+
+            _.each (blockPatterns, function (blockPattern) {
+
+                var _sortID = ub.data.sortIDs.getSortID(blockPattern);
+                
+                _temp.push({
+                    blockPattern: blockPattern,
+                    sortID: _sortID,
+                });
+
+                _temp = _.sortBy(_temp, "sortID");
+
+            });
+
+            _plucked = _.pluck(_temp, "blockPattern");
+            _results = _plucked;
+
+        }
+
+        return _results;
+
+    };
+
     ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender) {
 
         ub.funcs.fadeOutElements();
@@ -7223,9 +7254,10 @@ $(document).ready(function () {
             _blockPatternsCollection = [];
             _optionsCollection = [];
 
-            var _tertiaryFiltersBlackList = ['BASEBALL', 'WRESTLING', 'Singlet', 'Fight Short', 'Baseball Pants', 'Compression', 'Volleyball'];
+            var _tertiaryFiltersBlackList = ['BASEBALL', 'WRESTLING', 'Fight Short', 'Baseball Pants', 'Compression', 'Volleyball'];
+            var _sortedBlockPattern = ub.funcs.sortBlockPatternForFilters(gender, _blockPatterns);
 
-            _.each(_blockPatterns, function (option) {
+            _.each(_sortedBlockPattern, function (option) {
 
                 if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
 
@@ -10403,22 +10435,6 @@ $(document).ready(function () {
         // Notification Message
         $.smkAlert({text: 'Updated team roster list', type:'info', permanent: false, time: 5, marginTop: '90px'});
     }
-
-    // function getUniformSuggestions(categoryId) {
-    //     $.ajax({
-    //         url: ub.config.api_host + '/api/materials/suggestions/' + categoryId,
-    //         success: function (response) {
-    //             if (response.success) {
-    //                 $.each(response.materials, function (i, material){
-    //                     if (material.id != ub.config.material_id) {
-    //                         $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
-    //                     }
-    //                 });
-    //             }
-    //         }
-    //     });
-    // }
-    // getUniformSuggestions(ub.config.category_id);
 
     // Uniform Sizes - Size Clicked Behavior
     $('.uniform-sizes .uniform-size').on('click', onSizeSelect);

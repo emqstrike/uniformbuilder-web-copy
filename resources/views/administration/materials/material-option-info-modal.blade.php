@@ -194,6 +194,11 @@
                         <select class="form-control build-type" name="build_type" id="build_type">
                         </select>
                     </div>
+                   
+                    <div class="form-group">
+                        <label>Pattern Opacity:</label>
+                        <input type="number" name="pattern_opacity" class="form-control" id="pattern-opacity" max="100" min="1" maxlength="3">
+                    </div>
                 </div>
 
                 <div class="col-md-3">

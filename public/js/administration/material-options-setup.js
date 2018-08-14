@@ -238,5 +238,51 @@ $(document).ready(function() {
     //         }
     //     });
     // }
+        $('.delete-multiple-material-option').on('click', function(){
+        var checkedMaterialOptionsIDs = [];
+        $('input[type=checkbox]:checked').each(function () {
+            if($(this).hasClass("delete-multiple-material-options")){
+                checkedMaterialOptionsIDs.push($(this).val());
+            }
+
+        });
+        console.log(checkedMaterialOptionsIDs);
+        modalConfirm(
+            'Remove Multiple Material Options',
+            'Are you sure you want to delete the following Material Options? : '+ checkedMaterialOptionsIDs +'?',
+            checkedMaterialOptionsIDs,
+            'confirm-yes',
+            'confirmation-modal-multiple-material-option'
+        );
+    });
+
+    $('#confirmation-modal-multiple-material-option .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/material_option/deleteMultiple/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify(id),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    $('#confirmation-modal-multiple-material-option').modal('hide');
+                }
+
+
+
+                window.location.reload(true);
+            }
+        });
+    });
 
 });

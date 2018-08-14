@@ -172,9 +172,9 @@ select:hover {
 @endsection
 
 @section('custom-scripts')
-<script type="text/javascript" src="/js/administration/mascots.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
     $('select:not(:has(option))').attr('visible', false);
 
     $('.ma-default-color').change(function(){
@@ -191,7 +191,130 @@ $(document).ready(function(){
         $('#sports_value').val($(this).val());
     });
 
-    $('.sports').select2('val', sports);
+    $(document).on('change', function() {
+        var length = $('.layers-row').length;
+        renumberRows(length);
+    });
+
+    $( "#layers-row-container" ).disableSelection();
+    $( "#layers-row-container" ).sortable({
+        start: function( ) {
+            $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
+        },
+        stop: function( ) {
+            var length = $('.layers-row').length;
+            $(".layers-row").each(function(i) {
+                $(this).find(".layer-number").text(length);
+                $(this).find(".layer-number").val(length);
+                length = length-1;
+            });
+            var newLength = $('.layers-row').length;
+            renumberRows(newLength);
+        }
+    });
+
+    var existing_layers_properties = null;
+
+    function renumberRows(length){
+        var layers_properties = {};
+        $(".layers-row").each(function(i) {
+            var thisLayer = "layer"+length;
+            var layer_class = ".ma-layer.layer" + length;
+
+            layers_properties[length] = {};
+            layers_properties[length]['default_color'] = {};
+            layers_properties[length]['layer_number'] = {};
+            layers_properties[length]['team_color_id'] = {};
+            layers_properties[length]['filename'] = {};
+
+            $(this).find('.ma-layer').removeClass().addClass("ma-layer");
+            $(this).find('.ma-layer').addClass(thisLayer);
+            $(this).find(layer_class).addClass('ma-layer');
+
+            $(this).find('.ma-team-color-id').removeClass().addClass("ma-team-color-id");
+            $(this).find('.ma-team-color-id').addClass(thisLayer);
+            var team_color_id_class = ".ma-team-color-id.layer" + length;
+            $(this).find(team_color_id_class).addClass('ma-team-color-id');
+
+            $(this).find('.ma-default-color').removeClass().addClass("ma-default-color");
+            $(this).find('.ma-default-color').addClass(thisLayer);
+            var default_color_class = ".ma-default-color.layer" + length;
+            $(this).find(default_color_class).addClass('ma-default-color');
+
+            $(this).find('.ma-options-src').removeClass().addClass("ma-options-src");
+            $(this).find('.ma-options-src').addClass(thisLayer);
+            var src_class = ".ma-options-src.layer" + length;
+            $(this).find(src_class).addClass('ma-options-src');
+
+            var hexString = $(this).find(default_color_class).val()
+
+            if(hexString.replace('#','')){
+                hexString = hexString.replace('#','');
+            }
+
+            layers_properties[length]['default_color'] = hexString;
+            layers_properties[length]['layer_number'] = $(this).find(layer_class).val();
+             layers_properties[length]['filename'] = $(this).find('.default_img').val();
+            if($(this).find(src_class).val()){
+            layers_properties[length]['filename'] = $(this).find(src_class).val();
+
+                }
+
+            layers_properties[length]['team_color_id'] = $(this).find(team_color_id_class).val();
+
+            length--;
+        });
+        var layersProperties = JSON.stringify(layers_properties);
+        window.lp = layersProperties;
+        $('#layers-properties').val(layersProperties);
+        $('#existing-colors-properties').val(layersProperties);
+    }
+
+    $(document).on("click", "a.btn-remove-layer", function(){
+
+        var length = 0;
+
+        $(".layers-row").each(function(i) {
+            length++;
+        });
+
+        $(this).closest('tr').remove();
+        length--;
+
+        var ctr = length;
+
+        $(".layers-row").each(function(i) {
+            $(this).find(".layer-number").text(ctr);
+            $(this).find(".layer-number").val(ctr);
+            ctr--;
+        });
+
+        renumberRows(length);
+
+    });
+
+    $(document).on('click', '.clone-row', function() {
+        $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
+            $(document).on("change", ".ma-default-color", function(){
+
+            var color = $('option:selected', this).data('color');
+            $(this).css('background-color', color);
+        });
+
+        var length = $('.layers-row').length;
+        $(".layers-row").each(function(i) {
+            $(this).find(".layer-number").text(length);
+            $(this).find(".layer-number").val(length);
+            length--;
+        });
+        var newLength = $('.layers-row').length;
+    });
+
+    $(document).on("change", ".ma-default-color", function(){
+
+        var color = $('option:selected', this).data('color');
+        $(this).css('background-color', color);
+    });
 });
 </script>
 @endsection

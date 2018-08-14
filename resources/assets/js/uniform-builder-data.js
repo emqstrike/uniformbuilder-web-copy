@@ -10586,6 +10586,8 @@ ub.funcs.fontOffSets = [
                     // Hidden Body for baseball and fastpitch except when its a lower uniform
                     (
                         !((ub.config.sport === "Baseball" || ub.config.sport === "Fastpitch") && ub.config.type === "lower")
+                    ) && !(
+                        ub.config.sport === "Tennis" && ub.current_material.material.neck_option === "Skort"
                     );
 
         } 
@@ -11150,6 +11152,13 @@ ub.funcs.fontOffSets = [
             //  tackleTwillHidden: true,        // Use this in the future
             },
             {
+                sport: 'Wrestling 2018',
+                type: 'both',
+                upperLabel: 'Singlets & Tops',
+                lowerLabel: 'Shorts',
+            //  tackleTwillHidden: true,        // Use this in the future
+            },
+            {
                 sport: 'Volleyball',
                 type: 'both',
                 upperLabel: 'Jersey',
@@ -11298,6 +11307,10 @@ ub.funcs.fontOffSets = [
         {
             sport: 'Wrestling',
             filters: ['All', 'Singlet', 'Fight Shorts'],
+        },
+        {
+            sport: 'Wrestling 2018',
+            filters: ['All', 'Singlets & Tops', 'Shorts'],
         },
         {
             sport: 'Crew Socks (Apparel)',
@@ -12227,6 +12240,11 @@ ub.funcs.fontOffSets = [
             "Default", // Hoodie
             "Cinch Sack",
             "Men's ",
+            // Wrestling
+            "Singlet",
+            "Fight Shorts",
+            "Compression Tops",
+            "Compression Shorts",
         ], 
 
         isExcluded: function (alias) {
@@ -12314,5 +12332,54 @@ ub.funcs.fontOffSets = [
     }
 
     ub.dialog = bootbox;
+
+    ub.data.sortIDs = {
+
+        items: [
+            {
+                sortID: 1,
+                blockPatternName: "Singlet",
+            },
+            {
+                sortID: 2,
+                blockPatternName: "Compression Tops",
+            },
+            {
+                sortID: 3,
+                blockPatternName: "Compression Shorts",
+            },
+            {
+                sortID: 4,
+                blockPatternName: "Fight Shorts",
+            },
+            {
+                sortID: 5,
+                blockPatternName: "Blank Styles",
+            },
+            {
+                sortID: 6,
+                blockPatternName: "Favorites",
+            },
+
+        ],
+        getSortID: function (blockPatternName) {
+
+            var _result = undefined;
+            var _sortID = 0;
+     
+            _result = _.find(this.items, {blockPatternName: blockPatternName});
+
+            if (typeof _result === "undefined") {
+                _sortID = ub.data.sortIDs.items.length + 1;
+                console.warn("Sort ID for " + blockPatternName + " not found using ")
+            } else { 
+                _sortID = _result.sortID;
+            }
+
+            return _sortID;
+
+        }
+
+    }
 
 });
