@@ -17,7 +17,9 @@
 
     <link rel="icon" type="image/png" href="/images/branding/favicon.ico" />
     
+    <!-- Stylesheets -->
     @include('partials.code.stylesheets')
+    <!-- End Stylesheets -->
 
     <script type="text/javascript" src='https://www.google.com/recaptcha/api.js'></script>
 
@@ -53,34 +55,35 @@
 
     <!-- Pages -->
 
-    @yield('my-saved-designs')
-    @yield('my-orders')
-    @yield('my-custom-artwork-requests')
-    @yield('view-order-info')
-    @yield('my-messages')
-    @yield('my-profile')
-    @yield('signup')
-    @yield('forgot-password')
-    @yield('reset-password')
-    @yield('change-password')
-    @yield('preview-embellishment')
+        <!-- TODO: These pages should have selective loading -->
+        @yield('my-saved-designs')
+        @yield('my-orders')
+        @yield('my-custom-artwork-requests')
+        @yield('view-order-info')
+        @yield('my-messages')
+        @yield('my-profile')
+        @yield('signup')
+        @yield('forgot-password')
+        @yield('reset-password')
+        @yield('change-password')
+        @yield('preview-embellishment')
 
     <!-- Pages -->
 
 
     <!-- Modals -->
 
-    @if (Session::get('isLoggedIn'))
-        @include('partials.open-design-modal')
-        @include('partials.share-design-modal')
-        @include('partials.save-design-modal')
-    @else
-        @include('partials.signup-modal')
-    @endif
+        @if (Session::get('isLoggedIn'))
+            @include('partials.open-design-modal')
+            @include('partials.share-design-modal')
+            @include('partials.save-design-modal')
+        @else
+            @include('partials.signup-modal')
+        @endif
 
-    @include('partials.team-roster-modal')
+        @include('partials.team-roster-modal')
 
-    @include('partials.panels.small-modal')
+        @include('partials.panels.small-modal')
 
     <!-- End Modals -->
 
@@ -136,6 +139,7 @@
 
 
     @include('partials.detect-mobile')
+
 
 </body>
 </html>
