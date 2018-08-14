@@ -15,7 +15,7 @@ $(document).ready(function () {
 
         cleanUp: function (sport, type, neckOption) {
 
-            var _match = ub.styleValues.mascotScales.match;
+            var _match = ub.styleValues.mascotScales.match
             var _blockPatternOptions = "";
             var _properties = "";
 
@@ -38,11 +38,13 @@ $(document).ready(function () {
 
             var _apiCode = 'getMascotScales';
             var _parameters = {
-                "block_pattern_options": ub.utilities.domParserDecoder(ub.config.option),
                 "block_patterns":  ub.utilities.domParserDecoder(ub.config.blockPattern),
                 "category": ub.config.sport,
                 "type": ub.config.type
             }
+
+            // Special Case, talk to https://github.com/angelqx 
+            if (ub.config.sport !== "Compression (Apparel)") { _parameters.block_pattern_options = ub.config.option; }
 
             ubep.fetchPOST(_apiCode, _parameters, function (result) {
 
@@ -104,6 +106,7 @@ $(document).ready(function () {
 
                 var _blockPatternOptions = "";
                 var _properties = "";
+
                 if (item.block_pattern_options !== "") {
                     _blockPatternOptions = JSON.parse(item.block_pattern_options);
                 }
@@ -128,7 +131,7 @@ $(document).ready(function () {
             var _apiCode = 'getembellishmentScales';
 
             ubep.fetch(_apiCode, function (result) {
-                
+
                 ub.styleValues.embellishmentScales.items = result.mascot_sizes;
                 ub.styleValues.embellishmentScales.cleanUp(ub.config.sport, ub.config.type, ub.config.option);
                 ub.utilities.info('Mascot Scales Loaded.');
