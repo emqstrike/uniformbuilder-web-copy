@@ -947,14 +947,14 @@ class UniformBuilderController extends Controller
 
                 if ($application['mascot']['name'] == 'Custom Logo') {
 
-                    $html .=   '<a href="' . $application['customFilename'] . '" target="_new">Link To Uploaded File</a> <br />';
+                    // $html .=   '<a href="' . $application['customFilename'] . '" target="_new">Link To Uploaded File</a> <br />';
 
                     $userfile_name = $application['customFilename'];
                     $userfile_extn = substr($userfile_name, strrpos($userfile_name, '.')+1);
 
                     if ($userfile_extn === 'png' or $userfile_extn === 'gif' or $userfile_extn === 'jpg' or $userfile_extn === 'jpeg' or $userfile_extn === 'bmp') {
 
-                        $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '"><br />';
+                        $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '">';
 
                     }
 
@@ -962,8 +962,8 @@ class UniformBuilderController extends Controller
 
                 } else {
 
-                    $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';
-                    $html .=   '<a href="' . $application['mascot']['ai_file'] . '" target="_new">Link To Mascot PDF File</a> <br />';
+                    $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '">';
+                    // $html .=   '<a href="' . $application['mascot']['ai_file'] . '" target="_new">Link To Mascot PDF File</a> <br />';
 
                 }
 
@@ -982,11 +982,11 @@ class UniformBuilderController extends Controller
                    $html .=   'Watermark Intensity: 100% <br />';
                 }
 
-                $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '"><br />';
-                $html .=   '<a href="' . $embellishment['svg_filename'] . '" target="_new">Link To Prepared File</a> <br />';
-                $html .=   '<a href="http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
-                $html .=   '</td>';
+                $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '">';
+//                $html .=   '<a href="' . $embellishment['svg_filename'] . '" target="_blank">Link To Prepared File</a> <br />';
+//                $html .=   '<a href="http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
 
+                $html .=   '</td>';
             }
 
              else {
@@ -1852,7 +1852,7 @@ class UniformBuilderController extends Controller
         $firstOrderItem = $builder_customizations['builder_customizations']['order_items'][0];
         $mainInfo       = $builder_customizations['builder_customizations'];
 
-        $style = '<style> body { font-size: 0.8em; } td { font-size: 0.8em; } </style>';
+        $style = '<style> body, td, p { font-size: 0.8em; } </style>';
 
         $html  = '';
         $html .= $style;
@@ -2032,6 +2032,60 @@ class UniformBuilderController extends Controller
         $html .='</table>';
 
         $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Application separated links
+        $html  = '';
+        $html .= $style;
+        $html .= '<p>APPLICATION LINKS:</p>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        foreach ($applications as $application) {
+            // Log::info('==========APPLICATION LINKS===========');
+            $appType = strtoupper(str_replace("_"," ",$application['application_type']));
+            // $appTypeCaption = $appType;
+
+            // Skip free / unused applications
+            if ($appType === "FREE") { continue; }
+            if ($appType !== "EMBELLISHMENTS" && $appType !== "MASCOT" ) { continue; }
+
+            // Skip applications that are turned off
+            if (isset($application['status']) and $application['status'] === "off") { continue; }
+
+            // Log::info('---' . $application['code'] . ' ' . $appType);
+//            Log::info('APP TYPE IS ==========>' . $appType);
+
+            if ($appType === "EMBELLISHMENTS") {
+
+                Log::info('==========>Embellisments Detected!');
+                $appTypeCaption = "CUSTOM MASCOT";
+                $embellishment = $application['embellishment'];
+                $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
+                $pdf->addHtmlLink($embellishment['svg_filename'], 'Link To Prepared File', false, false, array(0, 0, 255), -1, false);
+                $pdf->Write(1, '             ', '', false, '', false, 0, false, false, 0, 0, '');
+                $pdf->addHtmlLink('http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'], 'View Detailed Info', false, false, array(0, 0, 255), -1, false);
+                $html = '<br/>';
+                $pdf->writeHTML($html, true, false, true, false, '');
+
+            } else if ($appType === "MASCOT" ) {
+
+                Log::info('==========>Mascot Detected!');
+                if ($application['mascot']['name'] == 'Custom Logo') {
+
+                    $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
+                    $pdf->addHtmlLink($application['customFilename'], 'Link To Uploaded File', false, false, array(0, 0, 255), -1, false);
+                    $html = '<br/>';
+                    $pdf->writeHTML($html, true, false, true, false, '');
+
+                } else {
+
+                    $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
+                    $pdf->addHtmlLink($application['mascot']['ai_file'], 'Link To Mascot PDF File', false, false, array(0, 0, 255), -1, false);
+                    $html = '<br/>';
+                    $pdf->writeHTML($html, true, false, true, false, '');
+
+                }
+            }
+        }
 
         // Piping
 
