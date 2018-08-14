@@ -27,11 +27,11 @@
   </div>
     <div class="form-group">
     <label for="inputName" class="control-label">Contact</label>
-    <input name="contact" type="number" class="form-control" id="inputName" placeholder="Number" >
+    <input name="contact" type="number" class="form-control" id="inputNumber" placeholder="Number" >
   </div>
    <div class="form-group">
     <label for="inputName" class="control-label">Zip</label>
-    <input name="zip" type="number" class="form-control" id="inputName" placeholder="zip" >
+    <input name="zip" type="number" class="form-control" id="inputZip" placeholder="zip" >
   </div>
 
 
