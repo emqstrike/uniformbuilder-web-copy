@@ -71,7 +71,7 @@
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table class='data-table table table-bordered' id="colors-set-table">
+                    <table class='data-table table table-bordered display' id="colors-set-table">
                     <thead>
                         <tr>
                             <th>ID</th>
