@@ -10214,6 +10214,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling 2018',
                 sublimatedPart: 'Extra',
             },   
+            {
+                sport: 'Tennis',
+                sublimatedPart: 'Extra',
+            },   
         ],
 
         get: function (sport) {
@@ -12319,6 +12323,7 @@ ub.funcs.fontOffSets = [
             'Test', // Richardson Test Block
             'Football 2017',
             'Wrestling 2018',
+            'Tennis',
         ],
         isValid: function (uniformCategory) {
 

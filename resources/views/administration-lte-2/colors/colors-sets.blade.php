@@ -64,10 +64,11 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    @section('page-title', 'Colors Sets')
                     <h1>
                         <span class="fa fa-tint"></span>
                         Colors Sets
-                            <a href="/administration/v1-0/colors_set/add" class='btn btn-sm btn-success btn-flat'> Add </a>
+                            <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
                 </div>
                 <div class="box-body">
@@ -85,16 +86,9 @@
                     <tbody>
                     @forelse ($colors_sets as $set)
                         <tr class='set-{{ $set->id }}'>
-                            <td>
-                                {{ $set->id }}
-                            </td>
-                            <td>
-                                {{ $set->name }}
-                            </td>
-                            <td>
-                                {{ $set->uniform_type }}
-                            </td>
-
+                            <td class="td-color-set-id">{{ $set->id }}</td>
+                            <td class="td-color-set-name">{{ $set->name }}</td>
+                            <td class="td-color-set-type">{{ $set->uniform_type }}</td>
                             <td>
                             <ul class="nav nav-pills colors-column">
                             </ul>
@@ -110,7 +104,7 @@
                             </td>
                         </td>
                             <td>
-                                <a href="/administration/v1-0/colors_set/edit/{{$set->id}}" class="edit-color-set btn btn-info btn-xs btn-flat">Edit</a>
+                                <a href="#" class="btn btn-primary btn-xs btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
                                 <a href="#" class="btn btn-danger delete-color-set btn-xs btn-flat" data-color-set-id="{{ $set->id }}">Remove</a>
                             </td>
 
@@ -132,6 +126,7 @@
     </div>
 </section>
 
+@include('administration-lte-2.colors.colors-set-modal')
 @include('partials.confirmation-modal')
 
 @endsection
@@ -144,8 +139,61 @@ $(document).ready(function(){
 
     getColors(function(colors){ window.colors = colors; });
 
-    var active_colors = _.filter(window.colors, function(item) { return item.active == 1; });
 
+    $('.add-record').on('click', function(e) {
+        e.preventDefault();
+        window.modal_action = 'add';
+        $('.modal-title').text('Add Color Set Information');
+        $('.submit-new-record').text('Add Record');
+    });
+
+    $(document).on('click', '.edit-record', function(e) {
+        e.preventDefault();
+        window.modal_action = 'update';
+        $('.modal-title').text('Edit Color Set Information');
+        $('.submit-new-record').text('Update Record');
+        var data = {};
+        data.id = $(this).parent().parent().find('.td-color-set-id').text();
+        data.name = $(this).parent().parent().find('.td-color-set-name').text();
+        data.uniform_type = $(this).parent().parent().find('.td-color-set-type').text();
+        var raw_colors = JSON.parse($(this).parent().parent().find('.colors').val());
+        data.colors = raw_colors.replace(/[\[\]'"]+/g, '');
+        $('.input-color-id').val(data.id);
+        $('.input-color-name').val(data.name);
+        $('.input-type').val(data.uniform_type);
+        $('.colors-val').val(data.colors);
+        $(".input-colors").val(data.colors.split(','));
+        $(".input-colors").trigger("change");
+    });
+
+    $("#myModal").on("hidden.bs.modal", function() {
+        $('.input-color-id').val('');
+        $('.input-color-name').val('');
+        $('.input-type').val('');
+        $('.input-colors').val('');
+        $('.colors-val').val('');
+        $(".input-colors").trigger("change");
+
+    });
+
+    $("#myForm").submit(function(e){
+        e.preventDefault();
+        var data = {};
+        data.name = $('.input-color-name').val();
+        data.uniform_type = $('.input-type').val();
+        var raw_colors = $('.colors-val').val();
+        data.colors = raw_colors.split(",");
+
+        if(window.modal_action == 'add'){
+            var url = "//" + api_host +"/api/color_set";
+        } else if(window.modal_action == 'update')  {
+            data.id = $('.input-color-id').val();
+            var url = "//" + api_host +"/api/color_set/update";
+        }
+        addUpdateRecord(data, url);
+    });
+
+    var active_colors = _.filter(window.colors, function(item) { return item.active == 1; });
     var sorted_colors = _.sortBy(active_colors, function(color) {  return color.order;  });
 
     $(".colors").each(function(i) {
@@ -155,13 +203,38 @@ $(document).ready(function(){
         var elem = "";
         var thisElem = $(this);
         $.each(sorted_colors, function(i, item) {
-            strColors.forEach(function(entry) {
-                if( entry == item.color_code ){
-                    elem += '<li class="li" style="background-color: #' + item.hex_code +'"><a href="#" style="text-shadow: 1px 1px #000; color: #fff; ">' + item.color_code + '</a></li>';
-                }
-            });
+            try {
+                strColors.forEach(function(entry) {
+                    if( entry == item.color_code ){
+                        elem += '<li class="li" style="background-color: #' + item.hex_code +'"><a href="#" style="text-shadow: 1px 1px #000; color: #fff; ">' + item.color_code + '</a></li>';
+                    }
+                });
+            } catch(err) {
+                console.log(err.message);
+            }
         });
         $(this).siblings('.colors-column').append(elem);
+    });
+
+    $('.input-colors').select2({
+        placeholder: "Colors",
+        multiple: true,
+        allowClear: true
+    });
+
+    var colors_elem = '';
+    _.each(sorted_colors, function(color) {
+        if(color.sublimation_only) {
+            colors_elem += '<option value="'+color.color_code+'">*'+color.name+'</option>';
+        } else {
+            colors_elem += '<option value="'+color.color_code+'">'+color.name+'</option>';
+        }
+
+    });
+    $('.input-colors').append(colors_elem);
+
+    $(".input-colors").change(function() {
+        $('.colors-val').val($(this).val());
     });
 
     $('.toggle-color-set').on('click', function(){
@@ -192,7 +265,6 @@ $(document).ready(function(){
         e.preventDefault();
         var id = [];
         id.push( $(this).data('color-set-id'));
-        console.log(id);
         modalConfirm('Remove Color Set', 'Are you sure you want to delete the color set?', id);
     });
 
@@ -209,10 +281,11 @@ $(document).ready(function(){
                 headers: {"accessToken": atob(headerValue)},
                 success: function(response){
                     if (response.success) {
+                        window.location.reload();
                         new PNotify({
                             title: 'Success',
                             text: response.message,
-                            type: 'success',
+                            type: 'notice',
                             hide: true
                         });
                          $('#confirmation-modal').modal('hide');
@@ -221,6 +294,38 @@ $(document).ready(function(){
                 }
             });
     });
+
+     function addUpdateRecord(data, url){
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json;',
+            headers: {"accessToken": atob(headerValue)},
+            success: function (data) {
+                if(data.success){
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: data.message,
+                        type: 'success',
+                        hide: true
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            }
+        });
+    };
 
     function getColors(callback){
         var colors;
