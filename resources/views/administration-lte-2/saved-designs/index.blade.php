@@ -30,7 +30,7 @@
                         </thead>
 
                         <tbody>
-                            @forelse ($savedDesigns as $design)
+                            @forelse ($savedDesigns->data as $design)
                                 <tr class='design-{{ $design->id }}'>
                                     <td>{{ $design->id }}</td>
                                     <td>{{ $design->name }}</td>
@@ -72,24 +72,11 @@
                             @endforelse
                         </tbody>
                     </table>
+
+                    @include('administration-lte-2.saved-designs.partials.pagination')
+
                 </div>
             </div>
         </div>
     </section>
-@endsection
-
-@section('scripts')
-    <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.data-table').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": false,
-                "info": true,
-                "autoWidth": false
-            });
-        });
-    </script>
 @endsection

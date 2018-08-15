@@ -17,7 +17,8 @@
         "maknz/slack-laravel": "^1.0",
         "maknz/slack": "^1.7",
         "miladrahimi/phpcrypt": "^3.0",
-        "bjeavons/zxcvbn-php": "^0.3"
+        "bjeavons/zxcvbn-php": "^0.3",
+        "jasongrimes/paginator": "~1.0"
 
     },
     "require-dev": {

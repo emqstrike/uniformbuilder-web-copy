@@ -22,9 +22,9 @@ class SavedDesignsAPIClient extends APIClient
         return $count;
     }
 
-    public function getAll()
+    public function getAll($currentPage)
     {
-        $response = $this->get('saved_designs');
+        $response = $this->get('saved_designs/paginate?page=' . $currentPage);
         $result = $this->decoder->decode($response->getBody());
 
         $saved_designs = [];
