@@ -154,10 +154,11 @@ $(document).ready(function(){
 
     window.sales_reps_dd = reps_elem;
 
-    // $('.rep-id').append(reps_elem);
-    setTimeout(function(){
-        $('#orders_table .rep-id').append(reps_elem);
-    }, 10000);
+    $('.rep-id').append(reps_elem);
+    $('#orders_table .rep-id').append(reps_elem);
+
+    console.log(window.qx_reps_url);
+    console.log(window.sales_reps_dd);
 
     $(document).on('change', '.rep-id', function(e) {
         var option_selected = $(this).val();
