@@ -104,7 +104,6 @@ class BlockPatternsController extends Controller
             $folder_name = "cut_preview";
             // Cut Preview
             $cutPreview = $request->file('cut_preview');
-            dd($cutPreview);
             if (isset($cutPreview))
             {
                 if ($cutPreview->isValid())
