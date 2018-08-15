@@ -157,7 +157,7 @@ $(document).ready(function(){
     // $('.rep-id').append(reps_elem);
     setTimeout(function(){
         $('#orders_table .rep-id').append(reps_elem);
-    }, 10000);
+    }, 20000);
 
     $(document).on('change', '.rep-id', function(e) {
         var option_selected = $(this).val();
