@@ -283,9 +283,9 @@ $(document).ready(function(){
                     if (response.success) {
                         window.location.reload();
                         new PNotify({
-                            title: 'Warning',
+                            title: 'Success',
                             text: response.message,
-                            type: 'success',
+                            type: 'notice',
                             hide: true
                         });
                          $('#confirmation-modal').modal('hide');
