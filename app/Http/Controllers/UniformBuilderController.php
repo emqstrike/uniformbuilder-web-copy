@@ -1892,7 +1892,7 @@ class UniformBuilderController extends Controller
         $style_url_text = 'STYLE URL';
 
         $builder_url_link = $firstOrderItem["url"];
-        $pdf_url_link = env("WEBSITE_URL") . '/design_sheets/';
+        $pdf_url_link = 'https://' . env("WEBSITE_URL") . '/design_sheets/' . $filename . '.pdf';
         $cut_url_link = $firstOrderItem["builder_customizations"]["cut_pdf"];
         $style_url_link = $firstOrderItem["builder_customizations"]["styles_pdf"];
 
