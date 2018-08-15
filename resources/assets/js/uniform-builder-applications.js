@@ -6592,7 +6592,7 @@ $(document).ready(function() {
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType">' + "Stock Mascot" + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="applicationType">' + " [" +  _id + "] " + "Stock Mascot" + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
 
@@ -8411,7 +8411,7 @@ $(document).ready(function() {
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType" data-type="' + _applicationType + '">' + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="applicationType" data-type="' + _applicationType + '">' + " [" +  _id + "] " + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';
