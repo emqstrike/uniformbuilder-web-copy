@@ -10214,6 +10214,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling 2018',
                 sublimatedPart: 'Extra',
             },   
+            {
+                sport: 'Tennis',
+                sublimatedPart: 'Extra',
+            },   
         ],
 
         get: function (sport) {
