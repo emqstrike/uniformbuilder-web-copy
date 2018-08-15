@@ -115,10 +115,6 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
         // Colors Sets
         Route::get('colors_sets', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@index']);
-        Route::get('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@addColorsSetForm']);
-        Route::post('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@store']);
-        Route::post('colors_set/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@store']);
-        Route::get('colors_set/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@editColorsSetForm']);
 
         //Price Items
         Route::get('/price_templates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemTemplatesController@index']);
