@@ -2563,6 +2563,7 @@ $(document).ready(function () {
                 if (typeof e.pattern.pattern_obj !== 'undefined') {
 
                     if (e.pattern.pattern_obj.name === "Blank") { return; }
+                    
                     ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
          
                 }    
@@ -3160,7 +3161,7 @@ $(document).ready(function () {
             var _layerCount = 0;
 
             _.each(material_options, function (obj, index) {
-
+                
                 _layerCount +=1;
 
                 var name = obj.name.toCodeCase();
@@ -6187,6 +6188,9 @@ $(document).ready(function () {
     };
 
     ub.generate_pattern = function (target, clone, opacity, position, rotation, scale) {
+        
+        //set the default to 100
+        var opacity = (_.isEqual(opacity, 0)) ? opacity=100: opacity;
 
         var uniform_type = ub.current_material.material.type;
         var target_name = target.toTitleCase();
@@ -6234,6 +6238,8 @@ $(document).ready(function () {
 
                 sprite.zIndex = layer.layer_number * -1;
                 sprite.tint = parseInt(layer.default_color,16);
+
+                sprite.alpha=opacity/100;
 
                 ///
                 var _hexCode = (sprite.tint).toString(16);
