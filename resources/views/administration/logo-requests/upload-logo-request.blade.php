@@ -169,7 +169,7 @@ select:hover {
                                     <span class="glyphicon glyphicon-floppy-disk"></span>
                                     Add New Mascot
                                 </button>
-                                <a href="/administration/artwork_requests/processing" class="btn btn-danger">
+                                <a href="/administration/logo_requests" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                     Cancel
                                 </a>

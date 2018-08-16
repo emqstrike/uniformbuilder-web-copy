@@ -14,23 +14,8 @@
     </a>
     <ul class="treeview-menu">
       <li data-position='right'>
-        <a href="/administration/orders">
-          <i class="glyphicon glyphicon-list-alt"></i> <span>Pending Orders</span>
-        </a>
-      </li>
-      <li data-position='right'>
-        <a href="/administration/orders/test_orders">
-          <i class="glyphicon glyphicon-list-alt"></i> <span>Test Orders</span>
-        </a>
-      </li>
-      <li>
-        <a href="/administration/orders/sent_orders">
-          <i class="glyphicon glyphicon-ok"></i> <span>Sent Orders</span>
-        </a>
-      </li>
-      <li>
-        <a href="/administration/orders/search_order">
-          <i class="glyphicon glyphicon-search"></i> <span>Search Sent Order</span>
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/ordersMinified">
+          <i class="glyphicon glyphicon-list-alt"></i> <span>Orders *NEW*</span>
         </a>
       </li>
     </ul>
@@ -75,6 +60,13 @@
         <a href="/administration/total_records">
           <i class="fa fa-info-circle"></i> <span>Total Records</span>
         </a>
+      </li>
+
+      <li data-step="6" data-intro="Analytics">
+          <a href="{{ route('analytics') }}">
+              <i class="fa fa-bar-chart"></i>
+              <span>Analytics</span>
+          </a>
       </li>
     </ul>
   </li>

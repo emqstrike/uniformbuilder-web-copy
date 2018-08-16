@@ -137,9 +137,11 @@ $(document).ready(function() {
 
         fetchPOST: function (str, parameters, cb) {
 
+            var _url = ub.endpoints.getFullUrlString(str);
+
             $.ajax({
 
-                url: ub.endpoints.getFullUrlString(str),
+                url: _url,
                 data: JSON.stringify(parameters),
                 type: "POST",
                 crossDomain: true,
@@ -156,10 +158,13 @@ $(document).ready(function() {
                     } else {
                         
                         if (ub.devtools.debugMode) {
+
                             console.log(' ');
+                            console.error('URL String: ' + _url);
                             console.error('No Mascot Size detected for the following parameters: ');
                             console.error(parameters);
                             console.log(' ');
+
                         }
 
                     }

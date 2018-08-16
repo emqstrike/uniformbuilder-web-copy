@@ -3727,7 +3727,7 @@ $(document).ready(function() {
                     return;     
                 }
 
-                if (!ub.config.useAllColors) {
+                if (!ub.branding.useAllColors) {
                     if(_sizeOfTeamColors > 8){
                         ub.startModal(2);
                         return;     
@@ -4278,7 +4278,7 @@ $(document).ready(function() {
 
         var _sizeOfTeamColors = _.size(ub.current_material.settings.team_colors);
  
-        if (!ub.config.useAllColors) {
+        if (!ub.branding.useAllColors) {
             if (_sizeOfTeamColors > 8) {
                 ub.startModal();
                 return; 
@@ -5508,9 +5508,18 @@ $(document).ready(function() {
 
         $('span.groups_category_item').on('click', function () {
 
-            var _groups_category_id = ($(this).data('category')).toString();
+            var _groups_category_id = parseInt($(this).data('category'));
             var _groups_category_name = $(this).data('category-name');
+
+            if (ub.config.toString) { _groups_category_id = _groups_category_id.toString();  }
+
+            console.log('Category ID: ' + _groups_category_id);
+            console.log(typeof _groups_category_id);
+
             var _categories = _.filter(ub.data.mascots_categories, {mascots_group_category_id: _groups_category_id});
+
+            console.log('Categories: ');
+            console.log(_categories);
 
             if (_groups_category_id === "all") {
 
@@ -6583,7 +6592,7 @@ $(document).ready(function() {
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType">' + "Stock Mascot" + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="applicationType">' + " [" +  _id + "] " + "Stock Mascot" + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
 
@@ -8051,7 +8060,7 @@ $(document).ready(function() {
                 ok = false;;     
             }
 
-            if (!ub.config.useAllColors) {
+            if (!ub.branding.useAllColors) {
                 if(_sizeOfTeamColors > 8){
                     ub.startModal(2);
                     ok = false;     
@@ -8402,7 +8411,7 @@ $(document).ready(function() {
         _htmlBuilder        =  '<div id="applicationUI" data-application-id="' + _id + '">';
         _htmlBuilder        +=      '<div class="header">';
         _htmlBuilder        +=      '<div class="toggle" data-status="' + _status + '"><div class="valueContainer"><div class="toggleOption on">ON</div><div class="toggleOption off">OFF</div></div></div>';
-        _htmlBuilder        +=      '<div class="applicationType" data-type="' + _applicationType + '">' + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
+        _htmlBuilder        +=      '<div class="applicationType" data-type="' + _applicationType + '">' + " [" +  _id + "] " + _title.replace('Number', '# ') + '<span class="changeApplicationType"><i class="fa fa-caret-down" aria-hidden="true"></i></span></div><span class="cog"><i class="fa fa-cog" aria-hidden="true"></i></span></div>';
         _htmlBuilder        +=      '<div class="body">';
         _htmlBuilder        +=          '<div class="cover"></div>';
         _htmlBuilder        +=          '<div class="ui-row">';

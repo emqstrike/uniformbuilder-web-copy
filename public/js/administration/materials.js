@@ -1406,6 +1406,7 @@ $(document).ready(function() {
                 pattern_properties: ($(this).data('pattern-properties')),
                 default_display: ($(this).data('default-display')),
                 build_type: ($(this).data('build-type')),
+                pattern_opacity: ($(this).data('pattern-opacity')),
             }
         };
         console.log('TESTER' + material.option.pattern_properties);
@@ -1454,6 +1455,12 @@ $(document).ready(function() {
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
+
+        if(material.option.pattern_opacity == null || material.option.pattern_opacity == "" || material.option.pattern_opacity == undefined) {
+            $('#pattern-opacity').val(100);
+        } else {
+            $('#pattern-opacity').val(material.option.pattern_opacity);
+        }
 
         $('#is_blend').prop('checked', false);
         $('#allow_pattern').prop('checked', false);
@@ -2503,10 +2510,9 @@ $(document).ready(function() {
         });
     }
 
-        function getAccents(callback){
-        var mascots;
+    function getAccents(callback){
+       var accents;
        var url = "//" + api_host + "/api/accents";
-        // var url = "//localhost:8888/api/accents";
         $.ajax({
             url: url,
             async: false,
@@ -2515,8 +2521,7 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                    accents = $(data['accents']).filter(function (i,n){return n.active==="1" });
-
+                    accents = $(data['accents']).filter(function (i,n){return n.active == 1 });
                 if(typeof callback === "function") callback(accents);
             }
         });

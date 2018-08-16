@@ -10,7 +10,6 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
 Route::get('/', function () {
     return redirect('/index');
 });
@@ -102,6 +101,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
     Route::group(['prefix' => env('ENDPOINT_VERSION','v1-0') ], function() {
 
+        Route::get('inksoft_designs/search', ['middleware' => 'adminAccess', 'uses' => 'Administration\InksoftDesignsController@searchPage']);
+
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard']);
         //Master Lists
 
@@ -114,7 +115,12 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('/colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index']);
         Route::get('/master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex']);
 
+        // Colors Sets
+        Route::get('colors_sets', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@index']);
+
+        //Price Items
         Route::get('/price_templates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemTemplatesController@index']);
+        Route::get('/price_items', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemsController@index']);
 
         Route::get('/users', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@index']);
         Route::get('/account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings']);
@@ -126,7 +132,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestIndex']);
         Route::get('style_request/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestAdd']);
 
-
+        //Mascots
         Route::get('mascots/{active_sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@index']);
         Route::get('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@addMascotForm']);
         Route::post('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@store']);
@@ -134,7 +140,7 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::post('mascot/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@store']);
 
         Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
-
+        Route::get('analytics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\AnalyticsController@index'])->name('v1_analytics_index');
     });
 
     // Logins
@@ -539,6 +545,9 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
     Route::group(['prefix' => 'master_pages' ], function() {
         Route::get('fonts', ['middleware' => 'adminAccess', 'uses' => 'Administration\MasterFontsController@index']);
     });
+
+    // Analytics
+    Route::get('analytics/{startDate?}/{endDate?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\AnalyticsController@index'])->name('analytics');
 });
 
 Route::get('/messages', 'UniformBuilderController@myMessages');

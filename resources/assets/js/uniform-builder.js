@@ -7,7 +7,7 @@ $(document).ready(function () {
 
         window.ub.initialize = function () {
 
-            ub.utilities.maintenanceMessage();
+            // ub.utilities.maintenanceMessage();
 
             ub.errorCodes.prepareShortcuts();
 
@@ -271,7 +271,12 @@ $(document).ready(function () {
         };
 
         ub.funcs.isCustomizerAvailable = function () {
-            return ub.current_material.material.customizer_available === "1";
+            
+            var _one = 1;
+
+            if (window.ub.config.toString) { _one = "1"; }
+            return ub.current_material.material.customizer_available === _one;
+            
         }
 
         ub.funcs.turnOnOrderButton = function () {
@@ -628,7 +633,7 @@ $(document).ready(function () {
                 if (ub.user.id === 1979 && ub.config.material_id === 3810) { ub.showFontGuides(); }
             }
 
-            if (ub.config.useAllColors) {
+            if (ub.branding.useAllColors) {
                 ub.funcs.addAllColorToTeamColors();
             }
 
@@ -1054,7 +1059,6 @@ $(document).ready(function () {
                 ub.displayDoneAt('Configuration of style - ' + ub.config.uniform_name + ' started');
                 ub.utilities.info(' ');
 
-                ub.funcs.init_team_colors();
                 ub.funcs.transformedApplications();
                 ub.funcs.transformedBoundaries();
                 ub.funcs.get_modifier_labels();
@@ -1662,6 +1666,7 @@ $(document).ready(function () {
                     (material.uniform_category === "Lacrosse" && material.type === "lower") || 
                     (material.uniform_category === "Football" && material.type === "lower") ||
                     (material.uniform_category === "Football 2017" && material.type === "lower") ||
+                    (material.uniform_category === "Compression Pant (Apparel)" && material.type === "lower") ||
                     (material.uniform_category === "Crew Socks (Apparel)") || (material.uniform_category === "Socks (Apparel)")) {
                 
                     material.thumbnail_path_left = material.thumbnail_path_front;
@@ -2082,7 +2087,8 @@ $(document).ready(function () {
 
                 if (_application.type === "mascot" && typeof view.application !== "undefined") {
 
-                    var _mascotObj  = _.find(ub.data.mascots, {id: view.application.defaultMascot});
+                    var _mascotID = view.application.defaultMascot;
+                    var _mascotObj  = _.find(ub.data.mascots, {id: _mascotID});
                     var _colorArray = view.application.colors.split(',');
 
                     _output             = {};
@@ -6503,6 +6509,8 @@ $(document).ready(function () {
 
         }
 
+        if (sport === "Wrestling") { sport = "Wrestling 2018"; }
+
         ub.funcs.initUniformsPicker(sport, gender, true);
         ub.funcs.setupEvents();
 
@@ -6971,6 +6979,36 @@ $(document).ready(function () {
 
     }
 
+    ub.funcs.sortBlockPatternForFilters = function (sport, blockPatterns) {
+
+        var _results = blockPatterns;
+        var _temp = []; 
+        var _plucked;
+
+        if (sport === "Wrestling 2018") {
+
+            _.each (blockPatterns, function (blockPattern) {
+
+                var _sortID = ub.data.sortIDs.getSortID(blockPattern);
+                
+                _temp.push({
+                    blockPattern: blockPattern,
+                    sortID: _sortID,
+                });
+
+                _temp = _.sortBy(_temp, "sortID");
+
+            });
+
+            _plucked = _.pluck(_temp, "blockPattern");
+            _results = _plucked;
+
+        }
+
+        return _results;
+
+    };
+
     ub.funcs.initScroller = function (type, items, gender, fromTertiary, _apparel, actualGender) {
 
         ub.funcs.fadeOutElements();
@@ -7216,9 +7254,10 @@ $(document).ready(function () {
             _blockPatternsCollection = [];
             _optionsCollection = [];
 
-            var _tertiaryFiltersBlackList = ['BASEBALL', 'WRESTLING', 'Singlet', 'Fight Short', 'Baseball Pants', 'Compression', 'Volleyball'];
+            var _tertiaryFiltersBlackList = ['BASEBALL', 'WRESTLING', 'Fight Short', 'Baseball Pants', 'Compression', 'Volleyball'];
+            var _sortedBlockPattern = ub.funcs.sortBlockPatternForFilters(gender, _blockPatterns);
 
-            _.each(_blockPatterns, function (option) {
+            _.each(_sortedBlockPattern, function (option) {
 
                 if (_.contains(_tertiaryFiltersBlackList, option)) { return; }
 
@@ -8426,12 +8465,20 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 headers: {"accessToken": (ub.user !== false) ? atob(ub.user.headerValue) : null},
                 success: function (response){
+
+                    var _zero = 0;
+                    var _one = 1;
+
+                    if (ub.config.toString) {
+                        _zero = '0';
+                        _one = '1';
+                    }
    
                     $('div.my-orders-loading').hide();
 
                     var $containerSaved         = $('div.order-list.saved');
                     var template                = $('#m-orders-table').html();
-                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '0'}) };     
+                    var dataSaved               = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _zero}) };     
 
                     dataSaved.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
@@ -8445,7 +8492,7 @@ $(document).ready(function () {
                     var $containerSubmitted     = $('div.order-list.submitted');
                     var template                = $('#m-orders-table').html();
 
-                    var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: '1'}) };
+                    var dataSubmitted           = { orders: _.filter(ub.funcs.parseJSON(response.orders), {submitted: _one}) };
 
                     dataSubmitted.orders.forEach(function (value, i) {
                         value.created_at = util.dateFormat(value.created_at);
@@ -10388,22 +10435,6 @@ $(document).ready(function () {
         // Notification Message
         $.smkAlert({text: 'Updated team roster list', type:'info', permanent: false, time: 5, marginTop: '90px'});
     }
-
-    // function getUniformSuggestions(categoryId) {
-    //     $.ajax({
-    //         url: ub.config.api_host + '/api/materials/suggestions/' + categoryId,
-    //         success: function (response) {
-    //             if (response.success) {
-    //                 $.each(response.materials, function (i, material){
-    //                     if (material.id != ub.config.material_id) {
-    //                         $('.suggestions').append('<a href="#loadMaterial' + material.id + '"><img src="' + material.thumbnail_path + '"></a>');
-    //                     }
-    //                 });
-    //             }
-    //         }
-    //     });
-    // }
-    // getUniformSuggestions(ub.config.category_id);
 
     // Uniform Sizes - Size Clicked Behavior
     $('.uniform-sizes .uniform-size').on('click', onSizeSelect);
