@@ -122,24 +122,43 @@ $(document).ready(function(){
     window.order_code = null;
     window.order_info = null;
 
+    window.qx_reps_url = "{{ env('QX_REPS_URL') }}";
+
     getColors(function(colors){ window.colors = colors; });
     getPatterns(function(patterns){ window.patterns = patterns; });
     getSizingConfig(function(item_sizes){ window.item_sizes = item_sizes; });
-    getSalesReps(function(sales_reps){ window.sales_reps = sales_reps; });
+    // getSalesReps(function(sales_reps){ window.sales_reps = sales_reps; });
+    getQXSalesReps(function(sales_reps){ window.sales_reps = sales_reps; });
 
     var reps_elem = "";
     var active_sales_reps = _.filter(window.sales_reps , function(rep){
-        return rep.active == 1;
+        return rep.IsActive == true;
     });
 
-    _.each(active_sales_reps, function(rep) {
-        reps_elem +=    `<option value=`+rep.rep_id+`>`+rep.last_name+`, `+rep.first_name+` (`+rep.rep_id+`)</option>`;
+    var unique_active_sales_reps = _.uniq(active_sales_reps, function(x){
+        return x.RepID;
     });
+
+    var asc_unique_active_sales_reps = _.sortBy(unique_active_sales_reps, function(o) { return o.LastName.toLowerCase(); })
+
+    _.each(asc_unique_active_sales_reps, function(rep) {
+        reps_elem +=    `<option value=`+rep.RepID+`>`+rep.LastName+`, `+rep.FirstName+` (`+rep.RepID+`) --- `+rep.UserID+`</option>`;
+    });
+    // var active_sales_reps = _.filter(window.sales_reps , function(rep){
+    //     return rep.active == 1;
+    // });
+
+    // _.each(active_sales_reps, function(rep) {
+    //     reps_elem +=    `<option value=`+rep.rep_id+`>`+rep.last_name+`, `+rep.first_name+` (`+rep.rep_id+`)</option>`;
+    // });
 
     window.sales_reps_dd = reps_elem;
 
     $('.rep-id').append(reps_elem);
     $('#orders_table .rep-id').append(reps_elem);
+
+    console.log(window.qx_reps_url);
+    console.log(window.sales_reps_dd);
 
     $(document).on('change', '.rep-id', function(e) {
         var option_selected = $(this).val();
@@ -937,6 +956,24 @@ $(document).ready(function(){
             contentType: 'application/json',
             success: function(data){
                 sales_reps = data['sales_reps'];
+                if(typeof callback === "function") callback(sales_reps);
+            }
+        });
+    }
+
+    function getQXSalesReps(callback){
+        var sales_reps;
+        var url = window.qx_reps_url;
+
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                sales_reps = data;
                 if(typeof callback === "function") callback(sales_reps);
             }
         });

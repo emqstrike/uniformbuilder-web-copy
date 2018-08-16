@@ -96,7 +96,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="../tables/simple.html"><i class="fa fa-comments"></i> Feedbacks</a></li>
-            <li><a href="../tables/simple.html"><i class="fa fa-object-ungroup"></i> Inksoft Designs</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/inksoft_designs/search"><i class="fa fa-object-ungroup"></i> Inksoft Designs</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-linux"></i> Logo Requests</a></li>
             <li><a href="{{ route('saved_designs') }}"><i class="fa fa-image"></i> Saved Designs</a></li>
             <li><a href="../tables/data.html"><i class="fa fa-tags"></i> Tagged Styles</a></li>
@@ -141,7 +141,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/colors"><i class="fa fa-paint-brush"></i> Colors<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
-            <li><a href="../layout/boxed.html"><i class="fa fa-paint-brush"></i> Color Set</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/colors_sets"><i class="fa fa-paint-brush"></i> Colors Sets<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
         </li>
 

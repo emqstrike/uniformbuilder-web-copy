@@ -219,6 +219,7 @@ class MaterialsOptionsController extends Controller
         $applications_properties = $request->input('applications_properties');
         $default_display = $request->input('default_display');
         $build_type = $request->input('build_type');
+        $pattern_opacity = $request->input('pattern_opacity');
 
         if( is_null($default_display) ){
             $default_display = "color";
@@ -248,7 +249,8 @@ class MaterialsOptionsController extends Controller
             'pattern_properties' => $pattern_properties,
             'default_display' => $default_display,
             'build_type' => $build_type,
-            'part_type' => $partType
+            'part_type' => $partType,
+            'pattern_opacity' => $pattern_opacity
         ];
 // dd(json_encode($data));
         try

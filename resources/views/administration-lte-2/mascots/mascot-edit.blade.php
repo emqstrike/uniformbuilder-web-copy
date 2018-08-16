@@ -176,11 +176,29 @@
 
 @section('custom-scripts')
 
-<script type="text/javascript" src="/js/administration/mascots.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 
     $( "#static_row" ).hide();
+
+    $('#colors_textarea').hide();
+
+    $( "#layers-row-container" ).disableSelection();
+    $( "#layers-row-container" ).sortable({
+        start: function( ) {
+            $('.ui-sortable-placeholder').css('background-color','#e3e3e3');
+        },
+        stop: function( ) {
+            var length = $('.layers-row').length;
+            $(".layers-row").each(function(i) {
+                $(this).find(".layer-number").text(length);
+                $(this).find(".layer-number").val(length);
+                length = length-1;
+            });
+            var newLength = $('.layers-row').length;
+            renumberRows(newLength);
+        }
+    });
 
     $(document).on('click', '.clone-row-mascot', function() {
         console.log('clone');
@@ -364,6 +382,22 @@ $(document).ready(function(){
         $('#layers-properties').val(layersProperties);
         $('#existing-colors-properties').val(layersProperties);
     }
+
+    $(document).on("click", "a.btn-remove-layer", function(){
+        var length = 0;
+        $(".layers-row").each(function(i) {
+            length++;
+        });
+        $(this).closest('tr').remove();
+        length--;
+        var ctr = length;
+        $(".layers-row").each(function(i) {
+            $(this).find(".layer-number").text(ctr);
+            $(this).find(".layer-number").val(ctr);
+            ctr--;
+        });
+        renumberRows(length);
+    });
 
     if($('#sports_value').val()){
         var sports = JSON.parse($('#sports_value').val());

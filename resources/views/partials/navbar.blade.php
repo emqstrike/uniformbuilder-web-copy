@@ -30,7 +30,6 @@
                             <li><a href="/styles/men/fan-replica-jersey" class="sport-link-icons">Fan Replica Jersey</a></li>
                             <li><a href="/styles/men/compression-pant" class="sport-link-icons">Compression Pant</a></li>
                             <li><a href="/styles/men/team-shorts" class="sport-link-icons">2017 Team Short with Pockets</a></li>
-                            <li><a href="/styles/men/wrestling-compression-shorts" class="sport-link-icons">Wrestling Compression Shorts</a></li>
                             <li><a href="/styles/men/signature-coaches-short" class="sport-link-icons">Signature Coaches Short</a></li>
                             <li><a href="/styles/men/cinch-sack" class="sport-link-icons">Cinch Sack</a></li>
                             <li><a href="/styles/men/socks" class="sport-link-icons">Socks</a></li>
