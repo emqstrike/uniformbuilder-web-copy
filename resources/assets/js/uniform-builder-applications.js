@@ -3762,7 +3762,7 @@ $(document).ready(function() {
                 var _obj    = _.find(ub.data.modifierLabels, {fullname: _result});
                 var _index  = ub.funcs.getIndexByName(_result);
 
-                ub.funcs.activatePartByIndex(_index);   
+                ub.funcs.activatePartByIndex(_index);
 
             }
             else {
