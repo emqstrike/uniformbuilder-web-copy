@@ -106,11 +106,11 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard']);
         //Master Lists
 
-        Route::get('/fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex']);
+        Route::get('/master_fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex']);
 
-        Route::get('/fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex']);
+        Route::get('/master_fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex']);
 
-        Route::get('/patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@patternsIndex']);
+        Route::get('/master_patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@patternsIndex']);
 
         Route::get('/colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index']);
         Route::get('/master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex']);
