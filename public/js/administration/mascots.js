@@ -5,14 +5,14 @@ $(document).ready(function() {
                 //sport sample data string ["baseball","batketball"]
                 var sports = $(this).attr("data-sports").replace(/[\[\]']+/g, '').replace(/['"]+/g, '');
                 sports = sports.split(',');
-                for (i = 0; i < sports.length; i++) {               
+                for (i = 0; i < sports.length; i++) {
                     console.log(sports[i]);
                     $(this).addClass(sports[i]);
-                }             
-               
+                }
+
             }
-        
-        
+
+
         });
 
     try{
@@ -23,18 +23,24 @@ $(document).ready(function() {
             }
         });
 
-        $('#filters').on( 'click', 'button', function() {
-             var filterValue = $( this ).attr('data-filter') + "" + $("#filterSports .btn-primary").attr('data-filter');
-             console.log(filterValue);         
-             $container.isotope({ filter: filterValue });
- 
-            
+         $(document).on('click', '.brand-filter', function() {
+            $(".brand-filter").removeClass('btn-primary');
+            $(this).addClass('btn-primary');
+            var filterValue = $( this ).val() + "" + $("#filterSports .btn-primary").attr('data-filter')+ "" + $("#filters .btn-primary").attr('data-filter');
+            console.log(filterValue);
+            $container.isotope({ filter: filterValue });
         });
+
+        $('#filters').on( 'click', 'button', function() {
+            var filterValue = $( this ).attr('data-filter') + "" + $("#filterSports .btn-primary").attr('data-filter')+ "" + $('.brand-filter.btn-primary').val();
+            console.log(filterValue);
+            $container.isotope({ filter: filterValue });
+        });
+
         $('#filterSports').on( 'click', 'button', function() {
-              var filterValue = $( this ).attr('data-filter') + "" + $("#filters .btn-primary").attr('data-filter'); 
-              console.log(filterValue);
-       
-             $container.isotope({ filter: filterValue });
+            var filterValue = $( this ).attr('data-filter') + "" + $("#filters .btn-primary").attr('data-filter')+ "" + $('.brand-filter.btn-primary').val();
+            console.log(filterValue);
+            $container.isotope({ filter: filterValue });
          });
 
         $('.button-group').each( function( i, buttonGroup ) {
@@ -43,11 +49,11 @@ $(document).ready(function() {
                 $buttonGroup.find('.btn-primary').removeClass('btn-primary');
                 $( this ).addClass('btn-primary');
             });
-        }); 
+        });
     } catch(err){
         console.log(err.message);
     }
-    
+
 
     var layers_properties = {};
     var length = $('.layers-row').length;
@@ -56,7 +62,7 @@ $(document).ready(function() {
     $('#colors_textarea').hide();
 
     var x_csrf_token = $('#x-csrf-token').val();
-    console.log("x-csrf-token"+x_csrf_token);
+    // console.log("x-csrf-token"+x_csrf_token);
 
     rebind();
     toggler();
@@ -77,7 +83,7 @@ $(document).ready(function() {
                 // headers: {"accessToken": atob(headerValue), "X-CSRF-TOKEN": x_csrf_token},
                 headers: {"accessToken": atob(headerValue), "X-CSRF-TOKEN": x_csrf_token},
                 success: function(response){
-                    console.log(response);                    
+                    console.log(response);
                     if (response.success) {
                         $('#mascots_container_box').html('');
                         $('#mascots_container_box').html(response.html).fadeIn("slow");
@@ -120,14 +126,14 @@ $(document).ready(function() {
                     }
                 }
             });
-        }); 
+        });
         $('.toggle-mascot-typographic').on('click', function(){
-            
+
             var id = $(this).data('mascot-id');
             console.log(id);
              var url = "//" + api_host + "/api/mascot/toggle_typographic/";
             //  var url = "//localhost:8888/api/mascot/toggle_typographic/";
-          
+
              $.ajax({
                 url: url,
                 type: "POST",
@@ -148,7 +154,7 @@ $(document).ready(function() {
                     }
                 }
             });
-        }); 
+        });
     }
 
     $('.delete-mascot').on('click', function(){
@@ -188,7 +194,7 @@ $(document).ready(function() {
 
         var id = $(this).data('value');
         var url = "//" + api_host + "/api/mascot/delete/";
-       
+
         $.ajax({
             url: url,
             type: "POST",
@@ -212,7 +218,7 @@ $(document).ready(function() {
             }
         });
 
- 
+
     });
 
     $(document).on('change', function() {
@@ -272,7 +278,7 @@ $(document).ready(function() {
             $(this).find(src_class).addClass('ma-options-src');
 
             var hexString = $(this).find(default_color_class).val()
-            
+
             if(hexString.replace('#','')){
                 hexString = hexString.replace('#','');
             }
@@ -282,9 +288,9 @@ $(document).ready(function() {
              layers_properties[length]['filename'] = $(this).find('.default_img').val();
             if($(this).find(src_class).val()){
             layers_properties[length]['filename'] = $(this).find(src_class).val();
-            
+
                 }
-            
+
             layers_properties[length]['team_color_id'] = $(this).find(team_color_id_class).val();
 
             length--;
@@ -325,7 +331,7 @@ $(document).ready(function() {
 
         $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
             $(document).on("change", ".ma-default-color", function(){
-        
+
             var color = $('option:selected', this).data('color');
             $(this).css('background-color', color);
         });

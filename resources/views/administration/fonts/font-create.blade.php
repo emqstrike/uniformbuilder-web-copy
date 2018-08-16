@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -16,15 +16,15 @@ li.select2-selection__choice {
 .inputs {
     width: 45px;
 }
-.table td, 
+.table td,
 .table th {
     white-space: nowrap;
     width: 1%;
 }
 .test + .tooltip > .tooltip-inner {
-      background-color: #73AD21; 
-      color: #FFFFFF; 
-      border: 1px solid green; 
+      background-color: #73AD21;
+      color: #FFFFFF;
+      border: 1px solid green;
       padding: 15px;
       font-size: 20px;
   }
@@ -81,7 +81,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-5 control-label">Font Name</label>
                             <div class="col-md-4">
-                                <input type="name" class="form-control font-name" name="name" value="{{ old('name') }}">
+                                <input type="name" class="form-control font-name" name="name" value="{{ old('name') }}" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -112,7 +112,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-5 control-label">Upload Font File</label>
                             <div class="col-md-4 material">
-                                <input type="file" class="form-control font-file" name="font_path" accept="font/*">
+                                <input type="file" class="form-control font-file" name="font_path" accept="font/*" required>
                             </div>
                         </div>
 
@@ -155,6 +155,16 @@ li.select2-selection__choice {
                                     <option value="All" selected>All</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="form-group">
+                                <label class="col-md-5 control-label">Brand</label>
+                                <div class="col-md-4">
+                                <select class="form-control brand" name="brand">
+                                        <option value="none">None</option>
+                                        <option value="prolook">Prolook</option>
+                                        <option value="richardson">Richardson</option>
+                                </select>
+                              </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-5 control-label">Tail Sweep Properties</label>
@@ -455,9 +465,26 @@ $(document).ready(function(){
         var newLength = $('.layers-row').length;
     });
 
+    $(document).on('click', '.btn-remove-layer', function() {
+        var rowCount = $('.layers-row').length;
+        console.log('rowCount ', rowCount);
+        
+        if (rowCount > 1) {
+            $(this).closest('tr').remove();
+            var newRowCount = $('.layers-row').length;
+
+            $(".layers-row").each(function(i) {
+                $(this).find(".layer-number").text(newRowCount);
+                $(this).find(".layer-number").val(newRowCount);
+                newRowCount--;
+            });
+        }
+    });
+
     function renumberRows(length){
         layers_properties = {};
         $(".layers-row").each(function(i) {
+            console.log(i);
             var thisLayer = "layer"+length;
             var layer_class = ".fo-layer.layer" + length;
 

@@ -42,14 +42,6 @@
                                 <input type="hidden" id="recepient_id">
                             </div>
                         </div>
-                        <!-- <div class="form-group">
-                            <label class="col-md-4 control-label">Body</label>
-                            <div class="col-md-6">
-                                <textarea class="form-control message-content" id="message_content"></textarea>
-                                <br>
-                                <a href="#" class="btn btn-primary">Send</a>
-                            </div>
-                        </div> -->
                         <div class="form-group">
                             <label class="col-md-4 control-label">Body</label>
                             <div class="col-md-8">
@@ -79,7 +71,7 @@
 <script>
 $(document).ready(function(){
 
-    tinymce.init({ 
+    tinymce.init({
 
         selector:'textarea.message-content'
 
@@ -95,10 +87,7 @@ $(document).ready(function(){
     function saveEditor(){
 
         window.mce = tinyMCE.activeEditor.getContent();
-        // console.log('MCE: ' + window.mce);
         $('#message').val(window.mce);
-        // console.log('Recepient ID: ' + $('#recepient_id').val());
-        // console.log('KEY: ' + atob(headerValue));
 
         var recepient_id = $('#recepient_id').val();
         var content = window.mce;
@@ -124,7 +113,6 @@ $(document).ready(function(){
             headers: {"accessToken": atob(headerValue)},
             success: function(response){
                 if (response.success) {
-                    // var elem = '.material-' + id;
                     new PNotify({
                         title: 'Success',
                         text: response.message,
@@ -140,7 +128,6 @@ $(document).ready(function(){
     getAdmins(function(admins){ window.admins = admins; });
     function getAdmins(callback){
         var admins;
-        // var url = "//api-dev.qstrike.com/api/users/admins";
         var url = "//" + api_host + "/api/users/admins";
         $.ajax({
             url: url,

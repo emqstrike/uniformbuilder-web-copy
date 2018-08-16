@@ -62,12 +62,13 @@ $(document).ready(function () {
         oImg.applyFilters(canvas.renderAll.bind(canvas));
         canvas.renderAll();
 
-        setTimeout(function(){ 
-                var _dUrl = canvas.toDataURL();
-            _.each(_patternObj.layers, function (l) {
-                
-                $('svg#svg_pcw' + l.layer_no + ' > defs > pattern > image').attr('xlink:href', _dUrl);
+        setTimeout(function() {             
+            var _dUrl = canvas.toDataURL();
 
+            _.each(_patternObj.layers, function (l) {
+
+                $('svg#svg_pcw' + l.layer_no + ' > defs > pattern > image').attr('xlink:href', _dUrl);
+                
             });    
 
         }, 50);
@@ -79,6 +80,7 @@ $(document).ready(function () {
             var layer = _.find(_settingsObject.pattern.pattern_obj.layers, {layer_no: layerID.toString()});
 
             layer.color = _tintColor;
+            layer.color_code = colorOBJ.color_code;
             
             var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
 
@@ -538,6 +540,8 @@ $(document).ready(function () {
         var _uniform_type               = ub.current_material.material.type;
         var app_containers              = ub.current_material.containers[_uniform_type].application_containers;
 
+        _patternObject                  = JSON.parse(JSON.stringify(_patternObject)); // deep copy
+        
         var _primaryView = ub.funcs.getPrimaryView(settingsObj.application);
         var _spriteCollection = ub.objects[_primaryView + '_view']['objects_' + settingsObj.code];
 
@@ -569,13 +573,9 @@ $(document).ready(function () {
 
             }
             
-            
-            
         });
-
-        var _patternObj = _.find(ub.data.patterns.items, {id: patternID.toString()});
-
-        settingsObj.pattern_obj = _patternObj;
+        
+        settingsObj.pattern_obj = _patternObject;
 
         if (typeof settingsObj.pattern_obj === 'object') {
 
@@ -794,6 +794,7 @@ $(document).ready(function () {
         var _materialOption = materialOption;
 
         var _htmlBuilder    = "<div id='patternUI'>";
+
         var _patternName    = _patternObj.name;
         var _thumbnail      = _patternObj.icon;
 
@@ -860,8 +861,8 @@ $(document).ready(function () {
 
                 $("path#arc" + index + '-' + layerID).on("click", function () {
 
-                    $("path.arc-" + layerID).attr("class", "growStroke arc-" + layerID);
-                    $(this).attr("class", "selectedStroke growStroke arc-" + layerID);
+                   $("path.arc-" + layerID).attr("class", "growStroke arc-" + layerID);
+                   $(this).attr("class", "selectedStroke growStroke arc-" + layerID);
 
                    var _colorID           = $(this).data('color-id');
                    var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});

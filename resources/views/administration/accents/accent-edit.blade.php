@@ -1,9 +1,5 @@
 @extends('administration.lte-main')
 
-
-
-
-
 @section('content')
 
 <link rel="stylesheet" type="text/css" href="/css/selectize.default.css">
@@ -85,12 +81,21 @@
                                  <input type="text"  value="{{ $accent->name }}" class="form-control inputText" id="fName" name="name" placeholder="">
                             </fieldset>
                             <fieldset class="form-group">
+                                <label for="formGroupExampleInput">Alias : </label>
+                                 <input type="text"  value="{{ $accent->alias }}" class="form-control inputText" id="fAlias" name="alias" placeholder="">
+                            </fieldset>
+                            <fieldset class="form-group">
                                 <label for="formGroupExampleInput">Code : </label>
                                  <input type="text" value="{{ $accent->code }}" name="code" class="form-control" id="fCode" placeholder="">
                             </fieldset>
                              <fieldset class="form-group">
                                 <label for="formGroupExampleInput">Thumbnail : </label>
-                                  <input type="file" class="form-control thumbnail-file" name="thumbnail_path" accept="image/*">
+                                @if ($accent->thumbnail_path)
+                                    <br>
+                                    <img src="{{ $accent->thumbnail_path }}" alt="">
+                                    <input type="hidden" name="thumbnail_path" value="{{ $accent->thumbnail_path }}">
+                                @endif
+                                <input type="file" class="form-control thumbnail-file" name="thumbnail_path_uploader" accept="image/*">
                             </fieldset>                              
                             <fieldset class="form-group">
                                 <label for="formGroupExampleInput">Size : </label>

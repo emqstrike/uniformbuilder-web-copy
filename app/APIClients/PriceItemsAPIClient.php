@@ -20,4 +20,13 @@ class PriceItemsAPIClient extends APIClient
         }
         return $price_items;
     }
+
+    public function createPriceItem($data)
+    {
+        $response = $this->post('price_item', [
+            'json' => $data
+        ]);
+        return $this->decoder->decode($response->getBody());
+
+    }
 }

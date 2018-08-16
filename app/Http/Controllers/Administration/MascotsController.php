@@ -250,6 +250,7 @@ class MascotsController extends Controller
         $category = $request->input('category');
         // $team_color_id = $request->input('team_color_id');
         $layersProperties = $request->input('layers_properties');
+        $brand = $request->input('brand');
 
 
         $sports = explode(",", $request->input('sports_value'));
@@ -259,7 +260,8 @@ class MascotsController extends Controller
             'category' => $category,
             // 'team_color_id' => $team_color_id,
             'layers_properties' => $layersProperties,
-            'sports' => $sports
+            'sports' => $sports,
+            'brand' => $brand
         ];
 
 
@@ -308,23 +310,25 @@ class MascotsController extends Controller
         try
         {
             $mascotLayerFiles = $request->file('ma_image');
-            $ctr = count($mascotLayerFiles);
-            foreach ($mascotLayerFiles as $mascotLayerFile) {
-                if (!is_null($mascotLayerFile))
-                {
-                    if ($mascotLayerFile->isValid())
+            $ctr = count((array) $mascotLayerFiles);
+            if (is_array($mascotLayerFiles) || is_object($mascotLayerFiles)) {
+                foreach ($mascotLayerFiles as $mascotLayerFile) {
+                    if (!is_null($mascotLayerFile))
                     {
-                        $filename = Random::randomize(12);
-                        $myJson[(string)$ctr]['filename'] = FileUploader::upload(
-                                                                    $mascotLayerFile,
-                                                                    $mascotName,
-                                                                    'material_option',
-                                                                    "materials",
-                                                                    "{$materialFolder}/{$filename}.png"
-                                                                );
+                        if ($mascotLayerFile->isValid())
+                        {
+                            $filename = Random::randomize(12);
+                            $myJson[(string)$ctr]['filename'] = FileUploader::upload(
+                                                                        $mascotLayerFile,
+                                                                        $mascotName,
+                                                                        'material_option',
+                                                                        "materials",
+                                                                        "{$materialFolder}/{$filename}.png"
+                                                                    );
+                        }
                     }
+                    $ctr--;
                 }
-                $ctr--;
             }
         }
 

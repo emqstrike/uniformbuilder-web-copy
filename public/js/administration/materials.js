@@ -716,13 +716,15 @@ $(document).ready(function() {
         var default_text            = '<input type="text" style="' + style + '; float: left; width: 300px;" class="app-default-text" data-id="' + canvasFront.getObjects().indexOf(group) + '"><br>';
         var vertical_text           = '<input type="checkbox" style="' + style + '" class="app-vertical-text" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
         var default_number          = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" size="3" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
-        var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '">';
+        var rotated_tailsweep       = '<input type="checkbox" style="' + style + '" class="app-rotated-tailsweep" value="1" data-id="' + canvasFront.getObjects().indexOf(group) + '"><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: "><span class="glyphicon glyphicon-info-sign"></span></a>';
         var embellishment           = '<input type="checkbox" style="' + style + '" class="app-embellishment" value="1">';
         var inksoft_design_id       = '<input type="number" style="' + style + '" class="app-inksoft-design-id" value="" size="3">';
         var app_opacity             = '<input type="number" style="' + style + '" class="app-opacity" size="2" value="100">';
         var def_pattern_position    = '<input type="number" style="' + style + '" class="app-def-pattern-position" size="2" value="0">';
         var app_default_pattern     = `<select style="` + style + `" class="app-def-pattern" data-id="` + group.id + `">` + def_patterns_options + `</select><div class="col-md-12 app_pattern_layers_OC" data-id="` + group.id + `" id="app_pattern_layers_OC"></div><input type="hidden" style="` + style + `" data-id="` + group.id + `" class="app-pattern-properties" value=`+blank_pattern+`>`;
-        var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1">';
+        var custom_scale_x          = '<input type="text" style="' + style + '" class="app-custom-scale-x" value="0" size="4">';
+        var custom_scale_y          = '<input type="text" style="' + style + '" class="app-custom-scale-y" value="0" size="4">';
+        var flipped                 = '<input type="checkbox" style="' + style + '" class="app-flipped" value="1"><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: "><span class="glyphicon glyphicon-info-sign"></span></a>';
 
         var flip = "<a href='#' data-id='" + group.id + "' class='btn btn-xs btn-primary app-rotation-flip'>Flip</a>";
 
@@ -747,6 +749,7 @@ $(document).ready(function() {
                     app_y,
                     app_primary,
                     app_logo,
+                    embellishment,
                     app_team_name,
                     app_player_name,
                     app_number,
@@ -760,11 +763,12 @@ $(document).ready(function() {
                     default_text,
                     vertical_text,
                     default_number,
-                    embellishment,
                     inksoft_design_id,
                     app_opacity,
                     def_pattern_position,
                     app_default_pattern,
+                    custom_scale_x,
+                    custom_scale_y,
                     flipped,
                     flip
                 ];
@@ -889,7 +893,21 @@ $(document).ready(function() {
 
         updateApplicationsJSON();
 
+        $(document).on('change', '.app-id', function(){
+            var temp_app_id = $(this).val();
+            $(this).parent().find('.appTooltip').data('message', 'App #: '+temp_app_id);
+        });
+
+        $('[data-toggle="tooltip"]').popover({
+            html: true,
+            trigger: 'hover',
+            placement: 'top',
+            content: function(){
+                return $(this).data('message');
+            }
+        });
     });
+
 
     $(document).on('click', '.delete-application', function() {
         var itemIdx = $(this).data('id');
@@ -1326,7 +1344,23 @@ $(document).ready(function() {
         $('#save-material-option-applications-modal .material-id').val(material.id);
         $('#save-material-option-applications-modal .modal-title span').html("Edit: " + material.option.name);
         $('#save-material-option-applications-modal').modal('show');
+
+        $(document).on('change', '.app-id', function(){
+            var temp_app_id = $(this).val();
+            $(this).parent().parent().find('.appTooltip').data('message', 'App #: '+temp_app_id);
+        });
+
+        $('[data-toggle="tooltip"]').popover({
+            html: true,
+            trigger: 'hover',
+            placement: 'top',
+            content: function(){
+                return $(this).data('message');
+            }
+        });
     });
+
+
 
     $('.edit-material-option-info').on('click', function(){
         $('#pattern_layers_OC').html('');
@@ -1345,6 +1379,7 @@ $(document).ready(function() {
             option: {
                 id: $(this).data('material-option-id'),
                 name: $(this).data('material-option-name'),
+                part_type: $(this).data('material-option-part-type'),
                 origin: $(this).data('material-option-origin'),
                 layer_level: $(this).data('material-option-layer-level'),
                 default_color: $(this).data('material-option-default-color'),
@@ -1371,6 +1406,7 @@ $(document).ready(function() {
                 pattern_properties: ($(this).data('pattern-properties')),
                 default_display: ($(this).data('default-display')),
                 build_type: ($(this).data('build-type')),
+                pattern_opacity: ($(this).data('pattern-opacity')),
             }
         };
         console.log('TESTER' + material.option.pattern_properties);
@@ -1397,6 +1433,9 @@ $(document).ready(function() {
         $('.material-id').prop("value", material.id);
         $('.material-option-id').prop("value", material.option.id);
         $('#material-option-name').val(material.option.name);
+        $('#saved-part-type').val(material.option.part_type);
+        $('#saved-part-type').text(material.option.part_type);
+        $('#saved-part-type').attr('selected','selected');
         $('#group_id').val(material.option.group_id);
         $('#saved-setting-type').val(material.option.type);
         $('#saved-setting-type').text(material.option.type);
@@ -1416,6 +1455,12 @@ $(document).ready(function() {
         $('#saved-perspective').val(material.option.perspective);
         $('#saved-perspective').text(material.option.perspective + " View");
         $('#saved-perspective').attr('selected','selected');
+
+        if(material.option.pattern_opacity == null || material.option.pattern_opacity == "" || material.option.pattern_opacity == undefined) {
+            $('#pattern-opacity').val(100);
+        } else {
+            $('#pattern-opacity').val(material.option.pattern_opacity);
+        }
 
         $('#is_blend').prop('checked', false);
         $('#allow_pattern').prop('checked', false);
@@ -1568,7 +1613,7 @@ $(document).ready(function() {
         $('#default_display').html('');
         $('#default_display').append( default_display_options );
 
-
+        $('#saved-part-type').attr('selected',true);
         $('#saved-setting-type').attr('selected',true);
         $('#saved-perspective').attr('selected',true);
         $('#edit-material-option-info-modal .material-option-path').attr('src', material.option.path);
@@ -1641,6 +1686,16 @@ $(document).ready(function() {
             group.setCoords();
             canvasFront.add(group);
 
+
+            if(app_properties[l].appCustomScale === '' || app_properties[l].appCustomScale === null || app_properties[l].appCustomScale === 'undefined' || app_properties[l].appCustomScale === undefined) {
+                var appCustomScaleX = 0;
+                var appCustomScaleY = 0;
+            } else {
+                appCustomScaleX = app_properties[l].appCustomScale.x;
+                appCustomScaleY = app_properties[l].appCustomScale.y;
+            }
+
+
             if(app_properties[l].id != null){
 
                 var style                   = 'margin-right: 5px';
@@ -1686,7 +1741,7 @@ $(document).ready(function() {
                 var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '" >';
                 var default_mascot      = '<input type="textbox" class="mascotFilter"><select style=' + style + ' id="default_mascot_' + c + '" class="app-default-mascot default_mascot_' + c + '" data-id="' + c + '"></select><input type="hidden" class="app-mascot-value amv' + c + '" id="amv' + c + '" value="' + app_properties[l].defaultMascot + '">';
                 var app_accents         = '<select style=' + style + ' id="default_accent_' + c + '" class="app-default-accent" data-id="' + c + '"></select><input type="hidden" class="app-accent-value amv' + c + '" id="amv' + c + '" >';
-                var default_tailsweep            = '<select style=' + style + ' id="default_tailsweep_' + c + '" class="app-default-tailsweep" data-id="' + c + '"></select><input type="hidden" class="app-tailsweep-value amv' + c + '" id="amv' + c + '" >';
+                var default_tailsweep   = '<select style=' + style + ' id="default_tailsweep_' + c + '" class="app-default-tailsweep" data-id="' + c + '"></select><input type="hidden" class="app-tailsweep-value amv' + c + '" id="amv' + c + '" >';
                 var app_font = "";
                 if(app_properties[l].hasOwnProperty('defaultFont')){
                     app_font = app_properties[l].defaultFont;
@@ -1732,7 +1787,6 @@ $(document).ready(function() {
                 var optionsOk = _.contains(sport, current_bp_options) || bp_options === null || bp_options === '[""]';
                     return (sportOk && optionsOk && asset_target === current_asset_target);
                 });
-                console.log('def'+app_properties[l].appDefPattern);
                 // set BLANK pattern for existing
                 if(app_properties[l].appDefPattern === '' || app_properties[l].appDefPattern === null || app_properties[l].appDefPattern === 'undefined' || app_properties[l].appDefPattern === undefined) {
                     app_properties[l].appDefPattern = 33;
@@ -1753,11 +1807,13 @@ $(document).ready(function() {
                 var default_number      = '<input type="number" style="' + style + '; float: left; width: 90px;" class="app-default-number" data-id="' + group.id + '" value="' + app_number + '">';
                 var embellishment       = '<input type="checkbox" style="'  + style + '" class="app-embellishment" value="1" '         + embellishment_checked                    + '>';
                 var inksoft_design_id   = '<input type="number" style="'      + style + '" class="app-inksoft-design-id" value="'        + app_properties[l].inksoftDesignID       + '" size="3">';
-                var flipped             = '<input type="checkbox" style="'  + style + '" class="app-flipped" value="1" '         + flipped_checked                    + '>';
+                var flipped             = '<input type="checkbox" style="'  + style + '" class="app-flipped" value="1" '         + flipped_checked                    + '><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: ' + app_properties[l].id + '"><span class="glyphicon glyphicon-info-sign"></span></a>';
                 var app_opacity         = '<input type="number" style="'      + style + '" class="app-opacity" value="'        + app_properties[l].appOpacity       + '" size="2">';
                 var def_pattern_position= '<input type="number" style="'      + style + '" class="app-def-pattern-position" value="'        + app_properties[l].appDefPatternPosition       + '" size="2">';
                 var app_default_pattern = `<select style='` + style + `'; float: left; width: 300px;" class="app-def-pattern" data-id='` + group.id + `'>'` + def_patterns_options + `'</select><div class="col-md-12 app_pattern_layers_OC" data-id='` + group.id + `' id="app_pattern_layers_OC"></div><input type="hidden" style='` + style+ `' class="app-pattern-properties" data-id='` + group.id + `' value='` +app_properties[l].appPatternProperties+ `'>`;
-                var rotated_tailsweep   = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '>';
+                var custom_scale_x      = `<input type="text" style="` + style + `" class="app-custom-scale-x" value="`         + appCustomScaleX     + `" size="4">`;
+                var custom_scale_y      = '<input type="text" style="' + style + '" class="app-custom-scale-y" value='          + appCustomScaleY     + ' size="4">'
+                var rotated_tailsweep   = '<input type="checkbox" style="'  + style + '" class="app-rotated-tailsweep" value="1" data-id="' + group.id + '" '        + rotated_tailsweep_checked                   + '><a href="#" class="appTooltip" data-toggle="tooltip" data-message="App #: ' + app_properties[l].id + '"><span class="glyphicon glyphicon-info-sign"></span></a>';
 
                 // Append options to selectbox
                 var select_append       = '<select class="app-def-item" style="' + style + '" data-id="' + c + '">';
@@ -1783,6 +1839,7 @@ $(document).ready(function() {
                     app_y,
                     app_primary,
                     app_logo,
+                    embellishment,
                     app_team_name,
                     app_player_name,
                     app_dnumber,
@@ -1797,11 +1854,12 @@ $(document).ready(function() {
                     default_text,
                     vertical_text,
                     default_number,
-                    embellishment,
                     inksoft_design_id,
                     app_opacity,
                     def_pattern_position,
                     app_default_pattern,
+                    custom_scale_x,
+                    custom_scale_y,
                     flipped,
                     flip
                 ];
@@ -2437,7 +2495,7 @@ $(document).ready(function() {
 
     function getColors(callback){
         var colors;
-        var url = "//api-dev.qstrike.com/api/colors";
+        var url = "//" + api_host + "/api/colors";
         $.ajax({
             url: url,
             async: false,
@@ -2452,10 +2510,9 @@ $(document).ready(function() {
         });
     }
 
-        function getAccents(callback){
-        var mascots;
-       var url = "//api-dev.qstrike.com/api/accents";
-        // var url = "//localhost:8888/api/accents";
+    function getAccents(callback){
+       var accents;
+       var url = "//" + api_host + "/api/accents";
         $.ajax({
             url: url,
             async: false,
@@ -2464,15 +2521,14 @@ $(document).ready(function() {
             crossDomain: true,
             contentType: 'application/json',
             success: function(data){
-                    accents = $(data['accents']).filter(function (i,n){return n.active==="1" });
-
+                    accents = $(data['accents']).filter(function (i,n){return n.active == 1 });
                 if(typeof callback === "function") callback(accents);
             }
         });
     }
     function getTailsweeps(callback){
         var tailsweep;
-       var url = "//api-dev.qstrike.com/api/tailsweeps";
+       var url = "//" + api_host + "/api/tailsweeps";
      //var url = "//localhost:8888/api/tailsweeps";
         $.ajax({
             url: url,
@@ -2492,7 +2548,7 @@ $(document).ready(function() {
 
     function getFonts(callback){
         var mascots;
-        var url = "//api-dev.qstrike.com/api/fonts";
+        var url = "//" + api_host + "/api/fonts";
         $.ajax({
             url: url,
             async: false,
@@ -2509,7 +2565,7 @@ $(document).ready(function() {
 
     function getMascots(callback){
         var mascots;
-        var url = "//api-dev.qstrike.com/api/mascots";
+        var url = "//" + api_host + "/api/mascots";
         $.ajax({
             url: url,
             async: false,
@@ -2526,7 +2582,7 @@ $(document).ready(function() {
 
     function getPatterns(callback){
         var patterns;
-        var url = "//api-dev.qstrike.com/api/patterns";
+        var url = "//" + api_host + "/api/patterns";
         $.ajax({
             url: url,
             async: false,
@@ -2623,10 +2679,11 @@ $(document).ready(function() {
     function generateTRow(fields){
         var tr = '<tr class="application-row">';
         var c = 0;
+
         fields.forEach(function(entry) {
-            if( c === 15 ){
+            if( c === 16 ) {
                 tr += '<td class="msc">' + entry + '</td>';
-            } else if(c === 16){
+            } else if(c === 17){
                 tr += '<td class="tsc">' + entry + '</td>';
             }else {
                 tr += '<td>' + entry + '</td>';
@@ -3527,6 +3584,7 @@ function updateApplicationsJSON(){
         appDefPatternPosition = $(this).parent().siblings('td').find("input[class=app-def-pattern-position]").val();
         appDefPattern = $(this).parent().siblings('td').find("select[class=app-def-pattern]").val();
         appPatternProperties = $(this).parent().siblings('td').find("input[class=app-pattern-properties]").val();
+
         isFlipped = $(this).parent().siblings('td').find("input[class=app-flipped]");
 
         console.log('ACCENT >>>>>>' + applicationAccents);
@@ -3648,6 +3706,8 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx]['appDefPattern'] = {};
         applicationProperties[itemIdx]['appPatternProperties'] = {};
 
+        applicationProperties[itemIdx]['appCustomScale'] = {};
+
         applicationProperties[itemIdx].type = applicationType;
         applicationProperties[itemIdx].name = applicationName;
         applicationProperties[itemIdx].id = applicationId;
@@ -3677,6 +3737,9 @@ function updateApplicationsJSON(){
         applicationProperties[itemIdx].appDefPatternPosition = appDefPatternPosition;
         applicationProperties[itemIdx].appDefPattern = appDefPattern;
         applicationProperties[itemIdx].appPatternProperties = appPatternProperties;
+
+        applicationProperties[itemIdx].appCustomScale.x = $(this).parent().siblings('td').find("input[class=app-custom-scale-x]").val();
+        applicationProperties[itemIdx].appCustomScale.y = $(this).parent().siblings('td').find("input[class=app-custom-scale-y]").val();
 
         applicationProperties[itemIdx].isFlipped = isFlipped;
 

@@ -40,28 +40,18 @@
     position: absolute; top: 0; bottom: 0;
     right: 37px;
     border: 2px solid #999999; border-radius: 9px;
-    transition: all 0.3s ease-in 0s; 
+    transition: all 0.3s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
     margin-left: 0;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px; 
+    right: 0px;
 }
 </style>
 @endsection
 
 @section('content')
-
-@if (Session::has('message'))
-<div class="alert alert-{{ Session::get('alert-class') }} alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
-
-    <strong class='flash-sub-title'></strong><span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
 
 <section class="content">
     <div class="row">
@@ -160,6 +150,7 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
+<script type="text/javascript" src="/js/administration/datatables.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/administration/block-patterns.js"></script>
@@ -173,6 +164,15 @@ $(document).ready(function(){
         "info": true,
         "autoWidth": false
     });
+
+    @if (Session::has('message'))
+    new PNotify({
+        title: 'Success',
+        text: "{{ Session::get('message') }}",
+        type: 'success',
+        hide: true
+    });
+@endif
 });
 </script>
 @endsection

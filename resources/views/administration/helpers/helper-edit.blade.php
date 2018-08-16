@@ -16,18 +16,9 @@ li.select2-selection__choice {
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-info">
-                <div class="panel-heading">Add New Helper</div>
+                <div class="panel-heading">Edit Helper</div>
                 <div class="panel-body">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @include('administration.partials.validation-error')
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/helper/update" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -36,7 +27,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Feature Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="feature" value="{{ $helper->feature }}">
+                                <input type="name" class="form-control" name="feature_name" value="{{ $helper->feature }}">
                             </div>
                         </div>
 
@@ -73,8 +64,8 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-8">
-                                <textarea class="form-control helper-description" name=""></textarea>
-                                <input type="hidden" name="description" id="description" value="{{ $helper->description }}">
+                                <textarea class="form-control helper-description" name="description"></textarea>
+                                <input type="hidden" id="description" value="{{ $helper->description }}">
                             </div>
                         </div>
 
@@ -165,7 +156,7 @@ $(document).ready(function(){
     var related = JSON.parse($('#related_value').val());
 console.log(related);
     $('.sports').select2({
-        placeholder: "Select user types",
+        placeholder: "Select sports",
         multiple: true,
         allowClear: true
     });

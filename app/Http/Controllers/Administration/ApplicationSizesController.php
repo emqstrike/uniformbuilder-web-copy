@@ -44,7 +44,7 @@ class ApplicationSizesController extends Controller
     public function addForm()
     {
         $sports = $this->uniformCategoriesClient->getUniformCategories();
-        $block_patterns = $this->blockPatternClient->getBlockPatterns();  
+        $block_patterns = $this->blockPatternClient->getBlockPatterns();
 
         return view('administration.applications.application-size-create', [
             'block_patterns' => $block_patterns,
@@ -68,11 +68,12 @@ class ApplicationSizesController extends Controller
     public function store(Request $request)
     {
         $name = $request->input('name');
-        $uniform_category_id = $request->input('uniform_category_id');        
+        $uniform_category_id = $request->input('uniform_category_id');
         $notes = $request->input('notes');
         $type = $request->input('type');
         $uniform_application_type = $request->input('uniform_application_type');
         $properties = $request->input('properties');
+        $brand = $request->input('brand');
 
         if( $request->input('block_pattern_value') ){
             $block = explode(",", $request->input('block_pattern_value'));
@@ -93,8 +94,9 @@ class ApplicationSizesController extends Controller
             'notes' => $notes,
             'type' => $type,
             'uniform_application_type' => $uniform_application_type,
-            'properties' => $properties
-        ];        
+            'properties' => $properties,
+            'brand' => $brand
+        ];
         $id = null;
         if (!empty($request->input('application_size_id')))
         {

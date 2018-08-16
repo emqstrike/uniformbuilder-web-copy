@@ -56,8 +56,7 @@ getMaterials(function(materials){ window.materials = materials; });
 
 function getMaterials(callback){
     var materials;
-    var url = "//api-dev.qstrike.com/api/materials";
-    // var url = "localhost:8888/api/materials";
+    var url = "//" +api_host+ "/api/materials";
     $.ajax({
         url: url,
         async: false,
@@ -72,7 +71,6 @@ function getMaterials(callback){
     });
 }
 
-// console.log(window.materials);
 var group = {};
 $.each(window.materials, function(index, item){
     var name = item.name;
@@ -94,14 +92,7 @@ $.each(window.materials, function(index, item){
     };
 
     group[price_item].materials.push(nArr);
-    // group[price_item].materials[name] = {
-    //     material_id: item.id,
-    //     item_id: item.item_id,
-    //     material_name: name
-    // }
 });
-
-// console.log( group );
 
 $.each(group, function(index, item){
     console.log(item);
@@ -156,7 +147,7 @@ $.each(group, function(index, item){
             });
             elem_adult += '</tr></tbody></table>';
         } catch(err){
-            // console.log(err.log);
+
         }
 
         try{
@@ -170,17 +161,15 @@ $.each(group, function(index, item){
             });
             elem_youth += '</tr></tbody></table>';
         } catch(err){
-            // console.log(err.log);
+
         }
-// console.log(elem_adult);
+
         var elem = '<tr>';
         elem += '<td class="alert alert-' + pi_alert + '"><small>' + p_item.price_item + '</td>';
         elem += '<td class="alert alert-' + iid_alert + '"><small>' + item.item_id + '</td>';
         elem += '<td><small>' + item.material_id + '</td>';
         elem += '<td><small>' + item.material_name + '</td>';
-        // elem += '<td class="alert alert-' + msrp_alert + '"><small>' + p_item.msrp + '</td>';
         elem += '<td class="alert alert-' + msrp_alert + '">' + elem_adult + '</td>';
-        // elem += '<td class="alert alert-' + wps_alert + '"><small>' + p_item.web_price_sale + '</td>';
         elem += '<td class="alert alert-' + msrp_alert + '">' + elem_youth + '</td>';
         elem +='</tr>';
         $('#contents').append(elem);

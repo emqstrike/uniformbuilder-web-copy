@@ -201,6 +201,7 @@ class MaterialsOptionsController extends Controller
 
         $materialOptionName = $request->input('name');
         $settingType = $request->input('setting_type');
+        $partType = $request->input('part_type');
         $layerLevel = $request->input('layer_level');
         $teamColorId = $request->input('team_color_id');
         $groupId = $request->input('group_id');
@@ -218,6 +219,7 @@ class MaterialsOptionsController extends Controller
         $applications_properties = $request->input('applications_properties');
         $default_display = $request->input('default_display');
         $build_type = $request->input('build_type');
+        $pattern_opacity = $request->input('pattern_opacity');
 
         if( is_null($default_display) ){
             $default_display = "color";
@@ -246,7 +248,9 @@ class MaterialsOptionsController extends Controller
             'pattern_id' => $patternId,
             'pattern_properties' => $pattern_properties,
             'default_display' => $default_display,
-            'build_type' => $build_type
+            'build_type' => $build_type,
+            'part_type' => $partType,
+            'pattern_opacity' => $pattern_opacity
         ];
 // dd(json_encode($data));
         try
@@ -378,23 +382,26 @@ class MaterialsOptionsController extends Controller
         {
             $materialOptionFiles = $request->file('mo_image');
             $ctr = 0;
-            foreach ($materialOptionFiles as $materialOptionFile) {
-                $item = 'item'.$ctr;
-                if (!is_null($materialOptionFile))
-                {
-                    if ($materialOptionFile->isValid())
+
+            if ($materialOptionFiles) {
+                foreach ($materialOptionFiles as $materialOptionFile) {
+                    $item = 'item'.$ctr;
+                    if (!is_null($materialOptionFile))
                     {
-                        $filename = Random::randomize(12);
-                        $data['input'][$item]['material_option_path'] = FileUploader::upload(
-                                                                    $materialOptionFile,
-                                                                    $materialOptionNames[$ctr],
-                                                                    'material_option',
-                                                                    "materials",
-                                                                    "{$materialFolder}/options/{$settingTypes[$ctr]}/{$filename}.png"
-                                                                );
+                        if ($materialOptionFile->isValid())
+                        {
+                            $filename = Random::randomize(12);
+                            $data['input'][$item]['material_option_path'] = FileUploader::upload(
+                                                                        $materialOptionFile,
+                                                                        $materialOptionNames[$ctr],
+                                                                        'material_option',
+                                                                        "materials",
+                                                                        "{$materialFolder}/options/{$settingTypes[$ctr]}/{$filename}.png"
+                                                                    );
+                        }
                     }
+                    $ctr++;
                 }
-                $ctr++;
             }
         }
         catch (S3Exception $e)

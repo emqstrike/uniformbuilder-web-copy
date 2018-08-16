@@ -3,9 +3,20 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
+    .tt-menu {
+        background: #fff;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    }
 
-    
+    .tt-suggestion.tt-selectable {
+        border-bottom: 1px solid #e1e1e1;
+        cursor: pointer;
+        padding: 5px 10px;
+    }
 
+    .tt-suggestion.tt-selectable:hover {
+        background: #e1e1e1;
+    }
 </style>
 @endsection
 
@@ -29,23 +40,23 @@
                     @endif
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/dealers/add" enctype="multipart/form-data" id='dealers_form'>
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">                        
-                                           
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-4">
                                <input type="text" name="name" class="form-control">
                             </div>
-                        </div>                       
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-4">
                               <input type="text" name="description" class="form-control">
                             </div>
-                        </div>                        
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Manager</label>
-                            <div class="col-md-4">                                
+                            <div class="col-md-4">
                                 <input type="text" class="form-control site_manager typeahead" id="site_manager" placeholder="Enter name...">
                                 <input type="hidden" id="site_manager_user_id" name="site_manager_user_id">
                             </div>
@@ -106,7 +117,6 @@ $(function(){
     getAdmins(function(users){ window.users = users; });
     function getAdmins(callback){
         var users;
-        // var url = "//api-dev.qstrike.com/api/users";
         var url = "//" + api_host + "/api/users";
         $.ajax({
             url: url,
@@ -188,6 +198,6 @@ $(function(){
             $('.create-dealer').attr("disabled", false);
         }
     });
-});   
+});
 </script>
 @endsection

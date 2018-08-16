@@ -48,6 +48,21 @@ class OrdersAPIClient extends APIClient
         return $orders;
     }
 
+    public function getOrdersMinified()
+    {
+        $endpoint = 'ordersMinified';
+
+        $response = $this->get($endpoint);
+        $result = $this->decoder->decode($response->getBody());
+
+        $orders = [];
+        if ($result->success)
+        {
+            $orders = $result->orders;
+        }
+        return $orders;
+    }
+
     public function getTestOrders()
     {
         $response = $this->get('orders/test_orders');
@@ -73,6 +88,19 @@ class OrdersAPIClient extends APIClient
             $orders = $result->orders;
         }
         return $orders;
+    }
+
+    public function searchOrderByFOID($foid)
+    {
+        $response = $this->get('orders/search_order_by_foid/'.$foid);
+        $result = $this->decoder->decode($response->getBody());
+
+        $order = [];
+        if ($result->success)
+        {
+            $order = $result->order;
+        }
+        return $order;
     }
 
     public function getStats($year = null, $month = null, $day = null)
@@ -187,6 +215,19 @@ class OrdersAPIClient extends APIClient
             return $result->orders;
         }
         return null;
+    }
+
+    public function getTotalCount()
+    {
+        $response = $this->get('orders/getAllOrders/noLimit/total_count');
+        $result = $this->decoder->decode($response->getBody());
+        $count = 0;
+
+        if ($result->success) {
+            $count = $result->count;
+        }
+        
+        return $count;
     }
 
     public function getAllOrdersNoLimit()

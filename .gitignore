@@ -1,3 +1,4 @@
+/homestead
 /vendor
 /node_modules
 Homestead.yaml
@@ -8,3 +9,4 @@ Homestead.yaml
 Vagrantfile
 after.sh
 aliases
+\.idea/

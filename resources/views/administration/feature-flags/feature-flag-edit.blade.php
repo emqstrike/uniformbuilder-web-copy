@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -36,21 +36,21 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Feature Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="name" value="{{ $feature_flag->name }}">
+                                <input type="name" class="form-control" name="name" value="{{ $feature_flag->name }}" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Group</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="group" value="{{ $feature_flag->group }}">
+                                <input type="name" class="form-control" name="group" value="{{ $feature_flag->group }}" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Category</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="category" value="{{ $feature_flag->category }}">
+                                <input type="name" class="form-control" name="category" value="{{ $feature_flag->category }}" required>
                             </div>
                         </div>
 
@@ -123,14 +123,14 @@ li.select2-selection__choice {
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">State</label>
-                            <div class="col-md-6">
-                                <input type="name" class="form-control" name="state" value="{{ $feature_flag->state }}">
+                            <label class="col-md-4 control-label">State (Abbreviation)</label>
+                            <div class="col-md-1">
+                                <input type="name" id="state_input" class="form-control" maxlength="2" name="state" value="{{ $feature_flag->state }}" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Sports</label>
+                            <label class="col-md-4 control-label">Uniform Category</label>
                             <div class="col-md-6">
                                 <input type="hidden" name="sports_value" id="sports" value="{{ $feature_flag->sports }}">
                                 <select name="sports[]" class="form-control sports" multiple="multiple">
@@ -178,8 +178,17 @@ $(document).ready(function(){
         allowClear: true
     });
 
+    var maxStateChars = $("#state_input");
+    var max_length = maxStateChars.attr('maxlength');
+    if (max_length > 0) {
+        maxStateChars.bind('keyup', function(e){
+            length = new Number(maxStateChars.val().length);
+            counter = max_length-length;
+            $("#sessionNum_counter").text(counter);
+        });
+    }
+
     $(".user-types").change(function() {
-        // console.log($(this).val());
         $('#user_types_value').val($(this).val());
     });
 
@@ -192,13 +201,11 @@ $(document).ready(function(){
     });
 
     $(".user-roles").change(function() {
-        // console.log($(this).val());
         $('#user_roles_value').val($(this).val());
     });
 
     $('.user-roles').select2('val', user_roles);
 
-    // ************** USERS
 
     $('.users').select2({
         placeholder: "Select users",
@@ -207,7 +214,6 @@ $(document).ready(function(){
     });
 
     $(".users").change(function() {
-        // console.log($(this).val());
         $('#users').val($(this).val());
     });
 
@@ -220,18 +226,10 @@ $(document).ready(function(){
     }
 
 
-    // ************** END USERS
-
-
-
-
-
-
-
     var sports = JSON.parse($('#sports').val());
 
     $('.sports').select2({
-        placeholder: "Select user types",
+        placeholder: "Select Uniform Category",
         multiple: true,
         allowClear: true
     });

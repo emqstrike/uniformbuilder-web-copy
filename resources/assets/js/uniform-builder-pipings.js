@@ -140,12 +140,13 @@ $(document).ready(function () {
 
             // Remove 'Left' from caption
             $('span.piping > span.caption').each(function (index) {
-                var text= $(this).context.innerHTML;
+
+                if (typeof $(this)[0] !== "object") { return; }
+
+                var text = $(this)[0].innerHTML;
 
                 if (text.indexOf('Left') > -1) {
-
                     $('span.piping[data-piping-name="' + text + '"]').find('span.caption').html(text.replace('Left ', ''));
-
                 }
                 
             });
@@ -882,6 +883,8 @@ $(document).ready(function () {
                 if (typeof piping.colors_array !== "undefined") {
 
                     _.each(piping.colors_array, function (color, index) {
+
+                        // if (color === "none") { return; } // historical: causing disabled layers error, verify piping setup
 
                         var _color = ub.funcs.getColorByColorCode(color);
                         

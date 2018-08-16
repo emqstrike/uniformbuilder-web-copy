@@ -8,16 +8,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Modify Block Pattern</div>
                 <div class="panel-body">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @include('administration.partials.validation-error')
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/block_pattern/update" enctype="multipart/form-data" id='edit-block-pattern-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -36,6 +27,14 @@
                             <div class="col-md-6">
                                 <img  class="img-thumbnail" src="{{ $block_pattern->thumbnail_path }}" style="height: 210px; width: 140px;">
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_file" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Thumbnail File</label>
+                            <div class="col-md-6">
+                                <img  class="img-cut-preview" src="{{ $block_pattern->cut_preview }}" style="height: 210px; width: 140px;">
+                                <input type="file" class="form-control cut-preview-file" name="cut_preview" accept="image/*">
                             </div>
                         </div>
 

@@ -24,10 +24,9 @@ class MessagesController extends Controller
         $user_id = Session::get('userId');
         $messages = $this->client->getByRecipient($user_id);
 
-        return $messages;
-        // return view('administration.messages.messages', [
-        //     'messages' => $messages
-        // ]);
+        return view('administration.messages.messages', [
+            'messages' => $messages
+        ]);
     }
 
     public function composeForm()
@@ -35,4 +34,8 @@ class MessagesController extends Controller
         return view('administration.messages.message-compose');
     }
 
+    public function delete($id)
+    {
+        $result = $this->client->delete($id);
+    }
 }

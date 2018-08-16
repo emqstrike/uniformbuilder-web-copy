@@ -14,18 +14,8 @@
     </a>
     <ul class="treeview-menu">
       <li data-position='right'>
-        <a href="/administration/orders">
-          <i class="glyphicon glyphicon-list-alt"></i> <span>Pending Orders</span>
-        </a>
-      </li>
-      <li data-position='right'>
-        <a href="/administration/orders/test_orders">
-          <i class="glyphicon glyphicon-list-alt"></i> <span>Test Orders</span>
-        </a>
-      </li>
-      <li>
-        <a href="/administration/orders/sent_orders">
-          <i class="glyphicon glyphicon-ok"></i> <span>Sent Orders</span>
+        <a href="/administration/{{ env('ENDPOINT_VERSION') }}/ordersMinified">
+          <i class="glyphicon glyphicon-list-alt"></i> <span>Orders *NEW*</span>
         </a>
       </li>
     </ul>
@@ -71,6 +61,13 @@
           <i class="fa fa-info-circle"></i> <span>Total Records</span>
         </a>
       </li>
+
+      <li data-step="6" data-intro="Analytics">
+          <a href="{{ route('analytics') }}">
+              <i class="fa fa-bar-chart"></i>
+              <span>Analytics</span>
+          </a>
+      </li>
     </ul>
   </li>
 
@@ -81,7 +78,7 @@
         </a>
 
         <ul class="treeview-menu">
-            <li>
+      <!--       <li>
                 <a href="/administration/artwork_requests" >
                     <i class="glyphicon glyphicon-picture"></i> <span>Artwork Requests (Orders)</span>
                 </a>
@@ -96,7 +93,7 @@
                     <i class="glyphicon glyphicon-picture"></i>
                     <span>Custom Artwork Requests</span>
                 </a>
-            </li>
+            </li> -->
             <li>
                 <a href="/administration/logo_requests" >
                     <i class="glyphicon glyphicon-picture"></i> <span>Logo Requests ( ALL )</span>
@@ -158,7 +155,7 @@
         </a>
       </li>
       <li data-step="9" data-intro="For Materials settings.">
-        <a href="/administration/materials/Football">
+        <a href="/administration/materials/Football 2017">
           <i class="fa fa-cubes"></i> <span>Materials</span>
         </a>
       </li>
@@ -172,11 +169,11 @@
           <i class="fa fa-cubes"></i> <span>Fabric Factory</span>
         </a>
       </li>
-      <li data-step="9" data-intro="For Mockup Sets.">
+<!--       <li data-step="9" data-intro="For Mockup Sets.">
         <a href="/administration/mockup_sets">
           <i class="fa fa-cubes"></i> <span>Mockup Sets</span>
         </a>
-      </li>
+      </li> -->
       <li data-step="9" data-intro="For Materials settings.">
         <a href="/administration/news_letters">
           <i class="fa fa-cubes"></i> <span>News Letters</span>
@@ -315,18 +312,6 @@
       <span>Cuts Links</span>
       </a>
   </li>
-  <li data-position='right'>
-    <a href="/administration/dealers">
-      <i class="fa fa-handshake-o"></i>
-      <span>Dealers</span>
-      </a>
-  </li>
-  <!-- <li data-position='right'>
-    <a href="/administration/style_requests">
-      <i class="fa fa-file-text-o"></i>
-      <span>Style Requests</span>
-      </a>
-  </li> -->
   <li class="treeview" data-step="3" data-intro="For builder settings." data-position='right'>
     <a href="#" >
       <i class="fa fa-file-text-o"></i>
@@ -392,5 +377,30 @@
           </li>
 
         </ul>
+  </li>
+  <li class="treeview" data-step="3" data-intro="For Clients settings." data-position='right'>
+      <a href="#">
+      <i class="fa fa-handshake-o"></i>
+      <span>Clients</span>
+        <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li  data-step="17" data-intro="For Brands settings.">
+            <a href="/administration/brandings">
+            <i class="fa fa-industry"></i> <span>Brands</span>
+            </a>
+          </li>
+          <li  data-step="17" data-intro="For Dealders settings.">
+            <a href="/administration/dealers">
+          <i class="fa fa-handshake-o"></i> <span>Dealers</span>
+          </a>
+          </li>
+        </ul>
+  </li>
+  <li data-position='right'>
+    <a href="/administration/user_pairings">
+      <i class="fa fa-link"></i>
+      <span>User Pairings</span>
+      </a>
   </li>
 </ul>

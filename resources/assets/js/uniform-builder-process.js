@@ -1,5 +1,24 @@
 $(document).ready(function() {                    
 
+    ub.funcs.isSocks = function () {
+
+        if (typeof ub.current_material.material === "undefined") { return false; }
+
+        return ub.funcs.isCurrentSport("Crew Socks (Apparel)") || ub.funcs.isCurrentSport("Socks (Apparel)");
+    }
+
+    ub.funcs.isFootball = function () {
+        
+        return ub.config.sport === "Football" || ub.config.sport === "Football 2017";
+        
+    };
+
+    ub.funcs.isLower = function () {
+
+        return ub.config.type === "lower";
+        
+    }
+
     ub.funcs.fadeOutCustomizer = function () {
 
 
@@ -51,22 +70,6 @@ $(document).ready(function() {
 
     }
 
-    ub.funcs.getActiveSizes = function () {
-
-        var _activeSizes = [];
-
-        $('span.size[data-status="on"]').each (function () {
-
-            var _size = $(this).data('size').toString();
-            
-            _activeSizes.push(_size);
-
-        });
-
-        return _activeSizes;
-
-    }
-
     ub.funcs.removeSizesTabs = function (size) {
 
         $('span.tabButton[data-size="' + size + '"]').hide();
@@ -90,6 +93,23 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.getActiveSizes = function () {
+
+        var _activeSizes = [];
+
+        $('span.size[data-status="on"]').each (function () {
+
+            var _size = $(this).data('size').toString();
+            
+            _activeSizes.push(_size);
+
+        });
+
+        return _activeSizes;
+
+    }
+
+  
     ub.funcs.reInitHover = function () {
 
         $('tr.roster-row').hover(
@@ -135,12 +155,11 @@ $(document).ready(function() {
 
     ub.funcs.hideColumns = function () {
 
-
         // Hide lastname, sleevetype and lastname application on everything except football
-        if (!ub.funcs.isCurrentSport('Football')) {
-
+        if (!ub.funcs.isFootball() || ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)) {
+        
             $('td.sleevetype, td.lastnameapplication, th.sleevetype, th.lastnameapplication').hide();
-            
+
         }
 
         // Hide Lastname on Socks
@@ -283,8 +302,8 @@ $(document).ready(function() {
             });
             
             if (
-                !ub.funcs.isCurrentSport('Football') ||
-                (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "BLB") || 
+                !ub.funcs.isFootball() || 
+                (ub.funcs.isFootball() && ub.current_material.material.factory_code === "BLB") || 
                 ub.current_material.material.price_item_code === "FBMJ"
             )
             {
@@ -346,7 +365,7 @@ $(document).ready(function() {
         var _sleeveType          = row.find('select.sleeve-type').val();
         var _lastNameApplication = row.find('select.lastname-application').val();
 
-        if (!ub.funcs.isCurrentSport('Football')) {
+        if (!ub.funcs.isFootball()) {
 
             _sleeveType = 'N/A';
             
@@ -555,24 +574,22 @@ $(document).ready(function() {
         var _user_email = ub.user.email;
 
         if (typeof _user_id === "undefined") {
-
             _user_id = 0;
             _user_email = '';
-
         }
 
         var _postData = {
-
             "subject" : "Feedback",
             "order_code" : "",
             "content" : message,
             "type" : "feedback",
             "email" : _user_email,
-            "user_id" : _user_id,
-
         };
 
-        var _url = 'http://api-dev.qstrike.com/api/feedback';
+        // Have a user id passed only when a user is logged in
+        if (typeof ub.user.id !== "undefined") { _postData.user_id = _user_id; }
+
+        var _url = ub.config.api_host + '/api/feedback';
         //delete $.ajaxSettings.headers["X-CSRF-TOKEN"];
 
         $.ajax({
@@ -915,18 +932,7 @@ $(document).ready(function() {
             _user_id = 0;
         }
 
-        var _type = '';
-        
-        if (ub.current_material.material.factory_code === "BLB") {
-
-            _type = "Sublimated";
-
-        } else {
-
-            _type ="Tackle Twill";
-
-        }
-
+        var _type = ub.config.uniform_application_type.toTitleCase(); 
         var _submitted = '1';
 
         if (typeof save === "number") {
@@ -944,6 +950,7 @@ $(document).ready(function() {
                 user_id: _user_id,
                 user_name: ub.user.fullname,
                 origin: ub.config.app_env,
+                test_order: ub.funcs.submitAsTestOrder(),
 
             },
             athletic_director: {
@@ -984,6 +991,7 @@ $(document).ready(function() {
             order_items: [
                 {
 
+                    brand: ub.current_material.material.brand,
                     item_id: _itemID,
                     description: _uniformName,
                     type: ub.current_material.material.type,
@@ -994,6 +1002,7 @@ $(document).ready(function() {
                     roster: _transformedRoster,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
+                    application_type: ub.config.uniform_application_type, 
                     additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
 
@@ -1082,6 +1091,10 @@ $(document).ready(function() {
 
     };
 
+    ub.funcs.submitAsTestOrder = function () {
+        return ub.config.features.isOn('uniforms','testOrders') ? 1 : 0;
+    };
+
     // This is a dublicate of the Submit Order Form, refactor this
     ub.funcs.prepareData = function () {
 
@@ -1153,17 +1166,7 @@ $(document).ready(function() {
 
         });
 
-        var _type = '';
-
-        if (ub.current_material.material.factory_code === "BLB") {
-
-            _type = "Sublimated";
-
-        } else {
-
-            _type ="Tackle Twill";
-
-        }
+        var _type = ub.config.uniform_application_type.toTitleCase(); 
 
         var orderInput = {
 
@@ -1174,6 +1177,7 @@ $(document).ready(function() {
                 material_id: ub.current_material.material.id,
                 url: ub.config.host + window.document.location.pathname,
                 user_name: ub.user.fullname,
+                test_order: ub.funcs.submitAsTestOrder(),
             },
             athletic_director: {
 
@@ -1210,6 +1214,7 @@ $(document).ready(function() {
             },
             order_items: [
                 {
+                    brand: ub.current_material.material.brand,
                     item_id: _itemID,
                     type: ub.current_material.material.type,
                     description: _uniformName,
@@ -1223,8 +1228,10 @@ $(document).ready(function() {
                     url: ub.config.host + window.document.location.pathname,
                     price: ub.funcs.getPrice(ub.current_material.material),
                     applicationType: _type,
+                    application_type: ub.config.uniform_application_type, 
                     additional_attachments: ub.data.orderAttachment,
                     notes: _notes,
+
                 },
             ]
         };        
@@ -1685,10 +1692,8 @@ $(document).ready(function() {
     ub.funcs.submitUniform = function (orderInfo) {
 
         if ($('tr.roster-row').length === 0) {
-            
-            $.smkAlert({text: 'Please add Sizes and Roster before proceeding.', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+            ub.funcs.noRosterMessage();
             return;
-            
         }
 
         ub.funcs.perUniformValidation(orderInfo);
@@ -1868,7 +1873,7 @@ $(document).ready(function() {
             ub.funcs.addPlayerToRoster(player);
             _lastSize = player.Size;
 
-            if (ub.current_material.settings.uniform_category === "Football") {
+            if (ub.funcs.isFootball()) {
 
                 var _numberObject = _.find(ub.data.playerNumbers, {number: player.Number})
                 _numberObject.status = "used";
@@ -1884,9 +1889,12 @@ $(document).ready(function() {
 
     ub.funcs.modifyOrderFormUIBySport = function () {
 
-        if (ub.funcs.isSocks()) { 
-            $('span.adult-sizes').html('SHOE SIZES: '); 
-            $('span.adult-header').html('Shoe Sizes: '); 
+        if (ub.funcs.isSocks()) {
+            $('span.adult-sizes').html('ADULT SHOE SIZES: '); 
+            $('span.adult-header').html('Adult Shoe Sizes: '); 
+
+            $('span.youth-sizes').html('YOUTH SHOE SIZES: '); 
+            $('span.youth-header').html('Youth Shoe Sizes: '); 
         }
 
     }
@@ -2096,11 +2104,12 @@ $(document).ready(function() {
         ub.funcs.hideColumns();
 
         // // Hide Last Name Application and Sleeve Type when not tackle twill football
-                
+
         if (
-            !ub.funcs.isCurrentSport('Football') ||
-            (ub.funcs.isCurrentSport('Football') && ub.current_material.material.factory_code === "BLB") || 
-            ub.current_material.material.price_item_code === "FBMJ"
+            !ub.funcs.isFootball() ||
+            (ub.funcs.isFootball() && ub.current_material.material.factory_code === "BLB") || 
+            ub.current_material.material.price_item_code === "FBMJ" ||
+            ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)
         )
         {
 
@@ -2132,7 +2141,10 @@ $(document).ready(function() {
 
                 _size           = $(this).data('size');
 
-                if (!ub.funcs.isCurrentSport('Wrestling') && ub.current_material.material.uniform_group !== "Apparel") {
+                if (!ub.funcs.isCurrentSport('Wrestling') && 
+                    ub.current_material.material.uniform_group !== "Apparel" && 
+                    !ub.data.numberPopupExcemptions.isValid(ub.config.sport, ub.config.type)
+                    ) {
 
                     _numbers    = ub.funcs.createNumbersSelectionPopup(_size);
 
@@ -2179,6 +2191,11 @@ $(document).ready(function() {
         $('span.add-item-to-order').unbind('click');
         $('span.add-item-to-order').on('click', function () {
 
+            if ($('span.size[data-status="on"]').length === 0) {
+                ub.funcs.noRosterMessage();
+                return;
+            }
+
             ub.funcs.submitUniform(ub.data.orderInfo);
 
         });
@@ -2223,6 +2240,10 @@ $(document).ready(function() {
 
     }
 
+    ub.funcs.noRosterMessage = function () {
+        $.smkAlert({text: 'Please add Sizes and Roster before proceeding.', type:'warning', permanent: false, time: 5, marginTop: '90px'});
+    }
+
     ub.funcs.goto = function (location) {
 
         var _location = location;
@@ -2254,7 +2275,34 @@ $(document).ready(function() {
 
     ///// Save Design //////
 
-         ub.funcs.updatePopup = function () {
+        ub.funcs.checkEmailPopup = function () {
+
+            var _designName = $('input.design-name').val();
+            $('div.save-design').fadeOut();
+            
+            var template = $('#m-save-design-guest').html();
+            var data = { title: 'Save Design', designName: _designName };
+            var markup = Mustache.render(template, data);
+
+            var dialog = bootbox.dialog({
+                title: 'Success!',
+                message: markup,
+            });
+
+            dialog.init(function() {
+
+                $('button.close').unbind('click');
+                $('button.close').on('click', function () {
+                   
+                    dialog.modal('hide');
+
+                });
+
+            });
+            
+        }    
+
+        ub.funcs.updatePopup = function () {
 
             var _designName = $('input.design-name').val();
             $('div.save-design').fadeOut();
@@ -2392,7 +2440,11 @@ $(document).ready(function() {
                     
                     if (response.success) {
 
-                        ub.funcs.updatePopup();
+                        if (typeof window.ub.user.type !== "undefined") {
+                            ub.funcs.checkEmailPopup();
+                        } else {
+                            ub.funcs.updatePopup();    
+                        }
 
                         var is_add_to_team_store = false;
                         if (typeof($('#is_add_to_team_store').val()) == "undefined") {
@@ -2486,19 +2538,19 @@ $(document).ready(function() {
 
         ub.funcs.cleanupsBeforeSave = function () {
 
-            // Remove Disabled Random Feeds
-            var _disabledRandomFeed = {};
+            // // Remove Disabled Random Feeds
+            // var _disabledRandomFeed = {};
             
-            _.each(ub.current_material.settings.randomFeeds, function (randomFeed, key) {
+            // _.each(ub.current_material.settings.randomFeeds, function (randomFeed, key) {
                 
-                if (randomFeed.enabled === 0) {
+            //     if (randomFeed.enabled === 0) {
 
-                    _disabledRandomFeed[key] = randomFeed;
-                    delete ub.current_material.settings.randomFeeds[key];
+            //         _disabledRandomFeed[key] = randomFeed;
+            //         delete ub.current_material.settings.randomFeeds[key];
 
-                }
+            //     }
 
-            });
+            // });
 
         }
 
@@ -2606,7 +2658,7 @@ $(document).ready(function() {
 
     /// LREST
 
-    ub.funcs.lRest = function (e, p, fromMiddleScreen) {
+    ub.funcs.lRest = function (e, p, fromMiddleScreen, src) {
 
         if (e.trim().length === 0 || p.trim().length === 0) { return; }
 
@@ -2656,23 +2708,24 @@ $(document).ready(function() {
                     $('a.change-view[data-view="save"]').removeClass('disabled');
                     $('a.change-view[data-view="open-design"]').removeClass('disabled');
 
-                    if (typeof fromMiddleScreen !== 'undefined') {
+                    if (typeof fromMiddleScreen !== 'undefined') { // from order btn clicked or save button
 
                         $('div#primaryQuickRegistrationPopup').remove();
-                        ub.funcs.initRoster();
+
+                        if (src === "order") {
+                            ub.funcs.initRoster();
+                        } else if (src === "save") {
+                            ub.funcs.initSaveDesign();
+                        }
 
                     } else {
 
                         // Return to pickers, if not editing any material
                         if(typeof ub.current_material.material === "undefined") {
-
                             window.location.href = "/";
-
                         } else { 
-
                             ub.funcs.ok();
                             ub.funcs.checkDefaultRepID();
-
                         }
 
                     }
@@ -2683,14 +2736,10 @@ $(document).ready(function() {
                 } else {
 
                     if (typeof fromMiddleScreen !== 'undefined') {
-                        
                         var _forgotPasswordLink = ' <a href="/forgot-password" target="_new">did you forget your password?</a>';
                         $('em.message').html(response.message + ", " + _forgotPasswordLink);
-
                     } else {
-
                         $.smkAlert({text: response.message, type: 'warning', time: 3, marginTop: '260px'});
-
                     }
 
                 }

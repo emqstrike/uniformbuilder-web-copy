@@ -225,51 +225,6 @@ $(document).ready(function () {
 
     };
 
-
-
-    ub.funcs.ui.hideTeamColorPicker = function () {
-
-        var $teamColorPicker = $('div.team_color_picker_options');
-        
-        $teamColorPicker.hide();
-        $teamColorPicker.data('status', 'closed');
-        $teamColorPicker.unbind('clickoutside');
-
-    };
-
-    ub.funcs.ui.showTeamColorPicker = function (input) {
-
-        var $teamColorPicker = $('div.team_color_picker_options');
-
-        $teamColorPicker.unbind('clickoutside');
-        $teamColorPicker.fadeIn('fast');
-        $teamColorPicker.data('team-color-id', input.teamColorID);
-        $teamColorPicker.data('status', 'open');
-
-        $teamColorPicker.css({
-
-            'display': 'block',
-            'left': input.left,
-            'top': input.top,
-
-        });
-        
-        $teamColorPicker.bind('clickoutside', function (event) {
-
-            if (event.target.className !== "team_color_picker_item team_color_item_on"){
-
-                if ($teamColorPicker.data('status') !== 'close') {
-
-                    ub.funcs.ui.hideTeamColorPicker();    
-
-                }
-
-            }
-            
-        });
-
-    };
-
     ub.funcs.tennGuardTemp = function (name) {
 
         var _name = '';
@@ -284,133 +239,6 @@ $(document).ready(function () {
         return _name;
 
     }
-
-    ub.funcs.init_team_colors = function () {
-
-        // Cancel if loading from a saved order or design
-        if (typeof window.ub.temp === "string") { return; }
-
-        var $teamColorPicker = $('div.team_color_picker_options');
-        var selector = 'div.team_color_picker_item';
-        var team_color_picker = $('#team-color-main-picker').html();
-        var $colorItemsContainer = $('div.team_color_picker_options > div.color_items_container');
-        var _colorSet = ub.funcs.ui.getColorSet('Body','non-sublimated');
-
-        var template = $('#m-color-picker-buttons').html();
-
-        var data = {
-            colors: _colorSet,
-            abbr: function () {
-
-                return ub.funcs.tennGuardTemp(this.name);
-
-            }
-        };
-
-        var _markup = Mustache.render(template, data);
-        $colorItemsContainer.html(_markup);
-
-        $team_picker_item = $(selector);
-        $(selector).on('click', function (e) {
-
-            var _dataID         = $(this).data('id');
-            var _allowance      = 10;
-            var _status         = $teamColorPicker.data('status');
-            var _allowance_left = 5 + 10; // 10 is the space on the left and the right of the dialog, 5 is the padding
-
-            if (_status === 'open') {
-
-                if (_dataID === $('div.team_color_picker_options').data('team-color-id')) { // second click on the same team color id, hide the dialog instead of opening
-
-                    ub.funcs.ui.hideTeamColorPicker();
-                    return;    
-
-                }
-                else { // dialog already open but switching to another team id 
-
-                    $teamColorPicker.hide();
-
-                }
-
-            }
-            
-            $rightPaneColumn = $('#right-pane-column');
-            rPosition = $rightPaneColumn.position();
-            var _sTop = $team_picker_item.position().top + rPosition.top + $team_picker_item.height() + _allowance;
-            
-            ub.funcs.ui.showTeamColorPicker({
-                left: rPosition.left + _allowance_left,
-                top: _sTop,
-                teamColorID: _dataID,
-            });
-            
-            $item = $(this);
-
-        });
-
-        $(selector).hover(function (e) {
-
-            $(this).removeClass('team_color_item_off');
-            $(this).addClass('team_color_item_on');
-
-        }, function (e) {
-
-            $(this).removeClass('team_color_item_on');
-            $(this).addClass('team_color_item_off');
-
-        });
-
-        $('button.color_picker_item').on('click', function () {
-
-            var _dataID         = $('div.team_color_picker_options').data('team-color-id');
-            var _element        = $(this);
-            var _hex_color      = $(this).data('hex');
-            var _color_code     = $(this).data('color-code');
-            var _color_name     = $(this).data('color');
-            var $element        = $('div.team_color_picker_item[data-id=' + _dataID + ']')
-
-            ub.funcs.setTeamColorByID(_dataID, {
-                hex_code: _hex_color,
-                color_code: _color_code,
-                color_name: _color_name,
-            });
-
-            $element.css('background-color', _hex_color);
-
-            if (_color_name === 'White') {                
-
-                $element.css('background-color','#ffffff');
-                $element.css('border', 'solid 1px #d7d7d7');
-
-            }
-
-            $element.html(_color_code);
-            $element.parent().find('.team_color_picker_item_label').html(ub.funcs.tennGuardTemp(_color_name));
-
-            ub.funcs.ui.hideTeamColorPicker();
-
-        });
-
-        $('i.color-caret-down').click('on', function (){
-
-            $(this).parent().click();
-
-        });
-
-        var _widthOfItem        = $('div.color_item_group').width();
-        var _spaceBetween       = $('.color_picker_item').outerWidth(true) - $('.color_picker_item').innerWidth();
-        var _numberOfColors     = $('.color_picker_item').length;
-        var _rowsOfColor        = 2;
-        var _extra              = 40; // so that options wont be scrolled to the left most
-        var _widthOfContainer   = ( ((_widthOfItem + (_spaceBetween * 2) ) * _numberOfColors) / 2 ) + _extra;
-
-        $('.color_items_container').width(_widthOfContainer);
-        ub.funcs.scrollize ('.team_color_picker_options', '.color_items_container', '.color_picker_item', 30)
-        $('button.color_picker_item[data-color="White"]').css('background-color','#ffffff !important');
-
-    };
-
-    /// End UI v1
 
     function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
           
@@ -539,13 +367,42 @@ $(document).ready(function () {
         _teamColorObj.push(colorObj); 
 
         if (typeof cancelColorPickerUpdate === "undefined") {
-
             if (ub.data.afterLoadCalled) { ub.funcs.drawColorPickers(); }
-            
-            ub.funcs.updatePatterns();
-        
         }
         
+    };
+
+    ub.funcs.ifColorIsUsedOnPatterns = function (colorObj) {
+
+        var _result = false; 
+
+        if (ub.data.afterLoadCalled !== 1) {return;}
+
+        _materialOptionsWithPattern = ub.funcs.getMaterialOptionsWithPattern();
+
+        _.each(ub.current_material.settings[ub.config.type], function (item) {
+ 
+            if (typeof item.pattern !== "undefined") {
+ 
+                if (item.pattern.pattern_id !== "" && item.pattern.pattern_id !== "blank") {
+
+                    _.each(item.pattern.pattern_obj.layers, function (item) {
+                        
+                        colorItem = ub.funcs.getColorObjByHexCode(item.default_color);
+                        
+                        // Is Used
+                        if (colorItem.id === colorObj.id) { _result = true; }
+
+                    });
+
+                }
+
+            }
+
+        });
+
+        return _result;
+
     };
 
     ub.funcs.removeColorFromTeamColors = function (colorObj) {
@@ -557,8 +414,10 @@ $(document).ready(function () {
         _teamColorObj.splice(_indexOfColorObj, 1);
 
         ub.funcs.drawColorPickers();
-        ub.funcs.updatePatterns();
 
+        // Selective execution here ... Update pattern only if the color being removed is currently in used by the pattern
+        if (ub.funcs.ifColorIsUsedOnPatterns(colorObj)){ ub.funcs.updatePatterns(); }
+        
     };
 
     ub.funcs.drawColorPickers = function () {
@@ -785,6 +644,16 @@ $(document).ready(function () {
 
         var _colorObj = _.find(ub.data.colors, {color_code: colorCode });
 
+        if (typeof _colorObj === "undefined") {
+            
+            if (colorCode !== "none") {
+                console.error('Cant find colorCode ' + colorCode); // Only log if not none, none comes from turned off piping layers, when not in pipng its disabled colors e.g. Y, need to print those for the GA's
+            }
+            
+            _colorObj = _.first(ub.data.colors);
+
+        }
+
         if (colorCode == 'none') {
 
                 _colorObj = {
@@ -938,5 +807,39 @@ $(document).ready(function () {
         return (typeof _result !== 'undefined');
 
     };
+
+    // diff is the result of _.difference(ub.data.colors, ub.current_material.settings.team_colors)
+    // or all colors thats not added to ... settings.team_colors
+    // but only add after the initial team colors is setup first
+
+    ub.funcs.addAllColorToTeamColors = function () {
+    
+        var _baseColors = ub.funcs.getBaseColors();
+        var _diffColors = _.difference(_baseColors, ub.current_material.settings.team_colors);
+
+        _.each (_diffColors, function (colorObj) {
+
+            var $btnSelector = $('button[data-target="Team-color-picker"][data-color-label="' + colorObj.color_code + '"]');
+            var color        = $btnSelector.data('color');
+            var colorID      = $btnSelector.data('color-id');
+            var colorStatus  = $btnSelector.data('status');
+            var colorCode    = $btnSelector.data('color-code');
+            var colorLabel   = $btnSelector.data('color-label');
+            var _index       = ub.current_material.settings.team_colors.length + 1;
+
+            $btnSelector.first().data('status','selected');
+            $btnSelector.first().html('<i class="fa fa-check" aria-hidden="true"></i>');
+            $btnSelector.first().html(_index);
+
+            if (colorLabel === 'W' || colorLabel === 'Y' || colorLabel === 'CR' || colorLabel === 'S' || colorLabel === 'PK'  || colorLabel === 'OP' || colorLabel === 'SG') {                
+                $btnSelector.first().css('color', '#3d3d3d');
+                $btnSelector.first().css('text-shadow', '1px 1px #d7d7d7');
+            }
+
+            ub.funcs.addColorToTeamColors(colorObj);
+
+        });
+
+    }
 
 });

@@ -3,6 +3,20 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
+    .tt-menu {
+        background: #fff;
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    }
+
+    .tt-suggestion.tt-selectable {
+        border-bottom: 1px solid #e1e1e1;
+        cursor: pointer;
+        padding: 5px 10px;
+    }
+
+    .tt-suggestion.tt-selectable:hover {
+        background: #e1e1e1;
+    }
 </style>
 @endsection
 
@@ -26,23 +40,23 @@
                     @endif
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/dealers/update" enctype="multipart/form-data" id='cut_links_form'>
-                        
+
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        
-                        <input type="hidden" name="id" value="{{$dealers->id}}"> 
+
+                        <input type="hidden" name="id" value="{{$dealers->id}}">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-4">
                                <input type="text" name="name" class="form-control" value="{{$dealers->name}}">
                             </div>
-                        </div>                       
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-4">
                               <input type="text" name="description" class="form-control" value="{{$dealers->description}}">
                             </div>
-                        </div>                        
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Current Manager</label>
                              <div class="col-md-4">
@@ -51,7 +65,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">New Manager</label>
-                            <div class="col-md-4">                                
+                            <div class="col-md-4">
                                 <input type="text" class="form-control site_manager typeahead" id="site_manager" placeholder="Enter name...">
                                 <input type="hidden" id="site_manager_user_id" name="site_manager_user_id" value="{{$dealers->site_manager_user_id}}">
                             </div>
@@ -89,7 +103,7 @@
                             </div>
                         </div>
                         <br><br>
-                        
+
                     </form>
                 </div>
             </div>
@@ -110,12 +124,11 @@
 
 <script>
 $(function(){
-    
+
    window.users = null;
     getAdmins(function(users){ window.users = users; });
     function getAdmins(callback){
         var users;
-        // var url = "//api-dev.qstrike.com/api/users";
         var url = "//" + api_host + "/api/users";
         $.ajax({
             url: url,
@@ -197,6 +210,6 @@ $(function(){
             $('.update-dealer').attr("disabled", false);
         }
     });
-});  
+});
 </script>
 @endsection

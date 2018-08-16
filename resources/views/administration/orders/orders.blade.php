@@ -14,6 +14,9 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
+                    <h6>
+                        ( Showing 20 recent orders )
+                    </h6>
                 </div>
                 <div class="box-body">
                     <table class='table table-bordered table-striped table-hover'>
@@ -29,7 +32,7 @@
                             <th>Artwork Status</th>
                             <th>Order Status</th>
                             <th>Rep ID</th>
-                            <th>FOID</th>
+                            <th class="alert alert-warning">ITEM ID OVERRIDE</th>
                             <th>Date Submitted</th>
                             <th>Actions</th>
                         </tr>
@@ -111,16 +114,12 @@
                                 </select>
                             </td>
                             <td>
-                                <!-- <input type="number" name="rep-id" class="form-control rep-id" value="154"> -->
                                 <select class="form-control rep-id" name="rep-id">
-                                    <option value="154">Jeremy Macy (154)</option>
-                                    <option value="69">Dan Mullins (69)</option>
-                                    <option value="141">Jared Blanchard (141)</option>
-                                    <option value="1148">Geeks (1148)</option>
+                                    <option value="1148">Geeks [Developers]</option>
                                 </select>
                             </td>
                             <td>
-                                {{ $order->factory_order_id }}
+                                <input type="number" class="form-control item-id-override">
                             </td>
                             <td>
                                 {{ $order->created_at }}
@@ -194,8 +193,9 @@
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
-<script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
+<script type="text/javascript" src="/js/bootbox.min.js"></script>
+<script type="text/javascript" src="/admin-utils.js"></script>
 <script type="text/javascript" src="/js/administration/orders.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

@@ -5,7 +5,7 @@ $(document).ready(function(){
         loadConfigurations(data);
     }
 
-    window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot'];
+    window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot', 'embellishments', 'short_number', 'pant_number'];
 
     $(".add-props").on('click', function(e) {
         e.preventDefault();
@@ -70,7 +70,7 @@ $(document).ready(function(){
         var app_numbers_ref = [];
         var app_sizes_ref = [];
         var default_sizes = [];
-        window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot'];
+        window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot', 'embellishments', 'short_number', 'pant_number'];
         data.forEach(function(entry, i) {
             var app_nums = entry.application_number;
             app_numbers_ref.push(app_nums);
@@ -176,7 +176,7 @@ $(document).ready(function(){
         elem += '<option value="'+0.5+'">'+0.5+'</option>';
         elem += '<option value="'+1.5+'">'+1.5+'</option>';
         elem += '<option value="'+2.5+'">'+2.5+'</option>';
-        for(var i = 1; i <= 12; i++){
+        for(var i = 1; i <= 15; i++){
             elem += '<option value="'+i+'">'+i+'</option>';
         }
         return elem;

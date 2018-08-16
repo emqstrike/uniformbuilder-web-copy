@@ -7,11 +7,11 @@
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        Fabrics Factory 
+                        Fabrics Factory
                         <small>
                             <a href="/administration/materials_fabric/add" class='btn btn-xs btn-success'>
                                 <span class="glyphicon glyphicon-plus-sign"></span>
-                                Add New Fabrics Factory 
+                                Add New Fabrics Factory
                             </a>
                         </small>
                     </h1>
@@ -43,9 +43,9 @@
                                     Remove
                                 </a>
 
-                            </td> 
-                                   
-                                
+                            </td>
+
+
 
                           </tr>
 
@@ -58,7 +58,7 @@
                             </tr>
 
                         @endforelse
-                
+
                     </tbody>
                     </table>
                 </div>
@@ -83,16 +83,13 @@
       cancelButtonClass: 'confirmButtonNo btn-success',
       });
       $(".confirmButtonYes").attr('data-materials-fabric-id',$(this).data('materials-fabric-id'));
-          
-    });
-    
-    $(document).on('click', '.confirmButtonYes', function(){
-        
-        var id = $(this).data('materials-fabric-id');
 
-        //var url = "http://localhost:8888/api/materials_fabric/delete";
-        var url = "//api-dev.qstrike.com/api/materials_fabric/delete/";
-                   
+    });
+
+    $(document).on('click', '.confirmButtonYes', function(){
+
+        var id = $(this).data('materials-fabric-id');
+        var url = "//" +api_host+ "/api/materials_fabric/delete/";
         $.ajax({
             url: url,
             type: "POST",
@@ -100,7 +97,6 @@
             dataType: "json",
             crossDomain: true,
             contentType: 'application/json',
-        
             success: function(response){
                 if (response.success) {
                     new PNotify({
@@ -110,8 +106,7 @@
                         hide: true
                     });
                     $('.font-' + id).fadeOut();
-                     $( ".box-body" ).load( location+" .materials_fabrics" );  
-
+                     $( ".box-body" ).load( location+" .materials_fabrics" );
                 }
             }
         });

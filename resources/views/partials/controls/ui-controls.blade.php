@@ -1,3 +1,10 @@
+<!-- Maintenance Message -->
+    <script type="text/mustache" id="m-maintenance-message">
+        
+        Prolook Customizer will have a scheduled system maintenance and will be offline temporarily on Sunday, August 5th from 8:00 PM EST - 5:00 AM EST. <br />The customizer will be under testing for the rest of the week, please report via the [Feedback] function any issue you might discover. This will help us a lot in improving the custommizer for everyone. Thank you! <br /><br /> #LiveYourGame
+        
+    </script>
+
 
 <!-- Start Mascot UI's -->
 
@@ -421,10 +428,26 @@
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
             @endif
-                <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png?v={{$asset_version}}">
+
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
 
                 <span class="main-picker-item-caption">
-                    @{{name}}
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
                 </span>
 
             </div>
@@ -439,10 +462,26 @@
             @if (@tooltip != "")
                 <div class="cSoon">@{{tooltip}}</div>
             @endif
-                <img src="/images/main-ui/pickers/@{{gender}}/@{{code}}.png?v={{$asset_version}}">
+                
+                @{{#is_men}}
+                    <img src="@{{thumbnail_male}}?v={{$asset_version}}">
+                @{{/is_men}}
+
+                @{{#is_women}}
+                    <img src="@{{thumbnail_female}}?v={{$asset_version}}">
+                @{{/is_women}}
+
+                @{{#is_youth}}
+                    <img src="@{{thumbnail_youth}}?v={{$asset_version}}">
+                @{{/is_youth}}
 
                 <span class="main-picker-item-caption">
-                    @{{name}}
+                    @{{#alias}}
+                        @{{alias}}
+                    @{{/alias}}
+                    @{{^alias}}
+                        @{{name}}
+                    @{{/alias}}
                 </span>
 
             </div>
@@ -459,7 +498,7 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}">
+            <div class="main-picker-items grow @{{sport}}" data-picker-type="uniforms" data-option="@{{neck_option}}" data-item="@{{name}}" data-id="@{{id}}" data-youth-price="@{{parsedPricingTable.youth_min_msrp}}" data-adult-price="@{{parsedPricingTable.adult_min_msrp}}">
 
                 <img class='front' src="@{{thumbnail_path}}?v={{$asset_version}}">
                 <img class='left' src="@{{thumbnail_path_left}}?v={{$asset_version}}">
@@ -488,7 +527,8 @@
                     <!-- <strong class="type">@{{block_pattern}}</strong> -->
                     <div class="favorite"><i class="fa fa-star" aria-hidden="true"></i> Favorite <i class="fa fa-star" aria-hidden="true"></i></div>
                     <div class="price_item_template_name">@{{price_item_template_name}}</div>
-                    
+                    <div class="material_id">@{{id}}</div>
+
                 </span> 
 
             </div>
@@ -505,32 +545,42 @@
 
         @{{#picker_items}}
             
-            <div class="main-picker-items grow" data-picker-type="search-result" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
+            <div class="main-picker-items grow" data-picker-type="uniforms" data-id = "@{{id}}" data-uniform-type = "@{{type}}" data-item="@{{name}}">
 
-                <img src="@{{thumbnail}}?v={{$asset_version}}">
+                <img class='front' src="@{{thumbnail_path}}?v={{$asset_version}}">
+                <img class='left' src="@{{thumbnail_path_left}}?v={{$asset_version}}">
 
-                <span class="main-picker-item-caption">
-    
-                    <strong>@{{name}}</strong><br />
+                <span class="main-picker-item-caption"> 
+                    <span class="type"></span>
+                    <strong class="uniform-name">@{{name}}</strong> <br />
+                    <span class="callForTeamPricing">Call for Team Pricing</span>
+                    <span class="calculatedPrice">@{{calculatedPrice}}</span>
+                    <span class="youthPrice @{{parsedPricingTable.youth_sale}}">
+                        Youth from <strong>$@{{parsedPricingTable.youth_min_msrp}}</strong>
+                    </span>
+                    <span class="youthPriceSale @{{parsedPricingTable.youth_sale}}">
+                        Youth now from <strong>$@{{parsedPricingTable.youth_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
+                    </span>
+                    
+                    <span class="adultPrice @{{parsedPricingTable.adult_sale}}">
+                        <span class='adult-label'>Adult from</span> <strong>$@{{parsedPricingTable.adult_min_msrp}}</strong>
+                    </span>
+
+                    <span class="adultPriceSale @{{parsedPricingTable.adult_sale}}">
+                        <span class='adult-label'>Adult now from </span><strong>$@{{parsedPricingTable.adult_min_web_price_sale}}</strong> <div class="sale-badge">Sale!</div>
+                    </span>
+
                     <strong class="type">@{{#uniform_type}}@{{uniform_application_type}}@{{/uniform_type}}</strong>
+                    <!-- <strong class="type">@{{block_pattern}}</strong> -->
+                    <div class="favorite"><i class="fa fa-star" aria-hidden="true"></i> Favorite <i class="fa fa-star" aria-hidden="true"></i></div>
+                    <div class="price_item_template_name">@{{price_item_template_name}}</div>
+                    <div class="material_id">@{{id}}</div>
 
-                </span>
+                </span> 
 
             </div>
 
         @{{/picker_items}}
-
-        <div class="main-picker-items grow disabled">
-
-        </div>
-
-        <div class="main-picker-items grow disabled">
-
-        </div>
-
-        <div class="main-picker-items grow disabled">
-
-        </div>
 
     </script>
 
@@ -2243,6 +2293,22 @@
     
 </script>
 
+<script type="text/mustache" id="m-save-design-guest">
+    
+    <div class="save-design-post-dialog">
+
+        <p class='left'>
+            Your design '<strong>@{{designName}}</strong>' was saved successfully!
+        </p>
+
+        <p>
+           Please check your email for your temporary password so you can retrieve your saved designs. Thank you.
+        </p>
+
+    </div>
+    
+</script>
+
 <script type="text/mustache" id="m-loading-screen">
     
     <div class="loading-screen">
@@ -2274,17 +2340,19 @@
     
 </script>
 
-<script type="text/mustache" id="m-preview-panel-rotation">
+<script type="text/mustache" id="m-preview-panel-content">
     
     <div class="rotation-container">
 
-        <label>Code:</label><strong class="number">@{{applicationCode}}</strong> 
+        <label>Code:</label><strong class="number">@{{applicationCode}}</strong>
         <br /><br />
 
-        <label>Position:</label><strong class="number">x: @{{positionX}}, y: @{{positionY}}</strong> 
+        <label>Position:</label><strong class="number">x: @{{positionX}}, y: @{{positionY}} (FE)</strong> 
+        <strong class="number">x: @{{positionXBackend}}, y: @{{positionYBackend}} (BE)</strong> 
         <br />
         <label>Scale:</label><strong class="number">x: @{{scaleX}}, y: @{{scaleY}} </strong> 
-        <br />
+        <br /> 
+
         <label>Rotation:</label><strong class="number">Radians: @{{radians}}, Degrees: @{{degrees}}</strong> 
         <br />
 
@@ -2764,7 +2832,7 @@
 
             <div class="header">
 
-                Embellishments
+                Custom Mascots
 
                 <div class="close-popup">
                         

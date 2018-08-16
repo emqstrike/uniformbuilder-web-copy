@@ -5,8 +5,6 @@
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 @endsection
 
-
-
 @section('content')
 
 <section class="content">
@@ -30,9 +28,12 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Sport</th>
+                            <th>Name</th>
+                            <th class="select-filter">Sport</th>
+                            <th>Block Pattern</th>
                             <th>Block Pattern Option</th>
-                            <th>Type</th>
+                            <th class="select-filter">Type</th>
+                            <th>Brand</th>
                             <th>Notes</th>
                             <th>Active</th>
                             <th>Action</th>
@@ -44,15 +45,24 @@
                         <tr class='mascot-size-{{ $mascot_size->id }}'>
                             <td>
                                 {{ $mascot_size->id }}
-                            </td>            
+                            </td>
+                            <td>
+                                {{ $mascot_size->name }}
+                            </td>
                             <td>
                                 {{ $mascot_size->sport }}
+                            </td>
+                            <td>
+                                {{ $mascot_size->block_patterns }}
                             </td>
                             <td>
                                 {{ $mascot_size->block_pattern_options }}
                             </td>
                             <td>
                                 {{ $mascot_size->type }}
+                            </td>
+                            <td>
+                                {{ $mascot_size->brand }}
                             </td>
                              <td>
                                 {{ $mascot_size->notes }}
@@ -69,28 +79,34 @@
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
-                                <a href="#" class="btn btn-danger pull-right btn-xs delete-mascot-size" data-mascot-size-id="{{ $mascot_size->id }}" role="button">
+                                <a href="#" class="btn btn-danger btn-xs delete-mascot-size" data-mascot-size-id="{{ $mascot_size->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
                                 </a>
                             </td>
-
-
                         </tr>
-
                     @empty
-
                         <tr>
-                            <td colspan='4'>
-                                No Fonts
+                            <td colspan='10'>
+                                No Mascot Sizes
                             </td>
                         </tr>
-
                     @endforelse
-
-                  
-
                     </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -104,6 +120,7 @@
 
 @section('scripts')
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+<script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript">
@@ -114,16 +131,36 @@ $(document).ready(function(){
         "searching": true,
         "ordering": false,
         "info": true,
-        "autoWidth": false
+        "autoWidth": false,
+        "pageLength": 20,
+        initComplete: function () {
+            this.api().columns('.select-filter').every( function () {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        }
     });
 
-    $('.delete-mascot-size').on('click', function(){
+    $(document).on('click', '.delete-mascot-size', function(){
         var id = $(this).data('mascot-size-id');
         modalConfirm('Remove mascot-size', 'Are you sure you want to delete the mascot-size?', id);
     });
+
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/mascot_size/delete/";      
+        var url = "//" + api_host + "/api/mascot_size/delete/";
         $.ajax({
             url: url,
             type: "POST",
@@ -141,10 +178,7 @@ $(document).ready(function(){
                         hide: true
                     });
                     $('#confirmation-modal').modal('hide');
-             
-                        $('.mascot-size-' + id).fadeOut();
-             
-
+                    $('.mascot-size-' + id).fadeOut();
                 }
             }
         });

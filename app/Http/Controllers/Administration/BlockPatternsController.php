@@ -1,17 +1,19 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
-use \Session;
-use \Redirect;
-use App\Http\Requests;
-use App\Utilities\Log;
-use Illuminate\Http\Request;
-use App\Utilities\FileUploader;
-use App\Utilities\Random;
-use Webmozart\Json\JsonDecoder;
-use App\Http\Controllers\Controller;
-use App\APIClients\UniformCategoriesAPIClient;
 use App\APIClients\BlockPatternsAPIClient as APIClient;
+use App\APIClients\UniformCategoriesAPIClient;
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Http\Requests\BlockPatternRequest;
+use App\Utilities\FileUploader;
+use App\Utilities\FileUploaderV2;
+use App\Utilities\Log;
+use App\Utilities\Random;
+use Illuminate\Http\Request;
+use Webmozart\Json\JsonDecoder;
+use \Redirect;
+use \Session;
 
 class BlockPatternsController extends Controller
 {
@@ -56,9 +58,8 @@ class BlockPatternsController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(BlockPatternRequest $request)
     {
-
         $name = $request->input('name');
         $uniformCategoryID = $request->input('uniform_category_id');
         $neckOptions = $request->input('neck_options');
@@ -87,7 +88,32 @@ class BlockPatternsController extends Controller
                                                     $thumbnailFile,
                                                     $name,
                                                     'thumbnail',
-                                                    "block_pattern/{name}/thumbnail.png"
+                                                    "block_pattern/thumbnail"
+                                                );
+                }
+            }
+
+        }
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/block_patterns')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+        try {
+            $folder_name = "cut_preview";
+            // Cut Preview
+            $cutPreview = $request->file('cut_preview');
+            if (isset($cutPreview))
+            {
+                if ($cutPreview->isValid())
+                {
+                    $randstr = Random::randomize(12);
+                    $data['cut_preview'] = FileUploader::upload(
+                                                    $cutPreview,
+                                                    $randstr,
+                                                    'thumbnail',
+                                                    $folder_name
                                                 );
                 }
             }
@@ -143,6 +169,10 @@ class BlockPatternsController extends Controller
         }
         else
         {
+            if (! count(json_decode($data['neck_options'], true)) > 0) {
+                return back()->with('flash_message_error', 'Please add at least 1 neck option');
+            } 
+
             Log::info('Attempts to create a new Block Pattern ' . json_encode($data));
             $response = $this->client->createBlockPattern($data);
         }

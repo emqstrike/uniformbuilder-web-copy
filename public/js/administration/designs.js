@@ -1,5 +1,6 @@
 $(document).ready(function(){
-    $('.enable-design').on('click', function(){
+    $('#design-set-table').on('click', '.enable-design', function(e){
+        e.preventDefault();
         var id = $(this).data('design-id');
         var url = "//" + api_host + "/api/design_set/enable/";
         $.ajax({
@@ -22,12 +23,13 @@ $(document).ready(function(){
                     $(elem + ' .disable-design').removeAttr('disabled');
                     $(elem + ' .enable-design').attr('disabled', 'disabled');
                     $(elem).removeClass('inactive');
+                    window.location.reload();
                 }
             }
         });
     });
-
-    $('.disable-design').on('click', function(){
+    $('#design-set-table').on('click', '.disable-design', function(e){
+        e.preventDefault();
         var id = $(this).data('design-id');
         var url = "//" + api_host + "/api/design_set/disable/";
         $.ajax({
@@ -50,38 +52,7 @@ $(document).ready(function(){
                     $(elem + ' .disable-design').attr('disabled', 'disabled');
                     $(elem + ' .enable-design').removeAttr('disabled');
                     $('.design-' + id).addClass('inactive');
-                }
-            }
-        });
-    });
-
-    $('.delete-design').on('click', function(){
-        var id = $(this).data('design-id');
-        modalConfirm('Remove Fabric', 'Are you sure you want to delete the design?', id);
-    });
-
-    $('#confirmation-modal .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/design_set/delete/";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    document.location.reload();
-                    $('#confirmation-modal').modal('hide');
-                    $('.design-set').fadeOut();
+                    window.location.reload();
                 }
             }
         });

@@ -2,6 +2,7 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="/css/custom.css">
 <style type="text/css">
 .onoffswitch {
     position: relative; width: 61px;
@@ -40,29 +41,18 @@
     position: absolute; top: 0; bottom: 0;
     right: 37px;
     border: 2px solid #999999; border-radius: 9px;
-    transition: all 0.3s ease-in 0s; 
+    transition: all 0.3s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
     margin-left: 0;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px; 
+    right: 0px;
 }
 </style>
 @endsection
 
 @section('content')
-
-@if (Session::has('message'))
-<div class="alert alert-{{ Session::get('alert-class') }} alert-dismissable flash-alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        ×
-    </button>
-
-    <strong class='flash-sub-title'></strong><span class='flash-message'>{{ Session::get('message') }}</span>
-</div>
-@endif
-
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
@@ -89,12 +79,11 @@
                                 <th>Category</th>
                                 <th>Description</th>
                                 <th>Switch</th>
-                            
                                 <th>User Types</th>
                                 <th>Roles</th>
                                 <th>State</th>
-                                <th>Sports</th>
-                                 <th>Active</th>
+                                <th>Uniform Category</th>
+                                <th>Active</th>
                                 <th>Action</th>
                                 <th></th>
                             </tr>
@@ -118,7 +107,7 @@
                         <td>
                             {{ $feature_flag->switch }}
                         </td>
-               
+
                         <td>
                             {{ $feature_flag->user_types }}
                         </td>
@@ -131,8 +120,7 @@
                         <td class='sports-list'>
                             {{ $feature_flag->sports }}
                         </td>
-
-                                 <td>
+                        <td>
                             <div class="onoffswitch">
                                  <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-feature-flag" id="switch-{{ $feature_flag->id }}" data-feature-flag-id="{{ $feature_flag->id }}" {{ ($feature_flag->active) ? 'checked' : '' }}>
                                    <label class="onoffswitch-label" for="switch-{{ $feature_flag->id }}">
@@ -140,21 +128,16 @@
                                     <span class="onoffswitch-switch"></span>
                                 </label>
                             </div>
-                        </td>  
-                        <td>
-                            <a href="#" class="btn btn-danger delete-feature-flag" data-feature-flag-id="{{ $feature_flag->id }}">Remove</a>
                         </td>
-
-
                         <td>
                             <a href="/administration/feature_flag/edit/{{ $feature_flag->id }}" class="btn btn-primary btn-xs edit-feature-flag-flag" data-feature-flag-flag-id="{{ $feature_flag->id }}" role="button">
                                 <i class="glyphicon glyphicon-edit"></i>
                                 Edit
                             </a>
-                            <!-- <a href="#" class="btn btn-danger pull-right btn-xs delete-block-pattern" data-block-pattern-id="{{ $feature_flag->id }}" data-block-pattern-name="{{ $feature_flag->name }}" role="button">
-                                <i class="glyphicon glyphicon-trash"></i>
-                                Remove
-                            </a> -->
+
+                            <a href="#" class="btn btn-danger pull-right btn-xs delete-feature-flag" data-feature-flag-id="{{ $feature_flag->id }}" role="button">
+                                <i class="glyphicon glyphicon-trash"> Remove</i>
+                            </a>
                         </td>
                     </tr>
 
@@ -176,122 +159,82 @@
     </div>
 </section>
 
-{{-- @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal']) --}}
+@include('partials.confirmation-modal')
 
 @endsection
 
 @section('scripts')
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/jquery-ui/jquery-ui.min.js"></script>
-<!-- <script type="text/javascript" src="/js/administration/feature-flags.js"></script> -->
+<script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-var sports_icons = {
-    "Baseball" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/baseball.png",
-    "Fastpitch" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/baseball.png",
-    "Basketball" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/basketball.png",
-    "Apparel" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/apparel.png",
-    "Football" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/football.png",
-    "Golf" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/golf.png",
-    "Hockey" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/hockey.png",
-    "Lacrosse" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/lacrosse.jpg",
-    "Soccer" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/soccer.png",
-    "Tennis" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/tennis.gif",
-    "Volleyball" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/volleyball.png",
-    "Wrestling" : "https://s3-us-west-2.amazonaws.com/uniformbuilder/sports_icons/wrestling.png"
-};
 
-$(".sports-list").each(function(i) {
-    var x = null;
-    try {
-        x = JSON.parse($(this).html());
-        // console.log(x[0]);
-        $(this).html('');
-         for(item in x) {
-          // console.log(item);
-          s = x[item];
-          // console.log(s);
-          $(this).append('<img src="' + sports_icons[s] + '" style="height: 30px; width: 30px; margin-right: 5px;" alt="' + s + '">');
-        }
-    }
-    catch(err) {
-        console.log(err.message);
-    }
-});
-// console.log(sports_icons['baseball']);
-    // $('.data-table').DataTable({
-    //     "paging": true,
-    //     "lengthChange": false,
-    //     "searching": false,
-    //     "ordering": true,
-    //     "info": true,
-    //     "autoWidth": false
-    // });
-
-      $('.toggle-feature-flag').on('click', function(){
-            var id = $(this).data('feature-flag-id');
-            var url = "//" + api_host + "/api/feature/toggle/";
-           // var url = "//localhost:8888/api/feature/toggle/";
-     
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: JSON.stringify({id: id}),
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": atob(headerValue)},
-                success: function(response){
-                    if (response.success) {
-                      
-                        new PNotify({
-                            title: 'Success',
-                            text: response.message,
-                            type: 'success',
-                            hide: true
-                        });
-                        console.log(response.message);
-                    }
+    $('.toggle-feature-flag').on('click', function(){
+        var id = $(this).data('feature-flag-id');
+        var url = "//" + api_host + "/api/feature/toggle/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                    console.log(response.message);
                 }
-            });
-        }); 
+            }
+        });
+    });
 
+    $(document).on('click', '.delete-feature-flag', function() {
+        var id = $(this).data('feature-flag-id');
+        modalConfirm('Remove Feature Flag', 'Are you sure you want to remove this feature flag?', id);
+    });
 
+    $('#confirmation-modal .confirm-yes').on('click', function(){
+        var id = $(this).data('value');
+        var url = "//" + api_host + "/api/feature/delete/";
+        $.ajax({
+           url: url,
+           type: "POST",
+           data: JSON.stringify({id: id}),
+           dataType: "json",
+           crossDomain: true,
+           contentType: 'application/json',
+           headers: {"accessToken": atob(headerValue)},
+           success: function(response){
+                   if (response.success) {
+                   new PNotify({
+                       title: 'Success',
+                       text: response.message,
+                       type: 'success',
+                       hide: true
+                   });
+                   $('#confirmation-modal').modal('hide');
+                        $('.feature-flag-'+id).fadeOut();
+               }
+           }
+       });
+    });
 
-      $('.delete-feature-flag').on('click', function(){
-            var id = $(this).data('feature-flag-id');
-         var url = "//" + api_host + "/api/feature/delete/";
-         //   var url = "//localhost:8888/api/feature/delete";
+    @if (Session::has('message'))
+        new PNotify({
+            title: 'Success',
+            text: "{{ Session::get('message') }}",
+            type: 'success',
+            hide: true
+        });
+    @endif
 
-        
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: JSON.stringify({id: id}),
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                headers: {"accessToken": atob(headerValue)},
-                success: function(response){
-                    if (response.success) {
-                      
-                        new PNotify({
-                            title: 'Success',
-                            text: response.message,
-                            type: 'success',
-                            hide: true
-                        });
-
-                        $( ".data-table" ).load( location+" .data-table" );
-                     
-                    }
-                }
-            });
-        }); 
 });
-
-
-
 </script>
 @endsection

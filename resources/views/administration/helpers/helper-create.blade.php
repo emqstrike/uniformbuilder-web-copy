@@ -18,16 +18,7 @@ li.select2-selection__choice {
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Helper</div>
                 <div class="panel-body">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @include('administration.partials.validation-error')
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/helper/add" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -36,21 +27,21 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Feature Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="feature" value="">
+                                <input type="name" class="form-control" name="feature_name" value="{{ old('feature_name') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Group</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="group" value="">
+                                <input type="name" class="form-control" name="group" value="{{ old('group') }}">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Category</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="category" value="">
+                                <input type="name" class="form-control" name="category" value="{{ old('category') }}">
                             </div>
                         </div>
 
@@ -73,8 +64,8 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Description</label>
                             <div class="col-md-8">
-                                <textarea class="form-control helper-description" name=""></textarea>
-                                <input type="hidden" name="description" id="description">
+                                <textarea class="form-control helper-description" name="description">{{ old('description') }}</textarea>
+                                <input type="hidden" id="description" value="{{ old('description') }}">
                             </div>
                         </div>
 
@@ -128,7 +119,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Index</label>
                             <div class="col-md-6">
-                                <input type="number" step="0.001" class="form-control" name="index" value="">
+                                <input type="number" step="0.001" class="form-control" name="index" value="{{ old('index') }}">
                             </div>
                         </div>
 

@@ -3,7 +3,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 <style type="text/css">
-    
+
 li.select2-selection__choice {
     color: black !important;
 }
@@ -159,7 +159,16 @@ li.select2-selection__choice {
                                 </select>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-5 control-label" >Brand</label>
+                           <div class="col-md-4">
+                                <select name="brand" class="form-control">
+                                        <option value="none" @if($font->brand == "none") selected="selected"@endif>None</option>
+                                        <option value="prolook" @if($font->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                        <option value="richardson" @if($font->brand == "richardson") selected="selected"@endif>Richardson</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-5 control-label">Block Pattern</label>
                             <div class="col-md-4">
@@ -190,6 +199,18 @@ li.select2-selection__choice {
                             <label class="col-md-5 control-label">Tail Sweep Properties</label>
                             <div class="col-md-4">
                                 <textarea class="form-control tail-sweep-properties animated" name="tail_sweep_properties"><?php echo substr(stripslashes($font->tail_sweep_properties), 1, -1); ?></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Customizer Available</label>
+                            <div class="col-md-4">
+                                <input type="checkbox"  name="customizer_available" @if($font->customizer_available == 1)value="1" checked @endif>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label">Ipad Available</label>
+                            <div class="col-md-4">
+                                <input type="checkbox"  name="ipad_available" @if($font->ipad_available == 1)value="1" checked @endif>
                             </div>
                         </div>
 
@@ -290,7 +311,7 @@ li.select2-selection__choice {
                             </table>
                             </div>
                         </div>
-                        
+
                     <div class="form-group twill-fst"> <!-- START -->
                         <div class="alert alert-info"><h3>Twill Font Size Tables</h3></div>
                         <div class="form-group">
@@ -583,19 +604,14 @@ li.select2-selection__choice {
         </div>
     </div>
 </div>
-<div class="container">
-  <h2>Modal Login Example</h2>
-  <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-default btn-lg" id="myBtn">Login</button>
-
-  <!-- Modal -->
+    <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4> TWILL Font size tables data</h4>
+          <h4> Twill Font size tables data</h4>
         </div>
         <div class="modal-body">
           <form role="form">
@@ -606,9 +622,7 @@ li.select2-selection__choice {
         </div>
       </div>
     </div>
-  </div> 
-</div>
-
+  </div>
   <!-- Modal -->
   <div class="modal fade" id="myModalB" role="dialog">
     <div class="modal-dialog">
@@ -627,7 +641,7 @@ li.select2-selection__choice {
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 </div>
 @endsection
 
@@ -648,7 +662,7 @@ $(document).ready(function(){
 
     function getBlockPatterms(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
+        var url = "//" +api_host+ "/api/block_patterns";
         $.ajax({
             url: url,
             async: false,
@@ -666,8 +680,6 @@ $(document).ready(function(){
     console.log(window.block_patterns);
     bindBPOS(cond);
     function bindBPOS(cond){
-        // $('.block-pattern-options').html('');
-        // var sports = $('.sports-val').val().slice(1, -1).split('"').join('');
         if( cond ){
             var sports = $('.sports-val').val().split('"').join('');
         } else {
@@ -682,7 +694,7 @@ $(document).ready(function(){
             console.log(sports_arr);
             sports_arr.forEach(function(entry) {
                 console.log('ENTRY: ' + entry);
-                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category === entry; });
+                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category == entry; });
                 console.log(x);
                 x.forEach(function(entry) {
                     var y = JSON.parse(entry.neck_options);
@@ -693,29 +705,11 @@ $(document).ready(function(){
                         list.push(_.flatten(_.pick(item, 'children')));
                     });
                     var result = _.flatten(list);
-                    // console.log('[ RESULT ]');
-                    // console.log(result);
-                    // console.log(_.flatten(y, true));
-                    // for(var i = 0; i <= 10; i++){
-                    //     console.log(y[i]);
-                    //     if( y[i] !== 'undefined' ){
-                    //         console.log('gets in');
-                    //         block_pattern_options.push(y[i].name);
-                    //     }
-                        // }
                     result.forEach(function(i) {
                         block_pattern_options.push(i.name);
-                        // $('.block-pattern-options').append('<option value="'+i.name+'">'+i.name+'</option>');
                     });
                 });
-                // var z = _.uniq(block_pattern_options);
 
-                // z.forEach(function(i) {
-                //     $('.block-pattern-options').append('<option value="'+i+'">'+i+'</option>');
-                // });
-                // console.log(y);
-                // x = _.flatten(y, true);
-                // block_pattern_options.push(x.neck_options);
             });
             var z = _.sortBy(_.uniq(block_pattern_options));
             $('.block-pattern-options').html('');
@@ -736,15 +730,15 @@ $(document).ready(function(){
         }
         var sports_arr = null;
         var block_patterns = [];
-        // console.log('[[SPORTS]]');
+
         console.log(sports);
         if(sports != null){
             sports_arr = sports.split(",");
-            // console.log(sports_arr);
+
             sports_arr.forEach(function(entry) {
-                // console.log('ENTRY: ' + entry);
-                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category === entry; });
-                // console.log(x);
+
+                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category == entry; });
+
                 x.forEach(function(entry) {
                     block_patterns.push(entry.name);
                 });
@@ -759,13 +753,13 @@ $(document).ready(function(){
     }
 
     if($('#block_patterns_value').val()){
-        // var bpos = JSON.parse($('#block_patterns').val());
+
         var x = $('#block_patterns_value').val().split(",");
         console.log('[[BLOCK PATTERNS]]');
         console.log(x);
         var bps = x;
     }
-    // var sports = JSON.parse($('#sports_value').val());
+
 
     $('.block-patterns').select2({
         placeholder: "Select block patterns",
@@ -780,13 +774,12 @@ $(document).ready(function(){
     $('.block-patterns').select2('val', bps);
 
     if($('#block_pattern_options_value').val()){
-        // var bpos = JSON.parse($('#block_pattern_options_value').val());
+
         var xx = $('#block_pattern_options_value').val().split(",");
         console.log('[[BLOCK PATTERN OPTIONS]]');
         console.log(xx);
         var bpos = xx;
     }
-    // var sports = JSON.parse($('#sports_value').val());
 
     $('.block-pattern-options').select2({
         placeholder: "Select block pattern option",
@@ -805,24 +798,23 @@ $(document).ready(function(){
     $('.animated').autosize({append: "\n"});
 
     if($('#sports_value').val()){
-        var sports = JSON.parse($('#sports_value').val());   
+        var sports = JSON.parse($('#sports_value').val());
     }
     var fstbls = $('#old_font_size_tables').val();
     if(fstbls != ""){
         var old_font_size_tables = JSON.parse(fstbls);
         window.backup = old_font_size_tables;
-        // console.log(old_font_size_tables);
+
         old_font_size_tables.forEach(function(entry) {
 
             var tbl_class = '.'+entry.perspective+'-fst-body';
             entry.sizes.forEach(function(item) {
-                // console.log(item.inputSize);
+
                 var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                 $(tbl_class).append(elem);
             });
             refreshMultipleFST();
-            // var xy = $('.sublimated-fst').find('.application-number:fourth').val();
-            // console.log('---XY---'+xy);
+
         });
     }
 
@@ -830,18 +822,17 @@ $(document).ready(function(){
     if(sblmtdfstbls != ""){
         var old_font_size_tables = JSON.parse(sblmtdfstbls);
         window.sublimated_backup = old_font_size_tables;
-        // console.log(old_font_size_tables);
+
         old_font_size_tables.forEach(function(entry) {
 
             var tbl_class = '.'+entry.perspective+'-fst-body-sublimated';
             entry.sizes.forEach(function(item) {
-                // console.log(item.inputSize);
+
                 var elem = '<tr data-app-num="'+item.application_number+'" data-perspective="'+entry.perspective+'"><td><input type="number" step="any" class="inputs application-number" value="'+item.application_number+'"></td><td><input type="number" step="any" class="inputs input-size" value="'+item.inputSize+'"></td><td><input type="number" step="any" class="inputs output-size" value="'+item.outputSize+'"></td><td><input type="number" step="any" class="inputs x-offset" value="'+item.x_offset+'"></td><td><input type="number" step="any" class="inputs y-offset" value="'+item.y_offset+'"></td><td><input type="number" step="any" class="inputs x-scale" value="'+item.x_scale+'"></td><td><input type="number" step="any" class="inputs y-scale" value="'+item.y_scale+'"></td><td><a href="#" class="btn btn-xs btn-danger remove-layer">Remove</a></td></tr>';
                 $(tbl_class).append(elem);
             });
             refreshMultipleSublimatedFST();
-            // var xy = $('.sublimated-fst').find('.application-number:fourth').val();
-            // console.log('---XY---'+xy);
+
         });
     }
 
@@ -1149,7 +1140,7 @@ $(document).ready(function(){
 
         function getFonts(callback){
             var mascots;
-            var url = "//api-dev.qstrike.com/api/fonts";
+            var url = "//" +api_host+ "/api/fonts";
             $.ajax({
                 url: url,
                 async: false,
@@ -1171,7 +1162,7 @@ $(document).ready(function(){
             });
             var open = "<tr class=\"layers-row\">";
             var layer = "<td><select class=\"fo-layer layer"+length+"\"  name=\"fo_layer[]\" disabled><option value = '"+length+"' class=\"layer-number\">"+length+"</option></select></td>";
-            
+
             var type_options = '';
             var fonts_options = '';
 
@@ -1261,6 +1252,22 @@ $(document).ready(function(){
         window.lp = layersProperties;
         $('#font_properties').val(layersProperties);
     }
+
+    $(document).on('click', '.btn-remove-layer', function() {
+        var rowCount = $('.layers-row').length;
+        console.log('rowCount ', rowCount);
+        
+        if (rowCount > 1) {
+            $(this).closest('tr').remove();
+            var newRowCount = $('.layers-row').length;
+
+            $(".layers-row").each(function(i) {
+                $(this).find(".layer-number").text(newRowCount);
+                $(this).find(".layer-number").val(newRowCount);
+                newRowCount--;
+            });
+        }
+    });
 });
 </script>
 @endsection

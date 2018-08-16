@@ -27,7 +27,7 @@ class FontsController extends Controller
      */
     public function index()
     {
-        $fonts = $this->client->getAllFonts();
+        $fonts = $this->client->getFonts();
         $categoriesAPIClient = new \App\APIClients\UniformCategoriesAPIClient();
         $sports = $categoriesAPIClient->getUniformCategories();
 
@@ -41,8 +41,22 @@ class FontsController extends Controller
                 ]);
         }
         else {
+            if (Session::get('fontsMinifiedOnly')){
+                return redirect('administration/fonts_minified');
+            } else {
                 return redirect('administration');
+            }
         }
+    }
+
+    public function indexMinified()
+    {
+        $user_id = Session::get('userId');
+        $fonts = $this->client->getFontsCreatedBy($user_id);
+// dd('test');
+        return view('administration.fonts.fonts-minified', [
+            'fonts' => $fonts
+        ]);
     }
 
     public function addFontForm()
@@ -63,7 +77,14 @@ class FontsController extends Controller
                 ]);
         }
         else {
+            if (Session::get('fontsMinifiedOnly')){
+                return view('administration.fonts.font-create', [
+                    'fonts' => $fonts,
+                    'categories' => $uniformCategories
+                ]);
+            } else {
                 return redirect('administration');
+            }
         }
     }
 
@@ -87,7 +108,15 @@ class FontsController extends Controller
                 ]);
         }
         else {
+            if (Session::get('fontsMinifiedOnly')){
+                return view('administration.fonts.font-edit', [
+                    'fonts' => $fonts,
+                    'font' => $font,
+                    'categories' => $uniformCategories
+                ]);
+            } else {
                 return redirect('administration');
+            }
         }
     }
 
@@ -98,12 +127,15 @@ class FontsController extends Controller
         $tailSweep = 0;
         $script = 0;
         $blockFont = 0;
+        $customizerAvailable = 0;
+        $ipadAvailable = 0;
 
 
         if($request->input('tail_sweep')){$tailSweep = 1;}
         if($request->input('script')){$script = 1;}
         if($request->input('block_font')){$blockFont = 1;}
-
+        if($request->input('customizer_available')){$customizerAvailable = 1;}
+        if($request->input('ipad_available')){$ipadAvailable = 1;}
 
         $fontType = (empty($request->input('type'))) ? 'default' : $request->input('type');
         $fontParent = $request->input('parent_id');
@@ -117,6 +149,7 @@ class FontsController extends Controller
         $alias = $request->input('alias');
         $blockPatternOptions = $request->input('block_pattern_options_value');
         $blockPatterns = $request->input('block_patterns_value');
+        $brand = $request->input('brand');
         // dd($request->input('block_patterns_value'));
 
         $userID = $request->input('user_id');
@@ -150,7 +183,10 @@ class FontsController extends Controller
             'updated_by' => $userID,
             'alias' =>$alias,
             'block_pattern_options' => $blockPatternOptions,
-            'block_patterns' => $blockPatterns
+            'block_patterns' => $blockPatterns,
+            'brand' => $brand,
+            'customizer_available' => $customizerAvailable,
+            'ipad_available' => $ipadAvailable
         ];
 
         if ($fontType != 'default')
@@ -179,8 +215,13 @@ class FontsController extends Controller
         catch (S3Exception $e)
         {
             $message = $e->getMessage();
-            return Redirect::to('/administration/fonts')
+            if (Session::get('fontsMinifiedOnly')){
+                return Redirect::to('/administration/fonts_minified')
                             ->with('message', 'There was a problem uploading your files');
+            } else {
+                return Redirect::to('/administration/fonts')
+                            ->with('message', 'There was a problem uploading your files');
+            }
         }
 
         // $myJson['0'] = {};
@@ -245,14 +286,24 @@ class FontsController extends Controller
         if ($response->success)
         {
             Log::info('Success');
-            return Redirect::to('administration/fonts')
+            if (Session::get('fontsMinifiedOnly')){
+                return Redirect::to('/administration/fonts_minified')
                             ->with('message', $response->message);
+            } else {
+                return Redirect::to('/administration/fonts')
+                            ->with('message', $response->message);
+            }
         }
         else
         {
             Log::info('Failed');
-            return Redirect::to('administration/fonts')
+            if (Session::get('fontsMinifiedOnly')){
+                return Redirect::to('/administration/fonts_minified')
+                            ->with('message', $response->message);
+            } else {
+                return Redirect::to('administration/fonts')
                             ->with('message', 'There was a problem saving your font');
+            }
         }
     }
 }

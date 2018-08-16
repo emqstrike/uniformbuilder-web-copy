@@ -4,13 +4,8 @@
 @section('styles')
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 <style type="text/css">
-    tfoot tr td select {
-        display: none;
-    }
-    tfoot tr td:first-child select {
-        display: block;
-    }
 </style>
 
 @endsection
@@ -23,7 +18,7 @@
             <div class="box">
                 <div class="box-header">
                     <h1>
-                        <span class="fa fa-building-o"></span>
+                        <span class="fa fa-soccer-ball-o"></span>
                         Uniform Categories
                         <small>
                             <a href="/administration/category/add" class='btn btn-xs btn-success'>
@@ -37,11 +32,17 @@
                     <table class='data-table table table-bordered'>
                     <thead>
                         <tr>
-                            <th>Categories</th>
-                            <th>Male</th>
-                            <th>Female</th>
+                            <th>ID</th>
+                            <th id="select-filter">Categories</th>
+                            <th>Code</th>
+                            <th>Men</th>
+                            <th>Women</th>
                             <th>Youth</th>
-                            <th>Sizes</th>
+                            <th>Sort Order Male</th>
+                            <th>Sort Order Female</th>
+                            <th>Sort Order Youth</th>
+                            <th>Type</th>
+                            <th id="select-filter">Active Type</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -50,19 +51,67 @@
 
                         <tr class='category-{{ $category->id }} {{ (!$category->active) ? ' inactive' : '' }}'>
                             <td>
+                                {{ $category->id }}
+                            </td>
+                            <td>
                                 {{ $category->name }}
                             </td>
                             <td>
-                                <img src="{{ $category->thumbnail_male }}" style="height: 105px; width: 70px;">
+                                {{ $category->code }}
+                            </td>
+                            <td align="center">
+                            @if ($category->thumbnail_male)
+                                <img src="{{ $category->thumbnail_male }}" style="height: 80px; width: 88px;">
+                            @else
+                                <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg" style="height: 80px; width: 88px;">
+                            @endif
+                            <br>
+                            @if($category->active_male)
+                               <font color="green" size="2">Active</font>
+                            @else
+                                <font color="gray" size="2">Inactive</font>
+                            @endif
+                            </td>
+                            <td align="center">
+                            @if ($category->thumbnail_female)
+                                <img src="{{ $category->thumbnail_female }}" style="height: 80px; width: 88=px;">
+                            @else
+                                <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg" style="height: 80px; width: 88=px;">
+                            @endif
+                            <br>
+                            @if($category->active_female)
+                               <font color="green" size="2">Active</font>
+                            @else
+                                <font color="gray" size="2">Inactive</font>
+                            @endif
+                            </td>
+                            <td align="center">
+                            @if ($category->thumbnail_youth)
+                                <img src="{{ $category->thumbnail_youth }}" style="height: 80px; width: 88=px;">
+                            @else
+                                <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg" style="height: 80px; width: 88=px;">
+                            @endif
+                            <br>
+                            @if($category->active_youth)
+                               <font color="green" size="2">Active</font>
+                            @else
+                                <font color="gray" size="2">Inactive</font>
+                            @endif
                             </td>
                             <td>
-                                <img src="{{ $category->thumbnail_female }}" style="height: 105px; width: 70px;">
+                                {{ $category->sort_order_male}}
                             </td>
                             <td>
-                                <img src="{{ $category->thumbnail_youth }}" style="height: 105px; width: 70px;">
+                                {{ $category->sort_order_female}}
                             </td>
                             <td>
-                                {{ $category->sizes }}
+                                {{ $category->sort_order_youth}}
+                            </td>
+                            <td>
+                                {{ $category->type }}
+                            </td>
+                            <td align="center">
+                                {{ $category->active_type }}
                             </td>
                             <td>
                                 <a href="#" class="btn btn-default btn-xs disable-category" data-category-id="{{ $category->id }}" role="button" {{ ($category->active) ? : 'disabled="disabled"' }}>
@@ -73,13 +122,11 @@
                                     <i class="glyphicon glyphicon-eye-open"></i>
                                     Enable
                                 </a>
-                            </td>
-                            <td>
                                 <a href="/administration/category/edit/{{ $category->id }}" class="btn btn-primary btn-xs edit-category" data-category-id="{{ $category->id }}" role="button">
                                     <i class="glyphicon glyphicon-edit"></i>
                                     Edit
                                 </a>
-                                <a href="#" class="btn btn-danger pull-right btn-xs delete-category" data-category-id="{{ $category->id }}" role="button">
+                                <a href="#" class="btn btn-danger btn-xs delete-category" data-category-id="{{ $category->id }}" role="button">
                                     <i class="glyphicon glyphicon-trash"></i>
                                     Remove
                                 </a>
@@ -103,7 +150,13 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>                     
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </tfoot>
                     </table>
@@ -118,8 +171,8 @@
 @endsection
 
 @section('scripts')
-<!-- <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script> -->
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
+<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/categories.js"></script>
 <script type="text/javascript">
@@ -132,7 +185,7 @@ $(document).ready(function(){
         "info": true,
         "autoWidth": true,
         initComplete: function () {
-            this.api().columns().every( function () {
+            this.api().columns('#select-filter').every( function () {
                 var column = this;
                 var select = $('<select><option value=""></option></select>')
                     .appendTo( $(column.footer()).empty() )
@@ -148,8 +201,6 @@ $(document).ready(function(){
 
                 column.data().unique().sort().each( function ( d, j ) {
                     select.append( '<option value="'+d+'">'+d+'</option>' )
-                    // var val = $('<div/>').html(d).text();
-                    // select.append( '<option value="' + val + '">' + val + '</option>' );
                 } );
             } );
         }

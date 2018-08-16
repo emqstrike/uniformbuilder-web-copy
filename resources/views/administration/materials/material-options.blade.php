@@ -4,6 +4,8 @@
 
 <link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
 <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/custom.css">
 
 @endsection
@@ -35,6 +37,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
     overflow-x: scroll;
     max-width: 100%;
 }
+
 </style>
 <div class="col-md-12" style="margin-top: -40px;">
 <input type="hidden" name="cleanup_material_id" value="{{ $material->id }}">
@@ -199,6 +202,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-uniform-category="{{ $material->uniform_category }}"
                                 data-material-option-applications-properties="{{ $option->applications_properties }}"
                                 data-material-option-name="{{ $option->name }}"
+                                data-material-option-part-type="{{ $option->part_type }}"
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ !empty($option->default_color) ? $option->default_color : "B" }}"
                                 data-material-option-sublimated-default-color="{{ !empty($option->sublimated_default_color) ? $option->sublimated_default_color : "B" }}"
@@ -223,6 +227,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-pattern-properties="{{ $option->pattern_properties }}"
                                 data-default-display="{{ $option->default_display }}"
                                 data-build-type="{{ $option->build_type }}"
+                                data-pattern-opacity="{{ $option->pattern_opacity }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -283,6 +288,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-uniform-category="{{ $material->uniform_category }}"
                                 data-material-option-applications-properties="{{ $option->applications_properties }}"
                                 data-material-option-name="{{ $option->name }}"
+                                data-material-option-part-type="{{ $option->part_type }}"
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ !empty($option->default_color) ? $option->default_color : "B" }}"
                                 data-material-option-sublimated-default-color="{{ !empty($option->sublimated_default_color) ? $option->sublimated_default_color : "B" }}"
@@ -307,6 +313,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-pattern-properties="{{ $option->pattern_properties }}"
                                 data-default-display="{{ $option->default_display }}"
                                 data-build-type="{{ $option->build_type }}"
+                                data-pattern-opacity="{{ $option->pattern_opacity }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -367,6 +374,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-uniform-category="{{ $material->uniform_category }}"
                                 data-material-option-applications-properties="{{ $option->applications_properties }}"
                                 data-material-option-name="{{ $option->name }}"
+                                data-material-option-part-type="{{ $option->part_type }}"
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ !empty($option->default_color) ? $option->default_color : "B" }}"
                                 data-material-option-sublimated-default-color="{{ !empty($option->sublimated_default_color) ? $option->sublimated_default_color : "B" }}"
@@ -391,6 +399,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-pattern-properties="{{ $option->pattern_properties }}"
                                 data-default-display="{{ $option->default_display }}"
                                 data-build-type="{{ $option->build_type }}"
+                                data-pattern-opacity="{{ $option->pattern_opacity }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>
@@ -451,6 +460,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-material-uniform-category="{{ $material->uniform_category }}"
                                 data-material-option-applications-properties="{{ $option->applications_properties }}"
                                 data-material-option-name="{{ $option->name }}"
+                                data-material-option-part-type="{{ $option->part_type }}"
                                 data-material-option-layer-level="{{ $option->layer_level }}"
                                 data-material-option-default-color="{{ !empty($option->default_color) ? $option->default_color : "B" }}"
                                 data-material-option-sublimated-default-color="{{ !empty($option->sublimated_default_color) ? $option->sublimated_default_color : "B" }}"
@@ -475,6 +485,7 @@ input.app-rotation,input.app-x,input.app-y,input.app-font-sizes {
                                 data-pattern-properties="{{ $option->pattern_properties }}"
                                 data-default-display="{{ $option->default_display }}"
                                 data-build-type="{{ $option->build_type }}"
+                                data-pattern-opacity="{{ $option->pattern_opacity }}"
                                 <?php if($option->setting_type == "highlights") $highlight_path = $option->material_option_path ?>
                                 data-material-highlights-path="<?php if($highlight_path != null){ echo $highlight_path; } ?>"
                                 ><b>[{{ $option->layer_level }}] {{ $option->name }}</b></a>

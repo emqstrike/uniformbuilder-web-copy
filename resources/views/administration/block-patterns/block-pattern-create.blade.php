@@ -8,20 +8,13 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Add New Block Pattern</div>
                 <div class="panel-body">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @include('administration.partials.validation-error')
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/block_pattern/add" enctype="multipart/form-data" id='create-color-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="neck_options" id="neck_options" value="">
+
+                        @include('administration.partials.flash-message')
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Block Pattern Name</label>
@@ -36,7 +29,12 @@
                                 <input type="file" class="form-control thumbnail-file" name="thumbnail_file" accept="image/*">
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Cut Preview</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control cut-preview-file" name="cut_preview" accept="image/*">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">

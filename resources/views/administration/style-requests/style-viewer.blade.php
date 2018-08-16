@@ -18,9 +18,6 @@
     table.borderless td,table.borderless th{
         border: none !important;
     }
-    .has-loading {
-      background: transparent url('http://thinkfuture.com/wp-content/uploads/2013/10/loading_spinner.gif') center no-repeat;
-    }
 </style>
 @endsection
 
@@ -165,9 +162,9 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <img src="back-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
-                                        <img src="left-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
-                                        <img src="right-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
+                                        <img src="" class="back-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
+                                        <img src="" class="left-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
+                                        <img src="" class="right-image has-loading" style="height: 47px; width: 43px; border: 1px solid black;">
                                     </td>
                                     <td>
                                         <center>
@@ -237,7 +234,7 @@ $(function(){
 
     function getDefaultMaterials(callback){
         var materials;
-        var url = "//api-dev.qstrike.com/api/materials/category/"+window.default_sport;
+        var url = "//" +api_host+ "/api/materials/category/"+window.default_sport;
         $.ajax({
             url: url,
             async: false,
@@ -256,7 +253,7 @@ $(function(){
     getSports(function(sports){ window.sports = sports; });
     function getSports(callback){
         var sports;
-        var url = "http://api-dev.qstrike.com/api/categories";
+        var url = "//" +api_host+ "/api/categories";
         $.ajax({
             url: url,
             async: false,
@@ -308,10 +305,29 @@ $(function(){
         $('.show-in-customizer-input option[value="' + window.materials[window.current_index].customizer_available +'"]').prop("selected", true);
         $('.show-sport-dd option[value="' + window.default_sport +'"]').prop("selected", true);
 
-        $('.front-image').attr("src",window.materials[window.current_index].thumbnail_path);
-        $('.back-image').attr("src",window.materials[window.current_index].thumbnail_path_back);
-        $('.left-image').attr("src",window.materials[window.current_index].thumbnail_path_left);
-        $('.right-image').attr("src",window.materials[window.current_index].thumbnail_path_right);
+        if((window.materials[window.current_index].thumbnail_path) == null || (window.materials[window.current_index].thumbnail_path) == ""){
+            $('.front-image').attr("src", "https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg");
+        } else {
+            $('.front-image').attr("src",window.materials[window.current_index].thumbnail_path);
+        }
+
+        if((window.materials[window.current_index].thumbnail_path_back) == null || (window.materials[window.current_index].thumbnail_path_back) == ""){
+            $('.back-image').attr("src", "https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg");
+        } else {
+            $('.back-image').attr("src",window.materials[window.current_index].thumbnail_path_back);
+        }
+
+        if((window.materials[window.current_index].thumbnail_path_left) == null || (window.materials[window.current_index].thumbnail_path_left) == ""){
+            $('.left-image').attr("src", "https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg");
+        } else {
+            $('.left-image').attr("src",window.materials[window.current_index].thumbnail_path_left);
+        }
+
+        if((window.materials[window.current_index].thumbnail_path_right) == null || (window.materials[window.current_index].thumbnail_path_right) == ""){
+            $('.right-image').attr("src", "https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg");
+        } else {
+            $('.right-image').attr("src",window.materials[window.current_index].thumbnail_path_right);
+        }
 
         window.default_material_id = window.materials[window.current_index].id;
         setTimeout(hidePleaseWait(), 5000);
@@ -406,12 +422,8 @@ $(function(){
 
     $('.update-button').on('click', function(e){
         e.preventDefault();
-        // showPleaseWait();
-        // modalConfirm('Remove font', 'Are you sure you want to delete the font?', id);
         modalConfirm('Update style', 'Are you sure you want to update the style information?');
-        // $('.progress-modal-message').html('Loading style information...');
-        // window.current_index = window.current_index - 1;
-        // generateValues("previous");
+
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
@@ -419,19 +431,13 @@ $(function(){
         $('#confirmation-modal').modal('hide');
         showPleaseWait();
         $('.progress-modal-message').html('Updating style information...');
-        //  var id = $(this).data('value');
-
-
-        // var url = "//" + api_host + "/api/font/delete/";
-        // //var url = "//localhost:8888/api/font/delete/";
-
         var id = window.default_material_id;
         var item_id = $('.qstrike-item-id-input').val();
         var customizer_available = $('.show-in-customizer-input').val();
         var data = {id: id, item_id: item_id, customizer_available: customizer_available};
-        // console.log(data);
+        var url = "//" +api_host+ "/api/material/updatePartial";
         $.ajax({
-            url: "//api-dev.qstrike.com/api/material/updatePartial",
+            url: url,
             type: "POST",
             data: JSON.stringify(data),
             dataType: "json",
@@ -439,7 +445,6 @@ $(function(){
             contentType: 'application/json',
             success: function(response){
                 if (response.success) {
-                    // console.log('Success');
                     $('#confirmation-modal').modal('hide');
                     var pleaseWait = $('#pleaseWaitDialog');
                     hidePleaseWait = function () {

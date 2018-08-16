@@ -26,7 +26,7 @@ li.select2-selection__choice {
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-info">
-                <div class="panel-heading">Add New Application Size</div>
+                <div class="panel-heading">Modify Application Size</div>
                 <div class="panel-body">
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -49,14 +49,14 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
                             <div class="col-md-6">
-                                <input type="name" class="form-control" name="name" value="{{ $application_size->name }}">
+                                <input type="name" class="form-control" name="name" value="{{ $application_size->name }}" required="true">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-6">
-                                <select class="form-control sport" name="uniform_category_id" id="uniform_category_id" >
+                                <select class="form-control sport" name="uniform_category_id" id="uniform_category_id" required="true">
                                     <option value="">None</option>
                                     @foreach ($sports as $sport)
                                         @if ($sport->active)
@@ -70,7 +70,7 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="block-pattern-val" id="block_pattern_value" name="block_pattern_value" value="{{ $application_size->block_pattern }}">
-                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple">
+                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple" required="true">
                                 </select>
                             </div>
                         </div>
@@ -79,7 +79,7 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Neck Option</label>
                             <div class="col-md-6">
                                 <input type="hidden" class="neck-option-val" id="neck_option_value" name="neck_option_value" value="{{ $application_size->neck_option }}">
-                               <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple">
+                               <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple" required="true">
                                 </select>
                             </div>
                         </div>
@@ -95,12 +95,22 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Uniform Application Type</label>
                             <div class="col-md-6">
-                                <select name='uniform_application_type' class="form-control uniform-application-type">
+                                <select name='uniform_application_type' class="form-control uniform-application-type" required="true">
                                     <option value='none'@if( $application_size->uniform_application_type == "none" ) selected @endif>None</option>
                                     <option value='infused'@if( $application_size->uniform_application_type == "infused" ) selected @endif>Infused</option>
                                     <option value='sublimated'@if( $application_size->uniform_application_type == "sublimated" ) selected @endif>Sublimated</option>
                                     <option value='tackle_twill'@if( $application_size->uniform_application_type == "tackle_twill" ) selected @endif>Tackle Twill</option>
                                     <option value='knitted'@if( $application_size->uniform_application_type == "knitted" ) selected @endif>Knitted</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" >Brand</label>
+                            <div class="col-md-6">
+                                <select name="brand" class="form-control" required="true">
+                                        <option value="none" @if($application_size->brand == "none") selected="selected"@endif>None</option>
+                                        <option value="prolook" @if($application_size->brand == "prolook") selected="selected"@endif>Prolook</option>
+                                        <option value="richardson" @if($application_size->brand == "richardson") selected="selected"@endif>Richardson</option>
                                 </select>
                             </div>
                         </div>
@@ -178,7 +188,7 @@ $(function(){
 
     function getBlockPatterns(callback){
         var block_patterns;
-        var url = "//api-dev.qstrike.com/api/block_patterns";
+        var url = "//" +api_host+ "/api/block_patterns";
         $.ajax({
             url: url,
             async: false,
@@ -199,7 +209,7 @@ $(function(){
     $(document).on('change', '.sport', function() {
     sport = $('.sport').val();
         getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
-        var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id === sport; });
+        var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id == sport; });
                 block_patterns_value.forEach(function(pattern) {
                     $( '#block_pattern' ).html('');
                     $.each(x, function(i, item) {
@@ -243,6 +253,7 @@ $(function(){
         y.forEach(function(i) {
             $('#neck_option').append('<option value="'+i+'">'+i+'</option>');
         });
+        $('.material-neck-option').trigger('change');
     });
 
     if($('#block_pattern_value').val()){

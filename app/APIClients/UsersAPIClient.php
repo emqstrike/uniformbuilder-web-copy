@@ -21,6 +21,18 @@ class UsersAPIClient extends APIClient
         return $users;
     }
 
+    public function getTotalCount()
+    {
+        $response = $this->get('users/total_count');
+        $result = $this->decoder->decode($response->getBody());
+
+        $count = 0;
+        if ($result->success) {
+            $count = $result->count;
+        }
+        return $count;
+    }
+
     public function getUser($id)
     {
         $response = $this->get('user/' . $id);
@@ -98,24 +110,25 @@ class UsersAPIClient extends APIClient
     public function isEmailTaken($email, $id = null)
     {
         $data = ['email' => $email];
-        $response = $this->get('user/emailExist', [
+
+        $response = $this->post('user/isEmailAvailable', [
             'json' => $data
         ]);
+
         $user = null;
+
         $result = $this->decoder->decode($response->getBody());
-        if ($result->success)
-        {
+        if ($result->success) {
             $user = $result->user;
         }
 
-        if (!is_null($user) && !is_null($id))
-        {
+        if (!is_null($user) && !is_null($id)) {
             $compare = $this->getUser($id);
-            if ($user->id == $compare->id)
-            {
+            if ($user->id == $compare->id) {
                 return false;
             }
         }
+
         return !is_null($user);
     }
 

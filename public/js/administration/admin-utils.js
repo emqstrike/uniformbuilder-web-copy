@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	window.au.initialize = function () {									
 
-		window.au.config.api_host = '//api-dev.qstrike.com';
+		window.au.config.api_host = '//' + api_host;
 
 		au.endpoints.accents_url = window.au.config.api_host + '/api/accents/';
 		au.endpoints.colors_url = window.au.config.api_host + '/api/colors/';
@@ -12,6 +12,15 @@ $(document).ready(function() {
 		au.endpoints.patterns_url = window.au.config.api_host + '/api/patterns/';
 		au.endpoints.tailsweeps_url = window.au.config.api_host + '/api/tailsweeps/';
 	}
+
+	window.au.util = {
+		escapeSingleQuotes: function (jsonString) {
+			return jsonString.replace(/(['])/g, "\\$1");
+		},
+		stringifyThenJSONParse: function (jsonObject) {
+			return JSON.parse(JSON.stringify(jsonObject));
+		}
+	};
 
 	au.applications.events = function(){
 

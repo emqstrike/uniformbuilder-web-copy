@@ -45,7 +45,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sport</label>
                             <div class="col-md-4">
-                                <select class="form-control sport" name="uniform_category_id">
+                                <select class="form-control sport" name="uniform_category_id" required="true">
                                     <option value="">None</option>
                                     @foreach ($sports as $sport)
                                         @if ($sport->active)
@@ -59,7 +59,7 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Block Pattern</label>
                             <div class="col-md-4">
                                 <input type="hidden" class="block-pattern-val" id="block_pattern_value" name="block_pattern_value">
-                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple">
+                                <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple" required="true">
                                 </select>
                             </div>
                         </div>
@@ -68,14 +68,14 @@ li.select2-selection__choice {
                             <label class="col-md-4 control-label">Neck Option</label>
                             <div class="col-md-4">
                                 <input type="hidden" class="neck-option-val" id="neck_option_value" name="neck_option_value">
-                                <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple">
+                                <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple" required="true">
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Type</label>
                             <div class="col-md-2">
-                                <select class="form-control app-type" name="type">
+                                <select class="form-control app-type" name="type" required="true">
                                     <option value="upper">Upper</option>
                                     <option value="lower">Lower</option>
                                 </select>
@@ -84,7 +84,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Active</label>
                             <div class="col-md-2">
-                                <select class="form-control app-active" name="active">
+                                <select class="form-control app-active" name="active" required="true">
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
@@ -131,7 +131,7 @@ $(function(){
 
         function getBlockPatterns(callback){
             var block_patterns;
-            var url = "//api-dev.qstrike.com/api/block_patterns";
+            var url = "//" +api_host+ "/api/block_patterns";
             $.ajax({
                 url: url,
                 async: false,
@@ -149,7 +149,7 @@ $(function(){
         $(document).on('change', '.sport', function() {
             sport = $('.sport').val();
                 getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
-                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id === sport; });
+                var x = _.filter(window.block_patterns, function(e){ return e.uniform_category_id == sport; });
                         $( '#block_pattern' ).html('');
                         $.each(x, function(i, item) {
                             $('#block_pattern' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );

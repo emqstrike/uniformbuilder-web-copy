@@ -99,7 +99,7 @@
                             </select>
                             <input type="text" name="application_name" id="application_name" value="Logo" style="margin-bottom: 10px;">
                         </div>
-                        <table class="table table-bordered" id="applications_table">
+                        <table class="table table-bordered table-hover" id="applications_table">
                             <thead>
                                 <th></th>
                                 <th>App #</th>
@@ -110,6 +110,7 @@
                                 <th>Y</th>
                                 <th>Primary</th>
                                 <th>Logo</th>
+                                <th>Embellishment</th>
                                 <th>Team name</th>
                                 <th>Player name</th>
                                 <th>Number</th>
@@ -123,11 +124,12 @@
                                 <th>Default Text</th>
                                 <th>Vertical Text</th>
                                 <th>Default Number</th>
-                                <th>Embellishment</th>
                                 <th>Inksoft Design ID</th>
                                 <th>Opacity</th>
                                 <th>Pattern Position</th>
                                 <th>Default Pattern</th>
+                                <th>Custom Scale X</th>
+                                <th>Custom Scale Y</th>
                                 <th>Flipped</th>
                             </thead>
                             <tbody class="front-applications">

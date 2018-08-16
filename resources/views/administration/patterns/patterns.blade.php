@@ -1,7 +1,7 @@
 @extends('administration.lte-main')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.css"/>
 <style type="text/css">
 .onoffswitch {
     position: relative; width: 61px;
@@ -40,13 +40,13 @@
     position: absolute; top: 0; bottom: 0;
     right: 37px;
     border: 2px solid #999999; border-radius: 9px;
-    transition: all 0.3s ease-in 0s; 
+    transition: all 0.3s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
     margin-left: 0;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px; 
+    right: 0px;
 }
 </style>
 @endsection
@@ -68,6 +68,11 @@
                             </a>
                         </small>
                     </h1>
+                    <h4>Brands</h4>
+                    <button class="button brand-filter btn-primary" value=".all-brand">All</button>
+                    <button class="button brand-filter " value=".prolook">Prolook</button>
+                    <button class="button brand-filter" value=".richardson">Richardson</button>
+                    <h4>Asset Target</h4>
                     <button class="button btn-primary filter" value=".all">All</button>
                     <button class="button filter" value=".web">Web</button>
                     <button class="button filter" value=".ipad">Ipad</button>
@@ -91,6 +96,7 @@
                                 <th>Block Pattern Option</th>
                                  <th>Sports</th>
                                 <th>Asset Target</th>
+                                <th>Brand</th>
                                 <th>Active</th>
                                 <th>Actions</th>
                                 <th></th>
@@ -100,7 +106,7 @@
 
                 @forelse ($patterns as $pattern)
 
-                    <tr class='pattern-{{ $pattern->id }} {{ (!$pattern->active) ? ' inactive' : '' }}{{ $pattern->asset_target }} all' >
+                    <tr class='pattern-{{ $pattern->id }} {{ (!$pattern->active) ? ' inactive' : '' }} {{ $pattern->brand }} {{ $pattern->asset_target }} all all-brand' >
                         <td>
                             {{ $pattern->id }}
                         </td>
@@ -128,10 +134,13 @@
                            {{ $pattern->sports }}
 
                         </td>
-                        
                         <td>
                             {{ $pattern->asset_target }}
                         </td>
+                        <td>
+                            {{ $pattern->brand }}
+                        </td>
+
                         <td>
                             <div class="onoffswitch">
                                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox toggle-pattern" id="switch-{{ $pattern->id }}" data-pattern-id="{{ $pattern->id }}" {{ ($pattern->active) ? 'checked' : '' }}>
@@ -163,7 +172,7 @@
                                 Remove
                             </a>
                         </td>
-                        
+
                     </tr>
 
                 @empty
@@ -194,13 +203,25 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript" src="/js/administration/patterns.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jqc-1.12.4/dt-1.10.13/af-2.1.3/b-1.2.4/b-colvis-1.2.4/r-2.1.0/datatables.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-
+    $('.patterns').DataTable();
+    
     $(document).on('click', '.filter', function() {
         $(".filter").removeClass('btn-primary');
         $(this).addClass('btn-primary').show;
+        $(".all-brand").fadeOut( "slow" );
         $(".all").fadeOut( "slow" );
+        $active = $('.brand-filter.btn-primary').val()+$(this).val();
+        $($active).fadeIn( "slow" );
+    });
+
+    $(document).on('click', '.brand-filter', function() {
+        $(".brand-filter").removeClass('btn-primary');
+        $(this).addClass('btn-primary');
+        $(".filter").removeClass('btn-primary');
+        $(".all-brand").fadeOut( "slow" );
         $($(this).val()).fadeIn( "slow" );
     });
 

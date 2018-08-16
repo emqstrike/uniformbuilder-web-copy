@@ -19,6 +19,19 @@ class OrdersController extends Controller
         $this->client = $apiClient;
     }
 
+    public function ordersMinified(Request $request)
+    {
+        $orders = $this->client->getOrdersMinified();
+        foreach($orders as $order)
+        {
+            $order->created_at = date('M-d-Y', strtotime($order->created_at));
+        }
+
+        return view('administration-lte-2.orders.orders', [
+            'orders' => $orders
+        ]);
+    }
+
     public function index(Request $request)
     {
         $status = $request->get('status');
@@ -79,6 +92,11 @@ class OrdersController extends Controller
         ]);
     }
 
+    public function indexSearchOrder(Request $request)
+    {
+        return view('administration.orders.search-order');
+    }
+
     public function indexSentOrders(Request $request)
     {
         $orders = $this->client->getSentOrders();
@@ -93,6 +111,19 @@ class OrdersController extends Controller
         $response = $this->client->updateStatus('order/updateStatus', [
             'status' => $status
         ]);
+    }
+
+    public function orderSearch($foid)
+    {
+        $order = $this->client->searchOrderByFOID($foid);
+        // dd($order);
+        if($order){
+            return view('administration.orders.search-result', [
+                'order' => $order
+            ]);
+        } else {
+            dd("Order not found");
+        }
     }
 
 }

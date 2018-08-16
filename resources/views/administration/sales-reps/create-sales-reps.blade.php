@@ -45,26 +45,26 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Firstname : </label>
                             <div class="col-md-4">
-                                <input type="text" name="first_name" class="form-control">
+                                <input type="text" name="first_name" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Lastname : </label>
                             <div class="col-md-4">
-                                <input type="text" name="last_name" class="form-control">
+                                <input type="text" name="last_name" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Sales Representative ID : </label>
                            <div class="col-md-1">
-                                <input type="number" name="rep_id" class="form-control">
+                                <input type="number" name="rep_id" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-4 control-label">Email : </label>
                             <div class="col-md-4">
-                                <input type="email" name="user_id" class="form-control">
+                                <input type="email" name="user_id" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -85,7 +85,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Rep ID Manager</label>
                             <div class="col-md-1">
-                                <input type="number" name="rep_id_manager" class="form-control">
+                                <input type="number" name="rep_id_manager" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -100,7 +100,7 @@ li.select2-selection__choice {
                         <div class="form-group">
                             <label class="col-md-4 control-label">Dealer ID : </label>
                            <div class="col-md-1">
-                                <input type="number" name="dealer_id" class="form-control">
+                                <input type="number" name="dealer_id" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">

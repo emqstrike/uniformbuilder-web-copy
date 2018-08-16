@@ -34,7 +34,15 @@ elixir(function(mix) {
 			'uniform-builder-error-codes.js',
 			'uniform-builder-endpoints.js',
 			'uniform-builder-style-configuration.js',
-			'uniform-builder-branding.js',
+			
+			// Brand Specific 
+
+				// Richardson 
+				'richardson/uniform-builder-richardson-data.js',
+				'richardson/uniform-builder-richardson.js',
+
+				'uniform-builder-branding.js',
+
 			'uniform-builder-dealership.js',
 			'uniform-builder-data.js',
 			'uniform-builder-ui-data.js',
@@ -44,7 +52,8 @@ elixir(function(mix) {
 			'uniform-builder-mock-data.js',	
 			'uniform-builder-status.js',	
 			'uniform-builder-math.js',	
-			'uniform-builder-interop-is.js',	
+			'uniform-builder-interop-is.js',
+			'uniform-builder-mascots.js',	
 			'uniform-builder-placeholder-applications.js',	
 			'uniform-builder-process.js',	
 			'uniform-builder-dialogs.js',	
@@ -66,6 +75,7 @@ elixir(function(mix) {
 			'uniform-builder-qa-tools.js',
 			'uniform-builder-color-utilities.js',
 			'uniform-builder-data-patches.js',
+			'uniform-builder-loader.js',
 			'uniform-builder.js',
 			'uniform-builder-sports-specific.js',
 			'uniform-builder-custom-artwork-requests.js',

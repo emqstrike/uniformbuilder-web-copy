@@ -31,8 +31,6 @@
                                 <option value="orders" @if($active_table == "orders") selected="selected"@endif >Orders</option>
                             </select>
                         </div>
-                        <textarea name="hide" style="display:none;" id="table-data"><?php echo json_encode($table, JSON_FORCE_OBJECT);?></textarea>
-                        <textarea name="hide" style="display:none;" id="sports-data"><?php echo json_encode($sports, JSON_FORCE_OBJECT);?></textarea>
                         <div class="col-md-2">
                             <a href="#" class="btn btn-default active-table-name" style="width: 100px;">Count</a><hr>
                         </div>
@@ -40,14 +38,27 @@
                 </div>
                 <div class="box-body">
                     <table class='table table-bordered table-striped table-hover'>
-                    <thead>
-                        <tr>
-                            <th width="40%">Table</th>
-                            <th width="60%">Total No. of Records</th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody-data">
-                    </tbody>
+                        <thead>
+                            <tr>
+                                <th width="40%">Table</th>
+                                <th width="60%">Total No. of Records</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody-data">
+                            @if ($active_table == 'neck_options')
+                                @foreach ($count as  $data)
+                                    <tr>
+                                        <td>{{ $data->name }}</td>
+                                        <td>{{ $data->total }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td>{{ ucfirst(str_replace('_', ' ', $active_table)) }}</td>
+                                    <td>{{ $count }}</td>
+                                </tr>
+                            @endif
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -66,7 +77,6 @@
 <script src="/underscore/underscore.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-
     $('.file-link').on('click', function(e){
         console.log('file link');
         var url = $(this).data('link');
@@ -77,6 +87,7 @@ $(document).ready(function(){
         var win = window.open(url, '_blank');
         win.focus();
     }
+
     $(document).on('click', '.active-table-name', function() {
         $table = $('.table-name').val();
         if ($table == null || $table == '') {
@@ -84,103 +95,6 @@ $(document).ready(function(){
         }
         window.location = "/administration/total_records/"+$table;
     });
-
-    var table_data = null;
-    var table_name = $('.table-name option:selected').text();
-    var table_data = $('#table-data').text();
-    var data = JSON.parse(table_data);
-    var element = '';
-
-    //For Block Pattern Options
-    if (table_name === 'Block Pattern Options') {
-        var bp_options = [];
-        var all_data_counts = 0;
-        var unique_data_counts = 0;
-        _.each(data, function(bp) {
-            var bp_name = bp.name;
-            _.each(data, function(item) {
-                if (item.name == bp_name) {
-                    var opts = JSON.parse(item.neck_options);
-                    _.each(opts, function (opt) {
-                        bp_options.push(opt.name);
-                    });
-                }
-            });
-        });
-
-        _.each(bp_options, function(i) {
-            all_data_counts++;
-        });
-        var unique_options = _.sortBy(_.uniq(bp_options));
-            _.each(unique_options, function(i) {
-                unique_data_counts++;
-        });
-
-        element =  `<tr>
-                        <td>
-                            Total Block Pattern Options
-                        </td>
-                        <td>`
-                            +all_data_counts+
-                        `</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Unique Block Pattern Options
-                        </td>
-                        <td>`
-                            +unique_data_counts+
-                        `</td>
-                    </tr>`;
-
-        var sports = _.groupBy(data, "uniform_category_id");
-        var sports_ids = _.keys(sports);
-        var options_per_sport = [];
-        var sports_options_count = 0;
-            _.each(sports, function(sport) {
-                var sport_bp_options = 0;
-                _.each(sport, function(bp) {
-                    var options = bp.neck_options;
-                    var data_options = JSON.parse(options);
-                    if (data_options == '' || data_options == null || data_options == undefined) {
-                        sports_options_count = 0;
-                    } else {
-                        sports_options_count = Object.keys(data_options).length;
-                    }
-                    sport_bp_options += sports_options_count;
-                });
-            options_per_sport.push(sport_bp_options);
-            });
-
-        var sports_data = JSON.parse($('#sports-data').text());
-        _.each(sports_ids, function(sport_id, i) {
-            var sportOK = _.find(sports_data, function(e){
-                return e.id == sport_id;
-                });
-            element +=  `<tr>
-                        <td>
-                            Block Pattern Options of `+sportOK.name+
-                        `</td>
-                        <td>`
-                            +options_per_sport[i]+
-                        `</td>
-                    </tr>`;
-        });
-
-    } else {
-        var data_count = Object.keys(data).length;
-        element =   `<tr>
-                        <td>`
-                            +table_name+
-                        `</td>
-                        <td>`
-                            +data_count+
-                        `</td>
-                    </tr>`;
-    }
-
-    $('.tbody-data').append(element);
-
 });
 </script>
 @endsection
