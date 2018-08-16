@@ -157,6 +157,9 @@ $(document).ready(function(){
     $('.rep-id').append(reps_elem);
     $('#orders_table .rep-id').append(reps_elem);
 
+    console.log(window.qx_reps_url);
+    console.log(window.sales_reps_dd);
+
     $(document).on('change', '.rep-id', function(e) {
         var option_selected = $(this).val();
         var ste_button = $(this).parent().parent().find('.send-to-factory');
