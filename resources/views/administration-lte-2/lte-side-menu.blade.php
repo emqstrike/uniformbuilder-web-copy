@@ -128,8 +128,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/price_templates"><i class="fa fa-dollar"></i> Price Item Templates<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
-            <li><a href="../layout/boxed.html"><i class="fa fa-arrows"></i> Templates & Sizes</a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/price_templates"><i class="fa fa-dollar"></i> Templates & Sizes<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/price_items"><i class="fa fa-dollar"></i> Price Items<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
         </li>
          <li class="treeview">
