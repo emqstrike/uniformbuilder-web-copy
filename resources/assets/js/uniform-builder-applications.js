@@ -26,6 +26,13 @@ $(document).ready(function() {
 
     };
 
+    // Only Sublimated or Knitted styles uses custom scale
+    ub.funcs.usesCustomScaleValid = function () {
+
+        return ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted";
+
+    }
+
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
@@ -2660,7 +2667,7 @@ $(document).ready(function() {
 
                         if (
                             (!_customScaleUndefined && !_customScaleBlank) && 
-                            ub.funcs.isSublimated()
+                            ub.funcs.usesCustomScaleValid()
                             ) {
 
                             var _scaleX = point.scale.x;
