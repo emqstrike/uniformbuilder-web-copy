@@ -136,7 +136,7 @@
                     <input type="text" class="form-control" id="billing-city" placeholder="City" name="billing-city">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group billing-state-form-group">
                     <label for="state">State</label>
                     <select class="billing-state-dropdown" id="billing-state" placeholder="State" name="billing-state" class="form-control" style="width: 100%;"></select>
                 </div>
@@ -197,7 +197,7 @@
                     <input type="text" class="form-control" id="shipping-city" placeholder="City" name="shipping-city">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group shipping-state-form-group">
                     <label for="state">State</label>
                     <select class="billing-state-dropdown" id="shipping-state" placeholder="State" name="shipping-state" class="form-control" style="width: 100%;"></select>
                 </div>

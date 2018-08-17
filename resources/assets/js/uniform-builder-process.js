@@ -1559,6 +1559,38 @@ $(document).ready(function() {
 
             }
 
+            if ($('select#billing-state').val() == 0) {
+
+                $('div.order-tab-buttons').find('div.active-tab').removeClass('active-tab');
+                $('div.order-tabs').find('div.active-tab').removeClass('active-tab');
+
+                $('div.order-tab-button[data-name=billing-info]').addClass('active-tab');
+                $('div.order-tab[data-name=billing-info]').addClass('active-tab');
+
+                $('div.billing-state-form-group span.select2-selection').css('border','1px solid red');
+                $.smkAlert({text: 'Please select state in your billing info!', type: 'warning', time: 3, marginTop: '80px'});
+                return;
+
+            } else {
+                $('div.billing-state-form-group span.select2-selection').css('border','1px solid #aaa');
+            }
+
+            if ($('select#shipping-state').val() == 0) {
+
+                $('div.order-tab-buttons').find('div.active-tab').removeClass('active-tab');
+                $('div.order-tabs').find('div.active-tab').removeClass('active-tab');
+
+                $('div.order-tab-button[data-name=shipping-info]').addClass('active-tab');
+                $('div.order-tab[data-name=shipping-info]').addClass('active-tab');
+
+                $('div.shipping-state-form-group span.select2-selection').css('border','1px solid red');
+                $.smkAlert({text: 'Please select state in your shipping info!', type: 'warning', time: 3, marginTop: '80px'});
+                return;
+
+            } else {
+                $('div.shipping-state-form-group span.select2-selection').css('border','1px solid #aaa');
+            }
+
             if(ub.data.uploading) {  
 
                 $.smkAlert({text: 'Please wait for uploading to finish.', type:'warning', time: 3, marginTop: '80px'});

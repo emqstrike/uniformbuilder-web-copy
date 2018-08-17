@@ -3165,6 +3165,8 @@
     
     <script type="text/mustache" id="m-us-states">
 
+        <option value="0">Select your state</option>
+        
         @{{#states}}
             <option value="@{{code}}">@{{name}} (@{{code}})</option>
         @{{/states}}
