@@ -78,7 +78,7 @@
                                 <button type="submit" class="btn btn-primary btn-flat create-color">
                                     Add Record
                                 </button>
-                                <a href="/administration/colors_sets" class="btn btn-flat btn-danger">
+                                <a href="/administration/v1-0/colors_sets" class="btn btn-flat btn-danger">
                                     Cancel
                                 </a>
                             </div>

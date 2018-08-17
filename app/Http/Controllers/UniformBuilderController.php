@@ -947,14 +947,14 @@ class UniformBuilderController extends Controller
 
                 if ($application['mascot']['name'] == 'Custom Logo') {
 
-                    $html .=   '<a href="' . $application['customFilename'] . '" target="_new">Link To Uploaded File</a> <br />';
+                    // $html .=   '<a href="' . $application['customFilename'] . '" target="_new">Link To Uploaded File</a> <br />';
 
                     $userfile_name = $application['customFilename'];
                     $userfile_extn = substr($userfile_name, strrpos($userfile_name, '.')+1);
 
                     if ($userfile_extn === 'png' or $userfile_extn === 'gif' or $userfile_extn === 'jpg' or $userfile_extn === 'jpeg' or $userfile_extn === 'bmp') {
 
-                        $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '"><br />';
+                        $html .=   '<img width="50" height="50"  src="' . $application['customFilename'] . '">';
 
                     }
 
@@ -962,8 +962,8 @@ class UniformBuilderController extends Controller
 
                 } else {
 
-                    $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '"><br />';
-                    $html .=   '<a href="' . $application['mascot']['ai_file'] . '" target="_new">Link To Mascot PDF File</a> <br />';
+                    $html .=   '<img width="50" height="50"  src="' . $application['mascot']['icon'] . '">';
+                    // $html .=   '<a href="' . $application['mascot']['ai_file'] . '" target="_new">Link To Mascot PDF File</a> <br />';
 
                 }
 
@@ -982,11 +982,11 @@ class UniformBuilderController extends Controller
                    $html .=   'Watermark Intensity: 100% <br />';
                 }
 
-                $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '"><br />';
-                $html .=   '<a href="' . $embellishment['svg_filename'] . '" target="_new">Link To Prepared File</a> <br />';
-                $html .=   '<a href="http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
-                $html .=   '</td>';
+                $html .=   '<img width="50" height="50"  src="' . $embellishment['thumbnail'] . '">';
+//                $html .=   '<a href="' . $embellishment['svg_filename'] . '" target="_blank">Link To Prepared File</a> <br />';
+//                $html .=   '<a href="http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'] . '" target="_new">View Detailed Info</a> <br />';
 
+                $html .=   '</td>';
             }
 
              else {
@@ -1852,7 +1852,7 @@ class UniformBuilderController extends Controller
         $firstOrderItem = $builder_customizations['builder_customizations']['order_items'][0];
         $mainInfo       = $builder_customizations['builder_customizations'];
 
-        $style = '<style> body { font-size: 0.8em; } td { font-size: 0.8em; } </style>';
+        $style = '<style> body, td, p { font-size: 0.8em; } </style>';
 
         $html  = '';
         $html .= $style;
@@ -1863,14 +1863,58 @@ class UniformBuilderController extends Controller
 
         $html .=   $this->generateClientDetailsTable($mainInfo);
 
-        $html .=   '<table width="100%">';
-        $html .=     '<tr>';
-        $html .=     '<td>';
-        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo, $firstOrderItem['material_id']);
-        $html .=     '</td>';
-        $html .=     '</tr>';
-        $html .=   '</table>';
+        $html .= '<table cellpadding="2">';
+        $html .= '<tr>';
+        $html .=   '<td>';
+        $html .=     'STYLE<br />';
+        $html .=       '<strong>#' .  $firstOrderItem['material_id']  . ', ' . $firstOrderItem["description"] . ' (' . $firstOrderItem["applicationType"]  .')</strong><br />';
+        $html .=       '<strong>' .  $firstOrderItem["sku"]  . '</strong>';
+        $html .=   '</td>';
+        $html .= '</tr>';
+        $html .= '</table>';
+        $pdf->writeHTML($html, true, false, true, false, '');
 
+//        $html .=   '<table width="100%">';
+//        $html .=     '<tr>';
+//        $html .=     '<td>';
+//        $html .=         $this->generateItemTable($firstOrderItem, '/design_sheets/' . $filename . '.pdf', $mainInfo, $firstOrderItem['material_id']);
+//        $html .=     '</td>';
+//        $html .=     '</tr>';
+//        $html .=   '</table>';
+        $html  = '';
+        $html .= $style;
+        $html .= '<p>URLS:</p>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $builder_url_text = 'BUILDER URL';
+        $pdf_url_text = 'PDF URL';
+        $cut_url_text = 'CUT URL';
+        $style_url_text = 'STYLE URL';
+
+        $builder_url_link = $firstOrderItem["url"];
+        $pdf_url_link = 'https://' . env("WEBSITE_URL") . '/design_sheets/' . $filename . '.pdf';
+        $cut_url_link = $firstOrderItem["builder_customizations"]["cut_pdf"];
+        $style_url_link = $firstOrderItem["builder_customizations"]["styles_pdf"];
+
+        $pdf->addHtmlLink($builder_url_link, $builder_url_text, false, false , array(0,0,255), -1, false);
+        $pdf->Write( 1, '     |     ', '', false, '', false, 0, false, false, 0, 0, '' );
+        $pdf->addHtmlLink($pdf_url_link, $pdf_url_text, false, false , array(0,0,255), -1, false);
+        $pdf->Write( 1, '     |     ', '', false, '', false, 0, false, false, 0, 0, '' );
+        if ($firstOrderItem["builder_customizations"]["cut_pdf"] === '') {
+            $pdf->Write( 1, 'No Cut PDF detected.', '', false, '', false, 0, false, false, 0, 0, '' );
+        } else {
+            $pdf->addHtmlLink($cut_url_link, $cut_url_text, false, false , array(0,0,255), -1, false);
+        }
+
+        $pdf->Write( 1, '     |     ', '', false, '', false, 0, false, false, 0, 0, '' );
+        if ($firstOrderItem["builder_customizations"]["styles_pdf"] === '') {
+            $pdf->Write( 1, 'No STYLE PDF detected.', '', false, '', false, 0, false, false, 0, 0, '' );
+        } else {
+            $pdf->addHtmlLink($style_url_link, $style_url_text, false, false , array(0,0,255), -1, false);
+        }
+
+        $html  = '<br /><br />';
+        $html .= $style;
         $html .=   '<table width="100%" style="height: 750px">';
         $html .=   '<tr>';
         $html .=   '<td style="text-align=center;">';
@@ -1894,11 +1938,11 @@ class UniformBuilderController extends Controller
         $frontCaption = '(Front)';
         $backCaption = '(Back)';
         $leftCaption = '(Left)';
-        $rigthCaption = '(Right)';
+        $rightCaption = '(Right)';
 
         if ($sport === "Crew Socks (Apparel)" || $sport === "Socks (Apparel)") {
             $leftCaption = '(Outside)';
-            $rigthCaption = '(Inside)';
+            $rightCaption = '(Inside)';
         }
 
         $html  = '';
@@ -1909,11 +1953,17 @@ class UniformBuilderController extends Controller
         $html .=     '<br /><br /><br /><br /><br /><br />';
         $html .=       '<table>';
         $html .=         '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
+//        $html .=         '<tr>';
+//        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $frontCaption . '</td>';
+//        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $backCaption . '</td>';
+//        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $leftCaption . '</td>';
+//        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $rigthCaption . '</td>';
+//        $html .=         '</tr>';
         $html .=         '<tr>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $frontViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $frontCaption . '</td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $backViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $backCaption . '</td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $leftViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $leftCaption . '</td>';
-        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/><br /><a style="font-size: 0.7em" href="' . $rightViewImage . '" target="_new"><em>View Larger Image</a></em><br />' . $rigthCaption . '</td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $frontViewImage  .'"/></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $backViewImage  .'"/></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $leftViewImage  .'"/></td>';
+        $html .=            '<td align="center"><img style="margin-top: 30px; width: 200px;" src="' . $rightViewImage  .'"/></td>';
         $html .=         '</tr>';
         $html .=        '<tr style="height: 100px;"><td></td><td></td><td></td><td></td></tr>';
         $html .=   '</table>';
@@ -1921,6 +1971,20 @@ class UniformBuilderController extends Controller
 
         $pdf->AddPage("L");
         $pdf->writeHTML($html, true, false, true, false, '');
+
+        $pdf->Write( 1, '                      ', '', false, '', false, 0, false, false, 0, 0, '' );
+        $pdf->addHtmlLink($frontViewImage , $frontCaption, false, false , array(0,0,255), -1, false);
+        $pdf->Write( 1, '                                            ', '', false, '', false, 0, false, false, 0, 0, '' );
+        $pdf->addHtmlLink($backViewImage, $backCaption, false, false , array(0,0,255), -1, false);
+        $pdf->Write( 1, '                                              ', '', false, '', false, 0, false, false, 0, 0, '' );
+        $pdf->addHtmlLink($leftViewImage, $leftCaption, false, false , array(0,0,255), -1, false);
+        $pdf->Write( 1, '                                               ', '', false, '', false, 0, false, false, 0, 0, '' );
+        $pdf->addHtmlLink($rightViewImage, $rightCaption, false, false , array(0,0,255), -1, false);
+
+//        $pdf->Write( 0, $frontCaption, '', false, '', false, 0, false, false, 0, 0, '' );
+//        $pdf->Write( 0, $backCaption, '', false, '', false, 0, false, false, 0, 0, '' );
+//        $pdf->Write( 0, $leftCaption, '', false, '', false, 0, false, false, 0, 0, '' );
+//        $pdf->Write( 0, $rightCaption, '', false, '', false, 0, false, false, 0, 0, '' );
 
         $pdf->AddPage("L");
 
@@ -1968,6 +2032,60 @@ class UniformBuilderController extends Controller
         $html .='</table>';
 
         $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Application separated links
+        $html  = '';
+        $html .= $style;
+        $html .= '<p>APPLICATION LINKS:</p>';
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        foreach ($applications as $application) {
+            // Log::info('==========APPLICATION LINKS===========');
+            $appType = strtoupper(str_replace("_"," ",$application['application_type']));
+            // $appTypeCaption = $appType;
+
+            // Skip free / unused applications
+            if ($appType === "FREE") { continue; }
+            if ($appType !== "EMBELLISHMENTS" && $appType !== "MASCOT" ) { continue; }
+
+            // Skip applications that are turned off
+            if (isset($application['status']) and $application['status'] === "off") { continue; }
+
+            // Log::info('---' . $application['code'] . ' ' . $appType);
+//            Log::info('APP TYPE IS ==========>' . $appType);
+
+            if ($appType === "EMBELLISHMENTS") {
+
+                Log::info('==========>Embellisments Detected!');
+                $appTypeCaption = "CUSTOM MASCOT";
+                $embellishment = $application['embellishment'];
+                $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
+                $pdf->addHtmlLink($embellishment['svg_filename'], 'Link To Prepared File', false, false, array(0, 0, 255), -1, false);
+                $pdf->Write(1, '             ', '', false, '', false, 0, false, false, 0, 0, '');
+                $pdf->addHtmlLink('http://' . env('WEBSITE_URL') . '/utilities/previewEmbellishmentInfo/' . $embellishment['design_id'], 'View Detailed Info', false, false, array(0, 0, 255), -1, false);
+                $html = '<br/>';
+                $pdf->writeHTML($html, true, false, true, false, '');
+
+            } else if ($appType === "MASCOT" ) {
+
+                Log::info('==========>Mascot Detected!');
+                if ($application['mascot']['name'] == 'Custom Logo') {
+
+                    $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
+                    $pdf->addHtmlLink($application['customFilename'], 'Link To Uploaded File', false, false, array(0, 0, 255), -1, false);
+                    $html = '<br/>';
+                    $pdf->writeHTML($html, true, false, true, false, '');
+
+                } else {
+
+                    $pdf->Write(1, '#' . $application['code'] . '          ', '', false, '', false, 0, false, false, 0, 0, '');
+                    $pdf->addHtmlLink($application['mascot']['ai_file'], 'Link To Mascot PDF File', false, false, array(0, 0, 255), -1, false);
+                    $html = '<br/>';
+                    $pdf->writeHTML($html, true, false, true, false, '');
+
+                }
+            }
+        }
 
         // Piping
 

@@ -69,7 +69,7 @@
                     </select>
                 </div>
                 <div class="box-body">
-                    <table class='data-table table display table-bordered'>
+                    <table class='data-table table display table-bordered table-hover'>
                     <thead>
                         <tr>
                             <th>ID</th>
