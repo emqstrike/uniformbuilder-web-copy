@@ -1051,10 +1051,13 @@ $(document).ready(function() {
                     var flip = 1;
 
                     if (typeof view.application.flip !== 'undefined') {
-                        flip = view.application.flip;
+                        if (view.application.flip === 1) {
+                                 flip = -1;
+                         }
+                        else {
+                             flip = 1;
+                        }
                     }
-
-                    console.error('Flip Outside: ' + flip);
 
                     application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
                     view.application.scale   = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
@@ -1289,7 +1292,12 @@ $(document).ready(function() {
                         var flip = 1;
 
                         if (typeof view.application.flip !== 'undefined') {
-                            flip = view.application.flip;
+                            if (view.application.flip === 1) {
+                                 flip = -1;
+                            }
+                            else {
+                                 flip = 1;
+                            }
                         }
 
                         application_obj.scale = { x: percentage * flip, y: percentage};
