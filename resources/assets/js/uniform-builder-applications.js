@@ -26,6 +26,13 @@ $(document).ready(function() {
 
     };
 
+    // Only Sublimated or Knitted styles uses custom scale
+    ub.funcs.usesCustomScaleValid = function () {
+
+        return ub.config.uniform_application_type === "sublimated" || ub.config.uniform_application_type === "knitted";
+
+    }
+
     /// Mascot Utilities
 
     ub.funcs.update_mascot_list = function () {
@@ -2660,7 +2667,7 @@ $(document).ready(function() {
 
                         if (
                             (!_customScaleUndefined && !_customScaleBlank) && 
-                            ub.funcs.isSublimated()
+                            ub.funcs.usesCustomScaleValid()
                             ) {
 
                             var _scaleX = point.scale.x;
@@ -7786,13 +7793,16 @@ $(document).ready(function() {
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
-                if (_settingsObject.application.layer.indexOf('Shoulder') !== -1) { _applicationType = "shoulder_number"; }
-                if (_settingsObject.application.layer.indexOf('Sleeve') !== -1) { _applicationType = "sleeve_number"; }
+                var _inShoulder = _settingsObject.application.layer.indexOf('Shoulder') !== -1;
+                var _inSleeve = _settingsObject.application.layer.indexOf('Sleeve') !== -1;
+
+                if (_inShoulder) { _applicationType = "shoulder_number"; }
+                if (_inSleeve) { _applicationType = "sleeve_number"; }
 
                 var _primaryView = ub.funcs.getPrimaryView(_settingsObject.application);
 
-                if (_primaryView === "front") { _applicationType = "front_number"; }
-                if (_primaryView === "back") { _applicationType = "back_number"; }
+                if (_primaryView === "front" && !(_inShoulder || _inSleeve)) { _applicationType = "front_number"; }
+                if (_primaryView === "back" && !(_inShoulder || _inSleeve)) { _applicationType = "back_number"; }
 
             }
 
