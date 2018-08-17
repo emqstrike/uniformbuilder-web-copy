@@ -25,7 +25,7 @@ class SavedDesignsController extends Controller
             $currentPage = 1;
         }
 
-        $savedDesigns = $this->client->getAll($currentPage);
+        $savedDesigns = $this->client->getPaginated($currentPage);
 
         foreach ($savedDesigns->data as $savedDesign) {
             $savedDesign->created_at = date('M-d-Y', strtotime($savedDesign->created_at));
