@@ -363,6 +363,21 @@ $(document).ready(function(){
         });
     }
 
+    var multipleRemove=[];
+
+    $(document).on('click', '#multipleDelete', function() {
+        if ($(this).is(':checked')) {
+            multipleRemove.push($(this).data("pattern-id"));
+        } else {
+           multipleRemove.splice( $.inArray($(this).data("pattern-id"), multipleRemove) , 1);
+        }
+        multipleRemove = multipleRemove.sort();
+    });
+
+    $(document).on('click', '.multiple-delete-pattern', function() {
+        modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern?', multipleRemove);
+    });
+
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
