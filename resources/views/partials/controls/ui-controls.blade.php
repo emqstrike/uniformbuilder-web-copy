@@ -3165,6 +3165,8 @@
     
     <script type="text/mustache" id="m-us-states">
 
+        <option value="0">Select your state</option>
+        
         @{{#states}}
             <option value="@{{code}}">@{{name}} (@{{code}})</option>
         @{{/states}}
@@ -3173,5 +3175,23 @@
 
 
 <!-- End States -->
+
+<!-- ORDER FORM Error list -->
+    
+    <script type="text/mustache" id="m-order-form-error">
+        
+        <ul style="display: table;margin: 0 auto;">
+            @{{#errors}}
+                <li>
+                    <span>@{{message}}</span>
+                    <a id="@{{id}}-btn" onClick="ub.funcs.gotoField('#@{{id}}')">Go to field.</a>
+                </li>
+            @{{/errors}}
+        </ul>
+
+    </script>
+
+
+<!-- End ORDER FORM Error list -->
 
 @include('partials.controls.team-store-products-picker')
