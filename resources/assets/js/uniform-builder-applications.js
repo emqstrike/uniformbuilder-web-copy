@@ -6548,17 +6548,7 @@ $(document).ready(function() {
                 console.log(_sizesFromConfig.sizes);
                 console.log(_.pluck(_sizesFromConfig.sizes, "size"));
 
-                // var omitSize = _.omit(_sizesFromConfig, "size");
-                // var pluckSize = _.pluck(_sizesFromConfig.sizes, "size");
-                // var reverseSize = pluckSize.reverse();
-                // var finalSize = omitSize;
-                // console.log('NICO OMIT SIZE===>', omitSize);
-                // console.log('NICO REVERSE SIZE===>', reverseSize);
-                // finalSize["size"] = reverseSize;
-                // console.log('NICO FINAL SIZE===>', finalSize);
-
                 _sizes = _sizesFromConfig;
-                //_sizes = finalSize;
                 
             } 
 
@@ -6627,11 +6617,10 @@ $(document).ready(function() {
 
         } else {
 
-            // _inputSizes = _sizes.sizes.reverse();
-            // _inputSizes = _.sortBy(_sizes.sizes, function(o) { return o.size; });
-            _inputSizes = _.sortBy(_sizesFromConfig.sizes, function(obj) { return parseFloat(obj.size) });
-            // _inputSizes = _.sortBy(_sizes.sizes, function(obj) { return parseInt(obj.size) });
-            console.log('=========THIS IS SORT ASCENDING SIZES FOR DISPLAY ON UI=========', _inputSizes);
+            // _inputSizes = _sizes.sizes;
+
+            // add sort for sizes
+            _inputSizes = _.sortBy(_sizes.sizes, function(obj) { return parseFloat(obj.size) });
 
         }
 
@@ -8319,23 +8308,23 @@ $(document).ready(function() {
         if (_uniformCategory === "Football") {
             
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);
-            console.log('====>IM FROM FOOTBALL');
+            //console.log('====>IM FROM FOOTBALL');
 
         } else if (ub.current_material.material.uniform_category === "Baseball") {
             
             _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');
-            console.log('====>IM FROM BASKETBALL');
+            //console.log('====>IM FROM BASKETBALL');
 
         } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
             
             _sizes        = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
-            console.log('====>IM FROM SPECIAL', _sizes);
+            //console.log('====>IM FROM SPECIAL', _sizes);
 
         } else {
 
             ub.utilities.warn('no sizes setting defaulting to generic');
             _sizes        = ub.funcs.getApplicationSizes(_applicationType);
-            console.log('====>IM FROM GENERIC');
+            //console.log('====>IM FROM GENERIC');
 
         }
 
@@ -8358,25 +8347,11 @@ $(document).ready(function() {
                 console.log(_sizesFromConfig.sizes);
                 //console.log(_.pluck(_sizesFromConfig.sizes, "size"));
 
-                // var omitSize = _.omit(_sizesFromConfig, "sizes");
-                // var reverseSize = _sizesFromConfig.sizes.reverse();
-                // var finalSize = omitSize;
-                // console.log('NICO OMIT SIZE===>', omitSize);
-                // console.log('NICO REVERSE SIZE===>', reverseSize);
-                // finalSize["size"] = reverseSize;
-                // console.log('NICO FINAL SIZE===>', finalSize);
-                //
-                // // _sizes = _sizesFromConfig;
-                // _sizes = finalSize;
-                // console.log('===>HULE', _sizes);
-                // _sizesFromConfig.sizes.reverse();
-
+                // add sort for sizes
                 _sizesSorted = _.sortBy(_sizesFromConfig.sizes, function(obj) { return parseFloat(obj.size) });
-                console.log('TEST SORT', _sizesSorted);
                 _sizesFromConfig.sizes = _sizesSorted;
-                _sizes = _sizesFromConfig;
 
-                console.log('===>HULE', _sizes);
+                _sizes = _sizesFromConfig;
 
             }
 
@@ -8482,7 +8457,6 @@ $(document).ready(function() {
         }
 
         _htmlBuilder        += ub.funcs.generateSizes(_applicationType, _sizes.sizes, _settingsObject, application_id);
-        // nico last check here
 
         _htmlBuilder        +=          '</div>';
 
@@ -9870,7 +9844,6 @@ $(document).ready(function() {
             _sizes = ub.data.applicationSizes.getSizes('default', applicationType);
         }
 
-        //console.log("TEST HERE===>", _sizes);
         return _sizes;
 
     }
