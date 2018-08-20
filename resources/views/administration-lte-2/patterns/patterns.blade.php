@@ -244,7 +244,7 @@ $(document).ready(function(){
 
     $(document).on('click', '.view-category', function(e) {
         e.preventDefault();
-        var category = $(this).parent().parent().parent().find('.category_value').val();
+        var category = $(this).parent().parent().find('.category_value').val();
         $('#category_text').text(category);
         $('#viewModal').modal('show');
     });
