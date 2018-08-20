@@ -1051,17 +1051,12 @@ $(document).ready(function() {
                     var flip = 1;
 
                     if (typeof view.application.flip !== 'undefined') {
-
                         if (view.application.flip === 1) {
-
-                            flip = -1;
-
-                        } else {
-
-                            flip = 1;
-
+                                 flip = -1;
+                         }
+                        else {
+                             flip = 1;
                         }
-
                     }
 
                     application_obj.scale = {x: sprite.scaleSetting.x * flip, y: sprite.scaleSetting.y};
@@ -1294,22 +1289,15 @@ $(document).ready(function() {
                         percentage = distance / 100;
                         ub.mascotPreviousSize = percentage;
                       
-
                         var flip = 1;
 
                         if (typeof view.application.flip !== 'undefined') {
-
                             if (view.application.flip === 1) {
-
-                                flip = -1;
-
+                                 flip = -1;
                             }
                             else {
-
-                                flip = 1;
-
+                                 flip = 1;
                             }
-
                         }
 
                         application_obj.scale = { x: percentage * flip, y: percentage};
@@ -7793,13 +7781,16 @@ $(document).ready(function() {
                 _settingsObject.size = _sizeObj.size;
                 _settingsObject.font_size = _sizeObj.font_size;
 
-                if (_settingsObject.application.layer.indexOf('Shoulder') !== -1) { _applicationType = "shoulder_number"; }
-                if (_settingsObject.application.layer.indexOf('Sleeve') !== -1) { _applicationType = "sleeve_number"; }
+                var _inShoulder = _settingsObject.application.layer.indexOf('Shoulder') !== -1;
+                var _inSleeve = _settingsObject.application.layer.indexOf('Sleeve') !== -1;
+
+                if (_inShoulder) { _applicationType = "shoulder_number"; }
+                if (_inSleeve) { _applicationType = "sleeve_number"; }
 
                 var _primaryView = ub.funcs.getPrimaryView(_settingsObject.application);
 
-                if (_primaryView === "front") { _applicationType = "front_number"; }
-                if (_primaryView === "back") { _applicationType = "back_number"; }
+                if (_primaryView === "front" && !(_inShoulder || _inSleeve)) { _applicationType = "front_number"; }
+                if (_primaryView === "back" && !(_inShoulder || _inSleeve)) { _applicationType = "back_number"; }
 
             }
 
