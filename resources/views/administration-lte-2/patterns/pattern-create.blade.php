@@ -133,9 +133,6 @@ select:hover {
                                             <td>
                                                 <select id="pattern_tc_id_dp" class="pattern-team-color-id" name=""></select>
                                             </td>
-                                            <td>
-                                                <a class="btn btn-danger btn-xs btn-remove-layer btn-flat">Remove</a>
-                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -280,7 +277,11 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.clone-row', function() {
-        $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
+        var x = $( ".layers-row:first" ).clone();
+        y = "<td><a class='btn btn-danger btn-xs btn-remove-layer btn-flat'>Remove</a></td>";
+        $('#layers-row-container').append(x);
+        $(x).append(y);
+
         layerNumbers();
 
         $('.layer-default-color').change(function(){
