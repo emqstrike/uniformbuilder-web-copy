@@ -42,23 +42,19 @@ class UsersController extends Controller
 
     public function index()
     {
-        if( Session::get('role') == "dev" ){
-            $users = $this->client->getUsers();
-            $users_string = json_encode($users);
-            foreach($users as $user)
-            {
-                $user->created_at = date('M-d-Y', strtotime($user->created_at));
-                if(isset($user->last_login)){
-                    $user->last_login = date('M-d-Y', strtotime($user->last_login));
-                }
+        $users = $this->client->getUsers();
+        $users_string = json_encode($users);
+        foreach($users as $user)
+        {
+            $user->created_at = date('M-d-Y', strtotime($user->created_at));
+            if(isset($user->last_login)){
+                $user->last_login = date('M-d-Y', strtotime($user->last_login));
             }
-            return view('administration-lte-2.users.users', [
-                'users' => $users,
-                'users_string' => $users_string
-            ]);
-        } else {
-            return redirect('administration-lte-2');
         }
+        return view('administration-lte-2.users.users', [
+            'users' => $users,
+            'users_string' => $users_string
+        ]);
     }
 
     public function accountSettings($id)

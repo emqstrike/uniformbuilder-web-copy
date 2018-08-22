@@ -88,49 +88,27 @@ class MasterPagesController extends Controller
     {
         $fonts = $this->masterFontsAPIClient->getAllFonts();
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.master-pages.fonts.fonts', [
-                'fonts' => $fonts
-                ]);
-        } else {
-                return redirect('administration');
-        }
+        return view('administration-lte-2.master-pages.fonts.fonts', [
+            'fonts' => $fonts
+        ]);
     }
 
     public function fabricsIndex()
     {
         $fabrics = $this->masterFabricsAPIClient->getAllFabrics();
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.master-pages.fabrics.fabrics', [
-                'fabrics' => $fabrics
-                ]);
-        } else {
-                return redirect('administration');
-        }
+         return view('administration-lte-2.master-pages.fabrics.fabrics', [
+            'fabrics' => $fabrics
+        ]);
     }
 
     public function patternsIndex()
     {
         $patterns = $this->masterPatternsAPIClient->getAllPatterns();
 
-        $user_id = Session::get('userId');
-        $superusers = env('BACKEND_SUPERUSERS');
-        $su_array = explode(',', $superusers);
-        if (in_array($user_id, $su_array)) {
-            return view('administration-lte-2.master-pages.patterns.patterns', [
-                'patterns' => $patterns
-                ]);
-        }
-        else {
-                return redirect('administration');
-        }
+        return view('administration-lte-2.master-pages.patterns.patterns', [
+            'patterns' => $patterns
+        ]);
     }
 
     public function colorsIndex()
