@@ -71,6 +71,7 @@ Route::get('/my-custom-artwork-requests', 'UniformBuilderController@myCustomArtw
 // Display the Order
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
+Route::get('orderbyFOID/{foid}', 'UniformBuilderController@loadOrderbyFOID');
 
 Route::get('order/view/{orderId}', 'UniformBuilderController@viewOrder');
 
