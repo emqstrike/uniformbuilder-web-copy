@@ -296,8 +296,8 @@ $(document).ready(function(){
         console.log('change sports binded BPOS')
     });
 
-    $('.sports').select2('val', sports);
-
+    $('.sports').val(sports);
+    $('.sports').trigger('change');
 
     if($('#block_pattern_options_value').val()){
         var bpos = JSON.parse($('#block_pattern_options_value').val());
@@ -313,7 +313,8 @@ $(document).ready(function(){
         $('#block_pattern_options_value').val($(this).val());
     });
 
-    $('.block-pattern-options').select2('val', bpos);
+    $('.block-pattern-options').val(bpos);
+    $('.block-pattern-options').trigger('change');
 
     function getBlockPatterns(callback){
         var block_patterns;
