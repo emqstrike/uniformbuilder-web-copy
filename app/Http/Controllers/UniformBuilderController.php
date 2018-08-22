@@ -1393,6 +1393,8 @@ class UniformBuilderController extends Controller
 
                 $html .= '<strong>' . $colorsTrimmed . '</strong>';
 
+                $html .= '<strong> ('. $part['pattern']['opacity'] .'%) </strong>';
+
             }
 
             $html .=   '</td>';
