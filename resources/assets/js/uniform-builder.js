@@ -948,7 +948,7 @@ $(document).ready(function () {
         };
  
         ub.callback = function (obj, object_name) {
-
+            
             var _alias = ub.data.loadingOptionsAlias.getAlias(object_name);
 
             ub.displayDoneAt(_alias + ' loaded.');

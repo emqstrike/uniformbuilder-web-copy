@@ -101,6 +101,7 @@ $(document).ready(function () {
         
     // };
 
+
     /**
     * @desc change only the material pattern preview thumbnail
     * when the @param inputPattern thumbnail is empty
@@ -112,22 +113,21 @@ $(document).ready(function () {
         var inputPattern = inputPattern.pattern_obj;
 
         if (typeof inputPattern.thumbnail === 'undefined' || inputPattern.thumbnail === '') {
-        
-            var pattern = _.find(ub.data.patterns.items, {name: inputPattern.name});
+
+            var pattern = _.find(ub.data.patterns.items, { name: inputPattern.name });
 
             var i = 0;
-            var newThumbnailLayer = [];
+            var layersProperties = [];
 
             /**
-            * Iterate in each pattern layer
+            * Iterate in each pattern layers and create a new array of object called layersProperties which contains the necessary fields needed for the image generator
             * getColorObjByHexCode function simply return the color object of the specified color, e.g "0e0e0e"
-            * createSmallColorPickers function create a small clickable color picker which are displayed right beside the pattern thumbnail
             */
             _.map(inputPattern.layers, function(layer) {
 
                 var colorObj = ub.funcs.getColorObjByHexCode(layer.default_color);
 
-                newThumbnailLayer.push({
+                layersProperties.push({
                     "default_color": colorObj.color_code,
                     "layer_number": layer.layer_no,
                     "hex_code": layer.default_color,
@@ -147,7 +147,7 @@ $(document).ready(function () {
                     accessKey: ub.config.ig_key
                 },
                 body: {
-                    layers_properties: newThumbnailLayer,
+                    layers_properties: layersProperties,
                     low_res_size: {
                        w: 150,
                        h: 150
@@ -161,7 +161,7 @@ $(document).ready(function () {
             }
 
             /**
-            * Call the Image Generator Funtion
+            * Call the Image Generator Function
             * Passing the Setup Configuration Object declared above as an argument
             * Callback: display the generated image in div#imagePreview
             */
@@ -188,22 +188,21 @@ $(document).ready(function () {
     ub.funcs.setMaterialOptionPatternThumbnailInColorPicker = function(inputPattern) {
         
         var inputPattern = inputPattern.pattern_obj;
-        
-        var pattern = _.find(ub.data.patterns.items, {name: inputPattern.name});
+
+        var pattern = _.find(ub.data.patterns.items, { name: inputPattern.name });
 
         var i = 0;
-        var newThumbnailLayer = [];
+        var layersProperties = [];
 
         /**
-        * Iterate in each pattern layer
+        * Iterate in each pattern layers and create a new array of object called layersProperties which contains the necessary fields needed for the image generator
         * getColorObjByHexCode function simply return the color object of the specified color, e.g "0e0e0e"
-        * createSmallColorPickers function create a small clickable color picker which are displayed right beside the pattern thumbnail
         */
         _.map(inputPattern.layers, function(layer) {
-
+            
             var colorObj = ub.funcs.getColorObjByHexCode(layer.default_color);
 
-            newThumbnailLayer.push({
+            layersProperties.push({
                 "default_color": colorObj.color_code,
                 "layer_number": layer.layer_no,
                 "hex_code": layer.default_color,
@@ -223,7 +222,7 @@ $(document).ready(function () {
                 accessKey: ub.config.ig_key
             },
             body: {
-                layers_properties: newThumbnailLayer,
+                layers_properties: layersProperties,
                 low_res_size: {
                    w: 150,
                    h: 150
@@ -237,7 +236,7 @@ $(document).ready(function () {
         }
 
         /**
-        * Call the Image Generator Funtion
+        * Call the Image Generator Function
         * Passing the Setup Configuration Object declared above as an argument
         * Callback: display the generated image in div#imagePreview
         */
@@ -261,213 +260,6 @@ $(document).ready(function () {
     * @param obj patternObj - pattern configuration
     */
     ub.funcs.setMaterialOptionPatternColor = function (materialOption, colorObj, layerNo, patternObj) {
-
-        var settingsObj = patternObj.pattern_obj;
-
-        var materialOption     = materialOption;
-        var colorObj           = colorObj;
-        var layerNo            = layerNo;
-        var patternObj         = patternObj;      
-        var layerObj           = _.find(settingsObj.layers, {layer_no: layerNo});
-        var tintColor          = ub.funcs.hexCodeToTintColor(colorObj.hex_code);
-        
-        var modifier           = ub.funcs.getModifierByIndex(ub.current_part);
-        var names              = ub.funcs.ui.getAllNames(modifier.name);
-
-        layerObj.color         = tintColor;
-        layerObj.color_code    = colorObj.color_code;
-        layerObj.default_color = colorObj.hex_code;
-        
-        _.each(names, function (name) {
-
-            var titleNameFirstMaterial      = name.toTitleCase();
-            var settingsObject              = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
-            var layer                       = _.find(settingsObject.pattern.pattern_obj.layers, {layer_no: layerNo});
-
-            layer.color = tintColor;
-            layer.color_code = colorObj.color_code;
-            
-            var materialOptions             = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
-
-            _.each(materialOptions, function (materialOption) {
-
-                var materialOptionName      = materialOption.name;
-                var uniformType             = ub.current_material.material.type;
-                var views                   = ['front', 'back', 'left', 'right'];
-                var container               = ub.current_material.containers[uniformType][materialOptionName].containers;
-
-                _.each(views, function (view) {
-                    container[view].container.children[parseInt(layerNo) - 1].tint = tintColor;
-                });
-
-            });
-
-        })
-        
-    };
-
-    /**
-    * @desc change only the material pattern preview thumbnail
-    * when the @param inputPattern thumbnail is empty
-    * @param obj inputPattern - pattern object configuration
-    * @return thumbnail path
-    */
-    ub.funcs.setMaterialOptionPatternThumbnail = function(inputPattern) {
-        
-        var inputPattern = inputPattern.pattern_obj;
-
-        if (typeof inputPattern.thumbnail === 'undefined' || inputPattern.thumbnail === '') {
-        
-            var pattern = _.find(ub.data.patterns.items, {name: inputPattern.name});
-
-            var i = 0;
-            var newThumbnailLayer = [];
-
-            /**
-            * Iterate in each pattern layer
-            * getColorObjByHexCode function simply return the color object of the specified color, e.g "0e0e0e"
-            * createSmallColorPickers function create a small clickable color picker which are displayed right beside the pattern thumbnail
-            */
-            _.map(inputPattern.layers, function(layer) {
-
-                var colorObj = ub.funcs.getColorObjByHexCode(layer.default_color);
-
-                newThumbnailLayer.push({
-                    "default_color": colorObj.color_code,
-                    "layer_number": layer.layer_no,
-                    "hex_code": layer.default_color,
-                    "filename": pattern.thumbnailLayers[i++].filename,
-                    "team_color_id": layer.team_color_id
-                });
-                
-            });
-
-            /*
-            * Setup the configuration object
-            * Low resolution image will be 150x150
-            * High resolution image will be 200x200
-            */
-            const config = {
-                headers: {
-                    accessKey: ub.config.ig_key
-                },
-                body: {
-                    layers_properties: newThumbnailLayer,
-                    low_res_size: {
-                       w: 150,
-                       h: 150
-                    },
-                    high_res_size: {
-                       w: 200,
-                       h: 200
-                    }
-                },
-                url: ub.config.ig_url
-            }
-
-            /**
-            * Call the Image Generator Funtion
-            * Passing the Setup Configuration Object declared above as an argument
-            * Callback: display the generated image in div#imagePreview
-            */
-            ub.funcs.generateImage(config, function(response) {
-                
-                thumbnail = response.highres_url;
-
-                $("#imagePreview").attr("src", thumbnail);
-
-                inputPattern.thumbnail = thumbnail;
-
-            });
-            
-        }
-
-        return inputPattern.thumbnail;
-    }
-
-    /**
-    * @desc change only the material pattern preview thumbnail
-    * when a color in the color picker is clicked!
-    * @param obj inputPattern - pattern object configuration
-    */
-    ub.funcs.setMaterialOptionPatternThumbnailInColorPicker = function(inputPattern) {
-        
-        var inputPattern = inputPattern.pattern_obj;
-        
-        var pattern = _.find(ub.data.patterns.items, {name: inputPattern.name});
-
-        var i = 0;
-        var newThumbnailLayer = [];
-
-        /**
-        * Iterate in each pattern layer
-        * getColorObjByHexCode function simply return the color object of the specified color, e.g "0e0e0e"
-        * createSmallColorPickers function create a small clickable color picker which are displayed right beside the pattern thumbnail
-        */
-        _.map(inputPattern.layers, function(layer) {
-
-            var colorObj = ub.funcs.getColorObjByHexCode(layer.default_color);
-
-            newThumbnailLayer.push({
-                "default_color": colorObj.color_code,
-                "layer_number": layer.layer_no,
-                "hex_code": layer.default_color,
-                "filename": pattern.thumbnailLayers[i++].filename,
-                "team_color_id": layer.team_color_id
-            });
-            
-        });
-
-        /*
-        * Setup the configuration object
-        * Low resolution image will be 150x150
-        * High resolution image will be 200x200
-        */
-        const config = {
-            headers: {
-                accessKey: ub.config.ig_key
-            },
-            body: {
-                layers_properties: newThumbnailLayer,
-                low_res_size: {
-                   w: 150,
-                   h: 150
-                },
-                high_res_size: {
-                   w: 200,
-                   h: 200
-                }
-            },
-            url: ub.config.ig_url
-        }
-
-        /**
-        * Call the Image Generator Funtion
-        * Passing the Setup Configuration Object declared above as an argument
-        * Callback: display the generated image in div#imagePreview
-        */
-        ub.funcs.generateImage(config, function(response) {
-            
-            thumbnail = response.highres_url;
-
-            $("#imagePreview").attr("src", thumbnail);
-
-            inputPattern.thumbnail = thumbnail;
-
-        });
-
-    }
-
-    /**
-    * @desc change the material pattern color in sprite and in pattern preview
-    * @param obj materialOption - material configuration
-    * @param obj colorObj - color configuration
-    * @param string layerNo - pattern layer number
-    * @param obj patternObj - pattern configuration
-    */
-    ub.funcs.setMaterialOptionPatternColor = function (materialOption, colorObj, layerNo, patternObj) {
-        
-        //_.debounce(ub.funcs.createPatternUI(patternObj, materialOption), 300);
 
         var settingsObj = patternObj.pattern_obj;
 
@@ -1316,7 +1108,11 @@ $(document).ready(function () {
             headers: config.headers,
             success: function (response) {
                 cb(response);
-            }    
+            },
+            error: function(xhr, textStatus, error){
+                console.log('=== Something went wrong! ===');
+                console.log(xhr.status +  ': ' + xhr.statusText);
+            }
         });
 
     }
@@ -1328,7 +1124,7 @@ $(document).ready(function () {
     * @param obj materialOption - current material configuration
     */
     ub.funcs.createPatternUI = function (inputPattern, materialOption) {
-
+        
         var inputPattern    = inputPattern;
         var materialOption  = materialOption;
 

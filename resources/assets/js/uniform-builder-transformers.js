@@ -76,21 +76,6 @@ $(document).ready(function () {
                 asset_target: _object.asset_target,
             };
 
-            var thumbnailLayers = JSON.parse(_object.thumbnail_layers);
-
-            _.each(thumbnailLayers, function (thumbnailLayer) {
-
-                var layer = {
-
-                     layer_no: parseInt(thumbnailLayer.layer),
-                     filename: thumbnailLayer.file_path
-
-                };
-
-                _newObject.thumbnailLayers.push(layer);
-
-            });
-
             var _patternProperties = JSON.parse(_object.pattern_properties);
 
             _.each(_patternProperties, function (_patternProperty) {
@@ -100,11 +85,26 @@ $(document).ready(function () {
                      default_color: ub.funcs.getHexColorByCode(_patternProperty.default_color),
                      layer_no: parseInt(_patternProperty.layer),
                      filename: _patternProperty.file_path,
+                     lowres_filename: _patternProperty.lowres_file_path,
                      team_color_id: _patternProperty.team_color_id,
 
                 };
 
                 _newObject.layers.push(_layer);
+
+                // add a new array field called thumbnailLayers in ub.data.patterns
+                // this contains the necessary data for the thumbnail
+                var tlayer = {
+
+                     default_color: _patternProperty.default_color,
+                     hex_code: ub.funcs.getHexColorByCode(_patternProperty.default_color),
+                     layer_no: parseInt(_patternProperty.layer),
+                     filename: _patternProperty.lowres_file_path,
+                     team_color_id: _patternProperty.team_color_id,
+
+                };
+
+                _newObject.thumbnailLayers.push(tlayer);
 
             });
 
