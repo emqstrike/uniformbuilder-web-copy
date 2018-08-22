@@ -195,7 +195,10 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.clone-row', function() {
-        $( ".layers-row:first" ).clone().appendTo( "#layers-row-container" );
+        var x = $( ".layers-row:first" ).clone();
+        y = "<td><a class='btn btn-danger btn-xs btn-remove-layer btn-flat'>Remove</a></td>";
+        $('#layers-row-container').append(x);
+        $(x).append(y);
         layerNumbers();
 
         $(document).on('change', '.layer-default-color', function(){
@@ -342,8 +345,6 @@ $(document).ready(function(){
     function buildLayers(){
 
         var pattern_properties = $('#pattern_properties').val();
-        console.log('pattern_properties-build');
-        console.log(pattern_properties);
         var data = JSON.parse(pattern_properties);
 
         var length = Object.keys(data).length;
@@ -389,8 +390,11 @@ $(document).ready(function(){
             } catch (err) {
                 console.log(err.message);
             }
-
-            $('#layers-row-container').append( open + layer + default_color + thumbnail + new_file + lowres_thumbnail + lowres_new_file + team_color_id + remove + close );
+            if(x == 1) {
+                $('#layers-row-container').append( open + layer + default_color + thumbnail + new_file + lowres_thumbnail + lowres_new_file + team_color_id + close );
+            } else {
+                $('#layers-row-container').append( open + layer + default_color + thumbnail + new_file + lowres_thumbnail + lowres_new_file + team_color_id + remove + close );
+            }
             x++;
 
         }
@@ -452,8 +456,6 @@ $(document).ready(function(){
             });
 
         var patternProperties = JSON.stringify(pattern_properties);
-        console.log('patternProperties - update');
-        console.log(patternProperties);
         $('#pattern_properties').val(patternProperties);
     }
 });
