@@ -16,6 +16,8 @@
 @endsection
 
 @section('content')
+    <?php $highlight_path = null; ?>
+    
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
