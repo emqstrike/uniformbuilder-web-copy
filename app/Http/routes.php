@@ -117,12 +117,6 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::get('/colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index'])->name('v1_colors');
             Route::get('/master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex'])->name('v1_master_colors');
 
-            Route::get('/price_templates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemTemplatesController@index'])->name('v1_price_templates');
-
-            Route::get('/users', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@index'])->name('v1_users');
-            Route::get('/account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings'])->name('v1_edit_user');
-            Route::post('/account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName'])->name('v1_updated_user');
-
             // Colors Sets
             Route::get('colors_sets', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@index']);
             Route::get('colors_set/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@addColorsSetForm']);
@@ -130,16 +124,32 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
             Route::post('colors_set/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@store']);
             Route::get('colors_set/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@editColorsSetForm']);
 
+            Route::get('master_fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex']);
+            Route::get('master_fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex']);
+
+            //Patterns
+            Route::get('master_patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@patternsIndex']);
+            Route::get('patterns/{active_sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@index']);
+            Route::get('pattern/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@addPatternForm']);
+            Route::post('pattern/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@store']);
+            Route::get('pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@editPatternForm']);
+            Route::post('pattern/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@store']);
+
             Route::get('ordersMinified', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified'])->name('v1_orders_minified');
             
-            //Price Items
-            Route::get('/price_items', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemsController@index']);
-
             Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestIndex'])->name('v1_style_requests');
             Route::get('style_request/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestAdd'])->name('v1_add_style_requests');
 
-            Route::get('/users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength'])->name('v1_password_strength');
             Route::get('saved_designs', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
+
+            //Price Items
+            Route::get('/price_templates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemTemplatesController@index'])->name('v1_price_templates');
+            Route::get('price_items', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemsController@index']);
+
+            Route::get('/users', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@index'])->name('v1_users');
+            Route::get('/account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings'])->name('v1_edit_user');
+            Route::post('/account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName'])->name('v1_updated_user');
+            Route::get('/users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength'])->name('v1_password_strength');
 
             Route::get('mascots/{active_sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@index'])->name('v1_mascots');
             Route::get('mascot/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotsController@addMascotForm']);

@@ -413,7 +413,8 @@ $(document).ready(function(){
         $('#sports_value').val($(this).val());
     });
 
-    $('.sports').select2('val', sports);
+    $('.sports').val(sports);
+    $('.sports').trigger('change');
 
 });
 </script>
