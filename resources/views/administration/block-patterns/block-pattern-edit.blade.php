@@ -9,6 +9,7 @@
                 <div class="panel-heading">Modify Block Pattern</div>
                 <div class="panel-body">
                     @include('administration.partials.validation-error')
+                    @include('administration.partials.flash-message')
 
                     <form class="form-horizontal" role="form" method="POST" action="/administration/block_pattern/update" enctype="multipart/form-data" id='edit-block-pattern-form'>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
