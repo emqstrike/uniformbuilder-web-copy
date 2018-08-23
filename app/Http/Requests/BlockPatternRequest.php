@@ -27,8 +27,10 @@ class BlockPatternRequest extends Request
         $rules = [];
         $files = Input::file('neck_option_image');
 
-        foreach ($files as $key => $file) {
-            $rules['neck_option_image.' . $key] = 'image';
+        if ($files) {
+            foreach ($files as $key => $file) {
+                $rules['neck_option_image.' . $key] = 'image';
+            }
         }
 
         return $rules;
@@ -39,8 +41,10 @@ class BlockPatternRequest extends Request
         $messages = [];
         $files = Input::file('neck_option_image');
 
-        foreach ($files as $key => $file) {
-            $messages['neck_option_image.' . $key . '.image'] = 'Neck option image ' . ($key + 1) . ' should be image.';
+        if ($files) {
+            foreach ($files as $key => $file) {
+                $messages['neck_option_image.' . $key . '.image'] = 'Neck option image ' . ($key + 1) . ' should be image.';
+            }
         }
 
         return $messages;
