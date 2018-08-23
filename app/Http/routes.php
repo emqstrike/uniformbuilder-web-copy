@@ -106,26 +106,32 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::get('/', ['middleware' => 'adminAccess', 'uses' => 'Administration\AdministrationController@administrationDashboard']);
         //Master Lists
 
-        Route::get('/fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex']);
+        Route::get('master_fabrics', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fabricsIndex']);
 
-        Route::get('/fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex']);
+        Route::get('master_fonts', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@fontsIndex']);
 
-        Route::get('/patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@patternsIndex']);
+        //Patterns
+        Route::get('master_patterns', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@patternsIndex']);
+        Route::get('patterns/{active_sport?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@index']);
+        Route::get('pattern/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@addPatternForm']);
+        Route::post('pattern/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@store']);
+        Route::get('pattern/edit/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@editPatternForm']);
+        Route::post('pattern/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PatternsController@store']);
 
-        Route::get('/colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index']);
-        Route::get('/master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex']);
+        Route::get('colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsController@index']);
+        Route::get('master_colors', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@colorsIndex']);
 
         // Colors Sets
         Route::get('colors_sets', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ColorsSetsController@index']);
 
         //Price Items
-        Route::get('/price_templates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemTemplatesController@index']);
-        Route::get('/price_items', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemsController@index']);
+        Route::get('price_templates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemTemplatesController@index']);
+        Route::get('price_items', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\PriceItemsController@index']);
 
-        Route::get('/users', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@index']);
-        Route::get('/account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings']);
-        Route::post('/account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName']);
-        Route::get('/users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength']);
+        Route::get('users', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@index']);
+        Route::get('account_settings/{id}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@accountSettings']);
+        Route::post('account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName']);
+        Route::get('users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength']);
 
         Route::get('ordersMinified', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified']);
 
