@@ -6239,7 +6239,7 @@ $(document).ready(function () {
                 sprite.zIndex = layer.layer_number * -1;
                 sprite.tint = parseInt(layer.default_color,16);
 
-                sprite.alpha=opacity/100;
+                sprite.alpha = parseInt(opacity) / 100;
 
                 ///
                 var _hexCode = (sprite.tint).toString(16);

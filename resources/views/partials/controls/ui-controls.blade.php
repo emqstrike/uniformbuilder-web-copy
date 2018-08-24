@@ -2593,6 +2593,7 @@
                             <span class="pattern">Change Pattern</span>
                             <br />
                             <br />
+                            <span class="flipButton">Flip</span>
 
                         </div>
 

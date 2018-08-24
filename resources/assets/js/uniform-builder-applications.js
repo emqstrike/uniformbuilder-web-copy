@@ -1638,7 +1638,7 @@ $(document).ready(function() {
         // });
 
         sprite.mouseover = function(data) {
-
+            
             var icon = '';
 
             if (type === 'move') {
@@ -3229,6 +3229,80 @@ $(document).ready(function() {
 
     }
 
+    // ub.funcs.dim = function (_match) {
+        
+    //     var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
+
+    //     _.each(_materialOptions, function (_materialOption) {
+
+    //         var _name       = _materialOption.name.toCodeCase();
+    //         var _object     = ub.objects[ub.active_view + '_view'][_name];
+
+    //         _object.alpha   = 0.3;
+    //         ub.funcs.setAlphaOff(_object);
+
+    //     });
+
+    //     _.each (ub.objects[ub.active_view + "_view"], function (object) {
+            
+    //         if (typeof object.name === "undefined") { return; }
+
+    //         if (object.name !== null) {
+
+    //            if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1) {
+
+    //                 if (object.name.indexOf(_match) !== -1) {
+
+    //                     if (_match === 'body' && object.name === 'pattern_back_body') {  ub.funcs.setAlphaOff(object); return; }
+
+    //                     ub.funcs.setAlphaOn(object);
+
+    //                     return;
+
+    //                 }
+
+    //                 if(object.name.indexOf('objects_') !== -1 && _.size(ub.current_material.settings.applications) !== 0 ) {
+
+    //                     var _app_id = object.name.replace('objects_','');
+    //                     var _application_obj = ub.current_material.settings.applications[_app_id];
+    //                     var _app_layer = _application_obj.application.layer.toCodeCase();
+
+    //                     if (_app_layer.indexOf(_match) !== -1) {
+    //                         ub.funcs.setAlphaOn(object);
+
+    //                         return;
+
+    //                     }
+
+    //                 }
+
+    //                 /// Do not turn off application when its being moved by the move tool
+
+    //                 var _app_id = object.name.replace('objects_','');
+                    
+    //                 if (_app_id === ub.activeApplication) { 
+
+    //                     ub.funcs.setAlphaOn(object);
+    //                     return; 
+                        
+    //                 }
+
+    //                 if (typeof object.ubName !== "undefined") {
+
+    //                     console.log(object.ubName);    
+
+    //                 }
+                    
+    //                 ub.funcs.setAlphaOff(object);
+
+    //             }   
+
+    //         }
+
+    //     });
+
+    // };
+
     ub.funcs.dim = function (_match) {
 
         var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
@@ -3244,7 +3318,7 @@ $(document).ready(function() {
         });
 
         _.each (ub.objects[ub.active_view + "_view"], function (object) {
-
+            
             if (typeof object.name === "undefined") { return; }
 
             if (object.name !== null) {
@@ -3479,107 +3553,129 @@ $(document).ready(function() {
 
     }
 
+    // ub.funcs.match = function (_match) {
+
+    //     ub.funcs.dim(_match);
+
+    //     // var simple_mode = $('input#simple_toggle').is(":checked");
+    //     var simple_mode = true; // Force Simple Mode By Default for now
+
+    //     if (simple_mode === true) {
+
+    //         /// Matching Side
+    //         var _matching_side = '';
+    //         /// 
+
+    //         ub.interacted = {
+
+    //             previous: {
+
+    //                 name: ub.interacted.current.name,
+
+    //             },
+
+    //             current: {
+
+    //                 name: _match,
+
+    //             },
+
+    //         };
+
+    //         if (_match.indexOf('left_') !== -1 || _match.indexOf('right_') !== -1) {
+
+    //             if(typeof ub.interacted.previous.name !== "undefined" && typeof ub.interacted.previous.name !== undefined) {
+    
+    //                 var previous_name = ub.interacted.previous.name.replace('right_','').replace('left_','');
+    //                 var actual = _match.replace('right_','').replace('left_','');
+
+    //                 if (previous_name === actual) {
+
+    //                     if (!ub.same_here_once) {
+
+    //                         ub.funcs.create_plugins(_match, 'single');
+    //                         _header_text = ub.active_part.toTitleCase();
+
+    //                         var _object = ub.objects[ub.active_view + '_view'][_match];
+    //                         ub.funcs.setAlphaOn(_object);
+
+    //                         ub.same_here_once = true;
+
+    //                         return _header_text;
+    //                     }    
+
+    //                 }
+    //                 else {
+
+    //                     ub.same_here_once = false;
+
+    //                 }
+    
+    //             }
+                
+    //         }
+
+    //         ///
+
+
+    //         if (_match.indexOf('left_') !== -1){
+
+    //             _matching_side = _match.replace('left_','right_');
+
+    //             var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+    //             ub.funcs.setAlphaOn(_matching_object);
+    //             ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+    //         } else if (_match.indexOf('right_') !== -1){
+
+    //             _matching_side = _match.replace('right_','left_');
+
+    //             var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+    //             ub.funcs.setAlphaOn(_matching_object);
+    //             ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+    //         }
+    //         else {
+
+    //             ub.funcs.create_plugins(_match, 'single');
+
+    //         }
+    //         /// End Matching Side 
+
+    //         _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
+
+    //     }
+    //     else {
+
+    //         ub.funcs.create_plugins(_match, 'single');
+    //         _header_text = ub.active_part.toTitleCase();
+
+    //     }    
+
+    //     var _object = ub.objects[ub.active_view + '_view'][_match];
+
+    //     ub.funcs.setAlphaOn(_object);
+    //     ub.same_here_once = false;
+
+    //     return _header_text;
+
+    // }
+
+    /*
+    * @desc set the part (e.g. Front Body, Left Sleeve, Right Sleeve, etc. etc.) sprite alpha to 1 if clicked and 0.3 to the rest parts which are not clicked
+    * @oaram string _match ('front_body', 'left_sleeve', 'right_sleeve', 'team-colors', 'back_body', 'prolook')
+    * @return string _header_text, set the right panel heading text according to the clicked part
+    */
     ub.funcs.match = function (_match) {
 
         ub.funcs.dim(_match);
-
-        // var simple_mode = $('input#simple_toggle').is(":checked");
-        var simple_mode = true; // Force Simple Mode By Default for now
-
-        if (simple_mode === true) {
-
-            /// Matching Side
-            var _matching_side = '';
-            /// 
-
-            ub.interacted = {
-
-                previous: {
-
-                    name: ub.interacted.current.name,
-
-                },
-
-                current: {
-
-                    name: _match,
-
-                },
-
-            };
-
-            if (_match.indexOf('left_') !== -1 || _match.indexOf('right_') !== -1) {
-
-                if(typeof ub.interacted.previous.name !== "undefined" && typeof ub.interacted.previous.name !== undefined) {
-    
-                    var previous_name = ub.interacted.previous.name.replace('right_','').replace('left_','');
-                    var actual = _match.replace('right_','').replace('left_','');
-
-                    if (previous_name === actual) {
-
-                        if (!ub.same_here_once) {
-
-                            ub.funcs.create_plugins(_match, 'single');
-                            _header_text = ub.active_part.toTitleCase();
-
-                            var _object = ub.objects[ub.active_view + '_view'][_match];
-                            ub.funcs.setAlphaOn(_object);
-
-                            ub.same_here_once = true;
-
-                            return _header_text;
-                        }    
-
-                    }
-                    else {
-
-                        ub.same_here_once = false;
-
-                    }
-    
-                }
-                
-            }
-
-            ///
-
-            if (_match.indexOf('left_') !== -1){
-
-                _matching_side = _match.replace('left_','right_');
-                var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                ub.funcs.setAlphaOn(_matching_object);
-                ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
-
-            } else if (_match.indexOf('right_') !== -1){
-
-                _matching_side = _match.replace('right_','left_');
-
-                var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                ub.funcs.setAlphaOn(_matching_object);
-                ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
-
-            }
-            else {
-
-                ub.funcs.create_plugins(_match, 'single');
-
-            }
-            /// End Matching Side 
-
-            _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
-
-        }
-        else {
-
-            ub.funcs.create_plugins(_match, 'single');
-            _header_text = ub.active_part.toTitleCase();
-
-        }    
 
         var _object = ub.objects[ub.active_view + '_view'][_match];
 
         ub.funcs.setAlphaOn(_object);
         ub.same_here_once = false;
+
+        _header_text = ub.active_part.toTitleCase();
 
         return _header_text;
 
@@ -3753,7 +3849,8 @@ $(document).ready(function() {
                 // if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
 
                 var _match  = _.first(results).name.toCodeCase();
-                var _result = _match.replace('right_','left_');
+                var _result = _match;
+                // var _result = _match.replace('right_','left_');
                 var _obj    = _.find(ub.data.modifierLabels, {fullname: _result});
                 var _index  = ub.funcs.getIndexByName(_result);
 
@@ -3903,43 +4000,43 @@ $(document).ready(function() {
 
             //var simple_mode = $('input#simple_toggle').is(":checked");
 
-            var simple_mode = true; // Turn this on by default
+            // var simple_mode = true; // Turn this on by default
 
-            if (simple_mode === true) { 
+            // if (simple_mode === true) { 
 
-                /// Matching Side 
-                var _matching_side = '';
+            //     /// Matching Side 
+            //     var _matching_side = '';
 
-                if (_match.indexOf('left_') !== -1) {
+            //     if (_match.indexOf('left_') !== -1) {
 
-                    _matching_side = _match.replace('left_','right_');
-                    var _matching_object = ub.objects[_active_view][_matching_side];
-                    ub.funcs.setAlphaOn(_matching_object);
+            //         _matching_side = _match.replace('left_','right_');
+            //         var _matching_object = ub.objects[_active_view][_matching_side];
+            //         ub.funcs.setAlphaOn(_matching_object);
 
-                    if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
+            //         if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
 
-                        ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+            //             ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
 
-                    }
+            //         }
 
-                } else if (_match.indexOf('right_') !== -1){
+            //     } else if (_match.indexOf('right_') !== -1){
 
-                    _matching_side = _match.replace('right_','left_');
+            //         _matching_side = _match.replace('right_','left_');
 
-                    var _matching_object = ub.objects[_active_view][_matching_side];
-                    ub.funcs.setAlphaOn(_matching_object);
+            //         var _matching_object = ub.objects[_active_view][_matching_side];
+            //         ub.funcs.setAlphaOn(_matching_object);
 
-                    if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
+            //         if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
 
-                        ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+            //             ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
 
-                    }
+            //         }
 
-                }
+            //     }
 
-                /// End Matching Side 
+            //     /// End Matching Side 
 
-            }
+            // }
 
             var _object = ub.objects[_active_view][_match];
             ub.funcs.setAlphaOn(_object);
@@ -4118,7 +4215,7 @@ $(document).ready(function() {
 
         strBuilder += '<div class="pd-dropdown-links" data-ctr="0" data-group-id="0" data-fullname="team-colors" data-name="team-colors">' + '<i>Initialize</i> Team Colors</div>';
 
-        _.each(_sortedModifierLabels, function (label){
+        _.each(_sortedModifierLabels, function (label) {
 
             label.index = _ctr;
 

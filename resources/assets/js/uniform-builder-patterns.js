@@ -912,7 +912,7 @@ $(document).ready(function () {
             outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
             _settingsObject.pattern     = outputPatternObject;
             e = _settingsObject;
-
+            
             ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
 
         });
@@ -1124,15 +1124,21 @@ $(document).ready(function () {
     * @param obj materialOption - current material configuration
     */
     ub.funcs.createPatternUI = function (inputPattern, materialOption) {
-        
+
         var inputPattern    = inputPattern;
         var materialOption  = materialOption;
+
+        var current_part    = ub.current_part;
+            current_part    = ub.funcs.getModifierByIndex(current_part);
+            current_part    = 'pattern_' + current_part.fullname;
+        var active_view     = ub.active_view;
+            active_view     = active_view + '_view';
 
         if (_.isEqual(inputPattern.pattern_obj.name, 'Blank')) {
 
             var blankPattern            = _.find(ub.data.patterns.items, {name:'Blank'});
             var blankThumbnailLayer     = _.find(blankPattern.thumbnailLayers, {layer_no: 1});
-            
+
             templateStr = ub.utilities.buildTemplateString("#m-patterns-blank", {thumbnail: blankThumbnailLayer.filename});
             $('.modifier_main_container').append(templateStr);
 
@@ -1173,6 +1179,19 @@ $(document).ready(function () {
 
             }
 
+            var obj = ub.objects[active_view][current_part];
+
+            // if obj instance exist, check the pattern obj if flipped or unflipped
+            // if flipped, add active class to the span flip button
+            // if unflipped, remove active class to the span flip button
+            if (typeof obj !== "undefined") {
+
+                var flipped = ub.funcs.isFlipButtonActive(obj);
+
+                (flipped === 1) ? $('span.flipButton').addClass('active') : $('span.flipButton').removeClass('active') ;
+
+            }
+
         }
 
         // Trigger the patterns modal when the preview thumbnail in click 
@@ -1181,7 +1200,7 @@ $(document).ready(function () {
             ub.funcs.createPatternPopup();
         });
 
-        // Change material pattern color when color picker is clicked.
+        // Change material pattern color when color picker is clicked
         var $sp = $('div.column1.applications.patterns > div.colorContainer > div.smallPickerContainer > span.colorItem[data-object-type="text-patterns"]');
         $sp.unbind('click');
         $sp.on('click', function() {
@@ -1210,9 +1229,67 @@ $(document).ready(function () {
 
         });
 
+        // Flipped the pattern on material part when flip button is triggered
+        $('span.flipButton').on('click', function () {
+
+            var obj = ub.objects[active_view][current_part];
+
+            if (active_view === 'front_view') {
+
+                // sync the front_view and the right_view flip value
+                if (typeof ub.objects['right_view'][current_part] !== "undefined") {
+                    
+                    // flip the right_view pattern
+                    _.each(ub.objects['right_view'][current_part].children, function (child) { child.scale.x *= -1; });
+
+                    // negate the return value of ub.funcs.isFlipButton() (e.g. false --> true)
+                    // then base on the truthiness, set the right_view flip value to 1
+                    // else set the right_view flip value to 0
+                    (!ub.funcs.isFlipButtonActive(obj) === true) ? ub.objects['right_view'][current_part].flip=1 : ub.objects['right_view'][current_part].flip=0;
+
+                }
+
+                // sync the front_view and the left_view flip value
+                if (typeof ub.objects['left_view'][current_part] !== "undefined") {
+                    
+                    // flip the left_view pattern
+                    _.each(ub.objects['left_view'][current_part].children, function (child) { child.scale.x *= -1; });
+                    
+                    // negate the return value of ub.funcs.isFlipButton() (e.g. false --> true)
+                    // then base on the truthiness, set the left_view flip value to 1
+                    // else set the left_view flip value to 0
+                    (!ub.funcs.isFlipButtonActive(obj) === true) ? ub.objects['left_view'][current_part].flip=1 : ub.objects['left_view'][current_part].flip=0;
+
+                }
+
+            }
+
+            // sync the front_view's flip value to the left_view or right_view flip value
+            if (active_view === 'left_view' || active_view === 'right_view') {
+
+                if (typeof ub.objects['front_view'][current_part] !== "undefined") {
+
+                    // flip the front_view pattern
+                    _.each(ub.objects['front_view'][current_part].children, function (child) { child.scale.x *= -1; });
+
+                    // negate the return value of ub.funcs.isFlipButton() (e.g. false --> true)
+                    // then base on the truthiness, set the front_view flip value to 1
+                    // else set the front_view flip value to 0
+                    (!ub.funcs.isFlipButtonActive(obj) === true) ? ub.objects['front_view'][current_part].flip=1 : ub.objects['front_view'][current_part].flip=0;
+
+                }
+
+            }
+
+            // flip the pattern
+            ub.funcs.flipPattern(obj);
+            
+        });
+
         // change the thumbnail preview opacity
         $("#imagePreview").css("opacity", inputPattern.opacity/100);
 
+        // Show the pattern panel content
         $('div#patternUI > div#applicationUI').fadeIn();
 
     };
@@ -1557,7 +1634,7 @@ $(document).ready(function () {
 
         
         var _defaultColor = ub.funcs.getColorByColorCode('W');
-
+        
         var _layer = { 
             default_color: _defaultColor.hex_code,
             color_code: ub.funcs.getColorObjByHexCode(_defaultColor.hex_code).color_code,
@@ -1610,7 +1687,7 @@ $(document).ready(function () {
                 }    
         };
 
-        _.each (patternObject.layers, function (_property) {
+        _.each (patternPropertiesParsed.layers, function (_property) {
 
             var _defaultColor = _property.default_color;
 
@@ -1670,6 +1747,90 @@ $(document).ready(function () {
         var $layerTool = $popup;
         $layerTool.unbind('mousedown');
         $layerTool.mousedown(ub.funcs.handle_mousedown);
+
+    }
+
+    /*
+    * @desc check if the obj.flip in material is define
+    * @param object obj
+    * @return integer flipped (0 or 1)
+    */
+    ub.funcs.isFlipButtonActive = function (obj) {
+
+        var flipped;
+
+        if(typeof obj.flip === "undefined") {
+
+            flipped = obj.flip = 0;
+
+        }
+        else {
+
+            if (obj.flip === 1)  {
+
+                flipped = obj.flip = 1;
+
+
+            } else {
+
+                flipped = obj.flip = 0;
+
+            }
+
+        }
+
+        return flipped;
+
+    }
+
+    /*
+    * @desc flip the pattern on material's part
+    * @param object obj
+    * @return integer flipped (0 or 1)
+    */
+    ub.funcs.flipPattern = function (obj) {
+
+        var flipped;
+
+        if(typeof obj.flip === "undefined") {
+
+            flipped = obj.flip = 1;
+
+        }
+        else {
+
+            if (obj.flip === 0)  {
+
+                flipped = obj.flip = 1;
+
+
+            } else {
+
+                flipped = obj.flip = 0;
+
+            }
+
+        }
+
+        if (typeof obj !== "undefined") {
+            
+            if (obj.flip === 1) {
+
+                $('span.flipButton').addClass('active');
+
+                _.each(obj.children, function (child) { child.scale.x *= -1; });
+
+            } else {
+                
+                $('span.flipButton').removeClass('active');
+
+                _.each(obj.children, function (child) { child.scale.x = Math.abs(child.scale.x); });
+
+            }
+
+        }
+
+        return flipped;
 
     }
 
