@@ -4,26 +4,43 @@ $(document).ready(function () {
 
     ub.funcs.ui = {};
 
+    // ub.funcs.ui.getAllNames = function (materialOptionName) {
+
+    //     var _names      = [];
+    //     var _obj        = _.find(ub.data.modifierLabels, {name: materialOptionName});
+    //     var _name       = _obj.fullname;
+    //     var _otherSide  = '';
+
+    //     _names.push(_name);
+
+    //     if (_name.indexOf('left') >-1 && _name.indexOf('body') === -1) {
+    //         _match      = _name.replace('left', 'right');
+    //         _names.push(_match);
+    //     }
+
+    //     if (_name.indexOf('right') >-1 && _name.indexOf('body') === -1) {
+    //         _match      = _name.replace('right', 'left');
+    //         _names.push(_match);
+    //     }
+
+    //     return _names;
+
+    // };
+
+    /*
+    * @desc get the current part instance of materials (e.g. Front Body, Sleeve, Back Body, Prolook, etc. etc.)
+    * @param string materialOptionName
+    * @return array names
+    */
     ub.funcs.ui.getAllNames = function (materialOptionName) {
 
-        var _names      = [];
-        var _obj        = _.find(ub.data.modifierLabels, {name: materialOptionName});
-        var _name       = _obj.fullname;
-        var _otherSide  = '';
+        var names      = [];
+        var obj        = _.find(ub.data.modifierLabels, {name: materialOptionName});
+        var name       = obj.fullname;
 
-        _names.push(_name);
+        names.push(name);
 
-        if (_name.indexOf('left') >-1 && _name.indexOf('body') === -1) {
-            _match      = _name.replace('left', 'right');
-            _names.push(_match);
-        }
-
-        if (_name.indexOf('right') >-1 && _name.indexOf('body') === -1) {
-            _match      = _name.replace('right', 'left');
-            _names.push(_match);
-        }
-
-        return _names;
+        return names;
 
     };
 

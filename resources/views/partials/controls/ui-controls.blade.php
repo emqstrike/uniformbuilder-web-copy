@@ -2553,6 +2553,64 @@
 
 </script>
 
+<script type="text/mustache" id="m-patterns-blank">
+
+    <div id="patternUI">
+        
+        <div class="patternName">
+            <label>Pattern Name: <span class="value">Blank</span></label>
+        </div>
+
+        <div class="patternPreviewContainer">
+            
+            <div class="blankPatternPreview">
+                <img src="@{{thumbnail}}">
+                <span class="caption simple-caption">
+                    <p>Click to Change Pattern</p>
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</script>
+
+<script type="text/mustache" id="m-patterns-unblank">
+
+    <div id="patternUI" style="padding: 0;">
+        <div id="applicationUI">
+            <div class="body">
+                <div class="ui-row">
+                    <div class="column1 applications patterns">
+                        <div class="sub1 patternThumb">
+
+                            <span class="pattern patternName">@{{name}}</span>
+                            <br />
+                            <div class="patternThumbPreview">
+                                <img src="@{{thumbnail}}" id="imagePreview"/>
+                            </div>
+                            <span class="pattern">Change Pattern</span>
+                            <br />
+                            <br />
+                            <span class="flipButton">Flip</span>
+
+                        </div>
+
+                        <div class="colorContainer">
+
+                            @{{{colorString}}}
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+
 <script type="text/mustache" id="m-patterns-panel">
 
     <div class="sub1 patternThumb">
