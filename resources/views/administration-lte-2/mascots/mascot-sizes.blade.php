@@ -42,12 +42,11 @@
                             <td class="td-size-option col-md-2">{{ $size->block_pattern_options }}</td>
                             <td class="td-size-type col-md-1">{{ $size->type }}</td>
                             <td class="td-size-brand col-md-1">{{ $size->brand }}</td>
-                            <td class="td-size-brand col-md-1">{{ $size->active }}</td>
+                            <td class="td-size-active col-md-1">{{ $size->active }}</td>
                             <td class="col-md-2">
                                 <textarea name="size_props" class="td-size-props" style="display:none;">{{ $size->properties }}</textarea>
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
-                                    <a href="#" class="duplicate-mascot-size btn btn-flat btn-sm btn-default" data-mascot-size-id="{{ $size->id }}" data-mascot-size-name="{{ $size->name }}" role="button">Clone</a>
                                     <a href="#" class="btn btn-danger btn-sm btn-flat delete-size" data-size-id="{{ $size->id }}" role="button">Delete</a>
                                 </center>
                             </td>
@@ -95,23 +94,172 @@ $(document).ready(function(){
     window.categories = null;
     window.block_patterns = null;
 
+    getUniformCategories(function(categories){
+        window.categories = categories;
+    });
+
+    getBlockPatterns(function(block_patterns){
+        window.block_patterns = block_patterns;
+    });
+
     loadUniformCategories();
 
-    // $("#myModal").on("hidden.bs.modal", function() {
-    //     $('.input-size-name').val('');
-    //     $('.sport').val('none');
-    //     $('.sport').trigger('change');
-    //     $('.block-pattern-val').val('');
-    //     $('#block_pattern').val('');
-    //     $('.neck-option-val').val('');
-    //     $('#neck_option').val('');
-    //     $('.input-size-type').val('');
-    //     $('.uniform-application-type').val('');
-    //     $('.input-brand').val('');
-    //     $('#properties').val('');
-    //     $('.properties-content').empty();
-    //     $('.submit-new-record').removeAttr('disabled');
-    // });
+    var sport = null;
+    $(document).on('change', '.sport', function() {
+        sport = $('.sport').val();
+            getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
+            var sportOK = _.filter(window.block_patterns, function(e) {
+                            return e.uniform_category_id == sport;
+                            });
+            $( '#block_pattern' ).html('');
+            $.each(sportOK, function(i, item) {
+                $('#block_pattern' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
+            });
+        $('#block_pattern').trigger('change');
+    });
+    $('.sport').trigger('change');
+
+    var z = window.block_patterns;
+    $(document).on('change', '#block_pattern', function() {
+        var options = [];
+        var bps = $('#block_pattern_value').val();
+        var bps_name = bps.toString().split(",");
+            bps_name.forEach( function(item_name) {
+                var name = item_name;
+                $.each(z, function(i, item) {
+                   if( item.name == name ){
+                        var optx = JSON.parse(item.neck_options);
+                        $.each(optx, function(i, item) {
+                            options.push(item.name);
+                        });
+                    } else {
+                    }
+                });
+            });
+
+        var y = _.sortBy(_.uniq(options));
+        $( '#neck_option' ).html('');
+        y.forEach(function(i) {
+            $('#neck_option').append('<option value="'+i+'">'+i+'</option>');
+        });
+        $('.material-neck-option').trigger('change');
+    });
+
+    if($('#neck_option_value').val()){
+        var bpos = JSON.parse($('#neck_option_value').val());
+    }
+    $('.material-neck-option').select2({
+        placeholder: "Select block pattern option",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".material-neck-option").change(function() {
+        $('#neck_option_value').val($(this).val());
+    });
+
+    $('.material-neck-option').val(bpos);
+    $('.material-neck-option').trigger('change');
+
+    if($('#block_pattern_value').val()){
+        var bp = JSON.parse($('#block_pattern_value').val());
+    }
+    $('.block-pattern').select2({
+        placeholder: "Select block pattern",
+        multiple: true,
+        allowClear: true
+    });
+
+    $(".block-pattern").change(function() {
+        $('#block_pattern_value').val($(this).val());
+    });
+
+    $('.block-pattern').val(bp);
+    $('.block-pattern').trigger('change');
+
+    window.properties = [];
+
+    $('.add-props').on('click', function(e){
+        e.preventDefault();
+        var elem = `<tr class="prop-row">
+                        <td>
+                            <input type="number" class="prop-size" step="0.01">
+                        </td>
+                        <td>
+                            <input type="number" class="prop-scale" step="0.01">
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-xs btn-danger remove-prop">Remove</a>
+                        </td>
+                    </tr>`;
+        $('.props-content').prepend(elem);
+        removeButton();
+        updateFields();
+        updateData();
+    });
+
+    function loadProperties(props){
+        var properties = props;
+        properties.forEach(function(entry) {
+            var elem = `<tr class="prop-row">
+                    <td>
+                        <input type="number" class="prop-size prop-data" step="0.01" value="` + entry.size + `">
+                    </td>
+                    <td>
+                        <input type="number" class="prop-scale prop-data" step="0.01" value="` + entry.scale + `">
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-xs btn-danger remove-prop">Remove</a>
+                    </td>
+                </tr>`;
+            $('.props-content').append(elem);
+            removeButton();
+            updateFields();
+            updateData();
+        });
+    }
+
+    function removeButton(){
+        $('.remove-prop').on('click', function(e){
+            e.preventDefault();
+            $(this).parent().parent().remove();
+            updateData();
+        });
+    }
+
+    function updateData(){
+        window.properties = [];
+        $(".prop-row").each(function(i) {
+            var x = {
+                size: $(this).find('.prop-size').val(),
+                scale: $(this).find('.prop-scale').val()
+            };
+            window.properties.push(x);
+        });
+        $('#properties').val(JSON.stringify(window.properties));
+    }
+
+    function updateFields(){
+        $(document).on('keyup', '.prop-size, .prop-scale', function(){
+            updateData();
+        });
+    }
+
+    $("#myModal").on("hidden.bs.modal", function() {
+        $('.input-size-name').val('');
+        $('.sport').val('none');
+        $('.sport').trigger('change');
+        $('.block-pattern-val').val('');
+        $('#block_pattern').val('');
+        $('.neck-option-val').val('');
+        $('#neck_option').val('');
+        $('.input-size-type').val('');
+        $('.active').val('');
+        $('.input-brand').val('');
+        $('#properties').val('');
+        $('.props-content').empty();
+        $('.submit-new-record').removeAttr('disabled');
+    });
 
     $('.add-record').on('click', function(e) {
         e.preventDefault();
@@ -120,62 +268,62 @@ $(document).ready(function(){
         $('.submit-new-record').text('Add Record');
     });
 
-    // $(document).on('click', '.edit-record', function(e) {
-    //     e.preventDefault();
-    //     window.modal_action = 'update';
-    //     $('.modal-title').text('Edit Application Size Information');
-    //     $('.submit-new-record').text('Update Record');
-    //     var data = {};
-    //     data.id = $(this).parent().parent().parent().find('.td-size-id').text();
-    //     data.name = $(this).parent().parent().parent().find('.td-size-name').text();
-    //     data.uniform_category_id = $(this).parent().parent().parent().find('.td-size-sport').val();
-    //     var raw_bp = $(this).parent().parent().parent().find('.td-size-block-pattern').text();
-    //     data.block_pattern = raw_bp.replace(/[\[\]'"]+/g, '');
-    //     var raw_bpo = $(this).parent().parent().parent().find('.td-size-option').text();
-    //     data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
-    //     data.type = $(this).parent().parent().parent().find('.td-size-type').text();
-    //     data.uniform_application_type = $(this).parent().parent().parent().find('.td-size-uniform-application-type').text();
-    //     data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
-    //     data.properties = JSON.parse($(this).parent().parent().parent().find('.td-size-props').val());
+    $(document).on('click', '.edit-record', function(e) {
+        e.preventDefault();
+        window.modal_action = 'update';
+        $('.modal-title').text('Edit Mascot Size Information');
+        $('.submit-new-record').text('Update Record');
+        var data = {};
+        data.id = $(this).parent().parent().parent().find('.td-size-id').text();
+        data.name = $(this).parent().parent().parent().find('.td-size-name').text();
+        data.uniform_category_id = $(this).parent().parent().parent().find('.td-size-sport').val();
+        var raw_bp = $(this).parent().parent().parent().find('.td-size-block-pattern').text();
+        data.block_pattern = raw_bp.replace(/[\[\]'"]+/g, '');
+        var raw_bpo = $(this).parent().parent().parent().find('.td-size-option').text();
+        data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
+        data.type = $(this).parent().parent().parent().find('.td-size-type').text();
+        data.active = $(this).parent().parent().parent().find('.td-size-active').text();
+        data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
+        data.properties = JSON.parse($(this).parent().parent().parent().find('.td-size-props').val());
 
-    //     $('.input-size-id').val(data.id);
-    //     $('.input-size-name').val(data.name);
-    //     $('.sport').val(data.uniform_category_id).trigger('change');
-    //     $('.block-pattern-val').val(data.block_pattern);
-    //     $('#block_pattern').val(JSON.parse(raw_bp)).trigger('change');
-    //     $('.neck-option-val').val(data.neck_option);
-    //     $('#neck_option').val(JSON.parse(raw_bpo)).trigger('change');
-    //     $('.input-size-type').val(data.type);
-    //     $('.uniform-application-type').val(data.uniform_application_type);
-    //     $('.input-brand').val(data.brand);
-    //     $('#properties').val(data.properties);
-    //     loadConfigurations(data.properties);
-    // });
+        $('.input-size-id').val(data.id);
+        $('.input-size-name').val(data.name);
+        $('.sport').val(data.uniform_category_id).trigger('change');
+        $('.block-pattern-val').val(data.block_pattern);
+        $('#block_pattern').val(JSON.parse(raw_bp)).trigger('change');
+        $('.neck-option-val').val(data.neck_option);
+        $('#neck_option').val(JSON.parse(raw_bpo)).trigger('change');
+        $('.input-size-type').val(data.type);
+        $('.active').val(data.active);
+        $('.input-brand').val(data.brand);
+        $('#properties').val(data.properties);
+        loadProperties(data.properties);
+    });
 
-    // $("#myForm").submit(function(e) {
-    //     e.preventDefault();
-    //     var data = {};
-    //     data.name = $('.input-size-name').val();
-    //     data.uniform_category_id = $('.sport').find(":selected").val();
-    //     var raw_bp = $('.block-pattern-val').val();
-    //     data.block_pattern = raw_bp.split(",");
-    //     var raw_bpo = $('.neck-option-val').val();
-    //     data.neck_option = raw_bpo.split(",");
-    //     data.type = $('.input-size-type').find(":selected").val();
-    //     data.uniform_application_type = $('.uniform-application-type').find(":selected").val();
-    //     data.brand = $('.input-brand').find(":selected").val();
-    //     data.properties = $('#properties').val();
+    $("#myForm").submit(function(e) {
+        e.preventDefault();
+        var data = {};
+        data.name = $('.input-size-name').val();
+        data.uniform_category_id = $('.sport').find(":selected").val();
+        var raw_bp = $('.block-pattern-val').val();
+        data.block_patterns = raw_bp.split(",");
+        var raw_bpo = $('.neck-option-val').val();
+        data.block_pattern_options = raw_bpo.split(",");
+        data.type = $('.input-size-type').find(":selected").val();
+        data.brand = $('.input-brand').find(":selected").val();
+        data.active = $('.active').find(":selected").val();
+        data.properties = $('#properties').val();
 
-    //     if(window.modal_action == 'add'){
-    //         var url = "//" + api_host +"/api/application_size";
-    //     } else if(window.modal_action == 'update')  {
-    //         data.id = $('.input-size-id').val();
-    //         var url = "//" + api_host +"/api/application_size/update";
-    //     }
+        if(window.modal_action == 'add'){
+            var url = "//" + api_host +"/api/v1-0/mascot_size";
+        } else if(window.modal_action == 'update')  {
+            data.id = $('.input-size-id').val();
+            var url = "//" + api_host +"/api/v1-0/mascot_size/update";
+        }
 
-    //     addUpdateRecord(data, url);
-    //     $('.submit-new-record').attr('disabled', 'true');
-    // });
+        addUpdateRecord(data, url);
+        $('.submit-new-record').attr('disabled', 'true');
+    });
 
     function addUpdateRecord(data, url){
         $.ajax({
@@ -209,62 +357,14 @@ $(document).ready(function(){
         });
     };
 
-    // $(document).on('click', '.delete-size', function() {
-    //    var id = [];
-    //    id.push( $(this).data('size-id'));
-    //    modalConfirm('Remove Application Size', 'Are you sure you want to delete the application size?', id);
-    // });
-
-    // $('#confirmation-modal .confirm-yes').on('click', function(){
-    //     var id = $(this).data('value');
-    //     var url = "//" + api_host + "/api/application_size/delete";
-    //     $.ajax({
-    //         url: url,
-    //         type: "POST",
-    //         data: JSON.stringify({id: id}),
-    //         dataType: "json",
-    //         crossDomain: true,
-    //         contentType: 'application/json',
-    //         headers: {"accessToken": atob(headerValue)},
-    //         success: function (data) {
-    //         if(data.success){
-    //                 window.location.reload();
-    //                 new PNotify({
-    //                     title: 'Warning',
-    //                     text: data.message,
-    //                     type: 'warning',
-    //                     hide: true
-    //                 });
-    //             } else {
-    //                 new PNotify({
-    //                     title: 'Error',
-    //                     text: data.message,
-    //                     type: 'error',
-    //                     hide: true
-    //                 });
-    //             }
-    //         },
-    //             error: function (xhr, ajaxOptions, thrownError) {
-    //         }
-    //     });
-    // });
-
-    $(document).on('click', '.duplicate-application-size', function(e){
-        e.preventDefault();
-        var id = $(this).data('application-size-id');
-        var name = $(this).data('application-size-name');
-        modalConfirm(
-            'Duplicate Application Size',
-            'Are you sure you want to duplicate the Application Size: '+ name +'?',
-            id,
-            'confirm-yes',
-            'confirmation-modal-duplicate-application-size'
-        );
+    $(document).on('click', '.delete-size', function(){
+        var id = $(this).data('size-id');
+        modalConfirm('Remove mascot-size', 'Are you sure you want to delete the mascot-size?', id);
     });
 
-    $('#confirmation-modal-duplicate-application-size .confirm-yes').on('click', function(){
+    $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/application_size/duplicate";
+        var url = "//" + api_host + "/api/v1-0/mascot_size/delete";
         $.ajax({
             url: url,
             type: "POST",
@@ -273,17 +373,25 @@ $(document).ready(function(){
             crossDomain: true,
             contentType: 'application/json',
             headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
+            success: function (data) {
+            if(data.success){
+                    window.location.reload();
                     new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
+                        title: 'Warning',
+                        text: data.message,
+                        type: 'warning',
                         hide: true
                     });
-                    $('#confirmation-modal').modal('hide');
-                    window.location.reload(true);
+                } else {
+                    new PNotify({
+                        title: 'Error',
+                        text: data.message,
+                        type: 'error',
+                        hide: true
+                    });
                 }
+            },
+                error: function (xhr, ajaxOptions, thrownError) {
             }
         });
     });
@@ -296,6 +404,7 @@ $(document).ready(function(){
         "info": true,
         "autoWidth": false,
         "pageLength" : 15,
+        "stateSave": true,
         initComplete: function () {
         this.api().columns('#select-filter').every( function () {
             var column = this;
@@ -325,7 +434,7 @@ $(document).ready(function(){
         $('.sport').append(category_elem);
     }
 
-    function getUniformCategoies(callback){
+    function getUniformCategories(callback){
         var categories;
         var url = "//" +api_host+ "/api/categories";
         $.ajax({

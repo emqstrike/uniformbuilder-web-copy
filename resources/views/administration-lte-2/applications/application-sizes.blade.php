@@ -96,7 +96,7 @@ $(document).ready(function(){
     window.block_patterns = null;
     window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot', 'embellishments', 'short_number', 'pant_number'];
 
-    getUniformCategoies(function(categories){
+    getUniformCategories(function(categories){
         window.categories = categories;
     });
 
@@ -406,6 +406,7 @@ $(document).ready(function(){
         "info": true,
         "autoWidth": false,
         "pageLength" : 15,
+        "stateSave": true,
         initComplete: function () {
         this.api().columns('#select-filter').every( function () {
             var column = this;
@@ -603,7 +604,7 @@ $(document).ready(function(){
         $('.sport').append(category_elem);
     }
 
-    function getUniformCategoies(callback){
+    function getUniformCategories(callback){
         var categories;
         var url = "//" +api_host+ "/api/categories";
         $.ajax({

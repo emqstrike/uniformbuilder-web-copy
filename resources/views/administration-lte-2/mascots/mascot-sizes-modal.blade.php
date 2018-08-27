@@ -40,12 +40,12 @@
                   <div class="form-group">
                     <label class="control-label">Neck Option</label>
                       <textarea class="neck-option-val" id="neck_option_value" name="neck_option_value" style="display:none;"></textarea>
-                      <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple" style="width: 100%;" required="true">
+                      <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple" style="width: 100%;">
                       </select>
                   </div>
                   <div class="form-group">
                     <label class="control-label">Type</label>
-                      <select class="form-control input-size-type" name="type">
+                      <select class="form-control input-size-type" name="type" required>
                         <option value="upper">Upper</option>
                         <option value="lower">Lower</option>
                       </select>
@@ -60,7 +60,7 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label">Active</label>
-                      <select name="active" class="form-control active">
+                      <select name="active" class="form-control active" required>
                         <option value="1">Yes</option>
                         <option value="0"f>No</option>
                       </select>
