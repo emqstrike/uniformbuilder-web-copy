@@ -157,7 +157,8 @@ $(document).ready(function () {
                        h: 200
                     }
                 },
-                url: ub.config.ig_url
+                url: ub.config.ig_url,
+                pattern: pattern,
             }
 
             /**
@@ -232,7 +233,8 @@ $(document).ready(function () {
                    h: 200
                 }
             },
-            url: ub.config.ig_url
+            url: ub.config.ig_url,
+            pattern: pattern,
         }
 
         /**
@@ -1110,8 +1112,15 @@ $(document).ready(function () {
                 cb(response);
             },
             error: function(xhr, textStatus, error){
+                
+                // If the generator failed to return the response thumbnail image
+                // then use an alternate thumbnail image
+                if (config.pattern !== 'undefined') { $("#imagePreview").attr("src", config.pattern.icon); }
+
                 console.log('=== Something went wrong! ===');
-                console.log(xhr.status +  ': ' + xhr.statusText);
+                console.error('Failed in generating the preview image.');
+                console.error(xhr.status +  ': ' + xhr.statusText);
+
             }
         });
 
