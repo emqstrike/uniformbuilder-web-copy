@@ -166,6 +166,18 @@
 
           </ul>
         </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-cubes"></i> <span>Applications</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/application_sizes"><i class="fa fa-arrows"></i>Application Sizes<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascot_sizes"><i class="fa fa-arrows"></i>Mascot Sizes<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+          </ul>
+        </li>
 
         <li class="header">HELPERS</li>
         <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>

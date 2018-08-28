@@ -168,7 +168,6 @@
         </div>
     </div>
 </section>
-@include('administration-lte-2.mascots.mascots-modal')
 @include('partials.confirmation-modal')
 
 @endsection
