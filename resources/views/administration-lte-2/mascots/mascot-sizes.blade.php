@@ -8,15 +8,15 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    @section('page-title', 'Application Sizes')
+                    @section('page-title', 'Mascot Sizes')
                     <h1>
                         <span class="fa fa-arrows"></span>
-                        Application Sizes
+                        Mascot Sizes
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='data-table table-bordered application-sizes display' id='application-sizes'>
+                    <table data-toggle='table' class='data-table table-bordered mascot-sizes display' id='mascot-sizes'>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -25,29 +25,28 @@
                             <th>Block Pattern</th>
                             <th>Options</th>
                             <th id="select-filter">Type</th>
-                            <th id="select-filter">Uniform Appliction Type</th>
                             <th id="select-filter">Brand</th>
+                            <th>Active</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                    @forelse ($application_sizes as $size)
+                    @forelse ($mascot_sizes as $size)
 
-                        <tr class='item-{{ $size->id }}'>
+                        <tr class='size-{{ $size->id }}'>
                             <td class="td-size-id col-md-1">{{ $size->id }}</td>
                             <td class="td-size-name col-md-1">{{ $size->name }}</td>
                             <td class="col-md-1">{{ $size->sport }}<input type="hidden" name="" class="td-size-sport" value="{{ $size->uniform_category_id}}"></td>
-                            <td class="td-size-block-pattern col-md-1">{{ $size->block_pattern }}</td>
-                            <td class="td-size-option col-md-1">{{ $size->neck_option }}</td>
+                            <td class="td-size-block-pattern col-md-1">{{ $size->block_patterns }}</td>
+                            <td class="td-size-option col-md-2">{{ $size->block_pattern_options }}</td>
                             <td class="td-size-type col-md-1">{{ $size->type }}</td>
-                            <td class="td-size-uniform-application-type col-md-1">{{ $size->uniform_application_type }}</td>
                             <td class="td-size-brand col-md-1">{{ $size->brand }}</td>
+                            <td class="td-size-active col-md-1">{{ $size->active }}</td>
                             <td class="col-md-2">
                                 <textarea name="size_props" class="td-size-props" style="display:none;">{{ $size->properties }}</textarea>
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
-                                    <a href="#" class="duplicate-application-size btn btn-flat btn-sm btn-default" data-application-size-id="{{ $size->id }}" data-application-size-name="{{ $size->name }}" role="button">Clone</a>
                                     <a href="#" class="btn btn-danger btn-sm btn-flat delete-size" data-size-id="{{ $size->id }}" role="button">Delete</a>
                                 </center>
                             </td>
@@ -80,8 +79,8 @@
         </div>
     </div>
 </section>
-@include('administration-lte-2.applications.application-sizes-modal')
-@include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-duplicate-application-size'])
+
+@include('administration-lte-2.mascots.mascot-sizes-modal')
 @include('partials.confirmation-modal')
 
 @endsection
@@ -94,7 +93,6 @@ $(document).ready(function(){
     window.modal_action = null;
     window.categories = null;
     window.block_patterns = null;
-    window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot', 'embellishments', 'short_number', 'pant_number'];
 
     getUniformCategories(function(categories){
         window.categories = categories;
@@ -179,33 +177,73 @@ $(document).ready(function(){
     $('.block-pattern').val(bp);
     $('.block-pattern').trigger('change');
 
-    $(".add-props").on('click', function(e) {
+    window.properties = [];
+
+    $('.add-props').on('click', function(e){
         e.preventDefault();
-        var app_numbers_options = buildAppNumOptions();
-        var app_sizes_options = buildAppSizeOptions();
-        var app_default_elem = '<option value="none">N/A</option>';
-        window.app_type = null;
-          var type_elem = '';
-          app_types.forEach(function(type) {
-                type_elem += '<option value="'+type+'">'+type+'</option>';
-            });
-        window.app_type = type_elem;
-        var type = '<td><select class="form-control app-type">'+window.app_type+'</select></td>';
-        var application_number ='<td><select class="form-control app-numbers" multiple="multiple">'+app_numbers_options+'</select></td>';
-        var size = '<td><select class="form-control app-size" multiple="multiple">'+app_sizes_options+'</select></td>';
-        var scale = '<td><input type="text" class="form-control app-scale"></td>';
-        var def = '<td><select class="form-control app-def">'+app_default_elem+'</select></td>';
-        var delete_row = '<td><a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a>';
-        var elem = '<tr class="layer-row">' + type + application_number + size + scale + def + delete_row + '</tr>';
-        $('.properties-content').append(elem);
-        refreshSelectBoxes();
-        updateJSON();
+        var elem = `<tr class="prop-row">
+                        <td>
+                            <input type="number" class="prop-size" step="0.01">
+                        </td>
+                        <td>
+                            <input type="number" class="prop-scale" step="0.01">
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-xs btn-danger remove-prop">Remove</a>
+                        </td>
+                    </tr>`;
+        $('.props-content').prepend(elem);
+        removeButton();
+        updateFields();
+        updateData();
     });
 
-    $(document).on("click", ".delete-row", function(e){
+    function loadProperties(props){
+        var properties = props;
+        properties.forEach(function(entry) {
+            var elem = `<tr class="prop-row">
+                    <td>
+                        <input type="number" class="prop-size prop-data" step="0.01" value="` + entry.size + `">
+                    </td>
+                    <td>
+                        <input type="number" class="prop-scale prop-data" step="0.01" value="` + entry.scale + `">
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-xs btn-danger remove-prop">Remove</a>
+                    </td>
+                </tr>`;
+            $('.props-content').append(elem);
+            removeButton();
+            updateFields();
+            updateData();
+        });
+    }
+
+    function removeButton(){
+        $('.remove-prop').on('click', function(e){
             e.preventDefault();
             $(this).parent().parent().remove();
-    });
+            updateData();
+        });
+    }
+
+    function updateData(){
+        window.properties = [];
+        $(".prop-row").each(function(i) {
+            var x = {
+                size: $(this).find('.prop-size').val(),
+                scale: $(this).find('.prop-scale').val()
+            };
+            window.properties.push(x);
+        });
+        $('#properties').val(JSON.stringify(window.properties));
+    }
+
+    function updateFields(){
+        $(document).on('keyup', '.prop-size, .prop-scale', function(){
+            updateData();
+        });
+    }
 
     $("#myModal").on("hidden.bs.modal", function() {
         $('.input-size-name').val('');
@@ -216,24 +254,24 @@ $(document).ready(function(){
         $('.neck-option-val').val('');
         $('#neck_option').val('');
         $('.input-size-type').val('');
-        $('.uniform-application-type').val('');
+        $('.active').val('');
         $('.input-brand').val('');
         $('#properties').val('');
-        $('.properties-content').empty();
+        $('.props-content').empty();
         $('.submit-new-record').removeAttr('disabled');
     });
 
     $('.add-record').on('click', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
-        $('.modal-title').text('Add Application Sizes Information');
+        $('.modal-title').text('Add Mascot Sizes Information');
         $('.submit-new-record').text('Add Record');
     });
 
     $(document).on('click', '.edit-record', function(e) {
         e.preventDefault();
         window.modal_action = 'update';
-        $('.modal-title').text('Edit Application Size Information');
+        $('.modal-title').text('Edit Mascot Size Information');
         $('.submit-new-record').text('Update Record');
         var data = {};
         data.id = $(this).parent().parent().parent().find('.td-size-id').text();
@@ -244,7 +282,7 @@ $(document).ready(function(){
         var raw_bpo = $(this).parent().parent().parent().find('.td-size-option').text();
         data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
         data.type = $(this).parent().parent().parent().find('.td-size-type').text();
-        data.uniform_application_type = $(this).parent().parent().parent().find('.td-size-uniform-application-type').text();
+        data.active = $(this).parent().parent().parent().find('.td-size-active').text();
         data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
         data.properties = JSON.parse($(this).parent().parent().parent().find('.td-size-props').val());
 
@@ -256,10 +294,10 @@ $(document).ready(function(){
         $('.neck-option-val').val(data.neck_option);
         $('#neck_option').val(JSON.parse(raw_bpo)).trigger('change');
         $('.input-size-type').val(data.type);
-        $('.uniform-application-type').val(data.uniform_application_type);
+        $('.active').val(data.active);
         $('.input-brand').val(data.brand);
         $('#properties').val(data.properties);
-        loadConfigurations(data.properties);
+        loadProperties(data.properties);
     });
 
     $("#myForm").submit(function(e) {
@@ -268,19 +306,19 @@ $(document).ready(function(){
         data.name = $('.input-size-name').val();
         data.uniform_category_id = $('.sport').find(":selected").val();
         var raw_bp = $('.block-pattern-val').val();
-        data.block_pattern = raw_bp.split(",");
+        data.block_patterns = raw_bp.split(",");
         var raw_bpo = $('.neck-option-val').val();
-        data.neck_option = raw_bpo.split(",");
+        data.block_pattern_options = raw_bpo.split(",");
         data.type = $('.input-size-type').find(":selected").val();
-        data.uniform_application_type = $('.uniform-application-type').find(":selected").val();
         data.brand = $('.input-brand').find(":selected").val();
+        data.active = $('.active').find(":selected").val();
         data.properties = $('#properties').val();
 
         if(window.modal_action == 'add'){
-            var url = "//" + api_host +"/api/application_size";
+            var url = "//" + api_host +"/api/v1-0/mascot_size";
         } else if(window.modal_action == 'update')  {
             data.id = $('.input-size-id').val();
-            var url = "//" + api_host +"/api/application_size/update";
+            var url = "//" + api_host +"/api/v1-0/mascot_size/update";
         }
 
         addUpdateRecord(data, url);
@@ -319,15 +357,14 @@ $(document).ready(function(){
         });
     };
 
-    $(document).on('click', '.delete-size', function() {
-       var id = [];
-       id.push( $(this).data('size-id'));
-       modalConfirm('Remove Application Size', 'Are you sure you want to delete the application size?', id);
+    $(document).on('click', '.delete-size', function(){
+        var id = $(this).data('size-id');
+        modalConfirm('Remove mascot-size', 'Are you sure you want to delete the mascot-size?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/application_size/delete";
+        var url = "//" + api_host + "/api/v1-0/mascot_size/delete";
         $.ajax({
             url: url,
             type: "POST",
@@ -355,45 +392,6 @@ $(document).ready(function(){
                 }
             },
                 error: function (xhr, ajaxOptions, thrownError) {
-            }
-        });
-    });
-
-    $(document).on('click', '.duplicate-application-size', function(e){
-        e.preventDefault();
-        var id = $(this).data('application-size-id');
-        var name = $(this).data('application-size-name');
-        modalConfirm(
-            'Duplicate Application Size',
-            'Are you sure you want to duplicate the Application Size: '+ name +'?',
-            id,
-            'confirm-yes',
-            'confirmation-modal-duplicate-application-size'
-        );
-    });
-
-    $('#confirmation-modal-duplicate-application-size .confirm-yes').on('click', function(){
-        var id = $(this).data('value');
-        var url = "//" + api_host + "/api/application_size/duplicate";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $('#confirmation-modal').modal('hide');
-                    window.location.reload(true);
-                }
             }
         });
     });
@@ -427,174 +425,6 @@ $(document).ready(function(){
         } );
     }
     });
-
-    $(document).on("change", ".app-size", function(e){
-        e.preventDefault();
-        setValue($(this));
-        updateJSON();
-    });
-
-    $(document).on("keyup", ".app-scale", function(e){
-        updateJSON();
-    });
-
-    $(document).on("change", ".app-def, .app-type, .app-numbers", function(e){
-        updateJSON();
-    });
-
-    $(document).on("click", ".delete-row", function(e){
-        updateJSON();
-    });
-
-    function loadConfigurations(data){
-        var app_numbers_options = buildAppNumOptions();
-        var app_sizes_options = buildAppSizeOptions();
-        var app_numbers_ref = [];
-        var app_sizes_ref = [];
-        var default_sizes = [];
-        // window.app_types = ['team_name', 'player_name', 'front_number', 'back_number', 'shoulder_number', 'sleeve_number', 'mascot', 'embellishments', 'short_number', 'pant_number'];
-        data.forEach(function(entry, i) {
-            var app_nums = entry.application_number;
-            app_numbers_ref.push(app_nums);
-            app_sizes_ref.push(entry.size);
-            default_sizes.push(entry.default);
-            var app_num_class = "app-num-"+i;
-            var app_size_class = "app-size-"+i;
-            var app_def_class = "app-def-"+i;
-            var app_size = entry.size;
-            var app_scale = entry.scale;
-            window.app_type = null;
-                var type_elem = '';
-                app_types.forEach(function(type) {
-                    if (type == entry.type) {
-                        type_elem += '<option value="'+type+'" selected>'+type+'</option>';
-                    }
-                    else {
-                        type_elem += '<option value="'+type+'">'+type+'</option>';
-                      }
-                    });
-                window.app_type = type_elem;
-            var type = '<td><select class="form-control app-type">'+window.app_type+'</select></td>';
-            var application_number = `<td><select class="form-control app-numbers `+app_num_class+`" multiple="multiple">`+app_numbers_options+`</select></td>`;
-            var size = `<td><select class="form-control app-size `+app_size_class+`" multiple="multiple">`+app_sizes_options+`</select></td>`;
-            var scale = '<td><input type="text" class="form-control app-scale" value="'+app_scale+'"></td>';
-            var def =  '<td><select class="form-control app-def '+app_def_class+'"></select></td>';
-            var delete_row = '<td><a href="#" class="btn btn-danger btn-xs delete-row"><span class="glyphicon glyphicon-remove"></span></a></td>';
-            var elem = '<tr class="layer-row">' + type + application_number + size + scale + def + delete_row +'</tr>';
-            $('.properties-content').append(elem);
-
-            updateJSON();
-            setDefault(app_sizes_ref, entry.default);
-            setTimeout(refreshSelect2s(app_numbers_ref), 1000);
-        });
-    }
-
-    function refreshSelect2s(app_numbers_ref){
-        refreshSelectBoxes();
-        app_numbers_ref.forEach(function(entry, i) {
-            try {
-                var app_num_class = ".app-num-"+i;
-                $(app_num_class).val(entry);
-                $(app_num_class).trigger('change');
-            }
-            catch(err) {
-                console.log(err.message);
-            }
-        });
-        updateJSON();
-    }
-
-    function setDefault(sizes, def_value) {
-        refreshSelectBoxes();
-        sizes.forEach( function(entry, i) {
-            try {
-                var app_size_class = ".app-size-"+i;
-                var app_def_class = ".app-def-"+i;
-                $(app_size_class).val(entry);
-                $(app_size_class).trigger('change');
-                var sizes_value = entry.toString().split(",");
-                $(app_def_class).html('');
-                var elem2 = '';
-                sizes_value.forEach(function(size, j){
-                    if(def_value == size) {
-                            elem2 += '<option value="'+size+'" selected>'+size+'</option>';
-                        }
-                    else {
-                            elem2 += '<option value="'+size+'">'+size+'</option>';
-                        }
-                });
-                $(app_def_class).append(elem2);
-            }
-            catch (err) {
-                console.log(err.message);
-            }
-        });
-        updateJSON();
-    }
-
-    function buildAppNumOptions() {
-        var elem = '';
-        for(var i = 1; i <= 51; i++){
-            elem += '<option value="'+i+'">'+i+'</option>';
-        }
-        for(var i = 71; i <= 99; i++){
-            elem += '<option value="'+i+'">'+i+'</option>';
-        }
-        return elem;
-    }
-
-    function buildAppSizeOptions() {
-        var elem = '';
-        elem += '<option value="'+0.5+'">'+0.5+'</option>';
-        elem += '<option value="'+1.5+'">'+1.5+'</option>';
-        elem += '<option value="'+2.5+'">'+2.5+'</option>';
-        for(var i = 1; i <= 15; i++){
-            elem += '<option value="'+i+'">'+i+'</option>';
-        }
-        return elem;
-    }
-
-    function refreshSelectBoxes(){
-        $(".app-numbers").each(function(i) {
-            $(this).select2({
-                placeholder: "Select numbers",
-                multiple: true,
-                allowClear: true
-            });
-        });
-        $(".app-size").each(function(i) {
-            $(this).select2({
-                placeholder: "Select",
-                multiple: true,
-                allowClear: true
-            });
-        });
-    }
-
-    function setValue(thisObj) {
-        var sizes = thisObj.parent().parent().find('.app-size').val().toString();
-        var def_value = sizes.split(",");
-        var elem = '';
-        def_value.forEach( function(entry) {
-           elem += '<option value="'+entry+'">'+entry+'</option>';
-        });
-        thisObj.parent().parent().find('.app-def').empty().append(elem);
-    }
-
-    function updateJSON() {
-        var data = [];
-        $(".layer-row").each(function(i) {
-            var x = {
-                "type" : $(this).find('.app-type').val(),
-                "application_number" : $(this).find('.app-numbers').val(),
-                "size" : $(this).find('.app-size').val(),
-                "scale" : $(this).find('.app-scale').val(),
-                "default" : $(this).find('.app-def').val()
-            };
-            data.push(x);
-        });
-        $('#properties').val(JSON.stringify(data));
-    }
 
     function loadUniformCategories() {
         var category_elem = "";
