@@ -43,7 +43,17 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="../tables/simple.html"><i class="fa fa-th-large"></i> Block Patterns</a></li>
+            <li>
+                <a href="{{ route('v1_block_patterns') }}">
+                    <i class="glyphicon glyphicon-star"></i>
+                    Block Patterns
+                    <span class="pull-right-container">
+                        <small class="label pull-right bg-green">
+                            <i class="fa fa-exclamation"></i>
+                        </small>
+                    </span>
+                </a>
+            </li>  
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/master_colors"><i class="fa fa-map"></i> Colors <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/master_fabrics"><i class="fa fa-map"></i> Fabrics <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="../tables/data.html"><i class="fa fa-building"></i> Factories</a></li>
