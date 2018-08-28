@@ -1,7 +1,6 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="/css/libs/select2/select2.min.css">
 
     <style>
         .select2 {
@@ -175,7 +174,6 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="/js/libs/select2/select2.min.js"></script>
 
     <script>
         $(document).ready(function() {
