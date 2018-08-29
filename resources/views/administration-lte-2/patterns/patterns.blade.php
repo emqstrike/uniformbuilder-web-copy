@@ -135,9 +135,12 @@
                                 </div>
                             </td>
                             <td class="col-md-2">
+                                @if ($pattern->active)
                                 <a href="/administration/v1-0/pattern/edit/{{ $pattern->id }}" class="btn btn-primary btn-sm btn-flat edit-button" data-pattern-id="{{ $pattern->id }}" role="button">
                                     Edit
                                 </a>
+                                @else
+                                @endif
                                 <a href="#" class="btn btn-default btn-sm clone-pattern btn-flat" data-pattern-id="{{ $pattern->id }}" role="button">
                                     Clone
                                 </a>
@@ -244,7 +247,7 @@ $(document).ready(function(){
 
     $(document).on('click', '.view-category', function(e) {
         e.preventDefault();
-        var category = $(this).parent().parent().parent().find('.category_value').val();
+        var category = $(this).parent().parent().find('.category_value').val();
         $('#category_text').text(category);
         $('#viewModal').modal('show');
     });
@@ -359,6 +362,21 @@ $(document).ready(function(){
             }
         });
     }
+
+    var multipleRemove=[];
+
+    $(document).on('click', '#multipleDelete', function() {
+        if ($(this).is(':checked')) {
+            multipleRemove.push($(this).data("pattern-id"));
+        } else {
+           multipleRemove.splice( $.inArray($(this).data("pattern-id"), multipleRemove) , 1);
+        }
+        multipleRemove = multipleRemove.sort();
+    });
+
+    $(document).on('click', '.multiple-delete-pattern', function() {
+        modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern?', multipleRemove);
+    });
 
     $('.data-table').DataTable({
         "paging": true,

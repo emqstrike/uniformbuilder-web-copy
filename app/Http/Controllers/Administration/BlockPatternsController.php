@@ -165,6 +165,11 @@ class BlockPatternsController extends Controller
         if (!empty($id))
         {
             Log::info('Attempts to update Block Pattern #' . $id);
+
+            if (! count(json_decode($data['neck_options'], true)) > 0) {
+                return back()->with('flash_message_error', 'Please add at least 1 neck option');
+            } 
+            
             $response = $this->client->updateBlockPattern($data);
         }
         else
