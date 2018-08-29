@@ -2198,7 +2198,21 @@ class UniformBuilderController extends Controller
         $fname = $this->generatePDF($bc, $settings['pdfOrderForm']);
 //        return response()->json(['success' => true, 'filename' => $fname ]);
 //        Log::info('OLD PDF FILE IS HERE===> ' . json_encode($settings));
-        return view('editor.view-generated-pdf')->with('filename',$fname);
+//        return view('editor.view-generated-pdf')->with('filename',$fname);
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'view-generated-pdf',
+            'type' => 'view-generated-pdf',
+            'filename' => $fname
+        ];
+        return view('editor.view-generated-pdf', $params);
     }
 
     function createPDF ($builder_customizations) {
