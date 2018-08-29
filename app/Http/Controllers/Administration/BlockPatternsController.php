@@ -1,18 +1,19 @@
 <?php
 namespace App\Http\Controllers\Administration;
 
-use \Session;
-use \Redirect;
+use App\APIClients\BlockPatternsAPIClient as APIClient;
+use App\APIClients\UniformCategoriesAPIClient;
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use App\Utilities\Log;
-use Illuminate\Http\Request;
+use App\Http\Requests\BlockPatternRequest;
 use App\Utilities\FileUploader;
 use App\Utilities\FileUploaderV2;
+use App\Utilities\Log;
 use App\Utilities\Random;
+use Illuminate\Http\Request;
 use Webmozart\Json\JsonDecoder;
-use App\Http\Controllers\Controller;
-use App\APIClients\UniformCategoriesAPIClient;
-use App\APIClients\BlockPatternsAPIClient as APIClient;
+use \Redirect;
+use \Session;
 
 class BlockPatternsController extends Controller
 {
@@ -57,9 +58,8 @@ class BlockPatternsController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(BlockPatternRequest $request)
     {
-
         $name = $request->input('name');
         $uniformCategoryID = $request->input('uniform_category_id');
         $neckOptions = $request->input('neck_options');
@@ -165,6 +165,11 @@ class BlockPatternsController extends Controller
         if (!empty($id))
         {
             Log::info('Attempts to update Block Pattern #' . $id);
+
+            if (! count(json_decode($data['neck_options'], true)) > 0) {
+                return back()->with('flash_message_error', 'Please add at least 1 neck option');
+            } 
+            
             $response = $this->client->updateBlockPattern($data);
         }
         else

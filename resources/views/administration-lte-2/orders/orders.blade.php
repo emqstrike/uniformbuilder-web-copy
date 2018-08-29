@@ -136,7 +136,9 @@ $(document).ready(function(){
     });
 
     var unique_active_sales_reps = _.uniq(active_sales_reps, function(x){
-        return x.RepID;
+        if(x.DealerID === 6){
+            return x.RepID;
+        }
     });
 
     var asc_unique_active_sales_reps = _.sortBy(unique_active_sales_reps, function(o) { return o.LastName.toLowerCase(); })
@@ -154,8 +156,11 @@ $(document).ready(function(){
 
     window.sales_reps_dd = reps_elem;
 
-    $('.rep-id').append(reps_elem);
+    // $('.rep-id').append(reps_elem);
     $('#orders_table .rep-id').append(reps_elem);
+
+    console.log(window.qx_reps_url);
+    console.log(window.sales_reps_dd);
 
     $(document).on('change', '.rep-id', function(e) {
         var option_selected = $(this).val();

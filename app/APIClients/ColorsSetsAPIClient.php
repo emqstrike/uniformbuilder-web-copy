@@ -43,7 +43,7 @@ class ColorsSetsAPIClient extends APIClient
     {
         $response = $this->get('color_set/' . $id);
         $result = $this->decoder->decode($response->getBody());
-        
+
         if ($result->success)
         {
             $color_set = $result->color_set;
@@ -51,5 +51,5 @@ class ColorsSetsAPIClient extends APIClient
         }
         return null;
     }
-    
+
 }
