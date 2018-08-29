@@ -2,7 +2,7 @@
 <div class="modal modal-wide fade" id="add-multiple-options-modal" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/administration/material_option/saveMultiple" role="form" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('v1_save_material_option') }}" role="form" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" class="material-option-id" name="material_option_id">
                 <input type="hidden" class="material-id" name="material_id">
@@ -18,7 +18,6 @@
                     <button type="button" class="close" data-dismiss="modal">×</button>
                     <h4 class="modal-title"><span></span></h4>
                 </div>
-            
 
                 <div class="modal-body front-options">
                     <div class="row">
