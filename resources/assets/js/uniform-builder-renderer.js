@@ -81,6 +81,7 @@ $(document).ready(function() {
         var save_uniform_perspectives_url = '/save_uniform_perspectives';
         var material_data = {
             material_id: ub.config.material_id,
+            product_id: ub.product_id,
             store_code: ub.store_code,
             team_colors: ub.team_colors,
             front: ub.front,
@@ -88,9 +89,11 @@ $(document).ready(function() {
             right: ub.right,
             left: ub.left
         };
-        if (ub.store_code == 'TEAMSTORE-DEFAULT-TEMPLATE') {
+        if (ub.store_code.length > 0) {
             save_uniform_perspectives_url = TeamStoreAPI.endpoints.save_customized_thumbnails;
-            material_data.settings = JSON.stringify(ub.current_material.settings);
+            if (ub.store_code == 'TEAMSTORE-DEFAULT-TEMPLATE') {
+                material_data.settings = JSON.stringify(ub.current_material.settings);
+            }
         }
 
         $.ajax({
@@ -100,6 +103,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     ub.utilities.info('Store Code: ' + response.store_code);
+                    ub.utilities.info('Material ID: ' + response.material_id);
                     ub.utilities.info('Product ID: ' + response.product_id);
                     ub.utilities.info('Team Colors: ' + response.team_colors);
                     ub.utilities.info('Saved as images');
