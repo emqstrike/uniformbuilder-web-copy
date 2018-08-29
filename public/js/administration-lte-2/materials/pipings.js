@@ -323,11 +323,8 @@ function buildSetsDropdown(value){
     function detectImages(){
         $(".image").each(function(i) {
             var val = $(this).data('img-url');
-            if(val != ""){
-                $(this).removeClass( "alert alert-danger" );
-            } else {
-                console.log('none');
-                $(this).addClass( "alert alert-danger" );
+            if (val == "") {
+                $(this).css('border', '2px solid red');
             }
         });
     }
@@ -475,6 +472,8 @@ function buildSetsDropdown(value){
             console.log(JSON.stringify(info));
         });
         $('#pipings').val(JSON.stringify(data));
+
+        detectImages();
     }
 
     function changeImage(){
