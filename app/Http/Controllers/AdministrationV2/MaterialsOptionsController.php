@@ -221,4 +221,34 @@ class MaterialsOptionsController extends Controller
             return back()->with('message', 'There was a problem saving your material option');
         }
     }
+
+    public function saveApplications(Request $request)
+    {
+        $materialId = $request->input('material_id');
+        $materialOptionId = $request->input('app_material_option_id');
+        $materialObject = null;
+
+        $applications_properties = $request->input('applications_properties');
+
+        $data = [
+            'id' => $materialOptionId,
+            'material_id' => $materialId,
+            'applications_properties' => $applications_properties
+        ];
+
+        $response = null;
+        if (!empty($materialOptionId)) {
+            Log::info('Attempts to update MaterialOption#' . $materialOptionId);
+            $data['id'] = $materialOptionId;
+            $response = $this->client->updateApplications($data);
+        }
+
+        if ($response->success) {
+            Log::info('Success');
+            return back()->with('message', $response->message);
+        } else {
+            Log::info('Failed');
+            return redirect()->route('v1_materials_index')->with('message', 'There was a problem saving your material option');
+        }
+    }
 }

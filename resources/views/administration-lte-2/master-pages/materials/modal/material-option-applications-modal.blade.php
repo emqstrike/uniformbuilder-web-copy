@@ -2,7 +2,7 @@
 <div class="modal modal-wide fade" id="save-material-option-applications-modal" data-backdrop="static" aria-hidden="false">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/administration/material_option/saveApplications" id="applications_form" role="form" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('v1_save_applications') }}" id="applications_form" role="form" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" class="material-id" name="material_id">
                 <input type="hidden" id="app_option_id" class="material-option-id" name="app_material_option_id">
