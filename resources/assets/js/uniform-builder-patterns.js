@@ -157,16 +157,17 @@ $(document).ready(function () {
                        h: 200
                     }
                 },
-                url: ub.config.ig_url,
-                pattern: pattern,
+                url: ub.config.ig_url
             }
+
+            inputPattern.thumbnail = '';
 
             /**
             * Call the Image Generator Function
             * Passing the Setup Configuration Object declared above as an argument
             * Callback: display the generated image in div#imagePreview
             */
-            ub.funcs.generateImage(config, function(response) {
+            ub.utilities.generateImage(config, function(response) {
                 
                 thumbnail = response.highres_url;
 
@@ -233,8 +234,7 @@ $(document).ready(function () {
                    h: 200
                 }
             },
-            url: ub.config.ig_url,
-            pattern: pattern,
+            url: ub.config.ig_url
         }
 
         /**
@@ -242,7 +242,7 @@ $(document).ready(function () {
         * Passing the Setup Configuration Object declared above as an argument
         * Callback: display the generated image in div#imagePreview
         */
-        ub.funcs.generateImage(config, function(response) {
+        ub.utilities.generateImage(config, function(response) {
             
             thumbnail = response.highres_url;
 
@@ -1111,15 +1111,15 @@ $(document).ready(function () {
             success: function (response) {
                 cb(response);
             },
-            error: function(xhr, textStatus, error){
+            error: function(xhr, textStatus, error) {
                 
                 // If the generator failed to return the response thumbnail image
                 // then use an alternate thumbnail image
                 if (config.pattern !== 'undefined') { $("#imagePreview").attr("src", config.pattern.icon); }
 
                 console.log('=== Something went wrong! ===');
-                console.error('Failed in generating the preview image.');
-                console.error(xhr.status +  ': ' + xhr.statusText);
+                util.error('Failed in generating the preview image.');
+                util.error(xhr.status +  ': ' + xhr.statusText);
 
             }
         });

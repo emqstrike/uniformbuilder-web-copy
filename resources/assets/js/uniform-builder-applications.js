@@ -5294,7 +5294,7 @@ $(document).ready(function() {
     } 
 
     ub.funcs.createSmallColorPickers = function (activeColorCode, layer_no, layer_name, active_color, objectType) {
-
+        
         var _html       = "";
         var _cObj       = ub.funcs.getColorByColorCode(activeColorCode);
         var _teamColors = ub.current_material.settings.team_colors;
@@ -5712,7 +5712,7 @@ $(document).ready(function() {
                 $('div.patternPopupResults > div.item').on('click', function () {
 
                     var _id = $(this).data('mascot-id');
-
+                    
                     ub.funcs.changeMascotByID(_id, settingsObj);
 
                 });
@@ -6552,7 +6552,7 @@ $(document).ready(function() {
     }
 
     ub.funcs.activateMascots = function (application_id) {
-
+        
         if (ub.funcs.popupsVisible()) { return; }
         if (!ub.funcs.okToStart())    { return; }
 
@@ -6662,12 +6662,11 @@ $(document).ready(function() {
 
         }
 
-
         var _mascotObj          = _settingsObject.mascot;
         var _currentSize        = _settingsObject.size;
         var _colorArray         = _settingsObject.color_array;
         var _mascotName         = _mascotObj.name;
-        var _mascotIcon         = _mascotObj.icon;
+        // var _mascotIcon         = _mascotObj.icon;
         var _title              = _applicationType.toTitleCase();
         var _htmlBuilder        = "";
         var _appActive          = 'checked';
@@ -6737,7 +6736,10 @@ $(document).ready(function() {
             }
 
         }
-   
+
+        // generate the mascot thumbnail preview
+        var _mascotIcon = ub.funcs.setMascotThumbnail(_settingsObject);
+
         _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
@@ -6908,7 +6910,7 @@ $(document).ready(function() {
                 var _extension = _filename.split('.').pop();
 
                 $prevImage = $('span.accentThumb > img');
-    
+
                 if (_extension === 'gif' || _extension === 'jpg' || _extension === 'bmp' || _extension === 'png' || _extension === 'jpeg') {
 
                     $prevImage.attr('src', _filename);                        
@@ -7208,7 +7210,7 @@ $(document).ready(function() {
             });
 
             $('span.colorItem').on('click', function () {
-
+                
                 var _layer_no   = $(this).data('layer-no');
                 var _color_code = $(this).data('color-code');
                 var _layer_name = $(this).data('layer-name');
@@ -7270,7 +7272,11 @@ $(document).ready(function() {
                     }
 
                 }
-   
+
+                // debounce the ub.funcs.setMascotThumbnailInColorPicker every 300ms
+                // this is to avoid ajax traffic when onlick is triggered in color picker
+                _.debounce(ub.funcs.setMascotThumbnailInColorPicker(_settingsObject), 300);
+
             });
 
         // End Small Color Pickers
@@ -7715,7 +7721,7 @@ $(document).ready(function() {
     }
 
     ub.funcs.changeApplicationType = function (settingsObject, type) {
-
+        
         var _settingsObject = settingsObject;
         var _type           = type;
         var _id             = parseInt(_settingsObject.code);
