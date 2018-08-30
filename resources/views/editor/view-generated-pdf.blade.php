@@ -44,7 +44,7 @@
 <!-- UI Controls -->
 
 <!-- Prolook / Base -->
-{{--@include('partials.controls.ui-controls')--}}
+@include('partials.controls.ui-controls')
 
 <!-- Richardson UI Controls -->
 {{--@include('partials.controls.ui-controls-richardson')--}}
