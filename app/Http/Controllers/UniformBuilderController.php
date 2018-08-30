@@ -84,12 +84,16 @@ class UniformBuilderController extends Controller
         $materialId = (isset($config['material_id']) && !empty($config['material_id']) && !($config['material_id'] == 0))
             ? $config['material_id']
             : null;
+        $productId = (isset($config['product_id']) && !empty($config['product_id']) && !($config['product_id'] == 0))
+            ? $config['product_id']
+            : null;
 
         $render = (isset($config['render'])) ? $config['render'] : false;
 
         $accessToken = null;
         $categoryId = 0;
         $material = null;
+
         $colors = $this->colorsClient->getColors();
 
         if (is_null($designSetId))
@@ -132,6 +136,10 @@ class UniformBuilderController extends Controller
             'category_id' => $categoryId,
             'render' => $render
         ];
+        if (!is_null($productId))
+        {
+            $params['product_id'] = $productId;
+        }
 
         if (!Session::get('userHasTeamStoreAccount'))
         {

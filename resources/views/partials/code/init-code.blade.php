@@ -242,6 +242,7 @@
         ub.jersey_name = "{{ isset($jersey_name) ? $jersey_name : false }}";
         ub.jersey_number = "{{ isset($jersey_number) ? $jersey_number : false }}";
         ub.mascot_id = "{{ isset($mascot_id) ? $mascot_id : false }}";
+        ub.product_id = "{{ isset($product_id) ? $product_id : false }}";
 
         ub.savedDesignName = "{{ isset($saved_design_name) ? $saved_design_name : '' }}";
 
