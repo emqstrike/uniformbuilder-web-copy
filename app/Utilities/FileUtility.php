@@ -3,6 +3,7 @@ namespace App\Utilities;
 
 use Log;
 use Intervention\Image\ImageManagerStatic as Image;
+use Tinify\Tinify;
 
 class FileUtility
 {
@@ -98,9 +99,65 @@ class FileUtility
         // Upload to TeamStore bucket
         $bucket = 'team-stores';
         $url = FileUploader::uploadImageToAWS($image, 'products');
-
-        Log::info('Uploaded to s3 ' . $url);
+        static::tinifyFromPath($url);
 
         return $url;
+    }
+
+    public static function tinifyFromPath($path)
+    {
+        Log::info('Optimizing image: ' . $path);
+
+        $data = parse_url($path);
+        $target_s3_path = substr($data['path'], 1);
+
+        try
+        {
+            // Use the Tinify API client.
+            $tinifier = new Tinify;
+            $key = config('tinypng.api_key');
+
+            \Tinify\setKey($key);
+            $source = \Tinify\fromUrl($path);
+
+            $result = $source->store([
+                'service' => 's3',
+                'aws_access_key_id' => env('AWS_ACCESS_KEY_ID'),
+                'aws_secret_access_key' => env('AWS_SECRET_ACCESS_KEY'),
+                'region' => env('AWS_REGION'),
+                'path' => $target_s3_path
+            ]);
+
+            Log::info('>>> Tinify Compression Count: ' . \Tinify\compressionCount());
+            return $result;
+
+        }
+        catch(\Tinify\AccountException $e)
+        {
+            Log::info("The error message is: " . $e.getMessage());
+            Log::info('Verify your API key and account limit.');
+        }
+        catch(\Tinify\ClientException $e)
+        {
+            Log::info("The error message is: " . $e.getMessage());
+            Log::info('Check your source image and request options.');
+        }
+        catch(\Tinify\ServerException $e)
+        {
+            Log::info("The error message is: " . $e.getMessage());
+            Log::info('Temporary issue with the Tinify API.');
+        }
+        catch(\Tinify\ConnectionException $e)
+        {
+            Log::info("The error message is: " . $e.getMessage());
+            Log::info('A network connection error occurred.');
+        }
+        catch(Exception $e)
+        {
+            Log::info("The error message is: " . $e.getMessage());
+            Log::info('Something else went wrong, unrelated to the Tinify API.');
+        }
+
+        return false;
     }
 }
