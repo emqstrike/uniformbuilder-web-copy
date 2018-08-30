@@ -68,6 +68,9 @@ Route::get('/forgot-password', 'UniformBuilderController@forgotPassword');
 // Custom Artwork Requests
 Route::get('/my-custom-artwork-requests', 'UniformBuilderController@myCustomArtworkRequests');
 
+// Generate Legacy PDF
+Route::get('order/{orderId}/generatePDF', 'UniformBuilderController@generateLegacy');
+
 // Display the Order
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
