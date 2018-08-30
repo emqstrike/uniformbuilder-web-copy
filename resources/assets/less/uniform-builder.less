@@ -3680,15 +3680,117 @@ div.header-container.main {
 
     /* Pattern UI */
 
+    div.blankPatternPreview {
+        width: 300px;
+        height: 300px;
+        position: relative; 
+        -moz-user-select: none;
+        border: solid 2px #333;
+        cursor: pointer;
+        overflow: hidden;
+    }
+
+    .blankPatternPreview:hover .simple-caption {
+        -moz-transform: translateY(-100%);
+        -o-transform: translateY(-100%);
+        -webkit-transform: translateY(-100%);
+        opacity: 1;
+        transform: translateY(-100%);
+        bottom: -20px;
+    }
+
+    .blankPatternPreview .simple-caption {
+        height: 30px;
+        width: 275px;
+        display: block;
+        line-height: 22pt;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .blankPatternPreview .caption {
+        background-color: ~'rgb(128,128,128, 0.8)';
+        position: absolute;
+        color: #fff;
+        left: 10px;
+    }
+
     div#patternUI {
 
         position: absolute;
-        top: 65px;
+        top: 90px;
         width: 550px;
         height: 500px;
         padding: 30px;
-        display: none;
         overflow: hidden;
+
+        div.patterThumb {
+            padding: 10px;
+        }
+
+        div#applicationUI {
+            display: none;
+        }
+
+        div#applicationUI div.body {
+            padding-left: 0;
+            padding-right: 10px;
+            padding-top: 20px;
+        }
+
+        div#applicationUI div.body .ui-row  {
+            display: block;
+            border-top: none;
+        }
+
+        div#applicationUI div.body .ui-row .patterns {
+            display: block;
+            border-top: none;
+        }
+
+        div#applicationUI div.body .ui-row .column1 div.sub1.patternThumb {
+            padding: 10px;
+        }
+
+        div#applicationUI div.body span.patternName {
+            font-size: 1.2em;
+            border-bottom: none;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        div#applicationUI div.body div.patternThumbPreview {
+            width: 200px;
+            height: 200px;
+            background: none;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border: 1px solid black;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        div#applicationUI div.body div.patternThumbPreview img {
+            height: 100%;
+            width: 100%;
+        }
+
+        div#applicationUI div.body span.flipButton {
+            margin-left: 0px;
+            border: 1px solid gray;
+        }
+
+        div#applicationUI div.body .ui-row .column1 div.colorContainer {
+            padding-top: 60px;
+        }
+
+        span.pattern-intensity {
+            width: 100%;
+            text-align: center;
+            display: block;
+            font-size: .8em;
+        }
 
         div.patternName {
 
@@ -3725,7 +3827,7 @@ div.header-container.main {
 
         div.patternPreviewContainer {
 
-            padding: 30px;
+            padding: 20px;
             text-align: center;
             padding-left: 94px;
 
@@ -11368,6 +11470,18 @@ span.load-line.awesomeness {
     }
 
 /* End Validation Styles */
+
+/* ORDER FORM Error Styles */
+
+    .has-error {
+        padding: 20px;
+        color: rgb(255, 0, 0);
+        font-size: 1.2em;
+        border-radius: 10px;
+        margin-bottom: 40px;
+    }
+
+/* End ORDER FORM Error Styles */
 
 /* isModal */
 

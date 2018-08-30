@@ -158,7 +158,7 @@ $( document ).ready(function() {
         var _result = '';
 
         _result = fullStringValue.replace(' ', '');
-        _result = fullStringValue.replace('left_','').replace('right_','');
+        // _result = fullStringValue.replace('left_','').replace('right_','');
         _result = _result.toTitleCase();
 
         return _result;
