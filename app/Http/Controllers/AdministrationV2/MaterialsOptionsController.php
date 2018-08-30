@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\AdministrationV2;
 
+use \Redirect;
+use App\Http\Requests;
+use App\Utilities\Log;
+use Illuminate\Http\Request;
+use App\Utilities\FileUploader;
+use App\Utilities\Random;
+use Aws\S3\Exception\S3Exception;
+use App\Http\Controllers\Controller;
 use App\APIClients\MaterialsAPIClient;
 use App\APIClients\MaterialsOptionsAPIClient as APIClient;
-use App\Http\Controllers\Controller;
-use App\Http\Requests;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class MaterialsOptionsController extends Controller
 {
