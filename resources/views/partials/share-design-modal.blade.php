@@ -1,6 +1,6 @@
 <!-- Share Design Modal -->
 <div class="modal bs-modal-sm in" id="share-design-modal" aria-hidden="false">
-    <div class="modal-dialog"> 
+    <div class="modal-dialog"> chrome
         <div class="modal-content"> 
             <div class="modal-header"> 
                 <button type="button" class="close" data-dismiss="modal">×</button> 
@@ -10,7 +10,7 @@
                 <form class='form-vertical'>
                     <div class="form-group">
                         <label>Email Addresses</label>
-                        <textarea class='form-control team-email'></textarea>
+                        <textarea class='form-control team-email' placeholder='you@example.com, another@example.com &#10;Note: Add comma (,) as separator for more than one email.'></textarea>
                     </div>
                     <div class="form-group">
                         <label>Message</label>
