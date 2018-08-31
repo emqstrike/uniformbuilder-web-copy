@@ -44,6 +44,14 @@
       transform: translateX(20.08px);
     }
 
+    .slider.round {
+    border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+
 </style>
 
 @endsection
@@ -92,11 +100,10 @@
                                 <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg" style="height: 100px; width: 110px;">
                             @endif
                             <br>
-                            @if($category->active_male)
-                               <font color="green" size="2">Active</font>
-                            @else
-                                <font color="gray" size="2">Inactive</font>
-                            @endif
+                            <label class="switch">
+                                <input type="checkbox" class="toggle-active-thumb" data-category-id="{{ $category->id }}" data-field="active_male" {{ ($category->active_male) ? 'checked' : '' }}>
+                                <span class="slider round"></span>
+                            </label>
                             </td>
                             <td align="center"><input type="hidden" name="" class="td-category-thumbnail-female" value="{{ $category->thumbnail_female }}">
                             @if ($category->thumbnail_female)
@@ -105,11 +112,10 @@
                                 <img src="https://s3-us-west-2.amazonaws.com/uniformbuilder/categories/Test/thumbnail_male.png/staging/test/thumbnail.jpg" style="height: 100px; width: 110px;">
                             @endif
                             <br>
-                            @if($category->active_female)
-                               <font color="green" size="2">Active</font>
-                            @else
-                                <font color="gray" size="2">Inactive</font>
-                            @endif
+                            <label class="switch">
+                                <input type="checkbox" class="toggle-active-thumb" data-category-id="{{ $category->id }}" data-field="active_female" {{ ($category->active_female) ? 'checked' : '' }}>
+                                <span class="slider round"></span>
+                            </label>
                             </td>
                             <td class="td-category-sort-men col-md-1">{{ $category->sort_order_male }}</td>
                             <td class="td-category-sort-women col-md-1">{{ $category->sort_order_female }}</td>
@@ -117,7 +123,7 @@
                             <td>
                                 <div class="onoffswitch">
                                     <label class="switch">
-                                      <input type="checkbox" class="onoffswitch-checkbox toggle-category" id="switch-active-{{ $category->id }}" data-category-id="{{ $category->id }}" {{ ($category->active) ? 'checked' : '' }}>
+                                      <input type="checkbox" class="onoffswitch-checkbox toggle-category" data-category-id="{{ $category->id }}" {{ ($category->active) ? 'checked' : '' }}>
                                       <span class="slider"></span>
                                     </label>
                                 </div>
@@ -208,8 +214,8 @@ $(document).ready(function(){
 
         if(data.thumbnail_male != '') {
             var mElem = '';
-            mElem += `<img src='`+ data.thumbnail_male +`' style='height: 100px; width: 110px;'>
-                          <a href='#' class='btn btn-danger btn-xs delete-category-image' data-category-id='`+ data.id +`' data-field='thumbnail_male' role='button'>
+            mElem += `<img src="`+ data.thumbnail_male +`" style="height: 100px; width: 110px;">
+                          <a href="#" class="btn btn-danger btn-xs btn-flat delete-category-image" data-category-id="`+ data.id +`" data-field="thumbnail_male" role="button">
                               Delete
                           </a>`;
         }
@@ -217,8 +223,8 @@ $(document).ready(function(){
 
         if(data.thumbnail_female != '') {
             var fElem = '';
-            fElem += `<img src='`+ data.thumbnail_female +`' style='height: 100px; width: 110px;'>
-                          <a href='#' class='btn btn-danger btn-xs delete-category-image' data-category-id='`+ data.id +`' data-field='thumbnail_female' role='button'>
+            fElem += `<img src="`+ data.thumbnail_female +`" style="height: 100px; width: 110px;">
+                          <a href="#" class="btn btn-danger btn-xs btn-flat delete-category-image" data-category-id="`+ data.id +`" data-field="thumbnail_female" role="button">
                               Delete
                           </a>`;
         }
@@ -279,8 +285,7 @@ $(document).ready(function(){
             data.id = $('.input-category-id').val();
             var url = "//" + api_host +"/api/category/update";
         }
-        console.log(JSON.stringify(data));
-        console.log(url);
+
         addUpdateRecord(data, url);
         $('.submit-new-record').attr('disabled', 'true');
     });
@@ -357,6 +362,83 @@ $(document).ready(function(){
         });
     });
 
+    $(document).on('click', '.toggle-category', function(e){
+        e.preventDefault();
+        var id = $(this).data('category-id');
+        var url = "//" + api_host + "/api/category/toggle";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    window.location.reload();
+                    var elem = '.category-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.toggle-active-thumb', function(e){
+        e.preventDefault();
+        var id = $(this).data('category-id');
+        var field = $(this).data('field');
+        var url = "//" + api_host + "/api/category/toggleThumbnail";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id, field: field}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    window.location.reload();
+                    var elem = '.category-' + id;
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.delete-category-image', function(e){
+        e.preventDefault();
+        var id =  $(this).data('category-id');
+        var field = $(this).data('field');
+        var url = "//" + api_host + "/api/categories/deleteImage";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id, field: field}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    $('#confirmation-modal').modal('hide');
+                    $('.' + field).fadeOut();
+                }
+            }
+        });
+    });
+
     function fileUpload(postData, callback){
         var file;
         $.ajax({
@@ -390,7 +472,6 @@ $(document).ready(function(){
         "info": true,
         "autoWidth": false,
         "pageLength" : 15,
-        "stateSave": true,
         initComplete: function () {
         this.api().columns('#select-filter').every( function () {
             var column = this;
