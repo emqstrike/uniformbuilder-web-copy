@@ -10214,6 +10214,10 @@ ub.funcs.fontOffSets = [
                 sport: 'Wrestling 2018',
                 sublimatedPart: 'Extra',
             },   
+            {
+                sport: 'Tennis',
+                sublimatedPart: 'Extra',
+            },   
         ],
 
         get: function (sport) {
@@ -10586,6 +10590,8 @@ ub.funcs.fontOffSets = [
                     // Hidden Body for baseball and fastpitch except when its a lower uniform
                     (
                         !((ub.config.sport === "Baseball" || ub.config.sport === "Fastpitch") && ub.config.type === "lower")
+                    ) && !(
+                        ub.config.sport === "Tennis" && ub.current_material.material.neck_option === "Skort"
                     );
 
         } 
@@ -12317,6 +12323,7 @@ ub.funcs.fontOffSets = [
             'Test', // Richardson Test Block
             'Football 2017',
             'Wrestling 2018',
+            'Tennis',
         ],
         isValid: function (uniformCategory) {
 

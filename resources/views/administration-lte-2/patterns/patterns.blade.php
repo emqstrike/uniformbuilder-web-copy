@@ -1,7 +1,6 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/css/custom.css">
 <style type="text/css">
     .switch {
       position: relative;
@@ -44,6 +43,16 @@
       transform: translateX(20.08px);
     }
 
+    pre {
+        outline: 1px solid #ccc;
+        padding: 5px;
+        margin: 5px;
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word;
+    }
 </style>
 @endsection
 
@@ -54,11 +63,11 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    @section('page-title', 'Mascots')
+                    @section('page-title', 'Patterns')
                     <h1>
-                        <span class="fa fa-futbol-o"></span>
-                        Mascots
-                        <a href="/administration/v1-0/mascot/add" class="btn btn-success btn-sm btn-flat add-record">
+                        <span class="fa fa-picture-o"></span>
+                        Patterns
+                        <a href="/administration/v1-0/pattern/add" class="btn btn-success btn-sm btn-flat add-record">
                         Add
                         </a>
                     </h1>
@@ -74,76 +83,80 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Code</th>
-                            <th id="select-filter">Category</th>
-                            <th>Sports</th>
-                            <th>Icon</th>
-                            <th>Typhographic</th>
+                            <th>Thumbnail</th>
+                            <th>Uniform Category</th>
+                            <th>Block Pattern Options</th>
                             <th id="select-filter">Brand</th>
+                            <th id="select-filter">Asset Target</th>
                             <th>Active</th>
                             <th>Actions</th>
+                            <th>
+                                <a href="#" class="btn btn-danger btn-xs multiple-delete-pattern btn-flat" role="button">
+                                    Delete Selected
+                                </a>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                    @forelse ($mascots as $mascot)
-                        <tr class='mascot-{{ $mascot->id }} {{ (!$mascot->active) ? ' inactive' : '' }}'>
+                    @forelse ($patterns as $pattern)
+                        <tr class='pattern-{{ $pattern->id }} {{ (!$pattern->active) ? ' inactive' : '' }}'>
                             <td class="col-md-1">
-                                {{ $mascot->id }}
-                            </td>
-                            <td class="col-md-1">
-                                {{ $mascot->name }}
-                            </td>
-                            <td class="col-md-1">
-                                {{ $mascot->code }}
+                                {{ $pattern->id }}
                             </td>
                             <td class="col-md-2">
-                                {{ $mascot->category }}
+                                {{ $pattern->name }}
                             </td>
-                            <td class="col-md-2">
-                                {{ $mascot->sports }}
+                            <td align="center" class="col-md-1">
+                                @if ($pattern->thumbnail_path)
+                                    <img src="{{ $pattern->thumbnail_path }}" style="height: 80px; width: 85px;">
+                                @else
+                                    <img src="http://dummyimage.com/100" style="height: 80px; width: 85px;">
+                                @endif
                             </td>
-                            <td align="center">
-                            @if ($mascot->icon)
-                                <img src="{{ $mascot->icon }}" style="height: 60px; width: 65px;">
-                            @else
-                                <img src="" style="height: 60px; width: 65px;">
-                            @endif
+                            <td align="center" class="col-md-1">
+                                <textarea class="category_value" style="display: none;">{{ $pattern->sports }}</textarea>
+                                <button class="view-category btn btn-default btn-flat btn-sm">View</button>
+                            </td>
+                            <td class="col-md-1">
+                                {{ $pattern->block_pattern_options }}
+                            </td>
+                            <td>
+                                {{ $pattern->brand }}
+                            </td>
+                            <td>
+                                {{ $pattern->asset_target }}
                             </td>
                             <td class="col-md-1">
                                 <div class="onoffswitch">
                                     <label class="switch">
-                                      <input type="checkbox" class="onoffswitch-checkbox toggle-mascot-typographic" id="switch-typographic-{{ $mascot->id }}" data-mascot-id="{{ $mascot->id }}" {{ ($mascot->typographic) ? 'checked' : '' }}>
+                                      <input type="checkbox" class="onoffswitch-checkbox toggle-pattern-active" id="switch-active-{{ $pattern->id }}" data-pattern-id="{{ $pattern->id }}" {{ ($pattern->active) ? 'checked' : '' }}>
                                       <span class="slider"></span>
                                     </label>
                                 </div>
                             </td>
-                            <td>
-                                {{ $mascot->brand }}
-                            </td>
                             <td class="col-md-2">
-                                <a href="#" class="btn btn-default btn-xs btn-flat disable-mascot" data-mascot-id="{{ $mascot->id }}" role="button" {{ ($mascot->active) ? : 'disabled="disabled"' }}>
-                                    <i class="glyphicon glyphicon-eye-close"></i>
-                                </a>
-                                <a href="#" class="btn btn-info btn-xs btn-flat enable-mascot" data-mascot-id="{{ $mascot->id }}" role="button" {{ ($mascot->active) ? 'disabled="disabled"' : '' }}>
-                                    <i class="glyphicon glyphicon-eye-open"></i>
-                                </a>
-                            </td>
-                            <td class="col-md-2">
-                                <a href="/administration/v1-0/mascot/edit/{{ $mascot->id }}" class="btn btn-primary btn-xs btn-flat edit-button" data-mascot-id="{{ $mascot->id }}" role="button">
-                                    <i class="glyphicon glyphicon-edit"></i>
+                                @if ($pattern->active)
+                                <a href="/administration/v1-0/pattern/edit/{{ $pattern->id }}" class="btn btn-primary btn-sm btn-flat edit-button" data-pattern-id="{{ $pattern->id }}" role="button">
                                     Edit
                                 </a>
-                                <a href="#" class="btn btn-danger btn-xs btn-flat delete-mascot" data-mascot-id="{{ $mascot->id }}" role="button">
-                                    <i class="glyphicon glyphicon-trash"></i>
+                                @else
+                                @endif
+                                <a href="#" class="btn btn-default btn-sm clone-pattern btn-flat" data-pattern-id="{{ $pattern->id }}" role="button">
+                                    Clone
+                                </a>
+                                <a href="#" class="btn btn-danger btn-sm btn-flat delete-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
                                     Remove
                                 </a>
+                            </td>
+                            <td class="checkbox col-md-1">
+                                <input type="checkbox" id="multipleDelete" name="remove[]" data-pattern-id="{{ $pattern->id }}" value="" align="center">
                             </td>
                         </tr>
 
                     @empty
                         <tr>
                             <td colspan='9'>
-                                No Mascots
+                                No Patterns
                             </td>
                         </tr>
                     @endforelse
@@ -167,36 +180,41 @@
             </div>
         </div>
     </div>
+
+     <!-- Category Modal -->
+    <div id="viewModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+            <div class="modal-content modal-md">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h3 class="modal-title" align="center">Category Value</h3>
+                </div>
+                <div class="modal-body" align="left">
+                      <div class="category_div" >
+                          <pre id="category_text" ></pre>
+                      </div>
+                </div>
+                <div class="modal-footer" >
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </section>
 @include('partials.confirmation-modal')
 
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/administration/common.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 
     window.sports = null;
 
     getSports(function(sports){ window.sports = sports; });
-
-    function getSports(callback){
-        var sports;
-        var url = "//" + api_host + "/api/categories";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                sports = data['categories'];
-                if(typeof callback === "function") callback(sports);
-            }
-        });
-    }
 
     loadUniformCategories();
 
@@ -208,21 +226,17 @@ $(document).ready(function(){
     sports_sorted = _.sortBy(sports, function(o) { return o.name; });
 
     var elem = '';
-    if(window.active_sport != 'All') {
-        elem += '<option value="All">All</option>';
-    }
-
     sports_sorted.forEach(function(entry) {
         elem += '<option value="'+entry.name+'">'+entry.name+'</option>';
     });
     $('.active-sport').append(elem);
 
     $(document).on('change', '.active-sport', function() {
-        window.location = "/administration/v1-0/mascots/"+$(this).val();
+        window.location = "/administration/v1-0/patterns/"+$(this).val();
     });
 
     function loadUniformCategories() {
-        var category_elem = '<option value="All">All</option>';
+        var category_elem = '';
         sorted_category = _.sortBy(window.sports, function (s) { return s.name });
 
         _.each(sorted_category, function(category) {
@@ -231,69 +245,18 @@ $(document).ready(function(){
         $('.input-uniform-category').append(category_elem);
     }
 
-     $(document).on('click', '.enable-mascot', function(e) {
+    $(document).on('click', '.view-category', function(e) {
         e.preventDefault();
-        var id = $(this).data('mascot-id');
-        var url = "//" + api_host + "/api/mascot/toggle";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.mascot-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $(elem + ' .disable-mascot').removeAttr('disabled');
-                    $(elem + ' .enable-mascot').attr('disabled', 'disabled');
-                    $(elem).removeClass('inactive');
-                }
-            }
-        });
+        var category = $(this).parent().parent().find('.category_value').val();
+        $('#category_text').text(category);
+        $('#viewModal').modal('show');
     });
 
-    $(document).on('click', '.disable-mascot', function(e) {
+    $(document).on('click', '.toggle-pattern-active', function(e){
         e.preventDefault();
-        var id = $(this).data('mascot-id');
-        var url = "//" + api_host + "/api/mascot/toggle";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify({id: id}),
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            headers: {"accessToken": atob(headerValue)},
-            success: function(response){
-                if (response.success) {
-                    var elem = '.mascot-' + id;
-                    new PNotify({
-                        title: 'Success',
-                        text: response.message,
-                        type: 'success',
-                        hide: true
-                    });
-                    $(elem + ' .enable-mascot').removeAttr('disabled');
-                    $(elem + ' .disable-mascot').attr('disabled', 'disabled');
-                    $(elem).addClass('inactive');
-                }
-            }
-        });
-    });
-
-    $(document).on('click', '.toggle-mascot-typographic', function(e){
-        e.preventDefault();
-        var id = $(this).data('mascot-id');
+        var id = $(this).data('pattern-id');
         console.log(id);
-         var url = "//" + api_host + "/api/mascot/toggle_typographic/";
+         var url = "//" + api_host + "/api/pattern/toggle";
          $.ajax({
             url: url,
             type: "POST",
@@ -305,7 +268,7 @@ $(document).ready(function(){
             success: function(response){
                 if (response.success) {
                     window.location.reload();
-                    var elem = '.mascot-' + id;
+                    var elem = '.pattern-' + id;
                     new PNotify({
                         title: 'Success',
                         text: response.message,
@@ -317,15 +280,41 @@ $(document).ready(function(){
         });
     });
 
-    $(document).on('click', '.delete-mascot', function(e) {
+    $(document).on('click', '.clone-pattern', function(e) {
         e.preventDefault();
-        var id = $(this).data('mascot-id');
-        modalConfirm('Remove Mascot', 'Are you sure you want to delete the Mascot?', id);
+        var id = $(this).data('pattern-id');
+        var url = "//" + api_host + "/api/pattern/duplicate/";
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: JSON.stringify({id: id}),
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            headers: {"accessToken": atob(headerValue)},
+            success: function(response){
+                if (response.success) {
+                    window.location.reload();
+                    new PNotify({
+                        title: 'Success',
+                        text: response.message,
+                        type: 'success',
+                        hide: true
+                    });
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '.delete-pattern', function(e) {
+        e.preventDefault();
+        var id = $(this).data('pattern-id');
+        modalConfirm('Remove Pattern', 'Are you sure you want to delete the Pattern?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/mascot/delete/";
+        var url = "//" + api_host + "/api/pattern/delete/";
         $.ajax({
             url: url,
             type: "POST",
@@ -355,6 +344,38 @@ $(document).ready(function(){
             error: function (xhr, ajaxOptions, thrownError) {
             }
         });
+    });
+
+    function getSports(callback){
+        var sports;
+        var url = "//" + api_host + "/api/categories";
+        $.ajax({
+            url: url,
+            async: false,
+            type: "GET",
+            dataType: "json",
+            crossDomain: true,
+            contentType: 'application/json',
+            success: function(data){
+                sports = data['categories'];
+                if(typeof callback === "function") callback(sports);
+            }
+        });
+    }
+
+    var multipleRemove=[];
+
+    $(document).on('click', '#multipleDelete', function() {
+        if ($(this).is(':checked')) {
+            multipleRemove.push($(this).data("pattern-id"));
+        } else {
+           multipleRemove.splice( $.inArray($(this).data("pattern-id"), multipleRemove) , 1);
+        }
+        multipleRemove = multipleRemove.sort();
+    });
+
+    $(document).on('click', '.multiple-delete-pattern', function() {
+        modalConfirm('Remove pattern', 'Are you sure you want to delete the pattern?', multipleRemove);
     });
 
     $('.data-table').DataTable({

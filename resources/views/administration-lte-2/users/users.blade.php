@@ -166,7 +166,6 @@ $(document).ready(function(){
                 data.password = newPassword;
             }
         }
-
         if (newPassword != newConfirm) {
             new PNotify({
                 title: 'Warning',
@@ -175,9 +174,6 @@ $(document).ready(function(){
                 hide: true
             });
         } else {
-            console.log("[[ DATA INFO BELOW ]]")
-            console.log(data);
-            console.log(url);
             addUpdateRecord(data, url);
         }
     });
