@@ -21,7 +21,7 @@
 
 @include('partials.navbar')
 
-<iframe style="width: 100%; height: 768px; border: 0;" src="{{$filename}}"></iframe>
+<iframe style="width: 100%; height: 1000px; border: 0; padding-top: 30px;" src="{{$filename}}"></iframe>
 
 
 <!-- Modals -->
