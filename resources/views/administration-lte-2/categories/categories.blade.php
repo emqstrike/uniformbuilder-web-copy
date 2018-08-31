@@ -1,6 +1,51 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
+
+<style type="text/css">
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 27.2px;
+    }
+    .switch input {display:none;}
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20.08px;
+      width: 20.08px;
+      left: 3.2px;
+      bottom: 3.2px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #39d2b4;
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px #77dd77;
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(20.08px);
+      -ms-transform: translateX(20.08px);
+      transform: translateX(20.08px);
+    }
+
+</style>
+
 @endsection
 @section('content')
 <section class="content">
@@ -10,26 +55,26 @@
                 <div class="box-header">
                     @section('page-title', 'Uniform Categories')
                     <h1>
-                        <span class="fa fa-arrows"></span>
+                        <span class="fa fa-soccer-ball-o"></span>
                         Uniform Categories
                         <a href="#" class="btn btn-success btn-sm btn-flat add-record" data-target="#myModal" data-toggle="modal">Add</a>
                     </h1>
                 </div>
                 <div class="box-body">
-                    <table data-toggle='table' class='data-table table-bordered mascot-sizes display' id='uniform_categories'>
+                    <table data-toggle='table' class='data-table table-bordered categories display' id='uniform_categories'>
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
-                            <th>Code</th>
-                            <th>Men</th>
-                            <th>Women</th>
+                            <th class="no-sort">Name</th>
+                            <th class="no-sort">Code</th>
+                            <th class="no-sort">Men</th>
+                            <th class="no-sort">Women</th>
                             <th>Men's Ordering</th>
                             <th>Women's Ordering</th>
-                            <th id="select-filter">Type</th>
-                            <th>Active</th>
-                            <th id="select-filter">Active Type</th>
-                            <th>Actions</th>
+                            <th id="select-filter" class="no-sort">Type</th>
+                            <th class="no-sort">Active</th>
+                            <th id="select-filter" class="no-sort">Active Type</th>
+                            <th class="no-sort">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,8 +84,8 @@
                         <tr class='category-{{ $category->id }}'>
                             <td class="td-category-id col-md-1">{{ $category->id }}</td>
                             <td class="td-category-name col-md-1">{{ $category->name }}</td>
-                            <td class="td-category-code col-md-1">{{ $category->code }}</td>
-                            <td align="center">
+                            <td class="td-category-code col-md-1">{{ $category->code }}<input type="hidden" class="td-category-alias" value="{{ $category->alias }}"></td>
+                            <td align="center"><input type="hidden" name="" class="td-category-thumbnail-male" value="{{ $category->thumbnail_male }}">
                             @if ($category->thumbnail_male)
                                 <img src="{{ $category->thumbnail_male }}" style="height: 100px; width: 110px;">
                             @else
@@ -53,7 +98,7 @@
                                 <font color="gray" size="2">Inactive</font>
                             @endif
                             </td>
-                            <td align="center">
+                            <td align="center"><input type="hidden" name="" class="td-category-thumbnail-female" value="{{ $category->thumbnail_female }}">
                             @if ($category->thumbnail_female)
                                 <img src="{{ $category->thumbnail_female }}" style="height: 100px; width: 110px;">
                             @else
@@ -69,8 +114,15 @@
                             <td class="td-category-sort-men col-md-1">{{ $category->sort_order_male }}</td>
                             <td class="td-category-sort-women col-md-1">{{ $category->sort_order_female }}</td>
                             <td class="td-category-type col-md-1">{{ $category->type }}</td>
-                            <td class="td-category-active col-md-1">{{ $category->active }}</td>
-                            <td class="td-category-active-type col-md-1">{{ $category->active_type }}</td>
+                            <td>
+                                <div class="onoffswitch">
+                                    <label class="switch">
+                                      <input type="checkbox" class="onoffswitch-checkbox toggle-category" id="switch-active-{{ $category->id }}" data-category-id="{{ $category->id }}" {{ ($category->active) ? 'checked' : '' }}>
+                                      <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td class="td-active-type col-md-1">{{ $category->active_type }}</td>
                             <td class="col-md-2">
                                 <center>
                                     <a href="#" class="btn btn-primary btn-sm btn-flat edit-record" data-target="#myModal" data-toggle="modal">Edit</a>
@@ -85,7 +137,6 @@
                             </td>
                         </tr>
                     @endforelse
-
                     </tbody>
                     <tfoot>
                         <tr>
@@ -120,236 +171,116 @@
 $(document).ready(function(){
 
     window.modal_action = null;
-    window.categories = null;
-    window.block_patterns = null;
-
-    getUniformCategories(function(categories){
-        window.categories = categories;
-    });
-
-    getBlockPatterns(function(block_patterns){
-        window.block_patterns = block_patterns;
-    });
-
-    loadUniformCategories();
-
-    var sport = null;
-    $(document).on('change', '.sport', function() {
-        sport = $('.sport').val();
-            getBlockPatterns(function(block_patterns){ window.block_patterns = block_patterns; });
-            var sportOK = _.filter(window.block_patterns, function(e) {
-                            return e.uniform_category_id == sport;
-                            });
-            $( '#block_pattern' ).html('');
-            $.each(sportOK, function(i, item) {
-                $('#block_pattern' ).append( '<option value="' + item.name + '">' + item.name + '</option>' );
-            });
-        $('#block_pattern').trigger('change');
-    });
-    $('.sport').trigger('change');
-
-    var z = window.block_patterns;
-    $(document).on('change', '#block_pattern', function() {
-        var options = [];
-        var bps = $('#block_pattern_value').val();
-        var bps_name = bps.toString().split(",");
-            bps_name.forEach( function(item_name) {
-                var name = item_name;
-                $.each(z, function(i, item) {
-                   if( item.name == name ){
-                        var optx = JSON.parse(item.neck_options);
-                        $.each(optx, function(i, item) {
-                            options.push(item.name);
-                        });
-                    } else {
-                    }
-                });
-            });
-
-        var y = _.sortBy(_.uniq(options));
-        $( '#neck_option' ).html('');
-        y.forEach(function(i) {
-            $('#neck_option').append('<option value="'+i+'">'+i+'</option>');
-        });
-        $('.material-neck-option').trigger('change');
-    });
-
-    if($('#neck_option_value').val()){
-        var bpos = JSON.parse($('#neck_option_value').val());
-    }
-    $('.material-neck-option').select2({
-        placeholder: "Select block pattern option",
-        multiple: true,
-        allowClear: true
-    });
-
-    $(".material-neck-option").change(function() {
-        $('#neck_option_value').val($(this).val());
-    });
-
-    $('.material-neck-option').val(bpos);
-    $('.material-neck-option').trigger('change');
-
-    if($('#block_pattern_value').val()){
-        var bp = JSON.parse($('#block_pattern_value').val());
-    }
-    $('.block-pattern').select2({
-        placeholder: "Select block pattern",
-        multiple: true,
-        allowClear: true
-    });
-
-    $(".block-pattern").change(function() {
-        $('#block_pattern_value').val($(this).val());
-    });
-
-    $('.block-pattern').val(bp);
-    $('.block-pattern').trigger('change');
-
-    window.properties = [];
-
-    $('.add-props').on('click', function(e){
-        e.preventDefault();
-        var elem = `<tr class="prop-row">
-                        <td>
-                            <input type="number" class="prop-size" step="0.01">
-                        </td>
-                        <td>
-                            <input type="number" class="prop-scale" step="0.01">
-                        </td>
-                        <td>
-                            <a href="#" class="btn btn-xs btn-danger remove-prop">Remove</a>
-                        </td>
-                    </tr>`;
-        $('.props-content').prepend(elem);
-        removeButton();
-        updateFields();
-        updateData();
-    });
-
-    function loadProperties(props){
-        var properties = props;
-        properties.forEach(function(entry) {
-            var elem = `<tr class="prop-row">
-                    <td>
-                        <input type="number" class="prop-size prop-data" step="0.01" value="` + entry.size + `">
-                    </td>
-                    <td>
-                        <input type="number" class="prop-scale prop-data" step="0.01" value="` + entry.scale + `">
-                    </td>
-                    <td>
-                        <a href="#" class="btn btn-xs btn-danger remove-prop">Remove</a>
-                    </td>
-                </tr>`;
-            $('.props-content').append(elem);
-            removeButton();
-            updateFields();
-            updateData();
-        });
-    }
-
-    function removeButton(){
-        $('.remove-prop').on('click', function(e){
-            e.preventDefault();
-            $(this).parent().parent().remove();
-            updateData();
-        });
-    }
-
-    function updateData(){
-        window.properties = [];
-        $(".prop-row").each(function(i) {
-            var x = {
-                size: $(this).find('.prop-size').val(),
-                scale: $(this).find('.prop-scale').val()
-            };
-            window.properties.push(x);
-        });
-        $('#properties').val(JSON.stringify(window.properties));
-    }
-
-    function updateFields(){
-        $(document).on('keyup', '.prop-size, .prop-scale', function(){
-            updateData();
-        });
-    }
 
     $("#myModal").on("hidden.bs.modal", function() {
-        $('.input-size-name').val('');
-        $('.sport').val('none');
-        $('.sport').trigger('change');
-        $('.block-pattern-val').val('');
-        $('#block_pattern').val('');
-        $('.neck-option-val').val('');
-        $('#neck_option').val('');
-        $('.input-size-type').val('');
-        $('.active').val('');
-        $('.input-brand').val('');
-        $('#properties').val('');
-        $('.props-content').empty();
+        $('.input-category-id').val('');
+        $('.input-category-name').val('');
+        $('.input-category-alias').val('');
+        $('.input-category-type').val('');
+        $('input-category-type').val('');
+        $('.input-active-type').val('');
+        $('.thumbnail_male').empty();
+        $('.thumbnail_female').empty();
         $('.submit-new-record').removeAttr('disabled');
     });
 
     $('.add-record').on('click', function(e) {
         e.preventDefault();
         window.modal_action = 'add';
-        $('.modal-title').text('Add Mascot Sizes Information');
+        $('.modal-title').text('Add Uniform Category Information');
         $('.submit-new-record').text('Add Record');
     });
 
     $(document).on('click', '.edit-record', function(e) {
         e.preventDefault();
         window.modal_action = 'update';
-        $('.modal-title').text('Edit Mascot Size Information');
+        $('.modal-title').text('Edit Uniform Category Information');
         $('.submit-new-record').text('Update Record');
         var data = {};
-        data.id = $(this).parent().parent().parent().find('.td-size-id').text();
-        data.name = $(this).parent().parent().parent().find('.td-size-name').text();
-        data.uniform_category_id = $(this).parent().parent().parent().find('.td-size-sport').val();
-        var raw_bp = $(this).parent().parent().parent().find('.td-size-block-pattern').text();
-        data.block_pattern = raw_bp.replace(/[\[\]'"]+/g, '');
-        var raw_bpo = $(this).parent().parent().parent().find('.td-size-option').text();
-        data.neck_option = raw_bpo.replace(/[\[\]'"]+/g, '');
-        data.type = $(this).parent().parent().parent().find('.td-size-type').text();
-        data.active = $(this).parent().parent().parent().find('.td-size-active').text();
-        data.brand = $(this).parent().parent().parent().find('.td-size-brand').text();
-        data.properties = JSON.parse($(this).parent().parent().parent().find('.td-size-props').val());
+        data.id = $(this).parent().parent().parent().find('.td-category-id').text();
+        data.name = $(this).parent().parent().parent().find('.td-category-name').text();
+        data.code = $(this).parent().parent().parent().find('.td-category-code').text();
+        data.alias = $(this).parent().parent().parent().find('.td-category-alias').val();
+        data.type = $(this).parent().parent().parent().find('.td-category-type').text();
+        data.active_type = $(this).parent().parent().parent().find('.td-active-type').text();
+        data.thumbnail_male = $(this).parent().parent().parent().find('.td-category-thumbnail-male').val();
+        data.thumbnail_female = $(this).parent().parent().parent().find('.td-category-thumbnail-female').val();
 
-        $('.input-size-id').val(data.id);
-        $('.input-size-name').val(data.name);
-        $('.sport').val(data.uniform_category_id).trigger('change');
-        $('.block-pattern-val').val(data.block_pattern);
-        $('#block_pattern').val(JSON.parse(raw_bp)).trigger('change');
-        $('.neck-option-val').val(data.neck_option);
-        $('#neck_option').val(JSON.parse(raw_bpo)).trigger('change');
-        $('.input-size-type').val(data.type);
-        $('.active').val(data.active);
-        $('.input-brand').val(data.brand);
-        $('#properties').val(data.properties);
-        loadProperties(data.properties);
+        if(data.thumbnail_male != '') {
+            var mElem = '';
+            mElem += `<img src='`+ data.thumbnail_male +`' style='height: 100px; width: 110px;'>
+                          <a href='#' class='btn btn-danger btn-xs delete-category-image' data-category-id='`+ data.id +`' data-field='thumbnail_male' role='button'>
+                              Delete
+                          </a>`;
+        }
+        $('.thumbnail_male').append(mElem);
+
+        if(data.thumbnail_female != '') {
+            var fElem = '';
+            fElem += `<img src='`+ data.thumbnail_female +`' style='height: 100px; width: 110px;'>
+                          <a href='#' class='btn btn-danger btn-xs delete-category-image' data-category-id='`+ data.id +`' data-field='thumbnail_female' role='button'>
+                              Delete
+                          </a>`;
+        }
+        $('.thumbnail_female').append(fElem);
+
+        $('.input-category-id').val(data.id);
+        $('.input-category-name').val(data.name);
+        $('.input-category-alias').val(data.alias);
+        $('.input-category-code').val(data.code);
+        $('.input-category-type').val(data.type);
+        $('.input-active-type').val(data.active_type);
     });
 
     $("#myForm").submit(function(e) {
         e.preventDefault();
         var data = {};
-        data.name = $('.input-size-name').val();
-        data.uniform_category_id = $('.sport').find(":selected").val();
-        var raw_bp = $('.block-pattern-val').val();
-        data.block_patterns = raw_bp.split(",");
-        var raw_bpo = $('.neck-option-val').val();
-        data.block_pattern_options = raw_bpo.split(",");
-        data.type = $('.input-size-type').find(":selected").val();
-        data.brand = $('.input-brand').find(":selected").val();
-        data.active = $('.active').find(":selected").val();
-        data.properties = $('#properties').val();
+        data.name = $('.input-category-name').val();
+        data.alias = $('.input-category-alias').val();
+        data.code = $('.input-category-code').val();
+        data.type = $('.input-category-type').find(":selected").val();
+        data.active_type = $('.input-active-type').find(":selected").val();
+        data.sizes = $('.sizes_props').val();
 
-        if(window.modal_action == 'add'){
-            var url = "//" + api_host +"/api/v1-0/mascot_size";
-        } else if(window.modal_action == 'update')  {
-            data.id = $('.input-size-id').val();
-            var url = "//" + api_host +"/api/v1-0/mascot_size/update";
+        var formData = new FormData();
+        var male_th_file = null;
+        var female_th_file = null;
+
+        try {
+            var male_thumbnail = $('.male-thumbnail-file')[0].files[0];
+            if(male_thumbnail != undefined) {
+                formData.append('file', male_thumbnail);
+                fileUpload(formData, function (filename) { male_th_file = filename });
+            }
+
+        } catch(err) {
+            console.log(err.message);
+        }
+        try {
+            var female_thumbnail = $('.female-thumbnail-file')[0].files[0];
+            if(female_thumbnail != undefined) {
+                formData.append('file', female_thumbnail);
+                fileUpload(formData, function (filename) { female_th_file = filename });
+            }
+        } catch(err) {
+            console.log(err.message);
         }
 
+        if(male_th_file != null) {
+            data.thumbnail_male = male_th_file;
+        }
+        if(female_th_file != null) {
+            data.thumbnail_female = female_th_file;
+        }
+
+        if(window.modal_action == 'add'){
+            var url = "//" + api_host +"/api/category";
+        } else if(window.modal_action == 'update')  {
+            data.id = $('.input-category-id').val();
+            var url = "//" + api_host +"/api/category/update";
+        }
+        console.log(JSON.stringify(data));
+        console.log(url);
         addUpdateRecord(data, url);
         $('.submit-new-record').attr('disabled', 'true');
     });
@@ -386,14 +317,15 @@ $(document).ready(function(){
         });
     };
 
-    $(document).on('click', '.delete-size', function(){
-        var id = $(this).data('size-id');
-        modalConfirm('Remove mascot-size', 'Are you sure you want to delete the mascot-size?', id);
+    $(document).on('click', '.delete-category', function(e){
+        e.preventDefault();
+        var id = $(this).data('category-id');
+        modalConfirm('Remove Uniform Category', 'Are you sure you want to delete the category?', id);
     });
 
     $('#confirmation-modal .confirm-yes').on('click', function(){
         var id = $(this).data('value');
-        var url = "//" + api_host + "/api/v1-0/mascot_size/delete";
+        var url = "//" + api_host + "/api/category/delete";
         $.ajax({
             url: url,
             type: "POST",
@@ -425,11 +357,36 @@ $(document).ready(function(){
         });
     });
 
+    function fileUpload(postData, callback){
+        var file;
+        $.ajax({
+            url: "//" + api_host + "/api/v1-0/file/uploader",
+            type: "POST",
+            data: postData,
+            processData: false,
+            contentType: false,
+            crossDomain: true,
+            async: false,
+            headers: {"accessToken": atob(headerValue)},
+            success: function (data) {
+                if(data.success){
+                    file = data.file;
+                    if(typeof callback === "function") callback(file);
+
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            }
+        });
+    };
+
     $('.data-table').DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": true,
-        "ordering": true,
+        "columnDefs": [
+            { "orderable": false, "targets": "no-sort" }
+        ],
         "info": true,
         "autoWidth": false,
         "pageLength" : 15,
@@ -454,48 +411,6 @@ $(document).ready(function(){
         } );
     }
     });
-
-    function loadUniformCategories() {
-        var category_elem = "";
-        _.each(window.categories, function(category) {
-            category_elem += `<option value=` + category.id + `>` + category.name + `</option>`;
-        });
-        $('.sport').append(category_elem);
-    }
-
-    function getUniformCategories(callback){
-        var categories;
-        var url = "//" +api_host+ "/api/categories";
-        $.ajax({
-            url: url,
-            async: false,
-            type: "GET",
-            dataType: "json",
-            crossDomain: true,
-            contentType: 'application/json',
-            success: function(data){
-                categories = data['categories'];
-                if(typeof callback === "function") callback(categories);
-            }
-        });
-    }
-
-    function getBlockPatterns(callback){
-            var block_patterns;
-            var url = "//" +api_host+ "/api/block_patterns";
-            $.ajax({
-                url: url,
-                async: false,
-                type: "GET",
-                dataType: "json",
-                crossDomain: true,
-                contentType: 'application/json',
-                success: function(data){
-                    block_patterns = data['block_patterns'];
-                    if(typeof callback === "function") callback(block_patterns);
-                }
-            });
-    }
 
 });
 </script>

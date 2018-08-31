@@ -11,7 +11,7 @@
                        <span class="sr-only">Close</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                  Add Mascot Sizes
+                  Add Uniform Category
                 </h4>
             </div>
 
@@ -19,68 +19,51 @@
             <div class="modal-body">
                 <form role="form" id="myForm" action="#" method="POST">
                   <div class="form-group">
-                    <input type="hidden" name="properties" id="properties">
                     <label>Name</label>
-                      <input type="hidden" class="form-control input-size-id" name="id">
-                      <input type="name" class="form-control input-size-name" name="name" required>
+                      <input type="hidden" class="form-control input-category-id" name="id">
+                      <input type="text" class="form-control input-category-name" name="name" required>
                   </div>
                   <div class="form-group">
-                    <label>Category</label>
-                      <select name="sport" class="form-control sport" required>
-                        <option value="0">None</option>
-                      </select>
+                    <label>Alias</label>
+                    <input type="text" class="form-control input-category-alias">
                   </div>
                   <div class="form-group">
-                    <label class="control-label">Block Pattern</label>
-                      <textarea class="block-pattern-val" id="block_pattern_value" name="block_pattern_value" style="display:none;"></textarea>
-                      <select name="block_pattern_id[]" class="form-control block-pattern" id="block_pattern" multiple="multiple" style="width: 100%;" required>
-                      </select>
-                  </div>
-                    <textarea name="block_patterns_data" style="display:none;" id="block_patterns_data"></textarea>
-                  <div class="form-group">
-                    <label class="control-label">Neck Option</label>
-                      <textarea class="neck-option-val" id="neck_option_value" name="neck_option_value" style="display:none;"></textarea>
-                      <select class="form-control material-neck-option" name="neck_option[]" id="neck_option" multiple="multiple" style="width: 100%;">
-                      </select>
+                    <label>Code</label>
+                    <input type="text" class="form-control input-category-code">
                   </div>
                   <div class="form-group">
                     <label class="control-label">Type</label>
-                      <select class="form-control input-size-type" name="type" required>
-                        <option value="upper">Upper</option>
-                        <option value="lower">Lower</option>
+                      <select class="form-control input-category-type" name="type" required>
+                        <option value="sports">Sports</option>
+                        <option value="apparel">Apparel</option>
                       </select>
                   </div>
-                  <div class="form-group">
-                    <label class="control-label">Brand</label>
-                    <select class="form-control input-brand" name="brand" required>
-                      <option value="none">None</option>
-                      <option value="prolook">Prolook</option>
-                      <option value="richardson">Richardson</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label">Active</label>
-                      <select name="active" class="form-control active" required>
-                        <option value="1">Yes</option>
-                        <option value="0"f>No</option>
+                   <div class="form-group">
+                    <label class="control-label">Active Type</label>
+                      <select class="form-control input-active-type" name="type" required>
+                        <option value="active">Active</option>
+                        <option value="temp">Temporary</option>
                       </select>
                   </div>
+                  <hr>
                   <div class="form-group">
-                            <label class="control-label">Properties</label>
-                                <a href="#" class="btn btn-success btn-xs btn-flat add-props">Add Property</a>
-                                <table class="table table-bordered table-striped">
-                                    <tr>
-                                        <thead>
-                                            <th>Size</th>
-                                            <th>Scale</th>
-                                            <th></th>
-                                        </thead>
-                                    </tr>
-                                    <tbody class="props-content">
-                                    </tbody>
-                                </table>
-                          </div>
-                  <center><button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button></center>
+                    <label>Male Thumbnail File</label>
+                    <input type="file" class="form-control male-thumbnail-file" name="thumbnail_male" accept="image/*">
+                      <div class="thumbnail_male">
+                      </div>
+                  </div>
+                  <hr>
+                  <div class="form-group">
+                    <label>Female Thumbnail File</label>
+                    <input type="file" class="form-control female-thumbnail-file" name="thumbnail_female" accept="image/*">
+                      <div class="thumbnail_female">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                    <center>
+                      <button type="submit" class="btn btn-success btn-flat submit-new-record">Add Record</button>
+                    </center>
+                  </div>
                 </form>
             </div>
         </div>
