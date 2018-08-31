@@ -55,7 +55,7 @@
                     @empty
                         <tr>
                             <td colspan='9'>
-                                No Price Item
+                                No Application Sizes
                             </td>
                         </tr>
                     @endforelse
