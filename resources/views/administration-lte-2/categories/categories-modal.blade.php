@@ -52,12 +52,20 @@
                       <div class="thumbnail_male">
                       </div>
                   </div>
+                  <div class="form-group">
+                    <label class="control-label">Sort Order Male</label>
+                        <input type="number" class="form-control sort-order-male" name="sort_order_male" >
+                  </div>
                   <hr>
                   <div class="form-group">
                     <label>Female Thumbnail File</label>
                     <input type="file" class="form-control female-thumbnail-file" name="thumbnail_female" accept="image/*">
                       <div class="thumbnail_female">
                       </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Sort Order Female</label>
+                        <input type="number" class="form-control sort-order-female" name="sort_order_female" >
                   </div>
                   <div class="form-group">
                     <center>
