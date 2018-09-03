@@ -30,70 +30,275 @@ $(document).ready(function () {
 
     }
 
-
     // Set Color of the Actual Sprite in the stage
-    //ub.funcs.ui.setMaterialOptionPatternColor = function (ub.active_part, _colorOBJ, layerID, _patternObj) {
-    ub.funcs.setMaterialOptionPatternColor = function (materialOption, colorOBJ, layerID, patternObj) {
+    // ub.funcs.setMaterialOptionPatternColor = function (materialOption, colorOBJ, layerID, patternObj) {
 
-        var _materialOption     = materialOption;
-        var _colorOBJ           = colorOBJ;
-        var _layerID            = layerID;
-        var _patternObj         = patternObj;      
-        var _layerObj           = _.find(_patternObj.layers, {layer_no: layerID.toString()});
-        var _tintColor          = ub.funcs.hexCodeToTintColor(_colorOBJ.hex_code);
+    //     var _materialOption     = materialOption;
+    //     var _colorOBJ           = colorOBJ;
+    //     var _layerID            = layerID;
+    //     var _patternObj         = patternObj;      
+    //     var _layerObj           = _.find(_patternObj.layers, {layer_no: layerID.toString()});
+    //     var _tintColor          = ub.funcs.hexCodeToTintColor(_colorOBJ.hex_code);
         
-        var _modifier           = ub.funcs.getModifierByIndex(ub.current_part);
-        var _names              = ub.funcs.ui.getAllNames(_modifier.name);
+    //     var _modifier           = ub.funcs.getModifierByIndex(ub.current_part);
+    //     var _names              = ub.funcs.ui.getAllNames(_modifier.name);
 
-        var canvas              = ub.data.previewCanvas;
-        var oImg                = ub.data.previewContainer[_layerID];
+    //     var canvas              = ub.data.previewCanvas;
+    //     var oImg                = ub.data.previewContainer[_layerID];
 
-        _layerObj.color         = _tintColor;
-        _layerObj.color_code    = colorOBJ.color_code;
-        _layerObj.default_color = colorOBJ.hex_code;
+    //     _layerObj.color         = _tintColor;
+    //     _layerObj.color_code    = colorOBJ.color_code;
+    //     _layerObj.default_color = colorOBJ.hex_code;
 
-        delete oImg.filters[0];
+    //     delete oImg.filters[0];
 
-        oImg.filters.push(new fabric.Image.filters.Tint({
-            color: "#" + _colorOBJ.hex_code,
-            opacity: 1,
-        }));
+    //     oImg.filters.push(new fabric.Image.filters.Tint({
+    //         color: "#" + _colorOBJ.hex_code,
+    //         opacity: 1,
+    //     }));
 
-        oImg.applyFilters(canvas.renderAll.bind(canvas));
-        canvas.renderAll();
+    //     oImg.applyFilters(canvas.renderAll.bind(canvas));
+    //     canvas.renderAll();
 
-        setTimeout(function() {             
-            var _dUrl = canvas.toDataURL();
+    //     setTimeout(function() {             
+    //         var _dUrl = canvas.toDataURL();
 
-            _.each(_patternObj.layers, function (l) {
+    //         _.each(_patternObj.layers, function (l) {
 
-                $('svg#svg_pcw' + l.layer_no + ' > defs > pattern > image').attr('xlink:href', _dUrl);
+    //             $('svg#svg_pcw' + l.layer_no + ' > defs > pattern > image').attr('xlink:href', _dUrl);
                 
-            });    
+    //         });    
 
-        }, 50);
+    //     }, 50);
         
-        _.each(_names, function (_name) {
+    //     _.each(_names, function (_name) {
 
-            var titleNameFirstMaterial      = _name.toTitleCase();
-            var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
-            var layer = _.find(_settingsObject.pattern.pattern_obj.layers, {layer_no: layerID.toString()});
+    //         var titleNameFirstMaterial      = _name.toTitleCase();
+    //         var _settingsObject             = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+    //         var layer = _.find(_settingsObject.pattern.pattern_obj.layers, {layer_no: layerID.toString()});
 
-            layer.color = _tintColor;
-            layer.color_code = colorOBJ.color_code;
+    //         layer.color = _tintColor;
+    //         layer.color_code = colorOBJ.color_code;
             
-            var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
+    //         console.log(titleNameFirstMaterial);
+    //         var _materialOptions            = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
 
-            _.each(_materialOptions, function (_materialOption) {
+    //         _.each(_materialOptions, function (_materialOption) {
 
-                var _materialOptionName     = _materialOption.name;
-                var _uniformType            = ub.current_material.material.type;
-                var _containers             = ub.current_material.containers[_uniformType][_materialOptionName].containers;
-                var views                   = ['front', 'back', 'left', 'right'];        
-                var c                       = ub.current_material.containers[_uniformType][_materialOptionName].containers;
+    //             var _materialOptionName     = _materialOption.name;
+    //             var _uniformType            = ub.current_material.material.type;
+    //             var _containers             = ub.current_material.containers[_uniformType][_materialOptionName].containers;
+    //             var views                   = ['front', 'back', 'left', 'right'];
+    //             var c                       = ub.current_material.containers[_uniformType][_materialOptionName].containers;
 
-                _.each(views, function (v) {
-                    c[v].container.children[layerID - 1].tint = _tintColor;
+    //             _.each(views, function (v) {
+    //                 c[v].container.children[layerID - 1].tint = _tintColor;
+    //             });
+
+    //         });
+
+    //     })
+        
+    // };
+
+
+    /**
+    * @desc change only the material pattern preview thumbnail
+    * when the @param inputPattern thumbnail is empty
+    * @param obj inputPattern - pattern object configuration
+    * @return thumbnail path
+    */
+    ub.funcs.setMaterialOptionPatternThumbnail = function(inputPattern) {
+        
+        var inputPattern = inputPattern.pattern_obj;
+
+        if (typeof inputPattern.thumbnail === 'undefined' || inputPattern.thumbnail === '') {
+
+            var pattern = _.find(ub.data.patterns.items, { name: inputPattern.name });
+
+            var i = 0;
+            var layersProperties = [];
+
+            /**
+            * Iterate in each pattern layers and create a new array of object called layersProperties which contains the necessary fields needed for the image generator
+            * getColorObjByHexCode function simply return the color object of the specified color, e.g "0e0e0e"
+            */
+            _.map(inputPattern.layers, function(layer) {
+
+                var colorObj = ub.funcs.getColorObjByHexCode(layer.default_color);
+
+                layersProperties.push({
+                    "default_color": colorObj.color_code,
+                    "layer_number": layer.layer_no,
+                    "hex_code": layer.default_color,
+                    "filename": pattern.thumbnailLayers[i++].filename,
+                    "team_color_id": layer.team_color_id
+                });
+                
+            });
+
+            /*
+            * Setup the configuration object
+            * Low resolution image will be 150x150
+            * High resolution image will be 200x200
+            */
+            const config = {
+                headers: {
+                    accessKey: ub.config.ig_key
+                },
+                body: {
+                    layers_properties: layersProperties,
+                    low_res_size: {
+                       w: 150,
+                       h: 150
+                    },
+                    high_res_size: {
+                       w: 200,
+                       h: 200
+                    }
+                },
+                url: ub.config.ig_url
+            }
+
+            inputPattern.thumbnail = '';
+
+            /**
+            * Call the Image Generator Function
+            * Passing the Setup Configuration Object declared above as an argument
+            * Callback: display the generated image in div#imagePreview
+            */
+            ub.utilities.generateImage(config, function(response) {
+                
+                thumbnail = response.highres_url;
+
+                $("#imagePreview").attr("src", thumbnail);
+
+                inputPattern.thumbnail = thumbnail;
+
+            });
+            
+        }
+
+        return inputPattern.thumbnail;
+    }
+
+    /**
+    * @desc change only the material pattern preview thumbnail
+    * when a color in the color picker is clicked!
+    * @param obj inputPattern - pattern object configuration
+    */
+    ub.funcs.setMaterialOptionPatternThumbnailInColorPicker = function(inputPattern) {
+        
+        var inputPattern = inputPattern.pattern_obj;
+
+        var pattern = _.find(ub.data.patterns.items, { name: inputPattern.name });
+
+        var i = 0;
+        var layersProperties = [];
+
+        /**
+        * Iterate in each pattern layers and create a new array of object called layersProperties which contains the necessary fields needed for the image generator
+        * getColorObjByHexCode function simply return the color object of the specified color, e.g "0e0e0e"
+        */
+        _.map(inputPattern.layers, function(layer) {
+            
+            var colorObj = ub.funcs.getColorObjByHexCode(layer.default_color);
+
+            layersProperties.push({
+                "default_color": colorObj.color_code,
+                "layer_number": layer.layer_no,
+                "hex_code": layer.default_color,
+                "filename": pattern.thumbnailLayers[i++].filename,
+                "team_color_id": layer.team_color_id
+            });
+            
+        });
+
+        /*
+        * Setup the configuration object
+        * Low resolution image will be 150x150
+        * High resolution image will be 200x200
+        */
+        const config = {
+            headers: {
+                accessKey: ub.config.ig_key
+            },
+            body: {
+                layers_properties: layersProperties,
+                low_res_size: {
+                   w: 150,
+                   h: 150
+                },
+                high_res_size: {
+                   w: 200,
+                   h: 200
+                }
+            },
+            url: ub.config.ig_url
+        }
+
+        /**
+        * Call the Image Generator Function
+        * Passing the Setup Configuration Object declared above as an argument
+        * Callback: display the generated image in div#imagePreview
+        */
+        ub.utilities.generateImage(config, function(response) {
+            
+            thumbnail = response.highres_url;
+
+            $("#imagePreview").attr("src", thumbnail);
+
+            inputPattern.thumbnail = thumbnail;
+
+        });
+
+    }
+
+    /**
+    * @desc change the material pattern color in sprite and in pattern preview
+    * @param obj materialOption - material configuration
+    * @param obj colorObj - color configuration
+    * @param string layerNo - pattern layer number
+    * @param obj patternObj - pattern configuration
+    */
+    ub.funcs.setMaterialOptionPatternColor = function (materialOption, colorObj, layerNo, patternObj) {
+
+        var settingsObj = patternObj.pattern_obj;
+
+        var materialOption     = materialOption;
+        var colorObj           = colorObj;
+        var layerNo            = layerNo;
+        var patternObj         = patternObj;      
+        var layerObj           = _.find(settingsObj.layers, {layer_no: layerNo});
+        var tintColor          = ub.funcs.hexCodeToTintColor(colorObj.hex_code);
+        
+        var modifier           = ub.funcs.getModifierByIndex(ub.current_part);
+        var names              = ub.funcs.ui.getAllNames(modifier.name);
+
+        layerObj.color         = tintColor;
+        layerObj.color_code    = colorObj.color_code;
+        layerObj.default_color = colorObj.hex_code;
+        
+        _.each(names, function (name) {
+
+            var titleNameFirstMaterial      = name.toTitleCase();
+            var settingsObject              = ub.funcs.getMaterialOptionSettingsObject(titleNameFirstMaterial);
+            var layer                       = _.find(settingsObject.pattern.pattern_obj.layers, {layer_no: layerNo});
+
+            layer.color = tintColor;
+            layer.color_code = colorObj.color_code;
+            
+            var materialOptions             = ub.funcs.getMaterialOptions(titleNameFirstMaterial);
+
+            _.each(materialOptions, function (materialOption) {
+
+                var materialOptionName      = materialOption.name;
+                var uniformType             = ub.current_material.material.type;
+                var views                   = ['front', 'back', 'left', 'right'];
+                var container               = ub.current_material.containers[uniformType][materialOptionName].containers;
+
+                _.each(views, function (view) {
+                    container[view].container.children[parseInt(layerNo) - 1].tint = tintColor;
                 });
 
             });
@@ -117,61 +322,61 @@ $(document).ready(function () {
     }
 
 
-    ub.funcs.moveToNextPatternColor = function (patternObj) {
+    // ub.funcs.moveToNextPatternColor = function (patternObj) {
 
-        var _layerCount = _.size(patternObj.layers);
-        ub.data.currentPatternLayer += 1;
+    //     var _layerCount = _.size(patternObj.layers);
+    //     ub.data.currentPatternLayer += 1;
 
-        if (ub.data.currentPatternLayer > _layerCount) { ub.data.currentPatternLayer = _layerCount; }
+    //     if (ub.data.currentPatternLayer > _layerCount) { ub.data.currentPatternLayer = _layerCount; }
 
-        if (ub.data.currentPatternLayer > 0) {
+    //     if (ub.data.currentPatternLayer > 0) {
 
-            var _widthOfCW  = $('div.pattern-color-wheel').first().width();
-            var _leftMargin = (ub.data.currentPatternLayer - 1) * _widthOfCW;
+    //         var _widthOfCW  = $('div.pattern-color-wheel').first().width();
+    //         var _leftMargin = (ub.data.currentPatternLayer - 1) * _widthOfCW;
 
-            $('div.pattern-color-wheel-container').css('margin-left', "-" + _leftMargin + 'px');
-            $('div.patternPreviewContainer').hide();
-            $('div.pattern-color-wheel-container').fadeIn();
+    //         $('div.pattern-color-wheel-container').css('margin-left', "-" + _leftMargin + 'px');
+    //         $('div.patternPreviewContainer').hide();
+    //         $('div.pattern-color-wheel-container').fadeIn();
 
-        }
+    //     }
 
-        var _colorSet       = ub.funcs.getBaseColors();
-        var _activeLayer    = _.find(patternObj.layers, {layer_no: ub.data.currentPatternLayer.toString() });
-        var _convertedColor = util.padHex((_activeLayer.color).toString(16), 6);
-        var _colorOBJ       = _.find(_colorSet, {hex_code: _convertedColor});
+    //     var _colorSet       = ub.funcs.getBaseColors();
+    //     var _activeLayer    = _.find(patternObj.layers, {layer_no: ub.data.currentPatternLayer.toString() });
+    //     var _convertedColor = util.padHex((_activeLayer.color).toString(16), 6);
+    //     var _colorOBJ       = _.find(_colorSet, {hex_code: _convertedColor});
 
-        ub.funcs.updateColorLabel('COLOR ' + ub.data.currentPatternLayer + ' of ' + patternObj.layers.length);
+    //     ub.funcs.updateColorLabel('COLOR ' + ub.data.currentPatternLayer + ' of ' + patternObj.layers.length);
 
-        var $svgPath = $('svg#svg_pcw' + (ub.data.currentPatternLayer) + ' > path[data-color-id="' + _colorOBJ.id +'"]');
-        $svgPath.trigger('click');
-
-
-    };
+    //     var $svgPath = $('svg#svg_pcw' + (ub.data.currentPatternLayer) + ' > path[data-color-id="' + _colorOBJ.id +'"]');
+    //     $svgPath.trigger('click');
 
 
-    ub.funcs.moveToPreviousPatternColor = function (patternObj) {
+    // };
 
-        var _layerCount = _.size(patternObj.layers);
-        ub.data.currentPatternLayer -= 1;
 
-        var _widthOfCW  = $('div.pattern-color-wheel').first().width();
-        var _leftMargin = (ub.data.currentPatternLayer - 1) * _widthOfCW;
+    // ub.funcs.moveToPreviousPatternColor = function (patternObj) {
 
-        $('div.pattern-color-wheel-container').css('margin-left', "-" + _leftMargin + 'px');
-        ub.funcs.updateColorLabel('COLOR ' + ub.data.currentPatternLayer  + ' of ' + patternObj.layers.length);
+    //     var _layerCount = _.size(patternObj.layers);
+    //     ub.data.currentPatternLayer -= 1;
 
-        if (ub.data.currentPatternLayer < 1) {
+    //     var _widthOfCW  = $('div.pattern-color-wheel').first().width();
+    //     var _leftMargin = (ub.data.currentPatternLayer - 1) * _widthOfCW;
 
-            ub.data.currentPatternLayer = 0;
+    //     $('div.pattern-color-wheel-container').css('margin-left', "-" + _leftMargin + 'px');
+    //     ub.funcs.updateColorLabel('COLOR ' + ub.data.currentPatternLayer  + ' of ' + patternObj.layers.length);
 
-            $('div.pattern-color-wheel-container').hide();
-            $('div.patternPreviewContainer').fadeIn();
+    //     if (ub.data.currentPatternLayer < 1) {
 
-            ub.funcs.updateColorLabel('EDIT COLORS');
+    //         ub.data.currentPatternLayer = 0;
 
-        }
+    //         $('div.pattern-color-wheel-container').hide();
+    //         $('div.patternPreviewContainer').fadeIn();
 
-    };
+    //         ub.funcs.updateColorLabel('EDIT COLORS');
+
+    //     }
+
+    // };
 
 
     function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
@@ -393,12 +598,14 @@ $(document).ready(function () {
 
 
     ub.funcs.updateTextPatternPanel = function (patternObj) {
-
+        
         var _patternObj = patternObj;
-        var _thumbnail = '/images/patterns/Blank/1.png';
         var _name = 'Blank';
         var _templateStr = '';
         var _colorContainer = '';
+
+        var blankPattern = _.find(ub.data.patterns.items, {name: _name});
+        var _thumbnail = blankPattern.icon;
 
         if (typeof _patternObj !== "undefined") {
 
@@ -707,7 +914,7 @@ $(document).ready(function () {
             outputPatternObject         = ub.funcs.convertPatternObjectForMaterialOption(_patternObject, materialOption);
             _settingsObject.pattern     = outputPatternObject;
             e = _settingsObject;
-
+            
             ub.generate_pattern(e.code, e.pattern.pattern_obj, e.pattern.opacity, e.pattern.position, e.pattern.rotation, e.pattern.scale);
 
         });
@@ -786,237 +993,450 @@ $(document).ready(function () {
     };
 
 
-    ub.data.currentPatternLayer = 0;
+    // ub.data.currentPatternLayer = 0;
+    // ub.funcs.createPatternUI = function (inputPattern, materialOption) {
+
+    //     var _inputPattern   = inputPattern;
+    //     var _patternObj     = inputPattern.pattern_obj;
+    //     var _materialOption = materialOption;
+
+    //     var _htmlBuilder    = "<div id='patternUI'>";
+
+    //     var _patternName    = _patternObj.name;
+    //     var _thumbnail      = _patternObj.icon;
+
+    //     var _teamColorObj   = ub.current_material.settings.team_colors;
+    //     var _colorSet       = ub.funcs.getBaseColors();
+    //     var _tempIndex      = 1;
+
+    //     _htmlBuilder        += "<div class='patternName'><glabel>Pattern Name: </label> <span class='value'>" + _patternName + "</span></div>";
+    //    // _htmlBuilder        += '<div class="allPartsContainer"><input type="checkbox" name="applyToAllParts" value="apply" > APPLY TO ALL PARTS</div>';
+    //     _htmlBuilder        += '<div class="patternPreviewContainer"><canvas id="patternPreview" class="patternPreview"></canvas></div>';
+    //     _htmlBuilder        += '<div class="pattern-color-wheel-container">';
+
+    //     _.each(_patternObj.layers, function (layer) {
+
+    //         var fill        = 'white';
+    //         var layerID     = layer.layer_no;
+
+    //         _htmlBuilder    += '<div class="color-wheel pattern-color-wheel" id="pcw_' + layerID + '">';        
+    //         _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
+    //         _tempIndex      += 1;
+
+    //         _htmlBuilder    += '<defs><pattern id="image" x="50" y="-50" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="300" xlink:href=""></image></pattern></defs>';
+    //         _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="url(#image)" />';
+
+    //         _.each(_teamColorObj, function (colorObj, index) {
+
+    //             _htmlBuilder  +=  '<path class="growStroke arc-' + layerID + '" id="arc' + index + '-' + layerID + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
+
+    //         });
+
+    //         _htmlBuilder     += '</svg>';
+    //         _htmlBuilder     += '</div>';
+
+    //     });
+
+    //     _htmlBuilder     += '</div>';
+
+    //     if(_inputPattern.pattern_id !== "none" || _inputPattern.pattern_id !== "blank") {
+
+    //         _htmlBuilder     += "<div class='patternColorNavigator'><div class='left'><i class='fa fa-chevron-left' aria-hidden='true'></i></div><div class='label'>EDIT COLORS</div><div class='right'><i class='fa fa-chevron-right' aria-hidden='true'></i></div></div>";
+
+    //     }
+        
+    //     _htmlBuilder     += "</div>";
+
+    //     $('.modifier_main_container').append(_htmlBuilder);
+
+    //     _.each(_patternObj.layers, function (layer) {
+
+    //         var layerID     = layer.layer_no;
+
+    //         var _elements   = _teamColorObj.length;
+    //         var _length     = 360 / _elements;
+    //         var _start      = 0;
+
+    //         _.each(_teamColorObj, function (colorObj, index) {
+
+    //             var _nth    = index;
+    //             var _start  = _nth * _length;
+    //             var _end    = _start + _length;
+    //             var _id     = "arc" + index + '-' + layerID;
+
+    //             document.getElementById(_id).setAttribute("d", describeArc(250, 170, 125, _start, _end));
+
+    //             $("path#arc" + index + '-' + layerID).on("click", function () {
+
+    //                $("path.arc-" + layerID).attr("class", "growStroke arc-" + layerID);
+    //                $(this).attr("class", "selectedStroke growStroke arc-" + layerID);
+
+    //                var _colorID           = $(this).data('color-id');
+    //                var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});
+                   
+    //                ub.funcs.setMaterialOptionPatternColor(materialOption, _colorOBJ, layerID, _patternObj);
+
+    //             });
+
+    //         });
+
+    //     });    
+
+    //     var _sizeOf     = _.size(_patternObj.layers);
+    //     var _widthOfCW  = $('div.pattern-color-wheel').first().width();
+
+    //     $('div.pattern-color-wheel-container').css('width', (_sizeOf * _widthOfCW) + 'px');
+
+    //     $('#patternUI').fadeIn();
+
+    //     ub.funcs.createPatternPreview(_inputPattern);
+
+    // };
+
+
+    /**
+    * @desc image generator
+    * @param obj config - contains the headers, body, url, layer_properties
+    * @callback cb - calls itself when the ajax request is successful
+    */
+    ub.funcs.generateImage = function(config, cb) {
+        
+        $.ajax({
+            url: config.url,
+            data: JSON.stringify(config.body),
+            type: "post", 
+            contentType: "application/json",
+            dataType: 'json',
+            headers: config.headers,
+            success: function (response) {
+                cb(response);
+            },
+            error: function(xhr, textStatus, error) {
+                
+                // If the generator failed to return the response thumbnail image
+                // then use an alternate thumbnail image
+                if (config.pattern !== 'undefined') { $("#imagePreview").attr("src", config.pattern.icon); }
+
+                console.log('=== Something went wrong! ===');
+                util.error('Failed in generating the preview image.');
+                util.error(xhr.status +  ': ' + xhr.statusText);
+
+            }
+        });
+
+    }
+
+
+    /**
+    * @desc display the pattern of the material
+    * @param obj inputPattern - current pattern configuration
+    * @param obj materialOption - current material configuration
+    */
     ub.funcs.createPatternUI = function (inputPattern, materialOption) {
 
-        var _inputPattern   = inputPattern;
-        var _patternObj     = inputPattern.pattern_obj;
-        var _materialOption = materialOption;
+        var inputPattern    = inputPattern;
+        var materialOption  = materialOption;
 
-        var _htmlBuilder    = "<div id='patternUI'>";
+        var current_part    = ub.current_part;
+            current_part    = ub.funcs.getModifierByIndex(current_part);
+            current_part    = 'pattern_' + current_part.fullname;
+        var active_view     = ub.active_view;
+            active_view     = active_view + '_view';
 
-        var _patternName    = _patternObj.name;
-        var _thumbnail      = _patternObj.icon;
+        if (_.isEqual(inputPattern.pattern_obj.name, 'Blank')) {
 
-        var _teamColorObj   = ub.current_material.settings.team_colors;
-        var _colorSet       = ub.funcs.getBaseColors();
-        var _tempIndex      = 1;
+            var blankPattern            = _.find(ub.data.patterns.items, {name:'Blank'});
+            var blankThumbnailLayer     = _.find(blankPattern.thumbnailLayers, {layer_no: 1});
 
-        _htmlBuilder        += "<div class='patternName'><glabel>Pattern Name: </label> <span class='value'>" + _patternName + "</span></div>";
-       // _htmlBuilder        += '<div class="allPartsContainer"><input type="checkbox" name="applyToAllParts" value="apply" > APPLY TO ALL PARTS</div>';
-        _htmlBuilder        += '<div class="patternPreviewContainer"><canvas id="patternPreview" class="patternPreview"></canvas></div>';
-        _htmlBuilder        += '<div class="pattern-color-wheel-container">';
+            templateStr = ub.utilities.buildTemplateString("#m-patterns-blank", {thumbnail: blankThumbnailLayer.filename});
+            $('.modifier_main_container').append(templateStr);
 
-        _.each(_patternObj.layers, function (layer) {
+        } else {
 
-            var fill        = 'white';
-            var layerID     = layer.layer_no;
+            var patternObj      = inputPattern.pattern_obj;
+            var colorContainer  = '';
 
-            _htmlBuilder    += '<div class="color-wheel pattern-color-wheel" id="pcw_' + layerID + '">';        
-            _htmlBuilder    += '<svg id="svg_pcw' + layerID + '" class="svg-color-wheel">';
-            _tempIndex      += 1;
+            if (typeof patternObj !== "undefined") {
 
-            _htmlBuilder    += '<defs><pattern id="image" x="50" y="-50" patternUnits="userSpaceOnUse" height="300" width="300"><image x="0" y="0" width="300" height="300" xlink:href=""></image></pattern></defs>';
-            _htmlBuilder    += '<circle class="preview" cx="250" cy="170" r="80"  fill="url(#image)" />';
+                var name        = patternObj.name;
+                var thumbnail   = '';
 
-            _.each(_teamColorObj, function (colorObj, index) {
+                /**
+                * Iterate in each pattern layer
+                * getColorObjByHexCode function simply return the color object of the specified color, e.g "0e0e0e"
+                * createSmallColorPickers function create a small clickable color picker which are displayed right beside the pattern thumbnail
+                */
+                _.map(patternObj.layers, function(layer) {
 
-                _htmlBuilder  +=  '<path class="growStroke arc-' + layerID + '" id="arc' + index + '-' + layerID + '" data-color-id="' + colorObj.id + '" fill="none" stroke="#' + colorObj.hex_code + '" stroke-width="50" />'; 
+                    var colorObj = ub.funcs.getColorObjByHexCode(layer.default_color);
 
-            });
+                    colorContainer += ub.funcs.createSmallColorPickers(
+                        colorObj.color_code, 
+                        layer.layer_no, 
+                        'Color ' + layer.layer_no, 
+                        layer.default_color, 
+                        'text-patterns'
+                    );
+                    
+                });
 
-            _htmlBuilder     += '</svg>';
-            _htmlBuilder     += '</div>';
+                // create a pattern thumbnail preview
+                thumbnail = ub.funcs.setMaterialOptionPatternThumbnail(inputPattern);
+
+                templateStr = ub.utilities.buildTemplateString("#m-patterns-unblank", {thumbnail: thumbnail, name: name, colorString: colorContainer});
+                $('.modifier_main_container').append(templateStr);
+
+            }
+
+            var obj = ub.objects[active_view][current_part];
+
+            // if obj instance exist, check the pattern obj if flipped or unflipped
+            // if flipped, add active class to the span flip button
+            // if unflipped, remove active class to the span flip button
+            if (typeof obj !== "undefined") {
+
+                var flipped = ub.funcs.isFlipButtonActive(obj);
+
+                (flipped === 1) ? $('span.flipButton').addClass('active') : $('span.flipButton').removeClass('active') ;
+
+            }
+
+        }
+
+        // Trigger the patterns modal when the preview thumbnail in click 
+        $('div.patternPreviewContainer > div.blankPatternPreview, div.patternThumbPreview, span.pattern').unbind('click');
+        $('div.patternPreviewContainer > div.blankPatternPreview, div.patternThumbPreview, span.pattern').on('click', function () {
+            ub.funcs.createPatternPopup();
+        });
+
+        // Change material pattern color when color picker is clicked
+        var $sp = $('div.column1.applications.patterns > div.colorContainer > div.smallPickerContainer > span.colorItem[data-object-type="text-patterns"]');
+        $sp.unbind('click');
+        $sp.on('click', function() {
+
+            var objectType  = $(this).data('object-type');
+            var colorCode   = $(this).data('color-code');
+            var layerNo     = $(this).data('layer-no');
+                layerNo     = layerNo.toString();
+            var layerName   = $(this).data('layer-name');
+
+            var colorObj    = ub.funcs.getColorByColorCode(colorCode);
+            var layer       = _.find(inputPattern.pattern_obj.layers, {layer_no: layerNo});
+
+            layer.default_color = colorObj.hex_code;
+            layer.color_code    = colorCode;
+
+            // Set the clicked color as active
+            ub.funcs.changeActiveColorSmallColorPicker(layerNo, colorCode, colorObj, objectType);
+
+            // Change the pattern colors of material
+            ub.funcs.setMaterialOptionPatternColor(materialOption, colorObj, layerNo, inputPattern);
+
+            // debounce the ub.funcs.setMaterialOptionPatternThumbnailInColorPicker every 300ms
+            // this is to avoid ajax traffic when onlick is triggered in color picker
+            _.debounce(ub.funcs.setMaterialOptionPatternThumbnailInColorPicker(inputPattern), 300);
 
         });
 
-        _htmlBuilder     += '</div>';
+        // Flipped the pattern on material part when flip button is triggered
+        $('span.flipButton').on('click', function () {
 
-        if(_inputPattern.pattern_id !== "none" || _inputPattern.pattern_id !== "blank") {
+            var obj = ub.objects[active_view][current_part];
 
-            _htmlBuilder     += "<div class='patternColorNavigator'><div class='left'><i class='fa fa-chevron-left' aria-hidden='true'></i></div><div class='label'>EDIT COLORS</div><div class='right'><i class='fa fa-chevron-right' aria-hidden='true'></i></div></div>";
+            if (active_view === 'front_view') {
 
-        }
-        
-        _htmlBuilder     += "</div>";
+                // sync the front_view and the right_view flip value
+                if (typeof ub.objects['right_view'][current_part] !== "undefined") {
+                    
+                    // flip the right_view pattern
+                    _.each(ub.objects['right_view'][current_part].children, function (child) { child.scale.x *= -1; });
 
-        $('.modifier_main_container').append(_htmlBuilder);
-
-        _.each(_patternObj.layers, function (layer) {
-
-            var layerID     = layer.layer_no;
-
-            var _elements   = _teamColorObj.length;
-            var _length     = 360 / _elements;
-            var _start      = 0;
-
-            _.each(_teamColorObj, function (colorObj, index) {
-
-                var _nth    = index;
-                var _start  = _nth * _length;
-                var _end    = _start + _length;
-                var _id     = "arc" + index + '-' + layerID;
-
-                document.getElementById(_id).setAttribute("d", describeArc(250, 170, 125, _start, _end));
-
-                $("path#arc" + index + '-' + layerID).on("click", function () {
-
-                   $("path.arc-" + layerID).attr("class", "growStroke arc-" + layerID);
-                   $(this).attr("class", "selectedStroke growStroke arc-" + layerID);
-
-                   var _colorID           = $(this).data('color-id');
-                   var _colorOBJ          = _.find(_colorSet, {id: _colorID.toString()});
-                   
-                   ub.funcs.setMaterialOptionPatternColor(materialOption, _colorOBJ, layerID, _patternObj);
-
-                });
-
-            });
-
-        });    
-
-        var _sizeOf     = _.size(_patternObj.layers);
-        var _widthOfCW  = $('div.pattern-color-wheel').first().width();
-
-        $('div.pattern-color-wheel-container').css('width', (_sizeOf * _widthOfCW) + 'px');
-
-        $('#patternUI').fadeIn();
-
-        ub.funcs.createPatternPreview(_inputPattern);
-
-    };
-
-
-    ub.data.previewContainer    = {};
-    ub.data.previewCanvas       = {};
-    ub.data.patternToolTip      = {};
-
-    ub.funcs.createPatternPreview = function (inputPattern) {
-
-        var _inputPattern       = inputPattern;
-        var _patternObj         = inputPattern.pattern_obj;
-        var _patternName        = _patternObj.name;
-        var $patternContainer   = $('canvas#patternPreview');
-        var canvas              = new fabric.Canvas('patternPreview');
-        var context             = canvas.getContext("2d");
-        ub.data.previewCanvas   = canvas;
-        
-        canvas.setHeight(300);
-        canvas.setWidth(300);
-
-        _.each(_patternObj.layers, function (layer) {
-
-            var _layer_no       = layer.layer_no;
-            var _filename       = layer.filename;
-            var _defaultColor   = layer.color;
-            var _color          = "#" + util.padHex((_defaultColor).toString(16),6);
-            var _localName      = "/images/patterns/" + _patternName + "/" + _layer_no + ".png";
-
-            fabric.Image.fromURL(_localName, function (oImg) {
-                
-                ub.data.previewContainer[_layer_no] = oImg;
-
-                oImg.selectable     = true;
-                oImg.lockMovementX  = true;
-                oImg.lockMovementY  = true;
-                oImg.hasControls    = false;
-
-                canvas.add(oImg);
-
-                if(_inputPattern.pattern_id !== "none" && _inputPattern.pattern_id !== "blank") {
-
-                    oImg.filters.push(new fabric.Image.filters.Tint({
-                        color: _color,
-                        opacity: 1,
-                    }));
-                    oImg.applyFilters(canvas.renderAll.bind(canvas));
+                    // negate the return value of ub.funcs.isFlipButton() (e.g. false --> true)
+                    // then base on the truthiness, set the right_view flip value to 1
+                    // else set the right_view flip value to 0
+                    (!ub.funcs.isFlipButtonActive(obj) === true) ? ub.objects['right_view'][current_part].flip=1 : ub.objects['right_view'][current_part].flip=0;
 
                 }
 
-                oImg.hoverCursor = 'pointer';
-
-                canvas.renderAll();
-
-                oImg.on('mousedown', function (){
+                // sync the front_view and the left_view flip value
+                if (typeof ub.objects['left_view'][current_part] !== "undefined") {
                     
-                    ub.funcs.createPatternPopup();
-
-                });
-
-                oImg.on('mousemove', function (e){
+                    // flip the left_view pattern
+                    _.each(ub.objects['left_view'][current_part].children, function (child) { child.scale.x *= -1; });
                     
-                    ub.data.patternToolTip.opacity = 1;
-                    ub.data.patternToolTip.bringToFront();
+                    // negate the return value of ub.funcs.isFlipButton() (e.g. false --> true)
+                    // then base on the truthiness, set the left_view flip value to 1
+                    // else set the left_view flip value to 0
+                    (!ub.funcs.isFlipButtonActive(obj) === true) ? ub.objects['left_view'][current_part].flip=1 : ub.objects['left_view'][current_part].flip=0;
 
-                });
+                }
 
-           });
+            }
 
+            // sync the front_view's flip value to the left_view or right_view flip value
+            if (active_view === 'left_view' || active_view === 'right_view') {
+
+                if (typeof ub.objects['front_view'][current_part] !== "undefined") {
+
+                    // flip the front_view pattern
+                    _.each(ub.objects['front_view'][current_part].children, function (child) { child.scale.x *= -1; });
+
+                    // negate the return value of ub.funcs.isFlipButton() (e.g. false --> true)
+                    // then base on the truthiness, set the front_view flip value to 1
+                    // else set the front_view flip value to 0
+                    (!ub.funcs.isFlipButtonActive(obj) === true) ? ub.objects['front_view'][current_part].flip=1 : ub.objects['front_view'][current_part].flip=0;
+
+                }
+
+            }
+
+            // flip the pattern
+            ub.funcs.flipPattern(obj);
+            
         });
 
-        var bg = new fabric.Rect({
-          fill: '#333333',
-          scaleY: 0.5,
-          originX: 'center',
-          originY: 'center',
-          rx: 5,
-          ry: 5,
-          width: 250,
-          height:60,
-          opacity: 0.5,
-        });
+        // change the thumbnail preview opacity
+        $("#imagePreview").css("opacity", inputPattern.opacity/100);
 
-        var text    = new fabric.Text('Click to Change Pattern', { originX: 'center', originY: 'center', fontFamily: 'Roboto', left: 0, top: 0, fontSize: 16, fill: '#ffffff', padding: 10 });
-        var group   = new fabric.Group([ text, bg ], {
-          left: 28,
-          top: 254,
-        });
-
-        group.selectable    = true;
-        group.hasControls   = false;
-        group.lockMovementX = true;
-        group.lockMovementY = true;
-        group.hasBorders    = false;
-        group.hoverCursor   = 'pointer';
-
-        group.on('mousedown', function (){
-                    
-            ub.funcs.createPatternPopup();
-
-        });
-
-        text.bringToFront();
-        ub.data.patternToolTip = group;
-        canvas.add(ub.data.patternToolTip);
-        //ub.data.patternToolTip.selectable = false;
-        ub.data.patternToolTip.bringToFront();
-
-        ub.data.currentPatternLayer = 0; // 0 is Pattern Preview
-
-        $('div.patternColorNavigator > div.left').on('click', function () {
-
-            ub.funcs.moveToPreviousPatternColor(_patternObj);
-
-        });
-
-        $('div.patternColorNavigator > div.right').on('click', function () {
-
-            ub.funcs.moveToNextPatternColor(_patternObj);
-
-        });
-
-        $( "canvas.upper-canvas" ).hover(
-          function() {
-
-          }, function() {
-
-               ub.data.patternToolTip.opacity = 0;
-               ub.data.patternToolTip.sendToBack();
-
-          }
-        );
+        // Show the pattern panel content
+        $('div#patternUI > div#applicationUI').fadeIn();
 
     };
+
+
+    // ub.data.previewContainer    = {};
+    // ub.data.previewCanvas       = {};
+    // ub.data.patternToolTip      = {};
+    // ub.funcs.createPatternPreview = function (inputPattern) {
+
+    //     var _inputPattern       = inputPattern;
+    //     var _patternObj         = inputPattern.pattern_obj;
+    //     var _patternName        = _patternObj.name;
+    //     var $patternContainer   = $('canvas#patternPreview');
+    //     var canvas              = new fabric.Canvas('patternPreview');
+    //     var context             = canvas.getContext("2d");
+    //     ub.data.previewCanvas   = canvas;
+        
+    //     canvas.setHeight(300);
+    //     canvas.setWidth(300);
+
+    //     _.each(_patternObj.layers, function (layer) {
+
+    //         var _layer_no       = layer.layer_no;
+    //         var _filename       = layer.filename;
+    //         var _defaultColor   = layer.color;
+    //         var _color          = "#" + util.padHex((_defaultColor).toString(16),6);
+    //         var _localName      = "/images/patterns/" + _patternName + "/" + _layer_no + ".png";
+
+    //         var patternName     = _.find(ub.data.patterns.items, {name:_patternName});
+    //         var thumbnailLayer  = _.find(patternName.thumbnailLayers, {layer_no: _layer_no});
+    //         var loadedImage     = (typeof thumbnailLayer === 'undefined') ? _localName : thumbnailLayer.filename;
+
+    //         fabric.Image.fromURL(loadedImage, function (oImg) {
+                
+    //             ub.data.previewContainer[_layer_no] = oImg;
+
+    //             oImg.selectable     = true;
+    //             oImg.lockMovementX  = true;
+    //             oImg.lockMovementY  = true;
+    //             oImg.hasControls    = false;
+
+    //             canvas.add(oImg);
+
+    //             if(_inputPattern.pattern_id !== "none" && _inputPattern.pattern_id !== "blank") {
+
+    //                 oImg.filters.push(new fabric.Image.filters.Tint({
+    //                     color: _color,
+    //                     opacity: 1,
+    //                 }));
+    //                 oImg.applyFilters(canvas.renderAll.bind(canvas));
+
+    //             }
+
+    //             oImg.hoverCursor = 'pointer';
+
+    //             canvas.renderAll();
+
+    //             oImg.on('mousedown', function (){
+
+    //                 ub.funcs.createPatternPopup();
+
+    //             });
+
+    //             oImg.on('mousemove', function (e){
+                    
+    //                 ub.data.patternToolTip.opacity = 1;
+    //                 ub.data.patternToolTip.bringToFront();
+
+    //             });
+
+    //        }, { crossOrigin: 'anonymous' });
+
+    //     });
+
+    //     var bg = new fabric.Rect({
+    //       fill: '#333333',
+    //       scaleY: 0.5,
+    //       originX: 'center',
+    //       originY: 'center',
+    //       rx: 5,
+    //       ry: 5,
+    //       width: 250,
+    //       height:60,
+    //       opacity: 0.5,
+    //     });
+
+    //     var text    = new fabric.Text('Click to Change Pattern', { originX: 'center', originY: 'center', fontFamily: 'Roboto', left: 0, top: 0, fontSize: 16, fill: '#ffffff', padding: 10 });
+    //     var group   = new fabric.Group([ text, bg ], {
+    //       left: 28,
+    //       top: 254,
+    //     });
+
+    //     group.selectable    = true;
+    //     group.hasControls   = false;
+    //     group.lockMovementX = true;
+    //     group.lockMovementY = true;
+    //     group.hasBorders    = false;
+    //     group.hoverCursor   = 'pointer';
+
+    //     group.on('mousedown', function (){
+                    
+    //         ub.funcs.createPatternPopup();
+
+    //     });
+
+    //     text.bringToFront();
+    //     ub.data.patternToolTip = group;
+    //     canvas.add(ub.data.patternToolTip);
+    //     //ub.data.patternToolTip.selectable = false;
+    //     ub.data.patternToolTip.bringToFront();
+
+    //     ub.data.currentPatternLayer = 0; // 0 is Pattern Preview
+
+    //     $('div.patternColorNavigator > div.left').on('click', function () {
+
+    //         ub.funcs.moveToPreviousPatternColor(_patternObj);
+
+    //     });
+
+    //     $('div.patternColorNavigator > div.right').on('click', function () {
+
+    //         ub.funcs.moveToNextPatternColor(_patternObj);
+
+    //     });
+
+    //     $( "canvas.upper-canvas" ).hover(
+    //       function() {
+
+    //       }, function() {
+
+    //            ub.data.patternToolTip.opacity = 0;
+    //            ub.data.patternToolTip.sendToBack();
+
+    //       }
+    //     );
+
+    // };
 
 
     ub.funcs.clearPatternUI = function () {
@@ -1140,7 +1560,7 @@ $(document).ready(function () {
                 pattern_id: _patternObject.code,
                 scale: 0,
                 rotation: ub.funcs.translateAngle(_materialOption.angle),
-                opacity: 0,
+                opacity: _materialOption.pattern_opacity,
                 position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
                 pattern_obj : {
                     pattern_id: _patternObject.id,
@@ -1151,8 +1571,9 @@ $(document).ready(function () {
                     layers: [],
                     scale: 0,
                     rotation: 0,
-                    opacity: 0,
+                    opacity: _materialOption.pattern_opacity,
                     position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+                    thumbnail: '',
                 }
         };
 
@@ -1222,7 +1643,7 @@ $(document).ready(function () {
 
         
         var _defaultColor = ub.funcs.getColorByColorCode('W');
-
+        
         var _layer = { 
             default_color: _defaultColor.hex_code,
             color_code: ub.funcs.getColorObjByHexCode(_defaultColor.hex_code).color_code,
@@ -1258,7 +1679,7 @@ $(document).ready(function () {
                 pattern_id: patternObject.code,
                 scale: 0,
                 rotation: ub.funcs.translateAngle(_materialOption.angle),
-                opacity: 0,
+                opacity: materialOption.pattern_opacity,
                 position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
                 pattern_obj : {
                     pattern_id: patternObject.id,
@@ -1269,12 +1690,13 @@ $(document).ready(function () {
                     layers: [],
                     scale: 0,
                     rotation: 0,
-                    opacity: 0,
+                    opacity: materialOption.pattern_opacity,
                     position: {x: 0 + ub.offset.x, y: 0 + ub.offset.y},
+                    thumbnail: '',
                 }    
         };
 
-        _.each (patternObject.layers, function (_property) {
+        _.each (patternPropertiesParsed.layers, function (_property) {
 
             var _defaultColor = _property.default_color;
 
@@ -1334,6 +1756,90 @@ $(document).ready(function () {
         var $layerTool = $popup;
         $layerTool.unbind('mousedown');
         $layerTool.mousedown(ub.funcs.handle_mousedown);
+
+    }
+
+    /*
+    * @desc check if the obj.flip in material is define
+    * @param object obj
+    * @return integer flipped (0 or 1)
+    */
+    ub.funcs.isFlipButtonActive = function (obj) {
+
+        var flipped;
+
+        if(typeof obj.flip === "undefined") {
+
+            flipped = obj.flip = 0;
+
+        }
+        else {
+
+            if (obj.flip === 1)  {
+
+                flipped = obj.flip = 1;
+
+
+            } else {
+
+                flipped = obj.flip = 0;
+
+            }
+
+        }
+
+        return flipped;
+
+    }
+
+    /*
+    * @desc flip the pattern on material's part
+    * @param object obj
+    * @return integer flipped (0 or 1)
+    */
+    ub.funcs.flipPattern = function (obj) {
+
+        var flipped;
+
+        if(typeof obj.flip === "undefined") {
+
+            flipped = obj.flip = 1;
+
+        }
+        else {
+
+            if (obj.flip === 0)  {
+
+                flipped = obj.flip = 1;
+
+
+            } else {
+
+                flipped = obj.flip = 0;
+
+            }
+
+        }
+
+        if (typeof obj !== "undefined") {
+            
+            if (obj.flip === 1) {
+
+                $('span.flipButton').addClass('active');
+
+                _.each(obj.children, function (child) { child.scale.x *= -1; });
+
+            } else {
+                
+                $('span.flipButton').removeClass('active');
+
+                _.each(obj.children, function (child) { child.scale.x = Math.abs(child.scale.x); });
+
+            }
+
+        }
+
+        return flipped;
 
     }
 

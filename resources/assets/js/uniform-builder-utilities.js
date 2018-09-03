@@ -131,6 +131,32 @@ $(document).ready(function() {
 
             return decodedString;
 
+        },
+
+        /**
+        * @desc image generator, this funcs consume the micro service 'image-services.prolook.com'
+        * @param obj config - contains the headers, body, url, layer_properties
+        * @callback cb - calls itself when the ajax request is successful
+        */
+        generateImage: function(config, cb) {
+            
+            $.ajax({
+                url: config.url,
+                data: JSON.stringify(config.body),
+                type: "post", 
+                contentType: "application/json",
+                dataType: 'json',
+                headers: config.headers,
+                success: function (response) {
+                    cb(response);
+                },
+                error: function(xhr, textStatus, error) {
+                    console.log('=== Something went wrong! ===');
+                    util.error('Failed in generating the preview image.');
+                    util.error(xhr.status +  ': ' + xhr.statusText);
+                }
+            });
+
         }
 
     };
