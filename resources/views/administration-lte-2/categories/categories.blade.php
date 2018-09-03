@@ -185,6 +185,8 @@ $(document).ready(function(){
         $('.input-category-type').val('');
         $('input-category-type').val('');
         $('.input-active-type').val('');
+        $('.sort-order-male').val('');
+        $('.sort-order-female').val('');
         $('.thumbnail_male').empty();
         $('.thumbnail_female').empty();
         $('.submit-new-record').removeAttr('disabled');
@@ -211,6 +213,8 @@ $(document).ready(function(){
         data.active_type = $(this).parent().parent().parent().find('.td-active-type').text();
         data.thumbnail_male = $(this).parent().parent().parent().find('.td-category-thumbnail-male').val();
         data.thumbnail_female = $(this).parent().parent().parent().find('.td-category-thumbnail-female').val();
+        data.sort_order_male = $(this).parent().parent().parent().find('.td-category-sort-men').text();
+        data.sort_order_female = $(this).parent().parent().parent().find('.td-category-sort-women').text();
 
         if(data.thumbnail_male != '') {
             var mElem = '';
@@ -236,6 +240,8 @@ $(document).ready(function(){
         $('.input-category-code').val(data.code);
         $('.input-category-type').val(data.type);
         $('.input-active-type').val(data.active_type);
+        $('.sort-order-male').val(data.sort_order_male);
+        $('.sort-order-female').val(data.sort_order_female);
     });
 
     $("#myForm").submit(function(e) {
@@ -247,6 +253,8 @@ $(document).ready(function(){
         data.type = $('.input-category-type').find(":selected").val();
         data.active_type = $('.input-active-type').find(":selected").val();
         data.sizes = $('.sizes_props').val();
+        data.sort_order_male = $('.sort-order-male').val();
+        data.sort_order_female = $('.sort-order-female').val();
 
         var formData = new FormData();
         var male_th_file = null;
