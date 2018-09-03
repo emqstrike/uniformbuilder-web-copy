@@ -40,6 +40,20 @@ $(document).ready(function () {
 
         names.push(name);
 
+        if (!ub.data.whiteList.isSublimatedAndSeparated(name)) {
+
+            if (name.indexOf('left') >-1 && name.indexOf('body') === -1) {
+                match      = name.replace('left', 'right');
+                names.push(match);
+            }
+
+            if (name.indexOf('right') >-1 && name.indexOf('body') === -1) {
+                match      = name.replace('right', 'left');
+                names.push(match);
+            }
+
+        }
+
         return names;
 
     };

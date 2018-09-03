@@ -3193,6 +3193,7 @@ $(document).ready(function() {
         return ub.funcs.pointIsInPoly(point, _transformed_boundaries);
 
     }
+    
     ub.funcs.withinMaterialOption = function (point) {
 
         var _results = [];
@@ -3229,80 +3230,10 @@ $(document).ready(function() {
 
     }
 
-    // ub.funcs.dim = function (_match) {
-        
-    //     var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
-
-    //     _.each(_materialOptions, function (_materialOption) {
-
-    //         var _name       = _materialOption.name.toCodeCase();
-    //         var _object     = ub.objects[ub.active_view + '_view'][_name];
-
-    //         _object.alpha   = 0.3;
-    //         ub.funcs.setAlphaOff(_object);
-
-    //     });
-
-    //     _.each (ub.objects[ub.active_view + "_view"], function (object) {
-            
-    //         if (typeof object.name === "undefined") { return; }
-
-    //         if (object.name !== null) {
-
-    //            if (object.name.indexOf('pattern_') !== -1 || object.name.indexOf('objects_') !== -1) {
-
-    //                 if (object.name.indexOf(_match) !== -1) {
-
-    //                     if (_match === 'body' && object.name === 'pattern_back_body') {  ub.funcs.setAlphaOff(object); return; }
-
-    //                     ub.funcs.setAlphaOn(object);
-
-    //                     return;
-
-    //                 }
-
-    //                 if(object.name.indexOf('objects_') !== -1 && _.size(ub.current_material.settings.applications) !== 0 ) {
-
-    //                     var _app_id = object.name.replace('objects_','');
-    //                     var _application_obj = ub.current_material.settings.applications[_app_id];
-    //                     var _app_layer = _application_obj.application.layer.toCodeCase();
-
-    //                     if (_app_layer.indexOf(_match) !== -1) {
-    //                         ub.funcs.setAlphaOn(object);
-
-    //                         return;
-
-    //                     }
-
-    //                 }
-
-    //                 /// Do not turn off application when its being moved by the move tool
-
-    //                 var _app_id = object.name.replace('objects_','');
-                    
-    //                 if (_app_id === ub.activeApplication) { 
-
-    //                     ub.funcs.setAlphaOn(object);
-    //                     return; 
-                        
-    //                 }
-
-    //                 if (typeof object.ubName !== "undefined") {
-
-    //                     console.log(object.ubName);    
-
-    //                 }
-                    
-    //                 ub.funcs.setAlphaOff(object);
-
-    //             }   
-
-    //         }
-
-    //     });
-
-    // };
-
+    /*
+    * @desc dim all material parts in sprite except the part where the mouse is hover
+    * @oaram string _match ('front_body', 'left_sleeve', 'right_sleeve', 'team-colors', 'back_body', 'prolook')
+    */
     ub.funcs.dim = function (_match) {
 
         var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
@@ -3670,12 +3601,107 @@ $(document).ready(function() {
 
         ub.funcs.dim(_match);
 
+        var simple_mode = true;
+
+        var _header_text = '';
+
+        if (simple_mode === true) {
+
+            var _matching_side = '';
+
+            ub.interacted = {
+
+                previous: {
+
+                    name: ub.interacted.current.name,
+
+                },
+
+                current: {
+
+                    name: _match,
+
+                },
+
+            };
+
+            if (!ub.data.whiteList.isSublimatedAndSeparated(_match)) {
+
+                if (_match.indexOf('left_') !== -1 || _match.indexOf('right_') !== -1) {
+
+                    if(typeof ub.interacted.previous.name !== "undefined" && typeof ub.interacted.previous.name !== undefined) {
+        
+                        var previous_name = ub.interacted.previous.name.replace('right_','').replace('left_','');
+                        var actual = _match.replace('right_','').replace('left_','');
+
+                        if (previous_name === actual) {
+
+                            if (!ub.same_here_once) {
+
+                                ub.funcs.create_plugins(_match, 'single');
+                                _header_text = ub.active_part.toTitleCase();
+
+                                var _object = ub.objects[ub.active_view + '_view'][_match];
+
+                                ub.funcs.setAlphaOn(_object);
+                                ub.same_here_once = true;
+
+                                return _header_text;
+                            }    
+
+                        }
+                        else {
+
+                            ub.same_here_once = false;
+
+                        }
+        
+                    }
+                    
+                }
+
+                if (_match.indexOf('left_') !== -1){
+
+                    _matching_side = _match.replace('left_','right_');
+
+                    var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+
+                    ub.funcs.setAlphaOn(_matching_object);
+                    ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+                } else if (_match.indexOf('right_') !== -1){
+
+                    _matching_side = _match.replace('right_','left_');
+
+                    var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+
+                    ub.funcs.setAlphaOn(_matching_object);
+                    ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+                }
+                else {
+
+                    ub.funcs.create_plugins(_match, 'single');
+
+                }
+
+                _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
+
+            }
+
+
+        }
+        else {
+
+            ub.funcs.create_plugins(_match, 'single');
+            _header_text = ub.active_part.toTitleCase();
+
+        }    
+
         var _object = ub.objects[ub.active_view + '_view'][_match];
 
         ub.funcs.setAlphaOn(_object);
         ub.same_here_once = false;
-
-        _header_text = ub.active_part.toTitleCase();
 
         return _header_text;
 
@@ -3849,8 +3875,18 @@ $(document).ready(function() {
                 // if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
 
                 var _match  = _.first(results).name.toCodeCase();
-                var _result = _match;
-                // var _result = _match.replace('right_','left_');
+                var _result;
+
+                if (!ub.data.whiteList.isSublimatedAndSeparated(_match)) {
+                 
+                    _result = _match.replace('right_','left_');
+
+                } else {
+
+                    _result = _match;
+
+                }
+                
                 var _obj    = _.find(ub.data.modifierLabels, {fullname: _result});
                 var _index  = ub.funcs.getIndexByName(_result);
 
@@ -3998,45 +4034,47 @@ $(document).ready(function() {
             var _object = ub.objects[_active_view][_match];
             ub.funcs.setAlphaOn(_object);
 
-            //var simple_mode = $('input#simple_toggle').is(":checked");
+            // var simple_mode = $('input#simple_toggle').is(":checked");
 
-            // var simple_mode = true; // Turn this on by default
+            var simple_mode = true; // Turn this on by default
 
-            // if (simple_mode === true) { 
+            if (simple_mode === true) {
 
-            //     /// Matching Side 
-            //     var _matching_side = '';
+                /// Matching Side 
+                var _matching_side = '';
 
-            //     if (_match.indexOf('left_') !== -1) {
+                if (!ub.data.whiteList.isSublimatedAndSeparated(_match)) {
 
-            //         _matching_side = _match.replace('left_','right_');
-            //         var _matching_object = ub.objects[_active_view][_matching_side];
-            //         ub.funcs.setAlphaOn(_matching_object);
+                    if (_match.indexOf('left_') !== -1) {
 
-            //         if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
+                        _matching_side = _match.replace('left_','right_');
+                        var _matching_object = ub.objects[_active_view][_matching_side];
+                        ub.funcs.setAlphaOn(_matching_object);
 
-            //             ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+                        if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
 
-            //         }
+                            ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
 
-            //     } else if (_match.indexOf('right_') !== -1){
+                        }
 
-            //         _matching_side = _match.replace('right_','left_');
+                    } else if (_match.indexOf('right_') !== -1){
 
-            //         var _matching_object = ub.objects[_active_view][_matching_side];
-            //         ub.funcs.setAlphaOn(_matching_object);
+                        _matching_side = _match.replace('right_','left_');
 
-            //         if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
+                        var _matching_object = ub.objects[_active_view][_matching_side];
+                        ub.funcs.setAlphaOn(_matching_object);
 
-            //             ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+                        if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
 
-            //         }
+                            ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
 
-            //     }
+                        }
 
-            //     /// End Matching Side 
+                    }
+                }
+                /// End Matching Side 
 
-            // }
+            }
 
             var _object = ub.objects[_active_view][_match];
             ub.funcs.setAlphaOn(_object);

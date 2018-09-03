@@ -152,13 +152,26 @@ $( document ).ready(function() {
 
     };
 
+    /**
+    * @desc this helper function prepare the material modifier label
+    * @return string _result
+    */
     String.prototype.prepareModifierLabel = function () {
 
         var fullStringValue = this.toString();
         var _result = '';
 
         _result = fullStringValue.replace(' ', '');
-        // _result = fullStringValue.replace('left_','').replace('right_','');
+
+        // If `fullStringValue` is not on the whitelist
+        // and the current material `application type` is `sublimated`
+        // then remove the `left_` and `right_` prefix
+        if (!ub.data.whiteList.isSublimatedAndSeparated(fullStringValue)) {
+        
+            _result = fullStringValue.replace('left_','').replace('right_','');
+        
+        }
+
         _result = _result.toTitleCase();
 
         return _result;
