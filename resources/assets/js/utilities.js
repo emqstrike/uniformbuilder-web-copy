@@ -169,6 +169,18 @@ $( document ).ready(function() {
         if (!ub.data.whiteList.isSublimatedAndSeparated(fullStringValue)) {
         
             _result = fullStringValue.replace('left_','').replace('right_','');
+
+            // Exception: if the uniform type is `tackle twill` and uniform category is `Football 2017`
+            // then allow the separation of left sleeve to right sleeve, just like in `sublimated` material
+            if (ub.funcs.isTackleTwill() && ub.current_material.material.uniform_category === "Football 2017") {
+
+                if (fullStringValue === 'left_sleeve' || fullStringValue === 'right_sleeve') {
+
+                    _result = fullStringValue.replace(' ', '');
+
+                }
+
+            }
         
         }
 

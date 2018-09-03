@@ -3685,6 +3685,18 @@ $(document).ready(function() {
 
                 }
 
+                // If uniform type is `tackle twill` and uniform category is `Football 2017`
+                // then allow the separation of left sleeve to right sleeve, just like in `sublimated` material
+                if (ub.funcs.isTackleTwill() && ub.current_material.material.uniform_category === "Football 2017") {
+
+                    if (_match === 'left_sleeve' || _match === 'right_sleeve') {
+
+                        ub.funcs.dim(_match);
+
+                    }
+
+                }
+
                 _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
 
             }
@@ -3881,6 +3893,18 @@ $(document).ready(function() {
                  
                     _result = _match.replace('right_','left_');
 
+                    // If uniform type is `tackle twill` and uniform category is `Football 2017`
+                    // then allow the separation of left sleeve to right sleeve, just like in `sublimated` material
+                    if (ub.funcs.isTackleTwill() && ub.current_material.material.uniform_category === "Football 2017") {
+
+                        if (_match === 'left_sleeve' || _match === 'right_sleeve') {
+
+                            _result = _match;
+
+                        }
+
+                    }
+
                 } else {
 
                     _result = _match;
@@ -4071,6 +4095,19 @@ $(document).ready(function() {
                         }
 
                     }
+
+                    // If uniform type is `tackle twill` and uniform category is `Football 2017`
+                    // then allow the separation of left sleeve to right sleeve, just like in `sublimated` material
+                    if (ub.funcs.isTackleTwill() && ub.current_material.material.uniform_category === "Football 2017") {
+
+                        if (_match === 'left_sleeve' || _match === 'right_sleeve') {
+
+                            ub.funcs.dim(_match);
+
+                        }
+
+                    }
+
                 }
                 /// End Matching Side 
 
@@ -6490,7 +6527,6 @@ $(document).ready(function() {
     ub.funcs.isTackleTwill = function () {
         return ub.config.uniform_application_type === "tackle_twill";
     }
-
 
     ub.funcs.isSublimated = function () {
         return ub.config.uniform_application_type === "sublimated";

@@ -52,6 +52,19 @@ $(document).ready(function () {
                 names.push(match);
             }
 
+            // If uniform type is `tackle twill` and uniform category is `Football 2017`
+            // then allow the separation of left sleeve to right sleeve, just like in `sublimated` material
+            if (ub.funcs.isTackleTwill() && ub.current_material.material.uniform_category === "Football 2017") {
+
+                if (name === 'left_sleeve' || name === 'right_sleeve') {
+
+                    names = [];
+                    names.push(name);
+
+                }
+
+            }
+
         }
 
         return names;
