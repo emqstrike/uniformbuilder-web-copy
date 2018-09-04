@@ -8615,6 +8615,12 @@ ub.funcs.fontOffSets = [
             {
                 sport: 'Baseball',
                 applicationNumber: '5',
+                size: 4,
+                pullUpHeight: 0,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '5',
                 size: 3,
                 pullUpHeight: 0,
             },
