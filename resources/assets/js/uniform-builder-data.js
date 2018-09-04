@@ -12367,6 +12367,7 @@ ub.funcs.fontOffSets = [
             },
 
         ],
+        
         getSortID: function (blockPatternName) {
 
             var _result = undefined;
