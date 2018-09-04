@@ -2161,7 +2161,7 @@ class UniformBuilderController extends Controller
 
     }
 
-    public function generateLegacy(Request $request, $orderId){
+    public function generateLegacy($orderId){
 
         Log::info('GENERATING LEGACY PDF===> ' . $orderId);
 
@@ -2697,6 +2697,17 @@ class UniformBuilderController extends Controller
         if ($order)
         {
             return self::loadOrder($order->order_id);
+        }
+        return redirect('index');
+    }
+
+    public function generateLegacyByFOID($foid)
+    {
+        $order = $this->ordersClient->searchOrderByFOID($foid);
+
+        if ($order)
+        {
+            return self::generateLegacy($order->order_id);
         }
         return redirect('index');
     }
