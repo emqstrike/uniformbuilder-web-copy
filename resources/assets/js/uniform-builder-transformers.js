@@ -72,6 +72,7 @@ $(document).ready(function () {
                 sports: JSON.parse(_object.sports),
                 blockPatternOptions: JSON.parse(_object.block_pattern_options),
                 layers: [],
+                thumbnailLayers: [],
                 asset_target: _object.asset_target,
             };
 
@@ -84,11 +85,26 @@ $(document).ready(function () {
                      default_color: ub.funcs.getHexColorByCode(_patternProperty.default_color),
                      layer_no: parseInt(_patternProperty.layer),
                      filename: _patternProperty.file_path,
+                     lowres_filename: _patternProperty.lowres_file_path,
                      team_color_id: _patternProperty.team_color_id,
 
                 };
 
                 _newObject.layers.push(_layer);
+
+                // add a new array field called thumbnailLayers in ub.data.patterns
+                // this contains the necessary data for the thumbnail
+                var tlayer = {
+
+                     default_color: _patternProperty.default_color,
+                     hex_code: ub.funcs.getHexColorByCode(_patternProperty.default_color),
+                     layer_no: parseInt(_patternProperty.layer),
+                     filename: _patternProperty.lowres_file_path,
+                     team_color_id: _patternProperty.team_color_id,
+
+                };
+
+                _newObject.thumbnailLayers.push(tlayer);
 
             });
 

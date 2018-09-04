@@ -1638,7 +1638,7 @@ $(document).ready(function() {
         // });
 
         sprite.mouseover = function(data) {
-
+            
             var icon = '';
 
             if (type === 'move') {
@@ -3193,6 +3193,7 @@ $(document).ready(function() {
         return ub.funcs.pointIsInPoly(point, _transformed_boundaries);
 
     }
+    
     ub.funcs.withinMaterialOption = function (point) {
 
         var _results = [];
@@ -3229,6 +3230,10 @@ $(document).ready(function() {
 
     }
 
+    /*
+    * @desc dim all material parts in sprite except the part where the mouse is hover
+    * @oaram string _match ('front_body', 'left_sleeve', 'right_sleeve', 'team-colors', 'back_body', 'prolook')
+    */
     ub.funcs.dim = function (_match) {
 
         var _materialOptions = ub.data.boundaries_transformed_one_dimensional[ub.active_view];
@@ -3244,7 +3249,7 @@ $(document).ready(function() {
         });
 
         _.each (ub.objects[ub.active_view + "_view"], function (object) {
-
+            
             if (typeof object.name === "undefined") { return; }
 
             if (object.name !== null) {
@@ -3479,18 +3484,130 @@ $(document).ready(function() {
 
     }
 
+    // ub.funcs.match = function (_match) {
+
+    //     ub.funcs.dim(_match);
+
+    //     // var simple_mode = $('input#simple_toggle').is(":checked");
+    //     var simple_mode = true; // Force Simple Mode By Default for now
+
+    //     if (simple_mode === true) {
+
+    //         /// Matching Side
+    //         var _matching_side = '';
+    //         /// 
+
+    //         ub.interacted = {
+
+    //             previous: {
+
+    //                 name: ub.interacted.current.name,
+
+    //             },
+
+    //             current: {
+
+    //                 name: _match,
+
+    //             },
+
+    //         };
+
+    //         if (_match.indexOf('left_') !== -1 || _match.indexOf('right_') !== -1) {
+
+    //             if(typeof ub.interacted.previous.name !== "undefined" && typeof ub.interacted.previous.name !== undefined) {
+    
+    //                 var previous_name = ub.interacted.previous.name.replace('right_','').replace('left_','');
+    //                 var actual = _match.replace('right_','').replace('left_','');
+
+    //                 if (previous_name === actual) {
+
+    //                     if (!ub.same_here_once) {
+
+    //                         ub.funcs.create_plugins(_match, 'single');
+    //                         _header_text = ub.active_part.toTitleCase();
+
+    //                         var _object = ub.objects[ub.active_view + '_view'][_match];
+    //                         ub.funcs.setAlphaOn(_object);
+
+    //                         ub.same_here_once = true;
+
+    //                         return _header_text;
+    //                     }    
+
+    //                 }
+    //                 else {
+
+    //                     ub.same_here_once = false;
+
+    //                 }
+    
+    //             }
+                
+    //         }
+
+    //         ///
+
+
+    //         if (_match.indexOf('left_') !== -1){
+
+    //             _matching_side = _match.replace('left_','right_');
+
+    //             var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+    //             ub.funcs.setAlphaOn(_matching_object);
+    //             ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+    //         } else if (_match.indexOf('right_') !== -1){
+
+    //             _matching_side = _match.replace('right_','left_');
+
+    //             var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+    //             ub.funcs.setAlphaOn(_matching_object);
+    //             ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+    //         }
+    //         else {
+
+    //             ub.funcs.create_plugins(_match, 'single');
+
+    //         }
+    //         /// End Matching Side 
+
+    //         _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
+
+    //     }
+    //     else {
+
+    //         ub.funcs.create_plugins(_match, 'single');
+    //         _header_text = ub.active_part.toTitleCase();
+
+    //     }    
+
+    //     var _object = ub.objects[ub.active_view + '_view'][_match];
+
+    //     ub.funcs.setAlphaOn(_object);
+    //     ub.same_here_once = false;
+
+    //     return _header_text;
+
+    // }
+
+    /*
+    * @desc set the part (e.g. Front Body, Left Sleeve, Right Sleeve, etc. etc.) sprite alpha to 1 if clicked and 0.3 to the rest parts which are not clicked
+    * @oaram string _match ('front_body', 'left_sleeve', 'right_sleeve', 'team-colors', 'back_body', 'prolook')
+    * @return string _header_text, set the right panel heading text according to the clicked part
+    */
     ub.funcs.match = function (_match) {
 
         ub.funcs.dim(_match);
 
-        // var simple_mode = $('input#simple_toggle').is(":checked");
-        var simple_mode = true; // Force Simple Mode By Default for now
+        var simple_mode = true;
+
+        var _header_text = '';
 
         if (simple_mode === true) {
 
-            /// Matching Side
             var _matching_side = '';
-            /// 
 
             ub.interacted = {
 
@@ -3508,65 +3625,82 @@ $(document).ready(function() {
 
             };
 
-            if (_match.indexOf('left_') !== -1 || _match.indexOf('right_') !== -1) {
+            if (!ub.data.whiteList.isSublimatedAndSeparated(_match)) {
 
-                if(typeof ub.interacted.previous.name !== "undefined" && typeof ub.interacted.previous.name !== undefined) {
-    
-                    var previous_name = ub.interacted.previous.name.replace('right_','').replace('left_','');
-                    var actual = _match.replace('right_','').replace('left_','');
+                if (_match.indexOf('left_') !== -1 || _match.indexOf('right_') !== -1) {
 
-                    if (previous_name === actual) {
+                    if(typeof ub.interacted.previous.name !== "undefined" && typeof ub.interacted.previous.name !== undefined) {
+        
+                        var previous_name = ub.interacted.previous.name.replace('right_','').replace('left_','');
+                        var actual = _match.replace('right_','').replace('left_','');
 
-                        if (!ub.same_here_once) {
+                        if (previous_name === actual) {
 
-                            ub.funcs.create_plugins(_match, 'single');
-                            _header_text = ub.active_part.toTitleCase();
+                            if (!ub.same_here_once) {
 
-                            var _object = ub.objects[ub.active_view + '_view'][_match];
-                            ub.funcs.setAlphaOn(_object);
+                                ub.funcs.create_plugins(_match, 'single');
+                                _header_text = ub.active_part.toTitleCase();
 
-                            ub.same_here_once = true;
+                                var _object = ub.objects[ub.active_view + '_view'][_match];
 
-                            return _header_text;
-                        }    
+                                ub.funcs.setAlphaOn(_object);
+                                ub.same_here_once = true;
 
+                                return _header_text;
+                            }    
+
+                        }
+                        else {
+
+                            ub.same_here_once = false;
+
+                        }
+        
                     }
-                    else {
-
-                        ub.same_here_once = false;
-
-                    }
-    
+                    
                 }
-                
+
+                if (_match.indexOf('left_') !== -1){
+
+                    _matching_side = _match.replace('left_','right_');
+
+                    var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+
+                    ub.funcs.setAlphaOn(_matching_object);
+                    ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+                } else if (_match.indexOf('right_') !== -1){
+
+                    _matching_side = _match.replace('right_','left_');
+
+                    var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
+
+                    ub.funcs.setAlphaOn(_matching_object);
+                    ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
+
+                }
+                else {
+
+                    ub.funcs.create_plugins(_match, 'single');
+
+                }
+
+                // If uniform type is `tackle twill` and uniform category is `Football 2017`
+                // then allow the separation of left sleeve to right sleeve, just like in `sublimated` material
+                if (ub.funcs.isTackleTwill() && ub.current_material.material.uniform_category === "Football 2017") {
+
+                    if (_match === 'left_sleeve' || _match === 'right_sleeve') {
+
+                        ub.funcs.dim(_match);
+
+                    }
+
+                }
+
+                _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
+
             }
 
-            ///
-
-            if (_match.indexOf('left_') !== -1){
-
-                _matching_side = _match.replace('left_','right_');
-                var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                ub.funcs.setAlphaOn(_matching_object);
-                ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
-
-            } else if (_match.indexOf('right_') !== -1){
-
-                _matching_side = _match.replace('right_','left_');
-
-                var _matching_object = ub.objects[ub.active_view + '_view'][_matching_side];
-                ub.funcs.setAlphaOn(_matching_object);
-                ub.funcs.create_plugins(_match, 'withMatch', _matching_side);
-
-            }
-            else {
-
-                ub.funcs.create_plugins(_match, 'single');
-
-            }
-            /// End Matching Side 
-
-            _header_text = ub.active_part.toTitleCase().replace('Left ', '').replace('Right ','');
 
         }
         else {
@@ -3753,11 +3887,34 @@ $(document).ready(function() {
                 // if(_originalName.indexOf('Right') > -1) { $('a.change-view[data-view="right"]').trigger('click'); }
 
                 var _match  = _.first(results).name.toCodeCase();
-                var _result = _match.replace('right_','left_');
+                var _result;
+
+                if (!ub.data.whiteList.isSublimatedAndSeparated(_match)) {
+                 
+                    _result = _match.replace('right_','left_');
+
+                    // If uniform type is `tackle twill` and uniform category is `Football 2017`
+                    // then allow the separation of left sleeve to right sleeve, just like in `sublimated` material
+                    if (ub.funcs.isTackleTwill() && ub.current_material.material.uniform_category === "Football 2017") {
+
+                        if (_match === 'left_sleeve' || _match === 'right_sleeve') {
+
+                            _result = _match;
+
+                        }
+
+                    }
+
+                } else {
+
+                    _result = _match;
+
+                }
+                
                 var _obj    = _.find(ub.data.modifierLabels, {fullname: _result});
                 var _index  = ub.funcs.getIndexByName(_result);
 
-                ub.funcs.activatePartByIndex(_index);   
+                ub.funcs.activatePartByIndex(_index);
 
             }
             else {
@@ -3901,42 +4058,57 @@ $(document).ready(function() {
             var _object = ub.objects[_active_view][_match];
             ub.funcs.setAlphaOn(_object);
 
-            //var simple_mode = $('input#simple_toggle').is(":checked");
+            // var simple_mode = $('input#simple_toggle').is(":checked");
 
             var simple_mode = true; // Turn this on by default
 
-            if (simple_mode === true) { 
+            if (simple_mode === true) {
 
                 /// Matching Side 
                 var _matching_side = '';
 
-                if (_match.indexOf('left_') !== -1) {
+                if (!ub.data.whiteList.isSublimatedAndSeparated(_match)) {
 
-                    _matching_side = _match.replace('left_','right_');
-                    var _matching_object = ub.objects[_active_view][_matching_side];
-                    ub.funcs.setAlphaOn(_matching_object);
+                    if (_match.indexOf('left_') !== -1) {
 
-                    if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
+                        _matching_side = _match.replace('left_','right_');
+                        var _matching_object = ub.objects[_active_view][_matching_side];
+                        ub.funcs.setAlphaOn(_matching_object);
 
-                        ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+                        if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
+
+                            ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+
+                        }
+
+                    } else if (_match.indexOf('right_') !== -1){
+
+                        _matching_side = _match.replace('right_','left_');
+
+                        var _matching_object = ub.objects[_active_view][_matching_side];
+                        ub.funcs.setAlphaOn(_matching_object);
+
+                        if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
+
+                            ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+
+                        }
 
                     }
 
-                } else if (_match.indexOf('right_') !== -1){
+                    // If uniform type is `tackle twill` and uniform category is `Football 2017`
+                    // then allow the separation of left sleeve to right sleeve, just like in `sublimated` material
+                    if (ub.funcs.isTackleTwill() && ub.current_material.material.uniform_category === "Football 2017") {
 
-                    _matching_side = _match.replace('right_','left_');
+                        if (_match === 'left_sleeve' || _match === 'right_sleeve') {
 
-                    var _matching_object = ub.objects[_active_view][_matching_side];
-                    ub.funcs.setAlphaOn(_matching_object);
+                            ub.funcs.dim(_match);
 
-                    if (typeof ub.objects[_active_view]['pattern_' + _matching_side] !== 'undefined') {
-
-                        ub.funcs.setAlphaOn(ub.objects[_active_view]['pattern_' + _matching_side]);
+                        }
 
                     }
 
                 }
-
                 /// End Matching Side 
 
             }
@@ -4118,7 +4290,7 @@ $(document).ready(function() {
 
         strBuilder += '<div class="pd-dropdown-links" data-ctr="0" data-group-id="0" data-fullname="team-colors" data-name="team-colors">' + '<i>Initialize</i> Team Colors</div>';
 
-        _.each(_sortedModifierLabels, function (label){
+        _.each(_sortedModifierLabels, function (label) {
 
             label.index = _ctr;
 
@@ -5197,7 +5369,7 @@ $(document).ready(function() {
     } 
 
     ub.funcs.createSmallColorPickers = function (activeColorCode, layer_no, layer_name, active_color, objectType) {
-
+        
         var _html       = "";
         var _cObj       = ub.funcs.getColorByColorCode(activeColorCode);
         var _teamColors = ub.current_material.settings.team_colors;
@@ -5615,7 +5787,7 @@ $(document).ready(function() {
                 $('div.patternPopupResults > div.item').on('click', function () {
 
                     var _id = $(this).data('mascot-id');
-
+                    
                     ub.funcs.changeMascotByID(_id, settingsObj);
 
                 });
@@ -6356,7 +6528,6 @@ $(document).ready(function() {
         return ub.config.uniform_application_type === "tackle_twill";
     }
 
-
     ub.funcs.isSublimated = function () {
         return ub.config.uniform_application_type === "sublimated";
     }
@@ -6455,7 +6626,7 @@ $(document).ready(function() {
     }
 
     ub.funcs.activateMascots = function (application_id) {
-
+        
         if (ub.funcs.popupsVisible()) { return; }
         if (!ub.funcs.okToStart())    { return; }
 
@@ -6565,12 +6736,11 @@ $(document).ready(function() {
 
         }
 
-
         var _mascotObj          = _settingsObject.mascot;
         var _currentSize        = _settingsObject.size;
         var _colorArray         = _settingsObject.color_array;
         var _mascotName         = _mascotObj.name;
-        var _mascotIcon         = _mascotObj.icon;
+        // var _mascotIcon         = _mascotObj.icon;
         var _title              = _applicationType.toTitleCase();
         var _htmlBuilder        = "";
         var _appActive          = 'checked';
@@ -6640,7 +6810,10 @@ $(document).ready(function() {
             }
 
         }
-   
+
+        // generate the mascot thumbnail preview
+        var _mascotIcon = ub.funcs.setMascotThumbnail(_settingsObject);
+
         _htmlBuilder += ub.funcs.generateSizes(_applicationType, _inputSizes, _settingsObject, _id);
 
         _htmlBuilder        +=          '</div>';
@@ -6811,7 +6984,7 @@ $(document).ready(function() {
                 var _extension = _filename.split('.').pop();
 
                 $prevImage = $('span.accentThumb > img');
-    
+
                 if (_extension === 'gif' || _extension === 'jpg' || _extension === 'bmp' || _extension === 'png' || _extension === 'jpeg') {
 
                     $prevImage.attr('src', _filename);                        
@@ -7111,7 +7284,7 @@ $(document).ready(function() {
             });
 
             $('span.colorItem').on('click', function () {
-
+                
                 var _layer_no   = $(this).data('layer-no');
                 var _color_code = $(this).data('color-code');
                 var _layer_name = $(this).data('layer-name');
@@ -7173,7 +7346,11 @@ $(document).ready(function() {
                     }
 
                 }
-   
+
+                // debounce the ub.funcs.setMascotThumbnailInColorPicker every 300ms
+                // this is to avoid ajax traffic when onlick is triggered in color picker
+                _.debounce(ub.funcs.setMascotThumbnailInColorPicker(_settingsObject), 300);
+
             });
 
         // End Small Color Pickers
@@ -7618,7 +7795,7 @@ $(document).ready(function() {
     }
 
     ub.funcs.changeApplicationType = function (settingsObject, type) {
-
+        
         var _settingsObject = settingsObject;
         var _type           = type;
         var _id             = parseInt(_settingsObject.code);

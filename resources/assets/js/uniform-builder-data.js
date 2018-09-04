@@ -1951,6 +1951,81 @@ $(document).ready(function() {
         
     ];
 
+    // List of allowed separated parts
+    ub.data.whiteList = {
+
+        parts: [
+            {
+                name: "Left Sleeve",
+                alias: "left_sleeve",
+            },
+            {
+                name: "Right Sleeve",
+                alias: "right_sleeve",
+            },
+            {
+                name: "Left Cowl",
+                alias: "left_cowl",
+            },
+            {
+                name: "Right Cowl",
+                alias: "right_cowl",
+            },
+            {
+                name: "Left Sleeve Arm Trim",
+                alias: "left_sleeve_arm_trim",
+            },
+            {
+                name: "Right Sleeve Arm Trim",
+                alias: "right_sleeve_arm_trim",
+            },
+            {
+                name: "Left Sleeve Insert",
+                alias: "left_sleeve_insert",
+            },
+            {
+                name: "Right Sleeve Insert",
+                alias: "right_sleeve_insert",
+            }
+
+        ],
+
+        // Separate if the material application type is `sublimated`
+        isSublimatedAndSeparated: function(part) {
+
+            var _result = _.find(this.parts, {alias: part});
+
+            if (ub.funcs.isSublimated()) {
+
+                if (typeof _result !== "undefined") {
+
+                    return true;
+
+                }
+
+                return false;
+            }
+
+            return false;
+
+        },
+
+        isSeparated: function(part) {
+
+            var _result = _.find(this.parts, {alias: part});
+
+            if (typeof _result !== "undefined") {
+
+                return true;
+
+            }
+
+            return false;
+            
+        }
+
+    }
+
     ub.data.pipings                 = [];
 
     ub.data.searchSource            = {};
@@ -12367,7 +12442,6 @@ ub.funcs.fontOffSets = [
             },
 
         ],
-        
         getSortID: function (blockPatternName) {
 
             var _result = undefined;

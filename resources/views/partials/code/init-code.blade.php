@@ -9,6 +9,11 @@
         window.is           = {};
 
         window.ub.config = {
+
+            //Image Generator Info
+            ig_url: "{{ env('IG_URL') }}",
+            ig_key: "{{ env('IG_ACCESSKEY') }}",
+            
             brand: "{{ env('BRAND') }}",
             toString: false,
             app_env: "{{ env('APP_ENV') }}",
