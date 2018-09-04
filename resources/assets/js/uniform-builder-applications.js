@@ -9785,7 +9785,9 @@ $(document).ready(function() {
 
         if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
             // _sizes = _.find(ub.data.applicationSizesPant.items, {name: applicationType, sport: sport, id});   
+
             _sizes = ub.data.applicationSizesPant.getSize(applicationType, sport, parseInt(id));
+
         }
 
         if (typeof _sizes === 'undefined') {
@@ -9821,6 +9823,8 @@ $(document).ready(function() {
 
             if (ub.config.sport === "Lacrosse" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
             if (ub.config.sport === "Basketball" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
+            if (ub.config.sport === "Tennis" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
+
 
         }
 
