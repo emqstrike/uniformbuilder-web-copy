@@ -2615,4 +2615,15 @@ class UniformBuilderController extends Controller
 
     }
 
+    public function loadOrderbyFOID($foid)
+    {
+        $order = $this->ordersClient->searchOrderByFOID($foid);
+
+        if ($order)
+        {
+            return self::loadOrder($order->order_id);
+        }
+        return redirect('index');
+    }
+
 }
