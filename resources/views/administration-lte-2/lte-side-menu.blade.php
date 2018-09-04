@@ -59,6 +59,7 @@
             </li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/mascots"><i class="fa fa-futbol-o"></i> Mascots <span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
             <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/master_patterns"><i class="fa fa-table"></i> Patterns<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
+            <li><a href="/administration/{{ env('ENDPOINT_VERSION') }}/categories"><i class="fa fa-soccer-ball-o"></i> Uniform Category<span class="pull-right-container"><small class="label pull-right bg-green"><i class="fa fa-exclamation"></i></small></span></a></li>
           </ul>
         </li>
 
