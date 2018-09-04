@@ -2186,6 +2186,11 @@ $(document).ready(function() {
                 name: "Socks (Apparel)",
                 alias: "socks",
             },
+            { 
+                name: "Tennis",
+                alias: "tennis",
+            },
+
         ],
 
         getAlias: function (sportName) {
@@ -10002,6 +10007,7 @@ ub.funcs.fontOffSets = [
             'Socks (Apparel)',
             'Cage Jacket (Apparel)',
             'Wrestling 2018',
+            'Tennis',
         ],
         options: [
             'Fight Short',
