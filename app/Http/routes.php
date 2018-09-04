@@ -70,6 +70,7 @@ Route::get('/my-custom-artwork-requests', 'UniformBuilderController@myCustomArtw
 
 // Generate Legacy PDF
 Route::get('order/{orderId}/generatePDF', 'UniformBuilderController@generateLegacy');
+Route::get('order/generatePDFbyFOID/{foid}', 'UniformBuilderController@generateLegacyByFOID');
 
 // Display the Order
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');
