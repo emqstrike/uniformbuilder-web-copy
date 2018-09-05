@@ -53,12 +53,16 @@ class V1Menu
             return $menus;
         }
 
-        if ($menus && $this->allowedPages) {
-            if (! empty($userAllowedPages)) {
+        if ($menus) {
+            if ($this->allowedPages) {
                 $this->allowedPages = array_merge($this->allowedPages, $userAllowedPages);
+            } else {
+                $this->allowedPages = $userAllowedPages;
             }
+
             $menus = $this->getV1Menus($menus);
             $menus = $this->excludeParentMenusWithoutSubMenu($menus);
+            
             return $menus;
         }
 
