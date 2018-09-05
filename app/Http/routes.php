@@ -68,9 +68,14 @@ Route::get('/forgot-password', 'UniformBuilderController@forgotPassword');
 // Custom Artwork Requests
 Route::get('/my-custom-artwork-requests', 'UniformBuilderController@myCustomArtworkRequests');
 
+// Generate Legacy PDF
+Route::get('order/{orderId}/generatePDF', 'UniformBuilderController@generateLegacy');
+Route::get('order/generatePDFbyFOID/{foid}', 'UniformBuilderController@generateLegacyByFOID');
+
 // Display the Order
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
+Route::get('orderbyFOID/{foid}', 'UniformBuilderController@loadOrderbyFOID');
 
 Route::get('order/view/{orderId}', 'UniformBuilderController@viewOrder');
 
@@ -133,7 +138,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::post('account_settings/update', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@updateName']);
         Route::get('users/password_strength', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UsersController@passwordStrength']);
 
-        Route::get('ordersMinified', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified']);
+        // Route::get('ordersMinified', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified']);
+        Route::get('ordersMinified/{from?}/{to?}/{test_order?}', ['middleware' => 'adminAccess', 'uses' => 'Administration\OrdersController@ordersMinified']);
 
         Route::get('style_requests', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestIndex']);
         Route::get('style_request/add', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MasterPagesController@styleRequestAdd']);
