@@ -68,9 +68,14 @@ Route::get('/forgot-password', 'UniformBuilderController@forgotPassword');
 // Custom Artwork Requests
 Route::get('/my-custom-artwork-requests', 'UniformBuilderController@myCustomArtworkRequests');
 
+// Generate Legacy PDF
+Route::get('order/{orderId}/generatePDF', 'UniformBuilderController@generateLegacy');
+Route::get('order/generatePDFbyFOID/{foid}', 'UniformBuilderController@generateLegacyByFOID');
+
 // Display the Order
 Route::get('orderitem/{orderId}/{orderItemId}', 'UniformBuilderController@loadOrderItem');
 Route::get('order/{orderId}', 'UniformBuilderController@loadOrder');
+Route::get('orderbyFOID/{foid}', 'UniformBuilderController@loadOrderbyFOID');
 
 Route::get('order/view/{orderId}', 'UniformBuilderController@viewOrder');
 
@@ -161,6 +166,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
 
             Route::get('mascot_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MascotSizesController@index']);
             Route::get('application_sizes', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\ApplicationSizesController@index']);
+
+            Route::get('categories', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\UniformCategoriesController@index']);
         });
     });
 

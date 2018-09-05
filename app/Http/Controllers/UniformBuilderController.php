@@ -546,8 +546,8 @@ class UniformBuilderController extends Controller
             'render' => true
         ];
 
-        Log::info('(Request Before) Code  ' . $code);
-        Log::info('(Request Before) !isNull  ' . !is_null($code));
+//        Log::info('(Request Before) Code  ' . $code);
+//        Log::info('(Request Before) !isNull  ' . !is_null($code));
         Log::info('(Request Before) has Team Colors  ' . $request->has('team_colors'));
         Log::info('(Request Before) Team Colors  ' . $request->team_colors);
         Log::info('Request Object ' . $request);
@@ -1762,7 +1762,7 @@ class UniformBuilderController extends Controller
         $table .= $firstOrderItem['notes'];
         $table .= '</p>';
 
-        if ($firstOrderItem['additional_attachments'] !== "") {
+        if ($firstOrderItem['additional_attachments'] !== "" and $firstOrderItem['additional_attachments'] !== null) {
             $table .= '<br /><br />';
             $table .= '<strong>ATTACHMENT</strong>';
             $table .= '<p>';
@@ -1813,23 +1813,30 @@ class UniformBuilderController extends Controller
 
     }
 
-    function generatePDF ($builder_customizations) {
+    function generatePDF ($builder_customizations, $previousTransformedPath) {
 
         Log::info('Init Generate PDF');
 
         $pdf = new TCPDF();
 
         $filename = $this->getGUID();
-        $path = public_path('design_sheets/' . $filename . '.pdf');
 
-        $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
-        $sport = $bc['uniform_category'];
+        if ($previousTransformedPath) {
+            $path = public_path('design_sheets/' . substr($previousTransformedPath,15));
+        } else {
+            $path = public_path('design_sheets/' . $filename . '.pdf');
+        }
 
         $type = 'upper';
+
+        $bc = $builder_customizations['builder_customizations']['order_items'][0]['builder_customizations'];
+
+        $sport = $bc['uniform_category'];
 
         if (array_key_exists('material_id', $bc['lower'])) {
             $type = 'lower';
         }
+
 
         $uniform_category = $bc['uniform_category'];
 
@@ -2133,7 +2140,13 @@ class UniformBuilderController extends Controller
 
         if (env('APP_ENV') <> "local") { Slack::send($message); }
 
-        return $transformedPath;
+        if($previousTransformedPath) {
+            Log::info('Returning previous transformed path: ' . $previousTransformedPath);
+            return $previousTransformedPath;
+        } else {
+            Log::info('Returning transformed path: ' . $transformedPath);
+            return $transformedPath;
+        }
 
     }
 
@@ -2142,10 +2155,72 @@ class UniformBuilderController extends Controller
         $this->log_info('generateOrderForm');
 
         $r = $request->all();
-        $fname = $this->generatePDF($r);
+        $fname = $this->generatePDF($r, '');
 
         return response()->json(['success' => true, 'filename' => $fname ]);
 
+    }
+
+    public function generateLegacy($orderId){
+
+        Log::info('GENERATING LEGACY PDF===> ' . $orderId);
+
+        $orderInfo = $this->ordersClient->getOrderByOrderId($orderId);
+        $orderDetails = $this->ordersClient->getOrderItems($orderId);
+        $order = $this->ordersClient->getOrderItems($orderId);
+        $order = $order[0];
+        $settings = json_decode($order->builder_customizations, true);
+
+        if (isset($settings['upper']['material_id'])) {
+            $materialID = $settings['upper']['material_id'];
+            $appType = 'upper';
+        } else {
+            $materialID = $settings['lower']['material_id'];
+            $appType = 'lower';
+        }
+
+        $material = $this->materialsClient->getMaterial($materialID);
+
+        $builderItem[0] = array(
+            'material_id' => $materialID,
+            'description' => $orderDetails[0]->description,
+            'notes' => $orderDetails[0]->notes,
+            'additional_attachments' => $orderDetails[0]->additional_attachments,
+            'applicationType' => ucwords($material->uniform_application_type),
+            'sku' => $material->sku,
+            'url' => '/order/'.$orderId,
+            'type' => $appType,
+            'builder_customizations' => $settings
+        );
+
+        $bc = [
+            'builder_customizations' => [
+                'order' => [
+                    'client' => $orderInfo->client
+
+                ],
+                'order_items' => $builderItem
+            ]
+        ];
+
+        $fname = $this->generatePDF($bc, $settings['pdfOrderForm']);
+//        return response()->json(['success' => true, 'filename' => $fname ]);
+//        Log::info('OLD PDF FILE IS HERE===> ' . json_encode($settings));
+//        return view('editor.view-generated-pdf')->with('filename',$fname);
+
+        $params = [
+            'page_title' => env('APP_TITLE'),
+            'app_title' => env('APP_TITLE'),
+            'asset_version' => env('ASSET_VERSION'),
+            'asset_storage' => env('ASSET_STORAGE'),
+            'material_id' => -1,
+            'category_id' => -1,
+            'builder_customizations' => null,
+            'page' => 'view-generated-pdf',
+            'type' => 'view-generated-pdf',
+            'filename' => $fname
+        ];
+        return view('editor.view-generated-pdf', $params);
     }
 
     function createPDF ($builder_customizations) {
@@ -2613,6 +2688,28 @@ class UniformBuilderController extends Controller
 
         return view('editor.preview-embellishment', $params);
 
+    }
+
+    public function loadOrderbyFOID($foid)
+    {
+        $order = $this->ordersClient->searchOrderByFOID($foid);
+
+        if ($order)
+        {
+            return self::loadOrder($order->order_id);
+        }
+        return redirect('index');
+    }
+
+    public function generateLegacyByFOID($foid)
+    {
+        $order = $this->ordersClient->searchOrderByFOID($foid);
+
+        if ($order)
+        {
+            return self::generateLegacy($order->order_id);
+        }
+        return redirect('index');
     }
 
 }

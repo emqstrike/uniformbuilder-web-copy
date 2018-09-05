@@ -2186,6 +2186,11 @@ $(document).ready(function() {
                 name: "Socks (Apparel)",
                 alias: "socks",
             },
+            { 
+                name: "Tennis",
+                alias: "tennis",
+            },
+
         ],
 
         getAlias: function (sportName) {
@@ -8463,7 +8468,7 @@ ub.funcs.fontOffSets = [
             },
             {
                 sport: 'Baseball',
-                fontName: 'Impact',
+                fontName: 'Impact Baseball',
             },
             {
                 sport: 'Fastpitch',
@@ -8606,6 +8611,12 @@ ub.funcs.fontOffSets = [
                 applicationNumber: '27',
                 size: 2,
                 pullUpHeight: -35,
+            },
+            {
+                sport: 'Baseball',
+                applicationNumber: '5',
+                size: 4,
+                pullUpHeight: 0,
             },
             {
                 sport: 'Baseball',
@@ -10002,6 +10013,7 @@ ub.funcs.fontOffSets = [
             'Socks (Apparel)',
             'Cage Jacket (Apparel)',
             'Wrestling 2018',
+            'Tennis',
         ],
         options: [
             'Fight Short',
@@ -10625,6 +10637,10 @@ ub.funcs.fontOffSets = [
                 set: 'Toe',
                 order: 5,
             },
+            {
+                set: 'Ankle Padding',
+                order: 6,
+            }, 
         ],
 
         getSortID: function (set) { 
