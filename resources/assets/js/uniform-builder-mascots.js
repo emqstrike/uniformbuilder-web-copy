@@ -81,11 +81,7 @@ $(document).ready(function() {
                 },
                 body: {
                     layers_properties: layersProperties,
-                    low_res_size: {
-                       w: 125,
-                       h: 125
-                    },
-                    high_res_size: {
+                    size: {
                        w: 256,
                        h: 256
                     }
@@ -102,7 +98,7 @@ $(document).ready(function() {
             */
             ub.utilities.generateImage(config, function(response) {
                 
-                thumbnail = response.highres_url;
+                thumbnail = response.image.encoded;
 
                 $("span.accentThumb > img").attr("src", thumbnail);
 
@@ -164,11 +160,7 @@ $(document).ready(function() {
             },
             body: {
                 layers_properties: layersProperties,
-                low_res_size: {
-                   w: 125,
-                   h: 125
-                },
-                high_res_size: {
+                size: {
                    w: 256,
                    h: 256
                 }
@@ -183,7 +175,7 @@ $(document).ready(function() {
         */   
         ub.utilities.generateImage(config, function(response) {
             
-            thumbnail = response.highres_url;
+            thumbnail = response.image.encoded;
 
             $("span.accentThumb > img").attr("src", thumbnail);
 

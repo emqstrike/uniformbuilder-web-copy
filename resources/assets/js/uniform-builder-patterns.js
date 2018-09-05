@@ -148,11 +148,7 @@ $(document).ready(function () {
                 },
                 body: {
                     layers_properties: layersProperties,
-                    low_res_size: {
-                       w: 150,
-                       h: 150
-                    },
-                    high_res_size: {
+                    size: {
                        w: 200,
                        h: 200
                     }
@@ -168,8 +164,8 @@ $(document).ready(function () {
             * Callback: display the generated image in div#imagePreview
             */
             ub.utilities.generateImage(config, function(response) {
-                
-                thumbnail = response.highres_url;
+
+                thumbnail = response.image.encoded;
 
                 $("#imagePreview").attr("src", thumbnail);
 
@@ -225,11 +221,7 @@ $(document).ready(function () {
             },
             body: {
                 layers_properties: layersProperties,
-                low_res_size: {
-                   w: 150,
-                   h: 150
-                },
-                high_res_size: {
+                size: {
                    w: 200,
                    h: 200
                 }
@@ -244,7 +236,7 @@ $(document).ready(function () {
         */
         ub.utilities.generateImage(config, function(response) {
             
-            thumbnail = response.highres_url;
+            thumbnail = response.image.encoded;
 
             $("#imagePreview").attr("src", thumbnail);
 
@@ -1092,40 +1084,6 @@ $(document).ready(function () {
     //     ub.funcs.createPatternPreview(_inputPattern);
 
     // };
-
-
-    /**
-    * @desc image generator
-    * @param obj config - contains the headers, body, url, layer_properties
-    * @callback cb - calls itself when the ajax request is successful
-    */
-    ub.funcs.generateImage = function(config, cb) {
-        
-        $.ajax({
-            url: config.url,
-            data: JSON.stringify(config.body),
-            type: "post", 
-            contentType: "application/json",
-            dataType: 'json',
-            headers: config.headers,
-            success: function (response) {
-                cb(response);
-            },
-            error: function(xhr, textStatus, error) {
-                
-                // If the generator failed to return the response thumbnail image
-                // then use an alternate thumbnail image
-                if (config.pattern !== 'undefined') { $("#imagePreview").attr("src", config.pattern.icon); }
-
-                console.log('=== Something went wrong! ===');
-                util.error('Failed in generating the preview image.');
-                util.error(xhr.status +  ': ' + xhr.statusText);
-
-            }
-        });
-
-    }
-
 
     /**
     * @desc display the pattern of the material
