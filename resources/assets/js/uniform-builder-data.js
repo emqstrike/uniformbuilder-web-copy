@@ -10637,6 +10637,10 @@ ub.funcs.fontOffSets = [
                 set: 'Toe',
                 order: 5,
             },
+            {
+                set: 'Ankle Padding',
+                order: 6,
+            }, 
         ],
 
         getSortID: function (set) { 
