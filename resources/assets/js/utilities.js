@@ -152,13 +152,38 @@ $( document ).ready(function() {
 
     };
 
+    /**
+    * @desc this helper function prepare the material modifier label
+    * @return string _result
+    */
     String.prototype.prepareModifierLabel = function () {
 
         var fullStringValue = this.toString();
         var _result = '';
 
         _result = fullStringValue.replace(' ', '');
-        _result = fullStringValue.replace('left_','').replace('right_','');
+
+        // If `fullStringValue` is not on the whitelist
+        // and the current material `application type` is `sublimated`
+        // then remove the `left_` and `right_` prefix
+        if (!ub.data.whiteList.isSublimatedAndSeparated(fullStringValue)) {
+        
+            _result = fullStringValue.replace('left_','').replace('right_','');
+
+            // Exception: if the uniform type is `tackle twill` and uniform category is `Football 2017`
+            // then allow the separation of left sleeve to right sleeve, just like in `sublimated` material
+            if (ub.funcs.isTackleTwill() && ub.current_material.material.uniform_category === "Football 2017") {
+
+                if (fullStringValue === 'left_sleeve' || fullStringValue === 'right_sleeve') {
+
+                    _result = fullStringValue.replace(' ', '');
+
+                }
+
+            }
+        
+        }
+
         _result = _result.toTitleCase();
 
         return _result;

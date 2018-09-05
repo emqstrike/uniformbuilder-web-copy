@@ -2553,6 +2553,64 @@
 
 </script>
 
+<script type="text/mustache" id="m-patterns-blank">
+
+    <div id="patternUI">
+        
+        <div class="patternName">
+            <label>Pattern Name: <span class="value">Blank</span></label>
+        </div>
+
+        <div class="patternPreviewContainer">
+            
+            <div class="blankPatternPreview">
+                <img src="@{{thumbnail}}">
+                <span class="caption simple-caption">
+                    <p>Click to Change Pattern</p>
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</script>
+
+<script type="text/mustache" id="m-patterns-unblank">
+
+    <div id="patternUI" style="padding: 0;">
+        <div id="applicationUI">
+            <div class="body">
+                <div class="ui-row">
+                    <div class="column1 applications patterns">
+                        <div class="sub1 patternThumb">
+
+                            <span class="pattern patternName">@{{name}}</span>
+                            <br />
+                            <div class="patternThumbPreview">
+                                <img src="@{{thumbnail}}" id="imagePreview"/>
+                            </div>
+                            <span class="pattern">Change Pattern</span>
+                            <br />
+                            <br />
+                            <span class="flipButton">Flip</span>
+
+                        </div>
+
+                        <div class="colorContainer">
+
+                            @{{{colorString}}}
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+
 <script type="text/mustache" id="m-patterns-panel">
 
     <div class="sub1 patternThumb">
@@ -3165,6 +3223,8 @@
     
     <script type="text/mustache" id="m-us-states">
 
+        <option value="0">Select your state</option>
+        
         @{{#states}}
             <option value="@{{code}}">@{{name}} (@{{code}})</option>
         @{{/states}}
@@ -3173,5 +3233,23 @@
 
 
 <!-- End States -->
+
+<!-- ORDER FORM Error list -->
+    
+    <script type="text/mustache" id="m-order-form-error">
+        
+        <ul style="display: table;margin: 0 auto;">
+            @{{#errors}}
+                <li>
+                    <span>@{{message}}</span>
+                    <a id="@{{id}}-btn" onClick="ub.funcs.gotoField('#@{{id}}')">Go to field.</a>
+                </li>
+            @{{/errors}}
+        </ul>
+
+    </script>
+
+
+<!-- End ORDER FORM Error list -->
 
 @include('partials.controls.team-store-products-picker')
