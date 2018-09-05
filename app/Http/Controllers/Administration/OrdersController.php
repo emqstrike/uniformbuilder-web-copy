@@ -29,10 +29,9 @@ class OrdersController extends Controller
             $to = Carbon::now()->format("Y-m-d");
         }
         if($test_order == null) {
-            $test_order = 0;
+            $test_order = 1;
         }
         $orders = $this->client->getOrdersMinified($from, $to, $test_order);
-        // $orders = $this->client->getOrdersMinified();
         foreach($orders as $order)
         {
             $order->created_at = date('M-d-Y', strtotime($order->created_at));
