@@ -46,6 +46,7 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th id="select-filter">Account Type</th>
+                                <th id="select-filter">Role</th>
                                 <th>Email</th>
                                 <th>Default Allowed Pages</th>
                                 <th>Allowed Pages</th>
@@ -62,6 +63,13 @@
                                 <td class="td-user-id">{{ $user->id }}</td>
                                 <td>{{ $user->first_name }} {{ $user->last_name }}<input type="hidden" class="user-first-name" value="{{ $user->first_name }}"><input type="hidden" class="user-last-name" value="{{ $user->last_name }}"></td>
                                 <td class="td-user-type">{{ ucfirst($user->type) }}</td>
+                                <td class="td-user role">
+                                    @if ($user->role)
+                                        {{ ucfirst($user->role) }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
                                 <td class="td-user-email">{{ $user->email }}</td>
                                 <td class="td-default-allowed-pages">
                                     @if ($user->default_allowed_pages)
@@ -254,9 +262,9 @@ $(document).ready(function(){
         $('.input-first-name').val('');
         $('.input-last-name').val('');
         $('.input-user-email').val('');
-        $('.user-type').val('normal');
-        $('.user-role').val('default');
-        $('.user-zip').val('');
+        $('.input-user-type').val('normal');
+        $('.input-user-role').val('default');
+        $('.input-user-zip').val('');
         $('.input-user-password').val('');
         $('.input-confirm-password').val('');
     });
