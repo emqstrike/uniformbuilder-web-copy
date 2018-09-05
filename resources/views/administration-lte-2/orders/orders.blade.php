@@ -20,6 +20,19 @@
                     <h1>
                         Orders
                     </h1>
+                    <hr>
+                    <label>DATE RANGE -- From:</label>
+                    <input type="text" id="from-date" value="{{ $from_date }}">
+                    <label>To:</label>
+                    <input type="text" id="to-date" value="{{ $to_date }}">
+                    <a href="#" class="btn btn-success btn-sm btn-flat date-range-filter">Go</a>
+                    <div class="pull-right">
+                        <label>Load Test Orders: </label>
+                        <select id="load-test-order">
+                            <option value="0" @if($test_order == 0) selected="selected"@endif>No</option>
+                            <option value="1" @if($test_order == 1) selected="selected"@endif>Yes</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="box-body">
@@ -97,6 +110,7 @@
 <script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="/js/bootbox.min.js"></script>
 <script type="text/javascript" src="/underscore/underscore.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -113,6 +127,9 @@ $(document).ready(function(){
             $('.rep-id').append(window.sales_reps_dd);
         }
     });
+
+    $('#to-date').datepicker({ format: 'yyyy-mm-dd'});
+    $('#from-date').datepicker({ format: 'yyyy-mm-dd' });
 
     window.roster = [];
     window.item_sizes = null;
@@ -161,6 +178,25 @@ $(document).ready(function(){
 
     console.log(window.qx_reps_url);
     console.log(window.sales_reps_dd);
+
+    $(document).on('click', '.date-range-filter', function(e) {
+        e.preventDefault();
+        $from = $('#from-date').val();
+        $to = $('#to-date').val();
+        $test_order = $('#load-test-order').val();
+        window.location = "/administration/v1-0/ordersMinified/"+$from+"/"+$to+"/"+$test_order;
+
+    });
+
+    $(document).on('change', '#load-test-order', function(e) {
+        e.preventDefault();
+        $test_order = $(this).val();
+        $from = $('#from-date').val();
+        $to = $('#to-date').val();
+        $test_order = $('#load-test-order').val();
+        window.location = "/administration/v1-0/ordersMinified/"+$from+"/"+$to+"/"+$test_order;
+
+    });
 
     $(document).on('change', '.rep-id', function(e) {
         var option_selected = $(this).val();
