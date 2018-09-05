@@ -10637,6 +10637,10 @@ ub.funcs.fontOffSets = [
                 set: 'Toe',
                 order: 5,
             },
+            {
+                set: 'Ankle Padding',
+                order: 6,
+            }, 
         ],
 
         getSortID: function (set) { 
@@ -12336,6 +12340,7 @@ ub.funcs.fontOffSets = [
             'Football 2017',
             'Wrestling 2018',
             'Tennis',
+            'Baseball',
         ],
         isValid: function (uniformCategory) {
 
