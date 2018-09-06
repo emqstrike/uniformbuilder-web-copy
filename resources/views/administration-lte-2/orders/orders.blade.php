@@ -26,6 +26,7 @@
                     <label>To:</label>
                     <input type="text" id="to-date" value="{{ $to_date }}">
                     <a href="#" class="btn btn-success btn-sm btn-flat date-range-filter">Go</a>
+                    <a href="/administration/v1-0/ordersMinified" class="btn btn-danger btn-sm btn-flat reset-date-range-filter">Reset</a>
                     <div class="pull-right">
                         <label>Load Test Orders: </label>
                         <select id="load-test-order">
