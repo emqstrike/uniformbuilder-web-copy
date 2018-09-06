@@ -1,7 +1,7 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="/css/libs/bootstrap-table/bootstrap-table.min.css">
+
 @endsection
 
 @section('custom-styles')
@@ -44,7 +44,7 @@
                             <th>Client</th>
                             <th>PDF Link</th>
                             <th>Submitted by User</th>
-                            <th>Test Order</th>
+                            <th id="select-filter">Test Order</th>
                             <th>FOID</th>
                             <th>Assigned Sales Rep</th>
                             <th>Date Submitted</th>
@@ -97,6 +97,20 @@
                     @endforelse
 
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                     </table>
                 </div>
             </div>
@@ -107,9 +121,6 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="/js/libs/bootstrap-table/bootstrap-table.min.js"></script>
-<script type="text/javascript" src="/js/bootbox.min.js"></script>
-<script type="text/javascript" src="/underscore/underscore.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -125,6 +136,26 @@ $(document).ready(function(){
             console.log( 'Table redrawn ' );
             $('.rep-id').html('<option value="0">Select Sales Rep</option>');
             $('.rep-id').append(window.sales_reps_dd);
+        },
+        initComplete: function () {
+        this.api().columns('#select-filter').every( function () {
+            var column = this;
+            var select = $(`<select><option value=""></option></select>`)
+                .appendTo( $(column.footer()).empty() )
+                .on( 'change', function () {
+                    var val = $.fn.dataTable.util.escapeRegex(
+                        $(this).val()
+                    );
+
+                    column
+                    .search( val ? '^'+val+'$' : '', true, false )
+                        .draw();
+                } );
+            column.data().unique().sort().each( function ( d, j ) {
+
+                select.append( `<option value="`+d+`">`+d+`</option>` );
+            } );
+        } );
         }
     });
 
