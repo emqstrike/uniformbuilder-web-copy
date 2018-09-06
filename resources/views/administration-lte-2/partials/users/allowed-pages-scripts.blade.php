@@ -28,6 +28,8 @@
             $('#type').val(data.type);
             $('#role').val(data.role);
 
+            console.log(data.role);
+
             var url = "{{ env('APP_URL') }}/administration/page_rule/" + data.type + "/" + data.role;
 
             $.get(url, function(data, status) {
