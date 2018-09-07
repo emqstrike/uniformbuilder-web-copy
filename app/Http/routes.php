@@ -174,6 +174,8 @@ Route::group(array('prefix' => 'administration', 'middleware' => 'disablePrevent
         Route::post('material_option/saveUpdates', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@updateMaterialOptions'])->name('v1_update_material_options');
         Route::post('material_option/saveMultiple', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@storeMultiple'])->name('v1_save_material_option');
         Route::post('material_option/saveApplications', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@saveApplications'])->name('v1_save_applications');
+        Route::post('material_option/save', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\MaterialsOptionsController@store'])->name('v1_save_material_option_info');
+
 
         Route::get('saved_designs/{currentPage?}', ['middleware' => 'adminAccess', 'uses' => 'AdministrationV2\SavedDesignsController@index'])->name('saved_designs');
 

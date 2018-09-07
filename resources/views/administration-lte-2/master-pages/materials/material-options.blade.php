@@ -478,7 +478,7 @@
     @include('administration-lte-2.master-pages.materials.modal.add-multiple-options-modal')
     @include('administration-lte-2.master-pages.materials.modal.material-option-boundary-modal')
     @include('administration-lte-2.master-pages.materials.modal.material-option-applications-modal')
-    @include('administration.materials.material-option-info-modal')
+    @include('administration-lte-2.master-pages.materials.modal.material-option-info-modal')
     @include('administration.materials.material-option-modal')
     @include('administration.materials.cleanup-material-modal')
     @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal'])

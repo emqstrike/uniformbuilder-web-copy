@@ -251,4 +251,129 @@ class MaterialsOptionsController extends Controller
             return redirect()->route('v1_materials_index')->with('message', 'There was a problem saving your material option');
         }
     }
+
+    public function store(Request $request)
+    {
+        $materialId = $request->input('material_id');
+        $materialOptionId = $request->input('material_option_id');
+        $materialObject = null;
+        $patternId = $request->input('pattern_id');
+        $pattern_properties = $request->input('pattern_properties');
+        if (!is_null($materialId))
+        {
+            $materialObject = $this->materialClient->getMaterial($materialId);
+        }
+
+        $materialFolder = null;
+        if (!is_null($materialObject))
+        {
+            $materialFolder = $materialObject->slug;
+        }
+
+        $materialOptionName = $request->input('name');
+        $settingType = $request->input('setting_type');
+        $partType = $request->input('part_type');
+        $layerLevel = $request->input('layer_level');
+        $teamColorId = $request->input('team_color_id');
+        $groupId = $request->input('group_id');
+        $defaultColor = $request->input('default_color');
+        $sublimatedDefaultColor = $request->input('sublimated_default_color');
+        $perspective = $request->input('perspective');
+        $colors = $request->input('colors');
+        $sublimated_colors = $request->input('sublimated_colors');
+        $gradients = $request->input('gradients');
+        $is_blend = is_null($request->input('is_blend')) ? 0 : 1;
+        $allow_pattern = is_null($request->input('allow_pattern')) ? 0 : 1;
+        $allow_gradient = is_null($request->input('allow_gradient')) ? 0 : 1;
+        $allow_color = is_null($request->input('allow_color')) ? 0 : 1;
+        $boundary_properties = $request->input('boundary_properties');
+        $applications_properties = $request->input('applications_properties');
+        $default_display = $request->input('default_display');
+        $build_type = $request->input('build_type');
+        $pattern_opacity = $request->input('pattern_opacity');
+
+        if( is_null($default_display) ){
+            $default_display = "color";
+        }
+
+        $data = [
+            'material_id' => $materialId,
+            'name' => $materialOptionName,
+            'setting_type' => $settingType,
+            // 'origin' => $origin,
+            'layer_level' => $layerLevel,
+            'team_color_id' => $teamColorId,
+            'group_id' => $groupId,
+            'default_color' => $defaultColor,
+            'sublimated_default_color' => $sublimatedDefaultColor,
+            'perspective' => $perspective,
+            'colors' => $colors,
+            'sublimated_colors' => $sublimated_colors,
+            'gradients' => $gradients,
+            'is_blend' => $is_blend,
+            'allow_pattern' => $allow_pattern,
+            'allow_gradient' => $allow_gradient,
+            'allow_color' => $allow_color,
+            'boundary_properties' => $boundary_properties,
+            'applications_properties' => $applications_properties,
+            'pattern_id' => $patternId,
+            'pattern_properties' => $pattern_properties,
+            'default_display' => $default_display,
+            'build_type' => $build_type,
+            'part_type' => $partType,
+            'pattern_opacity' => $pattern_opacity
+        ];
+
+        try
+        {
+
+            $materialOptionFile = $request->file('material_option_path');
+            if (!is_null($materialOptionFile))
+            {
+                if ($materialOptionFile->isValid())
+                {
+                    $filename = Random::randomize(12);
+                    $data['material_option_path'] = FileUploader::upload(
+                                                                $materialOptionFile,
+                                                                $materialOptionName,
+                                                                'material_option',
+                                                                "materials",
+                                                                "{$materialFolder}/options/{$settingType}/{$filename}.png"
+                                                            );
+                }
+            }
+        }
+        catch (S3Exception $e)
+        {
+            $message = $e->getMessage();
+            return Redirect::to('/administration/materials')
+                            ->with('message', 'There was a problem uploading your files');
+        }
+
+        $response = null;
+        if (!empty($materialOptionId))
+        {
+            Log::info('Attempts to update MaterialOption#' . $materialOptionId);
+            $data['id'] = $materialOptionId;
+            $response = $this->client->update($data);
+        }
+        else
+        {
+            Log::info('Attempts to create a new Material Option ' . json_encode($data));
+            $response = $this->client->create($data);
+        }
+
+        if ($response->success)
+        {
+            Log::info('Success');
+            return redirect()->route('v1_view_material_option', ['id' => $data['material_id']])
+                             ->with('message', $response->message);
+        }
+        else
+        {
+            Log::info('Failed');
+            return redirect()->route('v1_view_material_option', ['id' => $data['material_id']])
+                             ->with('message', 'There was a problem saving your material option');
+        }
+    }
 }
