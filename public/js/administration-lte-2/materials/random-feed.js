@@ -21,6 +21,7 @@ function buildSetsDropdown(value){
             dropdown += '<option value="'+entry+'">'+entry+'</option>';
         }
     });
+
     return dropdown;
 }
 
@@ -198,6 +199,7 @@ function buildSetsDropdown(value){
             changeImage();
             changeEvent();
             refreshJSON();
+            detectImages();
             $('#load-random-feed-modal').modal('hide');
             $('#ta_load_random_feed').val('');
         } catch(err){
@@ -312,16 +314,15 @@ function buildSetsDropdown(value){
         changeImage();
         changeEvent();
         refreshJSON();
+        detectImages();
     });
 
     function detectImages(){
         $(".image").each(function(i) {
             var val = $(this).data('img-url');
-            if(val != ""){
-                $(this).removeClass( "alert alert-danger" );
-            } else {
-                console.log('none');
-                $(this).addClass( "alert alert-danger" );
+
+            if (val == "") {
+                $(this).css('border', '2px solid red');
             }
         });
     }
