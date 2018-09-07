@@ -26,8 +26,8 @@
                                     <a href="{{ route('v1_materials_index') }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
                                         Back
                                     </a>
-                                    <a href="{{ route('v1_materials_options_setup', ['id' => $material->id]) }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
-                                        Materials Options (Minified)
+                                    <a href="{{ route('v1_view_material_option', ['id' => $material->id]) }}" class="btn btn-default btn-lg" role="button" style="border: 1px solid #808080; margin-top: 25px; border-radius: 0;">
+                                        Materials Options
                                     </a>
                                 </div>
                             </div>
