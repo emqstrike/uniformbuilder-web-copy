@@ -35,7 +35,7 @@
                             @section('page-title', 'Material Options Setup')
 
                             <h1>Material Options of: {{ ucfirst($material->name) }}</h1>
-                            <a href="/administration/material/edit/{{ $material->id }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080; border-radius: 0px;">
+                            <a href="{{ route('v1_material_edit', ['id' => $material->id]) }}" class="btn btn-default btn-xs edit-material" role="button" style="border: 1px solid #808080; border-radius: 0px;">
                                 Edit
                             </a>
                             <a href="#" class='btn btn-xs btn-default delete-multiple-material-option' style="border: 1px solid #808080; border-radius: 0px;">
