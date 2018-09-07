@@ -139,11 +139,11 @@
                                 <a href="/administration/v1-0/pattern/edit/{{ $pattern->id }}" class="btn btn-primary btn-sm btn-flat edit-button" data-pattern-id="{{ $pattern->id }}" role="button">
                                     Edit
                                 </a>
-                                @else
-                                @endif
                                 <a href="#" class="btn btn-default btn-sm clone-pattern btn-flat" data-pattern-id="{{ $pattern->id }}" role="button">
                                     Clone
                                 </a>
+                                @else
+                                @endif
                                 <a href="#" class="btn btn-danger btn-sm btn-flat delete-pattern" data-pattern-id="{{ $pattern->id }}" role="button">
                                     Remove
                                 </a>
