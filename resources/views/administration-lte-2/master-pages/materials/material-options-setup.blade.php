@@ -71,6 +71,8 @@
             </div>
         </section>
     </form>
+
+    @include('partials.confirmation-modal', ['confirmation_modal_id' => 'confirmation-modal-multiple-material-option'])
 @endsection
 
 @section('scripts')
