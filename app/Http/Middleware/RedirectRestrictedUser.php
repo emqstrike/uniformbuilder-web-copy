@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\APIClients\PageRuleClient;
 use Closure;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class RedirectRestrictedUser
@@ -35,18 +36,26 @@ class RedirectRestrictedUser
 
         $type = Session::get('userType');
         $role = Session::get('role');
+        $userAllowedPages = json_decode(Session::get('userAllowedPages'), true);
 
         $result = $this->pageRuleClient->getByBrand(env('BRAND'));
+
+        $allowedPages = null;
 
         if ($result->success) {
             foreach ($result->page_rules as $pageRule) {
                 if (($type == $pageRule->type) && ($role == $pageRule->role)) {
                     $allowedPages = json_decode($pageRule->allowed_pages, true);
-
-                    if (in_array($this->route->getName(), $allowedPages)) {
-                        return $next($request);
-                    }
+                    $allowedPages = array_merge($allowedPages, $userAllowedPages);
+                } else {
+                    $allowedPages = $userAllowedPages;
                 }
+            }
+        }
+
+        if (! is_null($allowedPages) && (! empty($allowedPages))) {
+            if (in_array($this->route->getName(), $allowedPages)) {
+                return $next($request);
             }
         }
 
