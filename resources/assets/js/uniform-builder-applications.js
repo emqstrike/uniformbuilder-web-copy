@@ -6535,7 +6535,7 @@ $(document).ready(function() {
 
         if (ub.data.consumeApplicationSizes.isValid(ub.config.sport)) {
 
-            ub.utilities.info('Using sizes from backend: ');
+            ub.utilities.info('===>Using sizes from backend: ');
 
             console.log('Default Sizes: ');
             console.log(_sizes);
@@ -6544,11 +6544,11 @@ $(document).ready(function() {
 
             if (ub.data.mascotSizesFromBackend.isValid(ub.config.sport) && typeof _sizesFromConfig !== "undefined") {
 
-                console.log(_sizesFromConfig);
+                console.log("SIZE FROM CONFIG===>", _sizesFromConfig);
                 console.log(_sizesFromConfig.sizes);
                 console.log(_.pluck(_sizesFromConfig.sizes, "size"));
 
-                _sizes = _sizesFromConfig; 
+                _sizes = _sizesFromConfig;
                 
             } 
 
@@ -6617,7 +6617,10 @@ $(document).ready(function() {
 
         } else {
 
-            _inputSizes = _sizes.sizes;
+            // _inputSizes = _sizes.sizes;
+
+            // add sort for sizes
+            _inputSizes = _.sortBy(_sizes.sizes, function(obj) { return parseFloat(obj.size) });
 
         }
 
@@ -8304,20 +8307,24 @@ $(document).ready(function() {
 
         if (_uniformCategory === "Football") {
             
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType);
+            //console.log('====>IM FROM FOOTBALL');
 
         } else if (ub.current_material.material.uniform_category === "Baseball") {
             
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType, 'baseball');
+            //console.log('====>IM FROM BASKETBALL');
 
         } else if (_uniformCategory !== "Football" && _uniformCategory !== "Wrestling" && typeof _alias !== "undefined") {
             
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType, _alias.alias);
+            //console.log('====>IM FROM SPECIAL', _sizes);
 
         } else {
 
             ub.utilities.warn('no sizes setting defaulting to generic');
-            _sizes        = ub.funcs.getApplicationSizes(_applicationType);    
+            _sizes        = ub.funcs.getApplicationSizes(_applicationType);
+            //console.log('====>IM FROM GENERIC');
 
         }
 
@@ -8338,7 +8345,11 @@ $(document).ready(function() {
 
                 console.log(_sizesFromConfig);
                 console.log(_sizesFromConfig.sizes);
-                console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+                //console.log(_.pluck(_sizesFromConfig.sizes, "size"));
+
+                // add sort for sizes
+                _sizesSorted = _.sortBy(_sizesFromConfig.sizes, function(obj) { return parseFloat(obj.size) });
+                _sizesFromConfig.sizes = _sizesSorted;
 
                 _sizes = _sizesFromConfig;
 
@@ -9785,7 +9796,9 @@ $(document).ready(function() {
 
         if (!ub.funcs.isCurrentSport('Football') && !ub.funcs.isCurrentSport('Wrestling') ) {
             // _sizes = _.find(ub.data.applicationSizesPant.items, {name: applicationType, sport: sport, id});   
+
             _sizes = ub.data.applicationSizesPant.getSize(applicationType, sport, parseInt(id));
+
         }
 
         if (typeof _sizes === 'undefined') {
@@ -9821,6 +9834,8 @@ $(document).ready(function() {
 
             if (ub.config.sport === "Lacrosse" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
             if (ub.config.sport === "Basketball" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
+            if (ub.config.sport === "Tennis" && ub.config.type === "lower") { _sizes = ub.funcs.getApplicationSizesPant(applicationType, alias); }
+
 
         }
 
@@ -9832,7 +9847,6 @@ $(document).ready(function() {
             ub.utilities.warn('Application Sizes for ' + applicationType + ' is not found! Using default');
             _sizes = ub.data.applicationSizes.getSizes('default', applicationType);
         }
-
 
         return _sizes;
 

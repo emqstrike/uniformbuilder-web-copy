@@ -1,6 +1,14 @@
 @extends('administration-lte-2.lte-main')
 
 @section('styles')
+<style type="text/css">
+    .select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice
+    {
+        color:black;
+    }
+</style>
 @endsection
 @section('content')
 <section class="content">
@@ -55,7 +63,7 @@
                     @empty
                         <tr>
                             <td colspan='9'>
-                                No Price Item
+                                No Application Sizes
                             </td>
                         </tr>
                     @endforelse
